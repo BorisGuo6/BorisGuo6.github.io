@@ -12,3 +12,6 @@
 
 ## 装甲板贴纸图片
 - [装甲板图片](https://github.com/BorisGuo6/BorisGuo6.github.io/tree/main/Armor%202020)
+
+## 2022赛季战术规划
+- [战术相关图片](https://github.com/BorisGuo6/BorisGuo6.github.io/tree/main/%E6%93%8D%E4%BD%9C%E6%89%8B_%E6%88%98%E6%9C%AF)
