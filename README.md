@@ -4,3 +4,8 @@
 - 🌱 I’m currently learning STM32/SLAM/ROS
 - 💞️ I’m looking to collaborate on Embedded & My Robot 
 - 📫 How to reach me @501295806QQ
+
+## Robomaster2023赛季规范文件
+- [对抗赛规则](https://github.com/BorisGuo6/BorisGuo6.github.io/blob/main/2023%E8%B5%9B%E5%AD%A3%E8%A7%84%E8%8C%83%E6%96%87%E4%BB%B6/RoboMaster%202023%20%E6%9C%BA%E7%94%B2%E5%A4%A7%E5%B8%88%E8%B6%85%E7%BA%A7%E5%AF%B9%E6%8A%97%E8%B5%9B%E6%AF%94%E8%B5%9B%E8%A7%84%E5%88%99%E6%89%8B%E5%86%8CV1.0%20%EF%BC%8820221026%EF%BC%89.pdf)
+- [机器人制作规范](https://github.com/BorisGuo6/BorisGuo6.github.io/blob/main/2023%E8%B5%9B%E5%AD%A3%E8%A7%84%E8%8C%83%E6%96%87%E4%BB%B6/RoboMaster%202023%20%E6%9C%BA%E7%94%B2%E5%A4%A7%E5%B8%88%E9%AB%98%E6%A0%A1%E7%B3%BB%E5%88%97%E8%B5%9B%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%88%B6%E4%BD%9C%E8%A7%84%E8%8C%83%E6%89%8B%E5%86%8C%20V1.0%EF%BC%8820221026%EF%BC%89.pdf)
+- [联盟赛规则](https://github.com/BorisGuo6/BorisGuo6.github.io/blob/main/2023%E8%B5%9B%E5%AD%A3%E8%A7%84%E8%8C%83%E6%96%87%E4%BB%B6/RoboMaster%202023%20%E6%9C%BA%E7%94%B2%E5%A4%A7%E5%B8%88%E9%AB%98%E6%A0%A1%E8%81%94%E7%9B%9F%E8%B5%9B%E6%AF%94%E8%B5%9B%E8%A7%84%E5%88%99%E6%89%8B%E5%86%8C%20V1.0%EF%BC%8820221026%EF%BC%89.pdf)
