@@ -1,4 +1,4 @@
-# BorisGuo6.github.io
+# 南工骁鹰图书馆 on BorisGuo6.github.io
 - 👋 Hi, I’m @BorisGuo6
 - 👀 I’m interested in C/C++/Python/Rust
 - 🌱 I’m currently learning STM32/SLAM/ROS
@@ -15,3 +15,6 @@
 
 ## 2022赛季战术规划
 - [战术相关图片](https://github.com/BorisGuo6/BorisGuo6.github.io/tree/main/%E6%93%8D%E4%BD%9C%E6%89%8B_%E6%88%98%E6%9C%AF)
+
+## 2022赛季队内规则测评
+- [2022队员出题](https://github.com/BorisGuo6/BorisGuo6.github.io/tree/main/%E8%A7%84%E5%88%99%E6%B5%8B%E8%AF%84)
