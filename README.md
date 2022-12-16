@@ -24,7 +24,7 @@ You can click the Preview link to take a look at your changes.
 ## [宣传组](https://github.com/BorisGuo6/BorisGuo6.github.io/tree/main/%E5%AE%A3%E4%BC%A0%E7%BB%84%E6%96%87%E4%BB%B6)
 
 # 会议纪要
--[这里存放了平时开会的记录](https://github.com/BorisGuo6/BorisGuo6.github.io/tree/main/%E4%BC%9A%E8%AE%AE%E7%BA%AA%E8%A6%81)
+- [这里存放了平时开会的记录](https://github.com/BorisGuo6/BorisGuo6.github.io/tree/main/%E4%BC%9A%E8%AE%AE%E7%BA%AA%E8%A6%81)
 
 # 图书馆的杂物间
 - 这里存放了南工骁鹰一些相对没那么常用的文件，可以在这里探索南工骁鹰的过去
