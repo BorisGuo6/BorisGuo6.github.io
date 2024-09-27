@@ -1,0 +1,328 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <title>Zhenyu Wei</title>
+    
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="author" content="Zhenyu Wei">
+    <meta name="viewport" content="width=800px, initial-scale=0.8, maximum-scale=2.0, user-scalable=yes">
+    <meta name="google-site-verification" content="ky_GtW3ix1x6MhH-pM6PonkpJCmE-237rRUvxvyQjVs" />
+
+    <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="stylesheet.css">
+
+    <!-- MathJax -->
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>        
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
+      });
+    </script>
+
+    <!-- visitor statistics -->
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  </head>
+
+  <body>
+    <table style="width:100%; max-width:800px; border:0px; border-spacing:0px; border-collapse:separate; margin-left:auto; margin-right:auto;">
+      <tbody>
+        <tr style="padding:0px">
+          <td style="padding:0px">
+
+            <!-- Introduction & Profile Photo -->
+            <table style="width:100%; border:0px; border-spacing:0px; border-collapse:separate; margin-left:auto; margin-right:auto;">
+              <tbody>
+                <tr style="padding:0px">
+
+                  <!-- introduction -->
+                  <td style="padding:2.5%; width:64%; vertical-align:middle">
+                    <p class="webname" style="text-align: center;">
+                      Zhenyu Wei &nbsp;|&nbsp; 卫振宇
+                    </p>
+
+                    <p>
+                      I am a fourth-year undergraduate student majoring in Computer Science at <a href="https://en.sjtu.edu.cn/">Shanghai Jiao Tong University</a>. 
+                      Currently, I am fortune to be a research assistant at <a href="https://nus.edu.sg/">National University of Singapore</a> advised by Prof. 
+                      <a href="https://linsats.github.io/">Lin Shao</a>. Previously, I was an intern at Shanghai Jiao Tong University MVIG advised by Prof. 
+                      <a href="https://www.mvig.org/">Cewu Lu</a>.
+                    </p>
+
+                    <p style="text-align:center">
+                      <a href="mailto:Zhenyu_Wei@sjtu.edu.cn">Email</a> &nbsp;/&nbsp;
+                      <a href="data/CV.pdf">CV</a> &nbsp;/&nbsp;  <!-- TODO -->
+                      <a href="https://github.com/zhenyuwei2003">Github</a> &nbsp;/&nbsp;
+                      <a href="javascript:void(0)" onclick="openWeChatModal()">WeChat</a>
+                    </p>
+
+                    <!-- WeChat image function -->
+                    <div id="WeChatModal" class="modal">
+                      <div class="modal-content">
+                        <span class="close" onclick="closeWeChatModal()">&times;</span>
+                        <img src="images/WeChat.jpg" alt="WeChat QR Code" style="width: 100%;">
+                      </div>
+                    </div>
+                    
+                    <script>
+                      function openWeChatModal() {
+                        document.getElementById("WeChatModal").style.display = "block";
+                      }
+                      function closeWeChatModal() {
+                        document.getElementById("WeChatModal").style.display = "none";
+                      }
+                      window.onload = function() {
+                        document.getElementById("WeChatModal").style.display = "none";
+                      };
+                      window.onclick = function(event) {
+                        var modal = document.getElementById("WeChatModal");
+                        if (event.target == modal) {
+                          modal.style.display = "none";
+                        }
+                      }
+                    </script>
+                  </td>
+
+                  <!-- profile photo -->
+                  <td style="padding:2.5%; width:20%; max-width:40%">
+                    <a href="images/zhenyuwei.png">
+                      <img 
+                      style="width:100%; max-width:100%; object-fit: cover; border-radius: 0%;" 
+                      alt="profile photo" 
+                      src="images/zhenyuwei.png" 
+                      class="hoverZoomLink">
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <!-- Research Interest -->
+            <table style="width:100%; border:0px; border-spacing:0px; border-collapse:separate; margin-left:auto; margin-right:auto;">
+              <tbody>
+                <tr>
+                  <td style="padding:20px; width:100%; vertical-align:middle">
+                    <h2><b>Research</b></h2>
+                    <p>
+                      My research interests lie in 🤖robot learning and 🦾dexterous manipulation. My long-term goal is to make robots an indispensable 
+                      part of our lives, transforming the way we live. I'm open to collaborations on robotics related projects! If you are a researcher 
+                      looking for a partner, feel free to contact me🤟.
+                    </p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <!-- Paper List -->
+            <table style="width:100%; border:0px; border-spacing:0px; border-collapse:separate; margin-left:auto; margin-right:auto;">
+              <tbody>
+
+                <!-- D(R,O) Grasp -->
+                <tr bgcolor="#ffffd0">
+                  <!-- cover -->
+                  <td style="padding:20px; width:25%; vertical-align:middle">
+                    <img src='images/drograsp.png' style="width:100%; height:auto;">
+                  </td>
+
+                  <!-- content -->
+                  <td style="padding:20px; width:75%; vertical-align:middle">
+                    <!-- title -->
+                    <span class="papertitle">
+                      $\mathcal{D(R,O)}$ Grasp: A Unified Representation of Robot and Object Interaction for Cross-Embodiment Dexterous Grasping
+                    </span>
+                    <br>
+
+                    <!-- author -->
+                    <span class="author">
+                      <strong>Zhenyu Wei</strong>*, 
+                    </span>
+                    <span class="author">
+                      Zhixuan Xu*,
+                    </span>
+                    <span class="author">
+                      Jingxiang Guo,
+                    </span>
+                    <span class="author">
+                      Yiwen Hou,
+                    </span>
+                    <span class="author">
+                      Chongkai Gao,
+                    </span>
+                    <span class="author">
+                      Zhehao Cai,
+                    </span>
+                    <span class="author">
+                      Jiayu Luo,
+                    </span>
+                    <span class="author">
+                      Lin Shao
+                    </span>
+                    <br>
+
+                    <!-- venue -->
+                    <em>In submission to ICRA 2025</em>
+                    <br>
+
+                    <!-- info -->
+                    <a href="https://nus-lins-lab.github.io/drograspweb/">Website</a>
+                    &nbsp;/&nbsp;
+                    arXiv
+                    <!-- <a href="#">arXiv</a> TODO -->
+                    &nbsp;/&nbsp;
+                    Code
+                    <!-- <a href="#">arXiv</a> TODO -->
+                    <br>
+                    
+                    <p>
+                      We introduce a novel representation, $\mathcal{D(R,O)}$ for dexterous grasping tasks. 
+                      This interaction-centric formulation transcends conventional robot-centric and object-centric 
+                      paradigms, facilitating robust generalization across diverse robotic hands and objects.
+                    </p>
+                  </td>
+                </tr>
+
+                <!-- IRC -->
+                <tr>
+                    <!-- cover -->
+                    <td style="padding:20px; width:25%; vertical-align:middle">
+                      <img src='images/IRC.png' style="width:100%; height:auto;">
+                    </td>
+      
+                    <!-- content -->
+                    <td style="padding:20px; width:75%; vertical-align:middle">
+                      <!-- title -->
+                      <span class="papertitle">
+                        Auto-Pairing Positives through Implicit Relation Circulation for Discriminative Self-Learning
+                      </span>
+                      <br>
+      
+                      <!-- author -->
+                      <span class="author">
+                        Bo Pang,
+                      </span>
+                      <span class="author">
+                        <strong>Zhenyu Wei</strong>, 
+                      </span>
+                      <span class="author">
+                        Jingli Lin,
+                      </span>
+                      <span class="author">
+                        Cewu Lu,
+                      </span>
+                      <br>
+      
+                      <!-- venue -->
+                      <em>In submission to TPAMI</em>
+                      <br>
+      
+                      <!-- info -->
+                      arXiv
+                      <br> 
+                      
+                      <p>
+                        We present Implicit Relation Circulation (IRC), a self-supervised learning framework that 
+                        uses random walks across feature groups without explicit matching. By connecting it to a 
+                        simpler task, cycle consistency facilitates the automatic discovery of positive pairs.
+                      </p>
+                    </td>
+                  </tr>
+                  
+              </tbody>
+            </table>
+
+              
+            <!-- Experience -->
+            <table style="width:100%; border:0px; border-spacing:0px; border-collapse:separate; margin-left:auto; margin-right:auto;">
+              <tbody>
+                <tr>
+                  <td style="padding:20px; width:100%; vertical-align:middle">
+                    <h2><b>Experience</b></h2>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <!-- NUS -->
+            <table style="width:98%; margin-left:20px; border:none; padding:0px;">
+              <tbody>
+                <tr>
+                  <td style="padding:25px; width:15%; vertical-align:middle; padding-top:20px;">
+                    <img src="images/NUS.png" style="width:100%; height:auto;">
+                  </td>
+                  <td style="padding-top:20px; padding-left:20px; width:85%; vertical-align:top;">
+                    <h3>
+                      National University of Singapore, Singapore
+                      <span class="dates">2024.06 - now</span>
+                    </h3>
+                    <b>Research Assistant</b>
+                    <br>
+                    Advisor: Prof. <a href="https://linsats.github.io/">Lin Shao</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <!-- MVIG -->
+            <table style="width:98%; margin-left:20px; border:none; padding:0px;">
+              <tbody>
+                <tr>
+                  <td style="padding:15px; width:15%; vertical-align:middle; padding-top:20px;">
+                    <img src="images/SJTU.png" style="width:100%; height:auto;">
+                  </td>
+                  <td style="padding-top:20px; padding-left:20px; width:85%; vertical-align:top;">
+                    <h3>
+                      SJTU Machine Vision and Intelligence Group (MVIG), China
+                      <span class="dates">2022.10 - 2024.05</span>
+                    </h3>
+                    <b>Research Intern</b>
+                    <br>
+                    Advisor: Prof. <a href="https://www.mvig.org/">Cewu Lu</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <!-- SJTU -->
+            <table style="width:98%; margin-left:20px; border:none; padding:0px;">
+              <tbody>
+                <tr>
+                  <td style="padding:15px; width:15%; vertical-align:middle; padding-top:20px;">
+                    <img src="images/SJTU.png" style="width:100%; height:auto;">
+                  </td>
+                  <td style="padding-top:20px; padding-left:20px; width:85%; vertical-align:top;">
+                    <h3>
+                      Shanghai Jiao Tong University, China
+                      <span class="dates">2021.09 - 2025.06</span>
+                    </h3>
+                    <b>Undergraduate Student</b>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+
+            <!-- Footnote -->
+            <table style="width:100%; border:0px; border-spacing:0px; border-collapse:separate; margin-left:auto; margin-right:auto;">
+              <tbody>
+                <tr>
+                  <td style="padding:0px">
+                    <br>
+                    <p style="text-align:right; font-size:small;">
+                      Fell free to contact me if you have any problem.
+                      <br>
+                      Thanks for your visiting😊!
+                      <span id="busuanzi_container_site_pv">
+                        Total Page Views: <span id="busuanzi_value_site_pv"></span>
+                      </span>
+                      <br>
+                      This website is designed based on <a href="https://jonbarron.info/">Jon Barron</a>.
+                    </p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
