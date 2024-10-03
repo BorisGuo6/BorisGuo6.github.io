@@ -101,15 +101,33 @@ h2 {
   font-family: 'Lato', Verdana, Helvetica, sans-serif;
   font-size: 24px;
   text-decoration: underline;
-  text-decoration-color: #39C5BB;
+  text-decoration-color: #66ccff;
   text-decoration-thickness: 3px;
-  -moz-text-decoration-color: #39C5BB;
 }
 
 h3 {
   margin: 0;
   font-size: 16px;
   font-weight: bold;
+  padding-bottom: 6px;
+}
+
+.experience-author {
+  font-size: 14px;
+}
+
+.award-list {
+  list-style-type: disc;
+  font-size: 16px;
+}
+
+.award-list li {
+  margin-bottom: 3px;
+  font-size: 16px;
+}
+
+.award-list .year {
+  float: right
 }
 
 .webname {
@@ -147,7 +165,7 @@ h3 {
   padding: 20px;
   background-color: white;
   border-radius: 10px;
-  border: 5px solid #39C5BB;
+  border: 5px solid #66ccff;
   width: 32%;
   max-width: 400px;
 }
