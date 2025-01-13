@@ -144,42 +144,42 @@
               <tbody>
                 
                 <!-- TelePhantom -->
-                <tr style="background-color: #ffffd0;">
+                <tr bgcolor="#ffffd0">
                   <td style="padding:10px; width:25%; vertical-align:middle">
-                    <img src='images/telephantom.png' style="width:100%; height:auto;">
+                    <img src='images/TelePreview.jpg' style="width:100%; height:auto; box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.3);">
                   </td>
 
                   <td style="padding:10px; width:75%; vertical-align:middle">
                     <span class="papertitle">
-                      TelePhantom: A User-Friendly Teleoperation System with Virtual Assistance for Enhanced Effectiveness
+                      TelePreview: A User-Friendly Teleoperation System with Virtual Arm Assistance for Enhanced Effectiveness
                     </span>
                     <br>
 
-                    <span class="author"><strong>Jingxiang Guo</strong>*</span>,
+                    <span class="strong-author">Jingxiang Guo*</span>,
                     <span class="author">Jiayu Luo*</span>,
-                    <span class="strong-author">Zhenyu Wei*</span>,
+                    <span class="author">Zhenyu Wei*</span>,
                     <span class="author">Yiwen Hou</span>,
-                    <span class="author">Zhixuan Xu</span>*,
+                    <span class="author">Zhixuan Xu</span>,
                     <span class="author">Xiaoyi Lin</span>,
                     <span class="author">Chongkai Gao</span>,
                     <span class="author">Lin Shao</span>
                     <br>
                     
-                    <a href="https://telephantom.github.io/">Website</a>
+                    <a href="https://nus-lins-lab.github.io/telepreview/">Website</a>
                     &nbsp;/&nbsp;
-                    arXiv
+                    <a href="https://arxiv.org/abs/2412.13548">arXiv</a>
                     &nbsp;/&nbsp;
-                    Code
+                    Code (Coming soon)
                     <br>
 
                     <div>
-                      <em>In submission to RA-L</em>
+                      In submission to <span class="venue">RA-L</span>
                     </div>
                     
                     <div class="TLDR">
-                      <strong>TL;DR:</strong> 
+                      <strong>TL;DR:</strong>
                       Implement a low-cost teleoperation system utilizing data gloves and IMU sensors, paired with an assistant 
-                      module that improves data collection process by visualizing future robot operations through phantoms.
+                      module that improves data collection process by visualizing future robot operations through visual previews.
                     </div>
                   </td>
                 </tr>
@@ -487,7 +487,38 @@
                     <br>
 
                     <!-- info -->
-                    <a href="https://patents.google.com/patent/CN116000896A/en">Google Patents</a>
+                    <br>
+                      <span class="venue"><a href="https://patents.google.com/patent/CN116000896A/en">Google Patents</a>
+                        &nbsp;/&nbsp; </a></span>
+                        <a href="javascript:void(0)" class="award-venue" onclick="openCert()">
+                          </i> Certificate</i>
+                        </a>
+                    <br>
+
+                    <div id="PatentCert" class="modal">
+                      <div class="modal-content" style="width: 50%; max-width: 800px; margin-top: 8%;">
+                        <span class="close" onclick="closeCert()">&times;</span>
+                        <img src="images/patent.jpg" alt="Patent Cetificate" style="width: 100%;">
+                      </div>
+                    </div>
+                    
+                    <script>
+                      function openCert() {
+                        document.getElementById("PatentCert").style.display = "block";
+                      }
+                      function closeCert() {
+                        document.getElementById("PatentCert").style.display = "none";
+                      }
+                      window.onload = function() {
+                        document.getElementById("PatentCert").style.display = "none";
+                      };
+                      window.onclick = function(event) {
+                        var modal = document.getElementById("PatentCert");
+                        if (event.target == modal) {
+                          modal.style.display = "none";
+                        }
+                      }
+                    </script>
                   </td>
                 </tr>
               
