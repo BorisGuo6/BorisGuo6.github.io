@@ -65,13 +65,13 @@
 
 /* href */
 a {
-  color: #1772d0;
+  color: #0095ff;
   text-decoration: none;
 }
 
 a:focus,
 a:hover {
-  color: #f09228;
+  color: #FF9547;
   text-decoration: none;
 }
 
@@ -84,15 +84,10 @@ tr,
 td,
 th,
 p,
-a {
+a,
+li {
   font-family: 'Lato', Verdana, Helvetica, sans-serif;
-  font-size: 14px;
-}
-
-strong {
-  font-family: 'Lato', Verdana, Helvetica, sans-serif;
-  font-size: 14px;
-  text-decoration: underline;
+  font-size: 16px;
 }
 
 h2 {
@@ -101,29 +96,76 @@ h2 {
   font-family: 'Lato', Verdana, Helvetica, sans-serif;
   font-size: 24px;
   text-decoration: underline;
-  text-decoration-color: #66ccff;
+  text-decoration-color: #66c0ff;
   text-decoration-thickness: 3px;
 }
 
 h3 {
   margin: 0;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bold;
   padding-bottom: 6px;
 }
 
-.experience-author {
+.strong-author {
+  font-family: 'Lato', Verdana, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.award-venue {
+  color: #ffa03c;
+  font-weight: bold;
+}
+
+.strong-venue {
+  color: #66c0ff;
+  font-weight: bold;
+}
+
+.venue {
+  font-weight: bold;
+  /* font-style: italic; */
+}
+
+.accepted-venue {
+  background-color: #eacef1;
+  color: #673797;
+  padding: 2px 6px;
+  border-radius: 15px;
+  font-size: 16px;
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+.accepted-venue-detail {
+  font-weight: bold;
+  color: #663399;
+}
+
+.TLDR {
+  color: #9f9f9f;
+  padding-top: 5px;
+}
+
+.TLDR strong {
+  font-weight: bold;
+}
+
+.news-list {
+  list-style-type: disc;
   font-size: 14px;
 }
 
 .award-list {
   list-style-type: disc;
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .award-list li {
   margin-bottom: 3px;
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .award-list .year {
@@ -161,11 +203,11 @@ h3 {
 }
 
 .modal-content {
-  margin: 15% auto;
+  margin: 10% auto;
   padding: 20px;
   background-color: white;
   border-radius: 10px;
-  border: 5px solid #66ccff;
+  border: 5px solid #66c0ff;
   width: 32%;
   max-width: 400px;
 }
@@ -189,29 +231,4 @@ h3 {
   font-size: 16px;
   color: gray;
   float: right;
-}
-
-.TLDR {
-  color: #9f9f9f;
-  padding-top: 5px;
-}
-
-.TLDR strong {
-  font-weight: bold;
-}
-
-.news-list {
-  list-style-type: disc;
-  font-size: 14px;
-}
-
-.strong-author {
-  font-family: 'Lato', Verdana, Helvetica, sans-serif;
-  font-size: 14px;
-  font-weight: bold;
-}
-
-.author {
-  font-family: 'Lato', Verdana, Helvetica, sans-serif;
-  font-size: 14px;
 }

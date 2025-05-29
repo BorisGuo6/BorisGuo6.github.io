@@ -10,6 +10,7 @@
 
     <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
     <link rel="stylesheet" type="text/css" href="stylesheet.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <!-- MathJax -->
     <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>        
@@ -42,9 +43,8 @@
 
                     <p>
                       I am a fourth-year undergraduate student majoring in Automation at <a href="http://en.hitsz.edu.cn/">Harbin Institute of Technology, Shenzhen</a>. 
-                      Currently, I am fortune to be a research assistant at <a href="https://nus.edu.sg/">National University of Singapore</a> advised by Prof. 
-                      <a href="https://linsats.github.io/">Lin Shao</a>. Previously, I was an intern at Harbin Institute of Technology, Shenzhen RLGroup advised by Prof. 
-                      <a href="https://lktunnel.ipyingshe.net/base/">Yanjie Li</a>.
+                      Currently, I am fortune to be a research assistant at <a href="https://scalelab-sjtu.github.io/">SJTU ScaleLab</a> advised by Prof. <a href="https://yaomarkmu.github.io/">Yao Mu</a>. Previously, I was an intern at <a href="https://nus.edu.sg/">NUS LinS Lab</a> advised by Prof. 
+                      <a href="https://linsats.github.io/">Lin Shao</a> and <a href="http://reinforcement.hitsz.edu.cn/index.html">HITsz RLGroup</a> advised by Prof. <a href="https://faculty.hitsz.edu.cn/liyanjie">Yanjie Li</a>.
                     </p>
 
                     <p style="text-align:center">
@@ -111,9 +111,9 @@
                   <td style="padding-top: 0px; padding-bottom: 10px; padding-left: 20px; padding-right: 20px; width:100%; vertical-align:middle">
                     <h2><b>News</b></h2>
                     <ul class="news-list">
-                      <li>
-                        [2025/04] 🎉 $\mathcal{D(R, O)}$ Grasp has been selected as an ICRA 2025 Best Paper Award Finalist.
-                      </li>
+                      <li> [2025/05] 🏅 <a href="https://nus-lins-lab.github.io/drograspweb/">$\mathcal{D(R, O)}$ Grasp</a> won the <strong style="color: red;">ICRA 2025 Best Paper Award on Robot Manipulation and Locomotion</strong>,
+                        and <a href="https://nus-lins-lab.github.io/telepreview-web/">TelePreview</a> won the <strong style="color: red;">Best Paper Award</strong> at ICRA 2025 Workshop on Human-Centric Multilateral Teleoperation! </li>
+                      <li> [2025/04] 🏅 <a href="https://nus-lins-lab.github.io/drograspweb/">$\mathcal{D(R, O)}$ Grasp</a> has been selected as an <strong style="color: red;">ICRA 2025 Best Paper Award Finalist</strong>! </li>
                       <li>
                         [2025/04] 🎉 Manual2Skill was accepted to RSS 2025.
                       </li>
@@ -176,6 +176,11 @@
                     <!-- venue -->
                     <em>In submission to IROS</em>
                     <br>
+                    <span class="strong-venue">
+                      <i class="fa-solid fa-star"></i> Spotlight Presentation, ICRA 2025
+                      <a href="https://sites.google.com/view/dexterity-workshop-icra2025/home" style="color: #66c0ff">@ Dexterity in Multi-Fingered Hands </a><i class="fa-solid fa-star"></i>
+                    </span>
+                    <br>
     
                     <!-- info -->
                     <a href="https://nus-lins-lab.github.io/dexsingweb/">Website</a>
@@ -219,6 +224,50 @@
                   </td>
                 </tr>
 
+                <!-- TelePreview -->
+                <tr style="background-color: rgba(102, 192, 255, 0.15);">
+                  <td style="padding:10px; width:30%; vertical-align:middle">
+                    <img src='images/TelePreview.gif' style="width:100%; height:auto; box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.3);">
+                  </td>
+
+                  <td style="padding:10px; width:70%; vertical-align:middle">
+                    <span class="papertitle">
+                      TelePreview: A User-Friendly Teleoperation System with Virtual Arm Assistance for Enhanced Effectiveness
+                    </span>
+                    <br>
+
+                    <span class="author">
+                      <strong>Jingxiang Guo*</strong>, Jiayu Luo*, Zhenyu Wei*, Yiwen Hou, Zhixuan Xu, Xiaoyi Lin, Chongkai Gao, Lin Shao
+                    </span>
+                    <br>
+                    
+                    <a href="https://nus-lins-lab.github.io/telepreview-web/">Website</a>
+                    &nbsp;/&nbsp;
+                    <a href="https://arxiv.org/abs/2412.13548">arXiv</a>
+                    &nbsp;/&nbsp;
+                    Code (Coming soon)
+                    <br>
+
+                    <div>
+                      <span class="award-venue">
+                        <i class="fa-solid fa-trophy"></i> Best Paper Award, ICRA 2025
+                        <a href="https://sites.google.com/view/icra-2025-workshop?usp=sharing" style="color: #ffa03c">@ Human-Centric Multilateral Teleoperation </a><i class="fa-solid fa-trophy"></i>
+                      </span>
+                      <br>
+                      <span class="strong-venue">
+                        <i class="fa-solid fa-star"></i> Spotlight Presentation, ICRA 2025
+                        <a href="https://sites.google.com/view/icra-2025-workshop?usp=sharing" style="color: #66c0ff">@ Human-Centric Multilateral Teleoperation </a><i class="fa-solid fa-star"></i>
+                      </span>
+                    </div>
+                    
+                    <div class="TLDR">
+                      <strong>TL;DR:</strong>
+                      Implement a low-cost teleoperation system utilizing data gloves and IMU sensors, paired with an assistant 
+                      module that improves data collection process by visualizing future robot operations through visual previews.
+                    </div>
+                  </td>
+                </tr>
+
                 <!-- MetaFold -->
                   <!-- cover -->
                   <td style="padding:10px; width:25%; vertical-align:middle">
@@ -252,51 +301,10 @@
                   </td>
                 </tr>
 
-                <!-- TelePreview -->
-                <tr bgcolor="#ffffd0">
-                  <td style="padding:10px; width:25%; vertical-align:middle">
-                    <img src='images/TelePreview.jpg' style="width:100%; height:auto; box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.3);">
-                  </td>
-
-                  <td style="padding:10px; width:75%; vertical-align:middle">
-                    <span class="papertitle">
-                      TelePreview: A User-Friendly Teleoperation System with Virtual Arm Assistance for Enhanced Effectiveness
-                    </span>
-                    <br>
-
-                    <span class="strong-author">Jingxiang Guo*</span>,
-                    <span class="author">Jiayu Luo*</span>,
-                    <span class="author">Zhenyu Wei*</span>,
-                    <span class="author">Yiwen Hou</span>,
-                    <span class="author">Zhixuan Xu</span>,
-                    <span class="author">Xiaoyi Lin</span>,
-                    <span class="author">Chongkai Gao</span>,
-                    <span class="author">Lin Shao</span>
-                    <br>
-                    
-                    <a href="https://nus-lins-lab.github.io/telepreview/">Website</a>
-                    &nbsp;/&nbsp;
-                    <a href="https://arxiv.org/abs/2412.13548">arXiv</a>
-                    &nbsp;/&nbsp;
-                    Code (Coming soon)
-                    <br>
-
-                    <div>
-                      In submission</span>
-                    </div>
-                    
-                    <div class="TLDR">
-                      <strong>TL;DR:</strong>
-                      Implement a low-cost teleoperation system utilizing data gloves and IMU sensors, paired with an assistant 
-                      module that improves data collection process by visualizing future robot operations through visual previews.
-                    </div>
-                  </td>
-                </tr>
-
                 <!-- D(R,O) Grasp -->
-                <tr bgcolor="#ffffd0">
+                <tr style="background-color: rgba(102, 192, 255, 0.15);">
                   <td style="padding:10px; width:25%; vertical-align:middle">
-                    <img src='images/drograsp.png' style="width:100%; height:auto;">
+                    <img src='images/drograsp.png' style="width:100%; height:auto; box-shadow: 0 3px 12px 0 #66c0ff;">
                   </td>
 
                   <td style="padding:10px; width:75%; vertical-align:middle">
@@ -305,14 +313,9 @@
                     </span>
                     <br>
 
-                    <span class="strong-author">Zhenyu Wei</span>*,
-                    <span class="author">Zhixuan Xu</span>*,
-                    <span class="author"><strong>Jingxiang Guo</strong></span>,
-                    <span class="author">Yiwen Hou</span>,
-                    <span class="author">Chongkai Gao</span>,
-                    <span class="author">Zhehao Cai</span>,
-                    <span class="author">Jiayu Luo</span>,
-                    <span class="author">Lin Shao</span>
+                    <span class="author">
+                      Zhenyu Wei*, Zhixuan Xu*, <strong>Jingxiang Guo</strong>, Yiwen Hou, Chongkai Gao, Zhehao Cai, Jiayu Luo, Lin Shao
+                    </span>
                     <br>
                     
                     <a href="https://nus-lins-lab.github.io/drograspweb/">Website</a>
@@ -320,26 +323,37 @@
                     <a href="https://arxiv.org/abs/2410.01702">arXiv</a>
                     &nbsp;/&nbsp;
                     <a href="https://github.com/zhenyuwei2003/DRO-Grasp">Code</a>
+                    &nbsp;/&nbsp;
+                    <a href="https://mp.weixin.qq.com/s/csdm7B3G9__QpwEtoIQxuA">Media (机器之心)</a>
                     <br>
 
-                    <div>
-                      <em>ICRA 2025 Best Paper Award Finalist</em>
+                    <div">
+                      <!-- ICRA 2025 -->
+                      <span class="accepted-venue">ICRA 2025</span>&nbsp;
+                      <span class="accepted-venue-detail">International Conference on Robotics and Automation</span>
                       <br>
-                      <span class="venue">CoRL 2024 <a href="https://sites.google.com/view/corl-mapodel-workshop/home">@ MAPoDeL</a></span>&nbsp;
-                        <a href="javascript:void(0)" class="award-venue" onclick="openDROAward()">
-                          🏆</i> Best Robotics Paper Award (Oral Presentation)</i>
-                        </a>
+                      <span class="award-venue">
+                        <i class="fa-solid fa-trophy"></i> ICRA 2025 Best Paper Award on Robot Manipulation and Locomotion <i class="fa-solid fa-trophy"></i>
+                      </span>
                       <br>
-                      <span class="venue">CoRL 2024 <a href="https://dex-manipulation.github.io/corl2024/index.html">@ LFDM</a></span>&nbsp;
-                        <span class="strong-venue">
-                          ⭐️</i> Spotlight Presentation ⭐️</i>
-                        </span>
+                      <span class="award-venue">
+                        <i class="fa-solid fa-trophy"></i>
+                        <a href="javascript:void(0)" class="award-venue" onclick="openDROAward()">Best Robotics Paper Award</a>, CoRL 2024
+                        <a href="https://sites.google.com/view/corl-mapodel-workshop/home" style="color: #ffa03c">@ MAPoDeL</a> <i class="fa-solid fa-trophy"></i>
+                      </span>
                       <br>
+                      <span class="strong-venue">
+                        <i class="fa-solid fa-star"></i> Oral Presentation, CoRL 2024 <a href="https://sites.google.com/view/corl-mapodel-workshop/home" style="color: #66c0ff">@ MAPoDeL</a> <i class="fa-solid fa-star"></i>
+                      </span>
+                      <br>
+                      <span class="strong-venue">
+                        <i class="fa-solid fa-star"></i> Spotlight Presentation, CoRL 2024 <a href="https://dex-manipulation.github.io/corl2024/index.html" style="color: #66c0ff">@ LFDM</a> <i class="fa-solid fa-star"></i>
+                      </span>
 
                       <div id="DROAward" class="modal">
                         <div class="modal-content" style="width: 50%; max-width: 800px; margin-top: 8%;">
                           <span class="close" onclick="closeDROAward()">&times;</span>
-                          <img src="images/awardcorl2024.jpg" alt="D(R,O) Award Image" style="width: 100%;">
+                          <img src="images/Best Robotics Paper Award @ CoRL 2024 MAPoDeL.jpg" alt="D(R,O) Award Image" style="width: 100%;">
                         </div>
                       </div>
                       
@@ -704,19 +718,39 @@
               </tbody>
             </table>
 
+            <!-- ScaleLab -->
+            <table style="width:98%; margin-left:20px; border:none; padding:0px;">
+              <tbody>
+                <tr>
+                  <td style="padding:15px; width:15%; vertical-align:middle; padding-top:20px;">
+                    <img src="images/SJTU.png" style="width:100%; height:auto;">
+                  </td>
+                  <td style="padding-top:20px; padding-left:20px; width:85%; vertical-align:top;">
+                    <h3>
+                      SJTU Spatial Cognition and Robotic Automative Learning Laboratory (ScaleLab), China
+                      <span class="dates">2024.05 - Present</span>
+                    </h3>
+                    <b>Research Intern</b>
+                    <br>
+                    Advisor: Prof. <a href="https://linsats.github.io/">Lin Shao</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
             <!-- NUS -->
             <table style="width:98%; margin-left:20px; border:none; padding:0px;">
               <tbody>
                 <tr>
-                  <td style="padding:25px; width:15%; vertical-align:middle; padding-top:20px;">
-                    <img src="images/NUS.png" style="width:100%; height:auto;">
+                  <td style="padding:15px; width:15%; vertical-align:middle; padding-top:20px;">
+                    <img src="images/linslab.jpg" style="width:100%; height:auto;">
                   </td>
                   <td style="padding-top:20px; padding-left:20px; width:85%; vertical-align:top;">
                     <h3>
-                      National University of Singapore, Singapore
-                      <span class="dates">2024.07 - now</span>
+                      NUS Learning and Intelligent Systems Lab (LinS Lab), Singapore
+                      <span class="dates">2024.07 - 2025.5</span>
                     </h3>
-                    <b>Research Assistant</b>
+                    <b>Research Intern</b>
                     <br>
                     Advisor: Prof. <a href="https://linsats.github.io/">Lin Shao</a>
                   </td>
@@ -733,7 +767,7 @@
                   </td>
                   <td style="padding-top:20px; padding-left:20px; width:85%; vertical-align:top;">
                     <h3>
-                      HTISZ Reinforcement Learning Group (RLG), China
+                      HTISZ Reinforcement Learning Group (RLG), Shenzhen, China
                       <span class="dates">2022.10 - 2024.06</span>
                     </h3>
                     <b>Research Intern</b>
