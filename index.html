@@ -5,7 +5,7 @@
     
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="author" content="Jingxiang Guo">
-    <meta name="viewport" content="width=800px, initial-scale=0.8, maximum-scale=2.0, user-scalable=yes">
+    <meta name="viewport" content="width=900px, initial-scale=0.8, maximum-scale=2.0, user-scalable=yes">
     <meta name="google-site-verification" content="ky_GtW3ix1x6MhH-pM6PonkpJCmE-237rRUvxvyQjVs" />
 
     <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
@@ -22,10 +22,43 @@
 
     <!-- visitor statistics -->
     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <style>
+      p {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        line-height: 1.6;
+      }
+      .TLDR {
+        margin-top: 8px;
+        background-color: #f9f9f9;
+        padding: 8px;
+        border-left: 3px solid #66c0ff;
+      }
+      .author {
+        font-size: 16px;
+      }
+      .strong-author {
+        font-size: 16px;
+        font-weight: bold;
+      }
+      .academic-links {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        z-index: 1000;
+      }
+    </style>
   </head>
 
   <body>
-    <table style="width:100%; max-width:800px; border:0px; border-spacing:0px; border-collapse:separate; margin-left:auto; margin-right:auto;">
+    <table style="width:100%; max-width:900px; border:0px; border-spacing:0px; border-collapse:separate; margin-left:auto; margin-right:auto;">
       <tbody>
         <tr style="padding:0px">
           <td style="padding:0px">
@@ -36,7 +69,7 @@
                 <tr style="padding:0px">
 
                   <!-- introduction -->
-                  <td style="padding:2.5%; width:64%; vertical-align:middle">
+                  <td style="padding: 20px; width:64%; vertical-align:middle">
                     <p class="webname" style="text-align: center;">
                       Jingxiang Guo &nbsp;|&nbsp; 郭京翔
                     </p>
@@ -47,21 +80,45 @@
                       <a href="https://linsats.github.io/">Lin Shao</a> and <a href="http://reinforcement.hitsz.edu.cn/index.html">HITsz RLGroup</a> advised by Prof. <a href="https://faculty.hitsz.edu.cn/liyanjie">Yanjie Li</a>.
                     </p>
 
-                    <p style="text-align:center">
-                      <a href="mailto:jingxiangguo@u.nus.edu">Email</a> &nbsp;/&nbsp;
-                      <a href="data/CV.pdf">CV</a> &nbsp;/&nbsp;  
-                      <a href="https://github.com/BorisGuo6">GitHub</a> &nbsp;/&nbsp;
-                      <a href="https://scholar.google.com/citations?user=JEjiaq0AAAAJ">Google Scholar</a> &nbsp;/&nbsp;
-                      <a href="https://orcid.org/my-orcid?orcid=0009-0009-2314-6911">ORCID</a> &nbsp;/&nbsp;
-                      <a href="https://ieeexplore.ieee.org/author/37089341227">IEEE Xpolre</a> &nbsp;/&nbsp;
-                      <a href="https://www.semanticscholar.org/author/Jingxiang-Guo/2307562741">Semantic Scholar</a> &nbsp;/&nbsp;
-                      <a href="https://dblp.org/pid/386/2489.html">dblp</a> &nbsp;/&nbsp;
-                      <a href="https://www.scopus.com/authid/detail.uri?authorId=59210015500">Scopus</a> &nbsp;/&nbsp;
-                      <a href="https://www.researchgate.net/profile/Jingxiang-Guo-2">ResearchGate</a> &nbsp;/&nbsp;
-                      <a href="https://www.linkedin.com/in/borisguo">LinkedIn</a> &nbsp;/&nbsp;
-                      <a href="https://borisguo.link/">Gravatar</a> &nbsp;/&nbsp;
-                      <a href="javascript:void(0)" onclick="openWeChatModal()">WeChat</a>
+                    <p style="text-align:center; margin-top: 0px; margin-bottom: 0px;">
+                      <a href="mailto:jingxiangguo@u.nus.edu" class="btn-sm badge-button">Email</a> &nbsp;/&nbsp;
+                      <a href="data/CV.pdf" class="btn-sm badge-button">CV</a> &nbsp;/&nbsp;  
+                      <a href="https://github.com/BorisGuo6" class="btn-sm badge-button">GitHub</a> &nbsp;/&nbsp;
+                      <a href="https://scholar.google.com/citations?user=JEjiaq0AAAAJ" class="btn-sm badge-button">Google Scholar</a> &nbsp;/&nbsp;
+                      <a href="https://orcid.org/my-orcid?orcid=0009-0009-2314-6911" class="btn-sm badge-button">ORCID</a> &nbsp;/&nbsp;
+                      <a href="javascript:void(0)" onclick="openAcademicLinks()" class="btn-sm badge-button">More Academic Links</a> &nbsp;/&nbsp;
+                      <a href="javascript:void(0)" onclick="openWeChatModal()" class="btn-sm badge-button">WeChat</a>
                     </p>
+
+                    <!-- Academic Links Modal -->
+                    <div id="AcademicLinksModal" class="academic-links">
+                      <span class="close" onclick="closeAcademicLinks()">&times;</span>
+                      <h3>Academic Links</h3>
+                      <p>
+                        <a href="https://ieeexplore.ieee.org/author/37089341227">IEEE Xplore</a><br>
+                        <a href="https://www.semanticscholar.org/author/Jingxiang-Guo/2307562741">Semantic Scholar</a><br>
+                        <a href="https://dblp.org/pid/386/2489.html">dblp</a><br>
+                        <a href="https://www.scopus.com/authid/detail.uri?authorId=59210015500">Scopus</a><br>
+                        <a href="https://www.researchgate.net/profile/Jingxiang-Guo-2">ResearchGate</a><br>
+                        <a href="https://www.linkedin.com/in/borisguo">LinkedIn</a><br>
+                        <a href="https://borisguo.link/">Gravatar</a>
+                      </p>
+                    </div>
+
+                    <script>
+                      function openAcademicLinks() {
+                        document.getElementById("AcademicLinksModal").style.display = "block";
+                      }
+                      function closeAcademicLinks() {
+                        document.getElementById("AcademicLinksModal").style.display = "none";
+                      }
+                      window.onclick = function(event) {
+                        var modal = document.getElementById("AcademicLinksModal");
+                        if (event.target == modal) {
+                          modal.style.display = "none";
+                        }
+                      }
+                    </script>
 
                     <!-- WeChat image function -->
                     <div id="WeChatModal" class="modal">
@@ -91,14 +148,12 @@
                   </td>
 
                   <!-- profile photo -->
-                  <td style="padding:2.5%; width:20%; max-width:40%">
-                    <a href="images/jingxiangguo.jpg">
-                      <img 
-                      style="width:100%; max-width:100%; object-fit: cover; border-radius: 0%;" 
-                      alt="profile photo" 
-                      src="images/jingxiangguo.jpg" 
-                      class="hoverZoomLink">
-                    </a>
+                  <td style="padding: 20px; padding-left: 0px; padding-bottom: 0px; width:20%; max-width:40%">
+                    <img 
+                    style="width:100%; max-width:100%; object-fit: cover; border-radius: 0%; box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.3);" 
+                    alt="profile photo" 
+                    src="images/jingxiangguo.jpg" 
+                    class="hoverZoomLink">
                   </td>
                 </tr>
               </tbody>
@@ -134,15 +189,20 @@
             <table style="width:100%; border:0px; border-spacing:0px; border-collapse:separate; margin-left:auto; margin-right:auto;">
               <tbody>
                 <tr>
-                  <td style="padding:20px; width:100%; vertical-align:middle">
+                  <td style="padding-top: 0px; padding-bottom: 0px; padding-left: 20px; padding-right: 20px; width:100%; vertical-align:middle">
                     <h2><b>Research</b></h2>
-                    <p>
-                      My research interests lie in 🤖robot learning ,🦾dexterous manipulation and 🤝Human-Robot Perception Alignment. <br>
-                      My long-term goal is to create true robotic life, pushing the boundaries of what’s possible with machines. I’m open to collaborations on robotics-related projects! Whether you’re a researcher looking for a partner , feel free to reach out to me👋 @ <!-- Calendly link widget begin -->
+                    <p style="margin-top: 10px; margin-bottom: 5px;">
+                      My research interests lie in 🤖 robot learning, 🦾 dexterous manipulation, and 🤝 Human-Robot Perception Alignment. 
+                      My long-term goal is to create true robotic life, pushing the boundaries of what's possible with machines. 
+                      I'm open to collaborations on robotics-related projects! Whether you're a researcher looking for a partner, 
+                      feel free to reach out to me👋 @ <!-- Calendly link widget begin -->
                       <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
                       <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
                       <a href="" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/borisguo6/30min'});return false;">Schedule time with me</a>
                       <!-- Calendly link widget end -->.
+                    </p>
+                    <p style="margin-top: 0px; margin-bottom: 10px;">
+                      Papers sorted by recency. Representative papers are <span style="background-color: rgba(102, 192, 255, 0.2);">highlighted</span>.
                     </p>
                   </td>
                 </tr>
@@ -152,75 +212,92 @@
             <!-- Paper List -->
             <table style="width:100%; border:0px; border-spacing:0px; border-collapse:separate; margin-left:auto; margin-right:auto;">
               <tbody>
-                
                 <!-- DexSing -->
-                  <!-- cover -->
-                  <td style="padding:10px; width:25%; vertical-align:middle">
-                    <img src='images/dexsing.png' style="width:100%; height:auto;">
+                <tr>
+                  <td style="padding:10px; width:30%; vertical-align:middle">
+                    <img src='images/dexsing.png' style="width:100%; height:auto; box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.3);">
                   </td>
                 
-                  <!-- content -->
-                  <td style="padding:10px; width:75%; vertical-align:middle">
-                    <!-- title -->
+                  <td style="padding:10px; width:70%; vertical-align:middle">
                     <span class="papertitle">
                       DexSinGrasp: Learning a Unified Policy for Dexterous Object Singulation and Grasping in Cluttered Environments
                     </span>
                     <br>
                 
-                    <!-- author -->
-                    <span class="author">
-                      Lixin Xu, Zixuan Liu, Zhewei Gui, <strong>Jingxiang Guo</strong>, Zeyu Jiang, Zhixuan Xu, Chongkai Gao, Lin Shao
-                    </span>
+                    <i>
+                      <span class="author">Lixin Xu</span>,
+                      <span class="author">Zixuan Liu</span>,
+                      <span class="author">Zhewei Gui</span>,
+                      <span class="strong-author">Jingxiang Guo</span>,
+                      <span class="author">Zeyu Jiang</span>,
+                      <span class="author">Zhixuan Xu</span>,
+                      <span class="author">Chongkai Gao</span>,
+                      <span class="author">Lin Shao</span>
+                    </i>
                     <br>
 
-                    <!-- venue -->
                     <em>In submission to IROS</em>
                     <br>
                     <span class="strong-venue">
                       <i class="fa-solid fa-star"></i> Spotlight Presentation, ICRA 2025
-                      <a href="https://sites.google.com/view/dexterity-workshop-icra2025/home" style="color: #66c0ff">@ Dexterity in Multi-Fingered Hands </a><i class="fa-solid fa-star"></i>
+                      <a href="https://sites.google.com/view/dexterity-workshop-icra2025/home" style="color: #66c0ff">@ Handy Moves: Dexterity in Multi-Fingered Hands </a><i class="fa-solid fa-star"></i>
                     </span>
                     <br>
     
-                    <!-- info -->
                     <a href="https://nus-lins-lab.github.io/dexsingweb/">Website</a>
                     &nbsp;/&nbsp;
                     <a href="https://arxiv.org/abs/2504.04516">arXiv</a>
                     &nbsp;/&nbsp;
                     Code
+
+                    <div class="TLDR">
+                      <strong>TL;DR:</strong>
+                      Implement a unified policy for dexterous object singulation and grasping in cluttered environments, 
+                      enabling robots to handle complex manipulation tasks with high success rates.
+                    </div>
                   </td>
                 </tr>
 
                 <!-- Manual -->
-                  <!-- cover -->
-                  <td style="padding:10px; width:25%; vertical-align:middle">
-                    <img src='images/Manual.png' style="width:100%; height:auto;">
+                <tr>
+                  <td style="padding:10px; width:30%; vertical-align:middle">
+                    <img src='images/Manual.png' style="width:100%; height:auto; box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.3);">
                   </td>
                 
-                  <!-- content -->
-                  <td style="padding:10px; width:75%; vertical-align:middle">
-                    <!-- title -->
+                  <td style="padding:10px; width:70%; vertical-align:middle">
                     <span class="papertitle">
                       Manual2Skill: Learning to Read Manuals and Acquire Robotic Skills for Furniture Assembly Using Vision-Language Models
                     </span>
                     <br>
                 
-                    <!-- author -->
-                    <span class="author">
-                      Chenrui Tie, Shengxiang Sun, Jinxuan Zhu, Yiwei Liu, <strong>Jingxiang Guo</strong>, Yue Hu, Haonan Chen, Junting Chen, Ruihai Wu, Lin Shao
-                    </span>
+                    <i>
+                      <span class="author">Chenrui Tie</span>,
+                      <span class="author">Shengxiang Sun</span>,
+                      <span class="author">Jinxuan Zhu</span>,
+                      <span class="author">Yiwei Liu</span>,
+                      <span class="strong-author">Jingxiang Guo</span>,
+                      <span class="author">Yue Hu</span>,
+                      <span class="author">Haonan Chen</span>,
+                      <span class="author">Junting Chen</span>,
+                      <span class="author">Ruihai Wu</span>,
+                      <span class="author">Lin Shao</span>
+                    </i>
                     <br>
 
-                    <!-- venue -->
                     <em>RSS 2025</em>
                     <br>
     
-                    <!-- info -->
                     <a href="https://owensun2004.github.io/Furniture-Assembly-Web/">Website</a>
                     &nbsp;/&nbsp;
-                    <a href="https://arxiv.org/abs/2502.10090">arxiv</a>
+                    <a href="https://arxiv.org/abs/2502.10090">arXiv</a>
                     &nbsp;/&nbsp;
                     Code
+
+                    <div class="TLDR">
+                      <strong>TL;DR:</strong>
+                      Propose a novel approach that leverages vision-language models to interpret assembly manuals and 
+                      translate them into executable robotic skills for furniture assembly tasks.
+                    </div>
                   </td>
                 </tr>
 
@@ -236,9 +313,16 @@
                     </span>
                     <br>
 
-                    <span class="author">
-                      <strong>Jingxiang Guo*</strong>, Jiayu Luo*, Zhenyu Wei*, Yiwen Hou, Zhixuan Xu, Xiaoyi Lin, Chongkai Gao, Lin Shao
-                    </span>
+                    <i>
+                      <span class="strong-author">Jingxiang Guo</span>*,
+                      <span class="author">Jiayu Luo</span>*,
+                      <span class="author">Zhenyu Wei</span>*,
+                      <span class="author">Yiwen Hou</span>,
+                      <span class="author">Zhixuan Xu</span>,
+                      <span class="author">Xiaoyi Lin</span>,
+                      <span class="author">Chongkai Gao</span>,
+                      <span class="author">Lin Shao</span>
+                    </i>
                     <br>
                     
                     <a href="https://nus-lins-lab.github.io/telepreview-web/">Website</a>
@@ -269,53 +353,71 @@
                 </tr>
 
                 <!-- MetaFold -->
-                  <!-- cover -->
-                  <td style="padding:10px; width:25%; vertical-align:middle">
-                    <img src='images/MetaFold.png' style="width:100%; height:auto;">
+                <tr>
+                  <td style="padding:10px; width:30%; vertical-align:middle">
+                    <img src='images/MetaFold.png' style="width:100%; height:auto; box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.3);">
                   </td>
                 
-                  <!-- content -->
-                  <td style="padding:10px; width:75%; vertical-align:middle">
-                    <!-- title -->
+                  <td style="padding:10px; width:70%; vertical-align:middle">
                     <span class="papertitle">
                       MetaFold: A Closed-loop Pipeline for Universal Clothing Folding via End-to-end Point Cloud Trajectory Generation
                     </span>
                     <br>
                 
-                    <!-- author -->
-                    <span class="author">
-                      Haonan Chen, Junxiao Li, Chongkai Gao, Zhixuan Xu, Chenting Wang, Yiwen Hou, <strong>Jingxiang Guo</strong>, Shensi Xu, Jiaqi Huang, Weidong Wang, Lin Shao
-                    </span>
+                    <i>
+                      <span class="author">Haonan Chen</span>,
+                      <span class="author">Junxiao Li</span>,
+                      <span class="author">Chongkai Gao</span>,
+                      <span class="author">Zhixuan Xu</span>,
+                      <span class="author">Chenting Wang</span>,
+                      <span class="author">Yiwen Hou</span>,
+                      <span class="strong-author">Jingxiang Guo</span>,
+                      <span class="author">Shensi Xu</span>,
+                      <span class="author">Jiaqi Huang</span>,
+                      <span class="author">Weidong Wang</span>,
+                      <span class="author">Lin Shao</span>
+                    </i>
                     <br>
 
-                    <!-- venue -->
                     <em>In submission to IROS</em>
                     <br>
     
-                    <!-- info -->
                     <a href="https://meta-fold.github.io/">Website</a>
                     &nbsp;/&nbsp;
-                    <a href="https://arxiv.org/abs/2503.08372">arxiv</a>
+                    <a href="https://arxiv.org/abs/2503.08372">arXiv</a>
                     &nbsp;/&nbsp;
                     Code
+
+                    <div class="TLDR">
+                      <strong>TL;DR:</strong>
+                      Propose a closed-loop pipeline for universal clothing folding using end-to-end point cloud trajectory generation, 
+                      enabling robots to handle various types of clothing with high precision.
+                    </div>
                   </td>
                 </tr>
 
                 <!-- D(R,O) Grasp -->
                 <tr style="background-color: rgba(102, 192, 255, 0.15);">
-                  <td style="padding:10px; width:25%; vertical-align:middle">
+                  <td style="padding:10px; width:30%; vertical-align:middle">
                     <img src='images/drograsp.png' style="width:100%; height:auto; box-shadow: 0 3px 12px 0 #66c0ff;">
                   </td>
 
-                  <td style="padding:10px; width:75%; vertical-align:middle">
+                  <td style="padding:10px; width:70%; vertical-align:middle">
                     <span class="papertitle">
                       $\mathcal{D(R,O)}$ Grasp: A Unified Representation of Robot and Object Interaction for Cross-Embodiment Dexterous Grasping
                     </span>
                     <br>
 
-                    <span class="author">
-                      Zhenyu Wei*, Zhixuan Xu*, <strong>Jingxiang Guo</strong>, Yiwen Hou, Chongkai Gao, Zhehao Cai, Jiayu Luo, Lin Shao
-                    </span>
+                    <i>
+                      <span class="author">Zhenyu Wei</span>*,
+                      <span class="author">Zhixuan Xu</span>*,
+                      <span class="strong-author">Jingxiang Guo</span>,
+                      <span class="author">Yiwen Hou</span>,
+                      <span class="author">Chongkai Gao</span>,
+                      <span class="author">Zhehao Cai</span>,
+                      <span class="author">Jiayu Luo</span>,
+                      <span class="author">Lin Shao</span>
+                    </i>
                     <br>
                     
                     <a href="https://nus-lins-lab.github.io/drograspweb/">Website</a>
@@ -327,7 +429,7 @@
                     <a href="https://mp.weixin.qq.com/s/csdm7B3G9__QpwEtoIQxuA">Media (机器之心)</a>
                     <br>
 
-                    <div">
+                    <div>
                       <!-- ICRA 2025 -->
                       <span class="accepted-venue">ICRA 2025</span>&nbsp;
                       <span class="accepted-venue-detail">International Conference on Robotics and Automation</span>
@@ -353,7 +455,7 @@
                       <div id="DROAward" class="modal">
                         <div class="modal-content" style="width: 50%; max-width: 800px; margin-top: 8%;">
                           <span class="close" onclick="closeDROAward()">&times;</span>
-                          <img src="images/Best Robotics Paper Award @ CoRL 2024 MAPoDeL.jpg" alt="D(R,O) Award Image" style="width: 100%;">
+                          <img src="images/awardcorl2024.jpg" alt="D(R,O) Award Image" style="width: 100%;">
                         </div>
                       </div>
                       
@@ -387,317 +489,302 @@
 
                 <!-- MASQ -->
                 <tr>
-                  <!-- cover -->
-                  <td style="padding:10px; width:25%; vertical-align:middle">
-                    <img src='images/MASQ.jpg' style="width:100%; height:auto;">
+                  <td style="padding:10px; width:30%; vertical-align:middle">
+                    <img src='images/MASQ.jpg' style="width:100%; height:auto; box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.3);">
                   </td>
 
-                  <!-- content -->
-                  <td style="padding:10px; width:75%; vertical-align:middle">
-                    <!-- title -->
+                  <td style="padding:10px; width:70%; vertical-align:middle">
                     <span class="papertitle">
                       MASQ: Multi-Agent Reinforcement Learning for Single Quadruped Robot Locomotion
                     </span>
                     <br>
 
-                    <!-- author -->
-                    <span class="author">
-                      Qi Liu*, 
-                    </span>
-                    <span class="author">
-                      <strong>Jingxiang Guo</strong>*,
-                    </span>
-                    <span class="author">
-                      Sixu Lin,
-                    </span>
-                    <span class="author">
-                      Shuaikang Ma,
-                    </span>
-                    <span class="author">
-                      Jinxuan Zhu,
-                    </span>
-                    <span class="author">
-                      Yanjie Li
-                    </span>
+                    <i>
+                      <span class="author">Qi Liu</span>*,
+                      <span class="strong-author">Jingxiang Guo</span>*,
+                      <span class="author">Sixu Lin</span>,
+                      <span class="author">Shuaikang Ma</span>,
+                      <span class="author">Jinxuan Zhu</span>,
+                      <span class="author">Yanjie Li</span>
+                    </i>
                     <br>
 
-                    <!-- venue -->
                     <em>In submission</em>
                     <br>
 
-                    <!-- info -->
                     <a href="https://arxiv.org/abs/2408.13759">arXiv</a>
                     &nbsp;/&nbsp;
                     <a href="https://b23.tv/to312Z4">Video</a>
                     &nbsp;/&nbsp;
                     <a href="https://mp.weixin.qq.com/s/2DKBVJPHFi29DQ46D8YnzA">Press</a>
-                    <br>
+
                     <div class="TLDR">
                       <strong>TL;DR:</strong> 
                       Introduce MASQ, a novel approach using multi-agent reinforcement learning (MARL) for single quadruped robot locomotion. By treating each leg as an independent agent, MASQ accelerates learning and boosts real-world robustness, surpassing traditional methods.
+                    </div>
                   </td>
                 </tr>
 
                 <!-- MARLCC -->
-                  <!-- cover -->
-                  <td style="padding:10px; width:25%; vertical-align:middle">
-                    <img src='images/MARLCC.jpg' style="width:100%; height:auto;">
+                <tr>
+                  <td style="padding:10px; width:30%; vertical-align:middle">
+                    <img src='images/MARLCC.jpg' style="width:100%; height:auto; box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.3);">
                   </td>
                 
-                  <!-- content -->
-                  <td style="padding:10px; width:75%; vertical-align:middle">
-                    <!-- title -->
+                  <td style="padding:10px; width:70%; vertical-align:middle">
                     <span class="papertitle">
                       Multi-Agent Target Assignment and Path Finding for Intelligent Warehouse: A Cooperative Multi-Agent Deep Reinforcement Learning Perspective
                     </span>
                     <br>
                 
-                    <!-- author -->
-                    <span class="author">
-                      Qi Liu, Jianqi Gao, Dongjie Zhu, Zhongjian Qiao, <strong>Jingxiang Guo</strong>, Pengbin Chen, Yanjie Li
-                    </span>
+                    <i>
+                      <span class="author">Qi Liu</span>,
+                      <span class="author">Jianqi Gao</span>,
+                      <span class="author">Dongjie Zhu</span>,
+                      <span class="author">Zhongjian Qiao</span>,
+                      <span class="strong-author">Jingxiang Guo</span>,
+                      <span class="author">Pengbin Chen</span>,
+                      <span class="author">Yanjie Li</span>
+                    </i>
                     <br>
 
-                    <!-- venue -->
                     <em>In submission to IROS</em>
                     <br>
     
-                    <!-- info -->
                     <a href="https://arxiv.org/abs/2408.13750">arXiv</a>
                     &nbsp;/&nbsp;
                     Code
                     &nbsp;/&nbsp;
                     <a href="https://mp.weixin.qq.com/s/mO17GF53Ilh6HUwMv3Pwdw">Press</a>
+
+                    <div class="TLDR">
+                      <strong>TL;DR:</strong>
+                      Develop a cooperative multi-agent deep reinforcement learning approach for intelligent warehouse systems, 
+                      focusing on efficient target assignment and path finding for multiple robots.
+                    </div>
                   </td>
                 </tr>
 
                 <!-- logfunction -->
-                  <!-- cover -->
-                  <td style="padding:10px; width:25%; vertical-align:middle">
-                    <img src='images/logfunction.jpg' style="width:100%; height:auto;">
+                <tr>
+                  <td style="padding:10px; width:30%; vertical-align:middle">
+                    <img src='images/logfunction.jpg' style="width:100%; height:auto; box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.3);">
                   </td>
                 
-                  <!-- content -->
-                  <td style="padding:10px; width:75%; vertical-align:middle">
-                    <!-- title -->
+                  <td style="padding:10px; width:70%; vertical-align:middle">
                     <span class="papertitle">
                       Logarithmic Function Matters Policy Gradient Deep Reinforcement Learning
                     </span>
                     <br>
                 
-                    <!-- author -->
-                    <span class="author">
-                      Qi Liu, <strong>Jingxiang Guo</strong>, Zhongjian Qiao, Pengbin Chen, Yanjie Li
-                    </span>
+                    <i>
+                      <span class="author">Qi Liu</span>,
+                      <span class="strong-author">Jingxiang Guo</span>,
+                      <span class="author">Zhongjian Qiao</span>,
+                      <span class="author">Pengbin Chen</span>,
+                      <span class="author">Yanjie Li</span>
+                    </i>
                     <br>
                 
-                    <!-- venue -->
-                    <em>⭐️ Accepted in DAI 2024 (<a href="http://www.adai.ai/dai/2024/program-overview.html">Oral</a>) ⭐️</em>
+                    <em>DAI 2024</em>
+                    <br>
+                    <span class="strong-venue">
+                      <i class="fa-solid fa-star"></i> Oral Presentation <a href="http://www.adai.ai/dai/2024/program-overview.html" style="color: #66c0ff">@ DAI 2024</a> <i class="fa-solid fa-star"></i>
+                    </span>
                     <br>
     
-                    <!-- info -->
                     arXiv
                     &nbsp;/&nbsp;
                     <a href="https://github.com/BorisGuo6/log_function.git">Code</a>
+
+                    <div class="TLDR">
+                      <strong>TL;DR:</strong>
+                      Investigate the impact of logarithmic functions in policy gradient deep reinforcement learning, 
+                      demonstrating improved performance and stability in various RL tasks.
+                    </div>
                   </td>
                 </tr>
 
                 <!-- LGBM -->
-                  <!-- cover -->
-                  <td style="padding:10px; width:25%; vertical-align:middle">
-                    <img src='images/LGBM.jpg' style="width:100%; height:auto;">
+                <tr>
+                  <td style="padding:10px; width:30%; vertical-align:middle">
+                    <img src='images/LGBM.jpg' style="width:100%; height:auto; box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.3);">
                   </td>
                 
-                  <!-- content -->
-                  <td style="padding:10px; width:75%; vertical-align:middle">
-                    <!-- title -->
+                  <td style="padding:10px; width:70%; vertical-align:middle">
                     <span class="papertitle">
                       Momentum Prediction for Tennis Matches Based on Counter-Factual Analysis and Multi-LGBM
                     </span>
                     <br>
                 
-                    <!-- author -->
-                    <span class="author">
-                      <strong>Jingxiang Guo</strong>, Jinxuan Zhu, Sixu Lin, Feng Shi
-                    </span>
+                    <i>
+                      <span class="strong-author">Jingxiang Guo</span>,
+                      <span class="author">Jinxuan Zhu</span>,
+                      <span class="author">Sixu Lin</span>,
+                      <span class="author">Feng Shi</span>
+                    </i>
                     <br>
     
-                    <!-- info -->
-                    <a href="https://ieeexplore.ieee.org/document/10548364">IEEE Xpolre</a>
+                    <a href="https://ieeexplore.ieee.org/document/10548364">IEEE Xplore</a>
                     &nbsp;/&nbsp;
                     <a href="https://github.com/BorisGuo9/2024_MCM.git">Code</a>
+
+                    <div class="TLDR">
+                      <strong>TL;DR:</strong>
+                      Develop a novel approach for tennis match momentum prediction using counter-factual analysis and 
+                      multi-LGBM models, achieving improved accuracy in match outcome predictions.
+                    </div>
                   </td>
                 </tr>
 
                 <!-- ECAPA -->
-                  <!-- cover -->
-                  <td style="padding:10px; width:25%; vertical-align:middle">
-                    <img src='images/ECAPA.jpg' style="width:100%; height:auto;">
+                <tr>
+                  <td style="padding:10px; width:30%; vertical-align:middle">
+                    <img src='images/ECAPA.jpg' style="width:100%; height:auto; box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.3);">
                   </td>
                 
-                  <!-- content -->
-                  <td style="padding:10px; width:75%; vertical-align:middle">
-                    <!-- title -->
+                  <td style="padding:10px; width:70%; vertical-align:middle">
                     <span class="papertitle">
                       ECAPA-TDNN Embeddings for Speaker Recognition
                     </span>
                     <br>
                 
-                    <!-- author -->
-                    <span class="author">
-                      <strong>Jingxiang Guo</strong>, Jinxuan Zhu, Sixu Lin, Feng Shi
-                    </span>
+                    <i>
+                      <span class="strong-author">Jingxiang Guo</span>,
+                      <span class="author">Jinxuan Zhu</span>,
+                      <span class="author">Sixu Lin</span>,
+                      <span class="author">Feng Shi</span>
+                    </i>
                     <br>
     
-                    <!-- info -->
-                    <a href="https://ieeexplore.ieee.org/document/10581514">IEEE Xpolre</a>
+                    <a href="https://ieeexplore.ieee.org/document/10581514">IEEE Xplore</a>
                     &nbsp;/&nbsp;
                     <a href="https://github.com/BorisGuo6/VoxCeleb.git">Code</a>
+
+                    <div class="TLDR">
+                      <strong>TL;DR:</strong>
+                      Implement and evaluate ECAPA-TDNN embeddings for speaker recognition tasks, 
+                      demonstrating improved performance in speaker verification and identification.
+                    </div>
                   </td>
                 </tr>
 
                 <!-- quickreverse -->
-                  <!-- cover -->
-                  <td style="padding:10px; width:25%; vertical-align:middle">
-                    <img src='images/quickreverse.png' style="width:100%; height:auto;">
+                <tr>
+                  <td style="padding:10px; width:30%; vertical-align:middle">
+                    <img src='images/quickreverse.png' style="width:100%; height:auto; box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.3);">
                   </td>
                 
-                  <!-- content -->
-                  <td style="padding:10px; width:75%; vertical-align:middle">
-                    <!-- title -->
+                  <td style="padding:10px; width:70%; vertical-align:middle">
                     <span class="papertitle">
                       Quick reversing device and quick track reversing device
                     </span>
                     <br>
                 
-                    <!-- author -->
-                    <span class="author">
-                      Kuntian Dai, <strong>Jingxiang Guo</strong>, Nengfeng Liu, Guanyu Hou, Jinbin Guo, Junkai Wang, Ruiquan Dong
-                    </span>
+                    <i>
+                      <span class="author">Kuntian Dai</span>,
+                      <span class="strong-author">Jingxiang Guo</span>,
+                      <span class="author">Nengfeng Liu</span>,
+                      <span class="author">Guanyu Hou</span>,
+                      <span class="author">Jinbin Guo</span>,
+                      <span class="author">Junkai Wang</span>,
+                      <span class="author">Ruiquan Dong</span>
+                    </i>
                     <br>
 
-                    <!-- venue -->
                     <em>National Patent</em>
                     <br>
 
-                    <!-- info -->
-                    <br>
-                      <span class="venue"><a href="https://patents.google.com/patent/CN116000896A/en">Google Patents</a>
-                        &nbsp;/&nbsp; </a></span>
-                        <a href="javascript:void(0)" class="award-venue" onclick="openCert()">
-                          </i> Certificate</i>
-                        </a>
-                    <br>
+                    <a href="https://patents.google.com/patent/CN116000896A/en">Google Patents</a>
+                    &nbsp;/&nbsp;
+                    <a href="javascript:void(0)" class="award-venue" onclick="openCert()">Certificate</a>
 
-                    <div id="PatentCert" class="modal">
-                      <div class="modal-content" style="width: 50%; max-width: 800px; margin-top: 8%;">
-                        <span class="close" onclick="closeCert()">&times;</span>
-                        <img src="images/patent.jpg" alt="Patent Cetificate" style="width: 100%;">
-                      </div>
+                    <div class="TLDR">
+                      <strong>TL;DR:</strong>
+                      Design and patent a novel quick reversing device and track reversing system, 
+                      improving efficiency and safety in industrial applications.
                     </div>
-                    
-                    <script>
-                      function openCert() {
-                        document.getElementById("PatentCert").style.display = "block";
-                      }
-                      function closeCert() {
-                        document.getElementById("PatentCert").style.display = "none";
-                      }
-                      window.onload = function() {
-                        document.getElementById("PatentCert").style.display = "none";
-                      };
-                      window.onclick = function(event) {
-                        var modal = document.getElementById("PatentCert");
-                        if (event.target == modal) {
-                          modal.style.display = "none";
-                        }
-                      }
-                    </script>
                   </td>
                 </tr>
               
                     <!-- Award -->
-                    <table style="width:100%; border:0px; border-spacing:0px; border-collapse:separate; margin-left:auto; margin-right:auto;">
+                    <table style="width:100%; border:0px; border-spacing:0px; border-collapse:separate; margin-top: 20px; margin-left:auto; margin-right:auto;">
                       <tbody>
                         <tr>
                           <td style="padding-top: 0px; padding-bottom: 10px; padding-left: 20px; padding-right: 20px; width:100%; vertical-align:middle">
                             <h2><b>Award</b></h2>
                             <ul class="award-list">
                               <li>
-                                <span><b>Champion</b>, RoboMaster2023 Infantry Match</span>
-                                <span class="year"><i>Mar 2023</i></span>
+                                <span style="font-size: 16px;"><b>Champion</b>, RoboMaster2023 Infantry Match</span>
+                                <span style="font-size: 16px;" class="year"><i>Mar 2023</i></span>
                               </li>
                               <li>
-                                <span><b>First Prize</b>, RoboMaster2022 (National Final)</span>
-                                <span class="year"><i>Aug 2022</i></span>
+                                <span style="font-size: 16px;"><b>First Prize</b>, RoboMaster2022 (National Final)</span>
+                                <span style="font-size: 16px;" class="year"><i>Aug 2022</i></span>
                               </li>
                               <li>
-                                <span><b>First Prize</b>, RoboMaster2022 (Southern Region)</span>
-                                <span class="year"><i>Jun 2022</i></span>
+                                <span style="font-size: 16px;"><b>First Prize</b>, RoboMaster2022 (Southern Region)</span>
+                                <span style="font-size: 16px;" class="year"><i>Jun 2022</i></span>
                               </li>
                               <li>
-                                <span><b>First Prize</b>, RoboMaster2023 (Sentinel Robot Match)</span>
-                                <span class="year"><i>Aug 2023</i></span>
+                                <span style="font-size: 16px;"><b>First Prize</b>, RoboMaster2023 (Sentinel Robot Match)</span>
+                                <span style="font-size: 16px;" class="year"><i>Aug 2023</i></span>
                               </li>
                               <li>
-                                <span><b>First Prize</b>, RoboMaster2023 (High School League)</span>
-                                <span class="year"><i>Mar 2023</i></span>
+                                <span style="font-size: 16px;"><b>First Prize</b>, RoboMaster2023 (High School League)</span>
+                                <span style="font-size: 16px;" class="year"><i>Mar 2023</i></span>
                               </li>
                               <li>
-                                <span><b>First Prize</b>, China Intelligent Robots Competition</span>
-                                <span class="year"><i>Jul 2023</i></span>
+                                <span style="font-size: 16px;"><b>First Prize</b>, China Intelligent Robots Competition</span>
+                                <span style="font-size: 16px;" class="year"><i>Jul 2023</i></span>
                               </li>
                               <li>
-                                <span><b>First Prize</b>, Hongli Cup Mathematical Modelling</span>
-                                <span class="year"><i>Mar 2023</i></span>
+                                <span style="font-size: 16px;"><b>First Prize</b>, Hongli Cup Mathematical Modelling</span>
+                                <span style="font-size: 16px;" class="year"><i>Mar 2023</i></span>
                               </li>
                               <li>
-                                <span><b>First Prize</b>, National Mathematical Modelling, Guangdong Province</span>
-                                <span class="year"><i>Sep 2023</i></span>
+                                <span style="font-size: 16px;"><b>First Prize</b>, National Mathematical Modelling, Guangdong Province</span>
+                                <span style="font-size: 16px;" class="year"><i>Sep 2023</i></span>
                               </li>
                               <li>
-                                <span><b>Second Prize</b>, National Embedded Chip Design</span>
-                                <span class="year"><i>Jun 2023</i></span>
+                                <span style="font-size: 16px;"><b>Second Prize</b>, National Embedded Chip Design</span>
+                                <span style="font-size: 16px;" class="year"><i>Jun 2023</i></span>
                               </li>
                               <li>
-                                <span><b>Second Prize</b>, RoboMaster2022 (National Final)</span>
-                                <span class="year"><i>Aug 2023</i></span>
+                                <span style="font-size: 16px;"><b>Second Prize</b>, RoboMaster2022 (National Final)</span>
+                                <span style="font-size: 16px;" class="year"><i>Aug 2023</i></span>
                               </li>
                               <li>
-                                <span><b>Second Prize</b>, China Robotics Competition 2023</span>
-                                <span class="year"><i>Sep 2023</i></span>
+                                <span style="font-size: 16px;"><b>Second Prize</b>, China Robotics Competition 2023</span>
+                                <span style="font-size: 16px;" class="year"><i>Sep 2023</i></span>
                               </li>
                               <li>
-                                <span><b>Second Prize</b>, Mechanical Engineering Innovation 2023</span>
-                                <span class="year"><i>Sep 2023</i></span>
+                                <span style="font-size: 16px;"><b>Second Prize</b>, Mechanical Engineering Innovation 2023</span>
+                                <span style="font-size: 16px;" class="year"><i>Sep 2023</i></span>
                               </li>
                               <li>
-                                <span><b>Second Prize</b>, iCAN Innovation and Entrepreneurship</span>
-                                <span class="year"><i>Nov 2023</i></span>
+                                <span style="font-size: 16px;"><b>Second Prize</b>, iCAN Innovation and Entrepreneurship</span>
+                                <span style="font-size: 16px;" class="year"><i>Nov 2023</i></span>
                               </li>
                               <li>
-                                <span><b>Third Prize</b>, China Robotics AI Competition</span>
-                                <span class="year"><i>May 2023</i></span>
+                                <span style="font-size: 16px;"><b>Third Prize</b>, China Robotics AI Competition</span>
+                                <span style="font-size: 16px;" class="year"><i>May 2023</i></span>
                               </li>
                               <li>
-                                <span><b>Third Prize</b>, BOTEC Intelligent Robotics Challenge</span>
-                                <span class="year"><i>Oct 2022</i></span>
+                                <span style="font-size: 16px;"><b>Third Prize</b>, BOTEC Intelligent Robotics Challenge</span>
+                                <span style="font-size: 16px;" class="year"><i>Oct 2022</i></span>
                               </li>
                               <li>
-                                <span><b>Third Prize</b>, Harbin Institute Electronic Design</span>
-                                <span class="year"><i>Apr 2023</i></span>
-                              </li>
-                              <!-- <li>
-                                <span><b>Third Class Scholarship</b></span>
-                                <span class="year"><i>Oct 2023</i></span>
-                              </li> -->
-                              <li>
-                                <span><b>Outstanding Student of the Year</b> 2021-2022</span>
-                                <span class="year"><i>Nov 2022</i></span>
+                                <span style="font-size: 16px;"><b>Third Prize</b>, Harbin Institute Electronic Design</span>
+                                <span style="font-size: 16px;" class="year"><i>Apr 2023</i></span>
                               </li>
                               <li>
-                                <span><b>Outstanding Member of the League</b> 2022-2023</span>
-                                <span class="year"><i>May 2023</i></span>
+                                <span style="font-size: 16px;"><b>Outstanding Student of the Year</b> 2021-2022</span>
+                                <span style="font-size: 16px;" class="year"><i>Nov 2022</i></span>
+                              </li>
+                              <li>
+                                <span style="font-size: 16px;"><b>Outstanding Member of the League</b> 2022-2023</span>
+                                <span style="font-size: 16px;" class="year"><i>May 2023</i></span>
                               </li>
                             </ul>
                           </td>
@@ -711,7 +798,7 @@
             <table style="width:100%; border:0px; border-spacing:0px; border-collapse:separate; margin-left:auto; margin-right:auto;">
               <tbody>
                 <tr>
-                  <td style="padding:20px; width:100%; vertical-align:middle">
+                  <td style="padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 20px; width:100%; vertical-align:middle">
                     <h2><b>Experience</b></h2>
                   </td>
                 </tr>
@@ -722,17 +809,17 @@
             <table style="width:98%; margin-left:20px; border:none; padding:0px;">
               <tbody>
                 <tr>
-                  <td style="padding:15px; width:15%; vertical-align:middle; padding-top:20px;">
+                  <td style="padding:25px; width:15%; vertical-align:middle; padding-top:20px;">
                     <img src="images/SJTU.png" style="width:100%; height:auto;">
                   </td>
-                  <td style="padding-top:20px; padding-left:20px; width:85%; vertical-align:top;">
+                  <td style="padding-top:20px; padding-left:20px; padding-right:20px; width:85%; vertical-align:top;">
                     <h3>
-                      SJTU Spatial Cognition and Robotic Automative Learning Laboratory (ScaleLab), China
+                      Spatial Cognition and Robotic Automative Learning Laboratory (ScaleLab), China
                       <span class="dates">2024.05 - Present</span>
                     </h3>
                     <b>Research Intern</b>
                     <br>
-                    Advisor: Prof. <a href="https://linsats.github.io/">Lin Shao</a>
+                    Advisor: Prof. <a href="https://yaomarkmu.github.io/">Yao Mu</a>
                   </td>
                 </tr>
               </tbody>
@@ -742,10 +829,10 @@
             <table style="width:98%; margin-left:20px; border:none; padding:0px;">
               <tbody>
                 <tr>
-                  <td style="padding:15px; width:15%; vertical-align:middle; padding-top:20px;">
+                  <td style="padding:25px; width:15%; vertical-align:middle; padding-top:20px;">
                     <img src="images/linslab.jpg" style="width:100%; height:auto;">
                   </td>
-                  <td style="padding-top:20px; padding-left:20px; width:85%; vertical-align:top;">
+                  <td style="padding-top:20px; padding-left:20px; padding-right:20px; width:85%; vertical-align:top;">
                     <h3>
                       NUS Learning and Intelligent Systems Lab (LinS Lab), Singapore
                       <span class="dates">2024.07 - 2025.5</span>
@@ -762,10 +849,10 @@
             <table style="width:98%; margin-left:20px; border:none; padding:0px;">
               <tbody>
                 <tr>
-                  <td style="padding:15px; width:15%; vertical-align:middle; padding-top:20px;">
+                  <td style="padding:25px; width:15%; vertical-align:middle; padding-top:20px;">
                     <img src="images/RLG.png" style="width:100%; height:auto;">
                   </td>
-                  <td style="padding-top:20px; padding-left:20px; width:85%; vertical-align:top;">
+                  <td style="padding-top:20px; padding-left:20px; padding-right:20px; width:85%; vertical-align:top;">
                     <h3>
                       HTISZ Reinforcement Learning Group (RLG), Shenzhen, China
                       <span class="dates">2022.10 - 2024.06</span>
@@ -782,23 +869,23 @@
             <table style="width:98%; margin-left:20px; border:none; padding:0px;">
               <tbody>
                 <tr>
-                  <td style="padding:15px; width:15%; vertical-align:middle; padding-top:20px;">
+                  <td style="padding:25px; width:15%; vertical-align:middle; padding-top:20px;">
                     <img src="images/HIT.png" style="width:100%; height:auto;">
                   </td>
-                  <td style="padding-top:20px; padding-left:20px; width:85%; vertical-align:top;">
+                  <td style="padding-top:20px; padding-left:20px; padding-right:20px; width:85%; vertical-align:top;">
                     <h3>
                       Harbin Institute of Technology, Shenzhen, China
                       <span class="dates">2021.09 - 2025.07</span>
                     </h3>
-                    <b>Undergraduate Student</b>
+                    B.E. in Automation
+                    <br>
+                    <b>GPA:</b> 3.7/4.0
                   </td>
                 </tr>
               </tbody>
             </table>
 
-            <script type="text/javascript" id="clustrmaps" src="//clustrmaps.com/map_v2.js?d=aT4x2etjl5c_76NdqM1Vma0YbiUXGRy5daB5DVtDPZ0&cl=ffffff&w=a"></script>
-
-            <script src="https://platform.linkedin.com/badges/js/profile.js" async defer type="text/javascript"></script>
+            <script type='text/javascript' id='clustrmaps' src='//cdn.clustrmaps.com/map_v2.js?cl=808080&w=320&t=tt&d=tOPkwWLaviaj1txDSWt1MIPXQO5jh3JgLgwv-uhQWwc&co=ffffff&ct=c0c0c0&cmo=66c0ff&cmn=ff9547'></script>
 
             <!-- Footnote -->
             <table style="width:100%; border:0px; border-spacing:0px; border-collapse:separate; margin-left:auto; margin-right:auto;">
@@ -807,29 +894,10 @@
                   <td style="padding:0px">
                     <br>
                     <p style="text-align:right; font-size:small;">
-                      Fell free to contact me if you have any problem.
-                    </p>
-                    <div style="display: flex; align-items: center; justify-content: center; gap: 20px;">
-                      <div>
-                        <div class="badge-base LI-profile-badge" data-locale="zh_CN" data-size="medium" data-theme="light" data-type="VERTICAL" data-vanity="borisguo" data-version="v1">
-                          <a class="badge-base__link LI-simple-link" href="https://sg.linkedin.com/in/borisguo/zh-cn?trk=profile-badge"></a>
-                        </div>
-                      </div>
-                      <div>
-                        <script type="text/javascript" src="https://storage.ko-fi.com/cdn/widget/Widget_2.js"></script>
-                        <script type="text/javascript">
-                          kofiwidget2.init('Buy me a coffee', '#72a4f2', 'R6R31683LG');
-                          kofiwidget2.draw();
-                        </script>
-                      </div>
-                    </div>
-                    <p style="text-align: center; font-size: small;">
-                      Thanks for your visiting😊!
-                      <span id="busuanzi_container_site_pv">
-                        Total Page Views: <span id="busuanzi_value_site_pv"></span>
-                      </span>
+                      Thanks for your visiting😊! Feel free to contact me if you have any problems.
                       <br>
-                      This website is designed based on <a href="https://jonbarron.info/">Jon Barron</a> and <a href="https://zhenyuwei2003.github.io/">Zhenyu Wei</a>.
+                      This website is designed based on <a href="https://jonbarron.info/" style="font-size: 12px;">Jon Barron</a> and <a href="https://zhenyuwei2003.github.io/" style="font-size: 12px;">Zhenyu Wei</a>.
+                      Last Update: May 24, 2024
                     </p>
                   </td>
                 </tr>

@@ -1,100 +1,56 @@
-/* latin-ext */
+/* ===== 字体定义 ===== */
 @font-face {
-  font-family: 'Lato';
-  font-style: italic;
-  font-weight: 400;
-  src: local('Lato Italic'), local('Lato-Italic'), url(https://fonts.gstatic.com/s/lato/v15/S6u8w4BMUTPHjxsAUi-qNiXg7eU0.woff2) format('woff2');
-  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Lato';
-  font-style: italic;
-  font-weight: 400;
-  src: local('Lato Italic'), local('Lato-Italic'), url(https://fonts.gstatic.com/s/lato/v15/S6u8w4BMUTPHjxsAXC-qNiXg7Q.woff2) format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-/* latin-ext */
-@font-face {
-  font-family: 'Lato';
-  font-style: italic;
-  font-weight: 700;
-  src: local('Lato Bold Italic'), local('Lato-BoldItalic'), url(https://fonts.gstatic.com/s/lato/v15/S6u_w4BMUTPHjxsI5wq_FQftx9897sxZ.woff2) format('woff2');
-  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Lato';
-  font-style: italic;
-  font-weight: 700;
-  src: local('Lato Bold Italic'), local('Lato-BoldItalic'), url(https://fonts.gstatic.com/s/lato/v15/S6u_w4BMUTPHjxsI5wq_Gwftx9897g.woff2) format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-/* latin-ext */
-@font-face {
-  font-family: 'Lato';
+  font-family: 'Alegreya';
   font-style: normal;
   font-weight: 400;
-  src: local('Lato Regular'), local('Lato-Regular'), url(https://fonts.gstatic.com/s/lato/v15/S6uyw4BMUTPHjxAwXiWtFCfQ7A.woff2) format('woff2');
-  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Lato';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Lato Regular'), local('Lato-Regular'), url(https://fonts.gstatic.com/s/lato/v15/S6uyw4BMUTPHjx4wXiWtFCc.woff2) format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-/* latin-ext */
-@font-face {
-  font-family: 'Lato';
-  font-style: normal;
-  font-weight: 700;
-  src: local('Lato Bold'), local('Lato-Bold'), url(https://fonts.gstatic.com/s/lato/v15/S6u9w4BMUTPHh6UVSwaPGQ3q5d0N7w.woff2) format('woff2');
-  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Lato';
-  font-style: normal;
-  font-weight: 700;
-  src: local('Lato Bold'), local('Lato-Bold'), url(https://fonts.gstatic.com/s/lato/v15/S6u9w4BMUTPHh6UVSwiPGQ3q5d0.woff2) format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  src: url(https://fonts.gstatic.com/s/alegreya/v35/4UaBrEBBsBhlBjvfkSLhx6g.woff2) format('woff2');
 }
 
-/* href */
-a {
-  color: #0095ff;
-  text-decoration: none;
+@font-face {
+  font-family: 'Alegreya SC';
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://fonts.gstatic.com/s/alegreyasc/v26/taiOGmRtCJ62-O0HhNEa-Z6p2BQK9b7.woff2) format('woff2');
 }
 
-a:focus,
-a:hover {
-  color: #FF9547;
-  text-decoration: none;
+/* ===== 基础样式 ===== */
+html {
+  background-color: #ffffff;
+  font-size: 100%;
 }
 
 body {
+  font-family: 'Alegreya', serif !important;
   font-size: 16px;
   line-height: 1.6;
+  color: #222;
 }
 
-tr,
-td,
-th,
-p,
-a,
-li {
-  font-family: 'Lato', Verdana, Helvetica, sans-serif;
+/* 基础文本样式 */
+tr, td, th, p, a, li {
+  font-family: 'Alegreya', serif;
   font-size: 16px;
 }
 
+/* 链接样式 */
+a {
+  color: #004b91;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:focus, a:hover {
+  color: #66c0ff;
+  text-decoration: none;
+}
+
+/* ===== 标题样式 ===== */
 h2 {
   margin: 0;
-  font-weight: normal;
-  font-family: 'Lato', Verdana, Helvetica, sans-serif;
+  font-weight: 700;
+  font-family: 'Alegreya SC', serif;
   font-size: 24px;
+  color: #333;
   text-decoration: underline;
   text-decoration-color: #66c0ff;
   text-decoration-thickness: 3px;
@@ -103,16 +59,33 @@ h2 {
 h3 {
   margin: 0;
   font-size: 18px;
-  font-weight: bold;
+  font-weight: 700;
+  font-family: 'Alegreya SC', serif;
+  color: #333;
   padding-bottom: 6px;
 }
 
+/* ===== 组件样式 ===== */
+/* 作者样式 */
+.author {
+  font-family: 'Alegreya', serif;
+  font-size: 14px;
+}
+
 .strong-author {
-  font-family: 'Lato', Verdana, Helvetica, sans-serif;
+  font-family: 'Alegreya', serif;
   font-size: 14px;
   font-weight: bold;
 }
 
+/* 论文标题样式 */
+.papertitle {
+  font-family: 'Alegreya', serif;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* 奖项和会议样式 */
 .award-venue {
   color: #ffa03c;
   font-weight: bold;
@@ -125,7 +98,6 @@ h3 {
 
 .venue {
   font-weight: bold;
-  /* font-style: italic; */
 }
 
 .accepted-venue {
@@ -138,12 +110,12 @@ h3 {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-
 .accepted-venue-detail {
   font-weight: bold;
   color: #663399;
 }
 
+/* TL;DR 样式 */
 .TLDR {
   color: #9f9f9f;
   padding-top: 5px;
@@ -153,12 +125,8 @@ h3 {
   font-weight: bold;
 }
 
-.news-list {
-  list-style-type: disc;
-  font-size: 14px;
-}
-
-.award-list {
+/* 列表样式 */
+.news-list, .award-list {
   list-style-type: disc;
   font-size: 14px;
 }
@@ -169,27 +137,20 @@ h3 {
 }
 
 .award-list .year {
-  float: right
+  float: right;
 }
 
+/* 网页名称样式 */
 .webname {
   padding-top: 20px;
   margin: 0;
-  font-family: 'Lato', Verdana, Helvetica, sans-serif;
+  font-family: 'Alegreya SC', serif;
   font-size: 32px;
-}
-
-.papertitle {
-  font-family: 'Lato', Verdana, Helvetica, sans-serif;
-  font-size: 18px;
   font-weight: 700;
+  color: #333;
 }
 
-.author {
-  font-family: 'Lato', Verdana, Helvetica, sans-serif;
-  font-size: 14px;
-}
-
+/* ===== 模态框样式 ===== */
 .modal {
   display: none;
   position: fixed;
@@ -220,15 +181,457 @@ h3 {
   cursor: pointer;
 }
 
-.close:hover,
-.close:focus {
+.close:hover, .close:focus {
   color: black;
   text-decoration: none;
   cursor: pointer;
 }
 
+/* ===== 特殊效果 ===== */
+/* 阴影效果 */
+.drop-shadow {
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.1), 0 4px 15px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* 高亮标记 */
+mark {
+  background-color: rgba(102, 192, 255, 0.2);
+  padding: 0.1em 0.3em;
+  border-radius: 4px;
+}
+
+/* 日期样式 */
 .dates {
   font-size: 16px;
   color: gray;
   float: right;
+}
+
+/* 中文文本样式 */
+.chinese-text {
+  font-family: 'LXGW WenKai Screen', serif;
+}
+
+/* Font Awesome 图标样式 */
+.fa {
+  font-size: 1.3rem;
+  margin-right: 10px;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.fa:hover {
+  color: #66c0ff;
+}
+
+/* ===== 链接按钮样式 ===== */
+.btn-sm.badge-button {
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 0.875rem;
+  color: #004b91;
+  border: 1px solid #c4d4e0;
+  border-radius: 0.25rem;
+  text-decoration: none;
+  margin-right: 6px;
+  margin-bottom: 5px;
+  transition: all 0.3s ease;
+}
+
+.btn-sm.badge-button:hover {
+  background-color: #f0f7ff;
+  border-color: #66c0ff;
+  color: #003366;
+}
+
+/* ===== 高亮标记 ===== */
+mark {
+  background-color: rgba(102, 192, 255, 0.2);
+  padding: 0.1em 0.3em;
+  border-radius: 4px;
+}
+
+/* 日期样式 */
+.dates {
+  font-size: 16px;
+  color: gray;
+  float: right;
+}
+
+html {
+  background-color: #ffffff;
+  font-size: 100%;
+}
+
+body {
+  /*font-family: 'Lato', sans-serif !important;*/
+  font-family: 'Alegreya', serif !important;
+}
+.chinese-text  {
+  font-family: 'LXGW WenKai Screen', serif;
+}
+/* Link colors */
+a:link {
+    color: #006EE7;
+}
+a:visited {
+    color: #006EE7;
+}
+a:hover {
+    color: #006EE7;
+}
+a:active {
+    color: #006EE7;
+}
+
+.footer-text {
+  font-size: 0.8rem;
+  font-weight: lighter;
+  text-align: right;
+  color: #555;
+}
+
+.about-headshot {
+  max-width: 65%;
+}
+
+.about-headshot-mobile {
+  max-width: 50%;
+}
+
+.title-name {
+  font-family: 'Alegreya SC', serif;
+  font-size: 2.1em;
+  line-height: 90%;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+.title-email {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+.title-small{
+  font-size: 1.1rem;
+}
+
+
+.link-button {
+  font-family: 'Alegreya', serif;
+  font-size: 1.2rem;
+  color: #006EE7;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  transition: color 0.3s ease;
+}
+
+.link-button:hover {
+  color: #FF9547;
+  text-decoration: none;
+}
+
+.link-button-small {
+  font-family: 'Alegreya', serif;
+  font-size: 1rem;
+  color: #006EE7;
+  text-decoration: none;
+  padding: 0.3rem 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.link-button-small:hover {
+  color: #FF9547;
+  text-decoration: none;
+}
+
+.drop-shadow {
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.1), 0 4px 15px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* Style font awesome */
+.fa {
+  padding-left: 5px;
+  padding-right: 5px;
+  font-size: 30px;
+  text-align: center;
+  text-decoration: none;
+}
+.fa:hover {
+  opacity: 0.7;
+  text-decoration: none;
+}
+
+
+/* Expand/collapsible news entries */
+
+.news-title {
+  font-family: 'Alegreya', serif;
+  font-size: 1.3rem;
+  font-weight: 200;
+  margin-bottom: 1rem;
+}
+
+.expandable-list ul {
+  list-style-type:none;
+  margin-left: 1em;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+.expandable-list .extra-item {
+  display: none;
+}
+
+.news-date {
+  /* color: #E03838; */
+  display: inline-block;
+  font-weight: 500;
+  width: 4em;
+  font-family: 'Alegreya', serif;
+}
+
+.news-entry {
+  font-size: 0.9rem;
+}
+
+.news-expand-button {
+  cursor: pointer;
+  text-align: center;
+  margin-left: 1em;
+  color: #006EE7;
+}
+
+
+/* Content summaries */
+
+.content-header {
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #66c0ff;
+  text-align: right;
+}
+
+.content-header col {
+  padding-right: 0px;
+}
+
+.content-header p {
+  font-weight: bold;
+  font-size: 1.8rem;
+  margin-bottom: 0;
+  margin-right: 0;
+}
+
+.content-header-linebreak {
+  height: 30px;
+  margin-bottom: 15px;
+  margin-top: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.summary-title {
+  font-family: 'Alegreya', serif;
+  font-size: 1.3rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+.summary-authors{
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.summary-publication-status {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  color: #006EE7;
+  font-style: italic;
+}
+
+.summary-publication-status-highlight {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  color: #49bf9d;
+  font-family: 'Lora', serif;
+  font-style: italic;
+}
+.summary-publication-status-highlight::before {
+  content: '★ ';
+}
+.summary-publication-status-highlight::after {
+  content: ' ★';
+}
+
+.summary-publication-status-award {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  color: #ffaf03;
+  font-family: 'Lora', serif;
+  font-style: italic;
+}
+.summary-publication-status-award::before {
+  content: "\f091"; /* Unicode for Font Awesome trophy icon */
+  font-family: 'Lora', 'Font Awesome 6 Free', serif;
+  font-weight: 900; /* Font Awesome solid style */
+  margin-right: 4px;
+  font-style: normal;
+}
+.summary-publication-status-award::after {
+  content: "\f091";
+  font-family: 'Lora', 'Font Awesome 6 Free', serif;
+  font-weight: 900;
+  margin-left: 4px;
+  font-style: normal;
+}
+
+.summary-extras {
+  padding-left: 5px;
+  padding-right: 5px;
+  font-weight: bolder;
+  background: #E0383833;
+}
+.summary-extras:hover {
+  text-decoration: none;
+}
+
+.summary-extras-btn {
+  padding-left: 10px;
+  padding-right: 10px;
+  font-weight: bolder;
+  color: #000;
+  background: #FFDC55;
+}
+.summary-extras-btn:visited{
+  color: #000;
+  background: #FFDC55;
+}
+
+.summary-text {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 1rem;
+}
+.summary-text::before {
+  content: '\f002 TL;DR: ';
+  font-family: 'Lora','Font Awesome 6 Free', serif;
+  font-weight: 600;
+}
+.summary-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.badge-button {
+  font-size: 0.9rem;
+  background: hsla(217, 100%, 84%, 0.2);
+  color: #006EE7;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+.badge-button:hover {
+  background: hsla(217, 100%, 84%, 0.3);
+  text-decoration: none;
+  color: #006EE7;
+}
+
+.big-badge-button {
+  font-size: 1.0rem;
+  background: hsla(217, 100%, 84%, 0.2) 4%;
+}
+.big-badge-button:hover {
+  text-decoration: none;
+}
+
+.full-title {
+  font-family: 'Alegreya', serif;
+  font-size: 3em;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  text-align: center;
+}
+
+.authors-list {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-size: 1.2em;
+  text-align: center;
+}
+
+.plain-link {
+  color: #000000 !important;
+  text-decoration: underline !important;
+}
+
+.publication-status {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-size: 1.2em;
+  text-align: center;
+  color: #006EE7;
+}
+
+.extras {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-size: 1.2em;
+  text-align: center;
+  color: #006EE7;
+  font-weight: bolder;
+}
+.hover {
+  text-decoration: none;
+}
+
+.big-teaser-image {
+  padding: 5px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+	max-height: 400px;
+	max-width: auto;
+}
+
+.abstract {
+  text-align: left;
+  padding: 10px;
+}
+
+
+.selected-figure {
+  text-align: center;
+  max-height: 300px; 
+  max-width: 100%;
+  padding: 5px;
+}
+.selected-figure-caption {
+  max-width: 600px;
+}
+
+.paper-link-btn {
+  display: inline-block !important;
+  background: #f0f7ff !important;
+  color: #006EE7 !important;
+  font-family: 'Alegreya', serif !important;
+  font-size: 1.15rem !important;
+  font-weight: 600 !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 8px 22px !important;
+  margin-right: 10px !important;
+  margin-bottom: 6px !important;
+  text-align: center !important;
+  text-decoration: none !important;
+  box-shadow: none !important;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s !important;
+}
+
+.paper-link-btn:hover, .paper-link-btn:focus {
+  background: #e6f2ff !important;
+  color: #003366 !important;
+  box-shadow: 0 2px 8px 0 rgba(102,192,255,0.10) !important;
+  text-decoration: none !important;
 }
