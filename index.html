@@ -369,7 +369,7 @@
 
                     <div>
                       <span class="award-venue">
-                        <i class="fa-solid fa-trophy"></i> Best Paper Award, ICRA 2025
+                        <i class="fa-solid fa-trophy"></i> <a href="javascript:void(0)" class="award-venue" onclick="openAward('images/awardICRA2025.jpg', 'ICRA 2025 Best Paper Award')">Best Paper Award</a>, ICRA 2025
                         <a href="https://sites.google.com/view/icra-2025-workshop?usp=sharing" style="color: #ffa03c">@ Human-Centric Multilateral Teleoperation </a><i class="fa-solid fa-trophy"></i>
                       </span>
                       <br>
@@ -470,12 +470,12 @@
                       <span class="accepted-venue-detail">International Conference on Robotics and Automation</span>
                       <br>
                       <span class="award-venue">
-                        <i class="fa-solid fa-trophy"></i> ICRA 2025 Best Paper Award on Robot Manipulation and Locomotion <i class="fa-solid fa-trophy"></i>
+                        <i class="fa-solid fa-trophy"></i> <a href="javascript:void(0)" onclick="openAward('images/awardICRAbest.jpg', 'ICRA 2025 Best Paper Award')">ICRA 2025 Best Paper Award</a> on Robot Manipulation and Locomotion <i class="fa-solid fa-trophy"></i>
                       </span>
                       <br>
                       <span class="award-venue">
                         <i class="fa-solid fa-trophy"></i>
-                        <a href="javascript:void(0)" class="award-venue" onclick="openDROAward()">Best Robotics Paper Award</a>, CoRL 2024
+                        <a href="javascript:void(0)" class="award-venue" onclick="openAward('images/awardcorl2024.jpg', 'D(R,O) Award Image')">Best Robotics Paper Award</a>, CoRL 2024
                         <a href="https://sites.google.com/view/corl-mapodel-workshop/home" style="color: #ffa03c">@ MAPoDeL</a> <i class="fa-solid fa-trophy"></i>
                       </span>
                       <br>
@@ -487,25 +487,29 @@
                         <i class="fa-solid fa-star"></i> Spotlight Presentation, CoRL 2024 <a href="https://dex-manipulation.github.io/corl2024/index.html" style="color: #66c0ff">@ LFDM</a> <i class="fa-solid fa-star"></i>
                       </span>
 
-                      <div id="DROAward" class="modal">
+                      <div id="AwardModal" class="modal">
                         <div class="modal-content" style="width: 50%; max-width: 800px; margin-top: 8%;">
-                          <span class="close" onclick="closeDROAward()">&times;</span>
-                          <img src="images/awardcorl2024.jpg" alt="D(R,O) Award Image" style="width: 100%;">
+                          <span class="close" onclick="closeAward()">&times;</span>
+                          <img id="awardImage" src="" alt="" style="width: 100%;">
                         </div>
                       </div>
                       
                       <script>
-                        function openDROAward() {
-                          document.getElementById("DROAward").style.display = "block";
+                        function openAward(imagePath, imageAlt) {
+                          var modal = document.getElementById("AwardModal");
+                          var img = document.getElementById("awardImage");
+                          img.src = imagePath;
+                          img.alt = imageAlt;
+                          modal.style.display = "block";
                         }
-                        function closeDROAward() {
-                          document.getElementById("DROAward").style.display = "none";
+                        function closeAward() {
+                          document.getElementById("AwardModal").style.display = "none";
                         }
                         window.onload = function() {
-                          document.getElementById("DROAward").style.display = "none";
+                          document.getElementById("AwardModal").style.display = "none";
                         };
                         window.onclick = function(event) {
-                          var modal = document.getElementById("DROAward");
+                          var modal = document.getElementById("AwardModal");
                           if (event.target == modal) {
                             modal.style.display = "none";
                           }
@@ -957,7 +961,7 @@
                   </td>
                 </tr>
               </tbody>
-            </table>            
+            </table>
 
           </td>
         </tr>
