@@ -75,8 +75,12 @@
                     </p>
 
                     <p>
-                    I am a Master of Computing (Artificial Intelligence) student at the <a href="https://nus.edu.sg/">National University of Singapore</a> advised by Prof. <a href="https://haroldsoh.com/">Harold Soh</a>.
-                    Currently, I have research collaborations with <a href="https://scalelab-sjtu.github.io/">SJTU ScaleLab</a> (advised by Prof. <a href="https://yaomarkmu.github.io/">Yao Mu</a>), <a href="https://nus.edu.sg/">NUS LinS Lab</a> (advised by Prof. <a href="https://linsats.github.io/">Lin Shao</a>), and <a href="http://reinforcement.hitsz.edu.cn/index.html">HITsz RLGroup</a> (advised by Prof. <a href="https://faculty.hitsz.edu.cn/liyanjie">Yanjie Li</a>).
+                    I am a Master of Computing (Artificial Intelligence) student at the <a href="https://nus.edu.sg/">National University of Singapore</a>.
+                    I have research collaborations with
+                    <a href="https://clear-nus.github.io/">NUS CLeAR Lab</a> (advised by Prof. <a href="https://haroldsoh.com/">Harold Soh</a>),
+                    <a href="https://scalelab-sjtu.github.io/">SJTU ScaleLab</a> (advised by Prof. <a href="https://yaomarkmu.github.io/">Yao Mu</a>), 
+                    <a href="https://nus.edu.sg/">NUS LinS Lab</a> (advised by Prof. <a href="https://linsats.github.io/">Lin Shao</a>) and 
+                    <a href="http://reinforcement.hitsz.edu.cn/index.html">HITsz RLGroup</a> (advised by Prof. <a href="https://faculty.hitsz.edu.cn/liyanjie">Yanjie Li</a>).
                     I received my B.Eng. in Automation from <a href="http://en.hitsz.edu.cn/">Harbin Institute of Technology, Shenzhen</a>.
                     </p>
 
@@ -594,7 +598,7 @@
                       <span class="accepted-venue-detail">International Conference on Robotics and Automation</span>
                       <br>
                       <span class="award-venue">
-                        <i class="fa-solid fa-trophy"></i> <a href="javascript:void(0)" onclick="openAward('awards/awardICRAbest.jpg', 'ICRA 2025 Best Paper Award')">ICRA 2025 Best Paper Award</a> on Robot Manipulation and Locomotion <i class="fa-solid fa-trophy"></i>
+                        <i class="fa-solid fa-trophy"></i> <a href="javascript:void(0)" onclick="openAward('', 'ICRA 2025 Best Paper Award', 'awards/ICRAbest2025person.jpg', 'awards/awardICRAbest.jpg')">ICRA 2025 Best Paper Award</a> on Robot Manipulation and Locomotion <i class="fa-solid fa-trophy"></i>
                       </span>
                       <br>
                       <span class="award-venue">
@@ -614,24 +618,81 @@
                       <div id="AwardModal" class="modal">
                         <div class="modal-content" style="width: 50%; max-width: 800px; margin-top: 8%;">
                           <span class="close" onclick="closeAward()">&times;</span>
+                          <div id="awardToggleButtons" style="text-align: center; margin-bottom: 10px; display: none;">
+                            <button id="personalAwardBtn" onclick="switchAward('personal')" style="background-color: #77BBDD; color: white; border: none; padding: 8px 16px; margin: 0 5px; border-radius: 4px; cursor: pointer;">Individual Certificate</button>
+                            <button id="teamAwardBtn" onclick="switchAward('team')" style="background-color: #cccccc; color: #666666; border: none; padding: 8px 16px; margin: 0 5px; border-radius: 4px; cursor: pointer;">Group Certificate</button>
+                          </div>
                           <img id="awardImage" src="" alt="" style="width: 100%;">
+                          <div id="credentialLink" style="text-align: center; margin-top: 10px; display: none;">
+                            <a href="https://www.credential.net/b27676a9-4b5c-41c1-b66f-a9fd0c31c9cc" target="_blank" style="color: #77BBDD; text-decoration: none; font-size: 14px;">🔗 Verify Individual Certificate</a>
+                          </div>
                         </div>
                       </div>
                       
                       <script>
-                        function openAward(imagePath, imageAlt) {
+                        var currentAwardType = 'personal';
+                        var awardImages = {};
+                        
+                        function openAward(imagePath, imageAlt, personalPath, teamPath) {
                           var modal = document.getElementById("AwardModal");
                           var img = document.getElementById("awardImage");
-                          img.src = imagePath;
-                          img.alt = imageAlt;
+                          var toggleButtons = document.getElementById("awardToggleButtons");
+                          var credentialLink = document.getElementById("credentialLink");
+                          
+                          if (personalPath && teamPath) {
+                            // ICRA 2025 Best Paper Award with both personal and team certificates
+                            awardImages.personal = personalPath;
+                            awardImages.team = teamPath;
+                            toggleButtons.style.display = "block";
+                            credentialLink.style.display = "block";
+                            switchAward('personal'); // Default to personal
+                          } else {
+                            // Regular award with single image
+                            awardImages = {};
+                            toggleButtons.style.display = "none";
+                            credentialLink.style.display = "none";
+                            img.src = imagePath;
+                            img.alt = imageAlt;
+                          }
+                          
                           modal.style.display = "block";
                         }
+                        
+                        function switchAward(type) {
+                          var img = document.getElementById("awardImage");
+                          var personalBtn = document.getElementById("personalAwardBtn");
+                          var teamBtn = document.getElementById("teamAwardBtn");
+                          var credentialLink = document.getElementById("credentialLink");
+                          
+                          currentAwardType = type;
+                          
+                          if (type === 'personal') {
+                            img.src = awardImages.personal;
+                            img.alt = 'ICRA 2025 Best Paper Award - Personal Certificate';
+                            personalBtn.style.backgroundColor = "#77BBDD";
+                            personalBtn.style.color = "white";
+                            teamBtn.style.backgroundColor = "#cccccc";
+                            teamBtn.style.color = "#666666";
+                            credentialLink.style.display = "block";
+                          } else {
+                            img.src = awardImages.team;
+                            img.alt = 'ICRA 2025 Best Paper Award - Team Certificate';
+                            teamBtn.style.backgroundColor = "#77BBDD";
+                            teamBtn.style.color = "white";
+                            personalBtn.style.backgroundColor = "#cccccc";
+                            personalBtn.style.color = "#666666";
+                            credentialLink.style.display = "none";
+                          }
+                        }
+                        
                         function closeAward() {
                           document.getElementById("AwardModal").style.display = "none";
                         }
+                        
                         window.onload = function() {
                           document.getElementById("AwardModal").style.display = "none";
                         };
+                        
                         window.onclick = function(event) {
                           var modal = document.getElementById("AwardModal");
                           if (event.target == modal) {
@@ -900,7 +961,7 @@
                                 <span style="font-size: 16px;" class="year"><i>May 2025</i></span>
                               </li>
                               <li>
-                                <span style="font-size: 16px;"><b><a href="javascript:void(0)" onclick="openAward('awards/awardICRAbest.jpg', 'ICRA 2025 Best Paper Award on Robot Manipulation and Locomotion')">ICRA 2025 Best Paper Award</a></b> on Robot Manipulation and Locomotion</span>
+                                <span style="font-size: 16px;"><b><a href="javascript:void(0)" onclick="openAward('', 'ICRA 2025 Best Paper Award on Robot Manipulation and Locomotion', 'awards/ICRAbest2025person.jpg', 'awards/awardICRAbest.jpg')">ICRA 2025 Best Paper Award</a></b> on Robot Manipulation and Locomotion</span>
                                 <span style="font-size: 16px;" class="year"><i>May 2025</i></span>
                               </li>
                               <li>
@@ -1089,6 +1150,26 @@
               </tbody>
             </table>
 
+            <!-- CLeAR Lab -->
+            <table style="width:98%; margin-left:20px; border:none; padding:0px;">
+              <tbody>
+                <tr>
+                  <td style="padding:25px; width:15%; vertical-align:middle; padding-top:20px;">
+                    <img src="images/logo-clearlab.png" style="width:100%; height:auto;">
+                  </td>
+                  <td style="padding-top:20px; padding-left:20px; padding-right:20px; width:85%; vertical-align:top;">
+                    <h3>
+                      Collaborative, Learning, and Adaptive Robots Lab (CLeAR Lab), Singapore
+                      <span class="dates">2024.08 - Present</span>
+                    </h3>
+                    <b>Research Intern</b>
+                    <br>
+                    Advisor: Prof. <a href="https://haroldsoh.com/">Harold Soh</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
             <!-- ScaleLab -->
             <table style="width:98%; margin-left:20px; border:none; padding:0px;">
               <tbody>
@@ -1099,7 +1180,7 @@
                   <td style="padding-top:20px; padding-left:20px; padding-right:20px; width:85%; vertical-align:top;">
                     <h3>
                       Spatial Cognition and Robotic Automative Learning Laboratory (ScaleLab)
-                      <span class="dates">2024.05 - Present</span>
+                      <span class="dates">2024.05 - 2024.08</span>
                     </h3>
                     <b>Research Intern</b>
                     <br>
