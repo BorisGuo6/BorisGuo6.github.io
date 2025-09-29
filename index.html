@@ -234,9 +234,9 @@
               <tbody>
                 <tr>
                   <td style="padding-top: 0px; padding-bottom: 0px; padding-left: 20px; padding-right: 20px; width:100%; vertical-align:middle">
-                    <h2><b>Publications</b></h2>
+                    <h2><b id="publications-title">Selected Publications</b></h2>
                     <p style="margin-top: 10px; margin-bottom: 10px;">
-                      Papers sorted by recency. Representative papers are <span style="background-color: rgba(102, 192, 255, 0.2);">highlighted</span>.
+                      Papers sorted by recency. <span id="highlight-note" style="display: none;">Representative papers are <span style="background-color: rgba(102, 192, 255, 0.2);">highlighted</span>.</span>
                     </p>
                   </td>
                 </tr>
@@ -246,8 +246,164 @@
             <table style="width:100%; border:0px; border-spacing:0px; border-collapse:separate; margin-left:auto; margin-right:auto;">
               <tbody>
 
+                <!-- Goal-VLA -->
+                <tr class="highlight-paper">
+                  <td style="padding:10px; width:30%; vertical-align:middle">
+                    <img src='images/goal-vla.jpg' style="width:100%; height:auto; box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.3);">
+                  </td>
+                  <td style="padding:10px; width:70%; vertical-align:middle">
+                    <span class="papertitle">
+                      Goal-VLA: Image-Generative VLMs as Object-Centric World Models Empowering Zero-shot Robot Manipulation
+                    </span>
+                    <br>
+                    <i>
+                      <span class="author">Haonan Chen*</span>,
+                      <span class="strong-author">Jingxiang Guo*</span>,
+                      <span class="author">Bangjun Wang</span>,
+                      <span class="author">Tianrui Zhang</span>,
+                      <span class="author">Xuchuan Huang</span>,
+                      <span class="author">Boren Zheng</span>,
+                      <span class="author">Yiwen Hou</span>,
+                      <span class="author">Chenrui Tie</span>,
+                      <span class="author">Jiajun Deng</span>,
+                      <span class="author">Lin Shao</span>
+                    </i>
+                    <br>
+                    <a href="https://nus-lins-lab.github.io/goalvlaweb/" class="paper-link-btn">Website</a>
+                    &nbsp;/&nbsp;
+                    <span class="paper-link-btn">arXiv</span>
+                    &nbsp;/&nbsp;
+                    <span class="paper-link-btn">Code</span>
+                    <br>
+                    <span class="strong-venue">
+                      Under Review
+                    </span>
+                    <br>
+                    <div class="TLDR">
+                      <strong>TL;DR:</strong>
+                      A zero-shot framework that leverages Image-Generative VLMs as world models to generate desired goal states for generalizable manipulation, using object state representation as the interface between high-level and low-level policies.
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- AdaptPNP -->
+                <tr class="hidden-paper" style="display: none;">
+                  <td style="padding:10px; width:30%; vertical-align:middle">
+                    <img src='images/adaptpnp.png' style="width:100%; height:auto; box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.3);">
+                  </td>
+                  <td style="padding:10px; width:70%; vertical-align:middle">
+                    <span class="papertitle">
+                      AdaptPNP: Integrating Prehensile and Non-Prehensile Skills for Adaptive Robotic Manipulation
+                    </span>
+                    <br>
+                    <i>
+                      <span class="author">Jinxuan Zhu*</span>,
+                      <span class="author">Chenrui Tie*</span>,
+                      <span class="author">Xinyi Cao</span>,
+                      <span class="author">Yuran Wang</span>,
+                      <span class="strong-author">Jingxiang Guo</span>,
+                      <span class="author">Zixuan Chen</span>,
+                      <span class="author">Haonan Chen</span>,
+                      <span class="author">Junting Chen</span>,
+                      <span class="author">Yangyu Xiao</span>,
+                      <span class="author">Ruihai Wu</span>,
+                      <span class="author">Lin Shao</span>
+                    </i>
+                    <br>
+                    <a href="https://sites.google.com/view/adaptpnp/home" class="paper-link-btn">Website</a>
+                    &nbsp;/&nbsp;
+                    <span class="paper-link-btn">arXiv</span>
+                    &nbsp;/&nbsp;
+                    <span class="paper-link-btn">Code</span>
+                    <br>
+                    <span class="strong-venue">
+                      Under Review
+                    </span>
+                    <br>
+                    <div class="TLDR">
+                      <strong>TL;DR:</strong>
+                      A VLM-empowered framework that combines prehensile and non-prehensile skills using a digital twin for proactive manipulation planning.
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- SayWhen -->
+                <tr class="hidden-paper" style="display: none;">
+                  <td style="padding:10px; width:30%; vertical-align:middle">
+                    <img src='images/saywhen.png' style="width:100%; height:auto; box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.3);">
+                  </td>
+                  <td style="padding:10px; width:70%; vertical-align:middle">
+                    <span class="papertitle">
+                      SayWhen: Low-Cost Soft Robotic Wrist for Contact-Rich Manipulation
+                    </span>
+                    <br>
+                    <i>
+                      <span class="author">Jinxuan Zhu*</span>,
+                      <span class="author">Zihao Yan</span>,
+                      <span class="author">Yangyu Xiao</span>,
+                      <span class="strong-author">Jingxiang Guo</span>,
+                      <span class="author">Chenrui Tie</span>,
+                      <span class="author">Xinyi Cao</span>,
+                      <span class="author">Yuhang Zheng</span>,
+                      <span class="author">Lin Shao</span>
+                    </i>
+                    <br>
+                    <a href="https://sites.google.com/view/saywhen" class="paper-link-btn">Website</a>
+                    &nbsp;/&nbsp;
+                    <span class="paper-link-btn">arXiv</span>
+                    &nbsp;/&nbsp;
+                    <span class="paper-link-btn">Code</span>
+                    <br>
+                    <span class="strong-venue">
+                      Under Review
+                    </span>
+                    <br>
+                    <div class="TLDR">
+                      <strong>TL;DR:</strong>
+                      A low-cost, plug-and-play soft wrist that provides force-like signals for contact-rich robotic manipulation by converting external force into measurable deformations.
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- QuaMa -->
+                <tr class="hidden-paper" style="display: none;">
+                  <td style="padding:10px; width:30%; vertical-align:middle">
+                    <img src='images/quama.png' style="width:100%; height:auto; box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.3);">
+                  </td>
+                  <td style="padding:10px; width:70%; vertical-align:middle">
+                    <span class="papertitle">
+                      QuaMa: Extending Skill Learning with Delta Dynamics Modeling for Precise and Generalizable Quantitative Manipulation
+                    </span>
+                    <br>
+                    <i>
+                      <span class="author">Yiwen Hou*</span>,
+                      <span class="author">Yaoyu Cheng</span>,
+                      <span class="author">Jiayu Luo</span>,
+                      <span class="author">Zhixuan Xu</span>,
+                      <span class="author">Chongkai Gao</span>,
+                      <span class="strong-author">Jingxiang Guo</span>,
+                      <span class="author">Lin Shao</span>
+                    </i>
+                    <br>
+                    <a href="https://quantitativemanipulation.github.io/" class="paper-link-btn">Website</a>
+                    &nbsp;/&nbsp;
+                    <span class="paper-link-btn">arXiv</span>
+                    &nbsp;/&nbsp;
+                    <span class="paper-link-btn">Code</span>
+                    <br>
+                    <span class="strong-venue">
+                      Under Review
+                    </span>
+                    <br>
+                    <div class="TLDR">
+                      <strong>TL;DR:</strong>
+                      A framework that combines behavior cloning with delta dynamics modeling for precise quantitative manipulation, achieving sub-gram accuracy in pouring tasks with robust zero-shot generalization.
+                    </div>
+                  </td>
+                </tr>
+
                 <!-- InsertScale -->
-                <tr>
+                <tr class="highlight-paper">
                   <td style="padding:10px; width:30%; vertical-align:middle">
                     <img src='images/InsertScale.png' style="width:100%; height:auto; box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.3);">
                   </td>
@@ -289,7 +445,7 @@
                 </tr>
 
                 <!-- Robotwin-challenge -->
-                <tr>
+                <tr class="hidden-paper" style="display: none;">
                   <td style="padding:10px; width:30%; vertical-align:middle">
                     <img src='images/robotwin-challenge.png' style="width:100%; height:auto; box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.3);"> 
                   </td>
@@ -326,7 +482,7 @@
                 </tr>
 
                 <!-- World4Omni -->
-                <tr style="background-color: rgba(102, 192, 255, 0.15);">
+                <tr class="hidden-paper" style="display: none;">
                   <td style="padding:10px; width:30%; vertical-align:middle">
                     <img src='images/world4omni.png' style="width:100%; height:auto; box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.3);"> 
                   </td>
@@ -370,7 +526,7 @@
                 </tr>
 
                 <!-- DexSing -->
-                <tr>
+                <tr class="hidden-paper" style="display: none;">
                   <td style="padding:10px; width:30%; vertical-align:middle">
                     <img src='images/dexsing.png' style="width:100%; height:auto; box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.3);">
                   </td>
@@ -415,7 +571,7 @@
                 </tr>
 
                 <!-- Manual -->
-                <tr>
+                <tr class="hidden-paper" style="display: none;">
                   <td style="padding:10px; width:30%; vertical-align:middle">
                     <img src='images/Manual.png' style="width:100%; height:auto; box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.3);">
                   </td>
@@ -466,7 +622,7 @@
                 </tr>
 
                 <!-- TelePreview -->
-                <tr style="background-color: rgba(102, 192, 255, 0.15);">
+                <tr class="highlight-paper-light">
                   <td style="padding:10px; width:30%; vertical-align:middle">
                     <img src='images/TelePreview.gif' style="width:100%; height:auto; box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.3);">
                   </td>
@@ -517,7 +673,7 @@
                 </tr>
 
                 <!-- MetaFold -->
-                <tr>
+                <tr class="hidden-paper" style="display: none;">
                   <td style="padding:10px; width:30%; vertical-align:middle">
                     <img src='images/MetaFold.png' style="width:100%; height:auto; box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.3);">
                   </td>
@@ -566,7 +722,7 @@
                 </tr>
 
                 <!-- D(R,O) Grasp -->
-                <tr style="background-color: rgba(102, 192, 255, 0.15);">
+                <tr class="highlight-paper-light">
                   <td style="padding:10px; width:30%; vertical-align:middle">
                     <img src='images/drograsp.png' style="width:100%; height:auto; box-shadow: 0 3px 12px 0 #77BBDD;">
                   </td>
@@ -718,7 +874,7 @@
                 </tr>
 
                 <!-- MASQ -->
-                <tr>
+                <tr class="hidden-paper" style="display: none;">
                   <td style="padding:10px; width:30%; vertical-align:middle">
                     <img src='images/MASQ.jpg' style="width:100%; height:auto; box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.3);">
                   </td>
@@ -760,7 +916,7 @@
                 </tr>
 
                 <!-- MARLCC -->
-                <tr>
+                <tr class="hidden-paper" style="display: none;">
                   <td style="padding:10px; width:30%; vertical-align:middle">
                     <img src='images/MARLCC.jpg' style="width:100%; height:auto; box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.3);">
                   </td>
@@ -799,7 +955,7 @@
                 </tr>
 
                 <!-- logfunction -->
-                <tr>
+                <tr class="hidden-paper" style="display: none;">
                   <td style="padding:10px; width:30%; vertical-align:middle">
                     <img src='images/logfunction.jpg' style="width:100%; height:auto; box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.3);">
                   </td>
@@ -842,7 +998,7 @@
                 </tr>
 
                 <!-- LGBM -->
-                <tr>
+                <tr class="hidden-paper" style="display: none;">
                   <td style="padding:10px; width:30%; vertical-align:middle">
                     <img src='images/LGBM.jpg' style="width:100%; height:auto; box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.3);">
                   </td>
@@ -879,7 +1035,7 @@
                 </tr>
 
                 <!-- ECAPA -->
-                <tr>
+                <tr class="hidden-paper" style="display: none;">
                   <td style="padding:10px; width:30%; vertical-align:middle">
                     <img src='images/ECAPA.jpg' style="width:100%; height:auto; box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.3);">
                   </td>
@@ -916,7 +1072,7 @@
                 </tr>
 
                 <!-- quickreverse -->
-                <tr>
+                <tr class="hidden-paper" style="display: none;">
                   <td style="padding:10px; width:30%; vertical-align:middle">
                     <img src='images/quickreverse.png' style="width:100%; height:auto; box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.3);">
                   </td>
@@ -954,7 +1110,58 @@
                     </div>
                   </td>
                 </tr>
-              
+              </tbody>
+            </table>
+
+            <!-- Papers Expand Button -->
+            <table style="width:100%; border:0px; border-spacing:0px; border-collapse:separate; margin-left:auto; margin-right:auto;">
+              <tbody>
+                <tr>
+                  <td style="padding-top: 0px; padding-bottom: 0px; padding-left: 20px; padding-right: 20px; width:100%; vertical-align:middle">
+                    <div style="text-align: center; margin-top: 10px;">
+                      <button id="togglePapers" onclick="togglePapers()" style="background-color: #cccccc; color: #666666; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 14px; position: relative;">
+                        <span id="togglePapersText">Show All Publications</span>
+                        <span id="togglePapersIcon" style="display: inline-block; margin-left: 5px; transition: transform 0.3s;">▼</span>
+                      </button>
+                    </div>
+                    <script>
+                      function togglePapers() {
+                        const hiddenPapers = document.querySelectorAll('.hidden-paper');
+                        const highlightPapers = document.querySelectorAll('.highlight-paper');
+                        const highlightPapersLight = document.querySelectorAll('.highlight-paper-light');
+                        const toggleButton = document.getElementById('togglePapers');
+                        const toggleText = document.getElementById('togglePapersText');
+                        const toggleIcon = document.getElementById('togglePapersIcon');
+                        const titleElement = document.querySelector('#publications-title');
+                        const highlightNote = document.querySelector('#highlight-note');
+                        const isHidden = hiddenPapers[0].style.display === 'none';
+                        
+                        hiddenPapers.forEach(paper => {
+                          paper.style.display = isHidden ? 'table-row' : 'none';
+                        });
+                        
+                        // 控制高亮背景色
+                        highlightPapers.forEach(paper => {
+                          paper.style.backgroundColor = isHidden ? 'rgba(102, 192, 255, 0.2)' : '';
+                        });
+                        
+                        highlightPapersLight.forEach(paper => {
+                          paper.style.backgroundColor = isHidden ? 'rgba(102, 192, 255, 0.15)' : '';
+                        });
+                        
+                        // 控制高亮说明的显示
+                        highlightNote.style.display = isHidden ? 'inline' : 'none';
+                        
+                        toggleText.textContent = isHidden ? 'Show Selected Publications' : 'Show All Publications';
+                        toggleIcon.textContent = isHidden ? '▲' : '▼';
+                        titleElement.textContent = isHidden ? 'Publications' : 'Selected Publications';
+                      }
+                    </script>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
                     <!-- Award -->
                     <table style="width:100%; border:0px; border-spacing:0px; border-collapse:separate; margin-top: 20px; margin-left:auto; margin-right:auto;">
                       <tbody>
