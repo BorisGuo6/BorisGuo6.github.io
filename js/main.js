@@ -102,7 +102,7 @@ function togglePapers() {
     paper.style.display = isHidden ? 'table-row' : 'none';
   });
   
-  // 控制高亮背景色
+  // Control highlight background color
   highlightPapers.forEach(paper => {
     paper.style.backgroundColor = isHidden ? 'rgba(102, 192, 255, 0.2)' : '';
   });
@@ -111,7 +111,7 @@ function togglePapers() {
     paper.style.backgroundColor = isHidden ? 'rgba(102, 192, 255, 0.15)' : '';
   });
   
-  // 控制高亮说明的显示
+  // Control highlight note
   highlightNote.style.display = isHidden ? 'inline' : 'none';
   
   toggleText.textContent = isHidden ? 'Show Selected Publications' : 'Show All Publications';
