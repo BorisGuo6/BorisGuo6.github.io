@@ -1,4 +1,4 @@
-/* ===== 字体定义 ===== */
+/* ===== Font Definitions ===== */
 @font-face {
   font-family: 'Alegreya';
   font-style: normal;
@@ -13,7 +13,7 @@
   src: url(https://fonts.gstatic.com/s/alegreyasc/v26/taiOGmRtCJ62-O0HhNEa-Z6p2BQK9b7.woff2) format('woff2');
 }
 
-/* ===== 基础样式 ===== */
+/* ===== Base Styles ===== */
 html {
   background-color: #ffffff;
   font-size: 100%;
@@ -26,13 +26,13 @@ body {
   color: #222;
 }
 
-/* 基础文本样式 */
+/* Base text styles */
 tr, td, th, p, a, li {
   font-family: 'Alegreya', serif;
   font-size: 16px;
 }
 
-/* 链接样式 */
+/* Link styles */
 a {
   color: #004b91;
   text-decoration: none;
@@ -44,7 +44,7 @@ a:focus, a:hover {
   text-decoration: none;
 }
 
-/* ===== 标题样式 ===== */
+/* ===== Heading Styles ===== */
 h2 {
   margin: 0;
   font-weight: 700;
@@ -65,8 +65,8 @@ h3 {
   padding-bottom: 6px;
 }
 
-/* ===== 组件样式 ===== */
-/* 作者样式 */
+/* ===== Component Styles ===== */
+/* Author styles */
 .author {
   font-family: 'Alegreya', serif;
   font-size: 14px;
@@ -78,14 +78,14 @@ h3 {
   font-weight: bold;
 }
 
-/* 论文标题样式 */
+/* Paper title styles */
 .papertitle {
   font-family: 'Alegreya', serif;
   font-size: 18px;
   font-weight: 700;
 }
 
-/* 奖项和会议样式 */
+/* Award and venue styles */
 .award-venue {
   color: #ffa03c;
   font-weight: bold;
@@ -115,7 +115,7 @@ h3 {
   color: #663399;
 }
 
-/* TL;DR 样式 */
+/* TL;DR styles */
 .TLDR {
   color: #9f9f9f;
   padding-top: 5px;
@@ -125,7 +125,7 @@ h3 {
   font-weight: bold;
 }
 
-/* 列表样式 */
+/* List styles */
 .news-list, .award-list {
   list-style-type: disc;
   font-size: 14px;
@@ -140,7 +140,7 @@ h3 {
   float: right;
 }
 
-/* 网页名称样式 */
+/* Website name styles */
 .webname {
   padding-top: 20px;
   margin: 0;
@@ -150,7 +150,7 @@ h3 {
   color: #333;
 }
 
-/* ===== 模态框样式 ===== */
+/* ===== Modal Styles ===== */
 .modal {
   display: none;
   position: fixed;
@@ -187,13 +187,13 @@ h3 {
   cursor: pointer;
 }
 
-/* ===== 特殊效果 ===== */
-/* 阴影效果 */
+/* ===== Special Effects ===== */
+/* Shadow effects */
 .drop-shadow {
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.1), 0 4px 15px 0 rgba(0, 0, 0, 0.3);
 }
 
-/* 高亮标记 */
+/* Highlight mark */
 mark {
   background-color: rgba(102, 192, 255, 0.2);
   padding: 0.1em 0.3em;
@@ -207,12 +207,12 @@ mark {
   float: right;
 }
 
-/* 中文文本样式 */
+/* Chinese text styles */
 .chinese-text {
   font-family: 'LXGW WenKai Screen', serif;
 }
 
-/* Font Awesome 图标样式 */
+/* Font Awesome icon styles */
 .fa {
   font-size: 1.3rem;
   margin-right: 10px;
@@ -224,7 +224,7 @@ mark {
   color: #77BBDD;
 }
 
-/* ===== 链接按钮样式 ===== */
+/* ===== Link Button Styles ===== */
 .btn-sm.badge-button {
   display: inline-block;
   padding: 2px 6px;
@@ -243,14 +243,14 @@ mark {
   color: #003366;
 }
 
-/* ===== 高亮标记 ===== */
+/* ===== Highlight Mark ===== */
 mark {
   background-color: rgba(102, 192, 255, 0.2);
   padding: 0.1em 0.3em;
   border-radius: 4px;
 }
 
-/* 日期样式 */
+/* Date styles */
 .dates {
   font-size: 16px;
   color: gray;
@@ -630,8 +630,8 @@ a:active {
 }
 
 .award-venue i {
-  color: #ffa03c !important; /* 橙色奖杯 */
+  color: #ffa03c !important; /* Orange trophy */
 }
 .strong-venue i {
-  color: #77BBDD !important; /* 蓝色星星 */
+  color: #77BBDD !important; /* Blue star */
 }

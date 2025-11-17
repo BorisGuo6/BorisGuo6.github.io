@@ -142,8 +142,14 @@ function toggleAwards() {
 // ============================================================================
 window.onload = function() {
   // Hide modals on page load
-  document.getElementById("WeChatModal").style.display = "none";
-  document.getElementById("AwardModal").style.display = "none";
+  var wechatModal = document.getElementById("WeChatModal");
+  var awardModal = document.getElementById("AwardModal");
+  if (wechatModal) {
+    wechatModal.style.display = "none";
+  }
+  if (awardModal) {
+    awardModal.style.display = "none";
+  }
 };
 
 window.onclick = function(event) {
