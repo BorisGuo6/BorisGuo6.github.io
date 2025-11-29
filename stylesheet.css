@@ -56,6 +56,16 @@ h2 {
   text-decoration-thickness: 3px;
 }
 
+h2 a {
+  color: #333 !important;
+  text-decoration: none;
+}
+
+h2 a:hover {
+  color: #333 !important;
+  opacity: 0.7;
+}
+
 h3 {
   margin: 0;
   font-size: 18px;
@@ -222,6 +232,19 @@ mark {
 
 .fa:hover {
   color: #77BBDD;
+}
+
+/* Coffee Talk button styles */
+button.coffee-talk-btn {
+  background-color: rgba(119, 187, 221, 0.2) !important;
+  color: #77BBDD !important;
+  border: 1px solid rgba(119, 187, 221, 0.4) !important;
+}
+
+button.coffee-talk-btn:hover {
+  background-color: rgba(119, 187, 221, 0.3) !important;
+  border-color: rgba(119, 187, 221, 0.6) !important;
+  color: #77BBDD !important;
 }
 
 /* ===== Link Button Styles ===== */
