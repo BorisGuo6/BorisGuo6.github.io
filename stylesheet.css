@@ -247,6 +247,45 @@ button.coffee-talk-btn:hover {
   color: #77BBDD !important;
 }
 
+/* Details/Summary styles for collapsible sections */
+details {
+  margin-top: 20px;
+}
+
+details summary {
+  cursor: pointer;
+  padding: 10px 20px;
+  font-size: 24px;
+  font-weight: 700;
+  font-family: 'Alegreya SC', serif;
+  color: #333;
+  text-decoration: underline;
+  text-decoration-color: #77BBDD;
+  text-decoration-thickness: 3px;
+  list-style: none;
+  user-select: none;
+}
+
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+details summary::before {
+  content: '▶ ';
+  display: inline-block;
+  margin-right: 8px;
+  transition: transform 0.3s ease;
+  color: #77BBDD;
+}
+
+details[open] summary::before {
+  transform: rotate(90deg);
+}
+
+details summary:hover {
+  opacity: 0.8;
+}
+
 /* ===== Link Button Styles ===== */
 .btn-sm.badge-button {
   display: inline-block;

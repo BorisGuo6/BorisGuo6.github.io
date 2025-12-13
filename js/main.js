@@ -150,6 +150,14 @@ window.onload = function() {
   if (awardModal) {
     awardModal.style.display = "none";
   }
+  
+  // Update last update date
+  var lastUpdateElement = document.getElementById("lastUpdateDate");
+  if (lastUpdateElement) {
+    var lastModified = new Date(document.lastModified);
+    var options = { year: 'numeric', month: 'long', day: 'numeric' };
+    lastUpdateElement.textContent = lastModified.toLocaleDateString('en-US', options);
+  }
 };
 
 window.onclick = function(event) {
