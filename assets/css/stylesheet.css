@@ -1,0 +1,708 @@
+/* ===== Font Definitions ===== */
+@font-face {
+  font-family: 'Alegreya';
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://fonts.gstatic.com/s/alegreya/v35/4UaBrEBBsBhlBjvfkSLhx6g.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: 'Alegreya SC';
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://fonts.gstatic.com/s/alegreyasc/v26/taiOGmRtCJ62-O0HhNEa-Z6p2BQK9b7.woff2) format('woff2');
+}
+
+/* ===== Base Styles ===== */
+html {
+  background-color: #ffffff;
+  font-size: 100%;
+}
+
+body {
+  font-family: 'Alegreya', serif !important;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #222;
+}
+
+/* Base text styles */
+tr, td, th, p, a, li {
+  font-family: 'Alegreya', serif;
+  font-size: 16px;
+}
+
+/* Link styles */
+a {
+  color: #004b91;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:focus, a:hover {
+  color: #77BBDD;
+  text-decoration: none;
+}
+
+/* ===== Heading Styles ===== */
+h2 {
+  margin: 0;
+  font-weight: 700;
+  font-family: 'Alegreya SC', serif;
+  font-size: 24px;
+  color: #333;
+  text-decoration: underline;
+  text-decoration-color: #77BBDD;
+  text-decoration-thickness: 3px;
+}
+
+h2 a {
+  color: #333 !important;
+  text-decoration: none;
+}
+
+h2 a:hover {
+  color: #333 !important;
+  opacity: 0.7;
+}
+
+h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  font-family: 'Alegreya SC', serif;
+  color: #333;
+  padding-bottom: 6px;
+}
+
+/* ===== Component Styles ===== */
+/* Author styles */
+.author {
+  font-family: 'Alegreya', serif;
+  font-size: 14px;
+}
+
+.strong-author {
+  font-family: 'Alegreya', serif;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* Paper title styles */
+.papertitle {
+  font-family: 'Alegreya', serif;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* Award and venue styles */
+.award-venue {
+  color: #ffa03c;
+  font-weight: bold;
+}
+
+.strong-venue {
+  color: #77BBDD;
+  font-weight: bold;
+}
+
+.venue {
+  font-weight: bold;
+}
+
+.accepted-venue {
+  background-color: #eacef1;
+  color: #673797;
+  padding: 2px 6px;
+  border-radius: 15px;
+  font-size: 16px;
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.accepted-venue-detail {
+  font-weight: bold;
+  color: #663399;
+}
+
+/* TL;DR styles */
+.TLDR {
+  color: #9f9f9f;
+  padding-top: 5px;
+}
+
+.TLDR strong {
+  font-weight: bold;
+}
+
+/* List styles */
+.news-list, .award-list {
+  list-style-type: disc;
+  font-size: 14px;
+}
+
+.award-list li {
+  margin-bottom: 3px;
+  font-size: 14px;
+}
+
+.award-list .year {
+  float: right;
+}
+
+/* Website name styles */
+.webname {
+  padding-top: 20px;
+  margin: 0;
+  font-family: 'Alegreya SC', serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: #333;
+}
+
+/* ===== Modal Styles ===== */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 20000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  margin: 10% auto;
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  border: 5px solid #77BBDD;
+  width: 32%;
+  max-width: 400px;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover, .close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* ===== Special Effects ===== */
+/* Shadow effects */
+.drop-shadow {
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.1), 0 4px 15px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* Highlight mark */
+mark {
+  background-color: rgba(102, 192, 255, 0.2);
+  padding: 0.1em 0.3em;
+  border-radius: 4px;
+}
+
+/* 日期样式 */
+.dates {
+  font-size: 16px;
+  color: gray;
+  float: right;
+}
+
+/* Chinese text styles */
+.chinese-text {
+  font-family: 'LXGW WenKai Screen', serif;
+}
+
+/* Font Awesome icon styles */
+.fa {
+  font-size: 1.3rem;
+  margin-right: 10px;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.fa:hover {
+  color: #77BBDD;
+}
+
+/* Coffee Talk button styles */
+button.coffee-talk-btn {
+  background-color: rgba(119, 187, 221, 0.2) !important;
+  color: #77BBDD !important;
+  border: 1px solid rgba(119, 187, 221, 0.4) !important;
+}
+
+button.coffee-talk-btn:hover {
+  background-color: rgba(119, 187, 221, 0.3) !important;
+  border-color: rgba(119, 187, 221, 0.6) !important;
+  color: #77BBDD !important;
+}
+
+/* Details/Summary styles for collapsible sections */
+details {
+  margin-top: 20px;
+}
+
+details summary {
+  cursor: pointer;
+  padding: 10px 20px;
+  font-size: 24px;
+  font-weight: 700;
+  font-family: 'Alegreya SC', serif;
+  color: #333;
+  text-decoration: underline;
+  text-decoration-color: #77BBDD;
+  text-decoration-thickness: 3px;
+  list-style: none;
+  user-select: none;
+}
+
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+details summary::before {
+  content: '▶ ';
+  display: inline-block;
+  margin-right: 8px;
+  transition: transform 0.3s ease;
+  color: #77BBDD;
+}
+
+details[open] summary::before {
+  transform: rotate(90deg);
+}
+
+details summary:hover {
+  opacity: 0.8;
+}
+
+/* ===== Link Button Styles ===== */
+.btn-sm.badge-button {
+  display: inline-block;
+  padding: 2px 6px;
+  font-size: 0.875rem;
+  color: #004b91;
+  border: none;
+  border-radius: 0.15rem;
+  text-decoration: none;
+  margin-right: 3px;
+  margin-bottom: 3px;
+  transition: all 0.3s ease;
+}
+
+.btn-sm.badge-button:hover {
+  background-color: #f0f7ff;
+  color: #003366;
+}
+
+/* ===== Highlight Mark ===== */
+mark {
+  background-color: rgba(102, 192, 255, 0.2);
+  padding: 0.1em 0.3em;
+  border-radius: 4px;
+}
+
+/* Date styles */
+.dates {
+  font-size: 16px;
+  color: gray;
+  float: right;
+}
+
+html {
+  background-color: #ffffff;
+  font-size: 100%;
+}
+
+body {
+  /*font-family: 'Lato', sans-serif !important;*/
+  font-family: 'Alegreya', serif !important;
+}
+.chinese-text  {
+  font-family: 'LXGW WenKai Screen', serif;
+}
+/* Link colors */
+a:link {
+    color: #006EE7;
+}
+a:visited {
+    color: #006EE7;
+}
+a:hover {
+    color: #006EE7;
+}
+a:active {
+    color: #006EE7;
+}
+
+.footer-text {
+  font-size: 0.8rem;
+  font-weight: lighter;
+  text-align: right;
+  color: #555;
+}
+
+.about-headshot {
+  max-width: 65%;
+}
+
+.about-headshot-mobile {
+  max-width: 50%;
+}
+
+.title-name {
+  font-family: 'Alegreya SC', serif;
+  font-size: 2.1em;
+  line-height: 90%;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+.title-email {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+.title-small{
+  font-size: 1.1rem;
+}
+
+
+.link-button {
+  font-family: 'Alegreya', serif;
+  font-size: 1.2rem;
+  color: #006EE7;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  transition: color 0.3s ease;
+}
+
+.link-button:hover {
+  color: #FF9547;
+  text-decoration: none;
+}
+
+.link-button-small {
+  font-family: 'Alegreya', serif;
+  font-size: 1rem;
+  color: #006EE7;
+  text-decoration: none;
+  padding: 0.3rem 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.link-button-small:hover {
+  color: #FF9547;
+  text-decoration: none;
+}
+
+.drop-shadow {
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.1), 0 4px 15px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* Style font awesome */
+.fa {
+  padding-left: 5px;
+  padding-right: 5px;
+  font-size: 30px;
+  text-align: center;
+  text-decoration: none;
+}
+.fa:hover {
+  opacity: 0.7;
+  text-decoration: none;
+}
+
+
+/* Expand/collapsible news entries */
+
+.news-title {
+  font-family: 'Alegreya', serif;
+  font-size: 1.3rem;
+  font-weight: 200;
+  margin-bottom: 1rem;
+}
+
+.expandable-list ul {
+  list-style-type:none;
+  margin-left: 1em;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+.expandable-list .extra-item {
+  display: none;
+}
+
+.news-date {
+  /* color: #E03838; */
+  display: inline-block;
+  font-weight: 500;
+  width: 4em;
+  font-family: 'Alegreya', serif;
+}
+
+.news-entry {
+  font-size: 0.9rem;
+}
+
+.news-expand-button {
+  cursor: pointer;
+  text-align: center;
+  margin-left: 1em;
+  color: #006EE7;
+}
+
+
+/* Content summaries */
+
+.content-header {
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #77BBDD;
+  text-align: right;
+}
+
+.content-header col {
+  padding-right: 0px;
+}
+
+.content-header p {
+  font-weight: bold;
+  font-size: 1.8rem;
+  margin-bottom: 0;
+  margin-right: 0;
+}
+
+.content-header-linebreak {
+  height: 30px;
+  margin-bottom: 15px;
+  margin-top: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.summary-title {
+  font-family: 'Alegreya', serif;
+  font-size: 1.3rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+.summary-authors{
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.summary-publication-status {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  color: #006EE7;
+  font-style: italic;
+}
+
+.summary-publication-status-highlight {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  color: #49bf9d;
+  font-family: 'Lora', serif;
+  font-style: italic;
+}
+.summary-publication-status-highlight::before {
+  content: '★ ';
+}
+.summary-publication-status-highlight::after {
+  content: ' ★';
+}
+
+.summary-publication-status-award {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  color: #ffaf03;
+  font-family: 'Lora', serif;
+  font-style: italic;
+}
+.summary-publication-status-award::before {
+  content: "\f091"; /* Unicode for Font Awesome trophy icon */
+  font-family: 'Lora', 'Font Awesome 6 Free', serif;
+  font-weight: 900; /* Font Awesome solid style */
+  margin-right: 4px;
+  font-style: normal;
+}
+.summary-publication-status-award::after {
+  content: "\f091";
+  font-family: 'Lora', 'Font Awesome 6 Free', serif;
+  font-weight: 900;
+  margin-left: 4px;
+  font-style: normal;
+}
+
+.summary-extras {
+  padding-left: 5px;
+  padding-right: 5px;
+  font-weight: bolder;
+  background: #E0383833;
+}
+.summary-extras:hover {
+  text-decoration: none;
+}
+
+.summary-extras-btn {
+  padding-left: 10px;
+  padding-right: 10px;
+  font-weight: bolder;
+  color: #000;
+  background: #FFDC55;
+}
+.summary-extras-btn:visited{
+  color: #000;
+  background: #FFDC55;
+}
+
+.summary-text {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 1rem;
+}
+.summary-text::before {
+  content: '\f002 TL;DR: ';
+  font-family: 'Lora','Font Awesome 6 Free', serif;
+  font-weight: 600;
+}
+.summary-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.badge-button {
+  font-size: 0.9rem;
+  background: hsla(217, 100%, 84%, 0.2);
+  color: #006EE7;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+.badge-button:hover {
+  background: hsla(217, 100%, 84%, 0.3);
+  text-decoration: none;
+  color: #006EE7;
+}
+
+.big-badge-button {
+  font-size: 1.0rem;
+  background: hsla(217, 100%, 84%, 0.2) 4%;
+}
+.big-badge-button:hover {
+  text-decoration: none;
+}
+
+.full-title {
+  font-family: 'Alegreya', serif;
+  font-size: 3em;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  text-align: center;
+}
+
+.authors-list {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-size: 1.2em;
+  text-align: center;
+}
+
+.plain-link {
+  color: #000000 !important;
+  text-decoration: underline !important;
+}
+
+.publication-status {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-size: 1.2em;
+  text-align: center;
+  color: #006EE7;
+}
+
+.extras {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-size: 1.2em;
+  text-align: center;
+  color: #006EE7;
+  font-weight: bolder;
+}
+.hover {
+  text-decoration: none;
+}
+
+.big-teaser-image {
+  padding: 5px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+	max-height: 400px;
+	max-width: auto;
+}
+
+.abstract {
+  text-align: left;
+  padding: 10px;
+}
+
+
+.selected-figure {
+  text-align: center;
+  max-height: 300px; 
+  max-width: 100%;
+  padding: 5px;
+}
+.selected-figure-caption {
+  max-width: 600px;
+}
+
+/* Paper list link buttons */
+/* Click-to-enlarge figures (profile, paper thumbnails, org cards) */
+.hoverZoomLink {
+  cursor: pointer;
+  transition: filter 0.2s ease, transform 0.2s ease;
+}
+.hoverZoomLink:hover {
+  filter: brightness(1.06);
+}
+
+.paper-link-btn {
+  display: inline-block;
+  padding: 1px 4px;
+  font-size: 0.8rem;
+  color: #004b91;
+  border: none;
+  border-radius: 0.1rem;
+  text-decoration: none;
+  margin-right: 2px;
+  margin-bottom: 2px;
+  transition: all 0.3s ease;
+}
+
+.paper-link-btn:hover {
+  background-color: #f0f7ff;
+  color: #003366;
+}
+
+.award-venue i {
+  color: #ffa03c !important; /* Orange trophy */
+}
+.strong-venue i {
+  color: #77BBDD !important; /* Blue star */
+}
