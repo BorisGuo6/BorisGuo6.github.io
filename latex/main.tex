@@ -1,0 +1,357 @@
+%-------------------------
+% Resume in LaTeX
+% Author: Jake Gutierrez
+% Based on: https://github.com/sb2nov/resume
+% License: MIT
+%------------------------
+
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\usepackage{fontawesome5}
+\usepackage{multicol}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\setlength{\multicolsep}{-3.0pt}
+\setlength{\footskip}{5pt}
+\setlength{\columnsep}{-1pt}
+\input{glyphtounicode}
+
+\hypersetup{
+    colorlinks=false,
+    hidelinks
+}
+
+%----------FONT OPTIONS----------
+% sans-serif
+% \usepackage[sfdefault]{FiraSans}
+% \usepackage[sfdefault]{roboto}
+\usepackage[sfdefault]{libertine}
+% \usepackage[default]{sourcesanspro}
+
+% serif
+% \usepackage{CormorantGaramond}
+% \usepackage{charter}
+
+
+\pagestyle{fancy}
+\fancyhf{} % clear all header and footer fields
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Adjust margins
+\addtolength{\oddsidemargin}{-0.6in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1.19in}
+\addtolength{\topmargin}{-.7in}
+\addtolength{\textheight}{1.4in}
+
+\urlstyle{same}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Sections formatting
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large\bfseries
+}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+
+% Ensure that the generated PDF is machine-readable/ATS parsable
+\pdfgentounicode=1
+
+%-------------------------
+% Custom commands
+\newcommand{\resumeItem}[1]{
+  \item\small{
+    {#1 \vspace{-3pt}}
+  }
+}
+
+\newcommand{\classesList}[4]{
+    \item\small{
+        {#1 #2 #3 #4 \vspace{-2pt}}
+  }
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{1.0\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & \textbf{\small #2} \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-9pt}
+}
+
+\newcommand{\resumeSubSubheading}[2]{
+    \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \textit{\small#1} & \textit{\small #2} \\
+    \end{tabular*}\vspace{-9pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+    \item
+    \begin{tabular*}{1.001\textwidth}{l@{\extracolsep{\fill}}r}
+      \small#1 & \textbf{\small #2}\\
+    \end{tabular*}\vspace{-9pt}
+}
+
+\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-4pt}}
+
+\renewcommand\labelitemi{$\vcenter{\hbox{\tiny$\bullet$}}$}
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.0in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-7pt}}
+
+%-------------------------------------------
+%%%%%%  RESUME STARTS HERE  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+
+%----------HEADING----------
+\begin{center}
+    {\Huge \scshape Guo Jingxiang} \\
+    \small
+    \raisebox{-0.1\height}\faPhone\ (+65) 81919157 \quad
+    \href{mailto:jingxiangguo@u.nus.edu}{\raisebox{-0.2\height}\faEnvelope\ \underline{jingxiangguo@u.nus.edu}} \quad
+    \href{https://linkedin.com/in/borisguo}{\raisebox{-0.2\height}\faLinkedin\ \underline{linkedin.com/in/borisguo}} \quad
+    \href{https://github.com/BorisGuo6}{\raisebox{-0.2\height}\faGithub\ \underline{github.com/BorisGuo6}} \quad
+    \href{https://jingxiangguo.com}{\raisebox{-0.2\height}\faGlobe\ \underline{jingxiangguo.com}}
+\end{center}
+
+
+%-----------EDUCATION-----------
+\section{Education}
+  \resumeSubHeadingListStart
+
+    % Incoming
+    \resumeSubheading
+      {National University of Singapore}{Aug. 2026 -- Present}
+      {Doctor of Philosophy (PhD)}{Singapore}
+    \resumeItemListStart
+      \resumeItem{Advisor: Prof. Yan Shuicheng; Co-advisor: Prof. Jianshu Zhou}
+    \resumeItemListEnd
+
+    \resumeSubheading
+      {Max Planck Institute for Informatics}{May. 2026 -- Aug. 2026}
+      {Visiting Student}{Saarbrücken, Germany}
+
+    \resumeSubheading
+      {National University of Singapore}{Aug. 2025 -- Jul. 2026}
+      {Master of Computing in Artificial Intelligence}{Singapore}
+
+    \resumeSubheading
+      {Shanghai Jiao Tong University}{May. 2025 -- Aug. 2025}
+      {Visiting Student}{Shanghai, China}
+
+    \resumeSubheading
+      {Harbin Institute of Technology, Shenzhen}{Sep. 2021 -- Jul. 2025}
+      {Bachelor of Engineering in Automation}{Shenzhen, China}
+
+    \resumeSubheading
+      {National University of Singapore}{Jul. 2024 -- May. 2025}
+      {NGNE Program Exchange Student}{Singapore}
+
+  \resumeSubHeadingListEnd
+
+%-----------RESEARCH EXPERIENCE-----------
+\section{Research Experience}
+  \resumeSubHeadingListStart
+
+    % Incoming
+    \resumeSubheading
+      {Language and Vision Lab (LV-Lab), NUS}{Aug. 2026 -- Present}
+      {PhD Student}{Singapore}
+
+    \resumeSubheading
+      {Human Computer Interaction Lab, MPI}{May. 2026 -- Aug. 2026}
+      {Visiting Student Researcher}{Saarbrücken, Germany}
+
+    \resumeSubheading
+      {CLeAR lab, NUS}{Aug. 2025 -- May. 2026}
+      {Research Intern}{Singapore}
+    \resumeItemListStart
+      \resumeItem{Developing a tactile foundation model for heterogeneous sensors.}
+    \resumeItemListEnd
+
+    \resumeSubheading
+      {ScaleLab, SJTU}{May. 2025 -- Aug. 2025}
+      {Research Intern}{Shanghai, China}
+    \resumeItemListStart
+      \resumeItem{Developed a vision–tactile data collection pipeline to support a benchmark towards foundation visuo-tactile policy learning.}
+    \resumeItemListEnd
+
+    \resumeSubheading
+      {LinS Lab, NUS}{Jul. 2024 -- May. 2025}
+      {Research Assistant}{Singapore}
+    \resumeItemListStart
+      \resumeItem{Developed a user-friendly teleoperation data collection system, a cross-embodiment dexterous grasping method, and a world model-driven Vision-Language-Object-Action model.}
+    \resumeItemListEnd
+
+    \resumeSubheading
+      {RLGroup Lab, HITsz}{Oct. 2022 -- Jun. 2024}
+      {Research Assistant}{Shenzhen, China}
+    \resumeItemListStart
+      \resumeItem{Investigated Adaptive Logarithmic Basis Policy Gradient algorithms and proposed a Multi-agent Reinforcement Learning method to improve locomotion learning for a single quadruped robot.}
+    \resumeItemListEnd
+
+  \resumeSubHeadingListEnd
+
+%-----------EMPLOYMENT EXPERIENCE-----------
+\section{Employment Experience}
+  \resumeSubHeadingListStart
+
+    \resumeSubheading
+      {Tencent}{Dec. 2025 -- Apr. 2026}
+      {Data Scientist Intern}{Singapore}
+    \resumeItemListStart
+      \resumeItem{Built a player base agent for a game-world simulation, using a three-stage pipeline (domain vocabulary expansion, action-history SFT for action prediction, and GRPO on full logs) to support live-ops outcome forecasting and player churn analysis.}
+    \resumeItemListEnd
+
+    \resumeSubheading
+      {Autolife Robotics}{Aug. 2025 -- Nov. 2025}
+      {Robot Software System Intern}{Singapore}
+    \resumeItemListStart
+      \resumeItem{Working on wheel-based humanoid software system development and implementation.}
+    \resumeItemListEnd
+
+    \resumeSubheading
+      {Horizon Robotics}{Jun. 2025 -- Aug. 2025}
+      {Cloud Platform Intern}{Shanghai, China}
+    \resumeItemListStart
+      \resumeItem{Participated in conducting a workshop on benchmarking generalizable bimanual manipulation using the RoboTwin platform.}
+    \resumeItemListEnd
+
+  \resumeSubHeadingListEnd
+
+%-----------PUBLICATIONS-----------
+\section{Publications}
+\begin{enumerate}
+
+  \item Haonan Chen*, \textbf{Jingxiang Guo*}, Bangjun Wang, Tianrui Zhang, Xuchuan Huang, Boren Zheng, Yiwen Hou, Chenrui Tie, Jiajun Deng, Lin Shao, ``\textbf{Goal-VLA: Image-Generative VLMs as Object-Centric World Models Empowering Zero-shot Robot Manipulation}''. Accepted to ICRA 2026.
+
+  \item \textbf{Jingxiang Guo*}, Jiayu Luo*, Zhenyu Wei*, Yiwen Hou, Zhixuan Xu, Xiaoyi Lin, Chongkai Gao, Lin Shao, ``\textbf{TelePreview: A User-Friendly Teleoperation System with Virtual Arm Assistance for Enhanced Effectiveness}''. Accepted to ICRA 2025 @ Human-Centric Multilateral Teleoperation, \textcolor{red}{\textbf{Best Paper Award}}.
+
+  \item Zhenyu Wei*, Zhixuan Xu*, \textbf{Jingxiang Guo}, Yiwen Hou, Chongkai Gao, Zhehao Cai, Jiayu Luo, Lin Shao, ``$\boldsymbol{\mathcal{D(R,O)}}$ \textbf{Grasp: A Unified Representation of Robot and Object Interaction for Cross-Embodiment Dexterous Grasping}''. Accepted to ICRA 2025 (\textcolor{red}{\textbf{Best Paper Award}} \textbf{on Robot Manipulation and Locomotion}); CoRL 2024 @ MAPoDeL, \textcolor{red}{\textbf{Best Robotics Paper Award}} \& \textbf{Oral Presentation}; CoRL 2024 @ LFDM, \textbf{Spotlight Presentation}.
+
+  \item Chenrui Tie, Shengxiang Sun, Jinxuan Zhu, Yiwei Liu, \textbf{Jingxiang Guo}, Yue Hu, Haonan Chen, Junting Chen, Ruihai Wu, Lin Shao, ``\textbf{Manual2Skill: Learning to Read Manuals and Acquire Robotic Skills for Furniture Assembly Using Vision-Language Models}''. Accepted to RSS 2025; CVPR 2025 @ 3D Vision Language Models, \textbf{Oral Presentation}.
+
+  \item Jinxuan Zhu*, Chenrui Tie*, Xinyi Cao*, Yuran Wang, \textbf{Jingxiang Guo}, Zixuan Chen, Haonan Chen, Junting Chen, Yangyu Xiao, Ruihai Wu, Lin Shao, ``\textbf{AdaptPNP: Integrating Prehensile and Non-Prehensile Skills for Adaptive Robotic Manipulation}''. Accepted to ICRA 2026.
+
+  \item Jinxuan Zhu*, Zihao Yan*, Yangyu Xiao, \textbf{Jingxiang Guo}, Chenrui Tie, Xinyi Cao, Yuhang Zheng, Lin Shao, ``\textbf{ShapeForce: Low-Cost Soft Robotic Wrist for Contact-Rich Manipulation}''. Accepted to ICRA 2026; IROS 2025 @ Contact and Impact-aware Manipulation, \textcolor{red}{\textbf{Best Demo Award Finalist}}.
+
+  \item Haonan Chen, Junxiao Li, Chongkai Gao, Zhixuan Xu, Chenting Wang, Yiwen Hou, \textbf{Jingxiang Guo}, Shensi Xu, Jiaqi Huang, Weidong Wang, Lin Shao, ``\textbf{MetaFold: A Closed-loop Pipeline for Universal Clothing Folding via End-to-end Point Cloud Trajectory Generation}''. Accepted to IROS 2025 (\textbf{Oral Presentation}).
+
+  \item Lixin Xu, Zixuan Liu, Zhewei Gui, \textbf{Jingxiang Guo}, Zeyu Jiang, Zhixuan Xu, Chongkai Gao, Lin Shao, ``\textbf{DexSinGrasp: Learning a Unified Policy for Dexterous Object Singulation and Grasping in Cluttered Environments}''. Accepted to RA-L; ICRA 2025 @ Handy Moves, \textbf{Spotlight Presentation}.
+
+  \item Congsheng Xu*, \textbf{Jingxiang Guo*}, Baijun Chen*, Liuhaichen Yang, Zhen Zou, Yuzhang Li, Jieji Ren, Yiming Wang, Yichao Yan, Yao Mu, Xiaokang Yang, ``\textbf{InsertScale: A Benchmark towards Foundation Visuo-Tactile Policy Scalable Learning for Insertion Task}''. IROS 2025 (Late Breaking Results); IROS 2025 @ Learning from Teleoperation, \textbf{Oral Presentation}.
+
+  \item Qi Liu*, \textbf{Jingxiang Guo*}, Sixu Lin, Shuaikang Ma, Jinxuan Zhu, Yanjie Li, ``\textbf{MASQ: Multi-Agent Reinforcement Learning for Single Quadruped Robot Locomotion}''. ICML 2025 @ NewInML.
+
+  \item Haonan Chen*, Bangjun Wang*, \textbf{Jingxiang Guo*}, Tianrui Zhang, Yiwen Hou, Xuchuan Huang, Chenrui Tie, Lin Shao, ``\textbf{World4Omni: A Zero-Shot Framework from Image Generation World Model to Robotic Manipulation}''. ICML 2025 @ Building Physically Plausible World Models.
+
+  \item RoboTwin Challenge Organizers, \textbf{Jingxiang Guo} et al. (Volunteers), RoboTwin Challenge Participants, ``\textbf{Benchmarking Generalizable Bimanual Manipulation: RoboTwin Dual-Arm Collaboration Challenge at CVPR 2025 MEIS Workshop}''. Tech Report.
+
+  \item Qi Liu, \textbf{Jingxiang Guo}, Zhongjian Qiao, Pengbin Chen, Yanjie Li, ``\textbf{Logarithmic Function Matters Policy Gradient Deep Reinforcement Learning}''. Accepted to DAI 2024 (\textbf{Oral Presentation}).
+
+  \item Yiwen Hou, Yaoyu Cheng, Jiayu Luo, Zhixuan Xu, Chongkai Gao, \textbf{Jingxiang Guo}, Lin Shao, ``\textbf{QuaMa: Extending Skill Learning with Delta Dynamics Modeling for Precise and Generalizable Quantitative Manipulation}''. Under Review.
+
+  \item Qi Liu, Jianqi Gao, Dongjie Zhu, Zhongjian Qiao, \textbf{Jingxiang Guo}, Pengbin Chen, Yanjie Li, ``\textbf{Multi-Agent Target Assignment and Path Finding for Intelligent Warehouse: A Cooperative Multi-Agent Deep Reinforcement Learning Perspective}''. In Submission.
+
+  \item \textbf{Jingxiang Guo}, Jinxuan Zhu, Sixu Lin, Feng Shi, ``\textbf{Momentum Prediction for Tennis Matches Based on Counter-Factual Analysis and Multi-LGBM}''. Accepted to ICAACE 2024.
+
+  \item \textbf{Jingxiang Guo}, Jinxuan Zhu, Sixu Lin, Feng Shi, ``\textbf{ECAPA-TDNN Embeddings for Speaker Recognition}''. Accepted to AINIT 2024.
+
+  \item Kuntian Dai, \textbf{Jingxiang Guo}, Nengfeng Liu, Guanyu Hou, Jinbin Guo, Junkai Wang, Ruiquan Dong, ``\textbf{Quick Reversing Device and Quick Track Reversing Device}''. Invention Patent CN116000896B, Published 2025.
+
+\end{enumerate}
+
+\section{Awards}
+  \begin{itemize}[leftmargin=0.0in, label={}, itemsep=-20pt]
+
+    \resumeProjectHeading
+      {\textbf{ICRA 2025 Best Paper Award} on Robot Manipulation and Locomotion}{May 2025}
+
+    \resumeProjectHeading
+      {\textbf{Best Robotics Paper Award} at CoRL 2024 Workshop on MAPoDeL}{Nov 2024}
+
+    \resumeProjectHeading
+      {\textbf{Best Paper Award} at ICRA 2025 Workshop on Human-Centric Multilateral Teleoperation}{May 2025}
+
+    \resumeProjectHeading
+      {\textbf{Best Demo Award Finalist} at IROS 2025 Workshop on Contact and Impact-aware Manipulation}{Jun 2025}
+
+    \resumeProjectHeading
+      {\textbf{National First Prize} in RoboMaster University Championship (RMUC)}{Aug 2023}
+
+    \resumeProjectHeading
+      {\textbf{National First Prize} in China Intelligent Robots Innovation Competition}{Jul 2023}
+
+    \resumeProjectHeading
+      {\textbf{Honorable Mention} in Mathematical Contest in Modeling (MCM)}{Feb 2024}
+
+    \resumeProjectHeading
+      {\textbf{Provincial First Prize} in China Undergraduate Mathematical Contest in Modeling (CUMCM)}{Sep 2023}
+
+    \resumeProjectHeading
+      {\textbf{Second Prize} in National Embedded Chip Design Competition}{Jun 2023}
+
+    \resumeProjectHeading
+      {\textbf{Second Prize} in China Robotics Competition 2023}{Sep 2023}
+
+    \resumeProjectHeading
+      {\textbf{Second Prize} in Mechanical Engineering Innovation Competition 2023}{Sep 2023}
+
+    \resumeProjectHeading
+      {\textbf{Second Prize} in iCAN Innovation and Entrepreneurship Competition}{Nov 2023}
+
+    \resumeProjectHeading
+      {\textbf{First Prize} in RoboMaster University Championship 2023 Infantry Match}{Mar 2023}
+
+    \resumeProjectHeading
+      {\textbf{First Prize} in RoboMaster University Championship 2022 (National Final)}{Aug 2022}
+
+    \resumeProjectHeading
+      {\textbf{First Prize} in RoboMaster University Championship 2022 (Central China)}{Jun 2022}
+
+    \resumeProjectHeading
+      {\textbf{First Prize} in Hongli Cup Mathematical Modelling Competition}{Mar 2023}
+
+    \resumeProjectHeading
+      {\textbf{Outstanding Student of the Year}}{Nov 2022}
+
+    \resumeProjectHeading
+      {\textbf{HITSZ Academic Scholarship}}{Nov 2023}
+
+    \resumeProjectHeading
+      {\textbf{Outstanding Member of the League}}{May 2023}
+
+  \end{itemize}
+
+\section{Miscellaneous}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+     \textbf{Languages}{: English (IELTS 7.5, GRE 321), Chinese (Native)} \\
+     \textbf{Academic Service}{: Reviewer for ICRA 2025, ICRA 2026, RA-L, IROS 2025, CVPR 2025} \\
+     \textbf{Programming}{: Python, C/C++, MATLAB, HTML, CSS, JavaScript} \\
+     \textbf{Tools}{: SOLIDWORKS, ROS, PCB Design, STM32, Arduino, WebXR, \LaTeX} \\
+     \textbf{Interests}{: Trekking and climbing}
+    }}
+ \end{itemize}
+
+\end{document}

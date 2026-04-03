@@ -210,7 +210,7 @@ function buildAffiliationCard(e) {
   const imgClick = 'onclick="openImagePreview(\'' + imgPathEsc + '\',\'' + escapeJsForSingleQuotedAttr(e.name) + '\')" title="Click to enlarge"';
   return '<table style="width:100%; border:none; padding:0px; margin-bottom: 20px;"><tbody><tr>' +
     '<td style="padding:25px; width:30%; vertical-align:middle; padding-top:20px;">' +
-    '<img class="hoverZoomLink" src="' + e.image + '" style="width:100%; height:auto;" alt="" ' + imgClick + '></td>' +
+    '<img class="hoverZoomLink" src="' + e.image + '" style="width:100%; height:auto;" alt="" loading="lazy" ' + imgClick + '></td>' +
     '<td style="padding-top:20px; padding-left:20px; padding-right:20px; width:70%; vertical-align:top;">' +
     '<h3>' + e.name + '</h3><b>' + e.role + '</b><br>' +
     '<span class="dates" style="float: none;">' + e.dates + '</span>' +
@@ -248,7 +248,7 @@ function buildTimelineDetailTable(id, d) {
   const h3Title = datesSpan ? `${heading} ${datesSpan}` : heading;
   return `<table id="${id}" style="width:98%; margin-left:20px; border:none; padding:0px;"><tbody><tr>
 <td style="padding:25px; width:15%; vertical-align:middle; padding-top:20px;">
-<img src="${d.logo}" style="width:100%; height:auto;" alt="">
+<img src="${d.logo}" style="width:100%; height:auto;" alt="" loading="lazy">
 </td>
 <td style="padding-top:20px; padding-left:20px; padding-right:20px; width:85%; vertical-align:top;">
 <h3>${h3Title}</h3>
@@ -451,13 +451,24 @@ function buildPaperRow(paper) {
 
   const venuesHtml = paper.venues.map(v => '<br>' + buildVenueHtml(v)).join('');
 
-  const imgPathEsc = String(paper.image).replace(/'/g, "\\'");
-  const figClick = `onclick="openImagePreview('${imgPathEsc}','${escapeJsForSingleQuotedAttr(paper.title)}')" title="Click to enlarge"`;
+  let mediaTd;
+  if (paper.video) {
+    mediaTd = `<td style="padding:10px;width:30%;vertical-align:middle">
+    <video autoplay loop muted playsinline style="width:100%;height:auto;${shadow}">
+      <source src="${paper.video.webm}" type="video/webm">
+      <source src="${paper.video.mp4}" type="video/mp4">
+    </video>
+  </td>`;
+  } else {
+    const imgPathEsc = String(paper.image).replace(/'/g, "\\'");
+    const figClick = `onclick="openImagePreview('${imgPathEsc}','${escapeJsForSingleQuotedAttr(paper.title)}')" title="Click to enlarge"`;
+    mediaTd = `<td style="padding:10px;width:30%;vertical-align:middle">
+    <img class="hoverZoomLink" src="${paper.image}" style="width:100%;height:auto;cursor:pointer;${shadow}" alt="" loading="lazy" ${figClick}>
+  </td>`;
+  }
 
   return `<tr class="${rowClass}"${rowStyle}>
-  <td style="padding:10px;width:30%;vertical-align:middle">
-    <img class="hoverZoomLink" src="${paper.image}" style="width:100%;height:auto;cursor:pointer;${shadow}" alt="" ${figClick}>
-  </td>
+  ${mediaTd}
   <td style="padding:10px;width:70%;vertical-align:middle">
     <span class="papertitle">${paper.title}</span>
     <br>
