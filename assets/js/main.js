@@ -65,6 +65,34 @@ ${rolePart}
 applyMode(false);
 
 // ============================================================================
+// Pretext helpers — fast text measurement without DOM reflow
+// (window._pt is set by the ES-module loader in index.html)
+// ============================================================================
+function ptMeasure(text, font, maxW, lineH) {
+  if (!text || !window._pt) return null;
+  try {
+    const p = window._pt.prepare(String(text), font);
+    return window._pt.layout(p, maxW, lineH);
+  } catch (e) { return null; }
+}
+
+// Estimate total pixel height of all hidden paper rows using pretext.
+// Used by togglePapers() to animate the expand/collapse height precisely.
+function ptEstimateHiddenPapersHeight() {
+  const papers = window._cachedPublications;
+  if (!papers || !window._pt) return null;
+  const tbody = document.getElementById('publications-tbody');
+  const contentW = tbody ? Math.max(tbody.offsetWidth * 0.60 - 20, 200) : 460;
+  let total = 0;
+  papers.filter(function (p) { return p.display === 'hidden'; }).forEach(function (p) {
+    const r = ptMeasure(p.title, 'bold 15px sans-serif', contentW, 22);
+    const titleH = r ? r.height : 44;
+    total += Math.max(titleH + 95, 160) + 20; // title + authors/venue/links + row padding
+  });
+  return Math.ceil(total);
+}
+
+// ============================================================================
 // Academic Links Modal Functions
 // ============================================================================
 function openAcademicLinks() {
@@ -161,22 +189,64 @@ function togglePapers() {
   const toggleIcon = document.getElementById('togglePapersIcon');
   const titleElement = document.querySelector('#publications-title');
   const highlightNote = document.querySelector('#highlight-note');
+  const wrap = document.getElementById('publications-wrap');
   if (!hiddenPapers.length) return;
   const isHidden = hiddenPapers[0].style.display === 'none';
 
-  hiddenPapers.forEach(paper => {
-    paper.style.display = isHidden ? 'table-row' : 'none';
-  });
-  highlightPapers.forEach(paper => {
-    paper.style.backgroundColor = isHidden ? 'rgba(102, 192, 255, 0.2)' : '';
-  });
-  highlightPapersLight.forEach(paper => {
-    paper.style.backgroundColor = isHidden ? 'rgba(102, 192, 255, 0.15)' : '';
-  });
-  if (highlightNote) highlightNote.style.display = isHidden ? 'inline' : 'none';
-  if (toggleText) toggleText.textContent = isHidden ? 'Show Selected Publications' : 'Show All Publications';
-  if (toggleIcon) toggleIcon.textContent = isHidden ? '▲' : '▼';
-  if (titleElement) titleElement.textContent = isHidden ? 'Publications' : 'Selected Publications';
+  if (wrap) {
+    // Pin current height so the transition has a start point
+    wrap.style.height = wrap.scrollHeight + 'px';
+  }
+
+  if (isHidden) {
+    // Expanding: show rows, then animate to full height
+    hiddenPapers.forEach(function (paper) { paper.style.display = 'table-row'; });
+    highlightPapers.forEach(function (paper) { paper.style.backgroundColor = 'rgba(102, 192, 255, 0.2)'; });
+    highlightPapersLight.forEach(function (paper) { paper.style.backgroundColor = 'rgba(102, 192, 255, 0.15)'; });
+    if (highlightNote) highlightNote.style.display = 'inline';
+    if (toggleText) toggleText.textContent = 'Show Selected Publications';
+    if (toggleIcon) toggleIcon.textContent = '▲';
+    if (titleElement) titleElement.textContent = 'Publications';
+
+    if (wrap) {
+      // Use pretext estimate first; refine with scrollHeight once rows are laid out
+      const ptEstimate = ptEstimateHiddenPapersHeight();
+      const target = ptEstimate ? wrap.scrollHeight + ptEstimate : wrap.scrollHeight;
+      requestAnimationFrame(function () {
+        wrap.style.height = (wrap.scrollHeight || target) + 'px';
+        wrap.addEventListener('transitionend', function onEnd() {
+          wrap.style.height = '';  // Let it flow naturally after animation
+          wrap.removeEventListener('transitionend', onEnd);
+        }, { once: true });
+      });
+    }
+  } else {
+    // Collapsing: animate down to selected-only height
+    const selectedH = Array.from(document.querySelectorAll('.highlight-paper, .highlight-paper-light'))
+      .reduce(function (sum, r) { return sum + r.offsetHeight; }, 0);
+
+    if (wrap) {
+      requestAnimationFrame(function () {
+        wrap.style.height = selectedH + 'px';
+        wrap.addEventListener('transitionend', function onEnd() {
+          hiddenPapers.forEach(function (paper) { paper.style.display = 'none'; });
+          highlightPapers.forEach(function (paper) { paper.style.backgroundColor = ''; });
+          highlightPapersLight.forEach(function (paper) { paper.style.backgroundColor = ''; });
+          if (highlightNote) highlightNote.style.display = 'none';
+          wrap.style.height = '';
+          wrap.removeEventListener('transitionend', onEnd);
+        }, { once: true });
+      });
+    } else {
+      hiddenPapers.forEach(function (paper) { paper.style.display = 'none'; });
+      highlightPapers.forEach(function (paper) { paper.style.backgroundColor = ''; });
+      highlightPapersLight.forEach(function (paper) { paper.style.backgroundColor = ''; });
+      if (highlightNote) highlightNote.style.display = 'none';
+    }
+    if (toggleText) toggleText.textContent = 'Show All Publications';
+    if (toggleIcon) toggleIcon.textContent = '▼';
+    if (titleElement) titleElement.textContent = 'Selected Publications';
+  }
 }
 
 // ============================================================================
@@ -358,11 +428,14 @@ function renderTimelineChart(timeline) {
   const res = timeline.res;
   const emp = timeline.emp;
 
+  // Approximate column pixel width for pretext text-fit decisions.
+  // Grid: 44px axis + 3 × 1fr columns with 8px gaps → colW ≈ (total - 44 - 24) / 3
+  const colW = Math.max(Math.floor((mount.offsetWidth - 44 - 24) / 3), 60);
+
   function barHTML(item, color) {
     const top = toY(item.ey, item.em);
     const bot = toY(item.sy, item.sm);
     const h = Math.max(bot - top, 18);
-    const showSub = h > 30;
     let left; let right; let bg; let radius; let showLabel;
     if (item.lstrip) {
       left = '1px'; right = 'calc(60% - 1px)'; bg = color;
@@ -379,6 +452,25 @@ function renderTimelineChart(timeline) {
     } else {
       left = '1px'; right = '1px'; bg = color;
       radius = '4px'; showLabel = true;
+    }
+
+    // Pixel width of this bar's content area (subtract borders + padding)
+    const barFrac = item.lstrip ? 0.38 : item.rside ? 0.56 : 1.0;
+    const innerW = Math.max(Math.floor(colW * barFrac) - 12, 10);
+
+    // Use pretext to decide whether label and sub text actually fit in the bar.
+    // Falls back to the simple height-threshold if pretext hasn't loaded yet.
+    let showSub;
+    if (window._pt && showLabel && item.sub) {
+      const lR = ptMeasure(item.label || '', 'bold 10px sans-serif', innerW, 13);
+      const sR = ptMeasure(item.sub, '9px sans-serif', innerW, 11.7);
+      if (lR && sR) {
+        showSub = lR.height + sR.height + 3 <= h;
+      } else {
+        showSub = h > 30;
+      }
+    } else {
+      showSub = h > 30;
     }
     const safeId = (item.id || '').replace(/'/g, "\\'");
     return `<div style="
@@ -456,7 +548,18 @@ function renderTimelineChart(timeline) {
       content.innerHTML = '';
       content.appendChild(clone);
     }
+    // Smooth reveal: start from transparent + shifted, then transition in
+    panel.style.transition = 'none';
+    panel.style.opacity = '0';
+    panel.style.transform = 'translateY(-6px)';
     panel.style.display = 'block';
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        panel.style.transition = 'opacity 0.22s ease, transform 0.22s ease';
+        panel.style.opacity = '1';
+        panel.style.transform = 'translateY(0)';
+      });
+    });
     panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   };
 }
@@ -735,6 +838,12 @@ document.addEventListener('DOMContentLoaded', function () {
       if (results[2]) renderSiteSections(results[2]);
       applyMode(false);
     });
+
+  // When pretext loads (ES module may resolve after JSON), re-render timeline
+  // bars so their text-fit decisions use measured widths instead of h>30.
+  document.addEventListener('pretextReady', function () {
+    if (window._cachedTimeline) renderTimelineChart(window._cachedTimeline);
+  });
 });
 
 // ============================================================================

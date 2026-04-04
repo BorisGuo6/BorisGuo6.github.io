@@ -241,10 +241,12 @@
               </tbody>
             </table>
 
+            <div id="publications-wrap" style="overflow:hidden; transition: height 0.4s cubic-bezier(0.4,0,0.2,1);">
             <table style="width:100%; border:0px; border-spacing:0px; border-collapse:separate; margin-left:auto; margin-right:auto;">
               <tbody id="publications-tbody">
               </tbody>
             </table>
+            </div>
 
             <!-- Papers Expand Button -->
             <table id="section-toggle-papers" style="width:100%; border:0px; border-spacing:0px; border-collapse:separate; margin-left:auto; margin-right:auto;">
@@ -328,6 +330,13 @@
             </div>
 
             <div style="margin-bottom: 30px;"></div>
+
+            <!-- Pretext: fast text measurement, no DOM reflow (github.com/chenglou/pretext) -->
+            <script type="module">
+              import { prepare, layout } from 'https://cdn.jsdelivr.net/npm/@chenglou/pretext@0.0.4/dist/layout.js';
+              window._pt = { prepare, layout };
+              document.dispatchEvent(new CustomEvent('pretextReady'));
+            </script>
 
             <!-- Main JavaScript file -->
             <script src="assets/js/main.js"></script>
