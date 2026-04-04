@@ -7,6 +7,13 @@
 
 \documentclass[letterpaper,11pt]{article}
 
+% ---- VERSION TOGGLE ----
+% \fullcvtrue  -> full CV (all publications & awards)
+% \fullcvfalse -> selected CV (highlight papers & top awards only)
+\newif\iffullcv
+\fullcvfalse
+% ------------------------
+
 \usepackage{latexsym}
 \usepackage[empty]{fullpage}
 \usepackage{titlesec}
@@ -240,7 +247,11 @@
   \resumeSubHeadingListEnd
 
 %-----------PUBLICATIONS-----------
+\iffullcv
 \section{Publications}
+\else
+\section{Selected Publications}
+\fi
 \begin{enumerate}
 
   \item Haonan Chen*, \textbf{Jingxiang Guo*}, Bangjun Wang, Tianrui Zhang, Xuchuan Huang, Boren Zheng, Yiwen Hou, Chenrui Tie, Jiajun Deng, Lin Shao, ``\textbf{Goal-VLA: Image-Generative VLMs as Object-Centric World Models Empowering Zero-shot Robot Manipulation}''. Accepted to ICRA 2026.
@@ -248,6 +259,8 @@
   \item \textbf{Jingxiang Guo*}, Jiayu Luo*, Zhenyu Wei*, Yiwen Hou, Zhixuan Xu, Xiaoyi Lin, Chongkai Gao, Lin Shao, ``\textbf{TelePreview: A User-Friendly Teleoperation System with Virtual Arm Assistance for Enhanced Effectiveness}''. Accepted to ICRA 2025 @ Human-Centric Multilateral Teleoperation, \textcolor{red}{\textbf{Best Paper Award}}.
 
   \item Zhenyu Wei*, Zhixuan Xu*, \textbf{Jingxiang Guo}, Yiwen Hou, Chongkai Gao, Zhehao Cai, Jiayu Luo, Lin Shao, ``$\boldsymbol{\mathcal{D(R,O)}}$ \textbf{Grasp: A Unified Representation of Robot and Object Interaction for Cross-Embodiment Dexterous Grasping}''. Accepted to ICRA 2025 (\textcolor{red}{\textbf{Best Paper Award}} \textbf{on Robot Manipulation and Locomotion}); CoRL 2024 @ MAPoDeL, \textcolor{red}{\textbf{Best Robotics Paper Award}} \& \textbf{Oral Presentation}; CoRL 2024 @ LFDM, \textbf{Spotlight Presentation}.
+
+\iffullcv
 
   \item Chenrui Tie, Shengxiang Sun, Jinxuan Zhu, Yiwei Liu, \textbf{Jingxiang Guo}, Yue Hu, Haonan Chen, Junting Chen, Ruihai Wu, Lin Shao, ``\textbf{Manual2Skill: Learning to Read Manuals and Acquire Robotic Skills for Furniture Assembly Using Vision-Language Models}''. Accepted to RSS 2025; CVPR 2025 @ 3D Vision Language Models, \textbf{Oral Presentation}.
 
@@ -279,7 +292,12 @@
 
   \item Kuntian Dai, \textbf{Jingxiang Guo}, Nengfeng Liu, Guanyu Hou, Jinbin Guo, Junkai Wang, Ruiquan Dong, ``\textbf{Quick Reversing Device and Quick Track Reversing Device}''. Invention Patent CN116000896B, Published 2025.
 
+\fi
+
 \end{enumerate}
+\iffullcv\else
+\small{Full publication list: \url{https://scholar.google.com/citations?user=JEjiaq0AAAAJ}}
+\fi
 
 \section{Awards}
   \begin{itemize}[leftmargin=0.0in, label={}, itemsep=-20pt]
@@ -295,6 +313,8 @@
 
     \resumeProjectHeading
       {\textbf{Best Demo Award Finalist} at IROS 2025 Workshop on Contact and Impact-aware Manipulation}{Jun 2025}
+
+\iffullcv
 
     \resumeProjectHeading
       {\textbf{National First Prize} in RoboMaster University Championship (RMUC)}{Aug 2023}
@@ -340,6 +360,8 @@
 
     \resumeProjectHeading
       {\textbf{Outstanding Member of the League}}{May 2023}
+
+\fi
 
   \end{itemize}
 

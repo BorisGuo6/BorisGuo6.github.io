@@ -36,6 +36,8 @@ function applyMode(full) {
     var el = document.getElementById(id);
     if (el) el.style.display = full ? 'none' : '';
   });
+  var cvLink = document.getElementById('cv-link');
+  if (cvLink) cvLink.href = full ? 'latex/main-full.pdf' : 'latex/main.pdf';
   if (window._cachedPublications) renderNews(window._cachedPublications);
   if (window._cachedSections) renderSiteAwards(window._cachedSections.awards);
 }
