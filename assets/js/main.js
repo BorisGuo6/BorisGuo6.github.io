@@ -2,6 +2,67 @@
 // Contains all interactive functionality for the personal website
 
 // ============================================================================
+// Minimal / Full Mode
+// ============================================================================
+window.siteFullMode = false;
+var _profileClickCount = 0;
+var _profileClickTimer = null;
+
+function handleProfileClick() {
+  clearTimeout(_profileClickTimer);
+  _profileClickCount++;
+  _profileClickTimer = setTimeout(function () { _profileClickCount = 0; }, 2000);
+  if (_profileClickCount >= 5) {
+    _profileClickCount = 0;
+    clearTimeout(_profileClickTimer);
+    window.siteFullMode = !window.siteFullMode;
+    applyMode(window.siteFullMode);
+  }
+}
+
+function applyMode(full) {
+  window.siteFullMode = full;
+  var hideInMinimal = [
+    'more-academic-links-wrap', 'news-phd-offer',
+    'section-research-proposal', 'section-toggle-papers',
+    'section-toggle-awards', 'section-talks', 'section-org-entre'
+  ];
+  var showInMinimal = ['scholar-link-note'];
+  hideInMinimal.forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) el.style.display = full ? '' : 'none';
+  });
+  showInMinimal.forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) el.style.display = full ? 'none' : '';
+  });
+  if (window._cachedPublications) renderNews(window._cachedPublications);
+  if (window._cachedSections) renderSiteAwards(window._cachedSections.awards);
+}
+
+function buildTimelineDetailTableMinimal(d) {
+  const heading = d.nameHtml
+    ? d.nameHtml + (d.location ? `, ${d.location}` : '')
+    : (d.name || '') + (d.location ? `, ${d.location}` : '');
+  const datesSpan = d.dates ? `<span class="dates">${d.dates}</span>` : '';
+  const rolePart = d.role
+    ? (d.roleBold ? `<b>${d.role}</b>` : d.role) + '<br>'
+    : '';
+  const h3Title = datesSpan ? `${heading} ${datesSpan}` : heading;
+  return `<table style="width:100%; border:none; padding:0px;"><tbody><tr>
+<td style="padding:25px; width:15%; vertical-align:middle; padding-top:20px;">
+<img src="${d.logo}" style="width:100%; height:auto;" alt="" loading="lazy">
+</td>
+<td style="padding-top:20px; padding-left:20px; padding-right:20px; width:85%; vertical-align:top;">
+<h3>${h3Title}</h3>
+${rolePart}
+</td></tr></tbody></table>`;
+}
+
+// Apply minimal mode immediately (script runs after DOM is parsed since it's at bottom of body)
+applyMode(false);
+
+// ============================================================================
 // Academic Links Modal Functions
 // ============================================================================
 function openAcademicLinks() {
@@ -171,8 +232,14 @@ function buildOpenAwardOnclickFromModal(modal) {
 function renderSiteAwards(awards) {
   const ul = document.getElementById('awardList');
   if (!ul || !awards || !awards.length) return;
+  const minimal = !window.siteFullMode;
   ul.innerHTML = awards.map(function (a) {
     const liClass = a.hidden ? ' class="hidden-award" style="display: none;"' : '';
+    if (minimal) {
+      return '<li' + liClass + '><span style="font-size: 16px;"><b>' + a.linkLabel + '</b>' +
+        (a.afterBold || '') + '</span>' +
+        '<span style="font-size: 16px;" class="year"><i>' + a.year + '</i></span></li>';
+    }
     const onclick = buildOpenAwardOnclickFromModal(a.modal);
     return '<li' + liClass + '><span style="font-size: 16px;"><b><a href="javascript:void(0)" onclick="' + onclick + '">' +
       a.linkLabel + '</a></b>' + (a.afterBold || '') + '</span>' +
@@ -371,17 +438,22 @@ function renderTimelineChart(timeline) {
 
   window.tlShowDetail = function (id) {
     if (!id) return;
-    const src = document.getElementById(id);
     const panel = document.getElementById('tl-detail-panel');
     const content = document.getElementById('tl-detail-content');
-    if (!src || !panel || !content) return;
-    const clone = src.cloneNode(true);
-    clone.removeAttribute('id');
-    clone.style.display = '';
-    clone.style.width = '100%';
-    clone.style.marginLeft = '0';
-    content.innerHTML = '';
-    content.appendChild(clone);
+    if (!panel || !content) return;
+    if (!window.siteFullMode && window._cachedTimeline && window._cachedTimeline.details[id]) {
+      content.innerHTML = buildTimelineDetailTableMinimal(window._cachedTimeline.details[id]);
+    } else {
+      const src = document.getElementById(id);
+      if (!src) return;
+      const clone = src.cloneNode(true);
+      clone.removeAttribute('id');
+      clone.style.display = '';
+      clone.style.width = '100%';
+      clone.style.marginLeft = '0';
+      content.innerHTML = '';
+      content.appendChild(clone);
+    }
     panel.style.display = 'block';
     panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   };
@@ -524,7 +596,8 @@ function buildNewsFromPublications(papers) {
           award: venue.newsAward || venue.label,
           event: venue.newsEvent || null,
           eventUrl: venue.newsEventUrl || null,
-          bold: venue.newsBold || false
+          bold: venue.newsBold || false,
+          paperDisplay: paper.display
         });
       }
     });
@@ -556,8 +629,13 @@ function buildNewsFromPublications(papers) {
   return grouped;
 }
 
-function buildNewsItemHtml(item) {
+function buildNewsItemHtml(item, minimal) {
   if (item.type === 'acceptance') {
+    if (minimal) {
+      const n = item.papers.length;
+      const note = item.note ? ' as ' + item.note : '';
+      return `[${item.date}] 🎉 ${n} paper${n === 1 ? '' : 's'} accepted to ${item.venue}${note}!`;
+    }
     const papersHtml = item.papers.map((p, i) => {
       const link = p.url ? `<a href="${p.url}">${p.title}</a>` : p.title;
       if (item.papers.length === 1) return link;
@@ -586,8 +664,15 @@ function renderNews(papers) {
   while (ul.children.length > 1) {
     ul.removeChild(ul.lastChild);
   }
-  const items = buildNewsFromPublications(papers);
-  const liHtml = items.map(item => `<li>${buildNewsItemHtml(item)}</li>`).join('\n');
+  const minimal = !window.siteFullMode;
+  let items = buildNewsFromPublications(papers);
+  if (minimal) {
+    items = items.filter(function (item) {
+      if (item.type !== 'award') return true;
+      return item.paperDisplay === 'highlight' || item.paperDisplay === 'highlight-light';
+    });
+  }
+  const liHtml = items.map(item => `<li>${buildNewsItemHtml(item, minimal)}</li>`).join('\n');
   ul.insertAdjacentHTML('beforeend', liHtml);
   // Re-run MathJax for any math in paper titles
   if (window.MathJax && MathJax.Hub) {
@@ -637,12 +722,16 @@ document.addEventListener('DOMContentLoaded', function () {
     fetchJsonSafe('content/site-sections.json')
   ])
     .then(function (results) {
+      window._cachedTimeline = results[0];
+      window._cachedPublications = results[1];
+      window._cachedSections = results[2];
       if (results[0]) initTimeline(results[0]);
       if (results[1]) {
         renderPublications(results[1]);
         renderNews(results[1]);
       }
       if (results[2]) renderSiteSections(results[2]);
+      applyMode(false);
     });
 });
 

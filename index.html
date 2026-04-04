@@ -89,7 +89,7 @@
                       <a href="latex/main.pdf" class="btn-sm badge-button">CV</a> &nbsp;/&nbsp;  
                       <a href="https://github.com/BorisGuo6" class="btn-sm badge-button">GitHub</a> &nbsp;/&nbsp;
                       <a href="https://scholar.google.com/citations?user=JEjiaq0AAAAJ" class="btn-sm badge-button">Google Scholar</a> &nbsp;/&nbsp;
-                      <a href="javascript:void(0)" onclick="openAcademicLinks()" class="btn-sm badge-button">More Academic Links</a> &nbsp;/&nbsp;
+                      <span id="more-academic-links-wrap"><a href="javascript:void(0)" onclick="openAcademicLinks()" class="btn-sm badge-button">More Academic Links</a> &nbsp;/&nbsp;</span>
                       <a href="javascript:void(0)" onclick="openWeChatModal()" class="btn-sm badge-button">WeChat</a>
                     </p>
 
@@ -141,7 +141,7 @@
                     alt="profile photo" 
                     src="assets/img/profile/jingxiang-guo.jpg" 
                     class="hoverZoomLink"
-                    onclick="openImagePreview('assets/img/profile/jingxiang-guo.jpg','Jingxiang Guo')"
+                    onclick="handleProfileClick()"
                     title="Click to enlarge">
                   </td>
                 </tr>
@@ -155,7 +155,7 @@
                   <td style="padding-top: 0px; padding-bottom: 10px; padding-left: 20px; padding-right: 20px; width:100%; vertical-align:middle">
                     <h2><b>News</b></h2>
                     <ul class="news-list" id="news-list">
-                      <li>
+                      <li id="news-phd-offer">
                         [2026/04] 🎉 Honored to receive PhD offers with scholarships from
                         <a href="https://www.imperial.ac.uk/computing/prospective-students/courses/phd/">IC</a>,
                         <a href="https://www.epfl.ch/education/phd/edrs-robotics-control-and-intelligent-systems/">EPFL</a>,
@@ -207,7 +207,7 @@
             </table>
 
             <!-- Research Proposal -->
-            <table style="width:100%; border:0px; border-spacing:0px; border-collapse:separate; margin-left:auto; margin-right:auto;">
+            <table id="section-research-proposal" style="width:100%; border:0px; border-spacing:0px; border-collapse:separate; margin-left:auto; margin-right:auto;">
               <tbody>
                 <tr>
                   <td style="padding-top: 0px; padding-bottom: 0px; padding-left: 20px; padding-right: 20px; width:100%; vertical-align:middle">
@@ -234,7 +234,7 @@
                   <td style="padding-top: 0px; padding-bottom: 0px; padding-left: 20px; padding-right: 20px; width:100%; vertical-align:middle">
                     <h2><b id="publications-title">Selected Publications</b></h2>
                     <p style="margin-top: 10px; margin-bottom: 10px;">
-                      Papers sorted by recency. <span id="highlight-note" style="display: none;">Representative papers are <span style="background-color: rgba(102, 192, 255, 0.2);">highlighted</span>.</span>
+                      Papers sorted by recency. <span id="highlight-note" style="display: none;">Representative papers are <span style="background-color: rgba(102, 192, 255, 0.2);">highlighted</span>.</span><span id="scholar-link-note"> Full publication list on <a href="https://scholar.google.com/citations?user=JEjiaq0AAAAJ">Google Scholar</a>.</span>
                     </p>
                   </td>
                 </tr>
@@ -247,7 +247,7 @@
             </table>
 
             <!-- Papers Expand Button -->
-            <table style="width:100%; border:0px; border-spacing:0px; border-collapse:separate; margin-left:auto; margin-right:auto;">
+            <table id="section-toggle-papers" style="width:100%; border:0px; border-spacing:0px; border-collapse:separate; margin-left:auto; margin-right:auto;">
               <tbody>
                 <tr>
                   <td style="padding-top: 0px; padding-bottom: 0px; padding-left: 20px; padding-right: 20px; width:100%; vertical-align:middle">
@@ -269,7 +269,7 @@
                           <td style="padding-top: 0px; padding-bottom: 10px; padding-left: 20px; padding-right: 20px; width:100%; vertical-align:middle">
                             <h2><b>Award</b></h2>
                             <ul class="award-list" id="awardList"></ul>
-                            <div style="text-align: center; margin-top: 10px;">
+                            <div id="section-toggle-awards" style="text-align: center; margin-top: 10px;">
                               <button id="toggleAwards" onclick="toggleAwards()" style="background-color: #cccccc; color: #666666; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 14px; position: relative;">
                                 <span id="toggleText">Show More Awards</span>
                                 <span id="toggleIcon" style="display: inline-block; margin-left: 5px; transition: transform 0.3s;">▼</span>
@@ -297,7 +297,7 @@
             <div id="tl-detail-sources" style="display:none"></div>
 
             <!-- Talks -->
-            <table style="width:100%; border:0px; border-spacing:0px; border-collapse:separate; margin-left:auto; margin-right:auto;">
+            <table id="section-talks" style="width:100%; border:0px; border-spacing:0px; border-collapse:separate; margin-left:auto; margin-right:auto;">
               <tbody>
                 <tr>
                   <td style="padding-top: 0px; padding-bottom: 10px; padding-left: 20px; padding-right: 20px; width:100%; vertical-align:middle">
@@ -309,7 +309,7 @@
             </table>
 
             <!-- Organization & Entrepreneurship -->
-            <div style="display: flex; gap: 20px; margin-top: 20px; flex-wrap: wrap;">
+            <div id="section-org-entre" style="display: flex; gap: 20px; margin-top: 20px; flex-wrap: wrap;">
             <!-- Organization -->
             <details id="details-organization" style="flex: 1; min-width: 300px;">
               <summary style="cursor: pointer; padding: 10px 20px; font-size: 24px; font-weight: 700; font-family: 'Alegreya SC', serif; color: #333; text-decoration: underline; text-decoration-color: #77BBDD; text-decoration-thickness: 3px; list-style: none;">
