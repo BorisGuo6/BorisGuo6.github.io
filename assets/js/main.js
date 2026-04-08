@@ -312,9 +312,14 @@ function renderSiteAwards(awards) {
         (a.afterBold || '') + '</span>' +
         '<span style="font-size: 16px;" class="year"><i>' + a.year + '</i></span></li>';
     }
-    const onclick = buildOpenAwardOnclickFromModal(a.modal);
-    return '<li' + liClass + '><span style="font-size: 16px;"><b><a href="javascript:void(0)" onclick="' + onclick + '">' +
-      a.linkLabel + '</a></b>' + (a.afterBold || '') + '</span>' +
+    var linkHtml;
+    if (a.url) {
+      linkHtml = '<a href="' + a.url + '" target="_blank">' + a.linkLabel + '</a>';
+    } else {
+      const onclick = buildOpenAwardOnclickFromModal(a.modal);
+      linkHtml = '<a href="javascript:void(0)" onclick="' + onclick + '">' + a.linkLabel + '</a>';
+    }
+    return '<li' + liClass + '><span style="font-size: 16px;"><b>' + linkHtml + '</b>' + (a.afterBold || '') + '</span>' +
       '<span style="font-size: 16px;" class="year"><i>' + a.year + '</i></span></li>';
   }).join('');
 }
