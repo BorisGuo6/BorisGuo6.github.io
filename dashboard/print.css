@@ -190,6 +190,7 @@ h1 {
 
 .fold-section > .summary-grid,
 .fold-section > .story-flow,
+.fold-section > .story-subsection,
 .fold-section > .visual-grid {
   padding: 12px;
 }
@@ -301,6 +302,37 @@ td small {
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
   gap: 12px;
   align-items: stretch;
+}
+
+.story-subsection {
+  padding-top: 0;
+}
+
+.story-subtitle {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 9px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+}
+
+.story-subtitle span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.story-subtitle strong {
+  color: var(--ink);
+  font-size: 13px;
+}
+
+.story-subflow .flow-node {
+  background: #ffffff;
 }
 
 .flow-node {
@@ -891,6 +923,7 @@ body.lightbox-open {
 
   .fold-section > .summary-grid,
   .fold-section > .story-flow,
+  .fold-section > .story-subsection,
   .fold-section > .visual-grid {
     padding: 8px;
   }
@@ -1027,6 +1060,7 @@ body.lightbox-open {
 
   .progress-table,
   .story-flow,
+  .story-subsection,
   .visual-grid,
   .project-panel,
   .todo-list li {
@@ -1076,6 +1110,15 @@ body.lightbox-open {
   .section-title p {
     margin-top: 4px;
     text-align: left;
+  }
+
+  .story-subtitle {
+    display: block;
+  }
+
+  .story-subtitle strong {
+    display: block;
+    margin-top: 4px;
   }
 
   .progress-table {

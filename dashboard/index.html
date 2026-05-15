@@ -77,6 +77,32 @@
             <p>Generated assets, household tasks, simulator rollouts, robot evaluation, and language / image-to-CAD design close the loop back into real-world experiments.</p>
           </div>
         </div>
+
+        <div class="story-subsection">
+          <div class="story-subtitle">
+            <span>World-model sub-story</span>
+            <strong>How generated videos become robot data, not only visual prediction</strong>
+          </div>
+          <div class="story-flow story-subflow" aria-label="World model data sub-story">
+            <div class="flow-node primary">
+              <span>Wrist-view route</span>
+              <strong>UMI Data via Teleop Video Model</strong>
+              <p>Wrist-view UMI data can be generated directly from teleoperation trajectories: action, gripper state, and dual eye-in-hand views condition the video world model.</p>
+            </div>
+            <div class="flow-arrow">+</div>
+            <div class="flow-node primary">
+              <span>Third-person route</span>
+              <strong>Layered Video World Model</strong>
+              <p>Third-person videos are split into background, object, and robot layers, making them easier to use for scene understanding, IDM, reward models, and data augmentation.</p>
+            </div>
+            <div class="flow-arrow">-&gt;</div>
+            <div class="flow-node outcome">
+              <span>Robot-data route</span>
+              <strong>Agentic R2S2R to Dual-Simulator Data</strong>
+              <p>Large volumes of generated video data become dual-simulator Robot Data through object physics assets, panoramic scene reconstruction, and digital-twin robot rollouts.</p>
+            </div>
+          </div>
+        </div>
       </details>
 
       <details class="section fold-section">
