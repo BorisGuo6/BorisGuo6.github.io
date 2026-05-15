@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Weekly Project Dashboard - Jingxiang Guo</title>
+    <link rel="shortcut icon" href="../assets/img/site/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="print.css">
+  </head>
+  <body>
+    <main class="page">
+      <header class="report-header">
+        <div>
+          <p class="kicker">Weekly Project Dashboard</p>
+          <h1>Embodied AI Project Dashboard</h1>
+          <p class="subtitle">World models, self-improving simulators, teleop acceleration, and robotics + 3D printing</p>
+        </div>
+        <div class="week-box">
+          <span>Week</span>
+          <strong>2026-W20</strong>
+          <time datetime="2026-05-15">May 15, 2026</time>
+        </div>
+      </header>
+
+      <details class="fold-section">
+        <summary>
+          <span>
+            <strong>Weekly Context</strong>
+            <em>Focus / progress / blockers / next</em>
+          </span>
+        </summary>
+        <section class="summary-grid" aria-label="Weekly summary">
+          <article>
+            <span class="label">Focus</span>
+            <p>Frame the whole portfolio as one loop: real-robot infra collects and validates data; UMI / layered / HOI projects structure it; simulator and PoD projects turn it into robot tasks, evaluation, and physical outputs.</p>
+          </article>
+          <article>
+            <span class="label">Progress</span>
+            <p>ARX infra was completed today; ready hardware baseline is recorded; UMI annotation panel and Gemini frame test are done; UMI base-model / codebase tests, Self-Improving Agents, and Robotics + 3D Printing remain active.</p>
+          </article>
+          <article>
+            <span class="label">Blockers</span>
+            <p>Cross-device sync, calibration, and data schema; Franka + Wuji integration; UMI base-model route and evaluation set; LeHome / RoboLab unification; CAD-to-printer handoff; scope boundaries for survey tracks.</p>
+          </article>
+          <article>
+            <span class="label">Next</span>
+            <p>Finish the Franka + Wuji minimal run, prepare the UMI test set for Haoyu, run TI2V / AI2V inference, write layered-WM notes, define the simulator task / asset interface, and scope the PoD prototype.</p>
+          </article>
+        </section>
+      </details>
+
+      <details class="section fold-section">
+        <summary>
+          <span>
+            <strong>Storyline</strong>
+            <em>How real-robot infra, human demonstrations, video world models, simulators, and physical outputs form one loop.</em>
+          </span>
+        </summary>
+
+        <div class="story-flow" aria-label="Portfolio storyline">
+          <div class="flow-node primary">
+            <span>Foundation</span>
+            <strong>Real-Robot Data Infra</strong>
+            <p>ARX, UMI, Cobot Magic, Linker hands, gloves, VIVE Tracker, and Franka + Wuji provide the hardware base for collection, calibration, and validation.</p>
+          </div>
+          <div class="flow-arrow">-&gt;</div>
+          <div class="flow-node primary">
+            <span>Data Models</span>
+            <strong>Video + HOI World Modeling</strong>
+            <p>UMI wrist views, layered third-person videos, same-task HOI data, and rate-curve teleop research turn human operation into structured video, action, and state data.</p>
+          </div>
+          <div class="flow-arrow">-&gt;</div>
+          <div class="flow-node outcome">
+            <span>Outputs</span>
+            <strong>Self-Improving Sim + Physical Products</strong>
+            <p>Generated assets, household tasks, simulator rollouts, robot evaluation, and language / image-to-CAD design close the loop back into real-world experiments.</p>
+          </div>
+        </div>
+      </details>
+
+      <details class="section fold-section">
+        <summary>
+          <span>
+            <strong>Visual References</strong>
+            <em>Hardware photos, extracted PDF figures, and current project snapshots used for weekly discussion.</em>
+          </span>
+        </summary>
+
+        <div class="visual-grid">
+          <figure class="figure-card">
+            <img src="assets/real-robot-infra-collage.png" alt="Real-robot lab infrastructure hardware collage">
+            <figcaption>Real-robot infra: ARX, Franka + Wuji Hand, UMI, Linker Hand, gloves, and VIVE Tracker.</figcaption>
+          </figure>
+          <figure class="figure-card">
+            <img src="assets/egovtla-pillars.png" alt="EgoVTLA perception and intuition pillars">
+            <figcaption>EgoVTLA pillars: perception alignment and intuition alignment.</figcaption>
+          </figure>
+          <figure class="figure-card">
+            <img src="assets/egovtla-world-model.png" alt="World-model-driven EgoVTLA map">
+            <figcaption>World-model-driven EgoVTLA: vision -> depth / flow -> action.</figcaption>
+          </figure>
+          <figure class="figure-card">
+            <img src="assets/umi-overview.png" alt="UMI World Model overview">
+            <figcaption>UMI World Model project framing.</figcaption>
+          </figure>
+          <figure class="figure-card">
+            <img src="assets/layered-world-model.png" alt="Layered world model diagram">
+            <figcaption>Layered world model: background, objects, robots.</figcaption>
+          </figure>
+          <figure class="figure-card">
+            <img src="assets/pearl-overview.png" alt="PEARL self-improving physical AI framework">
+            <figcaption>PEARL-style loop: memory, attribution, co-evolution, governance.</figcaption>
+          </figure>
+          <figure class="figure-card">
+            <img src="assets/robotics-3d-printing-platform.png" alt="Robotics and 3D printing product design platform">
+            <figcaption>Robotics + 3D printing: generated structure exported toward printable parts.</figcaption>
+          </figure>
+          <figure class="figure-card">
+            <img src="assets/hoi-diverse-dataset.png" alt="HOI diverse dataset with ego camera, hand pose, and depth">
+            <figcaption>Diverse same-task HOI data: ego RGB, hand pose, and z16 depth.</figcaption>
+          </figure>
+        </div>
+      </details>
+
+      <section class="section project-status-section">
+        <div class="section-title">
+          <h2>Project Status</h2>
+          <p>Two buckets: active implementation and research-stage ideas.</p>
+        </div>
+
+        <div class="status-columns">
+          <div class="status-column">
+            <div class="bucket-title">
+              <span>Ongoing</span>
+              <strong>Active projects</strong>
+            </div>
+
+            <details class="project-detail" open>
+              <summary>
+                <span>
+                  <strong>Real-Robot Lab Infra</strong>
+                  <em>Engineering stack for teleoperation, data collection, and robot-side validation</em>
+                </span>
+                <mark class="status on-track">Ongoing</mark>
+              </summary>
+              <div class="project-body infra-body">
+                <figure>
+                  <img src="assets/real-robot-infra-collage.png" alt="Real-robot lab infrastructure hardware collage">
+                  <figcaption>Hardware matrix: ready systems, active Franka + Wuji build, and planned glove / tracker teleoperation stack.</figcaption>
+                </figure>
+                <div>
+                  <p>This is the engineering base that keeps weekly research work grounded in real data collection and real-robot validation.</p>
+                  <ul>
+                    <li>Ready inventory baseline: Linker FFG, UDCAP data glove, Cobot Magic / Piper-X, Linker Hand L6, and Daimon UMI.</li>
+                    <li>Completed today: ARX / 方舟无限 real-robot infra setup.</li>
+                    <li>Active build: Franka arm + Wuji Hand integration.</li>
+                    <li>Planned input stack: Wuji Glove, MANUS glove, and VIVE Tracker.</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="project-workstream">
+                <section class="project-panel">
+                  <h3>TODO</h3>
+                  <ul class="todo-list project-list">
+                    <li class="todo-expandable">
+                      <details class="todo-result">
+                        <summary>
+                          <span class="box checked"></span>
+                          <span>
+                            <strong>完成方舟无限真机 infra 搭建</strong>
+                            <em>把真机侧运行环境、基础连接和可操作入口先打通。</em>
+                          </span>
+                        </summary>
+                        <p>今天已完成首轮搭建；后续只需要继续补统一启动脚本、设备状态记录和数据采集 checklist。</p>
+                      </details>
+                    </li>
+                    <li>
+                      <span class="box checked"></span>
+                      <div>
+                        <strong>整理当前 ready 设备基线</strong>
+                        <p>Linker FFG、UDCAP 数据手套、Cobot Magic / Piper-X、Linker Hand L6、Daimon UMI 已纳入 infra 清单；Linker TA 仍按搭建中跟踪。</p>
+                      </div>
+                    </li>
+                    <li>
+                      <span class="box ongoing"></span>
+                      <div>
+                        <strong>搭建 Franka + Wuji Hand</strong>
+                        <p>先完成机械安装、驱动 / SDK 接入、ROS / Isaac 侧接口和最小动作验证，再接入数据记录。</p>
+                      </div>
+                    </li>
+                    <li>
+                      <span class="box"></span>
+                      <div>
+                        <strong>接入 Wuji Glove</strong>
+                        <p>用于手部姿态、触觉和高频输入流；需要确认网络、时间戳、标定和 retargeting 接口。</p>
+                      </div>
+                    </li>
+                    <li>
+                      <span class="box"></span>
+                      <div>
+                        <strong>接入 MANUS glove</strong>
+                        <p>作为另一套高精度手部输入方案，和 Wuji Glove 共用记录格式与 retargeting 验证流程。</p>
+                      </div>
+                    </li>
+                    <li>
+                      <span class="box"></span>
+                      <div>
+                        <strong>接入 VIVE Tracker</strong>
+                        <p>用于腕部 / 物体 / 人体外参跟踪，后续和手套、相机、机器人状态一起做时间同步。</p>
+                      </div>
+                    </li>
+                  </ul>
+                </section>
+                <section class="project-panel">
+                  <h3>Risks / Decisions</h3>
+                  <ol class="decision-list project-list">
+                    <li>不同设备的驱动、SDK、ROS topic 和日志格式需要尽早统一，否则后面每条数据都会带维护成本。</li>
+                    <li>手套、VIVE、相机、机器人状态要共享时间同步和外参标定策略。</li>
+                    <li>真机 infra 必须保留安全边界：限位、急停、低速验证、碰撞恢复和操作记录。</li>
+                    <li>工程状态需要和研究项目解耦：infra 卡片只追踪设备可用性，算法结果留在各项目卡片里。</li>
+                  </ol>
+                </section>
+              </div>
+            </details>
+
+            <details class="project-detail" open>
+              <summary>
+                <span>
+                  <strong>UMI World Model</strong>
+                  <em>Kinematics-conditioned dual eye-in-hand world modeling</em>
+                </span>
+                <mark class="status on-track">Ongoing</mark>
+              </summary>
+              <div class="project-body">
+                <figure>
+                  <img src="assets/umi-dataset-visualization.png" alt="UMI dataset annotation and subtask segmentation visualization panel">
+                  <figcaption>Dataset QA: synchronized wrist views, 3D pose, EEF traces, current segment, and action log after subtask splitting.</figcaption>
+                </figure>
+                <div>
+                  <p>The core idea is to treat eye-in-hand UMI teleoperation as action-conditioned video generation: the robot action trajectory is also the wrist-camera trajectory.</p>
+                  <ul>
+                    <li>Use the annotation / subtask-splitting panel to inspect dual wrist videos, task labels, motion curves, and segment boundaries together.</li>
+                    <li>Generate bimanual wrist-view videos conditioned on kinematics and gripper state.</li>
+                    <li>Maintain left-right consistency over object state and scene state.</li>
+                    <li>First decision: one-side generation + camera transform, or end-to-end synchronized dual video.</li>
+                    <li>Potential contribution: DiT structure with attention / AdaLN changes, then CameraNoise-style control after the base model works.</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="project-workstream">
+                <section class="project-panel">
+                  <h3>TODO</h3>
+                  <ul class="todo-list project-list">
+                    <li class="todo-expandable">
+                      <details class="todo-result">
+                        <summary>
+                          <span class="box checked"></span>
+                          <span>
+                            <strong>检验 Gemini 做时间帧定位的精确程度</strong>
+                            <em>先看它能不能稳定找到关键动作边界，再决定是否进入自动切分流程。</em>
+                          </span>
+                        </summary>
+                        <p>大部分精准；测试的 12 条内只有 1 条出现了 3-5s 的偏移。</p>
+                      </details>
+                    </li>
+                    <li>
+                      <span class="box ongoing"></span>
+                      <div>
+                        <strong>细粒度时间帧切分调研</strong>
+                        <p><a href="https://github.com/aigc-apps/EasyAnimate/blob/main/easyanimate/video_caption/README.md">EasyAnimate video caption</a>, <a href="https://github.com/intuitive-robots/NILS">NILS</a>, <a href="https://github.com/microsoft/VLM-Video-Action-Localization">VLM-Video-Action-Localization</a>.</p>
+                      </div>
+                    </li>
+                    <li>
+                      <span class="box ongoing"></span>
+                      <div>
+                        <strong>决定基模与初版训练规模</strong>
+                        <p>主要比较 Cosmos-Predict 2.5、WAN2.2-TI2V、<a href="https://github.com/Lightricks/LTX-Video">LTX-Video</a>；先用 5k-1w 条，1k-2k 条单任务训练初版，三者先只做 TI2V inference。</p>
+                      </div>
+                    </li>
+                    <li>
+                      <span class="box ongoing"></span>
+                      <div>
+                        <strong>先跑 DreamZero / CtrlWorld inference</strong>
+                        <p>作为 AI2V 候选 codebase，先验证是否值得进入训练或改造。</p>
+                      </div>
+                    </li>
+                    <li>
+                      <span class="box ongoing"></span>
+                      <div>
+                        <strong>准备基模 / codebase 测试集并发给 Haoyu</strong>
+                        <p>围绕 Cosmos-Predict 2.5、WAN2.2-TI2V、LTX-Video、DreamZero / CtrlWorld，整理可直接跑起来的测试集和评测输入。</p>
+                      </div>
+                    </li>
+                    <li>
+                      <span class="box"></span>
+                      <div>
+                        <strong>建立 evaluation 数据与 VBench 评测</strong>
+                        <p>除可视化外，组织 100/200 条数据，用 <a href="https://github.com/Vchitect/VBench">VBench</a> 做原生模型能力评测。</p>
+                      </div>
+                    </li>
+                  </ul>
+                </section>
+                <section class="project-panel">
+                  <h3>Risks / Decisions</h3>
+                  <ol class="decision-list project-list">
+                    <li>基模路线：先证明 TI2V 能力，还是同步推进 AI2V codebase inference。</li>
+                    <li>时间帧切分精度会直接影响 caption / relabel 质量，需要早做小样本检查。</li>
+                    <li>初版数据规模要控制在能快速迭代的范围，避免一开始就把训练周期拉长。</li>
+                    <li>Evaluation 需要同时覆盖视觉质量、时序定位、动作条件一致性。</li>
+                  </ol>
+                </section>
+              </div>
+            </details>
+
+            <details class="project-detail" open>
+              <summary>
+                <span>
+                  <strong>Self-Improving Agents for Physical AI</strong>
+                  <em>Runtime-governed Robot-for-Robot data and evaluation system</em>
+                </span>
+                <mark class="status on-track">Ongoing</mark>
+              </summary>
+              <div class="project-body compact">
+                <figure>
+                  <img src="assets/pearl-overview.png" alt="PEARL self-improving physical AI framework">
+                  <figcaption>PEARL reference: failure memory, attribution, task-environment co-evolution, governance.</figcaption>
+                </figure>
+                <div>
+                  <p>This project reframes agentic R2S2R as a self-improving Physical AI system: start inside Isaac simulation, use VLM-guided diagnosis and task/environment generation to improve the simulator and policy evaluation loop, then grow toward Robot-for-Robot data collection and benchmarking.</p>
+                  <ul>
+                    <li>Current focus: test LeHome and consolidate household tasks into one Isaac-compatible environment.</li>
+                    <li>Use PEARL-style typed failure memory, failure attribution, task-environment co-evolution, and runtime governance as the conceptual framework.</li>
+                    <li>Extend tasks with generated object physics assets and scene assets instead of relying only on fixed benchmark environments.</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="project-workstream">
+                <section class="project-panel">
+                  <h3>TODO</h3>
+                  <ul class="todo-list project-list">
+                    <li>
+                      <span class="box"></span>
+                      <div>
+                        <strong>Test LeHome task stack</strong>
+                        <p>Run through <a href="https://github.com/lehome-official/lehome">lehome</a> and <a href="https://github.com/lehome-official/lehome-challenge">lehome-challenge</a>; map assets, task registration, data collection, and evaluation entrypoints.</p>
+                      </div>
+                    </li>
+                    <li>
+                      <span class="box"></span>
+                      <div>
+                        <strong>Unify household tasks in one Isaac environment</strong>
+                        <p>Integrate LeHome household/deformable-object tasks with <a href="https://github.com/NVLabs/RoboLab">RoboLab</a>-style Isaac Lab policy/evaluation infrastructure.</p>
+                      </div>
+                    </li>
+                    <li>
+                      <span class="box"></span>
+                      <div>
+                        <strong>Add generative asset expansion</strong>
+                        <p>Use <a href="https://github.com/ziangcao0312/PhysX-Anything">PhysX-Anything</a> for simulation-ready physical object assets and <a href="https://github.com/jaber628/WorldComposer">WorldComposer</a> for scene / Real2Sim asset generation.</p>
+                      </div>
+                    </li>
+                    <li>
+                      <span class="box"></span>
+                      <div>
+                        <strong>Prototype VLM-guided simulator self-improvement</strong>
+                        <p>Let a VLM inspect rollouts, label failure causes, propose task/environment mutations, and feed candidates through executability and governance checks.</p>
+                      </div>
+                    </li>
+                    <li>
+                      <span class="box"></span>
+                      <div>
+                        <strong>Define Robot-for-Robot output format</strong>
+                        <p>Specify generated tasks, assets, failure traces, evaluation scores, and policy-ready datasets as first-class outputs.</p>
+                      </div>
+                    </li>
+                  </ul>
+                </section>
+                <section class="project-panel">
+                  <h3>Risks / Decisions</h3>
+                  <ol class="decision-list project-list">
+                    <li>Scope should start in simulation: VLM-guided improvement of task/env generation before real robot deployment.</li>
+                    <li>Unification risk: LeHome, LeHome Challenge, RoboLab, and generated assets may expose incompatible task schemas.</li>
+                    <li>Executability is the key filter: generated tasks/assets must be physically valid, not only visually plausible.</li>
+                    <li>Runtime governance should be part of the learning signal, not only a safety wrapper.</li>
+                  </ol>
+                </section>
+              </div>
+            </details>
+
+            <details class="project-detail" open>
+              <summary>
+                <span>
+                  <strong>Robotics + 3D Printing</strong>
+                  <em>Language/image-driven PoD design to printable CAD</em>
+                </span>
+                <mark class="status on-track">Ongoing</mark>
+              </summary>
+              <div class="project-body compact">
+                <figure class="wide-figure">
+                  <img src="assets/robotics-3d-printing-platform.png" alt="Allo-style generated product design exported to a 3D printing workflow">
+                  <figcaption>Reference video: generated structure moves toward an STL / 3D-printing handoff.</figcaption>
+                </figure>
+                <div>
+                  <p>Build a web product for Product on Demand: the user provides natural-language demand plus photos of existing real-world objects, and the system generates a printable retrofit / add-on part with assembly instructions.</p>
+                  <ul>
+                    <li>Target is existing-object modification, not generic decorative text-to-3D.</li>
+                    <li>Pipeline: VLM object analysis -> design spec -> concept image -> image/text-to-3D -> code-controlled CAD cleanup -> slicer / printer handoff.</li>
+                    <li><a href="https://allotech-ai.com/creating/home">Allo</a> suggests the interaction pattern for AI-assisted creation; <a href="https://www.blueprint.am/">Blueprint</a> suggests prompt-to-hardware planning with generated diagrams, BOM, and assembly guides.</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="project-workstream">
+                <section class="project-panel">
+                  <h3>TODO</h3>
+                  <ul class="todo-list project-list">
+                    <li>
+                      <span class="box"></span>
+                      <div>
+                        <strong>Benchmark photo / text-to-3D engines</strong>
+                        <p>Use one reference object image to compare MakerLab engines: Tripo AI 3.1, Hunyuan 3D 3.1, and Meshy 6; record geometry quality, printability, and editability.</p>
+                      </div>
+                    </li>
+                    <li>
+                      <span class="box"></span>
+                      <div>
+                        <strong>Evaluate code-controllable CAD stack</strong>
+                        <p>Blender MCP seems practical for boolean cuts, scale edits, coordinates, and simple text insertion; compare with parametric options such as CadQuery / OpenSCAD / FreeCAD for more reliable manufacturing constraints.</p>
+                      </div>
+                    </li>
+                    <li>
+                      <span class="box"></span>
+                      <div>
+                        <strong>Define PoD input schema</strong>
+                        <p>Text demand, object images, rough dimensions, contact surfaces, load/material constraints, printer type, and desired assembly behavior.</p>
+                      </div>
+                    </li>
+                    <li>
+                      <span class="box"></span>
+                      <div>
+                        <strong>Prototype the agent pipeline</strong>
+                        <p>Analyze object + demand, write design prompt, generate concept image, call 3D model API, clean part in CAD, export STL / 3MF, then generate robot / human assembly instruction prompt.</p>
+                      </div>
+                    </li>
+                    <li>
+                      <span class="box"></span>
+                      <div>
+                        <strong>Build one retrofit demo</strong>
+                        <p>Start from a MakerLab-style PoD case such as a Mac mini top power-button extender: existing object + small snap-fit / no-disassembly printed part.</p>
+                      </div>
+                    </li>
+                  </ul>
+                </section>
+                <section class="project-panel">
+                  <h3>Risks / Decisions</h3>
+                  <ol class="decision-list project-list">
+                    <li>Text/image-to-3D often returns meshes, but the product needs editable, manufacturable CAD and print-ready geometry.</li>
+                    <li>Single real-object images usually miss metric scale; need reference dimensions, calibration markers, or manual dimension entry.</li>
+                    <li>Blender MCP needs precise coordinates and operation-level commands for reliable edits; open-ended correction is likely too brittle.</li>
+                    <li>Direct printer handoff needs checks for watertight meshes, wall thickness, overhang/support, material constraints, queueing, and safety.</li>
+                    <li>The core value should be retrofit + assembly for real objects, not another standalone text-to-3D model generator.</li>
+                  </ol>
+                </section>
+              </div>
+            </details>
+          </div>
+
+          <div class="status-column">
+            <div class="bucket-title">
+              <span>Research / Survey</span>
+              <strong>Scoping projects</strong>
+            </div>
+
+            <details class="project-detail" open>
+              <summary>
+                <span>
+                  <strong>Image-Layered World Model</strong>
+                  <em>Third-person video decomposition for reasoning and control</em>
+                </span>
+                <mark class="status research">Survey</mark>
+              </summary>
+              <div class="project-body compact">
+                <figure>
+                  <img src="assets/layered-world-model.png" alt="Layered world model pipeline">
+                  <figcaption>Layer 0 background, Layer 1 objects, Layer 2 robots.</figcaption>
+                </figure>
+                <div>
+                  <p>Third-person video generation can be made more useful if it is decomposed into scene layers rather than treated as flat pixels.</p>
+                  <ul>
+                    <li>Target outputs: data augmentation, reward model, and inverse dynamics model.</li>
+                    <li>Immediate work: survey layered video / object-centric generation methods.</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="project-workstream">
+                <section class="project-panel">
+                  <h3>TODO</h3>
+                  <ul class="todo-list project-list">
+                    <li>
+                      <span class="box"></span>
+                      <div>
+                        <strong>Write Image-Layered World Model survey notes</strong>
+                        <p>Define background / object / robot layers and connect them to IDM, reward model, and augmentation.</p>
+                      </div>
+                    </li>
+                    <li>
+                      <span class="box"></span>
+                      <div>
+                        <strong>Compare layered video / object-centric generation methods</strong>
+                        <p>Decide whether the first version should be visual decomposition only or include object / robot state supervision.</p>
+                      </div>
+                    </li>
+                  </ul>
+                </section>
+                <section class="project-panel">
+                  <h3>Risks / Decisions</h3>
+                  <ol class="decision-list project-list">
+                    <li>Layered model scope: visual decomposition only, or state-aware layers from the beginning.</li>
+                    <li>Evaluation target: data augmentation quality, reward-model usefulness, or IDM recoverability.</li>
+                  </ol>
+                </section>
+              </div>
+            </details>
+
+            <details class="project-detail" open>
+              <summary>
+                <span>
+                  <strong>Superhuman Rate-Curve Teleop</strong>
+                  <em>Learn faster-than-human execution from slow teleoperation</em>
+                </span>
+                <mark class="status research">Survey</mark>
+              </summary>
+              <div class="project-body compact">
+                <figure class="rate-curve-figure">
+                  <div class="rate-curve-visual" role="img" aria-label="Playback rate curve from human speed to learned robot speed">
+                    <svg viewBox="0 0 320 180" aria-hidden="true">
+                      <path class="axis" d="M34 146H292M34 146V28"></path>
+                      <path class="human-line" d="M42 112C86 112 132 112 176 112C219 112 250 112 286 112"></path>
+                      <path class="robot-line" d="M42 126C72 122 86 68 115 62C145 56 154 102 184 89C222 72 233 44 286 38"></path>
+                      <circle cx="42" cy="126" r="4"></circle>
+                      <circle cx="115" cy="62" r="4"></circle>
+                      <circle cx="184" cy="89" r="4"></circle>
+                      <circle cx="286" cy="38" r="4"></circle>
+                      <text x="34" y="22">rate</text>
+                      <text x="244" y="166">demo phase</text>
+                      <text x="205" y="33">RL curve</text>
+                      <text x="214" y="106">human 1x</text>
+                    </svg>
+                  </div>
+                  <figcaption>Keep teleop path and event order; learn a safe playback-rate curve.</figcaption>
+                </figure>
+                <div>
+                  <p><a href="https://ekarobotics.com">EKA Robotics</a> frames fast, reliable physical execution as a core capability. This project asks whether slower human teleoperation can be retimed into faster robot execution without collecting equally fast human demos.</p>
+                  <ul>
+                    <li>Separate what from when: preserve teleop path, contacts, and event order; optimize the time parameterization.</li>
+                    <li>Baseline with classical trajectory retiming under velocity, acceleration, jerk, torque, and contact constraints.</li>
+                    <li>Add an RL policy over a low-dimensional playback-rate curve, rewarded by success, speed, stability, and safety margin.</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="project-workstream">
+                <section class="project-panel">
+                  <h3>TODO</h3>
+                  <ul class="todo-list project-list">
+                    <li>
+                      <span class="box"></span>
+                      <div>
+                        <strong>Define benchmark tasks and speed metrics</strong>
+                        <p>Compare human-speed replay, constant 2x/3x replay, classical retiming, and learned rate-curve replay.</p>
+                      </div>
+                    </li>
+                    <li>
+                      <span class="box"></span>
+                      <div>
+                        <strong>Build a retiming baseline</strong>
+                        <p>Use time-parameterization / TOPPRA-style constraints before adding RL, so we know the classical ceiling.</p>
+                      </div>
+                    </li>
+                    <li>
+                      <span class="box"></span>
+                      <div>
+                        <strong>Prototype RL over playback-rate curves</strong>
+                        <p>Action controls local speed multiplier; reward balances task success, shorter duration, smoothness, contact stability, and safety.</p>
+                      </div>
+                    </li>
+                    <li>
+                      <span class="box"></span>
+                      <div>
+                        <strong>Mark event constraints in teleop demos</strong>
+                        <p>Do not accelerate perception waits, grasp confirmation, contact settling, or object state transitions blindly.</p>
+                      </div>
+                    </li>
+                  </ul>
+                </section>
+                <section class="project-panel">
+                  <h3>Risks / Decisions</h3>
+                  <ol class="decision-list project-list">
+                    <li>Need to distinguish hardware capability from policy speed; faster timing alone may not reproduce EKA-like performance.</li>
+                    <li>Contact-rich manipulation may fail under naive acceleration even if the geometric path is unchanged.</li>
+                    <li>RL should probably tune timing, not the full action trajectory, to keep the project scoped and demo-data grounded.</li>
+                    <li>Evaluation should include success rate at higher speed, not only shorter completion time.</li>
+                  </ol>
+                </section>
+              </div>
+            </details>
+
+            <details class="project-detail" open>
+              <summary>
+                <span>
+                  <strong>Diverse Dataset on Same Task</strong>
+                  <em>2077AI / Zhou Jianshu collaboration for unified HOI data</em>
+                </span>
+                <mark class="status research">Survey</mark>
+              </summary>
+              <div class="project-body compact">
+                <figure class="wide-figure">
+                  <img src="assets/hoi-diverse-dataset.png" alt="HOI dataset capture frames with hand pose and depth map">
+                  <figcaption>Current capture stack: ego RGB, hand keypoints, z16 depth, and shared tracking logic.</figcaption>
+                </figure>
+                <div>
+                  <p>This pre-research project asks whether the same manipulation task can be collected across all major acquisition modes, then unified into an HOI-centric base model and predictive world model.</p>
+                  <ul>
+                    <li>Collection modes: human-centric and robot-centric views; Manus glove, UMI, ALOHA, kinesthetic / drag demonstration, and teleoperation.</li>
+                    <li>Reference framing: HOI-centric retargeting from glove / human posture to robot configurations, with Isaac Sim as the bridge for retargeting and simulation checks.</li>
+                    <li>Recent status: 2077AI spent substantial time on sensor synchronization; camera extrinsics now have an extra PnP calibration layer, and hand pose, depth, and ego camera are mostly ready.</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="project-workstream">
+                <section class="project-panel">
+                  <h3>TODO</h3>
+                  <ul class="todo-list project-list">
+                    <li>
+                      <span class="box checked"></span>
+                      <div>
+                        <strong>Add PnP calibration layer for camera extrinsics</strong>
+                        <p>Extra calibration support was added to help 2077AI stabilize camera extrinsics after sensor synchronization took longer than expected.</p>
+                      </div>
+                    </li>
+                    <li>
+                      <span class="box ongoing"></span>
+                      <div>
+                        <strong>Freeze the same-task collection matrix</strong>
+                        <p>Define the identical task across glove, UMI, ALOHA, drag demonstration, and teleoperation, with human-centric and robot-centric camera views.</p>
+                      </div>
+                    </li>
+                    <li>
+                      <span class="box ongoing"></span>
+                      <div>
+                        <strong>Validate synchronized sensor package</strong>
+                        <p>Confirm hand pose, ego camera, and z16-encoded depth are aligned well enough for HOI supervision; z16 replaces depth heatmaps for better metric accuracy.</p>
+                      </div>
+                    </li>
+                    <li>
+                      <span class="box ongoing"></span>
+                      <div>
+                        <strong>Add object tracking with the same mechanism as hand tracking</strong>
+                        <p>The object tracker should share the same tracking / calibration assumptions as the hand tracker rather than creating a separate data path.</p>
+                      </div>
+                    </li>
+                    <li>
+                      <span class="box"></span>
+                      <div>
+                        <strong>Define unified HOI schema and baseline model target</strong>
+                        <p>Specify common timestamps, camera extrinsics, hand / object state, robot embodiment metadata, and the prediction target for the HOI base model / world model.</p>
+                      </div>
+                    </li>
+                    <li>
+                      <span class="box"></span>
+                      <div>
+                        <strong>Connect retargeting baselines</strong>
+                        <p>Use the HOI Retargeting notes to compare <a href="https://github.com/leap-hand/Bidex_Manus_Teleop">Manus glove -> LEAP</a> / Isaac Sim retargeting, AnyHand-style robot-guided retargeting, and object sim2real alignment ideas such as <a href="https://nvlabs.github.io/FoundationPose/">FoundationPose</a>.</p>
+                      </div>
+                    </li>
+                  </ul>
+                </section>
+                <section class="project-panel">
+                  <h3>Risks / Decisions</h3>
+                  <ol class="decision-list project-list">
+                    <li>Data value depends on same-task equivalence across embodiments, not only collecting more modalities.</li>
+                    <li>2077AI collection capacity and sensor-sync reliability are current bottlenecks; the pipeline needs simple validation checks before scaling.</li>
+                    <li>Human pose maps to multiple feasible robot poses, so the target for retargeting / HOI prediction must be defined carefully.</li>
+                    <li>Object and hand tracking should share calibration assumptions; otherwise object-state supervision will drift from hand pose and depth.</li>
+                    <li>Predictive WM scope should start with aligned HOI state transitions before attempting a full cross-embodiment policy model.</li>
+                  </ol>
+                </section>
+              </div>
+            </details>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <div class="image-lightbox" data-lightbox hidden aria-hidden="true" role="dialog" aria-modal="true" aria-label="Expanded figure">
+      <button class="lightbox-close" type="button" data-lightbox-close aria-label="Close expanded figure">x</button>
+      <figure class="lightbox-figure">
+        <img class="lightbox-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" alt="">
+        <figcaption class="lightbox-caption"></figcaption>
+      </figure>
+    </div>
+
+    <script>
+      (() => {
+        const lightbox = document.querySelector("[data-lightbox]");
+        const lightboxImage = lightbox.querySelector(".lightbox-image");
+        const lightboxCaption = lightbox.querySelector(".lightbox-caption");
+        const closeButton = lightbox.querySelector("[data-lightbox-close]");
+        const zoomableImages = document.querySelectorAll(".figure-card img, .project-body figure img");
+        const placeholderImage = lightboxImage.src;
+        let lastFocusedElement = null;
+
+        zoomableImages.forEach((image) => {
+          image.classList.add("zoomable-image");
+          image.tabIndex = 0;
+          image.setAttribute("role", "button");
+          image.setAttribute("aria-label", `Open larger image: ${image.alt || "figure"}`);
+        });
+
+        const openLightbox = (image) => {
+          const caption = image.closest("figure")?.querySelector("figcaption")?.textContent?.trim();
+          lastFocusedElement = document.activeElement;
+          lightboxImage.src = image.currentSrc || image.src;
+          lightboxImage.alt = image.alt || "";
+          lightboxCaption.textContent = caption || image.alt || "";
+          lightbox.hidden = false;
+          lightbox.setAttribute("aria-hidden", "false");
+          document.body.classList.add("lightbox-open");
+          closeButton.focus();
+        };
+
+        const closeLightbox = () => {
+          lightbox.hidden = true;
+          lightbox.setAttribute("aria-hidden", "true");
+          lightboxImage.src = placeholderImage;
+          lightboxImage.alt = "";
+          lightboxCaption.textContent = "";
+          document.body.classList.remove("lightbox-open");
+          if (lastFocusedElement instanceof HTMLElement) {
+            lastFocusedElement.focus();
+          }
+        };
+
+        document.addEventListener("click", (event) => {
+          const image = event.target.closest?.(".zoomable-image");
+          if (image) {
+            openLightbox(image);
+          }
+        });
+
+        document.addEventListener("keydown", (event) => {
+          if ((event.key === "Enter" || event.key === " ") && event.target.classList?.contains("zoomable-image")) {
+            event.preventDefault();
+            openLightbox(event.target);
+          }
+
+          if (event.key === "Escape" && !lightbox.hidden) {
+            closeLightbox();
+          }
+        });
+
+        lightbox.addEventListener("click", (event) => {
+          if (event.target === lightbox || event.target.closest("[data-lightbox-close]")) {
+            closeLightbox();
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>

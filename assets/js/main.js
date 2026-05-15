@@ -24,7 +24,7 @@ function applyMode(full) {
   window.siteFullMode = full;
   var hideInMinimal = [
     'more-academic-links-wrap', 'news-phd-offer',
-    'section-research-proposal', 'section-toggle-papers',
+    'section-toggle-papers',
     'section-toggle-awards', 'section-talks', 'section-org-entre'
   ];
   var showInMinimal = ['scholar-link-note'];
