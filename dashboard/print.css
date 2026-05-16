@@ -636,6 +636,89 @@ figcaption {
   text-underline-offset: 2px;
 }
 
+.archive-panel {
+  background: #f7faf8;
+  border-color: #d5e5da;
+}
+
+.archive-detail > summary {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.archive-detail > summary::-webkit-details-marker {
+  display: none;
+}
+
+.archive-detail > summary span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.archive-detail > summary small {
+  color: var(--done);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.archive-list {
+  display: grid;
+  gap: 7px;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.archive-list li {
+  padding: 8px;
+  border: 1px solid #c8d8cf;
+  background: var(--done-soft);
+}
+
+.archive-list strong {
+  display: block;
+}
+
+.archive-list p {
+  margin: 3px 0 0;
+  color: #274834;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.archive-table-wrap {
+  margin-top: 8px;
+  overflow-x: auto;
+}
+
+.archive-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+  font-size: 11px;
+}
+
+.archive-table th,
+.archive-table td {
+  padding: 6px 7px;
+  border: 1px solid #dbe5dd;
+  text-align: left;
+  vertical-align: top;
+}
+
+.archive-table th {
+  color: #274834;
+  background: #eef6f0;
+  font-weight: 800;
+}
+
 .todo-list,
 .decision-list {
   margin: 0;
@@ -1017,6 +1100,31 @@ body.lightbox-open {
   .project-panel h3 {
     margin-bottom: 5px;
     font-size: 9px;
+  }
+
+  .archive-detail > summary span,
+  .archive-detail > summary small {
+    font-size: 9px;
+  }
+
+  .archive-list {
+    gap: 4px;
+    margin-top: 5px;
+  }
+
+  .archive-list li {
+    padding: 5px;
+  }
+
+  .archive-list p,
+  .archive-table {
+    font-size: 9px;
+    line-height: 1.22;
+  }
+
+  .archive-table th,
+  .archive-table td {
+    padding: 4px;
   }
 
   .project-list,

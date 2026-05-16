@@ -38,7 +38,7 @@
           </article>
           <article>
             <span class="label">Progress</span>
-            <p>ARX infra was completed today; ready hardware baseline is recorded; UMI annotation panel and Gemini frame test are done; UMI base-model / codebase tests, Self-Improving Agents, and Robotics + 3D Printing remain active.</p>
+            <p>Completed items are archived after the weekly meeting: ARX infra, ready hardware baseline, Gemini frame localization, and 2077AI PnP calibration. UMI fine-grained segmentation survey is done but kept visible for next week's report; UMI base-model / codebase tests, Self-Improving Agents, and Robotics + 3D Printing remain active.</p>
           </article>
           <article>
             <span class="label">Blockers</span>
@@ -188,31 +188,12 @@
               </div>
               <div class="project-workstream">
                 <section class="project-panel">
-                  <h3>TODO</h3>
-                  <ul class="todo-list project-list">
-                    <li class="todo-expandable">
-                      <details class="todo-result">
-                        <summary>
-                          <span class="box checked"></span>
-                          <span>
-                            <strong>完成方舟无限真机 infra 搭建</strong>
-                            <em>把真机侧运行环境、基础连接和可操作入口先打通。</em>
-                          </span>
-                        </summary>
-                        <p>今天已完成首轮搭建；后续只需要继续补统一启动脚本、设备状态记录和数据采集 checklist。</p>
-                      </details>
-                    </li>
-                    <li>
-                      <span class="box checked"></span>
-                      <div>
-                        <strong>整理当前 ready 设备基线</strong>
-                        <p>Linker FFG、UDCAP 数据手套、Cobot Magic / Piper-X、Linker Hand L6、Daimon UMI 已纳入 infra 清单；Linker TA 仍按搭建中跟踪。</p>
-                      </div>
-                    </li>
-                    <li>
-                      <span class="box ongoing"></span>
-                      <div>
-                        <strong>搭建 Franka + Wuji Hand</strong>
+	                  <h3>TODO</h3>
+	                  <ul class="todo-list project-list">
+	                    <li>
+	                      <span class="box ongoing"></span>
+	                      <div>
+	                        <strong>搭建 Franka + Wuji Hand</strong>
                         <p>先完成机械安装、驱动 / SDK 接入、ROS / Isaac 侧接口和最小动作验证，再接入数据记录。</p>
                       </div>
                     </li>
@@ -236,11 +217,29 @@
                         <strong>接入 VIVE Tracker</strong>
                         <p>用于腕部 / 物体 / 人体外参跟踪，后续和手套、相机、机器人状态一起做时间同步。</p>
                       </div>
-                    </li>
-                  </ul>
-                </section>
-                <section class="project-panel">
-                  <h3>Risks / Decisions</h3>
+	                    </li>
+	                  </ul>
+	                </section>
+	                <section class="project-panel archive-panel">
+	                  <details class="archive-detail">
+	                    <summary>
+	                      <span>Archive</span>
+	                      <small>1 completed</small>
+	                    </summary>
+	                    <ul class="archive-list project-list">
+	                      <li>
+	                        <strong>完成方舟无限真机 infra 搭建</strong>
+	                        <p>今天已完成首轮搭建；后续只需要继续补统一启动脚本、设备状态记录和数据采集 checklist。</p>
+	                      </li>
+	                      <li>
+	                        <strong>整理当前 ready 设备基线</strong>
+	                        <p>Linker FFG、UDCAP 数据手套、Cobot Magic / Piper-X、Linker Hand L6、Daimon UMI 已纳入 infra 清单；Linker TA 仍按搭建中跟踪。</p>
+	                      </li>
+	                    </ul>
+	                  </details>
+	                </section>
+	                <section class="project-panel">
+	                  <h3>Risks / Decisions</h3>
                   <ol class="decision-list project-list">
                     <li>不同设备的驱动、SDK、ROS topic 和日志格式需要尽早统一，否则后面每条数据都会带维护成本。</li>
                     <li>手套、VIVE、相机、机器人状态要共享时间同步和外参标定策略。</li>
@@ -277,31 +276,67 @@
               </div>
               <div class="project-workstream">
                 <section class="project-panel">
-                  <h3>TODO</h3>
-                  <ul class="todo-list project-list">
-                    <li class="todo-expandable">
-                      <details class="todo-result">
-                        <summary>
-                          <span class="box checked"></span>
-                          <span>
-                            <strong>检验 Gemini 做时间帧定位的精确程度</strong>
-                            <em>先看它能不能稳定找到关键动作边界，再决定是否进入自动切分流程。</em>
-                          </span>
-                        </summary>
-                        <p>大部分精准；测试的 12 条内只有 1 条出现了 3-5s 的偏移。</p>
-                      </details>
-                    </li>
-                    <li>
-                      <span class="box ongoing"></span>
-                      <div>
-                        <strong>细粒度时间帧切分调研</strong>
-                        <p><a href="https://github.com/aigc-apps/EasyAnimate/blob/main/easyanimate/video_caption/README.md">EasyAnimate video caption</a>, <a href="https://github.com/intuitive-robots/NILS">NILS</a>, <a href="https://github.com/microsoft/VLM-Video-Action-Localization">VLM-Video-Action-Localization</a>.</p>
-                      </div>
-                    </li>
-                    <li>
-                      <span class="box ongoing"></span>
-                      <div>
-                        <strong>决定基模与初版训练规模</strong>
+	                  <h3>TODO</h3>
+	                  <ul class="todo-list project-list">
+	                    <li class="todo-expandable">
+	                      <details class="todo-result">
+	                        <summary>
+	                          <span class="box checked"></span>
+	                          <span>
+	                            <strong>细粒度时间帧切分调研</strong>
+	                            <em>保留在主 TODO 里，供下周组会汇报方法比较和方案选择。</em>
+	                          </span>
+	                        </summary>
+	                        <p>结论：主线优先用 Gemini + key-state prompt 做可命名分段；EE-Z 多信号 segmenter 可作为快速 key-state 辅助；NILS 完整 pipeline 暂不进入主线，成本高且语义质量不稳定。</p>
+	                        <div class="archive-table-wrap">
+	                          <table class="archive-table">
+	                            <thead>
+	                              <tr>
+	                                <th>方法</th>
+	                                <th>时间精度</th>
+	                                <th>语义正确性</th>
+	                                <th>段数合理性</th>
+	                                <th>全量 9226 成本</th>
+	                              </tr>
+	                            </thead>
+	                            <tbody>
+	                              <tr>
+	                                <td>原 Gemini caption</td>
+	                                <td>±5s</td>
+	                                <td>对，高层任务名</td>
+	                                <td>合理，2-14 段</td>
+	                                <td>~0，已存在</td>
+	                              </tr>
+	                              <tr>
+	                                <td>Gemini + key-state prompt</td>
+	                                <td>±1-2s</td>
+	                                <td>对</td>
+	                                <td>合理</td>
+	                                <td>加 0.1s/clip 预处理</td>
+	                              </tr>
+	                              <tr>
+	                                <td>EE-Z 多信号 segmenter</td>
+	                                <td>±1s</td>
+	                                <td>仅出 key-state，不命名</td>
+	                                <td>合适</td>
+	                                <td>15 min 全量</td>
+	                              </tr>
+	                              <tr>
+	                                <td>NILS 完整 pipeline</td>
+	                                <td>±1-3s</td>
+	                                <td>差，视觉栈幻觉</td>
+	                                <td>过度细分 9x</td>
+	                                <td>22 GPU 小时 + 一周调 bug</td>
+	                              </tr>
+	                            </tbody>
+	                          </table>
+	                        </div>
+	                      </details>
+	                    </li>
+	                    <li>
+	                      <span class="box ongoing"></span>
+	                      <div>
+	                        <strong>决定基模与初版训练规模</strong>
                         <p>主要比较 Cosmos-Predict 2.5、WAN2.2-TI2V、<a href="https://github.com/Lightricks/LTX-Video">LTX-Video</a>；先用 5k-1w 条，1k-2k 条单任务训练初版，三者先只做 TI2V inference。</p>
                       </div>
                     </li>
@@ -312,27 +347,41 @@
                         <p>作为 AI2V 候选 codebase，先验证是否值得进入训练或改造。</p>
                       </div>
                     </li>
-                    <li>
-                      <span class="box ongoing"></span>
-                      <div>
-                        <strong>准备基模 / codebase 测试集并发给 Haoyu</strong>
-                        <p>围绕 Cosmos-Predict 2.5、WAN2.2-TI2V、LTX-Video、DreamZero / CtrlWorld，整理可直接跑起来的测试集和评测输入。</p>
-                      </div>
-                    </li>
+	                    <li>
+	                      <span class="box checked"></span>
+	                      <div>
+	                        <strong>准备基模 / codebase 测试集并发给 Haoyu</strong>
+	                        <p>已围绕 Cosmos-Predict 2.5、WAN2.2-TI2V、LTX-Video、DreamZero / CtrlWorld，整理可直接跑起来的测试集和评测输入并发给 Haoyu。</p>
+	                      </div>
+	                    </li>
                     <li>
                       <span class="box"></span>
                       <div>
                         <strong>建立 evaluation 数据与 VBench 评测</strong>
                         <p>除可视化外，组织 100/200 条数据，用 <a href="https://github.com/Vchitect/VBench">VBench</a> 做原生模型能力评测。</p>
                       </div>
-                    </li>
-                  </ul>
-                </section>
-                <section class="project-panel">
-                  <h3>Risks / Decisions</h3>
+	                    </li>
+	                  </ul>
+	                </section>
+	                <section class="project-panel archive-panel">
+	                  <details class="archive-detail">
+	                    <summary>
+	                      <span>Archive</span>
+	                      <small>1 completed</small>
+	                    </summary>
+	                    <ul class="archive-list project-list">
+	                      <li>
+	                        <strong>检验 Gemini 做时间帧定位的精确程度</strong>
+	                        <p>大部分精准；测试的 12 条内只有 1 条出现了 3-5s 的偏移。</p>
+	                      </li>
+	                    </ul>
+	                  </details>
+	                </section>
+	                <section class="project-panel">
+	                  <h3>Risks / Decisions</h3>
                   <ol class="decision-list project-list">
                     <li>基模路线：先证明 TI2V 能力，还是同步推进 AI2V codebase inference。</li>
-                    <li>时间帧切分精度会直接影响 caption / relabel 质量，需要早做小样本检查。</li>
+	                    <li>时间帧切分调研已经收敛到 Gemini + key-state prompt / EE-Z 组合；下一步要把方案固化进 caption / relabel 流程。</li>
                     <li>初版数据规模要控制在能快速迭代的范围，避免一开始就把训练周期拉长。</li>
                     <li>Evaluation 需要同时覆盖视觉质量、时序定位、动作条件一致性。</li>
                   </ol>
@@ -512,11 +561,12 @@
                   <figcaption>Layer 0 background, Layer 1 objects, Layer 2 robots.</figcaption>
                 </figure>
                 <div>
-                  <p>Third-person video generation can be made more useful if it is decomposed into scene layers rather than treated as flat pixels.</p>
-                  <ul>
-                    <li>Target outputs: data augmentation, reward model, and inverse dynamics model.</li>
-                    <li>Immediate work: survey layered video / object-centric generation methods.</li>
-                  </ul>
+	                  <p>Third-person video generation can be made more useful if it is decomposed into scene layers rather than treated as flat pixels.</p>
+	                  <ul>
+	                    <li>Target outputs: data augmentation, reward model, and inverse dynamics model.</li>
+	                    <li>Robot layer should support robot priors at generation time: either a manipulator URDF or a single robot-arm image as the robot-condition input.</li>
+	                    <li>Immediate work: survey layered video / object-centric generation methods.</li>
+	                  </ul>
                 </div>
               </div>
               <div class="project-workstream">
@@ -526,10 +576,10 @@
                     <li>
                       <span class="box"></span>
                       <div>
-                        <strong>Write Image-Layered World Model survey notes</strong>
-                        <p>Define background / object / robot layers and connect them to IDM, reward model, and augmentation.</p>
-                      </div>
-                    </li>
+	                        <strong>Write Image-Layered World Model survey notes</strong>
+	                        <p>Define background / object / robot layers; specify robot-layer conditioning from URDF or robot-arm image; connect outputs to IDM, reward model, and augmentation.</p>
+	                      </div>
+	                    </li>
                     <li>
                       <span class="box"></span>
                       <div>
@@ -542,9 +592,10 @@
                 <section class="project-panel">
                   <h3>Risks / Decisions</h3>
                   <ol class="decision-list project-list">
-                    <li>Layered model scope: visual decomposition only, or state-aware layers from the beginning.</li>
-                    <li>Evaluation target: data augmentation quality, reward-model usefulness, or IDM recoverability.</li>
-                  </ol>
+	                    <li>Layered model scope: visual decomposition only, or state-aware layers from the beginning.</li>
+	                    <li>Robot-layer input format: URDF gives explicit kinematic structure, while one robot-arm image is easier to collect but needs stronger identity / geometry inference.</li>
+	                    <li>Evaluation target: data augmentation quality, reward-model usefulness, or IDM recoverability.</li>
+	                  </ol>
                 </section>
               </div>
             </details>
@@ -655,19 +706,12 @@
               </div>
               <div class="project-workstream">
                 <section class="project-panel">
-                  <h3>TODO</h3>
-                  <ul class="todo-list project-list">
-                    <li>
-                      <span class="box checked"></span>
-                      <div>
-                        <strong>Add PnP calibration layer for camera extrinsics</strong>
-                        <p>Extra calibration support was added to help 2077AI stabilize camera extrinsics after sensor synchronization took longer than expected.</p>
-                      </div>
-                    </li>
-                    <li>
-                      <span class="box ongoing"></span>
-                      <div>
-                        <strong>Freeze the same-task collection matrix</strong>
+	                  <h3>TODO</h3>
+	                  <ul class="todo-list project-list">
+	                    <li>
+	                      <span class="box ongoing"></span>
+	                      <div>
+	                        <strong>Freeze the same-task collection matrix</strong>
                         <p>Define the identical task across glove, UMI, ALOHA, drag demonstration, and teleoperation, with human-centric and robot-centric camera views.</p>
                       </div>
                     </li>
@@ -698,11 +742,25 @@
                         <strong>Connect retargeting baselines</strong>
                         <p>Use the HOI Retargeting notes to compare <a href="https://github.com/leap-hand/Bidex_Manus_Teleop">Manus glove -> LEAP</a> / Isaac Sim retargeting, AnyHand-style robot-guided retargeting, and object sim2real alignment ideas such as <a href="https://nvlabs.github.io/FoundationPose/">FoundationPose</a>.</p>
                       </div>
-                    </li>
-                  </ul>
-                </section>
-                <section class="project-panel">
-                  <h3>Risks / Decisions</h3>
+	                    </li>
+	                  </ul>
+	                </section>
+	                <section class="project-panel archive-panel">
+	                  <details class="archive-detail">
+	                    <summary>
+	                      <span>Archive</span>
+	                      <small>1 completed</small>
+	                    </summary>
+	                    <ul class="archive-list project-list">
+	                      <li>
+	                        <strong>Add PnP calibration layer for camera extrinsics</strong>
+	                        <p>Extra calibration support was added to help 2077AI stabilize camera extrinsics after sensor synchronization took longer than expected.</p>
+	                      </li>
+	                    </ul>
+	                  </details>
+	                </section>
+	                <section class="project-panel">
+	                  <h3>Risks / Decisions</h3>
                   <ol class="decision-list project-list">
                     <li>Data value depends on same-task equivalence across embodiments, not only collecting more modalities.</li>
                     <li>2077AI collection capacity and sensor-sync reliability are current bottlenecks; the pipeline needs simple validation checks before scaling.</li>
