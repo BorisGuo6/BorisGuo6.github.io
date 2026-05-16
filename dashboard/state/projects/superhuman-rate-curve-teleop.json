@@ -1,23 +1,29 @@
 {
   "schema_version": "project.v1",
   "project_id": "superhuman-rate-curve-teleop",
-  "title": "Superhuman Rate-Curve Teleop",
+  "title": "Superhuman Robot Execution",
   "bucket": "research",
   "status": "survey",
-  "updated_at": "2026-05-16T13:37:00+08:00",
-  "description": "Learn faster-than-human execution from slow teleoperation",
-  "summary": "This project asks whether slower human teleoperation can be retimed into faster robot execution without collecting equally fast human demos.",
+  "updated_at": "2026-05-16T18:34:00+08:00",
+  "description": "Extract accelerable execution strategies from slow teleoperation",
+  "summary": "This project asks whether slow human teleoperation can provide the task path, then DAgger + SFT first improves stability and safety, SFT action-frequency ablations measure speed / continuity tradeoffs, and RL further optimizes speed and smoothness.",
   "asset": null,
   "task_ids": [
-    "task_rate_curve_metrics",
+    "task_rate_curve_skill_representations",
     "task_rate_curve_retiming",
-    "task_rate_curve_rl",
-    "task_rate_curve_event_constraints"
+    "task_rate_curve_sampling_strategies",
+    "task_rate_curve_event_constraints",
+    "task_rate_curve_objective_split",
+    "task_rate_curve_sft_action_frequency",
+    "task_rate_curve_rl"
   ],
   "risks_decisions": [
     "Need to distinguish hardware capability from policy speed; faster timing alone may not reproduce EKA-like performance.",
-    "Contact-rich manipulation may fail under naive acceleration even if the geometric path is unchanged.",
-    "RL should probably tune timing, not the full action trajectory, to keep the project scoped and demo-data grounded.",
-    "Evaluation should include success rate at higher speed, not only shorter completion time."
+    "Contact-rich manipulation may fail under naive acceleration even if the geometric path and event order are unchanged.",
+    "The first learnable object should probably be the rate curve or action latent, not arbitrary raw actions; otherwise the project becomes generic RL.",
+    "Force / tactile can provide the safer reward, but real-robot deployment still needs guardrails for force spikes, collision, and hardware stress.",
+    "SFT action sampling frequency may change apparent speed and continuity even before RL, so it needs a separate ablation.",
+    "Evaluation should report SFT stability/safety first, SFT action-frequency effects second, then RL improvement in speed, acceleration profile, jerk, success rate, and force / tactile overshoot.",
+    "The most important research question is which operation types can be accelerated without losing physical reliability."
   ]
 }

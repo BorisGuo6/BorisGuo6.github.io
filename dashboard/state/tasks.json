@@ -311,10 +311,10 @@
       "result": null
     },
     {
-      "task_id": "task_rate_curve_metrics",
+      "task_id": "task_rate_curve_skill_representations",
       "project_id": "superhuman-rate-curve-teleop",
-      "title": "Define benchmark tasks and speed metrics",
-      "description": "Compare human-speed replay, constant 2x/3x replay, classical retiming, and learned rate-curve replay.",
+      "title": "Survey temporal-scaling skill representations",
+      "description": "Compare DMP / arc-length DMP, action-chunk latent editing, and phase-variable policies for separating task geometry from playback speed; start from https://arxiv.org/abs/2102.03861.",
       "status": "todo",
       "priority": "medium",
       "assignee": null,
@@ -323,18 +323,18 @@
     {
       "task_id": "task_rate_curve_retiming",
       "project_id": "superhuman-rate-curve-teleop",
-      "title": "Build a retiming baseline",
-      "description": "Use time-parameterization / TOPPRA-style constraints before adding RL, so we know the classical ceiling.",
+      "title": "Build classical retiming baselines",
+      "description": "Test TOPPRA / Ruckig-style retiming under velocity, acceleration, jerk, torque, and contact constraints before adding learned timing; references: https://arxiv.org/abs/1707.07239 and https://arxiv.org/abs/2105.04830.",
       "status": "todo",
       "priority": "medium",
       "assignee": null,
       "result": null
     },
     {
-      "task_id": "task_rate_curve_rl",
+      "task_id": "task_rate_curve_sampling_strategies",
       "project_id": "superhuman-rate-curve-teleop",
-      "title": "Prototype RL over playback-rate curves",
-      "description": "Action controls local speed multiplier; reward balances task success, shorter duration, smoothness, contact stability, and safety.",
+      "title": "Design phase-aware sampling strategies",
+      "description": "Sampling is still unclear; compare intuitive templates such as fast in free space, slow near contact, hold during perception / settling, and re-accelerate after stable force / tactile contact.",
       "status": "todo",
       "priority": "medium",
       "assignee": null,
@@ -349,6 +349,42 @@
       "priority": "medium",
       "assignee": null,
       "result": null
+    },
+    {
+      "task_id": "task_rate_curve_objective_split",
+      "project_id": "superhuman-rate-curve-teleop",
+      "title": "Define DAgger / SFT / RL training split",
+      "description": "DAgger collects correction data and SFT improves stability / safety; RL starts from that policy and adds speed rewards from velocity / completion time plus smoothness rewards from acceleration and jerk.",
+      "status": "active",
+      "priority": "high",
+      "assignee": null,
+      "result": null,
+      "started_at": "2026-05-16",
+      "due_at": "2026-05-23"
+    },
+    {
+      "task_id": "task_rate_curve_sft_action_frequency",
+      "project_id": "superhuman-rate-curve-teleop",
+      "title": "Ablate SFT action sampling frequency",
+      "description": "Train SFT variants with different action sampling frequencies / downsampling ratios, then compare execution speed, action continuity, jerk, and success stability before RL.",
+      "status": "active",
+      "priority": "high",
+      "assignee": null,
+      "result": null,
+      "started_at": "2026-05-16",
+      "due_at": "2026-05-23"
+    },
+    {
+      "task_id": "task_rate_curve_rl",
+      "project_id": "superhuman-rate-curve-teleop",
+      "title": "Run DAgger -> SFT -> RL pilot",
+      "description": "Use force / tactile signals to detect unsafe or unstable rollouts and request correction, train the SFT base, then RL-tune only smoother and faster execution; compare operation types to see which benefit from acceleration.",
+      "status": "active",
+      "priority": "high",
+      "assignee": null,
+      "result": null,
+      "started_at": "2026-05-16",
+      "due_at": "2026-05-23"
     },
     {
       "task_id": "task_hoi_pnp_calibration",

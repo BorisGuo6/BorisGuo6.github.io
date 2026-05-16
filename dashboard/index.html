@@ -699,8 +699,8 @@
             <details class="project-detail" open>
               <summary>
                 <span>
-                  <strong>Superhuman Rate-Curve Teleop</strong>
-                  <em>Learn faster-than-human execution from slow teleoperation</em>
+                  <strong>Superhuman Robot Execution</strong>
+                  <em>Extract accelerable execution strategies from slow teleoperation</em>
                 </span>
                 <mark class="status research">Survey</mark>
               </summary>
@@ -721,14 +721,15 @@
                       <text x="214" y="106">human 1x</text>
                     </svg>
                   </div>
-                  <figcaption>Keep teleop path and event order; learn a safe playback-rate curve.</figcaption>
+                  <figcaption>Keep the demonstrated skill path; optimize a phase-aware playback-rate curve.</figcaption>
                 </figure>
                 <div>
-                  <p><a href="https://ekarobotics.com">EKA Robotics</a> frames fast, reliable physical execution as a core capability. This project asks whether slower human teleoperation can be retimed into faster robot execution without collecting equally fast human demos.</p>
+                  <p><a href="https://ekarobotics.com">EKA Robotics</a> frames fast, reliable physical execution as a core capability. This project asks whether slow human teleoperation can provide the task path, then DAgger + SFT first improves policy stability and safety, and RL further improves speed and smoothness.</p>
                   <ul>
-                    <li>Separate what from when: preserve teleop path, contacts, and event order; optimize the time parameterization.</li>
-                    <li>Baseline with classical trajectory retiming under velocity, acceleration, jerk, torque, and contact constraints.</li>
-                    <li>Add an RL policy over a low-dimensional playback-rate curve, rewarded by success, speed, stability, and safety margin.</li>
+                    <li>Stage 1: use DAgger to collect corrective data under the current policy, then SFT a stable and safe base policy.</li>
+                    <li>SFT ablation: sample actions at different frequencies to measure how action rate affects speed, continuity, and stability before adding RL.</li>
+                    <li>Stage 2: run RL on top of the SFT policy; add velocity / completion-time rewards for speed and acceleration / jerk rewards for smoothness.</li>
+                    <li>Force and tactile signals should mainly define safety scores, DAgger correction triggers, evaluation, and real-robot guardrails rather than being the only RL objective.</li>
                   </ul>
                 </div>
               </div>
@@ -739,22 +740,22 @@
                     <li>
                       <span class="box"></span>
                       <div>
-                        <strong>Define benchmark tasks and speed metrics</strong>
-                        <p>Compare human-speed replay, constant 2x/3x replay, classical retiming, and learned rate-curve replay.</p>
+                        <strong>Survey temporal-scaling skill representations</strong>
+                        <p>Compare <a href="https://arxiv.org/abs/2102.03861">DMP / arc-length DMP</a>, action-chunk latent editing, and phase-variable policies for separating task geometry from playback speed.</p>
                       </div>
                     </li>
                     <li>
                       <span class="box"></span>
                       <div>
-                        <strong>Build a retiming baseline</strong>
-                        <p>Use time-parameterization / TOPPRA-style constraints before adding RL, so we know the classical ceiling.</p>
+                        <strong>Build classical retiming baselines</strong>
+                        <p>Test <a href="https://arxiv.org/abs/1707.07239">TOPPRA</a> / <a href="https://arxiv.org/abs/2105.04830">Ruckig</a>-style retiming under velocity, acceleration, jerk, torque, and contact constraints before adding learned timing.</p>
                       </div>
                     </li>
                     <li>
                       <span class="box"></span>
                       <div>
-                        <strong>Prototype RL over playback-rate curves</strong>
-                        <p>Action controls local speed multiplier; reward balances task success, shorter duration, smoothness, contact stability, and safety.</p>
+                        <strong>Design phase-aware sampling strategies</strong>
+                        <p>Sampling is still unclear; compare intuitive templates such as fast in free space, slow near contact, hold during perception / settling, and re-accelerate after stable force / tactile contact.</p>
                       </div>
                     </li>
                     <li>
@@ -764,15 +765,40 @@
                         <p>Do not accelerate perception waits, grasp confirmation, contact settling, or object state transitions blindly.</p>
                       </div>
                     </li>
+                    <li>
+                      <span class="box ongoing"></span>
+                      <div>
+                        <strong>Define DAgger / SFT / RL training split</strong>
+                        <p>DAgger collects correction data and SFT improves stability / safety; RL starts from that policy and adds speed rewards from velocity / completion time plus smoothness rewards from acceleration and jerk.</p>
+                      </div>
+                    </li>
+                    <li>
+                      <span class="box ongoing"></span>
+                      <div>
+                        <strong>Ablate SFT action sampling frequency</strong>
+                        <p>Train SFT variants with different action sampling frequencies / downsampling ratios, then compare execution speed, action continuity, jerk, and success stability before RL.</p>
+                      </div>
+                    </li>
+                    <li>
+                      <span class="box ongoing"></span>
+                      <div>
+                        <strong>Run DAgger -> SFT -> RL pilot</strong>
+                        <p>Use force / tactile signals to detect unsafe or unstable rollouts and request correction, train the SFT base, then RL-tune only smoother and faster execution; compare operation types to see which benefit from acceleration.</p>
+                      </div>
+                    </li>
                   </ul>
                 </section>
                 <section class="project-panel">
                   <h3>Risks / Decisions</h3>
                   <ol class="decision-list project-list">
                     <li>Need to distinguish hardware capability from policy speed; faster timing alone may not reproduce EKA-like performance.</li>
-                    <li>Contact-rich manipulation may fail under naive acceleration even if the geometric path is unchanged.</li>
-                    <li>RL should probably tune timing, not the full action trajectory, to keep the project scoped and demo-data grounded.</li>
-                    <li>Evaluation should include success rate at higher speed, not only shorter completion time.</li>
+                    <li>Contact-rich manipulation may fail under naive acceleration even if the geometric path and event order are unchanged.</li>
+                    <li>RL should not learn stability and safety from scratch; those should be bootstrapped by DAgger correction data and SFT.</li>
+                    <li>The first RL target should probably be the rate curve or action latent, not arbitrary raw actions; otherwise the project becomes generic RL.</li>
+                    <li>Force / tactile signals should define correction triggers, safety scores, and guardrails for force spikes, collision, and hardware stress.</li>
+                    <li>SFT action sampling frequency may change apparent speed and continuity even before RL, so it needs a separate ablation.</li>
+                    <li>Evaluation should report SFT stability/safety first, SFT action-frequency effects second, then RL improvement in speed, acceleration profile, jerk, success rate, and force / tactile overshoot.</li>
+                    <li>The most important research question is which operation types can be accelerated without losing physical reliability.</li>
                   </ol>
                 </section>
               </div>
