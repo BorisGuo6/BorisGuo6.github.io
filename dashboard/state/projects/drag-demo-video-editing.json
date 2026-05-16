@@ -1,0 +1,37 @@
+{
+  "schema_version": "project.v1",
+  "project_id": "drag-demo-video-editing",
+  "title": "Drag-Demo Video Editing",
+  "bucket": "active",
+  "status": "ongoing",
+  "updated_at": "2026-05-16T14:12:00+08:00",
+  "description": "Remove human hands from drag-teaching robot data",
+  "summary": "This project turns drag-teaching demonstrations into cleaner robot-learning videos by deleting the human operator hands while preserving robot motion, object contacts, and task state.",
+  "asset": "dashboard/assets/drag-demo-video-editing.png",
+  "task_ids": [
+    "task_drag_demo_initial_batch",
+    "task_drag_demo_backend_compare",
+    "task_drag_demo_diff_map_qa",
+    "task_drag_demo_finetuning_comparison",
+    "task_drag_demo_masks_collection_aids"
+  ],
+  "timeline": {
+    "sprint_start": "2026-05-16",
+    "sprint_due": "2026-05-23",
+    "milestones": [
+      {
+        "milestone_id": "drag_demo_week21_sprint_due",
+        "title": "Finish active drag-demo evaluation setup",
+        "status": "active",
+        "date": "2026-05-23"
+      }
+    ]
+  },
+  "risks_decisions": [
+    "Editing quality must be judged by contact preservation and policy usefulness, not only by visual plausibility.",
+    "Kling quality looks strong, but the closed API, 3-10s window, and credit cost make an open fallback necessary before scaling.",
+    "Diff maps need object / contact consistency checks; a low difference score can still hide harmful hallucination.",
+    "Drag demonstrations may have dynamics that differ from autonomous execution, so teleop-only and mixed-data baselines are required.",
+    "Mask constraints may be needed before the pipeline can scale beyond the first egg-cracking task."
+  ]
+}

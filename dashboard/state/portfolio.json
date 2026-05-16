@@ -4,7 +4,7 @@
   "title": "Embodied AI Project Dashboard",
   "week": "2026-W20",
   "date": "2026-05-15",
-  "updated_at": "2026-05-16T13:37:00+08:00",
+  "updated_at": "2026-05-16T14:12:00+08:00",
   "state_root": "dashboard/state",
   "summary": {
     "focus": "Frame the whole portfolio as one loop: real-robot infra collects and validates data; UMI / layered / HOI projects structure it; simulator and PoD projects turn it into robot tasks, evaluation, and physical outputs.",
@@ -42,6 +42,13 @@
       "state_path": "dashboard/state/projects/robotics-3d-printing.json"
     },
     {
+      "project_id": "drag-demo-video-editing",
+      "title": "Drag-Demo Video Editing",
+      "bucket": "active",
+      "status": "ongoing",
+      "state_path": "dashboard/state/projects/drag-demo-video-editing.json"
+    },
+    {
       "project_id": "image-layered-world-model",
       "title": "Image-Layered World Model",
       "bucket": "research",
@@ -72,5 +79,11 @@
     "Workers may update only their own dashboard/state/agents/{agent_id}.json and dashboard/state/runs/{run_id}.json.",
     "The conductor is the only owner for dashboard/state/tasks.json and dashboard/state/portfolio.json.",
     "Experimental claims must cite a run_id with a verified run state file."
-  ]
+  ],
+  "timeline_policy": {
+    "active_task_default_due_days": 7,
+    "active_task_default_due_at": "2026-05-23",
+    "done_tasks_require_completed_at": true,
+    "timezone": "Asia/Singapore"
+  }
 }

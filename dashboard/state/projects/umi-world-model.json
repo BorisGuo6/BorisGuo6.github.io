@@ -4,7 +4,7 @@
   "title": "UMI World Model",
   "bucket": "active",
   "status": "ongoing",
-  "updated_at": "2026-05-16T13:37:00+08:00",
+  "updated_at": "2026-05-16T14:05:00+08:00",
   "description": "Kinematics-conditioned dual eye-in-hand world modeling",
   "summary": "The core idea is to treat eye-in-hand UMI teleoperation as action-conditioned video generation: the robot action trajectory is also the wrist-camera trajectory.",
   "asset": "dashboard/assets/umi-dataset-visualization.png",
@@ -21,5 +21,32 @@
     "时间帧切分精度会直接影响 caption / relabel 质量，需要早做小样本检查。",
     "初版数据规模要控制在能快速迭代的范围，避免一开始就把训练周期拉长。",
     "Evaluation 需要同时覆盖视觉质量、时序定位、动作条件一致性。"
-  ]
+  ],
+  "timeline": {
+    "target_venue": "ICLR",
+    "target_cycle": "ICLR submission",
+    "target_note": "Paper target for UMI World Model; exact conference-year deadline should be filled once the official schedule is fixed.",
+    "sprint_start": "2026-05-16",
+    "sprint_due": "2026-05-23",
+    "milestones": [
+      {
+        "milestone_id": "umi_iclr_submission_target",
+        "title": "Target ICLR submission",
+        "status": "target",
+        "date": null
+      },
+      {
+        "milestone_id": "umi_week20_segmentation_survey_done",
+        "title": "Temporal segmentation route selected",
+        "status": "done",
+        "date": "2026-05-16"
+      },
+      {
+        "milestone_id": "umi_week21_sprint_due",
+        "title": "Finish active UMI sprint items",
+        "status": "active",
+        "date": "2026-05-23"
+      }
+    ]
+  }
 }

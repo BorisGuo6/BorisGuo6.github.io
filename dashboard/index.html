@@ -38,7 +38,7 @@
           </article>
           <article>
             <span class="label">Progress</span>
-            <p>Completed items are archived after the weekly meeting: ARX infra, ready hardware baseline, Gemini frame localization, and 2077AI PnP calibration. UMI fine-grained segmentation survey is done but kept visible for next week's report; UMI base-model / codebase tests, Self-Improving Agents, and Robotics + 3D Printing remain active.</p>
+            <p>Completed items are archived after the weekly meeting: ARX infra, ready hardware baseline, Gemini frame localization, and 2077AI PnP calibration. UMI fine-grained segmentation survey is done but kept visible for next week's report; UMI base-model tests, Self-Improving Agents, Robotics + 3D Printing, and drag-demo video editing remain active.</p>
           </article>
           <article>
             <span class="label">Blockers</span>
@@ -46,7 +46,7 @@
           </article>
           <article>
             <span class="label">Next</span>
-            <p>Finish the Franka + Wuji minimal run, prepare the UMI test set for Haoyu, run TI2V / AI2V inference, write layered-WM notes, define the simulator task / asset interface, and scope the PoD prototype.</p>
+            <p>Finish the Franka + Wuji minimal run, run UMI TI2V / AI2V inference, write layered-WM notes, define the simulator task / asset interface, scope the PoD prototype, and harden the drag-demo hand-removal evaluation.</p>
           </article>
         </section>
       </details>
@@ -144,6 +144,10 @@
             <figcaption>Robotics + 3D printing: generated structure exported toward printable parts.</figcaption>
           </figure>
           <figure class="figure-card">
+            <img src="assets/drag-demo-video-editing.png" alt="Drag-teaching robot data video editing and hand removal">
+            <figcaption>Drag-demo editing: ARX egg-cracking data, Kling hand removal, and diff-map QA.</figcaption>
+          </figure>
+          <figure class="figure-card">
             <img src="assets/hoi-diverse-dataset.png" alt="HOI diverse dataset with ego camera, hand pose, and depth">
             <figcaption>Diverse same-task HOI data: ego RGB, hand pose, and z16 depth.</figcaption>
           </figure>
@@ -195,6 +199,7 @@
 	                      <div>
 	                        <strong>搭建 Franka + Wuji Hand</strong>
                         <p>先完成机械安装、驱动 / SDK 接入、ROS / Isaac 侧接口和最小动作验证，再接入数据记录。</p>
+	                        <div class="task-meta"><span>Due May 23, 2026</span></div>
                       </div>
                     </li>
                     <li>
@@ -224,16 +229,18 @@
 	                  <details class="archive-detail">
 	                    <summary>
 	                      <span>Archive</span>
-	                      <small>1 completed</small>
+	                      <small>2 completed</small>
 	                    </summary>
 	                    <ul class="archive-list project-list">
 	                      <li>
 	                        <strong>完成方舟无限真机 infra 搭建</strong>
 	                        <p>今天已完成首轮搭建；后续只需要继续补统一启动脚本、设备状态记录和数据采集 checklist。</p>
+	                        <div class="task-meta completed"><span>Completed May 15, 2026</span></div>
 	                      </li>
 	                      <li>
 	                        <strong>整理当前 ready 设备基线</strong>
 	                        <p>Linker FFG、UDCAP 数据手套、Cobot Magic / Piper-X、Linker Hand L6、Daimon UMI 已纳入 infra 清单；Linker TA 仍按搭建中跟踪。</p>
+	                        <div class="task-meta completed"><span>Completed May 15, 2026</span></div>
 	                      </li>
 	                    </ul>
 	                  </details>
@@ -265,6 +272,11 @@
                 </figure>
                 <div>
                   <p>The core idea is to treat eye-in-hand UMI teleoperation as action-conditioned video generation: the robot action trajectory is also the wrist-camera trajectory.</p>
+                  <div class="timeline-strip" aria-label="UMI World Model timeline">
+                    <span><strong>Target</strong> ICLR submission</span>
+                    <span><strong>Sprint due</strong> May 23, 2026</span>
+                    <span><strong>Completed</strong> segmentation route, May 16</span>
+                  </div>
                   <ul>
                     <li>Use the annotation / subtask-splitting panel to inspect dual wrist videos, task labels, motion curves, and segment boundaries together.</li>
                     <li>Generate bimanual wrist-view videos conditioned on kinematics and gripper state.</li>
@@ -288,6 +300,7 @@
 	                          </span>
 	                        </summary>
 	                        <p>结论：主线优先用 Gemini + key-state prompt 做可命名分段；EE-Z 多信号 segmenter 可作为快速 key-state 辅助；NILS 完整 pipeline 暂不进入主线，成本高且语义质量不稳定。</p>
+	                        <div class="task-meta completed"><span>Completed May 16, 2026</span></div>
 	                        <div class="archive-table-wrap">
 	                          <table class="archive-table">
 	                            <thead>
@@ -338,6 +351,7 @@
 	                      <div>
 	                        <strong>决定基模与初版训练规模</strong>
                         <p>主要比较 Cosmos-Predict 2.5、WAN2.2-TI2V、<a href="https://github.com/Lightricks/LTX-Video">LTX-Video</a>；先用 5k-1w 条，1k-2k 条单任务训练初版，三者先只做 TI2V inference。</p>
+	                        <div class="task-meta"><span>Due May 23, 2026</span></div>
                       </div>
                     </li>
                     <li>
@@ -345,6 +359,7 @@
                       <div>
                         <strong>先跑 DreamZero / CtrlWorld inference</strong>
                         <p>作为 AI2V 候选 codebase，先验证是否值得进入训练或改造。</p>
+                        <div class="task-meta"><span>Due May 23, 2026</span></div>
                       </div>
                     </li>
 	                    <li>
@@ -352,6 +367,7 @@
 	                      <div>
 	                        <strong>准备基模 / codebase 测试集并发给 Haoyu</strong>
 	                        <p>已围绕 Cosmos-Predict 2.5、WAN2.2-TI2V、LTX-Video、DreamZero / CtrlWorld，整理可直接跑起来的测试集和评测输入并发给 Haoyu。</p>
+	                        <div class="task-meta completed"><span>Completed May 16, 2026</span></div>
 	                      </div>
 	                    </li>
                     <li>
@@ -373,6 +389,7 @@
 	                      <li>
 	                        <strong>检验 Gemini 做时间帧定位的精确程度</strong>
 	                        <p>大部分精准；测试的 12 条内只有 1 条出现了 3-5s 的偏移。</p>
+	                        <div class="task-meta completed"><span>Completed May 15, 2026</span></div>
 	                      </li>
 	                    </ul>
 	                  </details>
@@ -535,6 +552,85 @@
                     <li>Blender MCP needs precise coordinates and operation-level commands for reliable edits; open-ended correction is likely too brittle.</li>
                     <li>Direct printer handoff needs checks for watertight meshes, wall thickness, overhang/support, material constraints, queueing, and safety.</li>
                     <li>The core value should be retrofit + assembly for real objects, not another standalone text-to-3D model generator.</li>
+                  </ol>
+                </section>
+              </div>
+            </details>
+
+            <details class="project-detail" open>
+              <summary>
+                <span>
+                  <strong>Drag-Demo Video Editing</strong>
+                  <em>Remove human hands from drag-teaching robot data</em>
+                </span>
+                <mark class="status on-track">Ongoing</mark>
+              </summary>
+              <div class="project-body compact">
+                <figure class="wide-figure">
+                  <img src="assets/drag-demo-video-editing.png" alt="Drag-teaching robot data video editing and hand removal">
+                  <figcaption>Current trial: ARX egg-cracking drag demo, Kling hand-removal output, and diff-map QA.</figcaption>
+                </figure>
+                <div>
+                  <p>This project turns drag-teaching demonstrations into cleaner robot-learning videos by deleting the human operator hands while preserving robot motion, object contacts, and task state.</p>
+                  <ul>
+                    <li><a href="https://arxiv.org/abs/2508.09976">Masquerade</a> is the closest reference: use data editing to reduce the human-robot visual embodiment gap. Here the robot is already visible, so the key edit is hand removal rather than robot overlay.</li>
+                    <li>Current seed task: ARX egg cracking, which has clear contact events and enough tolerance to become a first data-scaling case.</li>
+                    <li>Current progress: collected first drag-demo data, tried Kling video+prompt editing, and started before/after difference-map evaluation.</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="project-workstream">
+                <section class="project-panel">
+                  <h3>TODO</h3>
+                  <ul class="todo-list project-list">
+                    <li>
+                      <span class="box ongoing"></span>
+                      <div>
+                        <strong>Collect initial drag-demo batch</strong>
+                        <p>Start with egg-cracking sequences; if editing quality holds, scale toward 100-300 drag-demo sequences and add a matching teleop subset.</p>
+                        <div class="task-meta"><span>Due May 23, 2026</span></div>
+                      </div>
+                    </li>
+                    <li>
+                      <span class="box ongoing"></span>
+                      <div>
+                        <strong>Compare hand-removal backends</strong>
+                        <p>Kling is promising but limited to 3-10s clips and paid credits; also test <a href="https://github.com/ali-vilab/VACE">VACE</a>, <a href="https://huggingface.co/black-forest-labs/FLUX.1-Fill-dev">FLUX.1-Fill-dev</a>, and <a href="https://huggingface.co/sd2-community/stable-diffusion-2-inpainting">Stable Diffusion 2 Inpainting</a> with masks.</p>
+                        <div class="task-meta"><span>Due May 23, 2026</span></div>
+                      </div>
+                    </li>
+                    <li>
+                      <span class="box ongoing"></span>
+                      <div>
+                        <strong>Build diff-map QA</strong>
+                        <p>Compute frame-wise before/after pixel differences and highlight changed regions; good edits should mainly light up human hands, not robot links, egg, bowl, or contact geometry.</p>
+                        <div class="task-meta"><span>Due May 23, 2026</span></div>
+                      </div>
+                    </li>
+                    <li>
+                      <span class="box"></span>
+                      <div>
+                        <strong>Define fine-tuning comparison</strong>
+                        <p>Compare teleop-only, drag+editing, raw drag-only, and mixed 70% drag + 30% teleop training data.</p>
+                      </div>
+                    </li>
+                    <li>
+                      <span class="box"></span>
+                      <div>
+                        <strong>Add masks / collection aids</strong>
+                        <p>Use masks, green gloves / head cover, and anti-slip materials to reduce editing ambiguity and keep hand-object contact readable.</p>
+                      </div>
+                    </li>
+                  </ul>
+                </section>
+                <section class="project-panel">
+                  <h3>Risks / Decisions</h3>
+                  <ol class="decision-list project-list">
+                    <li>Editing quality must be judged by contact preservation and policy usefulness, not only by visual plausibility.</li>
+                    <li>Kling quality looks strong, but the closed API, 3-10s window, and credit cost make an open fallback necessary before scaling.</li>
+                    <li>Diff maps need object / contact consistency checks; a low difference score can still hide harmful hallucination.</li>
+                    <li>Drag demonstrations may have dynamics that differ from autonomous execution, so teleop-only and mixed-data baselines are required.</li>
+                    <li>Mask constraints may be needed before the pipeline can scale beyond the first egg-cracking task.</li>
                   </ol>
                 </section>
               </div>
@@ -713,6 +809,7 @@
 	                      <div>
 	                        <strong>Freeze the same-task collection matrix</strong>
                         <p>Define the identical task across glove, UMI, ALOHA, drag demonstration, and teleoperation, with human-centric and robot-centric camera views.</p>
+	                        <div class="task-meta"><span>Due May 23, 2026</span></div>
                       </div>
                     </li>
                     <li>
@@ -720,6 +817,7 @@
                       <div>
                         <strong>Validate synchronized sensor package</strong>
                         <p>Confirm hand pose, ego camera, and z16-encoded depth are aligned well enough for HOI supervision; z16 replaces depth heatmaps for better metric accuracy.</p>
+                        <div class="task-meta"><span>Due May 23, 2026</span></div>
                       </div>
                     </li>
                     <li>
@@ -727,6 +825,7 @@
                       <div>
                         <strong>Add object tracking with the same mechanism as hand tracking</strong>
                         <p>The object tracker should share the same tracking / calibration assumptions as the hand tracker rather than creating a separate data path.</p>
+                        <div class="task-meta"><span>Due May 23, 2026</span></div>
                       </div>
                     </li>
                     <li>
@@ -755,6 +854,7 @@
 	                      <li>
 	                        <strong>Add PnP calibration layer for camera extrinsics</strong>
 	                        <p>Extra calibration support was added to help 2077AI stabilize camera extrinsics after sensor synchronization took longer than expected.</p>
+	                        <div class="task-meta completed"><span>Completed May 15, 2026</span></div>
 	                      </li>
 	                    </ul>
 	                  </details>

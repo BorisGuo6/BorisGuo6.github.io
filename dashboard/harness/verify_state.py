@@ -50,6 +50,10 @@ def main() -> int:
         task_ids.add(task_id)
         require(project_id in projects, f"{task_id}: unknown project_id {project_id!r}", errors)
         require(task.get("status") in {"todo", "active", "blocked", "needs_user", "review", "done"}, f"{task_id}: invalid status", errors)
+        if task.get("status") == "active":
+            require(bool(task.get("due_at")), f"{task_id}: active task needs due_at", errors)
+        if task.get("status") == "done":
+            require(bool(task.get("completed_at")), f"{task_id}: done task needs completed_at", errors)
 
     agent_count = 0
     for agent_path in sorted((STATE_DIR / "agents").glob("*.json")):

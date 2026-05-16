@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-16T13:37:00+08:00",
+  "updated_at": "2026-05-16T14:12:00+08:00",
   "owner": "codex-conductor",
   "tasks": [
     {
@@ -11,7 +11,8 @@
       "status": "done",
       "priority": "medium",
       "assignee": null,
-      "result": "今天已完成首轮搭建；后续只需要继续补统一启动脚本、设备状态记录和数据采集 checklist。"
+      "result": "今天已完成首轮搭建；后续只需要继续补统一启动脚本、设备状态记录和数据采集 checklist。",
+      "completed_at": "2026-05-15"
     },
     {
       "task_id": "task_real_robot_infra_inventory",
@@ -21,7 +22,8 @@
       "status": "done",
       "priority": "medium",
       "assignee": null,
-      "result": "Ready inventory baseline recorded."
+      "result": "Ready inventory baseline recorded.",
+      "completed_at": "2026-05-15"
     },
     {
       "task_id": "task_real_robot_infra_franka_wuji",
@@ -31,7 +33,9 @@
       "status": "active",
       "priority": "high",
       "assignee": "claude-infra-01",
-      "result": null
+      "result": null,
+      "due_at": "2026-05-23",
+      "started_at": "2026-05-16"
     },
     {
       "task_id": "task_real_robot_infra_wuji_glove",
@@ -71,17 +75,19 @@
       "status": "done",
       "priority": "medium",
       "assignee": null,
-      "result": "大部分精准；测试的 12 条内只有 1 条出现了 3-5s 的偏移。"
+      "result": "大部分精准；测试的 12 条内只有 1 条出现了 3-5s 的偏移。",
+      "completed_at": "2026-05-15"
     },
     {
       "task_id": "task_umi_temporal_segmentation_survey",
       "project_id": "umi-world-model",
       "title": "细粒度时间帧切分调研",
       "description": "调研 EasyAnimate video caption、NILS、VLM-Video-Action-Localization。",
-      "status": "active",
+      "status": "done",
       "priority": "medium",
       "assignee": "claude-umi-01",
-      "result": null
+      "result": "结论：主线优先用 Gemini + key-state prompt 做可命名分段；EE-Z 多信号 segmenter 可作为快速 key-state 辅助；NILS 完整 pipeline 暂不进入主线，成本高且语义质量不稳定。",
+      "completed_at": "2026-05-16"
     },
     {
       "task_id": "task_umi_base_model_decision",
@@ -91,7 +97,9 @@
       "status": "active",
       "priority": "high",
       "assignee": "claude-umi-01",
-      "result": null
+      "result": null,
+      "due_at": "2026-05-23",
+      "started_at": "2026-05-16"
     },
     {
       "task_id": "task_umi_dreamzero_ctrlworld_inference",
@@ -101,17 +109,20 @@
       "status": "active",
       "priority": "high",
       "assignee": "claude-umi-01",
-      "result": null
+      "result": null,
+      "due_at": "2026-05-23",
+      "started_at": "2026-05-16"
     },
     {
       "task_id": "task_umi_prepare_haoyu_test_set",
       "project_id": "umi-world-model",
       "title": "准备基模 / codebase 测试集并发给 Haoyu",
       "description": "围绕 Cosmos-Predict 2.5、WAN2.2-TI2V、LTX-Video、DreamZero / CtrlWorld，整理可直接跑起来的测试集和评测输入。",
-      "status": "active",
+      "status": "done",
       "priority": "high",
       "assignee": "claude-umi-01",
-      "result": null
+      "result": "已围绕 Cosmos-Predict 2.5、WAN2.2-TI2V、LTX-Video、DreamZero / CtrlWorld，整理可直接跑起来的测试集和评测输入并发给 Haoyu。",
+      "completed_at": "2026-05-16"
     },
     {
       "task_id": "task_umi_vbench_eval",
@@ -224,6 +235,62 @@
       "result": null
     },
     {
+      "task_id": "task_drag_demo_initial_batch",
+      "project_id": "drag-demo-video-editing",
+      "title": "Collect initial drag-demo batch",
+      "description": "Start with egg-cracking sequences; if editing quality holds, scale toward 100-300 drag-demo sequences and add a matching teleop subset.",
+      "status": "active",
+      "priority": "high",
+      "assignee": null,
+      "result": null,
+      "started_at": "2026-05-16",
+      "due_at": "2026-05-23"
+    },
+    {
+      "task_id": "task_drag_demo_backend_compare",
+      "project_id": "drag-demo-video-editing",
+      "title": "Compare hand-removal backends",
+      "description": "Kling is promising but limited to 3-10s clips and paid credits; also test VACE, FLUX.1-Fill-dev, and Stable Diffusion 2 Inpainting with masks.",
+      "status": "active",
+      "priority": "high",
+      "assignee": null,
+      "result": null,
+      "started_at": "2026-05-16",
+      "due_at": "2026-05-23"
+    },
+    {
+      "task_id": "task_drag_demo_diff_map_qa",
+      "project_id": "drag-demo-video-editing",
+      "title": "Build diff-map QA",
+      "description": "Compute frame-wise before/after pixel differences and highlight changed regions; good edits should mainly light up human hands, not robot links, egg, bowl, or contact geometry.",
+      "status": "active",
+      "priority": "high",
+      "assignee": null,
+      "result": null,
+      "started_at": "2026-05-16",
+      "due_at": "2026-05-23"
+    },
+    {
+      "task_id": "task_drag_demo_finetuning_comparison",
+      "project_id": "drag-demo-video-editing",
+      "title": "Define fine-tuning comparison",
+      "description": "Compare teleop-only, drag+editing, raw drag-only, and mixed 70% drag + 30% teleop training data.",
+      "status": "todo",
+      "priority": "medium",
+      "assignee": null,
+      "result": null
+    },
+    {
+      "task_id": "task_drag_demo_masks_collection_aids",
+      "project_id": "drag-demo-video-editing",
+      "title": "Add masks / collection aids",
+      "description": "Use masks, green gloves / head cover, and anti-slip materials to reduce editing ambiguity and keep hand-object contact readable.",
+      "status": "todo",
+      "priority": "medium",
+      "assignee": null,
+      "result": null
+    },
+    {
       "task_id": "task_layered_wm_survey_notes",
       "project_id": "image-layered-world-model",
       "title": "Write Image-Layered World Model survey notes",
@@ -291,7 +358,8 @@
       "status": "done",
       "priority": "medium",
       "assignee": null,
-      "result": "PnP calibration layer added."
+      "result": "PnP calibration layer added.",
+      "completed_at": "2026-05-15"
     },
     {
       "task_id": "task_hoi_collection_matrix",
@@ -301,7 +369,9 @@
       "status": "active",
       "priority": "high",
       "assignee": null,
-      "result": null
+      "result": null,
+      "due_at": "2026-05-23",
+      "started_at": "2026-05-16"
     },
     {
       "task_id": "task_hoi_sensor_validation",
@@ -311,7 +381,9 @@
       "status": "active",
       "priority": "high",
       "assignee": null,
-      "result": null
+      "result": null,
+      "due_at": "2026-05-23",
+      "started_at": "2026-05-16"
     },
     {
       "task_id": "task_hoi_object_tracking",
@@ -321,7 +393,9 @@
       "status": "active",
       "priority": "medium",
       "assignee": null,
-      "result": null
+      "result": null,
+      "due_at": "2026-05-23",
+      "started_at": "2026-05-16"
     },
     {
       "task_id": "task_hoi_schema_model_target",

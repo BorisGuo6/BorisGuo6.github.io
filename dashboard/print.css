@@ -600,6 +600,34 @@ figcaption {
   margin-bottom: 8px;
 }
 
+.timeline-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 8px 0 10px;
+}
+
+.timeline-strip span,
+.task-meta span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 22px;
+  padding: 3px 7px;
+  border: 1px solid #cbdbe0;
+  background: #eef6f5;
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.timeline-strip strong {
+  margin-right: 5px;
+  color: var(--ink);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .project-body ul {
   margin: 0;
   padding-left: 18px;
@@ -772,6 +800,16 @@ figcaption {
   margin-top: 2px;
   color: var(--muted);
   font-style: normal;
+}
+
+.task-meta {
+  margin-top: 5px;
+}
+
+.task-meta.completed span {
+  border-color: #c8d8cf;
+  background: var(--done-soft);
+  color: var(--done);
 }
 
 .box {
