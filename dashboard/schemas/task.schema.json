@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jingxiangguo.com/dashboard/schemas/task.schema.json",
+  "title": "Dashboard Task",
+  "type": "object",
+  "required": [
+    "task_id",
+    "project_id",
+    "title",
+    "description",
+    "status",
+    "priority",
+    "assignee"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "task_id": {
+      "type": "string",
+      "pattern": "^task_[a-z0-9_]+$"
+    },
+    "project_id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "description": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "todo",
+        "active",
+        "blocked",
+        "needs_user",
+        "review",
+        "done"
+      ]
+    },
+    "priority": {
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "urgent"
+      ]
+    },
+    "assignee": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "result": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "run_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  }
+}

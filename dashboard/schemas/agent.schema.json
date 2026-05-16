@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jingxiangguo.com/dashboard/schemas/agent.schema.json",
+  "title": "Dashboard Agent State",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "agent_id",
+    "agent_type",
+    "project_id",
+    "status",
+    "last_heartbeat_at",
+    "needs_user",
+    "updated_at"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "schema_version": {
+      "const": "agent.v1"
+    },
+    "agent_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$"
+    },
+    "agent_type": {
+      "type": "string"
+    },
+    "project_id": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "idle",
+        "running",
+        "blocked",
+        "needs_user",
+        "review",
+        "error",
+        "done"
+      ]
+    },
+    "current_task_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "last_heartbeat_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "needs_user": {
+      "type": "boolean"
+    },
+    "message": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "schema_version": "project.v1",
+  "project_id": "robotics-3d-printing",
+  "title": "Robotics + 3D Printing",
+  "bucket": "active",
+  "status": "ongoing",
+  "updated_at": "2026-05-16T13:37:00+08:00",
+  "description": "Language/image-driven PoD design to printable CAD",
+  "summary": "Build a web product for Product on Demand: the user provides natural-language demand plus photos of existing real-world objects, and the system generates a printable retrofit / add-on part with assembly instructions.",
+  "asset": "dashboard/assets/robotics-3d-printing-platform.png",
+  "task_ids": [
+    "task_pod_3d_engine_benchmark",
+    "task_pod_cad_stack",
+    "task_pod_input_schema",
+    "task_pod_agent_pipeline",
+    "task_pod_retrofit_demo"
+  ],
+  "risks_decisions": [
+    "Text/image-to-3D often returns meshes, but the product needs editable, manufacturable CAD and print-ready geometry.",
+    "Single real-object images usually miss metric scale; need reference dimensions, calibration markers, or manual dimension entry.",
+    "Blender MCP needs precise coordinates and operation-level commands for reliable edits; open-ended correction is likely too brittle.",
+    "Direct printer handoff needs checks for watertight meshes, wall thickness, overhang/support, material constraints, queueing, and safety.",
+    "The core value should be retrofit + assembly for real objects, not another standalone text-to-3D model generator."
+  ]
+}

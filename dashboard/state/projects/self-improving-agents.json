@@ -1,0 +1,24 @@
+{
+  "schema_version": "project.v1",
+  "project_id": "self-improving-agents",
+  "title": "Self-Improving Agents for Physical AI",
+  "bucket": "active",
+  "status": "ongoing",
+  "updated_at": "2026-05-16T13:37:00+08:00",
+  "description": "Runtime-governed Robot-for-Robot data and evaluation system",
+  "summary": "This project reframes agentic R2S2R as a self-improving Physical AI system: start inside Isaac simulation, use VLM-guided diagnosis and task/environment generation to improve the simulator and policy evaluation loop, then grow toward Robot-for-Robot data collection and benchmarking.",
+  "asset": "dashboard/assets/pearl-overview.png",
+  "task_ids": [
+    "task_self_improving_test_lehome",
+    "task_self_improving_unify_isaac",
+    "task_self_improving_assets",
+    "task_self_improving_vlm_loop",
+    "task_self_improving_r4r_format"
+  ],
+  "risks_decisions": [
+    "Scope should start in simulation: VLM-guided improvement of task/env generation before real robot deployment.",
+    "Unification risk: LeHome, LeHome Challenge, RoboLab, and generated assets may expose incompatible task schemas.",
+    "Executability is the key filter: generated tasks/assets must be physically valid, not only visually plausible.",
+    "Runtime governance should be part of the learning signal, not only a safety wrapper."
+  ]
+}

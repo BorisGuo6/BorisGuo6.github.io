@@ -1,0 +1,19 @@
+{
+  "schema_version": "project.v1",
+  "project_id": "image-layered-world-model",
+  "title": "Image-Layered World Model",
+  "bucket": "research",
+  "status": "survey",
+  "updated_at": "2026-05-16T13:37:00+08:00",
+  "description": "Third-person video decomposition for reasoning and control",
+  "summary": "Third-person video generation can be made more useful if it is decomposed into scene layers rather than treated as flat pixels.",
+  "asset": "dashboard/assets/layered-world-model.png",
+  "task_ids": [
+    "task_layered_wm_survey_notes",
+    "task_layered_wm_methods"
+  ],
+  "risks_decisions": [
+    "Layered model scope: visual decomposition only, or state-aware layers from the beginning.",
+    "Evaluation target: data augmentation quality, reward-model usefulness, or IDM recoverability."
+  ]
+}

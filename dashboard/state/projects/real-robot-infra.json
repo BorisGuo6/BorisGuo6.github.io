@@ -1,0 +1,25 @@
+{
+  "schema_version": "project.v1",
+  "project_id": "real-robot-infra",
+  "title": "Real-Robot Lab Infra",
+  "bucket": "active",
+  "status": "ongoing",
+  "updated_at": "2026-05-16T13:37:00+08:00",
+  "description": "Engineering stack for teleoperation, data collection, and robot-side validation",
+  "summary": "This is the engineering base that keeps weekly research work grounded in real data collection and real-robot validation.",
+  "asset": "dashboard/assets/real-robot-infra-collage.png",
+  "task_ids": [
+    "task_real_robot_infra_arx_setup",
+    "task_real_robot_infra_inventory",
+    "task_real_robot_infra_franka_wuji",
+    "task_real_robot_infra_wuji_glove",
+    "task_real_robot_infra_manus_glove",
+    "task_real_robot_infra_vive_tracker"
+  ],
+  "risks_decisions": [
+    "不同设备的驱动、SDK、ROS topic 和日志格式需要尽早统一，否则后面每条数据都会带维护成本。",
+    "手套、VIVE、相机、机器人状态要共享时间同步和外参标定策略。",
+    "真机 infra 必须保留安全边界：限位、急停、低速验证、碰撞恢复和操作记录。",
+    "工程状态需要和研究项目解耦：infra 卡片只追踪设备可用性，算法结果留在各项目卡片里。"
+  ]
+}

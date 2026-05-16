@@ -1,0 +1,23 @@
+{
+  "schema_version": "project.v1",
+  "project_id": "superhuman-rate-curve-teleop",
+  "title": "Superhuman Rate-Curve Teleop",
+  "bucket": "research",
+  "status": "survey",
+  "updated_at": "2026-05-16T13:37:00+08:00",
+  "description": "Learn faster-than-human execution from slow teleoperation",
+  "summary": "This project asks whether slower human teleoperation can be retimed into faster robot execution without collecting equally fast human demos.",
+  "asset": null,
+  "task_ids": [
+    "task_rate_curve_metrics",
+    "task_rate_curve_retiming",
+    "task_rate_curve_rl",
+    "task_rate_curve_event_constraints"
+  ],
+  "risks_decisions": [
+    "Need to distinguish hardware capability from policy speed; faster timing alone may not reproduce EKA-like performance.",
+    "Contact-rich manipulation may fail under naive acceleration even if the geometric path is unchanged.",
+    "RL should probably tune timing, not the full action trajectory, to keep the project scoped and demo-data grounded.",
+    "Evaluation should include success rate at higher speed, not only shorter completion time."
+  ]
+}

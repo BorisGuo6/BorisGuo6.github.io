@@ -1,0 +1,26 @@
+{
+  "schema_version": "project.v1",
+  "project_id": "diverse-same-task-dataset",
+  "title": "Diverse Dataset on Same Task",
+  "bucket": "research",
+  "status": "survey",
+  "updated_at": "2026-05-16T13:37:00+08:00",
+  "description": "2077AI / Zhou Jianshu collaboration for unified HOI data",
+  "summary": "This pre-research project asks whether the same manipulation task can be collected across all major acquisition modes, then unified into an HOI-centric base model and predictive world model.",
+  "asset": "dashboard/assets/hoi-diverse-dataset.png",
+  "task_ids": [
+    "task_hoi_pnp_calibration",
+    "task_hoi_collection_matrix",
+    "task_hoi_sensor_validation",
+    "task_hoi_object_tracking",
+    "task_hoi_schema_model_target",
+    "task_hoi_retargeting_baselines"
+  ],
+  "risks_decisions": [
+    "Data value depends on same-task equivalence across embodiments, not only collecting more modalities.",
+    "2077AI collection capacity and sensor-sync reliability are current bottlenecks; the pipeline needs simple validation checks before scaling.",
+    "Human pose maps to multiple feasible robot poses, so the target for retargeting / HOI prediction must be defined carefully.",
+    "Object and hand tracking should share calibration assumptions; otherwise object-state supervision will drift from hand pose and depth.",
+    "Predictive WM scope should start with aligned HOI state transitions before attempting a full cross-embodiment policy model."
+  ]
+}

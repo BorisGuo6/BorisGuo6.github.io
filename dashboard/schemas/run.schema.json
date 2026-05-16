@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jingxiangguo.com/dashboard/schemas/run.schema.json",
+  "title": "Verified Run",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "run_id",
+    "project_id",
+    "task_id",
+    "agent_id",
+    "status",
+    "git_sha",
+    "command",
+    "exit_code",
+    "started_at",
+    "ended_at",
+    "verifier"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "schema_version": {
+      "const": "run.v1"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^run_[0-9]{8}_[a-z0-9_]+$"
+    },
+    "project_id": {
+      "type": "string"
+    },
+    "task_id": {
+      "type": "string"
+    },
+    "agent_id": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "started",
+        "failed",
+        "passed",
+        "verified"
+      ]
+    },
+    "git_sha": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "command": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "exit_code": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "metrics_path": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "verifier": {
+      "type": "object",
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "not_run",
+            "passed",
+            "failed"
+          ]
+        },
+        "command": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "exit_code": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        }
+      }
+    }
+  }
+}
