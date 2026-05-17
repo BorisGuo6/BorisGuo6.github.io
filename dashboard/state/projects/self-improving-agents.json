@@ -8,6 +8,13 @@
   "description": "Runtime-governed Robot-for-Robot data and evaluation system",
   "summary": "This project reframes agentic R2S2R as a self-improving Physical AI system: start inside Isaac simulation, use VLM-guided diagnosis and task/environment generation to improve the simulator and policy evaluation loop, then grow toward Robot-for-Robot data collection and benchmarking.",
   "asset": "dashboard/assets/pearl-overview.png",
+  "asset_alt": "PEARL self-improving physical AI framework",
+  "asset_caption": "PEARL reference: failure memory, attribution, task-environment co-evolution, governance.",
+  "details": [
+    "Current focus: test LeHome and consolidate household tasks into one Isaac-compatible environment.",
+    "Use PEARL-style typed failure memory, failure attribution, task-environment co-evolution, and runtime governance as the conceptual framework.",
+    "Extend tasks with generated object physics assets and scene assets instead of relying only on fixed benchmark environments."
+  ],
   "task_ids": [
     "task_self_improving_test_lehome",
     "task_self_improving_unify_isaac",

@@ -2,6 +2,7 @@
   "schema_version": "portfolio.v1",
   "portfolio_id": "embodied-ai-dashboard",
   "title": "Embodied AI Project Dashboard",
+  "subtitle": "World models, self-improving simulators, teleop acceleration, and robotics + 3D printing",
   "week": "2026-W20",
   "date": "2026-05-15",
   "updated_at": "2026-05-16T14:12:00+08:00",
@@ -12,6 +13,126 @@
     "blockers": "Cross-device sync, calibration, and data schema; Franka + Wuji integration; UMI base-model route and evaluation set; LeHome / RoboLab unification; CAD-to-printer handoff; scope boundaries for survey tracks.",
     "next": "Finish the Franka + Wuji minimal run, prepare the UMI test set for Haoyu, run TI2V / AI2V inference, write layered-WM notes, define the simulator task / asset interface, and scope the PoD prototype."
   },
+  "storyline": {
+    "summary": "How real-robot infra, human demonstrations, video world models, simulators, and physical outputs form one loop.",
+    "flows": [
+      {
+        "aria_label": "Portfolio storyline",
+        "nodes": [
+          {
+            "role": "primary",
+            "eyebrow": "Foundation",
+            "title": "Real-Robot Data Infra",
+            "body": "ARX, UMI, Cobot Magic, Linker hands, gloves, VIVE Tracker, and Franka + Wuji provide the hardware base for collection, calibration, and validation."
+          },
+          {
+            "role": "primary",
+            "eyebrow": "Data Models",
+            "title": "Video + HOI World Modeling",
+            "body": "UMI wrist views, layered third-person videos, same-task HOI data, and rate-curve teleop research turn human operation into structured video, action, and state data."
+          },
+          {
+            "role": "outcome",
+            "eyebrow": "Outputs",
+            "title": "Self-Improving Sim + Physical Products",
+            "body": "Generated assets, household tasks, simulator rollouts, robot evaluation, and language / image-to-CAD design close the loop back into real-world experiments."
+          }
+        ],
+        "connectors": [
+          "->",
+          "->"
+        ]
+      },
+      {
+        "eyebrow": "World-model sub-story",
+        "title": "How generated videos become robot data, not only visual prediction",
+        "aria_label": "World model data sub-story",
+        "nodes": [
+          {
+            "role": "primary",
+            "eyebrow": "Wrist-view route",
+            "title": "UMI Data via Teleop Video Model",
+            "body": "Wrist-view UMI data can be generated directly from teleoperation trajectories: action, gripper state, and dual eye-in-hand views condition the video world model."
+          },
+          {
+            "role": "primary",
+            "eyebrow": "Third-person route",
+            "title": "Layered Video World Model",
+            "body": "Third-person videos are split into background, object, and robot layers, making them easier to use for scene understanding, IDM, reward models, and data augmentation."
+          },
+          {
+            "role": "outcome",
+            "eyebrow": "Robot-data route",
+            "title": "Agentic R2S2R to Dual-Simulator Data",
+            "body": "Large volumes of generated video data become dual-simulator Robot Data through object physics assets, panoramic scene reconstruction, and digital-twin robot rollouts."
+          }
+        ],
+        "connectors": [
+          "+",
+          "->"
+        ]
+      }
+    ]
+  },
+  "visual_references": [
+    {
+      "src": "dashboard/assets/real-robot-infra-collage.png",
+      "alt": "Real-robot lab infrastructure hardware collage",
+      "caption": "Real-robot infra: ARX, Franka + Wuji Hand, UMI, Linker Hand, gloves, and VIVE Tracker."
+    },
+    {
+      "src": "dashboard/assets/egovtla-pillars.png",
+      "alt": "EgoVTLA perception and intuition pillars",
+      "caption": "EgoVTLA pillars: perception alignment and intuition alignment."
+    },
+    {
+      "src": "dashboard/assets/egovtla-world-model.png",
+      "alt": "World-model-driven EgoVTLA map",
+      "caption": "World-model-driven EgoVTLA: vision -> depth / flow -> action."
+    },
+    {
+      "src": "dashboard/assets/umi-overview.png",
+      "alt": "UMI World Model overview",
+      "caption": "UMI World Model project framing."
+    },
+    {
+      "src": "dashboard/assets/layered-world-model.png",
+      "alt": "Layered world model diagram",
+      "caption": "Layered world model: background, objects, robots."
+    },
+    {
+      "src": "dashboard/assets/pearl-overview.png",
+      "alt": "PEARL self-improving physical AI framework",
+      "caption": "PEARL-style loop: memory, attribution, co-evolution, governance."
+    },
+    {
+      "src": "dashboard/assets/robotics-3d-printing-platform.png",
+      "alt": "Robotics and 3D printing product design platform",
+      "caption": "Robotics + 3D printing: generated structure exported toward printable parts."
+    },
+    {
+      "src": "dashboard/assets/drag-demo-video-editing.png",
+      "alt": "Drag-teaching robot data video editing and hand removal",
+      "caption": "Drag-demo editing: ARX egg-cracking data, Kling hand removal, and diff-map QA."
+    },
+    {
+      "src": "dashboard/assets/hoi-diverse-dataset.png",
+      "alt": "HOI diverse dataset with ego camera, hand pose, and depth",
+      "caption": "Diverse same-task HOI data: ego RGB, hand pose, and z16 depth."
+    }
+  ],
+  "project_buckets": [
+    {
+      "bucket": "active",
+      "label": "Ongoing",
+      "title": "Active projects"
+    },
+    {
+      "bucket": "research",
+      "label": "Research / Survey",
+      "title": "Scoping projects"
+    }
+  ],
   "projects": [
     {
       "project_id": "real-robot-infra",
@@ -74,7 +195,7 @@
   "agent_state_dir": "dashboard/state/agents",
   "run_state_dir": "dashboard/state/runs",
   "rules": [
-    "Humans read dashboard/index.html; agents read dashboard/state/*.json.",
+    "dashboard/index.html is a rendered shell; dashboard/state/*.json is the source of truth for humans and agents.",
     "Workers must not edit dashboard/index.html unless the task explicitly asks for UI work.",
     "Workers may update only their own dashboard/state/agents/{agent_id}.json and dashboard/state/runs/{run_id}.json.",
     "The conductor is the only owner for dashboard/state/tasks.json and dashboard/state/portfolio.json.",

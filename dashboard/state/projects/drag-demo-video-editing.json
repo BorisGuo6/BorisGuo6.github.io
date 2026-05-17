@@ -8,6 +8,21 @@
   "description": "Remove human hands from drag-teaching robot data",
   "summary": "This project turns drag-teaching demonstrations into cleaner robot-learning videos by deleting the human operator hands while preserving robot motion, object contacts, and task state.",
   "asset": "dashboard/assets/drag-demo-video-editing.png",
+  "asset_alt": "Drag-teaching robot data video editing and hand removal",
+  "asset_caption": "Current trial: ARX egg-cracking drag demo, Kling hand-removal output, and diff-map QA.",
+  "details": [
+    {
+      "text": "Masquerade is the closest reference: use data editing to reduce the human-robot visual embodiment gap. Here the robot is already visible, so the key edit is hand removal rather than robot overlay.",
+      "links": [
+        {
+          "label": "Masquerade",
+          "url": "https://arxiv.org/abs/2508.09976"
+        }
+      ]
+    },
+    "Current seed task: ARX egg cracking, which has clear contact events and enough tolerance to become a first data-scaling case.",
+    "Current progress: collected first drag-demo data, tried Kling video+prompt editing, and started before/after difference-map evaluation."
+  ],
   "task_ids": [
     "task_drag_demo_initial_batch",
     "task_drag_demo_backend_compare",

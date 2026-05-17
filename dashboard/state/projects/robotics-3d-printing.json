@@ -8,6 +8,25 @@
   "description": "Language/image-driven PoD design to printable CAD",
   "summary": "Build a web product for Product on Demand: the user provides natural-language demand plus photos of existing real-world objects, and the system generates a printable retrofit / add-on part with assembly instructions.",
   "asset": "dashboard/assets/robotics-3d-printing-platform.png",
+  "asset_alt": "Allo-style generated product design exported to a 3D printing workflow",
+  "asset_caption": "Reference video: generated structure moves toward an STL / 3D-printing handoff.",
+  "details": [
+    "Target is existing-object modification, not generic decorative text-to-3D.",
+    "Pipeline: VLM object analysis -> design spec -> concept image -> image/text-to-3D -> code-controlled CAD cleanup -> slicer / printer handoff.",
+    {
+      "text": "Allo suggests the interaction pattern for AI-assisted creation; Blueprint suggests prompt-to-hardware planning with generated diagrams, BOM, and assembly guides.",
+      "links": [
+        {
+          "label": "Allo",
+          "url": "https://allotech-ai.com/creating/home"
+        },
+        {
+          "label": "Blueprint",
+          "url": "https://www.blueprint.am/"
+        }
+      ]
+    }
+  ],
   "task_ids": [
     "task_pod_3d_engine_benchmark",
     "task_pod_cad_stack",

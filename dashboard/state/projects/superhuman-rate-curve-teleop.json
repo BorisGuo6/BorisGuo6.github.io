@@ -8,6 +8,32 @@
   "description": "Extract accelerable execution strategies from slow teleoperation",
   "summary": "This project asks whether slow human teleoperation can provide the task path, then DAgger + SFT first improves stability and safety, SFT action-frequency ablations measure speed / continuity tradeoffs, and RL further optimizes speed and smoothness.",
   "asset": null,
+  "visual": {
+    "kind": "rate_curve",
+    "aria_label": "Playback rate curve from human speed to learned robot speed",
+    "caption": "Keep the demonstrated skill path; optimize a phase-aware playback-rate curve.",
+    "labels": {
+      "y_axis": "rate",
+      "x_axis": "demo phase",
+      "robot_curve": "RL curve",
+      "human_curve": "human 1x"
+    }
+  },
+  "details": [
+    {
+      "text": "EKA Robotics frames fast, reliable physical execution as a core capability. This project asks whether slow human teleoperation can provide the task path, then DAgger + SFT first improves policy stability and safety, and RL further improves speed and smoothness.",
+      "links": [
+        {
+          "label": "EKA Robotics",
+          "url": "https://ekarobotics.com"
+        }
+      ]
+    },
+    "Stage 1: use DAgger to collect corrective data under the current policy, then SFT a stable and safe base policy.",
+    "SFT ablation: sample actions at different frequencies to measure how action rate affects speed, continuity, and stability before adding RL.",
+    "Stage 2: run RL on top of the SFT policy; add velocity / completion-time rewards for speed and acceleration / jerk rewards for smoothness.",
+    "Force and tactile signals should mainly define safety scores, DAgger correction triggers, evaluation, and real-robot guardrails rather than being the only RL objective."
+  ],
   "task_ids": [
     "task_rate_curve_skill_representations",
     "task_rate_curve_retiming",

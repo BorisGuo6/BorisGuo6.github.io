@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-16T14:12:00+08:00",
+  "updated_at": "2026-05-17T01:35:00+08:00",
   "owner": "codex-conductor",
   "tasks": [
     {
@@ -11,8 +11,19 @@
       "status": "done",
       "priority": "medium",
       "assignee": null,
-      "result": "今天已完成首轮搭建；后续只需要继续补统一启动脚本、设备状态记录和数据采集 checklist。",
-      "completed_at": "2026-05-15"
+      "result": null,
+      "completed_at": "2026-05-15",
+      "comments": [
+        {
+          "comment_id": "comment_result_task_real_robot_infra_arx_setup",
+          "author": "Result",
+          "body": "今天已完成首轮搭建；后续只需要继续补统一启动脚本、设备状态记录和数据采集 checklist。",
+          "created_at": "2026-05-15",
+          "source_agent_id": null,
+          "kind": "result"
+        }
+      ],
+      "updated_at": "2026-05-17T01:27:36+08:00"
     },
     {
       "task_id": "task_real_robot_infra_inventory",
@@ -22,8 +33,19 @@
       "status": "done",
       "priority": "medium",
       "assignee": null,
-      "result": "Ready inventory baseline recorded.",
-      "completed_at": "2026-05-15"
+      "result": null,
+      "completed_at": "2026-05-15",
+      "comments": [
+        {
+          "comment_id": "comment_result_task_real_robot_infra_inventory",
+          "author": "Result",
+          "body": "Ready inventory baseline recorded.",
+          "created_at": "2026-05-15",
+          "source_agent_id": null,
+          "kind": "result"
+        }
+      ],
+      "updated_at": "2026-05-17T01:27:36+08:00"
     },
     {
       "task_id": "task_real_robot_infra_franka_wuji",
@@ -75,8 +97,19 @@
       "status": "done",
       "priority": "medium",
       "assignee": null,
-      "result": "大部分精准；测试的 12 条内只有 1 条出现了 3-5s 的偏移。",
-      "completed_at": "2026-05-15"
+      "result": null,
+      "completed_at": "2026-05-15",
+      "comments": [
+        {
+          "comment_id": "comment_result_task_umi_gemini_frame_test",
+          "author": "Result",
+          "body": "大部分精准；测试的 12 条内只有 1 条出现了 3-5s 的偏移。",
+          "created_at": "2026-05-15",
+          "source_agent_id": null,
+          "kind": "result"
+        }
+      ],
+      "updated_at": "2026-05-17T01:27:36+08:00"
     },
     {
       "task_id": "task_umi_temporal_segmentation_survey",
@@ -86,14 +119,25 @@
       "status": "done",
       "priority": "medium",
       "assignee": "claude-umi-01",
-      "result": "结论：主线优先用 Gemini + key-state prompt 做可命名分段；EE-Z 多信号 segmenter 可作为快速 key-state 辅助；NILS 完整 pipeline 暂不进入主线，成本高且语义质量不稳定。",
-      "completed_at": "2026-05-16"
+      "result": null,
+      "completed_at": "2026-05-16",
+      "comments": [
+        {
+          "comment_id": "comment_result_task_umi_temporal_segmentation_survey",
+          "author": "Result",
+          "body": "结论：主线优先用 Gemini + key-state prompt 做可命名分段；EE-Z 多信号 segmenter 可作为快速 key-state 辅助；NILS 完整 pipeline 暂不进入主线，成本高且语义质量不稳定。",
+          "created_at": "2026-05-16",
+          "source_agent_id": "claude-umi-01",
+          "kind": "result"
+        }
+      ],
+      "updated_at": "2026-05-17T01:27:36+08:00"
     },
     {
       "task_id": "task_umi_base_model_decision",
       "project_id": "umi-world-model",
       "title": "决定基模与初版训练规模",
-      "description": "主要比较 Cosmos-Predict 2.5、WAN2.2-TI2V、LTX-Video；先用 5k-1w 条，1k-2k 条单任务训练初版，三者先只做 TI2V inference。",
+      "description": "主要比较 Cosmos-Predict 2.5、WAN2.2-TI2V、LTX-Video，并参考 SANA-WM (arXiv:2605.15178) 的 minute-scale world model、6-DoF camera control 和 pose-supervised long-video generation；先用 5k-1w 条，1k-2k 条单任务训练初版，三者先只做 TI2V inference。",
       "status": "active",
       "priority": "high",
       "assignee": "claude-umi-01",
@@ -121,8 +165,19 @@
       "status": "done",
       "priority": "high",
       "assignee": "claude-umi-01",
-      "result": "已围绕 Cosmos-Predict 2.5、WAN2.2-TI2V、LTX-Video、DreamZero / CtrlWorld，整理可直接跑起来的测试集和评测输入并发给 Haoyu。",
-      "completed_at": "2026-05-16"
+      "result": null,
+      "completed_at": "2026-05-16",
+      "comments": [
+        {
+          "comment_id": "comment_result_task_umi_prepare_haoyu_test_set",
+          "author": "Result",
+          "body": "已围绕 Cosmos-Predict 2.5、WAN2.2-TI2V、LTX-Video、DreamZero / CtrlWorld，整理可直接跑起来的测试集和评测输入并发给 Haoyu。",
+          "created_at": "2026-05-16",
+          "source_agent_id": "claude-umi-01",
+          "kind": "result"
+        }
+      ],
+      "updated_at": "2026-05-17T01:27:36+08:00"
     },
     {
       "task_id": "task_umi_vbench_eval",
@@ -394,8 +449,19 @@
       "status": "done",
       "priority": "medium",
       "assignee": null,
-      "result": "PnP calibration layer added.",
-      "completed_at": "2026-05-15"
+      "result": null,
+      "completed_at": "2026-05-15",
+      "comments": [
+        {
+          "comment_id": "comment_result_task_hoi_pnp_calibration",
+          "author": "Result",
+          "body": "PnP calibration layer added.",
+          "created_at": "2026-05-15",
+          "source_agent_id": null,
+          "kind": "result"
+        }
+      ],
+      "updated_at": "2026-05-17T01:27:36+08:00"
     },
     {
       "task_id": "task_hoi_collection_matrix",

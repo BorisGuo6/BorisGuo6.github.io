@@ -8,6 +8,13 @@
   "description": "Third-person video decomposition for reasoning and control",
   "summary": "Third-person video generation can be made more useful if it is decomposed into scene layers rather than treated as flat pixels.",
   "asset": "dashboard/assets/layered-world-model.png",
+  "asset_alt": "Layered world model pipeline",
+  "asset_caption": "Layer 0 background, Layer 1 objects, Layer 2 robots.",
+  "details": [
+    "Target outputs: data augmentation, reward model, and inverse dynamics model.",
+    "Robot layer should support robot priors at generation time: either a manipulator URDF or a single robot-arm image as the robot-condition input.",
+    "Immediate work: survey layered video / object-centric generation methods."
+  ],
   "task_ids": [
     "task_layered_wm_survey_notes",
     "task_layered_wm_methods"

@@ -14,17 +14,25 @@
       <header class="report-header">
         <div>
           <p class="kicker">Weekly Project Dashboard</p>
-          <h1>Embodied AI Project Dashboard</h1>
-          <p class="subtitle">World models, self-improving simulators, teleop acceleration, and robotics + 3D printing</p>
+          <h1>Project Dashboard</h1>
+          <p class="subtitle"></p>
         </div>
         <div class="week-box">
           <span>Week</span>
-          <strong>2026-W20</strong>
-          <time datetime="2026-05-15">May 15, 2026</time>
+          <strong></strong>
+          <time></time>
+          <div class="dashboard-sync" data-dashboard-sync>
+            <span class="sync-pill" data-sync-status>Loading</span>
+            <form class="auth-form" data-auth-form hidden>
+              <input type="email" name="email" placeholder="editor email" aria-label="Editor email" autocomplete="email">
+              <button type="submit">Sign in</button>
+            </form>
+            <button class="auth-signout" type="button" data-auth-signout hidden>Sign out</button>
+          </div>
         </div>
       </header>
 
-      <details class="fold-section">
+      <details class="fold-section" open>
         <summary>
           <span>
             <strong>Weekly Context</strong>
@@ -34,124 +42,42 @@
         <section class="summary-grid" aria-label="Weekly summary">
           <article>
             <span class="label">Focus</span>
-            <p>Frame the whole portfolio as one loop: real-robot infra collects and validates data; UMI / layered / HOI projects structure it; simulator and PoD projects turn it into robot tasks, evaluation, and physical outputs.</p>
+            <p></p>
           </article>
           <article>
             <span class="label">Progress</span>
-            <p>Completed items are archived after the weekly meeting: ARX infra, ready hardware baseline, Gemini frame localization, and 2077AI PnP calibration. UMI fine-grained segmentation survey is done but kept visible for next week's report; UMI base-model tests, Self-Improving Agents, Robotics + 3D Printing, and drag-demo video editing remain active.</p>
+            <p></p>
           </article>
           <article>
             <span class="label">Blockers</span>
-            <p>Cross-device sync, calibration, and data schema; Franka + Wuji integration; UMI base-model route and evaluation set; LeHome / RoboLab unification; CAD-to-printer handoff; scope boundaries for survey tracks.</p>
+            <p></p>
           </article>
           <article>
             <span class="label">Next</span>
-            <p>Finish the Franka + Wuji minimal run, run UMI TI2V / AI2V inference, write layered-WM notes, define the simulator task / asset interface, scope the PoD prototype, and harden the drag-demo hand-removal evaluation.</p>
+            <p></p>
           </article>
         </section>
       </details>
 
-      <details class="section fold-section">
+      <details class="section fold-section" data-section-id="storyline" open>
         <summary>
           <span>
             <strong>Storyline</strong>
-            <em>How real-robot infra, human demonstrations, video world models, simulators, and physical outputs form one loop.</em>
+            <em></em>
           </span>
         </summary>
-
-        <div class="story-flow" aria-label="Portfolio storyline">
-          <div class="flow-node primary">
-            <span>Foundation</span>
-            <strong>Real-Robot Data Infra</strong>
-            <p>ARX, UMI, Cobot Magic, Linker hands, gloves, VIVE Tracker, and Franka + Wuji provide the hardware base for collection, calibration, and validation.</p>
-          </div>
-          <div class="flow-arrow">-&gt;</div>
-          <div class="flow-node primary">
-            <span>Data Models</span>
-            <strong>Video + HOI World Modeling</strong>
-            <p>UMI wrist views, layered third-person videos, same-task HOI data, and rate-curve teleop research turn human operation into structured video, action, and state data.</p>
-          </div>
-          <div class="flow-arrow">-&gt;</div>
-          <div class="flow-node outcome">
-            <span>Outputs</span>
-            <strong>Self-Improving Sim + Physical Products</strong>
-            <p>Generated assets, household tasks, simulator rollouts, robot evaluation, and language / image-to-CAD design close the loop back into real-world experiments.</p>
-          </div>
-        </div>
-
-        <div class="story-subsection">
-          <div class="story-subtitle">
-            <span>World-model sub-story</span>
-            <strong>How generated videos become robot data, not only visual prediction</strong>
-          </div>
-          <div class="story-flow story-subflow" aria-label="World model data sub-story">
-            <div class="flow-node primary">
-              <span>Wrist-view route</span>
-              <strong>UMI Data via Teleop Video Model</strong>
-              <p>Wrist-view UMI data can be generated directly from teleoperation trajectories: action, gripper state, and dual eye-in-hand views condition the video world model.</p>
-            </div>
-            <div class="flow-arrow">+</div>
-            <div class="flow-node primary">
-              <span>Third-person route</span>
-              <strong>Layered Video World Model</strong>
-              <p>Third-person videos are split into background, object, and robot layers, making them easier to use for scene understanding, IDM, reward models, and data augmentation.</p>
-            </div>
-            <div class="flow-arrow">-&gt;</div>
-            <div class="flow-node outcome">
-              <span>Robot-data route</span>
-              <strong>Agentic R2S2R to Dual-Simulator Data</strong>
-              <p>Large volumes of generated video data become dual-simulator Robot Data through object physics assets, panoramic scene reconstruction, and digital-twin robot rollouts.</p>
-            </div>
-          </div>
-        </div>
+        <div class="story-flow" data-story-flow aria-label="Portfolio storyline"></div>
+        <div class="story-subsection" data-story-subsection></div>
       </details>
 
-      <details class="section fold-section">
+      <details class="section fold-section" open>
         <summary>
           <span>
             <strong>Visual References</strong>
             <em>Hardware photos, extracted PDF figures, and current project snapshots used for weekly discussion.</em>
           </span>
         </summary>
-
-        <div class="visual-grid">
-          <figure class="figure-card">
-            <img src="assets/real-robot-infra-collage.png" alt="Real-robot lab infrastructure hardware collage">
-            <figcaption>Real-robot infra: ARX, Franka + Wuji Hand, UMI, Linker Hand, gloves, and VIVE Tracker.</figcaption>
-          </figure>
-          <figure class="figure-card">
-            <img src="assets/egovtla-pillars.png" alt="EgoVTLA perception and intuition pillars">
-            <figcaption>EgoVTLA pillars: perception alignment and intuition alignment.</figcaption>
-          </figure>
-          <figure class="figure-card">
-            <img src="assets/egovtla-world-model.png" alt="World-model-driven EgoVTLA map">
-            <figcaption>World-model-driven EgoVTLA: vision -> depth / flow -> action.</figcaption>
-          </figure>
-          <figure class="figure-card">
-            <img src="assets/umi-overview.png" alt="UMI World Model overview">
-            <figcaption>UMI World Model project framing.</figcaption>
-          </figure>
-          <figure class="figure-card">
-            <img src="assets/layered-world-model.png" alt="Layered world model diagram">
-            <figcaption>Layered world model: background, objects, robots.</figcaption>
-          </figure>
-          <figure class="figure-card">
-            <img src="assets/pearl-overview.png" alt="PEARL self-improving physical AI framework">
-            <figcaption>PEARL-style loop: memory, attribution, co-evolution, governance.</figcaption>
-          </figure>
-          <figure class="figure-card">
-            <img src="assets/robotics-3d-printing-platform.png" alt="Robotics and 3D printing product design platform">
-            <figcaption>Robotics + 3D printing: generated structure exported toward printable parts.</figcaption>
-          </figure>
-          <figure class="figure-card">
-            <img src="assets/drag-demo-video-editing.png" alt="Drag-teaching robot data video editing and hand removal">
-            <figcaption>Drag-demo editing: ARX egg-cracking data, Kling hand removal, and diff-map QA.</figcaption>
-          </figure>
-          <figure class="figure-card">
-            <img src="assets/hoi-diverse-dataset.png" alt="HOI diverse dataset with ego camera, hand pose, and depth">
-            <figcaption>Diverse same-task HOI data: ego RGB, hand pose, and z16 depth.</figcaption>
-          </figure>
-        </div>
+        <div class="visual-grid" data-visual-grid></div>
       </details>
 
       <section class="section project-status-section">
@@ -159,746 +85,7 @@
           <h2>Project Status</h2>
           <p>Two buckets: active implementation and research-stage ideas.</p>
         </div>
-
-        <div class="status-columns">
-          <div class="status-column">
-            <div class="bucket-title">
-              <span>Ongoing</span>
-              <strong>Active projects</strong>
-            </div>
-
-            <details class="project-detail" open>
-              <summary>
-                <span>
-                  <strong>Real-Robot Lab Infra</strong>
-                  <em>Engineering stack for teleoperation, data collection, and robot-side validation</em>
-                </span>
-                <mark class="status on-track">Ongoing</mark>
-              </summary>
-              <div class="project-body infra-body">
-                <figure>
-                  <img src="assets/real-robot-infra-collage.png" alt="Real-robot lab infrastructure hardware collage">
-                  <figcaption>Hardware matrix: ready systems, active Franka + Wuji build, and planned glove / tracker teleoperation stack.</figcaption>
-                </figure>
-                <div>
-                  <p>This is the engineering base that keeps weekly research work grounded in real data collection and real-robot validation.</p>
-                  <ul>
-                    <li>Ready inventory baseline: Linker FFG, UDCAP data glove, Cobot Magic / Piper-X, Linker Hand L6, and Daimon UMI.</li>
-                    <li>Completed today: ARX / 方舟无限 real-robot infra setup.</li>
-                    <li>Active build: Franka arm + Wuji Hand integration.</li>
-                    <li>Planned input stack: Wuji Glove, MANUS glove, and VIVE Tracker.</li>
-                  </ul>
-                </div>
-              </div>
-              <div class="project-workstream">
-                <section class="project-panel">
-	                  <h3>TODO</h3>
-	                  <ul class="todo-list project-list">
-	                    <li>
-	                      <span class="box ongoing"></span>
-	                      <div>
-	                        <strong>搭建 Franka + Wuji Hand</strong>
-                        <p>先完成机械安装、驱动 / SDK 接入、ROS / Isaac 侧接口和最小动作验证，再接入数据记录。</p>
-	                        <div class="task-meta"><span>Due May 23, 2026</span></div>
-                      </div>
-                    </li>
-                    <li>
-                      <span class="box"></span>
-                      <div>
-                        <strong>接入 Wuji Glove</strong>
-                        <p>用于手部姿态、触觉和高频输入流；需要确认网络、时间戳、标定和 retargeting 接口。</p>
-                      </div>
-                    </li>
-                    <li>
-                      <span class="box"></span>
-                      <div>
-                        <strong>接入 MANUS glove</strong>
-                        <p>作为另一套高精度手部输入方案，和 Wuji Glove 共用记录格式与 retargeting 验证流程。</p>
-                      </div>
-                    </li>
-                    <li>
-                      <span class="box"></span>
-                      <div>
-                        <strong>接入 VIVE Tracker</strong>
-                        <p>用于腕部 / 物体 / 人体外参跟踪，后续和手套、相机、机器人状态一起做时间同步。</p>
-                      </div>
-	                    </li>
-	                  </ul>
-	                </section>
-	                <section class="project-panel archive-panel">
-	                  <details class="archive-detail">
-	                    <summary>
-	                      <span>Archive</span>
-	                      <small>2 completed</small>
-	                    </summary>
-	                    <ul class="archive-list project-list">
-	                      <li>
-	                        <strong>完成方舟无限真机 infra 搭建</strong>
-	                        <p>今天已完成首轮搭建；后续只需要继续补统一启动脚本、设备状态记录和数据采集 checklist。</p>
-	                        <div class="task-meta completed"><span>Completed May 15, 2026</span></div>
-	                      </li>
-	                      <li>
-	                        <strong>整理当前 ready 设备基线</strong>
-	                        <p>Linker FFG、UDCAP 数据手套、Cobot Magic / Piper-X、Linker Hand L6、Daimon UMI 已纳入 infra 清单；Linker TA 仍按搭建中跟踪。</p>
-	                        <div class="task-meta completed"><span>Completed May 15, 2026</span></div>
-	                      </li>
-	                    </ul>
-	                  </details>
-	                </section>
-	                <section class="project-panel">
-	                  <h3>Risks / Decisions</h3>
-                  <ol class="decision-list project-list">
-                    <li>不同设备的驱动、SDK、ROS topic 和日志格式需要尽早统一，否则后面每条数据都会带维护成本。</li>
-                    <li>手套、VIVE、相机、机器人状态要共享时间同步和外参标定策略。</li>
-                    <li>真机 infra 必须保留安全边界：限位、急停、低速验证、碰撞恢复和操作记录。</li>
-                    <li>工程状态需要和研究项目解耦：infra 卡片只追踪设备可用性，算法结果留在各项目卡片里。</li>
-                  </ol>
-                </section>
-              </div>
-            </details>
-
-            <details class="project-detail" open>
-              <summary>
-                <span>
-                  <strong>UMI World Model</strong>
-                  <em>Kinematics-conditioned dual eye-in-hand world modeling</em>
-                </span>
-                <mark class="status on-track">Ongoing</mark>
-              </summary>
-              <div class="project-body">
-                <figure>
-                  <img src="assets/umi-dataset-visualization.png" alt="UMI dataset annotation and subtask segmentation visualization panel">
-                  <figcaption>Dataset QA: synchronized wrist views, 3D pose, EEF traces, current segment, and action log after subtask splitting.</figcaption>
-                </figure>
-                <div>
-                  <p>The core idea is to treat eye-in-hand UMI teleoperation as action-conditioned video generation: the robot action trajectory is also the wrist-camera trajectory.</p>
-                  <div class="timeline-strip" aria-label="UMI World Model timeline">
-                    <span><strong>Target</strong> ICLR submission</span>
-                    <span><strong>Sprint due</strong> May 23, 2026</span>
-                    <span><strong>Completed</strong> segmentation route, May 16</span>
-                  </div>
-                  <ul>
-                    <li>Use the annotation / subtask-splitting panel to inspect dual wrist videos, task labels, motion curves, and segment boundaries together.</li>
-                    <li>Generate bimanual wrist-view videos conditioned on kinematics and gripper state.</li>
-                    <li>Maintain left-right consistency over object state and scene state.</li>
-                    <li>First decision: one-side generation + camera transform, or end-to-end synchronized dual video.</li>
-                    <li>Potential contribution: DiT structure with attention / AdaLN changes, then CameraNoise-style control after the base model works.</li>
-                  </ul>
-                </div>
-              </div>
-              <div class="project-workstream">
-                <section class="project-panel">
-	                  <h3>TODO</h3>
-	                  <ul class="todo-list project-list">
-	                    <li class="todo-expandable">
-	                      <details class="todo-result">
-	                        <summary>
-	                          <span class="box checked"></span>
-	                          <span>
-	                            <strong>细粒度时间帧切分调研</strong>
-	                            <em>保留在主 TODO 里，供下周组会汇报方法比较和方案选择。</em>
-	                          </span>
-	                        </summary>
-	                        <p>结论：主线优先用 Gemini + key-state prompt 做可命名分段；EE-Z 多信号 segmenter 可作为快速 key-state 辅助；NILS 完整 pipeline 暂不进入主线，成本高且语义质量不稳定。</p>
-	                        <div class="task-meta completed"><span>Completed May 16, 2026</span></div>
-	                        <div class="archive-table-wrap">
-	                          <table class="archive-table">
-	                            <thead>
-	                              <tr>
-	                                <th>方法</th>
-	                                <th>时间精度</th>
-	                                <th>语义正确性</th>
-	                                <th>段数合理性</th>
-	                                <th>全量 9226 成本</th>
-	                              </tr>
-	                            </thead>
-	                            <tbody>
-	                              <tr>
-	                                <td>原 Gemini caption</td>
-	                                <td>±5s</td>
-	                                <td>对，高层任务名</td>
-	                                <td>合理，2-14 段</td>
-	                                <td>~0，已存在</td>
-	                              </tr>
-	                              <tr>
-	                                <td>Gemini + key-state prompt</td>
-	                                <td>±1-2s</td>
-	                                <td>对</td>
-	                                <td>合理</td>
-	                                <td>加 0.1s/clip 预处理</td>
-	                              </tr>
-	                              <tr>
-	                                <td>EE-Z 多信号 segmenter</td>
-	                                <td>±1s</td>
-	                                <td>仅出 key-state，不命名</td>
-	                                <td>合适</td>
-	                                <td>15 min 全量</td>
-	                              </tr>
-	                              <tr>
-	                                <td>NILS 完整 pipeline</td>
-	                                <td>±1-3s</td>
-	                                <td>差，视觉栈幻觉</td>
-	                                <td>过度细分 9x</td>
-	                                <td>22 GPU 小时 + 一周调 bug</td>
-	                              </tr>
-	                            </tbody>
-	                          </table>
-	                        </div>
-	                      </details>
-	                    </li>
-	                    <li>
-	                      <span class="box ongoing"></span>
-	                      <div>
-	                        <strong>决定基模与初版训练规模</strong>
-                        <p>主要比较 Cosmos-Predict 2.5、WAN2.2-TI2V、<a href="https://github.com/Lightricks/LTX-Video">LTX-Video</a>；先用 5k-1w 条，1k-2k 条单任务训练初版，三者先只做 TI2V inference。</p>
-	                        <div class="task-meta"><span>Due May 23, 2026</span></div>
-                      </div>
-                    </li>
-                    <li>
-                      <span class="box ongoing"></span>
-                      <div>
-                        <strong>先跑 DreamZero / CtrlWorld inference</strong>
-                        <p>作为 AI2V 候选 codebase，先验证是否值得进入训练或改造。</p>
-                        <div class="task-meta"><span>Due May 23, 2026</span></div>
-                      </div>
-                    </li>
-	                    <li>
-	                      <span class="box checked"></span>
-	                      <div>
-	                        <strong>准备基模 / codebase 测试集并发给 Haoyu</strong>
-	                        <p>已围绕 Cosmos-Predict 2.5、WAN2.2-TI2V、LTX-Video、DreamZero / CtrlWorld，整理可直接跑起来的测试集和评测输入并发给 Haoyu。</p>
-	                        <div class="task-meta completed"><span>Completed May 16, 2026</span></div>
-	                      </div>
-	                    </li>
-                    <li>
-                      <span class="box"></span>
-                      <div>
-                        <strong>建立 evaluation 数据与 VBench 评测</strong>
-                        <p>除可视化外，组织 100/200 条数据，用 <a href="https://github.com/Vchitect/VBench">VBench</a> 做原生模型能力评测。</p>
-                      </div>
-	                    </li>
-	                  </ul>
-	                </section>
-	                <section class="project-panel archive-panel">
-	                  <details class="archive-detail">
-	                    <summary>
-	                      <span>Archive</span>
-	                      <small>1 completed</small>
-	                    </summary>
-	                    <ul class="archive-list project-list">
-	                      <li>
-	                        <strong>检验 Gemini 做时间帧定位的精确程度</strong>
-	                        <p>大部分精准；测试的 12 条内只有 1 条出现了 3-5s 的偏移。</p>
-	                        <div class="task-meta completed"><span>Completed May 15, 2026</span></div>
-	                      </li>
-	                    </ul>
-	                  </details>
-	                </section>
-	                <section class="project-panel">
-	                  <h3>Risks / Decisions</h3>
-                  <ol class="decision-list project-list">
-                    <li>基模路线：先证明 TI2V 能力，还是同步推进 AI2V codebase inference。</li>
-	                    <li>时间帧切分调研已经收敛到 Gemini + key-state prompt / EE-Z 组合；下一步要把方案固化进 caption / relabel 流程。</li>
-                    <li>初版数据规模要控制在能快速迭代的范围，避免一开始就把训练周期拉长。</li>
-                    <li>Evaluation 需要同时覆盖视觉质量、时序定位、动作条件一致性。</li>
-                  </ol>
-                </section>
-              </div>
-            </details>
-
-            <details class="project-detail" open>
-              <summary>
-                <span>
-                  <strong>Self-Improving Agents for Physical AI</strong>
-                  <em>Runtime-governed Robot-for-Robot data and evaluation system</em>
-                </span>
-                <mark class="status on-track">Ongoing</mark>
-              </summary>
-              <div class="project-body compact">
-                <figure>
-                  <img src="assets/pearl-overview.png" alt="PEARL self-improving physical AI framework">
-                  <figcaption>PEARL reference: failure memory, attribution, task-environment co-evolution, governance.</figcaption>
-                </figure>
-                <div>
-                  <p>This project reframes agentic R2S2R as a self-improving Physical AI system: start inside Isaac simulation, use VLM-guided diagnosis and task/environment generation to improve the simulator and policy evaluation loop, then grow toward Robot-for-Robot data collection and benchmarking.</p>
-                  <ul>
-                    <li>Current focus: test LeHome and consolidate household tasks into one Isaac-compatible environment.</li>
-                    <li>Use PEARL-style typed failure memory, failure attribution, task-environment co-evolution, and runtime governance as the conceptual framework.</li>
-                    <li>Extend tasks with generated object physics assets and scene assets instead of relying only on fixed benchmark environments.</li>
-                  </ul>
-                </div>
-              </div>
-              <div class="project-workstream">
-                <section class="project-panel">
-                  <h3>TODO</h3>
-                  <ul class="todo-list project-list">
-                    <li>
-                      <span class="box"></span>
-                      <div>
-                        <strong>Test LeHome task stack</strong>
-                        <p>Run through <a href="https://github.com/lehome-official/lehome">lehome</a> and <a href="https://github.com/lehome-official/lehome-challenge">lehome-challenge</a>; map assets, task registration, data collection, and evaluation entrypoints.</p>
-                      </div>
-                    </li>
-                    <li>
-                      <span class="box"></span>
-                      <div>
-                        <strong>Unify household tasks in one Isaac environment</strong>
-                        <p>Integrate LeHome household/deformable-object tasks with <a href="https://github.com/NVLabs/RoboLab">RoboLab</a>-style Isaac Lab policy/evaluation infrastructure.</p>
-                      </div>
-                    </li>
-                    <li>
-                      <span class="box"></span>
-                      <div>
-                        <strong>Add generative asset expansion</strong>
-                        <p>Use <a href="https://github.com/ziangcao0312/PhysX-Anything">PhysX-Anything</a> for simulation-ready physical object assets and <a href="https://github.com/jaber628/WorldComposer">WorldComposer</a> for scene / Real2Sim asset generation.</p>
-                      </div>
-                    </li>
-                    <li>
-                      <span class="box"></span>
-                      <div>
-                        <strong>Prototype VLM-guided simulator self-improvement</strong>
-                        <p>Let a VLM inspect rollouts, label failure causes, propose task/environment mutations, and feed candidates through executability and governance checks.</p>
-                      </div>
-                    </li>
-                    <li>
-                      <span class="box"></span>
-                      <div>
-                        <strong>Define Robot-for-Robot output format</strong>
-                        <p>Specify generated tasks, assets, failure traces, evaluation scores, and policy-ready datasets as first-class outputs.</p>
-                      </div>
-                    </li>
-                  </ul>
-                </section>
-                <section class="project-panel">
-                  <h3>Risks / Decisions</h3>
-                  <ol class="decision-list project-list">
-                    <li>Scope should start in simulation: VLM-guided improvement of task/env generation before real robot deployment.</li>
-                    <li>Unification risk: LeHome, LeHome Challenge, RoboLab, and generated assets may expose incompatible task schemas.</li>
-                    <li>Executability is the key filter: generated tasks/assets must be physically valid, not only visually plausible.</li>
-                    <li>Runtime governance should be part of the learning signal, not only a safety wrapper.</li>
-                  </ol>
-                </section>
-              </div>
-            </details>
-
-            <details class="project-detail" open>
-              <summary>
-                <span>
-                  <strong>Robotics + 3D Printing</strong>
-                  <em>Language/image-driven PoD design to printable CAD</em>
-                </span>
-                <mark class="status on-track">Ongoing</mark>
-              </summary>
-              <div class="project-body compact">
-                <figure class="wide-figure">
-                  <img src="assets/robotics-3d-printing-platform.png" alt="Allo-style generated product design exported to a 3D printing workflow">
-                  <figcaption>Reference video: generated structure moves toward an STL / 3D-printing handoff.</figcaption>
-                </figure>
-                <div>
-                  <p>Build a web product for Product on Demand: the user provides natural-language demand plus photos of existing real-world objects, and the system generates a printable retrofit / add-on part with assembly instructions.</p>
-                  <ul>
-                    <li>Target is existing-object modification, not generic decorative text-to-3D.</li>
-                    <li>Pipeline: VLM object analysis -> design spec -> concept image -> image/text-to-3D -> code-controlled CAD cleanup -> slicer / printer handoff.</li>
-                    <li><a href="https://allotech-ai.com/creating/home">Allo</a> suggests the interaction pattern for AI-assisted creation; <a href="https://www.blueprint.am/">Blueprint</a> suggests prompt-to-hardware planning with generated diagrams, BOM, and assembly guides.</li>
-                  </ul>
-                </div>
-              </div>
-              <div class="project-workstream">
-                <section class="project-panel">
-                  <h3>TODO</h3>
-                  <ul class="todo-list project-list">
-                    <li>
-                      <span class="box"></span>
-                      <div>
-                        <strong>Benchmark photo / text-to-3D engines</strong>
-                        <p>Use one reference object image to compare MakerLab engines: Tripo AI 3.1, Hunyuan 3D 3.1, and Meshy 6; record geometry quality, printability, and editability.</p>
-                      </div>
-                    </li>
-                    <li>
-                      <span class="box"></span>
-                      <div>
-                        <strong>Evaluate code-controllable CAD stack</strong>
-                        <p>Blender MCP seems practical for boolean cuts, scale edits, coordinates, and simple text insertion; compare with parametric options such as CadQuery / OpenSCAD / FreeCAD for more reliable manufacturing constraints.</p>
-                      </div>
-                    </li>
-                    <li>
-                      <span class="box"></span>
-                      <div>
-                        <strong>Define PoD input schema</strong>
-                        <p>Text demand, object images, rough dimensions, contact surfaces, load/material constraints, printer type, and desired assembly behavior.</p>
-                      </div>
-                    </li>
-                    <li>
-                      <span class="box"></span>
-                      <div>
-                        <strong>Prototype the agent pipeline</strong>
-                        <p>Analyze object + demand, write design prompt, generate concept image, call 3D model API, clean part in CAD, export STL / 3MF, then generate robot / human assembly instruction prompt.</p>
-                      </div>
-                    </li>
-                    <li>
-                      <span class="box"></span>
-                      <div>
-                        <strong>Build one retrofit demo</strong>
-                        <p>Start from a MakerLab-style PoD case such as a Mac mini top power-button extender: existing object + small snap-fit / no-disassembly printed part.</p>
-                      </div>
-                    </li>
-                  </ul>
-                </section>
-                <section class="project-panel">
-                  <h3>Risks / Decisions</h3>
-                  <ol class="decision-list project-list">
-                    <li>Text/image-to-3D often returns meshes, but the product needs editable, manufacturable CAD and print-ready geometry.</li>
-                    <li>Single real-object images usually miss metric scale; need reference dimensions, calibration markers, or manual dimension entry.</li>
-                    <li>Blender MCP needs precise coordinates and operation-level commands for reliable edits; open-ended correction is likely too brittle.</li>
-                    <li>Direct printer handoff needs checks for watertight meshes, wall thickness, overhang/support, material constraints, queueing, and safety.</li>
-                    <li>The core value should be retrofit + assembly for real objects, not another standalone text-to-3D model generator.</li>
-                  </ol>
-                </section>
-              </div>
-            </details>
-
-            <details class="project-detail" open>
-              <summary>
-                <span>
-                  <strong>Drag-Demo Video Editing</strong>
-                  <em>Remove human hands from drag-teaching robot data</em>
-                </span>
-                <mark class="status on-track">Ongoing</mark>
-              </summary>
-              <div class="project-body compact">
-                <figure class="wide-figure">
-                  <img src="assets/drag-demo-video-editing.png" alt="Drag-teaching robot data video editing and hand removal">
-                  <figcaption>Current trial: ARX egg-cracking drag demo, Kling hand-removal output, and diff-map QA.</figcaption>
-                </figure>
-                <div>
-                  <p>This project turns drag-teaching demonstrations into cleaner robot-learning videos by deleting the human operator hands while preserving robot motion, object contacts, and task state.</p>
-                  <ul>
-                    <li><a href="https://arxiv.org/abs/2508.09976">Masquerade</a> is the closest reference: use data editing to reduce the human-robot visual embodiment gap. Here the robot is already visible, so the key edit is hand removal rather than robot overlay.</li>
-                    <li>Current seed task: ARX egg cracking, which has clear contact events and enough tolerance to become a first data-scaling case.</li>
-                    <li>Current progress: collected first drag-demo data, tried Kling video+prompt editing, and started before/after difference-map evaluation.</li>
-                  </ul>
-                </div>
-              </div>
-              <div class="project-workstream">
-                <section class="project-panel">
-                  <h3>TODO</h3>
-                  <ul class="todo-list project-list">
-                    <li>
-                      <span class="box ongoing"></span>
-                      <div>
-                        <strong>Collect initial drag-demo batch</strong>
-                        <p>Start with egg-cracking sequences; if editing quality holds, scale toward 100-300 drag-demo sequences and add a matching teleop subset.</p>
-                        <div class="task-meta"><span>Due May 23, 2026</span></div>
-                      </div>
-                    </li>
-                    <li>
-                      <span class="box ongoing"></span>
-                      <div>
-                        <strong>Compare hand-removal backends</strong>
-                        <p>Kling is promising but limited to 3-10s clips and paid credits; also test <a href="https://github.com/ali-vilab/VACE">VACE</a>, <a href="https://huggingface.co/black-forest-labs/FLUX.1-Fill-dev">FLUX.1-Fill-dev</a>, and <a href="https://huggingface.co/sd2-community/stable-diffusion-2-inpainting">Stable Diffusion 2 Inpainting</a> with masks.</p>
-                        <div class="task-meta"><span>Due May 23, 2026</span></div>
-                      </div>
-                    </li>
-                    <li>
-                      <span class="box ongoing"></span>
-                      <div>
-                        <strong>Build diff-map QA</strong>
-                        <p>Compute frame-wise before/after pixel differences and highlight changed regions; good edits should mainly light up human hands, not robot links, egg, bowl, or contact geometry.</p>
-                        <div class="task-meta"><span>Due May 23, 2026</span></div>
-                      </div>
-                    </li>
-                    <li>
-                      <span class="box"></span>
-                      <div>
-                        <strong>Define fine-tuning comparison</strong>
-                        <p>Compare teleop-only, drag+editing, raw drag-only, and mixed 70% drag + 30% teleop training data.</p>
-                      </div>
-                    </li>
-                    <li>
-                      <span class="box"></span>
-                      <div>
-                        <strong>Add masks / collection aids</strong>
-                        <p>Use masks, green gloves / head cover, and anti-slip materials to reduce editing ambiguity and keep hand-object contact readable.</p>
-                      </div>
-                    </li>
-                  </ul>
-                </section>
-                <section class="project-panel">
-                  <h3>Risks / Decisions</h3>
-                  <ol class="decision-list project-list">
-                    <li>Editing quality must be judged by contact preservation and policy usefulness, not only by visual plausibility.</li>
-                    <li>Kling quality looks strong, but the closed API, 3-10s window, and credit cost make an open fallback necessary before scaling.</li>
-                    <li>Diff maps need object / contact consistency checks; a low difference score can still hide harmful hallucination.</li>
-                    <li>Drag demonstrations may have dynamics that differ from autonomous execution, so teleop-only and mixed-data baselines are required.</li>
-                    <li>Mask constraints may be needed before the pipeline can scale beyond the first egg-cracking task.</li>
-                  </ol>
-                </section>
-              </div>
-            </details>
-          </div>
-
-          <div class="status-column">
-            <div class="bucket-title">
-              <span>Research / Survey</span>
-              <strong>Scoping projects</strong>
-            </div>
-
-            <details class="project-detail" open>
-              <summary>
-                <span>
-                  <strong>Image-Layered World Model</strong>
-                  <em>Third-person video decomposition for reasoning and control</em>
-                </span>
-                <mark class="status research">Survey</mark>
-              </summary>
-              <div class="project-body compact">
-                <figure>
-                  <img src="assets/layered-world-model.png" alt="Layered world model pipeline">
-                  <figcaption>Layer 0 background, Layer 1 objects, Layer 2 robots.</figcaption>
-                </figure>
-                <div>
-	                  <p>Third-person video generation can be made more useful if it is decomposed into scene layers rather than treated as flat pixels.</p>
-	                  <ul>
-	                    <li>Target outputs: data augmentation, reward model, and inverse dynamics model.</li>
-	                    <li>Robot layer should support robot priors at generation time: either a manipulator URDF or a single robot-arm image as the robot-condition input.</li>
-	                    <li>Immediate work: survey layered video / object-centric generation methods.</li>
-	                  </ul>
-                </div>
-              </div>
-              <div class="project-workstream">
-                <section class="project-panel">
-                  <h3>TODO</h3>
-                  <ul class="todo-list project-list">
-                    <li>
-                      <span class="box"></span>
-                      <div>
-	                        <strong>Write Image-Layered World Model survey notes</strong>
-	                        <p>Define background / object / robot layers; specify robot-layer conditioning from URDF or robot-arm image; connect outputs to IDM, reward model, and augmentation.</p>
-	                      </div>
-	                    </li>
-                    <li>
-                      <span class="box"></span>
-                      <div>
-                        <strong>Compare layered video / object-centric generation methods</strong>
-                        <p>Decide whether the first version should be visual decomposition only or include object / robot state supervision.</p>
-                      </div>
-                    </li>
-                  </ul>
-                </section>
-                <section class="project-panel">
-                  <h3>Risks / Decisions</h3>
-                  <ol class="decision-list project-list">
-	                    <li>Layered model scope: visual decomposition only, or state-aware layers from the beginning.</li>
-	                    <li>Robot-layer input format: URDF gives explicit kinematic structure, while one robot-arm image is easier to collect but needs stronger identity / geometry inference.</li>
-	                    <li>Evaluation target: data augmentation quality, reward-model usefulness, or IDM recoverability.</li>
-	                  </ol>
-                </section>
-              </div>
-            </details>
-
-            <details class="project-detail" open>
-              <summary>
-                <span>
-                  <strong>Superhuman Robot Execution</strong>
-                  <em>Extract accelerable execution strategies from slow teleoperation</em>
-                </span>
-                <mark class="status research">Survey</mark>
-              </summary>
-              <div class="project-body compact">
-                <figure class="rate-curve-figure">
-                  <div class="rate-curve-visual" role="img" aria-label="Playback rate curve from human speed to learned robot speed">
-                    <svg viewBox="0 0 320 180" aria-hidden="true">
-                      <path class="axis" d="M34 146H292M34 146V28"></path>
-                      <path class="human-line" d="M42 112C86 112 132 112 176 112C219 112 250 112 286 112"></path>
-                      <path class="robot-line" d="M42 126C72 122 86 68 115 62C145 56 154 102 184 89C222 72 233 44 286 38"></path>
-                      <circle cx="42" cy="126" r="4"></circle>
-                      <circle cx="115" cy="62" r="4"></circle>
-                      <circle cx="184" cy="89" r="4"></circle>
-                      <circle cx="286" cy="38" r="4"></circle>
-                      <text x="34" y="22">rate</text>
-                      <text x="244" y="166">demo phase</text>
-                      <text x="205" y="33">RL curve</text>
-                      <text x="214" y="106">human 1x</text>
-                    </svg>
-                  </div>
-                  <figcaption>Keep the demonstrated skill path; optimize a phase-aware playback-rate curve.</figcaption>
-                </figure>
-                <div>
-                  <p><a href="https://ekarobotics.com">EKA Robotics</a> frames fast, reliable physical execution as a core capability. This project asks whether slow human teleoperation can provide the task path, then DAgger + SFT first improves policy stability and safety, and RL further improves speed and smoothness.</p>
-                  <ul>
-                    <li>Stage 1: use DAgger to collect corrective data under the current policy, then SFT a stable and safe base policy.</li>
-                    <li>SFT ablation: sample actions at different frequencies to measure how action rate affects speed, continuity, and stability before adding RL.</li>
-                    <li>Stage 2: run RL on top of the SFT policy; add velocity / completion-time rewards for speed and acceleration / jerk rewards for smoothness.</li>
-                    <li>Force and tactile signals should mainly define safety scores, DAgger correction triggers, evaluation, and real-robot guardrails rather than being the only RL objective.</li>
-                  </ul>
-                </div>
-              </div>
-              <div class="project-workstream">
-                <section class="project-panel">
-                  <h3>TODO</h3>
-                  <ul class="todo-list project-list">
-                    <li>
-                      <span class="box"></span>
-                      <div>
-                        <strong>Survey temporal-scaling skill representations</strong>
-                        <p>Compare <a href="https://arxiv.org/abs/2102.03861">DMP / arc-length DMP</a>, action-chunk latent editing, and phase-variable policies for separating task geometry from playback speed.</p>
-                      </div>
-                    </li>
-                    <li>
-                      <span class="box"></span>
-                      <div>
-                        <strong>Build classical retiming baselines</strong>
-                        <p>Test <a href="https://arxiv.org/abs/1707.07239">TOPPRA</a> / <a href="https://arxiv.org/abs/2105.04830">Ruckig</a>-style retiming under velocity, acceleration, jerk, torque, and contact constraints before adding learned timing.</p>
-                      </div>
-                    </li>
-                    <li>
-                      <span class="box"></span>
-                      <div>
-                        <strong>Design phase-aware sampling strategies</strong>
-                        <p>Sampling is still unclear; compare intuitive templates such as fast in free space, slow near contact, hold during perception / settling, and re-accelerate after stable force / tactile contact.</p>
-                      </div>
-                    </li>
-                    <li>
-                      <span class="box"></span>
-                      <div>
-                        <strong>Mark event constraints in teleop demos</strong>
-                        <p>Do not accelerate perception waits, grasp confirmation, contact settling, or object state transitions blindly.</p>
-                      </div>
-                    </li>
-                    <li>
-                      <span class="box ongoing"></span>
-                      <div>
-                        <strong>Define DAgger / SFT / RL training split</strong>
-                        <p>DAgger collects correction data and SFT improves stability / safety; RL starts from that policy and adds speed rewards from velocity / completion time plus smoothness rewards from acceleration and jerk.</p>
-                      </div>
-                    </li>
-                    <li>
-                      <span class="box ongoing"></span>
-                      <div>
-                        <strong>Ablate SFT action sampling frequency</strong>
-                        <p>Train SFT variants with different action sampling frequencies / downsampling ratios, then compare execution speed, action continuity, jerk, and success stability before RL.</p>
-                      </div>
-                    </li>
-                    <li>
-                      <span class="box ongoing"></span>
-                      <div>
-                        <strong>Run DAgger -> SFT -> RL pilot</strong>
-                        <p>Use force / tactile signals to detect unsafe or unstable rollouts and request correction, train the SFT base, then RL-tune only smoother and faster execution; compare operation types to see which benefit from acceleration.</p>
-                      </div>
-                    </li>
-                  </ul>
-                </section>
-                <section class="project-panel">
-                  <h3>Risks / Decisions</h3>
-                  <ol class="decision-list project-list">
-                    <li>Need to distinguish hardware capability from policy speed; faster timing alone may not reproduce EKA-like performance.</li>
-                    <li>Contact-rich manipulation may fail under naive acceleration even if the geometric path and event order are unchanged.</li>
-                    <li>RL should not learn stability and safety from scratch; those should be bootstrapped by DAgger correction data and SFT.</li>
-                    <li>The first RL target should probably be the rate curve or action latent, not arbitrary raw actions; otherwise the project becomes generic RL.</li>
-                    <li>Force / tactile signals should define correction triggers, safety scores, and guardrails for force spikes, collision, and hardware stress.</li>
-                    <li>SFT action sampling frequency may change apparent speed and continuity even before RL, so it needs a separate ablation.</li>
-                    <li>Evaluation should report SFT stability/safety first, SFT action-frequency effects second, then RL improvement in speed, acceleration profile, jerk, success rate, and force / tactile overshoot.</li>
-                    <li>The most important research question is which operation types can be accelerated without losing physical reliability.</li>
-                  </ol>
-                </section>
-              </div>
-            </details>
-
-            <details class="project-detail" open>
-              <summary>
-                <span>
-                  <strong>Diverse Dataset on Same Task</strong>
-                  <em>2077AI / Zhou Jianshu collaboration for unified HOI data</em>
-                </span>
-                <mark class="status research">Survey</mark>
-              </summary>
-              <div class="project-body compact">
-                <figure class="wide-figure">
-                  <img src="assets/hoi-diverse-dataset.png" alt="HOI dataset capture frames with hand pose and depth map">
-                  <figcaption>Current capture stack: ego RGB, hand keypoints, z16 depth, and shared tracking logic.</figcaption>
-                </figure>
-                <div>
-                  <p>This pre-research project asks whether the same manipulation task can be collected across all major acquisition modes, then unified into an HOI-centric base model and predictive world model.</p>
-                  <ul>
-                    <li>Collection modes: human-centric and robot-centric views; Manus glove, UMI, ALOHA, kinesthetic / drag demonstration, and teleoperation.</li>
-                    <li>Reference framing: HOI-centric retargeting from glove / human posture to robot configurations, with Isaac Sim as the bridge for retargeting and simulation checks.</li>
-                    <li>Recent status: 2077AI spent substantial time on sensor synchronization; camera extrinsics now have an extra PnP calibration layer, and hand pose, depth, and ego camera are mostly ready.</li>
-                  </ul>
-                </div>
-              </div>
-              <div class="project-workstream">
-                <section class="project-panel">
-	                  <h3>TODO</h3>
-	                  <ul class="todo-list project-list">
-	                    <li>
-	                      <span class="box ongoing"></span>
-	                      <div>
-	                        <strong>Freeze the same-task collection matrix</strong>
-                        <p>Define the identical task across glove, UMI, ALOHA, drag demonstration, and teleoperation, with human-centric and robot-centric camera views.</p>
-	                        <div class="task-meta"><span>Due May 23, 2026</span></div>
-                      </div>
-                    </li>
-                    <li>
-                      <span class="box ongoing"></span>
-                      <div>
-                        <strong>Validate synchronized sensor package</strong>
-                        <p>Confirm hand pose, ego camera, and z16-encoded depth are aligned well enough for HOI supervision; z16 replaces depth heatmaps for better metric accuracy.</p>
-                        <div class="task-meta"><span>Due May 23, 2026</span></div>
-                      </div>
-                    </li>
-                    <li>
-                      <span class="box ongoing"></span>
-                      <div>
-                        <strong>Add object tracking with the same mechanism as hand tracking</strong>
-                        <p>The object tracker should share the same tracking / calibration assumptions as the hand tracker rather than creating a separate data path.</p>
-                        <div class="task-meta"><span>Due May 23, 2026</span></div>
-                      </div>
-                    </li>
-                    <li>
-                      <span class="box"></span>
-                      <div>
-                        <strong>Define unified HOI schema and baseline model target</strong>
-                        <p>Specify common timestamps, camera extrinsics, hand / object state, robot embodiment metadata, and the prediction target for the HOI base model / world model.</p>
-                      </div>
-                    </li>
-                    <li>
-                      <span class="box"></span>
-                      <div>
-                        <strong>Connect retargeting baselines</strong>
-                        <p>Use the HOI Retargeting notes to compare <a href="https://github.com/leap-hand/Bidex_Manus_Teleop">Manus glove -> LEAP</a> / Isaac Sim retargeting, AnyHand-style robot-guided retargeting, and object sim2real alignment ideas such as <a href="https://nvlabs.github.io/FoundationPose/">FoundationPose</a>.</p>
-                      </div>
-	                    </li>
-	                  </ul>
-	                </section>
-	                <section class="project-panel archive-panel">
-	                  <details class="archive-detail">
-	                    <summary>
-	                      <span>Archive</span>
-	                      <small>1 completed</small>
-	                    </summary>
-	                    <ul class="archive-list project-list">
-	                      <li>
-	                        <strong>Add PnP calibration layer for camera extrinsics</strong>
-	                        <p>Extra calibration support was added to help 2077AI stabilize camera extrinsics after sensor synchronization took longer than expected.</p>
-	                        <div class="task-meta completed"><span>Completed May 15, 2026</span></div>
-	                      </li>
-	                    </ul>
-	                  </details>
-	                </section>
-	                <section class="project-panel">
-	                  <h3>Risks / Decisions</h3>
-                  <ol class="decision-list project-list">
-                    <li>Data value depends on same-task equivalence across embodiments, not only collecting more modalities.</li>
-                    <li>2077AI collection capacity and sensor-sync reliability are current bottlenecks; the pipeline needs simple validation checks before scaling.</li>
-                    <li>Human pose maps to multiple feasible robot poses, so the target for retargeting / HOI prediction must be defined carefully.</li>
-                    <li>Object and hand tracking should share calibration assumptions; otherwise object-state supervision will drift from hand pose and depth.</li>
-                    <li>Predictive WM scope should start with aligned HOI state transitions before attempting a full cross-embodiment policy model.</li>
-                  </ol>
-                </section>
-              </div>
-            </details>
-          </div>
-        </div>
+        <div class="status-columns" data-status-columns></div>
       </section>
 
     </main>
@@ -910,6 +97,1423 @@
         <figcaption class="lightbox-caption"></figcaption>
       </figure>
     </div>
+
+    <script src="supabase-config.js"></script>
+    <script>
+      (() => {
+        const stateRoot = document.querySelector('meta[name="dashboard-state-root"]')?.content || "state/";
+        const storageKey = "dashboard.task-interactions.v1";
+        const supabaseEsmUrl = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+        const statusCycle = ["todo", "active", "done"];
+        const statusLabels = {
+          todo: "undone",
+          active: "doing",
+          done: "done",
+        };
+        const statusOrder = {
+          active: 0,
+          review: 1,
+          blocked: 2,
+          needs_user: 3,
+          todo: 4,
+          done: 5,
+        };
+        const boxClasses = {
+          active: "ongoing",
+          review: "ongoing",
+          blocked: "blocked",
+          needs_user: "blocked",
+          done: "checked",
+        };
+        const dateFormatter = new Intl.DateTimeFormat("en", {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+        });
+        const dateTimeFormatter = new Intl.DateTimeFormat("en", {
+          month: "short",
+          day: "numeric",
+          hour: "numeric",
+          minute: "2-digit",
+        });
+        let taskDoc = null;
+        let portfolioDoc = null;
+        let projectDocs = [];
+        let supabaseClient = null;
+        let supabaseSession = null;
+        let supabaseIsEditor = false;
+        let dataMode = "json";
+        let reloadTimer = null;
+        let realtimeChannel = null;
+        let localState = readLocalState();
+        const maxCommentLength = 4000;
+
+        function readLocalState() {
+          try {
+            const parsed = JSON.parse(localStorage.getItem(storageKey) || "{}");
+            return {
+              statuses: parsed.statuses && typeof parsed.statuses === "object" ? parsed.statuses : {},
+              comments: parsed.comments && typeof parsed.comments === "object" ? parsed.comments : {},
+            };
+          } catch (error) {
+            console.warn("Ignoring invalid local dashboard task state", error);
+            return { statuses: {}, comments: {} };
+          }
+        }
+
+        function writeLocalState() {
+          localStorage.setItem(storageKey, JSON.stringify(localState));
+        }
+
+        function setSyncStatus(label, state = "") {
+          const pill = document.querySelector("[data-sync-status]");
+          if (!pill) {
+            return;
+          }
+          pill.textContent = label;
+          pill.dataset.state = state;
+        }
+
+        function setSupabaseSyncStatus() {
+          if (dataMode !== "supabase") {
+            return;
+          }
+          if (!supabaseSession?.user) {
+            setSyncStatus("Supabase read-only", "readonly");
+          } else if (supabaseIsEditor) {
+            setSyncStatus("Supabase", "online");
+          } else {
+            setSyncStatus("Signed in, no write access", "readonly");
+          }
+        }
+
+        function renderAuthState() {
+          const form = document.querySelector("[data-auth-form]");
+          const signOut = document.querySelector("[data-auth-signout]");
+          if (!form || !signOut) {
+            return;
+          }
+          const hasSupabase = Boolean(supabaseClient);
+          const isSignedIn = Boolean(supabaseSession?.user);
+          form.hidden = !hasSupabase || isSignedIn;
+          signOut.hidden = !hasSupabase || !isSignedIn;
+          if (isSignedIn) {
+            signOut.textContent = supabaseSession.user.email ? `Sign out ${supabaseSession.user.email}` : "Sign out";
+          }
+        }
+
+        function isSupabaseWritable() {
+          return dataMode === "supabase" && Boolean(supabaseClient && supabaseSession?.user && supabaseIsEditor);
+        }
+
+        function getStatusOverride(taskId) {
+          const override = localState.statuses[taskId];
+          if (!override) {
+            return null;
+          }
+          if (typeof override === "string") {
+            return { status: override };
+          }
+          return override;
+        }
+
+        function getEffectiveStatus(task) {
+          return getStatusOverride(task.task_id)?.status || task.status;
+        }
+
+        function getTaskById(taskId) {
+          return taskDoc?.tasks?.find((task) => task.task_id === taskId) || null;
+        }
+
+        function setLocalStatus(taskId, status, baseStatus) {
+          const seedTask = getTaskById(taskId);
+          const comparisonStatus = baseStatus ?? seedTask?.status;
+          if (comparisonStatus === status) {
+            delete localState.statuses[taskId];
+            return;
+          }
+          localState.statuses[taskId] = {
+            status,
+            updated_at: new Date().toISOString(),
+          };
+        }
+
+        function applyTaskStatus(taskId, status, updatedAt = new Date().toISOString()) {
+          const task = getTaskById(taskId);
+          if (!task) {
+            return;
+          }
+          task.status = status;
+          task.updated_at = updatedAt;
+          task.completed_at = status === "done" ? updatedAt.slice(0, 10) : null;
+          delete localState.statuses[taskId];
+        }
+
+        function addTaskComment(taskId, comment) {
+          const task = getTaskById(taskId);
+          if (!task) {
+            return;
+          }
+          const comments = Array.isArray(task.comments) ? task.comments : [];
+          if (comment.comment_id && comments.some((existing) => existing.comment_id === comment.comment_id)) {
+            return;
+          }
+          comments.push(comment);
+          task.comments = comments;
+        }
+
+        function formatDate(value) {
+          if (!value) {
+            return "";
+          }
+          const date = /^\d{4}-\d{2}-\d{2}$/.test(value) ? new Date(`${value}T00:00:00`) : new Date(value);
+          return Number.isNaN(date.getTime()) ? value : dateFormatter.format(date);
+        }
+
+        function formatDateTime(value) {
+          if (!value) {
+            return "";
+          }
+          const date = new Date(value);
+          return Number.isNaN(date.getTime()) ? value : dateTimeFormatter.format(date);
+        }
+
+        function sortTasks(tasks) {
+          return [...tasks].sort((a, b) => {
+            const statusDelta = (statusOrder[getEffectiveStatus(a)] ?? 99) - (statusOrder[getEffectiveStatus(b)] ?? 99);
+            if (statusDelta !== 0) {
+              return statusDelta;
+            }
+            const dueA = a.due_at || "9999-99-99";
+            const dueB = b.due_at || "9999-99-99";
+            if (dueA !== dueB) {
+              return dueA.localeCompare(dueB);
+            }
+            return a.title.localeCompare(b.title);
+          });
+        }
+
+        function createChip(text, className = "") {
+          const chip = document.createElement("span");
+          chip.textContent = text;
+          if (className) {
+            chip.className = className;
+          }
+          return chip;
+        }
+
+        function createEmptyItem(text) {
+          const item = document.createElement("li");
+          item.className = "empty-task";
+          item.textContent = text;
+          return item;
+        }
+
+        function stateFileUrl(statePath) {
+          const relativePath = statePath
+            .replace(/^dashboard\/state\//, "")
+            .replace(/^state\//, "");
+          return `${stateRoot}${relativePath}`;
+        }
+
+        function assetFileUrl(assetPath) {
+          if (!assetPath) {
+            return "";
+          }
+          return assetPath.replace(/^dashboard\//, "");
+        }
+
+        function groupBy(items, key) {
+          return items.reduce((groups, item) => {
+            const groupKey = item[key];
+            if (!groups.has(groupKey)) {
+              groups.set(groupKey, []);
+            }
+            groups.get(groupKey).push(item);
+            return groups;
+          }, new Map());
+        }
+
+        function mapSupabasePortfolio(snapshot, projects) {
+          return {
+            schema_version: "portfolio.v1",
+            portfolio_id: snapshot.portfolio_id,
+            title: snapshot.title,
+            subtitle: snapshot.subtitle,
+            week: snapshot.week,
+            date: snapshot.report_date,
+            updated_at: snapshot.updated_at,
+            summary: snapshot.summary || {},
+            storyline: snapshot.storyline || {},
+            visual_references: snapshot.visual_references || [],
+            project_buckets: snapshot.project_buckets || [],
+            projects: projects.map((project) => ({
+              project_id: project.project_id,
+              title: project.title,
+              bucket: project.bucket,
+              status: project.status,
+            })),
+            rules: snapshot.rules || [],
+            timeline_policy: snapshot.timeline_policy || {},
+          };
+        }
+
+        function mapSupabaseProject(project, referencesByProject) {
+          return {
+            schema_version: "project.v1",
+            project_id: project.project_id,
+            title: project.title,
+            bucket: project.bucket,
+            status: project.status,
+            updated_at: project.updated_at,
+            description: project.description,
+            summary: project.summary,
+            asset: project.asset,
+            asset_alt: project.asset_alt,
+            asset_caption: project.asset_caption,
+            visual: project.visual,
+            details: project.details || [],
+            timeline: project.timeline,
+            risks_decisions: project.risks_decisions || [],
+            references: referencesByProject.get(project.project_id) || [],
+          };
+        }
+
+        function mapSupabaseTask(task, commentsByTask) {
+          return {
+            task_id: task.task_id,
+            project_id: task.project_id,
+            title: task.title,
+            description: task.description,
+            status: task.status,
+            priority: task.priority,
+            assignee: task.assignee,
+            due_at: task.due_at,
+            completed_at: task.completed_at,
+            updated_at: task.updated_at,
+            comments: commentsByTask.get(task.task_id) || [],
+          };
+        }
+
+        function createExternalLink(href, text) {
+          const link = document.createElement("a");
+          link.href = href;
+          link.textContent = text;
+          return link;
+        }
+
+        function prepareZoomableImage(image) {
+          image.classList.add("zoomable-image");
+          image.tabIndex = 0;
+          image.setAttribute("role", "button");
+          image.setAttribute("aria-label", `Open larger image: ${image.alt || "figure"}`);
+        }
+
+        function appendRichText(parent, value) {
+          const text = typeof value === "string" ? value : value?.text || "";
+          const links = Array.isArray(value?.links) ? value.links : [];
+          if (!text || links.length === 0) {
+            parent.textContent = text;
+            return;
+          }
+
+          let cursor = 0;
+          const placements = links
+            .map((link) => ({ ...link, index: text.indexOf(link.label || "") }))
+            .filter((link) => link.label && link.url && link.index >= 0)
+            .sort((a, b) => a.index - b.index);
+
+          placements.forEach((link) => {
+            if (link.index < cursor) {
+              return;
+            }
+            parent.append(document.createTextNode(text.slice(cursor, link.index)));
+            parent.append(createExternalLink(link.url, link.label));
+            cursor = link.index + link.label.length;
+          });
+          parent.append(document.createTextNode(text.slice(cursor)));
+        }
+
+        function renderStatusMark(mark, status) {
+          if (!mark || !status) {
+            return;
+          }
+          const label = status === "survey" ? "Survey" : status.replace(/[-_]/g, " ");
+          mark.textContent = label.replace(/\b\w/g, (letter) => letter.toUpperCase());
+          mark.className = "status";
+          if (status === "survey" || status === "research") {
+            mark.classList.add("research");
+          } else if (status === "blocked" || status === "attention") {
+            mark.classList.add("attention");
+          } else {
+            mark.classList.add("on-track");
+          }
+        }
+
+        function renderPortfolioState(portfolio) {
+          document.querySelector(".report-header h1").textContent = portfolio.title || "Project Dashboard";
+          document.querySelector(".report-header .subtitle").textContent = portfolio.subtitle || "";
+          document.querySelector(".week-box strong").textContent = portfolio.week || "";
+          const weekTime = document.querySelector(".week-box time");
+          if (weekTime) {
+            weekTime.dateTime = portfolio.date || "";
+            weekTime.textContent = formatDate(portfolio.date);
+          }
+
+          const summary = portfolio.summary || {};
+          document.querySelectorAll(".summary-grid article").forEach((article) => {
+            const key = article.querySelector(".label")?.textContent?.trim().toLowerCase();
+            const body = article.querySelector("p");
+            if (key && body && summary[key]) {
+              body.textContent = summary[key];
+            }
+          });
+
+          const storylineSummary = document.querySelector('[data-section-id="storyline"] summary em');
+          if (storylineSummary && portfolio.storyline?.summary) {
+            storylineSummary.textContent = portfolio.storyline.summary;
+          }
+          renderStoryline(portfolio.storyline);
+          renderVisualReferences(portfolio.visual_references);
+          renderProjectBuckets(portfolio);
+        }
+
+        function createFlowNode(node) {
+          const element = document.createElement("div");
+          element.className = ["flow-node", node.role || "primary"].filter(Boolean).join(" ");
+          const eyebrow = document.createElement("span");
+          eyebrow.textContent = node.eyebrow || "";
+          const title = document.createElement("strong");
+          title.textContent = node.title || "";
+          const body = document.createElement("p");
+          body.textContent = node.body || "";
+          element.append(eyebrow, title, body);
+          return element;
+        }
+
+        function createStoryFlow(flow, extraClass = "") {
+          const flowElement = document.createElement("div");
+          flowElement.className = ["story-flow", extraClass].filter(Boolean).join(" ");
+          flowElement.setAttribute("aria-label", flow.aria_label || "Story flow");
+          const nodes = Array.isArray(flow.nodes) ? flow.nodes : [];
+          const connectors = Array.isArray(flow.connectors) ? flow.connectors : [];
+          nodes.forEach((node, index) => {
+            if (index > 0) {
+              const arrow = document.createElement("div");
+              arrow.className = "flow-arrow";
+              arrow.textContent = connectors[index - 1] || "->";
+              flowElement.append(arrow);
+            }
+            flowElement.append(createFlowNode(node));
+          });
+          return flowElement;
+        }
+
+        function renderStoryline(storyline) {
+          const flows = Array.isArray(storyline?.flows) ? storyline.flows : [];
+          const mainContainer = document.querySelector("[data-story-flow]");
+          const subContainer = document.querySelector("[data-story-subsection]");
+          if (mainContainer && flows[0]) {
+            mainContainer.replaceWith(createStoryFlow(flows[0]));
+            document.querySelector(".story-flow")?.setAttribute("data-story-flow", "");
+          }
+          if (subContainer && flows[1]) {
+            const subsection = document.createElement("div");
+            subsection.className = "story-subsection";
+            subsection.dataset.storySubsection = "";
+            const subtitle = document.createElement("div");
+            subtitle.className = "story-subtitle";
+            const eyebrow = document.createElement("span");
+            eyebrow.textContent = flows[1].eyebrow || "";
+            const title = document.createElement("strong");
+            title.textContent = flows[1].title || "";
+            subtitle.append(eyebrow, title);
+            subsection.append(subtitle, createStoryFlow(flows[1], "story-subflow"));
+            subContainer.replaceWith(subsection);
+          }
+        }
+
+        function renderVisualReferences(references) {
+          const grid = document.querySelector("[data-visual-grid]");
+          if (!grid || !Array.isArray(references)) {
+            return;
+          }
+          const figures = references.map((reference) => {
+            const figure = document.createElement("figure");
+            figure.className = "figure-card";
+            const image = document.createElement("img");
+            image.src = assetFileUrl(reference.src);
+            image.alt = reference.alt || reference.caption || "Visual reference";
+            prepareZoomableImage(image);
+            const caption = document.createElement("figcaption");
+            caption.textContent = reference.caption || "";
+            figure.append(image, caption);
+            return figure;
+          });
+          grid.replaceChildren(...figures);
+        }
+
+        function createProjectShell(projectRef) {
+          const details = document.createElement("details");
+          details.className = "project-detail";
+          details.dataset.projectId = projectRef.project_id;
+          details.open = true;
+
+          const summary = document.createElement("summary");
+          const titleBlock = document.createElement("span");
+          const title = document.createElement("strong");
+          title.textContent = projectRef.title || projectRef.project_id;
+          const description = document.createElement("em");
+          titleBlock.append(title, description);
+          const mark = document.createElement("mark");
+          renderStatusMark(mark, projectRef.status);
+          summary.append(titleBlock, mark);
+
+          const body = document.createElement("div");
+          body.className = "project-body compact";
+          const bodyColumn = document.createElement("div");
+          const summaryParagraph = document.createElement("p");
+          bodyColumn.append(summaryParagraph);
+          body.append(bodyColumn);
+
+          const workstream = document.createElement("div");
+          workstream.className = "project-workstream";
+          const taskPanel = document.createElement("section");
+          taskPanel.className = "project-panel";
+          const taskHeading = document.createElement("h3");
+          taskHeading.textContent = "Tasks";
+          const taskList = document.createElement("ul");
+          taskList.className = "todo-list project-list";
+          taskPanel.append(taskHeading, taskList);
+
+          const decisionPanel = document.createElement("section");
+          decisionPanel.className = "project-panel";
+          const decisionHeading = document.createElement("h3");
+          decisionHeading.textContent = "Risks / Decisions";
+          const decisionList = document.createElement("ol");
+          decisionList.className = "decision-list project-list";
+          decisionPanel.append(decisionHeading, decisionList);
+          workstream.append(taskPanel, decisionPanel);
+
+          details.append(summary, body, workstream);
+          return details;
+        }
+
+        function createProjectBucket(bucket) {
+          const column = document.createElement("div");
+          column.className = "status-column";
+          column.dataset.bucket = bucket.bucket;
+          const title = document.createElement("div");
+          title.className = "bucket-title";
+          const label = document.createElement("span");
+          label.textContent = bucket.label || bucket.bucket;
+          const strong = document.createElement("strong");
+          strong.textContent = bucket.title || bucket.bucket;
+          title.append(label, strong);
+          column.append(title);
+          return column;
+        }
+
+        function renderProjectBuckets(portfolio) {
+          const container = document.querySelector("[data-status-columns]");
+          if (!container) {
+            return;
+          }
+          const buckets = Array.isArray(portfolio.project_buckets) && portfolio.project_buckets.length > 0
+            ? portfolio.project_buckets
+            : [{ bucket: "active", label: "Ongoing", title: "Active projects" }];
+          const columns = new Map();
+          container.replaceChildren();
+          buckets.forEach((bucket) => {
+            const column = createProjectBucket(bucket);
+            columns.set(bucket.bucket, column);
+            container.append(column);
+          });
+          (portfolio.projects || []).forEach((projectRef) => {
+            const column = columns.get(projectRef.bucket) || columns.values().next().value;
+            column?.append(createProjectShell(projectRef));
+          });
+        }
+
+        function renderProjectReferences(projectElement, references) {
+          const existing = projectElement.querySelector("[data-project-references]");
+          existing?.remove();
+
+          if (!Array.isArray(references) || references.length === 0) {
+            return;
+          }
+
+          const referencesPanel = document.createElement("div");
+          referencesPanel.className = "project-references";
+          referencesPanel.dataset.projectReferences = "";
+
+          const label = document.createElement("span");
+          label.className = "reference-label";
+          label.textContent = "References";
+
+          const list = document.createElement("ul");
+          references.forEach((reference) => {
+            const item = document.createElement("li");
+            const title = reference.url
+              ? createExternalLink(reference.url, reference.title || reference.arxiv_id || reference.url)
+              : document.createElement("strong");
+            if (!reference.url) {
+              title.textContent = reference.title || reference.arxiv_id || "Reference";
+            }
+            item.append(title);
+
+            if (reference.notes) {
+              const notes = document.createElement("p");
+              notes.textContent = reference.notes;
+              item.append(notes);
+            }
+
+            const metaItems = [];
+            if (reference.arxiv_id) {
+              metaItems.push(`arXiv:${reference.arxiv_id}`);
+            }
+            if (reference.submitted_at) {
+              metaItems.push(`Submitted ${formatDate(reference.submitted_at)}`);
+            }
+            if (metaItems.length > 0) {
+              const meta = document.createElement("small");
+              meta.textContent = metaItems.join(" · ");
+              item.append(meta);
+            }
+
+            list.append(item);
+          });
+
+          referencesPanel.append(label, list);
+          projectElement.querySelector(".project-body > div")?.append(referencesPanel);
+        }
+
+        function createSvgElement(name, attributes = {}) {
+          const element = document.createElementNS("http://www.w3.org/2000/svg", name);
+          Object.entries(attributes).forEach(([key, value]) => element.setAttribute(key, value));
+          return element;
+        }
+
+        function createRateCurveFigure(visual) {
+          const labels = visual.labels || {};
+          const figure = document.createElement("figure");
+          figure.className = "rate-curve-figure";
+          const visualBox = document.createElement("div");
+          visualBox.className = "rate-curve-visual";
+          visualBox.role = "img";
+          visualBox.setAttribute("aria-label", visual.aria_label || "Playback rate curve");
+
+          const svg = createSvgElement("svg", { viewBox: "0 0 320 180", "aria-hidden": "true" });
+          [
+            createSvgElement("path", { class: "axis", d: "M34 146H292M34 146V28" }),
+            createSvgElement("path", { class: "human-line", d: "M42 112C86 112 132 112 176 112C219 112 250 112 286 112" }),
+            createSvgElement("path", { class: "robot-line", d: "M42 126C72 122 86 68 115 62C145 56 154 102 184 89C222 72 233 44 286 38" }),
+          ].forEach((element) => svg.append(element));
+
+          [
+            [42, 126],
+            [115, 62],
+            [184, 89],
+            [286, 38],
+          ].forEach(([cx, cy]) => {
+            svg.append(createSvgElement("circle", { cx: String(cx), cy: String(cy), r: "4" }));
+          });
+
+          [
+            [34, 22, labels.y_axis || "rate"],
+            [244, 166, labels.x_axis || "demo phase"],
+            [205, 33, labels.robot_curve || "RL curve"],
+            [214, 106, labels.human_curve || "human 1x"],
+          ].forEach(([x, y, label]) => {
+            const text = createSvgElement("text", { x: String(x), y: String(y) });
+            text.textContent = label;
+            svg.append(text);
+          });
+
+          visualBox.append(svg);
+          const caption = document.createElement("figcaption");
+          caption.textContent = visual.caption || "";
+          figure.append(visualBox, caption);
+          return figure;
+        }
+
+        function createProjectFigure(projectDoc, existingFigure) {
+          if (projectDoc.visual?.kind === "rate_curve") {
+            return createRateCurveFigure(projectDoc.visual);
+          }
+          if (!projectDoc.asset) {
+            return null;
+          }
+          const figure = document.createElement("figure");
+          figure.className = existingFigure?.className || "";
+          const image = document.createElement("img");
+          image.src = assetFileUrl(projectDoc.asset);
+          image.alt = projectDoc.asset_alt || projectDoc.title || "Project visual";
+          prepareZoomableImage(image);
+          const caption = document.createElement("figcaption");
+          caption.textContent = projectDoc.asset_caption || "";
+          figure.append(image, caption);
+          return figure;
+        }
+
+        function renderProjectFigure(projectElement, projectDoc) {
+          const existingFigure = projectElement.querySelector(".project-body figure");
+          const figure = createProjectFigure(projectDoc, existingFigure);
+          if (existingFigure && figure) {
+            existingFigure.replaceWith(figure);
+          } else if (figure) {
+            projectElement.querySelector(".project-body")?.prepend(figure);
+          }
+        }
+
+        function createTimelineChip(label, value) {
+          const chip = document.createElement("span");
+          const strong = document.createElement("strong");
+          strong.textContent = label;
+          chip.append(strong, document.createTextNode(value));
+          return chip;
+        }
+
+        function renderProjectTimeline(projectElement, timeline) {
+          const bodyColumn = projectElement.querySelector(".project-body > div");
+          const summaryParagraph = bodyColumn?.querySelector(":scope > p");
+          let strip = bodyColumn?.querySelector(".timeline-strip");
+          if (!bodyColumn || !summaryParagraph) {
+            return;
+          }
+          if (!timeline) {
+            strip?.remove();
+            return;
+          }
+          if (!strip) {
+            strip = document.createElement("div");
+            strip.className = "timeline-strip";
+            summaryParagraph.after(strip);
+          }
+          strip.setAttribute("aria-label", `${timeline.target_venue || "Project"} timeline`);
+
+          const chips = [];
+          if (timeline.target_cycle || timeline.target_venue) {
+            chips.push(createTimelineChip("Target", timeline.target_cycle || timeline.target_venue));
+          }
+          if (timeline.sprint_due) {
+            chips.push(createTimelineChip("Sprint due", formatDate(timeline.sprint_due)));
+          }
+          (timeline.milestones || [])
+            .filter((milestone) => milestone.status === "done")
+            .forEach((milestone) => {
+              chips.push(createTimelineChip("Completed", `${milestone.title}${milestone.date ? `, ${formatDate(milestone.date)}` : ""}`));
+            });
+          strip.replaceChildren(...chips);
+        }
+
+        function renderProjectDetails(projectElement, details) {
+          const bodyColumn = projectElement.querySelector(".project-body > div");
+          if (!bodyColumn) {
+            return;
+          }
+          let list = bodyColumn.querySelector(":scope > ul");
+          if (!Array.isArray(details) || details.length === 0) {
+            list?.remove();
+            return;
+          }
+          if (!list) {
+            list = document.createElement("ul");
+            bodyColumn.append(list);
+          }
+          list.replaceChildren(...details.map((detail) => {
+            const item = document.createElement("li");
+            appendRichText(item, detail);
+            return item;
+          }));
+        }
+
+        function renderProjectDecisions(projectElement, decisions) {
+          if (!Array.isArray(decisions)) {
+            return;
+          }
+          const panel = Array.from(projectElement.querySelectorAll(".project-panel"))
+            .find((candidate) => candidate.querySelector("h3")?.textContent.trim().toLowerCase() === "risks / decisions");
+          const list = panel?.querySelector(".decision-list");
+          if (!list) {
+            return;
+          }
+          list.replaceChildren(...decisions.map((decision) => {
+            const item = document.createElement("li");
+            item.textContent = decision;
+            return item;
+          }));
+        }
+
+        function renderProjectState(projectElement, projectDoc) {
+          const projectBody = projectElement.querySelector(".project-body");
+          if (projectBody) {
+            projectBody.className = "project-body";
+            if (projectDoc.project_id === "real-robot-infra") {
+              projectBody.classList.add("infra-body");
+            } else if (projectDoc.project_id !== "umi-world-model") {
+              projectBody.classList.add("compact");
+            }
+          }
+          const summaryTitle = projectElement.querySelector("summary strong");
+          const summaryDescription = projectElement.querySelector("summary em");
+          if (summaryTitle) {
+            summaryTitle.textContent = projectDoc.title || summaryTitle.textContent;
+          }
+          if (summaryDescription) {
+            summaryDescription.textContent = projectDoc.description || "";
+          }
+          renderStatusMark(projectElement.querySelector("summary .status"), projectDoc.status);
+
+          const bodyParagraph = projectElement.querySelector(".project-body > div > p");
+          if (bodyParagraph) {
+            bodyParagraph.textContent = projectDoc.summary || "";
+          }
+          renderProjectFigure(projectElement, projectDoc);
+          renderProjectTimeline(projectElement, projectDoc.timeline);
+          renderProjectDetails(projectElement, projectDoc.details);
+          renderProjectReferences(projectElement, projectDoc.references);
+          renderProjectDecisions(projectElement, projectDoc.risks_decisions);
+        }
+
+        function getTaskComments(task) {
+          const resultComment = task.result
+            ? [{
+                comment_id: `${task.task_id}_result`,
+                body: task.result,
+                author: "Result",
+                created_at: task.completed_at || null,
+              }]
+            : [];
+          const seedComments = [
+            ...resultComment,
+            ...(Array.isArray(task.comments) ? task.comments : []),
+          ];
+          const localComments = Array.isArray(localState.comments[task.task_id]) ? localState.comments[task.task_id] : [];
+          return [
+            ...seedComments.map((comment, index) => ({
+              id: comment.comment_id || `seed_${index}`,
+              body: comment.body || "",
+              author: comment.author || "Seed",
+              created_at: comment.created_at || null,
+              local: false,
+            })),
+            ...localComments.map((comment) => ({
+              id: comment.id,
+              body: comment.body,
+              author: comment.author || "You",
+              created_at: comment.created_at || null,
+              local: true,
+            })),
+          ].filter((comment) => comment.body);
+        }
+
+        function createCommentPanel(task) {
+          const comments = getTaskComments(task);
+          const details = document.createElement("details");
+          details.className = "task-comments";
+          if (comments.length > 0) {
+            details.open = true;
+          }
+
+          const summary = document.createElement("summary");
+          summary.textContent = `Comments (${comments.length})`;
+          details.append(summary);
+
+          const list = document.createElement("ul");
+          list.className = "comment-list";
+          if (comments.length === 0) {
+            const empty = document.createElement("li");
+            empty.className = "comment-empty";
+            empty.textContent = "No comments";
+            list.append(empty);
+          } else {
+            comments.forEach((comment) => {
+              const item = document.createElement("li");
+              const body = document.createElement("p");
+              body.textContent = comment.body;
+              const meta = document.createElement("div");
+              meta.className = "comment-meta";
+              meta.append(createChip(comment.author));
+              if (comment.created_at) {
+                meta.append(createChip(formatDateTime(comment.created_at)));
+              }
+              if (comment.local) {
+                const deleteButton = document.createElement("button");
+                deleteButton.type = "button";
+                deleteButton.className = "comment-delete";
+                deleteButton.dataset.taskId = task.task_id;
+                deleteButton.dataset.commentId = comment.id;
+                deleteButton.textContent = "Delete";
+                meta.append(deleteButton);
+              }
+              item.append(body, meta);
+              list.append(item);
+            });
+          }
+          details.append(list);
+
+          const form = document.createElement("form");
+          form.className = "comment-form";
+          form.dataset.taskId = task.task_id;
+
+          const textarea = document.createElement("textarea");
+          textarea.name = "comment";
+          textarea.rows = 2;
+          textarea.maxLength = maxCommentLength;
+          textarea.placeholder = "Add comment";
+          textarea.setAttribute("aria-label", `Add comment for ${task.title}`);
+
+          const button = document.createElement("button");
+          button.type = "submit";
+          button.textContent = "Add";
+
+          form.append(textarea, button);
+          details.append(form);
+          return details;
+        }
+
+        function createTaskCard(task) {
+          const status = getEffectiveStatus(task);
+          const override = getStatusOverride(task.task_id);
+          const item = document.createElement("li");
+          item.className = "interactive-task";
+          item.dataset.taskId = task.task_id;
+          item.dataset.status = status;
+
+          const statusControl = document.createElement("div");
+          statusControl.className = "task-status-control";
+
+          const menuId = `status_menu_${task.task_id}`;
+          const statusButton = document.createElement("button");
+          statusButton.type = "button";
+          statusButton.className = "task-status-button";
+          statusButton.dataset.taskId = task.task_id;
+          statusButton.setAttribute("aria-controls", menuId);
+          statusButton.setAttribute("aria-expanded", "false");
+          statusButton.setAttribute("aria-haspopup", "menu");
+          statusButton.setAttribute("aria-label", `${task.title}: choose status. Current ${statusLabels[status] || status}.`);
+          statusButton.title = "Choose status";
+
+          const box = document.createElement("span");
+          box.className = ["box", boxClasses[status]].filter(Boolean).join(" ");
+          box.setAttribute("aria-hidden", "true");
+          statusButton.append(box);
+
+          const statusMenu = document.createElement("div");
+          statusMenu.id = menuId;
+          statusMenu.className = "task-status-menu";
+          statusMenu.role = "menu";
+          statusMenu.hidden = true;
+
+          statusCycle.forEach((optionStatus) => {
+            const optionButton = document.createElement("button");
+            optionButton.type = "button";
+            optionButton.className = "task-status-option";
+            optionButton.dataset.taskId = task.task_id;
+            optionButton.dataset.status = optionStatus;
+            optionButton.role = "menuitemradio";
+            optionButton.setAttribute("aria-checked", String(optionStatus === status));
+            optionButton.setAttribute("aria-label", `Mark ${task.title} ${statusLabels[optionStatus]}`);
+            optionButton.title = statusLabels[optionStatus];
+            if (optionStatus === status) {
+              optionButton.classList.add("selected");
+            }
+
+            const optionBox = document.createElement("span");
+            optionBox.className = ["box", boxClasses[optionStatus]].filter(Boolean).join(" ");
+            optionBox.setAttribute("aria-hidden", "true");
+            optionButton.append(optionBox);
+            statusMenu.append(optionButton);
+          });
+
+          statusControl.append(statusButton, statusMenu);
+          item.append(statusControl);
+
+          const body = document.createElement("div");
+          body.className = "task-card-body";
+
+          const header = document.createElement("div");
+          header.className = "task-card-header";
+
+          const titleBlock = document.createElement("div");
+          titleBlock.className = "task-title-block";
+
+          const title = document.createElement("strong");
+          title.textContent = task.title;
+          titleBlock.append(title);
+
+          header.append(titleBlock);
+          body.append(header);
+
+          const description = document.createElement("p");
+          description.textContent = task.description || "";
+          body.append(description);
+
+          const meta = document.createElement("div");
+          meta.className = "task-meta";
+          meta.append(createChip(`Priority ${task.priority || "medium"}`));
+          if (task.assignee) {
+            meta.append(createChip(`Assignee ${task.assignee}`));
+          }
+          if (task.due_at && status !== "done") {
+            meta.append(createChip(`Due ${formatDate(task.due_at)}`));
+          }
+          if (task.completed_at || status === "done") {
+            meta.append(createChip(task.completed_at ? `Completed ${formatDate(task.completed_at)}` : "Completed locally", "completed"));
+          }
+          if (override?.updated_at) {
+            meta.append(createChip(`Local edit ${formatDateTime(override.updated_at)}`, "local-edit"));
+          }
+          body.append(meta);
+
+          body.append(createCommentPanel(task));
+          item.append(body);
+          return item;
+        }
+
+        function ensureArchivePanel(projectElement, taskPanel) {
+          let archivePanel = projectElement.querySelector(".archive-panel");
+          if (archivePanel) {
+            return archivePanel;
+          }
+
+          archivePanel = document.createElement("section");
+          archivePanel.className = "project-panel archive-panel";
+
+          const details = document.createElement("details");
+          details.className = "archive-detail";
+
+          const summary = document.createElement("summary");
+          const title = document.createElement("span");
+          title.textContent = "Archive";
+          const count = document.createElement("small");
+          count.textContent = "0 completed";
+          summary.append(title, count);
+
+          const list = document.createElement("ul");
+          list.className = "archive-list project-list";
+
+          details.append(summary, list);
+          archivePanel.append(details);
+          taskPanel.after(archivePanel);
+          return archivePanel;
+        }
+
+        function renderProject(projectElement, tasks) {
+          const projectId = projectElement.dataset.projectId;
+          const projectTasks = sortTasks(tasks.filter((task) => task.project_id === projectId));
+          const activeTasks = projectTasks.filter((task) => getEffectiveStatus(task) !== "done");
+          const completedTasks = projectTasks.filter((task) => getEffectiveStatus(task) === "done");
+          const taskPanel = Array.from(projectElement.querySelectorAll(".project-workstream > .project-panel"))
+            .find((panel) => panel.querySelector(".todo-list.project-list"));
+
+          if (!taskPanel) {
+            return;
+          }
+
+          const heading = taskPanel.querySelector("h3");
+          const taskList = taskPanel.querySelector(".todo-list.project-list");
+          if (heading) {
+            heading.textContent = `Tasks (${activeTasks.length})`;
+          }
+          taskList.classList.add("interactive-task-list");
+          taskList.replaceChildren(...(activeTasks.length ? activeTasks.map(createTaskCard) : [createEmptyItem("No active tasks")]));
+
+          const archivePanel = ensureArchivePanel(projectElement, taskPanel);
+          const archiveDetail = archivePanel.querySelector(".archive-detail");
+          const archiveCount = archivePanel.querySelector("summary small");
+          const archiveList = archivePanel.querySelector(".archive-list.project-list");
+          archiveList.classList.add("interactive-task-list");
+          archiveCount.textContent = `${completedTasks.length} completed`;
+          archiveList.replaceChildren(...(completedTasks.length ? completedTasks.map(createTaskCard) : [createEmptyItem("No completed tasks")]));
+          archiveDetail.open = completedTasks.length > 0;
+        }
+
+        function renderDashboardState() {
+          if (portfolioDoc) {
+            renderPortfolioState(portfolioDoc);
+          }
+          projectDocs.forEach((projectDoc) => {
+            const projectElement = document.querySelector(`[data-project-id="${projectDoc.project_id}"]`);
+            if (projectElement) {
+              renderProjectState(projectElement, projectDoc);
+            }
+          });
+          renderAllProjects();
+        }
+
+        function renderAllProjects() {
+          if (!taskDoc?.tasks) {
+            return;
+          }
+          document.querySelectorAll("[data-project-id]").forEach((projectElement) => {
+            renderProject(projectElement, taskDoc.tasks);
+          });
+        }
+
+        async function initTaskBoard() {
+          try {
+            const response = await fetch(`${stateRoot}tasks.json`, { cache: "no-store" });
+            if (!response.ok) {
+              throw new Error(`tasks.json returned ${response.status}`);
+            }
+            taskDoc = await response.json();
+            if (!Array.isArray(taskDoc.tasks)) {
+              throw new Error("tasks.json does not contain a tasks array");
+            }
+            renderDashboardState();
+          } catch (error) {
+            console.warn("Using static dashboard task markup because state loading failed", error);
+          }
+        }
+
+        async function initProjectState() {
+          try {
+            const response = await fetch(`${stateRoot}portfolio.json`, { cache: "no-store" });
+            if (!response.ok) {
+              throw new Error(`portfolio.json returned ${response.status}`);
+            }
+            portfolioDoc = await response.json();
+            const projectRefs = Array.isArray(portfolioDoc.projects) ? portfolioDoc.projects : [];
+            projectDocs = await Promise.all(projectRefs.map(async (projectRef) => {
+              const projectResponse = await fetch(stateFileUrl(projectRef.state_path), { cache: "no-store" });
+              if (!projectResponse.ok) {
+                throw new Error(`${projectRef.state_path} returned ${projectResponse.status}`);
+              }
+              return projectResponse.json();
+            }));
+            renderDashboardState();
+          } catch (error) {
+            console.warn("Project state loading failed", error);
+          }
+        }
+
+        async function createSupabaseClient() {
+          const config = window.DASHBOARD_SUPABASE;
+          if (!config?.url || !config?.publishableKey) {
+            throw new Error("Missing Supabase dashboard config");
+          }
+          const { createClient } = await import(supabaseEsmUrl);
+          return createClient(config.url, config.publishableKey);
+        }
+
+        async function refreshSupabaseEditorState() {
+          supabaseIsEditor = false;
+          if (!supabaseClient || !supabaseSession?.user?.email) {
+            return false;
+          }
+          const { data, error } = await supabaseClient
+            .from("dashboard_editors")
+            .select("email")
+            .eq("email", supabaseSession.user.email)
+            .maybeSingle();
+          if (error) {
+            console.warn("Dashboard editor check failed", error);
+            return false;
+          }
+          supabaseIsEditor = Boolean(data);
+          return supabaseIsEditor;
+        }
+
+        async function loadSupabaseState() {
+          if (!supabaseClient) {
+            supabaseClient = await createSupabaseClient();
+            const { data } = await supabaseClient.auth.getSession();
+            supabaseSession = data.session;
+            supabaseClient.auth.onAuthStateChange((_event, session) => {
+              supabaseSession = session;
+              refreshSupabaseEditorState().then(() => {
+                renderAuthState();
+                setSupabaseSyncStatus();
+              });
+            });
+          }
+          await refreshSupabaseEditorState();
+
+          const [
+            portfolioResult,
+            projectsResult,
+            referencesResult,
+            tasksResult,
+            commentsResult,
+          ] = await Promise.all([
+            supabaseClient.from("portfolio_snapshots").select("*").eq("portfolio_id", "embodied-ai-dashboard").single(),
+            supabaseClient.from("projects").select("*").order("sort_order", { ascending: true }),
+            supabaseClient.from("project_references").select("*").order("sort_order", { ascending: true }),
+            supabaseClient.from("tasks").select("*").order("sort_order", { ascending: true }),
+            supabaseClient.from("task_comments").select("*").order("created_at", { ascending: true }),
+          ]);
+
+          [portfolioResult, projectsResult, referencesResult, tasksResult, commentsResult].forEach((result) => {
+            if (result.error) {
+              throw result.error;
+            }
+          });
+
+          const projects = projectsResult.data || [];
+          const referencesByProject = groupBy(referencesResult.data || [], "project_id");
+          const commentsByTask = groupBy(commentsResult.data || [], "task_id");
+          portfolioDoc = mapSupabasePortfolio(portfolioResult.data, projects);
+          projectDocs = projects.map((project) => mapSupabaseProject(project, referencesByProject));
+          taskDoc = {
+            schema_version: "tasks.v1",
+            tasks: (tasksResult.data || []).map((task) => mapSupabaseTask(task, commentsByTask)),
+          };
+          if (dataMode !== "supabase") {
+            localState = { statuses: {}, comments: {} };
+            writeLocalState();
+          }
+          dataMode = "supabase";
+          document.body.dataset.dataSource = "supabase";
+          setSupabaseSyncStatus();
+          renderAuthState();
+          renderDashboardState();
+          subscribeSupabaseRealtime();
+        }
+
+        async function loadJsonState() {
+          dataMode = "json";
+          document.body.dataset.dataSource = "json";
+          setSyncStatus("JSON fallback", "fallback");
+          renderAuthState();
+          await initProjectState();
+          await initTaskBoard();
+        }
+
+        function scheduleSupabaseReload() {
+          if (reloadTimer) {
+            clearTimeout(reloadTimer);
+          }
+          reloadTimer = setTimeout(() => {
+            loadSupabaseState().catch((error) => {
+              console.warn("Supabase realtime reload failed", error);
+            });
+          }, 250);
+        }
+
+        function subscribeSupabaseRealtime() {
+          if (!supabaseClient || realtimeChannel) {
+            return;
+          }
+          realtimeChannel = supabaseClient.channel("dashboard-state")
+            .on("postgres_changes", { event: "*", schema: "public", table: "tasks" }, scheduleSupabaseReload)
+            .on("postgres_changes", { event: "*", schema: "public", table: "task_comments" }, scheduleSupabaseReload)
+            .on("postgres_changes", { event: "*", schema: "public", table: "agents" }, scheduleSupabaseReload)
+            .on("postgres_changes", { event: "*", schema: "public", table: "runs" }, scheduleSupabaseReload)
+            .subscribe();
+        }
+
+        async function updateSupabaseTaskStatus(taskId, status) {
+          if (!isSupabaseWritable()) {
+            throw new Error("Sign in as a dashboard editor to write Supabase state.");
+          }
+          const completedAt = status === "done" ? new Date().toISOString().slice(0, 10) : null;
+          const { error } = await supabaseClient
+            .from("tasks")
+            .update({ status, completed_at: completedAt })
+            .eq("task_id", taskId);
+          if (error) {
+            throw error;
+          }
+        }
+
+        async function insertSupabaseComment(taskId, body) {
+          if (!isSupabaseWritable()) {
+            throw new Error("Sign in as a dashboard editor to write Supabase state.");
+          }
+          if (body.length > maxCommentLength) {
+            throw new Error(`Comment must be ${maxCommentLength} characters or fewer.`);
+          }
+          const now = new Date().toISOString();
+          const comment = {
+            comment_id: `comment_${crypto.randomUUID()}`,
+            task_id: taskId,
+            author: supabaseSession.user.email || "You",
+            author_type: "user",
+            kind: "comment",
+            body,
+            created_at: now,
+          };
+          const { error } = await supabaseClient.from("task_comments").insert(comment);
+          if (error) {
+            throw error;
+          }
+          return comment;
+        }
+
+        function closeStatusMenus(exceptMenu = null) {
+          document.querySelectorAll(".task-status-menu:not([hidden])").forEach((menu) => {
+            if (menu === exceptMenu) {
+              return;
+            }
+            menu.hidden = true;
+            document.querySelector(`[aria-controls="${menu.id}"]`)?.setAttribute("aria-expanded", "false");
+          });
+        }
+
+        document.addEventListener("click", (event) => {
+          const statusOption = event.target.closest?.(".task-status-option");
+          if (statusOption) {
+            const taskId = statusOption.dataset.taskId;
+            const status = statusOption.dataset.status;
+            const previousStatus = getTaskById(taskId)?.status;
+            closeStatusMenus();
+            if (isSupabaseWritable()) {
+              applyTaskStatus(taskId, status);
+              updateSupabaseTaskStatus(taskId, status).catch((error) => {
+                console.warn("Supabase status update failed; using local fallback", error);
+                setLocalStatus(taskId, status, previousStatus);
+                writeLocalState();
+                renderAllProjects();
+                setSyncStatus("Local fallback", "fallback");
+              });
+            } else {
+              setLocalStatus(taskId, status);
+              writeLocalState();
+              if (dataMode === "supabase") {
+                setSyncStatus(supabaseSession?.user ? "No dashboard write access" : "Sign in to write", "readonly");
+              }
+            }
+            renderAllProjects();
+            return;
+          }
+
+          const statusButton = event.target.closest?.(".task-status-button");
+          if (statusButton) {
+            const menu = document.getElementById(statusButton.getAttribute("aria-controls"));
+            const shouldOpen = Boolean(menu?.hidden);
+            closeStatusMenus(menu);
+            if (menu) {
+              menu.hidden = !shouldOpen;
+              statusButton.setAttribute("aria-expanded", String(shouldOpen));
+            }
+            return;
+          }
+
+          const deleteButton = event.target.closest?.(".comment-delete");
+          if (deleteButton) {
+            const taskId = deleteButton.dataset.taskId;
+            const commentId = deleteButton.dataset.commentId;
+            localState.comments[taskId] = (localState.comments[taskId] || []).filter((comment) => comment.id !== commentId);
+            if (localState.comments[taskId].length === 0) {
+              delete localState.comments[taskId];
+            }
+            writeLocalState();
+            renderAllProjects();
+            return;
+          }
+
+          if (!event.target.closest?.(".task-status-control")) {
+            closeStatusMenus();
+          }
+        });
+
+        document.addEventListener("keydown", (event) => {
+          if (event.key === "Escape") {
+            closeStatusMenus();
+          }
+        });
+
+        document.addEventListener("submit", (event) => {
+          const authForm = event.target.closest?.("[data-auth-form]");
+          if (authForm) {
+            event.preventDefault();
+            const email = authForm.elements.email.value.trim();
+            if (!email || !supabaseClient) {
+              return;
+            }
+            supabaseClient.auth.signInWithOtp({
+              email,
+              options: {
+                emailRedirectTo: window.location.href.split("#")[0],
+              },
+            }).then(({ error }) => {
+              if (error) {
+                console.warn("Supabase sign-in failed", error);
+                setSyncStatus(`Sign-in failed: ${error.message || "unknown"}`, "fallback");
+                return;
+              }
+              setSyncStatus("Check email", "readonly");
+              authForm.reset();
+            });
+            return;
+          }
+
+          const form = event.target.closest?.(".comment-form");
+          if (!form) {
+            return;
+          }
+          event.preventDefault();
+          const textarea = form.elements.comment;
+          const body = textarea.value.trim();
+          if (!body) {
+            return;
+          }
+          if (body.length > maxCommentLength) {
+            setSyncStatus(`Comment too long: max ${maxCommentLength} characters`, "fallback");
+            return;
+          }
+          const taskId = form.dataset.taskId;
+          const localComment = {
+            id: `comment_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`,
+            author: "You",
+            body,
+            created_at: new Date().toISOString(),
+          };
+          if (isSupabaseWritable()) {
+            insertSupabaseComment(taskId, body).then((comment) => {
+              addTaskComment(taskId, comment);
+              form.reset();
+              renderAllProjects();
+            }).catch((error) => {
+              console.warn("Supabase comment insert failed; using local fallback", error);
+              const comments = Array.isArray(localState.comments[taskId]) ? localState.comments[taskId] : [];
+              comments.push(localComment);
+              localState.comments[taskId] = comments;
+              writeLocalState();
+              setSyncStatus("Local fallback", "fallback");
+              renderAllProjects();
+            });
+          } else {
+            const comments = Array.isArray(localState.comments[taskId]) ? localState.comments[taskId] : [];
+            comments.push(localComment);
+            localState.comments[taskId] = comments;
+            writeLocalState();
+            if (dataMode === "supabase") {
+              setSyncStatus(supabaseSession?.user ? "No dashboard write access" : "Sign in to write", "readonly");
+            }
+          }
+          form.reset();
+          renderAllProjects();
+        });
+
+        document.addEventListener("click", (event) => {
+          const signOut = event.target.closest?.("[data-auth-signout]");
+          if (!signOut || !supabaseClient) {
+            return;
+          }
+          supabaseClient.auth.signOut().then(() => {
+            supabaseSession = null;
+            supabaseIsEditor = false;
+            setSyncStatus("Supabase read-only", "readonly");
+            renderAuthState();
+          });
+        });
+
+        async function initDashboardState() {
+          try {
+            setSyncStatus("Supabase loading", "loading");
+            await loadSupabaseState();
+          } catch (error) {
+            console.warn("Supabase state loading failed; falling back to JSON state", error);
+            await loadJsonState();
+          }
+        }
+
+        initDashboardState();
+      })();
+    </script>
 
     <script>
       (() => {

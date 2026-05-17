@@ -4,10 +4,19 @@
   "title": "UMI World Model",
   "bucket": "active",
   "status": "ongoing",
-  "updated_at": "2026-05-16T14:05:00+08:00",
+  "updated_at": "2026-05-17T01:35:00+08:00",
   "description": "Kinematics-conditioned dual eye-in-hand world modeling",
   "summary": "The core idea is to treat eye-in-hand UMI teleoperation as action-conditioned video generation: the robot action trajectory is also the wrist-camera trajectory.",
   "asset": "dashboard/assets/umi-dataset-visualization.png",
+  "asset_alt": "UMI dataset annotation and subtask segmentation visualization panel",
+  "asset_caption": "Dataset QA: synchronized wrist views, 3D pose, EEF traces, current segment, and action log after subtask splitting.",
+  "details": [
+    "Use the annotation / subtask-splitting panel to inspect dual wrist videos, task labels, motion curves, and segment boundaries together.",
+    "Generate bimanual wrist-view videos conditioned on kinematics and gripper state.",
+    "Maintain left-right consistency over object state and scene state.",
+    "First decision: one-side generation + camera transform, or end-to-end synchronized dual video.",
+    "Potential contribution: DiT structure with attention / AdaLN changes, then CameraNoise-style control after the base model works."
+  ],
   "task_ids": [
     "task_umi_gemini_frame_test",
     "task_umi_temporal_segmentation_survey",
@@ -15,6 +24,15 @@
     "task_umi_dreamzero_ctrlworld_inference",
     "task_umi_prepare_haoyu_test_set",
     "task_umi_vbench_eval"
+  ],
+  "references": [
+    {
+      "title": "SANA-WM: Efficient Minute-Scale World Modeling with Hybrid Linear Diffusion Transformer",
+      "url": "https://arxiv.org/abs/2605.15178",
+      "arxiv_id": "2605.15178",
+      "submitted_at": "2026-05-14",
+      "notes": "Reference for efficient minute-scale world modeling, hybrid linear attention, precise 6-DoF camera control, and metric pose-supervised long-video generation."
+    }
   ],
   "risks_decisions": [
     "基模路线：先证明 TI2V 能力，还是同步推进 AI2V codebase inference。",

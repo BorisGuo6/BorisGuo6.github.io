@@ -8,6 +8,13 @@
   "description": "2077AI / Zhou Jianshu collaboration for unified HOI data",
   "summary": "This pre-research project asks whether the same manipulation task can be collected across all major acquisition modes, then unified into an HOI-centric base model and predictive world model.",
   "asset": "dashboard/assets/hoi-diverse-dataset.png",
+  "asset_alt": "HOI dataset capture frames with hand pose and depth map",
+  "asset_caption": "Current capture stack: ego RGB, hand keypoints, z16 depth, and shared tracking logic.",
+  "details": [
+    "Collection modes: human-centric and robot-centric views; Manus glove, UMI, ALOHA, kinesthetic / drag demonstration, and teleoperation.",
+    "Reference framing: HOI-centric retargeting from glove / human posture to robot configurations, with Isaac Sim as the bridge for retargeting and simulation checks.",
+    "Recent status: 2077AI spent substantial time on sensor synchronization; camera extrinsics now have an extra PnP calibration layer, and hand pose, depth, and ego camera are mostly ready."
+  ],
   "task_ids": [
     "task_hoi_pnp_calibration",
     "task_hoi_collection_matrix",
