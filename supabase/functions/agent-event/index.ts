@@ -5,6 +5,7 @@ type AgentEventPayload = {
   agent_id?: string;
   project_id?: string;
   task_id?: string;
+  comment_id?: string;
   title?: string;
   description?: string;
   status?: string;
@@ -23,7 +24,7 @@ type AgentEventPayload = {
   payload?: Record<string, unknown>;
 };
 
-const allowedActions = new Set(["heartbeat", "project_update", "task_upsert", "task_status", "task_comment", "run"]);
+const allowedActions = new Set(["heartbeat", "project_update", "task_upsert", "task_status", "task_comment", "comment_delete", "run"]);
 const allowedTaskStatuses = new Set(["todo", "active", "blocked", "needs_user", "review", "done"]);
 const allowedTaskPriorities = new Set(["low", "medium", "high", "urgent"]);
 const allowedCommentKinds = new Set(["comment", "result", "status_change", "needs_user", "blocker", "verification"]);
@@ -303,6 +304,21 @@ Deno.serve(async (request) => {
         kind,
         body: comment,
       });
+      if (error) throw error;
+      if (agentId) {
+        eventAgentId = await ensureAgentRecord(eventProjectId);
+      }
+    } else if (action === "comment_delete") {
+      const comment_id = requireString(body.comment_id, "comment_id");
+      const task_id = requireString(taskId, "task_id");
+      eventProjectId = await resolveTaskProjectId(task_id);
+      const { error } = await supabase
+        .from("task_comments")
+        .delete()
+        .eq("comment_id", comment_id)
+        .eq("task_id", task_id)
+        .select("comment_id")
+        .single();
       if (error) throw error;
       if (agentId) {
         eventAgentId = await ensureAgentRecord(eventProjectId);
