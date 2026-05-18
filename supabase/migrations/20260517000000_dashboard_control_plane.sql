@@ -84,49 +84,8 @@ create table public.task_comments (
   body text not null,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
-  constraint task_comments_author_type_check check (author_type in ('seed', 'user', 'agent', 'system')),
+  constraint task_comments_author_type_check check (author_type in ('seed', 'user', 'system')),
   constraint task_comments_kind_check check (kind in ('comment', 'result', 'status_change', 'needs_user', 'blocker', 'verification'))
-);
-
-create table public.agents (
-  agent_id text primary key,
-  project_id text not null references public.projects(project_id) on delete cascade,
-  status text not null default 'idle',
-  current_task_id text references public.tasks(task_id) on delete set null,
-  summary text,
-  last_heartbeat_at timestamptz,
-  payload jsonb not null default '{}'::jsonb,
-  created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now(),
-  constraint agents_status_check check (status in ('idle', 'running', 'blocked', 'needs_user', 'done', 'offline'))
-);
-
-create table public.agent_events (
-  event_id uuid primary key default extensions.gen_random_uuid(),
-  agent_id text references public.agents(agent_id) on delete set null,
-  project_id text references public.projects(project_id) on delete set null,
-  task_id text references public.tasks(task_id) on delete set null,
-  event_type text not null,
-  payload jsonb not null default '{}'::jsonb,
-  created_at timestamptz not null default now()
-);
-
-create table public.runs (
-  run_id text primary key,
-  project_id text not null references public.projects(project_id) on delete cascade,
-  task_id text references public.tasks(task_id) on delete set null,
-  agent_id text references public.agents(agent_id) on delete set null,
-  status text not null default 'not_run',
-  git_sha text,
-  command text,
-  exit_code integer,
-  log_path text,
-  metrics_path text,
-  verifier jsonb not null default '{}'::jsonb,
-  payload jsonb not null default '{}'::jsonb,
-  created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now(),
-  constraint runs_status_check check (status in ('not_run', 'running', 'failed', 'passed', 'verified'))
 );
 
 create index projects_bucket_sort_idx on public.projects(bucket, sort_order);
@@ -134,11 +93,6 @@ create index project_references_project_id_idx on public.project_references(proj
 create index tasks_project_status_sort_idx on public.tasks(project_id, status, sort_order);
 create index tasks_due_at_idx on public.tasks(due_at) where due_at is not null;
 create index task_comments_task_created_idx on public.task_comments(task_id, created_at);
-create index agents_project_status_idx on public.agents(project_id, status);
-create index agent_events_agent_created_idx on public.agent_events(agent_id, created_at desc);
-create index agent_events_task_created_idx on public.agent_events(task_id, created_at desc);
-create index runs_project_created_idx on public.runs(project_id, created_at desc);
-create index runs_task_id_idx on public.runs(task_id);
 
 create or replace function public.set_updated_at()
 returns trigger
@@ -170,14 +124,6 @@ create trigger task_comments_set_updated_at
 before update on public.task_comments
 for each row execute function public.set_updated_at();
 
-create trigger agents_set_updated_at
-before update on public.agents
-for each row execute function public.set_updated_at();
-
-create trigger runs_set_updated_at
-before update on public.runs
-for each row execute function public.set_updated_at();
-
 create or replace function public.is_dashboard_admin()
 returns boolean
 language sql
@@ -198,9 +144,6 @@ alter table public.projects enable row level security;
 alter table public.project_references enable row level security;
 alter table public.tasks enable row level security;
 alter table public.task_comments enable row level security;
-alter table public.agents enable row level security;
-alter table public.agent_events enable row level security;
-alter table public.runs enable row level security;
 
 grant usage on schema public to anon, authenticated;
 
@@ -209,8 +152,6 @@ grant select on public.projects to anon, authenticated;
 grant select on public.project_references to anon, authenticated;
 grant select on public.tasks to anon, authenticated;
 grant select on public.task_comments to anon, authenticated;
-grant select on public.agents to anon, authenticated;
-grant select on public.runs to anon, authenticated;
 
 grant select on public.dashboard_admins to authenticated;
 grant update (status, due_at, completed_at, payload, updated_at) on public.tasks to authenticated;
@@ -253,18 +194,6 @@ for select
 to anon, authenticated
 using (true);
 
-create policy agents_public_read
-on public.agents
-for select
-to anon, authenticated
-using (true);
-
-create policy runs_public_read
-on public.runs
-for select
-to anon, authenticated
-using (true);
-
 create policy tasks_admin_update
 on public.tasks
 for update
@@ -287,5 +216,3 @@ with check (public.is_dashboard_admin());
 
 alter publication supabase_realtime add table public.tasks;
 alter publication supabase_realtime add table public.task_comments;
-alter publication supabase_realtime add table public.agents;
-alter publication supabase_realtime add table public.runs;

@@ -1,7 +1,7 @@
 {
   "schema_version": "tasks.v1",
   "updated_at": "2026-05-17T01:35:00+08:00",
-  "owner": "codex-conductor",
+  "owner": "dashboard",
   "tasks": [
     {
       "task_id": "task_real_robot_infra_arx_setup",
@@ -19,7 +19,6 @@
           "author": "Result",
           "body": "今天已完成首轮搭建；后续只需要继续补统一启动脚本、设备状态记录和数据采集 checklist。",
           "created_at": "2026-05-15",
-          "source_agent_id": null,
           "kind": "result"
         }
       ],
@@ -41,7 +40,6 @@
           "author": "Result",
           "body": "Ready inventory baseline recorded.",
           "created_at": "2026-05-15",
-          "source_agent_id": null,
           "kind": "result"
         }
       ],
@@ -54,7 +52,7 @@
       "description": "先完成机械安装、驱动 / SDK 接入、ROS / Isaac 侧接口和最小动作验证，再接入数据记录。",
       "status": "active",
       "priority": "high",
-      "assignee": "claude-infra-01",
+      "assignee": null,
       "result": null,
       "due_at": "2026-05-23",
       "started_at": "2026-05-16",
@@ -64,7 +62,6 @@
           "author": "Progress",
           "body": "今天已实现真机 Franka 双臂在同一台电脑上控制。",
           "created_at": "2026-05-18",
-          "source_agent_id": null,
           "kind": "comment"
         }
       ],
@@ -116,7 +113,6 @@
           "author": "Result",
           "body": "大部分精准；测试的 12 条内只有 1 条出现了 3-5s 的偏移。",
           "created_at": "2026-05-15",
-          "source_agent_id": null,
           "kind": "result"
         }
       ],
@@ -129,7 +125,7 @@
       "description": "在 Gemini 已测过的 12 条样本上，补跑 Seed 2.0 Pro video understanding：比较关键动作边界、key-state 命名、caption 可用性和 3-5s 偏移案例是否改善；输出模型选择建议而不是只看单条效果。",
       "status": "todo",
       "priority": "medium",
-      "assignee": "claude-umi-01",
+      "assignee": null,
       "result": null,
       "due_at": "2026-05-23"
     },
@@ -140,7 +136,7 @@
       "description": "调研 EasyAnimate video caption、NILS、VLM-Video-Action-Localization。",
       "status": "done",
       "priority": "medium",
-      "assignee": "claude-umi-01",
+      "assignee": null,
       "result": null,
       "completed_at": "2026-05-16",
       "comments": [
@@ -149,7 +145,6 @@
           "author": "Result",
           "body": "结论：主线优先用 Gemini + key-state prompt 做可命名分段；EE-Z 多信号 segmenter 可作为快速 key-state 辅助；NILS 完整 pipeline 暂不进入主线，成本高且语义质量不稳定。",
           "created_at": "2026-05-16",
-          "source_agent_id": "claude-umi-01",
           "kind": "result"
         }
       ],
@@ -162,7 +157,7 @@
       "description": "主要比较 Cosmos-Predict 2.5、WAN2.2-TI2V、LTX-Video，并参考 SANA-WM (arXiv:2605.15178) 的 minute-scale world model、6-DoF camera control 和 pose-supervised long-video generation；先用 5k-1w 条，1k-2k 条单任务训练初版，三者先只做 TI2V inference。",
       "status": "active",
       "priority": "high",
-      "assignee": "claude-umi-01",
+      "assignee": null,
       "result": null,
       "due_at": "2026-05-23",
       "started_at": "2026-05-16"
@@ -174,7 +169,7 @@
       "description": "作为 AI2V 候选 codebase，先验证是否值得进入训练或改造。",
       "status": "active",
       "priority": "high",
-      "assignee": "claude-umi-01",
+      "assignee": null,
       "result": null,
       "due_at": "2026-05-23",
       "started_at": "2026-05-16"
@@ -186,7 +181,7 @@
       "description": "围绕 Cosmos-Predict 2.5、WAN2.2-TI2V、LTX-Video、DreamZero / CtrlWorld，整理可直接跑起来的测试集和评测输入。",
       "status": "done",
       "priority": "high",
-      "assignee": "claude-umi-01",
+      "assignee": null,
       "result": null,
       "completed_at": "2026-05-16",
       "comments": [
@@ -195,7 +190,6 @@
           "author": "Result",
           "body": "已围绕 Cosmos-Predict 2.5、WAN2.2-TI2V、LTX-Video、DreamZero / CtrlWorld，整理可直接跑起来的测试集和评测输入并发给 Haoyu。",
           "created_at": "2026-05-16",
-          "source_agent_id": "claude-umi-01",
           "kind": "result"
         }
       ],
@@ -499,7 +493,6 @@
           "author": "Result",
           "body": "PnP calibration layer added.",
           "created_at": "2026-05-15",
-          "source_agent_id": null,
           "kind": "result"
         }
       ],

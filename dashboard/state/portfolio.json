@@ -192,14 +192,10 @@
     }
   ],
   "task_queue": "dashboard/state/tasks.json",
-  "agent_state_dir": "dashboard/state/agents",
-  "run_state_dir": "dashboard/state/runs",
   "rules": [
-    "dashboard/index.html is a rendered shell; dashboard/state/*.json is the source of truth for humans and agents.",
-    "Workers must not edit dashboard/index.html unless the task explicitly asks for UI work.",
-    "Workers may update only their own dashboard/state/agents/{agent_id}.json and dashboard/state/runs/{run_id}.json.",
-    "The conductor is the only owner for dashboard/state/tasks.json and dashboard/state/portfolio.json.",
-    "Experimental claims must cite a run_id with a verified run state file."
+    "dashboard/index.html is a rendered shell; dashboard/state/*.json is the source of truth for project and task content.",
+    "Dashboard updates stay limited to project summaries, risks, decisions, and task/TODO state.",
+    "Runtime control-plane state belongs outside this repository."
   ],
   "timeline_policy": {
     "active_task_default_due_days": 7,

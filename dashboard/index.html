@@ -1267,8 +1267,6 @@
           realtimeChannel = supabaseClient.channel("dashboard-state")
             .on("postgres_changes", { event: "*", schema: "public", table: "tasks" }, scheduleSupabaseReload)
             .on("postgres_changes", { event: "*", schema: "public", table: "task_comments" }, scheduleSupabaseReload)
-            .on("postgres_changes", { event: "*", schema: "public", table: "agents" }, scheduleSupabaseReload)
-            .on("postgres_changes", { event: "*", schema: "public", table: "runs" }, scheduleSupabaseReload)
             .subscribe();
         }
 

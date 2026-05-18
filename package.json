@@ -4,8 +4,7 @@
   "scripts": {
     "dev": "live-server --port=8765 --host=127.0.0.1 --open=/ .",
     "supabase:seed-sql": "node scripts/generate-dashboard-seed-sql.mjs",
-    "supabase:import": "node scripts/import-dashboard-state.mjs",
-    "verify:harness": "python3 dashboard/harness/verify_state.py"
+    "supabase:import": "node scripts/import-dashboard-state.mjs"
   },
   "devDependencies": {
     "live-server": "^1.2.2"

@@ -85,12 +85,6 @@
           "created_at": {
             "type": "string"
           },
-          "source_agent_id": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
           "kind": {
             "enum": [
               "comment",
@@ -125,12 +119,6 @@
         "null"
       ],
       "format": "date"
-    },
-    "run_id": {
-      "type": [
-        "string",
-        "null"
-      ]
     },
     "updated_at": {
       "type": [

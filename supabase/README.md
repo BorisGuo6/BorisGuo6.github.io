@@ -1,4 +1,4 @@
-# Supabase Control Plane
+# Supabase Dashboard Store
 
 This project uses Supabase as the durable source of truth for the dashboard.
 
@@ -9,21 +9,9 @@ Public frontend reads:
 - `project_references`
 - `tasks`
 - `task_comments`
-- `agents`
-- `runs`
 
-Authenticated dashboard editors can update task status and add comments. Agents write through the
-`agent-event` Edge Function using `x-agent-token`; service role keys must never be shipped to the
-browser.
-
-Supported agent actions:
-
-- `heartbeat`: upsert worker liveness in `agents`.
-- `task_status`: update task status, assignee/due date metadata, and `completed_at`.
-- `task_comment`: append a machine-readable task comment/result/blocker.
-- `run`: upsert verifier-backed run metadata in `runs`.
-
-Unknown actions are rejected so workers cannot mistake a logged event for a state update.
+Authenticated dashboard editors can update task status and add comments. Other runtime state is
+intentionally out of scope for this repository.
 
 ## First Setup
 
@@ -45,18 +33,6 @@ Current seeded editors:
 
 - `borisguo6@gmail.com`
 - `yansc@nus.edu.sg`
-
-Set the agent write token for Edge Functions:
-
-```sh
-supabase secrets set AGENT_WRITE_TOKEN='replace-with-a-long-random-token'
-```
-
-Deploy the Edge Function:
-
-```sh
-supabase functions deploy agent-event
-```
 
 Seed the remote database from the current JSON state:
 
