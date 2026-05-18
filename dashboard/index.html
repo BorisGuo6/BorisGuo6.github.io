@@ -73,7 +73,7 @@
       <details class="section fold-section" open>
         <summary>
           <span>
-            <strong>Visual References</strong>
+            <strong>Visual Context</strong>
             <em>Hardware photos, extracted PDF figures, and current project snapshots used for weekly discussion.</em>
           </span>
         </summary>
@@ -179,9 +179,9 @@
             return;
           }
           if (!supabaseSession?.user) {
-            setSyncStatus("Supabase read-only", "readonly");
+            setSyncStatus("Supabase read-only (signed out)", "readonly");
           } else if (supabaseIsEditor) {
-            setSyncStatus("Supabase", "online");
+            setSyncStatus("Supabase editable", "online");
           } else {
             setSyncStatus("Signed in, no write access", "readonly");
           }
@@ -635,59 +635,6 @@
           });
         }
 
-        function renderProjectReferences(projectElement, references) {
-          const existing = projectElement.querySelector("[data-project-references]");
-          existing?.remove();
-
-          if (!Array.isArray(references) || references.length === 0) {
-            return;
-          }
-
-          const referencesPanel = document.createElement("div");
-          referencesPanel.className = "project-references";
-          referencesPanel.dataset.projectReferences = "";
-
-          const label = document.createElement("span");
-          label.className = "reference-label";
-          label.textContent = "References";
-
-          const list = document.createElement("ul");
-          references.forEach((reference) => {
-            const item = document.createElement("li");
-            const title = reference.url
-              ? createExternalLink(reference.url, reference.title || reference.arxiv_id || reference.url)
-              : document.createElement("strong");
-            if (!reference.url) {
-              title.textContent = reference.title || reference.arxiv_id || "Reference";
-            }
-            item.append(title);
-
-            if (reference.notes) {
-              const notes = document.createElement("p");
-              notes.textContent = reference.notes;
-              item.append(notes);
-            }
-
-            const metaItems = [];
-            if (reference.arxiv_id) {
-              metaItems.push(`arXiv:${reference.arxiv_id}`);
-            }
-            if (reference.submitted_at) {
-              metaItems.push(`Submitted ${formatDate(reference.submitted_at)}`);
-            }
-            if (metaItems.length > 0) {
-              const meta = document.createElement("small");
-              meta.textContent = metaItems.join(" · ");
-              item.append(meta);
-            }
-
-            list.append(item);
-          });
-
-          referencesPanel.append(label, list);
-          projectElement.querySelector(".project-body > div")?.append(referencesPanel);
-        }
-
         function createSvgElement(name, attributes = {}) {
           const element = document.createElementNS("http://www.w3.org/2000/svg", name);
           Object.entries(attributes).forEach(([key, value]) => element.setAttribute(key, value));
@@ -872,7 +819,6 @@
           renderProjectFigure(projectElement, projectDoc);
           renderProjectTimeline(projectElement, projectDoc.timeline);
           renderProjectDetails(projectElement, projectDoc.details);
-          renderProjectReferences(projectElement, projectDoc.references);
           renderProjectDecisions(projectElement, projectDoc.risks_decisions);
         }
 
@@ -1198,6 +1144,27 @@
           return createClient(config.url, config.publishableKey);
         }
 
+        async function consumeSupabaseAuthRedirect() {
+          if (!supabaseClient || !window.location.hash.includes("access_token")) {
+            return null;
+          }
+          const hashParams = new URLSearchParams(window.location.hash.slice(1));
+          const accessToken = hashParams.get("access_token");
+          const refreshToken = hashParams.get("refresh_token");
+          if (!accessToken || !refreshToken) {
+            return null;
+          }
+          const { data, error } = await supabaseClient.auth.setSession({
+            access_token: accessToken,
+            refresh_token: refreshToken,
+          });
+          if (error) {
+            throw error;
+          }
+          window.history.replaceState(null, document.title, `${window.location.pathname}${window.location.search}`);
+          return data.session || null;
+        }
+
         async function refreshSupabaseEditorState() {
           supabaseIsEditor = false;
           if (!supabaseClient || !supabaseSession?.user?.email) {
@@ -1219,8 +1186,9 @@
         async function loadSupabaseState() {
           if (!supabaseClient) {
             supabaseClient = await createSupabaseClient();
+            const redirectSession = await consumeSupabaseAuthRedirect();
             const { data } = await supabaseClient.auth.getSession();
-            supabaseSession = data.session;
+            supabaseSession = data.session || redirectSession;
             supabaseClient.auth.onAuthStateChange((_event, session) => {
               supabaseSession = session;
               refreshSupabaseEditorState().then(() => {
@@ -1496,7 +1464,7 @@
           supabaseClient.auth.signOut().then(() => {
             supabaseSession = null;
             supabaseIsEditor = false;
-            setSyncStatus("Supabase read-only", "readonly");
+            setSyncStatus("Supabase read-only (signed out)", "readonly");
             renderAuthState();
           });
         });

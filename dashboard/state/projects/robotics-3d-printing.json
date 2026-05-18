@@ -4,15 +4,24 @@
   "title": "Robotics + 3D Printing",
   "bucket": "active",
   "status": "ongoing",
-  "updated_at": "2026-05-16T13:37:00+08:00",
-  "description": "Language/image-driven PoD design to printable CAD",
-  "summary": "Build a web product for Product on Demand: the user provides natural-language demand plus photos of existing real-world objects, and the system generates a printable retrofit / add-on part with assembly instructions.",
+  "updated_at": "2026-05-18T12:20:00+08:00",
+  "description": "Agentic product design to robotic printer-farm assembly",
+  "summary": "Build a Product-on-Demand loop that goes beyond printable CAD: AI designs the part, helper tooling, and assembly plan; a robotic printer-farm cell removes finished prints from the printer and uses same-plate printed jigs / tools for sorting and assembly.",
   "asset": "dashboard/assets/robotics-3d-printing-platform.png",
   "asset_alt": "Allo-style generated product design exported to a 3D printing workflow",
   "asset_caption": "Reference video: generated structure moves toward an STL / 3D-printing handoff.",
   "details": [
-    "Target is existing-object modification, not generic decorative text-to-3D.",
-    "Pipeline: VLM object analysis -> design spec -> concept image -> image/text-to-3D -> code-controlled CAD cleanup -> slicer / printer handoff.",
+    "Target is existing-object modification plus robot-operable fabrication, not generic decorative text-to-3D.",
+    "Pipeline: VLM object analysis -> design spec -> concept / asset generation -> code-controlled CAD cleanup -> printability checks -> same-plate jigs / tools -> slicer / printer queue -> robot takeout and assembly plan.",
+    {
+      "text": "Articraft suggests a useful direction for the asset layer: a constrained agent harness that writes object-construction code, defines parts / joints, exports URDF-style structure, and validates geometry with tests. Treat it as inspiration for editable CAD and robot assembly metadata, not as a direct 3D-printing solution.",
+      "links": [
+        {
+          "label": "Articraft",
+          "url": "https://articraft3d.github.io/"
+        }
+      ]
+    },
     {
       "text": "Allo suggests the interaction pattern for AI-assisted creation; Blueprint suggests prompt-to-hardware planning with generated diagrams, BOM, and assembly guides.",
       "links": [
@@ -29,9 +38,11 @@
   ],
   "task_ids": [
     "task_pod_3d_engine_benchmark",
+    "task_pod_articraft_probe",
     "task_pod_cad_stack",
     "task_pod_input_schema",
     "task_pod_agent_pipeline",
+    "task_pod_printer_farm_cell",
     "task_pod_retrofit_demo"
   ],
   "risks_decisions": [
@@ -39,6 +50,8 @@
     "Single real-object images usually miss metric scale; need reference dimensions, calibration markers, or manual dimension entry.",
     "Blender MCP needs precise coordinates and operation-level commands for reliable edits; open-ended correction is likely too brittle.",
     "Direct printer handoff needs checks for watertight meshes, wall thickness, overhang/support, material constraints, queueing, and safety.",
-    "The core value should be retrofit + assembly for real objects, not another standalone text-to-3D model generator."
+    "Robot takeout is a separate automation problem: bed adhesion, failed prints, hot surfaces, collision recovery, and printer reset need explicit sensing and safety states.",
+    "Same-plate printed tools are promising, but they need tolerance, stiffness, material, and contamination checks before relying on them for assembly.",
+    "The core value should be retrofit + printer-farm assembly for real objects, not another standalone text-to-3D model generator."
   ]
 }
