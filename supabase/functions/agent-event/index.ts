@@ -5,7 +5,10 @@ type AgentEventPayload = {
   agent_id?: string;
   project_id?: string;
   task_id?: string;
+  title?: string;
+  description?: string;
   status?: string;
+  priority?: string;
   summary?: string;
   comment?: string;
   kind?: string;
@@ -20,8 +23,9 @@ type AgentEventPayload = {
   payload?: Record<string, unknown>;
 };
 
-const allowedActions = new Set(["heartbeat", "task_status", "task_comment", "run"]);
+const allowedActions = new Set(["heartbeat", "project_update", "task_upsert", "task_status", "task_comment", "run"]);
 const allowedTaskStatuses = new Set(["todo", "active", "blocked", "needs_user", "review", "done"]);
+const allowedTaskPriorities = new Set(["low", "medium", "high", "urgent"]);
 const allowedCommentKinds = new Set(["comment", "result", "status_change", "needs_user", "blocker", "verification"]);
 const allowedRunStatuses = new Set(["not_run", "running", "started", "failed", "passed", "verified"]);
 const maxCommentLength = 4000;
@@ -224,6 +228,67 @@ Deno.serve(async (request) => {
       if (error) throw error;
       if (agentId) {
         eventAgentId = await ensureAgentRecord(eventProjectId);
+      }
+    } else if (action === "project_update") {
+      const project_id = requireString(projectId, "project_id");
+      eventProjectId = project_id;
+      const update: Record<string, unknown> = {};
+      for (const key of ["description", "summary", "asset_caption", "source_updated_at"]) {
+        if (key in payload) {
+          update[key] = optionalString(payload[key]);
+        }
+      }
+      for (const key of ["details", "timeline", "risks_decisions"]) {
+        if (key in payload) {
+          update[key] = payload[key];
+        }
+      }
+      if (Object.keys(update).length === 0) {
+        throw new Error("project_update requires at least one supported field");
+      }
+      const { error } = await supabase
+        .from("projects")
+        .update(update)
+        .eq("project_id", project_id)
+        .select("project_id")
+        .single();
+      if (error) throw error;
+      if (agentId) {
+        eventAgentId = await ensureAgentRecord(project_id);
+      }
+    } else if (action === "task_upsert") {
+      const task_id = requireString(taskId, "task_id");
+      const project_id = requireString(projectId, "project_id");
+      const title = requireString(body.title || payload.title, "title");
+      const description = optionalString(body.description || payload.description);
+      const status = requireEnum(body.status, "status", allowedTaskStatuses, "todo");
+      const priority = requireEnum(body.priority, "priority", allowedTaskPriorities, "medium");
+      const sortOrder = optionalInteger(payload.sort_order);
+      eventProjectId = project_id;
+      const row: Record<string, unknown> = {
+        task_id,
+        project_id,
+        title,
+        description,
+        status,
+        priority,
+        assignee: optionalString(payload.assignee),
+        due_at: optionalString(payload.due_at),
+        completed_at: optionalString(payload.completed_at),
+        source_updated_at: optionalString(payload.source_updated_at),
+        payload: payload.payload || { source: "agent-event" },
+      };
+      if (sortOrder !== null) {
+        row.sort_order = sortOrder;
+      }
+      const { error } = await supabase
+        .from("tasks")
+        .upsert(row, { onConflict: "task_id" })
+        .select("task_id")
+        .single();
+      if (error) throw error;
+      if (agentId) {
+        eventAgentId = await ensureAgentRecord(project_id);
       }
     } else if (action === "task_comment") {
       const task_id = requireString(taskId, "task_id");

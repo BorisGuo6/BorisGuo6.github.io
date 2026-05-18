@@ -4,14 +4,14 @@
   "title": "UMI World Model",
   "bucket": "active",
   "status": "ongoing",
-  "updated_at": "2026-05-17T01:35:00+08:00",
+  "updated_at": "2026-05-18T12:40:00+08:00",
   "description": "Kinematics-conditioned dual eye-in-hand world modeling",
   "summary": "The core idea is to treat eye-in-hand UMI teleoperation as action-conditioned video generation: the robot action trajectory is also the wrist-camera trajectory.",
   "asset": "dashboard/assets/umi-dataset-visualization.png",
   "asset_alt": "UMI dataset annotation and subtask segmentation visualization panel",
   "asset_caption": "Dataset QA: synchronized wrist views, 3D pose, EEF traces, current segment, and action log after subtask splitting.",
   "details": [
-    "Use the annotation / subtask-splitting panel to inspect dual wrist videos, task labels, motion curves, and segment boundaries together.",
+    "Use the annotation / subtask-splitting panel to inspect dual wrist videos, task labels, motion curves, and segment boundaries together; compare Gemini with Seed 2.0 Pro video understanding for key-state labels.",
     "Generate bimanual wrist-view videos conditioned on kinematics and gripper state.",
     "Maintain left-right consistency over object state and scene state.",
     "First decision: one-side generation + camera transform, or end-to-end synchronized dual video.",
@@ -19,6 +19,7 @@
   ],
   "task_ids": [
     "task_umi_gemini_frame_test",
+    "task_umi_seed2pro_annotation_test",
     "task_umi_temporal_segmentation_survey",
     "task_umi_base_model_decision",
     "task_umi_dreamzero_ctrlworld_inference",
@@ -36,7 +37,7 @@
   ],
   "risks_decisions": [
     "基模路线：先证明 TI2V 能力，还是同步推进 AI2V codebase inference。",
-    "时间帧切分精度会直接影响 caption / relabel 质量，需要早做小样本检查。",
+    "时间帧切分精度会直接影响 caption / relabel 质量，需要早做小样本检查，并比较 Gemini 与 Seed 2.0 Pro 标注的一致性。",
     "初版数据规模要控制在能快速迭代的范围，避免一开始就把训练周期拉长。",
     "Evaluation 需要同时覆盖视觉质量、时序定位、动作条件一致性。"
   ],
