@@ -27,6 +27,28 @@ function date(value) {
   return value ? `${sql(value)}::date` : "null";
 }
 
+function normalizeCommentKind(kind) {
+  const value = String(kind || "comment").trim();
+  const aliases = {
+    progress: "comment",
+    conductor_reply: "comment",
+    conductor_note: "comment",
+    blocker_resolved: "comment",
+    host_verified: "verification",
+  };
+  return aliases[value] || value || "comment";
+}
+
+function isNoisyHarnessComment(comment) {
+  const kind = String(comment.kind || "").trim();
+  const body = String(comment.body || "").trim();
+  if (["conductor_reply", "conductor_note"].includes(kind)) return true;
+  if (body.startsWith("本机主控已向远端 session")) return true;
+  if (body.startsWith("本机主控拦截到疑似危险输入请求")) return true;
+  if (body.includes("session_") && (body.includes("本机主控") || body.includes("ClawCross"))) return true;
+  return false;
+}
+
 const portfolio = await readJson(path.join(stateDir, "portfolio.json"));
 const tasks = await readJson(path.join(stateDir, "tasks.json"));
 const projectDocs = await Promise.all((portfolio.projects || []).map((project) => (
@@ -159,7 +181,7 @@ projectDocs.forEach((project, index) => {
     "",
   );
 
-  (task.comments || []).forEach((comment) => {
+  (task.comments || []).filter((comment) => !isNoisyHarnessComment(comment)).forEach((comment) => {
     lines.push(
       "insert into public.task_comments (comment_id, task_id, author, author_type, kind, body, created_at)",
       "values (",
@@ -167,7 +189,7 @@ projectDocs.forEach((project, index) => {
       `  ${sql(task.task_id)},`,
       `  ${sql(comment.author)},`,
       "  'seed',",
-      `  ${sql(comment.kind || "comment")},`,
+      `  ${sql(normalizeCommentKind(comment.kind))},`,
       `  ${sql(comment.body)},`,
       `  ${timestamp(comment.created_at)}`,
       ")",

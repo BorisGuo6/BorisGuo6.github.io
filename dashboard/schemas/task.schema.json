@@ -72,7 +72,7 @@
         "properties": {
           "comment_id": {
             "type": "string",
-            "pattern": "^comment_[a-zA-Z0-9_-]+$"
+            "pattern": "^(comment|clawcross)_[a-zA-Z0-9_-]+$"
           },
           "author": {
             "type": "string",
@@ -92,7 +92,12 @@
               "status_change",
               "needs_user",
               "blocker",
-              "verification"
+              "verification",
+              "progress",
+              "conductor_reply",
+              "conductor_note",
+              "blocker_resolved",
+              "host_verified"
             ]
           }
         }

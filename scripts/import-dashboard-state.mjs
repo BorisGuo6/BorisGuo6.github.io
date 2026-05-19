@@ -36,6 +36,28 @@ async function upsert(table, rows, conflictKey) {
   console.log(`imported ${rows.length} ${table}`);
 }
 
+function normalizeCommentKind(kind) {
+  const value = String(kind || "comment").trim();
+  const aliases = {
+    progress: "comment",
+    conductor_reply: "comment",
+    conductor_note: "comment",
+    blocker_resolved: "comment",
+    host_verified: "verification",
+  };
+  return aliases[value] || value || "comment";
+}
+
+function isNoisyHarnessComment(comment) {
+  const kind = String(comment.kind || "").trim();
+  const body = String(comment.body || "").trim();
+  if (["conductor_reply", "conductor_note"].includes(kind)) return true;
+  if (body.startsWith("本机主控已向远端 session")) return true;
+  if (body.startsWith("本机主控拦截到疑似危险输入请求")) return true;
+  if (body.includes("session_") && (body.includes("本机主控") || body.includes("ClawCross"))) return true;
+  return false;
+}
+
 function statePathToFile(statePath) {
   return path.join(repoRoot, statePath);
 }
@@ -108,12 +130,12 @@ await upsert("tasks", taskDoc.tasks.map((task, index) => ({
 })), "task_id");
 
 await upsert("task_comments", taskDoc.tasks.flatMap((task) => (
-  (task.comments || []).map((comment) => ({
+  (task.comments || []).filter((comment) => !isNoisyHarnessComment(comment)).map((comment) => ({
     comment_id: comment.comment_id,
     task_id: task.task_id,
     author: comment.author,
     author_type: "seed",
-    kind: comment.kind || "comment",
+    kind: normalizeCommentKind(comment.kind),
     body: comment.body,
     created_at: comment.created_at,
   }))

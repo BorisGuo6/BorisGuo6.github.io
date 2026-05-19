@@ -725,6 +725,33 @@ figcaption {
   text-transform: uppercase;
 }
 
+.decision-panel > summary {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.decision-panel > summary::-webkit-details-marker {
+  display: none;
+}
+
+.decision-panel > summary h3 {
+  margin: 0;
+}
+
+.decision-panel > summary small {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.decision-panel .decision-list {
+  margin-top: 8px;
+}
+
 .project-panel a {
   color: var(--accent);
   text-decoration-thickness: 1px;
@@ -1120,6 +1147,31 @@ figcaption {
   color: #274834;
   font-size: 12px;
   line-height: 1.35;
+}
+
+.comment-list li.comment-long {
+  background: #fbfdfb;
+}
+
+.comment-list .comment-preview {
+  color: #31513e;
+}
+
+.comment-full {
+  margin-top: 5px;
+}
+
+.comment-full > summary {
+  display: inline-flex;
+  cursor: pointer;
+  color: var(--accent);
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.comment-full > p {
+  margin-top: 5px;
+  white-space: pre-wrap;
 }
 
 .comment-list .comment-empty {

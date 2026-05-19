@@ -4,7 +4,9 @@
   "scripts": {
     "dev": "live-server --port=8765 --host=127.0.0.1 --open=/ .",
     "supabase:seed-sql": "node scripts/generate-dashboard-seed-sql.mjs",
-    "supabase:import": "node scripts/import-dashboard-state.mjs"
+    "supabase:import": "node scripts/import-dashboard-state.mjs",
+    "supabase:sync": "node scripts/sync-dashboard-to-supabase.mjs",
+    "supabase:sync:watch": "node scripts/sync-dashboard-to-supabase.mjs --watch --interval 60"
   },
   "devDependencies": {
     "live-server": "^1.2.2"

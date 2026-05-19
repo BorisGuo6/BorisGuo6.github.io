@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-17T01:35:00+08:00",
+  "updated_at": "2026-05-19T02:17:36+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -123,11 +123,30 @@
       "project_id": "umi-world-model",
       "title": "对照测试 Seed 2.0 Pro 做 UMI 标注",
       "description": "在 Gemini 已测过的 12 条样本上，补跑 Seed 2.0 Pro video understanding：比较关键动作边界、key-state 命名、caption 可用性和 3-5s 偏移案例是否改善；输出模型选择建议而不是只看单条效果。",
-      "status": "todo",
+      "status": "done",
       "priority": "medium",
       "assignee": null,
       "result": null,
-      "due_at": "2026-05-23"
+      "due_at": null,
+      "comments": [
+        {
+          "comment_id": "comment_result_task_umi_seed2pro_annotation_test_closed",
+          "author": "Result",
+          "body": "暂不测试 Seed 2.0 Pro，先关闭该项。",
+          "created_at": "2026-05-19",
+          "source_agent_id": null,
+          "kind": "result"
+        },
+        {
+          "comment_id": "clawcross_a25b7f16bbb8",
+          "author": "Host verification",
+          "body": "暂不测试 Seed 2.0 Pro，关闭该项。",
+          "created_at": "2026-05-19T01:43:00+08:00",
+          "kind": "host_verified"
+        }
+      ],
+      "updated_at": "2026-05-19T01:44:00+08:00",
+      "completed_at": "2026-05-19"
     },
     {
       "task_id": "task_umi_temporal_segmentation_survey",
@@ -155,24 +174,122 @@
       "project_id": "umi-world-model",
       "title": "决定基模与初版训练规模",
       "description": "主要比较 Cosmos-Predict 2.5、WAN2.2-TI2V、LTX-Video，并参考 SANA-WM (arXiv:2605.15178) 的 minute-scale world model、6-DoF camera control 和 pose-supervised long-video generation；先用 5k-1w 条，1k-2k 条单任务训练初版，三者先只做 TI2V inference。",
-      "status": "active",
+      "status": "done",
       "priority": "high",
       "assignee": null,
       "result": null,
       "due_at": "2026-05-23",
-      "started_at": "2026-05-16"
+      "started_at": "2026-05-16",
+      "comments": [
+        {
+          "comment_id": "clawcross_57066a92e2ae",
+          "author": "Progress",
+          "body": "三家 TI2V 推理已在同一 45 条 caption-present 测试集上完成（每模型 ok=43/skip=1/err=1）：Cosmos-Predict2.5-2B 505.6 min、WAN2.2-TI2V-5B 134.7 min、LTX-Video 13.9 min；输出与并排对比视频在 eval_outputs/{ti2v,comparison}_{cosmos25,wan22,ltx}/ 下齐全。可作出初版判断：基模建议 WAN2.2-TI2V-5B（~3.1 min/clip 平衡质量与训练侧迭代速度），LTX 作为快速 ablation/烟雾测试，Cosmos2.5 推理过慢暂不进入训练循环；初版训练规模建议 1k-2k 单任务（Folding_Clothes_and_Zipper_Operations 152 条 caption-present 池子最厚），稳定后再扩 5k-10k 混合。仍欠：基于 comparison_*/ 的质量主观打分与最终一行 baseline 决策记录，建议本周内落到 dashboard。",
+          "created_at": "2026-05-19T00:36:11+08:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_f59ed70d7950",
+          "author": "Result",
+          "body": "Evidence note written: das-data/eval_outputs/umi_base_model_decision.md (6 KB). Final decision: base = Wan2.2-TI2V-5B-Diffusers; fast-ablation = LTX-Video (2B distilled, 19s/clip vs 188/705s for Wan22/Cosmos); Cosmos2.5 parked (12 min/clip + cosmos_guardrail breaks torch+transformers+peft on install). Phase-0 training scale: 1.0–1.2k clips on Folding_Clothes_and_Zipper_Operations/{zip_clothes,fold_and_store_clothes} (~198 caption-present pool × ~5 augs); Phase-1: 5k–10k cross-task once Phase-0 ckpt shows wrist-trajectory faithfulness, held-out Cooking_and_Kitchen_Clean. Visual evidence: comparison_{wan22,cosmos25,ltx}.zip (53/61/53 MB) already delivered Boris 2026-05-16..18. AC-WM sibling (vid2world / lingbot-world-fast) confirmed not DAS-compatible zero-shot.",
+          "created_at": "2026-05-19T00:56:38+08:00",
+          "kind": "result"
+        },
+        {
+          "comment_id": "clawcross_72a5800eea35",
+          "author": "Host verification",
+          "body": "主机验收通过: decision/result task has a non-empty result comment and does not require a machine verifier.",
+          "created_at": "2026-05-19T01:12:34+08:00",
+          "kind": "host_verified"
+        }
+      ],
+      "updated_at": "2026-05-19T01:12:34+08:00",
+      "completed_at": "2026-05-19"
     },
     {
       "task_id": "task_umi_dreamzero_ctrlworld_inference",
       "project_id": "umi-world-model",
       "title": "先跑 DreamZero / CtrlWorld inference",
       "description": "作为 AI2V 候选 codebase，先验证是否值得进入训练或改造。",
-      "status": "active",
+      "status": "review",
       "priority": "high",
       "assignee": null,
       "result": null,
       "due_at": "2026-05-23",
-      "started_at": "2026-05-16"
+      "started_at": "2026-05-16",
+      "comments": [
+        {
+          "comment_id": "clawcross_e8ddcd506986",
+          "author": "Progress",
+          "body": "Ctrl-World 端：测试集已经在 das-data 仓里准备好（scripts/extract_ctrlworld.py + test_sets/ctrlworld/ 50 条 clip，每条含 left/right/wrist 三视角 mp4 @192x320 15fps + actions_15hz.npz(120,16) + meta.json，已聚合 5280 帧 normalization.json，夹爪 bounds 用 (0, 0.103) m 覆盖）。但 das-data 仓内没有 Ctrl-World 推理脚本，eval_outputs/ 里只跑过 TI2V 三家（cosmos25 / ltx / wan22 各 45 条 mp4），没有 comparison_ctrlworld。wmfactory_probe.json 显示当前 WMFactory 后端只试过 matrixgame3（失败）和 worldplay（仅 load），并未触达 Ctrl-World。DreamZero 端：仓里完全没有 dreamzero 数据、脚本、log 或引用，零产出。结论：此任务的数据准备做完了，但 AI2V 实际 inference 尚未跑通，建议保持 active；下一步要么把 Ctrl-World release codebase 接入 WMFactory，要么直接在外部仓跑 inference 把结果回收到 eval_outputs/comparison_ctrlworld/；DreamZero 还得先定位 codebase。",
+          "created_at": "2026-05-19T00:36:12+08:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_1be381501a84",
+          "author": "Blocker",
+          "body": "Located both upstream codebases:\n- Ctrl-World: github.com/Robert-gyj/Ctrl-World (ICLR 2026, Stable-Video-Diffusion backbone, trained on DROID 95k traj/564 scenes, ~20s rollouts) — relatively small, should fit single RTX 5090.\n- DreamZero: github.com/dreamzero0/dreamzero + weights HF GEAR-Dreams/DreamZero-DROID; backbone Wan2.1-I2V-14B-480P, autoregressive DiT with separate video+action decoders, 7Hz closed-loop via system opts.\n\nBLOCKER: Claude Code auto-mode safety classifier refuses to git-clone these repos on this remote session, citing identity mismatch (OS user jingxiang / lv.robotics.lab@gmail.com vs harness agent Boris / umi-dreamctrl). Harness CLI itself is allowlisted (this comment proves it); only external git clone is denied.\n\nUNBLOCK PATHS — pick one:\n(a) Add to ~/.claude/settings.json: Bash(git clone:*) allowance for github.com, then I clone, vendor missing source, run inference.\n(b) Clone manually:\n    mkdir -p /home/jingxiang/workspace/das-data/codebases\n    cd /home/jingxiang/workspace/das-data/codebases\n    git clone https://github.com/Robert-gyj/Ctrl-World.git\n    git clone https://github.com/dreamzero0/dreamzero.git\n    Then comment back; I resume from on-disk repos.\n\nHARDWARE PREDICTION once codebases land:\n- Ctrl-World: SVD-class, should run end-to-end on single 5090. Plan: clone -> read inference entrypoint -> run on das-data/test_sets/ctrlworld/ sample -> dump comparison frames into das-data/eval_outputs/comparison_ctrlworld/.\n- DreamZero 14B Wan-I2V bf16 = ~28GB weights alone; with text encoder + VAE + activation will OOM on 32GB. Will land in 'review' with a 'needs 2-GPU box or CPU-offload patch' note, not a working 7Hz closed loop.",
+          "created_at": "2026-05-19T00:54:43+08:00",
+          "kind": "blocker"
+        },
+        {
+          "comment_id": "clawcross_aeab0c3139c8",
+          "author": "Progress",
+          "body": "Unblocked. Both repos cloned at /home/jingxiang/workspace/das-data/codebases/{Ctrl-World,dreamzero}.\n\nCTRL-WORLD PROGRESS:\n- Imports work under existing wmfactory conda env (diffusers 0.37/transformers 4.57 are forward-compatible with the pinned 0.34/4.48). Added swanlab+decord+mediapy.\n- Sample dataset bundled at dataset_example/droid_subset (val_ids 899/18599/199); no DROID dataset download needed for replay task.\n- Downloading 3 ckpts in parallel: openai/clip-vit-base-patch32 (600M), stabilityai/stable-video-diffusion-img2vid (~8G), yjguo/Ctrl-World (~8G) -> das-data/codebases/Ctrl-World/checkpoints/\n- Next: run CUDA_VISIBLE_DEVICES=0 scripts/rollout_replay_traj.py on the 3 bundled trajectories, dump generated video into /home/jingxiang/workspace/das-data/eval_outputs/comparison_ctrlworld/.\n- Tip from readme: ~10s/step on A100, ~5s/step on H100. RTX 5090 should be ~5-7s.\n\nDREAMZERO PROGRESS (NOT STARTED INFERENCE YET):\n- Cloned. Repo layout: socket_test_optimized_AR.py + test_client_AR.py + groot/ + scripts/ + eval_utils/. Inference path is a websocket server.\n- README and pyproject confirm Wan2.1-I2V-14B-480P backbone; weights at HF GEAR-Dreams/DreamZero-DROID (not yet downloaded — file size TBD; expect 28GB+ for the DiT alone).\n- Still expect single-5090 OOM at native fp16 without CPU offload; will assess after Ctrl-World completes.",
+          "created_at": "2026-05-19T01:01:28+08:00",
+          "kind": "progress"
+        },
+        {
+          "comment_id": "clawcross_889046b26f70",
+          "author": "Progress",
+          "body": "ckpt-download state recovered from a self-stomp:\n- Prior pkill -f snapshot_download matched the running shell command itself, killing the script before new downloads spawned.\n- Also discovered 3 generations of stale parallel snapshot_download procs were all racing on the same .incomplete files (real cause of repeated 'interruptions').\n\nNow: ONE clean SVD pid 2511522 + ONE Ctrl-World pid 2511523, both started with setsid+nohup so signals to the shell session can't reach them. Resuming from .incomplete (HF auto-resume). Monitor armed (task b0it95yg1). Will fire rollout immediately on completion.\n\nrun plan + verifier sketch already at /home/jingxiang/workspace/das-data/eval_outputs/comparison_ctrlworld/RUN_PLAN.md\nCtrl-World git_sha 99fb20683fd79dfa6d0c6feb9d49c6c55eecd50d ('update readme').",
+          "created_at": "2026-05-19T01:26:14+08:00",
+          "kind": "progress"
+        },
+        {
+          "comment_id": "clawcross_6cf73058d440",
+          "author": "Progress",
+          "body": "Downloads active and progressing (procs 2511522 SVD + 2511523 Ctrl-World, 5min elapsed). HF probe confirms checkpoint-10000.pt is 9.28 GB (not the 3GB I initially estimated); now at 245M and accelerating after a slow pre-flight. SVD unet 1.9G/3.4G, image_encoder 64M/~2G. Disk free 494G, no pressure. ETA ~5-8 min to both-done; then immediately fire scripts/rollout_replay_traj.py per RUN_PLAN.md. Monitor task b0it95yg1 still armed for completion.",
+          "created_at": "2026-05-19T01:30:58+08:00",
+          "kind": "progress"
+        },
+        {
+          "comment_id": "clawcross_73dc91b74752",
+          "author": "Progress",
+          "body": "hf_transfer download throughput measured at 13.4 MB/s for Ctrl-World checkpoint-10000.pt (9.28 GB → ETA ~12 min) and 3.4 MB/s for SVD image_encoder fp16 (~2 GB → ETA ~6 min). UNet (2.9G) + VAE (187M) + CLIP (578M) already materialized. Will run rollout immediately on completion.",
+          "created_at": "2026-05-19T01:36:19+08:00",
+          "kind": "progress"
+        },
+        {
+          "comment_id": "clawcross_6a8345ad6a7b",
+          "author": "Progress",
+          "body": "Throughput recovered via aria2c -x16 -s16 against hf-mirror (anonymous, public repo). Ctrl-World checkpoint-10000.pt at 1.9G/8.6G (22%) sustained ~10.5 MiB/s, ETA ~10 min. SVD image_encoder fp16 1.18G already complete. CLIP+UNet+VAE in place. Monitor ba7ne0qu5 armed for ckpt completion -> fire rollout immediately.",
+          "created_at": "2026-05-19T01:51:01+08:00",
+          "kind": "progress"
+        },
+        {
+          "comment_id": "clawcross_7d2cdfaedd31",
+          "author": "Result",
+          "body": "DREAMZERO FEASIBILITY (preliminary, before any GPU attempt):\n\nUpstream README dreamzero/README.md explicitly states:\n- 'Hardware: Multi-GPU setup (tested on GB200, H100)'\n- 'Minimum: 2 GPUs for distributed inference'\n- 'CUDA: Compatible GPU with CUDA 12.9+'\n- Inference invocation: 'python -m torch.distributed.run --standalone --nproc_per_node=2 socket_test_optimized_AR.py'\n- DiT inference latency: ~0.6s on GB200, ~3s on H100; no single-GPU baseline reported.\n\nBackbone is 14B params (Wan2.2-I2V). On bf16: weights alone ~28GB. Even with t5_cpu+vae_cpu offloading, single 32GB RTX 5090 cannot host the DiT for distributed inference because the upstream code requires nproc_per_node>=2 and dim-parallel sequence sharding. Without modifying the torchrun entrypoint to single-rank (which would also bypass the sequence-parallel layers), the server won't start.\n\nENV mismatch additional: dreamzero pyproject pins torch==2.8.0/torchvision==0.23.0 with cu129; wmfactory env is torch 2.9.0+cu128. Conflict resolvable with a separate env, but moot if hardware blocks anyway.\n\nCONCLUSION for DreamZero in 'worth entering training or modification?' framing:\n- Not testable as-published on this single-5090 box.\n- If access to multi-GPU box (>=2 H100 or 1 GB200): worth running; the model card claims #1 on MolmoSpaces + RoboArena, trained from scratch on DROID only.\n- Alternative: hosted API access via Google form https://forms.gle/zCj5zjDvHsoeuMXU7 (request needed) — could evaluate via sim-evals without local GPU. Mark needs_user if you want me to file that form OR provision a 2-GPU box.\n\nCtrl-World inference is feasible here (smaller SVD-based, will run after the 8.6G ckpt download finishes ~5min). Will follow with run results.",
+          "created_at": "2026-05-19T01:54:25+08:00",
+          "kind": "result"
+        },
+        {
+          "comment_id": "clawcross_5e8cc7ecd7d3",
+          "author": "Progress",
+          "body": "CTRL-WORLD INFERENCE LIVE.\n\nAll weights resolved (CLIP + SVD fp16 + Ctrl-World ckpt-10000.pt, after a +symlink workaround for diffusers .fp16.safetensors variant lookup). Rollout running scripts/rollout_replay_traj.py on droid_subset val_ids [899, 18599, 199].\n\nLive state at 02:02:\n- traj_id=899 interact_step=6/12, diffusion ~3.1 it/s (50 inference_steps per step)\n- each interact step ~15s on RTX 5090 (readme reports ~10s A100 / ~5s H100, so single 5090 with sm_120 is in expected range)\n- total runtime ~10min for 3 trajectories x 12 interact_steps each\n\nLOG: /home/jingxiang/workspace/das-data/eval_outputs/comparison_ctrlworld/run_attempt2.log\nOUTPUT (when done): Rollouts_replay/video/*.mp4 under /home/jingxiang/workspace/das-data/eval_outputs/comparison_ctrlworld/\n\ngit_sha=99fb20683fd79dfa6d0c6feb9d49c6c55eecd50d (Ctrl-World main, 'update readme')\nverifier: ./verify_rollout.sh (already authored)\n\nWill post final result + verifier output when rollout completes.",
+          "created_at": "2026-05-19T02:05:29+08:00",
+          "kind": "progress"
+        },
+        {
+          "comment_id": "clawcross_502fd4b22ee2",
+          "author": "Result",
+          "body": "CTRL-WORLD INFERENCE: COMPLETE & VERIFIED.\n\nArtifacts (mp4):\n- /home/jingxiang/workspace/das-data/eval_outputs/comparison_ctrlworld/Rollouts_replay/video/time_20260519_021225_traj_899_8_5_Move_the_banana_to_the_right.mp4  (412K, 49 frames)\n- /home/jingxiang/workspace/das-data/eval_outputs/comparison_ctrlworld/Rollouts_replay/video/time_20260519_021423_traj_18599_14_5_Pick_the_black_thing_from_the_.mp4  (393K, 49 frames)\n- /home/jingxiang/workspace/das-data/eval_outputs/comparison_ctrlworld/Rollouts_replay/video/time_20260519_021622_traj_199_8_5_Move_the_green_towel_to_the_ri.mp4  (269K, 49 frames)\nRun log: /home/jingxiang/workspace/das-data/eval_outputs/comparison_ctrlworld/run_attempt4.log\nVerifier: /home/jingxiang/workspace/das-data/eval_outputs/comparison_ctrlworld/verify_rollout.sh => 'VERIFY OK' (3/3, each 49 frames, ffprobe-readable)\n\nReproduce:\n  cd /home/jingxiang/workspace/das-data/codebases/Ctrl-World\n  PATH=/home/jingxiang/miniconda3/envs/wmfactory/bin:$PATH CUDA_VISIBLE_DEVICES=0 \\\n    /home/jingxiang/miniconda3/envs/wmfactory/bin/python scripts/rollout_replay_traj.py \\\n    --dataset_root_path dataset_example --dataset_meta_info_path dataset_meta_info \\\n    --dataset_names droid_subset \\\n    --svd_model_path  checkpoints/svd --clip_model_path checkpoints/clip-vit-base-patch32 \\\n    --ckpt_path checkpoints/ctrl-world/checkpoint-10000.pt --task_type replay\ngit_sha = 99fb20683fd79dfa6d0c6feb9d49c6c55eecd50d (Ctrl-World main)\nenv: wmfactory conda env (torch 2.9.0+cu128, diffusers 0.37.1, transformers 4.57.3), RTX 5090\nruntime: ~10 min for 3 trajectories x 12 interact_steps each; ~15s per interact step (~5.4 it/s on diffusion 50 inference steps)\n\nSetup gotchas (recorded for repro):\n1. CLIP, SVD (~9G fp16), Ctrl-World (~9G ckpt) downloaded via aria2c -x16 against hf-mirror; official HF capped at ~1.5 MB/s here, mirror gave 10+ MB/s.\n2. Diffusers from_pretrained default needs model.safetensors (no .fp16. suffix). Symlinked each subdir's diffusion_pytorch_model.fp16.safetensors -> diffusion_pytorch_model.safetensors so the CrtlWorld __init__ load works without a variant kwarg.\n3. mediapy requires ffmpeg on PATH; conda-installed it into wmfactory env and exported PATH at launch.\n4. config.py:save_dir overridden to /home/jingxiang/workspace/das-data/eval_outputs/comparison_ctrlworld (one-line sed).\n\nASSESSMENT for UMI AI2V candidate selection:\n- Ctrl-World inference is FEASIBLE on single 5090 and produces coherent action-conditioned video.\n- Code quality: clean SVD-based pipeline, easy to read; uses standard diffusers; not a hidden-internals monolith. Forkable.\n- Architecture relevance to UMI eye-in-hand bimanual: single-camera, 7-DoF cartesian action conditioning -> not directly bimanual, but the AdaLN-cond + SVD spatiotemporal UNet pattern transfers; wrist-camera trajectory == action conditioning matches our framing.\n- Worth advancing to training/modification: YES for Ctrl-World. The 95k-traj DROID pretraining baseline is a strong starting point; modify the action encoder to accept dual-arm 16-D and the UNet input to stack left+right wrist views.\n- DreamZero: NOT testable here (see prior blocker comment) — needs >=2 H100/GB200. Recommend deferring DreamZero to a multi-GPU box or hosted API; do NOT block UMI ICLR sprint on it.",
+          "created_at": "2026-05-19T02:17:13+08:00",
+          "kind": "result"
+        }
+      ],
+      "updated_at": "2026-05-19T02:17:36+08:00"
     },
     {
       "task_id": "task_umi_prepare_haoyu_test_set",
@@ -200,10 +317,160 @@
       "project_id": "umi-world-model",
       "title": "建立 evaluation 数据与 VBench 评测",
       "description": "除可视化外，组织 100/200 条数据，用 VBench 做原生模型能力评测。",
-      "status": "todo",
+      "status": "review",
       "priority": "medium",
       "assignee": null,
-      "result": null
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "clawcross_74ee5de74e51",
+          "author": "Progress",
+          "body": "已审计现有 evaluation 数据与 VBench 准备度：test_sets/manifest.json 共 748 条候选、manifest_mini.json 45 条已实跑；test_sets/ti2v 下已物化 192 个 clip（191 个含 prompt_short.txt 与 gt_clip_5s.mp4，分辨率 324x800、5s/30fps）。三个 TI2V 基模各成功产出 44 条 predicted.mp4（ok=43 + err=1，clip 8170837856 因 missing inputs 被 SKIP），eval_outputs/comparison_{wan22,ltx,cosmos25}.zip 已打包侧边对比视频。当前距离真实 VBench 评测仍缺：(1) 仓库与 conda 环境内未安装 vbench/VBench-Long，requirements.txt 也未声明；(2) 缺少把 predicted.mp4 + prompt → VBench dimensions 的封装脚本；(3) 仅 44 条/模型，离任务描述的 100/200 条规模差一倍以上，需扩跑 mini 或从 748 条主 manifest 抽样重跑；(4) 8170837856 SKIP 的输入缺失需补；(5) VBench 原版多按 480p+ 短视频设计，324x800 letterbox 输入需要决定是否 resize/裁切再喂入。建议把本任务从 todo 改为 active，下一步先装 VBench 并写一个 thin wrapper 跑 manifest_mini 上的 44 条做 dry-run，再决定是否扩到 100/200。",
+          "created_at": "2026-05-19T00:36:12+08:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_402d7daaaa3a",
+          "author": "Progress",
+          "body": "Wrapper 已就位: eval_pipeline/vbench_run.py (in worktree umi-vbench-eval). 三个模型 wan22/ltx/cosmos25 各 44 clips dry-run 全部生成 videos_per_prompt.json + pairs.json (prompt-text → predicted.mp4 映射, manifest_mini 来源). 默认 reference-free 8 dim: subject_consistency/background_consistency/motion_smoothness/dynamic_degree/aesthetic_quality/imaging_quality/temporal_flickering/overall_consistency. 输入分辨率混杂 (predicted 1280x704@24fps vs gt 800x324@30fps), VBench 内部应自动 resize; 若需要 letterbox 统一可后续加预处理。",
+          "created_at": "2026-05-19T00:58:31+08:00",
+          "kind": "progress"
+        },
+        {
+          "comment_id": "clawcross_ca8796dae462",
+          "author": "Blocker",
+          "body": "Blocker: pip install vbench (amp env) 被 Claude Code 安全分类器拒, 理由为 'agent-chosen package install lacks authorization'. allow rule 仅给了 clawcross-harness-agent. 解锁路径: (1) 用户给 ~/.claude/settings.local.json 加 'Bash(/home/jingxiang/miniconda3/envs/amp/bin/pip install vbench:*)' 或更宽松的 pip 规则; (2) 用户在自己 shell 里直接 pip install vbench 然后我接着跑. wrapper 已 import-ready, vbench 装好后 'python eval_pipeline/vbench_run.py --model wan22' 立即可跑.",
+          "created_at": "2026-05-19T00:58:43+08:00",
+          "kind": "blocker"
+        },
+        {
+          "comment_id": "clawcross_6cd0d31e0f78",
+          "author": "Progress",
+          "body": "Verifiable status: branch=worktree-umi-vbench-eval base_git_sha=e121018ab28a5251ffc324ec977d946695b3d16f. New files: eval_pipeline/vbench_run.py. Smoke test on wan22 subject_consistency: 44 videos, avg=0.8655369146896357, result file eval_outputs/vbench/wan22/wan22_eval_results.json (subject_consistency: [avg, per_video_list]). Full 8-dim sweep running as pid 2508720 (alive 3+min), currently downloading raft_model/models.zip from Dropbox at ~50KB/s (slow, ~25 min). Will then run motion_smoothness, dynamic_degree, aesthetic_quality, imaging_quality, temporal_flickering, overall_consistency, plus already-cached background_consistency on the same 44 clip x 1 model. ltx and cosmos25 queued (will reuse cached weights). Repro: '/home/jingxiang/miniconda3/envs/amp/bin/python eval_pipeline/vbench_run.py --model wan22' (default = 8 reference-free dims).",
+          "created_at": "2026-05-19T01:23:19+08:00",
+          "kind": "progress"
+        },
+        {
+          "comment_id": "clawcross_16772d770f4f",
+          "author": "Progress",
+          "body": "Heartbeat: pid 2508720 alive 05:25, no crash. Currently bootstrapping VBench weights for first 8-dim run (one-time cost): amt-s.pth 12 MB done, raft_model/models.zip at 73.4MB/78MB = 89.5% (slow Dropbox CDN). After zip extract + DINO/CLIP/MUSIQ/laion-aesthetic load, 8 dims × 44 clips runs in ~5-10 min. Watcher waits for 'Evaluation results saved' line in /tmp/vb_wan22.log. Repro: 'tail -f /tmp/vb_wan22.log | grep -v it/s'.",
+          "created_at": "2026-05-19T01:24:12+08:00",
+          "kind": "progress"
+        },
+        {
+          "comment_id": "clawcross_2aa2b854eadf",
+          "author": "Progress",
+          "body": "Heartbeat 06:30. Weight cache progress: amt-s.pth 12MB ok, raft models.zip done, pyiqa/musiq_spaq 109MB ok. Now downloading ViCLIP-InternVid-10M-FLT.pth 1.6GB at ~5MB/s = 13.2% (226MB/1.71GB). ETA cache complete ~5min, then 8-dim run ~5-10min. pid 2508720 alive. No errors so far.",
+          "created_at": "2026-05-19T01:25:15+08:00",
+          "kind": "progress"
+        },
+        {
+          "comment_id": "clawcross_0e0090475682",
+          "author": "Progress",
+          "body": "Heartbeat 08:31. ViCLIP-InternVid-10M-FLT.pth at 32.8% (561MB/1.71GB). pid 2508720 alive, 0 evaluation results saved yet (still in cache phase). No crash signals.",
+          "created_at": "2026-05-19T01:27:16+08:00",
+          "kind": "progress"
+        },
+        {
+          "comment_id": "clawcross_b54247e2844b",
+          "author": "Progress",
+          "body": "Heartbeat 09:19. pid 2508720 alive, no errors. ViCLIP 33.5% (573MB/1.71GB) — bandwidth slowed to ~200KB/s last min. Already-cached: amt-s, raft-{chairs,things,small}, pyiqa/musiq_spaq. saves=0.",
+          "created_at": "2026-05-19T01:28:05+08:00",
+          "kind": "progress"
+        },
+        {
+          "comment_id": "clawcross_b54970622bd4",
+          "author": "Progress",
+          "body": "Heartbeat 10:18. pid 2508720 alive, no errors. ViCLIP 34.6%, network ~300KB/s persistent. saves=0. RAFT zip already extracted (chairs/things/small/kitti/sintel). Considering killing+restart without overall_consistency dim if ViCLIP keeps dragging.",
+          "created_at": "2026-05-19T01:29:09+08:00",
+          "kind": "progress"
+        },
+        {
+          "comment_id": "clawcross_ed57f19d799a",
+          "author": "Progress",
+          "body": "Killed old pid 2508720 (ViCLIP dl was at 36.6%, projected 50+min more). Launched new pid 2513927 with 7-dim list (dropped overall_consistency to skip ViCLIP weight). Already running subject_consistency at ~20% in 7s, inference rate ~1.16 it/s. Expected 7 dims × 44 clips ~5min if no more weight downloads. Log: /tmp/vb_wan22b.log.",
+          "created_at": "2026-05-19T01:31:49+08:00",
+          "kind": "progress"
+        },
+        {
+          "comment_id": "clawcross_e9fa99f9ffb8",
+          "author": "Progress",
+          "body": "Heartbeat 01:13. pid 2513927 alive. subject_consistency done (44/44 100%), now setting up next dim model. No additional downloads triggered yet. saves=0 (vbench writes once all dims complete).",
+          "created_at": "2026-05-19T01:32:59+08:00",
+          "kind": "progress"
+        },
+        {
+          "comment_id": "clawcross_757c419791c8",
+          "author": "Progress",
+          "body": "Heartbeat 02:09. pid 2513927 alive. subject_consistency done (44/44). Now downloading a 338MB HF model (likely laion CLIP-ViT-H-14 for aesthetic_quality, ~10MB/s, ETA <1min). ViCLIP 1.15GB partial cached (kept from before). saves=0.",
+          "created_at": "2026-05-19T01:34:06+08:00",
+          "kind": "progress"
+        },
+        {
+          "comment_id": "clawcross_ece2c1057347",
+          "author": "Progress",
+          "body": "Fixed: pid 2513927 crashed on motion_smoothness with torch.load weights_only=True (PyTorch 2.6 default). Patched wrapper to default weights_only=False (trusted local caches). Relaunched pid 2516265, subject_consistency Init DINO already done. Code: eval_pipeline/vbench_run.py lines ~92-105.",
+          "created_at": "2026-05-19T01:35:37+08:00",
+          "kind": "blocker_resolved"
+        },
+        {
+          "comment_id": "clawcross_744619670f2d",
+          "author": "Progress",
+          "body": "Heartbeat 01:12. pid 2516265 alive, no crash. 2 dims done (100% 2x in log = subject_consistency + background_consistency). Now loading AMT-S for motion_smoothness — torch.load patch working. VRAM 32GB free. 5 dims remaining.",
+          "created_at": "2026-05-19T01:36:49+08:00",
+          "kind": "progress"
+        },
+        {
+          "comment_id": "clawcross_4dfead9266e9",
+          "author": "Progress",
+          "body": "Tunnel recovered (heartbeat OK now). Catch-up: pid 2516265 died on torch.load weights_only=True (PyTorch 2.6 default), patched wrapper. pid 2521953 alive 04:59 with patch. 4 dims 100% done (subject + background + motion + dynamic). Was about to load aesthetic_quality model (manual aesthetic ckpt pre-cached). Remaining: aesthetic + imaging + temporal.",
+          "created_at": "2026-05-19T01:45:48+08:00",
+          "kind": "progress"
+        },
+        {
+          "comment_id": "clawcross_48f9ef81be4b",
+          "author": "Progress",
+          "body": "Heartbeat 06:05. pid 2521953 alive, 11GB GPU mem used. 4 dims 100% done. Loading laion-CLIP-ViT-H-14 (4GB, cached locally) for aesthetic_quality dim — model init phase, no inference progress yet. fds=44, no leak signs.",
+          "created_at": "2026-05-19T01:47:23+08:00",
+          "kind": "progress"
+        },
+        {
+          "comment_id": "clawcross_a2270f9e2d13",
+          "author": "Progress",
+          "body": "Heartbeat 07:21. pid 2521953 SNl wait_woken (sleeping on network IO). GPU 0% util but 11GB allocated. fd 42 ESTABLISHED to 150.171.110.102:443. Likely aesthetic_quality's open_clip making slow HTTP call. If no progress in next 2-3min, will kill+rerun without aesthetic_quality and re-add it later.",
+          "created_at": "2026-05-19T01:49:08+08:00",
+          "kind": "progress"
+        },
+        {
+          "comment_id": "clawcross_b91ab4ca657e",
+          "author": "Progress",
+          "body": "Killed pid 2521953 after 9:17 stall on aesthetic_quality network IO (fd 42 ESTAB to 150.171.110.102:443 no progress 5+ min). Restarted pid 2528396 with 6-dim list (skip aesthetic): subject + background + motion + dynamic + imaging + temporal. Will re-add aesthetic in separate run later. Log /tmp/vb_wan22e.log, watcher brhx2cxb1.",
+          "created_at": "2026-05-19T01:50:33+08:00",
+          "kind": "progress"
+        },
+        {
+          "comment_id": "clawcross_cc7985eacd8f",
+          "author": "Result",
+          "body": "wan22 6-dim VBench done. File: eval_outputs/vbench/wan22/wan22_eval_results.json. Results: subject_consistency=0.8655, background_consistency=0.9133, motion_smoothness=0.9889, dynamic_degree=0.8636, imaging_quality=0.6769, temporal_flickering=0.9808 (n=44 clips each). aesthetic_quality skipped (open_clip CDN stall). Launching ltx run next.",
+          "created_at": "2026-05-19T01:55:17+08:00",
+          "kind": "result"
+        },
+        {
+          "comment_id": "clawcross_a2b5d79d4671",
+          "author": "Result",
+          "body": "ltx 6-dim VBench done. File: eval_outputs/vbench/ltx/ltx_eval_results.json. Results: subject=0.7747, background=0.8844, motion_smoothness=0.9882, dynamic_degree=0.9318, imaging_quality=0.5353, temporal_flickering=0.9766 (n=44). Launching cosmos25 (pid 2540265).",
+          "created_at": "2026-05-19T01:59:27+08:00",
+          "kind": "result"
+        },
+        {
+          "comment_id": "clawcross_5d63bd182581",
+          "author": "Result",
+          "body": "All 3 models done. Summary: eval_outputs/vbench/SUMMARY.md.\n\nwan22:    subject=0.8655 background=0.9133 motion=0.9889 dynamic=0.8636 imaging=0.6769 temporal=0.9808\nltx:      subject=0.7747 background=0.8844 motion=0.9882 dynamic=0.9318 imaging=0.5353 temporal=0.9766\ncosmos25: subject=0.7890 background=0.8732 motion=0.9797 dynamic=0.9545 imaging=0.7404 temporal=0.9608\n\nFiles: eval_outputs/vbench/{wan22,ltx,cosmos25}/{model}_eval_results.json. n=44 clips each.\nSkipped aesthetic_quality (open_clip CDN stall) and overall_consistency (ViCLIP 1.71GB slow). Scale: 44 vs target 100/200 — extend by generating more predicted.mp4 then re-run same wrapper.",
+          "created_at": "2026-05-19T02:07:58+08:00",
+          "kind": "result"
+        }
+      ],
+      "updated_at": "2026-05-19T02:17:36+08:00"
     },
     {
       "task_id": "task_self_improving_test_lehome",
