@@ -4,20 +4,22 @@
   "title": "Self-Improving Agents for Physical AI",
   "bucket": "active",
   "status": "ongoing",
-  "updated_at": "2026-05-16T13:37:00+08:00",
+  "updated_at": "2026-05-19T11:55:19+08:00",
   "description": "Runtime-governed Robot-for-Robot data and evaluation system",
-  "summary": "This project reframes agentic R2S2R as a self-improving Physical AI system: start inside Isaac simulation, use VLM-guided diagnosis and task/environment generation to improve the simulator and policy evaluation loop, then grow toward Robot-for-Robot data collection and benchmarking.",
+  "summary": "This project reframes agentic R2S2R as a self-improving Physical AI system: start inside Isaac simulation, use VLM-guided diagnosis and task/environment generation to improve the simulator and policy evaluation loop, then add a RoboClaw-style agentic loop for self-resetting data collection, monitored subtask execution, long-horizon policy orchestration, recovery, and operator review.",
   "asset": "dashboard/assets/pearl-overview.png",
   "asset_alt": "PEARL self-improving physical AI framework",
   "asset_caption": "PEARL reference: failure memory, attribution, task-environment co-evolution, governance.",
   "details": [
-    "Current focus: test LeHome and consolidate household tasks into one Isaac-compatible environment.",
+    "Current focus: test LeHome and consolidate household tasks into one Isaac-compatible environment while extracting RoboClaw-style EAP and long-horizon execution primitives.",
     "Use PEARL-style typed failure memory, failure attribution, task-environment co-evolution, and runtime governance as the conceptual framework.",
+    "Use RoboClaw as an agentic lifecycle reference: one VLM-driven controller across collection, policy learning, deployment, subtask monitoring, failure recovery, and human escalation.",
     "Extend tasks with generated object physics assets and scene assets instead of relying only on fixed benchmark environments."
   ],
   "task_ids": [
     "task_self_improving_test_lehome",
     "task_self_improving_unify_isaac",
+    "task_self_improving_roboclaw_workflow",
     "task_self_improving_assets",
     "task_self_improving_vlm_loop",
     "task_self_improving_r4r_format"
@@ -25,6 +27,7 @@
   "risks_decisions": [
     "Scope should start in simulation: VLM-guided improvement of task/env generation before real robot deployment.",
     "Unification risk: LeHome, LeHome Challenge, RoboLab, and generated assets may expose incompatible task schemas.",
+    "RoboClaw should be used as EAP / long-horizon orchestration inspiration, not as the core simulator benchmark; its public release is validated mainly on Agibot G01 and the complete VLA deployment package may not be fully open.",
     "Executability is the key filter: generated tasks/assets must be physically valid, not only visually plausible.",
     "Runtime governance should be part of the learning signal, not only a safety wrapper."
   ]

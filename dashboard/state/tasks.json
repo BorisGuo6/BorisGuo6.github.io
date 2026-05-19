@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-19T02:17:36+08:00",
+  "updated_at": "2026-05-19T21:02:00+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -287,9 +287,16 @@
           "body": "CTRL-WORLD INFERENCE: COMPLETE & VERIFIED.\n\nArtifacts (mp4):\n- /home/jingxiang/workspace/das-data/eval_outputs/comparison_ctrlworld/Rollouts_replay/video/time_20260519_021225_traj_899_8_5_Move_the_banana_to_the_right.mp4  (412K, 49 frames)\n- /home/jingxiang/workspace/das-data/eval_outputs/comparison_ctrlworld/Rollouts_replay/video/time_20260519_021423_traj_18599_14_5_Pick_the_black_thing_from_the_.mp4  (393K, 49 frames)\n- /home/jingxiang/workspace/das-data/eval_outputs/comparison_ctrlworld/Rollouts_replay/video/time_20260519_021622_traj_199_8_5_Move_the_green_towel_to_the_ri.mp4  (269K, 49 frames)\nRun log: /home/jingxiang/workspace/das-data/eval_outputs/comparison_ctrlworld/run_attempt4.log\nVerifier: /home/jingxiang/workspace/das-data/eval_outputs/comparison_ctrlworld/verify_rollout.sh => 'VERIFY OK' (3/3, each 49 frames, ffprobe-readable)\n\nReproduce:\n  cd /home/jingxiang/workspace/das-data/codebases/Ctrl-World\n  PATH=/home/jingxiang/miniconda3/envs/wmfactory/bin:$PATH CUDA_VISIBLE_DEVICES=0 \\\n    /home/jingxiang/miniconda3/envs/wmfactory/bin/python scripts/rollout_replay_traj.py \\\n    --dataset_root_path dataset_example --dataset_meta_info_path dataset_meta_info \\\n    --dataset_names droid_subset \\\n    --svd_model_path  checkpoints/svd --clip_model_path checkpoints/clip-vit-base-patch32 \\\n    --ckpt_path checkpoints/ctrl-world/checkpoint-10000.pt --task_type replay\ngit_sha = 99fb20683fd79dfa6d0c6feb9d49c6c55eecd50d (Ctrl-World main)\nenv: wmfactory conda env (torch 2.9.0+cu128, diffusers 0.37.1, transformers 4.57.3), RTX 5090\nruntime: ~10 min for 3 trajectories x 12 interact_steps each; ~15s per interact step (~5.4 it/s on diffusion 50 inference steps)\n\nSetup gotchas (recorded for repro):\n1. CLIP, SVD (~9G fp16), Ctrl-World (~9G ckpt) downloaded via aria2c -x16 against hf-mirror; official HF capped at ~1.5 MB/s here, mirror gave 10+ MB/s.\n2. Diffusers from_pretrained default needs model.safetensors (no .fp16. suffix). Symlinked each subdir's diffusion_pytorch_model.fp16.safetensors -> diffusion_pytorch_model.safetensors so the CrtlWorld __init__ load works without a variant kwarg.\n3. mediapy requires ffmpeg on PATH; conda-installed it into wmfactory env and exported PATH at launch.\n4. config.py:save_dir overridden to /home/jingxiang/workspace/das-data/eval_outputs/comparison_ctrlworld (one-line sed).\n\nASSESSMENT for UMI AI2V candidate selection:\n- Ctrl-World inference is FEASIBLE on single 5090 and produces coherent action-conditioned video.\n- Code quality: clean SVD-based pipeline, easy to read; uses standard diffusers; not a hidden-internals monolith. Forkable.\n- Architecture relevance to UMI eye-in-hand bimanual: single-camera, 7-DoF cartesian action conditioning -> not directly bimanual, but the AdaLN-cond + SVD spatiotemporal UNet pattern transfers; wrist-camera trajectory == action conditioning matches our framing.\n- Worth advancing to training/modification: YES for Ctrl-World. The 95k-traj DROID pretraining baseline is a strong starting point; modify the action encoder to accept dual-arm 16-D and the UNet input to stack left+right wrist views.\n- DreamZero: NOT testable here (see prior blocker comment) — needs >=2 H100/GB200. Recommend deferring DreamZero to a multi-GPU box or hosted API; do NOT block UMI ICLR sprint on it.",
           "created_at": "2026-05-19T02:17:13+08:00",
           "kind": "result"
+        },
+        {
+          "comment_id": "clawcross_d47afcc87108",
+          "author": "Result",
+          "body": "VBench on Ctrl-World 3 rollouts (DROID, not UMI test_set; n=3 so high variance). File: eval_outputs/vbench/ctrlworld/ctrlworld_eval_results.json.\n\n  dim                       ctrlworld  wan22   ltx    cosmos25\n  subject_consistency       0.9636    0.8655  0.7747  0.7890\n  background_consistency    0.9605    0.9133  0.8844  0.8732\n  motion_smoothness         0.9845    0.9889  0.9882  0.9797\n  dynamic_degree            1.0000    0.8636  0.9318  0.9545\n  imaging_quality           0.7336    0.6769  0.5353  0.7404\n  temporal_flickering       0.9741    0.9808  0.9766  0.9608\n\nctrlworld 几乎全胜 ti2v 三个但 n=3 + DROID dataset 比 UMI 简单（fix arm 视角、tabletop、6dof teleop）；dynamic_degree=1.000 是 3 条都达到 threshold 的结果。要做 apples-to-apples 还需在同一 UMI test_set 上跑 ctrl-world （需要 episodes_15hz.npz + 双臂适配）。",
+          "created_at": "2026-05-19T09:39:11+08:00",
+          "kind": "result"
         }
       ],
-      "updated_at": "2026-05-19T02:17:36+08:00"
+      "updated_at": "2026-05-19T09:39:23+08:00"
     },
     {
       "task_id": "task_umi_prepare_haoyu_test_set",
@@ -470,7 +477,7 @@
           "kind": "result"
         }
       ],
-      "updated_at": "2026-05-19T02:17:36+08:00"
+      "updated_at": "2026-05-19T09:39:23+08:00"
     },
     {
       "task_id": "task_self_improving_test_lehome",
@@ -491,6 +498,26 @@
       "priority": "high",
       "assignee": null,
       "result": null
+    },
+    {
+      "task_id": "task_self_improving_roboclaw_workflow",
+      "project_id": "self-improving-agents",
+      "title": "Extract RoboClaw EAP / long-horizon loop",
+      "description": "Map RoboClaw's agentic robotics loop into the self-improving simulator harness: Entangled Action Pairs for self-resetting data collection, monitored subtask execution, skill switching, recovery, human escalation, and deployment trajectories fed back into training.",
+      "status": "todo",
+      "priority": "medium",
+      "assignee": null,
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_self_improving_roboclaw_audit_20260519",
+          "author": "Codex",
+          "body": "RoboClaw is useful as an EAP / long-horizon orchestration reference rather than a simulator benchmark. The project uses one VLM-driven controller across data collection, policy learning, and deployment; pairs each forward manipulation skill with an inverse/recovery action for self-resetting collection; executes subtasks through monitored MCP-style tools; and feeds deployment trajectories back into training. Use it to shape our task schema, run logs, recovery policies, and human-escalation rules while keeping PEARL/LeHome/Isaac as the research loop and benchmark layer.",
+          "created_at": "2026-05-19T11:55:19+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-05-19T11:55:19+08:00"
     },
     {
       "task_id": "task_self_improving_assets",
@@ -602,31 +629,45 @@
       "assignee": null,
       "result": null,
       "started_at": "2026-05-16",
-      "due_at": "2026-05-23"
+      "due_at": "2026-05-21",
+      "comments": [
+        {
+          "comment_id": "comment_drag_demo_collection_plan_20260519",
+          "author": "Codex",
+          "body": "Glove received with Zhenxiong's help. Plan: on 2026-05-20 afternoon, visit the potential experiment space with Leilei. If that ends early, test the collection workflow in the ME lab the same afternoon; otherwise test it on 2026-05-21. Target: begin the focused 100-sequence collection on 2026-05-21 afternoon. Boris, Gaochen, and Jingxiang each target 30 sequences; Xiaobin will join onsite to observe and participate.",
+          "created_at": "2026-05-19T20:57:00+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-05-19T20:57:00+08:00"
     },
     {
       "task_id": "task_drag_demo_backend_compare",
       "project_id": "drag-demo-video-editing",
       "title": "Compare hand-removal backends",
       "description": "Kling is promising but limited to 3-10s clips and paid credits; also test VACE, FLUX.1-Fill-dev, and Stable Diffusion 2 Inpainting with masks.",
-      "status": "active",
+      "status": "done",
       "priority": "high",
       "assignee": null,
       "result": null,
       "started_at": "2026-05-16",
-      "due_at": "2026-05-23"
+      "due_at": "2026-05-23",
+      "completed_at": "2026-05-19",
+      "updated_at": "2026-05-19T21:02:00+08:00"
     },
     {
       "task_id": "task_drag_demo_diff_map_qa",
       "project_id": "drag-demo-video-editing",
       "title": "Build diff-map QA",
       "description": "Compute frame-wise before/after pixel differences and highlight changed regions; good edits should mainly light up human hands, not robot links, egg, bowl, or contact geometry.",
-      "status": "active",
+      "status": "done",
       "priority": "high",
       "assignee": null,
       "result": null,
       "started_at": "2026-05-16",
-      "due_at": "2026-05-23"
+      "due_at": "2026-05-23",
+      "completed_at": "2026-05-19",
+      "updated_at": "2026-05-19T21:02:00+08:00"
     },
     {
       "task_id": "task_drag_demo_finetuning_comparison",

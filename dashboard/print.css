@@ -1320,6 +1320,364 @@ body.lightbox-open {
   overflow: hidden;
 }
 
+@media screen {
+  :root {
+    --paper: #fffefd;
+    --ink: #1e2825;
+    --muted: #65716c;
+    --line: #d9dfd7;
+    --soft: #f5f7f1;
+    --accent: #0f766e;
+    --accent-soft: #e1f2ef;
+    --warning: #a06514;
+    --warning-soft: #fff0d4;
+    --done: #247041;
+    --done-soft: #e8f5ec;
+    --danger: #a43b32;
+    --danger-soft: #fae9e5;
+    --blue: #315d9b;
+    --blue-soft: #e8eef8;
+    --shadow: 0 20px 55px rgba(31, 42, 37, 0.12);
+  }
+
+  html {
+    background: #e9eee8;
+  }
+
+  body {
+    font-family: "Aptos", "SF Pro Text", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+    font-size: 14px;
+  }
+
+  .page {
+    width: min(1220px, calc(100vw - 28px));
+    margin: 14px auto 28px;
+    padding: 28px;
+    border: 1px solid #cfd8cd;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+  }
+
+  .report-header {
+    align-items: flex-start;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .report-header::before {
+    content: "";
+    position: absolute;
+    left: 28px;
+    right: 28px;
+    top: 0;
+    height: 5px;
+    background: linear-gradient(90deg, var(--accent) 0 35%, var(--warning) 35% 58%, var(--blue) 58% 78%, var(--danger) 78% 100%);
+  }
+
+  .report-header {
+    position: relative;
+    padding-top: 18px;
+  }
+
+  .kicker,
+  .label,
+  .week-box span,
+  th {
+    letter-spacing: 0.07em;
+  }
+
+  h1 {
+    font-size: clamp(34px, 4vw, 50px);
+  }
+
+  .subtitle {
+    max-width: 740px;
+    font-size: 14px;
+  }
+
+  .week-box {
+    min-width: 210px;
+    border-radius: 6px;
+    background: #f7f8f3;
+    box-shadow: inset 0 0 0 1px #ffffff;
+  }
+
+  .dashboard-sync {
+    gap: 8px;
+  }
+
+  .sync-pill {
+    justify-content: flex-start;
+    border-radius: 999px;
+    padding: 4px 9px;
+  }
+
+  .auth-form input,
+  .auth-form button,
+  .auth-signout {
+    border-radius: 5px;
+  }
+
+  .fold-section,
+  .project-detail,
+  .project-panel,
+  .summary-grid article,
+  .flow-node,
+  .figure-card {
+    border-radius: 8px;
+  }
+
+  .fold-section,
+  .project-detail {
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(31, 42, 37, 0.06);
+  }
+
+  .fold-section > summary,
+  .project-detail > summary {
+    background: #fbfcf8;
+  }
+
+  .fold-section > summary::before,
+  .project-detail > summary::before {
+    border-radius: 5px;
+    background: #ffffff;
+  }
+
+  .fold-section > summary:hover,
+  .project-detail > summary:hover,
+  .archive-detail > summary:hover,
+  .decision-panel > summary:hover,
+  .task-comments > summary:hover,
+  .comment-full > summary:hover {
+    color: var(--accent);
+  }
+
+  .summary-grid {
+    gap: 10px;
+  }
+
+  .summary-grid article {
+    min-height: 110px;
+    background: #fbfcf8;
+  }
+
+  .section-title {
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .bucket-title {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .project-detail {
+    border-left: 4px solid var(--accent);
+  }
+
+  .project-detail > summary {
+    min-height: 58px;
+  }
+
+  .project-detail > summary strong {
+    font-size: 16px;
+  }
+
+  .status {
+    border-radius: 999px;
+    border: 1px solid transparent;
+  }
+
+  .status.on-track {
+    border-color: #b9ddd7;
+  }
+
+  .status.attention {
+    border-color: #e8ca91;
+  }
+
+  .status.research {
+    border-color: #cbd8ef;
+  }
+
+  .project-body {
+    gap: 14px;
+    padding: 14px;
+  }
+
+  .project-body p {
+    color: #37443f;
+  }
+
+  .timeline-strip span,
+  .task-meta span {
+    border-radius: 999px;
+    background: #f2f7f5;
+  }
+
+  .project-workstream {
+    gap: 12px;
+    padding: 0 14px 14px;
+  }
+
+  .project-panel {
+    background: #fcfdf9;
+  }
+
+  .todo-list.project-list {
+    gap: 8px;
+  }
+
+  .todo-list li {
+    border-radius: 8px;
+    background: #ffffff;
+  }
+
+  .interactive-task {
+    position: relative;
+    border-left: 4px solid #cbd6d2;
+    transition: border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
+  }
+
+  .interactive-task:hover {
+    box-shadow: 0 10px 22px rgba(31, 42, 37, 0.07);
+  }
+
+  .interactive-task[data-status="active"] {
+    border-left-color: var(--accent);
+  }
+
+  .interactive-task[data-status="review"] {
+    border-left-color: var(--warning);
+    background: #fffdf7;
+  }
+
+  .interactive-task[data-status="blocked"],
+  .interactive-task[data-status="needs_user"] {
+    border-left-color: var(--danger);
+    background: #fffafa;
+  }
+
+  .interactive-task[data-status="done"] {
+    border-left-color: var(--done);
+  }
+
+  .task-card-body {
+    gap: 7px;
+  }
+
+  .task-title-block strong {
+    font-size: 14px;
+    line-height: 1.25;
+  }
+
+  .task-card-body > p {
+    color: #495651;
+  }
+
+  .task-status-button {
+    border-radius: 6px;
+  }
+
+  .task-status-button:hover {
+    background: #edf6f4;
+  }
+
+  .task-status-menu {
+    border-radius: 8px;
+    box-shadow: 0 14px 34px rgba(31, 42, 37, 0.18);
+  }
+
+  .task-status-option {
+    border-radius: 6px;
+  }
+
+  .box {
+    border-radius: 4px;
+  }
+
+  .task-comments {
+    margin-top: 5px;
+    padding-top: 5px;
+  }
+
+  .task-comments > summary {
+    gap: 7px;
+    padding: 2px 0;
+  }
+
+  .task-comments > summary::before {
+    content: "+";
+    display: grid;
+    place-items: center;
+    width: 15px;
+    height: 15px;
+    border: 1px solid #bdd3ce;
+    border-radius: 4px;
+    color: var(--accent);
+    font-size: 11px;
+    line-height: 1;
+  }
+
+  .task-comments[open] > summary::before {
+    content: "-";
+  }
+
+  .comment-list {
+    gap: 8px;
+  }
+
+  .comment-list li {
+    border-radius: 8px;
+    border-color: #dbe5dd;
+    background: #fbfdfb;
+  }
+
+  .comment-list p {
+    color: #304a3a;
+  }
+
+  .comment-meta span {
+    border-radius: 999px;
+    padding: 2px 6px;
+    background: #f0f4ef;
+  }
+
+  .comment-full > summary {
+    padding: 2px 0;
+  }
+
+  .comment-form textarea {
+    border-radius: 8px;
+    background: #fffefd;
+  }
+
+  .comment-form button,
+  .comment-delete {
+    border-radius: 8px;
+  }
+
+  .archive-panel {
+    background: #f7fbf7;
+  }
+
+  .archive-detail > summary,
+  .decision-panel > summary {
+    min-height: 28px;
+  }
+
+  .decision-list.project-list li,
+  .archive-list li {
+    border-radius: 6px;
+  }
+
+  .figure-card img,
+  .project-body img {
+    border-radius: 6px;
+  }
+}
+
 @page {
   size: A4 landscape;
   margin: 10mm;

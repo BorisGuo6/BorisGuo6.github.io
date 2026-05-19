@@ -4,7 +4,7 @@
   "title": "Drag-Demo Video Editing",
   "bucket": "active",
   "status": "ongoing",
-  "updated_at": "2026-05-16T14:12:00+08:00",
+  "updated_at": "2026-05-19T20:57:00+08:00",
   "description": "Remove human hands from drag-teaching robot data",
   "summary": "This project turns drag-teaching demonstrations into cleaner robot-learning videos by deleting the human operator hands while preserving robot motion, object contacts, and task state.",
   "asset": "dashboard/assets/drag-demo-video-editing.png",
@@ -21,7 +21,9 @@
       ]
     },
     "Current seed task: ARX egg cracking, which has clear contact events and enough tolerance to become a first data-scaling case.",
-    "Current progress: collected first drag-demo data, tried Kling video+prompt editing, and started before/after difference-map evaluation."
+    "Current progress: collected first drag-demo data, tried Kling video+prompt editing, and started before/after difference-map evaluation.",
+    "Glove is now available thanks to Zhenxiong. On 2026-05-20 afternoon, visit the potential experiment space with Leilei; if the visit ends early, test the collection workflow in the ME lab, otherwise do that on 2026-05-21.",
+    "Planned collection: start the focused 100-sequence batch on 2026-05-21 afternoon. Boris, Gaochen, and Jingxiang each target 30 sequences; Xiaobin will also join onsite to observe and participate."
   ],
   "task_ids": [
     "task_drag_demo_initial_batch",
@@ -47,6 +49,7 @@
     "Kling quality looks strong, but the closed API, 3-10s window, and credit cost make an open fallback necessary before scaling.",
     "Diff maps need object / contact consistency checks; a low difference score can still hide harmful hallucination.",
     "Drag demonstrations may have dynamics that differ from autonomous execution, so teleop-only and mixed-data baselines are required.",
-    "Mask constraints may be needed before the pipeline can scale beyond the first egg-cracking task."
+    "Mask constraints may be needed before the pipeline can scale beyond the first egg-cracking task.",
+    "Before the 100-sequence batch, confirm the experiment space, glove readiness, and ME-lab collection workflow."
   ]
 }
