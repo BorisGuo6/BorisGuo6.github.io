@@ -1147,31 +1147,29 @@ figcaption {
   color: #274834;
   font-size: 12px;
   line-height: 1.35;
+  white-space: pre-wrap;
 }
 
 .comment-list li.comment-long {
   background: #fbfdfb;
 }
 
-.comment-list .comment-preview {
+.comment-list .comment-body {
   color: #31513e;
 }
 
-.comment-full {
-  margin-top: 5px;
-}
-
-.comment-full > summary {
-  display: inline-flex;
+.comment-list .comment-collapsible {
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
   cursor: pointer;
-  color: var(--accent);
-  font-size: 10px;
-  font-weight: 800;
 }
 
-.comment-full > p {
-  margin-top: 5px;
-  white-space: pre-wrap;
+.comment-list .comment-collapsible.expanded {
+  display: block;
+  -webkit-line-clamp: unset;
+  overflow: visible;
 }
 
 .comment-list .comment-empty {
@@ -1448,8 +1446,7 @@ body.lightbox-open {
   .project-detail > summary:hover,
   .archive-detail > summary:hover,
   .decision-panel > summary:hover,
-  .task-comments > summary:hover,
-  .comment-full > summary:hover {
+  .task-comments > summary:hover {
     color: var(--accent);
   }
 
@@ -1642,10 +1639,6 @@ body.lightbox-open {
     border-radius: 999px;
     padding: 2px 6px;
     background: #f0f4ef;
-  }
-
-  .comment-full > summary {
-    padding: 2px 0;
   }
 
   .comment-form textarea {

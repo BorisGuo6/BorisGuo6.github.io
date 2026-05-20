@@ -879,24 +879,31 @@
         }
 
         function createCommentBody(comment) {
+          const body = document.createElement("p");
+          body.className = "comment-body";
+          body.textContent = comment.body;
           if (!isLongComment(comment.body)) {
-            const body = document.createElement("p");
-            body.textContent = comment.body;
             return [body];
           }
 
-          const preview = document.createElement("p");
-          preview.className = "comment-preview";
-          preview.textContent = `${comment.body.slice(0, 260).trim()}...`;
+          body.classList.add("comment-collapsible");
+          body.tabIndex = 0;
+          body.setAttribute("role", "button");
+          body.setAttribute("aria-expanded", "false");
+          body.addEventListener("click", () => toggleCommentBody(body));
+          body.addEventListener("keydown", (event) => {
+            if (event.key !== "Enter" && event.key !== " ") {
+              return;
+            }
+            event.preventDefault();
+            toggleCommentBody(body);
+          });
+          return [body];
+        }
 
-          const details = document.createElement("details");
-          details.className = "comment-full";
-          const summary = document.createElement("summary");
-          summary.textContent = "Show full comment";
-          const fullBody = document.createElement("p");
-          fullBody.textContent = comment.body;
-          details.append(summary, fullBody);
-          return [preview, details];
+        function toggleCommentBody(body) {
+          const expanded = body.classList.toggle("expanded");
+          body.setAttribute("aria-expanded", expanded ? "true" : "false");
         }
 
         function createCommentPanel(task) {
