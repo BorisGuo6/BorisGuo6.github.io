@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-19T21:06:00+08:00",
+  "updated_at": "2026-05-20T19:31:00+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -63,9 +63,16 @@
           "body": "今天已实现真机 Franka 双臂在同一台电脑上控制。",
           "created_at": "2026-05-18",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_real_robot_infra_gello_wuji_20260520",
+          "author": "Progress",
+          "body": "Gello control path is now working for the Franka + Wuji Hand setup. Current Wuji Hand control uses a linear open/close mapping from the Gello trigger. Higher-precision hand teleoperation should move to MANUS glove + VIVE Tracker next.",
+          "created_at": "2026-05-20T19:15:50+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-18T17:10:00+08:00"
+      "updated_at": "2026-05-20T19:15:50+08:00"
     },
     {
       "task_id": "task_real_robot_infra_wuji_glove",
@@ -82,20 +89,86 @@
       "project_id": "real-robot-infra",
       "title": "接入 MANUS glove",
       "description": "作为另一套高精度手部输入方案，和 Wuji Glove 共用记录格式与 retargeting 验证流程。",
-      "status": "todo",
+      "status": "active",
       "priority": "medium",
       "assignee": null,
-      "result": null
+      "result": null,
+      "started_at": "2026-05-20",
+      "due_at": "2026-05-23",
+      "comments": [
+        {
+          "comment_id": "comment_real_robot_infra_manus_next_20260520",
+          "author": "Progress",
+          "body": "MANUS glove is the next input path for higher-precision hand teleoperation, to be tested together with VIVE Tracker.",
+          "created_at": "2026-05-20T19:15:50+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-05-20T19:15:50+08:00"
+    },
+    {
+      "task_id": "task_real_robot_infra_safety_workspace",
+      "project_id": "real-robot-infra",
+      "title": "整理 Franka 灵巧手安全工作区",
+      "description": "Before Feibo runs egg-cracking or similar Franka dexterous-hand tests, fix cables with organizers / zip ties, clear an empty work area, waterproof the outside area, and require at least one person to watch the emergency stop during real-robot debugging.",
+      "status": "active",
+      "priority": "high",
+      "assignee": null,
+      "result": null,
+      "started_at": "2026-05-20",
+      "due_at": "2026-05-23",
+      "comments": [
+        {
+          "comment_id": "comment_real_robot_infra_safety_workspace_20260520",
+          "author": "Progress",
+          "body": "Single-person real-robot debugging is too risky. Next Franka dexterous-hand tests should have multiple people onsite, with one person dedicated to the emergency stop. Cable clutter also needs to be fixed before egg-cracking or water-adjacent tests.",
+          "created_at": "2026-05-20T19:15:50+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-05-20T19:15:50+08:00"
+    },
+    {
+      "task_id": "task_real_robot_infra_factr_force_feedback",
+      "project_id": "real-robot-infra",
+      "title": "评估主臂重力补偿 / FACTR 力反馈",
+      "description": "Gello is passive, so software cannot create true gravity compensation on the master arm. Evaluate mechanical counterbalance, damping / brake, or FACTR-style bilateral force-feedback teleoperation to reduce free-fall / collision risk for Franka control.",
+      "status": "todo",
+      "priority": "medium",
+      "assignee": "Zheng Yuhang",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_real_robot_infra_factr_20260520",
+          "author": "Progress",
+          "body": "Core issue is master-arm gravity compensation, not just force feedback. Gello is passive, so software can only filter, limit, or stop follower motion; it cannot hold the master arm up. Treat the 12k FACTR-style device as one benchmark, and ask Yuhang to compare it with mechanical counterbalance, damping, brake, or cheaper bilateral-force options.",
+          "created_at": "2026-05-20T19:15:50+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-05-20T19:20:00+08:00"
     },
     {
       "task_id": "task_real_robot_infra_vive_tracker",
       "project_id": "real-robot-infra",
       "title": "接入 VIVE Tracker",
       "description": "用于腕部 / 物体 / 人体外参跟踪，后续和手套、相机、机器人状态一起做时间同步。",
-      "status": "todo",
+      "status": "active",
       "priority": "medium",
       "assignee": null,
-      "result": null
+      "result": null,
+      "started_at": "2026-05-20",
+      "due_at": "2026-05-23",
+      "comments": [
+        {
+          "comment_id": "comment_real_robot_infra_vive_next_20260520",
+          "author": "Progress",
+          "body": "VIVE Tracker should be paired with MANUS glove for higher-precision hand teleoperation and wrist / external tracking.",
+          "created_at": "2026-05-20T19:15:50+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-05-20T19:15:50+08:00"
     },
     {
       "task_id": "task_umi_gemini_frame_test",
@@ -704,21 +777,43 @@
       "task_id": "task_layered_wm_survey_notes",
       "project_id": "image-layered-world-model",
       "title": "Write Image-Layered World Model survey notes",
-      "description": "Define background / object / robot layers and connect them to IDM, reward model, and augmentation.",
-      "status": "todo",
+      "description": "Define persistent scene / object-contact / robot-ego layers and connect WEM-style world-ego decomposition to IDM, reward model, and augmentation.",
+      "status": "active",
       "priority": "medium",
       "assignee": null,
-      "result": null
+      "result": null,
+      "started_at": "2026-05-20",
+      "comments": [
+        {
+          "comment_id": "comment_layered_wm_wem_comparison_20260520",
+          "author": "Codex",
+          "body": "WEM is a strong conceptual neighbor: it separates persistent, instruction-agnostic world evolution from instruction-conditioned robot ego dynamics for long-horizon navigation-manipulation rollout. For this project, keep the more manipulation-specific split: persistent scene, object/contact transition, and robot/ego action dynamics. The object/contact layer is the important bridge WEM does not isolate explicitly enough for manipulation.",
+          "created_at": "2026-05-20T19:31:00+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-05-20T19:31:00+08:00"
     },
     {
       "task_id": "task_layered_wm_methods",
       "project_id": "image-layered-world-model",
       "title": "Compare layered video / object-centric generation methods",
-      "description": "Decide whether the first version should be visual decomposition only or include object / robot state supervision.",
-      "status": "todo",
+      "description": "Compare WEM-style world/ego disentanglement, layered video generation, and object-centric generation; decide whether v1 needs explicit object/contact and robot state supervision.",
+      "status": "active",
       "priority": "medium",
       "assignee": null,
-      "result": null
+      "result": null,
+      "started_at": "2026-05-20",
+      "comments": [
+        {
+          "comment_id": "comment_layered_wm_wem_metrics_20260520",
+          "author": "Codex",
+          "body": "Borrow WEM / HTEWorld-style long-horizon checks such as chunk-boundary dynamics, phase-matched motion, instruction-step retrieval, and phase-hop consistency, but add manipulation-specific checks for robot-action alignment, object/contact preservation, IDM recoverability, and reward-model usefulness.",
+          "created_at": "2026-05-20T19:31:00+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-05-20T19:31:00+08:00"
     },
     {
       "task_id": "task_rate_curve_skill_representations",
