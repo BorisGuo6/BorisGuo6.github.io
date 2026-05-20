@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-20T19:31:00+08:00",
+  "updated_at": "2026-05-20T23:38:03+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -367,9 +367,16 @@
           "body": "VBench on Ctrl-World 3 rollouts (DROID, not UMI test_set; n=3 so high variance). File: eval_outputs/vbench/ctrlworld/ctrlworld_eval_results.json.\n\n  dim                       ctrlworld  wan22   ltx    cosmos25\n  subject_consistency       0.9636    0.8655  0.7747  0.7890\n  background_consistency    0.9605    0.9133  0.8844  0.8732\n  motion_smoothness         0.9845    0.9889  0.9882  0.9797\n  dynamic_degree            1.0000    0.8636  0.9318  0.9545\n  imaging_quality           0.7336    0.6769  0.5353  0.7404\n  temporal_flickering       0.9741    0.9808  0.9766  0.9608\n\nctrlworld 几乎全胜 ti2v 三个但 n=3 + DROID dataset 比 UMI 简单（fix arm 视角、tabletop、6dof teleop）；dynamic_degree=1.000 是 3 条都达到 threshold 的结果。要做 apples-to-apples 还需在同一 UMI test_set 上跑 ctrl-world （需要 episodes_15hz.npz + 双臂适配）。",
           "created_at": "2026-05-19T09:39:11+08:00",
           "kind": "result"
+        },
+        {
+          "comment_id": "clawcross_1bba9e13b1b4",
+          "author": "Result",
+          "body": "CTRL-WORLD FIDELITY VERDICT (visual eval done).\n\nFull write-up: /home/jingxiang/workspace/das-data/eval_outputs/comparison_ctrlworld/ASSESSMENT.md\nFrame strips (open in image viewer for side-by-side GT|Pred):\n- frames/899_COMPARE_GT_vs_PRED.png   (banana right; GT-left | Pred-right; 5 rows = t=0,3,6,9,12s)\n- frames/18599_COMPARE_GT_vs_PRED.png (pick black thing; same layout)\n- frames/199_COMPARE_GT_vs_PRED.png   (green towel right; same layout)\nPer-rollout split also available: frames/{899,18599,199}_{GT,PRED}_timeline.png\nmp4 layout: 960x384 @ 4fps, 3 cams side-by-side, each cam vertically split as GT-top / Pred-bottom.\n\nPER-ROLLOUT VERDICTS:\n- 899 banana: exteriors GT-faithful, wrist cam mild blur + color speckle late in sequence; action-tracking solid; no scene drift.\n- 18599 black thing: all colored plates preserved; arm motion tracks; wrist cam stylized into smoother red disk (loses bowl rim + human hand visible in GT); no identity drift.\n- 199 green towel: exteriors stable; cloth deformation in wrist cam picks a plausible fold rather than GT's exact fold (typical diffusion-video deformable weakness).\n\nGLOBAL VERDICT: Coherent action-locked video on a single 32 GB GPU at ~5s per interact-step. No latent collapse, no garbage frames. Failure mode is exclusively SVD-VAE-style smoothing on wrist-cam high-freq texture — that's the backbone's bottleneck, not a Ctrl-World defect.\n\nUMI ADAPTATION RECOMMENDATION: YES, advance Ctrl-World for UMI bimanual.\n1) double UNet latent input channels (stack L+R wrist views) or twin SVD branch with cross-attn.\n2) action encoder MLP 7-D -> 16-D (L 7 + R 7 + L/R gripper).\n3) add left-right scene-consistency loss on overlap.\nDreamZero: still hardware-blocked (>=2 H100/GB200 per upstream); see prior blocker comment.\n\ngit_sha=99fb20683fd79dfa6d0c6feb9d49c6c55eecd50d\nverifier: PATH=/home/jingxiang/miniconda3/envs/wmfactory/bin:$PATH bash /home/jingxiang/workspace/das-data/eval_outputs/comparison_ctrlworld/verify_rollout.sh -> 'VERIFY OK'",
+          "created_at": "2026-05-20T23:37:44+08:00",
+          "kind": "result"
         }
       ],
-      "updated_at": "2026-05-19T09:39:23+08:00"
+      "updated_at": "2026-05-20T23:38:03+08:00"
     },
     {
       "task_id": "task_umi_prepare_haoyu_test_set",
@@ -550,7 +557,7 @@
           "kind": "result"
         }
       ],
-      "updated_at": "2026-05-19T09:39:23+08:00"
+      "updated_at": "2026-05-20T23:38:03+08:00"
     },
     {
       "task_id": "task_self_improving_test_lehome",
