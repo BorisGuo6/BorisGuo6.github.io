@@ -667,6 +667,88 @@ figcaption {
   margin-bottom: 8px;
 }
 
+.project-intro {
+  position: relative;
+}
+
+.project-intro.is-collapsible {
+  max-height: 184px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.project-intro.is-collapsible::after {
+  content: "...";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 54px;
+  padding-bottom: 3px;
+  background: linear-gradient(rgba(255, 255, 255, 0), var(--paper) 72%);
+  color: var(--muted);
+  font-size: 16px;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  pointer-events: none;
+}
+
+.project-intro.is-expanded {
+  max-height: none;
+  cursor: pointer;
+}
+
+.project-intro.is-expanded::after {
+  display: none;
+}
+
+.project-intro.is-collapsible:focus-visible {
+  outline: 2px solid #89c9c1;
+  outline-offset: 3px;
+}
+
+.auto-text-collapsible {
+  position: relative;
+  max-height: calc(var(--auto-collapse-lines, 4) * 1.45em);
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.auto-text-collapsible::after {
+  content: "...";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  min-height: 2.8em;
+  padding-bottom: 1px;
+  background: linear-gradient(rgba(255, 255, 255, 0), var(--paper) 76%);
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 900;
+  pointer-events: none;
+}
+
+.auto-text-collapsible.expanded {
+  max-height: none;
+  overflow: visible;
+}
+
+.auto-text-collapsible.expanded::after {
+  display: none;
+}
+
+.auto-text-collapsible:focus-visible {
+  outline: 2px solid #89c9c1;
+  outline-offset: 3px;
+}
+
 .timeline-strip {
   display: flex;
   flex-wrap: wrap;
@@ -1507,6 +1589,10 @@ body.lightbox-open {
     color: #37443f;
   }
 
+  .project-intro.is-collapsible::after {
+    background: linear-gradient(rgba(252, 253, 249, 0), #fcfdf9 76%);
+  }
+
   .timeline-strip span,
   .task-meta span {
     border-radius: 999px;
@@ -1842,6 +1928,19 @@ body.lightbox-open {
     margin-bottom: 2px;
   }
 
+  .project-intro.is-collapsible {
+    max-height: 148px;
+  }
+
+  .auto-text-collapsible {
+    max-height: none;
+    overflow: visible;
+  }
+
+  .auto-text-collapsible::after {
+    display: none;
+  }
+
   .project-workstream {
     gap: 6px;
     padding: 0 7px 7px;
@@ -1979,6 +2078,10 @@ body.lightbox-open {
     grid-template-columns: 1fr;
   }
 
+  .project-intro.is-collapsible {
+    max-height: 168px;
+  }
+
   .flow-arrow {
     min-height: 20px;
   }
@@ -2020,4 +2123,12 @@ body.lightbox-open {
   .lightbox-figure {
     max-width: calc(100vw - 36px);
   }
+}
+
+.project-intro.is-collapsible.is-expanded {
+  max-height: none;
+}
+
+.project-intro.is-collapsible.is-expanded::after {
+  display: none;
 }

@@ -4,7 +4,7 @@
   "title": "Image-Layered World Model",
   "bucket": "research",
   "status": "survey",
-  "updated_at": "2026-05-20T19:31:00+08:00",
+  "updated_at": "2026-05-21T21:52:00+08:00",
   "description": "Third-person video decomposition for reasoning and control",
   "summary": "Third-person video generation can be more useful if it separates persistent scene state, object/contact dynamics, and robot/ego dynamics instead of treating video as flat pixels.",
   "asset": "dashboard/assets/layered-world-model.png",
@@ -14,6 +14,8 @@
     "WEM is the closest current conceptual neighbor: it separates instruction-agnostic world evolution from instruction-conditioned robot ego dynamics for long-horizon navigation-manipulation rollout.",
     "The project delta should be a finer manipulation decomposition: scene/background layer, object/contact transition layer, and robot/ego action layer rather than only world versus ego.",
     "Target outputs: data augmentation, reward model, and inverse dynamics model.",
+    "IDM framing: treat inverse dynamics as the LfD / LfO bridge. Offline, it infers missing robot actions from observation-only video or state transitions, turning videos into usable state-action demonstrations. Online, the same mapping becomes a low-latency vision-conditioned teleoperation / shared-control layer.",
+    "Real-time nuance: not all LfD is teleoperation; it becomes vision-based teleoperation when the human is still in the loop and visual feedback plus IDM / retargeting maps the intended next state into immediate robot commands.",
     "Robot layer should support robot priors at generation time: either a manipulator URDF or a single robot-arm image as the robot-condition input.",
     "Immediate work: survey layered video / object-centric generation methods and borrow WEM-style long-horizon phase metrics where useful."
   ],
@@ -24,6 +26,6 @@
   "risks_decisions": [
     "Layered model scope should move beyond visual decomposition toward state-aware scene / object-contact / robot-ego dynamics.",
     "Object/contact state is the bridge between WEM's world and ego; if ignored, generated videos can look stable while failing manipulation physics.",
-    "Evaluation target: data augmentation quality, reward-model usefulness, IDM recoverability, and long-horizon phase consistency."
+    "Evaluation target: data augmentation quality, reward-model usefulness, IDM recoverability, real-time teleop controllability, and long-horizon phase consistency."
   ]
 }

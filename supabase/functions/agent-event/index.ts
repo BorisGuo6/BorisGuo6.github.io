@@ -31,6 +31,7 @@ const allowedActions = new Set([
   "project_upsert",
   "project_update",
   "task_upsert",
+  "task_delete",
   "task_status",
   "task_comment",
   "comment_delete",
@@ -333,6 +334,16 @@ Deno.serve(async (request) => {
         .single();
       if (error) throw error;
       if (agentId) eventAgentId = await ensureAgentRecord(project_id);
+    } else if (action === "task_delete") {
+      const task_id = requireString(taskId, "task_id");
+      eventProjectId = await resolveTaskProjectId(task_id);
+      const { error } = await supabase
+        .from("tasks")
+        .delete()
+        .eq("task_id", task_id)
+        .select("task_id")
+        .single();
+      if (error) throw error;
     } else if (action === "task_status") {
       const task_id = requireString(taskId, "task_id");
       const status = requireEnum(body.status, "status", allowedTaskStatuses);
@@ -421,7 +432,7 @@ Deno.serve(async (request) => {
     const { error: eventError } = await supabase.from("agent_events").insert({
       agent_id: eventAgentId,
       project_id: eventProjectId,
-      task_id: taskId || null,
+      task_id: action === "task_delete" ? null : taskId || null,
       event_type: body.event_type || action,
       payload: body,
     });

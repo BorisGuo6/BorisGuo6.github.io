@@ -4,19 +4,34 @@
   "title": "Self-Improving Agents for Physical AI",
   "bucket": "active",
   "status": "ongoing",
-  "updated_at": "2026-05-19T11:55:19+08:00",
+  "updated_at": "2026-05-21T10:20:00+08:00",
   "description": "Runtime-governed Robot-for-Robot data and evaluation system",
-  "summary": "This project reframes agentic R2S2R as a self-improving Physical AI system: start inside Isaac simulation, use VLM-guided diagnosis and task/environment generation to improve the simulator and policy evaluation loop, then add a RoboClaw-style agentic loop for self-resetting data collection, monitored subtask execution, long-horizon policy orchestration, recovery, and operator review.",
+  "summary": "Proposal framing: build a self-improving robotics evaluation and memory system where agents evaluate VLA policies across simulation and real-robot traces, distill failures into reusable skill memories, gate workflow improvements through tests, screen risky changes in world models, and continuously evolve the benchmark.",
   "asset": "dashboard/assets/pearl-overview.png",
   "asset_alt": "PEARL self-improving physical AI framework",
   "asset_caption": "PEARL reference: failure memory, attribution, task-environment co-evolution, governance.",
   "details": [
-    "Current focus: test LeHome and consolidate household tasks into one Isaac-compatible environment while extracting RoboClaw-style EAP and long-horizon execution primitives.",
+    "Collaboration context: this project is now tracked as an Alchedata collaboration around runtime-governed Robot-for-Robot data, evaluation, and self-improving Physical AI infrastructure.",
+    "Implementation baseline already completed: 129 Gymnasium environments are registered, covering 9 LeHome / LeHome-challenge household environments and the exact 120 formal RoboLab benchmark tasks; the task stack includes ChallengeGarmentLoader with four garment types and specialized folding detectors, and the current test suite passes 28/28.",
+    "Proposal deliverable should be framed around five work packages from the summer plan: Agentic Real2Sim2Real-VLA Evaluation, Robotics Trace-to-Memory Distillation, Eval-Gated Workflow Evolution, World-Model-Guided Self-Improvement, and Self-Evolving VLA Evaluation.",
+    "AgenticSim repo goal: consolidate the imported task/environment assets into one clean repository; keep LeHome, RoboLab, WorldComposer, and other source repos as references until integration is verified, then treat source-repo cleanup as an explicit post-integration step rather than an automatic deletion.",
+    "External reference / competitive signal: Periodic Labs is pushing a related AI scientist + autonomous laboratory thesis, where agents generate hypotheses, run real experiments, learn from negative results, and treat physical science as a verifiable environment. Use this as a useful reference for closed-loop lab automation, while translating the idea from materials labs to robotics Real2Sim2Real evaluation.",
+    "Meeting sketch update: VLA / robot executes tasks -> agentic eval discovers real failures and sim-real gaps -> Trace-to-Memory distills failures into reusable experience -> Eval-Gated Workflow generates improvements and evaluates them -> World Model filters candidates in imagination -> new agents / workflows / policies are promoted into harder self-evolving VLA evaluations.",
+    "Meeting functional map: Agentic Real2Sim2Real-VLA Evaluation answers whether VLA really works on real robots; Trace-to-Memory Distillation turns failures into transferable experience; Eval-Gated Workflow Evolution converts experience into changed agent behavior; World-Model-Guided Self-Improvement screens risky improvements before robot deployment; Self-Evolving VLA Evaluation prevents agents from overfitting static benchmarks.",
+    "Topic 2 focuses Robotics Trace-to-Memory Distillation: after a robot execution failure, automatically extract reusable skill memories from raw trajectories. Initial manipulation failure taxonomy includes unstable grasp angle, object slip, excessive insertion force, and motion-plan collision.",
+    "Topic 1 should be framed as Agentic REAL2SIM2REAL-VLA Evaluation, not only Sim2Real. Core question: can agentic AI close the loop from real-robot traces to simulation tasks/assets, policy evaluation, diagnosis, and back to real-robot verification?",
+    "Current focus: build a multi-agent evaluation team around VLA models, with an evaluation orchestrator, execution agents, failure diagnosis, trace capture, versioning, and governance gates.",
+    "DreamDojo is a useful Real2Sim2Real world-model reference: pretrain a generalist robot world model on large-scale egocentric human videos, use continuous latent actions as proxy actions when action labels are scarce, post-train on small target robot data, then use the model for live teleoperation, policy evaluation, and model-based planning.",
     "Use PEARL-style typed failure memory, failure attribution, task-environment co-evolution, and runtime governance as the conceptual framework.",
+    "For Physical AI, evaluation must check executability, world-model grounding, real-execution reliability, failure recoverability, and whether simulation failures predict real-robot failures, not only benchmark score.",
     "Use RoboClaw as an agentic lifecycle reference: one VLM-driven controller across collection, policy learning, deployment, subtask monitoring, failure recovery, and human escalation.",
     "Extend tasks with generated object physics assets and scene assets instead of relying only on fixed benchmark environments."
   ],
   "task_ids": [
+    "task_self_improving_prepare_proposal",
+    "task_self_improving_environment_coverage",
+    "task_self_improving_sim2real_vla_eval",
+    "task_self_improving_trace_memory",
     "task_self_improving_test_lehome",
     "task_self_improving_unify_isaac",
     "task_self_improving_roboclaw_workflow",
@@ -29,6 +44,59 @@
     "Unification risk: LeHome, LeHome Challenge, RoboLab, and generated assets may expose incompatible task schemas.",
     "RoboClaw should be used as EAP / long-horizon orchestration inspiration, not as the core simulator benchmark; its public release is validated mainly on Agibot G01 and the complete VLA deployment package may not be fully open.",
     "Executability is the key filter: generated tasks/assets must be physically valid, not only visually plausible.",
-    "Runtime governance should be part of the learning signal, not only a safety wrapper."
-  ]
+    "Evaluation must capture traces and versions: task spec, simulator seed, asset version, VLA checkpoint, action logs, real-robot outcome, failure attribution, and governance decision.",
+    "Proposal should emphasize the completed environment foundation: 9 official LeHome / LeHome-challenge tasks plus 120 exact RoboLab formal benchmark tasks, not invented representative tasks.",
+    "The simple meeting-diagram loop should remain visible in the project framing: real execution failure -> trace memory -> eval gate -> world-model screening -> promoted agent / workflow / strategy -> harder diagnostic VLA eval.",
+    "The five-function map is now the organizing principle: without reality evaluation we only have sim scores; without trace memory we only have raw logs; without eval-gated workflow changes we only have summaries; without world-model screening robot trials are costly and risky; without self-evolving evaluation agents may only overfit old tests.",
+    "Runtime governance should be part of the learning signal, not only a safety wrapper.",
+    "Positioning decision: mention Alchedata as the active collaboration context; mention Periodic as an external parallel reference / market signal, not as a project partner."
+  ],
+  "timeline": {
+    "badges": [
+      {
+        "label": "Partner",
+        "value": "Alchedata"
+      },
+      {
+        "label": "External signal",
+        "value": "Periodic Labs"
+      },
+      {
+        "label": "Reference",
+        "value": "DreamDojo"
+      },
+      {
+        "label": "Loop",
+        "value": "Evaluate reality -> learn"
+      },
+      {
+        "label": "Topic 2",
+        "value": "Trace-to-Memory"
+      },
+      {
+        "label": "Env coverage",
+        "value": "129 tasks"
+      },
+      {
+        "label": "Tests",
+        "value": "28/28"
+      },
+      {
+        "label": "Proposal",
+        "value": "next week"
+      }
+    ],
+    "target_cycle": "Real2Sim2Real-VLA eval",
+    "target_note": "Project frame for runtime-governed Robot-for-Robot data and evaluation.",
+    "sprint_start": "2026-05-21",
+    "sprint_due": "2026-05-23",
+    "milestones": [
+      {
+        "milestone_id": "self_improving_alchedata_partner_logged",
+        "title": "Alchedata collaboration context logged",
+        "status": "done",
+        "date": "2026-05-21"
+      }
+    ]
+  }
 }

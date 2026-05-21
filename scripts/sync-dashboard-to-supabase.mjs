@@ -6,6 +6,7 @@ const repoRoot = path.resolve(import.meta.dirname, "..");
 const stateDir = path.join(repoRoot, "dashboard", "state");
 const maxCommentLength = 4000;
 const managedAuthorTypes = new Set(["seed", "system"]);
+const managedTaskSource = "dashboard/state/tasks.json";
 
 function parseArgs(argv) {
   const options = {
@@ -215,6 +216,7 @@ async function syncOnce(client, options) {
 
   let commentsUpserted = 0;
   let commentsDeleted = 0;
+  let tasksDeleted = 0;
   for (const [sortOrder, task] of tasks.entries()) {
     await client.event({
       action: "task_upsert",
@@ -231,7 +233,7 @@ async function syncOnce(client, options) {
         completed_at: task.completed_at,
         source_updated_at: task.updated_at,
         sort_order: sortOrder,
-        payload: { source: "dashboard/state/tasks.json" },
+        payload: { source: managedTaskSource },
       },
     });
 
@@ -269,10 +271,33 @@ async function syncOnce(client, options) {
     }
   }
 
+  if (options.deleteStale) {
+    const projectIds = options.projectId
+      ? [options.projectId]
+      : state.projects.map((project) => project.doc.project_id);
+    const localTaskIds = new Set(tasks.map((task) => task.task_id));
+    for (const projectId of projectIds) {
+      const remoteTasks = await client.rest(`tasks?select=task_id,payload&project_id=eq.${encodeURIComponent(projectId)}`);
+      for (const remoteTask of remoteTasks) {
+        if (
+          !localTaskIds.has(remoteTask.task_id)
+          && remoteTask.payload?.source === managedTaskSource
+        ) {
+          await client.event({
+            action: "task_delete",
+            task_id: remoteTask.task_id,
+          });
+          tasksDeleted += 1;
+        }
+      }
+    }
+  }
+
   return {
     portfolio: state.portfolio.portfolio_id,
     projects: state.projects.length,
     tasks: tasks.length,
+    tasks_deleted: tasksDeleted,
     comments_upserted: commentsUpserted,
     comments_deleted: commentsDeleted,
     hash: await dashboardHash(state),

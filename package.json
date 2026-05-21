@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "dev": "live-server --port=8765 --host=127.0.0.1 --open=/ .",
+    "dev:write-api": "node scripts/local-dashboard-write-api.mjs",
     "supabase:seed-sql": "node scripts/generate-dashboard-seed-sql.mjs",
     "supabase:import": "node scripts/import-dashboard-state.mjs",
     "supabase:sync": "node scripts/sync-dashboard-to-supabase.mjs",

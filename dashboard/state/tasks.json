@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-20T23:38:03+08:00",
+  "updated_at": "2026-05-21T21:52:00+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -50,10 +50,11 @@
       "project_id": "real-robot-infra",
       "title": "搭建 Franka + Wuji Hand",
       "description": "先完成机械安装、驱动 / SDK 接入、ROS / Isaac 侧接口和最小动作验证，再接入数据记录。",
-      "status": "active",
+      "status": "done",
       "priority": "high",
       "assignee": null,
-      "result": null,
+      "result": "Gello-controlled dual Franka + Wuji Hand setup is now complete. The current demo control treats Wuji Hand as a one-DoF gripper, using the Gello trigger as a linear open/close command.",
+      "completed_at": "2026-05-21",
       "due_at": "2026-05-23",
       "started_at": "2026-05-16",
       "comments": [
@@ -70,9 +71,16 @@
           "body": "Gello control path is now working for the Franka + Wuji Hand setup. Current Wuji Hand control uses a linear open/close mapping from the Gello trigger. Higher-precision hand teleoperation should move to MANUS glove + VIVE Tracker next.",
           "created_at": "2026-05-20T19:15:50+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_real_robot_infra_franka_wuji_done_20260521",
+          "author": "Progress",
+          "body": "Gello-controlled dual Franka + Wuji Hand is complete as of 2026-05-21. Current control is intentionally simple: Wuji Hand is used like a one-DoF gripper, with Gello trigger mapped to open/close.",
+          "created_at": "2026-05-21T21:19:52+08:00",
+          "kind": "result"
         }
       ],
-      "updated_at": "2026-05-20T19:15:50+08:00"
+      "updated_at": "2026-05-21T21:19:52+08:00"
     },
     {
       "task_id": "task_real_robot_infra_wuji_glove",
@@ -85,10 +93,10 @@
       "result": null
     },
     {
-      "task_id": "task_real_robot_infra_manus_glove",
+      "task_id": "task_real_robot_infra_manus_vive_tracker",
       "project_id": "real-robot-infra",
-      "title": "接入 MANUS glove",
-      "description": "作为另一套高精度手部输入方案，和 Wuji Glove 共用记录格式与 retargeting 验证流程。",
+      "title": "接入 MANUS glove + VIVE Tracker",
+      "description": "把 MANUS glove 和 VIVE Tracker 作为同一套高精度手部 / 腕部输入栈接入：MANUS 负责手指姿态，VIVE Tracker 负责腕部 / 物体 / 人体外参跟踪；两者需要和相机、机器人状态共用时间同步、外参标定、记录格式和 retargeting 验证流程。",
       "status": "active",
       "priority": "medium",
       "assignee": null,
@@ -102,9 +110,16 @@
           "body": "MANUS glove is the next input path for higher-precision hand teleoperation, to be tested together with VIVE Tracker.",
           "created_at": "2026-05-20T19:15:50+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_real_robot_infra_vive_next_20260520",
+          "author": "Progress",
+          "body": "VIVE Tracker should be paired with MANUS glove for higher-precision hand teleoperation and wrist / external tracking.",
+          "created_at": "2026-05-20T19:15:50+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-20T19:15:50+08:00"
+      "updated_at": "2026-05-21T21:50:00+08:00"
     },
     {
       "task_id": "task_real_robot_infra_safety_workspace",
@@ -124,9 +139,16 @@
           "body": "Single-person real-robot debugging is too risky. Next Franka dexterous-hand tests should have multiple people onsite, with one person dedicated to the emergency stop. Cable clutter also needs to be fixed before egg-cracking or water-adjacent tests.",
           "created_at": "2026-05-20T19:15:50+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_real_robot_infra_waterproof_demo_supplies_20260521",
+          "author": "Progress",
+          "body": "Disposable nitrile gloves and finger cots have been purchased for short waterproof demo protection.",
+          "created_at": "2026-05-21T21:19:52+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-20T19:15:50+08:00"
+      "updated_at": "2026-05-21T21:19:52+08:00"
     },
     {
       "task_id": "task_real_robot_infra_factr_force_feedback",
@@ -147,28 +169,6 @@
         }
       ],
       "updated_at": "2026-05-20T19:20:00+08:00"
-    },
-    {
-      "task_id": "task_real_robot_infra_vive_tracker",
-      "project_id": "real-robot-infra",
-      "title": "接入 VIVE Tracker",
-      "description": "用于腕部 / 物体 / 人体外参跟踪，后续和手套、相机、机器人状态一起做时间同步。",
-      "status": "active",
-      "priority": "medium",
-      "assignee": null,
-      "result": null,
-      "started_at": "2026-05-20",
-      "due_at": "2026-05-23",
-      "comments": [
-        {
-          "comment_id": "comment_real_robot_infra_vive_next_20260520",
-          "author": "Progress",
-          "body": "VIVE Tracker should be paired with MANUS glove for higher-precision hand teleoperation and wrist / external tracking.",
-          "created_at": "2026-05-20T19:15:50+08:00",
-          "kind": "comment"
-        }
-      ],
-      "updated_at": "2026-05-20T19:15:50+08:00"
     },
     {
       "task_id": "task_umi_gemini_frame_test",
@@ -560,14 +560,124 @@
       "updated_at": "2026-05-20T23:38:03+08:00"
     },
     {
+      "task_id": "task_self_improving_prepare_proposal",
+      "project_id": "self-improving-agents",
+      "title": "Prepare Self-Improving Agents proposal",
+      "description": "Turn the summer plan and current AgenticSim implementation into a proposal for next week: thesis, five work packages, completed environment foundation, evaluation metrics, deliverables, timeline, and cleanup / repo consolidation plan.",
+      "status": "active",
+      "priority": "urgent",
+      "assignee": null,
+      "result": null,
+      "started_at": "2026-05-21",
+      "due_at": "2026-05-28",
+      "comments": [
+        {
+          "comment_id": "comment_self_improving_proposal_sources_20260521",
+          "author": "Codex",
+          "body": "Proposal source pack: Self Improving Agent Summer Plan(2).docx defines five topics: Agentic Real2Sim2Real-VLA Evaluation, Robotics Trace-to-Memory Distillation, Eval-Gated Workflow Evolution, World-Model-Guided Self-Improvement, and Self-Evolving VLA Evaluation. Current implementation baseline from the agent log: AgenticSim now covers 129 Gymnasium environments, including 9 official LeHome / LeHome-challenge tasks and exact 120 RoboLab formal benchmark tasks, with 28/28 tests passing.",
+          "created_at": "2026-05-21T10:20:00+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-05-21T10:20:00+08:00"
+    },
+    {
+      "task_id": "task_self_improving_environment_coverage",
+      "project_id": "self-improving-agents",
+      "title": "Complete AgenticSim environment coverage",
+      "description": "Align the task stack with the downloaded LeHome, LeHome-challenge, and NVlabs/RoboLab references; register all formal environments in AgenticSim and verify imports/tests.",
+      "status": "done",
+      "priority": "high",
+      "assignee": null,
+      "result": "Completed environment coverage: 9 LeHome / LeHome-challenge environments plus exact 120 RoboLab formal benchmark tasks, for 129 registered Gymnasium environments total. Added ChallengeGarmentLoader support for four garment categories and specialized folding checks; 28/28 tests pass. Keep reference repos until AgenticSim consolidation is verified, then cleanup separately.",
+      "completed_at": "2026-05-21",
+      "comments": [
+        {
+          "comment_id": "comment_self_improving_env_coverage_done_20260521",
+          "author": "Codex",
+          "body": "Implementation baseline to cite in the proposal: 9 household environments from LeHome / LeHome-challenge (garment v0, single-arm garment v0, garment v2, garment fling, cut, burger, fire, water, wipe) plus exact 120 formal RoboLab tasks. Excluded RoboLab test_tasks, randomize_initial_pose, and _wip because they are not formal benchmark tasks.",
+          "created_at": "2026-05-21T10:20:00+08:00",
+          "kind": "result"
+        }
+      ],
+      "updated_at": "2026-05-21T10:20:00+08:00"
+    },
+    {
+      "task_id": "task_self_improving_sim2real_vla_eval",
+      "project_id": "self-improving-agents",
+      "title": "Build agentic Real2Sim2Real-VLA evaluation pipeline",
+      "description": "Construct an agentic AI-powered Real2Sim2Real evaluation pipeline that starts from real-robot traces and failures, builds or mutates simulation tasks/assets, evaluates VLA models in simulation, diagnoses failures, versions traces, and returns to real-robot verification.",
+      "status": "active",
+      "priority": "high",
+      "assignee": null,
+      "result": null,
+      "started_at": "2026-05-21",
+      "due_at": "2026-05-23",
+      "comments": [
+        {
+          "comment_id": "comment_self_improving_sim2real_vla_meeting_20260521",
+          "author": "Codex",
+          "body": "Meeting sketch suggests a simple operating loop: VLA / robot executes tasks -> agentic eval discovers true failures and sim-real gaps -> Trace-to-Memory turns failures into reusable experience -> Eval-Gated Workflow generates improvements and evaluates them -> World Model screens candidates in imagination -> new agents / workflows / strategies are promoted into harder self-evolving VLA evaluations. Frame this as Agentic REAL2SIM2REAL-VLA Evaluation, not only Sim2Real: real-robot traces and failures -> simulation task/asset reconstruction or mutation -> VLA evaluation in simulation -> diagnosis/versioning/governance -> real-robot verification.",
+          "created_at": "2026-05-21T09:39:00+08:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "comment_self_improving_alchedata_periodic_20260521",
+          "author": "Codex",
+          "body": "Meeting update: track this project as an Alchedata collaboration around runtime-governed Robot-for-Robot data and evaluation. Also keep Periodic Labs as an external reference / competitive signal: their public framing is AI scientist + autonomous labs, where agents act through real experiments, learn from negative results, and use physical science as a verifiable environment. The dashboard framing should borrow the closed-loop lab automation idea but keep our concrete focus on robotics Real2Sim2Real-VLA evaluation.",
+          "created_at": "2026-05-21T09:56:22+08:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "comment_self_improving_dreamdojo_20260521",
+          "author": "Codex",
+          "body": "Meeting reference: use DreamDojo (arXiv:2602.06949) as a Real2Sim2Real world-model reference. Relevant ideas: large-scale egocentric human video pretraining for interaction dynamics, continuous latent actions as proxy actions when robot action labels are missing, small-scale robot post-training for target embodiments, and downstream use in live teleoperation, policy evaluation, and model-based planning. For our pipeline, DreamDojo helps motivate a world-model screening layer before real-robot verification.",
+          "created_at": "2026-05-21T10:11:18+08:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "comment_self_improving_five_function_map_20260521",
+          "author": "Codex",
+          "body": "Meeting screenshot update: organize the project around five necessary self-improving robotics functions. 1) Agentic Real2Sim2Real-VLA Evaluation: know whether VLA works on real robots, not only sim scores. 2) Trace-to-Memory Distillation: convert failures from raw logs into transferable experience. 3) Eval-Gated Workflow Evolution: make experience change future agent behavior, not just produce summaries. 4) World-Model-Guided Self-Improvement: screen candidate improvements before costly / risky real-robot trials. 5) Self-Evolving VLA Evaluation: prevent overfitting static benchmarks by generating harder diagnostic tests. Overall loop: evaluate reality -> learn from experience -> improve the system.",
+          "created_at": "2026-05-21T10:13:21+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-05-21T10:13:21+08:00"
+    },
+    {
+      "task_id": "task_self_improving_trace_memory",
+      "project_id": "self-improving-agents",
+      "title": "Define robotics Trace-to-Memory schema",
+      "description": "Turn raw robot execution trajectories into reusable skill memories: classify failure modes such as unstable grasp angle, object slip, excessive insertion force, and motion-plan collision; attach trace evidence, cause labels, reusable correction hints, and downstream workflow update hooks.",
+      "status": "active",
+      "priority": "high",
+      "assignee": null,
+      "result": null,
+      "started_at": "2026-05-21",
+      "due_at": "2026-05-23",
+      "comments": [
+        {
+          "comment_id": "comment_self_improving_trace_memory_topic2_20260521",
+          "author": "Codex",
+          "body": "Meeting Topic 2: Robotics Trace-to-Memory Distillation means converting robot execution traces into reusable skill memories. Core question: after a manipulation failure, how do we automatically extract memory from raw trajectories? First failure taxonomy from the screenshot: unstable grasp angle, object slip, excessive insertion force, and motion-plan collision. The output should not be raw logs; it should be a reusable memory object with failure type, evidence window, likely cause, correction hint, and when to retrieve it for future tasks.",
+          "created_at": "2026-05-21T10:20:00+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-05-21T10:20:00+08:00"
+    },
+    {
       "task_id": "task_self_improving_test_lehome",
       "project_id": "self-improving-agents",
       "title": "Test LeHome task stack",
       "description": "Run through lehome and lehome-challenge; map assets, task registration, data collection, and evaluation entrypoints.",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignee": null,
-      "result": null
+      "result": "LeHome / LeHome-challenge task coverage is complete inside AgenticSim: 9 official environments registered, including single-arm garment v0, bimanual garment v0/v2/fling, cut, burger, fire, water, and wipe. ChallengeGarmentLoader and garment-specific folding checks are included.",
+      "completed_at": "2026-05-21",
+      "updated_at": "2026-05-21T10:20:00+08:00"
     },
     {
       "task_id": "task_self_improving_unify_isaac",
@@ -797,9 +907,16 @@
           "body": "WEM is a strong conceptual neighbor: it separates persistent, instruction-agnostic world evolution from instruction-conditioned robot ego dynamics for long-horizon navigation-manipulation rollout. For this project, keep the more manipulation-specific split: persistent scene, object/contact transition, and robot/ego action dynamics. The object/contact layer is the important bridge WEM does not isolate explicitly enough for manipulation.",
           "created_at": "2026-05-20T19:31:00+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_layered_wm_idm_lfd_teleop_20260521",
+          "author": "Codex",
+          "body": "Research framing update: the IDM story can be told through Learning from Demonstration / Learning from Observation. Offline IDM recovers missing actions from observation-only videos or adjacent visual states, turning human videos into state-action supervision. If this action recovery is made low-latency and kept in the human feedback loop, it becomes vision-based teleoperation / shared control: the operator shows or intends the next visual state, and the IDM / retargeting layer immediately converts that into robot commands while logging demonstrations for later policy learning.",
+          "created_at": "2026-05-21T21:52:00+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-20T19:31:00+08:00"
+      "updated_at": "2026-05-21T21:52:00+08:00"
     },
     {
       "task_id": "task_layered_wm_methods",
@@ -959,7 +1076,7 @@
       "task_id": "task_hoi_schema_model_target",
       "project_id": "diverse-same-task-dataset",
       "title": "Define unified HOI schema and baseline model target",
-      "description": "Specify common timestamps, camera extrinsics, hand / object state, robot embodiment metadata, and the prediction target for the HOI base model / world model.",
+      "description": "Specify common timestamps, camera extrinsics, hand / object state, robot embodiment metadata, and the prediction target for the HOI base model / world model. The retargeting label should be object-centric: same object trajectory, contact sequence, grasp / tool-use mode, and task result across human hand and robot hand, not raw joint-angle similarity.",
       "status": "todo",
       "priority": "medium",
       "assignee": null,
@@ -969,7 +1086,7 @@
       "task_id": "task_hoi_retargeting_baselines",
       "project_id": "diverse-same-task-dataset",
       "title": "Connect retargeting baselines",
-      "description": "Use the HOI Retargeting notes to compare Manus glove -> LEAP / Isaac Sim retargeting, AnyHand-style robot-guided retargeting, and object sim2real alignment ideas such as FoundationPose.",
+      "description": "Use the HOI Retargeting notes to compare Manus glove -> LEAP / Isaac Sim retargeting, object-centric / functional retargeting baselines such as HOP, Object-Centric Dexterous Manipulation, DexMachina, DexFlow, and GenHand, plus object sim2real alignment ideas such as FoundationPose. Isaac Sim should score whether the robot reproduces the same object-state transition and contact result.",
       "status": "todo",
       "priority": "medium",
       "assignee": null,

@@ -5,13 +5,13 @@
   "subtitle": "World models, self-improving simulators, teleop acceleration, and robotics + 3D printing",
   "week": "2026-W20",
   "date": "2026-05-15",
-  "updated_at": "2026-05-20T19:31:00+08:00",
+  "updated_at": "2026-05-21T21:52:00+08:00",
   "state_root": "dashboard/state",
   "summary": {
     "focus": "Frame the whole portfolio as one loop: real-robot infra collects and validates data; UMI / layered / HOI projects structure it; simulator and PoD projects turn it into robot tasks, evaluation, and physical outputs.",
-    "progress": "ARX infra was completed; ready hardware baseline is recorded; Franka dual-arm same-computer control and Gello-driven Franka + Wuji Hand trigger control are working; UMI annotation panel and Gemini frame test are done; UMI base-model / codebase tests, Self-Improving Agents, and Robotics + 3D Printing remain active.",
-    "blockers": "Cross-device sync, calibration, and data schema; MANUS glove + VIVE Tracker retargeting; Gello passive-master gravity-compensation risk; real-robot cable management / emergency-stop coverage / waterproofing; UMI base-model route and evaluation set; LeHome / RoboLab unification; CAD-to-printer plus robot takeout / assembly handoff; scope boundaries for survey tracks.",
-    "next": "Continue the Franka + Wuji Hand path by testing MANUS glove + VIVE Tracker, harden the real-robot safety workspace, ask Yuhang to compare mechanical master-arm gravity compensation / damping / brake against FACTR-style force-feedback teleoperation, prepare the UMI test set for Haoyu, run TI2V / AI2V inference, fold WEM-style world/ego decomposition into the layered-WM notes, define the simulator task / asset interface, and scope the PoD prototype."
+    "progress": "ARX infra was completed; ready hardware baseline is recorded; Franka dual-arm same-computer control is working; Gello-controlled dual Franka + Wuji Hand is complete, with Wuji currently used as a one-DoF gripper via Gello trigger open/close mapping; disposable nitrile gloves and finger cots were purchased for short waterproof demos; UMI annotation panel and Gemini frame test are done; AgenticSim now has 129 registered Gymnasium environments from LeHome / LeHome-challenge / RoboLab with 28/28 tests passing; UMI base-model / codebase tests, proposal writing, and Robotics + 3D Printing remain active.",
+    "blockers": "Cross-device sync, calibration, and data schema; MANUS glove + VIVE Tracker retargeting; Gello passive-master gravity-compensation risk; real-robot cable management / emergency-stop coverage / full waterproofing; UMI base-model route and evaluation set; AgenticSim proposal scope / trace-memory schema / eval-gate design; CAD-to-printer plus robot takeout / assembly handoff; scope boundaries for survey tracks.",
+    "next": "After the completed Gello + Wuji one-DoF gripper demo path, test MANUS glove + VIVE Tracker for higher-precision hand teleoperation, harden the real-robot safety workspace, ask Yuhang to compare mechanical master-arm gravity compensation / damping / brake against FACTR-style force-feedback teleoperation, prepare the UMI test set for Haoyu, run TI2V / AI2V inference, fold WEM-style world/ego decomposition into the layered-WM notes, define the agentic Real2Sim2Real-VLA evaluation pipeline, and scope the PoD prototype."
   },
   "storyline": {
     "summary": "How real-robot infra, human demonstrations, video world models, simulators, and physical outputs form one loop.",
@@ -29,13 +29,13 @@
             "role": "primary",
             "eyebrow": "Data Models",
             "title": "Video + HOI World Modeling",
-            "body": "UMI wrist views, layered third-person videos, same-task HOI data, and rate-curve teleop research turn human operation into structured video, action, and state data."
+            "body": "UMI wrist views, layered third-person videos, same-task HOI data, and rate-curve teleop research turn human operation into structured video, inferred action, and state data."
           },
           {
             "role": "outcome",
             "eyebrow": "Outputs",
             "title": "Self-Improving Sim + Physical Products",
-            "body": "Generated assets, household tasks, simulator rollouts, robot evaluation, and language / image-to-CAD design close the loop back into real-world experiments."
+            "body": "Agentic Real2Sim2Real-VLA evaluation, generated assets, household tasks, simulator rollouts, robot evaluation, and language / image-to-CAD design close the loop back into real-world experiments."
           }
         ],
         "connectors": [
@@ -58,13 +58,13 @@
             "role": "primary",
             "eyebrow": "Third-person route",
             "title": "Layered Video World Model",
-            "body": "Third-person videos are split into persistent scene, object/contact, and robot/ego dynamics, making them easier to use for scene understanding, IDM, reward models, and data augmentation."
+            "body": "Third-person videos are split into persistent scene, object/contact, and robot/ego dynamics. The IDM story is the LfD / LfO bridge: offline it recovers missing actions from visual state transitions; real-time it becomes vision-based teleoperation or shared control."
           },
           {
             "role": "outcome",
             "eyebrow": "Robot-data route",
             "title": "Agentic R2S2R to Dual-Simulator Data",
-            "body": "Large volumes of generated video data become dual-simulator Robot Data through object physics assets, panoramic scene reconstruction, and digital-twin robot rollouts."
+            "body": "Large volumes of generated video data become dual-simulator Robot Data through object physics assets, panoramic scene reconstruction, digital-twin robot rollouts, and agentic Real2Sim2Real-VLA evaluation traces."
           }
         ],
         "connectors": [

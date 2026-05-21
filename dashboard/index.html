@@ -147,6 +147,9 @@
         let realtimeChannel = null;
         let localState = readLocalState();
         const maxCommentLength = 4000;
+        const isLocalDashboard = ["127.0.0.1", "localhost", "::1"].includes(window.location.hostname);
+        const localWriteApiUrl = "http://127.0.0.1:8766";
+        let localWriteApiAvailable = false;
 
         function readLocalState() {
           try {
@@ -178,7 +181,9 @@
           if (dataMode !== "supabase") {
             return;
           }
-          if (!supabaseSession?.user) {
+          if (localWriteApiAvailable) {
+            setSyncStatus("Local Supabase editable", "online");
+          } else if (!supabaseSession?.user) {
             setSyncStatus("Supabase read-only (signed out)", "readonly");
           } else if (supabaseIsEditor) {
             setSyncStatus("Supabase editable", "online");
@@ -195,7 +200,7 @@
           }
           const hasSupabase = Boolean(supabaseClient);
           const isSignedIn = Boolean(supabaseSession?.user);
-          form.hidden = !hasSupabase || isSignedIn;
+          form.hidden = !hasSupabase || isSignedIn || localWriteApiAvailable;
           signOut.hidden = !hasSupabase || !isSignedIn;
           if (isSignedIn) {
             signOut.textContent = supabaseSession.user.email ? `Sign out ${supabaseSession.user.email}` : "Sign out";
@@ -203,7 +208,7 @@
         }
 
         function isSupabaseWritable() {
-          return dataMode === "supabase" && Boolean(supabaseClient && supabaseSession?.user && supabaseIsEditor);
+          return dataMode === "supabase" && Boolean(localWriteApiAvailable || (supabaseClient && supabaseSession?.user && supabaseIsEditor));
         }
 
         function getStatusOverride(taskId) {
@@ -434,6 +439,73 @@
           parent.append(document.createTextNode(text.slice(cursor)));
         }
 
+        function shouldCollapseText(text, options = {}) {
+          const value = String(text || "");
+          const maxLength = options.maxLength ?? 260;
+          const maxLines = options.maxLines ?? 4;
+          return value.length > maxLength || value.split(/\n/).length > maxLines;
+        }
+
+        function makeTextCollapsible(element, text, options = {}) {
+          if (!element) {
+            return;
+          }
+          const expandedClass = options.expandedClass || "expanded";
+          if (!shouldCollapseText(text ?? element.textContent, options)) {
+            element.classList.remove("auto-text-collapsible", expandedClass);
+            element.style.removeProperty("--auto-collapse-lines");
+            element.removeAttribute("role");
+            element.removeAttribute("tabindex");
+            element.removeAttribute("aria-expanded");
+            element.removeAttribute("title");
+            return;
+          }
+          element.classList.add("auto-text-collapsible");
+          element.classList.remove(expandedClass);
+          element.style.setProperty("--auto-collapse-lines", String(options.clampLines || options.maxLines || 4));
+          element.setAttribute("role", "button");
+          element.setAttribute("tabindex", "0");
+          element.setAttribute("aria-expanded", "false");
+          element.title = "Click to expand text";
+          if (element.dataset.autoCollapseBound) {
+            return;
+          }
+          element.dataset.autoCollapseBound = "true";
+          const toggle = (event) => {
+            if (!element.classList.contains("auto-text-collapsible")) {
+              return;
+            }
+            if (event?.target?.closest?.("a, button, input, textarea, summary")) {
+              return;
+            }
+            const expanded = element.classList.toggle(expandedClass);
+            element.setAttribute("aria-expanded", String(expanded));
+            element.title = expanded ? "Click to collapse text" : "Click to expand text";
+          };
+          element.addEventListener("click", toggle);
+          element.addEventListener("keydown", (event) => {
+            if (event.key !== "Enter" && event.key !== " ") {
+              return;
+            }
+            event.preventDefault();
+            toggle(event);
+          });
+        }
+
+        function richTextPlainText(value) {
+          if (typeof value === "string") {
+            return value;
+          }
+          if (!value || typeof value !== "object") {
+            return "";
+          }
+          const text = typeof value.text === "string" ? value.text : "";
+          const linkLabels = Array.isArray(value.links)
+            ? value.links.map((link) => link?.label || "").join(" ")
+            : "";
+          return `${text} ${linkLabels}`.trim();
+        }
+
         function renderStatusMark(mark, status) {
           if (!mark || !status) {
             return;
@@ -466,6 +538,7 @@
             const body = article.querySelector("p");
             if (key && body && summary[key]) {
               body.textContent = summary[key];
+              makeTextCollapsible(body, summary[key], { maxLength: 260, maxLines: 3 });
             }
           });
 
@@ -487,6 +560,7 @@
           title.textContent = node.title || "";
           const body = document.createElement("p");
           body.textContent = node.body || "";
+          makeTextCollapsible(body, node.body || "", { maxLength: 230, maxLines: 4 });
           element.append(eyebrow, title, body);
           return element;
         }
@@ -547,6 +621,7 @@
             prepareZoomableImage(image);
             const caption = document.createElement("figcaption");
             caption.textContent = reference.caption || "";
+            makeTextCollapsible(caption, reference.caption || "", { maxLength: 170, maxLines: 2 });
             figure.append(image, caption);
             return figure;
           });
@@ -572,8 +647,11 @@
           const body = document.createElement("div");
           body.className = "project-body compact";
           const bodyColumn = document.createElement("div");
+          const intro = document.createElement("div");
+          intro.className = "project-intro";
           const summaryParagraph = document.createElement("p");
-          bodyColumn.append(summaryParagraph);
+          intro.append(summaryParagraph);
+          bodyColumn.append(intro);
           body.append(bodyColumn);
 
           const workstream = document.createElement("div");
@@ -703,6 +781,7 @@
           prepareZoomableImage(image);
           const caption = document.createElement("figcaption");
           caption.textContent = projectDoc.asset_caption || "";
+          makeTextCollapsible(caption, projectDoc.asset_caption || "", { maxLength: 170, maxLines: 2 });
           figure.append(image, caption);
           return figure;
         }
@@ -727,9 +806,10 @@
 
         function renderProjectTimeline(projectElement, timeline) {
           const bodyColumn = projectElement.querySelector(".project-body > div");
-          const summaryParagraph = bodyColumn?.querySelector(":scope > p");
+          const intro = bodyColumn?.querySelector(".project-intro");
+          const summaryParagraph = intro?.querySelector(":scope > p");
           let strip = bodyColumn?.querySelector(".timeline-strip");
-          if (!bodyColumn || !summaryParagraph) {
+          if (!bodyColumn || !intro || !summaryParagraph) {
             return;
           }
           if (!timeline) {
@@ -740,10 +820,17 @@
             strip = document.createElement("div");
             strip.className = "timeline-strip";
             summaryParagraph.after(strip);
+          } else if (strip.parentElement !== intro) {
+            summaryParagraph.after(strip);
           }
           strip.setAttribute("aria-label", `${timeline.target_venue || "Project"} timeline`);
 
           const chips = [];
+          (timeline.badges || [])
+            .filter((badge) => badge?.label && badge?.value)
+            .forEach((badge) => {
+              chips.push(createTimelineChip(badge.label, badge.value));
+            });
           if (timeline.target_cycle || timeline.target_venue) {
             chips.push(createTimelineChip("Target", timeline.target_cycle || timeline.target_venue));
           }
@@ -760,23 +847,66 @@
 
         function renderProjectDetails(projectElement, details) {
           const bodyColumn = projectElement.querySelector(".project-body > div");
+          const intro = bodyColumn?.querySelector(".project-intro");
           if (!bodyColumn) {
             return;
           }
-          let list = bodyColumn.querySelector(":scope > ul");
+          let list = intro?.querySelector(":scope > ul");
           if (!Array.isArray(details) || details.length === 0) {
             list?.remove();
             return;
           }
           if (!list) {
             list = document.createElement("ul");
-            bodyColumn.append(list);
+            intro?.append(list);
           }
           list.replaceChildren(...details.map((detail) => {
             const item = document.createElement("li");
             appendRichText(item, detail);
             return item;
           }));
+        }
+
+        function updateProjectIntroCollapse(projectElement, projectDoc) {
+          const intro = projectElement.querySelector(".project-intro");
+          if (!intro) {
+            return;
+          }
+          const details = Array.isArray(projectDoc.details) ? projectDoc.details : [];
+          const textLength = `${projectDoc.summary || ""} ${details.map(richTextPlainText).join(" ")}`.length;
+          const shouldCollapse = textLength > 620 || details.length > 4;
+          let toggle = intro.parentElement?.querySelector(":scope > .project-intro-toggle");
+          if (!shouldCollapse) {
+            intro.classList.remove("is-collapsible", "is-expanded");
+            intro.removeAttribute("role");
+            intro.removeAttribute("tabindex");
+            intro.removeAttribute("aria-expanded");
+            intro.removeAttribute("title");
+            toggle?.remove();
+            return;
+          }
+          intro.classList.add("is-collapsible");
+          intro.classList.remove("is-expanded");
+          intro.setAttribute("role", "button");
+          intro.setAttribute("tabindex", "0");
+          intro.setAttribute("aria-expanded", "false");
+          intro.title = "Click to expand intro";
+          toggle?.remove();
+          if (!intro.dataset.collapseBound) {
+            intro.dataset.collapseBound = "true";
+            const toggleIntro = () => {
+              const expanded = intro.classList.toggle("is-expanded");
+              intro.setAttribute("aria-expanded", String(expanded));
+              intro.title = expanded ? "Click to collapse intro" : "Click to expand intro";
+            };
+            intro.addEventListener("click", toggleIntro);
+            intro.addEventListener("keydown", (event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                toggleIntro();
+              }
+            });
+          }
         }
 
         function renderProjectDecisions(projectElement, decisions) {
@@ -796,6 +926,7 @@
           list.replaceChildren(...decisions.map((decision) => {
             const item = document.createElement("li");
             item.textContent = decision;
+            makeTextCollapsible(item, decision, { maxLength: 230, maxLines: 4 });
             return item;
           }));
         }
@@ -820,13 +951,14 @@
           }
           renderStatusMark(projectElement.querySelector("summary .status"), projectDoc.status);
 
-          const bodyParagraph = projectElement.querySelector(".project-body > div > p");
+          const bodyParagraph = projectElement.querySelector(".project-intro > p");
           if (bodyParagraph) {
             bodyParagraph.textContent = projectDoc.summary || "";
           }
           renderProjectFigure(projectElement, projectDoc);
           renderProjectTimeline(projectElement, projectDoc.timeline);
           renderProjectDetails(projectElement, projectDoc.details);
+          updateProjectIntroCollapse(projectElement, projectDoc);
           renderProjectDecisions(projectElement, projectDoc.risks_decisions);
         }
 
@@ -1044,6 +1176,7 @@
 
           const description = document.createElement("p");
           description.textContent = task.description || "";
+          makeTextCollapsible(description, task.description || "", { maxLength: 210, maxLines: 4 });
           body.append(description);
 
           const meta = document.createElement("div");
@@ -1233,6 +1366,35 @@
           return supabaseIsEditor;
         }
 
+        async function detectLocalWriteApi() {
+          if (!isLocalDashboard) {
+            localWriteApiAvailable = false;
+            return false;
+          }
+          try {
+            const response = await fetch(`${localWriteApiUrl}/health`, { cache: "no-store" });
+            const result = response.ok ? await response.json() : null;
+            localWriteApiAvailable = Boolean(result?.ok);
+          } catch (error) {
+            localWriteApiAvailable = false;
+          }
+          return localWriteApiAvailable;
+        }
+
+        async function postLocalWriteApi(path, payload) {
+          const response = await fetch(`${localWriteApiUrl}/${path}`, {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+          const text = await response.text();
+          const result = text ? JSON.parse(text) : {};
+          if (!response.ok || result.error) {
+            throw new Error(result.error || `Local write API returned ${response.status}`);
+          }
+          return result;
+        }
+
         async function loadSupabaseState() {
           if (!supabaseClient) {
             supabaseClient = await createSupabaseClient();
@@ -1321,41 +1483,62 @@
         }
 
         async function updateSupabaseTaskStatus(taskId, status) {
-          if (!isSupabaseWritable()) {
-            throw new Error("Sign in as a dashboard editor to write Supabase state.");
+          if (supabaseSession?.user && supabaseIsEditor) {
+            const completedAt = status === "done" ? new Date().toISOString().slice(0, 10) : null;
+            const { error } = await supabaseClient
+              .from("tasks")
+              .update({ status, completed_at: completedAt })
+              .eq("task_id", taskId);
+            if (error) {
+              throw error;
+            }
+            return;
           }
-          const completedAt = status === "done" ? new Date().toISOString().slice(0, 10) : null;
-          const { error } = await supabaseClient
-            .from("tasks")
-            .update({ status, completed_at: completedAt })
-            .eq("task_id", taskId);
-          if (error) {
-            throw error;
+          if (localWriteApiAvailable) {
+            await postLocalWriteApi("task-status", { task_id: taskId, status });
+            return;
           }
+          throw new Error("Sign in as a dashboard editor or start the local write API to write Supabase state.");
         }
 
         async function insertSupabaseComment(taskId, body) {
-          if (!isSupabaseWritable()) {
-            throw new Error("Sign in as a dashboard editor to write Supabase state.");
-          }
           if (body.length > maxCommentLength) {
             throw new Error(`Comment must be ${maxCommentLength} characters or fewer.`);
           }
-          const now = new Date().toISOString();
-          const comment = {
-            comment_id: `comment_${crypto.randomUUID()}`,
-            task_id: taskId,
-            author: supabaseSession.user.email || "You",
-            author_type: "user",
-            kind: "comment",
-            body,
-            created_at: now,
-          };
-          const { error } = await supabaseClient.from("task_comments").insert(comment);
-          if (error) {
-            throw error;
+          if (supabaseSession?.user && supabaseIsEditor) {
+            const now = new Date().toISOString();
+            const comment = {
+              comment_id: `comment_${crypto.randomUUID()}`,
+              task_id: taskId,
+              author: supabaseSession.user.email || "You",
+              author_type: "user",
+              kind: "comment",
+              body,
+              created_at: now,
+            };
+            const { error } = await supabaseClient.from("task_comments").insert(comment);
+            if (error) {
+              throw error;
+            }
+            return comment;
           }
-          return comment;
+          if (localWriteApiAvailable) {
+            const result = await postLocalWriteApi("task-comment", { task_id: taskId, body });
+            if (result.comment) {
+              return result.comment;
+            }
+            const now = new Date().toISOString();
+            return {
+              comment_id: `comment_${crypto.randomUUID()}`,
+              task_id: taskId,
+              author: "Local dashboard",
+              author_type: "system",
+              kind: "comment",
+              body,
+              created_at: now,
+            };
+          }
+          throw new Error("Sign in as a dashboard editor or start the local write API to write Supabase state.");
         }
 
         function closeStatusMenus(exceptMenu = null) {
@@ -1512,7 +1695,7 @@
           supabaseClient.auth.signOut().then(() => {
             supabaseSession = null;
             supabaseIsEditor = false;
-            setSyncStatus("Supabase read-only (signed out)", "readonly");
+            setSupabaseSyncStatus();
             renderAuthState();
           });
         });
@@ -1520,6 +1703,7 @@
         async function initDashboardState() {
           try {
             setSyncStatus("Supabase loading", "loading");
+            await detectLocalWriteApi();
             await loadSupabaseState();
           } catch (error) {
             console.warn("Supabase state loading failed; falling back to JSON state", error);
