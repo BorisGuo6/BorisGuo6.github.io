@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-22T00:47:52+08:00",
+  "updated_at": "2026-05-22T02:08:57+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -564,9 +564,16 @@
           "body": "All 3 models done. Summary: eval_outputs/vbench/SUMMARY.md.\n\nwan22:    subject=0.8655 background=0.9133 motion=0.9889 dynamic=0.8636 imaging=0.6769 temporal=0.9808\nltx:      subject=0.7747 background=0.8844 motion=0.9882 dynamic=0.9318 imaging=0.5353 temporal=0.9766\ncosmos25: subject=0.7890 background=0.8732 motion=0.9797 dynamic=0.9545 imaging=0.7404 temporal=0.9608\n\nFiles: eval_outputs/vbench/{wan22,ltx,cosmos25}/{model}_eval_results.json. n=44 clips each.\nSkipped aesthetic_quality (open_clip CDN stall) and overall_consistency (ViCLIP 1.71GB slow). Scale: 44 vs target 100/200 — extend by generating more predicted.mp4 then re-run same wrapper.",
           "created_at": "2026-05-19T02:07:58+08:00",
           "kind": "result"
+        },
+        {
+          "comment_id": "clawcross_f770e29dc84d",
+          "author": "Progress",
+          "body": "Review-ready verification (no rerun). Confirmed on /home/jingxiang/workspace/das-data: eval_outputs/vbench/{wan22,ltx,cosmos25}/<m>_eval_results.json each have 6 reference-free dims x 44 clips, averages match SUMMARY.md exactly (wan22 subject_consistency=0.8655 / bg=0.9133 / motion=0.9889 / dynamic=0.8636 / imaging=0.6769 / flicker=0.9808; ltx 0.7747/0.8844/0.9882/0.9318/0.5353/0.9766; cosmos25 0.7890/0.8732/0.9797/0.9545/0.7404/0.9608). Bonus: eval_outputs/vbench/ctrlworld/ctrlworld_eval_results.json (6 dims x 3 clips) - small sample, treat as exploratory not headline. Wrapper eval_pipeline/vbench_run.py (+ vbench_ctrlworld.py) + eval_outputs/vbench/ live in the umi-vbench-eval worktree (base sha e121018, all untracked - nothing pushed to main yet). Remaining gaps vs task target unchanged: (a) 44/model still below 100/200 target - needs more predicted.mp4 generation, no eval-side code change; (b) aesthetic_quality + overall_consistency dims dropped due to HF/ViCLIP download stalls (1.71GB weight, ~300KB/s) - cached partials remain; (c) clip 8170837856 SKIP across all 3 models still unaddressed. Ready for human review of methodology + numbers; happy to (i) commit+push the worktree, (ii) extend to 100/200 once more predictions exist, or (iii) retry the 2 dropped dims with a faster mirror when instructed.",
+          "created_at": "2026-05-22T01:38:08+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-20T23:38:03+08:00"
+      "updated_at": "2026-05-22T01:38:24+08:00"
     },
     {
       "task_id": "task_self_improving_prepare_proposal",
@@ -595,7 +602,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-21T23:46:05+08:00"
+      "updated_at": "2026-05-22T01:38:24+08:00"
     },
     {
       "task_id": "task_self_improving_environment_coverage",
@@ -659,7 +666,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-21T23:50:22+08:00"
+      "updated_at": "2026-05-22T01:38:24+08:00"
     },
     {
       "task_id": "task_self_improving_trace_memory",
@@ -681,7 +688,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-21T23:50:26+08:00"
+      "updated_at": "2026-05-22T01:38:24+08:00"
     },
     {
       "task_id": "task_self_improving_test_lehome",
@@ -705,7 +712,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-21T23:50:46+08:00"
+      "updated_at": "2026-05-22T01:38:24+08:00"
     },
     {
       "task_id": "task_self_improving_roboclaw_workflow",
@@ -725,7 +732,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-21T23:52:35+08:00"
+      "updated_at": "2026-05-22T01:38:24+08:00"
     },
     {
       "task_id": "task_self_improving_assets",
@@ -737,7 +744,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-21T23:50:48+08:00"
+      "updated_at": "2026-05-22T01:38:24+08:00"
     },
     {
       "task_id": "task_self_improving_vlm_loop",
@@ -749,7 +756,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-21T23:50:50+08:00"
+      "updated_at": "2026-05-22T01:38:24+08:00"
     },
     {
       "task_id": "task_self_improving_r4r_format",
@@ -761,7 +768,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-21T23:50:52+08:00"
+      "updated_at": "2026-05-22T01:38:24+08:00"
     },
     {
       "task_id": "task_pod_3d_engine_benchmark",
@@ -788,7 +795,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-22T00:28:55+08:00"
+      "updated_at": "2026-05-22T01:38:24+08:00"
     },
     {
       "task_id": "task_pod_articraft_probe",
@@ -808,7 +815,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-22T00:34:00+08:00"
+      "updated_at": "2026-05-22T01:38:24+08:00"
     },
     {
       "task_id": "task_pod_cad_stack",
@@ -828,7 +835,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-22T00:36:20+08:00"
+      "updated_at": "2026-05-22T01:38:24+08:00"
     },
     {
       "task_id": "task_pod_input_schema",
@@ -848,7 +855,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-22T00:40:11+08:00"
+      "updated_at": "2026-05-22T01:38:24+08:00"
     },
     {
       "task_id": "task_pod_agent_pipeline",
@@ -868,7 +875,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-22T00:42:30+08:00"
+      "updated_at": "2026-05-22T01:38:24+08:00"
     },
     {
       "task_id": "task_pod_printer_farm_cell",
@@ -888,7 +895,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-22T00:42:30+08:00"
+      "updated_at": "2026-05-22T01:38:24+08:00"
     },
     {
       "task_id": "task_pod_retrofit_demo",
@@ -908,7 +915,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-22T00:47:52+08:00"
+      "updated_at": "2026-05-22T01:38:24+08:00"
     },
     {
       "task_id": "task_drag_demo_initial_batch",
@@ -930,7 +937,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-22T00:47:52+08:00"
+      "updated_at": "2026-05-22T01:38:24+08:00"
     },
     {
       "task_id": "task_drag_demo_backend_compare",
@@ -970,7 +977,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-22T00:44:20+08:00"
+      "updated_at": "2026-05-22T01:38:24+08:00"
     },
     {
       "task_id": "task_drag_demo_masks_collection_aids",
@@ -1026,7 +1033,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-22T00:44:20+08:00"
+      "updated_at": "2026-05-22T01:38:24+08:00"
     },
     {
       "task_id": "task_layered_wm_methods",
@@ -1054,7 +1061,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-22T00:44:20+08:00"
+      "updated_at": "2026-05-22T01:38:24+08:00"
     },
     {
       "task_id": "task_layered_wm_qwen_image_layered_probe",
@@ -1074,9 +1081,30 @@
           "body": "Qwen-Image-Layered is the first direct layer-generation probe because its model card describes input-image decomposition into multiple RGBA layers, variable layer counts, and recursive decomposition. Reference: https://huggingface.co/Qwen/Qwen-Image-Layered. Treat the output as editable visual layers first; only promote it to world-model evidence if QA shows meaningful scene/background, object/contact, and robot/ego separation.",
           "created_at": "2026-05-22T00:45:00+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_5de42f12ea6a",
+          "author": "Progress",
+          "body": "Env probed. GPU: NVML driver mismatch (kernel 580.142 vs userspace 580.159.03) — cannot use CUDA without sudo to fix. Stack: built fresh venv via python3 -m venv + get-pip.py bootstrap; installed torch 2.12 CPU, diffusers 0.38, transformers 5.9, huggingface_hub 1.16. QwenImageLayeredPipeline import OK. Model is 57.7 GB across 33 files; HF reachable. Started snapshot_download in background, currently at ~4 GB. Hardware: AMD Ryzen 7 7800X3D (16 threads), 61 GB RAM (58 GB free), no working GPU. bf16 weights (~58 GB) will fit RAM tightly. Plan: when download finishes, run probe with reduced steps (4-10) to validate pipeline; if CPU inference is infeasible in reasonable time, mark blocked with exact unblock action (fix NVIDIA driver to enable CUDA).",
+          "created_at": "2026-05-22T01:34:58+08:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_4a6cac59a57f",
+          "author": "Progress",
+          "body": "Pipeline scaffold complete. Files under ~/workspace/image-layered-world-model/: make_test_images.py (synthetic poster + robot_still 640x640 RGBA, fixed RNG), baseline_decompose.py (k-means RGBxy K=4 control), probe_qwen_image_layered.py (Qwen pipeline runner), score_layers.py (layer-qa-metrics.md metrics: recon L1, pairwise IoU, disjointness/coverage, layer purity, dup/missing proxy, scene/object/robot separability via synthetic GT regions), probe-report.md (draft report with §4 baseline numbers filled, §5 awaiting Qwen). Scoring pipeline verified on baseline: poster object_contact max-IoU 0.336, scene 0.324; robot_still object_contact max-IoU 0.036 (cup poorly isolated), robot_ego 0.160, scene 0.291 — baseline cannot isolate manipulation entities. Bar Qwen must clear is on object_contact and robot_ego separability. Model download still running (last check ~6 GB / 58 GB).",
+          "created_at": "2026-05-22T01:38:50+08:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_756a3c97feea",
+          "author": "Progress",
+          "body": "Download progress: 6.3 GB / 58 GB after 4:42 (rate ~1.34 GB/min). 7 of 33 large shards still in-flight (transformer + text_encoder shards). Watcher b8m74w2e4/bw6qv73l6 armed to fire on 'DONE in' marker. Session waiting in shell for that notification — no work I can safely do in parallel without risk of cache contention.",
+          "created_at": "2026-05-22T02:08:54+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-22T00:47:52+08:00"
+      "updated_at": "2026-05-22T02:08:57+08:00"
     },
     {
       "task_id": "task_layered_wm_photoshop_psd_pipeline",
@@ -1098,7 +1126,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-22T00:47:52+08:00"
+      "updated_at": "2026-05-22T02:08:57+08:00"
     },
     {
       "task_id": "task_layered_wm_layer_qa_metrics",
@@ -1126,7 +1154,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-22T00:47:52+08:00"
+      "updated_at": "2026-05-22T02:08:57+08:00"
     },
     {
       "task_id": "task_rate_curve_skill_representations",
@@ -1138,7 +1166,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-22T00:47:52+08:00"
+      "updated_at": "2026-05-22T02:08:57+08:00"
     },
     {
       "task_id": "task_rate_curve_retiming",
@@ -1150,7 +1178,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-22T00:47:52+08:00"
+      "updated_at": "2026-05-22T02:08:57+08:00"
     },
     {
       "task_id": "task_rate_curve_sampling_strategies",
@@ -1162,7 +1190,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-22T00:47:52+08:00"
+      "updated_at": "2026-05-22T02:08:57+08:00"
     },
     {
       "task_id": "task_rate_curve_event_constraints",
@@ -1174,7 +1202,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-22T00:47:52+08:00"
+      "updated_at": "2026-05-22T02:08:57+08:00"
     },
     {
       "task_id": "task_rate_curve_objective_split",
@@ -1188,7 +1216,7 @@
       "started_at": "2026-05-16",
       "due_at": "2026-05-23",
       "comments": [],
-      "updated_at": "2026-05-22T00:47:52+08:00"
+      "updated_at": "2026-05-22T02:08:57+08:00"
     },
     {
       "task_id": "task_rate_curve_sft_action_frequency",
@@ -1202,7 +1230,7 @@
       "started_at": "2026-05-16",
       "due_at": "2026-05-23",
       "comments": [],
-      "updated_at": "2026-05-22T00:47:52+08:00"
+      "updated_at": "2026-05-22T02:08:57+08:00"
     },
     {
       "task_id": "task_rate_curve_rl",
@@ -1216,7 +1244,7 @@
       "started_at": "2026-05-16",
       "due_at": "2026-05-23",
       "comments": [],
-      "updated_at": "2026-05-22T00:47:52+08:00"
+      "updated_at": "2026-05-22T02:08:57+08:00"
     },
     {
       "task_id": "task_hoi_pnp_calibration",
@@ -1251,7 +1279,7 @@
       "due_at": "2026-05-23",
       "started_at": "2026-05-16",
       "comments": [],
-      "updated_at": "2026-05-22T00:47:52+08:00"
+      "updated_at": "2026-05-22T02:08:57+08:00"
     },
     {
       "task_id": "task_hoi_sensor_validation",
@@ -1265,7 +1293,7 @@
       "due_at": "2026-05-23",
       "started_at": "2026-05-16",
       "comments": [],
-      "updated_at": "2026-05-22T00:47:52+08:00"
+      "updated_at": "2026-05-22T02:08:57+08:00"
     },
     {
       "task_id": "task_hoi_object_tracking",
@@ -1279,7 +1307,7 @@
       "due_at": "2026-05-23",
       "started_at": "2026-05-16",
       "comments": [],
-      "updated_at": "2026-05-22T00:47:52+08:00"
+      "updated_at": "2026-05-22T02:08:57+08:00"
     },
     {
       "task_id": "task_hoi_schema_model_target",
@@ -1291,7 +1319,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-22T00:47:52+08:00"
+      "updated_at": "2026-05-22T02:08:57+08:00"
     },
     {
       "task_id": "task_hoi_retargeting_baselines",
@@ -1303,7 +1331,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-22T00:47:52+08:00"
+      "updated_at": "2026-05-22T02:08:57+08:00"
     }
   ]
 }
