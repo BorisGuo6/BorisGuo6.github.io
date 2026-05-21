@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-21T21:52:00+08:00",
+  "updated_at": "2026-05-22T00:19:44+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -284,10 +284,10 @@
       "project_id": "umi-world-model",
       "title": "先跑 DreamZero / CtrlWorld inference",
       "description": "作为 AI2V 候选 codebase，先验证是否值得进入训练或改造。",
-      "status": "review",
+      "status": "done",
       "priority": "high",
       "assignee": null,
-      "result": null,
+      "result": "CtrlWorld inference 已完成并通过 verifier，视觉审查已给出可用性结论；DreamZero 按 upstream 要求需要双卡工作站，转入后续硬件队列，不再阻塞本 TODO。",
       "due_at": "2026-05-23",
       "started_at": "2026-05-16",
       "comments": [
@@ -374,9 +374,17 @@
           "body": "CTRL-WORLD FIDELITY VERDICT (visual eval done).\n\nFull write-up: /home/jingxiang/workspace/das-data/eval_outputs/comparison_ctrlworld/ASSESSMENT.md\nFrame strips (open in image viewer for side-by-side GT|Pred):\n- frames/899_COMPARE_GT_vs_PRED.png   (banana right; GT-left | Pred-right; 5 rows = t=0,3,6,9,12s)\n- frames/18599_COMPARE_GT_vs_PRED.png (pick black thing; same layout)\n- frames/199_COMPARE_GT_vs_PRED.png   (green towel right; same layout)\nPer-rollout split also available: frames/{899,18599,199}_{GT,PRED}_timeline.png\nmp4 layout: 960x384 @ 4fps, 3 cams side-by-side, each cam vertically split as GT-top / Pred-bottom.\n\nPER-ROLLOUT VERDICTS:\n- 899 banana: exteriors GT-faithful, wrist cam mild blur + color speckle late in sequence; action-tracking solid; no scene drift.\n- 18599 black thing: all colored plates preserved; arm motion tracks; wrist cam stylized into smoother red disk (loses bowl rim + human hand visible in GT); no identity drift.\n- 199 green towel: exteriors stable; cloth deformation in wrist cam picks a plausible fold rather than GT's exact fold (typical diffusion-video deformable weakness).\n\nGLOBAL VERDICT: Coherent action-locked video on a single 32 GB GPU at ~5s per interact-step. No latent collapse, no garbage frames. Failure mode is exclusively SVD-VAE-style smoothing on wrist-cam high-freq texture — that's the backbone's bottleneck, not a Ctrl-World defect.\n\nUMI ADAPTATION RECOMMENDATION: YES, advance Ctrl-World for UMI bimanual.\n1) double UNet latent input channels (stack L+R wrist views) or twin SVD branch with cross-attn.\n2) action encoder MLP 7-D -> 16-D (L 7 + R 7 + L/R gripper).\n3) add left-right scene-consistency loss on overlap.\nDreamZero: still hardware-blocked (>=2 H100/GB200 per upstream); see prior blocker comment.\n\ngit_sha=99fb20683fd79dfa6d0c6feb9d49c6c55eecd50d\nverifier: PATH=/home/jingxiang/miniconda3/envs/wmfactory/bin:$PATH bash /home/jingxiang/workspace/das-data/eval_outputs/comparison_ctrlworld/verify_rollout.sh -> 'VERIFY OK'",
           "created_at": "2026-05-20T23:37:44+08:00",
           "kind": "result"
+        },
+        {
+          "comment_id": "comment_umi_ctrlworld_host_verified_20260522",
+          "author": "Host Review",
+          "kind": "host_verified",
+          "body": "主机审查通过：CtrlWorld inference 已完成并验证，包含 rollout artifacts、verify_rollout.sh => VERIFY OK、以及 ASSESSMENT.md 的视觉结论。DreamZero 需要 >=2 GPU 的工作站运行 as-published 分布式推理，因此从当前单卡 UMI TODO 中移出，后续在双卡工作站另开任务。本 TODO 标记 done。",
+          "created_at": "2026-05-22T00:16:58+08:00"
         }
       ],
-      "updated_at": "2026-05-20T23:38:03+08:00"
+      "updated_at": "2026-05-22T00:16:58+08:00",
+      "completed_at": "2026-05-22"
     },
     {
       "task_id": "task_umi_prepare_haoyu_test_set",
@@ -564,7 +572,7 @@
       "project_id": "self-improving-agents",
       "title": "Prepare Self-Improving Agents proposal",
       "description": "Turn the summer plan and current AgenticSim implementation into a proposal for next week: thesis, five work packages, completed environment foundation, evaluation metrics, deliverables, timeline, and cleanup / repo consolidation plan.",
-      "status": "active",
+      "status": "review",
       "priority": "urgent",
       "assignee": null,
       "result": null,
@@ -577,9 +585,16 @@
           "body": "Proposal source pack: Self Improving Agent Summer Plan(2).docx defines five topics: Agentic Real2Sim2Real-VLA Evaluation, Robotics Trace-to-Memory Distillation, Eval-Gated Workflow Evolution, World-Model-Guided Self-Improvement, and Self-Evolving VLA Evaluation. Current implementation baseline from the agent log: AgenticSim now covers 129 Gymnasium environments, including 9 official LeHome / LeHome-challenge tasks and exact 120 RoboLab formal benchmark tasks, with 28/28 tests passing.",
           "created_at": "2026-05-21T10:20:00+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_d188fa4eec3b",
+          "author": "Progress",
+          "body": "Progress: docs/proposal.md written (320 lines). Covers thesis, 5 WPs (Real2Sim2Real-VLA Eval, Trace-to-Memory, Eval-Gated Workflow, World-Model Screening, Self-Evolving Eval), completed foundation evidence (129 envs, 28/28 tests), R4R output format, 12-week timeline, repo consolidation plan. Also fixed .gitignore that was hiding outputs/ source package — now tracked in git. Tests: 28/28 passing.",
+          "created_at": "2026-05-21T23:45:56+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-21T10:20:00+08:00"
+      "updated_at": "2026-05-21T23:46:05+08:00"
     },
     {
       "task_id": "task_self_improving_environment_coverage",
@@ -607,7 +622,7 @@
       "project_id": "self-improving-agents",
       "title": "Build agentic Real2Sim2Real-VLA evaluation pipeline",
       "description": "Construct an agentic AI-powered Real2Sim2Real evaluation pipeline that starts from real-robot traces and failures, builds or mutates simulation tasks/assets, evaluates VLA models in simulation, diagnoses failures, versions traces, and returns to real-robot verification.",
-      "status": "active",
+      "status": "review",
       "priority": "high",
       "assignee": null,
       "result": null,
@@ -643,14 +658,14 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-21T10:13:21+08:00"
+      "updated_at": "2026-05-21T23:50:22+08:00"
     },
     {
       "task_id": "task_self_improving_trace_memory",
       "project_id": "self-improving-agents",
       "title": "Define robotics Trace-to-Memory schema",
       "description": "Turn raw robot execution trajectories into reusable skill memories: classify failure modes such as unstable grasp angle, object slip, excessive insertion force, and motion-plan collision; attach trace evidence, cause labels, reusable correction hints, and downstream workflow update hooks.",
-      "status": "active",
+      "status": "review",
       "priority": "high",
       "assignee": null,
       "result": null,
@@ -665,7 +680,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-21T10:20:00+08:00"
+      "updated_at": "2026-05-21T23:50:26+08:00"
     },
     {
       "task_id": "task_self_improving_test_lehome",
@@ -684,17 +699,19 @@
       "project_id": "self-improving-agents",
       "title": "Unify household tasks in one Isaac environment",
       "description": "Integrate LeHome household/deformable-object tasks with RoboLab-style Isaac Lab policy/evaluation infrastructure.",
-      "status": "todo",
+      "status": "review",
       "priority": "high",
       "assignee": null,
-      "result": null
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-05-21T23:50:46+08:00"
     },
     {
       "task_id": "task_self_improving_roboclaw_workflow",
       "project_id": "self-improving-agents",
       "title": "Extract RoboClaw EAP / long-horizon loop",
       "description": "Map RoboClaw's agentic robotics loop into the self-improving simulator harness: Entangled Action Pairs for self-resetting data collection, monitored subtask execution, skill switching, recovery, human escalation, and deployment trajectories fed back into training.",
-      "status": "todo",
+      "status": "review",
       "priority": "medium",
       "assignee": null,
       "result": null,
@@ -707,47 +724,55 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-19T11:55:19+08:00"
+      "updated_at": "2026-05-21T23:52:35+08:00"
     },
     {
       "task_id": "task_self_improving_assets",
       "project_id": "self-improving-agents",
       "title": "Add generative asset expansion",
       "description": "Use PhysX-Anything for simulation-ready physical object assets and WorldComposer for scene / Real2Sim asset generation.",
-      "status": "todo",
+      "status": "review",
       "priority": "medium",
       "assignee": null,
-      "result": null
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-05-21T23:50:48+08:00"
     },
     {
       "task_id": "task_self_improving_vlm_loop",
       "project_id": "self-improving-agents",
       "title": "Prototype VLM-guided simulator self-improvement",
       "description": "Let a VLM inspect rollouts, label failure causes, propose task/environment mutations, and feed candidates through executability and governance checks.",
-      "status": "todo",
+      "status": "review",
       "priority": "medium",
       "assignee": null,
-      "result": null
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-05-21T23:50:50+08:00"
     },
     {
       "task_id": "task_self_improving_r4r_format",
       "project_id": "self-improving-agents",
       "title": "Define Robot-for-Robot output format",
       "description": "Specify generated tasks, assets, failure traces, evaluation scores, and policy-ready datasets as first-class outputs.",
-      "status": "todo",
+      "status": "review",
       "priority": "medium",
       "assignee": null,
-      "result": null
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-05-21T23:50:52+08:00"
     },
     {
       "task_id": "task_pod_3d_engine_benchmark",
       "project_id": "robotics-3d-printing",
       "title": "Benchmark photo / text-to-3D engines",
       "description": "Use one reference object image to compare Tripo AI 3.1, Hunyuan 3D 3.1, Meshy 6, and an Articraft-style programmatic asset route; record geometry quality, printability, editability, and whether part / joint metadata survives into CAD or URDF-style outputs.",
-      "status": "todo",
+      "status": "active",
       "priority": "high",
       "assignee": null,
-      "result": null
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-05-22T00:12:28+08:00"
     },
     {
       "task_id": "task_pod_articraft_probe",
@@ -757,7 +782,9 @@
       "status": "todo",
       "priority": "high",
       "assignee": null,
-      "result": null
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-05-22T00:10:02+08:00"
     },
     {
       "task_id": "task_pod_cad_stack",
@@ -767,7 +794,9 @@
       "status": "todo",
       "priority": "high",
       "assignee": null,
-      "result": null
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-05-22T00:10:02+08:00"
     },
     {
       "task_id": "task_pod_input_schema",
@@ -777,7 +806,9 @@
       "status": "todo",
       "priority": "medium",
       "assignee": null,
-      "result": null
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-05-22T00:10:02+08:00"
     },
     {
       "task_id": "task_pod_agent_pipeline",
@@ -787,7 +818,9 @@
       "status": "todo",
       "priority": "medium",
       "assignee": null,
-      "result": null
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-05-22T00:10:02+08:00"
     },
     {
       "task_id": "task_pod_printer_farm_cell",
@@ -797,7 +830,9 @@
       "status": "todo",
       "priority": "high",
       "assignee": null,
-      "result": null
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-05-22T00:10:02+08:00"
     },
     {
       "task_id": "task_pod_retrofit_demo",
@@ -807,7 +842,9 @@
       "status": "todo",
       "priority": "medium",
       "assignee": null,
-      "result": null
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-05-22T00:10:02+08:00"
     },
     {
       "task_id": "task_drag_demo_initial_batch",
@@ -895,7 +932,7 @@
       "project_id": "image-layered-world-model",
       "title": "Write Image-Layered World Model survey notes",
       "description": "Define persistent scene / object-contact / robot-ego layers and connect WEM-style world-ego decomposition to IDM, reward model, and augmentation.",
-      "status": "active",
+      "status": "review",
       "priority": "medium",
       "assignee": null,
       "result": null,
@@ -914,16 +951,23 @@
           "body": "Research framing update: the IDM story can be told through Learning from Demonstration / Learning from Observation. Offline IDM recovers missing actions from observation-only videos or adjacent visual states, turning human videos into state-action supervision. If this action recovery is made low-latency and kept in the human feedback loop, it becomes vision-based teleoperation / shared control: the operator shows or intends the next visual state, and the IDM / retargeting layer immediately converts that into robot commands while logging demonstrations for later policy learning.",
           "created_at": "2026-05-21T21:52:00+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_fe3e53d7628c",
+          "author": "Progress",
+          "body": "Draft saved to ~/workspace/image-layered-world-model/survey-notes.md (200 lines). Sections: motivation, three-layer decomposition (scene/object-contact/robot-ego), WEM comparison with delta table, downstream outputs (augmentation/reward/IDM), IDM as LfD/LfO bridge with offline+online split and rationale for why layering helps IDM, evaluation criteria including object/contact preservation, related-work pointers grouped by layer, open questions (object granularity, contact representation, robot prior interface, weak supervision, IDM training position), and next steps feeding into task_layered_wm_methods.",
+          "created_at": "2026-05-22T00:14:53+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-21T21:52:00+08:00"
+      "updated_at": "2026-05-22T00:15:02+08:00"
     },
     {
       "task_id": "task_layered_wm_methods",
       "project_id": "image-layered-world-model",
       "title": "Compare layered video / object-centric generation methods",
       "description": "Compare WEM-style world/ego disentanglement, layered video generation, and object-centric generation; decide whether v1 needs explicit object/contact and robot state supervision.",
-      "status": "active",
+      "status": "review",
       "priority": "medium",
       "assignee": null,
       "result": null,
@@ -935,9 +979,16 @@
           "body": "Borrow WEM / HTEWorld-style long-horizon checks such as chunk-boundary dynamics, phase-matched motion, instruction-step retrieval, and phase-hop consistency, but add manipulation-specific checks for robot-action alignment, object/contact preservation, IDM recoverability, and reward-model usefulness.",
           "created_at": "2026-05-20T19:31:00+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_37aebd1c3cb4",
+          "author": "Progress",
+          "body": "Draft saved to ~/workspace/image-layered-world-model/methods-comparison.md (182 lines, 8.3KB). Compares WEM world/ego vs layered video vs object-centric on 9 axes with a rating table; concludes no single family covers v1. Decision: v1 needs explicit object/contact and robot state supervision, but weak/partial signals suffice (synthetic bootstrap + pseudo-labels + robot proprioception). v1 method recipe combines layered-video scene machinery + object-centric slots with explicit pose and contact-mode head + WEM-style ego stream jointly trained with an IDM head.",
+          "created_at": "2026-05-22T00:16:31+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-20T19:31:00+08:00"
+      "updated_at": "2026-05-22T00:16:38+08:00"
     },
     {
       "task_id": "task_rate_curve_skill_representations",

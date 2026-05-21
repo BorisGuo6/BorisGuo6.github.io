@@ -76,6 +76,7 @@ await upsert("portfolio_snapshots", [{
   summary: portfolio.summary || {},
   storyline: portfolio.storyline || {},
   visual_references: portfolio.visual_references || [],
+  weekly_briefs: portfolio.weekly_briefs || [],
   project_buckets: portfolio.project_buckets || [],
   rules: portfolio.rules || [],
   timeline_policy: portfolio.timeline_policy || {},

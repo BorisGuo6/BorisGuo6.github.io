@@ -179,6 +179,7 @@ async function syncOnce(client, options) {
       summary: state.portfolio.summary || {},
       storyline: state.portfolio.storyline || {},
       visual_references: state.portfolio.visual_references || [],
+      weekly_briefs: state.portfolio.weekly_briefs || [],
       project_buckets: state.portfolio.project_buckets || [],
       rules: state.portfolio.rules || [],
       timeline_policy: state.portfolio.timeline_policy || {},

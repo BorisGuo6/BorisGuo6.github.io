@@ -73,11 +73,11 @@
       <details class="section fold-section">
         <summary>
           <span>
-            <strong>Visual Context</strong>
-            <em>Hardware photos, extracted PDF figures, and current project snapshots used for weekly discussion.</em>
+            <strong>Weekly Briefs</strong>
+            <em>Temporary meeting subpages and weekly discussion material.</em>
           </span>
         </summary>
-        <div class="visual-grid" data-visual-grid></div>
+        <div class="weekly-brief-list" data-weekly-brief-list></div>
       </details>
 
       <section class="section project-status-section">
@@ -275,6 +275,26 @@
           return Number.isNaN(date.getTime()) ? value : dateFormatter.format(date);
         }
 
+        function formatDateInput(date) {
+          const year = date.getFullYear();
+          const month = String(date.getMonth() + 1).padStart(2, "0");
+          const day = String(date.getDate()).padStart(2, "0");
+          return `${year}-${month}-${day}`;
+        }
+
+        function isoWeekLabel(date) {
+          const utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+          const day = utcDate.getUTCDay() || 7;
+          utcDate.setUTCDate(utcDate.getUTCDate() + 4 - day);
+          const yearStart = new Date(Date.UTC(utcDate.getUTCFullYear(), 0, 1));
+          const week = Math.ceil((((utcDate - yearStart) / 86400000) + 1) / 7);
+          return `${utcDate.getUTCFullYear()}-W${String(week).padStart(2, "0")}`;
+        }
+
+        function currentDashboardDate() {
+          return new Date();
+        }
+
         function formatDateTime(value) {
           if (!value) {
             return "";
@@ -351,6 +371,7 @@
             summary: snapshot.summary || {},
             storyline: snapshot.storyline || {},
             visual_references: snapshot.visual_references || [],
+            weekly_briefs: snapshot.weekly_briefs || [],
             project_buckets: snapshot.project_buckets || [],
             projects: projects.map((project) => ({
               project_id: project.project_id,
@@ -525,11 +546,13 @@
         function renderPortfolioState(portfolio) {
           document.querySelector(".report-header h1").textContent = portfolio.title || "Project Dashboard";
           document.querySelector(".report-header .subtitle").textContent = portfolio.subtitle || "";
-          document.querySelector(".week-box strong").textContent = portfolio.week || "";
+          const dashboardDate = currentDashboardDate();
+          const dashboardDateValue = formatDateInput(dashboardDate);
+          document.querySelector(".week-box strong").textContent = isoWeekLabel(dashboardDate);
           const weekTime = document.querySelector(".week-box time");
           if (weekTime) {
-            weekTime.dateTime = portfolio.date || "";
-            weekTime.textContent = formatDate(portfolio.date);
+            weekTime.dateTime = dashboardDateValue;
+            weekTime.textContent = formatDate(dashboardDateValue);
           }
 
           const summary = portfolio.summary || {};
@@ -547,7 +570,7 @@
             storylineSummary.textContent = portfolio.storyline.summary;
           }
           renderStoryline(portfolio.storyline);
-          renderVisualReferences(portfolio.visual_references);
+          renderWeeklyBriefs(portfolio.weekly_briefs);
           renderProjectBuckets(portfolio);
         }
 
@@ -607,25 +630,45 @@
           }
         }
 
-        function renderVisualReferences(references) {
-          const grid = document.querySelector("[data-visual-grid]");
-          if (!grid || !Array.isArray(references)) {
+        function renderWeeklyBriefs(briefs) {
+          const list = document.querySelector("[data-weekly-brief-list]");
+          if (!list) {
             return;
           }
-          const figures = references.map((reference) => {
-            const figure = document.createElement("figure");
-            figure.className = "figure-card";
-            const image = document.createElement("img");
-            image.src = assetFileUrl(reference.src);
-            image.alt = reference.alt || reference.caption || "Visual reference";
-            prepareZoomableImage(image);
-            const caption = document.createElement("figcaption");
-            caption.textContent = reference.caption || "";
-            makeTextCollapsible(caption, reference.caption || "", { maxLength: 170, maxLines: 2 });
-            figure.append(image, caption);
-            return figure;
-          });
-          grid.replaceChildren(...figures);
+          const items = Array.isArray(briefs) && briefs.length > 0
+            ? briefs
+            : [{
+                title: "2026-05-23 Weekly Brief",
+                date: "2026-05-23",
+                href: "weekly-briefs/2026-05-23/",
+                summary: "Temporary meeting page for this week's catering robot capability boundary analysis, lab space / force-feedback arm procurement options, Self-Improving Agents proposal context, and ByteDance scholarship opportunity.",
+                tags: ["weekly", "meeting", "temporary"],
+              }];
+          list.replaceChildren(...items.map((brief) => {
+            const article = document.createElement("article");
+            article.className = "weekly-brief-card";
+
+            const title = document.createElement("strong");
+            title.textContent = brief.title || brief.date || "Weekly brief";
+
+            const meta = document.createElement("div");
+            meta.className = "weekly-brief-meta";
+            if (brief.date) {
+              meta.append(createChip(formatDate(brief.date)));
+            }
+            (brief.tags || []).forEach((tag) => meta.append(createChip(tag)));
+
+            const summary = document.createElement("p");
+            summary.textContent = brief.summary || "";
+            makeTextCollapsible(summary, brief.summary || "", { maxLength: 220, maxLines: 3 });
+
+            const link = document.createElement("a");
+            link.href = brief.href || "#";
+            link.textContent = "Open weekly brief";
+
+            article.append(title, meta, summary, link);
+            return article;
+          }));
         }
 
         function createProjectShell(projectRef) {

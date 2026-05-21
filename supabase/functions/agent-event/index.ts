@@ -39,7 +39,7 @@ const allowedActions = new Set([
 ]);
 const allowedTaskStatuses = new Set(["todo", "active", "blocked", "needs_user", "review", "done"]);
 const allowedTaskPriorities = new Set(["low", "medium", "high", "urgent"]);
-const allowedProjectBuckets = new Set(["active", "research", "archive"]);
+const allowedProjectBuckets = new Set(["active", "engineering", "research", "archive"]);
 const allowedProjectStatuses = new Set(["ongoing", "survey", "blocked", "done", "paused"]);
 const allowedCommentKinds = new Set(["comment", "result", "status_change", "needs_user", "blocker", "verification"]);
 const commentKindAliases = new Map([
@@ -236,6 +236,7 @@ Deno.serve(async (request) => {
         summary: payload.summary || {},
         storyline: payload.storyline || {},
         visual_references: payload.visual_references || [],
+        weekly_briefs: payload.weekly_briefs || [],
         project_buckets: payload.project_buckets || [],
         rules: payload.rules || [],
         timeline_policy: payload.timeline_policy || {},

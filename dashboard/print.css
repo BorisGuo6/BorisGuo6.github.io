@@ -258,7 +258,7 @@ h1 {
 .fold-section > .summary-grid,
 .fold-section > .story-flow,
 .fold-section > .story-subsection,
-.fold-section > .visual-grid {
+.fold-section > .weekly-brief-list {
   padding: 12px;
 }
 
@@ -444,10 +444,55 @@ td small {
   font-weight: 800;
 }
 
-.visual-grid {
+.weekly-brief-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 12px;
+}
+
+.weekly-brief-card {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  background: var(--soft);
+}
+
+.weekly-brief-card strong {
+  font-size: 14px;
+}
+
+.weekly-brief-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.weekly-brief-card a {
+  justify-self: start;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 800;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+.weekly-brief-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.weekly-brief-meta span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 22px;
+  padding: 3px 7px;
+  border: 1px solid #cfd8e3;
+  background: #ffffff;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 800;
 }
 
 .figure-card {
@@ -1847,7 +1892,7 @@ body.lightbox-open {
   .fold-section > .summary-grid,
   .fold-section > .story-flow,
   .fold-section > .story-subsection,
-  .fold-section > .visual-grid {
+  .fold-section > .weekly-brief-list {
     padding: 8px;
   }
 
@@ -1869,11 +1914,11 @@ body.lightbox-open {
     gap: 8px;
   }
 
-  .visual-grid {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+  .weekly-brief-list {
     gap: 8px;
   }
 
+  .weekly-brief-card,
   .figure-card {
     padding: 6px;
   }
@@ -2036,7 +2081,7 @@ body.lightbox-open {
   .progress-table,
   .story-flow,
   .story-subsection,
-  .visual-grid,
+  .weekly-brief-list,
   .project-panel,
   .todo-list li {
     break-inside: avoid;
@@ -2071,7 +2116,6 @@ body.lightbox-open {
     grid-template-columns: 1fr;
   }
 
-  .visual-grid,
   .status-columns,
   .project-body,
   .project-body.compact {
