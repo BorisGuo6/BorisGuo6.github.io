@@ -4,7 +4,7 @@
   "title": "Image-Layered World Model",
   "bucket": "active",
   "status": "ongoing",
-  "updated_at": "2026-05-21T23:39:31+08:00",
+  "updated_at": "2026-05-22T00:42:35+08:00",
   "description": "Third-person video decomposition for reasoning and control",
   "summary": "Third-person video generation can be more useful if it separates persistent scene state, object/contact dynamics, and robot/ego dynamics instead of treating video as flat pixels.",
   "asset": "dashboard/assets/layered-world-model.png",
@@ -17,15 +17,23 @@
     "IDM framing: treat inverse dynamics as the LfD / LfO bridge. Offline, it infers missing robot actions from observation-only video or state transitions, turning videos into usable state-action demonstrations. Online, the same mapping becomes a low-latency vision-conditioned teleoperation / shared-control layer.",
     "Real-time nuance: not all LfD is teleoperation; it becomes vision-based teleoperation when the human is still in the loop and visual feedback plus IDM / retargeting maps the intended next state into immediate robot commands.",
     "Robot layer should support robot priors at generation time: either a manipulator URDF or a single robot-arm image as the robot-condition input.",
-    "Immediate work: survey layered video / object-centric generation methods and borrow WEM-style long-horizon phase metrics where useful."
+    "Immediate work: move from survey into layer-generation probes: first validate whether visual decomposition can produce reusable layer assets for robot scenes, not only clean poster-style edits.",
+    "Test track 1: Qwen-Image-Layered. Use poster-like images and robot manipulation stills to generate RGBA layers, then score recomposition error, duplicate or missing elements, layer purity, and whether scene/background, object/contact, and robot/ego regions are separable.",
+    "Test track 2: ChatGPT + Photoshop PSD pipeline. Prompt an image model to split each visual element into fixed-position white-background images, then use Photoshop scripting/actions to remove white, keep one layer per element, and export a PSD for inspection.",
+    "Agentic system shape: decomposition agent -> layer QA / recomposition agent -> PSD assembly agent -> manipulation relabel agent that maps visual layers into scene/background, object-contact, and robot/ego action layers."
   ],
   "task_ids": [
     "task_layered_wm_survey_notes",
-    "task_layered_wm_methods"
+    "task_layered_wm_methods",
+    "task_layered_wm_qwen_image_layered_probe",
+    "task_layered_wm_photoshop_psd_pipeline",
+    "task_layered_wm_layer_qa_metrics"
   ],
   "risks_decisions": [
     "Layered model scope should move beyond visual decomposition toward state-aware scene / object-contact / robot-ego dynamics.",
     "Object/contact state is the bridge between WEM's world and ego; if ignored, generated videos can look stable while failing manipulation physics.",
-    "Evaluation target: data augmentation quality, reward-model usefulness, IDM recoverability, real-time teleop controllability, and long-horizon phase consistency."
+    "Evaluation target: data augmentation quality, reward-model usefulness, IDM recoverability, real-time teleop controllability, and long-horizon phase consistency.",
+    "Qwen / poster-style layer separation may produce editable design layers but not manipulation semantics; v1 must explicitly check scene/background, object/contact, and robot/ego separability.",
+    "White-background prompt + Photoshop composition can create duplicate or missing elements; require reconstruction QA before using layers as training or evaluation data."
   ]
 }
