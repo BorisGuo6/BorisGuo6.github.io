@@ -103,6 +103,7 @@
       (() => {
         const stateRoot = document.querySelector('meta[name="dashboard-state-root"]')?.content || "state/";
         const storageKey = "dashboard.task-interactions.v1";
+        const detailsStorageKey = "dashboard.details-open.v1";
         const supabaseEsmUrl = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
         const statusCycle = ["todo", "active", "done"];
         const statusLabels = {
@@ -146,7 +147,9 @@
         let reloadTimer = null;
         let realtimeChannel = null;
         let localState = readLocalState();
-        const detailOpenState = new Map();
+        const persistedDetailsState = readDetailsState();
+        const detailOpenState = new Map(Object.entries(persistedDetailsState.states));
+        const userDetailOpenKeys = new Set(persistedDetailsState.userKeys);
         let detailsRenderDepth = 0;
         const maxCommentLength = 4000;
         const isLocalDashboard = ["127.0.0.1", "localhost", "::1"].includes(window.location.hostname);
@@ -166,6 +169,32 @@
           }
         }
 
+        function readDetailsState() {
+          try {
+            const parsed = JSON.parse(sessionStorage.getItem(detailsStorageKey) || "{}");
+            return {
+              states: parsed.states && typeof parsed.states === "object" ? parsed.states : {},
+              userKeys: Array.isArray(parsed.userKeys) ? parsed.userKeys : [],
+            };
+          } catch (error) {
+            console.warn("Ignoring invalid dashboard details state", error);
+            return { states: {}, userKeys: [] };
+          }
+        }
+
+        function writeDetailsState() {
+          const states = {};
+          userDetailOpenKeys.forEach((key) => {
+            if (detailOpenState.has(key)) {
+              states[key] = detailOpenState.get(key);
+            }
+          });
+          sessionStorage.setItem(detailsStorageKey, JSON.stringify({
+            states,
+            userKeys: [...userDetailOpenKeys],
+          }));
+        }
+
         function writeLocalState() {
           localStorage.setItem(storageKey, JSON.stringify(localState));
         }
@@ -182,16 +211,20 @@
               if (detailsRenderDepth > 0 || !details.isConnected) {
                 return;
               }
-              detailOpenState.set(key, details.open);
+              recordDetailsOpenState(details, true);
             });
           }
           return details;
         }
 
-        function recordDetailsOpenState(details) {
+        function recordDetailsOpenState(details, userInitiated = false) {
           const key = details?.dataset?.detailsKey;
           if (key) {
             detailOpenState.set(key, details.open);
+            if (userInitiated) {
+              userDetailOpenKeys.add(key);
+              writeDetailsState();
+            }
           }
         }
 
@@ -201,11 +234,14 @@
           if (!details?.matches?.("details[data-details-key]")) {
             return;
           }
-          window.setTimeout(() => recordDetailsOpenState(details), 0);
+          window.setTimeout(() => recordDetailsOpenState(details, true), 0);
         }
 
         function captureDetailsOpenState(root = document) {
           root.querySelectorAll?.("details[data-details-key]").forEach((details) => {
+            if (userDetailOpenKeys.has(details.dataset.detailsKey)) {
+              return;
+            }
             recordDetailsOpenState(details);
           });
         }
@@ -217,6 +253,19 @@
           captureDetailsOpenState(parent);
           detailsRenderDepth += 1;
           parent.replaceChildren(...children);
+          window.setTimeout(() => {
+            detailsRenderDepth = Math.max(0, detailsRenderDepth - 1);
+          }, 100);
+        }
+
+        function restoreDetailsOpenState(root = document) {
+          detailsRenderDepth += 1;
+          root.querySelectorAll?.("details[data-details-key]").forEach((details) => {
+            const key = details.dataset.detailsKey;
+            if (detailOpenState.has(key)) {
+              details.open = detailOpenState.get(key);
+            }
+          });
           window.setTimeout(() => {
             detailsRenderDepth = Math.max(0, detailsRenderDepth - 1);
           }, 100);
@@ -1391,6 +1440,7 @@
               }
             });
             renderAllProjects();
+            restoreDetailsOpenState();
           } finally {
             window.setTimeout(() => {
               detailsRenderDepth = Math.max(0, detailsRenderDepth - 1);
