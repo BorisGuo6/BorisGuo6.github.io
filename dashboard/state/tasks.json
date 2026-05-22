@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-23T03:29:43+08:00",
+  "updated_at": "2026-05-23T03:33:49+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2782,12 +2782,20 @@
       "project_id": "superhuman-rate-curve-teleop",
       "title": "定义加速执行的事件/安全 guardrails",
       "description": "Why now: 不能盲目加速 perception waits、grasp confirmation、contact settling。Deliverable: event constraints schema + runtime checker。Acceptance: checker 能对一条 proposed speed curve 标出不可加速区间、force/tactile guardrail 和 fail reason。",
-      "status": "review",
+      "status": "active",
       "priority": "medium",
       "assignee": "boris@100.101.68.35",
       "result": null,
-      "comments": [],
-      "updated_at": "2026-05-23T03:27:37+08:00",
+      "comments": [
+        {
+          "comment_id": "clawcross_a0046984f369",
+          "author": "Review",
+          "body": "Local Codex host review reopened this TODO.\n请补充可自动验收证据，不必重做主任务：在 dashboard/harness 写入完整复现记录。至少包含远端工作区 `pwd; git status --short; git rev-parse --short HEAD; ls -l safety_guardrails.py; sha256sum safety_guardrails.py`，实际运行 `python safety_guardrails.py --output-dir /tmp/guardrails` 的完整 stdout 和退出码，`find /tmp/guardrails -maxdepth 2 -type f -print -exec sha256sum {} \\;` 的输出。结果文件或 stdout 必须明确展示至少一条 proposed speed curve 被标出 non-acceleratable intervals、force/tactile guardrail violations 和 fail reasons；如果脚本无法运行，贴 stderr、退出码和 blocker。",
+          "created_at": "2026-05-23T03:33:39+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-05-23T03:33:49+08:00",
       "due_at": "2026-05-29"
     }
   ]
