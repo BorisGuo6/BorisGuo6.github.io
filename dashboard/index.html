@@ -32,7 +32,7 @@
         </div>
       </header>
 
-      <details class="fold-section">
+      <details class="fold-section" data-details-key="section:weekly-context">
         <summary>
           <span>
             <strong>Weekly Context</strong>
@@ -59,7 +59,7 @@
         </section>
       </details>
 
-      <details class="section fold-section" data-section-id="storyline">
+      <details class="section fold-section" data-section-id="storyline" data-details-key="section:storyline">
         <summary>
           <span>
             <strong>Storyline</strong>
@@ -70,7 +70,7 @@
         <div class="story-subsection" data-story-subsection></div>
       </details>
 
-      <details class="section fold-section">
+      <details class="section fold-section" data-details-key="section:weekly-briefs">
         <summary>
           <span>
             <strong>Weekly Briefs</strong>
@@ -146,6 +146,8 @@
         let reloadTimer = null;
         let realtimeChannel = null;
         let localState = readLocalState();
+        const detailOpenState = new Map();
+        let detailsRenderDepth = 0;
         const maxCommentLength = 4000;
         const isLocalDashboard = ["127.0.0.1", "localhost", "::1"].includes(window.location.hostname);
         const localWriteApiUrl = "http://127.0.0.1:8766";
@@ -166,6 +168,70 @@
 
         function writeLocalState() {
           localStorage.setItem(storageKey, JSON.stringify(localState));
+        }
+
+        function preserveDetailsOpenState(details, key, defaultOpen = false) {
+          if (!details || !key) {
+            return details;
+          }
+          details.dataset.detailsKey = key;
+          details.open = detailOpenState.has(key) ? detailOpenState.get(key) : defaultOpen;
+          if (!details.dataset.detailsStateBound) {
+            details.dataset.detailsStateBound = "true";
+            details.addEventListener("toggle", () => {
+              if (detailsRenderDepth > 0 || !details.isConnected) {
+                return;
+              }
+              detailOpenState.set(key, details.open);
+            });
+          }
+          return details;
+        }
+
+        function recordDetailsOpenState(details) {
+          const key = details?.dataset?.detailsKey;
+          if (key) {
+            detailOpenState.set(key, details.open);
+          }
+        }
+
+        function recordUserToggledDetails(event) {
+          const summary = event.target?.closest?.("summary");
+          const details = summary?.parentElement;
+          if (!details?.matches?.("details[data-details-key]")) {
+            return;
+          }
+          window.setTimeout(() => recordDetailsOpenState(details), 0);
+        }
+
+        function captureDetailsOpenState(root = document) {
+          root.querySelectorAll?.("details[data-details-key]").forEach((details) => {
+            recordDetailsOpenState(details);
+          });
+        }
+
+        function replaceChildrenPreservingDetails(parent, ...children) {
+          if (!parent) {
+            return;
+          }
+          captureDetailsOpenState(parent);
+          detailsRenderDepth += 1;
+          parent.replaceChildren(...children);
+          window.setTimeout(() => {
+            detailsRenderDepth = Math.max(0, detailsRenderDepth - 1);
+          }, 100);
+        }
+
+        function hydrateStaticDetailsOpenState() {
+          document.querySelectorAll("details[data-details-key]").forEach((details) => {
+            preserveDetailsOpenState(details, details.dataset.detailsKey, details.open);
+          });
+          document.addEventListener("click", recordUserToggledDetails);
+          document.addEventListener("keydown", (event) => {
+            if (event.key === "Enter" || event.key === " ") {
+              recordUserToggledDetails(event);
+            }
+          });
         }
 
         function setSyncStatus(label, state = "") {
@@ -644,7 +710,7 @@
                 summary: "Temporary meeting page for this week's catering robot capability boundary analysis, lab space / force-feedback arm procurement options, Self-Improving Agents proposal context, and ByteDance scholarship opportunity.",
                 tags: ["weekly", "meeting", "temporary"],
               }];
-          list.replaceChildren(...items.map((brief) => {
+          replaceChildrenPreservingDetails(list, ...items.map((brief) => {
             const article = document.createElement("article");
             article.className = "weekly-brief-card";
 
@@ -675,7 +741,7 @@
           const details = document.createElement("details");
           details.className = "project-detail";
           details.dataset.projectId = projectRef.project_id;
-          details.open = true;
+          preserveDetailsOpenState(details, `project:${projectRef.project_id}`, true);
 
           const summary = document.createElement("summary");
           const titleBlock = document.createElement("span");
@@ -709,6 +775,7 @@
 
           const decisionPanel = document.createElement("details");
           decisionPanel.className = "project-panel decision-panel";
+          preserveDetailsOpenState(decisionPanel, `project:${projectRef.project_id}:decisions`, false);
           const decisionSummary = document.createElement("summary");
           const decisionHeading = document.createElement("h3");
           decisionHeading.textContent = "Risks / Decisions";
@@ -747,17 +814,23 @@
           const buckets = Array.isArray(portfolio.project_buckets) && portfolio.project_buckets.length > 0
             ? portfolio.project_buckets
             : [{ bucket: "active", label: "Ongoing", title: "Active projects" }];
+          const existingProjects = new Map(
+            Array.from(container.querySelectorAll(".project-detail[data-project-id]"))
+              .map((projectElement) => [projectElement.dataset.projectId, projectElement])
+          );
           const columns = new Map();
-          container.replaceChildren();
+          const columnElements = [];
           buckets.forEach((bucket) => {
             const column = createProjectBucket(bucket);
             columns.set(bucket.bucket, column);
-            container.append(column);
+            columnElements.push(column);
           });
           (portfolio.projects || []).forEach((projectRef) => {
             const column = columns.get(projectRef.bucket) || columns.values().next().value;
-            column?.append(createProjectShell(projectRef));
+            const projectElement = existingProjects.get(projectRef.project_id) || createProjectShell(projectRef);
+            column?.append(projectElement);
           });
+          replaceChildrenPreservingDetails(container, ...columnElements);
         }
 
         function createSvgElement(name, attributes = {}) {
@@ -903,7 +976,7 @@
             list = document.createElement("ul");
             intro?.append(list);
           }
-          list.replaceChildren(...details.map((detail) => {
+          replaceChildrenPreservingDetails(list, ...details.map((detail) => {
             const item = document.createElement("li");
             appendRichText(item, detail);
             return item;
@@ -966,7 +1039,7 @@
           if (count) {
             count.textContent = `${decisions.length} items`;
           }
-          list.replaceChildren(...decisions.map((decision) => {
+          replaceChildrenPreservingDetails(list, ...decisions.map((decision) => {
             const item = document.createElement("li");
             item.textContent = decision;
             makeTextCollapsible(item, decision, { maxLength: 230, maxLines: 4 });
@@ -1085,6 +1158,7 @@
           const comments = getTaskComments(task);
           const details = document.createElement("details");
           details.className = "task-comments";
+          preserveDetailsOpenState(details, `task:${task.task_id}:comments`, false);
 
           const summary = document.createElement("summary");
           summary.textContent = `Comments (${comments.length})`;
@@ -1255,6 +1329,8 @@
 
           const details = document.createElement("details");
           details.className = "archive-detail";
+          const projectId = projectElement.dataset.projectId || "";
+          preserveDetailsOpenState(details, `project:${projectId}:archive`, false);
 
           const summary = document.createElement("summary");
           const title = document.createElement("span");
@@ -1290,7 +1366,7 @@
             heading.textContent = `Tasks (${activeTasks.length})`;
           }
           taskList.classList.add("interactive-task-list");
-          taskList.replaceChildren(...(activeTasks.length ? activeTasks.map(createTaskCard) : [createEmptyItem("No active tasks")]));
+          replaceChildrenPreservingDetails(taskList, ...(activeTasks.length ? activeTasks.map(createTaskCard) : [createEmptyItem("No active tasks")]));
 
           const archivePanel = ensureArchivePanel(projectElement, taskPanel);
           const archiveDetail = archivePanel.querySelector(".archive-detail");
@@ -1298,21 +1374,28 @@
           const archiveList = archivePanel.querySelector(".archive-list.project-list");
           archiveList.classList.add("interactive-task-list");
           archiveCount.textContent = `${completedTasks.length} completed`;
-          archiveList.replaceChildren(...(completedTasks.length ? completedTasks.map(createTaskCard) : [createEmptyItem("No completed tasks")]));
-          archiveDetail.open = false;
+          replaceChildrenPreservingDetails(archiveList, ...(completedTasks.length ? completedTasks.map(createTaskCard) : [createEmptyItem("No completed tasks")]));
         }
 
         function renderDashboardState() {
-          if (portfolioDoc) {
-            renderPortfolioState(portfolioDoc);
-          }
-          projectDocs.forEach((projectDoc) => {
-            const projectElement = document.querySelector(`[data-project-id="${projectDoc.project_id}"]`);
-            if (projectElement) {
-              renderProjectState(projectElement, projectDoc);
+          captureDetailsOpenState();
+          detailsRenderDepth += 1;
+          try {
+            if (portfolioDoc) {
+              renderPortfolioState(portfolioDoc);
             }
-          });
-          renderAllProjects();
+            projectDocs.forEach((projectDoc) => {
+              const projectElement = document.querySelector(`[data-project-id="${projectDoc.project_id}"]`);
+              if (projectElement) {
+                renderProjectState(projectElement, projectDoc);
+              }
+            });
+            renderAllProjects();
+          } finally {
+            window.setTimeout(() => {
+              detailsRenderDepth = Math.max(0, detailsRenderDepth - 1);
+            }, 100);
+          }
         }
 
         function renderAllProjects() {
@@ -1754,6 +1837,7 @@
           }
         }
 
+        hydrateStaticDetailsOpenState();
         initDashboardState();
       })();
     </script>

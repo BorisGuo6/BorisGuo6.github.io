@@ -4,12 +4,12 @@
   "title": "Drag-Demo Video Editing",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-05-21T23:43:36+08:00",
+  "updated_at": "2026-05-22T08:11:36+08:00",
   "description": "Remove human hands from drag-teaching robot data",
   "summary": "This project turns drag-teaching demonstrations into cleaner robot-learning videos by deleting the human operator hands while preserving robot motion, object contacts, and task state.",
   "asset": "dashboard/assets/drag-demo-video-editing.png",
   "asset_alt": "Drag-teaching robot data video editing and hand removal",
-  "asset_caption": "Current trial: ARX egg-cracking drag demo, Kling hand-removal output, and diff-map QA.",
+  "asset_caption": "Current SOP: Fangzhou dual-arm spatula egg-mold-to-white-plate collection, green-sleeve gloves, 3-camera capture, and diff-map QA.",
   "details": [
     {
       "text": "Masquerade is the closest reference: use data editing to reduce the human-robot visual embodiment gap. Here the robot is already visible, so the key edit is hand removal rather than robot overlay.",
@@ -20,15 +20,17 @@
         }
       ]
     },
-    "Current seed task: ARX egg cracking, which has clear contact events and enough tolerance to become a first data-scaling case.",
-    "Current progress: collected first drag-demo data, tried Kling video+prompt editing, and started before/after difference-map evaluation.",
-    "Glove is now available thanks to Zhenxiong. On 2026-05-20 afternoon, visit the potential experiment space with Leilei; if the visit ends early, test the collection workflow in the ME lab, otherwise do that on 2026-05-21.",
-    "Planned collection: start the focused 100-sequence batch on 2026-05-21 afternoon. Boris, Gaochen, and Jingxiang each target 30 sequences; Xiaobin will also join onsite to observe and participate."
+    "Current seed SOP: Fangzhou dual-arm drag demonstration for moving an egg mold from a pan spatula into a white plate. The right gripper grasps the spatula handle text area, lifts without touching the pan wall, moves above the white plate, rotates the spatula, and holds still for 2 seconds as the task-end marker.",
+    "Collection target: 100 valid demonstrations. Success means the egg mold lands fully inside the white plate, the spatula contact stays within the yellow gripper region, and the final 2-second stillness is clear.",
+    "Failure episodes should be kept, not discarded: black arm contact outside the gripper, spatula head touching the pan wall, egg mold dropping in transit, egg not entering the plate, insufficient final stillness, long mid-task pause, black frames, or obvious video abnormality should be marked n and saved under f000x/.",
+    "SOP capture stack: cam_top, cam_left_wrist, and cam_right_wrist RGB/depth plus eef_pose.pkl, image_timestamps.pkl, and state.pkl. Each episode should pass a 9-file completeness check before it counts as usable data.",
+    "Collection controls: green long gloves with sleeves for color-key hand inpainting, no head occlusion of the top camera, clean table with only pan and plate, move-stop-grip / move-stop-rotate separation, and light-time diversity across morning, afternoon, and cloudy or other conditions."
   ],
   "task_ids": [
     "task_drag_demo_initial_batch",
     "task_drag_demo_backend_compare",
     "task_drag_demo_diff_map_qa",
+    "task_drag_demo_sop_episode_verifier",
     "task_drag_demo_finetuning_comparison",
     "task_drag_demo_masks_collection_aids"
   ],
@@ -49,7 +51,7 @@
     "Kling quality looks strong, but the closed API, 3-10s window, and credit cost make an open fallback necessary before scaling.",
     "Diff maps need object / contact consistency checks; a low difference score can still hide harmful hallucination.",
     "Drag demonstrations may have dynamics that differ from autonomous execution, so teleop-only and mixed-data baselines are required.",
-    "Mask constraints may be needed before the pipeline can scale beyond the first egg-cracking task.",
-    "Before the 100-sequence batch, confirm the experiment space, glove readiness, and ME-lab collection workflow."
+    "Mask constraints may be needed before the pipeline can scale beyond the first spatula egg-transfer task.",
+    "Before counting the 100-sequence batch, enforce SOP gates: green-sleeve gloves, 3-camera sync, 2-second stillness marker, y/n success label, f000x failure retention, and 9-file episode completeness."
   ]
 }
