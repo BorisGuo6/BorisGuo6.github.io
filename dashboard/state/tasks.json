@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-22T16:05:15+08:00",
+  "updated_at": "2026-05-22T16:06:47+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -91,8 +91,16 @@
       "priority": "medium",
       "assignee": null,
       "result": null,
-      "comments": [],
-      "updated_at": "2026-05-22T15:59:39+08:00"
+      "comments": [
+        {
+          "comment_id": "clawcross_9dec9e0dc546",
+          "author": "Progress",
+          "body": "中断前盘点结果（2026-05-22 16:05，被切换到 factr_force_feedback 任务）。\n\n已发现状态：\n- MANUS Pro dongle 已插：lsusb -d 3325:0049 → Manus VR Sensor Dongle\n- 标定文件就位：~/workspace/wuji_wrapper/third_party/wuji-hand-teleop/src/input_devices/manus_input/manus_ros2/calibration/{Left,Right}MetaglovePro.mcal\n- ROS2 Humble 已装；wujihandcpp 1.6.0、ros-humble-wujihand 1.0.1、wujihand-upgrader 4.1.1 已 apt 装\n- WUJI Hand 串号映射来自 lab_hardware_setup memory：left=385E36533533, right=387B366A3533\n\n下一步缺：\n1. sudo 装 udev: sudo cp ~/workspace/wuji_wrapper/third_party/wuji-hand-teleop/src/input_devices/manus_input/config/udev/99-manus-libusb.rules /etc/udev/rules.d/ && sudo udevadm control --reload-rules && sudo udevadm trigger\n2. 安装 wuji-retargeting Python 包（python3 -c 'import wuji_retargeting' → ModuleNotFoundError）\n3. 创建 ~/ros2_ws/src，符号链接 wuji-hand-teleop 子树，置 COLCON_IGNORE 给 wujihandros2 子目录\n4. 编辑 src/output_devices/wujihand_output/config/wujihand_ik.yaml 填入两手串号\n5. colcon build （预期 18 包 0 fail）\n6. ros2 launch wuji_teleop_bringup wuji_teleop_hand.launch.py hand_input:=manus → 验证 /hand_input @ ~120Hz\n\n状态保留 doing；待 factr 任务暂停或完成后回到这里。",
+          "created_at": "2026-05-22T16:06:41+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-05-22T16:06:47+08:00"
     },
     {
       "task_id": "task_real_robot_infra_manus_vive_tracker",
@@ -129,7 +137,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-22T16:04:19+08:00"
+      "updated_at": "2026-05-22T16:06:47+08:00"
     },
     {
       "task_id": "task_real_robot_infra_safety_workspace",
@@ -193,7 +201,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-22T16:05:15+08:00"
+      "updated_at": "2026-05-22T16:06:47+08:00"
     },
     {
       "task_id": "task_umi_gemini_frame_test",
@@ -632,7 +640,7 @@
           "kind": "progress"
         }
       ],
-      "updated_at": "2026-05-22T16:05:10+08:00"
+      "updated_at": "2026-05-22T16:06:47+08:00"
     },
     {
       "task_id": "task_self_improving_prepare_proposal",
@@ -1127,7 +1135,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-22T16:04:56+08:00"
+      "updated_at": "2026-05-22T16:06:47+08:00"
     },
     {
       "task_id": "task_drag_demo_backend_compare",
@@ -1176,7 +1184,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-22T16:04:56+08:00",
+      "updated_at": "2026-05-22T16:06:47+08:00",
       "completed_at": null
     },
     {
@@ -1189,7 +1197,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-22T16:04:57+08:00"
+      "updated_at": "2026-05-22T16:06:47+08:00"
     },
     {
       "task_id": "task_drag_demo_masks_collection_aids",
