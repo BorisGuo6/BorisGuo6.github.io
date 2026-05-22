@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-23T00:24:20+08:00",
+  "updated_at": "2026-05-23T00:44:26+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -128,7 +128,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-22T17:13:05+08:00"
+      "updated_at": "2026-05-23T00:43:34+08:00"
     },
     {
       "task_id": "task_real_robot_infra_manus_vive_tracker",
@@ -200,7 +200,7 @@
           "kind": "needs_user"
         }
       ],
-      "updated_at": "2026-05-22T21:53:59+08:00"
+      "updated_at": "2026-05-23T00:43:34+08:00"
     },
     {
       "task_id": "task_real_robot_infra_safety_workspace",
@@ -278,7 +278,7 @@
           "kind": "needs_user"
         }
       ],
-      "updated_at": "2026-05-22T21:52:17+08:00"
+      "updated_at": "2026-05-23T00:43:34+08:00"
     },
     {
       "task_id": "task_umi_gemini_frame_test",
@@ -738,7 +738,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T00:24:20+08:00"
+      "updated_at": "2026-05-23T00:43:34+08:00"
     },
     {
       "task_id": "task_self_improving_prepare_proposal",
@@ -1240,7 +1240,7 @@
           "kind": "result"
         }
       ],
-      "updated_at": "2026-05-23T00:24:20+08:00"
+      "updated_at": "2026-05-23T00:43:34+08:00"
     },
     {
       "task_id": "task_drag_demo_backend_compare",
@@ -1323,7 +1323,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T00:24:20+08:00"
+      "updated_at": "2026-05-23T00:43:34+08:00"
     },
     {
       "task_id": "task_drag_demo_masks_collection_aids",
@@ -2092,6 +2092,294 @@
       ],
       "updated_at": "2026-05-22T09:49:54+08:00",
       "completed_at": "2026-05-22"
+    },
+    {
+      "task_id": "task_umi_ai2v_v0_training_pack",
+      "project_id": "umi-world-model",
+      "title": "整理 AI2V v0 训练/微调数据包",
+      "description": "Why now: 基模确定后需要马上进入小规模训练或 adapter 改造。Deliverable: 训练 manifest、prompt/first-frame/gt/predicted 路径规范、train/val/test split、过滤规则、最小 config。Acceptance: 数据包能被一个 dry-run loader 完整读取；输出 count、hash、缺失项报告。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "jingxiang@100.112.245.1",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-05-23T00:43:41+08:00"
+    },
+    {
+      "task_id": "task_umi_decide_ai2v_after_186_vbench",
+      "project_id": "umi-world-model",
+      "title": "基于 186-scale VBench 收口 AI2V 基模选择",
+      "description": "Why now: WAN2.2/LTX 已到 186-scale，Cosmos25 正在补齐；下一步不能只停留在分数表。Deliverable: 一页决策 memo，列出 WAN2.2/LTX/Cosmos25 在 subject/background/smoothness/dynamic/imaging/flicker 的取舍、失败样例、训练/改造成本。Acceptance: 引用 186-scale JSON、SUMMARY_186.md、至少 12 个视频对比样例，给出 v0 AI2V 主线和 fallback。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "jingxiang@100.112.245.1",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-05-23T00:43:41+08:00"
+    },
+    {
+      "task_id": "task_umi_eval_gallery",
+      "project_id": "umi-world-model",
+      "title": "做 UMI 评测样例浏览器/对比 gallery",
+      "description": "Why now: 只看 VBench 平均值不足以判断能不能进入训练。Deliverable: 静态 HTML 或 notebook gallery，按 clip 展示 GT、WAN2.2、LTX、Cosmos25 和 prompt。Acceptance: 至少覆盖 50 个 clip，支持按模型/指标排序，能从远端 workspace 直接打开。",
+      "status": "todo",
+      "priority": "medium",
+      "assignee": "jingxiang@100.112.245.1",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-05-23T00:43:41+08:00"
+    },
+    {
+      "task_id": "task_pod_cell_driver_skeleton",
+      "project_id": "robotics-3d-printing",
+      "title": "把 takeout runbook 接成 Piper-X / printer cell driver skeleton",
+      "description": "Why now: printer_farm_cell scope 已完成，下一步要把 printed artifacts 接到真机控制边界。Deliverable: cell_driver/ skeleton，含 printer status adapter、bed perception placeholder、Piper-X pick/place API stub、安全 state machine。Acceptance: 用 assembly_plan.json dry-run 走完整状态机，输出每步 command envelope 和 fail-safe path。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "shaol@100.96.228.8",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-05-23T00:43:41+08:00"
+    },
+    {
+      "task_id": "task_pod_demo_viewer",
+      "project_id": "robotics-3d-printing",
+      "title": "把 PoD retrofit demo 做成可展示 viewer",
+      "description": "Why now: retrofit_extender 已能生成 STLs/URDF/GLB/runbook，但展示仍是文件列表和命令行。Deliverable: 一个本地可开的 demo viewer，展示 GLB、build plate、四个 STL、7-step robot/printer runbook。Acceptance: 一条命令启动 viewer；README 里写明 URL 和 demo flow；重新跑 run_demo.py 后 viewer 自动读取 out/。",
+      "status": "active",
+      "priority": "high",
+      "assignee": "shaol@100.96.228.8",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-05-23T00:44:26+08:00"
+    },
+    {
+      "task_id": "task_pod_second_retrofit_product",
+      "project_id": "robotics-3d-printing",
+      "title": "新增第二个 PoD retrofit 产品验证泛化",
+      "description": "Why now: Mac-mini extender 证明了单例闭环，但 schema/pipeline 泛化还没验证。Deliverable: 一个不同接触/安装形态的第二产品（如 cable clip、drawer latch、tool holder），走 input_schema -> agent_pipeline -> STLs/URDF/jigs/runbook。Acceptance: 与 extender 共享同一 pipeline，无硬编码路径；validation_report ok。",
+      "status": "todo",
+      "priority": "medium",
+      "assignee": "shaol@100.96.228.8",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-05-23T00:44:06+08:00"
+    },
+    {
+      "task_id": "task_layered_wm_contact_object_head",
+      "project_id": "image-layered-world-model",
+      "title": "补 object/contact supervision probe",
+      "description": "Why now: object_contact 在 robot_still 只有约 0.21，说明单靠 layered image 不足。Deliverable: object/contact head 的弱监督方案，对比 color/geometry/Qwen layer features。Acceptance: poster 和 robot_still 都输出 object/contact mask；记录 contact recall/precision、penetration/sliding proxy。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "feibo@100.87.220.29",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-05-23T00:44:06+08:00"
+    },
+    {
+      "task_id": "task_layered_wm_robot_ego_head",
+      "project_id": "image-layered-world-model",
+      "title": "Prototype explicit robot/ego layer head",
+      "description": "Why now: Qwen-Image-Layered 已证明 scene layer 强，但 robot_ego IoU 只有约 0.14，不能直接服务 IDM/robot prior。Deliverable: 一个显式 robot/ego mask/head 的最小 probe，可用 synthetic robot still + simple robot prior/segmentation baseline。Acceptance: robot_still robot_ego max-IoU 明显超过 Qwen baseline；输出 score_summary 和失败样例。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "feibo@100.87.220.29",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-05-23T00:44:06+08:00"
+    },
+    {
+      "task_id": "task_layered_wm_video_temporal_probe",
+      "project_id": "image-layered-world-model",
+      "title": "把单图 layer probe 扩展到短视频 temporal consistency",
+      "description": "Why now: world model 要服务视频/IDM，PSD/单图 round-trip 只是静态验证。Deliverable: 3-5 帧短序列 layer propagation 或逐帧 decomposition + consistency metric。Acceptance: 输出 temporal flicker / mask IoU over time / object-contact continuity 指标，并列出最小训练目标。",
+      "status": "todo",
+      "priority": "medium",
+      "assignee": "feibo@100.87.220.29",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-05-23T00:44:06+08:00"
+    },
+    {
+      "task_id": "task_self_improving_demo_cli_pack",
+      "project_id": "self-improving-agents",
+      "title": "打包一个可演示的 PEARL/R2S2R CLI demo",
+      "description": "Why now: 核心模块 38/38 tests 已通过，但 demo 入口仍是测试套件，不适合展示。Deliverable: scripts/demo_self_improving.py 或 docs/demo.md，串起 trace ingestion、sim-real gap、trace memory、workflow governance、R4R output。Acceptance: 一条命令在无 Isaac 环境下跑通 mock demo，并生成 r4r_output.json + human-readable summary。",
+      "status": "active",
+      "priority": "high",
+      "assignee": "boris@100.101.68.35",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-05-23T00:44:21+08:00"
+    },
+    {
+      "task_id": "task_self_improving_failure_trace_dataset",
+      "project_id": "self-improving-agents",
+      "title": "构造最小 failure trace 数据集用于 Trace-to-Memory demo",
+      "description": "Why now: MemoryStore 已有 schema/test，但需要真实感样例证明 retrieval/distillation 价值。Deliverable: 10-20 条 robotics failure trace JSON/HDF5 样例，覆盖 grasp/slip/collision/timing/contact 等 failure taxonomy。Acceptance: demo CLI 能检索相似失败并输出 correction suggestion。",
+      "status": "todo",
+      "priority": "medium",
+      "assignee": "boris@100.101.68.35",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-05-23T00:44:06+08:00"
+    },
+    {
+      "task_id": "task_self_improving_isaac_smoke_gate",
+      "project_id": "self-improving-agents",
+      "title": "定义 Isaac Sim smoke gate 与依赖检查",
+      "description": "Why now: 当前测试是 Isaac-free mock，下一阶段必须知道真 Isaac/Isaac Lab 环境缺什么。Deliverable: scripts/check_isaac_env.py + smoke plan，检测 Isaac Sim、Isaac Lab、CUDA、Gym env registration、headless launch。Acceptance: 缺依赖时给 actionable report；环境齐全时跑一个最短 reset/step smoke。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "boris@100.101.68.35",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-05-23T00:44:06+08:00"
+    },
+    {
+      "task_id": "task_drag_demo_finetune_loader_baseline",
+      "project_id": "drag-demo-video-editing",
+      "title": "实现 drag/teleop/mixed fine-tuning loader baseline",
+      "description": "Why now: comparison TODO 需要先有统一 loader，才谈训练结果。Deliverable: loader + split config，支持 teleop-only、drag-only、70/30 mixed 三路。Acceptance: dry-run 打印 batch shapes、episode counts、missing stream report。",
+      "status": "todo",
+      "priority": "medium",
+      "assignee": "lv-robotics@100.113.210.127",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-05-23T00:44:06+08:00"
+    },
+    {
+      "task_id": "task_drag_demo_reach_100_manifest",
+      "project_id": "drag-demo-video-editing",
+      "title": "按选定 threshold 补齐 100 episode manifest",
+      "description": "Why now: initial batch 目标是可训练数据，不是 verifier 本身。Deliverable: initial_batch_manifest.json 达到 100 条或给出 onsite 采集缺口清单。Acceptance: verifier JSON 报告每条 episode 的 pass/fail 原因；manifest 可直接被训练 loader 读取。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "lv-robotics@100.113.210.127",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-05-23T00:44:06+08:00"
+    },
+    {
+      "task_id": "task_drag_demo_threshold_decision",
+      "project_id": "drag-demo-video-editing",
+      "title": "决定 initial batch final-stillness threshold",
+      "description": "Why now: 当前严格 0.02 rad 只有 13/100，relax 到 0.50 可到 94；不先定 threshold，后续 collect/fine-tune 都会反复。Deliverable: 选择 strict onsite recollect 或 relaxed threshold，并写入 verifier config。Acceptance: threshold、理由、风险和数据数量都记录在 TODO comment 中。",
+      "status": "needs_user",
+      "priority": "high",
+      "assignee": "lv-robotics@100.113.210.127",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-05-23T00:44:06+08:00"
+    },
+    {
+      "task_id": "task_real_robot_input_record_schema",
+      "project_id": "real-robot-infra",
+      "title": "统一 MANUS/Wuji/VIVE/robot state 记录 schema",
+      "description": "Why now: 多个输入设备并行接入，若不先统一记录格式，后续 HOI/retargeting/UMI 数据会割裂。Deliverable: schema + sample writer，覆盖 hand joints/tactile/wrist pose/camera extrinsics/robot state/time sync。Acceptance: 能把一个 fake 或真实 10 秒 episode 写成统一 JSON/HDF5，并被 validator 读取。",
+      "status": "todo",
+      "priority": "medium",
+      "assignee": "boris@100.70.181.44",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-05-23T00:44:06+08:00"
+    },
+    {
+      "task_id": "task_real_robot_manus_vive_hardware_verifier",
+      "project_id": "real-robot-infra",
+      "title": "完成 MANUS + VIVE Tracker 硬件 verifier",
+      "description": "Why now: wrapper 已有软件 scaffold，但需要实验室完成 MANUS glove、SteamVR、base station、VIVE tracker 配对。Deliverable: glove streaming verifier、tracker listing、外参/时间同步最小记录。Acceptance: 有 MANUS hand stream Hz、VIVE tracker serial、同步日志和 retargeting replay verifier。",
+      "status": "needs_user",
+      "priority": "high",
+      "assignee": "boris@100.70.181.44",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-05-23T00:44:06+08:00"
+    },
+    {
+      "task_id": "task_real_robot_wuji_glove_network_smoke",
+      "project_id": "real-robot-infra",
+      "title": "跑通 Wuji Glove 网络 smoke 与时间戳记录",
+      "description": "Why now: 已纠正 Wuji Glove 不是 MANUS，真实连接是 USB-C-to-Ethernet 网络端点。Deliverable: 网络发现、stream subscribe、timestamp drift/logging smoke。Acceptance: 记录 IP/port、packet rate、字段 schema、10 秒日志 sha256；失败时输出硬件/网络 blocker。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "boris@100.70.181.44",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-05-23T00:44:06+08:00"
+    },
+    {
+      "task_id": "task_hoi_contact_annotation_pack",
+      "project_id": "diverse-same-task-dataset",
+      "title": "定义 object/contact annotation pack 并标注样例",
+      "description": "Why now: HOI retargeting 目标不是关节相似，而是 object trajectory/contact/task result。Deliverable: contact patch、contact normal、grasp/tool-use mode、object pose trajectory 的 label spec + 5 个样例。Acceptance: 标注能喂给 retargeting baseline 或 Isaac verifier。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "survey-pool",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-05-23T00:44:06+08:00"
+    },
+    {
+      "task_id": "task_hoi_isaac_retargeting_verifier_v0",
+      "project_id": "diverse-same-task-dataset",
+      "title": "做 Isaac retargeting verifier v0",
+      "description": "Why now: 已经决定要用 Isaac 判断机器人是否复现同一 object-state transition。Deliverable: 一个 v0 verifier，输入 human HOI label + robot candidate trajectory，输出 object pose/contact/joint-limit/collision/failure report。Acceptance: 能在 mock scene 上跑通，并给出可解释 reject reason。",
+      "status": "todo",
+      "priority": "medium",
+      "assignee": "survey-pool",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-05-23T00:44:06+08:00"
+    },
+    {
+      "task_id": "task_hoi_two_modality_capture_smoke",
+      "project_id": "diverse-same-task-dataset",
+      "title": "同一任务跑两个采集模态 smoke",
+      "description": "Why now: collection matrix/schema 都完成了，下一步要证明同一任务能跨模态对齐。Deliverable: 选一个 manipulation task，至少 glove/UMI 或 teleop/drag 两个模态各出 1 条样例。Acceptance: 两条样例共享 task_id/object_id/timestamps/camera metadata，并能在同一 schema validator 中通过。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "survey-pool",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-05-23T00:44:06+08:00"
+    },
+    {
+      "task_id": "task_rate_curve_one_demo_offline_eval",
+      "project_id": "superhuman-rate-curve-teleop",
+      "title": "用一个 teleop demo 建立离线 rate-curve 评测",
+      "description": "Why now: survey 已完成，但需要把 phase-aware rate curve 变成可计算实验。Deliverable: 选择一条 demo，标注 phases/events，生成多个 playback-rate curve。Acceptance: 输出 duration、jerk、event violation、contact wait violation、path deviation 指标表。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "survey-pool",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-05-23T00:44:06+08:00"
+    },
+    {
+      "task_id": "task_rate_curve_retiming_vs_sft_baseline",
+      "project_id": "superhuman-rate-curve-teleop",
+      "title": "比较 classical retiming 与 SFT action-frequency baseline",
+      "description": "Why now: 下一步要知道速度提升来自轨迹 retiming 还是 policy frequency/behavior learning。Deliverable: TOPPRA/Ruckig-style retiming baseline 与 SFT action-frequency ablation 的实验设计或 mock implementation。Acceptance: 同一 demo 上输出速度/连续性/稳定性/jerk 对比。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "survey-pool",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-05-23T00:44:06+08:00"
+    },
+    {
+      "task_id": "task_rate_curve_safety_event_guardrails",
+      "project_id": "superhuman-rate-curve-teleop",
+      "title": "定义加速执行的事件/安全 guardrails",
+      "description": "Why now: 不能盲目加速 perception waits、grasp confirmation、contact settling。Deliverable: event constraints schema + runtime checker。Acceptance: checker 能对一条 proposed speed curve 标出不可加速区间、force/tactile guardrail 和 fail reason。",
+      "status": "todo",
+      "priority": "medium",
+      "assignee": "survey-pool",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-05-23T00:44:06+08:00"
     }
   ]
 }
