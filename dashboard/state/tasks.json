@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-23T04:02:24+08:00",
+  "updated_at": "2026-05-23T04:19:31+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2551,7 +2551,7 @@
       "project_id": "real-robot-infra",
       "title": "统一 MANUS/Wuji/VIVE/robot state 记录 schema",
       "description": "Why now: 多个输入设备并行接入，若不先统一记录格式，后续 HOI/retargeting/UMI 数据会割裂。Deliverable: schema + sample writer，覆盖 hand joints/tactile/wrist pose/camera extrinsics/robot state/time sync。Acceptance: 能把一个 fake 或真实 10 秒 episode 写成统一 JSON/HDF5，并被 validator 读取。",
-      "status": "review",
+      "status": "done",
       "priority": "medium",
       "assignee": "boris@100.70.181.44",
       "result": null,
@@ -2562,10 +2562,18 @@
           "body": "Schema v1 + writer + reader + validator + 10s fake-episode E2E shipped.\n\n== Repo + commit ==\n\nWorktree: /home/boris/workspace/real_robot_record\nBranch:   master\nCommit:   dea26fdbe8be321283bdfea48401d9b91474ac06  (Initial real_robot_record schema v1: writer, reader, validator, CLI, fake-episode E2E)\n\nSource files (sha256):\n  src/real_robot_record/__init__.py     1589ac8fdd5d01488f3faf5b34a706c2e64468fce2226d4cf5fe49b9d406a5fc\n  src/real_robot_record/schema.py       c2342f7bc138a813a7ea295f0cc8422771d290f7ebac2959c7916547f9a993cc\n  src/real_robot_record/writer.py       11c1ec73934de26cf6fd450329969dcef213c7d34c4a3f785a008bf733ac60af\n  src/real_robot_record/reader.py       e028732c6401c4757d5da512a456509165a7af949de76d716901889619ff220c\n  src/real_robot_record/validator.py    b8c3b2714755bb61368495cee4992f82c6748acc74c55cb9313a6361437bddf8\n  src/real_robot_record/cli.py          7eb64b1c6d89815068e339943ee93754d936e866d1ac330eff81f36a9023fe4a\n  tests/test_roundtrip.py               345986c71bd9ed5989d7f426227fb9ced7c7e11617c30a04b3dcc5672e0e3439\n  docs/schema.md                        3fdfd5383f1ab321880d669c54e67a11c38d08adb86c23138d540b611533a319\n\n== Acceptance criteria (from task description) ==\n\n  Deliverable      | Status | Where\n  ------------------|--------|-----------------------------------------------\n  schema           | DONE   | src/real_robot_record/schema.py + docs/schema.md\n  sample writer    | DONE   | src/real_robot_record/writer.py (EpisodeWriter)\n  hand joints      | DONE   | kind=hand_joints (Wuji) + hand_skeleton (MANUS)\n  tactile          | DONE   | kind=tactile / tactile_zones\n  wrist pose       | DONE   | kind=wrist_pose (VIVE), body_pose (chest/arm)\n  camera extrinsics| DONE   | kind=camera_extrinsics (4x4 snapshot or stream)\n  robot state      | DONE   | kind=robot_state (q, qdot, ee_pose, optional wrench)\n  time sync        | DONE   | ts_us in every stream (host UTC μs), 50 ms skew bound\n  fake episode     | DONE   | rrr-write-fake CLI (10 s, 7 streams)\n  validator        | DONE   | rrr-validate CLI + validate_episode() library\n  JSON/HDF5        | DONE   | manifest.json + data.h5 per episode\n\n== Verifier 1: pytest (offline, no hardware) ==\n\nCommand:\n  cd ~/workspace/real_robot_record && ~/workspace/wuji_wrapper/.venv/bin/python -m pytest tests/ -v\n\nResult: 23 passed in 0.20 s\nCoverage:\n  - writer + reader round-trip (minimal + 7-stream full episode)\n  - writer-side validation: unknown stream id / wrong shape / wrong payload\n    field / missing payload / duplicate device / dangling stream / bad dtype /\n    field name collides with index column / double-underscore id rejection\n  - validator error paths: missing manifest, schema_version mismatch,\n    sha256 mismatch after h5 edit, non-monotonic ts_us, n_frames mismatch,\n    unknown stream kind (warn + strict-raise), missing payload dataset,\n    non-4x4 calibration\n\nLog:\n  ~/.claude/jobs/real_robot_record/tests.log   sha256=8cdff44d52cfd368d56e4182e869072acd80e0f5bd5c76bd07a97eaa0056506c\n\n== Verifier 2: 10s fake-episode E2E ==\n\nCommands:\n  rm -rf ~/.claude/jobs/real_robot_record/ep_fake_v2\n  ~/workspace/wuji_wrapper/.venv/bin/rrr-write-fake --out ~/.claude/jobs/real_robot_record/ep_fake_v2 --duration 10\n  ~/workspace/wuji_wrapper/.venv/bin/rrr-validate ~/.claude/jobs/real_robot_record/ep_fake_v2\n\nArtifact:\n  /home/boris/.claude/jobs/real_robot_record/ep_fake_v2/\n    manifest.json   6184 bytes   sha256=f307d5580bdb8961a5c0601b95e2f9aafa965df636280bf28d74ab0dec9034ea\n    data.h5         3921004 bytes sha256=4cc088461bc248a98049098f23dd7e6b7ec1b618384d315614b1c295c8d84f4d\n\nHDF5 inventory (verified by h5py inspection):\n  /streams/wuji_glove_right__tactile          ts_us(1200) seq(1200) frame_id(1200) data(1200,768)float32\n  /streams/wuji_glove_right__hand_joint_angles ts_us(1200) seq(1200) frame_id(1200) joint_angles(1200,21)float32\n  /streams/wuji_glove_right__imu_palm          ts_us(1200) seq(1200) frame_id(1200) orientation(1200,4) angular_velocity(1200,3) acceleration(1200,3) all float32\n  /streams/manus_right__hand_skeleton          ts_us(1200) seq(1200) frame_id(1200) keypoints(1200,21,3)float32\n  /streams/vive_right_wrist__pose              ts_us(1200) seq(1200) frame_id(1200) pose(1200,4,4)float32\n  /streams/franka_left__joint_state            ts_us(500)  seq(500)  frame_id(500)  q(500,7) qdot(500,7) ee_pose(500,4,4) all float64\n  /streams/camera_color_0__extrinsics          ts_us(1) seq(1) frame_id(1) T_world_cam(1,4,4)float64\n\nValidator output:\n  [rrr-validate] OK /home/boris/.claude/jobs/real_robot_record/ep_fake_v2\n\nVerifier logs (all in ~/.claude/jobs/real_robot_record/):\n  write_fake.log  sha256=821f0e1bae575e095b0d02e907b95a2eb59331e41426a7d8c011ebd8da6ac496\n  validate.log    sha256=e2670d64a0c2000ccb2d6996453b6f632a0d76096053ba8ac902a3c76948242d\n\n== Schema highlights ==\n\n- SCHEMA_VERSION = 'real_robot_record.v1' (validator hard-rejects mismatches).\n- All ts_us are host wall-clock UTC μs = int(time.time()*1e6) on the recorder.\n  Cross-stream alignment bound (recommended): 50 ms.\n- canonical_stream_id(device, name) = f\"{device}__{name}\" — no '__' allowed in\n  either component; reserved field names ts_us/seq/frame_id cannot be reused\n  as payload field names.\n- Calibration matrices live in manifest only (small, human-editable). Stream\n  payloads stay in HDF5 (binary, compressed).\n- KNOWN_STREAM_KINDS is a closed enum for warnings; unknown kinds are\n  warnings-by-default so the schema extends forward without a bump.\n\nStatus -> review. Companion repos using this schema:\n  /home/boris/workspace/vive_wrapper       (MANUS+VIVE fusion -> FusedHandFrame -> can be appended to wrist_pose / hand_skeleton streams)\n  /home/boris/workspace/wuji_glove_wrapper (FrameSample collected by net-smoke -> can be appended to tactile / imu / hand_joints streams)\n  /home/boris/workspace/manus_wrapper      (GloveFrame.to_mediapipe() -> hand_skeleton stream)\n\nSuggested follow-ups (separate TODOs):\n  1. End-to-end wiring: an orchestrator that scans connected devices, calls\n     the right wrapper per device kind, and feeds each frame into EpisodeWriter.\n     Blocked on hardware (Wuji glove link, MANUS glove pairing, VIVE/SteamVR).\n  2. Foxglove / mcap export for visualisation (h5 -> mcap is a tight loop).\n  3. Validator profile flags for retargeting (e.g. require at least one\n     wrist_pose stream when a hand_skeleton stream is present).",
           "created_at": "2026-05-23T02:24:31+08:00",
           "kind": "result"
+        },
+        {
+          "comment_id": "clawcross_4bf0b6fdea53",
+          "author": "Host verification",
+          "body": "Local Codex host review accepted this TODO.\n可接受：dashboard 结果给出了 schema/writer/validator、23 个测试通过、10 秒 fake episode 写入 JSON/HDF5 并被 validator 读取 OK 的可复现证据。\nEvidence: /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json 中 task_real_robot_input_record_schema 处于 review，result comment 列出 commit dea26fdbe8be321283bdfea48401d9b91474ac06 与关键源码 sha256; result comment 报告 pytest tests/ -v 为 23 passed，覆盖 writer/reader round-trip、7-stream full episode 与 validator 错误路径; result comment 报告 rrr-write-fake --duration 10 后 rrr-validate OK，产物 manifest.json sha256=f307d5580bdb8961a5c0601b95e2f9aafa965df636280bf28d74ab0dec9034ea、data.h5 sha256=4cc088461bc248a98049098f23dd7e6b7ec1b618384d315614b1c295c8d84f4d; HDF5 inventory 覆盖 Wuji tactile/hand joints/IMU、MANUS hand skeleton、VIVE wrist pose、Franka robot state、camera extrinsics，且各 stream 有 ts_us/seq/frame_id; 尝试 SSH 读取远端工作区失败：Operation not permitted；本机 /Users/boris/workspace 下未发现 real_robot_record 副本\nCommands: sed -n '2535,2675p' /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json; rg -n \"dea26fdbe8be321283bdfea48401d9b91474ac06|real_robot_record|ep_fake_v2|rrr-validate\" /Users/boris/workspace/ClawCross /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json; ssh -o BatchMode=yes -o ConnectTimeout=10 boris@100.70.181.44 git -C /home/boris/workspace/real_robot_record rev-parse HEAD; ssh -o BatchMode=yes -o ConnectTimeout=10 boris@100.70.181.44 git -C /home/boris/workspace/real_robot_record status --short; rg --files /Users/boris/workspace | rg 'real_robot_record|real_robot'\nReason: 验收目标允许 fake episode；worker 提供了可复现命令、结果文件、validator 输出、日志/产物哈希和覆盖范围清单，已满足 schema + sample writer + 统一 JSON/HDF5 + validator 读取的范围。SSH 二次复跑被本机沙箱阻止，但未发现需要退回 worker 的交付缺口。",
+          "created_at": "2026-05-23T04:19:23+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-05-23T03:19:32+08:00",
-      "due_at": "2026-05-28"
+      "updated_at": "2026-05-23T04:19:23+08:00",
+      "due_at": "2026-05-28",
+      "completed_at": "2026-05-23"
     },
     {
       "task_id": "task_real_robot_manus_vive_hardware_verifier",
@@ -2577,7 +2585,7 @@
       "assignee": "boris@100.70.181.44",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T03:19:32+08:00",
+      "updated_at": "2026-05-23T04:14:16+08:00",
       "due_at": "2026-05-25"
     },
     {
@@ -2612,7 +2620,7 @@
           "kind": "blocker"
         }
       ],
-      "updated_at": "2026-05-23T03:22:17+08:00",
+      "updated_at": "2026-05-23T04:19:31+08:00",
       "due_at": "2026-05-25"
     },
     {
@@ -2640,7 +2648,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T03:19:32+08:00",
+      "updated_at": "2026-05-23T04:14:16+08:00",
       "due_at": "2026-05-28"
     },
     {
@@ -2725,7 +2733,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T03:19:32+08:00",
+      "updated_at": "2026-05-23T04:14:16+08:00",
       "due_at": "2026-05-27"
     },
     {
@@ -2767,7 +2775,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T04:02:24+08:00",
+      "updated_at": "2026-05-23T04:14:16+08:00",
       "due_at": "2026-05-27"
     },
     {
@@ -2802,7 +2810,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T04:02:24+08:00",
+      "updated_at": "2026-05-23T04:14:16+08:00",
       "due_at": "2026-05-29"
     },
     {
@@ -2837,7 +2845,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T04:02:24+08:00",
+      "updated_at": "2026-05-23T04:14:16+08:00",
       "due_at": "2026-05-29"
     }
   ]
