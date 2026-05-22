@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-22T21:59:56+08:00",
+  "updated_at": "2026-05-22T22:00:58+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1247,7 +1247,7 @@
       "project_id": "drag-demo-video-editing",
       "title": "Build SOP episode completeness verifier",
       "description": "Automate the SOP checks for the spatula egg-transfer dataset: validate successful 000x/ and failed f000x/ folders, require all 9 files (three RGB videos, three depth h5 files, eef_pose.pkl, image_timestamps.pkl, state.pkl), flag black frames or missing streams, and confirm the 2-second final stillness marker before an episode counts toward the 100-demo target.",
-      "status": "review",
+      "status": "done",
       "priority": "high",
       "assignee": null,
       "result": null,
@@ -1266,10 +1266,17 @@
           "body": "SOP verifier delivered.\nARTIFACTS (sha256):\n- /home/lv-robotics/workspace/ARX_A5_Dual_ARM/data_collection/sop_episode_verifier.py = d3ea17701e12a64f3d64c6b80eb29bd049ccf23c5c4fadcef9545f401b37f13b\n- /home/lv-robotics/workspace/ARX_A5_Dual_ARM/data_collection/test_sop_episode_verifier.py = fae912a05291f5261f784cd335510380bc972140075b5faa36e5bb5bb6998a66\n- /home/lv-robotics/workspace/.verifier_reports/raw_data_full_report.json = e7f0f1d1a0264833959c24278331cc700f826cbfce12540bce78475ff5eefb04\n(workspace is not a git repo; sha256 stands in for git_sha.)\nVERIFY CMD: cd ~/workspace/ARX_A5_Dual_ARM/data_collection && ~/miniconda3/envs/robo_ctrl/bin/python -m unittest test_sop_episode_verifier  → Ran 13 tests in 1.095s OK exit=0\nRUN CMD: ~/miniconda3/envs/robo_ctrl/bin/python ~/workspace/ARX_A5_Dual_ARM/data_collection/sop_episode_verifier.py --root ~/workspace/raw_data --report ~/workspace/.verifier_reports/raw_data_full_report.json\nCHECKS PER EPISODE: (1) folder naming success ^\\d{4}$ / failed ^f\\d{4}(_.*)?$; (2) 9 required files present + non-empty; (3) cv2 mp4 readability + 16-frame sampled black(mean<5)/frozen(std<1) detection; (4) h5py depth readability + zero-pixel sampling + ts/frame mismatch; (5) pickle schemas for state/eef_pose/image_timestamps; (6) trailing 2s joint range stillness (default 0.02 rad).\nSANITY: egg_to_bowl/0000 PASS (left max_range=7.6e-4, right=1.07e-2 rad); egg_scoop_v1/_failed/f0010_broken_no_pkl FAIL (missing 3 pkls + 3 corrupt mp4 + 3 corrupt h5 'bad object header version'); egg_scoop_v2/0000 FAIL (missing cam_top_rgb.mp4 + cam_top_depth.h5).\nRUN SUMMARY (163 episodes scanned across egg_to_bowl/egg_scoop_v1/egg_scoop_v2):\n- n_counted_toward_target = 13 / demo_target = 100\n- success folders: 132 total, ok 13, fail 119 (right_arm not still in last 2s at strict 0.02 rad; median trailing range 0.22 rad)\n- failed folders: 31 total, ok 12, fail 19\n- by_dataset: egg_to_bowl 10/103 counted; egg_scoop_v1 3/27 counted; egg_scoop_v2 0/2 (2-cam variant lacks cam_top).\nRECOMMEND: (a) operator retrain to hold full 2s after final spatula rotation, or (b) relax stillness_threshold_rad to ~0.05 (~3 deg) after host review. Verifier accepts --stillness-threshold-rad to retune without code change.",
           "created_at": "2026-05-22T21:59:45+08:00",
           "kind": "result"
+        },
+        {
+          "comment_id": "clawcross_f23120ec0983",
+          "author": "Host verification",
+          "body": "Host verification passed: reran remote unit tests on lv-robotics@100.113.210.127: cd ~/workspace/ARX_A5_Dual_ARM/data_collection && ~/miniconda3/envs/robo_ctrl/bin/python -m unittest test_sop_episode_verifier => 13/13 OK. Verified artifacts and sha256: sop_episode_verifier.py d3ea17701e12a64f3d64c6b80eb29bd049ccf23c5c4fadcef9545f401b37f13b; test_sop_episode_verifier.py fae912a05291f5261f784cd335510380bc972140075b5faa36e5bb5bb6998a66; raw_data_full_report.json e7f0f1d1a0264833959c24278331cc700f826cbfce12540bce78475ff5eefb04. Report covers 163 episodes. Accepted and closed.",
+          "created_at": "2026-05-22T22:00:41+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-05-22T21:59:52+08:00",
-      "completed_at": null
+      "updated_at": "2026-05-22T22:00:41+08:00",
+      "completed_at": "2026-05-22"
     },
     {
       "task_id": "task_drag_demo_finetuning_comparison",
@@ -1281,7 +1288,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-22T21:59:44+08:00"
+      "updated_at": "2026-05-22T22:00:34+08:00"
     },
     {
       "task_id": "task_drag_demo_masks_collection_aids",
