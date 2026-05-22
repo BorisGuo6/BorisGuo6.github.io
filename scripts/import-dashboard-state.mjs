@@ -43,6 +43,7 @@ function normalizeCommentKind(kind) {
     conductor_reply: "comment",
     conductor_note: "comment",
     blocker_resolved: "comment",
+    review: "comment",
     host_verified: "verification",
   };
   return aliases[value] || value || "comment";

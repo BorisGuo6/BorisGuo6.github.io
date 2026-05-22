@@ -47,6 +47,7 @@ const commentKindAliases = new Map([
   ["conductor_reply", "comment"],
   ["conductor_note", "comment"],
   ["blocker_resolved", "comment"],
+  ["review", "comment"],
   ["host_verified", "verification"],
 ]);
 const allowedInputCommentKinds = new Set([...allowedCommentKinds, ...commentKindAliases.keys()]);
