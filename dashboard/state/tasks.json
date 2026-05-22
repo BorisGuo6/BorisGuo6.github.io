@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-22T08:19:33+08:00",
+  "updated_at": "2026-05-22T08:21:42+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1343,7 +1343,7 @@
       "project_id": "image-layered-world-model",
       "title": "Prototype ChatGPT + Photoshop PSD layer pipeline",
       "description": "Use the white-background element-splitting prompt to generate one image per visual element without changing relative positions, then use Photoshop scripting/actions to remove white, keep every element as a separate layer, and export a PSD for inspection.",
-      "status": "review",
+      "status": "done",
       "priority": "medium",
       "assignee": null,
       "result": null,
@@ -1468,9 +1468,17 @@
           "body": "Route A blocked-but-reproducible + Route B passes. Route A artifacts on feibo: photoshop_chatgpt_route/{probe.json,probe.log,photoshop_assemble.jsx,README_RUN_ON_MAC_WINDOWS.md}; probe shows Linux host has no Photoshop/Wine and no image-gen API env vars, so actual Photoshop+ChatGPT run still needs Mac/Windows operator. Route B re-ran from scratch: psd/{poster,robot_still}.psd, outputs_psd_roundtrip/score_summary.json; round-trip diff = 0.0000 on recon_l1 and separability metrics. Full writeup: psd-pipeline.md. Marking review, not done.",
           "created_at": "2026-05-22T08:19:24+08:00",
           "kind": "result"
+        },
+        {
+          "comment_id": "clawcross_b17a7fa2e21e",
+          "author": "Host verification",
+          "body": "Local Codex host review accepted this TODO.\n可自动验收：用户已批准执行所有可行路线，Route A 给出可复现环境 blocker，Route B 产出 PSD 并有 0.0000 round-trip 验证结果。\nEvidence: /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json 显示 2026-05-22T08:15:06 用户批准不再二选一，要求原流程和替代流程能执行的都尝试并提交证据; 同一 dashboard result 显示 Route A artifacts: photoshop_chatgpt_route/{probe.json,probe.log,photoshop_assemble.jsx,README_RUN_ON_MAC_WINDOWS.md}，blocker 为 Linux 无 Photoshop/Wine 和无 image-gen API env vars; 同一 dashboard result 显示 Route B artifacts: psd/{poster,robot_still}.psd、outputs_psd_roundtrip/score_summary.json，round-trip diff = 0.0000; /Users/boris/.codex/sessions/2026/05/17/rollout-2026-05-17T00-51-16-019e31b3-047c-7642-bd5e-9d1320da79c8.jsonl:20836 记录过成功 SSH 验证：Route A 文件存在，Route B 两个 7.8MB PSD 和 score_summary.json 存在; 当前 sandbox 内直接 SSH feibo@100.87.220.29 被 Operation not permitted 阻止，未能现场重跑远端命令\nCommands: jq '.tasks[] | select(.task_id==\"task_layered_wm_photoshop_psd_pipeline\") | {task_id,status,project_id,title,updated_at,comments:(.comments|length), last_comments:(.comments[-5:]|map({author,kind,body,created_at}))}' /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json; ssh feibo@100.87.220.29 'cd /home/feibo/workspace/image-layered-world-model && find photoshop_chatgpt_route -maxdepth 1 -type f -printf \"%p\\n\" 2>/dev/null | sort && find psd outputs_psd_roundtrip -maxdepth 2 -type f \\( -name \"*.psd\" -o -name \"score_summary.json\" -o -name \"*.json\" \\) -printf \"%p\\n\" 2>/dev/null | sort'; rg -n \"ROUTE_A|ROUTE_B|SCORE|roundtrip_diff|psd/poster.psd|psd/robot_still.psd|probe.json\" /Users/boris/.codex/sessions/2026/05/17/rollout-2026-05-17T00-51-16-019e31b3-047c-7642-bd5e-9d1320da79c8.jsonl; jq '.tasks[] | select(.task_id==\"task_layered_wm_photoshop_psd_pipeline\") | {status, result_comments: [.comments[] | select(.kind==\"result\") | {created_at,body}], approval: [.comments[] | select(.body|contains(\"用户已明确批准\")) | {created_at,body}]}' /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json\nReason: 原始 Photoshop+ChatGPT 路线在当前 Linux worker 上需要 Mac/Windows、Photoshop 和图像生成账号/环境，worker 已提交机器可复现 blocker 与可补跑 JSX/runbook；用户随后批准不等待二选一而要求尝试所有可执行路线。替代 Route B 已有可复现命令、PSD 产物和 round-trip verifier 结果，符合本轮可自动验收标准。",
+          "created_at": "2026-05-22T08:21:41+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-05-22T08:19:24+08:00"
+      "updated_at": "2026-05-22T08:21:41+08:00",
+      "completed_at": "2026-05-22"
     },
     {
       "task_id": "task_layered_wm_layer_qa_metrics",
@@ -1518,7 +1526,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-22T08:14:33+08:00"
+      "updated_at": "2026-05-22T08:19:37+08:00"
     },
     {
       "task_id": "task_rate_curve_retiming",
@@ -1530,7 +1538,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-22T08:14:33+08:00"
+      "updated_at": "2026-05-22T08:19:37+08:00"
     },
     {
       "task_id": "task_rate_curve_sampling_strategies",
@@ -1542,7 +1550,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-22T08:14:33+08:00"
+      "updated_at": "2026-05-22T08:19:37+08:00"
     },
     {
       "task_id": "task_rate_curve_event_constraints",
@@ -1554,7 +1562,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-22T08:14:33+08:00"
+      "updated_at": "2026-05-22T08:19:37+08:00"
     },
     {
       "task_id": "task_rate_curve_objective_split",
@@ -1568,7 +1576,7 @@
       "started_at": "2026-05-16",
       "due_at": "2026-05-23",
       "comments": [],
-      "updated_at": "2026-05-22T08:14:33+08:00"
+      "updated_at": "2026-05-22T08:19:37+08:00"
     },
     {
       "task_id": "task_rate_curve_sft_action_frequency",
@@ -1582,7 +1590,7 @@
       "started_at": "2026-05-16",
       "due_at": "2026-05-23",
       "comments": [],
-      "updated_at": "2026-05-22T08:14:33+08:00"
+      "updated_at": "2026-05-22T08:19:37+08:00"
     },
     {
       "task_id": "task_rate_curve_rl",
@@ -1596,7 +1604,7 @@
       "started_at": "2026-05-16",
       "due_at": "2026-05-23",
       "comments": [],
-      "updated_at": "2026-05-22T08:14:33+08:00"
+      "updated_at": "2026-05-22T08:19:37+08:00"
     },
     {
       "task_id": "task_hoi_pnp_calibration",
@@ -1631,7 +1639,7 @@
       "due_at": "2026-05-23",
       "started_at": "2026-05-16",
       "comments": [],
-      "updated_at": "2026-05-22T08:14:33+08:00"
+      "updated_at": "2026-05-22T08:19:37+08:00"
     },
     {
       "task_id": "task_hoi_sensor_validation",
@@ -1645,7 +1653,7 @@
       "due_at": "2026-05-23",
       "started_at": "2026-05-16",
       "comments": [],
-      "updated_at": "2026-05-22T08:14:33+08:00"
+      "updated_at": "2026-05-22T08:19:37+08:00"
     },
     {
       "task_id": "task_hoi_object_tracking",
@@ -1659,7 +1667,7 @@
       "due_at": "2026-05-23",
       "started_at": "2026-05-16",
       "comments": [],
-      "updated_at": "2026-05-22T08:14:33+08:00"
+      "updated_at": "2026-05-22T08:19:37+08:00"
     },
     {
       "task_id": "task_hoi_schema_model_target",
@@ -1671,7 +1679,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-22T08:14:33+08:00"
+      "updated_at": "2026-05-22T08:19:37+08:00"
     },
     {
       "task_id": "task_hoi_retargeting_baselines",
@@ -1683,7 +1691,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-22T08:14:33+08:00"
+      "updated_at": "2026-05-22T08:19:37+08:00"
     }
   ]
 }
