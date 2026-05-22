@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-23T04:19:31+08:00",
+  "updated_at": "2026-05-23T04:23:19+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2741,7 +2741,7 @@
       "project_id": "superhuman-rate-curve-teleop",
       "title": "用一个 teleop demo 建立离线 rate-curve 评测",
       "description": "Why now: survey 已完成，但需要把 phase-aware rate curve 变成可计算实验。Deliverable: 选择一条 demo，标注 phases/events，生成多个 playback-rate curve。Acceptance: 输出 duration、jerk、event violation、contact wait violation、path deviation 指标表。",
-      "status": "review",
+      "status": "active",
       "priority": "high",
       "assignee": "boris@100.101.68.35",
       "result": null,
@@ -2773,9 +2773,16 @@
           "body": "Local Codex host review reopened this TODO.\n请补齐可自动验收证据，不必重做算法。请在 dashboard/harness 粘贴或保存完整复现记录：1) `pwd; git status --short; git rev-parse --short HEAD; ls -l rate_curve_eval.py; sha256sum rate_curve_eval.py`；2) 实际运行 `python rate_curve_eval.py --output-dir /tmp/rate_eval` 的完整 stdout 和退出码；3) `find /tmp/rate_eval -maxdepth 2 -type f -ls` 与所有结果文件完整 sha256sum；4) 包含全部 7 条 curves 的完整指标表，列必须至少有 duration、jerk、event violations、contact wait violations、path deviation；5) 明确说明 180 steps、7 phases、4 events 的 demo/标注数据在独立文件还是 `rate_curve_eval.py` 内置，并指出函数名或行号。",
           "created_at": "2026-05-23T03:50:23+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_1527f03f230a",
+          "author": "Review",
+          "body": "Local Codex host review reopened this TODO.\n请不要重做算法，只补齐完整验收材料：贴出远端工作区执行 `pwd; git status --short; git rev-parse --short HEAD; ls -l rate_curve_eval.py; sha256sum rate_curve_eval.py` 的完整输出；贴出 `python rate_curve_eval.py --output-dir /tmp/rate_eval` 的完整 stdout/stderr 和退出码；贴出 `find /tmp/rate_eval -maxdepth 2 -type f -ls` 与所有结果文件完整 `sha256sum`；贴出包含全部 7 条 curves 的完整指标表，列至少包括 duration、jerk、event violations、contact wait violations、path deviation；明确说明 180 steps、7 phases、4 events 的 demo/标注数据在独立文件还是 `rate_curve_eval.py` 内置，并指出函数名或行号。",
+          "created_at": "2026-05-23T04:23:05+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T04:14:16+08:00",
+      "updated_at": "2026-05-23T04:23:05+08:00",
       "due_at": "2026-05-27"
     },
     {
@@ -2810,7 +2817,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T04:14:16+08:00",
+      "updated_at": "2026-05-23T04:21:17+08:00",
       "due_at": "2026-05-29"
     },
     {
@@ -2845,7 +2852,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T04:14:16+08:00",
+      "updated_at": "2026-05-23T04:21:17+08:00",
       "due_at": "2026-05-29"
     }
   ]
