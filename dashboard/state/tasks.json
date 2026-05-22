@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-23T02:31:43+08:00",
+  "updated_at": "2026-05-23T02:37:33+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2415,12 +2415,20 @@
       "project_id": "drag-demo-video-editing",
       "title": "实现 drag/teleop/mixed fine-tuning loader baseline",
       "description": "Why now: comparison TODO 需要先有统一 loader，才谈训练结果。Deliverable: loader + split config，支持 teleop-only、drag-only、70/30 mixed 三路。Acceptance: dry-run 打印 batch shapes、episode counts、missing stream report。",
-      "status": "active",
+      "status": "review",
       "priority": "medium",
       "assignee": "lv-robotics@100.113.210.127",
       "result": null,
-      "comments": [],
-      "updated_at": "2026-05-23T02:29:24+08:00",
+      "comments": [
+        {
+          "comment_id": "clawcross_377c90363b84",
+          "author": "Result",
+          "body": "Baseline loader delivered + dry-run + tests.\n\nARTIFACTS (sha256)\n- /home/lv-robotics/workspace/ARX_A5_Dual_ARM/training/drag_demo_loader.py = cc5588dbd91b966218442374c5463187d08b02ae446abfff368a8fb0f9b7ef9c\n- /home/lv-robotics/workspace/ARX_A5_Dual_ARM/training/dry_run_loader.py   = d9955093bcb434e9eae89fb04f865d9e0d7536450fac6db850bfb5c0d9799805\n- /home/lv-robotics/workspace/ARX_A5_Dual_ARM/training/test_drag_demo_loader.py = fdeaac339d334477d7f6086b2db2b65fedbb651134c0e5080278367313932500\n- /home/lv-robotics/workspace/ARX_A5_Dual_ARM/training/split_config.json   = 180a80b2f4935d4442beb2b6d7b885d3327fb1f42d287429a06d265714fc9000\n- /home/lv-robotics/workspace/.verifier_reports/loader_dry_run.json        = 4eb0498b6a1dcd43001d6d700d5c630c00e9efd3c6afa0dbaca3422f832aea45 (dry-run report)\n\nDESIGN\n- Dataset class DragDemoDataset (PyTorch); each item is one timestep: rgb dict per cam (uint8 HxWx3), state float32 (14,), action float32 (14,) sampled +100 ms forward in state.pkl time; meta {source, dataset, episode, episode_idx, t_sample_ms}.\n- Sampling grid: state.pkl (~60 Hz). For each state index we nearest-lookup the RGB frame on every camera via image_timestamps.pkl — handles per-camera asynchronous rates without forcing global sync.\n- split_config.json schema (drag_demo_split.v1): sources = {drag, teleop}, each pointing at a manifest path + episode_filter; modes = {drag_only, teleop_only, mixed_70_30}. Today teleop.manifest=null because no teleop has been collected yet.\n- Mixture rule: anchor universe on the binding source. If a mode requires share>0 from a source with 0 loaded episodes, the dataset returns 0 episodes and tags 'mixture_degraded' in sources_summary — refuses to silently downgrade a 70/30 mix to drag-only when teleop is missing.\n\nDRY-RUN (cmd: cd ~/workspace/ARX_A5_Dual_ARM/training && ~/miniconda3/envs/robo_ctrl/bin/python dry_run_loader.py --batch-size 4 --samples-per-episode 4 --image-size 320 180 --json-out ~/workspace/.verifier_reports/loader_dry_run.json)\n\n- mode=drag_only:    mixture {drag:1.0, teleop:0.0}; episodes=19 (manifest 19 -> loaded 19 -> after_mixture 19); samples=76; missing_streams=none.\n  batch shapes (B=4): state (4,14) float32 ; action (4,14) float32 ; rgb[cam_top] (4,180,320,3) uint8 ; rgb[cam_left_wrist] (4,180,320,3) uint8 ; rgb[cam_right_wrist] (4,180,320,3) uint8 ; first meta: {source:'drag', dataset:'egg_to_bowl', episode:'0010', episode_idx:0, t_sample_ms:1779375420520}\n- mode=teleop_only:  mixture {drag:0.0, teleop:1.0}; episodes=0; samples=0; missing_streams=[{source:'teleop', missing:'manifest', manifest_path:null}]; batch skipped (empty).\n- mode=mixed_70_30:  mixture {drag:0.7, teleop:0.3}; episodes=0 (drag truncated to 0 because teleop has 0); samples=0; missing_streams=[{source:'teleop', missing:'manifest', manifest_path:null}]; batch skipped.\n\nTESTS (cmd: cd ~/workspace/ARX_A5_Dual_ARM/training && ~/miniconda3/envs/robo_ctrl/bin/python -m unittest test_drag_demo_loader -v)\n- Ran 10 tests in 1.496s OK ; covers: split_config parse + sums-to-1 ; unknown mode rejected ; drag_only yields >0 eps with no missing streams ; teleop_only with missing manifest yields 0 ; mixed refuses silent degrade with current data ; batch tensor shapes/dtypes on the real manifest ; synthetic-teleop manifest test where mixed_70_30 actually mixes ~70/30 with both sources tagged in meta.\n\nHOW TO ENABLE MIXED ONCE TELEOP DATA EXISTS\n1. Run sop_episode_verifier.py on the teleop raw_data root to produce a teleop verifier JSON.\n2. Run build_initial_batch_manifest.py with --out /…/teleop_batch_manifest.json on that JSON.\n3. Edit split_config.json -> sources.teleop.manifest to that path.\n4. Rerun dry_run_loader.py; mixed_70_30 will report non-zero episode counts and real batch shapes.\n\nREMAINING REMOTELY-UNFINISHABLE WORK\n- Actual teleop data collection (separate physical session) is not something a remote Claude session can perform.\n- Sequence augmentation (action chunks / image stacking) is downstream of this baseline; pick after first training pass.",
+          "created_at": "2026-05-23T02:34:47+08:00",
+          "kind": "result"
+        }
+      ],
+      "updated_at": "2026-05-23T02:34:58+08:00",
       "due_at": "2026-05-30"
     },
     {
@@ -2506,7 +2514,7 @@
           "kind": "result"
         }
       ],
-      "updated_at": "2026-05-23T02:26:13+08:00",
+      "updated_at": "2026-05-23T02:33:42+08:00",
       "due_at": "2026-05-28"
     },
     {
@@ -2519,7 +2527,7 @@
       "assignee": "boris@100.70.181.44",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T02:26:13+08:00",
+      "updated_at": "2026-05-23T02:33:42+08:00",
       "due_at": "2026-05-25"
     },
     {
@@ -2554,7 +2562,7 @@
           "kind": "blocker"
         }
       ],
-      "updated_at": "2026-05-23T02:31:42+08:00",
+      "updated_at": "2026-05-23T02:37:33+08:00",
       "due_at": "2026-05-25"
     },
     {
@@ -2575,7 +2583,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T02:31:42+08:00",
+      "updated_at": "2026-05-23T02:33:42+08:00",
       "due_at": "2026-05-28"
     },
     {
@@ -2596,7 +2604,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T02:31:42+08:00",
+      "updated_at": "2026-05-23T02:33:42+08:00",
       "due_at": "2026-05-30"
     },
     {
@@ -2624,7 +2632,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T02:31:42+08:00",
+      "updated_at": "2026-05-23T02:33:42+08:00",
       "due_at": "2026-05-27"
     },
     {
@@ -2645,7 +2653,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T02:31:42+08:00",
+      "updated_at": "2026-05-23T02:33:42+08:00",
       "due_at": "2026-05-27"
     },
     {
@@ -2658,7 +2666,7 @@
       "assignee": "boris@100.101.68.35",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T02:31:42+08:00",
+      "updated_at": "2026-05-23T02:33:42+08:00",
       "due_at": "2026-05-29"
     },
     {
@@ -2671,7 +2679,7 @@
       "assignee": "boris@100.101.68.35",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T02:31:42+08:00",
+      "updated_at": "2026-05-23T02:33:42+08:00",
       "due_at": "2026-05-29"
     }
   ]
