@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-23T03:35:33+08:00",
+  "updated_at": "2026-05-23T03:47:11+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2733,7 +2733,7 @@
       "project_id": "superhuman-rate-curve-teleop",
       "title": "用一个 teleop demo 建立离线 rate-curve 评测",
       "description": "Why now: survey 已完成，但需要把 phase-aware rate curve 变成可计算实验。Deliverable: 选择一条 demo，标注 phases/events，生成多个 playback-rate curve。Acceptance: 输出 duration、jerk、event violation、contact wait violation、path deviation 指标表。",
-      "status": "active",
+      "status": "review",
       "priority": "high",
       "assignee": "boris@100.101.68.35",
       "result": null,
@@ -2760,7 +2760,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T03:35:33+08:00",
+      "updated_at": "2026-05-23T03:39:43+08:00",
       "due_at": "2026-05-27"
     },
     {
@@ -2768,7 +2768,7 @@
       "project_id": "superhuman-rate-curve-teleop",
       "title": "比较 classical retiming 与 SFT action-frequency baseline",
       "description": "Why now: 下一步要知道速度提升来自轨迹 retiming 还是 policy frequency/behavior learning。Deliverable: TOPPRA/Ruckig-style retiming baseline 与 SFT action-frequency ablation 的实验设计或 mock implementation。Acceptance: 同一 demo 上输出速度/连续性/稳定性/jerk 对比。",
-      "status": "active",
+      "status": "review",
       "priority": "high",
       "assignee": "boris@100.101.68.35",
       "result": null,
@@ -2788,7 +2788,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T03:35:33+08:00",
+      "updated_at": "2026-05-23T03:39:48+08:00",
       "due_at": "2026-05-29"
     },
     {
@@ -2796,7 +2796,7 @@
       "project_id": "superhuman-rate-curve-teleop",
       "title": "定义加速执行的事件/安全 guardrails",
       "description": "Why now: 不能盲目加速 perception waits、grasp confirmation、contact settling。Deliverable: event constraints schema + runtime checker。Acceptance: checker 能对一条 proposed speed curve 标出不可加速区间、force/tactile guardrail 和 fail reason。",
-      "status": "active",
+      "status": "review",
       "priority": "medium",
       "assignee": "boris@100.101.68.35",
       "result": null,
@@ -2816,7 +2816,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T03:35:33+08:00",
+      "updated_at": "2026-05-23T03:39:51+08:00",
       "due_at": "2026-05-29"
     }
   ]
