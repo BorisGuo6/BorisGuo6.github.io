@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-23T02:59:57+08:00",
+  "updated_at": "2026-05-23T03:03:02+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2640,9 +2640,16 @@
           "body": "Local Codex host review reopened this TODO.\n请补充可自动验收证据，不必重做主任务：在 ~/workspace/diverse-same-task-dataset 写回 dashboard/harness 一段完整复现记录，至少包含 `pwd; git status --short; ls -l isaac_verifier_v0.py generate_mock_robot_candidates.py verifier-v0-spec.md samples_contact_pack/02_power_grasp_mug.json mock_robots/good_mug_pick.json mock_robots/bad_mug_pick.json`、上述关键文件的 `sha256sum`、good case 和 bad case 的实际运行命令与完整输出/退出码。建议同时把 good/bad report 保存为 JSON（例如 /tmp 或 repo 下 verifier_reports/）并给出路径、sha256；如果命令不能跑，请给出明确 blocker。",
           "created_at": "2026-05-23T02:59:43+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_deefefd0b5c2",
+          "author": "Progress",
+          "body": "[2026-05-23] Full repro evidence — see ~/workspace/diverse-same-task-dataset/REPRO.md (sha256 70a800357f382e05c5329b84e5eede238c4415802ab16c092a6070f0ece982d9). pwd=/home/feibo/workspace/diverse-same-task-dataset; git status: not a git repo (fresh workspace, matches handoff state); Python 3.12.3 at /home/feibo/workspace/image-layered-world-model/.venv/bin/python (no third-party deps; pure stdlib + colocated schema validators). Key files (sha256): isaac_verifier_v0.py a7a36225..., generate_mock_robot_candidates.py 421b9967..., verifier-v0-spec.md d175bb21..., samples_contact_pack/02_power_grasp_mug.json bdd10a5d..., mock_robots/good_mug_pick.json 5046c498..., mock_robots/bad_mug_pick.json f7d4c9f3..., validate_contact_pack.py 30f4a0e5..., validate_hoi_schema.py 6bc16275..., contact_pack_spec.md b8660688..., hoi_schema.md cc8032e5...  GOOD-case run: '$PY isaac_verifier_v0.py samples_contact_pack/02_power_grasp_mug.json mock_robots/good_mug_pick.json' -> exit=0, stderr empty (sha256 e3b0c442... = empty-file constant); overall_pass=true, every check pass; saved verifier_reports/good_mug_pick.report.json (sha256 9ffe3c58157b7a2f5e4cfbd96289fe6f8444cf252c817c2d94ff191023567bfeb).  BAD-case run: same command with mock_robots/bad_mug_pick.json -> exit=1, stderr empty (same empty-file sha256); overall_pass=false, reject_reasons=[check_failed:joint_limits, check_failed:scene_collision, check_failed:object_pose, check_failed:contact_phase_timeline]; failing fields: joint_limits frame=3 panda_joint5 q=3.5 vs [-2.8973, 2.8973]; scene_collision frame=2 tool0 vs table aabb distance_m=0.0 radius=0.04; object_pose end_position_err_m=0.06 vs tol 0.03 (rmse 0.0367 still under 0.05); contact_phase_timeline f1=0.6667 vs tol 0.7 (recall 0.5, 2 FN). Saved verifier_reports/bad_mug_pick.report.json (sha256 2a8dc7df3cbbbaef0b48f0680e329685584014b3f0e7a5689950328032a668a1). Replay snippet: see REPRO.md §7. No blockers; verifier ran end-to-end without Isaac/GPU/network.",
+          "created_at": "2026-05-23T03:02:05+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T02:59:57+08:00",
+      "updated_at": "2026-05-23T03:02:05+08:00",
       "due_at": "2026-05-30"
     },
     {
@@ -2650,7 +2657,7 @@
       "project_id": "diverse-same-task-dataset",
       "title": "同一任务跑两个采集模态 smoke",
       "description": "Why now: collection matrix/schema 都完成了，下一步要证明同一任务能跨模态对齐。Deliverable: 选一个 manipulation task，至少 glove/UMI 或 teleop/drag 两个模态各出 1 条样例。Acceptance: 两条样例共享 task_id/object_id/timestamps/camera metadata，并能在同一 schema validator 中通过。",
-      "status": "review",
+      "status": "active",
       "priority": "high",
       "assignee": "feibo@100.87.220.29",
       "result": null,
@@ -2668,9 +2675,16 @@
           "body": "[2026-05-23] Smoke v0 done. Workspace: ~/workspace/diverse-same-task-dataset. Artifacts: hoi_schema.md (schema v0 contract + per-modality payload table), validate_hoi_schema.py (single-file CLI validator), generate_samples.py (emits the three sample clips), samples/sample_glove_pick_cup.json + sample_umi_pick_cup.json + sample_umi_pick_cup_BAD.json. Both valid clips share task_id='pick_red_cup_v1', object_id='red_cup_001', identical timestamps_us cadence (5 frames @ 50 ms), identical camera intrinsics/extrinsics structure, and identical canonical object endpoint (cup lifted 12 cm). Validator results: glove VALID exit=0, umi VALID exit=0, BAD INVALID exit=1 with the 4 planted reasons surfaced (missing object_id, non-monotonic timestamps, broken quat norm, broken normal norm). Acceptance: two modalities encoded under one schema, same task/object/timeline/camera fields, validator green on both. Required-field contract is documented in hoi_schema.md §3; per-modality optional payload in §4. Open issues (camera convention REP-103 vs OpenCV, pose_source enum, multi-object extension, proprio promotion) listed in §8. Hand-off to task_hoi_contact_annotation_pack: contact_intent[] is the field that grows; current spec has state enum + patch list + grasp_mode, next iteration will add per-frame phase and oriented patch frames.",
           "created_at": "2026-05-23T02:16:04+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_72bb49d69155",
+          "author": "Review",
+          "body": "Local Codex host review reopened this TODO.\n请补充可自动验收证据，不必重做主任务：在 ~/workspace/diverse-same-task-dataset 写回 dashboard/harness 一段完整复现记录，至少包含 `pwd; git status --short; ls -l hoi_schema.md validate_hoi_schema.py generate_samples.py samples/sample_glove_pick_cup.json samples/sample_umi_pick_cup.json samples/sample_umi_pick_cup_BAD.json`、这些关键文件的 `sha256sum`、glove/UMI 两条有效样例的 validator 实际运行命令与完整输出/退出码、BAD 样例失败命令与完整输出/退出码。还请明确展示两条有效样例共享的 task_id/object_id/timestamps_us/camera metadata 字段，例如用 jq 或 validator summary 输出。",
+          "created_at": "2026-05-23T03:02:56+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T02:57:36+08:00",
+      "updated_at": "2026-05-23T03:02:56+08:00",
       "due_at": "2026-05-27"
     },
     {
@@ -2691,7 +2705,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T02:57:36+08:00",
+      "updated_at": "2026-05-23T03:01:43+08:00",
       "due_at": "2026-05-27"
     },
     {
@@ -2704,7 +2718,7 @@
       "assignee": "boris@100.101.68.35",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T02:57:36+08:00",
+      "updated_at": "2026-05-23T03:01:43+08:00",
       "due_at": "2026-05-29"
     },
     {
@@ -2717,7 +2731,7 @@
       "assignee": "boris@100.101.68.35",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T02:57:36+08:00",
+      "updated_at": "2026-05-23T03:01:43+08:00",
       "due_at": "2026-05-29"
     }
   ]
