@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-22T16:49:13+08:00",
+  "updated_at": "2026-05-22T17:13:19+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -112,9 +112,23 @@
           "body": "接入完成 — 右手 Wuji Glove 在 boris-pc 上端到端连通并通过 wuji-sdk 拉取了全部 7 个 resource。\n\nVerifiable artifact:\n- Smoke 脚本: ~/workspace/wuji_wrapper/scripts/glove_smoke.py  (sha256=86be5f76eccde93cb88f25c71019ee7f34608adbf3086996321ee8999ce03c8e)\n- 仓库 HEAD: 38f9824 (脚本尚未 commit，仅 untracked)\n- 运行日志: /home/boris/.claude/jobs/259cdc7a/wuji_glove_smoke.log (sha256=20a7683c326e6525cfd452d44a6f37f39f675a84775345e5afa556620e636cd4)\n- 运行命令: ~/workspace/wuji_wrapper/.venv/bin/python ~/workspace/wuji_wrapper/scripts/glove_smoke.py\n\nVerified facts:\n- 网络: enp58s0 上 192.168.1.10/24, ping 192.168.1.101 → 4/4 RTT 0.12-0.20ms (Arm A 原 RJ45 复用)\n- 设备发现: sn=WG1KA02260410009 ip=192.168.1.101:50001 transport=UDP (UDP discovery port 50000, data port 50001)\n- 设备类型: WG110/WG1K G-Board H743, Right hand, 24×32 tactile matrix\n- SDK: pip install wuji-sdk == 0.10.0 (装入 ~/workspace/wuji_wrapper/.venv)\n- Session: established, heartbeat 1000ms, host time sync offset=1779439281727539us  (满足 task 描述里的'时间戳'要求 — UTC μs 自动校准)\n- 7 个 resource 各拉到 3 帧 (3s 窗口内, cap=3 frame): tactile (TactileFrame.data len=768=24×32 ✓), tactile_zones, hand_joint_angles, hand_skeleton, tip_poses, emf_poses, imu_palm (orientation Quaternion + angular_velocity Vector3F64 + acceleration)\n\nAnomaly (硬件 / 配置, 非阻塞):\n- 设备 boot log 报 imu=1/6: palm IMU 正常, 5 个 finger IMU (finger0..finger4) 全部 WHO_AM_I mismatch。可能这一批 SKU 没装 finger IMU, 或硬件故障 — 建议向 support@wuji.tech 报 SN 确认。EMF + tactile + palm IMU 流可用, 不影响主要 teleop/retargeting 用途。\n\nTask 描述项对照:\n- ✓ 网络  - ✓ 时间戳  - ✓ 高频输入流(7 streams 全部活跃)\n- 标定: SDK 暴露 CalibrationResult 类型 + glove.params/save_params, 未在本轮跑标定流程 (follow-up)\n- retargeting 接口: 数据已经能喂给 ~/workspace/wuji_wrapper/third_party/wuji-retargeting 或 wuji-hand-teleop 栈, 实际打通是下一步 (follow-up)\n\n建议把 status 切到 done 或 review。后续可单开两个 TODO: (1) calibration 流程跑通 (2) glove → Wuji Hand 直接 retargeting demo。",
           "created_at": "2026-05-22T16:49:12+08:00",
           "kind": "result"
+        },
+        {
+          "comment_id": "clawcross_4d5144b01108",
+          "author": "Progress",
+          "body": "新增 sibling 仓库 ~/workspace/wuji_glove_wrapper/ 集中所有 Wuji Glove 相关代码/文档。结构对齐 ~/workspace/wuji_wrapper/，pyproject deps=wuji-sdk>=0.10.0。从 wuji_wrapper 移走的内容: scripts/glove_smoke.py、examples/wuji_glove/{0,1,2}.py、~/workspace/wuji_sdk 整个仓库（已 mv 至 third_party/wuji-sdk）。Smoke 在新位置重跑 PASS（同 SN WG1KA02260410009，7 streams）。",
+          "created_at": "2026-05-22T17:05:50+08:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_462af2f95651",
+          "author": "Review",
+          "body": "Local Codex host review reopened this TODO.\n请继续补齐 Wuji Glove 的标定与 retargeting 接口验收：在 ~/workspace/wuji_glove_wrapper 提交/保留可复现命令和日志，至少包含 calibration API/params/save_params 的最小 smoke 或明确硬件 blocker，以及 glove 输出到 wuji-retargeting 或 wuji-hand-teleop 输入适配层的最小接口验证；完成后给出 artifact 路径、sha256、运行命令和关键输出。",
+          "created_at": "2026-05-22T17:13:05+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-22T16:49:13+08:00"
+      "updated_at": "2026-05-22T17:13:05+08:00"
     },
     {
       "task_id": "task_real_robot_infra_manus_vive_tracker",
@@ -151,7 +165,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-22T16:49:13+08:00"
+      "updated_at": "2026-05-22T17:13:19+08:00"
     },
     {
       "task_id": "task_real_robot_infra_safety_workspace",
@@ -202,7 +216,7 @@
       "project_id": "real-robot-infra",
       "title": "评估主臂重力补偿 / FACTR 力反馈",
       "description": "Gello is passive, so software cannot create true gravity compensation on the master arm. Evaluate mechanical counterbalance, damping / brake, or FACTR-style bilateral force-feedback teleoperation to reduce free-fall / collision risk for Franka control.",
-      "status": "active",
+      "status": "todo",
       "priority": "medium",
       "assignee": "Zheng Yuhang",
       "result": null,
@@ -215,7 +229,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-22T16:49:13+08:00"
+      "updated_at": "2026-05-22T17:05:49+08:00"
     },
     {
       "task_id": "task_umi_gemini_frame_test",
@@ -654,7 +668,7 @@
           "kind": "progress"
         }
       ],
-      "updated_at": "2026-05-22T16:49:13+08:00"
+      "updated_at": "2026-05-22T17:13:19+08:00"
     },
     {
       "task_id": "task_self_improving_prepare_proposal",
@@ -1149,7 +1163,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-22T16:49:13+08:00"
+      "updated_at": "2026-05-22T17:02:11+08:00"
     },
     {
       "task_id": "task_drag_demo_backend_compare",
@@ -1198,7 +1212,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-22T16:49:13+08:00",
+      "updated_at": "2026-05-22T17:02:11+08:00",
       "completed_at": null
     },
     {
@@ -1211,7 +1225,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-22T16:49:13+08:00"
+      "updated_at": "2026-05-22T17:02:11+08:00"
     },
     {
       "task_id": "task_drag_demo_masks_collection_aids",
