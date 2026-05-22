@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-23T02:05:28+08:00",
+  "updated_at": "2026-05-23T02:07:28+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2409,8 +2409,16 @@
       "priority": "high",
       "assignee": "lv-robotics@100.113.210.127",
       "result": null,
-      "comments": [],
-      "updated_at": "2026-05-23T02:05:14+08:00",
+      "comments": [
+        {
+          "comment_id": "clawcross_dfe21e6b95be",
+          "author": "Result",
+          "body": "Initial-batch manifest refreshed against accepted 0.10 rad threshold; loader contract verified end-to-end.\n\nARTIFACTS (sha256)\n- build_initial_batch_manifest.py (writer): f34131f85235a367326b8680fc353ac615a7e674b730e81a85aae49280135236  → /home/lv-robotics/workspace/ARX_A5_Dual_ARM/data_collection/build_initial_batch_manifest.py\n- load_initial_batch.py (loader smoke test): abcb4659dbf1cd92909852bdead0907e828a185e03f42d4424bb66c621d15c55  → /home/lv-robotics/workspace/ARX_A5_Dual_ARM/data_collection/load_initial_batch.py\n- initial_batch_manifest.json: 58b3ffb76eacfd1ba12cbd41796da82d9311d421d0001f7c3c487251d23d4ed1  → /home/lv-robotics/workspace/.verifier_reports/initial_batch_manifest.json (216 KB, schema_version drag_demo_initial_batch.v1)\n- sop_episode_verifier.py (0.10 rad default): 0507afe8473f3c50df246a0799f6f8c2f866a8a93ffcfc9f99133371143cc7ff\n- raw_data_full_report.json: 200c2b7669d05e123955f45623e2e9218d8b3465ffba450e8efd3f10dff487b2\n\nMANIFEST CONTENTS\n- demo_target: 100\n- stillness_threshold_rad_used: 0.10\n- eval_tier_strict_threshold_rad: 0.02\n- n_counted_toward_target: 19\n- delta_to_target: 81\n- n_eval_tier_strict: 13  (kept as separate tier for terminal-stability scoring of policies)\n- n_near_miss_stillness_only: 102 (file/stream/pkl all OK; only stillness fails)\n- n_file_or_stream_fail: 11\n- by_dataset_counted: { egg_scoop_v1: 3, egg_to_bowl: 16 }  (egg_scoop_v2 contributes 0/2 — 2-cam legacy)\n\nLOADER VERIFICATION (real cv2/h5py/pickle opens, not just file existence)\n- cmd: ~/miniconda3/envs/robo_ctrl/bin/python ~/workspace/ARX_A5_Dual_ARM/data_collection/load_initial_batch.py --manifest ~/workspace/.verifier_reports/initial_batch_manifest.json --include-eval\n- result: OK: all 19 counted episodes pass the loader contract (and 13 eval episodes) — exit=0\n- verifier unit tests: Ran 13 tests in 1.137s OK exit=0\n\nREPRODUCE (auto pipeline)\n1. ~/miniconda3/envs/robo_ctrl/bin/python ~/workspace/ARX_A5_Dual_ARM/data_collection/sop_episode_verifier.py --root ~/workspace/raw_data --report ~/workspace/.verifier_reports/raw_data_full_report.json\n2. ~/miniconda3/envs/robo_ctrl/bin/python ~/workspace/ARX_A5_Dual_ARM/data_collection/build_initial_batch_manifest.py --report ~/workspace/.verifier_reports/raw_data_full_report.json --out ~/workspace/.verifier_reports/initial_batch_manifest.json\n3. ~/miniconda3/envs/robo_ctrl/bin/python ~/workspace/ARX_A5_Dual_ARM/data_collection/load_initial_batch.py --manifest ~/workspace/.verifier_reports/initial_batch_manifest.json --include-eval\n   → After each new onsite batch lands under ~/workspace/raw_data, rerun steps 1-3; manifest stays current automatically.\n\nONSITE COLLECTION GAP (the 81 episodes I cannot complete remotely)\n- Stillness gate the operator must hit: drop hands off controls and count to 2 (per-joint motion <= 0.10 rad over the final 2 s on BOTH arms).\n- Folder convention: <dataset>/000x for success; <dataset>/_failed/f000x for retained failures.\n- 9 required files per episode: cam_top_rgb.mp4, cam_top_depth.h5, cam_left_wrist_rgb.mp4, cam_left_wrist_depth.h5, cam_right_wrist_rgb.mp4, cam_right_wrist_depth.h5, eef_pose.pkl, image_timestamps.pkl, state.pkl.\n- Diversity: morning/afternoon/cloudy; green long gloves with sleeves; clean table (only pan + white plate); cam_top unoccluded.\n- Operator distribution (from existing plan): Boris/Gaochen/Jingxiang each ~30 sequences; Xiaobin observes/participates.\n- egg_scoop_v2 (2-cam legacy) is OUT of the candidate pool — re-collect under the 3-cam stack if its scenarios are still needed.\n\nDOWNSTREAM HANDOFF\n- task_drag_demo_initial_batch stays needs_user (81 physical demos remain).\n- task_drag_demo_finetune_loader_baseline can begin: the manifest entry shape is finalised — counted_episodes[i].files.{cam_top_rgb.mp4, ...} gives every required path; a torch DataLoader can iterate directly off this list.\n- task_drag_demo_finetuning_comparison is unblocked on data-format side; awaits eval-tier definition and policy baseline.",
+          "created_at": "2026-05-23T02:07:19+08:00",
+          "kind": "result"
+        }
+      ],
+      "updated_at": "2026-05-23T02:07:19+08:00",
       "due_at": "2026-05-27"
     },
     {
@@ -2459,7 +2467,7 @@
       "assignee": "boris@100.70.181.44",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T02:00:33+08:00",
+      "updated_at": "2026-05-23T02:07:06+08:00",
       "due_at": "2026-05-28"
     },
     {
@@ -2472,7 +2480,7 @@
       "assignee": "boris@100.70.181.44",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T02:01:40+08:00",
+      "updated_at": "2026-05-23T02:07:06+08:00",
       "due_at": "2026-05-25"
     },
     {
@@ -2493,7 +2501,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T02:00:33+08:00",
+      "updated_at": "2026-05-23T02:07:28+08:00",
       "due_at": "2026-05-25"
     },
     {
@@ -2506,7 +2514,7 @@
       "assignee": "feibo@100.87.220.29",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T02:00:33+08:00",
+      "updated_at": "2026-05-23T02:07:06+08:00",
       "due_at": "2026-05-28"
     },
     {
@@ -2519,7 +2527,7 @@
       "assignee": "feibo@100.87.220.29",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T02:00:33+08:00",
+      "updated_at": "2026-05-23T02:07:06+08:00",
       "due_at": "2026-05-30"
     },
     {
@@ -2540,7 +2548,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T02:00:34+08:00",
+      "updated_at": "2026-05-23T02:07:06+08:00",
       "due_at": "2026-05-27"
     },
     {
@@ -2561,7 +2569,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T02:00:34+08:00",
+      "updated_at": "2026-05-23T02:07:06+08:00",
       "due_at": "2026-05-27"
     },
     {
@@ -2574,7 +2582,7 @@
       "assignee": "boris@100.101.68.35",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T02:00:34+08:00",
+      "updated_at": "2026-05-23T02:07:06+08:00",
       "due_at": "2026-05-29"
     },
     {
@@ -2587,7 +2595,7 @@
       "assignee": "boris@100.101.68.35",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T02:00:34+08:00",
+      "updated_at": "2026-05-23T02:07:07+08:00",
       "due_at": "2026-05-29"
     }
   ]
