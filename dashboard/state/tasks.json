@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-22T09:29:34+08:00",
+  "updated_at": "2026-05-22T09:32:31+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1619,7 +1619,7 @@
       "project_id": "superhuman-rate-curve-teleop",
       "title": "Mark event constraints in teleop demos",
       "description": "Do not accelerate perception waits, grasp confirmation, contact settling, or object state transitions blindly.",
-      "status": "review",
+      "status": "done",
       "priority": "medium",
       "assignee": null,
       "result": null,
@@ -1630,9 +1630,24 @@
           "body": "Event constraints inventory complete. Artifact: ~/workspace/superhuman-rate-curve-teleop/task_rate_curve_event_constraints.md (195 lines). 4 events fully operationalized — E1 perception wait (predicate: awaiting reply OR stale beyond τ_perception_stale; hold hard), E2 grasp confirmation (force ≥ f_grasp_min ∧ tactile area ≥ A_grasp_min ∧ optional vision OK for τ_grasp_stable; hold hard; timeout to retry then needs_user after N=3), E3 contact settling (force+tactile rolling-window variance below threshold for τ_stable; soft slowdown, then T4 ramp resumes), E4 object state transition (event labeler emits transition_in_progress/complete/aborted; hold hard; aborts escalate). Composition: hold = OR over all four; ds/dt = 0 if hold else T1/T2/T4 result; hysteretic, with timeouts that escalate not auto-clear. Detection plumbing classified tier-A (deployable v1: E1 E2 E3 on Franka/Cobot-Magic/Piper-X/Linker-FFG) vs tier-B (E4 behind feature flag until FSM or learned labeler ships). Verifier plan §7 with adversarial sensor-dropout tests. Key safety invariant: speed reward only computed when hold=False, so RL cannot learn to short-circuit predicates. 4 open questions on per-embodiment threshold calibration + labeler choice + clipping integration + per-task overrides.",
           "created_at": "2026-05-22T09:29:15+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_c654f4848ece",
+          "author": "Host verification",
+          "body": "Host verification passed: inspected feibo artifact ~/workspace/superhuman-rate-curve-teleop/task_rate_curve_event_constraints.md (195 lines). It operationalizes E1 perception waits, E2 grasp confirmation, E3 contact settling, and E4 object-state transitions with start/clear triggers, timeout-to-escalation behavior, predicate composition, reliability tiers, and verifier plan. Accepted.",
+          "created_at": "2026-05-22T09:31:27+08:00",
+          "kind": "host_verified"
+        },
+        {
+          "comment_id": "clawcross_79530b7e7434",
+          "author": "Host verification",
+          "body": "Local Codex host review accepted this TODO.\n可自动验收：该 TODO 的本机 harness 已有 host_verified 记录，内容覆盖四类不可盲目加速事件及调度门控语义。\nEvidence: /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json:1618-1630 显示 task_rate_curve_event_constraints 处于 review，worker 声明 195 行 artifact 并概述 E1..E4、predicate、hold/slow、verifier plan 与 speed reward invariant; /Users/boris/.clawcross/data/harness_state.json:4474-4520 显示同一 task 已为 done，并含 clawcross-main@local host_verified：已检查 feibo artifact，确认包含 start/clear triggers、timeout escalation、predicate composition、reliability tiers、verifier plan; /Users/boris/.clawcross/data/remote_claude_sessions_cache.json:44 记录远端 session 最后汇总：event_constraints 文件 195 行，结论为 E1..E4 hard hold predicates 且 speed reward gated on hold=False; 直接 SSH 复查远端 artifact 失败：ssh: connect to host 100.87.220.29 port 22: Operation not permitted\nCommands: rg -n \"task_rate_curve_event_constraints|superhuman-rate-curve-teleop\" /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json; ssh -o BatchMode=yes -o ConnectTimeout=8 feibo@100.87.220.29 'cd /home/feibo/workspace/superhuman-rate-curve-teleop && wc -l task_rate_curve_event_constraints.md && sed -n \"1,240p\" task_rate_curve_event_constraints.md'; sed -n '1610,1638p' /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json; jq '.users.boris.tasks.task_rate_curve_event_constraints, .users.boris.agents[\"image-layered-feibo@100.87.220.29\"] | {task_id, project_id, title, status, updated_at, current_task_id, last_heartbeat_at, message, comments}' /Users/boris/.clawcross/data/harness_state.json; sed -n '4470,4538p' /Users/boris/.clawcross/data/harness_state.json; rg --files /Users/boris/workspace /Users/boris/.clawcross /Users/boris/.codex | rg 'task_rate_curve_event_constraints\\.md$|superhuman-rate-curve-teleop'\nReason: 这是设计/清单类 TODO，不是代码、benchmark 或真实机器人安全放行任务；worker 交付说明和本机 harness 的 host_verified 记录共同证明其已按范围标注 perception waits、grasp confirmation、contact settling、object state transitions，并定义 predicate、hold/slow composition、timeout/escalation、tiering 与 verifier 计划。",
+          "created_at": "2026-05-22T09:32:24+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-05-22T09:29:17+08:00"
+      "updated_at": "2026-05-22T09:32:24+08:00",
+      "completed_at": "2026-05-22"
     },
     {
       "task_id": "task_rate_curve_objective_split",
@@ -1646,7 +1661,7 @@
       "started_at": "2026-05-16",
       "due_at": "2026-05-23",
       "comments": [],
-      "updated_at": "2026-05-22T09:28:01+08:00"
+      "updated_at": "2026-05-22T09:30:43+08:00"
     },
     {
       "task_id": "task_rate_curve_sft_action_frequency",
@@ -1660,7 +1675,7 @@
       "started_at": "2026-05-16",
       "due_at": "2026-05-23",
       "comments": [],
-      "updated_at": "2026-05-22T09:28:01+08:00"
+      "updated_at": "2026-05-22T09:30:43+08:00"
     },
     {
       "task_id": "task_rate_curve_rl",
@@ -1674,7 +1689,7 @@
       "started_at": "2026-05-16",
       "due_at": "2026-05-23",
       "comments": [],
-      "updated_at": "2026-05-22T09:28:01+08:00"
+      "updated_at": "2026-05-22T09:30:43+08:00"
     },
     {
       "task_id": "task_hoi_pnp_calibration",
@@ -1709,7 +1724,7 @@
       "due_at": "2026-05-23",
       "started_at": "2026-05-16",
       "comments": [],
-      "updated_at": "2026-05-22T09:28:01+08:00"
+      "updated_at": "2026-05-22T09:30:43+08:00"
     },
     {
       "task_id": "task_hoi_sensor_validation",
@@ -1723,7 +1738,7 @@
       "due_at": "2026-05-23",
       "started_at": "2026-05-16",
       "comments": [],
-      "updated_at": "2026-05-22T09:28:01+08:00"
+      "updated_at": "2026-05-22T09:30:43+08:00"
     },
     {
       "task_id": "task_hoi_object_tracking",
@@ -1737,19 +1752,35 @@
       "due_at": "2026-05-23",
       "started_at": "2026-05-16",
       "comments": [],
-      "updated_at": "2026-05-22T09:28:01+08:00"
+      "updated_at": "2026-05-22T09:30:43+08:00"
     },
     {
       "task_id": "task_hoi_schema_model_target",
       "project_id": "diverse-same-task-dataset",
       "title": "Define unified HOI schema and baseline model target",
       "description": "Specify common timestamps, camera extrinsics, hand / object state, robot embodiment metadata, and the prediction target for the HOI base model / world model. The retargeting label should be object-centric: same object trajectory, contact sequence, grasp / tool-use mode, and task result across human hand and robot hand, not raw joint-angle similarity.",
-      "status": "active",
+      "status": "done",
       "priority": "medium",
       "assignee": null,
       "result": null,
-      "comments": [],
-      "updated_at": "2026-05-22T09:28:01+08:00"
+      "comments": [
+        {
+          "comment_id": "clawcross_7f9376065924",
+          "author": "Progress",
+          "body": "HOI schema artifact ready: ~/workspace/diverse-same-task-dataset/task_hoi_schema_model_target.md + verify_hoi_schema.py",
+          "created_at": "2026-05-22T09:32:15+08:00",
+          "kind": "artifact"
+        },
+        {
+          "comment_id": "clawcross_b52f19ad59c2",
+          "author": "Host verification",
+          "body": "Host verification passed: inspected boris-PC artifact ~/workspace/diverse-same-task-dataset/task_hoi_schema_model_target.md (239 lines). It defines an episode/frame schema with timestamps, camera intrinsics/extrinsics, raw and canonical actions, hand/object/robot metadata, contact/geometry fields, LeRobot-compatible storage, and object-centric model targets with pi0/Octo/Diffusion Policy baselines. Accepted.",
+          "created_at": "2026-05-22T09:32:30+08:00",
+          "kind": "host_verified"
+        }
+      ],
+      "updated_at": "2026-05-22T09:32:30+08:00",
+      "completed_at": "2026-05-22"
     },
     {
       "task_id": "task_hoi_retargeting_baselines",
@@ -1761,7 +1792,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-22T09:28:01+08:00"
+      "updated_at": "2026-05-22T09:30:43+08:00"
     }
   ]
 }
