@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-23T03:50:29+08:00",
+  "updated_at": "2026-05-23T03:55:50+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2775,7 +2775,7 @@
       "project_id": "superhuman-rate-curve-teleop",
       "title": "比较 classical retiming 与 SFT action-frequency baseline",
       "description": "Why now: 下一步要知道速度提升来自轨迹 retiming 还是 policy frequency/behavior learning。Deliverable: TOPPRA/Ruckig-style retiming baseline 与 SFT action-frequency ablation 的实验设计或 mock implementation。Acceptance: 同一 demo 上输出速度/连续性/稳定性/jerk 对比。",
-      "status": "review",
+      "status": "active",
       "priority": "high",
       "assignee": "boris@100.101.68.35",
       "result": null,
@@ -2793,9 +2793,16 @@
           "body": "Reproducible verification record:\n\npwd: /home/boris/workspace/superhuman-rate-curve-teleop\ngit rev-parse --short HEAD: 019e2fa (latest, includes all 3 scripts)\nls -l retiming_vs_sft.py: -rwxrwxr-x 16321 bytes\nsha256sum retiming_vs_sft.py: 29e1c45f26b7581e4dbd9201a21a29171e90d3249c996ea80f50205e7b73d32a\n\nCommand: python retiming_vs_sft.py --output-dir /tmp/retiming_eval\nExit code: 0\n\nOutput artifacts:\n  /tmp/retiming_eval/retiming_vs_sft.json        sha256=3d73400e...\n  /tmp/retiming_eval/retiming_vs_sft_report.txt  sha256=bdea21c4...\n\nKey stdout evidence (comparison table):\n  toppra_offline (1.5x target):  6.51s  1.38x  27 evt violations  0 JL violations\n  toppra_offline (2.0x target):  5.60s  1.61x  27 evt violations  0 JL violations\n  ruckig_online  (1.5x target):  6.42s  1.40x   0 evt violations  0 JL violations\n  ruckig_online  (2.0x target):  5.15s  1.75x   0 evt violations  0 JL violations\n  sft_freq_2x:                   6.36s  1.41x  55 evt violations  0 JL violations\n  sft_freq_3x:                   5.20s  1.73x  84 evt violations  0 JL violations\n\nBest retiming (no violations): ruckig_online @ 1.75x\nBest SFT freq: sft_freq_3x @ 1.73x\nConclusion: Retiming wins by +0.02x speedup with 0 event violations vs 84.",
           "created_at": "2026-05-23T03:35:21+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_095f00b5aeb4",
+          "author": "Review",
+          "body": "Local Codex host review reopened this TODO.\n请补齐可自动验收证据，不必重做主任务：在 dashboard/harness 写入完整复现记录，至少包含 `pwd; git status --short; git rev-parse --short HEAD; ls -l retiming_vs_sft.py`、`sha256sum retiming_vs_sft.py`、实际运行 `python retiming_vs_sft.py --output-dir /tmp/retiming_eval` 的完整 stdout 和退出码、输出 JSON/TXT 的完整 sha256。结果表必须明确同一 demo、6 个方法，并覆盖 speed/duration、continuity、stability/event 或 joint-limit violations、jerk；如果 continuity/jerk 是 mock 或不可得，请说明 blocker 和口径。",
+          "created_at": "2026-05-23T03:55:41+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T03:48:53+08:00",
+      "updated_at": "2026-05-23T03:55:41+08:00",
       "due_at": "2026-05-29"
     },
     {
@@ -2823,7 +2830,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T03:48:53+08:00",
+      "updated_at": "2026-05-23T03:52:11+08:00",
       "due_at": "2026-05-29"
     }
   ]
