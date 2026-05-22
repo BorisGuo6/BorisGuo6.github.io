@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-22T09:26:43+08:00",
+  "updated_at": "2026-05-22T09:29:34+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1556,7 +1556,7 @@
       "project_id": "superhuman-rate-curve-teleop",
       "title": "Build classical retiming baselines",
       "description": "Test TOPPRA / Ruckig-style retiming under velocity, acceleration, jerk, torque, and contact constraints before adding learned timing; references: https://arxiv.org/abs/1707.07239 and https://arxiv.org/abs/2105.04830.",
-      "status": "review",
+      "status": "done",
       "priority": "medium",
       "assignee": null,
       "result": null,
@@ -1567,33 +1567,72 @@
           "body": "Retiming survey complete. Artifact: ~/workspace/superhuman-rate-curve-teleop/task_rate_curve_retiming.md (215 lines). Key framing: TOPPRA and Ruckig are not competitors but different layers — TOPPRA is offline path parameterization (consumes a path + global limits, emits time-optimal velocity profile under velocity/accel/torque/contact), Ruckig is online per-tick OTG (consumes current+target state, emits jerk-limited transition). Constraint coverage table shows TOPPRA owns torque+contact offline, Ruckig owns jerk+real-time. v1 decision: adopt BOTH — TOPPRA for offline retiming-projection of rate-scheduler intent, Ruckig for online jerk-limited transitions on event-predicate changes. Learned timing deferred until classical baseline is measured (verifier plan §7 specifies pass/fail thresholds for feasibility, jerk ratio, extra time cost). Sources: arXiv:1707.07239 (TOPPRA), arXiv:2105.04830 (Ruckig).",
           "created_at": "2026-05-22T09:26:29+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_b81e0b2ffc68",
+          "author": "Host verification",
+          "body": "Host verification passed: inspected feibo artifact ~/workspace/superhuman-rate-curve-teleop/task_rate_curve_retiming.md (215 lines). It correctly separates TOPPRA as offline path parameterization and Ruckig as online jerk-limited trajectory generation, covers velocity/acceleration/jerk/torque/contact constraints, and defines concrete verifier thresholds. Accepted as classical retiming baseline deliverable.",
+          "created_at": "2026-05-22T09:27:21+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-05-22T09:26:32+08:00"
+      "updated_at": "2026-05-22T09:28:01+08:00",
+      "completed_at": "2026-05-22"
     },
     {
       "task_id": "task_rate_curve_sampling_strategies",
       "project_id": "superhuman-rate-curve-teleop",
       "title": "Design phase-aware sampling strategies",
       "description": "Sampling is still unclear; compare intuitive templates such as fast in free space, slow near contact, hold during perception / settling, and re-accelerate after stable force / tactile contact.",
-      "status": "active",
+      "status": "done",
       "priority": "medium",
       "assignee": null,
       "result": null,
-      "comments": [],
-      "updated_at": "2026-05-22T09:26:42+08:00"
+      "comments": [
+        {
+          "comment_id": "clawcross_34e9f4818cfe",
+          "author": "Progress",
+          "body": "Sampling strategies design complete. Artifact: ~/workspace/superhuman-rate-curve-teleop/task_rate_curve_sampling_strategies.md (208 lines). 6 templates with concrete predicates + failure modes + recovery: T0 constant baseline, T1 sharp two-rate (free-space vs near-contact with hysteresis), T2 distance-graded slowdown, T3 hold during perception/settling/grasp-unconfirmed (composes onto T1/T2), T4 ramped re-acceleration gated on (force_stable AND tactile_stable for tau_stable) with debounce, T5 learned residual on top of classical (clipped to safety floor). Comparison table across 7 axes. v1 composition: T3∘T4∘T1 (sharp two-rate base + perception-hold overlay + gated ramp re-entry); switch to T2 once d_contact estimator is reliable; T5 behind feature flag until SFT/RL story (task_rate_curve_objective_split + task_rate_curve_rl) lands. Verifier plan §7 with concrete pass criteria (T0 must lose on contact, T2 within +10% time vs T1 on free-space, T3 zero completion failures added, T4 zero force overshoot, T5 ≥10% time improvement with no safety regression). 4 open questions feeding event_constraints + SFT-frequency + RL tasks.",
+          "created_at": "2026-05-22T09:27:48+08:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_6094acff9bb6",
+          "author": "Host verification",
+          "body": "Host verification passed: inspected feibo artifact ~/workspace/superhuman-rate-curve-teleop/task_rate_curve_sampling_strategies.md (208 lines). It defines six scheduler templates, concrete predicates/failure modes/recovery rules, v1 composition T3 hold + T4 gated re-accel + T1 two-rate base, and verifier thresholds. Accepted as phase-aware sampling deliverable.",
+          "created_at": "2026-05-22T09:29:10+08:00",
+          "kind": "host_verified"
+        },
+        {
+          "comment_id": "clawcross_b33e556ee578",
+          "author": "Host verification",
+          "body": "Local Codex host review accepted this TODO.\n可自动验收：该设计文档覆盖了 TODO 要求的 phase-aware sampling templates，并给出可复现的后续 verifier 计划。\nEvidence: /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json 中 task_rate_curve_sampling_strategies 为 review，worker 评论声明 artifact 为 208 行并概述 6 个模板、v1 组合和 §7 pass/fail criteria; /Users/boris/.clawcross/data/harness_state.json 中同一 TODO 为 review，agent 已转入 task_rate_curve_event_constraints; /Users/boris/.codex/sessions/2026/05/17/rollout-2026-05-17T00-51-16-019e31b3-047c-7642-bd5e-9d1320da79c8.jsonl:21320-21321 记录了此前成功 SSH 读取远端 artifact，wc 为 208 行，并包含完整文档内容; artifact 内容包含 T0 constant baseline、T1 two-rate、T2 distance-graded slowdown、T3 perception/settling hold、T4 stable force/tactile gated re-accel、T5 learned residual，以及 comparison table、v1 decision、verifier plan 和 open questions; 当前直接 SSH 复查远端失败：ssh connect Operation not permitted；但本机 transcript 已保留完整 artifact 输出，足够审查此设计 TODO\nCommands: jq '.tasks[]? // empty | select(.task_id == \"task_rate_curve_sampling_strategies\")' /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json; ssh -o BatchMode=yes -o ConnectTimeout=8 feibo@100.87.220.29 'cd /home/feibo/workspace/superhuman-rate-curve-teleop && wc -l task_rate_curve_sampling_strategies.md && sed -n \"1,260p\" task_rate_curve_sampling_strategies.md'; rg -n \"task_rate_curve_sampling_strategies|Design phase-aware sampling strategies|Sampling strategies design complete|Phase-aware\" /Users/boris/.codex /Users/boris/workspace/BorisGuo6.github.io 2>/dev/null; jq '.users.boris.tasks.task_rate_curve_sampling_strategies, .users.boris.agents[\"image-layered-feibo@100.87.220.29\"] | {task_id, project_id, title, status, updated_at, current_task_id, last_heartbeat_at, message, comments}' /Users/boris/.clawcross/data/harness_state.json; sed -n '21320,21321p' /Users/boris/.codex/sessions/2026/05/17/rollout-2026-05-17T00-51-16-019e31b3-047c-7642-bd5e-9d1320da79c8.jsonl\nReason: 这是设计/调查类 TODO，不要求实际 benchmark 结果；worker 交付物明确比较了用户要求的 fast free-space、slow near-contact、hold during perception/settling、stable force/tactile 后再加速等策略，并补充了 failure modes、recovery、v1 组合与后续可复现验证指标，满足 TODO 范围。",
+          "created_at": "2026-05-22T09:29:26+08:00",
+          "kind": "host_verified"
+        }
+      ],
+      "updated_at": "2026-05-22T09:29:26+08:00",
+      "completed_at": "2026-05-22"
     },
     {
       "task_id": "task_rate_curve_event_constraints",
       "project_id": "superhuman-rate-curve-teleop",
       "title": "Mark event constraints in teleop demos",
       "description": "Do not accelerate perception waits, grasp confirmation, contact settling, or object state transitions blindly.",
-      "status": "todo",
+      "status": "review",
       "priority": "medium",
       "assignee": null,
       "result": null,
-      "comments": [],
-      "updated_at": "2026-05-22T09:25:09+08:00"
+      "comments": [
+        {
+          "comment_id": "clawcross_28c8a3ccb87c",
+          "author": "Progress",
+          "body": "Event constraints inventory complete. Artifact: ~/workspace/superhuman-rate-curve-teleop/task_rate_curve_event_constraints.md (195 lines). 4 events fully operationalized — E1 perception wait (predicate: awaiting reply OR stale beyond τ_perception_stale; hold hard), E2 grasp confirmation (force ≥ f_grasp_min ∧ tactile area ≥ A_grasp_min ∧ optional vision OK for τ_grasp_stable; hold hard; timeout to retry then needs_user after N=3), E3 contact settling (force+tactile rolling-window variance below threshold for τ_stable; soft slowdown, then T4 ramp resumes), E4 object state transition (event labeler emits transition_in_progress/complete/aborted; hold hard; aborts escalate). Composition: hold = OR over all four; ds/dt = 0 if hold else T1/T2/T4 result; hysteretic, with timeouts that escalate not auto-clear. Detection plumbing classified tier-A (deployable v1: E1 E2 E3 on Franka/Cobot-Magic/Piper-X/Linker-FFG) vs tier-B (E4 behind feature flag until FSM or learned labeler ships). Verifier plan §7 with adversarial sensor-dropout tests. Key safety invariant: speed reward only computed when hold=False, so RL cannot learn to short-circuit predicates. 4 open questions on per-embodiment threshold calibration + labeler choice + clipping integration + per-task overrides.",
+          "created_at": "2026-05-22T09:29:15+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-05-22T09:29:17+08:00"
     },
     {
       "task_id": "task_rate_curve_objective_split",
@@ -1607,7 +1646,7 @@
       "started_at": "2026-05-16",
       "due_at": "2026-05-23",
       "comments": [],
-      "updated_at": "2026-05-22T09:25:09+08:00"
+      "updated_at": "2026-05-22T09:28:01+08:00"
     },
     {
       "task_id": "task_rate_curve_sft_action_frequency",
@@ -1621,7 +1660,7 @@
       "started_at": "2026-05-16",
       "due_at": "2026-05-23",
       "comments": [],
-      "updated_at": "2026-05-22T09:25:09+08:00"
+      "updated_at": "2026-05-22T09:28:01+08:00"
     },
     {
       "task_id": "task_rate_curve_rl",
@@ -1635,7 +1674,7 @@
       "started_at": "2026-05-16",
       "due_at": "2026-05-23",
       "comments": [],
-      "updated_at": "2026-05-22T09:25:09+08:00"
+      "updated_at": "2026-05-22T09:28:01+08:00"
     },
     {
       "task_id": "task_hoi_pnp_calibration",
@@ -1670,7 +1709,7 @@
       "due_at": "2026-05-23",
       "started_at": "2026-05-16",
       "comments": [],
-      "updated_at": "2026-05-22T09:25:09+08:00"
+      "updated_at": "2026-05-22T09:28:01+08:00"
     },
     {
       "task_id": "task_hoi_sensor_validation",
@@ -1684,7 +1723,7 @@
       "due_at": "2026-05-23",
       "started_at": "2026-05-16",
       "comments": [],
-      "updated_at": "2026-05-22T09:25:09+08:00"
+      "updated_at": "2026-05-22T09:28:01+08:00"
     },
     {
       "task_id": "task_hoi_object_tracking",
@@ -1698,7 +1737,7 @@
       "due_at": "2026-05-23",
       "started_at": "2026-05-16",
       "comments": [],
-      "updated_at": "2026-05-22T09:25:09+08:00"
+      "updated_at": "2026-05-22T09:28:01+08:00"
     },
     {
       "task_id": "task_hoi_schema_model_target",
@@ -1710,7 +1749,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-22T09:26:33+08:00"
+      "updated_at": "2026-05-22T09:28:01+08:00"
     },
     {
       "task_id": "task_hoi_retargeting_baselines",
@@ -1722,7 +1761,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-22T09:25:09+08:00"
+      "updated_at": "2026-05-22T09:28:01+08:00"
     }
   ]
 }
