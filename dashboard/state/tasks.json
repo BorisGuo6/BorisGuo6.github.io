@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-23T00:49:13+08:00",
+  "updated_at": "2026-05-23T01:11:51+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -524,7 +524,7 @@
       "project_id": "umi-world-model",
       "title": "建立 evaluation 数据与 VBench 评测",
       "description": "除可视化外，组织 100/200 条数据，用 VBench 做原生模型能力评测。",
-      "status": "needs_user",
+      "status": "active",
       "priority": "medium",
       "assignee": null,
       "result": null,
@@ -740,7 +740,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T00:45:03+08:00",
+      "updated_at": "2026-05-23T01:11:43+08:00",
       "due_at": ""
     },
     {
@@ -2127,7 +2127,7 @@
       "assignee": "jingxiang@100.112.245.1",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T00:45:06+08:00",
+      "updated_at": "2026-05-23T01:07:11+08:00",
       "due_at": "2026-05-28"
     },
     {
@@ -2139,8 +2139,16 @@
       "priority": "high",
       "assignee": "jingxiang@100.112.245.1",
       "result": null,
-      "comments": [],
-      "updated_at": "2026-05-23T00:45:06+08:00",
+      "comments": [
+        {
+          "comment_id": "clawcross_fe9b4c2de0b8",
+          "author": "Progress",
+          "body": "[Codex route 2026-05-23] Route: choose AI2V base only after the full 186-scale table. VBench is useful for fine-grained video quality dimensions, but the decision must include UMI-specific dual-wrist consistency, action/kinematics faithfulness, object-state preservation, and failure-gallery review. References: UMI arXiv 2402.10329, VBench arXiv 2311.17982, Cosmos-Predict2.5, Wan2.2.",
+          "created_at": "2026-05-23T01:11:43+08:00",
+          "kind": "route"
+        }
+      ],
+      "updated_at": "2026-05-23T01:11:43+08:00",
       "due_at": "2026-05-26"
     },
     {
@@ -2153,7 +2161,7 @@
       "assignee": "jingxiang@100.112.245.1",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T00:45:06+08:00",
+      "updated_at": "2026-05-23T01:07:11+08:00",
       "due_at": "2026-05-29"
     },
     {
@@ -2178,8 +2186,16 @@
       "priority": "high",
       "assignee": "shaol@100.96.228.8",
       "result": null,
-      "comments": [],
-      "updated_at": "2026-05-23T00:45:06+08:00",
+      "comments": [
+        {
+          "comment_id": "clawcross_1e92dbd6c9bf",
+          "author": "Progress",
+          "body": "[Codex route 2026-05-23] Route: make the PoD result demonstrable first: one retrofit input, generated spec, CAD/mesh artifact, printability checks, same-plate jig/tool, and viewer playback. After viewer works, move to the Piper-X/printer-cell driver skeleton. Articraft suggests code + SDK + validation harness for editable assets; the product value remains robot-operable fabrication, not generic text-to-3D.",
+          "created_at": "2026-05-23T01:11:43+08:00",
+          "kind": "route"
+        }
+      ],
+      "updated_at": "2026-05-23T01:11:43+08:00",
       "due_at": "2026-05-26"
     },
     {
@@ -2192,7 +2208,7 @@
       "assignee": "shaol@100.96.228.8",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T00:45:06+08:00",
+      "updated_at": "2026-05-23T01:07:11+08:00",
       "due_at": "2026-05-30"
     },
     {
@@ -2217,8 +2233,16 @@
       "priority": "high",
       "assignee": "feibo@100.87.220.29",
       "result": null,
-      "comments": [],
-      "updated_at": "2026-05-23T00:45:06+08:00",
+      "comments": [
+        {
+          "comment_id": "clawcross_a6184f01bffe",
+          "author": "Progress",
+          "body": "[Codex route 2026-05-23] Route: run both feasible tracks instead of asking for a binary choice: original Photoshop+ChatGPT composition if available, plus Linux/Qwen/pytoshop fallback. Close only with side-by-side reconstruction QA. WEM supports world/ego separation; this project must add manipulation-specific object/contact and robot/ego layers rather than visual-only PSD separation.",
+          "created_at": "2026-05-23T01:11:43+08:00",
+          "kind": "route"
+        }
+      ],
+      "updated_at": "2026-05-23T01:11:43+08:00",
       "due_at": "2026-05-27"
     },
     {
@@ -2231,7 +2255,7 @@
       "assignee": "feibo@100.87.220.29",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T00:45:06+08:00",
+      "updated_at": "2026-05-23T01:07:11+08:00",
       "due_at": "2026-05-30"
     },
     {
@@ -2277,8 +2301,16 @@
       "priority": "high",
       "assignee": "boris@100.101.68.35",
       "result": null,
-      "comments": [],
-      "updated_at": "2026-05-23T00:49:13+08:00",
+      "comments": [
+        {
+          "comment_id": "clawcross_892672a095d5",
+          "author": "Progress",
+          "body": "[Codex route 2026-05-23] Route: after the demo CLI review artifact is checked, the next useful target is a deterministic Isaac/dependency smoke gate: versioned env/task spec, seed, action trace, verifier exit code, and failure classification. RoboLab-120 and LeHome justify benchmark coverage; RoboClaw/EAP justifies workflow/recovery loops.",
+          "created_at": "2026-05-23T01:11:43+08:00",
+          "kind": "route"
+        }
+      ],
+      "updated_at": "2026-05-23T01:11:43+08:00",
       "due_at": "2026-05-27"
     },
     {
@@ -2316,8 +2348,16 @@
       "priority": "high",
       "assignee": "lv-robotics@100.113.210.127",
       "result": null,
-      "comments": [],
-      "updated_at": "2026-05-23T00:49:13+08:00",
+      "comments": [
+        {
+          "comment_id": "clawcross_39934ea7b1f5",
+          "author": "Progress",
+          "body": "[Codex route 2026-05-23] Route: do not wait on pure preference. Compute strict vs relaxed final-stillness thresholds on the current 13/100 curated batch, report how many episodes pass each, and recommend one threshold before scaling to 100. Masquerade motivates data editing, but this project’s pass/fail gate is contact/object preservation and downstream loader usefulness.",
+          "created_at": "2026-05-23T01:11:43+08:00",
+          "kind": "route"
+        }
+      ],
+      "updated_at": "2026-05-23T01:11:43+08:00",
       "due_at": "2026-05-24"
     },
     {
@@ -2355,8 +2395,16 @@
       "priority": "high",
       "assignee": "boris@100.70.181.44",
       "result": null,
-      "comments": [],
-      "updated_at": "2026-05-23T00:49:13+08:00",
+      "comments": [
+        {
+          "comment_id": "clawcross_88a4d3f37076",
+          "author": "Progress",
+          "body": "[Codex route 2026-05-23] Route: prioritize a logged hardware smoke over more desk research: Wuji glove packet stream, timestamps, sample-rate estimate, dropped frame count, and a minimal schema compatible with MANUS/VIVE/robot state. Wuji docs advertise 120 FPS tactile/pose; the local verifier should confirm what this lab setup actually emits.",
+          "created_at": "2026-05-23T01:11:43+08:00",
+          "kind": "route"
+        }
+      ],
+      "updated_at": "2026-05-23T01:11:43+08:00",
       "due_at": "2026-05-25"
     },
     {
@@ -2394,8 +2442,16 @@
       "priority": "high",
       "assignee": "survey-pool",
       "result": null,
-      "comments": [],
-      "updated_at": "2026-05-23T00:49:13+08:00",
+      "comments": [
+        {
+          "comment_id": "clawcross_ea72aac6901b",
+          "author": "Progress",
+          "body": "[Codex route 2026-05-23] Route: start with two modalities on one identical task, not all modalities. The acceptance artifact is a common object-centric timeline: object pose/velocity, contact intent, hand/robot state, camera extrinsics, and success outcome. DexMachina and FoundationPose support functional/object-state retargeting rather than joint-angle imitation.",
+          "created_at": "2026-05-23T01:11:43+08:00",
+          "kind": "route"
+        }
+      ],
+      "updated_at": "2026-05-23T01:11:43+08:00",
       "due_at": "2026-05-27"
     },
     {
@@ -2407,8 +2463,16 @@
       "priority": "high",
       "assignee": "survey-pool",
       "result": null,
-      "comments": [],
-      "updated_at": "2026-05-23T00:49:13+08:00",
+      "comments": [
+        {
+          "comment_id": "clawcross_3053fde0f640",
+          "author": "Progress",
+          "body": "[Codex route 2026-05-23] Route: begin offline with one teleop demo and a phase-aware playback-rate curve. Compare naive time scaling, TOPP-RA/Ruckig-style retiming, and learned/SFT frequency variants before any real-robot speedup. Report success proxy, jerk/acceleration, event-guardrail violations, and contact-risk intervals.",
+          "created_at": "2026-05-23T01:11:43+08:00",
+          "kind": "route"
+        }
+      ],
+      "updated_at": "2026-05-23T01:11:43+08:00",
       "due_at": "2026-05-27"
     },
     {
@@ -2421,7 +2485,7 @@
       "assignee": "survey-pool",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T00:49:13+08:00",
+      "updated_at": "2026-05-23T01:07:11+08:00",
       "due_at": "2026-05-29"
     },
     {
@@ -2434,7 +2498,7 @@
       "assignee": "survey-pool",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T00:49:13+08:00",
+      "updated_at": "2026-05-23T01:07:11+08:00",
       "due_at": "2026-05-29"
     }
   ]
