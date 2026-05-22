@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-22T21:33:13+08:00",
+  "updated_at": "2026-05-22T21:37:12+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -223,7 +223,7 @@
       "project_id": "real-robot-infra",
       "title": "评估主臂重力补偿 / FACTR 力反馈",
       "description": "Gello is passive, so software cannot create true gravity compensation on the master arm. Evaluate mechanical counterbalance, damping / brake, or FACTR-style bilateral force-feedback teleoperation to reduce free-fall / collision risk for Franka control.",
-      "status": "active",
+      "status": "needs_user",
       "priority": "medium",
       "assignee": "Zheng Yuhang",
       "result": null,
@@ -234,9 +234,23 @@
           "body": "Core issue is master-arm gravity compensation, not just force feedback. Gello is passive, so software can only filter, limit, or stop follower motion; it cannot hold the master arm up. Treat the 12k FACTR-style device as one benchmark, and ask Yuhang to compare it with mechanical counterbalance, damping, brake, or cheaper bilateral-force options.",
           "created_at": "2026-05-20T19:15:50+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_a6eb1ad2ee15",
+          "author": "Progress",
+          "body": "FACTR / master-arm gravity comp 调研更新 (2026-05-22)\n\nRepo 现状 (franka_wrapper/gello/factr/):\n- gravity_compensation.py: 完整 Pinocchio RNEA + null-space + joint-limit + stiction-dither 实现, 走 Dynamixel current-control。架构正确, 即拿即用的前提是 current-mode-capable 伺服 + 对应 URDF + yaml 配置。\n- run_yam_gello_gravity_comp.py / yam_gello_factr_agent.py: 仅适配 6-DOF YAM_GELLO (XM430-W210 在 joint 2,3; XC330-T288 其余), gravity gain 默认 0.4 (有意欠补偿)。\n- 引用的 configs/yam_gello_factr_{sim,hw}.yaml 在仓库里**缺失**。\n- factr/urdf/ 只有 yam_active_gello/robot.urdf, **没有 7-DOF Franka-Gello URDF**。\n- 不是真正双向力反馈: 只有 leader 端 gravity comp + leader→follower 位置 mirror, 没有 Franka external_torque 回传到 leader 关节的通路。\n\n与本实验室主臂(Franka FR3 + 7-DOF Gello)的差距:\n- gello_agent.py 里有 7-DOF Gello 注册 (port FT3M9NVB, joint_ids 1-7, gripper id 8), 但 servo 型号未在 factr 配置内记录, 需要硬件确认。\n- 若肩/肘关节是 XC330_T288 (~0.9 Nm stall), 软件 GC 顶不动 Franka-Gello 的重量; 必须 XM430-W350 (~4 Nm) 及以上才有意义。\n\n方案对比 (按\"防自由落体/碰撞风险\"目标):\n\nA. 软件 GC (现 FACTR 代码 → 7-DOF Franka-Gello)\n   成本: 0-300 USD (视是否需要升级 joint 2/3/4 伺服)\n   工作量: 1-2 周 (URDF + yaml + 调试)\n   缺陷: 欠补偿配置下仍有残留下垂; gain=1.0 + URDF 质量不准会\"游泳\"。\n   适合: 第一步, 前提是伺服扭矩够。\n\nB. 机械配重/弹簧\n   成本: 50-300 USD\n   工作量: 2-4 周 CAD + 加工 + 调试\n   优点: 无源安全, 断电也不掉; 不依赖软件。\n   缺陷: 单配置最优, 改变 payload 就要重调。\n   建议: 与其它方案叠加做被动底盘。\n\nC. 电磁刹车 / 阻尼\n   成本: 50-150 USD/关节 × 6-7\n   工作量: 1-2 周接线安装\n   定位: 在操作员松手 / 死人开关触发时锁住主臂; 不解决主动 GC, 只防\"放手就坠\"。\n   建议: 与 A 或 B 配合上, 主要锁肩/肘 (joint 2,3,4)。\n\nD. 12k FACTR-style 商用双向设备\n   成本: ~12,000 USD + lead time\n   缺陷: 厂商绑定; 机构通常不对应 Franka FR3, 需要重做 mapping; 与现有 Gello 重复投资。\n   建议: 只在双向力反馈是硬需求且预算充足时考虑, 不是首选。\n\nE. 在现 Gello 上加廉价双向 FF (扩 FACTR 代码读 libfranka O_F_ext_K / tau_J_d 注入 leader current)\n   成本: 软件 0, 必要时升级伺服 ~300 USD\n   工作量: 1-2 周\n   缺陷: Dynamixel 扭矩上限决定可渲染力上限 (~3 Nm), 接触刚性物体时会饱和; 增益不当易振荡。\n   建议: A 之后的自然扩展, 给操作员真正的力反馈手感。\n\n正交建议(无论选哪个都该上):\n- Follower-side deadman + freeze-on-release: 脚踏开关 / 把手按压门控 teleop loop, 主臂掉电或松手即冻结 Franka, 不要让 follower 追着主臂坠下。成本 20-50 USD, 1 天实现, 是最高 ROI 的安全网。\n\nneeds_user: 推荐给 Zheng Yuhang 的下一步决策\n1. 拍照 / 列清本实验室 Franka-Gello 每关节的 Dynamixel 型号 (5 分钟硬件检查) — 决定 A/E 是否可行。\n2. 双向力反馈是硬需求还是 nice-to-have? — 决定要不要走 D 或 E。\n3. 缺失的 configs/yam_gello_factr_*.yaml 是在其它内部仓库还是需要从零写? — 决定 A 的工作量。\n4. 12k FACTR 设备的预算是否真有? — 决定 D 是否上桌。\n\n推荐顺序: 先做正交的 follower deadman (本周即可); 再确认伺服扭矩后跑 A; 必要时叠加 B 弹簧; 最后才考虑 E/D。",
+          "created_at": "2026-05-22T21:34:11+08:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_67bfada58041",
+          "author": "Needs user",
+          "body": "请 Zheng Yuhang/用户确认：1. 本实验室 Franka-Gello 每个关节的 Dynamixel 型号或照片；2. 双向力反馈是硬需求还是 nice-to-have；3. 缺失的 configs/yam_gello_factr_{sim,hw}.yaml 在哪里，还是需要从零写；4. 12k FACTR 设备预算是否真实可用。确认后再让 worker 补齐可审查 artifact，例如 docs/master_arm_gravcomp_evaluation.md，含来源、sha256/git_sha 和 verifier，再回到 review。",
+          "created_at": "2026-05-22T21:37:02+08:00",
+          "kind": "needs_user"
         }
       ],
-      "updated_at": "2026-05-22T21:32:54+08:00"
+      "updated_at": "2026-05-22T21:37:02+08:00"
     },
     {
       "task_id": "task_umi_gemini_frame_test",
@@ -675,7 +689,7 @@
           "kind": "progress"
         }
       ],
-      "updated_at": "2026-05-22T21:33:13+08:00"
+      "updated_at": "2026-05-22T21:37:12+08:00"
     },
     {
       "task_id": "task_self_improving_prepare_proposal",
@@ -1170,7 +1184,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-22T21:32:54+08:00"
+      "updated_at": "2026-05-22T21:34:50+08:00"
     },
     {
       "task_id": "task_drag_demo_backend_compare",
@@ -1219,7 +1233,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-22T21:33:09+08:00",
+      "updated_at": "2026-05-22T21:37:08+08:00",
       "completed_at": null
     },
     {
@@ -1232,7 +1246,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-22T21:32:55+08:00"
+      "updated_at": "2026-05-22T21:34:50+08:00"
     },
     {
       "task_id": "task_drag_demo_masks_collection_aids",
