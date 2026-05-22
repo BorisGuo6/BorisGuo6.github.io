@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-23T00:45:07+08:00",
+  "updated_at": "2026-05-23T00:49:13+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2239,12 +2239,20 @@
       "project_id": "self-improving-agents",
       "title": "打包一个可演示的 PEARL/R2S2R CLI demo",
       "description": "Why now: 核心模块 38/38 tests 已通过，但 demo 入口仍是测试套件，不适合展示。Deliverable: scripts/demo_self_improving.py 或 docs/demo.md，串起 trace ingestion、sim-real gap、trace memory、workflow governance、R4R output。Acceptance: 一条命令在无 Isaac 环境下跑通 mock demo，并生成 r4r_output.json + human-readable summary。",
-      "status": "active",
+      "status": "review",
       "priority": "high",
       "assignee": "boris@100.101.68.35",
       "result": null,
-      "comments": [],
-      "updated_at": "2026-05-23T00:45:06+08:00",
+      "comments": [
+        {
+          "comment_id": "clawcross_e743e9b40114",
+          "author": "Progress",
+          "body": "Demo CLI verified. git_sha=ffff001cfa45. Branch: worktree-demo-cli. Run: python scripts/demo_self_improving.py --output-dir /tmp/demo. Outputs: r4r_output.json, memory_store.json, summary.txt. Two mock tasks (garment_fold_towel, bin_pick_cube). All 5 WP modules chained, 5/5 module tests pass. No Isaac dependency.",
+          "created_at": "2026-05-23T00:48:49+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-05-23T00:49:13+08:00",
       "due_at": "2026-05-26"
     },
     {
@@ -2257,7 +2265,7 @@
       "assignee": "boris@100.101.68.35",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T00:45:06+08:00",
+      "updated_at": "2026-05-23T00:49:13+08:00",
       "due_at": "2026-05-28"
     },
     {
@@ -2270,7 +2278,7 @@
       "assignee": "boris@100.101.68.35",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T00:45:06+08:00",
+      "updated_at": "2026-05-23T00:49:13+08:00",
       "due_at": "2026-05-27"
     },
     {
@@ -2283,7 +2291,7 @@
       "assignee": "lv-robotics@100.113.210.127",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T00:45:06+08:00",
+      "updated_at": "2026-05-23T00:49:13+08:00",
       "due_at": "2026-05-30"
     },
     {
@@ -2296,7 +2304,7 @@
       "assignee": "lv-robotics@100.113.210.127",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T00:45:06+08:00",
+      "updated_at": "2026-05-23T00:49:13+08:00",
       "due_at": "2026-05-27"
     },
     {
@@ -2309,7 +2317,7 @@
       "assignee": "lv-robotics@100.113.210.127",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T00:45:06+08:00",
+      "updated_at": "2026-05-23T00:49:13+08:00",
       "due_at": "2026-05-24"
     },
     {
@@ -2322,7 +2330,7 @@
       "assignee": "boris@100.70.181.44",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T00:45:06+08:00",
+      "updated_at": "2026-05-23T00:49:13+08:00",
       "due_at": "2026-05-28"
     },
     {
@@ -2335,7 +2343,7 @@
       "assignee": "boris@100.70.181.44",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T00:45:06+08:00",
+      "updated_at": "2026-05-23T00:49:13+08:00",
       "due_at": "2026-05-25"
     },
     {
@@ -2348,7 +2356,7 @@
       "assignee": "boris@100.70.181.44",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T00:45:06+08:00",
+      "updated_at": "2026-05-23T00:49:13+08:00",
       "due_at": "2026-05-25"
     },
     {
@@ -2361,7 +2369,7 @@
       "assignee": "survey-pool",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T00:45:06+08:00",
+      "updated_at": "2026-05-23T00:49:13+08:00",
       "due_at": "2026-05-28"
     },
     {
@@ -2374,7 +2382,7 @@
       "assignee": "survey-pool",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T00:45:06+08:00",
+      "updated_at": "2026-05-23T00:49:13+08:00",
       "due_at": "2026-05-30"
     },
     {
@@ -2387,7 +2395,7 @@
       "assignee": "survey-pool",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T00:45:06+08:00",
+      "updated_at": "2026-05-23T00:49:13+08:00",
       "due_at": "2026-05-27"
     },
     {
@@ -2400,7 +2408,7 @@
       "assignee": "survey-pool",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T00:45:06+08:00",
+      "updated_at": "2026-05-23T00:49:13+08:00",
       "due_at": "2026-05-27"
     },
     {
@@ -2413,7 +2421,7 @@
       "assignee": "survey-pool",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T00:45:06+08:00",
+      "updated_at": "2026-05-23T00:49:13+08:00",
       "due_at": "2026-05-29"
     },
     {
@@ -2426,7 +2434,7 @@
       "assignee": "survey-pool",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T00:45:06+08:00",
+      "updated_at": "2026-05-23T00:49:13+08:00",
       "due_at": "2026-05-29"
     }
   ]
