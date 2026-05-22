@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-22T09:38:39+08:00",
+  "updated_at": "2026-05-22T09:47:28+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1802,7 +1802,7 @@
       "project_id": "diverse-same-task-dataset",
       "title": "Validate synchronized sensor package",
       "description": "Confirm hand pose, ego camera, and z16-encoded depth are aligned well enough for HOI supervision; z16 replaces depth heatmaps for better metric accuracy.",
-      "status": "review",
+      "status": "done",
       "priority": "high",
       "assignee": null,
       "result": null,
@@ -1821,10 +1821,17 @@
           "author": "Progress",
           "body": "Sensor validation artifact: ~/workspace/diverse-same-task-dataset/task_hoi_sensor_validation.md — PTP+HW trigger sync architecture, pre/post-session checklists, failure modes table, validation script interface",
           "created_at": "2026-05-22T09:38:13+08:00",
-          "kind": "artifact"
+          "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_b8905d2375e7",
+          "author": "Host verification",
+          "body": "Host verification reaffirmed after remote late review update: inspected ~/workspace/diverse-same-task-dataset/task_hoi_sensor_validation.md (216 lines). Accepted; remote review status was stale.",
+          "created_at": "2026-05-22T09:40:04+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-05-22T09:38:19+08:00",
+      "updated_at": "2026-05-22T09:40:04+08:00",
       "completed_at": "2026-05-22"
     },
     {
@@ -1832,7 +1839,7 @@
       "project_id": "diverse-same-task-dataset",
       "title": "Add object tracking with the same mechanism as hand tracking",
       "description": "The object tracker should share the same tracking / calibration assumptions as the hand tracker rather than creating a separate data path.",
-      "status": "review",
+      "status": "done",
       "priority": "medium",
       "assignee": null,
       "result": null,
@@ -1844,10 +1851,18 @@
           "author": "Progress",
           "body": "Object tracking artifact: ~/workspace/diverse-same-task-dataset/task_hoi_object_tracking.md — Hybrid ArUco+FoundationPose design, per-object tracking plan, multi-view fusion, validation protocol, 6-day implementation roadmap",
           "created_at": "2026-05-22T09:38:22+08:00",
-          "kind": "artifact"
+          "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_0e7d57cee24e",
+          "author": "Host verification",
+          "body": "Host verification passed: inspected boris-PC artifact ~/workspace/diverse-same-task-dataset/task_hoi_object_tracking.md (287 lines). It selects a hybrid ArUco + FoundationPose multi-view object tracker, defines per-object tracking plans, coordinate-frame alignment with hand tracking, validation protocols, and schema integration fields. Accepted as object-tracking design TODO.",
+          "created_at": "2026-05-22T09:38:59+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-05-22T09:38:23+08:00"
+      "updated_at": "2026-05-22T09:40:01+08:00",
+      "completed_at": "2026-05-22"
     },
     {
       "task_id": "task_hoi_schema_model_target",
@@ -1886,8 +1901,31 @@
       "priority": "medium",
       "assignee": null,
       "result": null,
-      "comments": [],
-      "updated_at": "2026-05-22T09:34:33+08:00"
+      "comments": [
+        {
+          "comment_id": "clawcross_2aa2f241475b",
+          "author": "Progress",
+          "body": "Retargeting baselines artifact ready: ~/workspace/diverse-same-task-dataset/task_hoi_retargeting_baselines.md — 8 systems surveyed (DexCap/AnyTeleop/DexPilot/HATO/BunnyVP/ACE/DexMimicGen/UniDex FAAS), recommended stack: dex-retargeting + object-centric gripper reducer, quality metrics, 6-day roadmap",
+          "created_at": "2026-05-22T09:39:52+08:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_bcc479fc6720",
+          "author": "Host verification",
+          "body": "Host verification passed: inspected boris-PC artifact ~/workspace/diverse-same-task-dataset/task_hoi_retargeting_baselines.md (216 lines). It surveys DexCap, AnyTeleop/dex-retargeting, DexPilot, HATO, Bunny-VisionPro, ACE, DexMimicGen, UniDex/FAAS, CrossDex, MultiGripperGrasp; recommends dex-retargeting plus object-centric gripper reduction, defines schema interface, metrics, roadmap, and open questions. Accepted as retargeting-baseline survey TODO.",
+          "created_at": "2026-05-22T09:40:44+08:00",
+          "kind": "host_verified"
+        },
+        {
+          "comment_id": "clawcross_b2f5eee68212",
+          "author": "Review",
+          "body": "Local Codex host review reopened this TODO.\n请更新 ~/workspace/diverse-same-task-dataset/task_hoi_retargeting_baselines.md：显式对照 HOI Retargeting notes，覆盖 Manus glove -> LEAP / Isaac Sim retargeting；逐项比较 HOP、Object-Centric Dexterous Manipulation、DexMachina、DexFlow、GenHand；加入 FoundationPose/object sim2real alignment；定义 Isaac Sim 如何评分 same object-state transition 和 contact result，并给出可复核的 verifier/指标/结果文件或明确 blocker。",
+          "created_at": "2026-05-22T09:47:05+08:00",
+          "kind": "review"
+        }
+      ],
+      "updated_at": "2026-05-22T09:47:05+08:00",
+      "completed_at": "2026-05-22"
     }
   ]
 }
