@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-23T03:17:13+08:00",
+  "updated_at": "2026-05-23T03:22:17+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2270,13 +2270,22 @@
       "project_id": "robotics-3d-printing",
       "title": "新增第二个 PoD retrofit 产品验证泛化",
       "description": "Why now: Mac-mini extender 证明了单例闭环，但 schema/pipeline 泛化还没验证。Deliverable: 一个不同接触/安装形态的第二产品（如 cable clip、drawer latch、tool holder），走 input_schema -> agent_pipeline -> STLs/URDF/jigs/runbook。Acceptance: 与 extender 共享同一 pipeline，无硬编码路径；validation_report ok。",
-      "status": "review",
+      "status": "done",
       "priority": "medium",
       "assignee": "shaol@100.96.228.8",
       "result": null,
-      "comments": [],
-      "updated_at": "2026-05-23T03:09:51+08:00",
-      "due_at": "2026-05-30"
+      "comments": [
+        {
+          "comment_id": "clawcross_a1fdbe083a20",
+          "author": "Host verification",
+          "body": "Local Codex host review accepted this TODO.\n可自动验收：worker 给出了第二个 cable clip 产品的同 pipeline 产物、validation_report ok、cell dry-run 和 pytest 结果，覆盖 TODO 验收范围。\nEvidence: /Users/boris/.clawcross/data/harness_state.json 中 task_pod_second_retrofit_product 为 review，包含 worker comment_a58b8a26448c 的完整交付记录; /Users/boris/.clawcross/data/remote_claude_sessions_cache.json 显示远端 session idle，last_message 与 harness done 结果一致; worker 记录第二产品 desk-edge USB-C cable clip：contact_kind=edge、kind=cable_clip、1 个 STL part、0 articulations、0 jigs、5-step runbook; worker 记录同一 pipeline runner：pipelines/pod_agent/run.py --example desk_edge_cable_clip.json；pipeline.py 仅通过 DesignSpec.kind/contact_kind dispatch; worker 记录 artifact 路径：schemas/pod_input/examples/desk_edge_cable_clip.json、pipelines/pod_agent/out_desk_edge_cable_clip/、demos/retrofit_cable_clip/out/; worker 记录 validation_report.json ok=true，pod_cable_clip.manifest.json parts=[clip] articulations=[]，build_plate.json 1 placement 0 jigs，assembly_plan actions=[wait_for_print_done, perceive_bed, pick, place_at_pose, verify]; worker 记录 meshes/clip.stl watertight=True，bbox=[50.0,34.0,33.0]mm，volume=14082.2mm^3，112 faces; worker 记录验证命令全绿：default extender ok、cable_clip pipeline ok、demo ok、cell.main final_state=done steps=5、pod_agent tests 9/9、cell tests 16/16\nCommands: sed -n '1,220p' docs/repo-index.md; jq -r '.tasks[]? | select(.task_id==\"task_pod_second_retrofit_product\") | {task_id,status,updated_at,comments:(.comments|length)}' /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json; ssh -o BatchMode=yes -o ConnectTimeout=8 shaol@100.96.228.8 'cd /home/shaol/workspace/robotics-3d-printing && pwd && git status --short'; ls -1 /Users/boris/workspace; find /Users/boris/workspace -maxdepth 2 -type d -iname '*robotics*' -o -iname '*printing*'; sed -n '2240,2325p' /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json\nReason: TODO 要求用第二个不同接触/安装形态产品验证 PoD schema/pipeline 泛化，并要求同 pipeline、无硬编码路径、validation_report ok。harness 和远端 session cache 已记录具体代码路径、artifact 路径、validation_report 内容、STL/URDF/build_plate/assembly_plan 产物摘要以及可复现测试命令和结果；虽然当前沙箱阻止 SSH 独立重跑，但证据已满足自动验收门槛。",
+          "created_at": "2026-05-23T03:22:07+08:00",
+          "kind": "host_verified"
+        }
+      ],
+      "updated_at": "2026-05-23T03:22:07+08:00",
+      "due_at": "2026-05-30",
+      "completed_at": "2026-05-23"
     },
     {
       "task_id": "task_layered_wm_contact_object_head",
@@ -2411,7 +2420,7 @@
       "assignee": "boris@100.101.68.35",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T03:09:51+08:00",
+      "updated_at": "2026-05-23T03:19:32+08:00",
       "due_at": "2026-05-28"
     },
     {
@@ -2555,7 +2564,7 @@
           "kind": "result"
         }
       ],
-      "updated_at": "2026-05-23T03:09:51+08:00",
+      "updated_at": "2026-05-23T03:19:32+08:00",
       "due_at": "2026-05-28"
     },
     {
@@ -2568,7 +2577,7 @@
       "assignee": "boris@100.70.181.44",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T03:09:51+08:00",
+      "updated_at": "2026-05-23T03:19:32+08:00",
       "due_at": "2026-05-25"
     },
     {
@@ -2603,7 +2612,7 @@
           "kind": "blocker"
         }
       ],
-      "updated_at": "2026-05-23T03:12:25+08:00",
+      "updated_at": "2026-05-23T03:22:17+08:00",
       "due_at": "2026-05-25"
     },
     {
@@ -2631,7 +2640,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T03:09:51+08:00",
+      "updated_at": "2026-05-23T03:19:32+08:00",
       "due_at": "2026-05-28"
     },
     {
@@ -2716,7 +2725,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T03:14:38+08:00",
+      "updated_at": "2026-05-23T03:19:32+08:00",
       "due_at": "2026-05-27"
     },
     {
@@ -2737,7 +2746,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T03:14:38+08:00",
+      "updated_at": "2026-05-23T03:19:33+08:00",
       "due_at": "2026-05-27"
     },
     {
@@ -2750,7 +2759,7 @@
       "assignee": "boris@100.101.68.35",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T03:14:38+08:00",
+      "updated_at": "2026-05-23T03:19:33+08:00",
       "due_at": "2026-05-29"
     },
     {
@@ -2763,7 +2772,7 @@
       "assignee": "boris@100.101.68.35",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T03:14:38+08:00",
+      "updated_at": "2026-05-23T03:19:33+08:00",
       "due_at": "2026-05-29"
     }
   ]
