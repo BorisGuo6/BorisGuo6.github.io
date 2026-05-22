@@ -177,7 +177,7 @@
           "author": "Progress",
           "body": "本机 Codex 已解除旧 blocker: 在 boris@100.70.181.44 安装并 reload/trigger 了 MANUS udev 规则，MANUS dongle 3325:0049 现在位于 /dev/bus/usb/003/013 且权限为 crw-rw-rw-。同时修复 ~/workspace/manus_wrapper/src/manus_wrapper/sdk.py 的 SDK 调用顺序：CoreSdk_SetRawSkeletonHandMotion 改为 CoreSdk_ConnectToHost 后调用，避免段错误；manus_wrapper 单测 26/26 通过。probe_dongle 已不再 segfault，可连接 CoreLite；当前 exit=2 是 CoreLite dongle/glove enumeration API 返回 FunctionNotAvailable/空列表，不是 udev 权限。vive_wrapper 单测 10/10 和 openvr module probe 通过；VIVE list_trackers 仍需 SteamVR 运行和 Tracker 硬件接入（当前没有 openvr path，lsusb 未见 VIVE/HTC/Valve tracker）。",
           "created_at": "2026-05-22T21:43:59+08:00",
-          "kind": "host_progress"
+          "kind": "comment"
         },
         {
           "comment_id": "clawcross_ab5d5a2a5aa6",
