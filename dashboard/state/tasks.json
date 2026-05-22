@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-23T02:07:28+08:00",
+  "updated_at": "2026-05-23T02:24:30+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -766,9 +766,16 @@
           "body": "Progress at 2026-05-22T17:59:13Z: cosmos25 conductor pid=617013 alive, generating on RTX 5090. Counts on disk: cosmos25=55/186 wan22=186/186 ltx=186/186. Cosmos25 trajectory since host started full_v6 supervisor at 2026-05-22T14:58:38Z baseline=45: 45→55 in 1779472753s, ~16.5 min/clip on RTX 5090. ETA 131 clips × 16.5 min => ~36h remaining. Per updated standing instruction (今天 ClawCross 本机主控): status stays doing/active until all three at 186 + cosmos25_eval_results.json + SUMMARY_186.md updated; then conductor task switches to task_umi_decide_ai2v_after_186_vbench. I'm monitor-only, no new generation processes.",
           "created_at": "2026-05-23T01:59:13+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_cdb28e7602cc",
+          "author": "Progress",
+          "body": "Status check at 2026-05-22T18:07:52Z: cannot complete cosmos25 VBench evaluation yet because generation is still in progress. Counts on disk: cosmos25 predicted.mp4 = 55 of 186 target; wan22 = 186/186 done; ltx = 186/186 done. Host's full_v6 detached conductor pid=617013 is alive (current step:  73%|███████▎ | 22/30 [12:04<04:22, 32.82s/it]). Per host's standing instruction in dashboard comment 2026-05-22T22:58:38+08:00 by 'Progress' (verbatim): 'Cosmos25 smoke 已验证落盘：45/186。已启动 full_v6 detached supervisor，当前 pending=141，GPU 正在跑。完成后脚本会自动跑 cosmos25 VBench、重写 eval_outputs/vbench/SUMMARY_186.md，并把 task_umi_vbench_eval 标记 review。请你只负责监控/汇总，不要再启动第二个 Cosmos 生成进程。' I am monitor-only. cosmos25 VBench will be runnable once predicted.mp4 = 186/186, and the conductor will auto-trigger it. Available wan22+ltx 186-clip VBench results (verifiable now): run_id=vbench_scale_20260521T183305Z, base git_sha=e121018ab28a5251ffc324ec977d946695b3d16f, branch=worktree-umi-vbench-eval. wan22 sha256=d297770b03ea1d618cb6d607be7dc2667270f23903065f1a6682d744415706d1 (eval_outputs/vbench/wan22/wan22_eval_results.json). ltx sha256=8f6990055a87000dcc1d4dd8eba5146c02d1b1eaca5b75774cfeec29bdddd793 (eval_outputs/vbench/ltx/ltx_eval_results.json). Pre-cosmos25-rescale baseline at .claude/worktrees/umi-vbench-eval/eval_outputs/vbench/SUMMARY_186.md. ETA 131 × 16.5 min => ~36h until cosmos25 generation finishes.",
+          "created_at": "2026-05-23T02:07:52+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T02:01:40+08:00",
+      "updated_at": "2026-05-23T02:09:08+08:00",
       "due_at": ""
     },
     {
@@ -1283,7 +1290,7 @@
           "kind": "result"
         }
       ],
-      "updated_at": "2026-05-23T02:01:40+08:00"
+      "updated_at": "2026-05-23T02:09:08+08:00"
     },
     {
       "task_id": "task_drag_demo_backend_compare",
@@ -1366,7 +1373,7 @@
       "assignee": "lv-robotics@100.113.210.127",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T02:00:33+08:00",
+      "updated_at": "2026-05-23T02:09:08+08:00",
       "due_at": ""
     },
     {
@@ -2155,7 +2162,7 @@
       "assignee": "jingxiang@100.112.245.1",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T02:00:33+08:00",
+      "updated_at": "2026-05-23T02:09:08+08:00",
       "due_at": "2026-05-28"
     },
     {
@@ -2176,7 +2183,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T02:00:33+08:00",
+      "updated_at": "2026-05-23T02:09:08+08:00",
       "due_at": "2026-05-26"
     },
     {
@@ -2189,7 +2196,7 @@
       "assignee": "jingxiang@100.112.245.1",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T02:00:33+08:00",
+      "updated_at": "2026-05-23T02:09:09+08:00",
       "due_at": "2026-05-29"
     },
     {
@@ -2197,12 +2204,12 @@
       "project_id": "robotics-3d-printing",
       "title": "把 takeout runbook 接成 Piper-X / printer cell driver skeleton",
       "description": "Why now: printer_farm_cell scope 已完成，下一步要把 printed artifacts 接到真机控制边界。Deliverable: cell_driver/ skeleton，含 printer status adapter、bed perception placeholder、Piper-X pick/place API stub、安全 state machine。Acceptance: 用 assembly_plan.json dry-run 走完整状态机，输出每步 command envelope 和 fail-safe path。",
-      "status": "active",
+      "status": "review",
       "priority": "high",
       "assignee": "shaol@100.96.228.8",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T02:01:09+08:00",
+      "updated_at": "2026-05-23T02:09:09+08:00",
       "due_at": "2026-05-28"
     },
     {
@@ -2246,12 +2253,12 @@
       "project_id": "robotics-3d-printing",
       "title": "新增第二个 PoD retrofit 产品验证泛化",
       "description": "Why now: Mac-mini extender 证明了单例闭环，但 schema/pipeline 泛化还没验证。Deliverable: 一个不同接触/安装形态的第二产品（如 cable clip、drawer latch、tool holder），走 input_schema -> agent_pipeline -> STLs/URDF/jigs/runbook。Acceptance: 与 extender 共享同一 pipeline，无硬编码路径；validation_report ok。",
-      "status": "todo",
+      "status": "active",
       "priority": "medium",
       "assignee": "shaol@100.96.228.8",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T02:00:33+08:00",
+      "updated_at": "2026-05-23T02:24:24+08:00",
       "due_at": "2026-05-30"
     },
     {
@@ -2259,12 +2266,20 @@
       "project_id": "image-layered-world-model",
       "title": "补 object/contact supervision probe",
       "description": "Why now: object_contact 在 robot_still 只有约 0.21，说明单靠 layered image 不足。Deliverable: object/contact head 的弱监督方案，对比 color/geometry/Qwen layer features。Acceptance: poster 和 robot_still 都输出 object/contact mask；记录 contact recall/precision、penetration/sliding proxy。",
-      "status": "active",
+      "status": "review",
       "priority": "high",
       "assignee": "feibo@100.87.220.29",
       "result": null,
-      "comments": [],
-      "updated_at": "2026-05-23T02:05:19+08:00",
+      "comments": [
+        {
+          "comment_id": "clawcross_21a1db4d525f",
+          "author": "Progress",
+          "body": "[2026-05-23] Probe v0 finished. Built 5 heads (qwen_baseline / color_saliency / geom_compact / qwen_filtered / color_x_qwen). Run: .venv/bin/python contact_object_head.py. Robot_still cup IoU: H2 geom_compact 0.810 vs Qwen 0.212 (3.8x lift), precision 1.0, penetration_vs_gt_scene 0.0. Poster silhouette IoU: H2 geom_compact 0.856 vs Qwen 0.514 (1.7x lift), precision 1.0, penetration_vs_gt_scene 0.0. Contact event proxy (touch-within-4px-of-robot): TP=1 FP=0 FN=0 TN=1 across both scenes for all heads — sanity, not discriminating, N=2. Sliding proxy: unmeasurable_single_image (defer to temporal probe). Key reads: (1) color is the strongest feature; (2) Qwen non-base layers alone are worse than nothing (H3 IoU 0.016/0.242, penetration 0.95/0.75 — floods the image); (3) Qwen layers do not add info on top of color (H4 ≈ H2); (4) chained head: robot mask subtraction is essential. Penetration vs Qwen base = 1.0 for every head (uninformative; Qwen base alpha=1 everywhere); replaced with penetration_vs_gt_scene as primary. Artifacts: contact_object_head.py, contact-object-head.md, outputs_contact_object_head/score_summary.json, outputs_contact_object_head/{robot_still,poster}/mask_*.png + overlays. Acceptance: poster+robot_still both produce object/contact mask; contact recall/precision recorded; penetration proxy recorded; sliding marked unmeasurable as expected.",
+          "created_at": "2026-05-23T02:07:48+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-05-23T02:09:09+08:00",
       "due_at": "2026-05-28"
     },
     {
@@ -2308,12 +2323,20 @@
       "project_id": "image-layered-world-model",
       "title": "把单图 layer probe 扩展到短视频 temporal consistency",
       "description": "Why now: world model 要服务视频/IDM，PSD/单图 round-trip 只是静态验证。Deliverable: 3-5 帧短序列 layer propagation 或逐帧 decomposition + consistency metric。Acceptance: 输出 temporal flicker / mask IoU over time / object-contact continuity 指标，并列出最小训练目标。",
-      "status": "todo",
+      "status": "review",
       "priority": "medium",
       "assignee": "feibo@100.87.220.29",
       "result": null,
-      "comments": [],
-      "updated_at": "2026-05-23T02:00:33+08:00",
+      "comments": [
+        {
+          "comment_id": "clawcross_0898a368fd2a",
+          "author": "Progress",
+          "body": "[2026-05-23] Probe v0 finished. 5-frame synthetic sequence: arm reaches cup at t=2, slides it +8/+18 px at t=3,4. Per-frame heads = robot_ego (chromatic_dark_cc with frame-adaptive base box) + object_contact (geom_compact with fixed workspace prior, not per-frame EE box — key v1 change so cup is detected pre-contact). GT geometry promoted from axis-aligned bbox to polygon-level (matches drawn shapes), lifting IoU ceiling. Run: .venv/bin/python make_video_frames.py && .venv/bin/python video_temporal_probe.py. Headline metrics: per-frame IoU >=0.97 across S/O/R for all 5 frames. Temporal pair: |pred_iou - gt_iou| < 0.015 on every pair (head change-rate tracks true motion-rate); flicker rate stays at the 'real geometric motion' floor (scene <0.6%, object 0% pre-contact / 33-41% sliding, robot 4-16% depending on tip-speed). Contact timeline: pred==GT exactly (F,F,T,T,T), TP=3 FP=0 FN=0 TN=2, recall=1.0 precision=1.0, 1 transition both sides, no flicker transitions. Sliding consistency mean_cos = 0.9996 across 2 contact pairs. Centroid drift per layer cleanly separates static scene (<0.2 px/frame jitter) vs sliding cup (~9 px/frame during contact) vs reaching arm (~7.7 px/frame reach -> 1.9 px/frame contact). Minimum training objectives listed in §9 of video-temporal-probe.md: (1) per-frame recon, (2) layer-isolated recon, (3) static-layer temporal-IoU, (4) motion-warped IoU for moving layers, (5) contact-event continuity (dwell threshold), (6) slot-identity Hungarian, (7) sliding-direction cosine, (8) kinematic-feasibility on robot centroid. Min set for v1: 1+3(scene)+4(warp)+5. Artifacts: make_video_frames.py, video_temporal_probe.py, video-temporal-probe.md, outputs_video_temporal_probe/score_summary.json + per-frame masks + overlays, test_video/.",
+          "created_at": "2026-05-23T02:13:05+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-05-23T02:13:09+08:00",
       "due_at": "2026-05-30"
     },
     {
@@ -2350,12 +2373,12 @@
       "project_id": "self-improving-agents",
       "title": "构造最小 failure trace 数据集用于 Trace-to-Memory demo",
       "description": "Why now: MemoryStore 已有 schema/test，但需要真实感样例证明 retrieval/distillation 价值。Deliverable: 10-20 条 robotics failure trace JSON/HDF5 样例，覆盖 grasp/slip/collision/timing/contact 等 failure taxonomy。Acceptance: demo CLI 能检索相似失败并输出 correction suggestion。",
-      "status": "active",
+      "status": "review",
       "priority": "medium",
       "assignee": "boris@100.101.68.35",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T02:04:34+08:00",
+      "updated_at": "2026-05-23T02:09:09+08:00",
       "due_at": "2026-05-28"
     },
     {
@@ -2397,7 +2420,7 @@
       "assignee": "lv-robotics@100.113.210.127",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T02:00:33+08:00",
+      "updated_at": "2026-05-23T02:09:09+08:00",
       "due_at": "2026-05-30"
     },
     {
@@ -2405,7 +2428,7 @@
       "project_id": "drag-demo-video-editing",
       "title": "按选定 threshold 补齐 100 episode manifest",
       "description": "Why now: initial batch 目标是可训练数据，不是 verifier 本身。Deliverable: initial_batch_manifest.json 达到 100 条或给出 onsite 采集缺口清单。Acceptance: verifier JSON 报告每条 episode 的 pass/fail 原因；manifest 可直接被训练 loader 读取。",
-      "status": "active",
+      "status": "review",
       "priority": "high",
       "assignee": "lv-robotics@100.113.210.127",
       "result": null,
@@ -2418,7 +2441,7 @@
           "kind": "result"
         }
       ],
-      "updated_at": "2026-05-23T02:07:19+08:00",
+      "updated_at": "2026-05-23T02:09:09+08:00",
       "due_at": "2026-05-27"
     },
     {
@@ -2462,12 +2485,12 @@
       "project_id": "real-robot-infra",
       "title": "统一 MANUS/Wuji/VIVE/robot state 记录 schema",
       "description": "Why now: 多个输入设备并行接入，若不先统一记录格式，后续 HOI/retargeting/UMI 数据会割裂。Deliverable: schema + sample writer，覆盖 hand joints/tactile/wrist pose/camera extrinsics/robot state/time sync。Acceptance: 能把一个 fake 或真实 10 秒 episode 写成统一 JSON/HDF5，并被 validator 读取。",
-      "status": "todo",
+      "status": "active",
       "priority": "medium",
       "assignee": "boris@100.70.181.44",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T02:07:06+08:00",
+      "updated_at": "2026-05-23T02:15:48+08:00",
       "due_at": "2026-05-28"
     },
     {
@@ -2480,7 +2503,7 @@
       "assignee": "boris@100.70.181.44",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T02:07:06+08:00",
+      "updated_at": "2026-05-23T02:09:09+08:00",
       "due_at": "2026-05-25"
     },
     {
@@ -2488,7 +2511,7 @@
       "project_id": "real-robot-infra",
       "title": "跑通 Wuji Glove 网络 smoke 与时间戳记录",
       "description": "Why now: 已纠正 Wuji Glove 不是 MANUS，真实连接是 USB-C-to-Ethernet 网络端点。Deliverable: 网络发现、stream subscribe、timestamp drift/logging smoke。Acceptance: 记录 IP/port、packet rate、字段 schema、10 秒日志 sha256；失败时输出硬件/网络 blocker。",
-      "status": "active",
+      "status": "blocked",
       "priority": "high",
       "assignee": "boris@100.70.181.44",
       "result": null,
@@ -2499,9 +2522,16 @@
           "body": "[Codex route 2026-05-23] Route: prioritize a logged hardware smoke over more desk research: Wuji glove packet stream, timestamps, sample-rate estimate, dropped frame count, and a minimal schema compatible with MANUS/VIVE/robot state. Wuji docs advertise 120 FPS tactile/pose; the local verifier should confirm what this lab setup actually emits.",
           "created_at": "2026-05-23T01:11:43+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_7229250e8f32",
+          "author": "Blocker",
+          "body": "Network smoke implemented + offline-verified; blocked on link-level connectivity.\n\n== Repo + commit ==\n\nWorktree: /home/boris/workspace/wuji_glove_wrapper\nBranch:   main\nCommit:   6fbdb3725c8db393f613469e40a8977ea5b19097  ('Add 10s network-smoke script + offline metrics module')\n\nFiles (sha256):\n  scripts/glove_net_smoke.py            bc2efca9117a4cc35b41f77ac05bcf83f1757a2eb9e9117a0a9582f5836c4507\n  src/wuji_glove_wrapper/metrics.py     ec6d5844c928ec1c60bf4e9e4f98d8711ac40bcf5bbf6f92ebe493e292849c6a\n  tests/test_metrics.py                 9b29d00154543fb84eb452d3d26e19deb4bf7b7e28641094de31797cd629f748\n\n== Offline verifier (passes without glove on the wire) ==\n\nCommand:\n  cd ~/workspace/wuji_glove_wrapper && ~/workspace/wuji_wrapper/.venv/bin/python -m pytest tests/ -v\nResult: 9 passed in 0.09s\nCoverage: empty input / 120 Hz perfect / seq-gap drop counting / constant +5 ms drift / linearly growing drift / inter-arrival jitter / reorder safety / _percentile interpolation / schema_of attribute walk.\nLog:    /home/boris/.claude/jobs/wuji_glove_net/tests.log\nsha256: 2df20e810d9c45eefe60092e1f5749b4383c54d0aad5050b11229006c9e327c3\n\n== Smoke runner — actual 10 s run on this host, captured concrete blocker ==\n\nCommand:\n  ~/workspace/wuji_wrapper/.venv/bin/python ~/workspace/wuji_glove_wrapper/scripts/glove_net_smoke.py\n  (default --duration 10.0 --iface enp58s0 --ips 192.168.1.100,192.168.1.101)\n\nStdout:\n  [wuji-net-smoke] log     : /home/boris/.claude/jobs/wuji_glove_net/smoke.json\n  [wuji-net-smoke] sha256  : b8707f78071fa98f3d97426993ef2921bf5612196df5d0c4b8a6e55d84ba1d3b\n  [wuji-net-smoke] blocker : iface_enp58s0_no_carrier (cable unplugged or Wuji USB-C-to-Ethernet power adapter off; expected static IP 192.168.1.10/24 on host, glove at .100/.101)\n  [wuji-net-smoke] devices : 0\n  [wuji-net-smoke] frames  : 0\nExit: 2\n\nLog artifacts:\n  /home/boris/.claude/jobs/wuji_glove_net/smoke.json                 sha256=b8707f78071fa98f3d97426993ef2921bf5612196df5d0c4b8a6e55d84ba1d3b\n  /home/boris/.claude/jobs/wuji_glove_net/smoke_no_carrier_10s.json  (frozen copy of the above)\n\nJSON payload structure (schema_version wuji_glove_net_smoke.v1):\n  host, duration_s, started_at_utc_us, ended_at_utc_us\n  iface_state { iface, exists, carrier, operstate }\n  udp_probes [ { ip, port, reachable, error } ]\n  sdk { available, version }\n  devices [ { sn, ip, port, transport_type, firmware_version, hand_side, ... } ]\n  streams { <sn>: { <stream>: StreamMetrics } }\n  blocker (string or null)\n  total_frames, elapsed_s\n  StreamMetrics: { stream, frame_count, duration_s, rate_hz, seq_min, seq_max,\n                   seq_drop_count, seq_gap_max,\n                   drift_us_{min,max,mean,p50,p95},\n                   interarrival_us_{mean,std},\n                   schema {type, fields:{<attr>:{type,len}}} }\n\n== Concrete hardware/network blocker ==\n\niface_state (from /sys/class/net/enp58s0/{carrier,operstate}):\n  carrier=0 operstate=down\n\nEarlier verified-good state (per dashboard comment clawcross_34a5c74c0249, 2026-05-22 16:49):\n  enp58s0: 192.168.1.10/24 static, ping 192.168.1.101 -> 4/4 RTT 0.12-0.20 ms, SDK pulled 7 streams from SN WG1KA02260410009.\n\nWhat changed since then to drop the link is hardware-side (cable unplugged / glove adapter unpowered / glove off). I cannot bring enp58s0 up without sudo + a physical cable check. Per master-control instructions: not retrying with sudo.\n\n== What's needed to clear this blocker (no sudo from me) ==\n\nA human/local Codex needs to (in order):\n  1. Plug the Wuji USB-C-to-Ethernet adapter's RJ45 into enp58s0 (Arm A's old port).\n  2. Confirm the adapter's DC power barrel is in (the adapter should hum / LED on).\n  3. Power on the glove(s); the wrist LED should breath cyan ~4 s in standby.\n  4. Re-apply the static IP on host:\n       sudo ip addr add 192.168.1.10/24 dev enp58s0\n       sudo ip link set enp58s0 up\n     (or whichever NM/networkd profile was used before)\n  5. Verify: ping -c 2 192.168.1.101  (or .100 for left glove)\n  6. Re-run the smoke:\n       ~/workspace/wuji_wrapper/.venv/bin/python ~/workspace/wuji_glove_wrapper/scripts/glove_net_smoke.py\n     Expected (per earlier good run): 7 streams populated, rate_hz ~120 for tactile, seq_drop_count low, drift_us mean within ~1 ms (SDK syncs to host clock).\n\nOnce the link is back the script collects the full 10 s window and produces the acceptance-criteria deliverable in one run with no further code changes.\n\n== Status ==\n\nSetting needs_user / blocked on physical link. Implementation is committed & offline-verified. Will move to task_real_robot_input_record_schema (the second TODO on this rotation) while waiting on hardware.",
+          "created_at": "2026-05-23T02:14:48+08:00",
+          "kind": "blocker"
         }
       ],
-      "updated_at": "2026-05-23T02:07:28+08:00",
+      "updated_at": "2026-05-23T02:15:06+08:00",
       "due_at": "2026-05-25"
     },
     {
@@ -2509,12 +2539,20 @@
       "project_id": "diverse-same-task-dataset",
       "title": "定义 object/contact annotation pack 并标注样例",
       "description": "Why now: HOI retargeting 目标不是关节相似，而是 object trajectory/contact/task result。Deliverable: contact patch、contact normal、grasp/tool-use mode、object pose trajectory 的 label spec + 5 个样例。Acceptance: 标注能喂给 retargeting baseline 或 Isaac verifier。",
-      "status": "todo",
+      "status": "review",
       "priority": "high",
       "assignee": "feibo@100.87.220.29",
       "result": null,
-      "comments": [],
-      "updated_at": "2026-05-23T02:07:06+08:00",
+      "comments": [
+        {
+          "comment_id": "clawcross_8f423a425923",
+          "author": "Progress",
+          "body": "[2026-05-23] Contact pack v0 done. Artifacts: contact_pack_spec.md (additive layer over hoi.v0: per-frame phase + grasp_mode_v2, per-patch frame_world_4x4 + link_name + patch_id + area + force_proxy + friction_mu + is_held_constraint, tool_use block, object_trajectory_summary), generate_contact_pack_samples.py, validate_contact_pack.py, samples_contact_pack/01_pinch_pick_coin.json + 02_power_grasp_mug.json + 03_tool_use_screwdriver.json + 04_slide_block.json + 05_release_cup.json. 5 samples cover the 5 high-frequency cases: tip_pinch (2 patches), power_cylindrical (5 patches), tool_use (3 hand patches + explicit tool_tip / target / axis), lateral sliding (single patch with low load_bearing), release (4 patches -> 0 across the timeline). All 5 PASS validate_contact_pack.py (which chains validate_hoi_schema.py then layers patch SE(3) / +z=normal / area / friction / grasp_mode_v2 / tool_use / patch_id-link consistency / trajectory summary). Each sample carries the fields the Isaac verifier needs: object endpoint pose, per-patch SE(3) frames, link_name, friction, tool_tip targets. Grasp v2 taxonomy in spec §5 (9 values, Cutkosky-derived). Open issues §9: patch frame labeller tool, force calibration, multi-object scenes, patch-id reassignment. Next: feed these into task_hoi_isaac_retargeting_verifier_v0.",
+          "created_at": "2026-05-23T02:19:20+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-05-23T02:19:22+08:00",
       "due_at": "2026-05-28"
     },
     {
@@ -2522,12 +2560,20 @@
       "project_id": "diverse-same-task-dataset",
       "title": "做 Isaac retargeting verifier v0",
       "description": "Why now: 已经决定要用 Isaac 判断机器人是否复现同一 object-state transition。Deliverable: 一个 v0 verifier，输入 human HOI label + robot candidate trajectory，输出 object pose/contact/joint-limit/collision/failure report。Acceptance: 能在 mock scene 上跑通，并给出可解释 reject reason。",
-      "status": "todo",
+      "status": "review",
       "priority": "medium",
       "assignee": "feibo@100.87.220.29",
       "result": null,
-      "comments": [],
-      "updated_at": "2026-05-23T02:07:06+08:00",
+      "comments": [
+        {
+          "comment_id": "clawcross_362cae90f2c6",
+          "author": "Progress",
+          "body": "[2026-05-23] Verifier v0 done (mock-Isaac, no physics import needed). Artifacts: isaac_verifier_v0.py (orchestrator + 9 checks), generate_mock_robot_candidates.py (good + bad case), mock_robots/good_mug_pick.json + bad_mug_pick.json, verifier-v0-spec.md (schema, check table, demo, v1 plan). Robot candidate schema 'robot_candidate.v0' covers joint_names/joint_q/joint_qdot/joint_limits/links_per_frame/predicted_object_pose/predicted_contact_intent/collision_spheres/scene_obstacles. Verify() runs 9 checks: human_label_valid, robot_candidate_valid, schema_align, joint_limits, self_collision, scene_collision, object_pose (RMSE+end pos+end rot), contact_phase_timeline (F1), sliding_consistency (cos). Demo run on samples_contact_pack/02_power_grasp_mug.json: good_mug_pick.json => exit 0, overall_pass=true, 9/9 green; bad_mug_pick.json => exit 1, 4 explicit reject reasons (joint_limits[panda_joint5 q=3.5 at frame 3 vs limit [-2.8973,2.8973]], scene_collision[tool0 vs table aabb at frame 2 distance 0.0 vs radius 0.04], object_pose[end_position_err 0.06 m > tol 0.03 m, RMSE 0.0367 m < tol 0.05 m], contact_phase_timeline[F1=0.667 < tol 0.7]). Every violation carries frame index + offending value so the retargeting solver can target the specific failure. Acceptance: runs on mock scene, gives interpretable reject reasons. v1 plan (Isaac backend, URDF-driven limits, PhysX collisions, friction-cone/penetration checks, patch-id match) listed in spec §7. Known gaps (no physics, no FK, no mass/friction) listed in §6.",
+          "created_at": "2026-05-23T02:22:32+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-05-23T02:22:39+08:00",
       "due_at": "2026-05-30"
     },
     {
@@ -2535,7 +2581,7 @@
       "project_id": "diverse-same-task-dataset",
       "title": "同一任务跑两个采集模态 smoke",
       "description": "Why now: collection matrix/schema 都完成了，下一步要证明同一任务能跨模态对齐。Deliverable: 选一个 manipulation task，至少 glove/UMI 或 teleop/drag 两个模态各出 1 条样例。Acceptance: 两条样例共享 task_id/object_id/timestamps/camera metadata，并能在同一 schema validator 中通过。",
-      "status": "todo",
+      "status": "review",
       "priority": "high",
       "assignee": "feibo@100.87.220.29",
       "result": null,
@@ -2546,9 +2592,16 @@
           "body": "[Codex route 2026-05-23] Route: start with two modalities on one identical task, not all modalities. The acceptance artifact is a common object-centric timeline: object pose/velocity, contact intent, hand/robot state, camera extrinsics, and success outcome. DexMachina and FoundationPose support functional/object-state retargeting rather than joint-angle imitation.",
           "created_at": "2026-05-23T01:11:43+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_47ce23786bd3",
+          "author": "Progress",
+          "body": "[2026-05-23] Smoke v0 done. Workspace: ~/workspace/diverse-same-task-dataset. Artifacts: hoi_schema.md (schema v0 contract + per-modality payload table), validate_hoi_schema.py (single-file CLI validator), generate_samples.py (emits the three sample clips), samples/sample_glove_pick_cup.json + sample_umi_pick_cup.json + sample_umi_pick_cup_BAD.json. Both valid clips share task_id='pick_red_cup_v1', object_id='red_cup_001', identical timestamps_us cadence (5 frames @ 50 ms), identical camera intrinsics/extrinsics structure, and identical canonical object endpoint (cup lifted 12 cm). Validator results: glove VALID exit=0, umi VALID exit=0, BAD INVALID exit=1 with the 4 planted reasons surfaced (missing object_id, non-monotonic timestamps, broken quat norm, broken normal norm). Acceptance: two modalities encoded under one schema, same task/object/timeline/camera fields, validator green on both. Required-field contract is documented in hoi_schema.md §3; per-modality optional payload in §4. Open issues (camera convention REP-103 vs OpenCV, pose_source enum, multi-object extension, proprio promotion) listed in §8. Hand-off to task_hoi_contact_annotation_pack: contact_intent[] is the field that grows; current spec has state enum + patch list + grasp_mode, next iteration will add per-frame phase and oriented patch frames.",
+          "created_at": "2026-05-23T02:16:04+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T02:07:06+08:00",
+      "updated_at": "2026-05-23T02:16:07+08:00",
       "due_at": "2026-05-27"
     },
     {
@@ -2556,7 +2609,7 @@
       "project_id": "superhuman-rate-curve-teleop",
       "title": "用一个 teleop demo 建立离线 rate-curve 评测",
       "description": "Why now: survey 已完成，但需要把 phase-aware rate curve 变成可计算实验。Deliverable: 选择一条 demo，标注 phases/events，生成多个 playback-rate curve。Acceptance: 输出 duration、jerk、event violation、contact wait violation、path deviation 指标表。",
-      "status": "todo",
+      "status": "review",
       "priority": "high",
       "assignee": "boris@100.101.68.35",
       "result": null,
@@ -2569,7 +2622,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T02:07:06+08:00",
+      "updated_at": "2026-05-23T02:12:31+08:00",
       "due_at": "2026-05-27"
     },
     {
@@ -2577,12 +2630,12 @@
       "project_id": "superhuman-rate-curve-teleop",
       "title": "比较 classical retiming 与 SFT action-frequency baseline",
       "description": "Why now: 下一步要知道速度提升来自轨迹 retiming 还是 policy frequency/behavior learning。Deliverable: TOPPRA/Ruckig-style retiming baseline 与 SFT action-frequency ablation 的实验设计或 mock implementation。Acceptance: 同一 demo 上输出速度/连续性/稳定性/jerk 对比。",
-      "status": "todo",
+      "status": "review",
       "priority": "high",
       "assignee": "boris@100.101.68.35",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T02:07:06+08:00",
+      "updated_at": "2026-05-23T02:14:49+08:00",
       "due_at": "2026-05-29"
     },
     {
@@ -2590,12 +2643,12 @@
       "project_id": "superhuman-rate-curve-teleop",
       "title": "定义加速执行的事件/安全 guardrails",
       "description": "Why now: 不能盲目加速 perception waits、grasp confirmation、contact settling。Deliverable: event constraints schema + runtime checker。Acceptance: checker 能对一条 proposed speed curve 标出不可加速区间、force/tactile guardrail 和 fail reason。",
-      "status": "todo",
+      "status": "review",
       "priority": "medium",
       "assignee": "boris@100.101.68.35",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T02:07:07+08:00",
+      "updated_at": "2026-05-23T02:16:55+08:00",
       "due_at": "2026-05-29"
     }
   ]
