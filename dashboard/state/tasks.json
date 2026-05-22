@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-22T21:37:12+08:00",
+  "updated_at": "2026-05-22T21:44:23+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -170,9 +170,23 @@
           "body": "Progress: manus_wrapper scaffold complete at ~/workspace/manus_wrapper (git initialized, 22 tracked files, uncommitted). Pure-Python ctypes wrapper over libManusSDK_Integrated.so (Integrated mode); ManusSDK + .mcal calibration vendored in-tree at third_party/ (230MB SDK, no nested .git). Offline tests: 26 passed (pytest tests/) — struct sizes match ManusSDKTypes.h (ManusHost=356, RawSkeletonInfo=16, SkeletonNode=44), MediaPipe-21 converter verified, all 17 SDK function bindings callable. Blocked on hardware E2E test: requires sudo install of 99-manus-libusb.rules at /etc/udev/rules.d/ + dongle replug (current dev node /dev/bus/usb/003/013 is root:root mode 0664). Master-control policy forbids sudo for this worker.",
           "created_at": "2026-05-22T17:28:36+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_415e779e85b1",
+          "author": "Progress",
+          "body": "本机 Codex 已解除旧 blocker: 在 boris@100.70.181.44 安装并 reload/trigger 了 MANUS udev 规则，MANUS dongle 3325:0049 现在位于 /dev/bus/usb/003/013 且权限为 crw-rw-rw-。同时修复 ~/workspace/manus_wrapper/src/manus_wrapper/sdk.py 的 SDK 调用顺序：CoreSdk_SetRawSkeletonHandMotion 改为 CoreSdk_ConnectToHost 后调用，避免段错误；manus_wrapper 单测 26/26 通过。probe_dongle 已不再 segfault，可连接 CoreLite；当前 exit=2 是 CoreLite dongle/glove enumeration API 返回 FunctionNotAvailable/空列表，不是 udev 权限。vive_wrapper 单测 10/10 和 openvr module probe 通过；VIVE list_trackers 仍需 SteamVR 运行和 Tracker 硬件接入（当前没有 openvr path，lsusb 未见 VIVE/HTC/Valve tracker）。",
+          "created_at": "2026-05-22T21:43:59+08:00",
+          "kind": "host_progress"
+        },
+        {
+          "comment_id": "clawcross_ab5d5a2a5aa6",
+          "author": "Progress",
+          "body": "Continuing the TODO. MANUS-side blocker confirmed concrete + reproducible; VIVE-side scaffolded offline.\n\n== MANUS hardware E2E (still blocked) ==\n\nReproduced the libusb permission failure with hard evidence:\n- log:   ~/.claude/jobs/manus_vive/probe_segfault.log  sha256=d2715e96c542ff66cf6df2f9101b511110efe9af3ca29b1b204cfbc304bde2d7\n- cmd:   cd ~/workspace/manus_wrapper && python3 scripts/probe_dongle.py\n- exit:  139 (SIGSEGV) — libManusSDK_Integrated.so segfaults attempting libusb_open on /dev/bus/usb/003/013 (mode 0664 root:root, boris in plugdev but device not group-rw)\n- root cause: udev rule '99-manus-libusb.rules' (SUBSYSTEM==usb, ATTR{idVendor}==3325, MODE=0666) is not installed in /etc/udev/rules.d/; no system-managed alternative grants non-root access to vid 0x3325 devices.\n\nmanus_wrapper offline tests still PASS (26/26) so the wrapper code itself is healthy:\n- cd ~/workspace/manus_wrapper && python3 -m pytest tests/\n\n== VIVE Tracker scaffold (new artifact, offline-verifiable) ==\n\nNew sibling repo at ~/workspace/vive_wrapper/ (mirrors manus_wrapper / wuji_glove_wrapper layout).\n- Initial commit: 1aa1dd2aeb7a5ce3ac8058248f3a515771667f07 (root commit, 12 files, 886 insertions)\n- Author: boris <lv.robotics.lab@gmail.com>, no co-author trailer (per memory).\n\nStructure:\n  src/vive_wrapper/{tracker.py, config.py, cli.py, __init__.py}\n  scripts/{probe_module.py, list_trackers.py}\n  examples/openvr_input.yaml\n  tests/test_offline.py (10 tests)\n  docs/manus_vive_integration.md (unified MANUS+VIVE+camera+robot design)\n\nOpenVRTrackerWrapper is adapted from wuji-hand-teleop's openvr_input/openvr_tracker_wrapper.py with the ROS2 dependency stripped and explicit dual timestamps (CLOCK_MONOTONIC_RAW ns + UTC μs) added so it composes with wuji_glove_wrapper's UTC-μs time base. Coordinate-correction matrices (CHEST / LEFT_WRIST / RIGHT_WRIST) preserved BIT-EXACTLY from upstream — guarded by test_correction_matrices_bitwise_match_upstream so any existing retargeting recipe / recorded trajectory remains valid.\n\nVerifier runs (logs in ~/.claude/jobs/manus_vive/):\n- vive_tests.log              sha256=89e2eeda771e06ef84f59be6d2ee8d7f5ab5be6b7d3794c851cdfdbf82ef9077\n  cmd: cd ~/workspace/vive_wrapper && .venv/bin/python -m pytest tests/ -v\n  result: 10 passed in 0.09s\n- vive_probe.log              sha256=90320023804dfb3c2bb7cbebdc3c2aa13bba1e77d786d11eff8b5b87e89c74b6\n  cmd: .venv/bin/python scripts/probe_module.py\n  result: openvr 2.12.1401 loads, all 8 required symbols present (init, shutdown, VRSystem, VRApplication_Other, TrackedDeviceClass_GenericTracker, k_unMaxTrackedDeviceCount, Prop_SerialNumber_String, TrackingUniverseStanding)\n- vive_list_no_steamvr.log    sha256=591b2e3cfe46bc6561eb2fff865623890c4169c062f4eacfc32787d7454d80dd\n  cmd: .venv/bin/python scripts/list_trackers.py\n  result: clean ViveError 'openvr.init failed — is SteamVR running?' (concrete proof that wrapper fails-fast when SteamVR is not running, and that SteamVR is in fact not installed: ~/.steam, ~/.local/share/Steam both absent; no /etc/udev/rules.d/*vive* or SteamVR libraries on PATH)\n\nEnv: uv 0.11.7 venv with python 3.10.12, deps openvr==2.12.1401, numpy==2.2.6, pyyaml==6.0.3, pytest==9.0.3.\n\n== Unified integration design doc ==\n\ndocs/manus_vive_integration.md (sha256=5681c72388893beaf55ccff7db3ab6790a1a745ce4a0ea8b0e8e05edada63443) covers all four task-description deliverables on paper, ready to execute once hardware is unblocked:\n  1. Stream inventory + time-sync invariants (UTC μs join key, <1ms drift bound, 1s heartbeat markers)\n  2. Extrinsic calibration (T_world_vive via hand-eye AX=YB on Franka, T_wrist_manus_root via printed jig, T_world_camera reused from existing infra)\n  3. Recording format (per-stream Parquet keyed on wall_us, optional ros2 bag)\n  4. Retargeting validation (replay manus fingers -> wuji-retargeting, replay vive_wrist -> Franka EE, compare against franka_state; per-session report.html with p95 thresholds)\n\n== What I still need from a human (sudo bundle) ==\n\nBoth hardware paths require root. Single sudo session needed:\n\n  # (1) MANUS libusb access — replug dongle after\n  sudo cp ~/workspace/manus_wrapper/third_party/99-manus-libusb.rules /etc/udev/rules.d/99-manus-libusb.rules\n  sudo udevadm control --reload-rules && sudo udevadm trigger\n  # then physically unplug + replug the MANUS Pro dongle (3325:0049)\n\n  # (2) SteamVR install — needs Steam client first\n  # easiest path on Ubuntu 22.04:\n  sudo apt update && sudo apt install -y steam\n  # then run 'steam' as user boris, sign in, install 'SteamVR' from the Tools menu\n  # then in SteamVR pair each VIVE Tracker, note its LHR-XXXXXXXX serial\n\nAfter both: rerun the two verifiers above; the MANUS probe should report dongle id, and vive-list should print serial(s).\n\nStatus: leaving as needs_user/blocked (hardware + sudo required, not work I can do under this worker's policy). Concrete deliverables committed: vive_wrapper scaffold @ 1aa1dd2, integration design doc, four reproducible verifier logs with sha256.",
+          "created_at": "2026-05-22T21:44:17+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-22T21:33:10+08:00"
+      "updated_at": "2026-05-22T21:44:17+08:00"
     },
     {
       "task_id": "task_real_robot_infra_safety_workspace",
@@ -250,7 +264,7 @@
           "kind": "needs_user"
         }
       ],
-      "updated_at": "2026-05-22T21:37:02+08:00"
+      "updated_at": "2026-05-22T21:44:00+08:00"
     },
     {
       "task_id": "task_umi_gemini_frame_test",
@@ -689,7 +703,7 @@
           "kind": "progress"
         }
       ],
-      "updated_at": "2026-05-22T21:37:12+08:00"
+      "updated_at": "2026-05-22T21:44:23+08:00"
     },
     {
       "task_id": "task_self_improving_prepare_proposal",
@@ -1184,7 +1198,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-22T21:34:50+08:00"
+      "updated_at": "2026-05-22T21:44:00+08:00"
     },
     {
       "task_id": "task_drag_demo_backend_compare",
@@ -1233,7 +1247,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-22T21:37:08+08:00",
+      "updated_at": "2026-05-22T21:44:19+08:00",
       "completed_at": null
     },
     {
@@ -1246,7 +1260,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-22T21:34:50+08:00"
+      "updated_at": "2026-05-22T21:44:00+08:00"
     },
     {
       "task_id": "task_drag_demo_masks_collection_aids",
