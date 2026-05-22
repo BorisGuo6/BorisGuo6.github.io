@@ -104,6 +104,7 @@
         const stateRoot = document.querySelector('meta[name="dashboard-state-root"]')?.content || "state/";
         const storageKey = "dashboard.task-interactions.v1";
         const detailsStorageKey = "dashboard.details-open.v1";
+        const textCollapseStorageKey = "dashboard.text-collapse.v1";
         const supabaseEsmUrl = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
         const statusCycle = ["todo", "active", "done"];
         const statusLabels = {
@@ -150,6 +151,9 @@
         const persistedDetailsState = readDetailsState();
         const detailOpenState = new Map(Object.entries(persistedDetailsState.states));
         const userDetailOpenKeys = new Set(persistedDetailsState.userKeys);
+        const persistedTextCollapseState = readTextCollapseState();
+        const textCollapseState = new Map(Object.entries(persistedTextCollapseState.states));
+        const userTextCollapseKeys = new Set(persistedTextCollapseState.userKeys);
         let detailsRenderDepth = 0;
         const maxCommentLength = 4000;
         const isLocalDashboard = ["127.0.0.1", "localhost", "::1"].includes(window.location.hostname);
@@ -193,6 +197,47 @@
             states,
             userKeys: [...userDetailOpenKeys],
           }));
+        }
+
+        function readTextCollapseState() {
+          try {
+            const parsed = JSON.parse(sessionStorage.getItem(textCollapseStorageKey) || "{}");
+            return {
+              states: parsed.states && typeof parsed.states === "object" ? parsed.states : {},
+              userKeys: Array.isArray(parsed.userKeys) ? parsed.userKeys : [],
+            };
+          } catch (error) {
+            console.warn("Ignoring invalid dashboard text collapse state", error);
+            return { states: {}, userKeys: [] };
+          }
+        }
+
+        function writeTextCollapseState() {
+          const states = {};
+          userTextCollapseKeys.forEach((key) => {
+            if (textCollapseState.has(key)) {
+              states[key] = textCollapseState.get(key);
+            }
+          });
+          sessionStorage.setItem(textCollapseStorageKey, JSON.stringify({
+            states,
+            userKeys: [...userTextCollapseKeys],
+          }));
+        }
+
+        function recordTextCollapseState(key, expanded) {
+          if (!key) {
+            return;
+          }
+          textCollapseState.set(key, Boolean(expanded));
+          userTextCollapseKeys.add(key);
+          writeTextCollapseState();
+        }
+
+        function applyTextCollapseExpandedState(element, expanded, expandedClass = "expanded") {
+          element.classList.toggle(expandedClass, Boolean(expanded));
+          element.setAttribute("aria-expanded", String(Boolean(expanded)));
+          element.title = expanded ? "Click to collapse text" : "Click to expand text";
         }
 
         function writeLocalState() {
@@ -587,6 +632,10 @@
             return;
           }
           const expandedClass = options.expandedClass || "expanded";
+          const stateKey = options.stateKey || element.dataset.textCollapseKey || "";
+          if (stateKey) {
+            element.dataset.textCollapseKey = stateKey;
+          }
           if (!shouldCollapseText(text ?? element.textContent, options)) {
             element.classList.remove("auto-text-collapsible", expandedClass);
             element.style.removeProperty("--auto-collapse-lines");
@@ -597,12 +646,14 @@
             return;
           }
           element.classList.add("auto-text-collapsible");
-          element.classList.remove(expandedClass);
           element.style.setProperty("--auto-collapse-lines", String(options.clampLines || options.maxLines || 4));
           element.setAttribute("role", "button");
           element.setAttribute("tabindex", "0");
-          element.setAttribute("aria-expanded", "false");
-          element.title = "Click to expand text";
+          applyTextCollapseExpandedState(
+            element,
+            stateKey && textCollapseState.has(stateKey) ? textCollapseState.get(stateKey) : Boolean(options.defaultExpanded),
+            expandedClass,
+          );
           if (element.dataset.autoCollapseBound) {
             return;
           }
@@ -617,6 +668,7 @@
             const expanded = element.classList.toggle(expandedClass);
             element.setAttribute("aria-expanded", String(expanded));
             element.title = expanded ? "Click to collapse text" : "Click to expand text";
+            recordTextCollapseState(element.dataset.textCollapseKey, expanded);
           };
           element.addEventListener("click", toggle);
           element.addEventListener("keydown", (event) => {
@@ -676,7 +728,7 @@
             const body = article.querySelector("p");
             if (key && body && summary[key]) {
               body.textContent = summary[key];
-              makeTextCollapsible(body, summary[key], { maxLength: 260, maxLines: 3 });
+              makeTextCollapsible(body, summary[key], { maxLength: 260, maxLines: 3, stateKey: `summary:${key}` });
             }
           });
 
@@ -689,7 +741,7 @@
           renderProjectBuckets(portfolio);
         }
 
-        function createFlowNode(node) {
+        function createFlowNode(node, index = 0) {
           const element = document.createElement("div");
           element.className = ["flow-node", node.role || "primary"].filter(Boolean).join(" ");
           const eyebrow = document.createElement("span");
@@ -698,7 +750,7 @@
           title.textContent = node.title || "";
           const body = document.createElement("p");
           body.textContent = node.body || "";
-          makeTextCollapsible(body, node.body || "", { maxLength: 230, maxLines: 4 });
+          makeTextCollapsible(body, node.body || "", { maxLength: 230, maxLines: 4, stateKey: `story:${index}:${node.title || ""}` });
           element.append(eyebrow, title, body);
           return element;
         }
@@ -716,7 +768,7 @@
               arrow.textContent = connectors[index - 1] || "->";
               flowElement.append(arrow);
             }
-            flowElement.append(createFlowNode(node));
+            flowElement.append(createFlowNode(node, index));
           });
           return flowElement;
         }
@@ -775,7 +827,7 @@
 
             const summary = document.createElement("p");
             summary.textContent = brief.summary || "";
-            makeTextCollapsible(summary, brief.summary || "", { maxLength: 220, maxLines: 3 });
+            makeTextCollapsible(summary, brief.summary || "", { maxLength: 220, maxLines: 3, stateKey: `weekly-brief:${brief.date || index}:summary` });
 
             const link = document.createElement("a");
             link.href = brief.href || "#";
@@ -946,7 +998,7 @@
           prepareZoomableImage(image);
           const caption = document.createElement("figcaption");
           caption.textContent = projectDoc.asset_caption || "";
-          makeTextCollapsible(caption, projectDoc.asset_caption || "", { maxLength: 170, maxLines: 2 });
+          makeTextCollapsible(caption, projectDoc.asset_caption || "", { maxLength: 170, maxLines: 2, stateKey: `project:${projectDoc.project_id}:asset-caption` });
           figure.append(image, caption);
           return figure;
         }
@@ -1040,6 +1092,8 @@
           const details = Array.isArray(projectDoc.details) ? projectDoc.details : [];
           const textLength = `${projectDoc.summary || ""} ${details.map(richTextPlainText).join(" ")}`.length;
           const shouldCollapse = textLength > 620 || details.length > 4;
+          const stateKey = `project:${projectDoc.project_id}:intro`;
+          intro.dataset.textCollapseKey = stateKey;
           let toggle = intro.parentElement?.querySelector(":scope > .project-intro-toggle");
           if (!shouldCollapse) {
             intro.classList.remove("is-collapsible", "is-expanded");
@@ -1051,11 +1105,13 @@
             return;
           }
           intro.classList.add("is-collapsible");
-          intro.classList.remove("is-expanded");
           intro.setAttribute("role", "button");
           intro.setAttribute("tabindex", "0");
-          intro.setAttribute("aria-expanded", "false");
-          intro.title = "Click to expand intro";
+          applyTextCollapseExpandedState(
+            intro,
+            textCollapseState.has(stateKey) ? textCollapseState.get(stateKey) : false,
+            "is-expanded",
+          );
           toggle?.remove();
           if (!intro.dataset.collapseBound) {
             intro.dataset.collapseBound = "true";
@@ -1063,6 +1119,7 @@
               const expanded = intro.classList.toggle("is-expanded");
               intro.setAttribute("aria-expanded", String(expanded));
               intro.title = expanded ? "Click to collapse intro" : "Click to expand intro";
+              recordTextCollapseState(intro.dataset.textCollapseKey, expanded);
             };
             intro.addEventListener("click", toggleIntro);
             intro.addEventListener("keydown", (event) => {
@@ -1088,10 +1145,10 @@
           if (count) {
             count.textContent = `${decisions.length} items`;
           }
-          replaceChildrenPreservingDetails(list, ...decisions.map((decision) => {
+          replaceChildrenPreservingDetails(list, ...decisions.map((decision, index) => {
             const item = document.createElement("li");
             item.textContent = decision;
-            makeTextCollapsible(item, decision, { maxLength: 230, maxLines: 4 });
+            makeTextCollapsible(item, decision, { maxLength: 230, maxLines: 4, stateKey: `project:${projectElement.dataset.projectId}:decision:${index}` });
             return item;
           }));
         }
@@ -1179,6 +1236,7 @@
           const body = document.createElement("p");
           body.className = "comment-body";
           body.textContent = comment.body;
+          body.dataset.textCollapseKey = `comment:${comment.id}:body`;
           if (!isLongComment(comment.body)) {
             return [body];
           }
@@ -1186,7 +1244,10 @@
           body.classList.add("comment-collapsible");
           body.tabIndex = 0;
           body.setAttribute("role", "button");
-          body.setAttribute("aria-expanded", "false");
+          applyTextCollapseExpandedState(
+            body,
+            textCollapseState.has(body.dataset.textCollapseKey) ? textCollapseState.get(body.dataset.textCollapseKey) : false,
+          );
           body.addEventListener("click", () => toggleCommentBody(body));
           body.addEventListener("keydown", (event) => {
             if (event.key !== "Enter" && event.key !== " ") {
@@ -1201,6 +1262,8 @@
         function toggleCommentBody(body) {
           const expanded = body.classList.toggle("expanded");
           body.setAttribute("aria-expanded", expanded ? "true" : "false");
+          body.title = expanded ? "Click to collapse text" : "Click to expand text";
+          recordTextCollapseState(body.dataset.textCollapseKey, expanded);
         }
 
         function createCommentPanel(task) {
@@ -1342,7 +1405,7 @@
 
           const description = document.createElement("p");
           description.textContent = task.description || "";
-          makeTextCollapsible(description, task.description || "", { maxLength: 210, maxLines: 4 });
+          makeTextCollapsible(description, task.description || "", { maxLength: 210, maxLines: 4, stateKey: `task:${task.task_id}:description` });
           body.append(description);
 
           const meta = document.createElement("div");
@@ -1659,6 +1722,10 @@
         }
 
         async function updateSupabaseTaskStatus(taskId, status) {
+          if (localWriteApiAvailable) {
+            await postLocalWriteApi("task-status", { task_id: taskId, status });
+            return;
+          }
           if (supabaseSession?.user && supabaseIsEditor) {
             const completedAt = status === "done" ? new Date().toISOString().slice(0, 10) : null;
             const { error } = await supabaseClient
@@ -1670,16 +1737,28 @@
             }
             return;
           }
-          if (localWriteApiAvailable) {
-            await postLocalWriteApi("task-status", { task_id: taskId, status });
-            return;
-          }
           throw new Error("Sign in as a dashboard editor or start the local write API to write Supabase state.");
         }
 
         async function insertSupabaseComment(taskId, body) {
           if (body.length > maxCommentLength) {
             throw new Error(`Comment must be ${maxCommentLength} characters or fewer.`);
+          }
+          if (localWriteApiAvailable) {
+            const result = await postLocalWriteApi("task-comment", { task_id: taskId, body });
+            if (result.comment) {
+              return result.comment;
+            }
+            const now = new Date().toISOString();
+            return {
+              comment_id: `comment_${crypto.randomUUID()}`,
+              task_id: taskId,
+              author: "Local dashboard",
+              author_type: "system",
+              kind: "comment",
+              body,
+              created_at: now,
+            };
           }
           if (supabaseSession?.user && supabaseIsEditor) {
             const now = new Date().toISOString();
@@ -1697,22 +1776,6 @@
               throw error;
             }
             return comment;
-          }
-          if (localWriteApiAvailable) {
-            const result = await postLocalWriteApi("task-comment", { task_id: taskId, body });
-            if (result.comment) {
-              return result.comment;
-            }
-            const now = new Date().toISOString();
-            return {
-              comment_id: `comment_${crypto.randomUUID()}`,
-              task_id: taskId,
-              author: "Local dashboard",
-              author_type: "system",
-              kind: "comment",
-              body,
-              created_at: now,
-            };
           }
           throw new Error("Sign in as a dashboard editor or start the local write API to write Supabase state.");
         }

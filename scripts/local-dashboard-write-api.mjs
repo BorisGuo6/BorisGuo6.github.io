@@ -1,10 +1,11 @@
 import http from "node:http";
 import { randomUUID } from "node:crypto";
-import { readFile } from "node:fs/promises";
+import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 const repoRoot = path.resolve(import.meta.dirname, "..");
 const envPath = path.join(repoRoot, ".env");
+const tasksPath = path.join(repoRoot, "dashboard", "state", "tasks.json");
 const allowedTaskStatuses = new Set(["todo", "active", "blocked", "needs_user", "review", "done"]);
 const maxCommentLength = 4000;
 
@@ -35,6 +36,45 @@ function sendJson(response, status, body, origin = "") {
 
 function errorMessage(error) {
   return error instanceof Error ? error.message : String(error);
+}
+
+async function readJsonFile(filePath) {
+  return JSON.parse(await readFile(filePath, "utf8"));
+}
+
+async function writeJsonFile(filePath, data) {
+  await writeFile(filePath, `${JSON.stringify(data, null, 2)}\n`);
+}
+
+async function updateLocalTaskStatus(taskId, status) {
+  const doc = await readJsonFile(tasksPath);
+  const task = Array.isArray(doc.tasks) ? doc.tasks.find((candidate) => candidate.task_id === taskId) : null;
+  if (!task) {
+    throw new Error(`Task not found in local tasks.json: ${taskId}`);
+  }
+  const updatedAt = new Date().toISOString();
+  task.status = status;
+  task.completed_at = status === "done" ? updatedAt.slice(0, 10) : null;
+  task.updated_at = updatedAt;
+  await writeJsonFile(tasksPath, doc);
+  return {
+    updated_at: updatedAt,
+    completed_at: task.completed_at,
+  };
+}
+
+async function appendLocalTaskComment(taskId, comment) {
+  const doc = await readJsonFile(tasksPath);
+  const task = Array.isArray(doc.tasks) ? doc.tasks.find((candidate) => candidate.task_id === taskId) : null;
+  if (!task) {
+    throw new Error(`Task not found in local tasks.json: ${taskId}`);
+  }
+  task.comments = Array.isArray(task.comments) ? task.comments : [];
+  if (!task.comments.some((existing) => existing.comment_id === comment.comment_id)) {
+    task.comments.push(comment);
+  }
+  task.updated_at = comment.created_at || new Date().toISOString();
+  await writeJsonFile(tasksPath, doc);
 }
 
 async function readRequestJson(request) {
@@ -125,7 +165,8 @@ async function main() {
           status,
           payload: { source: "local-dashboard" },
         });
-        return sendJson(response, 200, { ok: true, task_id: taskId, status }, origin);
+        const localUpdate = await updateLocalTaskStatus(taskId, status);
+        return sendJson(response, 200, { ok: true, task_id: taskId, status, ...localUpdate }, origin);
       }
 
       if (request.method === "POST" && url.pathname === "/task-comment") {
@@ -157,6 +198,7 @@ async function main() {
             source: "local-dashboard",
           },
         });
+        await appendLocalTaskComment(taskId, comment);
         return sendJson(response, 200, { ok: true, comment }, origin);
       }
 
