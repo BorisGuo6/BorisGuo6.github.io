@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-23T03:22:17+08:00",
+  "updated_at": "2026-05-23T03:25:50+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2733,7 +2733,7 @@
       "project_id": "superhuman-rate-curve-teleop",
       "title": "用一个 teleop demo 建立离线 rate-curve 评测",
       "description": "Why now: survey 已完成，但需要把 phase-aware rate curve 变成可计算实验。Deliverable: 选择一条 demo，标注 phases/events，生成多个 playback-rate curve。Acceptance: 输出 duration、jerk、event violation、contact wait violation、path deviation 指标表。",
-      "status": "review",
+      "status": "active",
       "priority": "high",
       "assignee": "boris@100.101.68.35",
       "result": null,
@@ -2744,9 +2744,16 @@
           "body": "[Codex route 2026-05-23] Route: begin offline with one teleop demo and a phase-aware playback-rate curve. Compare naive time scaling, TOPP-RA/Ruckig-style retiming, and learned/SFT frequency variants before any real-robot speedup. Report success proxy, jerk/acceleration, event-guardrail violations, and contact-risk intervals.",
           "created_at": "2026-05-23T01:11:43+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_12465be7b99e",
+          "author": "Review",
+          "body": "Local Codex host review reopened this TODO.\n请补充可自动验收证据，不必重做主任务：在 dashboard/harness 写入完整复现记录。至少包含远端工作区 `pwd; git status --short; git rev-parse --short HEAD; ls -l rate_curve_eval.py`，`sha256sum rate_curve_eval.py`，实际运行 `python rate_curve_eval.py --output-dir /tmp/eval` 的完整 stdout/退出码，`find /tmp/eval -maxdepth 2 -type f -ls`，结果文件的 sha256sum，并贴出或保存包含所有 7 条 curves 的指标表，列必须覆盖 duration、jerk、event violations、contact wait violations、path deviation；同时说明 demo 的 180 steps、7 phases、4 events 标注文件/内置数据在哪里。",
+          "created_at": "2026-05-23T03:25:44+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T03:19:33+08:00",
+      "updated_at": "2026-05-23T03:25:44+08:00",
       "due_at": "2026-05-27"
     },
     {
@@ -2759,7 +2766,7 @@
       "assignee": "boris@100.101.68.35",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T03:19:33+08:00",
+      "updated_at": "2026-05-23T03:24:00+08:00",
       "due_at": "2026-05-29"
     },
     {
@@ -2772,7 +2779,7 @@
       "assignee": "boris@100.101.68.35",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T03:19:33+08:00",
+      "updated_at": "2026-05-23T03:24:00+08:00",
       "due_at": "2026-05-29"
     }
   ]
