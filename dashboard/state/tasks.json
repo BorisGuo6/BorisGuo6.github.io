@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-23T01:11:51+08:00",
+  "updated_at": "2026-05-23T01:13:34+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -738,9 +738,16 @@
           "body": "Cosmos25 smoke 已验证落盘：45/186。已启动 full_v6 detached supervisor，当前 pending=141，GPU 正在跑。完成后脚本会自动跑 cosmos25 VBench、重写 eval_outputs/vbench/SUMMARY_186.md，并把 task_umi_vbench_eval 标记 review。日志：/home/jingxiang/.claude/jobs/93ce8a8c/vbench_scale_20260521T183305Z_cosmos25_full_v6_generate.log",
           "created_at": "2026-05-22T22:58:38+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_0a91fd0489b2",
+          "author": "Progress",
+          "body": "needs_user at 2026-05-22T17:13:16Z — please pick (A) or (B). Conflict: the recurring /loop body keeps asking me to flip status to \"review\", but two facts contradict that: (1) cosmos25 generation is mid-flight (predicted.mp4 = 52 of 186 target; conductor pid=617013 alive, ~16.5 min/clip on RTX 5090); (2) the standing host instruction (dashboard comment 2026-05-22T22:58:38+08:00 by 'Progress', verbatim): '已启动 full_v6 detached supervisor，当前 pending=141，GPU 正在跑。完成后脚本会自动跑 cosmos25 VBench、重写 eval_outputs/vbench/SUMMARY_186.md，并把 task_umi_vbench_eval 标记 review。日志：/home/jingxiang/.claude/jobs/93ce8a8c/vbench_scale_20260521T183305Z_cosmos25_full_v6_generate.log'. Current verifiable state (verifier-grade): run_id=vbench_scale_20260521T183305Z, base git_sha=e121018ab28a5251ffc324ec977d946695b3d16f; wan22 186-clip VBench results sha256=d297770b03ea1d618cb6d607be7dc2667270f23903065f1a6682d744415706d1 (eval_outputs/vbench/wan22/wan22_eval_results.json); ltx 186-clip VBench results sha256=8f6990055a87000dcc1d4dd8eba5146c02d1b1eaca5b75774cfeec29bdddd793 (eval_outputs/vbench/ltx/ltx_eval_results.json); SUMMARY at .claude/worktrees/umi-vbench-eval/eval_outputs/vbench/SUMMARY_186.md. Decision needed: (A) keep status=doing, let host's conductor finish cosmos25 (~40h) + rewrite SUMMARY + flip review per standing instruction. (B) flip review now on wan22+ltx only and treat cosmos25 as a separate sub-task. I'm currently parked at needs_user and emitting 1 heartbeat per /loop tick; no new generation processes started.",
+          "created_at": "2026-05-23T01:13:16+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T01:11:43+08:00",
+      "updated_at": "2026-05-23T01:13:17+08:00",
       "due_at": ""
     },
     {
@@ -1255,7 +1262,7 @@
           "kind": "result"
         }
       ],
-      "updated_at": "2026-05-23T00:43:34+08:00"
+      "updated_at": "2026-05-23T01:13:17+08:00"
     },
     {
       "task_id": "task_drag_demo_backend_compare",
@@ -1338,7 +1345,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T00:45:03+08:00",
+      "updated_at": "2026-05-23T01:13:17+08:00",
       "due_at": ""
     },
     {
@@ -2127,7 +2134,7 @@
       "assignee": "jingxiang@100.112.245.1",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T01:07:11+08:00",
+      "updated_at": "2026-05-23T01:13:17+08:00",
       "due_at": "2026-05-28"
     },
     {
@@ -2145,10 +2152,10 @@
           "author": "Progress",
           "body": "[Codex route 2026-05-23] Route: choose AI2V base only after the full 186-scale table. VBench is useful for fine-grained video quality dimensions, but the decision must include UMI-specific dual-wrist consistency, action/kinematics faithfulness, object-state preservation, and failure-gallery review. References: UMI arXiv 2402.10329, VBench arXiv 2311.17982, Cosmos-Predict2.5, Wan2.2.",
           "created_at": "2026-05-23T01:11:43+08:00",
-          "kind": "route"
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T01:11:43+08:00",
+      "updated_at": "2026-05-23T01:13:17+08:00",
       "due_at": "2026-05-26"
     },
     {
@@ -2161,7 +2168,7 @@
       "assignee": "jingxiang@100.112.245.1",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T01:07:11+08:00",
+      "updated_at": "2026-05-23T01:13:17+08:00",
       "due_at": "2026-05-29"
     },
     {
@@ -2174,7 +2181,7 @@
       "assignee": "shaol@100.96.228.8",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T00:45:06+08:00",
+      "updated_at": "2026-05-23T01:13:17+08:00",
       "due_at": "2026-05-28"
     },
     {
@@ -2192,10 +2199,10 @@
           "author": "Progress",
           "body": "[Codex route 2026-05-23] Route: make the PoD result demonstrable first: one retrofit input, generated spec, CAD/mesh artifact, printability checks, same-plate jig/tool, and viewer playback. After viewer works, move to the Piper-X/printer-cell driver skeleton. Articraft suggests code + SDK + validation harness for editable assets; the product value remains robot-operable fabrication, not generic text-to-3D.",
           "created_at": "2026-05-23T01:11:43+08:00",
-          "kind": "route"
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T01:11:43+08:00",
+      "updated_at": "2026-05-23T01:13:17+08:00",
       "due_at": "2026-05-26"
     },
     {
@@ -2208,7 +2215,7 @@
       "assignee": "shaol@100.96.228.8",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T01:07:11+08:00",
+      "updated_at": "2026-05-23T01:13:17+08:00",
       "due_at": "2026-05-30"
     },
     {
@@ -2221,7 +2228,7 @@
       "assignee": "feibo@100.87.220.29",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T00:45:06+08:00",
+      "updated_at": "2026-05-23T01:13:17+08:00",
       "due_at": "2026-05-28"
     },
     {
@@ -2239,10 +2246,10 @@
           "author": "Progress",
           "body": "[Codex route 2026-05-23] Route: run both feasible tracks instead of asking for a binary choice: original Photoshop+ChatGPT composition if available, plus Linux/Qwen/pytoshop fallback. Close only with side-by-side reconstruction QA. WEM supports world/ego separation; this project must add manipulation-specific object/contact and robot/ego layers rather than visual-only PSD separation.",
           "created_at": "2026-05-23T01:11:43+08:00",
-          "kind": "route"
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T01:11:43+08:00",
+      "updated_at": "2026-05-23T01:13:17+08:00",
       "due_at": "2026-05-27"
     },
     {
@@ -2255,7 +2262,7 @@
       "assignee": "feibo@100.87.220.29",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T01:07:11+08:00",
+      "updated_at": "2026-05-23T01:13:17+08:00",
       "due_at": "2026-05-30"
     },
     {
@@ -2276,7 +2283,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T00:49:13+08:00",
+      "updated_at": "2026-05-23T01:13:17+08:00",
       "due_at": "2026-05-26"
     },
     {
@@ -2289,7 +2296,7 @@
       "assignee": "boris@100.101.68.35",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T00:49:13+08:00",
+      "updated_at": "2026-05-23T01:13:17+08:00",
       "due_at": "2026-05-28"
     },
     {
@@ -2307,10 +2314,10 @@
           "author": "Progress",
           "body": "[Codex route 2026-05-23] Route: after the demo CLI review artifact is checked, the next useful target is a deterministic Isaac/dependency smoke gate: versioned env/task spec, seed, action trace, verifier exit code, and failure classification. RoboLab-120 and LeHome justify benchmark coverage; RoboClaw/EAP justifies workflow/recovery loops.",
           "created_at": "2026-05-23T01:11:43+08:00",
-          "kind": "route"
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T01:11:43+08:00",
+      "updated_at": "2026-05-23T01:13:17+08:00",
       "due_at": "2026-05-27"
     },
     {
@@ -2323,7 +2330,7 @@
       "assignee": "lv-robotics@100.113.210.127",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T00:49:13+08:00",
+      "updated_at": "2026-05-23T01:13:17+08:00",
       "due_at": "2026-05-30"
     },
     {
@@ -2336,7 +2343,7 @@
       "assignee": "lv-robotics@100.113.210.127",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T00:49:13+08:00",
+      "updated_at": "2026-05-23T01:13:17+08:00",
       "due_at": "2026-05-27"
     },
     {
@@ -2354,10 +2361,10 @@
           "author": "Progress",
           "body": "[Codex route 2026-05-23] Route: do not wait on pure preference. Compute strict vs relaxed final-stillness thresholds on the current 13/100 curated batch, report how many episodes pass each, and recommend one threshold before scaling to 100. Masquerade motivates data editing, but this project’s pass/fail gate is contact/object preservation and downstream loader usefulness.",
           "created_at": "2026-05-23T01:11:43+08:00",
-          "kind": "route"
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T01:11:43+08:00",
+      "updated_at": "2026-05-23T01:13:17+08:00",
       "due_at": "2026-05-24"
     },
     {
@@ -2370,7 +2377,7 @@
       "assignee": "boris@100.70.181.44",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T00:49:13+08:00",
+      "updated_at": "2026-05-23T01:13:17+08:00",
       "due_at": "2026-05-28"
     },
     {
@@ -2383,7 +2390,7 @@
       "assignee": "boris@100.70.181.44",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T00:49:13+08:00",
+      "updated_at": "2026-05-23T01:13:18+08:00",
       "due_at": "2026-05-25"
     },
     {
@@ -2401,10 +2408,10 @@
           "author": "Progress",
           "body": "[Codex route 2026-05-23] Route: prioritize a logged hardware smoke over more desk research: Wuji glove packet stream, timestamps, sample-rate estimate, dropped frame count, and a minimal schema compatible with MANUS/VIVE/robot state. Wuji docs advertise 120 FPS tactile/pose; the local verifier should confirm what this lab setup actually emits.",
           "created_at": "2026-05-23T01:11:43+08:00",
-          "kind": "route"
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T01:11:43+08:00",
+      "updated_at": "2026-05-23T01:13:18+08:00",
       "due_at": "2026-05-25"
     },
     {
@@ -2417,7 +2424,7 @@
       "assignee": "survey-pool",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T00:49:13+08:00",
+      "updated_at": "2026-05-23T01:13:18+08:00",
       "due_at": "2026-05-28"
     },
     {
@@ -2430,7 +2437,7 @@
       "assignee": "survey-pool",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T00:49:13+08:00",
+      "updated_at": "2026-05-23T01:13:18+08:00",
       "due_at": "2026-05-30"
     },
     {
@@ -2448,10 +2455,10 @@
           "author": "Progress",
           "body": "[Codex route 2026-05-23] Route: start with two modalities on one identical task, not all modalities. The acceptance artifact is a common object-centric timeline: object pose/velocity, contact intent, hand/robot state, camera extrinsics, and success outcome. DexMachina and FoundationPose support functional/object-state retargeting rather than joint-angle imitation.",
           "created_at": "2026-05-23T01:11:43+08:00",
-          "kind": "route"
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T01:11:43+08:00",
+      "updated_at": "2026-05-23T01:13:18+08:00",
       "due_at": "2026-05-27"
     },
     {
@@ -2469,10 +2476,10 @@
           "author": "Progress",
           "body": "[Codex route 2026-05-23] Route: begin offline with one teleop demo and a phase-aware playback-rate curve. Compare naive time scaling, TOPP-RA/Ruckig-style retiming, and learned/SFT frequency variants before any real-robot speedup. Report success proxy, jerk/acceleration, event-guardrail violations, and contact-risk intervals.",
           "created_at": "2026-05-23T01:11:43+08:00",
-          "kind": "route"
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T01:11:43+08:00",
+      "updated_at": "2026-05-23T01:13:18+08:00",
       "due_at": "2026-05-27"
     },
     {
@@ -2485,7 +2492,7 @@
       "assignee": "survey-pool",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T01:07:11+08:00",
+      "updated_at": "2026-05-23T01:13:18+08:00",
       "due_at": "2026-05-29"
     },
     {
@@ -2498,7 +2505,7 @@
       "assignee": "survey-pool",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T01:07:11+08:00",
+      "updated_at": "2026-05-23T01:13:18+08:00",
       "due_at": "2026-05-29"
     }
   ]
