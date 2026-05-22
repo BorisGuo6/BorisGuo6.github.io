@@ -58,6 +58,7 @@ function normalizeCommentKind(kind) {
     conductor_reply: "comment",
     conductor_note: "comment",
     blocker_resolved: "comment",
+    host_progress: "comment",
     review: "comment",
     artifact: "comment",
     host_verified: "verification",
