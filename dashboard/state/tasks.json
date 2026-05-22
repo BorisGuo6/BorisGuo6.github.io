@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-23T02:55:52+08:00",
+  "updated_at": "2026-05-23T02:59:57+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2622,7 +2622,7 @@
       "project_id": "diverse-same-task-dataset",
       "title": "做 Isaac retargeting verifier v0",
       "description": "Why now: 已经决定要用 Isaac 判断机器人是否复现同一 object-state transition。Deliverable: 一个 v0 verifier，输入 human HOI label + robot candidate trajectory，输出 object pose/contact/joint-limit/collision/failure report。Acceptance: 能在 mock scene 上跑通，并给出可解释 reject reason。",
-      "status": "review",
+      "status": "active",
       "priority": "medium",
       "assignee": "feibo@100.87.220.29",
       "result": null,
@@ -2633,9 +2633,16 @@
           "body": "[2026-05-23] Verifier v0 done (mock-Isaac, no physics import needed). Artifacts: isaac_verifier_v0.py (orchestrator + 9 checks), generate_mock_robot_candidates.py (good + bad case), mock_robots/good_mug_pick.json + bad_mug_pick.json, verifier-v0-spec.md (schema, check table, demo, v1 plan). Robot candidate schema 'robot_candidate.v0' covers joint_names/joint_q/joint_qdot/joint_limits/links_per_frame/predicted_object_pose/predicted_contact_intent/collision_spheres/scene_obstacles. Verify() runs 9 checks: human_label_valid, robot_candidate_valid, schema_align, joint_limits, self_collision, scene_collision, object_pose (RMSE+end pos+end rot), contact_phase_timeline (F1), sliding_consistency (cos). Demo run on samples_contact_pack/02_power_grasp_mug.json: good_mug_pick.json => exit 0, overall_pass=true, 9/9 green; bad_mug_pick.json => exit 1, 4 explicit reject reasons (joint_limits[panda_joint5 q=3.5 at frame 3 vs limit [-2.8973,2.8973]], scene_collision[tool0 vs table aabb at frame 2 distance 0.0 vs radius 0.04], object_pose[end_position_err 0.06 m > tol 0.03 m, RMSE 0.0367 m < tol 0.05 m], contact_phase_timeline[F1=0.667 < tol 0.7]). Every violation carries frame index + offending value so the retargeting solver can target the specific failure. Acceptance: runs on mock scene, gives interpretable reject reasons. v1 plan (Isaac backend, URDF-driven limits, PhysX collisions, friction-cone/penetration checks, patch-id match) listed in spec §7. Known gaps (no physics, no FK, no mass/friction) listed in §6.",
           "created_at": "2026-05-23T02:22:32+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_b1f96d13af58",
+          "author": "Review",
+          "body": "Local Codex host review reopened this TODO.\n请补充可自动验收证据，不必重做主任务：在 ~/workspace/diverse-same-task-dataset 写回 dashboard/harness 一段完整复现记录，至少包含 `pwd; git status --short; ls -l isaac_verifier_v0.py generate_mock_robot_candidates.py verifier-v0-spec.md samples_contact_pack/02_power_grasp_mug.json mock_robots/good_mug_pick.json mock_robots/bad_mug_pick.json`、上述关键文件的 `sha256sum`、good case 和 bad case 的实际运行命令与完整输出/退出码。建议同时把 good/bad report 保存为 JSON（例如 /tmp 或 repo 下 verifier_reports/）并给出路径、sha256；如果命令不能跑，请给出明确 blocker。",
+          "created_at": "2026-05-23T02:59:43+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T02:50:43+08:00",
+      "updated_at": "2026-05-23T02:59:57+08:00",
       "due_at": "2026-05-30"
     },
     {
@@ -2663,7 +2670,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T02:50:43+08:00",
+      "updated_at": "2026-05-23T02:57:36+08:00",
       "due_at": "2026-05-27"
     },
     {
@@ -2684,7 +2691,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T02:50:43+08:00",
+      "updated_at": "2026-05-23T02:57:36+08:00",
       "due_at": "2026-05-27"
     },
     {
@@ -2697,7 +2704,7 @@
       "assignee": "boris@100.101.68.35",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T02:50:43+08:00",
+      "updated_at": "2026-05-23T02:57:36+08:00",
       "due_at": "2026-05-29"
     },
     {
@@ -2710,7 +2717,7 @@
       "assignee": "boris@100.101.68.35",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T02:50:43+08:00",
+      "updated_at": "2026-05-23T02:57:36+08:00",
       "due_at": "2026-05-29"
     }
   ]
