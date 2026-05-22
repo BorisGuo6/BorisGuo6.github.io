@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-23T03:47:11+08:00",
+  "updated_at": "2026-05-23T03:50:29+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2733,7 +2733,7 @@
       "project_id": "superhuman-rate-curve-teleop",
       "title": "用一个 teleop demo 建立离线 rate-curve 评测",
       "description": "Why now: survey 已完成，但需要把 phase-aware rate curve 变成可计算实验。Deliverable: 选择一条 demo，标注 phases/events，生成多个 playback-rate curve。Acceptance: 输出 duration、jerk、event violation、contact wait violation、path deviation 指标表。",
-      "status": "review",
+      "status": "active",
       "priority": "high",
       "assignee": "boris@100.101.68.35",
       "result": null,
@@ -2758,9 +2758,16 @@
           "body": "Reproducible verification record:\n\npwd: /home/boris/workspace/superhuman-rate-curve-teleop\ngit rev-parse --short HEAD: f4d3de7 (first commit, rate_curve_eval.py only at this point)\nls -l rate_curve_eval.py: -rwxrwxr-x 16964 bytes\nsha256sum rate_curve_eval.py: f842d3d80c125e8e0296894ed3da318918a557cf839c69954d7f26be29900eb7\n\nCommand: python rate_curve_eval.py --output-dir /tmp/rate_eval\nExit code: 0\n\nOutput artifacts:\n  /tmp/rate_eval/demo.json       sha256=97383e05...\n  /tmp/rate_eval/metrics.json    sha256=d6a62f64...\n  /tmp/rate_eval/curves.json     sha256=e4ef9388...\n  /tmp/rate_eval/report.txt      sha256=a0f5dee4...\n\nKey stdout evidence (metrics table):\n  baseline_1x:   9.00s  1.00x  0 evt violations\n  constant_1.5x: 6.00s  1.50x  27 evt violations\n  constant_2x:   4.50s  2.00x  27 evt violations\n  constant_3x:   3.00s  3.00x  27 evt violations\n  phase_aware:   5.14s  1.75x  10 evt violations\n  event_gated:   5.33s  1.69x  0 evt violations  <-- best safe curve\n  smooth_ramp:   5.09s  1.77x  10 evt violations\n\nPer-phase duration table and event violation details included in stdout.\n7 curves evaluated on synthetic 180-step pick-and-place demo (7 phases, 4 events).",
           "created_at": "2026-05-23T03:35:12+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_92ad3ecc16db",
+          "author": "Review",
+          "body": "Local Codex host review reopened this TODO.\n请补齐可自动验收证据，不必重做算法。请在 dashboard/harness 粘贴或保存完整复现记录：1) `pwd; git status --short; git rev-parse --short HEAD; ls -l rate_curve_eval.py; sha256sum rate_curve_eval.py`；2) 实际运行 `python rate_curve_eval.py --output-dir /tmp/rate_eval` 的完整 stdout 和退出码；3) `find /tmp/rate_eval -maxdepth 2 -type f -ls` 与所有结果文件完整 sha256sum；4) 包含全部 7 条 curves 的完整指标表，列必须至少有 duration、jerk、event violations、contact wait violations、path deviation；5) 明确说明 180 steps、7 phases、4 events 的 demo/标注数据在独立文件还是 `rate_curve_eval.py` 内置，并指出函数名或行号。",
+          "created_at": "2026-05-23T03:50:23+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T03:39:43+08:00",
+      "updated_at": "2026-05-23T03:50:23+08:00",
       "due_at": "2026-05-27"
     },
     {
@@ -2788,7 +2795,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T03:39:48+08:00",
+      "updated_at": "2026-05-23T03:48:53+08:00",
       "due_at": "2026-05-29"
     },
     {
@@ -2816,7 +2823,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T03:39:51+08:00",
+      "updated_at": "2026-05-23T03:48:53+08:00",
       "due_at": "2026-05-29"
     }
   ]
