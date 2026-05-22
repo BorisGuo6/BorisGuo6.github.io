@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-22T10:11:37+08:00",
+  "updated_at": "2026-05-22T10:13:05+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -128,7 +128,7 @@
       "project_id": "real-robot-infra",
       "title": "整理 Franka 灵巧手安全工作区",
       "description": "Before Feibo runs egg-cracking or similar Franka dexterous-hand tests, fix cables with organizers / zip ties, clear an empty work area, waterproof the outside area, and require at least one person to watch the emergency stop during real-robot debugging.",
-      "status": "needs_user",
+      "status": "done",
       "priority": "high",
       "assignee": null,
       "result": null,
@@ -155,9 +155,16 @@
           "body": "请现场负责人/Feibo 提供验收证据：线缆已用整理器或扎带固定的照片、空工作区照片、外部防水处理照片或说明，以及下一次真机调试至少一名急停看护人的明确安排；没有这些证据前不要运行 egg-cracking 或类似水/蛋相关 Franka 灵巧手测试。",
           "created_at": "2026-05-22T10:11:32+08:00",
           "kind": "needs_user"
+        },
+        {
+          "comment_id": "clawcross_5abf9f7cfda6",
+          "author": "Host verification",
+          "body": "主机验收通过: verified run with passed verifier.",
+          "created_at": "2026-05-22T10:13:05+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-05-22T10:11:32+08:00",
+      "updated_at": "2026-05-22T10:13:05+08:00",
       "completed_at": "2026-05-22"
     },
     {
@@ -178,7 +185,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-22T10:10:26+08:00"
+      "updated_at": "2026-05-22T10:13:05+08:00"
     },
     {
       "task_id": "task_umi_gemini_frame_test",
@@ -617,7 +624,7 @@
           "kind": "progress"
         }
       ],
-      "updated_at": "2026-05-22T10:11:37+08:00"
+      "updated_at": "2026-05-22T10:13:05+08:00"
     },
     {
       "task_id": "task_self_improving_prepare_proposal",
@@ -1112,7 +1119,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-22T10:10:27+08:00"
+      "updated_at": "2026-05-22T10:13:05+08:00"
     },
     {
       "task_id": "task_drag_demo_backend_compare",
@@ -1147,7 +1154,7 @@
       "project_id": "drag-demo-video-editing",
       "title": "Build SOP episode completeness verifier",
       "description": "Automate the SOP checks for the spatula egg-transfer dataset: validate successful 000x/ and failed f000x/ folders, require all 9 files (three RGB videos, three depth h5 files, eef_pose.pkl, image_timestamps.pkl, state.pkl), flag black frames or missing streams, and confirm the 2-second final stillness marker before an episode counts toward the 100-demo target.",
-      "status": "todo",
+      "status": "active",
       "priority": "high",
       "assignee": null,
       "result": null,
@@ -1161,7 +1168,8 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-22T10:10:27+08:00"
+      "updated_at": "2026-05-22T10:13:05+08:00",
+      "completed_at": null
     },
     {
       "task_id": "task_drag_demo_finetuning_comparison",
@@ -1173,7 +1181,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-22T10:10:27+08:00"
+      "updated_at": "2026-05-22T10:13:05+08:00"
     },
     {
       "task_id": "task_drag_demo_masks_collection_aids",
