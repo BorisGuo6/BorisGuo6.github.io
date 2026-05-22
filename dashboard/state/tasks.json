@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-22T16:32:44+08:00",
+  "updated_at": "2026-05-22T16:49:13+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -105,9 +105,16 @@
           "body": "纠正前一条 comment：Wuji Glove 不是 MANUS。\n\n从 docs.wuji.tech/docs/en/wuji-glove/latest/ 拉到的真实信息：\n- Wuji Glove 是 Shenzhen Wuji Technology 的自研数据手套（tactile + EMF poses + IMU），不是 MANUS。\n- 物理连接：glove → USB-C cable → Wuji USB-C-to-Ethernet power adapter (DC powered) → Ethernet → host RJ45。从主机看是一个普通的有线网卡 + 网络端点；lsusb 不会出现新设备。\n- Default IP: 左手 192.168.1.100 / 右手 192.168.1.101，host 同段（如 192.168.1.10/24, mask 255.255.255.0）。\n- SDK: pip install wuji-sdk (v0.10.0, github.com/wuji-technology/wuji-sdk)。入口 from wuji_sdk import SdkManager; m.scan()+m.connect(sn=..., device_name='glove')。\n- Data streams: glove.tactile() 24×32, .tactile_zones(), .tactile_point_cloud(), .emf_poses(), .tip_poses(), .hand_joint_angles() 21-DoF, .hand_skeleton() 21 MediaPipe, .imu_palm(); manager.tf_static()/tf()。时间戳 UTC μs，SDK 自动同步主机时钟。\n- 可选 GUI: wuji-studio v2026.5.18 (apt 安装 .deb)。\n\n当前现场状态 (2026-05-22 16:13)：\n- Boris 把右手 glove 的 Wuji adapter 接到了 Arm A 原本的 RJ45 (enp58s0)。Arm A 在此期间不可用。\n- enp58s0 carrier=0；DC 电源 + USB-C 方向均报告正确；可能还要看 glove 腕带 LED 是否进入 'Cyan breathing (4s)' 待机态。\n- 已发 sudo bundle 给 Boris 配 192.168.1.10/24 on enp58s0 并 ping 192.168.1.101。\n\n下一步: link up → pip install wuji-sdk → 写 smoke 脚本拉一帧 tactile/joint_angles 作为 verifier。状态保持 doing。",
           "created_at": "2026-05-22T16:32:20+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_34a5c74c0249",
+          "author": "Result",
+          "body": "接入完成 — 右手 Wuji Glove 在 boris-pc 上端到端连通并通过 wuji-sdk 拉取了全部 7 个 resource。\n\nVerifiable artifact:\n- Smoke 脚本: ~/workspace/wuji_wrapper/scripts/glove_smoke.py  (sha256=86be5f76eccde93cb88f25c71019ee7f34608adbf3086996321ee8999ce03c8e)\n- 仓库 HEAD: 38f9824 (脚本尚未 commit，仅 untracked)\n- 运行日志: /home/boris/.claude/jobs/259cdc7a/wuji_glove_smoke.log (sha256=20a7683c326e6525cfd452d44a6f37f39f675a84775345e5afa556620e636cd4)\n- 运行命令: ~/workspace/wuji_wrapper/.venv/bin/python ~/workspace/wuji_wrapper/scripts/glove_smoke.py\n\nVerified facts:\n- 网络: enp58s0 上 192.168.1.10/24, ping 192.168.1.101 → 4/4 RTT 0.12-0.20ms (Arm A 原 RJ45 复用)\n- 设备发现: sn=WG1KA02260410009 ip=192.168.1.101:50001 transport=UDP (UDP discovery port 50000, data port 50001)\n- 设备类型: WG110/WG1K G-Board H743, Right hand, 24×32 tactile matrix\n- SDK: pip install wuji-sdk == 0.10.0 (装入 ~/workspace/wuji_wrapper/.venv)\n- Session: established, heartbeat 1000ms, host time sync offset=1779439281727539us  (满足 task 描述里的'时间戳'要求 — UTC μs 自动校准)\n- 7 个 resource 各拉到 3 帧 (3s 窗口内, cap=3 frame): tactile (TactileFrame.data len=768=24×32 ✓), tactile_zones, hand_joint_angles, hand_skeleton, tip_poses, emf_poses, imu_palm (orientation Quaternion + angular_velocity Vector3F64 + acceleration)\n\nAnomaly (硬件 / 配置, 非阻塞):\n- 设备 boot log 报 imu=1/6: palm IMU 正常, 5 个 finger IMU (finger0..finger4) 全部 WHO_AM_I mismatch。可能这一批 SKU 没装 finger IMU, 或硬件故障 — 建议向 support@wuji.tech 报 SN 确认。EMF + tactile + palm IMU 流可用, 不影响主要 teleop/retargeting 用途。\n\nTask 描述项对照:\n- ✓ 网络  - ✓ 时间戳  - ✓ 高频输入流(7 streams 全部活跃)\n- 标定: SDK 暴露 CalibrationResult 类型 + glove.params/save_params, 未在本轮跑标定流程 (follow-up)\n- retargeting 接口: 数据已经能喂给 ~/workspace/wuji_wrapper/third_party/wuji-retargeting 或 wuji-hand-teleop 栈, 实际打通是下一步 (follow-up)\n\n建议把 status 切到 done 或 review。后续可单开两个 TODO: (1) calibration 流程跑通 (2) glove → Wuji Hand 直接 retargeting demo。",
+          "created_at": "2026-05-22T16:49:12+08:00",
+          "kind": "result"
         }
       ],
-      "updated_at": "2026-05-22T16:32:44+08:00"
+      "updated_at": "2026-05-22T16:49:13+08:00"
     },
     {
       "task_id": "task_real_robot_infra_manus_vive_tracker",
@@ -144,7 +151,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-22T16:32:44+08:00"
+      "updated_at": "2026-05-22T16:49:13+08:00"
     },
     {
       "task_id": "task_real_robot_infra_safety_workspace",
@@ -208,7 +215,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-22T16:32:44+08:00"
+      "updated_at": "2026-05-22T16:49:13+08:00"
     },
     {
       "task_id": "task_umi_gemini_frame_test",
@@ -647,7 +654,7 @@
           "kind": "progress"
         }
       ],
-      "updated_at": "2026-05-22T16:32:44+08:00"
+      "updated_at": "2026-05-22T16:49:13+08:00"
     },
     {
       "task_id": "task_self_improving_prepare_proposal",
@@ -1142,7 +1149,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-22T16:32:44+08:00"
+      "updated_at": "2026-05-22T16:49:13+08:00"
     },
     {
       "task_id": "task_drag_demo_backend_compare",
@@ -1191,7 +1198,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-22T16:32:44+08:00",
+      "updated_at": "2026-05-22T16:49:13+08:00",
       "completed_at": null
     },
     {
@@ -1204,7 +1211,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-22T16:32:44+08:00"
+      "updated_at": "2026-05-22T16:49:13+08:00"
     },
     {
       "task_id": "task_drag_demo_masks_collection_aids",
