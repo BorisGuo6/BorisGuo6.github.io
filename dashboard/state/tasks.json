@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-22T22:00:58+08:00",
+  "updated_at": "2026-05-22T22:02:29+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1210,9 +1210,16 @@
           "body": "SOP update from `SOP_铲鸡蛋入盘(2).pdf`: use the Fangzhou dual-arm robot, 100 valid demos target, green long gloves with sleeves, and a three-camera stack (cam_top / cam_left_wrist / cam_right_wrist). Success requires the egg mold to land inside the white plate, spatula contact to remain on the yellow gripper region, and a clear 2-second stillness marker after placement. Failures are labelled n and retained as f000x/ rather than thrown away.",
           "created_at": "2026-05-22T08:11:36+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_b06ca37880a6",
+          "author": "Result",
+          "body": "Initial-batch curation done from existing raw_data via the SOP verifier.\nMANIFEST: /home/lv-robotics/workspace/.verifier_reports/initial_batch_manifest.json (sha256 946b2d2a0bd1c02209b24b05c9228462b9a2c1ad43ab1b31ccf7ce7a608f79fd, 35 KB)\nSOURCE REPORT: /home/lv-robotics/workspace/.verifier_reports/raw_data_full_report.json (sha256 e7f0f1d1a0264833959c24278331cc700f826cbfce12540bce78475ff5eefb04)\nCRITERIA: 6 SOP gates — success folder ^\\d{4}$; 9 required files present + non-empty; cv2 mp4 readable + black/frozen sampled; h5 depth readable + <99% zero-pixel sampled; pickle schemas valid; trailing 2s joint range <= 0.02 rad on both arms.\nCOUNTS (163 episodes scanned across egg_to_bowl + egg_scoop_v1 + egg_scoop_v2):\n- counted_toward_target = 13 / 100 (delta = 87)\n- near_miss_stillness_only = 108  (all files/streams/pkls fine, only trailing 2s motion exceeds 0.02 rad)\n- file_or_stream_fail = 11\nBATCH PATHS (13 episodes that already pass strict SOP):\n  egg_scoop_v1/0000  egg_scoop_v1/0004  egg_scoop_v1/0010\n  egg_to_bowl/0000  egg_to_bowl/0001  egg_to_bowl/0003  egg_to_bowl/0004\n  egg_to_bowl/0008  egg_to_bowl/0009  egg_to_bowl/0015\n  egg_to_bowl/0093  egg_to_bowl/0095  egg_to_bowl/0101\nSTILLNESS-THRESHOLD SENSITIVITY (retune --stillness-threshold-rad to recover near-miss eps):\n  <= 0.05 rad (~3 deg)   → +4 eps   (total counted 17)\n  <= 0.10 rad (~6 deg)   → +6 eps   (total counted 19)\n  <= 0.20 rad (~11 deg)  → +26 eps  (total counted 39)\n  <= 0.50 rad (~29 deg)  → +81 eps  (total counted 94)\nCOMMANDS TO REPRODUCE:\n- run verifier: ~/miniconda3/envs/robo_ctrl/bin/python ~/workspace/ARX_A5_Dual_ARM/data_collection/sop_episode_verifier.py --root ~/workspace/raw_data --report ~/workspace/.verifier_reports/raw_data_full_report.json\n- rebuild manifest: re-running this comment's analysis block from the report; or re-run verifier with --stillness-threshold-rad <X> for retune.\nDECISION FOR HOST: 13/100 is far from target after due date 2026-05-21. Two paths: (a) operator retrain to enforce the full 2s stillness so future collections pass strictly; (b) host approves a relaxed threshold (e.g. 0.05 or 0.10 rad) and we recount immediately. Either way, ~87 more new physical demonstrations are still needed to hit 100 — this is collection work the lvrobotics-only Claude session cannot perform; needs Boris/Gaochen/Jingxiang/Xiaobin onsite operators.",
+          "created_at": "2026-05-22T22:02:25+08:00",
+          "kind": "result"
         }
       ],
-      "updated_at": "2026-05-22T21:52:17+08:00"
+      "updated_at": "2026-05-22T22:02:25+08:00"
     },
     {
       "task_id": "task_drag_demo_backend_compare",
@@ -1273,9 +1280,16 @@
           "body": "Host verification passed: reran remote unit tests on lv-robotics@100.113.210.127: cd ~/workspace/ARX_A5_Dual_ARM/data_collection && ~/miniconda3/envs/robo_ctrl/bin/python -m unittest test_sop_episode_verifier => 13/13 OK. Verified artifacts and sha256: sop_episode_verifier.py d3ea17701e12a64f3d64c6b80eb29bd049ccf23c5c4fadcef9545f401b37f13b; test_sop_episode_verifier.py fae912a05291f5261f784cd335510380bc972140075b5faa36e5bb5bb6998a66; raw_data_full_report.json e7f0f1d1a0264833959c24278331cc700f826cbfce12540bce78475ff5eefb04. Report covers 163 episodes. Accepted and closed.",
           "created_at": "2026-05-22T22:00:41+08:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "clawcross_a2f70b85c405",
+          "author": "Host verification",
+          "body": "Local Codex host review accepted this TODO.\n本机 dashboard 已有 host_verified 证据，worker 交付的 SOP verifier、单测和 163-episode 报告满足该 TODO 的自动验收要求。\nEvidence: /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json 中 task_drag_demo_sop_episode_verifier 当前为 done，completed_at=2026-05-22，并含 host_verified 评论; worker result 列出 sop_episode_verifier.py/test_sop_episode_verifier.py/raw_data_full_report.json 三个 artifact 的 sha256; host_verified 评论记录远端重跑 cd ~/workspace/ARX_A5_Dual_ARM/data_collection && ~/miniconda3/envs/robo_ctrl/bin/python -m unittest test_sop_episode_verifier => 13/13 OK; raw_data_full_report.json 记录覆盖 163 episodes，检查 9 必需文件、RGB/depth stream、pickle schema、黑帧/冻结/缺流和最终 2 秒 stillness，并给出 13/100 counted summary; 直接 SSH 复验在当前只读网络沙箱中被拒绝：ssh connect Operation not permitted；未修改本机或远端文件\nCommands: sed -n '1,220p' docs/repo-index.md; jq '.tasks[]? // empty | select(.task_id==\"task_drag_demo_sop_episode_verifier\")' /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json; rg -n \"sop_episode_verifier|task_drag_demo_sop_episode_verifier|Ready for host review|SOP verifier delivered\" /Users/boris/workspace/BorisGuo6.github.io/dashboard/state /Users/boris/workspace/ClawCross 2>/dev/null; ssh -o BatchMode=yes -o ConnectTimeout=10 lv-robotics@100.113.210.127 '<read-only sha256/test/report inspection command>'; sed -n '1010,1088p' src/harness/conductor.py\nReason: 已有本机 dashboard 的 host_verified 记录包含可复现命令、通过的单测结果、artifact hashes 和完整报告覆盖范围，且结果范围覆盖 TODO 要求；当前 SSH 被沙箱网络策略拦截，但不推翻已记录的本机验收证据。",
+          "created_at": "2026-05-22T22:02:20+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-05-22T22:00:41+08:00",
+      "updated_at": "2026-05-22T22:02:20+08:00",
       "completed_at": "2026-05-22"
     },
     {
