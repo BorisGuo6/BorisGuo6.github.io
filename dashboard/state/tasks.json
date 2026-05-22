@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-23T03:12:25+08:00",
+  "updated_at": "2026-05-23T03:17:13+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2639,7 +2639,7 @@
       "project_id": "diverse-same-task-dataset",
       "title": "做 Isaac retargeting verifier v0",
       "description": "Why now: 已经决定要用 Isaac 判断机器人是否复现同一 object-state transition。Deliverable: 一个 v0 verifier，输入 human HOI label + robot candidate trajectory，输出 object pose/contact/joint-limit/collision/failure report。Acceptance: 能在 mock scene 上跑通，并给出可解释 reject reason。",
-      "status": "review",
+      "status": "done",
       "priority": "medium",
       "assignee": "feibo@100.87.220.29",
       "result": null,
@@ -2671,10 +2671,18 @@
           "body": "[2026-05-23] Verifier hardened with regression-test harness + 2 new edge cases so every reject branch is exercised by a dedicated test. New artifacts in ~/workspace/diverse-same-task-dataset: tests/run_verifier_tests.py (sha256 083e9d2d6085ea61e87a331b86d60430edc78d3028d3f8e146d73c51192978fd), generate_mock_robot_candidates.py updated (sha256 06e56572f13906ba7fb8ebf0b6301d7ebd9aa006088d12fdb4d9fa4ea1c31c95), mock_robots/self_collide_mug.json (sha256 69bb839666bbb6b24d4cffd902b6a264c743deb511014658c5789e9d4d4c86d4 — tool0+tool0_b spheres colocated, triggers self_collision branch), mock_robots/wrong_slide_mug.json (sha256 bfa762522030f68c33d18d112fb997b703fbc9b924a83e5dcf873a2c09f232fc — object reverses Z during contact, triggers sliding_consistency branch). Harness encodes per-case expectations on exit code + overall_pass + exact reject_reasons set + per-check pass flags, fails fast on any drift. Run: cd ~/workspace/diverse-same-task-dataset && $PY tests/run_verifier_tests.py — output: '4/4 PASS' table with per-case ms/reject reasons; exit=0. Summary JSON saved to verifier_reports/test_summary.json (sha256 80a5322f1ac9628f430d2d1c4463bce654dc5d431c6a007adc5a8575fd47da60), n_passed=4 n_failed=4-4=0, contains verbatim subprocess.cmd for each case. Per-case reports: good_mug_pick.report.json (9ffe3c58... unchanged), bad_mug_pick.report.json (2a8dc7df... unchanged), self_collide_mug.report.json (sha256 05891577603d7e4143b15e9244bd06055ba0691f8f639bb24fc85c241ba36a39, only self_collision fails), wrong_slide_mug.report.json (sha256 d3df60964086f6fdec0cf7ecd264194203b37594de119acb90a25ab72d529ab0, only sliding_consistency fails). All stderr empty (sha256 e3b0c442... = empty-file constant). Coverage of reject branches by named test cases: joint_limits=bad_mug_pick, scene_collision=bad_mug_pick, object_pose=bad_mug_pick, contact_phase_timeline=bad_mug_pick, self_collision=self_collide_mug, sliding_consistency=wrong_slide_mug; schema_align / human_label_valid / robot_candidate_valid are guard checks (no dedicated failing case; covered by validate_contact_pack.py's BAD sample test in earlier turn). No blockers.",
           "created_at": "2026-05-23T03:10:40+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_50a13b0deea6",
+          "author": "Host verification",
+          "body": "Local Codex host review accepted this TODO.\n可接受：worker 已补充 mock verifier、复现记录、good/bad 报告和 4-case 回归测试证据，覆盖 TODO 验收范围。\nEvidence: /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json 中该 TODO 为 review，记录 verifier v0、REPRO.md、关键文件 sha256、good/bad 命令退出码和可解释 reject reasons; /Users/boris/.clawcross/data/harness_state.json 记录同一 TODO 的完整评论链，包含 tests/run_verifier_tests.py、verifier_reports/test_summary.json、4/4 PASS、每个失败分支覆盖说明; /Users/boris/.clawcross/data/remote_claude_sessions_cache.json 记录远端 session 最后消息：4 个 mock cases、exit 0/1、reject reasons、report sha256; 远端 SSH 复核尝试失败：ssh: connect to host 100.87.220.29 port 22: Operation not permitted\nCommands: jq '.tasks[]? // .[]? | select(.task_id==\"task_hoi_isaac_retargeting_verifier_v0\" or .id==\"task_hoi_isaac_retargeting_verifier_v0\")' /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json; ssh -o BatchMode=yes -o ConnectTimeout=10 feibo@100.87.220.29 'cd /home/feibo/workspace/diverse-same-task-dataset; pwd; git status --short; ls -l isaac_verifier_v0.py generate_mock_robot_candidates.py verifier-v0-spec.md samples_contact_pack/02_power_grasp_mug.json mock_robots/good_mug_pick.json mock_robots/bad_mug_pick.json tests/run_verifier_tests.py verifier_reports/test_summary.json verifier_reports/good_mug_pick.report.json verifier_reports/bad_mug_pick.report.json verifier_reports/self_collide_mug.report.json verifier_reports/wrong_slide_mug.report.json; sha256sum isaac_verifier_v0.py generate_mock_robot_candidates.py verifier-v0-spec.md samples_contact_pack/02_power_grasp_mug.json mock_robots/good_mug_pick.json mock_robots/bad_mug_pick.json tests/run_verifier_tests.py verifier_reports/test_summary.json verifier_reports/good_mug_pick.report.json verifier_reports/bad_mug_pick.report.json verifier_reports/self_collide_mug.report.json verifier_reports/wrong_slide_mug.report.json REPRO.md'; jq '.users.boris.tasks.task_hoi_isaac_retargeting_verifier_v0, .users.boris.agents[\"image-layered-feibo@100.87.220.29\"] | {task_id, project_id, title, status, updated_at, current_task_id, last_heartbeat_at, message, comments}' /Users/boris/.clawcross/data/harness_state.json; jq '.sessions[]? | select(.remote_key==\"feibo@100.87.220.29::session_01XEBJT4Shq5Wvashd9iG9Vt\")' /Users/boris/.clawcross/data/remote_claude_sessions_cache.json; jq '.codex_review.task_hoi_isaac_retargeting_verifier_v0' /Users/boris/.clawcross/data/harness_conductor_actions.json\nReason: TODO 要求 v0 verifier 在 mock scene 上跑通并给出 object pose/contact/joint-limit/collision/failure report；现有 dashboard/harness 证据包含实现文件、schema/spec、good case pass、bad case explicit reject reasons、额外 self_collision/sliding_consistency 回归用例和 4/4 PASS 测试命令。虽然本机 sandbox 阻止 SSH 二次读取远端文件，但 worker 已按上次 review 要求补足可复现命令、结果文件路径、sha256 和测试/verifier 证据，足以自动验收。",
+          "created_at": "2026-05-23T03:17:09+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-05-23T03:10:44+08:00",
-      "due_at": "2026-05-30"
+      "updated_at": "2026-05-23T03:17:09+08:00",
+      "due_at": "2026-05-30",
+      "completed_at": "2026-05-23"
     },
     {
       "task_id": "task_hoi_two_modality_capture_smoke",
@@ -2708,7 +2716,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T03:09:51+08:00",
+      "updated_at": "2026-05-23T03:14:38+08:00",
       "due_at": "2026-05-27"
     },
     {
@@ -2729,7 +2737,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T03:09:51+08:00",
+      "updated_at": "2026-05-23T03:14:38+08:00",
       "due_at": "2026-05-27"
     },
     {
@@ -2742,7 +2750,7 @@
       "assignee": "boris@100.101.68.35",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T03:09:51+08:00",
+      "updated_at": "2026-05-23T03:14:38+08:00",
       "due_at": "2026-05-29"
     },
     {
@@ -2755,7 +2763,7 @@
       "assignee": "boris@100.101.68.35",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T03:09:51+08:00",
+      "updated_at": "2026-05-23T03:14:38+08:00",
       "due_at": "2026-05-29"
     }
   ]
