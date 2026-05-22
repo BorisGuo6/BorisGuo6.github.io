@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-23T04:23:19+08:00",
+  "updated_at": "2026-05-23T04:31:04+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2790,7 +2790,7 @@
       "project_id": "superhuman-rate-curve-teleop",
       "title": "比较 classical retiming 与 SFT action-frequency baseline",
       "description": "Why now: 下一步要知道速度提升来自轨迹 retiming 还是 policy frequency/behavior learning。Deliverable: TOPPRA/Ruckig-style retiming baseline 与 SFT action-frequency ablation 的实验设计或 mock implementation。Acceptance: 同一 demo 上输出速度/连续性/稳定性/jerk 对比。",
-      "status": "review",
+      "status": "active",
       "priority": "high",
       "assignee": "boris@100.101.68.35",
       "result": null,
@@ -2815,9 +2815,16 @@
           "body": "Local Codex host review reopened this TODO.\n请补齐可自动验收证据，不必重做主任务：在 dashboard/harness 写入完整复现记录，至少包含 `pwd; git status --short; git rev-parse --short HEAD; ls -l retiming_vs_sft.py`、`sha256sum retiming_vs_sft.py`、实际运行 `python retiming_vs_sft.py --output-dir /tmp/retiming_eval` 的完整 stdout 和退出码、输出 JSON/TXT 的完整 sha256。结果表必须明确同一 demo、6 个方法，并覆盖 speed/duration、continuity、stability/event 或 joint-limit violations、jerk；如果 continuity/jerk 是 mock 或不可得，请说明 blocker 和口径。",
           "created_at": "2026-05-23T03:55:41+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_5c6b808caca7",
+          "author": "Review",
+          "body": "Local Codex host review reopened this TODO.\n请不要重做主任务，只补齐可自动验收证据并写入 dashboard/harness：完整贴出远端工作区 `pwd; git status --short; git rev-parse --short HEAD; ls -l retiming_vs_sft.py`、`sha256sum retiming_vs_sft.py`，实际运行 `python retiming_vs_sft.py --output-dir /tmp/retiming_eval` 的完整 stdout/stderr 和退出码，`find /tmp/retiming_eval -maxdepth 1 -type f -ls` 以及 JSON/TXT 的完整 sha256sum。结果表必须明确同一 demo、6 个方法，并覆盖 speed/duration、continuity、stability/event 或 joint-limit violations、jerk；如果 continuity/jerk 是 mock 或不可得，请写清 blocker 和计算口径。",
+          "created_at": "2026-05-23T04:30:56+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T04:21:17+08:00",
+      "updated_at": "2026-05-23T04:30:56+08:00",
       "due_at": "2026-05-29"
     },
     {
@@ -2852,7 +2859,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T04:21:17+08:00",
+      "updated_at": "2026-05-23T04:25:05+08:00",
       "due_at": "2026-05-29"
     }
   ]
