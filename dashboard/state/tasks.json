@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-23T03:08:10+08:00",
+  "updated_at": "2026-05-23T03:12:25+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2212,13 +2212,22 @@
       "project_id": "robotics-3d-printing",
       "title": "把 takeout runbook 接成 Piper-X / printer cell driver skeleton",
       "description": "Why now: printer_farm_cell scope 已完成，下一步要把 printed artifacts 接到真机控制边界。Deliverable: cell_driver/ skeleton，含 printer status adapter、bed perception placeholder、Piper-X pick/place API stub、安全 state machine。Acceptance: 用 assembly_plan.json dry-run 走完整状态机，输出每步 command envelope 和 fail-safe path。",
-      "status": "review",
+      "status": "done",
       "priority": "high",
       "assignee": "shaol@100.96.228.8",
       "result": null,
-      "comments": [],
-      "updated_at": "2026-05-23T02:43:40+08:00",
-      "due_at": "2026-05-28"
+      "comments": [
+        {
+          "comment_id": "clawcross_8bb3bbedc1ab",
+          "author": "Host verification",
+          "body": "Local Codex host review accepted this TODO.\n可自动验收：harness/remote session 证据覆盖 cell driver skeleton、7-step dry-run、JSONL command envelope、测试和 fail-safe 路径。\nEvidence: /Users/boris/.clawcross/data/harness_state.json 中 task_pod_cell_driver_skeleton 为 review，worker 记录 cell/ 9 文件 skeleton：manifest/printer/perception/motion/safety/driver/main/tests/README; worker 验证记录：python3 -m pytest cell/tests.py -> 13 passed；python3 -m cell.main --out demos/retrofit_extender/out/ --skip-preflight -> final_state=done, steps=7, 7 ok; worker 验证记录 fail-safe：--estop -> final_state=failed, error=safety: EStopEngaged；--fail-grasp-once body -> final_state=done, steps=8, 1 retry; worker 记录 JSONL run logs：cell/runs/run_20260523_020750_3af575.jsonl happy path、run_20260523_020802_691cf7.jsonl estop failure、run_20260523_020802_f8d216.jsonl grasp retry；schema 含 header、phase markers、step records 和 fail tail; worker 记录 state machine：IDLE -> PREFLIGHT -> PRINTER_RUNNING -> COOLDOWN -> ROBOT_ACTIVE -> DONE，并支持任意状态 FAILED；hard gates 覆盖 preflight、bed temp/printer idle、estop; /Users/boris/.clawcross/data/remote_claude_sessions_cache.json 显示同一远端 session idle，后续第二产品也复用了 cell driver，报告 cell/tests.py 16/16 和 extender 7-step/cable clip 5-step dry-run 通过; 远端 SSH 独立复核被当前本机沙箱拒绝：ssh connect to 100.96.228.8 port 22 Operation not permitted\nCommands: sed -n '1,220p' docs/repo-index.md; python3 -c 'import json; p=\"/Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json\"; data=json.load(open(p)); tasks=data.get(\"tasks\", data if isinstance(data,list) else []); [print(json.dumps({k:t.get(k) for k in [\"task_id\",\"status\",\"title\",\"updated_at\",\"project_id\"]}, ensure_ascii=False)+\"\\ncomments \"+str(len(t.get(\"comments\",[])))) for t in tasks if t.get(\"task_id\")==\"task_pod_cell_driver_skeleton\"]'; sed -n '2200,2325p' /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json; jq '.users.boris.tasks.task_pod_cell_driver_skeleton // .tasks.task_pod_cell_driver_skeleton // empty' /Users/boris/.clawcross/data/harness_state.json; rg -n \"task_pod_cell_driver_skeleton|cell/runs/run_20260523_020750|Skeleton landed|final_state=done|cell/tests.py\" /Users/boris/.clawcross /Users/boris/workspace/BorisGuo6.github.io/dashboard/state 2>/dev/null; jq '.sessions[]? | select(.remote_key==\"shaol@100.96.228.8::session_01XYRjxsRGMybh8TnwReSdhH\") | {remote_key,status,cwd,last_message:.last_message.content}' /Users/boris/.clawcross/data/remote_claude_sessions_cache.json\nReason: TODO 要求 skeleton 而非真实硬件接入；worker 提供了可复现 pytest/CLI dry-run 命令、结果文件路径、完整状态机、每步 JSONL envelope schema，以及 estop/perception/grasp retry fail-safe 证据，范围与验收点一致。虽然本 sandbox 阻止 SSH 独立读取远端 artifact，但本机 harness 和 remote session cache 中的证据足够具体且后续任务继续复用了该 driver。",
+          "created_at": "2026-05-23T03:12:20+08:00",
+          "kind": "host_verified"
+        }
+      ],
+      "updated_at": "2026-05-23T03:12:20+08:00",
+      "due_at": "2026-05-28",
+      "completed_at": "2026-05-23"
     },
     {
       "task_id": "task_pod_demo_viewer",
@@ -2266,7 +2275,7 @@
       "assignee": "shaol@100.96.228.8",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T02:43:40+08:00",
+      "updated_at": "2026-05-23T03:09:51+08:00",
       "due_at": "2026-05-30"
     },
     {
@@ -2402,7 +2411,7 @@
       "assignee": "boris@100.101.68.35",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T03:04:45+08:00",
+      "updated_at": "2026-05-23T03:09:51+08:00",
       "due_at": "2026-05-28"
     },
     {
@@ -2546,7 +2555,7 @@
           "kind": "result"
         }
       ],
-      "updated_at": "2026-05-23T03:04:45+08:00",
+      "updated_at": "2026-05-23T03:09:51+08:00",
       "due_at": "2026-05-28"
     },
     {
@@ -2559,7 +2568,7 @@
       "assignee": "boris@100.70.181.44",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T03:04:45+08:00",
+      "updated_at": "2026-05-23T03:09:51+08:00",
       "due_at": "2026-05-25"
     },
     {
@@ -2594,7 +2603,7 @@
           "kind": "blocker"
         }
       ],
-      "updated_at": "2026-05-23T03:04:45+08:00",
+      "updated_at": "2026-05-23T03:12:25+08:00",
       "due_at": "2026-05-25"
     },
     {
@@ -2622,7 +2631,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T03:04:45+08:00",
+      "updated_at": "2026-05-23T03:09:51+08:00",
       "due_at": "2026-05-28"
     },
     {
@@ -2630,7 +2639,7 @@
       "project_id": "diverse-same-task-dataset",
       "title": "做 Isaac retargeting verifier v0",
       "description": "Why now: 已经决定要用 Isaac 判断机器人是否复现同一 object-state transition。Deliverable: 一个 v0 verifier，输入 human HOI label + robot candidate trajectory，输出 object pose/contact/joint-limit/collision/failure report。Acceptance: 能在 mock scene 上跑通，并给出可解释 reject reason。",
-      "status": "active",
+      "status": "review",
       "priority": "medium",
       "assignee": "feibo@100.87.220.29",
       "result": null,
@@ -2655,9 +2664,16 @@
           "body": "[2026-05-23] Full repro evidence — see ~/workspace/diverse-same-task-dataset/REPRO.md (sha256 70a800357f382e05c5329b84e5eede238c4415802ab16c092a6070f0ece982d9). pwd=/home/feibo/workspace/diverse-same-task-dataset; git status: not a git repo (fresh workspace, matches handoff state); Python 3.12.3 at /home/feibo/workspace/image-layered-world-model/.venv/bin/python (no third-party deps; pure stdlib + colocated schema validators). Key files (sha256): isaac_verifier_v0.py a7a36225..., generate_mock_robot_candidates.py 421b9967..., verifier-v0-spec.md d175bb21..., samples_contact_pack/02_power_grasp_mug.json bdd10a5d..., mock_robots/good_mug_pick.json 5046c498..., mock_robots/bad_mug_pick.json f7d4c9f3..., validate_contact_pack.py 30f4a0e5..., validate_hoi_schema.py 6bc16275..., contact_pack_spec.md b8660688..., hoi_schema.md cc8032e5...  GOOD-case run: '$PY isaac_verifier_v0.py samples_contact_pack/02_power_grasp_mug.json mock_robots/good_mug_pick.json' -> exit=0, stderr empty (sha256 e3b0c442... = empty-file constant); overall_pass=true, every check pass; saved verifier_reports/good_mug_pick.report.json (sha256 9ffe3c58157b7a2f5e4cfbd96289fe6f8444cf252c817c2d94ff191023567bfeb).  BAD-case run: same command with mock_robots/bad_mug_pick.json -> exit=1, stderr empty (same empty-file sha256); overall_pass=false, reject_reasons=[check_failed:joint_limits, check_failed:scene_collision, check_failed:object_pose, check_failed:contact_phase_timeline]; failing fields: joint_limits frame=3 panda_joint5 q=3.5 vs [-2.8973, 2.8973]; scene_collision frame=2 tool0 vs table aabb distance_m=0.0 radius=0.04; object_pose end_position_err_m=0.06 vs tol 0.03 (rmse 0.0367 still under 0.05); contact_phase_timeline f1=0.6667 vs tol 0.7 (recall 0.5, 2 FN). Saved verifier_reports/bad_mug_pick.report.json (sha256 2a8dc7df3cbbbaef0b48f0680e329685584014b3f0e7a5689950328032a668a1). Replay snippet: see REPRO.md §7. No blockers; verifier ran end-to-end without Isaac/GPU/network.",
           "created_at": "2026-05-23T03:02:05+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_619476f297fd",
+          "author": "Progress",
+          "body": "[2026-05-23] Verifier hardened with regression-test harness + 2 new edge cases so every reject branch is exercised by a dedicated test. New artifacts in ~/workspace/diverse-same-task-dataset: tests/run_verifier_tests.py (sha256 083e9d2d6085ea61e87a331b86d60430edc78d3028d3f8e146d73c51192978fd), generate_mock_robot_candidates.py updated (sha256 06e56572f13906ba7fb8ebf0b6301d7ebd9aa006088d12fdb4d9fa4ea1c31c95), mock_robots/self_collide_mug.json (sha256 69bb839666bbb6b24d4cffd902b6a264c743deb511014658c5789e9d4d4c86d4 — tool0+tool0_b spheres colocated, triggers self_collision branch), mock_robots/wrong_slide_mug.json (sha256 bfa762522030f68c33d18d112fb997b703fbc9b924a83e5dcf873a2c09f232fc — object reverses Z during contact, triggers sliding_consistency branch). Harness encodes per-case expectations on exit code + overall_pass + exact reject_reasons set + per-check pass flags, fails fast on any drift. Run: cd ~/workspace/diverse-same-task-dataset && $PY tests/run_verifier_tests.py — output: '4/4 PASS' table with per-case ms/reject reasons; exit=0. Summary JSON saved to verifier_reports/test_summary.json (sha256 80a5322f1ac9628f430d2d1c4463bce654dc5d431c6a007adc5a8575fd47da60), n_passed=4 n_failed=4-4=0, contains verbatim subprocess.cmd for each case. Per-case reports: good_mug_pick.report.json (9ffe3c58... unchanged), bad_mug_pick.report.json (2a8dc7df... unchanged), self_collide_mug.report.json (sha256 05891577603d7e4143b15e9244bd06055ba0691f8f639bb24fc85c241ba36a39, only self_collision fails), wrong_slide_mug.report.json (sha256 d3df60964086f6fdec0cf7ecd264194203b37594de119acb90a25ab72d529ab0, only sliding_consistency fails). All stderr empty (sha256 e3b0c442... = empty-file constant). Coverage of reject branches by named test cases: joint_limits=bad_mug_pick, scene_collision=bad_mug_pick, object_pose=bad_mug_pick, contact_phase_timeline=bad_mug_pick, self_collision=self_collide_mug, sliding_consistency=wrong_slide_mug; schema_align / human_label_valid / robot_candidate_valid are guard checks (no dedicated failing case; covered by validate_contact_pack.py's BAD sample test in earlier turn). No blockers.",
+          "created_at": "2026-05-23T03:10:40+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T03:08:10+08:00",
+      "updated_at": "2026-05-23T03:10:44+08:00",
       "due_at": "2026-05-30"
     },
     {
@@ -2692,7 +2708,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T03:04:45+08:00",
+      "updated_at": "2026-05-23T03:09:51+08:00",
       "due_at": "2026-05-27"
     },
     {
@@ -2713,7 +2729,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T03:04:45+08:00",
+      "updated_at": "2026-05-23T03:09:51+08:00",
       "due_at": "2026-05-27"
     },
     {
@@ -2726,7 +2742,7 @@
       "assignee": "boris@100.101.68.35",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T03:04:45+08:00",
+      "updated_at": "2026-05-23T03:09:51+08:00",
       "due_at": "2026-05-29"
     },
     {
@@ -2739,7 +2755,7 @@
       "assignee": "boris@100.101.68.35",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T03:04:45+08:00",
+      "updated_at": "2026-05-23T03:09:51+08:00",
       "due_at": "2026-05-29"
     }
   ]
