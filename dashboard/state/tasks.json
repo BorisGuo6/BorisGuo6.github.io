@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-23T02:48:59+08:00",
+  "updated_at": "2026-05-23T02:55:52+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2594,7 +2594,7 @@
       "project_id": "diverse-same-task-dataset",
       "title": "定义 object/contact annotation pack 并标注样例",
       "description": "Why now: HOI retargeting 目标不是关节相似，而是 object trajectory/contact/task result。Deliverable: contact patch、contact normal、grasp/tool-use mode、object pose trajectory 的 label spec + 5 个样例。Acceptance: 标注能喂给 retargeting baseline 或 Isaac verifier。",
-      "status": "review",
+      "status": "active",
       "priority": "high",
       "assignee": "feibo@100.87.220.29",
       "result": null,
@@ -2605,9 +2605,16 @@
           "body": "[2026-05-23] Contact pack v0 done. Artifacts: contact_pack_spec.md (additive layer over hoi.v0: per-frame phase + grasp_mode_v2, per-patch frame_world_4x4 + link_name + patch_id + area + force_proxy + friction_mu + is_held_constraint, tool_use block, object_trajectory_summary), generate_contact_pack_samples.py, validate_contact_pack.py, samples_contact_pack/01_pinch_pick_coin.json + 02_power_grasp_mug.json + 03_tool_use_screwdriver.json + 04_slide_block.json + 05_release_cup.json. 5 samples cover the 5 high-frequency cases: tip_pinch (2 patches), power_cylindrical (5 patches), tool_use (3 hand patches + explicit tool_tip / target / axis), lateral sliding (single patch with low load_bearing), release (4 patches -> 0 across the timeline). All 5 PASS validate_contact_pack.py (which chains validate_hoi_schema.py then layers patch SE(3) / +z=normal / area / friction / grasp_mode_v2 / tool_use / patch_id-link consistency / trajectory summary). Each sample carries the fields the Isaac verifier needs: object endpoint pose, per-patch SE(3) frames, link_name, friction, tool_tip targets. Grasp v2 taxonomy in spec §5 (9 values, Cutkosky-derived). Open issues §9: patch frame labeller tool, force calibration, multi-object scenes, patch-id reassignment. Next: feed these into task_hoi_isaac_retargeting_verifier_v0.",
           "created_at": "2026-05-23T02:19:20+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_a6bfd4719075",
+          "author": "Review",
+          "body": "Local Codex host review reopened this TODO.\n请补充可验收证据，不必重做主任务：在 ~/workspace/diverse-same-task-dataset 运行并把完整输出写回 dashboard/harness：pwd; ls -l contact_pack_spec.md validate_contact_pack.py samples_contact_pack/*.json; python3 validate_contact_pack.py samples_contact_pack/*.json；同时给出 5 个样例和 spec 的 sha256sum，若 Isaac verifier 已可用，再补一条 sample 02 喂给 verifier 的实际命令和结果。若命令不能跑，请说明明确 blocker。",
+          "created_at": "2026-05-23T02:55:45+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T02:43:41+08:00",
+      "updated_at": "2026-05-23T02:55:45+08:00",
       "due_at": "2026-05-28"
     },
     {
@@ -2628,7 +2635,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T02:43:41+08:00",
+      "updated_at": "2026-05-23T02:50:43+08:00",
       "due_at": "2026-05-30"
     },
     {
@@ -2656,7 +2663,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T02:43:41+08:00",
+      "updated_at": "2026-05-23T02:50:43+08:00",
       "due_at": "2026-05-27"
     },
     {
@@ -2677,7 +2684,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T02:43:41+08:00",
+      "updated_at": "2026-05-23T02:50:43+08:00",
       "due_at": "2026-05-27"
     },
     {
@@ -2690,7 +2697,7 @@
       "assignee": "boris@100.101.68.35",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T02:43:41+08:00",
+      "updated_at": "2026-05-23T02:50:43+08:00",
       "due_at": "2026-05-29"
     },
     {
@@ -2703,7 +2710,7 @@
       "assignee": "boris@100.101.68.35",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T02:43:41+08:00",
+      "updated_at": "2026-05-23T02:50:43+08:00",
       "due_at": "2026-05-29"
     }
   ]
