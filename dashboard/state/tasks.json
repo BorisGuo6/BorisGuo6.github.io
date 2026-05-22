@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-22T07:53:24+08:00",
+  "updated_at": "2026-05-22T08:11:36+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1080,7 +1080,7 @@
       "task_id": "task_drag_demo_initial_batch",
       "project_id": "drag-demo-video-editing",
       "title": "Collect initial drag-demo batch",
-      "description": "Start with egg-cracking sequences; if editing quality holds, scale toward 100-300 drag-demo sequences and add a matching teleop subset.",
+      "description": "Start from the SOP task: right gripper lifts the pan spatula with the egg mold, moves above the white plate, rotates the spatula so the egg mold slides into the plate, then holds still for 2 seconds. Target 100 valid demonstrations while retaining failed attempts under f000x/.",
       "status": "active",
       "priority": "high",
       "assignee": null,
@@ -1094,9 +1094,16 @@
           "body": "Glove received with Zhenxiong's help. Plan: on 2026-05-20 afternoon, visit the potential experiment space with Leilei. If that ends early, test the collection workflow in the ME lab the same afternoon; otherwise test it on 2026-05-21. Target: begin the focused 100-sequence collection on 2026-05-21 afternoon. Boris, Gaochen, and Jingxiang each target 30 sequences; Xiaobin will join onsite to observe and participate.",
           "created_at": "2026-05-19T20:57:00+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_drag_demo_spatula_sop_20260522",
+          "author": "Codex",
+          "body": "SOP update from `SOP_铲鸡蛋入盘(2).pdf`: use the Fangzhou dual-arm robot, 100 valid demos target, green long gloves with sleeves, and a three-camera stack (cam_top / cam_left_wrist / cam_right_wrist). Success requires the egg mold to land inside the white plate, spatula contact to remain on the yellow gripper region, and a clear 2-second stillness marker after placement. Failures are labelled n and retained as f000x/ rather than thrown away.",
+          "created_at": "2026-05-22T08:11:36+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-22T04:26:48+08:00"
+      "updated_at": "2026-05-22T08:11:36+08:00"
     },
     {
       "task_id": "task_drag_demo_backend_compare",
@@ -1127,6 +1134,27 @@
       "updated_at": "2026-05-19T21:02:00+08:00"
     },
     {
+      "task_id": "task_drag_demo_sop_episode_verifier",
+      "project_id": "drag-demo-video-editing",
+      "title": "Build SOP episode completeness verifier",
+      "description": "Automate the SOP checks for the spatula egg-transfer dataset: validate successful 000x/ and failed f000x/ folders, require all 9 files (three RGB videos, three depth h5 files, eef_pose.pkl, image_timestamps.pkl, state.pkl), flag black frames or missing streams, and confirm the 2-second final stillness marker before an episode counts toward the 100-demo target.",
+      "status": "todo",
+      "priority": "high",
+      "assignee": null,
+      "result": null,
+      "due_at": "2026-05-23",
+      "comments": [
+        {
+          "comment_id": "comment_drag_demo_sop_verifier_scope_20260522",
+          "author": "Codex",
+          "body": "The SOP turns data cleaning into scriptable checks: 000x/ = success and counts toward quota, f000x/ = retained failure and does not count; each episode should contain cam_left_wrist_rgb.mp4, cam_left_wrist_depth.h5, cam_right_wrist_rgb.mp4, cam_right_wrist_depth.h5, cam_top_rgb.mp4, cam_top_depth.h5, eef_pose.pkl, image_timestamps.pkl, and state.pkl.",
+          "created_at": "2026-05-22T08:11:36+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-05-22T08:11:36+08:00"
+    },
+    {
       "task_id": "task_drag_demo_finetuning_comparison",
       "project_id": "drag-demo-video-editing",
       "title": "Define fine-tuning comparison",
@@ -1142,7 +1170,7 @@
       "task_id": "task_drag_demo_masks_collection_aids",
       "project_id": "drag-demo-video-editing",
       "title": "Add masks / collection aids",
-      "description": "Use masks, green gloves / head cover, and anti-slip materials to reduce editing ambiguity and keep hand-object contact readable.",
+      "description": "Use green long gloves with sleeves, masks / head cover if needed, and anti-slip materials to reduce editing ambiguity while keeping hand-object contact readable.",
       "status": "done",
       "priority": "medium",
       "assignee": null,
@@ -1155,9 +1183,16 @@
           "body": "Green gloves have arrived, so the collection-aid item can be closed.",
           "created_at": "2026-05-19T21:06:00+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_drag_demo_sop_glove_requirement_20260522",
+          "author": "Codex",
+          "body": "SOP requires green long gloves with sleeves for every collection episode. The reason is downstream hand removal: HSV color-key segmentation should be faster and cleaner than relying only on SAM2-style neural segmentation.",
+          "created_at": "2026-05-22T08:11:36+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-19T21:06:00+08:00"
+      "updated_at": "2026-05-22T08:11:36+08:00"
     },
     {
       "task_id": "task_layered_wm_survey_notes",
