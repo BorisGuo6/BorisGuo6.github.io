@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-22T22:32:46+08:00",
+  "updated_at": "2026-05-22T22:33:19+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -715,9 +715,16 @@
           "body": "Plan C complete at 2026-05-21T20:28:02Z: ltx 142/142 ok, 0 err, total 110.6 min on RTX 5090 with diffusers LTXImageToVideoPipeline + enable_model_cpu_offload + vae.enable_tiling. run_id=vbench_scale_20260521T183305Z, log=/home/jingxiang/.claude/jobs/93ce8a8c/vbench_scale_20260521T183305Z_ltx_v2.log (10KB). Total eval_outputs/ti2v_ltx/*/predicted.mp4 on disk = 186 (44 prior mini + 142 new full-manifest). Output format verified: h264 1280x704 24fps 121frames ~650KB each (matches prior batch). Launching plan B step 1/1: wan22 --limit 142 (~7.4h ETA at ~188s/clip per prior batch.log; with cpu offload patch likely 50% slower so ~11h). GPU was free after ltx; will go to wan22 immediately. cosmos25 deferred per prior decision report.",
           "created_at": "2026-05-22T04:28:02+08:00",
           "kind": "progress"
+        },
+        {
+          "comment_id": "clawcross_ce8e9b16b4e1",
+          "author": "Result",
+          "body": "186-scale VBench eval — RESULTS at 2026-05-22T14:33:07Z. run_id=vbench_scale_20260521T183305Z, base_git_sha=e121018ab28a5251ffc324ec977d946695b3d16f, branch=worktree-umi-vbench-eval. wan22 (186 clips, 6 dims): subject=0.8497 background=0.9092 motion=0.9813 dynamic=0.9301 imaging=0.6693 temporal_flickering=0.9705. ltx (186 clips, 6 dims): subject=0.7599 background=0.8800 motion=0.9852 dynamic=0.9301 imaging=0.5464 temporal_flickering=0.9731. All averages within ±0.02 of 44-clip baseline → metric stability confirmed. wan22 leads subj/bg/imag; ltx wins motion; dyn tied. cosmos25 BLOCKED at 44 clips: 4-step failure chain ending at peft==0.14.0 < diffusers 0.37.1 requirement of peft>=0.17.0 in /home/jingxiang/miniconda3/envs/wmfactory; same env worked for wan22+ltx hours earlier (externally mutated). Verifiable sha256: wan22_eval_results.json=d297770b03ea1d618cb6d607be7dc2667270f23903065f1a6682d744415706d1; ltx_eval_results.json=8f6990055a87000dcc1d4dd8eba5146c02d1b1eaca5b75774cfeec29bdddd793; SUMMARY_186.md (pre-cosmos-blocker-update)=f07122b34e464286fddc555bfa4d774713057ba9454e47b46c3f4de43845ae5b. mp4 counts: wan22=186 ltx=186 cosmos25=44. Files: eval_outputs/vbench/{wan22,ltx}/<m>_eval_results.json, .claude/worktrees/umi-vbench-eval/eval_outputs/vbench/SUMMARY_186.md, eval_outputs/ti2v_{wan22,ltx,cosmos25}/*/predicted.mp4. Logs: /home/jingxiang/.claude/jobs/93ce8a8c/vbench_scale_20260521T183305Z_{ltx_v2,wan22_v3,vbench_ltx,vbench_wan22,cosmos25_v1,cosmos25_v2,cosmos25_v3_smoke,cosmos25_v4_smoke}.log. Unblock cosmos25: 'pip install peft>=0.17.0' in wmfactory env, then ti2v_batch.py --model cosmos25 --limit 142 (~28h ETA on RTX 5090). Status: blocked on cosmos25, but wan22+ltx 186-scale meets 100-target and is ~93% of 200-target (the 186 cap is set by caption coverage on test_sets, not by GPU).",
+          "created_at": "2026-05-22T22:33:07+08:00",
+          "kind": "result"
         }
       ],
-      "updated_at": "2026-05-22T22:32:46+08:00"
+      "updated_at": "2026-05-22T22:33:18+08:00"
     },
     {
       "task_id": "task_self_improving_prepare_proposal",
@@ -1219,7 +1226,7 @@
           "kind": "result"
         }
       ],
-      "updated_at": "2026-05-22T22:32:46+08:00"
+      "updated_at": "2026-05-22T22:33:18+08:00"
     },
     {
       "task_id": "task_drag_demo_backend_compare",
@@ -1302,7 +1309,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-22T22:32:46+08:00"
+      "updated_at": "2026-05-22T22:33:18+08:00"
     },
     {
       "task_id": "task_drag_demo_masks_collection_aids",
