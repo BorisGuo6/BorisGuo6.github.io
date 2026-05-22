@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-22T08:15:30+08:00",
+  "updated_at": "2026-05-22T08:19:33+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1343,7 +1343,7 @@
       "project_id": "image-layered-world-model",
       "title": "Prototype ChatGPT + Photoshop PSD layer pipeline",
       "description": "Use the white-background element-splitting prompt to generate one image per visual element without changing relative positions, then use Photoshop scripting/actions to remove white, keep every element as a separate layer, and export a PSD for inspection.",
-      "status": "active",
+      "status": "review",
       "priority": "medium",
       "assignee": null,
       "result": null,
@@ -1461,9 +1461,16 @@
           "body": "用户已明确批准：不要再等待二选一；原 Photoshop+ChatGPT 流程和 Linux/Qwen/pytoshop 替代流程能执行的都要尝试，并分别提交可验收证据。",
           "created_at": "2026-05-22T08:15:06+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_8bce31bd6a1b",
+          "author": "Result",
+          "body": "Route A blocked-but-reproducible + Route B passes. Route A artifacts on feibo: photoshop_chatgpt_route/{probe.json,probe.log,photoshop_assemble.jsx,README_RUN_ON_MAC_WINDOWS.md}; probe shows Linux host has no Photoshop/Wine and no image-gen API env vars, so actual Photoshop+ChatGPT run still needs Mac/Windows operator. Route B re-ran from scratch: psd/{poster,robot_still}.psd, outputs_psd_roundtrip/score_summary.json; round-trip diff = 0.0000 on recon_l1 and separability metrics. Full writeup: psd-pipeline.md. Marking review, not done.",
+          "created_at": "2026-05-22T08:19:24+08:00",
+          "kind": "result"
         }
       ],
-      "updated_at": "2026-05-22T08:15:06+08:00"
+      "updated_at": "2026-05-22T08:19:24+08:00"
     },
     {
       "task_id": "task_layered_wm_layer_qa_metrics",
