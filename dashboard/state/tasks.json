@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-22T22:39:34+08:00",
+  "updated_at": "2026-05-22T22:58:43+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -729,9 +729,16 @@
           "body": "Cosmos25 扩容补跑已修复脚本入口：改用 Cosmos2_5_PredictBasePipeline，并 stub gated Cosmos guardrail；v5 smoke 正在生成第 45 条 clip，GPU 100%，若产出 predicted.mp4 将启动剩余 141 条后台扩容。",
           "created_at": "2026-05-22T22:39:26+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_b30b666004a2",
+          "author": "Progress",
+          "body": "Cosmos25 smoke 已验证落盘：45/186。已启动 full_v6 detached supervisor，当前 pending=141，GPU 正在跑。完成后脚本会自动跑 cosmos25 VBench、重写 eval_outputs/vbench/SUMMARY_186.md，并把 task_umi_vbench_eval 标记 review。日志：/home/jingxiang/.claude/jobs/93ce8a8c/vbench_scale_20260521T183305Z_cosmos25_full_v6_generate.log",
+          "created_at": "2026-05-22T22:58:38+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-22T22:39:34+08:00"
+      "updated_at": "2026-05-22T22:58:43+08:00"
     },
     {
       "task_id": "task_self_improving_prepare_proposal",
@@ -1233,7 +1240,7 @@
           "kind": "result"
         }
       ],
-      "updated_at": "2026-05-22T22:39:34+08:00"
+      "updated_at": "2026-05-22T22:58:34+08:00"
     },
     {
       "task_id": "task_drag_demo_backend_compare",
@@ -1316,7 +1323,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-22T22:39:34+08:00"
+      "updated_at": "2026-05-22T22:58:34+08:00"
     },
     {
       "task_id": "task_drag_demo_masks_collection_aids",
