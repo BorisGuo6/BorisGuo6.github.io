@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-23T03:25:50+08:00",
+  "updated_at": "2026-05-23T03:29:43+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2761,12 +2761,20 @@
       "project_id": "superhuman-rate-curve-teleop",
       "title": "比较 classical retiming 与 SFT action-frequency baseline",
       "description": "Why now: 下一步要知道速度提升来自轨迹 retiming 还是 policy frequency/behavior learning。Deliverable: TOPPRA/Ruckig-style retiming baseline 与 SFT action-frequency ablation 的实验设计或 mock implementation。Acceptance: 同一 demo 上输出速度/连续性/稳定性/jerk 对比。",
-      "status": "review",
+      "status": "active",
       "priority": "high",
       "assignee": "boris@100.101.68.35",
       "result": null,
-      "comments": [],
-      "updated_at": "2026-05-23T03:24:00+08:00",
+      "comments": [
+        {
+          "comment_id": "clawcross_beef796608be",
+          "author": "Review",
+          "body": "Local Codex host review reopened this TODO.\n请补充可自动验收证据，不必重做主任务：在 dashboard/harness 写入完整复现记录。至少包含远端工作区 `pwd; git status --short; git rev-parse --short HEAD; ls -l retiming_vs_sft.py`、`sha256sum retiming_vs_sft.py`、实际运行 `python retiming_vs_sft.py` 的完整 stdout 和退出码；如果脚本能输出文件，请增加或记录 output dir、结果 CSV/JSON、sha256sum。结果表必须说明同一 demo、6 个方法，并覆盖 speed/duration、continuity、stability/event或joint-limit violations、jerk 指标；如果某指标不可得，说明 blocker 和 mock 口径。",
+          "created_at": "2026-05-23T03:29:38+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-05-23T03:29:38+08:00",
       "due_at": "2026-05-29"
     },
     {
@@ -2779,7 +2787,7 @@
       "assignee": "boris@100.101.68.35",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T03:24:00+08:00",
+      "updated_at": "2026-05-23T03:27:37+08:00",
       "due_at": "2026-05-29"
     }
   ]
