@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-23T04:52:15+08:00",
+  "updated_at": "2026-05-23T14:22:23+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -20,9 +20,16 @@
           "body": "今天已完成首轮搭建；后续只需要继续补统一启动脚本、设备状态记录和数据采集 checklist。",
           "created_at": "2026-05-15",
           "kind": "result"
+        },
+        {
+          "comment_id": "comment_real_robot_infra_arx_sop_20260523",
+          "author": "SOP",
+          "body": "ARX SOP received: Operation of ARX Robot Arm for Drag Teaching and Teleoperation Data Collection (JZ/SOP/ROB/001, issued 2026-05-23). Key gates: trained operator only; secure base, gripper, controller, power supply, cameras, and connections before power-up; clear the work area; enable drag teaching / teleoperation only after initialization checks; use slow smooth motion and low-speed teleop response tests; keep hands away from joints, gripper, and pinch points; stop immediately on abnormal sound, vibration, resistance, communication delay, unstable control, unexpected movement, or loss of control; shut down by stopping motion, returning to a safe position, stopping recording/control software, powering off controller/mains/cameras, and clearing the area.",
+          "created_at": "2026-05-23T14:22:23+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-17T01:27:36+08:00"
+      "updated_at": "2026-05-23T14:22:23+08:00"
     },
     {
       "task_id": "task_real_robot_infra_inventory",
