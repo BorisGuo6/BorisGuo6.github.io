@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-23T14:22:23+08:00",
+  "updated_at": "2026-05-23T14:24:42+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -780,9 +780,16 @@
           "body": "Status check at 2026-05-22T18:07:52Z: cannot complete cosmos25 VBench evaluation yet because generation is still in progress. Counts on disk: cosmos25 predicted.mp4 = 55 of 186 target; wan22 = 186/186 done; ltx = 186/186 done. Host's full_v6 detached conductor pid=617013 is alive (current step:  73%|███████▎ | 22/30 [12:04<04:22, 32.82s/it]). Per host's standing instruction in dashboard comment 2026-05-22T22:58:38+08:00 by 'Progress' (verbatim): 'Cosmos25 smoke 已验证落盘：45/186。已启动 full_v6 detached supervisor，当前 pending=141，GPU 正在跑。完成后脚本会自动跑 cosmos25 VBench、重写 eval_outputs/vbench/SUMMARY_186.md，并把 task_umi_vbench_eval 标记 review。请你只负责监控/汇总，不要再启动第二个 Cosmos 生成进程。' I am monitor-only. cosmos25 VBench will be runnable once predicted.mp4 = 186/186, and the conductor will auto-trigger it. Available wan22+ltx 186-clip VBench results (verifiable now): run_id=vbench_scale_20260521T183305Z, base git_sha=e121018ab28a5251ffc324ec977d946695b3d16f, branch=worktree-umi-vbench-eval. wan22 sha256=d297770b03ea1d618cb6d607be7dc2667270f23903065f1a6682d744415706d1 (eval_outputs/vbench/wan22/wan22_eval_results.json). ltx sha256=8f6990055a87000dcc1d4dd8eba5146c02d1b1eaca5b75774cfeec29bdddd793 (eval_outputs/vbench/ltx/ltx_eval_results.json). Pre-cosmos25-rescale baseline at .claude/worktrees/umi-vbench-eval/eval_outputs/vbench/SUMMARY_186.md. ETA 131 × 16.5 min => ~36h until cosmos25 generation finishes.",
           "created_at": "2026-05-23T02:07:52+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_d50ccbc74079",
+          "author": "Progress",
+          "body": "Codex monitor: Cosmos25 expansion supervisor is still running on jingxiang. Counts now wan22=186, ltx=186, cosmos25=97 predicted.mp4; active process run_cosmos25_expand_and_close.sh -> ti2v_batch.py --model cosmos25. Existing SUMMARY_186.md is still from before full Cosmos25 completion, so keep task active until cosmos25 reaches 186 and VBench summary is regenerated.",
+          "created_at": "2026-05-23T14:24:26+08:00",
+          "kind": "progress"
         }
       ],
-      "updated_at": "2026-05-23T02:09:08+08:00",
+      "updated_at": "2026-05-23T14:24:26+08:00",
       "due_at": ""
     },
     {
@@ -1268,7 +1275,7 @@
       "project_id": "drag-demo-video-editing",
       "title": "Collect initial drag-demo batch",
       "description": "Start from the SOP task: right gripper lifts the pan spatula with the egg mold, moves above the white plate, rotates the spatula so the egg mold slides into the plate, then holds still for 2 seconds. Target 100 valid demonstrations while retaining failed attempts under f000x/.",
-      "status": "needs_user",
+      "status": "blocked",
       "priority": "high",
       "assignee": "lv-robotics@100.113.210.127",
       "result": null,
@@ -1295,9 +1302,16 @@
           "body": "Initial-batch curation done from existing raw_data via the SOP verifier.\nMANIFEST: /home/lv-robotics/workspace/.verifier_reports/initial_batch_manifest.json (sha256 946b2d2a0bd1c02209b24b05c9228462b9a2c1ad43ab1b31ccf7ce7a608f79fd, 35 KB)\nSOURCE REPORT: /home/lv-robotics/workspace/.verifier_reports/raw_data_full_report.json (sha256 e7f0f1d1a0264833959c24278331cc700f826cbfce12540bce78475ff5eefb04)\nCRITERIA: 6 SOP gates — success folder ^\\d{4}$; 9 required files present + non-empty; cv2 mp4 readable + black/frozen sampled; h5 depth readable + <99% zero-pixel sampled; pickle schemas valid; trailing 2s joint range <= 0.02 rad on both arms.\nCOUNTS (163 episodes scanned across egg_to_bowl + egg_scoop_v1 + egg_scoop_v2):\n- counted_toward_target = 13 / 100 (delta = 87)\n- near_miss_stillness_only = 108  (all files/streams/pkls fine, only trailing 2s motion exceeds 0.02 rad)\n- file_or_stream_fail = 11\nBATCH PATHS (13 episodes that already pass strict SOP):\n  egg_scoop_v1/0000  egg_scoop_v1/0004  egg_scoop_v1/0010\n  egg_to_bowl/0000  egg_to_bowl/0001  egg_to_bowl/0003  egg_to_bowl/0004\n  egg_to_bowl/0008  egg_to_bowl/0009  egg_to_bowl/0015\n  egg_to_bowl/0093  egg_to_bowl/0095  egg_to_bowl/0101\nSTILLNESS-THRESHOLD SENSITIVITY (retune --stillness-threshold-rad to recover near-miss eps):\n  <= 0.05 rad (~3 deg)   → +4 eps   (total counted 17)\n  <= 0.10 rad (~6 deg)   → +6 eps   (total counted 19)\n  <= 0.20 rad (~11 deg)  → +26 eps  (total counted 39)\n  <= 0.50 rad (~29 deg)  → +81 eps  (total counted 94)\nCOMMANDS TO REPRODUCE:\n- run verifier: ~/miniconda3/envs/robo_ctrl/bin/python ~/workspace/ARX_A5_Dual_ARM/data_collection/sop_episode_verifier.py --root ~/workspace/raw_data --report ~/workspace/.verifier_reports/raw_data_full_report.json\n- rebuild manifest: re-running this comment's analysis block from the report; or re-run verifier with --stillness-threshold-rad <X> for retune.\nDECISION FOR HOST: 13/100 is far from target after due date 2026-05-21. Two paths: (a) operator retrain to enforce the full 2s stillness so future collections pass strictly; (b) host approves a relaxed threshold (e.g. 0.05 or 0.10 rad) and we recount immediately. Either way, ~87 more new physical demonstrations are still needed to hit 100 — this is collection work the lvrobotics-only Claude session cannot perform; needs Boris/Gaochen/Jingxiang/Xiaobin onsite operators.",
           "created_at": "2026-05-22T22:02:25+08:00",
           "kind": "result"
+        },
+        {
+          "comment_id": "clawcross_1f03584270fd",
+          "author": "Blocker",
+          "body": "Host/Codex triage: this is not automatically completable from the remote session. Current evidence says 13/100 strict episodes; previous threshold tuning suggests 0.10 rad yields 19 usable episodes, but reaching the initial 100-demo batch still requires onsite collection of additional demos. Keep the remote worker parked on this project; do not keep asking for user review unless new data appears.",
+          "created_at": "2026-05-23T14:24:25+08:00",
+          "kind": "blocker"
         }
       ],
-      "updated_at": "2026-05-23T02:09:08+08:00"
+      "updated_at": "2026-05-23T14:24:25+08:00"
     },
     {
       "task_id": "task_drag_demo_backend_compare",
@@ -1375,7 +1389,7 @@
       "project_id": "drag-demo-video-editing",
       "title": "Define fine-tuning comparison",
       "description": "Compare teleop-only, drag+editing, raw drag-only, and mixed 70% drag + 30% teleop training data.",
-      "status": "needs_user",
+      "status": "review",
       "priority": "medium",
       "assignee": "lv-robotics@100.113.210.127",
       "result": null,
@@ -1388,7 +1402,7 @@
           "kind": "result"
         }
       ],
-      "updated_at": "2026-05-23T02:47:17+08:00",
+      "updated_at": "2026-05-23T14:24:25+08:00",
       "due_at": ""
     },
     {
@@ -2177,7 +2191,7 @@
       "assignee": "jingxiang@100.112.245.1",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T02:43:40+08:00",
+      "updated_at": "2026-05-23T14:24:24+08:00",
       "due_at": "2026-05-28"
     },
     {
@@ -2198,7 +2212,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T02:43:40+08:00",
+      "updated_at": "2026-05-23T14:24:24+08:00",
       "due_at": "2026-05-26"
     },
     {
@@ -2211,7 +2225,7 @@
       "assignee": "jingxiang@100.112.245.1",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T02:43:40+08:00",
+      "updated_at": "2026-05-23T14:24:24+08:00",
       "due_at": "2026-05-29"
     },
     {
@@ -2633,9 +2647,16 @@
           "body": "Re-check after user request to verify connection recovery: NO, hardware link has NOT come back. Re-ran smoke to capture fresh evidence.\n\n== Current link state (2026-05-23) ==\n\nip -brief link:\n  enp58s0          DOWN           b4:45:06:b2:a5:42 <NO-CARRIER,BROADCAST,MULTICAST,UP>\n  enx2c16dbac331f  DOWN           2c:16:db:ac:33:1f <NO-CARRIER,BROADCAST,MULTICAST,UP>\n  wlp0s20f3        UP             10.249.234.23/16  (wifi only; not the Wuji path)\n  lo / tailscale0  UP\n\n/sys/class/net/enp58s0/carrier = 0\n/sys/class/net/enp58s0/operstate = down\n\nethtool enp58s0:\n  Speed: Unknown!\n  Duplex: Unknown! (255)\n  master-slave status: unknown\n  (these values are the canonical 'no physical link' readout)\n\nping -c 2 -W 1 192.168.1.101  ->  100% packet loss\nping -c 2 -W 1 192.168.1.100  ->  100% packet loss\n\ndmesg / journalctl -k blocked under this worker's policy (no sudo); cannot inspect the USB-C-to-Ethernet adapter's kernel-side enumeration directly.\n\n== Re-run of the smoke ==\n\nCommand:\n  ~/workspace/wuji_wrapper/.venv/bin/python ~/workspace/wuji_glove_wrapper/scripts/glove_net_smoke.py \\\n      --out ~/.claude/jobs/wuji_glove_net/smoke_retry.json\n\nOutput:\n  [wuji-net-smoke] log     : /home/boris/.claude/jobs/wuji_glove_net/smoke_retry.json\n  [wuji-net-smoke] sha256  : d9b1044869537a5079675201cd74081c76e5068065eb8a1abfb1fc7f2cee8496\n  [wuji-net-smoke] blocker : iface_enp58s0_no_carrier (cable unplugged or Wuji USB-C-to-Ethernet power adapter off; expected static IP 192.168.1.10/24 on host, glove at .100/.101)\n  [wuji-net-smoke] devices : 0\n  [wuji-net-smoke] frames  : 0\nExit: 2\n\nJSON evidence:\n  /home/boris/.claude/jobs/wuji_glove_net/smoke_retry.json\n  sha256=d9b1044869537a5079675201cd74081c76e5068065eb8a1abfb1fc7f2cee8496\n  started_at_utc_us=1779474628811325\n  ended_at_utc_us=1779474628811577\n  blocker=iface_enp58s0_no_carrier\n  iface_state={'carrier':'0','exists':True,'iface':'enp58s0','operstate':'down'}\n  devices=[]\n\n== Why I cannot fix this from this worker ==\n\nBringing the link up requires physical / privileged actions I am not allowed to perform:\n\n  1. Physically plug the Wuji USB-C-to-Ethernet adapter's RJ45 into enp58s0\n     (Arm A's old port). [需要人工]\n  2. Confirm the adapter's DC power barrel is in and the adapter LED is on.\n     [需要人工]\n  3. Power on the glove(s) — wrist LED should breathe cyan ~4 s in standby.\n     [需要人工]\n  4. After link comes up:\n       sudo ip addr add 192.168.1.10/24 dev enp58s0\n       sudo ip link set enp58s0 up\n     (or whichever NM/networkd profile was used to re-apply previously)\n     [需要 sudo — 我策略上不被允许]\n\nOnce any of those steps changes /sys/class/net/enp58s0/carrier to 1 and a\nping to 192.168.1.101 succeeds, the same smoke command will populate the\nstreams[]/devices[] sections and emit the full 10-second log automatically.\n\n== Status ==\n\nLeaving as blocked / needs_user. The implementation is committed (commit\n6fbdb37) and pre-verified offline (9/9 pytest). No code change is needed\nto clear this — only physical cable / power / sudo on the host.\n\nTo request the user run the recovery: please re-plug the Wuji USB-C-to-Ethernet\nadapter on enp58s0 with DC power and the glove on, then re-apply the\n192.168.1.10/24 static IP, then re-run:\n  ~/workspace/wuji_wrapper/.venv/bin/python ~/workspace/wuji_glove_wrapper/scripts/glove_net_smoke.py",
           "created_at": "2026-05-23T02:30:59+08:00",
           "kind": "blocker"
+        },
+        {
+          "comment_id": "clawcross_23c3ff075008",
+          "author": "Blocker",
+          "body": "Host/Codex triage: accepted the software smoke evidence as a hardware blocker. Latest remote smoke shows enp58s0 DOWN/NO-CARRIER, carrier=0, ethtool speed/duplex unknown, pings to 192.168.1.101 and .100 fail, devices=0, frames=0, exit=2, smoke log sha256 d9b1044869537a5079675201cd74081c76e5068065eb8a1abfb1fc7f2cee8496. Next unblock requires physical RJ45/DC/glove power and then static IP setup.",
+          "created_at": "2026-05-23T14:24:26+08:00",
+          "kind": "blocker"
         }
       ],
-      "updated_at": "2026-05-23T04:52:15+08:00",
+      "updated_at": "2026-05-23T14:24:26+08:00",
       "due_at": "2026-05-25"
     },
     {
