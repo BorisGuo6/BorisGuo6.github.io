@@ -62,6 +62,7 @@ function normalizeCommentKind(kind) {
     review: "comment",
     artifact: "comment",
     host_verified: "verification",
+    route: "comment",
   };
   return aliases[value] || value || "comment";
 }

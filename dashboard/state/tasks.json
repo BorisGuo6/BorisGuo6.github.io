@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-23T14:31:26+08:00",
+  "updated_at": "2026-05-23T14:33:25+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -94,7 +94,7 @@
       "project_id": "real-robot-infra",
       "title": "接入 Wuji Glove",
       "description": "用于手部姿态、触觉和高频输入流；需要确认网络、时间戳、标定和 retargeting 接口。",
-      "status": "active",
+      "status": "review",
       "priority": "medium",
       "assignee": "boris@100.70.181.44",
       "result": null,
@@ -133,9 +133,16 @@
           "body": "Local Codex host review reopened this TODO.\n请继续补齐 Wuji Glove 的标定与 retargeting 接口验收：在 ~/workspace/wuji_glove_wrapper 提交/保留可复现命令和日志，至少包含 calibration API/params/save_params 的最小 smoke 或明确硬件 blocker，以及 glove 输出到 wuji-retargeting 或 wuji-hand-teleop 输入适配层的最小接口验证；完成后给出 artifact 路径、sha256、运行命令和关键输出。",
           "created_at": "2026-05-22T17:13:05+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_f47aabcb5102",
+          "author": "Result",
+          "body": "Reviewer follow-up shipped: hardware-free calibration API surface + glove→wuji-retargeting minimal-interface verification, both committed and offline-verified.\n\n== pwd ==\n\n  /home/boris/workspace/wuji_glove_wrapper\n\n== git status --short (pre-commit) ==\n\n   M README.md           (previous worker, untouched)\n   M pyproject.toml      (previous worker, untouched)\n  ?? scripts/glove_retarget_mock_smoke.py   ← new (this rotation)\n  ?? scripts/glove_viz.py                   (previous worker, untouched)\n  ?? src/wuji_glove_wrapper/adapter.py      ← new (this rotation)\n  ?? src/wuji_glove_wrapper/calibration.py  ← new (this rotation)\n  ?? src/wuji_glove_wrapper/mock.py         ← new (this rotation)\n  ?? tests/test_adapter.py                  ← new (this rotation)\n  ?? tests/test_calibration.py              ← new (this rotation)\n  ?? third_party/                           (previous worker, untouched)\n\n== git log (post-commit) ==\n\n  346451e Add calibration API surface + glove->retargeting adapter + mock smoke   ← THIS COMMIT\n  6fbdb37 Add 10s network-smoke script + offline metrics module\n  9ceff9a Initial commit\n\nHEAD = 346451ec32e548e7ff7ba48ff11064b1f53a105d\n\n== Files (ls + sha256 — calibration API + adapter + tests + scripts) ==\n\n  -rw-rw-r-- 1 boris boris 3032  src/wuji_glove_wrapper/adapter.py\n    83a13ad3aab242479af0371ee85cc111c43677f65aa034fe56050e6552480bd7\n  -rw-rw-r-- 1 boris boris 6554  src/wuji_glove_wrapper/calibration.py\n    5a9af44450965b99b58b17aa81b4c8b38769caa0c825289e4e10292c2dd712d9\n  -rw-rw-r-- 1 boris boris 5090  src/wuji_glove_wrapper/mock.py\n    e50926b1bbd9a9bcc25e835443ddef753f1ccced8e8248316ffdf883a37872dc\n  -rw-rw-r-- 1 boris boris 6351  scripts/glove_retarget_mock_smoke.py\n    9ab01cf37fd807d53ddce97a8888944ff96fdc230daa55ed73aad2a8790da084\n  -rw-rw-r-- 1 boris boris 4410  tests/test_adapter.py\n    13a9e2442da79d85531108346dbc1549c2cbbd7bdeba5fcfc2ee8777611c401f\n  -rw-rw-r-- 1 boris boris 3897  tests/test_calibration.py\n    bc6992065f03881e6d66a8669932a17b65f9db4c5e5d19942b54c5c1a1d05a84\n\n== Calibration API surface (documented + introspected) ==\n\nReal wuji_sdk 0.10.0 calibration-related types (verified against installed\nSDK via sdk_calibration_types_summary()):\n\n  Param            fields: ['can_get', 'can_set', 'path']\n  PiParams         fields: ['ki', 'kp']\n  MitParam         fields: ['kd', 'kp']\n  CalibrationResult fields: ['electrical_zero_offset', 'enc1_error_code',\n                             'enc2_error_code', 'enc2_range_deg', 'enc2_status',\n                             'success', 'verify_ac_deg', 'verify_dc_deg']  (firmware-side joint cal result, 20 bytes)\n\nWujiGlove instance methods used by calibration paths:\n  .params()       -> list[Param]      ('Get all parameters')\n  .get(param)     -> any              ('Get parameter value')\n  .set(param, v)  -> ok               ('Set parameter value')\n  .save_params()  -> ok               ('Save all parameters to disk')\n\nCalibration is not a single 'glove.calibrate()' call but the act of\nwalking params, reading via get(), mutating via set(), and persisting\nvia save_params(); firmware-side per-joint cal is reflected in\nCalibrationResult.\n\n== Minimal mock smoke — full command/stdout/stderr/exit ==\n\nCommand:\n  mkdir -p ~/.claude/jobs/wuji_glove_calib_retarget\n  ~/workspace/wuji_wrapper/.venv/bin/python \\\n      ~/workspace/wuji_glove_wrapper/scripts/glove_retarget_mock_smoke.py \\\n      --out ~/.claude/jobs/wuji_glove_calib_retarget \\\n      --hand-side right\n\nStdout (full):\n  [mock-smoke] built mock hand skeleton: 21 joints, seq=42\n  [mock-smoke] adapter output: shape=(21, 3) dtype=float32\n  [mock-smoke]   wrist (mp[0])      = [0.0, -0.0, 0.0]\n  [mock-smoke]   index_tip (mp[8])  = [0.10000000149011612, 0.009999999776482582, 0.0]\n  [mock-smoke]   middle_tip (mp[12])= [0.10000000149011612, -0.0, 0.0]\n  [mock-smoke] retargeter config: /home/boris/workspace/wuji_wrapper/third_party/wuji-retargeting/example/config/retarget_manus_right.yaml\n  [mock-smoke] retargeter type: Retargeter / optimizer=AdaptiveOptimizerAnalytical\n  [mock-smoke] retargeter output: shape=(20,) dtype=float32\n  [mock-smoke]   qpos (rad) = [ 0.4691  0.9324 -0.2534  1.5568  0.4881 -0.37    1.5485  1.5753  1.5516\n   -0.37    1.5512  1.5745  1.5585  0.37    1.5487  1.5634 -0.1626  0.37\n    1.549   1.5735]\n  [mock-smoke] /hand_input payload: shape=(126,) (63*2=126 expected for two hands)\n  [mock-smoke] artefact : /home/boris/.claude/jobs/wuji_glove_calib_retarget/mock_smoke.json\n  [mock-smoke] sha256   : af4c7a026fb51c92dde8dcf876047862e8ce1940f4fe5ed0cab317c7a582aef1\n  [mock-smoke] OK\n\nStderr: <empty> (sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855, the well-known sha of zero-length input)\n\nExit code: 0\n\nArtefacts (~/.claude/jobs/wuji_glove_calib_retarget/):\n  mock_smoke.json       af4c7a026fb51c92dde8dcf876047862e8ce1940f4fe5ed0cab317c7a582aef1\n  mock_smoke.stdout     933cea8adff67294d7b88abeb783957110b8e0e00766f687824e423f70168d30\n  mock_smoke.stderr     e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\n  tests.log             3fd97dfda0488bbe602e18226e00a621379b2c54041613b8dc592b7fd453a1c6\n\n== Glove → wuji-retargeting / wuji-hand-teleop minimal interface ==\n\nTwo-leg adapter contract (proven end-to-end with mock packet):\n\nLEG A — library API (wuji-retargeting):\n  Adapter command:   mp21 = hand_skeleton_to_mediapipe21(skeleton, y_flip=True)\n  Retargeter call:   qpos = wuji_retargeting.Retargeter.from_yaml(cfg, hand_side='right').retarget(mp21)\n  Key output:        qpos.shape=(20,) dtype=float32\n                     qpos sample =\n                     [0.4691, 0.9324, -0.2534, 1.5568, 0.4881, -0.37, 1.5485, 1.5753, 1.5516,\n                      -0.37, 1.5512, 1.5745, 1.5585, 0.37, 1.5487, 1.5634, -0.1626, 0.37,\n                      1.549, 1.5735]  (radians, sane bounds |q| < 4)\n  Optimizer used:    AdaptiveOptimizerAnalytical  (NLopt SLSQP, Huber loss,\n                     analytical gradients — the same one Manus uses, so the\n                     glove output is a drop-in replacement at the input layer)\n  Config:            example/config/retarget_manus_{right,left}.yaml — works\n                     unchanged because both Manus and Wuji produce MediaPipe-21\n                     keypoints with the same y-flip convention.\n\nLEG B — ROS2 topic shape (wuji-hand-teleop input adapter):\n  /hand_input message: std_msgs/Float32MultiArray\n  Payload layout:      right_hand.flatten() ++ left_hand.flatten()\n                       = 63 + 63 = 126 float32 (each hand = 21 keypoints * 3)\n  Adapter helper:      flatten_for_hand_input_topic(right_mp, left_mp) -> (126,) float32\n  Verified shape:      (126,) — matches manus_input_node._publish_latest_frame\n                       layout bit-for-bit (file:\n                       wuji_wrapper/third_party/wuji-hand-teleop/.../manus_input/.../manus_input_node.py:165-195).\n\nArtefact path:         /home/boris/.claude/jobs/wuji_glove_calib_retarget/mock_smoke.json\nRun command:           (above)\nKey output:            qpos (20,) float32 + hand_input (126,) float32 + calibration snapshot\n\n== Calibration snapshot (from MockWujiGlove via enumerate_calibration_surface) ==\n\n  sn=WG-MOCK-0001 ip=192.168.1.250:50001 hand_side=right n_params=9\n  writable: ['calibration.electrical_zero_offset', 'control.mit.thumb_mcp',\n             'control.pi.index_mcp', 'control.pi.thumb_mcp', 'hand_side',\n             'sensor.gain', 'sensor.offset', 'sn']\n  calibration_paths: ['calibration.electrical_zero_offset']\n  pi_paths:          ['control.pi.index_mcp', 'control.pi.thumb_mcp']\n  mit_paths:         ['control.mit.thumb_mcp']\n  save_params_dry_run: True\n  save_params_ok:      None  (deliberately not called; flip dry_run=False\n                              + call_save=True to actually save against\n                              real glove. Mock would record _save_count=1.)\n\n== pytest verifier ==\n\nCommand:\n  cd ~/workspace/wuji_glove_wrapper && ~/workspace/wuji_wrapper/.venv/bin/python -m pytest tests/ -v\n\nResult: 27 passed in 0.32 s\n  11 new tests/test_adapter.py    — shape/dtype, y_flip default+override,\n    short-input rejection, hand-side validation, /hand_input layout (1/2\n    hands), wrong-shape rejection, parameterised left+right end-to-end\n    with REAL wuji_retargeting.Retargeter\n   7 new tests/test_calibration.py — ParamSurface round-trip, enumerate\n    against MockWujiGlove, dry-run default, explicit-save path, JSON\n    serialisation, sdk_calibration_types against real SDK and against\n    simulated ImportError\n   9 pre-existing tests/test_metrics.py (still pass — unrelated to this\n    rotation, the network-smoke metrics module from previous commit)\n\n== Hardware-free constraints honoured ==\n\n- No sudo issued, no privileged kernel/udev/network changes.\n- No glove on the wire required (enp58s0 still NO-CARRIER as before).\n- No SteamVR / VIVE hardware required.\n- The script flows through MockWujiGlove for the calibration path AND\n  through the REAL wuji_retargeting library for the retargeting path\n  (because that one only needs Python, not a glove).\n- enumerate_calibration_surface(...) defaults dry_run=True so even with\n  a real glove the function will not write to flash unless explicitly\n  asked.\n\n== Status ==\n\nSetting task_real_robot_infra_wuji_glove -> review. Concrete artefacts\ncommitted at 346451e, reproducible via the commands above, all sha256\nlisted. Reviewer can re-run pytest + the mock smoke verbatim.",
+          "created_at": "2026-05-23T14:32:11+08:00",
+          "kind": "result"
         }
       ],
-      "updated_at": "2026-05-23T01:57:45+08:00",
+      "updated_at": "2026-05-23T14:33:24+08:00",
       "due_at": ""
     },
     {
@@ -208,7 +215,7 @@
           "kind": "needs_user"
         }
       ],
-      "updated_at": "2026-05-23T02:01:40+08:00"
+      "updated_at": "2026-05-23T14:33:24+08:00"
     },
     {
       "task_id": "task_real_robot_infra_safety_workspace",
@@ -286,7 +293,7 @@
           "kind": "needs_user"
         }
       ],
-      "updated_at": "2026-05-23T02:00:33+08:00",
+      "updated_at": "2026-05-23T14:33:24+08:00",
       "due_at": ""
     },
     {
@@ -789,7 +796,7 @@
           "kind": "progress"
         }
       ],
-      "updated_at": "2026-05-23T14:24:26+08:00",
+      "updated_at": "2026-05-23T14:33:24+08:00",
       "due_at": ""
     },
     {
@@ -1311,7 +1318,7 @@
           "kind": "blocker"
         }
       ],
-      "updated_at": "2026-05-23T14:24:25+08:00"
+      "updated_at": "2026-05-23T14:33:24+08:00"
     },
     {
       "task_id": "task_drag_demo_backend_compare",
@@ -2199,7 +2206,7 @@
       "assignee": "jingxiang@100.112.245.1",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T14:24:24+08:00",
+      "updated_at": "2026-05-23T14:33:24+08:00",
       "due_at": "2026-05-28"
     },
     {
@@ -2220,7 +2227,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T14:24:24+08:00",
+      "updated_at": "2026-05-23T14:33:24+08:00",
       "due_at": "2026-05-26"
     },
     {
@@ -2233,7 +2240,7 @@
       "assignee": "jingxiang@100.112.245.1",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T14:24:24+08:00",
+      "updated_at": "2026-05-23T14:33:25+08:00",
       "due_at": "2026-05-29"
     },
     {
@@ -2637,7 +2644,7 @@
       "assignee": "boris@100.70.181.44",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T14:25:12+08:00",
+      "updated_at": "2026-05-23T14:33:25+08:00",
       "due_at": "2026-05-25"
     },
     {
@@ -2679,7 +2686,7 @@
           "kind": "blocker"
         }
       ],
-      "updated_at": "2026-05-23T14:25:12+08:00",
+      "updated_at": "2026-05-23T14:33:25+08:00",
       "due_at": "2026-05-25"
     },
     {

@@ -4,7 +4,7 @@
   "title": "Real-Robot Lab Infra",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-05-21T23:43:36+08:00",
+  "updated_at": "2026-05-23T14:22:23+08:00",
   "description": "Engineering stack for teleoperation, data collection, and robot-side validation",
   "summary": "This is the engineering base that keeps weekly research work grounded in real data collection and real-robot validation.",
   "asset": "dashboard/assets/real-robot-infra-collage.png",
@@ -13,6 +13,7 @@
   "details": [
     "Ready inventory baseline: Linker FFG, UDCAP data glove, Cobot Magic / Piper-X, Linker Hand L6, and Daimon UMI.",
     "Completed today: ARX / Fangzhou Wuxian real-robot infra setup.",
+    "ARX SOP received: Operation of ARX Robot Arm for Drag Teaching and Teleoperation Data Collection, JZ/SOP/ROB/001, issued 2026-05-23. It covers trained-operator responsibility, power-up, drag teaching, teleoperation, shutdown, and immediate stop conditions.",
     "Progress on 2026-05-18: dual Franka arms can now be controlled from the same computer.",
     "Progress on 2026-05-21: Gello-controlled dual Franka + Wuji Hand setup is complete. Current control treats the Wuji dexterous hand as a one-DoF gripper via Gello trigger open/close mapping.",
     "Demo waterproofing consumables purchased: disposable nitrile gloves and finger cots for short demo protection.",
@@ -34,6 +35,7 @@
     "真机 infra 必须保留安全边界：限位、急停、低速验证、碰撞恢复和操作记录；后续真机调试至少两人在场，一人专门看急停。",
     "Gello 是被动主臂，软件无法在主臂端实现真正的重力补偿；主臂失手下落可能把 Franka 带向桌面，需要机械重力补偿、阻尼 / 刹车或 FACTR 这类带力反馈的双边遥操作方案。",
     "一次性丁腈手套和指套已经买好，可用于短 demo 防水保护；但 Franka 灵巧手做敲鸡蛋等测试前，仍必须先处理杂线、固定线缆、清空工作区，并在工作区外做防水。",
+    "ARX drag-teaching / teleoperation collection must use the SOP as an operation gate: secure base, gripper, controller, power, cameras, and connections; clear the work area; test slow response first; keep people outside the workspace; stop immediately on abnormal resistance, sound, vibration, communication delay, unstable control, or unexpected motion.",
     "工程状态需要和研究项目解耦：infra 卡片只追踪设备可用性，算法结果留在各项目卡片里。"
   ]
 }
