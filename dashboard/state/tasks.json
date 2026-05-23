@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-23T14:37:47+08:00",
+  "updated_at": "2026-05-23T14:41:19+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1324,9 +1324,16 @@
           "body": "Host/Codex triage: this is not automatically completable from the remote session. Current evidence says 13/100 strict episodes; previous threshold tuning suggests 0.10 rad yields 19 usable episodes, but reaching the initial 100-demo batch still requires onsite collection of additional demos. Keep the remote worker parked on this project; do not keep asking for user review unless new data appears.",
           "created_at": "2026-05-23T14:24:25+08:00",
           "kind": "blocker"
+        },
+        {
+          "comment_id": "clawcross_7cdededba313",
+          "author": "Progress",
+          "body": "Added one-command ingest runbook so onsite operators can drop a new collection batch and immediately see how many additional episodes count toward the 100-demo target. The 81-episode physical-collection blocker is unchanged; this is an unblocker on the dev side so the moment new data lands there is zero pipeline work for the operator.\n\nARTIFACT\n- auto_ingest.sh (sha256 e75b7249f3d794966b36938d385cb5a7961c1f9a0690992a1a25949179c23e22, +x): /home/lv-robotics/workspace/ARX_A5_Dual_ARM/data_collection/auto_ingest.sh\n\nOPERATOR RUNBOOK\nAfter each onsite collection session, drop the new episode folders under /home/lv-robotics/workspace/raw_data/<dataset>/000x/ (success) or /home/lv-robotics/workspace/raw_data/<dataset>/_failed/f000x/ (retained failure) — same convention as today's egg_to_bowl/ layout — then run:\n\n  /home/lv-robotics/workspace/ARX_A5_Dual_ARM/data_collection/auto_ingest.sh\n\nThe script runs three stages in order:\n  [1/3] SOP verifier at 0.10 rad stillness (per the accepted threshold_decision).\n  [2/3] build_initial_batch_manifest.py to refresh initial_batch_manifest.json.\n  [3/3] load_initial_batch.py --include-eval to confirm every counted episode opens cleanly.\nFinal block prints counted_toward_target / demo_target, eval_tier_strict (held-out for terminal-stability eval), and by_dataset_counted. Exit code 0 on success; 1 if any counted episode fails the loader contract (investigate before re-running training).\n\nVERIFICATION RUN (today, no new data — current 19/100 state)\n- cmd: /home/lv-robotics/workspace/ARX_A5_Dual_ARM/data_collection/auto_ingest.sh > /tmp/auto_ingest.log 2>&1\n- script exit: 0\n- final block printed:\n    counted_toward_target = 19 / 100  (delta 81)\n    eval_tier_strict       = 13  (held-out)\n    by_dataset_counted     = {'egg_scoop_v1': 3, 'egg_to_bowl': 16}\n- loader smoke: OK: all 19 counted episodes pass the loader contract (and 13 eval episodes)\n- updated artifact hashes:\n    raw_data_full_report.json: 200c2b7669d05e123955f45623e2e9218d8b3465ffba450e8efd3f10dff487b2 (re-run, unchanged)\n    initial_batch_manifest.json: 58b3ffb76eacfd1ba12cbd41796da82d9311d421d0001f7c3c487251d23d4ed1 (re-run, unchanged)\n\nSTATUS UNCHANGED\n- task_drag_demo_initial_batch stays blocked: 81 physical demonstrations still required onsite (operators Boris/Gaochen/Jingxiang ~30 each, Xiaobin observe — per the 2026-05-19 collection plan).\n- Once a real onsite batch lands under ~/workspace/raw_data, the operator runs auto_ingest.sh and the manifest/loader pipeline lights up immediately.",
+          "created_at": "2026-05-23T14:41:17+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T14:33:24+08:00"
+      "updated_at": "2026-05-23T14:41:17+08:00"
     },
     {
       "task_id": "task_drag_demo_backend_compare",
@@ -2214,7 +2221,7 @@
       "assignee": "jingxiang@100.112.245.1",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T14:33:24+08:00",
+      "updated_at": "2026-05-23T14:41:07+08:00",
       "due_at": "2026-05-28"
     },
     {
@@ -2235,7 +2242,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T14:33:24+08:00",
+      "updated_at": "2026-05-23T14:41:07+08:00",
       "due_at": "2026-05-26"
     },
     {
@@ -2248,7 +2255,7 @@
       "assignee": "jingxiang@100.112.245.1",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T14:33:25+08:00",
+      "updated_at": "2026-05-23T14:41:07+08:00",
       "due_at": "2026-05-29"
     },
     {
@@ -2652,7 +2659,7 @@
       "assignee": "boris@100.70.181.44",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-23T14:33:25+08:00",
+      "updated_at": "2026-05-23T14:41:07+08:00",
       "due_at": "2026-05-25"
     },
     {
@@ -2694,7 +2701,7 @@
           "kind": "blocker"
         }
       ],
-      "updated_at": "2026-05-23T14:33:25+08:00",
+      "updated_at": "2026-05-23T14:41:07+08:00",
       "due_at": "2026-05-25"
     },
     {
