@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-25T00:10:33+08:00",
+  "updated_at": "2026-05-25T00:27:30+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -3220,6 +3220,29 @@
       "comments": [],
       "updated_at": "2026-05-25T00:10:32+08:00",
       "due_at": ""
+    },
+    {
+      "task_id": "task_self_improving_tactile_stacking_pilot",
+      "project_id": "self-improving-agents",
+      "title": "启动 tactile 叠叠乐 pilot",
+      "description": "找一个 master 同学做小型 stacking / 叠叠乐练手任务：用 VTA/VLA 模型学习触觉辅助堆叠，配一个可打印/定制的特殊 gripper，并接入戴盟触觉。目标是把 grasp angle、slip、contact stability、stack collapse 等失败变成 AgenticSim 的 trace-memory 和 eval-gate 样例。",
+      "status": "needs_user",
+      "priority": "medium",
+      "assignee": "master student TBD / Zheng Yuhang for gripper timing",
+      "result": null,
+      "started_at": "2026-05-25",
+      "due_at": "",
+      "comments": [
+        {
+          "comment_id": "comment_tactile_stacking_pilot_scope_20260525",
+          "author": "Boris / Codex",
+          "body": "Scope note from Boris: “叠叠乐” can be a compact training/evaluation task for a master student. Use Daimon tactile sensing and a special gripper; ask Zheng Yuhang whether the Daimon-side gripper package matched to the previous UMI gripper is ready and when it can be brought to Singapore.",
+          "created_at": "2026-05-25T00:36:00+08:00",
+          "kind": "needs_user"
+        }
+      ],
+      "updated_at": "2026-05-25T00:27:30+08:00",
+      "completed_at": null
     }
   ]
 }
