@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-24T21:01:44+08:00",
+  "updated_at": "2026-05-24T22:46:25+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1345,9 +1345,16 @@
           "body": "Heartbeat 2026-05-24 from drag-demo-lvrobotics@100.113.210.127: harness daemon at 127.0.0.1:51200 was unreachable ~2026-05-23 14:xx through ~2026-05-24, now LISTENING again. Status unchanged: blocked on onsite physical collection (19/100 counted at 0.10 rad, delta 81, eval tier 13). Toolchain hashes unchanged from the 2026-05-23T14:41 runbook update. due_at 2026-05-21 is now 3 days past — host decision needed on onsite collection scheduling or due_at renegotiation. No new training run today (smoke baseline from 2026-05-22 still the most recent reproducible evidence). Re-pushed via task-md import as well to exercise the new TASK.md lifecycle path.",
           "created_at": "2026-05-24T21:01:19+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_f560daa24043",
+          "author": "Result",
+          "body": "Dev-side advancement (no new data needed): stillness-failure breakdown for the 102 near-miss episodes — actionable operator guidance for the next collection session.\n\nARTIFACTS\n- stillness_failure_breakdown.py (sha256 aa948681c06368a8676c93ef25de4928daca457463e3a5b7b029997010b1a787): /home/lv-robotics/workspace/ARX_A5_Dual_ARM/data_collection/stillness_failure_breakdown.py\n- stillness_failure_breakdown.json (sha256 33818318425fe331ec527985326d4658acbc0df67284c06c268dfddd50d04a15, 32 KB): /home/lv-robotics/workspace/.verifier_reports/stillness_failure_breakdown.json\n- stillness_failure_brief.md (sha256 6c4e2c14cd9db5cbf22de8257cacf6daa9af056f70ee54449dca7f06f0603b46): /home/lv-robotics/workspace/.verifier_reports/stillness_failure_brief.md\n\nREPRODUCE\n~/miniconda3/envs/robo_ctrl/bin/python ~/workspace/ARX_A5_Dual_ARM/data_collection/stillness_failure_breakdown.py --report ~/workspace/.verifier_reports/raw_data_full_report.json --out ~/workspace/.verifier_reports/stillness_failure_breakdown.json --brief ~/workspace/.verifier_reports/stillness_failure_brief.md\n\nFINDINGS (threshold 0.10 rad ~5.7 deg, 102 near-miss episodes — everything passes except trailing-2s stillness)\n- Right arm fails in 97/102 near-misses (95%). Median excess 0.180 rad, max 1.400 rad.\n- Left arm fails in 30/102 (often co-occurring with right arm). Median excess 0.294 rad, max 1.470 rad.\n- Right arm joint-level histogram (worst joint per failing episode):\n    joint 4: 64 episodes  <-- dominant offender (~63% of near-misses)\n    joint 3: 14 episodes\n    joint 2:  9 episodes\n    joint 1:  5 episodes\n    joint 5:  3 episodes\n- Left arm joint-level histogram:\n    joint 5: 21 episodes  <-- left-arm dominant offender\n    joint 0:  3 episodes\n    joint 4:  3 episodes\n\nOPERATOR GUIDANCE (next collection session)\nHolding right arm joint 4 still during the trailing 2 s would alone recover ~64/102 episodes (worst-case). Adding right arm joint 3 stability covers another ~14. Suggest: at the end of the rotation, pause and consciously freeze the wrist/elbow region of the right arm (the active manipulator for the SOP) before counting to 2 seconds. The left arm is mostly fine as long as it is parked passively; joint 5 there is a smaller-but-real offender, possibly due to gripper-finger settling.\n\nSTATUS UNCHANGED\nTask remains blocked: this is dev-side actionable feedback that operators can use to improve the SOP-yield rate, but it does not itself produce new episodes. Onsite collection still required per the 2026-05-19 plan.",
+          "created_at": "2026-05-24T22:46:18+08:00",
+          "kind": "result"
         }
       ],
-      "updated_at": "2026-05-24T21:01:43+08:00"
+      "updated_at": "2026-05-24T22:46:25+08:00"
     },
     {
       "task_id": "task_drag_demo_backend_compare",
@@ -2235,7 +2242,7 @@
       "assignee": "jingxiang@100.112.245.1",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-24T21:01:44+08:00",
+      "updated_at": "2026-05-24T22:46:25+08:00",
       "due_at": "2026-05-28"
     },
     {
@@ -2256,7 +2263,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-24T21:01:44+08:00",
+      "updated_at": "2026-05-24T22:46:25+08:00",
       "due_at": "2026-05-26"
     },
     {
@@ -2269,7 +2276,7 @@
       "assignee": "jingxiang@100.112.245.1",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-24T21:01:44+08:00",
+      "updated_at": "2026-05-24T22:46:25+08:00",
       "due_at": "2026-05-29"
     },
     {
@@ -2673,7 +2680,7 @@
       "assignee": "boris@100.70.181.44",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-24T21:01:44+08:00",
+      "updated_at": "2026-05-24T22:46:25+08:00",
       "due_at": "2026-05-25"
     },
     {
@@ -2715,7 +2722,7 @@
           "kind": "blocker"
         }
       ],
-      "updated_at": "2026-05-24T21:01:44+08:00",
+      "updated_at": "2026-05-24T22:46:25+08:00",
       "due_at": "2026-05-25"
     },
     {
