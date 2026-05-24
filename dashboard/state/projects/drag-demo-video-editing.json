@@ -4,7 +4,7 @@
   "title": "Drag-Demo Video Editing",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-05-22T08:11:36+08:00",
+  "updated_at": "2026-05-24T23:47:00+08:00",
   "description": "Remove human hands from drag-teaching robot data",
   "summary": "This project turns drag-teaching demonstrations into cleaner robot-learning videos by deleting the human operator hands while preserving robot motion, object contacts, and task state.",
   "asset": "dashboard/assets/drag-demo-video-editing.png",
@@ -24,7 +24,9 @@
     "Collection target: 100 valid demonstrations. Success means the egg mold lands fully inside the white plate, the spatula contact stays within the yellow gripper region, and the final 2-second stillness is clear.",
     "Failure episodes should be kept, not discarded: black arm contact outside the gripper, spatula head touching the pan wall, egg mold dropping in transit, egg not entering the plate, insufficient final stillness, long mid-task pause, black frames, or obvious video abnormality should be marked n and saved under f000x/.",
     "SOP capture stack: cam_top, cam_left_wrist, and cam_right_wrist RGB/depth plus eef_pose.pkl, image_timestamps.pkl, and state.pkl. Each episode should pass a 9-file completeness check before it counts as usable data.",
-    "Collection controls: green long gloves with sleeves for color-key hand inpainting, no head occlusion of the top camera, clean table with only pan and plate, move-stop-grip / move-stop-rotate separation, and light-time diversity across morning, afternoon, and cloudy or other conditions."
+    "Collection controls: green long gloves with sleeves for color-key hand inpainting, no head occlusion of the top camera, clean table with only pan and plate, move-stop-grip / move-stop-rotate separation, and light-time diversity across morning, afternoon, and cloudy or other conditions.",
+    "Control-loop logging update: new drag-demo collection should record position-loop, velocity-loop, and current-loop signals together with RGB/depth, EEF pose, timestamps, and state.pkl so later analysis can separate motion intent, tracking behavior, and contact / load response.",
+    "Inpainting backend update: explicitly test FLUX.1-Fill-dev for masked hand removal; judge it with diff-map QA and contact-preservation checks rather than visual plausibility alone."
   ],
   "task_ids": [
     "task_drag_demo_initial_batch",
@@ -32,7 +34,8 @@
     "task_drag_demo_diff_map_qa",
     "task_drag_demo_sop_episode_verifier",
     "task_drag_demo_finetuning_comparison",
-    "task_drag_demo_masks_collection_aids"
+    "task_drag_demo_masks_collection_aids",
+    "task_drag_demo_flux_fill_dev_inpaint_probe"
   ],
   "timeline": {
     "sprint_start": "2026-05-16",
@@ -52,6 +55,7 @@
     "Diff maps need object / contact consistency checks; a low difference score can still hide harmful hallucination.",
     "Drag demonstrations may have dynamics that differ from autonomous execution, so teleop-only and mixed-data baselines are required.",
     "Mask constraints may be needed before the pipeline can scale beyond the first spatula egg-transfer task.",
-    "Before counting the 100-sequence batch, enforce SOP gates: green-sleeve gloves, 3-camera sync, 2-second stillness marker, y/n success label, f000x failure retention, and 9-file episode completeness."
+    "Before counting the 100-sequence batch, enforce SOP gates: green-sleeve gloves, 3-camera sync, 2-second stillness marker, y/n success label, f000x failure retention, and 9-file episode completeness.",
+    "Collection logging decision: future episodes should include position-loop, velocity-loop, and current-loop traces; RGB/depth-only videos are not enough to diagnose drag dynamics or train reliable fine-tuning baselines."
   ]
 }

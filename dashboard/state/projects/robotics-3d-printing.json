@@ -2,15 +2,16 @@
   "schema_version": "project.v1",
   "project_id": "robotics-3d-printing",
   "title": "Robotics + 3D Printing",
-  "bucket": "active",
-  "status": "ongoing",
-  "updated_at": "2026-05-18T12:20:00+08:00",
+  "bucket": "research",
+  "status": "survey",
+  "updated_at": "2026-05-25T00:00:00+08:00",
   "description": "Agentic product design to robotic printer-farm assembly",
-  "summary": "Build a Product-on-Demand loop that goes beyond printable CAD: AI designs the part, helper tooling, and assembly plan; a robotic printer-farm cell removes finished prints from the printer and uses same-plate printed jigs / tools for sorting and assembly.",
+  "summary": "Survey-stage Product-on-Demand robotics + 3D printing track; keep the concept and references, but do not treat it as an active paper/prototype track while Romeo is busy over the summer.",
   "asset": "dashboard/assets/robotics-3d-printing-platform.png",
   "asset_alt": "Allo-style generated product design exported to a 3D printing workflow",
   "asset_caption": "Reference video: generated structure moves toward an STL / 3D-printing handoff.",
   "details": [
+    "Survey status for summer: Romeo is too busy during the summer, so keep this as the last survey / scoping item until collaboration bandwidth returns.",
     "Target is existing-object modification plus robot-operable fabrication, not generic decorative text-to-3D.",
     "Pipeline: VLM object analysis -> design spec -> concept / asset generation -> code-controlled CAD cleanup -> printability checks -> same-plate jigs / tools -> slicer / printer queue -> robot takeout and assembly plan.",
     {
@@ -52,6 +53,7 @@
     "Direct printer handoff needs checks for watertight meshes, wall thickness, overhang/support, material constraints, queueing, and safety.",
     "Robot takeout is a separate automation problem: bed adhesion, failed prints, hot surfaces, collision recovery, and printer reset need explicit sensing and safety states.",
     "Same-plate printed tools are promising, but they need tolerance, stiffness, material, and contamination checks before relying on them for assembly.",
-    "The core value should be retrofit + printer-farm assembly for real objects, not another standalone text-to-3D model generator."
+    "The core value should be retrofit + printer-farm assembly for real objects, not another standalone text-to-3D model generator.",
+    "Status decision: pause Robotics + 3D Printing as an active track because Romeo is overloaded this summer; keep only survey-level references and revisit when collaboration bandwidth returns."
   ]
 }

@@ -4,7 +4,7 @@
   "title": "Real-Robot Lab Infra",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-05-23T14:22:23+08:00",
+  "updated_at": "2026-05-24T23:59:59+08:00",
   "description": "Engineering stack for teleoperation, data collection, and robot-side validation",
   "summary": "This is the engineering base that keeps weekly research work grounded in real data collection and real-robot validation.",
   "asset": "dashboard/assets/real-robot-infra-collage.png",
@@ -17,8 +17,12 @@
     "Progress on 2026-05-18: dual Franka arms can now be controlled from the same computer.",
     "Progress on 2026-05-21: Gello-controlled dual Franka + Wuji Hand setup is complete. Current control treats the Wuji dexterous hand as a one-DoF gripper via Gello trigger open/close mapping.",
     "Demo waterproofing consumables purchased: disposable nitrile gloves and finger cots for short demo protection.",
-    "Next input stack: test MANUS glove + VIVE Tracker for higher-precision hand teleoperation.",
-    "Before Feibo uses the Franka dexterous-hand setup for egg-cracking tests, cable-manage the setup with organizers / zip ties, clear an empty work area, and waterproof the outside area."
+    "Next input stack: complete MANUS + VIVE as one task: glove streaming, VIVE tracker listing, external/time-sync record, retargeting replay verifier, and ACE Teleop wrist-ring fallback if VIVE is skipped.",
+    "Before Feibo uses the Franka dexterous-hand setup for egg-cracking tests, cable-manage the setup with organizers / zip ties, clear an empty work area, and waterproof the outside area.",
+    "Teacher demo request: plan a dexterous-hand knife-cutting-meat demo, but treat it as a safety-gated manipulation demo rather than a casual kitchen task. Define fixture, blade guard / boundary, low-speed rehearsal, emergency-stop coverage, and multi-person supervision before any live cutting.",
+    "FACTR procurement route: purchase through Jingte Intelligent; keep the dashboard task focused on procurement path, gravity compensation, and force-feedback safety value.",
+    "Wrist tracking fallback: if VIVE Tracker is not used for wrist pose, evaluate an ACE Teleop-style wrist ring to replace the Gello-end trigger as the wrist / intent input device.",
+    "MANUS + VIVE merge: hardware verifier requirements are folded into the single MANUS + VIVE task; do not track a separate verifier TODO."
   ],
   "task_ids": [
     "task_real_robot_infra_arx_setup",
@@ -27,7 +31,9 @@
     "task_real_robot_infra_wuji_glove",
     "task_real_robot_infra_manus_vive_tracker",
     "task_real_robot_infra_safety_workspace",
-    "task_real_robot_infra_factr_force_feedback"
+    "task_real_robot_infra_factr_force_feedback",
+    "task_real_robot_infra_knife_meat_demo_plan",
+    "task_real_robot_infra_ace_wrist_ring"
   ],
   "risks_decisions": [
     "不同设备的驱动、SDK、ROS topic 和日志格式需要尽早统一，否则后面每条数据都会带维护成本。",
@@ -36,6 +42,8 @@
     "Gello 是被动主臂，软件无法在主臂端实现真正的重力补偿；主臂失手下落可能把 Franka 带向桌面，需要机械重力补偿、阻尼 / 刹车或 FACTR 这类带力反馈的双边遥操作方案。",
     "一次性丁腈手套和指套已经买好，可用于短 demo 防水保护；但 Franka 灵巧手做敲鸡蛋等测试前，仍必须先处理杂线、固定线缆、清空工作区，并在工作区外做防水。",
     "ARX drag-teaching / teleoperation collection must use the SOP as an operation gate: secure base, gripper, controller, power, cameras, and connections; clear the work area; test slow response first; keep people outside the workspace; stop immediately on abnormal resistance, sound, vibration, communication delay, unstable control, or unexpected motion.",
-    "工程状态需要和研究项目解耦：infra 卡片只追踪设备可用性，算法结果留在各项目卡片里。"
+    "工程状态需要和研究项目解耦：infra 卡片只追踪设备可用性，算法结果留在各项目卡片里。",
+    "Teacher knife demo safety: using a dexterous hand to hold a knife and cut meat must start from fixture / dummy-material rehearsal, speed limits, blade-safe workspace, and explicit abort conditions; do not combine sharp-tool trials with single-person operation.",
+    "FACTR procurement route: FACTR purchase should go through Jingte Intelligent rather than the slow school process, while xArm / already-started school items remain separate."
   ]
 }

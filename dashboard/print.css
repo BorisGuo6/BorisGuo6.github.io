@@ -1227,11 +1227,78 @@ figcaption {
 
 .task-status-button:focus-visible,
 .task-status-option:focus-visible,
+.task-create-detail > summary:focus-visible,
+.task-create-form input:focus-visible,
+.task-create-form textarea:focus-visible,
+.task-create-form select:focus-visible,
+.task-create-form button:focus-visible,
 .comment-form textarea:focus-visible,
 .comment-form button:focus-visible,
 .comment-delete:focus-visible {
   outline: 3px solid rgba(15, 118, 110, 0.28);
   outline-offset: 2px;
+}
+
+.task-create-detail {
+  margin: -2px 0 8px;
+  border: 1px dashed #bfd4d1;
+  background: #fbfdfc;
+}
+
+.task-create-detail > summary {
+  min-height: 30px;
+  padding: 5px 8px;
+  cursor: pointer;
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.task-create-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 88px 132px auto;
+  gap: 7px;
+  padding: 0 8px 8px;
+}
+
+.task-create-form textarea {
+  grid-column: 1 / -1;
+  min-height: 44px;
+  resize: vertical;
+}
+
+.task-create-form input,
+.task-create-form textarea,
+.task-create-form select,
+.task-create-form button {
+  min-height: 34px;
+  border: 1px solid #c5d1dc;
+  border-radius: 6px;
+  background: #ffffff;
+  color: var(--ink);
+  font: inherit;
+  font-size: 12px;
+}
+
+.task-create-form input,
+.task-create-form textarea,
+.task-create-form select {
+  width: 100%;
+  padding: 6px 8px;
+}
+
+.task-create-form button {
+  padding: 0 12px;
+  color: var(--accent);
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.task-create-form button:disabled {
+  cursor: progress;
+  opacity: 0.6;
 }
 
 .task-meta .local-edit {
@@ -2154,6 +2221,10 @@ body.lightbox-open {
 
   .task-card-header {
     display: grid;
+  }
+
+  .task-create-form {
+    grid-template-columns: 1fr;
   }
 
   .comment-form {

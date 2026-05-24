@@ -70,16 +70,6 @@
         <div class="story-subsection" data-story-subsection></div>
       </details>
 
-      <details class="section fold-section" data-details-key="section:weekly-briefs">
-        <summary>
-          <span>
-            <strong>Weekly Briefs</strong>
-            <em>Temporary meeting subpages and weekly discussion material.</em>
-          </span>
-        </summary>
-        <div class="weekly-brief-list" data-weekly-brief-list></div>
-      </details>
-
       <section class="section project-status-section">
         <div class="section-title">
           <h2>Project Status</h2>
@@ -427,6 +417,22 @@
           task.comments = comments;
         }
 
+        function addTask(task) {
+          if (!taskDoc) {
+            taskDoc = { schema_version: "tasks.v1", tasks: [] };
+          }
+          if (!Array.isArray(taskDoc.tasks)) {
+            taskDoc.tasks = [];
+          }
+          const existing = getTaskById(task.task_id);
+          if (existing) {
+            Object.assign(existing, task);
+            return existing;
+          }
+          taskDoc.tasks.push(task);
+          return task;
+        }
+
         function formatDate(value) {
           if (!value) {
             return "";
@@ -440,6 +446,30 @@
           const month = String(date.getMonth() + 1).padStart(2, "0");
           const day = String(date.getDate()).padStart(2, "0");
           return `${year}-${month}-${day}`;
+        }
+
+        function slugifyTaskId(value) {
+          return String(value || "")
+            .trim()
+            .toLowerCase()
+            .normalize("NFKD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .replace(/[^a-z0-9]+/g, "_")
+            .replace(/^_+|_+$/g, "")
+            .slice(0, 48);
+        }
+
+        function makeTaskId(projectId, title) {
+          const date = formatDateInput(new Date()).replace(/-/g, "");
+          const base = `task_${slugifyTaskId(projectId) || "project"}_${slugifyTaskId(title) || "todo"}_${date}`;
+          const existingIds = new Set((taskDoc?.tasks || []).map((task) => task.task_id));
+          let taskId = base;
+          let suffix = 2;
+          while (existingIds.has(taskId)) {
+            taskId = `${base}_${suffix}`;
+            suffix += 1;
+          }
+          return taskId;
         }
 
         function isoWeekLabel(date) {
@@ -531,7 +561,6 @@
             summary: snapshot.summary || {},
             storyline: snapshot.storyline || {},
             visual_references: snapshot.visual_references || [],
-            weekly_briefs: snapshot.weekly_briefs || [],
             project_buckets: snapshot.project_buckets || [],
             projects: projects.map((project) => ({
               project_id: project.project_id,
@@ -737,7 +766,6 @@
             storylineSummary.textContent = portfolio.storyline.summary;
           }
           renderStoryline(portfolio.storyline);
-          renderWeeklyBriefs(portfolio.weekly_briefs);
           renderProjectBuckets(portfolio);
         }
 
@@ -797,45 +825,55 @@
           }
         }
 
-        function renderWeeklyBriefs(briefs) {
-          const list = document.querySelector("[data-weekly-brief-list]");
-          if (!list) {
-            return;
-          }
-          const items = Array.isArray(briefs) && briefs.length > 0
-            ? briefs
-            : [{
-                title: "2026-05-23 Weekly Brief",
-                date: "2026-05-23",
-                href: "weekly-briefs/2026-05-23/",
-                summary: "Temporary meeting page for this week's catering robot capability boundary analysis, lab space / force-feedback arm procurement options, Self-Improving Agents proposal context, and ByteDance scholarship opportunity.",
-                tags: ["weekly", "meeting", "temporary"],
-              }];
-          replaceChildrenPreservingDetails(list, ...items.map((brief) => {
-            const article = document.createElement("article");
-            article.className = "weekly-brief-card";
+        function createTaskCreatePanel(projectRef) {
+          const details = document.createElement("details");
+          details.className = "task-create-detail";
+          preserveDetailsOpenState(details, `project:${projectRef.project_id}:task-create`, false);
 
-            const title = document.createElement("strong");
-            title.textContent = brief.title || brief.date || "Weekly brief";
+          const summary = document.createElement("summary");
+          summary.textContent = "Add TODO";
 
-            const meta = document.createElement("div");
-            meta.className = "weekly-brief-meta";
-            if (brief.date) {
-              meta.append(createChip(formatDate(brief.date)));
-            }
-            (brief.tags || []).forEach((tag) => meta.append(createChip(tag)));
+          const form = document.createElement("form");
+          form.className = "task-create-form";
+          form.dataset.projectId = projectRef.project_id;
 
-            const summary = document.createElement("p");
-            summary.textContent = brief.summary || "";
-            makeTextCollapsible(summary, brief.summary || "", { maxLength: 220, maxLines: 3, stateKey: `weekly-brief:${brief.date || index}:summary` });
+          const title = document.createElement("input");
+          title.name = "title";
+          title.type = "text";
+          title.required = true;
+          title.maxLength = 180;
+          title.placeholder = "Title";
+          title.setAttribute("aria-label", `New TODO title for ${projectRef.title || projectRef.project_id}`);
 
-            const link = document.createElement("a");
-            link.href = brief.href || "#";
-            link.textContent = "Open weekly brief";
+          const description = document.createElement("textarea");
+          description.name = "description";
+          description.rows = 2;
+          description.maxLength = 1200;
+          description.placeholder = "Description";
+          description.setAttribute("aria-label", `New TODO description for ${projectRef.title || projectRef.project_id}`);
 
-            article.append(title, meta, summary, link);
-            return article;
-          }));
+          const priority = document.createElement("select");
+          priority.name = "priority";
+          priority.setAttribute("aria-label", "Priority");
+          ["medium", "high", "low"].forEach((value) => {
+            const option = document.createElement("option");
+            option.value = value;
+            option.textContent = value;
+            priority.append(option);
+          });
+
+          const due = document.createElement("input");
+          due.name = "due_at";
+          due.type = "date";
+          due.setAttribute("aria-label", "Due date");
+
+          const button = document.createElement("button");
+          button.type = "submit";
+          button.textContent = "Add";
+
+          form.append(title, description, priority, due, button);
+          details.append(summary, form);
+          return details;
         }
 
         function createProjectShell(projectRef) {
@@ -870,9 +908,10 @@
           taskPanel.className = "project-panel";
           const taskHeading = document.createElement("h3");
           taskHeading.textContent = "Tasks";
+          const taskCreate = createTaskCreatePanel(projectRef);
           const taskList = document.createElement("ul");
           taskList.className = "todo-list project-list";
-          taskPanel.append(taskHeading, taskList);
+          taskPanel.append(taskHeading, taskCreate, taskList);
 
           const decisionPanel = document.createElement("details");
           decisionPanel.className = "project-panel decision-panel";
@@ -1721,6 +1760,40 @@
             .subscribe();
         }
 
+        async function insertSupabaseTask(payload) {
+          if (localWriteApiAvailable) {
+            const result = await postLocalWriteApi("task-create", payload);
+            if (result.task) {
+              return result.task;
+            }
+          }
+          if (supabaseSession?.user && supabaseIsEditor) {
+            const now = new Date().toISOString();
+            const task = {
+              task_id: payload.task_id || makeTaskId(payload.project_id, payload.title),
+              project_id: payload.project_id,
+              title: payload.title,
+              description: payload.description || "",
+              status: payload.status || "todo",
+              priority: payload.priority || "medium",
+              assignee: payload.assignee || null,
+              due_at: payload.due_at || null,
+              completed_at: payload.status === "done" ? now.slice(0, 10) : null,
+              payload: { source: "dashboard-ui" },
+            };
+            const { data, error } = await supabaseClient
+              .from("tasks")
+              .insert(task)
+              .select("*")
+              .single();
+            if (error) {
+              throw error;
+            }
+            return mapSupabaseTask(data, new Map());
+          }
+          throw new Error("Sign in as a dashboard editor or start the local write API to write Supabase state.");
+        }
+
         async function updateSupabaseTaskStatus(taskId, status) {
           if (localWriteApiAvailable) {
             await postLocalWriteApi("task-status", { task_id: taskId, status });
@@ -1874,6 +1947,46 @@
               }
               setSyncStatus("Check email", "readonly");
               authForm.reset();
+            });
+            return;
+          }
+
+          const taskCreateForm = event.target.closest?.(".task-create-form");
+          if (taskCreateForm) {
+            event.preventDefault();
+            const title = taskCreateForm.elements.title.value.trim();
+            const description = taskCreateForm.elements.description.value.trim();
+            const priority = taskCreateForm.elements.priority.value || "medium";
+            const dueAt = taskCreateForm.elements.due_at.value || "";
+            const projectId = taskCreateForm.dataset.projectId;
+            if (!title || !projectId) {
+              return;
+            }
+            if (!isSupabaseWritable()) {
+              setSyncStatus(supabaseSession?.user ? "No dashboard write access" : "Sign in to write", "readonly");
+              return;
+            }
+            const button = taskCreateForm.querySelector("button[type='submit']");
+            button.disabled = true;
+            const payload = {
+              task_id: makeTaskId(projectId, title),
+              project_id: projectId,
+              title,
+              description,
+              status: "todo",
+              priority,
+              due_at: dueAt,
+            };
+            insertSupabaseTask(payload).then((task) => {
+              addTask(task);
+              taskCreateForm.reset();
+              renderAllProjects();
+              setSupabaseSyncStatus();
+            }).catch((error) => {
+              console.warn("Supabase task insert failed", error);
+              setSyncStatus(`TODO add failed: ${error.message || "unknown"}`, "fallback");
+            }).finally(() => {
+              button.disabled = false;
             });
             return;
           }

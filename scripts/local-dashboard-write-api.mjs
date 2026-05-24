@@ -7,6 +7,7 @@ const repoRoot = path.resolve(import.meta.dirname, "..");
 const envPath = path.join(repoRoot, ".env");
 const tasksPath = path.join(repoRoot, "dashboard", "state", "tasks.json");
 const allowedTaskStatuses = new Set(["todo", "active", "blocked", "needs_user", "review", "done"]);
+const allowedTaskPriorities = new Set(["low", "medium", "high"]);
 const maxCommentLength = 4000;
 
 function loadEnv(text) {
@@ -44,6 +45,61 @@ async function readJsonFile(filePath) {
 
 async function writeJsonFile(filePath, data) {
   await writeFile(filePath, `${JSON.stringify(data, null, 2)}\n`);
+}
+
+function slugify(value) {
+  return String(value || "")
+    .trim()
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "_")
+    .replace(/^_+|_+$/g, "")
+    .slice(0, 48);
+}
+
+function optionalString(value) {
+  return typeof value === "string" && value.trim() ? value.trim() : "";
+}
+
+function makeTaskId(projectId, title, existingIds) {
+  const date = new Date().toISOString().slice(0, 10).replace(/-/g, "");
+  const base = `task_${slugify(projectId) || "project"}_${slugify(title) || "todo"}_${date}`;
+  let taskId = base;
+  let suffix = 2;
+  while (existingIds.has(taskId)) {
+    taskId = `${base}_${suffix}`;
+    suffix += 1;
+  }
+  return taskId;
+}
+
+async function createLocalTask(input) {
+  const doc = await readJsonFile(tasksPath);
+  if (!Array.isArray(doc.tasks)) {
+    throw new Error("tasks.json does not contain a tasks array");
+  }
+  const existingIds = new Set(doc.tasks.map((task) => task?.task_id).filter(Boolean));
+  const updatedAt = new Date().toISOString();
+  const status = input.status || "todo";
+  const task = {
+    task_id: input.task_id && !existingIds.has(input.task_id) ? input.task_id : makeTaskId(input.project_id, input.title, existingIds),
+    project_id: input.project_id,
+    title: input.title,
+    description: input.description || "",
+    status,
+    priority: input.priority || "medium",
+    assignee: input.assignee || null,
+    result: null,
+    comments: [],
+    updated_at: updatedAt,
+  };
+  if (input.due_at) task.due_at = input.due_at;
+  if (status === "done") task.completed_at = updatedAt.slice(0, 10);
+  doc.updated_at = updatedAt;
+  doc.tasks.push(task);
+  await writeJsonFile(tasksPath, doc);
+  return task;
 }
 
 async function updateLocalTaskStatus(taskId, status) {
@@ -167,6 +223,53 @@ async function main() {
         });
         const localUpdate = await updateLocalTaskStatus(taskId, status);
         return sendJson(response, 200, { ok: true, task_id: taskId, status, ...localUpdate }, origin);
+      }
+
+      if (request.method === "POST" && url.pathname === "/task-create") {
+        const body = await readRequestJson(request);
+        const projectId = requireString(body.project_id, "project_id");
+        const title = requireString(body.title, "title");
+        const description = optionalString(body.description);
+        const status = optionalString(body.status) || "todo";
+        const priority = optionalString(body.priority) || "medium";
+        const dueAt = optionalString(body.due_at);
+        const assignee = optionalString(body.assignee);
+        if (!allowedTaskStatuses.has(status)) {
+          throw new Error(`Invalid status: ${status}`);
+        }
+        if (!allowedTaskPriorities.has(priority)) {
+          throw new Error(`Invalid priority: ${priority}`);
+        }
+        if (dueAt && !/^\d{4}-\d{2}-\d{2}$/.test(dueAt)) {
+          throw new Error("Invalid due_at date");
+        }
+        const task = await createLocalTask({
+          project_id: projectId,
+          title,
+          description,
+          status,
+          priority,
+          due_at: dueAt,
+          assignee,
+          task_id: optionalString(body.task_id),
+        });
+        await agentEvent({
+          action: "task_upsert",
+          project_id: task.project_id,
+          task_id: task.task_id,
+          title: task.title,
+          description: task.description,
+          status: task.status,
+          priority: task.priority,
+          payload: {
+            assignee: task.assignee,
+            due_at: task.due_at || null,
+            completed_at: task.completed_at || null,
+            source_updated_at: task.updated_at,
+            payload: { source: "dashboard/state/tasks.json" },
+          },
+        });
+        return sendJson(response, 200, { ok: true, task }, origin);
       }
 
       if (request.method === "POST" && url.pathname === "/task-comment") {

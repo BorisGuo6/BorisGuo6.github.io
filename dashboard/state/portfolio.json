@@ -5,13 +5,13 @@
   "subtitle": "World models, self-improving simulators, teleop acceleration, and robotics + 3D printing",
   "week": "2026-W21",
   "date": "2026-05-22",
-  "updated_at": "2026-05-22T00:01:04+08:00",
+  "updated_at": "2026-05-25T00:00:00+08:00",
   "state_root": "dashboard/state",
   "summary": {
     "focus": "Frame the whole portfolio as one loop: real-robot infra collects and validates data; UMI / layered / HOI projects structure it; simulator and PoD projects turn it into robot tasks, evaluation, and physical outputs.",
-    "progress": "ARX infra was completed; ready hardware baseline is recorded; Franka dual-arm same-computer control is working; Gello-controlled dual Franka + Wuji Hand is complete, with Wuji currently used as a one-DoF gripper via Gello trigger open/close mapping; disposable nitrile gloves and finger cots were purchased for short waterproof demos; UMI annotation panel and Gemini frame test are done; AgenticSim now has 129 registered Gymnasium environments from LeHome / LeHome-challenge / RoboLab with 28/28 tests passing; UMI base-model / codebase tests, proposal writing, and Robotics + 3D Printing remain active.",
-    "blockers": "Cross-device sync, calibration, and data schema; MANUS glove + VIVE Tracker retargeting; Gello passive-master gravity-compensation risk; real-robot cable management / emergency-stop coverage / full waterproofing; UMI base-model route and evaluation set; AgenticSim proposal scope / trace-memory schema / eval-gate design; CAD-to-printer plus robot takeout / assembly handoff; scope boundaries for survey tracks.",
-    "next": "After the completed Gello + Wuji one-DoF gripper demo path, test MANUS glove + VIVE Tracker for higher-precision hand teleoperation, harden the real-robot safety workspace, ask Yuhang to compare mechanical master-arm gravity compensation / damping / brake against FACTR-style force-feedback teleoperation, prepare the UMI test set for Haoyu, run TI2V / AI2V inference, fold WEM-style world/ego decomposition into the layered-WM notes, define the agentic Real2Sim2Real-VLA evaluation pipeline, and scope the PoD prototype."
+    "progress": "ARX infra is ready; Gello-controlled dual Franka + Wuji Hand is complete as a one-DoF gripper path; disposable nitrile gloves / finger cots are ready for waterproof demos; Alchedata collaboration discussion is scheduled for 2026-05-26 17:00; UMI base-model choice is settled on small-scale WAN fine-tuning; drag-demo tooling is waiting on onsite collection with richer control-loop logging.",
+    "blockers": "MANUS + VIVE / wrist tracking hardware completion; safe dexterous-hand knife demo design; FACTR / force-feedback procurement through Jingte; UMI storage + data download for WAN fine-tuning; drag-demo collection must log position-loop, velocity-loop, and current-loop signals; inpainting fallback needs FLUX.1-Fill-dev validation.",
+    "next": "Prepare the Alchedata Tuesday 17:00 discussion around the already-finished proposal, plan the Franka + Wuji knife-cutting demo with strict safety gates, route FACTR procurement through Jingte, install the 10T HDD from ME onto the server and download UMI data for WAN fine-tuning, try Genie Envisioner, update drag-demo collection logging, and test FLUX.1-Fill-dev inpainting."
   },
   "storyline": {
     "summary": "How real-robot infra, human demonstrations, video world models, simulators, and physical outputs form one loop.",
@@ -121,19 +121,6 @@
       "caption": "Diverse same-task HOI data: ego RGB, hand pose, and z16 depth."
     }
   ],
-  "weekly_briefs": [
-    {
-      "title": "2026-05-23 Weekly Brief",
-      "date": "2026-05-23",
-      "href": "weekly-briefs/2026-05-23/",
-      "summary": "Temporary meeting page for this week's catering robot capability boundary analysis, lab space / force-feedback arm procurement options, Self-Improving Agents proposal context, and ByteDance scholarship opportunity.",
-      "tags": [
-        "weekly",
-        "meeting",
-        "temporary"
-      ]
-    }
-  ],
   "project_buckets": [
     {
       "bucket": "active",
@@ -165,13 +152,6 @@
       "bucket": "active",
       "status": "ongoing",
       "state_path": "dashboard/state/projects/self-improving-agents.json"
-    },
-    {
-      "project_id": "robotics-3d-printing",
-      "title": "Robotics + 3D Printing",
-      "bucket": "active",
-      "status": "ongoing",
-      "state_path": "dashboard/state/projects/robotics-3d-printing.json"
     },
     {
       "project_id": "image-layered-world-model",
@@ -207,6 +187,13 @@
       "bucket": "research",
       "status": "survey",
       "state_path": "dashboard/state/projects/diverse-same-task-dataset.json"
+    },
+    {
+      "project_id": "robotics-3d-printing",
+      "title": "Robotics + 3D Printing",
+      "bucket": "research",
+      "status": "survey",
+      "state_path": "dashboard/state/projects/robotics-3d-printing.json"
     }
   ],
   "task_queue": "dashboard/state/tasks.json",
