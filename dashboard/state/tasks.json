@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-24T23:15:41+08:00",
+  "updated_at": "2026-05-24T23:49:10+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -221,9 +221,16 @@
           "body": "请用户/实验室先完成硬件侧准备：MANUS glove 供电并与 dongle/Core GUI 配对；安装并登录 Steam/SteamVR；连接 base station、VIVE Tracker 和无线 dongle，在 SteamVR 中完成配对，并把 LHR-XXXXXXXX serial 写入 vive_wrapper 配置。完成后让 worker 重新运行 manus_wrapper 的 glove streaming verifier、vive_wrapper/scripts/list_trackers.py、融合/retargeting replay verifier，并附日志/sha256 后再回到 review。",
           "created_at": "2026-05-22T21:53:59+08:00",
           "kind": "needs_user"
+        },
+        {
+          "comment_id": "comment_real_robot_wrist_fallback_20260524",
+          "author": "Codex",
+          "body": "Wrist-position fallback added: if VIVE Tracker is not the route, evaluate an ACE Teleop-style wrist ring to replace the Gello-end trigger as the wrist / intent input device.",
+          "created_at": "2026-05-24T23:47:00+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T14:33:24+08:00"
+      "updated_at": "2026-05-24T23:49:07+08:00"
     },
     {
       "task_id": "task_real_robot_infra_safety_workspace",
@@ -299,9 +306,16 @@
           "body": "请 Zheng Yuhang/用户确认：1. 本实验室 Franka-Gello 每个关节的 Dynamixel 型号或照片；2. 双向力反馈是硬需求还是 nice-to-have；3. 缺失的 configs/yam_gello_factr_{sim,hw}.yaml 在哪里，还是需要从零写；4. 12k FACTR 设备预算是否真实可用。确认后再让 worker 补齐可审查 artifact，例如 docs/master_arm_gravcomp_evaluation.md，含来源、sha256/git_sha 和 verifier，再回到 review。",
           "created_at": "2026-05-22T21:37:02+08:00",
           "kind": "needs_user"
+        },
+        {
+          "comment_id": "comment_real_robot_factr_jingte_20260524",
+          "author": "Codex",
+          "body": "Procurement route updated: FACTR should be purchased through Jingte Intelligent. Keep the technical comparison focused on master-arm gravity compensation, damping / brake, and force-feedback safety value.",
+          "created_at": "2026-05-24T23:47:00+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T14:33:24+08:00",
+      "updated_at": "2026-05-24T23:49:08+08:00",
       "due_at": ""
     },
     {
@@ -408,6 +422,13 @@
           "body": "主机验收通过: decision/result task has a non-empty result comment and does not require a machine verifier.",
           "created_at": "2026-05-19T01:12:34+08:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "comment_umi_wan_decision_20260524",
+          "author": "Codex",
+          "body": "Decision: base-model selection is closed. Proceed with small-scale fine-tuning on WAN; do not keep the main path blocked on further base-model comparison.",
+          "created_at": "2026-05-24T23:47:00+08:00",
+          "kind": "decision"
         }
       ],
       "updated_at": "2026-05-19T01:12:34+08:00",
@@ -804,7 +825,7 @@
           "kind": "progress"
         }
       ],
-      "updated_at": "2026-05-23T14:37:47+08:00",
+      "updated_at": "2026-05-24T23:49:08+08:00",
       "due_at": ""
     },
     {
@@ -839,6 +860,13 @@
           "body": "Host verification passed: on boris remote, `source ~/anaconda3/bin/activate base && cd ~/workspace/AgenticSim/.claude/worktrees/proposal && python tests/test_full_pipeline.py` produced 38/38 passed. docs/proposal.md exists and covers thesis, work packages, AgenticSim evidence, R4R format, timeline, and consolidation plan.",
           "created_at": "2026-05-22T02:14:04+08:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "comment_self_improving_alchedata_meeting_20260524",
+          "author": "Codex",
+          "body": "Alchedata collaboration discussion is scheduled for Tuesday 2026-05-26 at 17:00. The proposal itself has already been covered, so remove it from the active weekly agenda and use it only as background material.",
+          "created_at": "2026-05-24T23:47:00+08:00",
+          "kind": "comment"
         }
       ],
       "updated_at": "2026-05-22T02:14:04+08:00",
@@ -1366,9 +1394,16 @@
           "body": "Correction to event_38ea5788c9a9 (operator pre-check artifact): the sha256 I quoted in that comment was a placeholder, not the actual hash. The correct hash:\n\ncheck_episode.py sha256: 5a1b856763cce430ab75de597a5d7b92a6484373d9f00c25770d6f2d009b87bc\npath: /home/lv-robotics/workspace/ARX_A5_Dual_ARM/data_collection/check_episode.py\nsize: 5564 bytes\n\nverify with:\n  sha256sum /home/lv-robotics/workspace/ARX_A5_Dual_ARM/data_collection/check_episode.py",
           "created_at": "2026-05-24T23:13:39+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_drag_demo_control_loops_20260524",
+          "author": "Codex",
+          "body": "Collection schema update: future drag-demo episodes should log position-loop, velocity-loop, and current-loop signals, not only RGB/depth and EEF pose. This is needed to analyze drag dynamics and contact/load response.",
+          "created_at": "2026-05-24T23:47:00+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-24T23:15:40+08:00"
+      "updated_at": "2026-05-24T23:49:08+08:00"
     },
     {
       "task_id": "task_drag_demo_backend_compare",
@@ -1382,7 +1417,16 @@
       "started_at": "2026-05-16",
       "due_at": "2026-05-23",
       "completed_at": "2026-05-19",
-      "updated_at": "2026-05-19T21:02:00+08:00"
+      "updated_at": "2026-05-24T23:47:00+08:00",
+      "comments": [
+        {
+          "comment_id": "comment_drag_demo_flux_fill_dev_20260524",
+          "author": "Codex",
+          "body": "Backend note: add FLUX.1-Fill-dev as the next explicit inpainting probe for masked hand removal. Evaluate with diff-map QA and contact-preservation checks.",
+          "created_at": "2026-05-24T23:47:00+08:00",
+          "kind": "comment"
+        }
+      ]
     },
     {
       "task_id": "task_drag_demo_diff_map_qa",
@@ -2255,8 +2299,16 @@
       "priority": "high",
       "assignee": "jingxiang@100.112.245.1",
       "result": null,
-      "comments": [],
-      "updated_at": "2026-05-24T23:15:40+08:00",
+      "comments": [
+        {
+          "comment_id": "comment_umi_10t_wan_finetune_20260524",
+          "author": "Codex",
+          "body": "Execution route updated: install the 10T mechanical hard drive from ME on the server, download/stage UMI data there, then run a small WAN fine-tuning pack instead of continuing base-model selection.",
+          "created_at": "2026-05-24T23:47:00+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-05-24T23:49:09+08:00",
       "due_at": "2026-05-28"
     },
     {
@@ -2275,10 +2327,18 @@
           "body": "[Codex route 2026-05-23] Route: choose AI2V base only after the full 186-scale table. VBench is useful for fine-grained video quality dimensions, but the decision must include UMI-specific dual-wrist consistency, action/kinematics faithfulness, object-state preservation, and failure-gallery review. References: UMI arXiv 2402.10329, VBench arXiv 2311.17982, Cosmos-Predict2.5, Wan2.2.",
           "created_at": "2026-05-23T01:11:43+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_umi_186_wan_conclusion_20260524",
+          "author": "Codex",
+          "body": "Conclusion after base-model selection: use WAN for small-scale fine-tuning. The next actionable work is storage/data staging, training manifest, and minimal loader/config rather than more model-choice debate.",
+          "created_at": "2026-05-24T23:47:00+08:00",
+          "kind": "decision"
         }
       ],
-      "updated_at": "2026-05-24T23:15:41+08:00",
-      "due_at": "2026-05-26"
+      "updated_at": "2026-05-24T23:49:09+08:00",
+      "due_at": "2026-05-26",
+      "completed_at": "2026-05-24"
     },
     {
       "task_id": "task_umi_eval_gallery",
@@ -2290,7 +2350,7 @@
       "assignee": "jingxiang@100.112.245.1",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-24T23:15:41+08:00",
+      "updated_at": "2026-05-24T23:49:09+08:00",
       "due_at": "2026-05-29"
     },
     {
@@ -2694,7 +2754,7 @@
       "assignee": "boris@100.70.181.44",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-24T23:15:41+08:00",
+      "updated_at": "2026-05-24T23:49:09+08:00",
       "due_at": "2026-05-25"
     },
     {
@@ -2736,7 +2796,7 @@
           "kind": "blocker"
         }
       ],
-      "updated_at": "2026-05-24T23:15:41+08:00",
+      "updated_at": "2026-05-24T23:49:10+08:00",
       "due_at": "2026-05-25"
     },
     {
@@ -3059,6 +3119,74 @@
       "updated_at": "2026-05-23T14:28:33+08:00",
       "due_at": "2026-05-29",
       "completed_at": "2026-05-23"
+    },
+    {
+      "task_id": "task_real_robot_infra_knife_meat_demo_plan",
+      "project_id": "real-robot-infra",
+      "title": "规划灵巧手持刀切肉 demo",
+      "description": "Teacher wants a dexterous-hand knife-cutting-meat demo. First deliverable is a safety-gated demo plan: fixture / material choice, blade boundary, slow rehearsal, emergency-stop operator, cable / waterproof workspace, and abort conditions before any live sharp-tool trial.",
+      "status": "todo",
+      "priority": "high",
+      "assignee": null,
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_real_robot_knife_meat_demo_20260524",
+          "author": "Codex",
+          "body": "Treat this as a controlled safety demo, not a normal kitchen manipulation task. Start with non-meat / dummy material or protected fixture if possible, then graduate only after low-speed rehearsals and explicit supervision.",
+          "created_at": "2026-05-24T23:47:00+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-05-24T23:47:00+08:00"
+    },
+    {
+      "task_id": "task_real_robot_infra_ace_wrist_ring",
+      "project_id": "real-robot-infra",
+      "title": "评估 ACE Teleop 腕环替代 Gello 扳机",
+      "description": "If VIVE Tracker is not used for wrist pose, evaluate an ACE Teleop-style wrist ring as the wrist / intent input device, replacing the Gello-end trigger path. Deliverable: interface sketch, signal list, mounting idea, and compatibility with MANUS / Wuji retargeting.",
+      "status": "todo",
+      "priority": "medium",
+      "assignee": null,
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-05-24T23:47:00+08:00"
+    },
+    {
+      "task_id": "task_umi_genie_envisioner_probe",
+      "project_id": "umi-world-model",
+      "title": "试跑 Genie Envisioner",
+      "description": "Try Genie Envisioner as an additional probe for UMI/world-model work. Check whether it helps generate or evaluate action-conditioned future frames, scene transitions, or failure-gallery cases relevant to dual wrist-view UMI data.",
+      "status": "todo",
+      "priority": "medium",
+      "assignee": null,
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-05-24T23:47:00+08:00"
+    },
+    {
+      "task_id": "task_umi_install_10t_hdd_stage_data",
+      "project_id": "umi-world-model",
+      "title": "装 10T 硬盘并落 UMI 微调数据",
+      "description": "Move the 10T mechanical hard drive from ME to the server, mount it, create the UMI data directory, and download/stage the data needed for WAN small-scale fine-tuning.",
+      "status": "todo",
+      "priority": "high",
+      "assignee": null,
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-05-24T23:47:00+08:00"
+    },
+    {
+      "task_id": "task_drag_demo_flux_fill_dev_inpaint_probe",
+      "project_id": "drag-demo-video-editing",
+      "title": "测试 FLUX.1-Fill-dev inpaint",
+      "description": "Run FLUX.1-Fill-dev on masked drag-demo hand-removal frames/clips and compare against Kling / VACE / SD2 Inpainting. Acceptance: before/after gallery plus diff-map QA showing edits stay on human hands and preserve robot links, spatula, egg mold, plate, and contact geometry.",
+      "status": "todo",
+      "priority": "medium",
+      "assignee": null,
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-05-24T23:47:00+08:00"
     }
   ]
 }
