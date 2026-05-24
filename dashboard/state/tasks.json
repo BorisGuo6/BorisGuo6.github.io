@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-24T23:49:55+08:00",
+  "updated_at": "2026-05-24T23:53:57+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -156,8 +156,8 @@
     {
       "task_id": "task_real_robot_infra_manus_vive_tracker",
       "project_id": "real-robot-infra",
-      "title": "接入 MANUS glove + VIVE Tracker",
-      "description": "把 MANUS glove 和 VIVE Tracker 作为同一套高精度手部 / 腕部输入栈接入：MANUS 负责手指姿态，VIVE Tracker 负责腕部 / 物体 / 人体外参跟踪；两者需要和相机、机器人状态共用时间同步、外参标定、记录格式和 retargeting 验证流程。",
+      "title": "接入 MANUS glove + VIVE Tracker / 腕环备选",
+      "description": "把 MANUS glove 和 VIVE Tracker 作为同一套高精度手部 / 腕部输入栈接入；如果不用 VIVE Tracker，评估 ACE Teleop-style wrist ring 替代 Gello 末端扳机，用于腕部姿态 / 意图输入。",
       "status": "needs_user",
       "priority": "medium",
       "assignee": "boris@100.70.181.44",
@@ -226,11 +226,11 @@
           "comment_id": "comment_real_robot_wrist_fallback_20260524",
           "author": "Codex",
           "body": "Wrist-position fallback added: if VIVE Tracker is not the route, evaluate an ACE Teleop-style wrist ring to replace the Gello-end trigger as the wrist / intent input device.",
-          "created_at": "2026-05-24T23:47:00+08:00",
+          "created_at": "2026-05-24T23:58:00+08:00",
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-24T23:49:07+08:00"
+      "updated_at": "2026-05-24T23:58:00+08:00"
     },
     {
       "task_id": "task_real_robot_infra_safety_workspace",
@@ -279,8 +279,8 @@
     {
       "task_id": "task_real_robot_infra_factr_force_feedback",
       "project_id": "real-robot-infra",
-      "title": "评估主臂重力补偿 / FACTR 力反馈",
-      "description": "Gello is passive, so software cannot create true gravity compensation on the master arm. Evaluate mechanical counterbalance, damping / brake, or FACTR-style bilateral force-feedback teleoperation to reduce free-fall / collision risk for Franka control.",
+      "title": "走菁特智能采购 FACTR / 评估主臂力反馈",
+      "description": "FACTR procurement should go through Jingte Intelligent. Keep evaluating whether FACTR / force-feedback or mechanical gravity compensation reduces passive Gello master-arm free-fall and Franka collision risk.",
       "status": "needs_user",
       "priority": "medium",
       "assignee": "Zheng Yuhang",
@@ -311,11 +311,11 @@
           "comment_id": "comment_real_robot_factr_jingte_20260524",
           "author": "Codex",
           "body": "Procurement route updated: FACTR should be purchased through Jingte Intelligent. Keep the technical comparison focused on master-arm gravity compensation, damping / brake, and force-feedback safety value.",
-          "created_at": "2026-05-24T23:47:00+08:00",
+          "created_at": "2026-05-24T23:58:00+08:00",
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-24T23:49:08+08:00",
+      "updated_at": "2026-05-24T23:58:00+08:00",
       "due_at": ""
     },
     {
@@ -428,7 +428,7 @@
           "author": "Codex",
           "body": "Decision: base-model selection is closed. Proceed with small-scale fine-tuning on WAN; do not keep the main path blocked on further base-model comparison.",
           "created_at": "2026-05-24T23:47:00+08:00",
-          "kind": "decision"
+          "kind": "comment"
         }
       ],
       "updated_at": "2026-05-19T01:12:34+08:00",
@@ -2293,9 +2293,9 @@
     {
       "task_id": "task_umi_ai2v_v0_training_pack",
       "project_id": "umi-world-model",
-      "title": "整理 AI2V v0 训练/微调数据包",
-      "description": "Why now: 基模确定后需要马上进入小规模训练或 adapter 改造。Deliverable: 训练 manifest、prompt/first-frame/gt/predicted 路径规范、train/val/test split、过滤规则、最小 config。Acceptance: 数据包能被一个 dry-run loader 完整读取；输出 count、hash、缺失项报告。",
-      "status": "todo",
+      "title": "准备 WAN 少量微调数据包",
+      "description": "Install the 10T mechanical HDD from ME onto the server, stage/download UMI data, and prepare the WAN small-finetune training pack: manifest, prompt/first-frame/gt paths, train/val/test split, filtering rules, and minimal config. Acceptance: dry-run loader reads the staged data and prints counts/hash/missing-item report.",
+      "status": "active",
       "priority": "high",
       "assignee": "jingxiang@100.112.245.1",
       "result": null,
@@ -2304,19 +2304,19 @@
           "comment_id": "comment_umi_10t_wan_finetune_20260524",
           "author": "Codex",
           "body": "Execution route updated: install the 10T mechanical hard drive from ME on the server, download/stage UMI data there, then run a small WAN fine-tuning pack instead of continuing base-model selection.",
-          "created_at": "2026-05-24T23:47:00+08:00",
+          "created_at": "2026-05-24T23:58:00+08:00",
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-24T23:49:09+08:00",
+      "updated_at": "2026-05-24T23:58:00+08:00",
       "due_at": "2026-05-28"
     },
     {
       "task_id": "task_umi_decide_ai2v_after_186_vbench",
       "project_id": "umi-world-model",
       "title": "基于 186-scale VBench 收口 AI2V 基模选择",
-      "description": "Why now: WAN2.2/LTX 已到 186-scale，Cosmos25 正在补齐；下一步不能只停留在分数表。Deliverable: 一页决策 memo，列出 WAN2.2/LTX/Cosmos25 在 subject/background/smoothness/dynamic/imaging/flicker 的取舍、失败样例、训练/改造成本。Acceptance: 引用 186-scale JSON、SUMMARY_186.md、至少 12 个视频对比样例，给出 v0 AI2V 主线和 fallback。",
-      "status": "todo",
+      "description": "Closed: v0 AI2V base route is WAN with a small fine-tuning run. Keep the 186-scale VBench table and gallery as evidence, but move execution focus to data staging and training-pack dry run.",
+      "status": "active",
       "priority": "high",
       "assignee": "jingxiang@100.112.245.1",
       "result": null,
@@ -2332,11 +2332,18 @@
           "comment_id": "comment_umi_186_wan_conclusion_20260524",
           "author": "Codex",
           "body": "Conclusion after base-model selection: use WAN for small-scale fine-tuning. The next actionable work is storage/data staging, training manifest, and minimal loader/config rather than more model-choice debate.",
-          "created_at": "2026-05-24T23:47:00+08:00",
-          "kind": "decision"
+          "created_at": "2026-05-24T23:58:00+08:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_1992fb075c0b",
+          "author": "Review",
+          "body": "Local Codex host review reopened this TODO.\n请先补齐可自动验收证据：完成或明确阻塞 task_umi_vbench_eval 的 186-scale VBench 收口，至少提供 wan22/ltx/cosmos25 的预测计数、eval_outputs/vbench/*_eval_results.json、更新后的 SUMMARY_186.md、gallery/failure review 路径、sha256/hash、复现命令，以及基于 UMI dual-wrist consistency/action-kinematics/object-state/failure-gallery 的 WAN 选择理由；如果 Cosmos25 或 gallery 无法完成，请写明具体 blocker 和为什么不阻塞 v0 WAN 小规模微调决策。",
+          "created_at": "2026-05-24T23:53:48+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-24T23:49:09+08:00",
+      "updated_at": "2026-05-24T23:53:48+08:00",
       "due_at": "2026-05-26",
       "completed_at": "2026-05-24"
     },
@@ -2350,7 +2357,7 @@
       "assignee": "jingxiang@100.112.245.1",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-24T23:49:09+08:00",
+      "updated_at": "2026-05-24T23:51:10+08:00",
       "due_at": "2026-05-29"
     },
     {
@@ -2754,7 +2761,7 @@
       "assignee": "boris@100.70.181.44",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-24T23:49:09+08:00",
+      "updated_at": "2026-05-24T23:51:11+08:00",
       "due_at": "2026-05-25"
     },
     {
@@ -2796,7 +2803,7 @@
           "kind": "blocker"
         }
       ],
-      "updated_at": "2026-05-24T23:49:10+08:00",
+      "updated_at": "2026-05-24T23:51:11+08:00",
       "due_at": "2026-05-25"
     },
     {
@@ -3138,7 +3145,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-24T23:49:54+08:00",
+      "updated_at": "2026-05-24T23:51:11+08:00",
       "due_at": ""
     },
     {
@@ -3151,7 +3158,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-24T23:49:54+08:00",
+      "updated_at": "2026-05-24T23:51:11+08:00",
       "due_at": ""
     },
     {
@@ -3164,7 +3171,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-24T23:49:54+08:00",
+      "updated_at": "2026-05-24T23:51:11+08:00",
       "due_at": ""
     },
     {
@@ -3177,7 +3184,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-24T23:49:54+08:00",
+      "updated_at": "2026-05-24T23:51:11+08:00",
       "due_at": ""
     },
     {
@@ -3190,7 +3197,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-24T23:49:54+08:00",
+      "updated_at": "2026-05-24T23:51:11+08:00",
       "due_at": ""
     }
   ]
