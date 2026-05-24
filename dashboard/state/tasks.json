@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-24T21:00:42+08:00",
+  "updated_at": "2026-05-24T21:01:44+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1338,9 +1338,16 @@
           "body": "## Plan\nHold the task in `blocked` while waiting on onsite physical collection by Boris/Gaochen/Jingxiang (~30 episodes each per the 2026-05-19 plan, Xiaobin observing). All dev-side enablers are done; this is purely operator-dependent now.\n\n## Execution\nHeartbeat from drag-demo-lvrobotics@100.113.210.127 on 2026-05-24. ClawCross local daemon at 127.0.0.1:51200 was unreachable from ~2026-05-23 14:xx through ~2026-05-24 (covering this Claude session's compaction window); confirmed LISTENING again on 2026-05-24, which is why this comment is the first push since the 2026-05-23T14:41 runbook update.\n\n## Modifications\nNone on the toolchain since the 2026-05-23T14:41 runbook. Files at their previous sha256s: auto_ingest.sh e75b7249f3d794966b36938d385cb5a7961c1f9a0690992a1a25949179c23e22, initial_batch_manifest.json 58b3ffb76eacfd1ba12cbd41796da82d9311d421d0001f7c3c487251d23d4ed1, raw_data_full_report.json 200c2b7669d05e123955f45623e2e9218d8b3465ffba450e8efd3f10dff487b2 (last verified during the 2026-05-23 run).\n\n## Experiments\nNo new training run today; smoke baseline from 2026-05-22T18:45 (run_id C_raw_drag_only_20260522T184538Z, final_loss 0.07975, 100 steps on RTX 4060 Ti) is the most recent reproducible evidence that the loader -> model -> backprop pipeline is end-to-end green on the 19-episode tier. Without new physical data there is nothing additional to train.\n\n## Result\nStatus unchanged: 19/100 episodes counted toward the demo_target at the accepted 0.10 rad stillness threshold (delta 81), 13 held-out for the strict eval tier at <=0.02 rad. Loader smoke passes on all 19 + 13. Operator runbook (auto_ingest.sh) is the documented one-shot to re-derive these numbers after any new collection batch lands under ~/workspace/raw_data.\n\n## Next\nESCALATION: due_at 2026-05-21 is now 3 days past as of 2026-05-24 with no onsite collection completed. Host (Boris) decision needed on (a) when the onsite operator team can run a focused collection session to land the remaining ~81 demos, or (b) whether to renegotiate the 100-demo target / due_at given the SOP yield rate observed in raw_data so far. The dev-side automation will pick up new episodes the moment they appear under ~/workspace/raw_data/<dataset>/000x/ (success) or .../_failed/f000x/ (retained failure).",
           "created_at": "2026-05-24T21:00:25+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_5699ade56e12",
+          "author": "Progress",
+          "body": "Heartbeat 2026-05-24 from drag-demo-lvrobotics@100.113.210.127: harness daemon at 127.0.0.1:51200 was unreachable ~2026-05-23 14:xx through ~2026-05-24, now LISTENING again. Status unchanged: blocked on onsite physical collection (19/100 counted at 0.10 rad, delta 81, eval tier 13). Toolchain hashes unchanged from the 2026-05-23T14:41 runbook update. due_at 2026-05-21 is now 3 days past — host decision needed on onsite collection scheduling or due_at renegotiation. No new training run today (smoke baseline from 2026-05-22 still the most recent reproducible evidence). Re-pushed via task-md import as well to exercise the new TASK.md lifecycle path.",
+          "created_at": "2026-05-24T21:01:19+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-24T21:00:41+08:00"
+      "updated_at": "2026-05-24T21:01:43+08:00"
     },
     {
       "task_id": "task_drag_demo_backend_compare",
@@ -2228,7 +2235,7 @@
       "assignee": "jingxiang@100.112.245.1",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-24T21:00:41+08:00",
+      "updated_at": "2026-05-24T21:01:44+08:00",
       "due_at": "2026-05-28"
     },
     {
@@ -2249,7 +2256,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-24T21:00:41+08:00",
+      "updated_at": "2026-05-24T21:01:44+08:00",
       "due_at": "2026-05-26"
     },
     {
@@ -2262,7 +2269,7 @@
       "assignee": "jingxiang@100.112.245.1",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-24T21:00:41+08:00",
+      "updated_at": "2026-05-24T21:01:44+08:00",
       "due_at": "2026-05-29"
     },
     {
@@ -2666,7 +2673,7 @@
       "assignee": "boris@100.70.181.44",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-24T21:00:41+08:00",
+      "updated_at": "2026-05-24T21:01:44+08:00",
       "due_at": "2026-05-25"
     },
     {
@@ -2708,7 +2715,7 @@
           "kind": "blocker"
         }
       ],
-      "updated_at": "2026-05-24T21:00:41+08:00",
+      "updated_at": "2026-05-24T21:01:44+08:00",
       "due_at": "2026-05-25"
     },
     {
