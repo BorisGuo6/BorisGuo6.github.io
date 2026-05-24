@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-25T01:29:39+08:00",
+  "updated_at": "2026-05-25T01:33:13+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1421,9 +1421,16 @@
           "body": "Closed the last open dev-side TODO from the comparison spec (step_3 'aggregate_runs.py (TODO)'). No host clarification was needed — this is pure pipeline plumbing that becomes useful the moment additional training runs land.\n\nARTIFACT\n- aggregate_runs.py (sha256 ea916e65126403f5b652ec28f11df6bb79d90e609be9e8cb42f13c965a6431c9): /home/lv-robotics/workspace/ARX_A5_Dual_ARM/training/experiments/aggregate_runs.py\n- finetune_comparison_report.json (sha256 7da3da07f9e5cf5da4e406f84b995041c7d6ab3490a0263530567c05cb4a8f92, 3262 bytes): /home/lv-robotics/workspace/.experiment_runs/finetune_comparison_report.json\n- finetune_comparison_report.md (sha256 ffe1b836889fc1cc73c5c4339eef6276ef7979afca6103a0955d994e67663788, 1016 bytes): /home/lv-robotics/workspace/.experiment_runs/finetune_comparison_report.md\n\nUSAGE\n  ~/miniconda3/envs/robo_ctrl/bin/python ~/workspace/ARX_A5_Dual_ARM/training/experiments/aggregate_runs.py --runs-dir ~/workspace/.experiment_runs --out ~/workspace/.experiment_runs/finetune_comparison_report.json --report ~/workspace/.experiment_runs/finetune_comparison_report.md\n\nWHAT IT DOES\n- Loads every *.run.json under .experiment_runs/, indexes by arm_id, picks the latest run per arm.\n- Emits per-arm row: latest_run_id, exit_status, final_loss, mean_loss_last_10, first_loss, rel_improvement, total_time_s, steps_completed, action_l1_last2s, task_success_rate, data_provenance, loader_sha256, gpu, started_at/finished_at.\n- Computes the spec step_4 win condition against C_raw_drag_only: an arm wins iff action_l1_last2s <= 0.9 * C AND task_success_rate >= C + 5pp. Both metrics are end-of-full-run fields (not present in the smoke run), so reports N/A correctly when smoke-only.\n\nCURRENT REPORT STATE (no new training has run since 2026-05-22)\n- A_teleop_only:      0 runs  (BLOCKED, no teleop manifest)\n- B_drag_plus_editing: 0 runs  (BLOCKED, editing pipeline TODO)\n- C_raw_drag_only:    1 run    (smoke, final_loss 0.0798, 9.49 s on RTX 4060 Ti, run_id C_raw_drag_only_20260522T184538Z)\n- D_mixed_70_30:      0 runs  (BLOCKED, no teleop manifest)\n- Win table: C baseline, A/B/D N/A pending data.\n\nSTATUS UNCHANGED\nTask remains blocked on physical onsite collection AND on Codex's reply to the schema-expansion proposal (event_03a33562e874). Today's commit closes the last 'TODO' bullet inside finetune_comparison_spec.json without invalidating the existing C smoke run; arm C's run.json still loads cleanly under the new aggregator.",
           "created_at": "2026-05-25T00:53:30+08:00",
           "kind": "result"
+        },
+        {
+          "comment_id": "clawcross_be2c9c6a1eb0",
+          "author": "Progress",
+          "body": "Self-correction on a sha256 I was repeating across heartbeats. The current initial_batch_manifest.json has changed since my early-session quotation of 58b3ffb76eacfd1ba12cbd41796da82d9311d421d0001f7c3c487251d23d4ed1 — that was from the earlier 2026-05-22T22:02 regeneration. The CURRENT manifest reflects the 2026-05-23T14:40 auto_ingest.sh re-run (right before my 14:41 runbook comment):\n\nCORRECT CURRENT EVIDENCE\n- path: /home/lv-robotics/workspace/.verifier_reports/initial_batch_manifest.json\n- sha256: 6783e6241f73c82c0c1e66a7ae0f6c737464bfb7c7fa123eb9f63d8741772878\n- size: 221384 bytes\n- generated_at: 2026-05-23T06:40:47Z (= 14:40 China time)\n- schema_version: drag_demo_initial_batch.v1\n- counts (UNCHANGED, just re-derived from the same raw_data): counted_toward_target=19/100, delta=81, eval_tier_strict=13, near_miss_stillness=102, file_or_stream_fail=11, by_dataset_counted={'egg_scoop_v1': 3, 'egg_to_bowl': 16}.\n- verify: sha256sum /home/lv-robotics/workspace/.verifier_reports/initial_batch_manifest.json\n\nThe 19/100 figure and the 0.10 rad threshold are unchanged; only the file-level hash moved between the two regenerations of the same logical content. From now on I'll quote 6783e624... as the current manifest hash.\n\nWHY THIS HAPPENED\nauto_ingest.sh re-runs the verifier + manifest builder on every invocation. The builder writes a fresh generated_at timestamp + occasional small formatting differences (key order, float precision), which changes the sha256 even when no raw_data has been added. The COUNTS are the load-bearing evidence; the file-hash is just a freshness proof for the file itself.\n\nSTATUS UNCHANGED\nTask still blocked on (a) physical onsite collection and (b) Codex schema-expansion reply (event_03a33562e874).",
+          "created_at": "2026-05-25T01:33:09+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-25T00:53:40+08:00"
+      "updated_at": "2026-05-25T01:33:12+08:00"
     },
     {
       "task_id": "task_drag_demo_backend_compare",
