@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-25T00:27:30+08:00",
+  "updated_at": "2026-05-25T00:53:42+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1414,9 +1414,16 @@
           "body": "Acknowledging new host directive (Codex 2026-05-24T23:47:00): future drag-demo episodes must log position-loop, velocity-loop, and current-loop signals in addition to the current 9-file schema (cam_{top,left,right}_{rgb.mp4,depth.h5}, eef_pose.pkl, image_timestamps.pkl, state.pkl).\n\nCLARIFICATION NEEDED BEFORE EXTENDING THE VERIFIER\nThe remote-side enablers (sop_episode_verifier.py, check_episode.py, build_initial_batch_manifest.py, drag_demo_loader.py) need to be updated to recognize the new files, but I do not want to invent file names/formats. Please confirm:\n\n1. File names + extensions. Candidates I can defend if confirmed:\n   - control_loops.pkl  (single combined pickle, schema {'position': {'left_arm','right_arm'}, 'velocity': ..., 'current': ...})\n   - joint_positions.pkl / joint_velocities.pkl / joint_currents.pkl  (three separate pickles)\n   - control_loops.h5  (single h5 with three top-level groups)\n2. Sample rate. Same 60 Hz as the existing state.pkl (which has shape (N, 7) per arm)? Or higher (e.g. the 1 kHz position-loop rate on the ARX A5 controller)?\n3. Coordinate frame for position/velocity. Joint-space (rad, rad/s, A) on both arms? Or end-effector Cartesian (m, m/s, equivalent)? The existing state.pkl is joint-space rad.\n4. Backwards compatibility. The 19 already-counted episodes do NOT have these new files. Are they grandfathered into the tier_strict/eval set as-is, or do we re-collect them once the new schema is final? My recommendation: keep them as the current eval set (since terminal-stillness is verifiable from joint angles alone) and require the new schema only for the next collection batch toward the 100-demo target.\n5. Verifier behaviour. Should missing loop files (a) fail the episode (strict), (b) warn but pass (soft until adoption is universal), or (c) only apply to episodes timestamped after a cutoff?\n\nOnce these are confirmed I will:\n- extend sop_episode_verifier.py with the new file presence + readability checks (gated by a --require-control-loops flag)\n- extend check_episode.py to surface the new requirements per-episode\n- extend the loader/manifest so the new tier is queryable (e.g. n_counted_toward_target_with_control_loops)\n\nSTATUS UNCHANGED\nTask remains blocked: physical onsite collection is still required, and the schema extension is itself blocked on these clarifications. I will not pre-implement to a guessed schema.",
           "created_at": "2026-05-25T00:10:11+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_a9aeb296dd6b",
+          "author": "Result",
+          "body": "Closed the last open dev-side TODO from the comparison spec (step_3 'aggregate_runs.py (TODO)'). No host clarification was needed — this is pure pipeline plumbing that becomes useful the moment additional training runs land.\n\nARTIFACT\n- aggregate_runs.py (sha256 ea916e65126403f5b652ec28f11df6bb79d90e609be9e8cb42f13c965a6431c9): /home/lv-robotics/workspace/ARX_A5_Dual_ARM/training/experiments/aggregate_runs.py\n- finetune_comparison_report.json (sha256 7da3da07f9e5cf5da4e406f84b995041c7d6ab3490a0263530567c05cb4a8f92, 3262 bytes): /home/lv-robotics/workspace/.experiment_runs/finetune_comparison_report.json\n- finetune_comparison_report.md (sha256 ffe1b836889fc1cc73c5c4339eef6276ef7979afca6103a0955d994e67663788, 1016 bytes): /home/lv-robotics/workspace/.experiment_runs/finetune_comparison_report.md\n\nUSAGE\n  ~/miniconda3/envs/robo_ctrl/bin/python ~/workspace/ARX_A5_Dual_ARM/training/experiments/aggregate_runs.py --runs-dir ~/workspace/.experiment_runs --out ~/workspace/.experiment_runs/finetune_comparison_report.json --report ~/workspace/.experiment_runs/finetune_comparison_report.md\n\nWHAT IT DOES\n- Loads every *.run.json under .experiment_runs/, indexes by arm_id, picks the latest run per arm.\n- Emits per-arm row: latest_run_id, exit_status, final_loss, mean_loss_last_10, first_loss, rel_improvement, total_time_s, steps_completed, action_l1_last2s, task_success_rate, data_provenance, loader_sha256, gpu, started_at/finished_at.\n- Computes the spec step_4 win condition against C_raw_drag_only: an arm wins iff action_l1_last2s <= 0.9 * C AND task_success_rate >= C + 5pp. Both metrics are end-of-full-run fields (not present in the smoke run), so reports N/A correctly when smoke-only.\n\nCURRENT REPORT STATE (no new training has run since 2026-05-22)\n- A_teleop_only:      0 runs  (BLOCKED, no teleop manifest)\n- B_drag_plus_editing: 0 runs  (BLOCKED, editing pipeline TODO)\n- C_raw_drag_only:    1 run    (smoke, final_loss 0.0798, 9.49 s on RTX 4060 Ti, run_id C_raw_drag_only_20260522T184538Z)\n- D_mixed_70_30:      0 runs  (BLOCKED, no teleop manifest)\n- Win table: C baseline, A/B/D N/A pending data.\n\nSTATUS UNCHANGED\nTask remains blocked on physical onsite collection AND on Codex's reply to the schema-expansion proposal (event_03a33562e874). Today's commit closes the last 'TODO' bullet inside finetune_comparison_spec.json without invalidating the existing C smoke run; arm C's run.json still loads cleanly under the new aggregator.",
+          "created_at": "2026-05-25T00:53:30+08:00",
+          "kind": "result"
         }
       ],
-      "updated_at": "2026-05-25T00:10:32+08:00"
+      "updated_at": "2026-05-25T00:53:40+08:00"
     },
     {
       "task_id": "task_drag_demo_backend_compare",
@@ -2321,7 +2328,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-25T00:10:32+08:00",
+      "updated_at": "2026-05-25T00:53:40+08:00",
       "due_at": "2026-05-28"
     },
     {
@@ -2391,7 +2398,7 @@
       "assignee": "jingxiang@100.112.245.1",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-25T00:10:32+08:00",
+      "updated_at": "2026-05-25T00:53:40+08:00",
       "due_at": "2026-05-29"
     },
     {
@@ -2824,7 +2831,7 @@
           "kind": "blocker"
         }
       ],
-      "updated_at": "2026-05-25T00:10:32+08:00",
+      "updated_at": "2026-05-25T00:53:41+08:00",
       "due_at": "2026-05-25"
     },
     {
@@ -3166,7 +3173,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-25T00:10:32+08:00",
+      "updated_at": "2026-05-25T00:53:41+08:00",
       "due_at": ""
     },
     {
@@ -3179,7 +3186,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-25T00:10:32+08:00",
+      "updated_at": "2026-05-25T00:53:41+08:00",
       "due_at": ""
     },
     {
@@ -3192,7 +3199,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-25T00:10:32+08:00",
+      "updated_at": "2026-05-25T00:53:41+08:00",
       "due_at": ""
     },
     {
@@ -3205,7 +3212,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-25T00:10:32+08:00",
+      "updated_at": "2026-05-25T00:53:41+08:00",
       "due_at": ""
     },
     {
@@ -3218,7 +3225,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-25T00:10:32+08:00",
+      "updated_at": "2026-05-25T00:53:41+08:00",
       "due_at": ""
     },
     {
@@ -3241,7 +3248,7 @@
           "kind": "needs_user"
         }
       ],
-      "updated_at": "2026-05-25T00:27:30+08:00",
+      "updated_at": "2026-05-25T00:53:42+08:00",
       "completed_at": null
     }
   ]
