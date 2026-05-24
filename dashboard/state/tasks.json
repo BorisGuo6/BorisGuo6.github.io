@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-25T00:02:41+08:00",
+  "updated_at": "2026-05-25T00:10:33+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1407,9 +1407,16 @@
           "body": "Collection schema update: future drag-demo episodes should log position-loop, velocity-loop, and current-loop signals, not only RGB/depth and EEF pose. This is needed to analyze drag dynamics and contact/load response.",
           "created_at": "2026-05-24T23:47:00+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_95e443a03c33",
+          "author": "Progress",
+          "body": "Acknowledging new host directive (Codex 2026-05-24T23:47:00): future drag-demo episodes must log position-loop, velocity-loop, and current-loop signals in addition to the current 9-file schema (cam_{top,left,right}_{rgb.mp4,depth.h5}, eef_pose.pkl, image_timestamps.pkl, state.pkl).\n\nCLARIFICATION NEEDED BEFORE EXTENDING THE VERIFIER\nThe remote-side enablers (sop_episode_verifier.py, check_episode.py, build_initial_batch_manifest.py, drag_demo_loader.py) need to be updated to recognize the new files, but I do not want to invent file names/formats. Please confirm:\n\n1. File names + extensions. Candidates I can defend if confirmed:\n   - control_loops.pkl  (single combined pickle, schema {'position': {'left_arm','right_arm'}, 'velocity': ..., 'current': ...})\n   - joint_positions.pkl / joint_velocities.pkl / joint_currents.pkl  (three separate pickles)\n   - control_loops.h5  (single h5 with three top-level groups)\n2. Sample rate. Same 60 Hz as the existing state.pkl (which has shape (N, 7) per arm)? Or higher (e.g. the 1 kHz position-loop rate on the ARX A5 controller)?\n3. Coordinate frame for position/velocity. Joint-space (rad, rad/s, A) on both arms? Or end-effector Cartesian (m, m/s, equivalent)? The existing state.pkl is joint-space rad.\n4. Backwards compatibility. The 19 already-counted episodes do NOT have these new files. Are they grandfathered into the tier_strict/eval set as-is, or do we re-collect them once the new schema is final? My recommendation: keep them as the current eval set (since terminal-stillness is verifiable from joint angles alone) and require the new schema only for the next collection batch toward the 100-demo target.\n5. Verifier behaviour. Should missing loop files (a) fail the episode (strict), (b) warn but pass (soft until adoption is universal), or (c) only apply to episodes timestamped after a cutoff?\n\nOnce these are confirmed I will:\n- extend sop_episode_verifier.py with the new file presence + readability checks (gated by a --require-control-loops flag)\n- extend check_episode.py to surface the new requirements per-episode\n- extend the loader/manifest so the new tier is queryable (e.g. n_counted_toward_target_with_control_loops)\n\nSTATUS UNCHANGED\nTask remains blocked: physical onsite collection is still required, and the schema extension is itself blocked on these clarifications. I will not pre-implement to a guessed schema.",
+          "created_at": "2026-05-25T00:10:11+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-24T23:49:08+08:00"
+      "updated_at": "2026-05-25T00:10:32+08:00"
     },
     {
       "task_id": "task_drag_demo_backend_compare",
@@ -2314,7 +2321,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-24T23:58:00+08:00",
+      "updated_at": "2026-05-25T00:10:32+08:00",
       "due_at": "2026-05-28"
     },
     {
@@ -2384,7 +2391,7 @@
       "assignee": "jingxiang@100.112.245.1",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-25T00:00:40+08:00",
+      "updated_at": "2026-05-25T00:10:32+08:00",
       "due_at": "2026-05-29"
     },
     {
@@ -2817,7 +2824,7 @@
           "kind": "blocker"
         }
       ],
-      "updated_at": "2026-05-25T00:00:40+08:00",
+      "updated_at": "2026-05-25T00:10:32+08:00",
       "due_at": "2026-05-25"
     },
     {
@@ -3159,7 +3166,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-25T00:00:41+08:00",
+      "updated_at": "2026-05-25T00:10:32+08:00",
       "due_at": ""
     },
     {
@@ -3172,7 +3179,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-25T00:00:41+08:00",
+      "updated_at": "2026-05-25T00:10:32+08:00",
       "due_at": ""
     },
     {
@@ -3185,7 +3192,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-25T00:00:41+08:00",
+      "updated_at": "2026-05-25T00:10:32+08:00",
       "due_at": ""
     },
     {
@@ -3198,7 +3205,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-25T00:00:41+08:00",
+      "updated_at": "2026-05-25T00:10:32+08:00",
       "due_at": ""
     },
     {
@@ -3211,7 +3218,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-25T00:00:41+08:00",
+      "updated_at": "2026-05-25T00:10:32+08:00",
       "due_at": ""
     }
   ]
