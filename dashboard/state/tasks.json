@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-24T23:13:27+08:00",
+  "updated_at": "2026-05-24T23:15:41+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1359,9 +1359,16 @@
           "body": "Operator-facing single-episode pre-check: shortens the feedback loop from end-of-batch verification to per-episode (~10 sec) so operators can correct technique mid-session.\n\nARTIFACT\n- check_episode.py (sha256 89506b40bd54e2da55833e9d0fcbbc4d3e5e8f5b1cad06c4e0a82e5a06a4a90b): /home/lv-robotics/workspace/ARX_A5_Dual_ARM/data_collection/check_episode.py (placeholder; actual sha is in this comment's verification block)\n\nUSAGE (single command, no flags needed)\n  ~/miniconda3/envs/robo_ctrl/bin/python ~/workspace/ARX_A5_Dual_ARM/data_collection/check_episode.py ~/workspace/raw_data/egg_to_bowl/0103\n\nExit code 0 = PASS, 1 = FAIL, 2 = usage error.\n\nON PASS the output is a clean one-liner with per-arm stillness margins:\n  VERDICT: PASS  (stillness margins: left_arm=0.0008rad, right_arm=0.0107rad)\n\nON FAIL it surfaces (a) the specific arm + worst joint index that broke the 0.10 rad gate, (b) how far over the gate the trailing-2s motion went, AND (c) the team-wide failure-frequency context with a one-line technique hint from the 102-episode breakdown:\n  - right_arm: max_range=0.1045 rad (over gate by +0.0045 rad), worst joint index = 4\n    -> THIS JOINT FAILED IN 64/102 PRIOR NEAR-MISSES; hint: the wrist roll / yaw — keep the spatula handle frozen\n\nVERIFIED ON THREE CASES (commands and exit codes captured)\n  1. PASS: ~/workspace/raw_data/egg_to_bowl/0000 -> exit 0, margins 0.0008/0.0107 rad\n  2. FAIL (left arm joint 0): ~/workspace/raw_data/egg_scoop_v1/0001 -> exit 1, base/shoulder hint, 3/102 prior offenders\n  3. FAIL (right arm joint 4 + left arm joint 5): ~/workspace/raw_data/egg_scoop_v1/0015 -> exit 1, dominant joint-4 (64/102) + inner-roll left arm (21/102) hints both surfaced\n\nWHY THIS MATTERS FOR THE 81-EPISODE GAP\nWith 19/100 episodes counted after the prior batch, operators were discovering failures only at end-of-batch verification (minutes to hours of compute). Per-episode pre-check turns that into a <10 sec loop right after each demo, so the operator team can see 'right arm joint 4 was 0.0045 over gate, freeze the handle next time' before the next demo and recover the technique in-session. Combined with the joint-level target list, this is the highest-leverage dev-side enabler remaining for the still-blocked task.\n\nSTATUS UNCHANGED\nTask remains blocked: operators still need to run the physical collection. This is dev-side tooling, not new data.",
           "created_at": "2026-05-24T23:13:24+08:00",
           "kind": "result"
+        },
+        {
+          "comment_id": "clawcross_e84b335781a3",
+          "author": "Progress",
+          "body": "Correction to event_38ea5788c9a9 (operator pre-check artifact): the sha256 I quoted in that comment was a placeholder, not the actual hash. The correct hash:\n\ncheck_episode.py sha256: 5a1b856763cce430ab75de597a5d7b92a6484373d9f00c25770d6f2d009b87bc\npath: /home/lv-robotics/workspace/ARX_A5_Dual_ARM/data_collection/check_episode.py\nsize: 5564 bytes\n\nverify with:\n  sha256sum /home/lv-robotics/workspace/ARX_A5_Dual_ARM/data_collection/check_episode.py",
+          "created_at": "2026-05-24T23:13:39+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-24T23:13:24+08:00"
+      "updated_at": "2026-05-24T23:15:40+08:00"
     },
     {
       "task_id": "task_drag_demo_backend_compare",
@@ -2249,7 +2256,7 @@
       "assignee": "jingxiang@100.112.245.1",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-24T23:13:21+08:00",
+      "updated_at": "2026-05-24T23:15:40+08:00",
       "due_at": "2026-05-28"
     },
     {
@@ -2270,7 +2277,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-24T23:13:21+08:00",
+      "updated_at": "2026-05-24T23:15:41+08:00",
       "due_at": "2026-05-26"
     },
     {
@@ -2283,7 +2290,7 @@
       "assignee": "jingxiang@100.112.245.1",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-24T23:13:21+08:00",
+      "updated_at": "2026-05-24T23:15:41+08:00",
       "due_at": "2026-05-29"
     },
     {
@@ -2687,7 +2694,7 @@
       "assignee": "boris@100.70.181.44",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-24T23:13:22+08:00",
+      "updated_at": "2026-05-24T23:15:41+08:00",
       "due_at": "2026-05-25"
     },
     {
@@ -2729,7 +2736,7 @@
           "kind": "blocker"
         }
       ],
-      "updated_at": "2026-05-24T23:13:22+08:00",
+      "updated_at": "2026-05-24T23:15:41+08:00",
       "due_at": "2026-05-25"
     },
     {
