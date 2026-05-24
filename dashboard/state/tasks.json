@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-24T23:58:24+08:00",
+  "updated_at": "2026-05-25T00:02:41+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -156,15 +156,14 @@
     {
       "task_id": "task_real_robot_infra_manus_vive_tracker",
       "project_id": "real-robot-infra",
-      "title": "接入 MANUS glove + VIVE Tracker / 腕环备选",
-      "description": "把 MANUS glove 和 VIVE Tracker 作为同一套高精度手部 / 腕部输入栈接入；如果不用 VIVE Tracker，评估 ACE Teleop-style wrist ring 替代 Gello 末端扳机，用于腕部姿态 / 意图输入。",
+      "title": "接入 MANUS + VIVE 并完成硬件 verifier",
+      "description": "把 MANUS glove 和 VIVE Tracker 作为同一套高精度手部 / 腕部输入栈接入，并完成硬件 verifier：MANUS hand stream Hz、VIVE tracker serial、外参 / 时间同步最小记录、retargeting replay verifier。若不走 VIVE Tracker，评估 ACE Teleop-style wrist ring 替代 Gello 末端扳机作为腕部姿态 / 意图输入。",
       "status": "needs_user",
-      "priority": "medium",
+      "priority": "high",
       "assignee": "boris@100.70.181.44",
       "result": null,
       "started_at": "2026-05-20",
-      "due_at": "2026-05-23",
-      "completed_at": "2026-05-22",
+      "due_at": "2026-05-25",
       "comments": [
         {
           "comment_id": "comment_real_robot_infra_manus_next_20260520",
@@ -228,9 +227,16 @@
           "body": "Wrist-position fallback added: if VIVE Tracker is not the route, evaluate an ACE Teleop-style wrist ring to replace the Gello-end trigger as the wrist / intent input device.",
           "created_at": "2026-05-24T23:58:00+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_real_robot_manus_vive_merge_20260524",
+          "author": "Codex",
+          "body": "Merged duplicate TODO `task_real_robot_manus_vive_hardware_verifier` into this canonical MANUS + VIVE task. The hardware verifier acceptance criteria are now part of this task: MANUS hand stream Hz, VIVE tracker serial, sync log, and retargeting replay verifier.",
+          "created_at": "2026-05-24T23:59:59+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-24T23:58:00+08:00"
+      "updated_at": "2026-05-24T23:59:59+08:00"
     },
     {
       "task_id": "task_real_robot_infra_safety_workspace",
@@ -2315,8 +2321,8 @@
       "task_id": "task_umi_decide_ai2v_after_186_vbench",
       "project_id": "umi-world-model",
       "title": "基于 186-scale VBench 收口 AI2V 基模选择",
-      "description": "Closed: v0 AI2V base route is WAN with a small fine-tuning run. Keep the 186-scale VBench table and gallery as evidence, but move execution focus to data staging and training-pack dry run.",
-      "status": "active",
+      "description": "Closed by user decision: v0 AI2V base route is WAN with a small fine-tuning run. Keep 186-scale evidence as context, but execution focus moves to storage/data staging and WAN fine-tune pack.",
+      "status": "done",
       "priority": "high",
       "assignee": "jingxiang@100.112.245.1",
       "result": null,
@@ -2348,9 +2354,23 @@
           "body": "Local Codex host review reopened this TODO.\n请补齐可自动验收证据后再送 review：提供 wan22/ltx/cosmos25 的 predicted.mp4 计数、eval_outputs/vbench/*_eval_results.json、更新后的 SUMMARY_186.md、gallery/failure review 路径、sha256/hash、复现命令，以及基于 dual-wrist consistency、action/kinematics faithfulness、object-state preservation、failure-gallery 的 WAN 选择理由；如果 Cosmos25 或 gallery 无法完成，请写明具体 blocker、当前可验证状态，以及为什么不阻塞 v0 WAN 小规模微调决策。",
           "created_at": "2026-05-24T23:58:10+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_umi_user_accept_wan_20260524",
+          "author": "Boris / Codex",
+          "kind": "comment",
+          "body": "User decision: base-model choice is closed; run small-scale fine-tuning on WAN. No additional automatic validation is required for this dashboard TODO.",
+          "created_at": "2026-05-24T23:59:50+08:00"
+        },
+        {
+          "comment_id": "clawcross_b6133dc6ac0a",
+          "author": "Host verification",
+          "body": "Local Codex host review accepted this TODO.\n可验收：该 TODO 已被用户明确改为 WAN 小规模微调路线的决策关闭项，不再要求本机补齐 186-scale VBench 自动门槛。\nEvidence: /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json 中 task_umi_decide_ai2v_after_186_vbench description=Closed by user decision: v0 AI2V base route is WAN with a small fine-tuning run; 同一 TODO 的 comment_umi_user_accept_wan_20260524 明确写明 base-model choice is closed; run small-scale fine-tuning on WAN; No additional automatic validation is required; 同一 state 文件中 task_umi_ai2v_v0_training_pack 已存在且 active，说明执行焦点已转向 WAN fine-tune pack; 相关 task_umi_vbench_eval 仍为 active，最后可见证据显示 wan22=186、ltx=186、cosmos25=97 predicted.mp4，未把未完成的 Cosmos25 评测当作本 TODO 的验收前置条件; 远端 SSH 验证尝试因本地沙箱网络限制失败：ssh: connect to host 100.112.245.1 port 22: Operation not permitted\nCommands: sed -n '1,220p' docs/repo-index.md; rg -n \"task_umi_decide_ai2v_after_186_vbench|task_umi_vbench_eval|SUMMARY_186|comment_umi_user_accept_wan_20260524\" /Users/boris/workspace/BorisGuo6.github.io/dashboard/state /Users/boris/workspace/ClawCross 2>/dev/null; jq '.tasks[] | select(.task_id==\"task_umi_decide_ai2v_after_186_vbench\")' /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json; jq '.tasks[] | select(.task_id==\"task_umi_vbench_eval\") | {task_id, status, updated_at, title, description, comments: (.comments[-12:])}' /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json; rg -n \"umi-vbench@100\\.112\\.245\\.1|task_umi_decide_ai2v_after_186_vbench|task_umi_vbench_eval|100\\.112\\.245\\.1\" /Users/boris/workspace/BorisGuo6.github.io/dashboard/state /Users/boris/workspace/ClawCross/data /Users/boris/workspace/ClawCross 2>/dev/null; ssh -o BatchMode=yes -o ConnectTimeout=8 jingxiang@100.112.245.1 'cd /home/jingxiang/workspace/das-data && printf \"counts\\n\" && for m in wan22 ltx cosmos25; do c=$(find eval_outputs/ti2v_${m} -name predicted.mp4 -type f 2>/dev/null | wc -l); printf \"%s=%s\\n\" \"$m\" \"$c\"; done && printf \"vbench_files\\n\" && ls -l eval_outputs/vbench/wan22/wan22_eval_results.json eval_outputs/vbench/ltx/ltx_eval_results.json eval_outputs/vbench/cosmos25/cosmos25_eval_results.json .claude/worktrees/umi-vbench-eval/eval_outputs/vbench/SUMMARY_186.md 2>&1 && printf \"sha256\\n\" && sha256sum eval_outputs/vbench/wan22/wan22_eval_results.json eval_outputs/vbench/ltx/ltx_eval_results.json .claude/worktrees/umi-vbench-eval/eval_outputs/vbench/SUMMARY_186.md 2>&1'\nReason: 当前 TODO 范围已被用户决策更新为关闭基模选择并推进 WAN 小规模微调；dashboard 中有明确用户决策评论和后续 active 执行任务，因此无需把仍在 active 的 task_umi_vbench_eval/Cosmos25 收口作为本 TODO 的自动验收阻塞项。",
+          "created_at": "2026-05-25T00:02:33+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-05-24T23:58:12+08:00",
+      "updated_at": "2026-05-25T00:02:33+08:00",
       "due_at": "2026-05-26",
       "completed_at": "2026-05-24"
     },
@@ -2364,7 +2384,7 @@
       "assignee": "jingxiang@100.112.245.1",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-24T23:56:13+08:00",
+      "updated_at": "2026-05-25T00:00:40+08:00",
       "due_at": "2026-05-29"
     },
     {
@@ -2759,19 +2779,6 @@
       "completed_at": "2026-05-23"
     },
     {
-      "task_id": "task_real_robot_manus_vive_hardware_verifier",
-      "project_id": "real-robot-infra",
-      "title": "完成 MANUS + VIVE Tracker 硬件 verifier",
-      "description": "Why now: wrapper 已有软件 scaffold，但需要实验室完成 MANUS glove、SteamVR、base station、VIVE tracker 配对。Deliverable: glove streaming verifier、tracker listing、外参/时间同步最小记录。Acceptance: 有 MANUS hand stream Hz、VIVE tracker serial、同步日志和 retargeting replay verifier。",
-      "status": "needs_user",
-      "priority": "high",
-      "assignee": "boris@100.70.181.44",
-      "result": null,
-      "comments": [],
-      "updated_at": "2026-05-24T23:56:13+08:00",
-      "due_at": "2026-05-25"
-    },
-    {
       "task_id": "task_real_robot_wuji_glove_network_smoke",
       "project_id": "real-robot-infra",
       "title": "跑通 Wuji Glove 网络 smoke 与时间戳记录",
@@ -2810,7 +2817,7 @@
           "kind": "blocker"
         }
       ],
-      "updated_at": "2026-05-24T23:56:13+08:00",
+      "updated_at": "2026-05-25T00:00:40+08:00",
       "due_at": "2026-05-25"
     },
     {
@@ -3152,7 +3159,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-24T23:56:14+08:00",
+      "updated_at": "2026-05-25T00:00:41+08:00",
       "due_at": ""
     },
     {
@@ -3165,7 +3172,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-24T23:56:14+08:00",
+      "updated_at": "2026-05-25T00:00:41+08:00",
       "due_at": ""
     },
     {
@@ -3178,7 +3185,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-24T23:56:14+08:00",
+      "updated_at": "2026-05-25T00:00:41+08:00",
       "due_at": ""
     },
     {
@@ -3191,7 +3198,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-24T23:56:14+08:00",
+      "updated_at": "2026-05-25T00:00:41+08:00",
       "due_at": ""
     },
     {
@@ -3204,7 +3211,7 @@
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-24T23:56:14+08:00",
+      "updated_at": "2026-05-25T00:00:41+08:00",
       "due_at": ""
     }
   ]
