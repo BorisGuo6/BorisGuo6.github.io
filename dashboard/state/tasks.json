@@ -3275,7 +3275,7 @@
       "project_id": "umi-world-model",
       "title": "处理 10T 机械硬盘兼容性问题",
       "description": "Yan's server only supports small SSD/NVMe-style drive bays and has no SATA port for the purchased 10T mechanical hard drive. Stop the internal-mount plan. Decide whether to return the drive or use a SATA-to-USB 3.0 adapter/enclosure as an external data disk; if using USB, verify stable mount, throughput, power, filesystem, and WAN2.2 training data path before staging UMI data. Acceptance: record the decision, confirmed mount path or return plan, and whether data staging moves to external USB storage or another server disk.",
-      "status": "active",
+      "status": "done",
       "priority": "high",
       "assignee": null,
       "result": null,
@@ -3307,9 +3307,16 @@
           "body": "Local Codex host review reopened this TODO.\n请补齐该 TODO 的可验收结果：1) 明确最终决策是退货、SATA-to-USB 外置盘，还是改用另一块服务器磁盘；2) 如果退货，记录退货计划、负责人/下一步和 UMI staging 的替代磁盘路径；3) 如果用 USB，接入后记录 lsblk/findmnt/df 输出、稳定挂载路径、文件系统、供电方式、简单读写吞吐验证、以及 WAN2.2/UMI 数据 staging 路径；4) 如果当前缺少 adapter/enclosure、硬盘不在现场或需要 Yan/Boris 做采购/退货决定，请不要放 review，改成 needs_user 并列出需要用户选择的问题。",
           "created_at": "2026-05-25T22:38:43+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_umi_10t_user_done_host_verified_20260525",
+          "author": "Host verification",
+          "kind": "host_verified",
+          "body": "Accepted per user instruction: move this TODO to done for now. The actionable scope is the compatibility decision, not completing disk procurement/mounting today: internal SATA install is blocked, and future data staging should reopen a new return / SATA-to-USB / alternate-disk task if needed.",
+          "created_at": "2026-05-25T22:45:00+08:00"
         }
       ],
-      "updated_at": "2026-05-25T22:38:43+08:00",
+      "updated_at": "2026-05-25T22:45:00+08:00",
       "completed_at": "2026-05-25",
       "due_at": ""
     },
