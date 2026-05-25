@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-25T21:22:08+08:00",
+  "updated_at": "2026-05-25T21:32:20+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -3443,12 +3443,12 @@
       "project_id": "umi-world-model",
       "title": "调研 UMI action 注入路径",
       "description": "Compare practical ways to inject robot action into the UMI world model: (1) text/action tokens in prompt, (2) first-frame plus structured caption, (3) trajectory/control maps rendered into image/video conditions, (4) extra latent/input channels for pose/gripper maps, (5) cross-attention or adapter tokens, (6) AdaLN/time-step modulation with action embeddings, (7) Ctrl-World-style action-conditioned UNet/action encoder, and (8) discrete action tokenization. Acceptance: produce a short decision table with implementation cost, expected action faithfulness, dual-arm support, compatibility with WAN2.2 TI2V, and recommended v1 path.",
-      "status": "todo",
+      "status": "active",
       "priority": "high",
       "assignee": "jingxiang@100.112.245.1",
       "due_at": "2026-05-28",
       "completed_at": null,
-      "updated_at": "2026-05-25T21:20:00+08:00",
+      "updated_at": "2026-05-25T21:32:20+08:00",
       "comments": [
         {
           "comment_id": "comment_umi_action_injection_sources_20260525",
