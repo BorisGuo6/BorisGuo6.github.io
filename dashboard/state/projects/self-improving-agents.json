@@ -4,7 +4,7 @@
   "title": "Self-Improving Agents for Physical AI",
   "bucket": "active",
   "status": "ongoing",
-  "updated_at": "2026-05-25T00:36:00+08:00",
+  "updated_at": "2026-05-25T01:42:00+08:00",
   "description": "AgenticSim proposal for runtime-governed Real2Sim2Real VLA evaluation",
   "summary": "Proposal for Alchedata: build AgenticSim, a runtime-governed Robot-for-Robot evaluation system that turns real-robot traces and failures into simulator tasks, reusable skill memories, eval-gated workflow improvements, and harder VLA benchmarks. The goal is not another static benchmark, but a closed-loop infrastructure where agents evaluate reality, learn from failures, improve safely in simulation, and return only verified changes to real robots.",
   "asset": "dashboard/assets/pearl-overview.png",
@@ -21,7 +21,6 @@
     "Work package 4, World-Model-Guided Self-Improvement: use world models and generated object / scene physics assets to screen candidate improvements before risky robot trials. This is the imagination layer: useful for task mutation, counterfactual failures, object physics variation, and long-horizon rollouts.",
     "Work package 5, Self-Evolving VLA Evaluation: avoid overfitting static benchmarks by generating harder diagnostic tasks from observed failures. The benchmark should evolve from failure memory and task-environment co-evolution, while preserving versioning and auditability.",
     "Existing foundation already built: AgenticSim currently registers 129 Gymnasium environments: 9 official LeHome / LeHome-challenge household environments and the exact 120 formal RoboLab benchmark tasks. The task stack includes ChallengeGarmentLoader with four garment types and specialized folding detectors, and the current test suite passes 28/28.",
-    "Pilot slice, tactile 叠叠乐 / stacking: recruit a master student to train a small VTA/VLA practice task where a special gripper and Daimon tactile sensing make contact stability, slip, grasp angle, and stack collapse observable. This is a compact Real2Sim2Real demo because failures are easy to collect, diagnose, replay in simulation, and turn into trace-memory / eval-gate examples.",
     "MVP proposal: consolidate AgenticSim into one clean repository; keep a small failure-trace dataset; define the Robot-for-Robot output schema; add an Isaac Sim smoke gate and dependency check; ship a demo CLI that runs task generation, failure attribution, trace memory, eval gate, and report export end-to-end on a small task subset.",
     "Robot-for-Robot output contract: every run should produce task spec, simulator seed, asset version, VLA checkpoint, action logs, real/sim outcome, failure attribution, trace memory, governance decision, artifact paths, and replay/verifier commands. The system should be legible to both humans and agents.",
     "Conceptual references: PEARL supplies the self-improvement loop of typed failure memory, attribution, task-environment co-evolution, and runtime governance. RoboClaw is a lifecycle reference for VLM-driven collection, learning, deployment, monitoring, failure recovery, and human escalation. DreamDojo is a Real2Sim2Real world-model reference for learning from egocentric video and target robot data.",
@@ -38,8 +37,7 @@
     "task_self_improving_roboclaw_workflow",
     "task_self_improving_assets",
     "task_self_improving_vlm_loop",
-    "task_self_improving_r4r_format",
-    "task_self_improving_tactile_stacking_pilot"
+    "task_self_improving_r4r_format"
   ],
   "risks_decisions": [
     "Scope decision: start in simulation and trace replay, then return to real robots only after schema, replay, and safety gates are working.",
@@ -50,8 +48,7 @@
     "Executability risk: generated tasks/assets must be physically valid, not only visually plausible. Isaac / simulator smoke gates are mandatory before a task enters evaluation.",
     "Evaluation risk: if we only optimize simulator score, agents may overfit old tests. The system must check sim-to-real predictive validity and generate new diagnostic tasks from failures.",
     "Safety risk: real-robot deployment is expensive and risky; world-model screening and eval gates should reduce, not replace, human review for risky physical changes.",
-    "Meeting decision needed: choose the first demonstration slice: trace-memory demo, Real2Sim2Real VLA eval demo, generated asset/task mutation demo, or full mini-loop CLI.",
-    "Pilot dependency: tactile 叠叠乐 needs a master student owner, a printable/custom stacking gripper, Daimon tactile integration, and confirmation from Zheng Yuhang / Daimon on whether the previous UMI gripper package is ready and when it can be brought to Singapore."
+    "Meeting decision needed: choose the first demonstration slice: trace-memory demo, Real2Sim2Real VLA eval demo, generated asset/task mutation demo, or full mini-loop CLI."
   ],
   "timeline": {
     "badges": [
@@ -68,51 +65,14 @@
         "value": "AgenticSim"
       },
       {
-        "label": "Pilot",
-        "value": "Tactile 叠叠乐"
-      },
-      {
-        "label": "Sensor",
-        "value": "Daimon tactile"
-      },
-      {
         "label": "Foundation",
         "value": "129 envs"
       },
       {
-        "label": "Tests",
-        "value": "28/28"
-      },
-      {
         "label": "MVP",
         "value": "R4R + gates"
-      },
-      {
-        "label": "Core loop",
-        "value": "Evaluate -> remember -> evolve"
-      },
-      {
-        "label": "Refs",
-        "value": "PEARL / RoboClaw / DreamDojo"
       }
     ],
-    "target_cycle": "Alchedata proposal discussion",
-    "target_note": "Meeting-ready proposal intro for runtime-governed AgenticSim and Robot-for-Robot evaluation.",
-    "sprint_start": "2026-05-25",
-    "sprint_due": "2026-05-26",
-    "milestones": [
-      {
-        "milestone_id": "self_improving_agenticsim_foundation_ready",
-        "title": "AgenticSim 129-env foundation ready",
-        "status": "done",
-        "date": "2026-05-23"
-      },
-      {
-        "milestone_id": "self_improving_alchedata_meeting_20260526",
-        "title": "Alchedata proposal discussion",
-        "status": "scheduled",
-        "date": "2026-05-26"
-      }
-    ]
+    "target_note": "Meeting-ready proposal intro for runtime-governed AgenticSim and Robot-for-Robot evaluation."
   }
 }

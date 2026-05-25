@@ -4,7 +4,7 @@
   "title": "Real-Robot Lab Infra",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-05-24T23:59:59+08:00",
+  "updated_at": "2026-05-25T17:20:00+08:00",
   "description": "Engineering stack for teleoperation, data collection, and robot-side validation",
   "summary": "This is the engineering base that keeps weekly research work grounded in real data collection and real-robot validation.",
   "asset": "dashboard/assets/real-robot-infra-collage.png",
@@ -12,6 +12,7 @@
   "asset_caption": "Hardware matrix: ready systems, dual-Franka same-computer control, and planned glove / tracker teleoperation stack.",
   "details": [
     "Ready inventory baseline: Linker FFG, UDCAP data glove, Cobot Magic / Piper-X, Linker Hand L6, and Daimon UMI.",
+    "Missing wrapper: Linker TA + Linker FFG still needs a local control wrapper before it can be treated as ready infra. The wrapper should expose connection/config, state readback, command open/close or position/force targets, error handling, and a smoke verifier.",
     "Completed today: ARX / Fangzhou Wuxian real-robot infra setup.",
     "ARX SOP received: Operation of ARX Robot Arm for Drag Teaching and Teleoperation Data Collection, JZ/SOP/ROB/001, issued 2026-05-23. It covers trained-operator responsibility, power-up, drag teaching, teleoperation, shutdown, and immediate stop conditions.",
     "Progress on 2026-05-18: dual Franka arms can now be controlled from the same computer.",
@@ -27,13 +28,13 @@
   "task_ids": [
     "task_real_robot_infra_arx_setup",
     "task_real_robot_infra_inventory",
+    "task_real_robot_infra_linker_ta_ffg_wrapper",
     "task_real_robot_infra_franka_wuji",
     "task_real_robot_infra_wuji_glove",
     "task_real_robot_infra_manus_vive_tracker",
     "task_real_robot_infra_safety_workspace",
     "task_real_robot_infra_factr_force_feedback",
-    "task_real_robot_infra_knife_meat_demo_plan",
-    "task_real_robot_infra_ace_wrist_ring"
+    "task_real_robot_infra_knife_meat_demo_plan"
   ],
   "risks_decisions": [
     "不同设备的驱动、SDK、ROS topic 和日志格式需要尽早统一，否则后面每条数据都会带维护成本。",

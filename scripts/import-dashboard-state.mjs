@@ -1,18 +1,14 @@
-import { readFile } from "node:fs/promises";
-import path from "node:path";
+import {
+  isNoisyHarnessComment,
+  loadDashboardState,
+  normalizeCommentKind,
+} from "./dashboard-state-lib.mjs";
 
-const repoRoot = path.resolve(import.meta.dirname, "..");
-const dashboardDir = path.join(repoRoot, "dashboard");
-const stateDir = path.join(dashboardDir, "state");
 const supabaseUrl = process.env.SUPABASE_URL || "https://xhdvhixwbkfsgvgkmgmu.supabase.co";
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 if (!serviceRoleKey) {
   throw new Error("Set SUPABASE_SERVICE_ROLE_KEY in your shell before importing state.");
-}
-
-async function readJson(filePath) {
-  return JSON.parse(await readFile(filePath, "utf8"));
 }
 
 async function upsert(table, rows, conflictKey) {
@@ -36,38 +32,8 @@ async function upsert(table, rows, conflictKey) {
   console.log(`imported ${rows.length} ${table}`);
 }
 
-function normalizeCommentKind(kind) {
-  const value = String(kind || "comment").trim();
-  const aliases = {
-    progress: "comment",
-    conductor_reply: "comment",
-    conductor_note: "comment",
-    blocker_resolved: "comment",
-    review: "comment",
-    artifact: "comment",
-    host_verified: "verification",
-  };
-  return aliases[value] || value || "comment";
-}
-
-function isNoisyHarnessComment(comment) {
-  const kind = String(comment.kind || "").trim();
-  const body = String(comment.body || "").trim();
-  if (["conductor_reply", "conductor_note"].includes(kind)) return true;
-  if (body.startsWith("本机主控已向远端 session")) return true;
-  if (body.startsWith("本机主控拦截到疑似危险输入请求")) return true;
-  if (body.includes("session_") && (body.includes("本机主控") || body.includes("ClawCross"))) return true;
-  return false;
-}
-
-function statePathToFile(statePath) {
-  return path.join(repoRoot, statePath);
-}
-
-const portfolio = await readJson(path.join(stateDir, "portfolio.json"));
-const projectRefs = portfolio.projects || [];
-const projectDocs = await Promise.all(projectRefs.map((project) => readJson(statePathToFile(project.state_path))));
-const taskDoc = await readJson(path.join(stateDir, "tasks.json"));
+const { portfolio, projects, taskDoc } = await loadDashboardState();
+const projectDocs = projects.map((project) => project.doc);
 
 await upsert("portfolio_snapshots", [{
   portfolio_id: portfolio.portfolio_id,

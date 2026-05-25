@@ -7,7 +7,8 @@
     "supabase:seed-sql": "node scripts/generate-dashboard-seed-sql.mjs",
     "supabase:import": "node scripts/import-dashboard-state.mjs",
     "supabase:sync": "node scripts/sync-dashboard-to-supabase.mjs",
-    "supabase:sync:watch": "node scripts/sync-dashboard-to-supabase.mjs --watch --interval 60"
+    "supabase:sync:watch": "node scripts/sync-dashboard-to-supabase.mjs --watch --interval 60",
+    "test:dashboard": "node test/dashboard-state-lib.test.mjs"
   },
   "devDependencies": {
     "live-server": "^1.2.2"

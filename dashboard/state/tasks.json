@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-25T01:33:13+08:00",
+  "updated_at": "2026-05-25T17:30:54+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -286,10 +286,10 @@
       "task_id": "task_real_robot_infra_factr_force_feedback",
       "project_id": "real-robot-infra",
       "title": "走菁特智能采购 FACTR / 评估主臂力反馈",
-      "description": "FACTR procurement should go through Jingte Intelligent. Keep evaluating whether FACTR / force-feedback or mechanical gravity compensation reduces passive Gello master-arm free-fall and Franka collision risk.",
+      "description": "FACTR procurement is now at quote-review stage. Jingte / KING TECHNOLOGY has issued the FACTR-Franka quotation; next step is to send it to Karen for review and purchasing approval while keeping the technical safety comparison around master-arm gravity compensation, damping/brake, and force-feedback value.",
       "status": "needs_user",
       "priority": "medium",
-      "assignee": "Zheng Yuhang",
+      "assignee": "Karen / Zheng Yuhang",
       "result": null,
       "comments": [
         {
@@ -319,9 +319,16 @@
           "body": "Procurement route updated: FACTR should be purchased through Jingte Intelligent. Keep the technical comparison focused on master-arm gravity compensation, damping / brake, and force-feedback safety value.",
           "created_at": "2026-05-24T23:58:00+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_real_robot_factr_quote_karen_review_20260525",
+          "author": "Boris / Codex",
+          "body": "Procurement update: Jingte / KING TECHNOLOGY quotation is available. Quote No. 2026052501, dated 2026-05-25, valid until 2026-06-25. Item: FACTR-Franka, quantity 2 sets, unit price USD 1,765, goods subtotal USD 3,530; air shipping USD 300; GST 9% USD 344.70; payment fee shown as USD 41.75; total order value including tax USD 4,216.45. Freight terms: DDP. Lead time: 1-2 weeks. Payment terms: wire transfer within 30 days after receiving goods. Next step: send quotation to Karen for review / purchasing approval.",
+          "created_at": "2026-05-25T17:58:00+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-24T23:58:00+08:00",
+      "updated_at": "2026-05-25T17:30:50+08:00",
       "due_at": ""
     },
     {
@@ -3185,16 +3192,25 @@
     },
     {
       "task_id": "task_real_robot_infra_ace_wrist_ring",
-      "project_id": "real-robot-infra",
-      "title": "评估 ACE Teleop 腕环替代 Gello 扳机",
-      "description": "If VIVE Tracker is not used for wrist pose, evaluate an ACE Teleop-style wrist ring as the wrist / intent input device, replacing the Gello-end trigger path. Deliverable: interface sketch, signal list, mounting idea, and compatibility with MANUS / Wuji retargeting.",
-      "status": "todo",
+      "project_id": "general",
+      "title": "GELLO 末端从 trigger 改 ACE-style 腕环 + MANUS 手姿态",
+      "description": "现有 GELLO 仍负责 Franka/GELLO 机械臂 joint-space teleop；改动只发生在末端：把原本采集夹爪开合的 trigger 模块替换/扩展成 ACE Teleop-style wrist ring。不要用 ACE 的 hand-facing camera 做手姿态估计；手部姿势、手指开合和 retargeting 输入由 MANUS glove 提供。Deliverable: GELLO A67/trigger 末端到 ACE wrist ring 的机械结合草图、保留/删除件清单、MANUS signal path、wrist ring 输出字段、线缆/快拆/限位方案，以及 first print fit-check。",
+      "status": "active",
       "priority": "medium",
-      "assignee": null,
+      "assignee": "Boris / CAD owner",
       "result": null,
-      "comments": [],
-      "updated_at": "2026-05-25T00:53:41+08:00",
-      "due_at": ""
+      "comments": [
+        {
+          "comment_id": "comment_gello_ace_manus_design_clarification_20260525",
+          "author": "Codex",
+          "body": "Design clarification after checking the references:\n- GELLO side: keep the Franka FR3 GELLO arm chain and joint-space teleop logic. The relevant mechanical interface is the distal A67/trigger area; the Franka FR3 mechanical folder includes `20_TRIGGER_BODY.STL`, `21_TRIGGER_FINGER.STL`, and trigger storage parts, so this is the region to replace or adapt.\n- ACE side: borrow only the WRIST / wearable exoskeleton geometry concept. Do not use ACE's hand-facing camera path, because MANUS glove provides the hand pose and finger state.\n- Proposed merge: make an adapter that bolts onto the GELLO distal trigger mount / A67 connector and carries an ACE-style wrist ring or cuff. The ring should provide comfortable wrist anchoring / intent input and cable routing, while MANUS streams hand posture into the retargeting stack.\n- First CAD target: a non-electrical fit-check print with wrist-ring size, quick-release/strap, cable exit, and hard-stop clearance; after fit passes, add any buttons/sensors only if needed.",
+          "created_at": "2026-05-25T17:40:00+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-05-25T17:40:00+08:00",
+      "due_at": "",
+      "started_at": "2026-05-25"
     },
     {
       "task_id": "task_umi_genie_envisioner_probe",
@@ -3236,10 +3252,116 @@
       "due_at": ""
     },
     {
-      "task_id": "task_self_improving_tactile_stacking_pilot",
-      "project_id": "superhuman-rate-curve-teleop",
-      "title": "启动 tactile 叠叠乐 pilot",
-      "description": "找一个 master 同学做小型 stacking / 叠叠乐练手任务：用 VTA/VLA 模型学习触觉辅助堆叠，配一个可打印/定制的特殊 gripper，并接入戴盟触觉。目标是把 grasp angle、slip、contact stability、stack collapse 等失败变成 AgenticSim 的 trace-memory 和 eval-gate 样例。",
+      "task_id": "task_hardware_psa_three_finger_gripper",
+      "project_id": "general",
+      "title": "PSA proposal 三指触觉夹爪设计",
+      "description": "为 PSA proposal 准备一个三指夹爪末端方案：可选祝老板电机作为 actuator，三指末端集成触觉传感器，目标覆盖 Jenga-style 抽积木塔和拿刀切肉等低自由度触觉操作 demo。Deliverable: CAD/机构草图、actuator/sensor 布局、控制接口、BOM 和与 Franka/ARX 末端连接方式。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "remote CAD owner / Zheng Yuhang for sensor sourcing",
+      "result": null,
+      "started_at": "2026-05-25",
+      "due_at": "",
+      "comments": [
+        {
+          "comment_id": "comment_psa_three_finger_daimon_sensors_20260525",
+          "author": "Boris / Codex",
+          "body": "Sensor sourcing note: first ask Zheng Yuhang to get three Daimon tactile sensors; no new purchase unless the available sensors cannot fit the fingertip layout.",
+          "created_at": "2026-05-25T01:10:00+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-05-25T17:30:52+08:00",
+      "completed_at": null
+    },
+    {
+      "task_id": "task_hardware_wuji_franka_camera_flange",
+      "project_id": "general",
+      "title": "给 Wuji + Franka 做相机转接法兰",
+      "description": "设计 Wuji Hand / Franka 组合使用的相机转接法兰，用于固定 wrist/hand-view camera，保留手部运动空间、线缆应力释放和可重复安装位置。Deliverable: CAD 草图/打印件方案、螺孔/夹持方式、相机视场说明和安装检查表。",
+      "status": "active",
+      "priority": "medium",
+      "assignee": "Boris / Wuhao",
+      "result": null,
+      "started_at": "2026-05-25",
+      "due_at": "",
+      "comments": [
+        {
+          "comment_id": "comment_wuji_franka_camera_flange_wuhao_cad_20260525",
+          "author": "Boris / Codex",
+          "body": "Progress update: Wuhao has already finished the CAD for the Wuji + Franka camera adapter flange. Boris plans to print it tonight; next check is physical fit, camera field of view, cable strain relief, and whether the mount interferes with Wuji Hand motion.",
+          "created_at": "2026-05-25T17:28:00+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-05-25T17:30:52+08:00",
+      "completed_at": null
+    },
+    {
+      "task_id": "task_hardware_glove_camera_mount_dexwild",
+      "project_id": "general",
+      "title": "做 MANUS / Wuji 手套相机转接件",
+      "description": "参考 DexWild 的 glove/body-mounted camera 思路，为 MANUS 或 Wuji 手套设计轻量相机转接件，用于采集手部第一视角 / HOI 数据。Deliverable: mount CAD、线缆路径、视场选择、重量/佩戴干扰评估。",
+      "status": "todo",
+      "priority": "medium",
+      "assignee": null,
+      "result": null,
+      "started_at": "2026-05-25",
+      "due_at": "",
+      "comments": [],
+      "updated_at": "2026-05-25T17:30:52+08:00",
+      "completed_at": null
+    },
+    {
+      "task_id": "task_hardware_manus_two_finger_retargeting",
+      "project_id": "general",
+      "title": "MANUS 数据手套到两指夹爪重定向与遥操作",
+      "description": "把 MANUS 数据手套的手部姿态映射到两指夹爪的开合/接触状态，用于简单低自由度遥操作和数据采集。Deliverable: retargeting mapping、teleop interface、最小 verifier，以及与 tactile gripper 平台的输入/输出 schema 对齐。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": null,
+      "result": null,
+      "started_at": "2026-05-25",
+      "due_at": "",
+      "comments": [],
+      "updated_at": "2026-05-25T17:30:52+08:00",
+      "completed_at": null
+    },
+    {
+      "task_id": "task_hardware_two_finger_tactile_gripper_platform",
+      "project_id": "general",
+      "title": "复刻两指 FinRay / GelSight / PPTAC 触觉夹爪平台",
+      "description": "做一个低成本两指夹爪操作平台：复刻/改造简单 FinRay fingers，预留 GelSight 或 Daimon/PPTAC-style 触觉传感器安装位，后续用于 VLA/VTLA 操作、抽积木塔、接触稳定性和触觉数据采集。Deliverable: CAD、传感器安装方案、夹爪开合接口、基础测试任务清单。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "remote CAD owner / Zheng Yuhang for Daimon sensors",
+      "result": null,
+      "started_at": "2026-05-25",
+      "due_at": "",
+      "comments": [],
+      "updated_at": "2026-05-25T17:30:53+08:00",
+      "completed_at": null
+    },
+    {
+      "task_id": "task_hardware_six_dof_tactile_calibration_platform",
+      "project_id": "general",
+      "title": "六自由度触觉传感器标定平台",
+      "description": "设计一个 6-DoF tactile sensor calibration platform，用于标定力/力矩、接触位置和传感器输出一致性。Deliverable: 机械加载方案、标定流程、数据记录格式、校准曲线/验证指标。",
+      "status": "todo",
+      "priority": "medium",
+      "assignee": null,
+      "result": null,
+      "started_at": "2026-05-25",
+      "due_at": "",
+      "comments": [],
+      "updated_at": "2026-05-25T17:30:53+08:00",
+      "completed_at": null
+    },
+    {
+      "task_id": "task_general_tactile_stacking_pilot",
+      "project_id": "general",
+      "title": "启动 Jenga 抽积木塔 tactile pilot",
+      "description": "找一个 master 同学做小型 Jenga-style block extraction / 抽积木塔练手任务：机器人从木块塔里推出或抽出指定木块，同时尽量不让塔倒。用 VTA/VLA 模型学习触觉辅助的接触稳定、摩擦/滑移、侧向推力、塔体晃动和失败恢复；配一个可打印/定制的特殊 gripper，并接入戴盟触觉。目标是把 slip、contact stability、lateral force、tower wobble、tower collapse 等失败变成通用硬件平台的测试样例；后续需要时再被 AgenticSim 或 VLA/VTLA 项目引用。",
       "status": "todo",
       "priority": "medium",
       "assignee": "master student TBD / Zheng Yuhang for gripper timing",
@@ -3250,26 +3372,43 @@
         {
           "comment_id": "comment_tactile_stacking_pilot_scope_20260525",
           "author": "Boris / Codex",
-          "body": "Scope note from Boris: “叠叠乐” can be a compact training/evaluation task for a master student. Use Daimon tactile sensing and a special gripper; ask Zheng Yuhang whether the Daimon-side gripper package matched to the previous UMI gripper is ready and when it can be brought to Singapore.",
+          "body": "Scope note from Boris: Jenga-style block extraction / 抽积木塔 can be a compact training/evaluation task for a master student. Use Daimon tactile sensing and a special gripper; ask Zheng Yuhang whether the Daimon-side gripper package matched to the previous UMI gripper is ready and when it can be brought to Singapore.",
           "created_at": "2026-05-25T00:36:00+08:00",
           "kind": "needs_user"
+        },
+        {
+          "comment_id": "comment_jenga_block_extraction_name_20260525",
+          "author": "Boris / Codex",
+          "body": "Naming correction: this is not generic stacking. The intended object is Jenga-style block extraction / 抽积木塔: push or pull one wooden block out of a tower while preserving tower stability. The useful tactile signals are slip, lateral force, contact stability, tower wobble, and collapse risk.",
+          "created_at": "2026-05-25T17:52:00+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-25T01:29:25+08:00",
+      "updated_at": "2026-05-25T17:30:53+08:00",
       "completed_at": null
     },
     {
-      "task_id": "task_survey_pool_consolidate_prior_artifacts",
-      "project_id": "superhuman-rate-curve-teleop",
-      "title": "Consolidate prior Survey artifacts onto shaol survey pool",
-      "description": "Robotics + 3D Printing on shaol is complete. Make shaol@100.96.228.8 the dedicated Survey pool host. Pull together the previous temporary survey outputs from boris/feibo for Superhuman Robot Execution and Diverse Dataset on Same Task into ~/workspace survey folders, create/refresh TASK.md via ClawCross, and leave a concise index of artifacts, decisions, and remaining follow-up TODOs. Do not move Claude session IDs or secrets into dashboard; only project/TODO facts and artifact summaries.",
+      "task_id": "task_real_robot_infra_linker_ta_ffg_wrapper",
+      "project_id": "real-robot-infra",
+      "title": "写 Linker TA + Linker FFG wrapper",
+      "description": "Linker TA + Linker FFG 组合还没有 wrapper。Deliverable: 一个最小 Python wrapper / CLI，能连接设备、读取状态、发送 gripper open/close 或 position/force command、记录错误码/时间戳，并输出 10 秒 smoke log。Acceptance: 无硬件时能给 actionable dependency report；有硬件时能完成 connect -> state -> command -> state -> disconnect 的 verifier。",
       "status": "todo",
       "priority": "high",
-      "assignee": "shaol@100.96.228.8",
-      "due_at": "",
+      "assignee": null,
       "result": null,
-      "comments": [],
-      "updated_at": "2026-05-25T01:09:21+08:00"
+      "started_at": "2026-05-25",
+      "due_at": "",
+      "comments": [
+        {
+          "comment_id": "comment_linker_ta_ffg_wrapper_scope_20260525",
+          "author": "Boris / Codex",
+          "body": "Scope note: this belongs in Real-Robot Lab Infra, not General, because it is a concrete ready-device integration wrapper. Keep it small first: connection config, status readback, command path, smoke verifier, and clear blocker output when hardware or SDK docs are missing.",
+          "created_at": "2026-05-25T17:20:00+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-05-25T17:30:53+08:00",
+      "completed_at": null
     }
   ]
 }

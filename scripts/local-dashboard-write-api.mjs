@@ -1,25 +1,16 @@
 import http from "node:http";
 import { randomUUID } from "node:crypto";
-import { readFile, writeFile } from "node:fs/promises";
-import path from "node:path";
+import {
+  makeAgentEventSender,
+  maxCommentLength,
+  readEnvFile,
+  readJsonFile,
+  tasksPath,
+  writeJsonFile,
+} from "./dashboard-state-lib.mjs";
 
-const repoRoot = path.resolve(import.meta.dirname, "..");
-const envPath = path.join(repoRoot, ".env");
-const tasksPath = path.join(repoRoot, "dashboard", "state", "tasks.json");
 const allowedTaskStatuses = new Set(["todo", "active", "blocked", "needs_user", "review", "done"]);
 const allowedTaskPriorities = new Set(["low", "medium", "high"]);
-const maxCommentLength = 4000;
-
-function loadEnv(text) {
-  const env = {};
-  for (const rawLine of text.split(/\n/)) {
-    const line = rawLine.trim();
-    if (!line || line.startsWith("#") || !line.includes("=")) continue;
-    const [key, ...rest] = line.split("=");
-    env[key.trim()] = rest.join("=").trim().replace(/^['"]|['"]$/g, "");
-  }
-  return env;
-}
 
 function sendJson(response, status, body, origin = "") {
   const headers = {
@@ -37,14 +28,6 @@ function sendJson(response, status, body, origin = "") {
 
 function errorMessage(error) {
   return error instanceof Error ? error.message : String(error);
-}
-
-async function readJsonFile(filePath) {
-  return JSON.parse(await readFile(filePath, "utf8"));
-}
-
-async function writeJsonFile(filePath, data) {
-  await writeFile(filePath, `${JSON.stringify(data, null, 2)}\n`);
 }
 
 function slugify(value) {
@@ -156,7 +139,7 @@ function requireString(value, name) {
 
 async function main() {
   const env = {
-    ...loadEnv(await readFile(envPath, "utf8")),
+    ...await readEnvFile(),
     ...process.env,
   };
   const supabaseUrl = requireString(env.SUPABASE_URL, "SUPABASE_URL").replace(/\/$/, "");
@@ -170,26 +153,12 @@ async function main() {
     `http://localhost:${dashboardPort}`,
   ]);
 
-  async function agentEvent(payload) {
-    const response = await fetch(`${supabaseUrl}/functions/v1/agent-event`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        "x-agent-token": agentWriteToken,
-      },
-      body: JSON.stringify({
-        agent_id: "local-dashboard",
-        event_type: "local_dashboard_write",
-        ...payload,
-      }),
-    });
-    const text = await response.text();
-    const parsed = text ? JSON.parse(text) : {};
-    if (!response.ok || parsed.error) {
-      throw new Error(parsed.error || `agent-event ${response.status}: ${text}`);
-    }
-    return parsed;
-  }
+  const agentEvent = makeAgentEventSender({
+    supabaseUrl,
+    agentWriteToken,
+    agentId: "local-dashboard",
+    eventType: "local_dashboard_write",
+  });
 
   const server = http.createServer(async (request, response) => {
     const origin = request.headers.origin || "";

@@ -29,6 +29,7 @@ const allowedActions = new Set([
   "heartbeat",
   "portfolio_update",
   "project_upsert",
+  "project_delete",
   "project_update",
   "task_upsert",
   "task_delete",
@@ -307,6 +308,16 @@ Deno.serve(async (request) => {
         .single();
       if (error) throw error;
       if (agentId) eventAgentId = await ensureAgentRecord(project_id);
+    } else if (action === "project_delete") {
+      const project_id = requireString(projectId, "project_id");
+      eventProjectId = project_id;
+      const { error } = await supabase
+        .from("projects")
+        .delete()
+        .eq("project_id", project_id)
+        .select("project_id")
+        .single();
+      if (error) throw error;
     } else if (action === "task_upsert") {
       const task_id = requireString(taskId, "task_id");
       const project_id = requireString(projectId, "project_id");
