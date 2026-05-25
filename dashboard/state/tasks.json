@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-26T00:29:02+08:00",
+  "updated_at": "2026-05-26T00:44:03+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2369,9 +2369,16 @@
           "body": "Host is checking Claude availability and preparing Codex fallback for the UMI WAN2.2 TI2V task because some remote Claude sessions report organization disabled.",
           "created_at": "2026-05-26T00:29:01+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_f6a238a6fdda",
+          "author": "Review",
+          "body": "Local Codex host review reopened this TODO.\n请补齐可自动验收材料，不必重做主任务：在 dashboard/harness 写入完整复现记录，至少包含远端工作区 pwd、git status --short、git rev-parse HEAD；列出 staged manifest、train/val split、config、dry-run loader、run plan、L40S handoff 文件路径、ls -l、sha256sum；贴出 manifest/split 计数并证明初跑规模为 1k-2k 且 first-frame image condition 是左右 wrist view 水平拼接；贴出实际 dry-run loader 命令、完整 stdout/stderr、退出码；贴出 run plan 中 Wan2.2 5B vs 14B 训练/推理成本对比、选择的 model size/resolution/GPU memory/time；贴出 LingBot/LingBot-World recipe inspection 与最终 trainable module/parameter 选择。若实际开训仍被 HDD/GPU/framework 决策阻塞，请明确 blocker 和需要用户选择的问题。",
+          "created_at": "2026-05-26T00:44:03+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-26T00:29:01+08:00",
+      "updated_at": "2026-05-26T00:44:03+08:00",
       "due_at": "2026-05-28"
     },
     {
@@ -3269,12 +3276,12 @@
       "project_id": "umi-world-model",
       "title": "试跑 Genie Envisioner",
       "description": "Try Genie Envisioner as an additional probe for UMI/world-model work. Check whether it helps generate or evaluate action-conditioned future frames, scene transitions, or failure-gallery cases relevant to dual wrist-view UMI data.",
-      "status": "todo",
+      "status": "active",
       "priority": "medium",
-      "assignee": null,
+      "assignee": "jingxiang@100.112.245.1",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-25T00:53:41+08:00",
+      "updated_at": "2026-05-26T00:39:24+08:00",
       "due_at": ""
     },
     {
@@ -3504,12 +3511,12 @@
       "project_id": "umi-world-model",
       "title": "更新 Cosmos Predict 2.5 双腕拼接 system prompt",
       "description": "Rewrite the Cosmos Predict 2.5 system prompt for UMI concatenated wrist views. It must say: the image/video is a horizontal concatenation; left half is the left wrist/gripper view; right half is the right wrist/gripper view; lower visible gripper parts are the interactive end-effectors; keep left/right identity, object state, contact geometry, and gripper-object interaction consistent. Acceptance: save the prompt template and run or dry-run it on representative clips.",
-      "status": "todo",
+      "status": "review",
       "priority": "medium",
       "assignee": "jingxiang@100.112.245.1",
       "due_at": "2026-05-27",
       "completed_at": null,
-      "updated_at": "2026-05-25T21:20:00+08:00",
+      "updated_at": "2026-05-26T00:39:24+08:00",
       "comments": [
         {
           "comment_id": "comment_umi_cosmos_prompt_meeting_20260525",
@@ -3525,12 +3532,12 @@
       "project_id": "umi-world-model",
       "title": "调研 UMI action 注入路径",
       "description": "Compare practical ways to inject robot action into the UMI world model: (1) text/action tokens in prompt, (2) first-frame plus structured caption, (3) trajectory/control maps rendered into image/video conditions, (4) extra latent/input channels for pose/gripper maps, (5) cross-attention or adapter tokens, (6) AdaLN/time-step modulation with action embeddings, (7) Ctrl-World-style action-conditioned UNet/action encoder, and (8) discrete action tokenization. Acceptance: produce a short decision table with implementation cost, expected action faithfulness, dual-arm support, compatibility with WAN2.2 TI2V, and recommended v1 path.",
-      "status": "active",
+      "status": "review",
       "priority": "high",
       "assignee": "jingxiang@100.112.245.1",
       "due_at": "2026-05-28",
       "completed_at": null,
-      "updated_at": "2026-05-25T21:32:20+08:00",
+      "updated_at": "2026-05-26T00:39:24+08:00",
       "comments": [
         {
           "comment_id": "comment_umi_action_injection_sources_20260525",
