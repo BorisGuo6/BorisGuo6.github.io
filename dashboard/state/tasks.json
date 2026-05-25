@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-25T21:32:58+08:00",
+  "updated_at": "2026-05-25T21:45:40+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -580,7 +580,7 @@
       "project_id": "umi-world-model",
       "title": "建立 evaluation 数据与 VBench 评测",
       "description": "除可视化外，组织 100/200 条数据，用 VBench 做原生模型能力评测。",
-      "status": "active",
+      "status": "done",
       "priority": "medium",
       "assignee": "jingxiang@100.112.245.1",
       "result": null,
@@ -836,10 +836,18 @@
           "body": "Codex monitor: Cosmos25 expansion supervisor is still running on jingxiang. Counts now wan22=186, ltx=186, cosmos25=97 predicted.mp4; active process run_cosmos25_expand_and_close.sh -> ti2v_batch.py --model cosmos25. Existing SUMMARY_186.md is still from before full Cosmos25 completion, so keep task active until cosmos25 reaches 186 and VBench summary is regenerated.",
           "created_at": "2026-05-23T14:24:26+08:00",
           "kind": "progress"
+        },
+        {
+          "comment_id": "clawcross_65fac5895600",
+          "author": "Host verification",
+          "body": "本机 ClawCross 代远端 worker 回写：186-scale VBench 已完成并可验证。counts: wan22=186/186, ltx=186/186, cosmos25=186/186. files: eval_outputs/vbench/wan22/wan22_eval_results.json sha256=d297770b03ea1d618cb6d607be7dc2667270f23903065f1a6682d744415706d1; eval_outputs/vbench/ltx/ltx_eval_results.json sha256=8f6990055a87000dcc1d4dd8eba5146c02d1b1eaca5b75774cfeec29bdddd793; eval_outputs/vbench/cosmos25/cosmos25_eval_results.json sha256=524cb538321c032bad618fccef19853932367861715f46bc2e599cb01f088180; SUMMARY_186.md sha256=c6f04f955fa6a49527f2e2d42d223eaebf45d9528f6b72f2750a017139b3736f. run_id=vbench_scale_20260521T183305Z; base git_sha=e121018ab28a5251ffc324ec977d946695b3d16f; repo HEAD=d51e681180cb5c93137d265c12a23ae8a05b4fe0. Remote worker could not post because its local 127.0.0.1:51200 daemon is down; local ClawCross verified over SSH.",
+          "created_at": "2026-05-25T21:45:32+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-05-24T23:49:08+08:00",
-      "due_at": ""
+      "updated_at": "2026-05-25T21:45:40+08:00",
+      "due_at": "",
+      "completed_at": "2026-05-25"
     },
     {
       "task_id": "task_self_improving_prepare_proposal",
@@ -2414,7 +2422,7 @@
       "project_id": "umi-world-model",
       "title": "做 UMI 评测样例浏览器/对比 gallery",
       "description": "Build a TI2V-style comparison gallery like a paper qualitative figure: each sample must show the generated video, the matched GT video, and the exact text input / caption prompt used by the TI2V model. Also keep first-frame / left-right concatenation metadata, model name, run_id, clip_id, and metrics beside each sample. Acceptance: at least 50 clips; every card/row has generated video, GT video, prompt text, and run metadata; support filtering by model/run/metric and open directly from the remote workspace.",
-      "status": "todo",
+      "status": "done",
       "priority": "medium",
       "assignee": "jingxiang@100.112.245.1",
       "result": null,
@@ -2425,10 +2433,18 @@
           "kind": "comment",
           "body": "Gallery should not be only a metric table. For TI2V, each example needs the visual triplet: generated video, GT video, and the exact text prompt/caption input, so model behavior can be judged against the conditioned instruction.",
           "created_at": "2026-05-25T22:05:00+08:00"
+        },
+        {
+          "comment_id": "clawcross_b8040e4dc952",
+          "author": "Host verification",
+          "body": "本机 ClawCross 代远端 worker 回写：UMI eval gallery deliverable 已建好。路径 /home/jingxiang/workspace/das-data/eval_outputs/eval_gallery/{index.html,manifest.json}; coverage: 186 clips, GT + WAN2.2 + LTX + Cosmos25 + prompt + 6 VBench dims; manifest sha256=c767ef7fa272ae069decd546870e1da4bcc3be9e597790b4ccb1706fd3d3090d; index sha256=53dc315700ff724853b9d1ba5a3842c5082e8fbf9727142a222ed5be9ef426a4. Browser visual verification still pending, but static files and manifest were verified on disk over SSH.",
+          "created_at": "2026-05-25T21:45:33+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-05-25T22:05:00+08:00",
-      "due_at": "2026-05-29"
+      "updated_at": "2026-05-25T21:45:39+08:00",
+      "due_at": "2026-05-29",
+      "completed_at": "2026-05-25"
     },
     {
       "task_id": "task_pod_cell_driver_skeleton",
