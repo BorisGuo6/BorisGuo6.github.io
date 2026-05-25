@@ -3259,14 +3259,22 @@
     {
       "task_id": "task_umi_install_10t_hdd_stage_data",
       "project_id": "umi-world-model",
-      "title": "装 10T 硬盘并落 UMI 微调数据",
-      "description": "Move the 10T mechanical hard drive from ME to the server, mount it, create the UMI data directory, and download/stage the data needed for WAN small-scale fine-tuning.",
+      "title": "处理 10T 机械硬盘兼容性问题",
+      "description": "Yan's server only supports small SSD/NVMe-style drive bays and has no SATA port for the purchased 10T mechanical hard drive. Stop the internal-mount plan. Decide whether to return the drive or use a SATA-to-USB 3.0 adapter/enclosure as an external data disk; if using USB, verify stable mount, throughput, power, filesystem, and WAN2.2 training data path before staging UMI data. Acceptance: record the decision, confirmed mount path or return plan, and whether data staging moves to external USB storage or another server disk.",
       "status": "active",
       "priority": "high",
       "assignee": null,
       "result": null,
-      "comments": [],
-      "updated_at": "2026-05-25T21:32:55+08:00",
+      "comments": [
+        {
+          "comment_id": "comment_umi_10t_no_sata_20260525",
+          "author": "Boris / Codex",
+          "kind": "comment",
+          "body": "Hardware update: Yan's server cannot take the 10T SATA mechanical HDD directly because it only has small SSD/NVMe-style bays and no SATA port. Current options are return the drive, or buy a SATA-to-USB 3.0 adapter/enclosure and use it as an external mobile disk for staging.",
+          "created_at": "2026-05-25T22:22:00+08:00"
+        }
+      ],
+      "updated_at": "2026-05-25T22:22:00+08:00",
       "due_at": ""
     },
     {
