@@ -4,9 +4,9 @@
   "title": "UMI World Model",
   "bucket": "active",
   "status": "ongoing",
-  "updated_at": "2026-05-24T23:47:00+08:00",
+  "updated_at": "2026-05-25T21:20:00+08:00",
   "description": "Kinematics-conditioned dual eye-in-hand world modeling",
-  "summary": "The core idea is to treat eye-in-hand UMI teleoperation as action-conditioned video generation: the robot action trajectory is also the wrist-camera trajectory.",
+  "summary": "UMI World Model is now in the WAN2.2 TI2V fine-tuning phase: use a concatenated left/right first frame as the image condition, train one dual-wrist TI2V model first, then decide how to inject robot action beyond text and first-frame conditioning.",
   "asset": "dashboard/assets/umi-dataset-visualization.png",
   "asset_alt": "UMI dataset annotation and subtask segmentation visualization panel",
   "asset_caption": "Dataset QA: synchronized wrist views, 3D pose, EEF traces, current segment, and action log after subtask splitting.",
@@ -19,9 +19,13 @@
     "Maintain left-right consistency over object state and scene state.",
     "First decision: one-side generation + camera transform, or end-to-end synchronized dual video.",
     "Potential contribution: DiT structure with attention / AdaLN changes, then CameraNoise-style control after the base model works.",
-    "Base-model decision: close the base-model selection and proceed with small-scale fine-tuning on WAN; treat LTX / Cosmos / other models as comparison or fallback rather than the main v0 path.",
-    "Server storage: install the 10T mechanical hard drive from ME onto the server, then download / stage UMI data for the WAN fine-tuning run.",
-    "Try Genie Envisioner as an additional UMI/world-model probe, especially for whether it can help with envisioning action-conditioned future frames or evaluation cases."
+    "Try Genie Envisioner as an additional UMI/world-model probe, especially for whether it can help with envisioning action-conditioned future frames or evaluation cases.",
+    "Meeting update 2026-05-25: WAN2.2 fine-tuning is starting with left/right wrist views concatenated into one first-frame image condition; train one TI2V model first instead of separate left/right models.",
+    "Initial training scale: prepare 1k-2k UMI clips/trajectories for the first run; compare 5B versus 14B cost, but keep the v0 path on the manageable TI2V fine-tune route unless 14B quality justifies the extra compute.",
+    "Training audit: inspect the LingBot / LingBot-World training recipe to understand which parameters/modules were trained and how interaction/action information enters the world model; use it as a reference for active simulation, not as a drop-in baseline.",
+    "Cosmos Predict 2.5 prompt update: explicitly describe the concatenated input layout. The left half is the left wrist/gripper view, the right half is the right wrist/gripper view, and the visible lower gripper parts are the interactive end-effectors that can contact and move objects.",
+    "Action-injection survey: compare text action tokens, first-frame conditioning, trajectory/control maps, latent-channel concatenation, cross-attention adapters, AdaLN/action encoders, and Ctrl-World-style action-conditioned UNet paths; pick the smallest v1 path that can encode dual-arm pose and gripper state.",
+    "Server storage: install the 10T mechanical hard drive from ME onto the server, then download / stage UMI data for the WAN2.2 fine-tuning run."
   ],
   "task_ids": [
     "task_umi_gemini_frame_test",
@@ -31,6 +35,11 @@
     "task_umi_dreamzero_ctrlworld_inference",
     "task_umi_prepare_haoyu_test_set",
     "task_umi_vbench_eval",
+    "task_umi_decide_ai2v_after_186_vbench",
+    "task_umi_ai2v_v0_training_pack",
+    "task_umi_cosmos25_concat_prompt_update",
+    "task_umi_action_injection_survey",
+    "task_umi_eval_gallery",
     "task_umi_genie_envisioner_probe",
     "task_umi_install_10t_hdd_stage_data"
   ],
@@ -44,11 +53,13 @@
     }
   ],
   "risks_decisions": [
-    "基模路线：先证明 TI2V 能力，还是同步推进 AI2V codebase inference。",
     "时间帧切分精度会直接影响 caption / relabel 质量，需要早做小样本检查，并比较 Gemini 与 Seed 2.0 Pro 标注的一致性。",
     "初版数据规模要控制在能快速迭代的范围，避免一开始就把训练周期拉长。",
     "Evaluation 需要同时覆盖视觉质量、时序定位、动作条件一致性。",
-    "基模结论：v0 主线选择 WAN 少量微调；后续重点转向数据落盘、训练包、evaluation gallery 和失败样例，而不是继续无限比较基模。"
+    "基模结论：v0 主线进入 WAN2.2 TI2V 少量微调；首帧使用左右 wrist view 拼接，只训练一个双视角模型，避免过早拆成两个单视角模型。",
+    "训练规模决策：首轮控制在 1k-2k 条，先证明双腕视角一致性、动作条件可用性和失败样例可解释，再扩到 5k-10k。",
+    "Action 注入风险：如果只靠 prompt 和第一帧，模型可能学到外观和短期运动但不听机器人轨迹；必须尽快比较 token、control-map、latent-channel、adapter/AdaLN/action-encoder 等注入路径。",
+    "Cosmos Predict 2.5 继续作为 prompt / inference 对照时，system prompt 必须写清左右拼接语义和可交互夹爪区域，否则模型容易把双腕画面当普通拼图或不相关双视角。"
   ],
   "timeline": {
     "target_venue": "ICLR",
