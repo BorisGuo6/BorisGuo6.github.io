@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-25T22:22:30+08:00",
+  "updated_at": "2026-05-25T22:23:13+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2447,9 +2447,16 @@
           "body": "本机 ClawCross 代远端 worker 回写：UMI eval gallery deliverable 已建好。路径 /home/jingxiang/workspace/das-data/eval_outputs/eval_gallery/{index.html,manifest.json}; coverage: 186 clips, GT + WAN2.2 + LTX + Cosmos25 + prompt + 6 VBench dims; manifest sha256=c767ef7fa272ae069decd546870e1da4bcc3be9e597790b4ccb1706fd3d3090d; index sha256=53dc315700ff724853b9d1ba5a3842c5082e8fbf9727142a222ed5be9ef426a4. Browser visual verification still pending, but static files and manifest were verified on disk over SSH.",
           "created_at": "2026-05-25T21:45:33+08:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "clawcross_419e0d582c8c",
+          "author": "Artifact",
+          "body": "Online comparison gallery: http://100.112.245.1:8765/eval_outputs/eval_gallery/index.html. Browser-playable cards show TI2V text input, GT video, WAN2.2/LTX/Cosmos25 generated videos, and VBench scores for 186 clips.",
+          "created_at": "2026-05-25T22:23:13+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-25T22:05:00+08:00",
+      "updated_at": "2026-05-25T22:23:13+08:00",
       "due_at": "2026-05-29",
       "completed_at": "2026-05-25"
     },
