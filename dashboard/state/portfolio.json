@@ -123,40 +123,43 @@
   ],
   "project_buckets": [
     {
-      "bucket": "active",
+      "bucket": "research",
       "label": "Research",
-      "title": "Paper / proposal tracks"
+      "title": "Paper / proposal tracks",
+      "default_open": true
     },
     {
       "bucket": "engineering",
       "label": "Engineering",
-      "title": "Collaboration / infra tracks"
+      "title": "Collaboration / infra tracks",
+      "default_open": false
     },
     {
-      "bucket": "research",
-      "label": "Research / Survey",
-      "title": "Scoping projects"
+      "bucket": "survey",
+      "label": "Survey",
+      "title": "Scoping projects",
+      "default_open": false
     }
   ],
   "projects": [
     {
       "project_id": "umi-world-model",
       "title": "UMI World Model",
-      "bucket": "active",
+      "bucket": "research",
       "status": "ongoing",
       "state_path": "dashboard/state/projects/umi-world-model.json"
     },
     {
       "project_id": "self-improving-agents",
       "title": "Self-Improving Agents for Physical AI",
-      "bucket": "active",
+      "bucket": "research",
       "status": "ongoing",
       "state_path": "dashboard/state/projects/self-improving-agents.json"
     },
     {
       "project_id": "image-layered-world-model",
       "title": "Image-Layered World Model",
-      "bucket": "active",
+      "bucket": "research",
       "status": "ongoing",
       "state_path": "dashboard/state/projects/image-layered-world-model.json"
     },
@@ -184,21 +187,21 @@
     {
       "project_id": "superhuman-rate-curve-teleop",
       "title": "Superhuman Robot Execution",
-      "bucket": "research",
+      "bucket": "survey",
       "status": "survey",
       "state_path": "dashboard/state/projects/superhuman-rate-curve-teleop.json"
     },
     {
       "project_id": "diverse-same-task-dataset",
       "title": "Diverse Dataset on Same Task",
-      "bucket": "research",
+      "bucket": "survey",
       "status": "survey",
       "state_path": "dashboard/state/projects/diverse-same-task-dataset.json"
     },
     {
       "project_id": "robotics-3d-printing",
       "title": "Robotics + 3D Printing",
-      "bucket": "research",
+      "bucket": "survey",
       "status": "survey",
       "state_path": "dashboard/state/projects/robotics-3d-printing.json"
     }

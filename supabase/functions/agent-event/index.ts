@@ -40,7 +40,7 @@ const allowedActions = new Set([
 ]);
 const allowedTaskStatuses = new Set(["todo", "active", "blocked", "needs_user", "review", "done"]);
 const allowedTaskPriorities = new Set(["low", "medium", "high", "urgent"]);
-const allowedProjectBuckets = new Set(["active", "engineering", "research", "archive"]);
+const allowedProjectBuckets = new Set(["research", "engineering", "survey", "archive"]);
 const allowedProjectStatuses = new Set(["ongoing", "survey", "blocked", "done", "paused"]);
 const allowedCommentKinds = new Set(["comment", "result", "status_change", "needs_user", "blocker", "verification"]);
 const commentKindAliases = new Map([
@@ -254,7 +254,7 @@ Deno.serve(async (request) => {
     } else if (action === "project_upsert") {
       const project_id = requireString(projectId, "project_id");
       const title = requireString(body.title || payload.title, "title");
-      const bucket = requireEnum(payload.bucket, "bucket", allowedProjectBuckets, "active");
+      const bucket = requireEnum(payload.bucket, "bucket", allowedProjectBuckets, "research");
       const status = requireEnum(body.status || payload.status, "status", allowedProjectStatuses, "ongoing");
       const sortOrder = optionalInteger(payload.sort_order);
       eventProjectId = project_id;
@@ -452,14 +452,17 @@ Deno.serve(async (request) => {
       if (error) throw error;
     }
 
-    const { error: eventError } = await supabase.from("agent_events").insert({
-      agent_id: eventAgentId,
-      project_id: eventProjectId,
-      task_id: action === "task_delete" ? null : taskId || null,
-      event_type: body.event_type || action,
-      payload: body,
-    });
-    if (eventError) throw eventError;
+    const skipEventLog = body.skip_event_log === true && body.agent_id === "dashboard-supabase-sync";
+    if (!skipEventLog) {
+      const { error: eventError } = await supabase.from("agent_events").insert({
+        agent_id: eventAgentId,
+        project_id: eventProjectId,
+        task_id: action === "task_delete" ? null : taskId || null,
+        event_type: body.event_type || action,
+        payload: body,
+      });
+      if (eventError) throw eventError;
+    }
 
     return jsonResponse({ ok: true });
   } catch (error) {

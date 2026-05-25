@@ -73,7 +73,7 @@
       <section class="section project-status-section">
         <div class="section-title">
           <h2>Project Status</h2>
-          <p>Two buckets: active implementation and research-stage ideas.</p>
+          <p>Three buckets: research, engineering, and survey.</p>
         </div>
         <div class="status-columns" data-status-columns></div>
       </section>
@@ -565,7 +565,7 @@
             projects: projects.map((project) => ({
               project_id: project.project_id,
               title: project.title,
-              bucket: project.bucket,
+              bucket: normalizeProjectBucket(project.bucket, project.status),
               status: project.status,
             })),
             rules: snapshot.rules || [],
@@ -578,7 +578,7 @@
             schema_version: "project.v1",
             project_id: project.project_id,
             title: project.title,
-            bucket: project.bucket,
+            bucket: normalizeProjectBucket(project.bucket, project.status),
             status: project.status,
             updated_at: project.updated_at,
             description: project.description,
@@ -592,6 +592,17 @@
             risks_decisions: project.risks_decisions || [],
             references: referencesByProject.get(project.project_id) || [],
           };
+        }
+
+        function normalizeProjectBucket(bucket, status) {
+          const rawBucket = String(bucket || "").trim().toLowerCase();
+          const rawStatus = String(status || "").trim().toLowerCase();
+          if (rawBucket === "active" || rawBucket === "main") return "research";
+          if (rawBucket === "infra") return "engineering";
+          if (rawBucket === "scoping") return "survey";
+          if (rawBucket === "research" && rawStatus === "survey") return "survey";
+          if (["research", "engineering", "survey", "archive"].includes(rawBucket)) return rawBucket;
+          return "research";
         }
 
         function projectBodyClassName(projectDoc) {
@@ -945,18 +956,36 @@
         }
 
         function createProjectBucket(bucket) {
-          const column = document.createElement("div");
-          column.className = "status-column";
+          const column = document.createElement("details");
+          column.className = "status-column bucket-detail";
           column.dataset.bucket = bucket.bucket;
-          const title = document.createElement("div");
-          title.className = "bucket-title";
+          const defaultOpen = typeof bucket.default_open === "boolean" ? bucket.default_open : bucket.bucket === "research";
+          preserveDetailsOpenState(column, `project-bucket:${bucket.bucket}`, defaultOpen);
+
+          const summary = document.createElement("summary");
+          summary.className = "bucket-title";
+          const content = document.createElement("div");
+          content.className = "bucket-projects";
+          content.dataset.bucketProjects = bucket.bucket;
           const label = document.createElement("span");
           label.textContent = bucket.label || bucket.bucket;
           const strong = document.createElement("strong");
           strong.textContent = bucket.title || bucket.bucket;
-          title.append(label, strong);
-          column.append(title);
+          summary.append(label, strong);
+          column.append(summary, content);
           return column;
+        }
+
+        function bucketProjectContainer(column) {
+          return column?.querySelector?.("[data-bucket-projects]") || column;
+        }
+
+        function fallbackProjectBuckets() {
+          return [
+            { bucket: "research", label: "Research", title: "Paper / proposal tracks", default_open: true },
+            { bucket: "engineering", label: "Engineering", title: "Collaboration / infra tracks", default_open: false },
+            { bucket: "survey", label: "Survey", title: "Scoping projects", default_open: false },
+          ];
         }
 
         function renderProjectBuckets(portfolio) {
@@ -966,7 +995,7 @@
           }
           const buckets = Array.isArray(portfolio.project_buckets) && portfolio.project_buckets.length > 0
             ? portfolio.project_buckets
-            : [{ bucket: "active", label: "Ongoing", title: "Active projects" }];
+            : fallbackProjectBuckets();
           const existingProjects = new Map(
             Array.from(container.querySelectorAll(".project-detail[data-project-id]"))
               .map((projectElement) => [projectElement.dataset.projectId, projectElement])
@@ -981,7 +1010,7 @@
           (portfolio.projects || []).forEach((projectRef) => {
             const column = columns.get(projectRef.bucket) || columns.values().next().value;
             const projectElement = existingProjects.get(projectRef.project_id) || createProjectShell(projectRef);
-            column?.append(projectElement);
+            bucketProjectContainer(column)?.append(projectElement);
           });
           replaceChildrenPreservingDetails(container, ...columnElements);
         }
@@ -1759,6 +1788,9 @@
         }
 
         function subscribeSupabaseRealtime() {
+          if (window.DASHBOARD_SUPABASE_REALTIME !== true) {
+            return;
+          }
           if (!supabaseClient || realtimeChannel) {
             return;
           }
@@ -2061,6 +2093,12 @@
         });
 
         async function initDashboardState() {
+          const params = new URLSearchParams(window.location.search);
+          const useSupabase = params.get("supabase") === "1" || window.DASHBOARD_SUPABASE_AUTO_LOAD === true;
+          if (!useSupabase) {
+            await loadJsonState();
+            return;
+          }
           try {
             setSyncStatus("Supabase loading", "loading");
             await detectLocalWriteApi();

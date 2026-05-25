@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-26T00:44:03+08:00",
+  "updated_at": "2026-05-26T00:49:26+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2337,7 +2337,7 @@
       "project_id": "umi-world-model",
       "title": "启动 WAN2.2 TI2V 左右视角拼接微调",
       "description": "Start the WAN2.2 TI2V fine-tuning run for UMI with the left/right wrist views horizontally concatenated as the first-frame image condition. Train one dual-wrist TI2V model first, using 1k-2k examples for the initial run. Compare 5B versus 14B training/inference cost from the Wan2.2 efficiency table, and inspect the LingBot / LingBot-World recipe to see which modules or parameters were trained before locking UMI trainable parameters. Acceptance: staged manifest, train/val split, config, and dry-run loader are ready; the run plan records model size, resolution, expected GPU memory/time, and trainable-module choice.",
-      "status": "active",
+      "status": "review",
       "priority": "high",
       "assignee": "jingxiang@100.112.245.1",
       "result": null,
@@ -2378,7 +2378,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-26T00:44:03+08:00",
+      "updated_at": "2026-05-26T00:49:11+08:00",
       "due_at": "2026-05-28"
     },
     {
@@ -3276,12 +3276,12 @@
       "project_id": "umi-world-model",
       "title": "试跑 Genie Envisioner",
       "description": "Try Genie Envisioner as an additional probe for UMI/world-model work. Check whether it helps generate or evaluate action-conditioned future frames, scene transitions, or failure-gallery cases relevant to dual wrist-view UMI data.",
-      "status": "active",
+      "status": "review",
       "priority": "medium",
       "assignee": "jingxiang@100.112.245.1",
       "result": null,
       "comments": [],
-      "updated_at": "2026-05-26T00:39:24+08:00",
+      "updated_at": "2026-05-26T00:45:52+08:00",
       "due_at": ""
     },
     {

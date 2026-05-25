@@ -590,20 +590,51 @@ figcaption {
 }
 
 .status-column {
-  display: grid;
-  gap: 12px;
+  display: block;
 }
 
 .bucket-title {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   gap: 12px;
   padding-bottom: 7px;
   border-bottom: 2px solid var(--ink);
 }
 
+summary.bucket-title {
+  cursor: pointer;
+  list-style: none;
+}
+
+summary.bucket-title::-webkit-details-marker {
+  display: none;
+}
+
+.status-column > .bucket-title::before {
+  content: "+";
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 19px;
+  height: 19px;
+  border: 1px solid var(--line);
+  color: var(--accent);
+  font-weight: 900;
+}
+
+.status-column[open] > .bucket-title::before {
+  content: "-";
+}
+
+.bucket-projects {
+  display: grid;
+  gap: 12px;
+  margin-top: 12px;
+}
+
 .bucket-title span {
+  min-width: 0;
   color: var(--muted);
   font-size: 11px;
   font-weight: 800;
@@ -612,6 +643,8 @@ figcaption {
 }
 
 .bucket-title strong {
+  margin-left: auto;
+  text-align: right;
   font-size: 15px;
 }
 
@@ -2000,12 +2033,13 @@ body.lightbox-open {
     gap: 12px;
   }
 
-  .status-column {
-    gap: 7px;
-  }
-
   .bucket-title {
     padding-bottom: 4px;
+  }
+
+  .bucket-projects {
+    gap: 7px;
+    margin-top: 7px;
   }
 
   .project-detail > summary {

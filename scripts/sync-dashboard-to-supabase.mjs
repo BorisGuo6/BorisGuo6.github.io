@@ -7,19 +7,29 @@ import {
   makeSupabaseSyncClient,
   readEnvFile,
 } from "./dashboard-state-lib.mjs";
+import {
+  buildSyncPlan,
+} from "./dashboard-sync-plan.mjs";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
+import path from "node:path";
+
+const cachePath = path.join(import.meta.dirname, "..", "tmp", "dashboard-supabase-sync-cache.json");
 
 function parseArgs(argv) {
   const options = {
     watch: false,
-    interval: 60,
+    interval: 3600,
     once: false,
-    deleteStale: true,
+    deleteStale: false,
+    force: false,
     projectId: "",
   };
   for (let index = 0; index < argv.length; index += 1) {
     const arg = argv[index];
     if (arg === "--watch") options.watch = true;
     else if (arg === "--once") options.once = true;
+    else if (arg === "--force") options.force = true;
+    else if (arg === "--delete-stale") options.deleteStale = true;
     else if (arg === "--no-delete-stale") options.deleteStale = false;
     else if (arg === "--interval") options.interval = Number(argv[++index] || options.interval);
     else if (arg.startsWith("--interval=")) options.interval = Number(arg.split("=", 2)[1] || options.interval);
@@ -31,85 +41,29 @@ function parseArgs(argv) {
   return options;
 }
 
-async function syncOnce(client, options) {
+async function readSyncCache() {
+  try {
+    return JSON.parse(await readFile(cachePath, "utf8"));
+  } catch {
+    return {};
+  }
+}
+
+async function writeSyncCache(cache) {
+  await mkdir(path.dirname(cachePath), { recursive: true });
+  await writeFile(cachePath, `${JSON.stringify(cache, null, 2)}\n`);
+}
+
+async function syncOnce(client, options, cache = {}) {
   const state = await loadDashboardState();
-  const tasks = options.projectId
-    ? state.tasks.filter((task) => task.project_id === options.projectId)
-    : state.tasks;
-
-  await client.event({
-    action: "portfolio_update",
-    agent_id: "dashboard-supabase-sync",
-    portfolio_id: state.portfolio.portfolio_id,
-    title: state.portfolio.title,
-    payload: {
-      portfolio_id: state.portfolio.portfolio_id,
-      title: state.portfolio.title,
-      subtitle: state.portfolio.subtitle || null,
-      week: state.portfolio.week,
-      report_date: state.portfolio.date || null,
-      summary: state.portfolio.summary || {},
-      storyline: state.portfolio.storyline || {},
-      visual_references: state.portfolio.visual_references || [],
-      weekly_briefs: state.portfolio.weekly_briefs || [],
-      project_buckets: state.portfolio.project_buckets || [],
-      rules: state.portfolio.rules || [],
-      timeline_policy: state.portfolio.timeline_policy || {},
-      source_updated_at: state.portfolio.updated_at || null,
-    },
-  });
-
-  for (const project of state.projects) {
-    const doc = project.doc;
-    await client.event({
-      action: "project_upsert",
-      agent_id: "dashboard-supabase-sync",
-      project_id: doc.project_id,
-      title: doc.title,
-      description: doc.description,
-      status: doc.status,
-      payload: {
-        title: doc.title,
-        bucket: doc.bucket || project.ref.bucket || "active",
-        status: doc.status || project.ref.status || "ongoing",
-        description: doc.description || "",
-        summary: doc.summary || "",
-        asset: doc.asset || null,
-        asset_alt: doc.asset_alt || null,
-        asset_caption: doc.asset_caption || null,
-        visual: doc.visual || null,
-        details: doc.details || [],
-        timeline: doc.timeline || null,
-        risks_decisions: doc.risks_decisions || [],
-        sort_order: project.sort_order,
-        source_updated_at: doc.updated_at || null,
-      },
-    });
+  const plan = buildSyncPlan(state, options, cache);
+  for (const event of plan.events) {
+    await client.event(event);
   }
 
-  let commentsUpserted = 0;
   let commentsDeleted = 0;
   let tasksDeleted = 0;
-  for (const [sortOrder, task] of tasks.entries()) {
-    await client.event({
-      action: "task_upsert",
-      agent_id: "dashboard-supabase-sync",
-      project_id: task.project_id,
-      task_id: task.task_id,
-      title: task.title,
-      description: task.description,
-      status: task.status,
-      priority: task.priority || "medium",
-      payload: {
-        assignee: task.assignee,
-        due_at: task.due_at,
-        completed_at: task.completed_at,
-        source_updated_at: task.updated_at,
-        sort_order: sortOrder,
-        payload: { source: managedTaskSource },
-      },
-    });
-
+  for (const task of plan.tasks) {
     const comments = dashboardTaskComments(task);
     const localCommentIds = new Set(comments.map((comment) => comment.comment_id));
     if (options.deleteStale) {
@@ -119,6 +73,7 @@ async function syncOnce(client, options) {
           await client.event({
             action: "comment_delete",
             agent_id: "dashboard-supabase-sync",
+            skip_event_log: true,
             task_id: task.task_id,
             comment_id: remoteComment.comment_id,
           });
@@ -126,29 +81,13 @@ async function syncOnce(client, options) {
         }
       }
     }
-
-    for (const comment of comments) {
-      await client.event({
-        action: "task_comment",
-        agent_id: "dashboard-supabase-sync",
-        task_id: comment.task_id,
-        comment_id: comment.comment_id,
-        kind: comment.kind,
-        comment: comment.body,
-        payload: {
-          author: comment.author,
-          created_at: comment.created_at,
-        },
-      });
-      commentsUpserted += 1;
-    }
   }
 
   if (options.deleteStale) {
     const projectIds = options.projectId
       ? [options.projectId]
       : state.projects.map((project) => project.doc.project_id);
-    const localTaskIds = new Set(tasks.map((task) => task.task_id));
+    const localTaskIds = new Set(plan.tasks.map((task) => task.task_id));
     for (const projectId of projectIds) {
       const remoteTasks = await client.rest(`tasks?select=task_id,payload&project_id=eq.${encodeURIComponent(projectId)}`);
       for (const remoteTask of remoteTasks) {
@@ -158,6 +97,8 @@ async function syncOnce(client, options) {
         ) {
           await client.event({
             action: "task_delete",
+            agent_id: "dashboard-supabase-sync",
+            skip_event_log: true,
             task_id: remoteTask.task_id,
           });
           tasksDeleted += 1;
@@ -168,29 +109,51 @@ async function syncOnce(client, options) {
 
   return {
     portfolio: state.portfolio.portfolio_id,
-    projects: state.projects.length,
-    tasks: tasks.length,
+    portfolio_upserted: plan.counts.portfolio_upserted,
+    projects_checked: state.projects.length,
+    projects_upserted: plan.counts.projects_upserted,
+    tasks_checked: plan.tasks.length,
+    tasks_upserted: plan.counts.tasks_upserted,
     tasks_deleted: tasksDeleted,
-    comments_upserted: commentsUpserted,
+    comments_upserted: plan.counts.comments_upserted,
     comments_deleted: commentsDeleted,
+    row_hashes: plan.row_hashes,
     hash: await dashboardHash(state),
   };
 }
 
 async function main() {
   const options = parseArgs(process.argv.slice(2));
-  const env = await readEnvFile();
-  const client = makeSupabaseSyncClient(env);
-  let previousHash = "";
+  const cache = await readSyncCache();
+  let previousHash = cache.last_hash || "";
 
   while (true) {
     const state = await loadDashboardState();
     const currentHash = await dashboardHash(state);
-    if (currentHash !== previousHash) {
-      const summary = await syncOnce(client, options);
+    if (!options.force && !previousHash) {
+      previousHash = currentHash;
+      const summary = await syncOnce({ event: async () => {}, rest: async () => [] }, { ...options, force: false, deleteStale: false }, {});
+      cache.last_hash = currentHash;
+      cache.row_hashes = summary.row_hashes;
+      await writeSyncCache({ ...cache, primed_at: new Date().toISOString() });
+      console.log(JSON.stringify({ ok: true, skipped: "cache_primed", checked_at: new Date().toISOString(), hash: currentHash }));
+    } else if (options.force || currentHash !== previousHash) {
+      const env = await readEnvFile();
+      const client = makeSupabaseSyncClient(env);
+      const summary = await syncOnce(client, options, cache);
       previousHash = summary.hash;
+      cache.last_hash = summary.hash;
+      cache.row_hashes = summary.row_hashes;
+      await writeSyncCache({ ...cache, synced_at: new Date().toISOString() });
+      delete summary.row_hashes;
       console.log(JSON.stringify({ ok: true, synced_at: new Date().toISOString(), ...summary }));
     } else {
+      if (!cache.row_hashes) {
+        const summary = await syncOnce({ event: async () => {}, rest: async () => [] }, { ...options, force: false, deleteStale: false }, {});
+        cache.last_hash = currentHash;
+        cache.row_hashes = summary.row_hashes;
+        await writeSyncCache({ ...cache, checked_at: new Date().toISOString() });
+      }
       console.log(JSON.stringify({ ok: true, skipped: "unchanged", checked_at: new Date().toISOString(), hash: currentHash }));
     }
     if (options.once || !options.watch) break;
