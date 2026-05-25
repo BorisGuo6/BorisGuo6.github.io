@@ -2327,8 +2327,8 @@
     {
       "task_id": "task_umi_ai2v_v0_training_pack",
       "project_id": "umi-world-model",
-      "title": "准备 WAN 少量微调数据包",
-      "description": "Install the 10T mechanical HDD from ME onto the server, stage/download UMI data, and prepare the WAN small-finetune training pack: manifest, prompt/first-frame/gt paths, train/val/test split, filtering rules, and minimal config. Acceptance: dry-run loader reads the staged data and prints counts/hash/missing-item report.",
+      "title": "启动 WAN2.2 TI2V 左右视角拼接微调",
+      "description": "Start the WAN2.2 TI2V fine-tuning run for UMI with the left/right wrist views horizontally concatenated as the first-frame image condition. Train one dual-wrist TI2V model first, using 1k-2k examples for the initial run. Compare 5B versus 14B training/inference cost from the Wan2.2 efficiency table, and inspect the LingBot / LingBot-World recipe to see which modules or parameters were trained before locking UMI trainable parameters. Acceptance: staged manifest, train/val split, config, and dry-run loader are ready; the run plan records model size, resolution, expected GPU memory/time, and trainable-module choice.",
       "status": "active",
       "priority": "high",
       "assignee": "jingxiang@100.112.245.1",
@@ -2349,7 +2349,7 @@
           "created_at": "2026-05-25T21:20:00+08:00"
         }
       ],
-      "updated_at": "2026-05-25T21:21:30+08:00",
+      "updated_at": "2026-05-25T21:35:00+08:00",
       "due_at": "2026-05-28"
     },
     {
