@@ -25,6 +25,7 @@
     "Training audit: inspect the LingBot / LingBot-World training recipe to understand which parameters/modules were trained and how interaction/action information enters the world model; use it as a reference for active simulation, not as a drop-in baseline.",
     "Cosmos Predict 2.5 prompt update: explicitly describe the concatenated input layout. The left half is the left wrist/gripper view, the right half is the right wrist/gripper view, and the visible lower gripper parts are the interactive end-effectors that can contact and move objects.",
     "Action-injection survey: compare text action tokens, first-frame conditioning, trajectory/control maps, latent-channel concatenation, cross-attention adapters, AdaLN/action encoders, and Ctrl-World-style action-conditioned UNet paths; pick the smallest v1 path that can encode dual-arm pose and gripper state.",
+    "Evaluation gallery format: use a TI2V qualitative-comparison layout where each sample shows generated video, matched GT video, and the exact text prompt/caption input together, plus run_id/model/metric metadata.",
     "Server storage: install the 10T mechanical hard drive from ME onto the server, then download / stage UMI data for the WAN2.2 fine-tuning run."
   ],
   "task_ids": [
