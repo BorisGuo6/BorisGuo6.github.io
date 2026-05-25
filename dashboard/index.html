@@ -594,6 +594,19 @@
           };
         }
 
+        function projectBodyClassName(projectDoc) {
+          const layout = projectDoc.visual?.layout || "compact";
+          const layoutClasses = {
+            compact: "compact",
+            standard: "",
+            single_column: "single-column",
+            "single-column": "single-column",
+          };
+          return ["project-body", layoutClasses[layout] ?? layoutClasses.compact]
+            .filter(Boolean)
+            .join(" ");
+        }
+
         function mapSupabaseTask(task, commentsByTask) {
           return {
             task_id: task.task_id,
@@ -1195,12 +1208,7 @@
         function renderProjectState(projectElement, projectDoc) {
           const projectBody = projectElement.querySelector(".project-body");
           if (projectBody) {
-            projectBody.className = "project-body";
-            if (projectDoc.project_id === "real-robot-infra") {
-              projectBody.classList.add("infra-body");
-            } else if (projectDoc.project_id !== "umi-world-model") {
-              projectBody.classList.add("compact");
-            }
+            projectBody.className = projectBodyClassName(projectDoc);
           }
           const summaryTitle = projectElement.querySelector("summary strong");
           const summaryDescription = projectElement.querySelector("summary em");
@@ -1709,8 +1717,7 @@
             }
           });
 
-          const projects = (projectsResult.data || [])
-            .filter((project) => project.project_id !== "hardware-fixtures-tactile-platforms");
+          const projects = projectsResult.data || [];
           const referencesByProject = groupBy(referencesResult.data || [], "project_id");
           const commentsByTask = groupBy(commentsResult.data || [], "task_id");
           portfolioDoc = mapSupabasePortfolio(portfolioResult.data, projects);

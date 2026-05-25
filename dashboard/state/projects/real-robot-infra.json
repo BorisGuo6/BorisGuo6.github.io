@@ -10,6 +10,9 @@
   "asset": "dashboard/assets/real-robot-infra-collage.png",
   "asset_alt": "Real-robot lab infrastructure hardware collage",
   "asset_caption": "Hardware matrix: ready systems, dual-Franka same-computer control, and planned glove / tracker teleoperation stack.",
+  "visual": {
+    "layout": "single-column"
+  },
   "details": [
     "Ready inventory baseline: Linker FFG, UDCAP data glove, Cobot Magic / Piper-X, Linker Hand L6, and Daimon UMI.",
     "Missing wrapper: Linker TA + Linker FFG still needs a local control wrapper before it can be treated as ready infra. The wrapper should expose connection/config, state readback, command open/close or position/force targets, error handling, and a smoke verifier.",

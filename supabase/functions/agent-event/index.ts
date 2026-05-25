@@ -63,8 +63,8 @@ const corsHeaders = {
 };
 
 function getServiceKey(): string {
-  const legacyKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || Deno.env.get("SUPABASE_SERVICE_KEY");
-  if (legacyKey) return legacyKey;
+  const configuredKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || Deno.env.get("SUPABASE_SERVICE_KEY");
+  if (configuredKey) return configuredKey;
 
   const secretKeys = Deno.env.get("SUPABASE_SECRET_KEYS");
   if (!secretKeys) {
@@ -311,6 +311,14 @@ Deno.serve(async (request) => {
     } else if (action === "project_delete") {
       const project_id = requireString(projectId, "project_id");
       eventProjectId = project_id;
+      await supabase
+        .from("agents")
+        .delete()
+        .eq("project_id", project_id);
+      await supabase
+        .from("runs")
+        .delete()
+        .eq("project_id", project_id);
       const { error } = await supabase
         .from("projects")
         .delete()
@@ -318,6 +326,7 @@ Deno.serve(async (request) => {
         .select("project_id")
         .single();
       if (error) throw error;
+      eventProjectId = null;
     } else if (action === "task_upsert") {
       const task_id = requireString(taskId, "task_id");
       const project_id = requireString(projectId, "project_id");

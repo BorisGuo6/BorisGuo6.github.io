@@ -679,7 +679,7 @@ figcaption {
   grid-template-columns: minmax(150px, 0.75fr) minmax(0, 1fr);
 }
 
-.project-body.infra-body {
+.project-body.single-column {
   grid-template-columns: 1fr;
 }
 
@@ -697,7 +697,7 @@ figcaption {
   height: 112px;
 }
 
-.project-body.infra-body img {
+.project-body.single-column img {
   height: auto;
   max-height: none;
 }
@@ -2019,9 +2019,18 @@ body.lightbox-open {
     padding: 7px;
   }
 
+  .project-body.single-column {
+    grid-template-columns: 1fr;
+  }
+
   .project-body img,
   .project-body.compact img {
     height: 82px;
+  }
+
+  .project-body.single-column img {
+    height: auto;
+    max-height: none;
   }
 
   .project-body figure.wide-figure img {
@@ -2186,6 +2195,10 @@ body.lightbox-open {
   .status-columns,
   .project-body,
   .project-body.compact {
+    grid-template-columns: 1fr;
+  }
+
+  .project-body.single-column {
     grid-template-columns: 1fr;
   }
 

@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import {
   dashboardHash,
   dashboardTaskComments,
@@ -37,5 +38,20 @@ assert.ok(state.portfolio.portfolio_id);
 assert.ok(state.projects.length > 0);
 assert.ok(state.tasks.length > 0);
 assert.match(await dashboardHash(state), /^[a-f0-9]{64}$/);
+
+const dashboardSource = await readFile(new URL("../dashboard/index.html", import.meta.url), "utf8");
+const projectIds = new Set(state.projects.map((project) => project.doc.project_id));
+for (const projectId of projectIds) {
+  assert.equal(
+    dashboardSource.includes(`"${projectId}"`) || dashboardSource.includes(`'${projectId}'`),
+    false,
+    `dashboard/index.html should not embed literal project_id ${projectId}`,
+  );
+}
+assert.doesNotMatch(
+  dashboardSource,
+  /project(?:Doc|Ref)?\.project_id\s*[!=]==?\s*["']/,
+  "dashboard/index.html should not branch on literal project_id values",
+);
 
 console.log("dashboard-state-lib tests passed");
