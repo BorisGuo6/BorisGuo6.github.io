@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-26T00:49:26+08:00",
+  "updated_at": "2026-05-26T02:45:19+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -3289,7 +3289,7 @@
       "project_id": "umi-world-model",
       "title": "处理 10T 机械硬盘兼容性问题",
       "description": "Yan's server only supports small SSD/NVMe-style drive bays and has no SATA port for the purchased 10T mechanical hard drive. Stop the internal-mount plan. Decide whether to return the drive or use a SATA-to-USB 3.0 adapter/enclosure as an external data disk; if using USB, verify stable mount, throughput, power, filesystem, and WAN2.2 training data path before staging UMI data. Acceptance: record the decision, confirmed mount path or return plan, and whether data staging moves to external USB storage or another server disk.",
-      "status": "done",
+      "status": "needs_user",
       "priority": "high",
       "assignee": null,
       "result": null,
@@ -3328,10 +3328,16 @@
           "kind": "host_verified",
           "body": "Accepted per user instruction: move this TODO to done for now. The actionable scope is the compatibility decision, not completing disk procurement/mounting today: internal SATA install is blocked, and future data staging should reopen a new return / SATA-to-USB / alternate-disk task if needed.",
           "created_at": "2026-05-25T22:45:00+08:00"
+        },
+        {
+          "comment_id": "comment_umi_10t_beikebao_neo_decision_20260526",
+          "author": "Boris / Codex",
+          "kind": "needs_user",
+          "body": "User decision update: do not refund the wrongly purchased 10T HDD for now. Plan is to buy a Taobao 7-day no-reason-return eligible Beikebao Neo personal-cloud NAS / Wi-Fi hard-drive enclosure and install the drive there. Product check from vendor page: Beikebao Neo is a single-bay personal cloud NAS that supports 2.5-inch drives, can switch between Type-C direct U-disk mode and NAS mode, supports SMB / remote access / phone photo backup, and ships with Type-C cable, gigabit Ethernet cable, and 12V/2A power adapter. Before marking done, verify physical disk compatibility with the actual 10T HDD form factor; if the 10T disk is 3.5-inch SATA, this Neo unit will not be the right enclosure. Next user action: purchase/receive the enclosure, then record install result, stable network/SMB path, filesystem, power method, simple read/write throughput, and WAN2.2/UMI data staging path.",
+          "created_at": "2026-05-26T02:45:19+08:00"
         }
       ],
-      "updated_at": "2026-05-25T22:45:00+08:00",
-      "completed_at": "2026-05-25",
+      "updated_at": "2026-05-26T02:45:19+08:00",
       "due_at": ""
     },
     {

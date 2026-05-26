@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import path from "node:path";
 import {
   dashboardHash,
   dashboardTaskComments,
@@ -12,9 +14,14 @@ import {
   eventHash,
 } from "../scripts/dashboard-sync-plan.mjs";
 import {
+  appendLocalTaskComment,
   applyTaskStatus,
+  createLocalTask,
   makeTask,
+  makeTaskComment,
   makeTaskId,
+  updateLocalTaskStatus,
+  validateTaskPriority,
 } from "../scripts/dashboard-task-store.mjs";
 
 assert.equal(normalizeCommentKind("host_verified"), "verification");
@@ -84,9 +91,92 @@ const madeTask = makeTask({
 }, new Set(), fixedDate);
 assert.equal(madeTask.completed_at, "2026-05-26");
 assert.equal(madeTask.priority, "high");
+assert.equal(validateTaskPriority("urgent"), "urgent");
 const localUpdate = applyTaskStatus(madeTask, "active", new Date("2026-05-26T01:00:00.000Z"));
 assert.equal(madeTask.status, "active");
 assert.equal(localUpdate.completed_at, null);
+
+const tempDir = await mkdtemp(path.join(tmpdir(), "dashboard-task-store-"));
+try {
+  const tempTasksPath = path.join(tempDir, "tasks.json");
+  await writeFile(tempTasksPath, `${JSON.stringify({
+    schema_version: "tasks.v1",
+    updated_at: "2026-05-25T00:00:00.000Z",
+    tasks: [{
+      task_id: "task_demo_existing",
+      project_id: "demo",
+      title: "Existing",
+      description: "",
+      status: "todo",
+      priority: "medium",
+      assignee: null,
+      result: null,
+      comments: [],
+      updated_at: "2026-05-25T00:00:00.000Z",
+    }],
+  }, null, 2)}\n`);
+
+  await updateLocalTaskStatus("task_demo_existing", "done", {
+    filePath: tempTasksPath,
+    now: new Date("2026-05-26T02:00:00.000Z"),
+  });
+  const statusDoc = JSON.parse(await readFile(tempTasksPath, "utf8"));
+  assert.equal(statusDoc.updated_at, "2026-05-26T02:00:00.000Z");
+  assert.equal(statusDoc.tasks[0].completed_at, "2026-05-26");
+
+  await appendLocalTaskComment(
+    "task_demo_existing",
+    makeTaskComment("task_demo_existing", "Comment", "Test", new Date("2026-05-26T03:00:00.000Z")),
+    { filePath: tempTasksPath },
+  );
+  const commentDoc = JSON.parse(await readFile(tempTasksPath, "utf8"));
+  assert.equal(commentDoc.updated_at, "2026-05-26T03:00:00.000Z");
+  assert.equal(commentDoc.tasks[0].comments.length, 1);
+
+  await appendLocalTaskComment(
+    "task_demo_existing",
+    {
+      comment_id: commentDoc.tasks[0].comments[0].comment_id,
+      task_id: "task_demo_existing",
+      author: "Test",
+      kind: "comment",
+      body: "Duplicate",
+      created_at: "2026-05-26T02:30:00.000Z",
+    },
+    { filePath: tempTasksPath },
+  );
+  const duplicateDoc = JSON.parse(await readFile(tempTasksPath, "utf8"));
+  assert.equal(duplicateDoc.updated_at, "2026-05-26T03:00:00.000Z");
+  assert.equal(duplicateDoc.tasks[0].comments.length, 1);
+
+  await assert.rejects(
+    appendLocalTaskComment(
+      "task_demo_existing",
+      {
+        comment_id: "comment_wrong_task",
+        task_id: "task_other",
+        author: "Test",
+        kind: "comment",
+        body: "Wrong task",
+        created_at: "2026-05-26T03:30:00.000Z",
+      },
+      { filePath: tempTasksPath },
+    ),
+    /belongs to task_other, not task_demo_existing/,
+  );
+
+  const urgentTask = await createLocalTask({
+    project_id: "demo",
+    title: "Urgent task",
+    priority: "urgent",
+  }, {
+    filePath: tempTasksPath,
+    now: new Date("2026-05-26T04:00:00.000Z"),
+  });
+  assert.equal(urgentTask.priority, "urgent");
+} finally {
+  await rm(tempDir, { recursive: true, force: true });
+}
 
 const syncFixture = {
   portfolio: {

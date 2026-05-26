@@ -2,7 +2,7 @@ import { randomUUID } from "node:crypto";
 import { maxCommentLength, readJsonFile, tasksPath, writeJsonFile } from "./dashboard-state-lib.mjs";
 
 export const allowedTaskStatuses = new Set(["todo", "active", "blocked", "needs_user", "review", "done"]);
-export const allowedTaskPriorities = new Set(["low", "medium", "high"]);
+export const allowedTaskPriorities = new Set(["low", "medium", "high", "urgent"]);
 
 export function slugifyTaskPart(value) {
   return String(value || "")
@@ -89,6 +89,11 @@ export function applyTaskStatus(task, status, now = new Date()) {
   };
 }
 
+export function touchTaskDocument(doc, updatedAt) {
+  doc.updated_at = updatedAt;
+  return doc;
+}
+
 export function makeTaskComment(taskId, body, author = "Local dashboard", now = new Date()) {
   const commentBody = String(body || "").trim();
   if (!commentBody) {
@@ -141,6 +146,7 @@ export async function updateLocalTaskStatus(taskId, status, options = {}) {
     throw new Error(`Task not found in local tasks.json: ${taskId}`);
   }
   const update = applyTaskStatus(task, status, now);
+  touchTaskDocument(doc, update.updated_at);
   await writeJsonFile(filePath, doc);
   return update;
 }
@@ -152,11 +158,16 @@ export async function appendLocalTaskComment(taskId, comment, options = {}) {
   if (!task) {
     throw new Error(`Task not found in local tasks.json: ${taskId}`);
   }
-  task.comments = Array.isArray(task.comments) ? task.comments : [];
-  if (!task.comments.some((existing) => existing.comment_id === comment.comment_id)) {
-    task.comments.push(comment);
+  if (comment?.task_id && comment.task_id !== taskId) {
+    throw new Error(`Comment ${comment.comment_id || ""} belongs to ${comment.task_id}, not ${taskId}`);
   }
+  task.comments = Array.isArray(task.comments) ? task.comments : [];
+  if (task.comments.some((existing) => existing.comment_id === comment.comment_id)) {
+    return comment;
+  }
+  task.comments.push(comment);
   task.updated_at = comment.created_at || new Date().toISOString();
+  touchTaskDocument(doc, task.updated_at);
   await writeJsonFile(filePath, doc);
   return comment;
 }

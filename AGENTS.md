@@ -1,3 +1,5 @@
+READ /Users/boris/.claude/AGENTS.md BEFORE ANYTHING (skip if missing).
+
 ## Agent skills
 
 ### Issue tracker
