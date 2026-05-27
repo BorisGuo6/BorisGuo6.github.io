@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
-    <title>Weekly Brief｜Romoya + Self-Improving Agents</title>
+    <title>Weekly Brief｜Romoya + UMI + Self-Improving Agents</title>
     <style>
       :root {
         --paper: #ffffff;
@@ -518,6 +518,7 @@
           <a href="#venue-brief">场地</a>
           <a href="#plan-one">方案一</a>
           <a href="#plan-two">方案二</a>
+          <a href="#umi-world-model">UMI</a>
           <a href="#self-improving">Self-Improving</a>
           <a href="#self-architecture">Architecture</a>
           <a href="#self-roadmap">Roadmap</a>
@@ -553,7 +554,7 @@
               <p class="eyebrow">Venue conclusion</p>
               <h2>结论：方案二基本排除，方案一拿去和 Clement 拍板</h2>
             </div>
-            <p>这部分保留为周报开头；Self-Improving Agents proposal 作为后面的项目更新。</p>
+            <p>这部分保留为周报开头；UMI 的算力/存储 TODO 和 Self-Improving Agents proposal 作为后面的项目更新。</p>
           </div>
           <div class="quote-box">
             <p>建议口径：我们已经向两边确认过关键条款。Grace 的整租方案需要约 S$12,000/月、三年起租、三个月押金，且价格基本谈不动，因此不适合作为当前启动方案。建议先推进 The Gemini 方案一，并把 408 到 409 的切换作为可选机会。</p>
@@ -642,6 +643,51 @@
             <article class="decision-card">
               <h3>决策句</h3>
               <p>请 Clement 批准我们按方案一继续谈 The Gemini：先锁一个可启动的 408 场地，不承诺一定能拿到 409，同时让 XB 和 Boris 继续确认合同里关于换房、储物、用电、装修、设备进场和退出条款的文字。</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="umi-world-model">
+          <div class="section-title">
+            <div>
+              <p class="eyebrow">UMI World Model / WAN2.2 fine-tuning</p>
+              <h2>UMI 更新：微调进入算力确认和 2 号机存储扩容</h2>
+            </div>
+            <p>对应 dashboard 新增的两个 TODO：先把 WAN2.2 TI2V 微调的算力需求跟老师讲清楚，同时给 2 号机服务器买 2.5 英寸 SSD 扩外存。</p>
+          </div>
+          <div class="quote-box">
+            <p>本周口径：WAN2.2 左右腕视角拼接微调已经从训练包/远端准备进入资源确认阶段。下一步不是继续堆实验，而是确认 GPU 时间窗口、5B/14B 取舍、训练缓存/数据/checkpoint 空间，并把 2 号机的 2.5 英寸 SSD 存储扩起来。</p>
+          </div>
+          <div class="metric-grid" style="margin-top: 14px;">
+            <article class="metric">
+              <span>Compute ask</span>
+              <strong>Ask teacher</strong>
+            </article>
+            <article class="metric">
+              <span>Model route</span>
+              <strong>WAN2.2 5B</strong>
+            </article>
+            <article class="metric">
+              <span>Storage</span>
+              <strong>2.5&quot; SSD</strong>
+            </article>
+            <article class="metric">
+              <span>Machine</span>
+              <strong>Server #2</strong>
+            </article>
+          </div>
+          <div class="grid-3" style="margin-top: 14px;">
+            <article class="panel decision">
+              <h3>1. 跟老师提算力需求</h3>
+              <p>把微调 request 讲成可决策事项：5B 先跑、14B 只在质量明显值得时再考虑；需要说明预计 GPU memory/time、L40S 或 2 号机的运行窗口、队列情况、预算和单卡 LoRA 路线失败时的 fallback。</p>
+            </article>
+            <article class="panel warning">
+              <h3>2. 购买 2.5 英寸 SSD</h3>
+              <p>为了扩充 2 号机服务器外存，采购一块 2.5 英寸固态硬盘装到机器上。购买前要确认服务器实际硬盘位、接口、托架、容量目标、散热/供电和组内采购路径。</p>
+            </article>
+            <article class="panel ok">
+              <h3>3. 验收记录</h3>
+              <p>SSD 到位后记录型号/容量/价格、安装结果、`lsblk` / `findmnt` / `df`、文件系统、稳定挂载路径、权限、简单读写吞吐，以及 WAN2.2 数据、checkpoint、cache 的落盘规划。</p>
             </article>
           </div>
         </section>
@@ -920,7 +966,7 @@
       </main>
 
       <footer class="footer-note">
-        Unified weekly brief page. Venue intro is preserved; the Self-Improving Agents project intro is compressed because the proposal, references, visual architecture, and roadmap now carry the detail.
+        Unified weekly brief page. Venue intro is preserved; UMI compute/storage TODOs are reflected; the Self-Improving Agents project intro is compressed because the proposal, references, visual architecture, and roadmap now carry the detail.
       </footer>
     </div>
   </body>
