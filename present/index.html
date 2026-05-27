@@ -50,6 +50,13 @@
         background: rgba(11, 17, 23, 0.82);
         border-bottom: 1px solid var(--deck-line);
         backdrop-filter: blur(16px);
+        transition: transform 180ms ease, opacity 180ms ease;
+      }
+
+      body.full-video-active .deck-topbar {
+        transform: translateY(-100%);
+        opacity: 0;
+        pointer-events: none;
       }
 
       .deck-topbar a,
@@ -100,9 +107,11 @@
         background: #05080c;
       }
 
-      .slide-image {
+      .reveal .slide-image {
         width: 100%;
         height: 100%;
+        max-width: none;
+        max-height: none;
         object-fit: contain;
         display: block;
         background: #05080c;
@@ -135,11 +144,34 @@
         pointer-events: none;
       }
 
-      .asset-overlay {
+      .reveal .asset-overlay {
         position: absolute;
         z-index: 4;
+        max-width: none;
+        max-height: none;
         object-fit: contain;
         pointer-events: none;
+      }
+
+      .mask-overlay,
+      .text-overlay {
+        position: absolute;
+        pointer-events: none;
+      }
+
+      .mask-overlay {
+        z-index: 6;
+        background: #ffffff;
+      }
+
+      .text-overlay {
+        z-index: 7;
+        color: #000000;
+        font-family: "Times New Roman", Times, serif;
+        font-size: var(--overlay-font-size, 34px);
+        font-weight: var(--overlay-font-weight, 400);
+        line-height: 1;
+        white-space: nowrap;
       }
 
       .video-slot {
@@ -153,6 +185,8 @@
         display: block;
         width: 100%;
         height: 100%;
+        max-width: none;
+        max-height: none;
         object-fit: var(--video-fit, cover);
       }
 
@@ -421,25 +455,25 @@
 
       const SLOT_PRESETS = {
         full: [{ x: 0, y: 0, w: 100, h: 100, fit: "contain" }],
-        telepreviewIntro: [{ x: 0, y: 0, w: 100, h: 100, fit: "contain" }],
+        telepreviewIntro: [{ x: 0, y: -1.16, w: 102.32, h: 102.32, fit: "fill" }],
         telepreviewTasks: [
-          { key: "pickplace", x: 1.3, y: 20.2, w: 31.5, h: 24.2 },
-          { key: "hang", x: 34.3, y: 20.2, w: 31.5, h: 24.2 },
-          { key: "cupstack", x: 67.2, y: 20.2, w: 31.5, h: 24.2 },
-          { key: "pour", x: 11.3, y: 54.2, w: 34.0, h: 25.0 },
-          { key: "boxrotation", x: 54.8, y: 54.2, w: 34.0, h: 25.0 },
+          { key: "media5", x: 0.0, y: 16.29, w: 32.48, h: 32.48, fit: "fill" },
+          { key: "media4", x: 33.15, y: 16.29, w: 32.48, h: 32.48, fit: "fill" },
+          { key: "media3", x: 66.41, y: 16.29, w: 32.48, h: 32.48, fit: "fill" },
+          { key: "media6", x: 5.66, y: 54.44, w: 36.75, h: 36.75, fit: "fill" },
+          { key: "media2", x: 56.37, y: 54.4, w: 36.75, h: 36.75, fit: "fill" },
         ],
         droRealWorld: [
-          { key: "4e37233cc45b7fa4", x: 6.6, y: 13.5, w: 15.1, h: 26.8 },
-          { key: "ce41702b040e21d4", x: 24.6, y: 13.5, w: 15.1, h: 26.8 },
-          { key: "123dbeb01b2a7ff9", x: 42.6, y: 13.5, w: 15.1, h: 26.8 },
-          { key: "7461820499adf453", x: 60.5, y: 13.5, w: 15.1, h: 26.8 },
-          { key: "f9ddcb757c1b91f9", x: 78.4, y: 13.5, w: 15.1, h: 26.8 },
-          { key: "5eed831c95f25604", x: 6.6, y: 51.6, w: 15.1, h: 26.8 },
-          { key: "1ce0580c2e7b05b1", x: 24.6, y: 51.6, w: 15.1, h: 26.8 },
-          { key: "1ef2ffaa9e60b54c", x: 42.6, y: 51.6, w: 15.1, h: 26.8 },
-          { key: "a5684da25d508e0e", x: 60.5, y: 51.6, w: 15.1, h: 26.8 },
-          { key: "1f59d0f237716431", x: 78.4, y: 51.6, w: 15.1, h: 26.8 },
+          { key: "media11", x: 6.76, y: 13.55, w: 14.92, h: 26.52, fit: "fill" },
+          { key: "media17", x: 24.64, y: 13.68, w: 14.92, h: 26.52, fit: "fill" },
+          { key: "media14", x: 42.53, y: 13.68, w: 14.92, h: 26.52, fit: "fill" },
+          { key: "media18", x: 60.42, y: 13.68, w: 14.92, h: 26.52, fit: "fill" },
+          { key: "media12", x: 78.31, y: 13.6, w: 14.92, h: 26.52, fit: "fill" },
+          { key: "media9", x: 6.81, y: 51.76, w: 14.92, h: 26.52, fit: "fill" },
+          { key: "media10", x: 24.64, y: 51.76, w: 14.92, h: 26.52, fit: "fill" },
+          { key: "media13", x: 42.49, y: 51.61, w: 14.92, h: 26.52, fit: "fill" },
+          { key: "media15", x: 60.46, y: 51.76, w: 14.92, h: 26.52, fit: "fill" },
+          { key: "media16", x: 78.33, y: 51.65, w: 14.92, h: 26.52, fit: "fill" },
         ],
         droHandTransfer: [
           { key: "image80", x: 26.69, y: 14.66, w: 22.03, h: 39.16, fit: "fill" },
@@ -479,27 +513,27 @@
       const VIDEO_LAYOUTS = {
         "interview:7": { slots: SLOT_PRESETS.telepreviewIntro, className: "video-layer-full", hideImage: true },
         "interview:18": { slots: SLOT_PRESETS.telepreviewTasks, className: "video-layer-main" },
-        "interview:22": { slots: [{ x: 17.2, y: 17.3, w: 64.6, h: 77.6 }], className: "video-layer-main" },
-        "interview:37": { slots: [{ x: 2.8, y: 18.5, w: 67.2, h: 72.0 }], className: "video-layer-main" },
+        "interview:22": { slots: [{ x: 17.28, y: 17.22, w: 64.38, h: 77.89, fit: "fill" }], className: "video-layer-main" },
+        "interview:37": { slots: [{ x: 3.06, y: 24.72, w: 66.91, h: 66.91, fit: "fill" }], className: "video-layer-main" },
         "interview:38": { slots: SLOT_PRESETS.droRealWorld, className: "video-layer-main" },
         "interview:39": { slots: SLOT_PRESETS.droHandTransfer, className: "video-layer-clean" },
         "interview:40": { slots: SLOT_PRESETS.droResultGrid, className: "video-layer-clean" },
-        "interview:59": { slots: [{ x: 5.8, y: 20.6, w: 45.6, h: 62.4 }], className: "video-layer-main" },
-        "interview:60": { slots: [{ x: 5.8, y: 20.6, w: 45.6, h: 62.4 }], className: "video-layer-main" },
-        "interview:61": { slots: [{ x: 5.8, y: 20.6, w: 45.6, h: 62.4 }], className: "video-layer-main" },
-        "interview:62": { slots: [{ x: 5.8, y: 20.6, w: 45.6, h: 62.4 }], className: "video-layer-main" },
+        "interview:59": { slots: [{ x: 5.92, y: 22.75, w: 45.55, h: 60.76, fit: "fill" }], className: "video-layer-main" },
+        "interview:60": { slots: [{ x: 5.9, y: 22.75, w: 45.55, h: 60.76, fit: "fill" }], className: "video-layer-main" },
+        "interview:61": { slots: [{ x: 5.95, y: 22.75, w: 45.55, h: 60.76, fit: "fill" }], className: "video-layer-main" },
+        "interview:62": { slots: [{ x: 5.89, y: 22.75, w: 45.55, h: 60.76, fit: "fill" }], className: "video-layer-main" },
         "interview:66": {
           slots: [
-            { x: 4.5, y: 61.0, w: 32.0, h: 21.0, fit: "contain" },
-            { x: 44.0, y: 57.0, w: 28.0, h: 24.0, fit: "contain" },
+            { key: "media24", x: 0.0, y: 68.14, w: 31.91, h: 31.91, fit: "fill" },
+            { key: "media25", x: 31.91, y: 67.83, w: 31.91, h: 31.91, fit: "fill" },
           ],
           className: "video-layer-clean",
         },
-        "paper:11": { slots: [{ x: 41.2, y: 34.2, w: 56.2, h: 56.0 }], className: "video-layer-main" },
-        "phd:9": { slots: SLOT_PRESETS.full, className: "video-layer-full", hideImage: true },
-        "romoya:44": { slots: [{ x: 8.1, y: 14.4, w: 84.0, h: 79.0, fit: "contain" }], className: "video-layer-main" },
-        "romoya:48": { slots: [{ x: 23.3, y: 14.4, w: 75.8, h: 78.5, fit: "contain" }], className: "video-layer-main" },
-        "romoya:50": { slots: [{ x: 0, y: 15.2, w: 100, h: 84.8, fit: "contain" }], className: "video-layer-main" },
+        "paper:11": { slots: [{ x: 41.39, y: 34.09, w: 56.24, h: 56.24, fit: "fill" }], className: "video-layer-main" },
+        "phd:9": { slots: [{ x: 0.0, y: 7.22, w: 100.0, h: 85.56, fit: "fill" }], className: "video-layer-main" },
+        "romoya:44": { slots: [{ x: 7.99, y: 14.46, w: 84.02, h: 84.02, fit: "fill" }], className: "video-layer-main" },
+        "romoya:48": { slots: [{ x: 23.11, y: 14.57, w: 76.2, h: 78.8, fit: "fill" }], className: "video-layer-main" },
+        "romoya:50": { slots: [{ x: 0.0, y: 18.28, w: 100.0, h: 85.56, fit: "fill" }], className: "video-layer-main" },
       };
 
       const IMAGE_OVERLAYS = {
@@ -512,12 +546,42 @@
             h: 29.99,
           },
         ],
+        "paper:21": [
+          {
+            src: "assets/overlays/paper-unified-grid-results.png",
+            x: 40.17,
+            y: 18.99,
+            w: 59.78,
+            h: 75.35,
+          },
+        ],
+        "paper:22": [
+          {
+            src: "assets/overlays/paper-unified-grid-results.png",
+            x: 63.13,
+            y: 56.4,
+            w: 33.6,
+            h: 42.36,
+          },
+        ],
+      };
+
+      const HTML_OVERLAYS = {
+        "interview:25": [
+          { type: "mask", x: 8.0, y: 46.4, w: 33.8, h: 12.0 },
+          { type: "text", text: "robot-centric [1]", x: 12.1, y: 48.25, w: 25.0, h: 6.0, fontSize: "44px", fontWeight: "700" },
+          { type: "mask", x: 67.0, y: 40.8, w: 5.6, h: 7.3 },
+          { type: "text", text: "[2]", x: 67.79, y: 41.9, w: 3.79, h: 5.83, fontSize: "34px" },
+          { type: "mask", x: 57.0, y: 46.4, w: 35.8, h: 12.0 },
+          { type: "text", text: "object-centric", x: 62.1, y: 48.25, w: 25.0, h: 6.0, fontSize: "44px", fontWeight: "700" },
+          { type: "mask", x: 79.2, y: 40.8, w: 5.6, h: 7.3 },
+          { type: "text", text: "[3]", x: 80.08, y: 41.9, w: 3.58, h: 5.83, fontSize: "34px" },
+        ],
       };
 
       const SOURCE_ANIMATED_STATIC_SLIDES = new Set([
         "interview:27",
         "interview:28",
-        "paper:4",
       ]);
 
       function slotForVideo(slots, video, index) {
@@ -535,6 +599,13 @@
         if (isActiveSlide(ownerSlide) && video.muted) {
           video.play().catch(() => {});
         }
+      }
+
+      function syncDeckChrome(currentSlide) {
+        document.body.classList.toggle(
+          "full-video-active",
+          Boolean(currentSlide?.querySelector(".video-layer-full"))
+        );
       }
 
       function buildVideoLayer(slide) {
@@ -558,6 +629,23 @@
           image.alt = "";
           image.style.cssText = percentStyle(overlay);
           return image;
+        });
+      }
+
+      function buildHtmlOverlays(slide) {
+        const overlays = HTML_OVERLAYS[`${slide.source}:${slide.sourceSlide}`] || [];
+        return overlays.map((overlay) => {
+          const element = document.createElement("span");
+          element.className = overlay.type === "mask" ? "mask-overlay" : "text-overlay";
+          element.style.cssText = percentStyle(overlay);
+          if (overlay.fontSize) {
+            element.style.setProperty("--overlay-font-size", overlay.fontSize);
+          }
+          if (overlay.fontWeight) {
+            element.style.setProperty("--overlay-font-weight", overlay.fontWeight);
+          }
+          element.textContent = overlay.text || "";
+          return element;
         });
       }
 
@@ -603,6 +691,10 @@
         if (overlays.length > 0) {
           section.append(...overlays);
         }
+        const htmlOverlays = buildHtmlOverlays(slide);
+        if (htmlOverlays.length > 0) {
+          section.append(...htmlOverlays);
+        }
 
         if (Array.isArray(slide.videos) && slide.videos.length > 0) {
           const { layer, hideImage } = buildVideoLayer(slide);
@@ -642,6 +734,7 @@
 
       function pauseOffscreenVideos(event) {
         const currentSlide = event?.currentSlide || Reveal.getCurrentSlide?.();
+        syncDeckChrome(currentSlide);
         document.querySelectorAll(".reveal video").forEach((video) => {
           const ownerSlide = video.closest("section[data-output-slide]");
           if (ownerSlide !== currentSlide) {
@@ -681,6 +774,7 @@
           });
           Reveal.on("ready", pauseOffscreenVideos);
           Reveal.on("slidechanged", pauseOffscreenVideos);
+          pauseOffscreenVideos({ currentSlide: Reveal.getCurrentSlide?.() });
         } catch (error) {
           slidesRoot.replaceChildren();
           const section = document.createElement("section");
