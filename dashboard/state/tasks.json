@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-27T12:59:11+08:00",
+  "updated_at": "2026-05-27T23:12:46+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2468,10 +2468,59 @@
           "body": "L40S remote prep updated on lv-l40s-0002 via jingxiang jump host. Direct jingxiang->L40S rsync transferred the task subset of das-data: `training_packs/wan22_ti2v_v0_pack.tar.gz`, its sha256, `test_sets/manifest.json`, and `test_sets/ti2v/` to `/home/borisguo/das-data/`; sha256 verified OK, pack extracted, and absolute paths rewritten for `/home/borisguo/das-data` plus `/home/borisguo/checkpoints/Wan2.2-TI2V-5B`. L40S loader verification passed: entries_total=147, train/val/test=115/16/16, missing_count=0, image_dim_off_count=0, bytes_total=365540893, manifest sha256 ccde4901aa134795235900eba7293740ec32e3100c3dbb8fa007cf4702472b30, splits sha256 d9fa8992dfcc7c14e6946b6bc168f023f2b80c75c73fe80f57fb5ff28029d. DiffSynth-Studio trainer route is now configured at `/home/borisguo/code/DiffSynth-Studio` using its Wan2.2-TI2V LoRA example with `--extra_inputs input_image`; metadata CSVs were generated under `/home/borisguo/das-data/diffsynth_wan22_ti2v_v0/`; the L40S venv has PyTorch 2.11.0+cu128, DiffSynth, librosa/soundfile, and the Wan-AI/Wan2.2-TI2V-5B checkpoint downloaded. Two remote scripts are installed: `/home/borisguo/runs/wan22_ti2v_v0/run_diffsynth_lora.sh` and `/home/borisguo/runs/wan22_ti2v_v0/wait_and_run_diffsynth_lora.sh`. First launch reached DiffSynth data_process; missing `librosa` was fixed. The next model-load issue was DiffSynth's default converted-safetensors redirect for T5/VAE, so the remote train entrypoint was patched to call `WanVideoPipeline.from_pretrained(..., redirect_common_files=False)` and the run script now points `--tokenizer_path` at the local Wan2.2 tokenizer. The slow converted-checkpoint download was stopped. Current remote state: tmux `wan22_train_wait` is active and waiting for a free L40S GPU (`<2GB` used and `<10%` util) before launching the patched LoRA run. Log: `/home/borisguo/runs/wan22_ti2v_v0/train_diffsynth.log`. No user action required unless the patched original-checkpoint route fails or GPU scheduling stays busy.",
           "created_at": "2026-05-27T10:55:00+08:00",
           "kind": "progress"
+        },
+        {
+          "comment_id": "comment_umi_compute_and_server2_storage_20260527",
+          "author": "Boris / Codex",
+          "body": "User update: the WAN2.2 fine-tuning compute requirement should be raised with the teacher. Also track a separate storage procurement task: buy a 2.5-inch SSD for server #2 to expand external/storage capacity for UMI fine-tuning data, checkpoints, and cache.",
+          "created_at": "2026-05-27T23:12:46+08:00",
+          "kind": "needs_user"
         }
       ],
-      "updated_at": "2026-05-27T12:03:52+08:00",
+      "updated_at": "2026-05-27T23:12:46+08:00",
       "due_at": "2026-05-28"
+    },
+    {
+      "task_id": "task_umi_finetune_compute_request_teacher",
+      "project_id": "umi-world-model",
+      "title": "向老师确认 WAN2.2 微调算力需求",
+      "description": "Before committing to the WAN2.2 TI2V fine-tuning run, summarize and raise the compute ask to the teacher: target model route (5B first, 14B only if quality justifies it), expected GPU memory/time, dataset scale, queue/runtime assumptions on L40S or server #2, storage/cache needs, and fallback if the single-GPU LoRA route stalls. Acceptance: prepare the ask, record the teacher decision on GPU allocation/time window/budget/server choice, and update the fine-tune run plan.",
+      "status": "needs_user",
+      "priority": "high",
+      "assignee": "Boris / teacher",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_umi_finetune_compute_request_teacher_20260527",
+          "author": "Boris / Codex",
+          "body": "User request: the compute requirement for UMI WAN2.2 fine-tuning needs to be explicitly raised with the teacher. Include expected GPU memory/time, 5B vs 14B tradeoff, current L40S queue/runtime state, and storage needs before asking for allocation or procurement approval.",
+          "created_at": "2026-05-27T23:12:46+08:00",
+          "kind": "needs_user"
+        }
+      ],
+      "updated_at": "2026-05-27T23:12:46+08:00",
+      "due_at": ""
+    },
+    {
+      "task_id": "task_umi_server2_25inch_ssd_storage",
+      "project_id": "umi-world-model",
+      "title": "给 2 号机服务器扩外存：购买并安装 2.5 英寸 SSD",
+      "description": "Buy and install a 2.5-inch SSD on server #2 to expand storage for UMI WAN2.2 fine-tuning data, checkpoints, cache, and generated artifacts. Before purchase, confirm the actual server bay/interface/tray requirements, capacity target, power/thermal constraints, budget, and lab purchase path. Acceptance: record SSD model/capacity/price/purchase path; install and format/mount it; record lsblk/findmnt/df output, filesystem, stable mount path, permissions, simple read/write throughput, and the updated WAN2.2 data/checkpoint/cache placement plan.",
+      "status": "needs_user",
+      "priority": "high",
+      "assignee": "Boris / lab admin",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_umi_server2_25inch_ssd_storage_20260527",
+          "author": "Boris / Codex",
+          "body": "User request: to expand server #2 storage for UMI fine-tuning, buy a 2.5-inch solid-state drive and install it on the machine. Treat this as a storage procurement/install TODO tied to WAN2.2 fine-tuning, not the earlier 10T NAS task.",
+          "created_at": "2026-05-27T23:12:46+08:00",
+          "kind": "needs_user"
+        }
+      ],
+      "updated_at": "2026-05-27T23:12:46+08:00",
+      "due_at": ""
     },
     {
       "task_id": "task_umi_decide_ai2v_after_186_vbench",
