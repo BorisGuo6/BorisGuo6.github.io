@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-27T23:12:46+08:00",
+  "updated_at": "2026-05-28T01:13:16+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1396,7 +1396,7 @@
       "project_id": "drag-demo-video-editing",
       "title": "Collect initial drag-demo batch",
       "description": "Start from the SOP task: right gripper lifts the pan spatula with the egg mold, moves above the white plate, rotates the spatula so the egg mold slides into the plate, then holds still for 2 seconds. Target 100 valid demonstrations while retaining failed attempts under f000x/.",
-      "status": "done",
+      "status": "blocked",
       "priority": "high",
       "assignee": "lv-robotics@100.113.210.127",
       "result": null,
@@ -1502,7 +1502,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-25T01:33:12+08:00"
+      "updated_at": "2026-05-27T00:51:06+08:00"
     },
     {
       "task_id": "task_drag_demo_backend_compare",
@@ -2415,7 +2415,7 @@
       "project_id": "umi-world-model",
       "title": "启动 WAN2.2 TI2V 左右视角拼接微调",
       "description": "Start the WAN2.2 TI2V fine-tuning run for UMI with the left/right wrist views horizontally concatenated as the first-frame image condition. Train one dual-wrist TI2V model first, using 1k-2k examples for the initial run. Compare 5B versus 14B training/inference cost from the Wan2.2 efficiency table, and inspect the LingBot / LingBot-World recipe to see which modules or parameters were trained before locking UMI trainable parameters. Acceptance: staged manifest, train/val split, config, and dry-run loader are ready; the run plan records model size, resolution, expected GPU memory/time, and trainable-module choice.",
-      "status": "active",
+      "status": "done",
       "priority": "high",
       "assignee": "jingxiang@100.112.245.1",
       "result": null,
@@ -2477,8 +2477,9 @@
           "kind": "needs_user"
         }
       ],
-      "updated_at": "2026-05-27T23:12:46+08:00",
-      "due_at": "2026-05-28"
+      "updated_at": "2026-05-28T01:11:48+08:00",
+      "due_at": "2026-05-28",
+      "completed_at": "2026-05-28"
     },
     {
       "task_id": "task_umi_finetune_compute_request_teacher",
@@ -3374,7 +3375,7 @@
       "project_id": "real-robot-infra",
       "title": "规划灵巧手持刀切肉 demo",
       "description": "Teacher wants a dexterous-hand knife-cutting-meat demo. First deliverable is a safety-gated demo plan: fixture / material choice, blade boundary, slow rehearsal, emergency-stop operator, cable / waterproof workspace, and abort conditions before any live sharp-tool trial.",
-      "status": "done",
+      "status": "todo",
       "priority": "high",
       "assignee": null,
       "result": null,
@@ -3394,7 +3395,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-05-27T01:01:15+08:00",
+      "updated_at": "2026-05-27T00:51:06+08:00",
       "due_at": "",
       "completed_at": "2026-05-27"
     },
@@ -3403,7 +3404,7 @@
       "project_id": "general",
       "title": "GELLO 末端从 trigger 改 ACE-style 腕环 + MANUS 手姿态",
       "description": "现有 GELLO 仍负责 Franka/GELLO 机械臂 joint-space teleop；改动只发生在末端：把原本采集夹爪开合的 trigger 模块替换/扩展成 ACE Teleop-style wrist ring。不要用 ACE 的 hand-facing camera 做手姿态估计；手部姿势、手指开合和 retargeting 输入由 MANUS glove 提供。Deliverable: GELLO A67/trigger 末端到 ACE wrist ring 的机械结合草图、保留/删除件清单、MANUS signal path、wrist ring 输出字段、线缆/快拆/限位方案，以及 first print fit-check。",
-      "status": "done",
+      "status": "active",
       "priority": "medium",
       "assignee": "Boris / CAD owner",
       "result": null,
@@ -3423,7 +3424,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-27T01:12:46+08:00",
+      "updated_at": "2026-05-27T00:51:06+08:00",
       "due_at": "",
       "started_at": "2026-05-25"
     },
@@ -3540,11 +3541,32 @@
       "due_at": ""
     },
     {
+      "task_id": "task_drag_demo_four_finetune_ablation_results",
+      "project_id": "drag-demo-video-editing",
+      "title": "跟踪四个 drag-demo 微调方案结果",
+      "description": "当前数据已全部 replay 至少一遍；十几条 gripper-tip 交互方式的数据已剔除，保留 90 条 gripper-face 交互数据。四个方案正在训练: (1) 75 train / 10 validation / 5 test 原始手部视觉；(2) 同样 split，但把手部区域替换成灰色背景；(3) 90 条全部训练，原始手部视觉；(4) 90 条全部训练，手部区域替换成灰色背景。Acceptance: 收集四个 run 的 checkpoint、训练/validation 曲线、test 或真机部署结果；明确 Plan 1 vs Plan 2 的手部视觉影响，Plan 1 vs Plan 3 的数据量影响，并决定是否追加原始数据 + 干净 replay 数据的混合配比实验。",
+      "status": "active",
+      "priority": "high",
+      "assignee": null,
+      "result": null,
+      "started_at": "2026-05-28",
+      "due_at": "2026-05-30",
+      "comments": [
+        {
+          "comment_id": "comment_drag_demo_four_ablation_training_20260528",
+          "author": "Boris",
+          "kind": "comment",
+          "body": "Update from Boris: all data has been replayed at least once. A dozen-plus episodes were removed because they used a different interaction style, contacting with the gripper tip instead of the gripper face. Current clean dataset has 90 episodes. Four training schemes are running: Plan 1 = 75 train / 10 validation / 5 test; Plan 2 = same split but hand region replaced by gray background; Plan 3 = all 90 for training; Plan 4 = all 90 for training with hand region replaced by gray background. Plan 1 vs Plan 2 measures whether hand visual representation affects real-robot deployment interaction. Plan 1 vs Plan 3 measures whether more data helps. After these four results, consider mixing original raw data and clean replay data."
+        }
+      ],
+      "updated_at": "2026-05-28T00:32:57+08:00"
+    },
+    {
       "task_id": "task_hardware_psa_three_finger_gripper",
       "project_id": "general",
       "title": "PSA proposal 三指触觉夹爪设计",
-      "description": "为 PSA proposal 准备一个三指夹爪末端方案：可选祝老板电机（这里指因克斯电机）作为 actuator，三指末端集成触觉传感器，目标覆盖 Jenga-style 抽积木塔和拿刀切肉等低自由度触觉操作 demo。Deliverable: CAD/机构草图、actuator/sensor 布局、控制接口、BOM 和与 Franka/ARX 末端连接方式。",
-      "status": "done",
+      "description": "为 PSA proposal 准备一个三指夹爪末端方案：可选祝老板电机作为 actuator，三指末端集成触觉传感器，目标覆盖 Jenga-style 抽积木塔和拿刀切肉等低自由度触觉操作 demo。Deliverable: CAD/机构草图、actuator/sensor 布局、控制接口、BOM 和与 Franka/ARX 末端连接方式。",
+      "status": "todo",
       "priority": "high",
       "assignee": "remote CAD owner / Zheng Yuhang for sensor sourcing",
       "result": null,
@@ -3573,7 +3595,7 @@
           "created_at": "2026-05-27T01:56:08+08:00"
         }
       ],
-      "updated_at": "2026-05-27T01:56:08+08:00",
+      "updated_at": "2026-05-27T00:51:07+08:00",
       "completed_at": "2026-05-27"
     },
     {
@@ -3581,7 +3603,7 @@
       "project_id": "general",
       "title": "给 Wuji + Franka 做相机转接法兰",
       "description": "设计 Wuji Hand / Franka 组合使用的相机转接法兰，用于固定 wrist/hand-view camera，保留手部运动空间、线缆应力释放和可重复安装位置。Deliverable: CAD 草图/打印件方案、螺孔/夹持方式、相机视场说明和安装检查表。",
-      "status": "done",
+      "status": "active",
       "priority": "medium",
       "assignee": "Boris / Wuhao",
       "result": null,
@@ -3610,7 +3632,7 @@
           "created_at": "2026-05-27T01:45:33+08:00"
         }
       ],
-      "updated_at": "2026-05-27T01:45:33+08:00",
+      "updated_at": "2026-05-27T00:51:07+08:00",
       "completed_at": "2026-05-27"
     },
     {
@@ -3648,7 +3670,7 @@
       "project_id": "general",
       "title": "MANUS 数据手套到两指夹爪重定向与遥操作",
       "description": "把 MANUS 数据手套的手部姿态映射到两指夹爪的开合/接触状态，用于简单低自由度遥操作和数据采集。Deliverable: retargeting mapping、teleop interface、最小 verifier，以及与 tactile gripper 平台的输入/输出 schema 对齐。",
-      "status": "done",
+      "status": "todo",
       "priority": "high",
       "assignee": null,
       "result": null,
@@ -3663,7 +3685,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-05-27T01:12:46+08:00",
+      "updated_at": "2026-05-27T00:51:07+08:00",
       "completed_at": "2026-05-27"
     },
     {
@@ -3671,7 +3693,7 @@
       "project_id": "general",
       "title": "复刻两指 FinRay / GelSight / PPTAC 触觉夹爪平台",
       "description": "做一个低成本两指夹爪操作平台：复刻/改造简单 FinRay fingers，预留 GelSight 或 Daimon/PPTAC-style 触觉传感器安装位，后续用于 VLA/VTLA 操作、抽积木塔、接触稳定性和触觉数据采集。Deliverable: CAD、传感器安装方案、夹爪开合接口、基础测试任务清单。",
-      "status": "done",
+      "status": "todo",
       "priority": "high",
       "assignee": "remote CAD owner / Zheng Yuhang for Daimon sensors",
       "result": null,
@@ -3686,7 +3708,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-05-27T01:12:46+08:00",
+      "updated_at": "2026-05-27T00:51:07+08:00",
       "completed_at": "2026-05-27"
     },
     {
@@ -3694,7 +3716,7 @@
       "project_id": "general",
       "title": "六自由度触觉传感器标定平台",
       "description": "设计一个 6-DoF tactile sensor calibration platform，用于标定力/力矩、接触位置和传感器输出一致性。Deliverable: 机械加载方案、标定流程、数据记录格式、校准曲线/验证指标。",
-      "status": "done",
+      "status": "todo",
       "priority": "medium",
       "assignee": null,
       "result": null,
@@ -3709,7 +3731,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-05-27T01:12:46+08:00",
+      "updated_at": "2026-05-27T00:51:07+08:00",
       "completed_at": "2026-05-27"
     },
     {
@@ -3775,7 +3797,7 @@
       "project_id": "real-robot-infra",
       "title": "写 Linker TA + Linker FFG wrapper",
       "description": "Linker TA + Linker FFG 组合还没有 wrapper。Deliverable: 一个最小 Python wrapper / CLI，能连接设备、读取状态、发送 gripper open/close 或 position/force command、记录错误码/时间戳，并输出 10 秒 smoke log。Acceptance: 无硬件时能给 actionable dependency report；有硬件时能完成 connect -> state -> command -> state -> disconnect 的 verifier。",
-      "status": "done",
+      "status": "todo",
       "priority": "high",
       "assignee": null,
       "result": null,
@@ -3797,7 +3819,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-05-27T00:59:43+08:00",
+      "updated_at": "2026-05-27T00:51:07+08:00",
       "completed_at": "2026-05-27"
     },
     {
@@ -3861,7 +3883,7 @@
       "project_id": "umi-world-model",
       "title": "复现 DreamX-World-5B-Cam 到 WMFactory",
       "description": "Integrate and reproduce GD-ML/DreamX-World-5B-Cam in WMFactory / WMBackend as a Wan2.2-TI2V-5B camera-control world-model candidate. Use the Hugging Face model card as the source: base model Wan2.2-5B-TI2V, DreamX transformer weights, PRoPE camera conditioning, single input image + caption + action_seq/action_speed_list JSON, and camera commands such as w/s/a/d/j/k/l/h. Acceptance: record exact repo/commit or package source, checkpoint paths, dependency/env notes including xfuser/flash_attn constraints, a minimal WMFactory runner or adapter, one reproducible eval JSON mapped from UMI-style first-frame/caption/camera action input, a generated mp4 under eval_outputs or an explicit hardware/dependency blocker, and full command/log/sha256 evidence.",
-      "status": "done",
+      "status": "blocked",
       "priority": "high",
       "assignee": "jingxiang@100.112.245.1",
       "result": null,
@@ -3881,7 +3903,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-05-27T10:54:21+08:00",
+      "updated_at": "2026-05-27T00:51:09+08:00",
       "due_at": "",
       "completed_at": "2026-05-27"
     },
@@ -3890,7 +3912,7 @@
       "project_id": "image-layered-world-model",
       "title": "用 AffinityOnLinux / GIMP 替代 Photoshop 分图层流程",
       "description": "Ubuntu 没有 Photoshop 时，把 agentic prompt 生成的固定位置分元素图片接到 Linux 可运行的图层编辑流程。优先评估两条路线：(1) seapear/AffinityOnLinux: 通过 Wine 在 GNU/Linux 上运行 Affinity Photo/Designer/Publisher，用来复现 PSD/图层检查体验；(2) GIMP: 原生免费开源图像编辑器，作为可脚本化 baseline。Acceptance: 记录 AffinityOnLinux 安装/启动可行性或 blocker；写出 GIMP 批处理或 Script-Fu/Python-Fu 路线；对 poster 和 robot_still 各跑一次白底去除、透明图层叠加、原始相对位置保持、layer naming、导出 .xcf/.afphoto 或 PSD/PNG round-trip；输出 reconstruction diff、缺失/重复元素检查、命令/log/sha256 和最终推荐的 Ubuntu 默认路线。",
-      "status": "done",
+      "status": "active",
       "priority": "medium",
       "assignee": "feibo@100.87.220.29",
       "result": null,
@@ -3910,7 +3932,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-05-27T01:04:27+08:00",
+      "updated_at": "2026-05-28T01:13:15+08:00",
       "due_at": "",
       "completed_at": "2026-05-27"
     }
