@@ -227,6 +227,25 @@
         font-size: 18px;
       }
 
+      .asset-warning {
+        position: fixed;
+        z-index: 30;
+        top: 86px;
+        left: 50%;
+        width: min(720px, calc(100vw - 32px));
+        transform: translateX(-50%);
+        padding: 11px 14px;
+        border: 1px solid rgba(41, 182, 169, 0.45);
+        background: rgba(8, 18, 22, 0.94);
+        color: #e8f7f5;
+        font: 600 13px/1.45 Arial, Helvetica, sans-serif;
+        box-shadow: 0 16px 36px rgba(0, 0, 0, 0.25);
+      }
+
+      .asset-warning[hidden] {
+        display: none;
+      }
+
       .reveal .controls,
       .reveal .progress {
         color: var(--deck-accent);
@@ -289,10 +308,24 @@
       </div>
     </div>
 
+    <div class="asset-warning" data-asset-warning hidden>
+      Presentation media is local-only. Generated slide images and videos are intentionally kept out of git, so the full deck plays from the local workspace copy.
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/dist/reveal.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/plugin/notes/notes.js"></script>
     <script>
       const slidesRoot = document.getElementById("slides");
+      const assetWarning = document.querySelector("[data-asset-warning]");
+      let missingAssetWarningShown = false;
+
+      function markMissingAsset() {
+        if (!assetWarning || missingAssetWarningShown) {
+          return;
+        }
+        missingAssetWarningShown = true;
+        assetWarning.hidden = false;
+      }
 
       function labelForVideo(video, index) {
         if (video.externalSource) {
@@ -350,6 +383,7 @@
         player.preload = "auto";
         player.poster = slide.image;
         player.setAttribute("aria-label", labelForVideo(video, index));
+        player.addEventListener("error", markMissingAsset, { once: true });
         if (slot.start != null) {
           player.currentTime = slot.start;
         }
@@ -558,6 +592,7 @@
         image.className = "slide-image";
         image.src = slide.image;
         image.loading = slide.slide <= 3 ? "eager" : "lazy";
+        image.addEventListener("error", markMissingAsset, { once: true });
         image.alt = slide.title
           ? `Slide ${slide.slide}: ${slide.title}`
           : `Slide ${slide.slide} from ${slide.sourceFile}`;
