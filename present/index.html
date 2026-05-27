@@ -1,0 +1,661 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Research Interview Presentation - Jingxiang Guo</title>
+    <link rel="shortcut icon" href="../assets/img/site/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/dist/theme/white.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/dist/print/pdf.css" media="print">
+    <style>
+      :root {
+        --deck-bg: #0b1117;
+        --deck-ink: #f8fafc;
+        --deck-muted: rgba(248, 250, 252, 0.72);
+        --deck-line: rgba(148, 163, 184, 0.34);
+        --deck-accent: #18a394;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--deck-bg);
+      }
+
+      body {
+        color: var(--deck-ink);
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      .deck-topbar {
+        position: fixed;
+        z-index: 30;
+        top: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        min-height: 42px;
+        padding: 8px 14px;
+        background: rgba(11, 17, 23, 0.82);
+        border-bottom: 1px solid var(--deck-line);
+        backdrop-filter: blur(16px);
+      }
+
+      .deck-topbar a,
+      .deck-topbar span {
+        color: var(--deck-muted);
+        font-size: 12px;
+        line-height: 1;
+        text-decoration: none;
+      }
+
+      .deck-topbar strong {
+        color: var(--deck-ink);
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .deck-topbar nav {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+
+      .deck-topbar a:hover {
+        color: #ffffff;
+      }
+
+      .reveal {
+        background: var(--deck-bg);
+      }
+
+      .reveal .slides {
+        text-align: left;
+      }
+
+      .reveal section {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #05080c;
+      }
+
+      .slide-frame {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        background: #05080c;
+      }
+
+      .slide-image {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+        background: #05080c;
+      }
+
+      section.source-animated-static.present .slide-frame {
+        animation: source-frame-enter 520ms ease-out both;
+      }
+
+      @keyframes source-frame-enter {
+        from {
+          opacity: 0;
+          transform: scale(0.985);
+        }
+
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      section.video-image-hidden .slide-image {
+        opacity: 0;
+      }
+
+      .video-layer {
+        position: absolute;
+        z-index: 5;
+        inset: 0;
+        pointer-events: none;
+      }
+
+      .asset-overlay {
+        position: absolute;
+        z-index: 4;
+        object-fit: contain;
+        pointer-events: none;
+      }
+
+      .video-slot {
+        position: absolute;
+        overflow: hidden;
+        background: #000000;
+        pointer-events: auto;
+      }
+
+      .video-slot video {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: var(--video-fit, cover);
+      }
+
+      .video-layer-full .video-slot {
+        inset: 0;
+      }
+
+      .video-layer-main .video-slot {
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+      }
+
+      .video-layer-clean .video-slot {
+        box-shadow: none;
+      }
+
+      .video-layer-clean video {
+        background: transparent;
+      }
+
+      .fallback-video-strip {
+        position: absolute;
+        top: auto;
+        left: auto;
+        right: 18px;
+        bottom: 18px;
+        z-index: 6;
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: minmax(180px, 260px);
+        gap: 10px;
+        max-width: min(92vw, 1280px);
+        overflow-x: auto;
+        padding: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(4, 8, 14, 0.62);
+        box-shadow: 0 18px 42px rgba(0, 0, 0, 0.34);
+        backdrop-filter: blur(16px);
+      }
+
+      .fallback-video-strip .video-slot {
+        position: static;
+        display: block;
+        width: 260px;
+        height: 146px;
+      }
+
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+      }
+
+      .loading-state,
+      .error-state {
+        display: grid;
+        place-items: center;
+        width: 100vw;
+        height: 100vh;
+        padding: 24px;
+        color: var(--deck-muted);
+        text-align: center;
+      }
+
+      .loading-state strong,
+      .error-state strong {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--deck-ink);
+        font-size: 18px;
+      }
+
+      .reveal .controls,
+      .reveal .progress {
+        color: var(--deck-accent);
+      }
+
+      .reveal .slide-number {
+        right: 14px;
+        bottom: 8px;
+        background: rgba(11, 17, 23, 0.74);
+        color: rgba(255, 255, 255, 0.84);
+        font-size: 11px;
+      }
+
+      @media (max-width: 760px) {
+        .deck-topbar {
+          min-height: 38px;
+          padding: 7px 10px;
+        }
+
+        .deck-topbar nav {
+          gap: 8px;
+        }
+
+        .deck-topbar span {
+          display: none;
+        }
+
+        .fallback-video-strip {
+          left: 10px;
+          right: 10px;
+          bottom: 12px;
+          grid-auto-columns: minmax(140px, 68vw);
+          padding: 8px;
+        }
+
+        .fallback-video-strip .video-slot {
+          width: min(68vw, 260px);
+          height: min(38vw, 146px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="deck-topbar">
+      <strong>Research Interview Presentation</strong>
+      <nav aria-label="Presentation links">
+        <a href="../dashboard/">Dashboard</a>
+        <a href="?print-pdf" title="Open the Reveal.js PDF export view">PDF export</a>
+        <span>TelePreview · D(R,O) Grasp · Goal-VLA · Tactile · PhD Plan</span>
+      </nav>
+    </header>
+
+    <div class="reveal">
+      <div class="slides" id="slides">
+        <section>
+          <div class="loading-state">
+            <p><strong>Loading presentation</strong>Preparing slide manifest.</p>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/plugin/notes/notes.js"></script>
+    <script>
+      const slidesRoot = document.getElementById("slides");
+
+      function labelForVideo(video, index) {
+        if (video.externalSource) {
+          return `Video ${index + 1} · ${video.externalSource}`;
+        }
+        return `Video ${index + 1}`;
+      }
+
+      function videoSource(video) {
+        return video.externalUrl || video.asset;
+      }
+
+      const CHAPTERS = [
+        { title: "About Me & Overview", start: 1, end: 2 },
+        { title: "TelePreview", start: 3, end: 26 },
+        { title: "D(R,O) Grasp", start: 27, end: 45 },
+        { title: "Goal-VLA", start: 46, end: 68 },
+        { title: "PhD Framework & Perception", start: 69, end: 76 },
+        { title: "Unified Tactile Thesis", start: 77, end: 111 },
+        { title: "Intuition & World Model", start: 112, end: 120 },
+        { title: "Future PhD Projects", start: 121, end: 131 },
+        { title: "Thank You", start: 132, end: 132 },
+      ];
+
+      function percentStyle(slot) {
+        return `left:${slot.x}%;top:${slot.y}%;width:${slot.w}%;height:${slot.h}%;`;
+      }
+
+      function videoKey(video) {
+        return [
+          video.externalUrl || "",
+          video.asset || "",
+          video.sourcePart || "",
+        ].join(" ");
+      }
+
+      function makeSlotPlayer(slide, video, index, slot) {
+        const wrapper = document.createElement("div");
+        wrapper.className = "video-slot";
+        wrapper.style.cssText = percentStyle(slot);
+        wrapper.style.setProperty("--video-fit", slot.fit || "cover");
+        const manualControls = Boolean(slot.manualControls);
+
+        const player = document.createElement("video");
+        player.src = videoSource(video);
+        player.controls = manualControls;
+        player.autoplay = !manualControls;
+        player.muted = !manualControls;
+        player.loop = !manualControls;
+        player.playsInline = true;
+        player.disablePictureInPicture = true;
+        if (!manualControls) {
+          player.setAttribute("data-autoplay", "");
+        }
+        player.preload = "auto";
+        player.poster = slide.image;
+        player.setAttribute("aria-label", labelForVideo(video, index));
+        if (slot.start != null) {
+          player.currentTime = slot.start;
+        }
+        if (slot.end != null) {
+          player.dataset.endAt = String(slot.end);
+        }
+        player.addEventListener("loadedmetadata", () => {
+          if (slot.start != null && player.currentTime < slot.start) {
+            player.currentTime = slot.start;
+          }
+          if (!manualControls) {
+            playIfActive(player);
+          }
+        });
+        player.addEventListener("canplay", () => {
+          if (!manualControls) {
+            playIfActive(player);
+          }
+        });
+        player.addEventListener("timeupdate", () => {
+          const endAt = Number(player.dataset.endAt || 0);
+          const startAt = slot.start || 0;
+          if (endAt > 0 && player.currentTime >= endAt) {
+            player.currentTime = startAt;
+            playIfActive(player);
+          }
+        });
+
+        const label = document.createElement("span");
+        label.className = "sr-only";
+        label.textContent = labelForVideo(video, index);
+        wrapper.append(player, label);
+        return wrapper;
+      }
+
+      const SLOT_PRESETS = {
+        full: [{ x: 0, y: 0, w: 100, h: 100, fit: "contain" }],
+        telepreviewIntro: [{ x: 0, y: 0, w: 100, h: 100, fit: "contain" }],
+        telepreviewTasks: [
+          { key: "pickplace", x: 1.3, y: 20.2, w: 31.5, h: 24.2 },
+          { key: "hang", x: 34.3, y: 20.2, w: 31.5, h: 24.2 },
+          { key: "cupstack", x: 67.2, y: 20.2, w: 31.5, h: 24.2 },
+          { key: "pour", x: 11.3, y: 54.2, w: 34.0, h: 25.0 },
+          { key: "boxrotation", x: 54.8, y: 54.2, w: 34.0, h: 25.0 },
+        ],
+        droRealWorld: [
+          { key: "4e37233cc45b7fa4", x: 6.6, y: 13.5, w: 15.1, h: 26.8 },
+          { key: "ce41702b040e21d4", x: 24.6, y: 13.5, w: 15.1, h: 26.8 },
+          { key: "123dbeb01b2a7ff9", x: 42.6, y: 13.5, w: 15.1, h: 26.8 },
+          { key: "7461820499adf453", x: 60.5, y: 13.5, w: 15.1, h: 26.8 },
+          { key: "f9ddcb757c1b91f9", x: 78.4, y: 13.5, w: 15.1, h: 26.8 },
+          { key: "5eed831c95f25604", x: 6.6, y: 51.6, w: 15.1, h: 26.8 },
+          { key: "1ce0580c2e7b05b1", x: 24.6, y: 51.6, w: 15.1, h: 26.8 },
+          { key: "1ef2ffaa9e60b54c", x: 42.6, y: 51.6, w: 15.1, h: 26.8 },
+          { key: "a5684da25d508e0e", x: 60.5, y: 51.6, w: 15.1, h: 26.8 },
+          { key: "1f59d0f237716431", x: 78.4, y: 51.6, w: 15.1, h: 26.8 },
+        ],
+        droHandTransfer: [
+          { key: "image80", x: 26.69, y: 14.66, w: 22.03, h: 39.16, fit: "fill" },
+          { key: "image81", x: 51.33, y: 14.66, w: 22.03, h: 39.16, fit: "fill" },
+          { key: "image78", x: 26.65, y: 57.7, w: 22.03, h: 39.16, fit: "fill" },
+          { key: "image79", x: 51.33, y: 57.7, w: 22.03, h: 39.16, fit: "fill" },
+        ],
+        droResultGrid: [
+          { key: "media19", x: 49.84, y: 49.16, w: 50.19, h: 50.84, fit: "fill" },
+          { key: "image83", x: -0.09, y: 50.0, w: 12.55, h: 25.27, fit: "fill" },
+          { key: "image84", x: 12.46, y: 50.0, w: 12.63, h: 25.27, fit: "fill" },
+          { key: "image85", x: 24.84, y: 50.0, w: 12.63, h: 25.27, fit: "fill" },
+          { key: "image86", x: 37.34, y: 50.0, w: 12.57, h: 25.27, fit: "fill" },
+          { key: "image87", x: 62.43, y: 0.0, w: 12.55, h: 25.27, fit: "fill" },
+          { key: "image88", x: 74.88, y: 25.2, w: 12.57, h: 25.27, fit: "fill" },
+          { key: "image89", x: 74.92, y: 0.0, w: 12.56, h: 25.27, fit: "fill" },
+          { key: "image90", x: 87.41, y: 25.2, w: 12.57, h: 25.27, fit: "fill" },
+          { key: "image91", x: 87.42, y: 0.0, w: 12.56, h: 25.27, fit: "fill" },
+          { key: "image92", x: 0.0, y: 0.0, w: 12.55, h: 25.27, fit: "fill" },
+          { key: "image93", x: 12.49, y: 0.0, w: 12.55, h: 25.27, fit: "fill" },
+          { key: "image94", x: 24.86, y: 0.0, w: 12.55, h: 25.27, fit: "fill" },
+          { key: "image95", x: 0.0, y: 25.2, w: 12.55, h: 25.27, fit: "fill" },
+          { key: "image96", x: 12.49, y: 25.2, w: 12.55, h: 25.27, fit: "fill" },
+          { key: "image97", x: 37.34, y: 0.0, w: 12.55, h: 25.27, fit: "fill" },
+          { key: "image98", x: 24.86, y: 25.2, w: 12.55, h: 25.27, fit: "fill" },
+          { key: "image99", x: 37.36, y: 25.2, w: 12.55, h: 25.27, fit: "fill" },
+          { key: "image100", x: 49.92, y: 0.0, w: 12.55, h: 25.27, fit: "fill" },
+          { key: "image101", x: 62.44, y: 25.2, w: 12.55, h: 25.27, fit: "fill" },
+          { key: "image102", x: 49.92, y: 25.35, w: 12.56, h: 25.27, fit: "fill" },
+          { key: "image103", x: 37.25, y: 74.73, w: 12.63, h: 25.27, fit: "fill" },
+          { key: "image104", x: 24.86, y: 74.73, w: 12.48, h: 25.27, fit: "fill" },
+          { key: "image105", x: 12.44, y: 74.73, w: 12.39, h: 25.27, fit: "fill" },
+          { key: "image106", x: -0.1, y: 74.68, w: 12.51, h: 25.52, fit: "fill" },
+        ],
+      };
+
+      const VIDEO_LAYOUTS = {
+        "interview:7": { slots: SLOT_PRESETS.telepreviewIntro, className: "video-layer-full", hideImage: true },
+        "interview:18": { slots: SLOT_PRESETS.telepreviewTasks, className: "video-layer-main" },
+        "interview:22": { slots: [{ x: 17.2, y: 17.3, w: 64.6, h: 77.6 }], className: "video-layer-main" },
+        "interview:37": { slots: [{ x: 2.8, y: 18.5, w: 67.2, h: 72.0 }], className: "video-layer-main" },
+        "interview:38": { slots: SLOT_PRESETS.droRealWorld, className: "video-layer-main" },
+        "interview:39": { slots: SLOT_PRESETS.droHandTransfer, className: "video-layer-clean" },
+        "interview:40": { slots: SLOT_PRESETS.droResultGrid, className: "video-layer-clean" },
+        "interview:59": { slots: [{ x: 5.8, y: 20.6, w: 45.6, h: 62.4 }], className: "video-layer-main" },
+        "interview:60": { slots: [{ x: 5.8, y: 20.6, w: 45.6, h: 62.4 }], className: "video-layer-main" },
+        "interview:61": { slots: [{ x: 5.8, y: 20.6, w: 45.6, h: 62.4 }], className: "video-layer-main" },
+        "interview:62": { slots: [{ x: 5.8, y: 20.6, w: 45.6, h: 62.4 }], className: "video-layer-main" },
+        "interview:66": {
+          slots: [
+            { x: 4.5, y: 61.0, w: 32.0, h: 21.0, fit: "contain" },
+            { x: 44.0, y: 57.0, w: 28.0, h: 24.0, fit: "contain" },
+          ],
+          className: "video-layer-clean",
+        },
+        "paper:11": { slots: [{ x: 41.2, y: 34.2, w: 56.2, h: 56.0 }], className: "video-layer-main" },
+        "phd:9": { slots: SLOT_PRESETS.full, className: "video-layer-full", hideImage: true },
+        "romoya:44": { slots: [{ x: 8.1, y: 14.4, w: 84.0, h: 79.0, fit: "contain" }], className: "video-layer-main" },
+        "romoya:48": { slots: [{ x: 23.3, y: 14.4, w: 75.8, h: 78.5, fit: "contain" }], className: "video-layer-main" },
+        "romoya:50": { slots: [{ x: 0, y: 15.2, w: 100, h: 84.8, fit: "contain" }], className: "video-layer-main" },
+      };
+
+      const IMAGE_OVERLAYS = {
+        "interview:39": [
+          {
+            src: "assets/overlays/interview-slide-039-leaphand.png",
+            x: 6.94,
+            y: 14.66,
+            w: 16.73,
+            h: 29.99,
+          },
+        ],
+      };
+
+      const SOURCE_ANIMATED_STATIC_SLIDES = new Set([
+        "interview:27",
+        "interview:28",
+        "paper:4",
+      ]);
+
+      function slotForVideo(slots, video, index) {
+        const key = videoKey(video).toLowerCase();
+        const matched = slots.find((slot) => slot.key && key.includes(slot.key.toLowerCase()));
+        return matched || slots[index] || slots[slots.length - 1];
+      }
+
+      function isActiveSlide(section) {
+        return section && section.classList.contains("present");
+      }
+
+      function playIfActive(video) {
+        const ownerSlide = video.closest("section[data-output-slide]");
+        if (isActiveSlide(ownerSlide) && video.muted) {
+          video.play().catch(() => {});
+        }
+      }
+
+      function buildVideoLayer(slide) {
+        const layoutKey = `${slide.source}:${slide.sourceSlide}`;
+        const layout = VIDEO_LAYOUTS[layoutKey];
+        const layer = document.createElement("div");
+        layer.className = `video-layer ${layout?.className || "fallback-video-strip"}`;
+        const slots = layout?.slots || slide.videos.map(() => ({ x: 0, y: 0, w: 100, h: 100 }));
+        slide.videos.forEach((video, index) => {
+          layer.append(makeSlotPlayer(slide, video, index, slotForVideo(slots, video, index)));
+        });
+        return { layer, hideImage: Boolean(layout?.hideImage) };
+      }
+
+      function buildImageOverlays(slide) {
+        const overlays = IMAGE_OVERLAYS[`${slide.source}:${slide.sourceSlide}`] || [];
+        return overlays.map((overlay) => {
+          const image = document.createElement("img");
+          image.className = "asset-overlay";
+          image.src = overlay.src;
+          image.alt = "";
+          image.style.cssText = percentStyle(overlay);
+          return image;
+        });
+      }
+
+      function useFadeTransition(slide) {
+        return slide.source === "interview" && slide.sourceSlide >= 27 && slide.sourceSlide <= 32;
+      }
+
+      function slideSourceKey(slide) {
+        return `${slide.source}:${slide.sourceSlide}`;
+      }
+
+      function buildSlide(slide) {
+        const section = document.createElement("section");
+        section.dataset.source = slide.source;
+        section.dataset.sourceSlide = String(slide.sourceSlide);
+        section.dataset.outputSlide = String(slide.slide);
+        section.dataset.chapter = slide.chapterTitle || "";
+        if (useFadeTransition(slide)) {
+          section.setAttribute("data-transition", "fade");
+          section.setAttribute("data-background-transition", "fade");
+        }
+        if (SOURCE_ANIMATED_STATIC_SLIDES.has(slideSourceKey(slide))) {
+          section.classList.add("source-animated-static");
+          section.setAttribute("data-transition", "fade");
+          section.setAttribute("data-background-transition", "fade");
+        }
+
+        const frame = document.createElement("div");
+        frame.className = "slide-frame";
+
+        const image = document.createElement("img");
+        image.className = "slide-image";
+        image.src = slide.image;
+        image.loading = slide.slide <= 3 ? "eager" : "lazy";
+        image.alt = slide.title
+          ? `Slide ${slide.slide}: ${slide.title}`
+          : `Slide ${slide.slide} from ${slide.sourceFile}`;
+        frame.append(image);
+        section.append(frame);
+
+        const overlays = buildImageOverlays(slide);
+        if (overlays.length > 0) {
+          section.append(...overlays);
+        }
+
+        if (Array.isArray(slide.videos) && slide.videos.length > 0) {
+          const { layer, hideImage } = buildVideoLayer(slide);
+          if (hideImage) {
+            section.classList.add("video-image-hidden");
+          }
+          section.append(layer);
+        }
+
+        const notes = document.createElement("aside");
+        notes.className = "notes";
+        notes.textContent = [
+          `Output slide ${slide.slide}`,
+          `${slide.sourceFile} slide ${slide.sourceSlide}`,
+          slide.hiddenInSource ? "Hidden in original PowerPoint source." : "",
+          slide.title || "",
+        ].filter(Boolean).join("\\n");
+        section.append(notes);
+
+        return section;
+      }
+
+      function buildChapter(chapter, slides) {
+        const chapterSlides = slides
+          .filter((slide) => slide.slide >= chapter.start && slide.slide <= chapter.end)
+          .map((slide) => ({ ...slide, chapterTitle: chapter.title }));
+        const stack = document.createElement("section");
+        stack.dataset.chapter = chapter.title;
+        stack.setAttribute("aria-label", chapter.title);
+        stack.append(...chapterSlides.map(buildSlide));
+        return stack;
+      }
+
+      function buildDeck(slides) {
+        return CHAPTERS.map((chapter) => buildChapter(chapter, slides));
+      }
+
+      function pauseOffscreenVideos(event) {
+        const currentSlide = event?.currentSlide || Reveal.getCurrentSlide?.();
+        document.querySelectorAll(".reveal video").forEach((video) => {
+          const ownerSlide = video.closest("section[data-output-slide]");
+          if (ownerSlide !== currentSlide) {
+            video.pause();
+          }
+        });
+        currentSlide?.querySelectorAll("video").forEach((video) => {
+          if (video.muted) {
+            video.play().catch(() => {});
+          }
+        });
+      }
+
+      async function initDeck() {
+        try {
+          const response = await fetch("slide-manifest.json", { cache: "no-store" });
+          if (!response.ok) {
+            throw new Error(`Unable to load slide-manifest.json (${response.status})`);
+          }
+          const manifest = await response.json();
+          slidesRoot.replaceChildren(...buildDeck(manifest.slides));
+          await Reveal.initialize({
+            hash: true,
+            width: 1600,
+            height: 900,
+            margin: 0,
+            minScale: 0.2,
+            maxScale: 2,
+            controls: true,
+            progress: true,
+            center: false,
+            slideNumber: "c/t",
+            scrollActivationWidth: 0,
+            transition: "none",
+            backgroundTransition: "none",
+            plugins: [RevealNotes],
+          });
+          Reveal.on("ready", pauseOffscreenVideos);
+          Reveal.on("slidechanged", pauseOffscreenVideos);
+        } catch (error) {
+          slidesRoot.replaceChildren();
+          const section = document.createElement("section");
+          section.innerHTML = `<div class="error-state"><p><strong>Presentation assets unavailable</strong>${error.message}</p></div>`;
+          slidesRoot.append(section);
+          await Reveal.initialize({ controls: false, progress: false, transition: "none" });
+        }
+      }
+
+      initDeck();
+    </script>
+  </body>
+</html>

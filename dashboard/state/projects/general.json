@@ -4,33 +4,39 @@
   "title": "General",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-05-25T17:52:00+08:00",
+  "updated_at": "2026-05-27T12:59:11+08:00",
   "description": "General engineering backlog for cross-project tasks",
   "summary": "General engineering queue for hardware fixtures, small CAD jobs, gripper platforms, camera adapters, glove-to-gripper teleoperation, and tactile calibration hardware. These items are intentionally separate from Real-Robot Lab Infra and can support multiple projects when needed.",
   "details": [
     "Purpose: keep small hardware design jobs out of paper-specific project cards while still making them visible and assignable. Most items can be progressed remotely through CAD, wiring/interface sketches, BOM choices, and print/manufacturing handoff.",
     "Main platform gap: the lab lacks reusable low-DoF gripper and tactile-sensor test platforms. A simple two-finger FinRay/GelSight/PPTAC-style platform and a three-finger tactile gripper would cover many VLA/VTLA experiments better than relying only on dexterous hands.",
-    "Three-finger direction: the PSA proposal can use a three-finger gripper with fingertip tactile sensors; Zhu-boss motors are a candidate actuator choice. Target demos include Jenga-style block extraction and dexterous-hand / gripper knife-cutting meat studies.",
+    "Three-finger direction: the PSA proposal can use a three-finger gripper with fingertip tactile sensors; the Zhu-boss motor option refers to YinKeSi motors. Target demos include Jenga-style block extraction and dexterous-hand / gripper knife-cutting meat studies.",
     "Two-finger direction: build a simple repeatable platform around FinRay fingers, GelSight-style tactile sensing, and PPTAC two-finger gripper ideas, then connect it to MANUS/Wuji glove retargeting and VLA/VTLA training data.",
     "Sensor sourcing: do not buy new tactile sensors unless necessary. First ask Zheng Yuhang to get three Daimon tactile sensors for the three-finger gripper / calibration platform path.",
-    "Mounting direction: Wuji/Franka camera flanges and MANUS/Wuji glove camera mounts should follow DexWild-style body/glove-mounted camera logic where useful, with clear fields of view and cable strain relief.",
-    "Teleop direction: the Gello-end trigger can be replaced by an ACE Teleop-style wrist ring for wrist/intention input, while MANUS provides hand posture for retargeting."
+    "Mounting direction: the Wuji/Franka camera flange is done; the next MANUS/Wuji glove camera adapter should follow a DexCap-style camera-mount and quick-release logic, keeping the observation camera stable across human collection and robot-side use while preserving field of view and cable strain relief.",
+    "Teleop direction: the Gello-end trigger can be replaced by an ACE Teleop-style wrist ring for wrist/intention input, while MANUS provides hand posture for retargeting.",
+    "Storage direction: repurpose the purchased 10T HDD as a small group NAS if the Taobao 7-day-return enclosure works; treat it as shared lab infrastructure rather than a UMI-only staging disk.",
+    "Procurement need: buy two USB 3.0 extension cables from Shopee for lab hardware routing; confirm whether direct group-card payment is allowed before checkout."
   ],
   "task_ids": [
+    "task_general_10t_hdd_nas_shared_storage",
     "task_hardware_psa_three_finger_gripper",
     "task_general_tactile_stacking_pilot",
     "task_hardware_wuji_franka_camera_flange",
     "task_real_robot_infra_ace_wrist_ring",
-    "task_hardware_glove_camera_mount_dexwild",
+    "task_hardware_glove_camera_mount_dexcap",
     "task_hardware_manus_two_finger_retargeting",
     "task_hardware_two_finger_tactile_gripper_platform",
-    "task_hardware_six_dof_tactile_calibration_platform"
+    "task_hardware_six_dof_tactile_calibration_platform",
+    "task_general_usb3_extension_cables_shopee"
   ],
   "risks_decisions": [
     "Ownership risk: several items need a remote CAD owner plus a local hardware owner for printing, sensor pickup, and test fitting.",
     "Sourcing decision: use Daimon tactile sensors through Zheng Yuhang first; avoid purchasing GelSight/PPTAC-like components until the available sensor inventory is confirmed.",
     "Scope decision: start with low-DoF gripper platforms because they are easier to instrument, calibrate, and use for VLA/VTLA datasets than full dexterous-hand hardware.",
-    "Integration risk: camera mounts and wrist rings must avoid blocking hand motion, tactile contact surfaces, glove cables, and emergency access."
+    "Integration risk: camera mounts and wrist rings must avoid blocking hand motion, tactile contact surfaces, glove cables, and emergency access.",
+    "NAS risk: the Taobao enclosure must physically support the actual 10T HDD form factor/interface and provide stable power, permissions, backup, and LAN sharing before the return window closes.",
+    "Procurement risk: do not store group-card details in dashboard state; confirm Shopee direct-card purchase approval with the card holder / lab admin before ordering, otherwise use the approved reimbursement or procurement path."
   ],
   "timeline": {
     "badges": [

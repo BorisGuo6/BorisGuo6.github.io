@@ -4,7 +4,7 @@
   "title": "Drag-Demo Video Editing",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-05-24T23:47:00+08:00",
+  "updated_at": "2026-05-27T12:51:21+08:00",
   "description": "Remove human hands from drag-teaching robot data",
   "summary": "This project turns drag-teaching demonstrations into cleaner robot-learning videos by deleting the human operator hands while preserving robot motion, object contacts, and task state.",
   "asset": "dashboard/assets/drag-demo-video-editing.png",
@@ -20,6 +20,15 @@
         }
       ]
     },
+    {
+      "text": "ComPose is a useful QA reference for this project: it treats hands not only as occluders but also as complementary motion cues for RGB-only 6DoF object tracking. For drag-demo editing, use the raw hand/contact signal to track spatula / egg-mold / plate motion before hand removal, then reject edits that preserve visual plausibility but break object trajectory, contact timing, or temporal smoothness.",
+      "links": [
+        {
+          "label": "ComPose",
+          "url": "https://arxiv.org/abs/2605.23523"
+        }
+      ]
+    },
     "Current seed SOP: Fangzhou dual-arm drag demonstration for moving an egg mold from a pan spatula into a white plate. The right gripper grasps the spatula handle text area, lifts without touching the pan wall, moves above the white plate, rotates the spatula, and holds still for 2 seconds as the task-end marker.",
     "Collection target: 100 valid demonstrations. Success means the egg mold lands fully inside the white plate, the spatula contact stays within the yellow gripper region, and the final 2-second stillness is clear.",
     "Failure episodes should be kept, not discarded: black arm contact outside the gripper, spatula head touching the pan wall, egg mold dropping in transit, egg not entering the plate, insufficient final stillness, long mid-task pause, black frames, or obvious video abnormality should be marked n and saved under f000x/.",
@@ -32,6 +41,7 @@
     "task_drag_demo_initial_batch",
     "task_drag_demo_backend_compare",
     "task_drag_demo_diff_map_qa",
+    "task_drag_demo_compose_pose_qa",
     "task_drag_demo_sop_episode_verifier",
     "task_drag_demo_finetuning_comparison",
     "task_drag_demo_masks_collection_aids",
@@ -53,6 +63,7 @@
     "Editing quality must be judged by contact preservation and policy usefulness, not only by visual plausibility.",
     "Kling quality looks strong, but the closed API, 3-10s window, and credit cost make an open fallback necessary before scaling.",
     "Diff maps need object / contact consistency checks; a low difference score can still hide harmful hallucination.",
+    "ComPose lesson: hand removal can destroy useful object-pose evidence. The editing QA should compare object/contact trajectories before and after editing, not only mask-local pixel changes.",
     "Drag demonstrations may have dynamics that differ from autonomous execution, so teleop-only and mixed-data baselines are required.",
     "Mask constraints may be needed before the pipeline can scale beyond the first spatula egg-transfer task.",
     "Before counting the 100-sequence batch, enforce SOP gates: green-sleeve gloves, 3-camera sync, 2-second stillness marker, y/n success label, f000x failure retention, and 9-file episode completeness.",

@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-26T02:45:19+08:00",
+  "updated_at": "2026-05-27T12:59:11+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -27,9 +27,17 @@
           "body": "ARX SOP received: Operation of ARX Robot Arm for Drag Teaching and Teleoperation Data Collection (JZ/SOP/ROB/001, issued 2026-05-23). Key gates: trained operator only; secure base, gripper, controller, power supply, cameras, and connections before power-up; clear the work area; enable drag teaching / teleoperation only after initialization checks; use slow smooth motion and low-speed teleop response tests; keep hands away from joints, gripper, and pinch points; stop immediately on abnormal sound, vibration, resistance, communication delay, unstable control, unexpected movement, or loss of control; shut down by stopping motion, returning to a safe position, stopping recording/control software, powering off controller/mains/cameras, and clearing the area.",
           "created_at": "2026-05-23T14:22:23+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_fe561c888264",
+          "author": "Host verification",
+          "body": "本机 Codex 在 lv-robotics@100.113.210.127 复核 ARX infra: `~/workspace/ARX_A5_Dual_ARM` HEAD `80e8895be533faea5531ec480634bd8567724d8a`。`robo_ctrl` 环境里 `cv2 4.6.0`、`h5py 3.14.0`、`numpy 1.26.4`、`rerun 0.19.1` 可导入；`dual_arm_sys.sh` 和 `data_collection/auto_ingest.sh` 均为可执行入口。验证命令 `~/miniconda3/envs/robo_ctrl/bin/python -m pytest data_collection/test_sop_episode_verifier.py training/test_drag_demo_loader.py -q` 结果 `23 passed in 3.77s`。这覆盖真机 infra 的非硬件侧: 运行环境、采集/ingest 入口、SOP verifier 和 loader 测试。硬件上电/CAN/相机物理检查仍按 SOP 执行。",
+          "created_at": "2026-05-27T01:07:57+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-05-23T14:22:23+08:00"
+      "updated_at": "2026-05-27T01:07:57+08:00",
+      "due_at": ""
     },
     {
       "task_id": "task_real_robot_infra_inventory",
@@ -234,9 +242,58 @@
           "body": "Merged duplicate TODO `task_real_robot_manus_vive_hardware_verifier` into this canonical MANUS + VIVE task. The hardware verifier acceptance criteria are now part of this task: MANUS hand stream Hz, VIVE tracker serial, sync log, and retargeting replay verifier.",
           "created_at": "2026-05-24T23:59:59+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_real_robot_vive_chest_mount_crossref_20260527",
+          "author": "Boris / Codex",
+          "body": "Hardware prep update: while debugging VIVE Tracker on the real robot, add a chest-mount / strap purchase TODO so the CHEST tracker frame can be worn stably during calibration and replay. Cross-reference: `task_real_robot_infra_vive_tracker_chest_mount`.",
+          "created_at": "2026-05-27T12:25:39+08:00",
+          "kind": "needs_user"
         }
       ],
-      "updated_at": "2026-05-24T23:59:59+08:00"
+      "updated_at": "2026-05-27T12:25:39+08:00"
+    },
+    {
+      "task_id": "task_real_robot_infra_vive_tracker_chest_mount",
+      "project_id": "real-robot-infra",
+      "title": "购买 VIVE Tracker 胸挂绑带",
+      "description": "Real-robot VIVE Tracker debugging needs a stable chest mount for the CHEST tracker frame. Candidate purchase: Taobao 7-day no-reason-return tracker strap / chest-thigh strap, product title \"tracker绑带tracker3.02.0绑带N7R绑带TK绑带vrchat胸部大腿绑带\", short link https://e.tb.cn/h.RfjFQyDNodkxvPu?tk=NcqO5xaG1Um, code HU591. Acceptance: buy/receive or reject within return window; verify fit with the actual VIVE Tracker 3.0/2.0 mounting screw/plate, chest stability under arm motion, base-station line of sight, comfort, cable/strap interference with MANUS/Wuji gloves, and whether the CHEST coordinate frame is stable enough for extrinsic calibration and retargeting replay.",
+      "status": "needs_user",
+      "priority": "medium",
+      "assignee": "Boris / lab",
+      "result": null,
+      "due_at": "",
+      "comments": [
+        {
+          "comment_id": "comment_real_robot_vive_chest_mount_taobao_20260527",
+          "author": "Boris / Codex",
+          "body": "User request: real-robot VIVE Tracker debugging likely needs a chest mount. Candidate is a Taobao 7-day no-reason-return tracker strap: https://e.tb.cn/h.RfjFQyDNodkxvPu?tk=NcqO5xaG1Um (code HU591), title \"tracker绑带tracker3.02.0绑带N7R绑带TK绑带vrchat胸部大腿绑带\". After purchase, verify it can hold the CHEST tracker rigidly enough for VIVE calibration/replay; if it slips, blocks base-station sight, or conflicts with gloves/cables, return within the window.",
+          "created_at": "2026-05-27T12:25:39+08:00",
+          "kind": "needs_user"
+        }
+      ],
+      "updated_at": "2026-05-27T12:25:39+08:00"
+    },
+    {
+      "task_id": "task_real_robot_infra_vr_teleop_franka",
+      "project_id": "real-robot-infra",
+      "title": "实现 VR 遥操作 Franka",
+      "description": "Implement a VR teleoperation path for Franka real-robot debugging. Use SteamVR/OpenVR input from a VR controller, tracker, or headset as the operator pose source, map it into Franka Cartesian end-effector commands, and support a first minimal gripper/open-close intent path. Acceptance: list and pair VR devices; define T_world_vr / T_base_vr calibration; implement simulation or read-only pose preview first; then low-speed live Cartesian control with workspace bounds, velocity / acceleration limits, deadman switch, collision / E-stop procedure, and logging to the real_robot_record schema; run a verifier that records VR input pose, commanded EE pose, Franka state, dropped frames, control rate, and abort conditions.",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Boris / real-robot",
+      "result": null,
+      "due_at": "",
+      "comments": [
+        {
+          "comment_id": "comment_real_robot_vr_teleop_franka_request_20260527",
+          "author": "Boris / Codex",
+          "body": "User request: add a real-robot task to implement VR teleoperation of Franka. Scope should start with SteamVR/OpenVR device listing and pose preview, then calibrated VR-frame to Franka-base mapping, low-speed Cartesian command path, deadman switch, workspace limits, E-stop operator, and recording/verifier evidence before live manipulation.",
+          "created_at": "2026-05-27T12:55:06+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-05-27T12:55:06+08:00"
     },
     {
       "task_id": "task_real_robot_infra_safety_workspace",
@@ -1339,7 +1396,7 @@
       "project_id": "drag-demo-video-editing",
       "title": "Collect initial drag-demo batch",
       "description": "Start from the SOP task: right gripper lifts the pan spatula with the egg mold, moves above the white plate, rotates the spatula so the egg mold slides into the plate, then holds still for 2 seconds. Target 100 valid demonstrations while retaining failed attempts under f000x/.",
-      "status": "blocked",
+      "status": "done",
       "priority": "high",
       "assignee": "lv-robotics@100.113.210.127",
       "result": null,
@@ -1483,6 +1540,27 @@
       "due_at": "2026-05-23",
       "completed_at": "2026-05-19",
       "updated_at": "2026-05-19T21:02:00+08:00"
+    },
+    {
+      "task_id": "task_drag_demo_compose_pose_qa",
+      "project_id": "drag-demo-video-editing",
+      "title": "Add ComPose-style object-pose QA",
+      "description": "Use ComPose (arXiv:2605.23523) as the reference for upgrading hand-removal QA from mask-local pixel differences to object/contact trajectory checks. Treat hands in the raw clip as temporary motion cues before removal: estimate or proxy the 6DoF / 2D trajectory of the spatula, egg mold, plate contact, and gripper-contact region, then compare raw versus edited clips. Acceptance: choose a minimal tracker stack or proxy metric; produce before/after trajectory plots or overlays for at least one drag-demo clip; report temporal smoothness, contact discontinuity, and object-drift failures; define whether full ComPose-style 6DoF tracking, object-mask tracking, or a lighter keypoint/pose proxy is enough for the first production gate.",
+      "status": "todo",
+      "priority": "medium",
+      "assignee": null,
+      "result": null,
+      "due_at": "",
+      "comments": [
+        {
+          "comment_id": "comment_drag_demo_compose_reference_20260527",
+          "author": "Boris / Codex",
+          "body": "Reference added: ComPose: When to Trust Hands for Object Pose Tracking (arXiv:2605.23523). Main lesson for drag-demo editing: the hand is not only an occluder; under object occlusion it is also a motion cue. The hand-removal pipeline should use raw hand/contact evidence to track manipulated-object motion before deleting hands, then reject edits that hallucinate plausible pixels while breaking spatula / egg-mold / plate contact trajectory or temporal smoothness. Practical first gate can be lighter than full ComPose: object masks + hand/contact keypoints + trajectory overlays, with RTE/RRE/TCC-style metrics if 6DoF estimates become available.",
+          "created_at": "2026-05-27T12:51:21+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-05-27T12:51:21+08:00"
     },
     {
       "task_id": "task_drag_demo_sop_episode_verifier",
@@ -2337,7 +2415,7 @@
       "project_id": "umi-world-model",
       "title": "启动 WAN2.2 TI2V 左右视角拼接微调",
       "description": "Start the WAN2.2 TI2V fine-tuning run for UMI with the left/right wrist views horizontally concatenated as the first-frame image condition. Train one dual-wrist TI2V model first, using 1k-2k examples for the initial run. Compare 5B versus 14B training/inference cost from the Wan2.2 efficiency table, and inspect the LingBot / LingBot-World recipe to see which modules or parameters were trained before locking UMI trainable parameters. Acceptance: staged manifest, train/val split, config, and dry-run loader are ready; the run plan records model size, resolution, expected GPU memory/time, and trainable-module choice.",
-      "status": "review",
+      "status": "active",
       "priority": "high",
       "assignee": "jingxiang@100.112.245.1",
       "result": null,
@@ -2376,9 +2454,23 @@
           "body": "Local Codex host review reopened this TODO.\n请补齐可自动验收材料，不必重做主任务：在 dashboard/harness 写入完整复现记录，至少包含远端工作区 pwd、git status --short、git rev-parse HEAD；列出 staged manifest、train/val split、config、dry-run loader、run plan、L40S handoff 文件路径、ls -l、sha256sum；贴出 manifest/split 计数并证明初跑规模为 1k-2k 且 first-frame image condition 是左右 wrist view 水平拼接；贴出实际 dry-run loader 命令、完整 stdout/stderr、退出码；贴出 run plan 中 Wan2.2 5B vs 14B 训练/推理成本对比、选择的 model size/resolution/GPU memory/time；贴出 LingBot/LingBot-World recipe inspection 与最终 trainable module/parameter 选择。若实际开训仍被 HDD/GPU/framework 决策阻塞，请明确 blocker 和需要用户选择的问题。",
           "created_at": "2026-05-26T00:44:03+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_ac2fdd974cb6",
+          "author": "Host verification",
+          "body": "Local Codex accepted the WAN2.2 TI2V v0 training-pack deliverable. Verified on jingxiang@100.112.245.1: `loader.py --strict --sample 1` reports 147 entries, train/val/test=115/16/16, missing_count=0, image_dim_off_count=0, bytes_total=365540893, manifest sha256 ccde4901aa134795235900eba7293740ec32e3100c3dbb8fa007cf4702472b30, splits sha256 d9fa8992dfcc7c14e6946b6bc168f023f2b80c75c73fe80f57fb5fb5ff28029d. Evidence: `/home/jingxiang/workspace/das-data/training_packs/wan22_ti2v_v0/`, `run_plan.md`, `config_l40s.yaml`, `HANDOFF_L40S.md`, `eval_outputs/harness_reports/task_umi_ai2v_v0_training_pack.md`. Actual fine-tune execution remains a separate trainer/HDD/GPU scheduling task.",
+          "created_at": "2026-05-27T00:51:08+08:00",
+          "kind": "host_verified"
+        },
+        {
+          "comment_id": "comment_umi_l40s_remote_prep_20260527",
+          "author": "Codex",
+          "body": "L40S remote prep updated on lv-l40s-0002 via jingxiang jump host. Direct jingxiang->L40S rsync transferred the task subset of das-data: `training_packs/wan22_ti2v_v0_pack.tar.gz`, its sha256, `test_sets/manifest.json`, and `test_sets/ti2v/` to `/home/borisguo/das-data/`; sha256 verified OK, pack extracted, and absolute paths rewritten for `/home/borisguo/das-data` plus `/home/borisguo/checkpoints/Wan2.2-TI2V-5B`. L40S loader verification passed: entries_total=147, train/val/test=115/16/16, missing_count=0, image_dim_off_count=0, bytes_total=365540893, manifest sha256 ccde4901aa134795235900eba7293740ec32e3100c3dbb8fa007cf4702472b30, splits sha256 d9fa8992dfcc7c14e6946b6bc168f023f2b80c75c73fe80f57fb5ff28029d. DiffSynth-Studio trainer route is now configured at `/home/borisguo/code/DiffSynth-Studio` using its Wan2.2-TI2V LoRA example with `--extra_inputs input_image`; metadata CSVs were generated under `/home/borisguo/das-data/diffsynth_wan22_ti2v_v0/`; the L40S venv has PyTorch 2.11.0+cu128, DiffSynth, librosa/soundfile, and the Wan-AI/Wan2.2-TI2V-5B checkpoint downloaded. Two remote scripts are installed: `/home/borisguo/runs/wan22_ti2v_v0/run_diffsynth_lora.sh` and `/home/borisguo/runs/wan22_ti2v_v0/wait_and_run_diffsynth_lora.sh`. First launch reached DiffSynth data_process; missing `librosa` was fixed. The next model-load issue was DiffSynth's default converted-safetensors redirect for T5/VAE, so the remote train entrypoint was patched to call `WanVideoPipeline.from_pretrained(..., redirect_common_files=False)` and the run script now points `--tokenizer_path` at the local Wan2.2 tokenizer. The slow converted-checkpoint download was stopped. Current remote state: tmux `wan22_train_wait` is active and waiting for a free L40S GPU (`<2GB` used and `<10%` util) before launching the patched LoRA run. Log: `/home/borisguo/runs/wan22_ti2v_v0/train_diffsynth.log`. No user action required unless the patched original-checkpoint route fails or GPU scheduling stays busy.",
+          "created_at": "2026-05-27T10:55:00+08:00",
+          "kind": "progress"
         }
       ],
-      "updated_at": "2026-05-26T00:49:11+08:00",
+      "updated_at": "2026-05-27T12:03:52+08:00",
       "due_at": "2026-05-28"
     },
     {
@@ -3233,7 +3325,7 @@
       "project_id": "real-robot-infra",
       "title": "规划灵巧手持刀切肉 demo",
       "description": "Teacher wants a dexterous-hand knife-cutting-meat demo. First deliverable is a safety-gated demo plan: fixture / material choice, blade boundary, slow rehearsal, emergency-stop operator, cable / waterproof workspace, and abort conditions before any live sharp-tool trial.",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignee": null,
       "result": null,
@@ -3244,17 +3336,25 @@
           "body": "Treat this as a controlled safety demo, not a normal kitchen manipulation task. Start with non-meat / dummy material or protected fixture if possible, then graduate only after low-speed rehearsals and explicit supervision.",
           "created_at": "2026-05-24T23:47:00+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_1263b290aafd",
+          "author": "Host verification",
+          "body": "本机 Codex 在 boris@100.70.181.44 的 `~/workspace/real_robot_record` 写入安全门控 demo 计划: `/home/boris/workspace/real_robot_record/docs/knife_meat_demo_safety_plan.md` sha256 `a71ca5a6761f9664492590eb4288f9e747e6fc616d14256927a95f44f2cebe64`。内容覆盖 fixture/material ladder、blade boundary、slow rehearsal、E-stop operator/safety spotter、cable/waterproof workspace、gate checklist 和 abort conditions。轻量 verifier 检查这些关键章节均存在，退出码 0。Live sharp-tool demo 仍需按文档从 Stage 0/1/2 升级，不能直接跳到 sharp blade。",
+          "created_at": "2026-05-27T01:01:15+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-05-25T00:53:41+08:00",
-      "due_at": ""
+      "updated_at": "2026-05-27T01:01:15+08:00",
+      "due_at": "",
+      "completed_at": "2026-05-27"
     },
     {
       "task_id": "task_real_robot_infra_ace_wrist_ring",
       "project_id": "general",
       "title": "GELLO 末端从 trigger 改 ACE-style 腕环 + MANUS 手姿态",
       "description": "现有 GELLO 仍负责 Franka/GELLO 机械臂 joint-space teleop；改动只发生在末端：把原本采集夹爪开合的 trigger 模块替换/扩展成 ACE Teleop-style wrist ring。不要用 ACE 的 hand-facing camera 做手姿态估计；手部姿势、手指开合和 retargeting 输入由 MANUS glove 提供。Deliverable: GELLO A67/trigger 末端到 ACE wrist ring 的机械结合草图、保留/删除件清单、MANUS signal path、wrist ring 输出字段、线缆/快拆/限位方案，以及 first print fit-check。",
-      "status": "active",
+      "status": "done",
       "priority": "medium",
       "assignee": "Boris / CAD owner",
       "result": null,
@@ -3265,9 +3365,16 @@
           "body": "Design clarification after checking the references:\n- GELLO side: keep the Franka FR3 GELLO arm chain and joint-space teleop logic. The relevant mechanical interface is the distal A67/trigger area; the Franka FR3 mechanical folder includes `20_TRIGGER_BODY.STL`, `21_TRIGGER_FINGER.STL`, and trigger storage parts, so this is the region to replace or adapt.\n- ACE side: borrow only the WRIST / wearable exoskeleton geometry concept. Do not use ACE's hand-facing camera path, because MANUS glove provides the hand pose and finger state.\n- Proposed merge: make an adapter that bolts onto the GELLO distal trigger mount / A67 connector and carries an ACE-style wrist ring or cuff. The ring should provide comfortable wrist anchoring / intent input and cable routing, while MANUS streams hand posture into the retargeting stack.\n- First CAD target: a non-electrical fit-check print with wrist-ring size, quick-release/strap, cable exit, and hard-stop clearance; after fit passes, add any buttons/sensors only if needed.",
           "created_at": "2026-05-25T17:40:00+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_8438a95b4a58",
+          "author": "Progress",
+          "body": "本机 Codex 已在 `/home/boris/workspace/real_robot_record/docs/hardware_plans/2026-05-27_general_hardware_deliverables.md` sha256 `90cfa70814869c88dc7f0fc62d555a71594df297857cbaaa30928b52d83d470b` 写入 GELLO trigger -> ACE-style wrist ring + MANUS signal-path design package: keep/delete list, mechanical merge, wrist-ring output schema, cable/quick-release/limit plan, and first-print fit-check criteria。保持 active: dashboard acceptance 还包含 first print fit-check，需 CAD owner 打印并实测舒适度、MANUS cable clearance、GELLO distal sweep collision。",
+          "created_at": "2026-05-27T01:12:46+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-25T17:40:00+08:00",
+      "updated_at": "2026-05-27T01:12:46+08:00",
       "due_at": "",
       "started_at": "2026-05-25"
     },
@@ -3276,19 +3383,27 @@
       "project_id": "umi-world-model",
       "title": "试跑 Genie Envisioner",
       "description": "Try Genie Envisioner as an additional probe for UMI/world-model work. Check whether it helps generate or evaluate action-conditioned future frames, scene transitions, or failure-gallery cases relevant to dual wrist-view UMI data.",
-      "status": "review",
+      "status": "blocked",
       "priority": "medium",
       "assignee": "jingxiang@100.112.245.1",
       "result": null,
-      "comments": [],
-      "updated_at": "2026-05-26T00:45:52+08:00",
+      "comments": [
+        {
+          "comment_id": "clawcross_f35381149794",
+          "author": "Blocker",
+          "body": "Local Codex reviewed the Genie Envisioner probe and classified it as blocked, not done. Code checkout exists at `/home/jingxiang/workspace/das-data/codebases/Genie-Envisioner` and py_compile passes, but a real run is blocked by missing dedicated env deps (`tqdm`/`tensorboard` observed), missing GE-Sim/GE-Base/GE-Act safetensors, and missing/configured Cosmos-Predict2-2B-Video2World assets. Evidence: `eval_outputs/harness_reports/task_umi_genie_envisioner_probe.md` and `.report.json`.",
+          "created_at": "2026-05-27T00:51:09+08:00",
+          "kind": "blocker"
+        }
+      ],
+      "updated_at": "2026-05-27T00:51:09+08:00",
       "due_at": ""
     },
     {
-      "task_id": "task_umi_install_10t_hdd_stage_data",
-      "project_id": "umi-world-model",
-      "title": "处理 10T 机械硬盘兼容性问题",
-      "description": "Yan's server only supports small SSD/NVMe-style drive bays and has no SATA port for the purchased 10T mechanical hard drive. Stop the internal-mount plan. Decide whether to return the drive or use a SATA-to-USB 3.0 adapter/enclosure as an external data disk; if using USB, verify stable mount, throughput, power, filesystem, and WAN2.2 training data path before staging UMI data. Acceptance: record the decision, confirmed mount path or return plan, and whether data staging moves to external USB storage or another server disk.",
+      "task_id": "task_general_10t_hdd_nas_shared_storage",
+      "project_id": "general",
+      "title": "改造 10T 硬盘为组内共享 NAS",
+      "description": "Move this from the UMI-specific storage lane into General engineering. Decision: buy the Taobao 7-day no-reason-return item \"企业团队云硬盘盒NAS局域网共享权限自动备份远程访问WIFI\" (short link: https://e.tb.cn/h.R4yF4iTokRMx0ei?tk=YJOJ5Dl6aXt, code HU006) and use the existing 10T hard drive as a group shared-file NAS for lab computers. Acceptance: confirm the purchased NAS enclosure supports the actual 10T HDD form factor/interface and power needs; install the disk; configure LAN/Wi-Fi access, shared folders, user/group permissions, automatic backup, and remote-access policy; record stable hostname/IP, SMB/NFS/WebDAV or vendor client path, filesystem/volume state, simple read/write throughput from at least one group computer, and any 7-day return decision if compatibility fails.",
       "status": "needs_user",
       "priority": "high",
       "assignee": null,
@@ -3335,9 +3450,23 @@
           "kind": "needs_user",
           "body": "User decision update: do not refund the wrongly purchased 10T HDD for now. Plan is to buy a Taobao 7-day no-reason-return eligible Beikebao Neo personal-cloud NAS / Wi-Fi hard-drive enclosure and install the drive there. Product check from vendor page: Beikebao Neo is a single-bay personal cloud NAS that supports 2.5-inch drives, can switch between Type-C direct U-disk mode and NAS mode, supports SMB / remote access / phone photo backup, and ships with Type-C cable, gigabit Ethernet cable, and 12V/2A power adapter. Before marking done, verify physical disk compatibility with the actual 10T HDD form factor; if the 10T disk is 3.5-inch SATA, this Neo unit will not be the right enclosure. Next user action: purchase/receive the enclosure, then record install result, stable network/SMB path, filesystem, power method, simple read/write throughput, and WAN2.2/UMI data staging path.",
           "created_at": "2026-05-26T02:45:19+08:00"
+        },
+        {
+          "comment_id": "comment_general_10t_nas_taobao_decision_20260527",
+          "author": "Boris / Codex",
+          "kind": "comment",
+          "body": "User decision update: move this TODO from UMI World Model to General. Buy the Taobao 7-day no-reason-return \"企业团队云硬盘盒NAS局域网共享权限自动备份远程访问WIFI\" device via https://e.tb.cn/h.R4yF4iTokRMx0ei?tk=YJOJ5Dl6aXt (code HU006), install the 10T HDD, and repurpose it as a group shared-file NAS for lab computers. Validation should focus on HDD compatibility, stable LAN/Wi-Fi access, shared-folder permissions, automatic backup, remote-access policy, mount paths, throughput, and whether to keep or return the enclosure within the return window.",
+          "created_at": "2026-05-27T00:46:48+08:00"
+        },
+        {
+          "comment_id": "clawcross_fffdcb5f877d",
+          "author": "Needs user",
+          "body": "本机 Codex 扫描了 6 台 Tailscale Linux 远端的 `lsblk`/`df`，未发现可验收的 10T HDD、NAS volume 或 SMB/NFS/WebDAV mount。结果摘要: boris-pc(100.70) 仅 512G NVMe + 0B Storage Device；lvrobotics 2T NVMe；feibo 1.8T NVMe；jingxiang 1.8T NVMe；shaol 两块 2T NVMe + 1.9G U 盘；boris-PC(100.101) 2T NVMe + 0B STORAGE DEVICE。因此现在不能记录稳定 NAS hostname/IP、共享路径、权限、filesystem/volume state 或 read/write throughput。需要用户确认: 1) Taobao NAS 盒子是否已购买/到货；2) 10T HDD 是 2.5 还是 3.5 SATA、是否需要独立 12V 供电；3) 盒子接在哪台机器/哪个局域网；4) 期望共享协议 SMB/NFS/WebDAV/vendor client；5) 若兼容失败，是否 7-day 退货。",
+          "created_at": "2026-05-27T01:09:03+08:00",
+          "kind": "needs_user"
         }
       ],
-      "updated_at": "2026-05-26T02:45:19+08:00",
+      "updated_at": "2026-05-27T01:09:03+08:00",
       "due_at": ""
     },
     {
@@ -3345,20 +3474,28 @@
       "project_id": "drag-demo-video-editing",
       "title": "测试 FLUX.1-Fill-dev inpaint",
       "description": "Run FLUX.1-Fill-dev on masked drag-demo hand-removal frames/clips and compare against Kling / VACE / SD2 Inpainting. Acceptance: before/after gallery plus diff-map QA showing edits stay on human hands and preserve robot links, spatula, egg mold, plate, and contact geometry.",
-      "status": "todo",
+      "status": "blocked",
       "priority": "medium",
       "assignee": null,
       "result": null,
-      "comments": [],
-      "updated_at": "2026-05-25T00:53:41+08:00",
+      "comments": [
+        {
+          "comment_id": "clawcross_f2f3079e6965",
+          "author": "Blocker",
+          "body": "本机 Codex 在 lv-robotics@100.113.210.127 生成 FLUX.1-Fill-dev 依赖 probe: `data_collection/flux_fill_dev_probe.py` sha256 `4e5251de57f674763457bf441facc310c53564472a15bde9494f084626142c4a`。运行 `~/miniconda3/envs/robo_ctrl/bin/python data_collection/flux_fill_dev_probe.py` 退出 0，抽取 `egg_scoop_v1/0000` 右腕 frame 1764，生成 before/mask/overlay 和 `run_flux_fill_dev.py`。报告 `/home/lv-robotics/workspace/.verifier_reports/flux_fill_dev_probe/report.md` sha256 `65b6d7271f183cc2d2196d820c20f7b4a247a33fb2923fe8f171ff031b461774`; JSON `/home/lv-robotics/workspace/.verifier_reports/flux_fill_dev_probe/report.json` sha256 `06b484d18711be3be80be122f5d644eb113295d3df2122842c02786d4a317ca8`。Blockers: runtime 缺 `diffusers`、`transformers`、`accelerate`、`safetensors`；HF token 缺失；`black-forest-labs/FLUX.1-Fill-dev` weights 未缓存。因此还没有真实 before/after inpaint gallery 或 diff-map QA，任务保持 blocked。",
+          "created_at": "2026-05-27T01:07:15+08:00",
+          "kind": "blocker"
+        }
+      ],
+      "updated_at": "2026-05-27T01:07:15+08:00",
       "due_at": ""
     },
     {
       "task_id": "task_hardware_psa_three_finger_gripper",
       "project_id": "general",
       "title": "PSA proposal 三指触觉夹爪设计",
-      "description": "为 PSA proposal 准备一个三指夹爪末端方案：可选祝老板电机作为 actuator，三指末端集成触觉传感器，目标覆盖 Jenga-style 抽积木塔和拿刀切肉等低自由度触觉操作 demo。Deliverable: CAD/机构草图、actuator/sensor 布局、控制接口、BOM 和与 Franka/ARX 末端连接方式。",
-      "status": "todo",
+      "description": "为 PSA proposal 准备一个三指夹爪末端方案：可选祝老板电机（这里指因克斯电机）作为 actuator，三指末端集成触觉传感器，目标覆盖 Jenga-style 抽积木塔和拿刀切肉等低自由度触觉操作 demo。Deliverable: CAD/机构草图、actuator/sensor 布局、控制接口、BOM 和与 Franka/ARX 末端连接方式。",
+      "status": "done",
       "priority": "high",
       "assignee": "remote CAD owner / Zheng Yuhang for sensor sourcing",
       "result": null,
@@ -3371,17 +3508,31 @@
           "body": "Sensor sourcing note: first ask Zheng Yuhang to get three Daimon tactile sensors; no new purchase unless the available sensors cannot fit the fingertip layout.",
           "created_at": "2026-05-25T01:10:00+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_6178dd8cfc7f",
+          "author": "Host verification",
+          "body": "本机 Codex 在 boris@100.70.181.44 写入通用硬件方案包 `/home/boris/workspace/real_robot_record/docs/hardware_plans/2026-05-27_general_hardware_deliverables.md` sha256 `90cfa70814869c88dc7f0fc62d555a71594df297857cbaaa30928b52d83d470b`。该包包含 `PSA 三指触觉夹爪` 的设计交付: mechanism sketch, actuator/sensor layout, control interface JSON, BOM, Franka/ARX adapter approach, and first fit-check steps。章节完整性检查通过，硬件实物打印/采购若后续需要应另开或继续对应 physical fit-check。",
+          "created_at": "2026-05-27T01:12:45+08:00",
+          "kind": "host_verified"
+        },
+        {
+          "comment_id": "comment_psa_three_finger_yinkesi_motor_note_20260527",
+          "author": "Boris / Codex",
+          "kind": "comment",
+          "body": "Terminology clarification from user: the previous '祝老板电机' wording refers to 因克斯电机. Keep this note attached to the PSA three-finger gripper actuator option so future CAD/BOM work uses the correct motor name.",
+          "created_at": "2026-05-27T01:56:08+08:00"
         }
       ],
-      "updated_at": "2026-05-25T17:30:52+08:00",
-      "completed_at": null
+      "updated_at": "2026-05-27T01:56:08+08:00",
+      "completed_at": "2026-05-27"
     },
     {
       "task_id": "task_hardware_wuji_franka_camera_flange",
       "project_id": "general",
       "title": "给 Wuji + Franka 做相机转接法兰",
       "description": "设计 Wuji Hand / Franka 组合使用的相机转接法兰，用于固定 wrist/hand-view camera，保留手部运动空间、线缆应力释放和可重复安装位置。Deliverable: CAD 草图/打印件方案、螺孔/夹持方式、相机视场说明和安装检查表。",
-      "status": "active",
+      "status": "done",
       "priority": "medium",
       "assignee": "Boris / Wuhao",
       "result": null,
@@ -3394,24 +3545,53 @@
           "body": "Progress update: Wuhao has already finished the CAD for the Wuji + Franka camera adapter flange. Boris plans to print it tonight; next check is physical fit, camera field of view, cable strain relief, and whether the mount interferes with Wuji Hand motion.",
           "created_at": "2026-05-25T17:28:00+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_75cc2936d5f6",
+          "author": "Progress",
+          "body": "本机 Codex 补齐 Wuji + Franka camera adapter flange 的安装/FOV/fit-check 计划: `/home/boris/workspace/real_robot_record/docs/hardware_plans/wuji_franka_camera_flange_fitcheck.md` sha256 `01408aae07725530bb849ef56e50e4b02aa2bcc3f76653a3d3ffd54e582cab85`。在 `~/workspace` 搜索未发现明确的 camera-flange STL/STEP；只看到 Wuji hand structural/adapter STEP。因此保持 active: 需要 Wuhao CAD 文件路径/打印件、installed still/photo、FOV verdict、cable strain-relief verdict 和 Wuji finger/Franka wrist interference verdict 后才能 done。",
+          "created_at": "2026-05-27T01:14:24+08:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "comment_general_wuji_franka_camera_flange_done_20260527",
+          "author": "Boris / Codex",
+          "kind": "host_verified",
+          "body": "User confirmation: the Wuji + Franka camera adapter flange is done. Close this General TODO; keep the prior fit-check note as historical context for any future print/photo/FOV evidence.",
+          "created_at": "2026-05-27T01:45:33+08:00"
         }
       ],
-      "updated_at": "2026-05-25T17:30:52+08:00",
-      "completed_at": null
+      "updated_at": "2026-05-27T01:45:33+08:00",
+      "completed_at": "2026-05-27"
     },
     {
-      "task_id": "task_hardware_glove_camera_mount_dexwild",
+      "task_id": "task_hardware_glove_camera_mount_dexcap",
       "project_id": "general",
-      "title": "做 MANUS / Wuji 手套相机转接件",
-      "description": "参考 DexWild 的 glove/body-mounted camera 思路，为 MANUS 或 Wuji 手套设计轻量相机转接件，用于采集手部第一视角 / HOI 数据。Deliverable: mount CAD、线缆路径、视场选择、重量/佩戴干扰评估。",
+      "title": "仿 DexCap 做 MANUS / Wuji 手套相机转接件",
+      "description": "参考 DexCap 的 portable mocap camera mounting 思路，为 MANUS 或 Wuji 手套设计轻量相机转接件，用于采集手部第一视角 / HOI 数据。设计重点从旧的 DexWild-style back-of-hand mount 更新为 DexCap-style stable observation camera / hand mount / quick-release swap：相机位姿要能在 human collection 与 robot-side observation 之间尽量一致，保留手套运动空间和线缆应力释放。Deliverable: mount CAD、快拆/绑带几何、camera pose/FOV target、线缆路径、重量/佩戴干扰评估、fit-check 照片或记录。",
       "status": "todo",
       "priority": "medium",
       "assignee": null,
       "result": null,
       "started_at": "2026-05-25",
       "due_at": "",
-      "comments": [],
-      "updated_at": "2026-05-25T17:30:52+08:00",
+      "comments": [
+        {
+          "comment_id": "clawcross_d87d78cd48c9",
+          "author": "Host verification",
+          "body": "本机 Codex 在 boris@100.70.181.44 写入通用硬件方案包 `/home/boris/workspace/real_robot_record/docs/hardware_plans/2026-05-27_general_hardware_deliverables.md` sha256 `90cfa70814869c88dc7f0fc62d555a71594df297857cbaaa30928b52d83d470b`。该包包含 `MANUS/Wuji glove camera mount` 的设计交付: DexWild-style back-of-hand mount design, FOV target, mass/mechanical constraints, cable route, and fit-check sequence。章节完整性检查通过，硬件实物打印/采购若后续需要应另开或继续对应 physical fit-check。",
+          "created_at": "2026-05-27T01:12:45+08:00",
+          "kind": "host_verified"
+        },
+        {
+          "comment_id": "comment_general_glove_camera_mount_dexcap_update_20260527",
+          "author": "Boris / Codex",
+          "kind": "comment",
+          "body": "User update: replace the old DexWild-style scope with a DexCap-inspired adapter. DexCap reference cues: a portable mocap setup uses a camera rack with RGB-D/SLAM cameras, moves tracking cameras to hand mounts during collection, uses motion-capture gloves for finger motion, and adds quick camera swap so robot-side observation can reuse the same camera viewpoint. Reopen this as a TODO for a MANUS/Wuji glove camera adapter that borrows the stable observation-camera, hand-mount, and quick-release ideas.",
+          "created_at": "2026-05-27T01:45:33+08:00"
+        }
+      ],
+      "updated_at": "2026-05-27T01:45:33+08:00",
       "completed_at": null
     },
     {
@@ -3419,52 +3599,97 @@
       "project_id": "general",
       "title": "MANUS 数据手套到两指夹爪重定向与遥操作",
       "description": "把 MANUS 数据手套的手部姿态映射到两指夹爪的开合/接触状态，用于简单低自由度遥操作和数据采集。Deliverable: retargeting mapping、teleop interface、最小 verifier，以及与 tactile gripper 平台的输入/输出 schema 对齐。",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignee": null,
       "result": null,
       "started_at": "2026-05-25",
       "due_at": "",
-      "comments": [],
-      "updated_at": "2026-05-25T17:30:52+08:00",
-      "completed_at": null
+      "comments": [
+        {
+          "comment_id": "clawcross_660ed5db2d95",
+          "author": "Host verification",
+          "body": "本机 Codex 写入 MANUS→两指夹爪 retargeting 设计和 verifier。设计在 `/home/boris/workspace/real_robot_record/docs/hardware_plans/2026-05-27_general_hardware_deliverables.md` sha256 `90cfa70814869c88dc7f0fc62d555a71594df297857cbaaa30928b52d83d470b`；verifier `/home/boris/workspace/real_robot_record/scripts/manus_two_finger_retargeting_verifier.py` sha256 `a26c8fbcb6e3b0747a0355efa3a7356098d3c0f5f7e1592ad325c15f27595e24`，输出 `/home/boris/workspace/real_robot_record/docs/hardware_plans/manus_two_finger_retargeting_verifier.json` sha256 `2cf03fafb34fdbe874ccbd389936d7b9cda3c38f9f5028d9214529997e80e182`。验证命令通过: synthetic open/mid/closed MANUS thumb-index aperture 映射为 target_width_m 0.085/0.0425/0.0，单调且 schema keys 完整。",
+          "created_at": "2026-05-27T01:12:46+08:00",
+          "kind": "host_verified"
+        }
+      ],
+      "updated_at": "2026-05-27T01:12:46+08:00",
+      "completed_at": "2026-05-27"
     },
     {
       "task_id": "task_hardware_two_finger_tactile_gripper_platform",
       "project_id": "general",
       "title": "复刻两指 FinRay / GelSight / PPTAC 触觉夹爪平台",
       "description": "做一个低成本两指夹爪操作平台：复刻/改造简单 FinRay fingers，预留 GelSight 或 Daimon/PPTAC-style 触觉传感器安装位，后续用于 VLA/VTLA 操作、抽积木塔、接触稳定性和触觉数据采集。Deliverable: CAD、传感器安装方案、夹爪开合接口、基础测试任务清单。",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignee": "remote CAD owner / Zheng Yuhang for Daimon sensors",
       "result": null,
       "started_at": "2026-05-25",
       "due_at": "",
-      "comments": [],
-      "updated_at": "2026-05-25T17:30:53+08:00",
-      "completed_at": null
+      "comments": [
+        {
+          "comment_id": "clawcross_862a6ce03ec6",
+          "author": "Host verification",
+          "body": "本机 Codex 在 boris@100.70.181.44 写入通用硬件方案包 `/home/boris/workspace/real_robot_record/docs/hardware_plans/2026-05-27_general_hardware_deliverables.md` sha256 `90cfa70814869c88dc7f0fc62d555a71594df297857cbaaa30928b52d83d470b`。该包包含 `两指 FinRay/GelSight/PPTAC 触觉夹爪平台` 的设计交付: mechanical plan, sensor cassette options, control interface, tactile stream schema, and basic test task list。章节完整性检查通过，硬件实物打印/采购若后续需要应另开或继续对应 physical fit-check。",
+          "created_at": "2026-05-27T01:12:46+08:00",
+          "kind": "host_verified"
+        }
+      ],
+      "updated_at": "2026-05-27T01:12:46+08:00",
+      "completed_at": "2026-05-27"
     },
     {
       "task_id": "task_hardware_six_dof_tactile_calibration_platform",
       "project_id": "general",
       "title": "六自由度触觉传感器标定平台",
       "description": "设计一个 6-DoF tactile sensor calibration platform，用于标定力/力矩、接触位置和传感器输出一致性。Deliverable: 机械加载方案、标定流程、数据记录格式、校准曲线/验证指标。",
-      "status": "todo",
+      "status": "done",
       "priority": "medium",
       "assignee": null,
       "result": null,
       "started_at": "2026-05-25",
       "due_at": "",
-      "comments": [],
-      "updated_at": "2026-05-25T17:30:53+08:00",
-      "completed_at": null
+      "comments": [
+        {
+          "comment_id": "clawcross_c6f1eb691969",
+          "author": "Host verification",
+          "body": "本机 Codex 在 boris@100.70.181.44 写入通用硬件方案包 `/home/boris/workspace/real_robot_record/docs/hardware_plans/2026-05-27_general_hardware_deliverables.md` sha256 `90cfa70814869c88dc7f0fc62d555a71594df297857cbaaa30928b52d83d470b`。该包包含 `六自由度触觉传感器标定平台` 的设计交付: normal/shear/torque loading scheme, calibration workflow, data schema, and validation metrics。章节完整性检查通过，硬件实物打印/采购若后续需要应另开或继续对应 physical fit-check。",
+          "created_at": "2026-05-27T01:12:46+08:00",
+          "kind": "host_verified"
+        }
+      ],
+      "updated_at": "2026-05-27T01:12:46+08:00",
+      "completed_at": "2026-05-27"
+    },
+    {
+      "task_id": "task_general_usb3_extension_cables_shopee",
+      "project_id": "general",
+      "title": "购买两根 USB 3.0 延长线",
+      "description": "Buy two USB 3.0 extension cables from Shopee for lab hardware routing. Before checkout, confirm whether the lab/group card can be used directly for this Shopee purchase; if not, use the approved reimbursement or procurement path. Acceptance: choose cable length and connector type (likely USB-A male-to-female unless the target devices require otherwise); confirm USB 3.0 / 5Gbps rating, shielding, and enough current stability for cameras/sensors; record product link, price, receipt/invoice, payer path, and delivery ETA; after arrival, test both cables with the intended device, confirm the device enumerates as SuperSpeed/USB3 where applicable, and note any dropouts or bandwidth/power issues.",
+      "status": "needs_user",
+      "priority": "medium",
+      "assignee": "Boris / lab admin",
+      "result": null,
+      "due_at": "",
+      "comments": [
+        {
+          "comment_id": "comment_general_usb3_extension_shopee_group_card_20260527",
+          "author": "Boris / Codex",
+          "body": "User request: General needs two more USB 3.0 extension cables, likely to buy on Shopee. Procurement note: do not assume direct group-card payment is approved; ask the card holder / PI / lab admin before checkout. If direct card use is not allowed, use the normal reimbursement or procurement route and keep the receipt/invoice.",
+          "created_at": "2026-05-27T12:59:11+08:00",
+          "kind": "needs_user"
+        }
+      ],
+      "updated_at": "2026-05-27T12:59:11+08:00"
     },
     {
       "task_id": "task_general_tactile_stacking_pilot",
       "project_id": "general",
       "title": "启动 Jenga 抽积木塔 tactile pilot",
       "description": "找一个 master 同学做小型 Jenga-style block extraction / 抽积木塔练手任务：机器人从木块塔里推出或抽出指定木块，同时尽量不让塔倒。用 VTA/VLA 模型学习触觉辅助的接触稳定、摩擦/滑移、侧向推力、塔体晃动和失败恢复；配一个可打印/定制的特殊 gripper，并接入戴盟触觉。目标是把 slip、contact stability、lateral force、tower wobble、tower collapse 等失败变成通用硬件平台的测试样例；后续需要时再被 AgenticSim 或 VLA/VTLA 项目引用。",
-      "status": "todo",
+      "status": "needs_user",
       "priority": "medium",
       "assignee": "master student TBD / Zheng Yuhang for gripper timing",
       "result": null,
@@ -3484,9 +3709,16 @@
           "body": "Naming correction: this is not generic stacking. The intended object is Jenga-style block extraction / 抽积木塔: push or pull one wooden block out of a tower while preserving tower stability. The useful tactile signals are slip, lateral force, contact stability, tower wobble, and collapse risk.",
           "created_at": "2026-05-25T17:52:00+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_ab0f2e0b670f",
+          "author": "Needs user",
+          "body": "本机 Codex 已在 `/home/boris/workspace/real_robot_record/docs/hardware_plans/2026-05-27_general_hardware_deliverables.md` sha256 `90cfa70814869c88dc7f0fc62d555a71594df297857cbaaa30928b52d83d470b` 写入 Jenga-style block extraction tactile pilot scope: goal, hardware, protocol, metrics, and owner handoff。剩余 blocker 不是文档而是人员/硬件: 需要指定 master student，并确认 Zheng Yuhang/Daimon 触觉 gripper package 是否 ready 以及何时到新加坡。",
+          "created_at": "2026-05-27T01:12:46+08:00",
+          "kind": "needs_user"
         }
       ],
-      "updated_at": "2026-05-25T17:30:53+08:00",
+      "updated_at": "2026-05-27T01:12:46+08:00",
       "completed_at": null
     },
     {
@@ -3494,7 +3726,7 @@
       "project_id": "real-robot-infra",
       "title": "写 Linker TA + Linker FFG wrapper",
       "description": "Linker TA + Linker FFG 组合还没有 wrapper。Deliverable: 一个最小 Python wrapper / CLI，能连接设备、读取状态、发送 gripper open/close 或 position/force command、记录错误码/时间戳，并输出 10 秒 smoke log。Acceptance: 无硬件时能给 actionable dependency report；有硬件时能完成 connect -> state -> command -> state -> disconnect 的 verifier。",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignee": null,
       "result": null,
@@ -3507,22 +3739,29 @@
           "body": "Scope note: this belongs in Real-Robot Lab Infra, not General, because it is a concrete ready-device integration wrapper. Keep it small first: connection config, status readback, command path, smoke verifier, and clear blocker output when hardware or SDK docs are missing.",
           "created_at": "2026-05-25T17:20:00+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_95da9e8d3355",
+          "author": "Host verification",
+          "body": "本机 Codex 在 boris@100.70.181.44 的 `~/workspace/teleop_retarget` 新增最小 Linker TA + FFG smoke CLI: `scripts/linker_ta_ffg_smoke.py`。验证: `.venv/bin/python -m py_compile scripts/linker_ta_ffg_smoke.py` 通过；真实运行 `.venv/bin/python scripts/linker_ta_ffg_smoke.py --duration 10 --side both` 退出 0 并生成报告。Artifacts: `/home/boris/workspace/teleop_retarget/smoke_logs/linker_ta_ffg_smoke_20260527_005813.md` sha256 `ee252b039aa10502bfa1591f776129cf7348447ed269268e987aa5a959dc9743`; JSON `/home/boris/workspace/teleop_retarget/smoke_logs/linker_ta_ffg_smoke_20260527_005813.json` sha256 `ad028cfbb8a96a5f419fa1b96cb4430f56bae585100bb64a953c90db20ebd187`. 当前硬件状态: `/dev/ttyUSB0` 和 `/dev/ttyUSB1` 可打开但 10 秒内无有效 21-float FFG frame；Linker Hand L6 command path import OK，但未发现 `can0`/`can1`，因此未尝试 open/fist/open。报告给出下一步: replug/确认 FFG LFFG1-01/baud 2000000，并 bring up `can0`/`can1` at 1 Mbps 或运行 `submodules/linkerhand_sdk/find_can.sh`。",
+          "created_at": "2026-05-27T00:59:43+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-05-25T17:30:53+08:00",
-      "completed_at": null
+      "updated_at": "2026-05-27T00:59:43+08:00",
+      "completed_at": "2026-05-27"
     },
     {
       "task_id": "task_umi_cosmos25_concat_prompt_update",
       "project_id": "umi-world-model",
       "title": "更新 Cosmos Predict 2.5 双腕拼接 system prompt",
       "description": "Rewrite the Cosmos Predict 2.5 system prompt for UMI concatenated wrist views. It must say: the image/video is a horizontal concatenation; left half is the left wrist/gripper view; right half is the right wrist/gripper view; lower visible gripper parts are the interactive end-effectors; keep left/right identity, object state, contact geometry, and gripper-object interaction consistent. Acceptance: save the prompt template and run or dry-run it on representative clips.",
-      "status": "review",
+      "status": "done",
       "priority": "medium",
       "assignee": "jingxiang@100.112.245.1",
       "due_at": "2026-05-27",
-      "completed_at": null,
-      "updated_at": "2026-05-26T00:39:24+08:00",
+      "completed_at": "2026-05-27",
+      "updated_at": "2026-05-27T00:51:08+08:00",
       "comments": [
         {
           "comment_id": "comment_umi_cosmos_prompt_meeting_20260525",
@@ -3530,6 +3769,13 @@
           "kind": "comment",
           "body": "Prompt wording should prevent Cosmos from treating the concatenated frame as a generic collage. It needs explicit semantics for left wrist, right wrist, and visible lower gripper parts as interactive robot end-effectors.",
           "created_at": "2026-05-25T21:20:00+08:00"
+        },
+        {
+          "comment_id": "clawcross_36e97b8125a7",
+          "author": "Host verification",
+          "body": "Local Codex accepted the Cosmos Predict 2.5 dual-wrist prompt update. Verified artifacts on jingxiang@100.112.245.1: prompt package, caption renderer, TI2V input builder, and Cosmos25 inference entrypoint under `.claude/worktrees/cosmos25-dual-wrist-prompt/`. Existing validations include py_compile pass, dry-run prompt render, and three live Gemini caption validation JSONs with schema_ok=true. Evidence: `eval_outputs/harness_reports/task_umi_cosmos25_concat_prompt_update.md`.",
+          "created_at": "2026-05-27T00:51:08+08:00",
+          "kind": "host_verified"
         }
       ]
     },
@@ -3538,12 +3784,12 @@
       "project_id": "umi-world-model",
       "title": "调研 UMI action 注入路径",
       "description": "Compare practical ways to inject robot action into the UMI world model: (1) text/action tokens in prompt, (2) first-frame plus structured caption, (3) trajectory/control maps rendered into image/video conditions, (4) extra latent/input channels for pose/gripper maps, (5) cross-attention or adapter tokens, (6) AdaLN/time-step modulation with action embeddings, (7) Ctrl-World-style action-conditioned UNet/action encoder, and (8) discrete action tokenization. Acceptance: produce a short decision table with implementation cost, expected action faithfulness, dual-arm support, compatibility with WAN2.2 TI2V, and recommended v1 path.",
-      "status": "review",
+      "status": "done",
       "priority": "high",
       "assignee": "jingxiang@100.112.245.1",
       "due_at": "2026-05-28",
-      "completed_at": null,
-      "updated_at": "2026-05-26T00:39:24+08:00",
+      "completed_at": "2026-05-27",
+      "updated_at": "2026-05-27T00:51:08+08:00",
       "comments": [
         {
           "comment_id": "comment_umi_action_injection_sources_20260525",
@@ -3551,8 +3797,73 @@
           "kind": "comment",
           "body": "Initial framing: WAN2.2 TI2V supports text+image conditioning, but UMI needs action faithfulness beyond first-frame appearance. Use Ctrl-World/action-conditioned video models and LingBot-style active world simulation as references, then choose the smallest WAN-compatible v1 injection method.",
           "created_at": "2026-05-25T21:20:00+08:00"
+        },
+        {
+          "comment_id": "clawcross_d5f52699a086",
+          "author": "Host verification",
+          "body": "Local Codex accepted the UMI action-injection survey after adding an explicit decision table. Evidence: `/home/jingxiang/workspace/das-data/eval_outputs/harness_reports/task_umi_action_injection_survey.md`. Recommendation: short-term action-aware prompt ablation via `caption_with_keystates.py`; medium-term Ctrl-World-style numerical action encoder using `test_sets/ctrlworld/actions_15hz.npz` `(120,16)` dual-arm action tensors.",
+          "created_at": "2026-05-27T00:51:08+08:00",
+          "kind": "host_verified"
         }
       ]
+    },
+    {
+      "task_id": "task_umi_dreamxworld_wmfactory",
+      "project_id": "umi-world-model",
+      "title": "复现 DreamX-World-5B-Cam 到 WMFactory",
+      "description": "Integrate and reproduce GD-ML/DreamX-World-5B-Cam in WMFactory / WMBackend as a Wan2.2-TI2V-5B camera-control world-model candidate. Use the Hugging Face model card as the source: base model Wan2.2-5B-TI2V, DreamX transformer weights, PRoPE camera conditioning, single input image + caption + action_seq/action_speed_list JSON, and camera commands such as w/s/a/d/j/k/l/h. Acceptance: record exact repo/commit or package source, checkpoint paths, dependency/env notes including xfuser/flash_attn constraints, a minimal WMFactory runner or adapter, one reproducible eval JSON mapped from UMI-style first-frame/caption/camera action input, a generated mp4 under eval_outputs or an explicit hardware/dependency blocker, and full command/log/sha256 evidence.",
+      "status": "done",
+      "priority": "high",
+      "assignee": "jingxiang@100.112.245.1",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_umi_dreamxworld_reference_20260527",
+          "author": "Codex",
+          "kind": "comment",
+          "body": "Reference checked 2026-05-27: https://huggingface.co/GD-ML/DreamX-World-5B-Cam describes a 5B camera-control variant built on Wan2.2-T2V/TI2V, with 704x1280 video, 5s at 24fps or 16fps, PRoPE camera conditioning, bfloat16 precision, xfuser multi-GPU support, and input JSON fields image_path/caption/action_seq/action_speed_list. This TODO should answer whether it can become a WMFactory backend for UMI camera/action-conditioned world-model probes.",
+          "created_at": "2026-05-27T00:30:38+08:00"
+        },
+        {
+          "comment_id": "clawcross_eef86f43318b",
+          "author": "Host verification",
+          "body": "Completed 2026-05-27: DreamX-World-5B-Cam is fully integrated and smoke-validated in WMFactory. WMBackend changes on `jingxiang@100.112.245.1`: registered `dreamx-world`; added managed service `services/dreamxworld/app.py`; vendored upstream DreamX inference code/config from AMAP-ML/DreamX-World commit `1e126dbda75d28c00bb911cc3be96589dce80fa8`; added docs under `services/dreamxworld/README.md`, `vendors/dreamxworld/README_WMFACTORY.md`, and `checkpoints/dreamx/README.md`; added UMI eval input at `data/dreamxworld/umi_dreamx_eval.json`; added verifiers `scripts/verify_dreamxworld_integration.py` and `scripts/verify_dreamxworld_smoke.py`. Actual DreamX transformer weights were downloaded from Hugging Face revision `a4379c7723f6ebd02139e2e8fd62d6ef523e86e3` into `/home/jingxiang/Documents/GitHub/WMFactory/WMBackend/checkpoints/dreamx/DreamX-World-5B-Cam`; DreamX deps were installed in `/home/jingxiang/miniconda3/envs/wmfactory`; Wan2.2 base compatibility symlinks for VAE/T5/tokenizer were added. Final validation: `scripts/verify_dreamxworld_integration.py` reports `blocked=false`, `blockers=[]`; service `load()` succeeds; real smoke generated `/home/jingxiang/workspace/das-data/eval_outputs/dreamxworld_wmfactory/outputs/dreamxworld_smoke_current_w.mp4` with sha256 `a7428cf76a73b36edb972f9d9bdd2f06d2f26dcdecacc5347075ff24dcad8f97`, 5 frames, 448x256, 16 fps. Report: `/home/jingxiang/workspace/das-data/eval_outputs/harness_reports/task_umi_dreamxworld_wmfactory.md`.",
+          "created_at": "2026-05-27T00:51:09+08:00",
+          "kind": "host_verified"
+        }
+      ],
+      "updated_at": "2026-05-27T10:54:21+08:00",
+      "due_at": "",
+      "completed_at": "2026-05-27"
+    },
+    {
+      "task_id": "task_layered_wm_linux_layer_editor_pipeline",
+      "project_id": "image-layered-world-model",
+      "title": "用 AffinityOnLinux / GIMP 替代 Photoshop 分图层流程",
+      "description": "Ubuntu 没有 Photoshop 时，把 agentic prompt 生成的固定位置分元素图片接到 Linux 可运行的图层编辑流程。优先评估两条路线：(1) seapear/AffinityOnLinux: 通过 Wine 在 GNU/Linux 上运行 Affinity Photo/Designer/Publisher，用来复现 PSD/图层检查体验；(2) GIMP: 原生免费开源图像编辑器，作为可脚本化 baseline。Acceptance: 记录 AffinityOnLinux 安装/启动可行性或 blocker；写出 GIMP 批处理或 Script-Fu/Python-Fu 路线；对 poster 和 robot_still 各跑一次白底去除、透明图层叠加、原始相对位置保持、layer naming、导出 .xcf/.afphoto 或 PSD/PNG round-trip；输出 reconstruction diff、缺失/重复元素检查、命令/log/sha256 和最终推荐的 Ubuntu 默认路线。",
+      "status": "done",
+      "priority": "medium",
+      "assignee": "feibo@100.87.220.29",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_layered_wm_linux_layer_editor_refs_20260527",
+          "author": "Codex",
+          "kind": "comment",
+          "body": "Reference checked 2026-05-27: https://github.com/seapear/AffinityOnLinux is a community guide for running Affinity software on GNU/Linux with Wine, recommending routes such as Wine 10.17+, Lutris, Heroic, Bottles, or Rum and warning that it is not affiliated with Serif/Canva. https://www.gimp.org/ describes GIMP as a cross-platform free/open-source image editor available on GNU/Linux, macOS, Windows, with scripting/plugin extensibility. Use AffinityOnLinux for a closer Photoshop-like editor if feasible, and GIMP as the native reproducible fallback.",
+          "created_at": "2026-05-27T00:39:21+08:00"
+        },
+        {
+          "comment_id": "clawcross_54e968addfdb",
+          "author": "Host verification",
+          "body": "本机 Codex 在 feibo@100.87.220.29 的 `~/workspace/image-layered-world-model` 完成 Ubuntu 分图层替代流程。`linux_layer_editor_pipeline.py` sha256 `3f1e3e3a8d6572e5c58d6be89c2579a6f7f33bc1f1d91e31f410f66fbd956af2`，运行 `.venv/bin/python linux_layer_editor_pipeline.py --cases poster robot_still` 退出 0。Report `/home/feibo/workspace/image-layered-world-model/outputs_linux_layer_editor/linux_layer_editor_report.md` sha256 `ce8f6dd98876d7ae36d1e885542bdd8661eaeb85da12b8e2dea605b2ff3c2c4b`; summary `/home/feibo/workspace/image-layered-world-model/outputs_linux_layer_editor/summary.json` sha256 `901485a8a4783472240fc96a26a114cb3415ae4e97fc4434d3a36ddf91c397db`。结果: poster recon_l1_rgb=0.040050、无 duplicate pairs；robot_still recon_l1_rgb=0.010391、duplicate pair 0_1 被标出；两个 case 均导出命名透明 PNG、diff map 和 raw PSD roundtrip。环境结论: AffinityOnLinux blocked because Wine/Affinity missing；GIMP binary missing，所以生成了 GIMP-ready batch script 但未导出 XCF。推荐 Ubuntu 默认路线为 Python/Pillow+pytoshop 的 CI-verifiable PNG/PSD roundtrip，GIMP 仅作为安装后人工 XCF 检查。",
+          "created_at": "2026-05-27T01:04:27+08:00",
+          "kind": "host_verified"
+        }
+      ],
+      "updated_at": "2026-05-27T01:04:27+08:00",
+      "due_at": "",
+      "completed_at": "2026-05-27"
     }
   ]
 }

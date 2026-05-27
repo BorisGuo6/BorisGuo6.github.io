@@ -435,6 +435,48 @@ td small {
   border-top: 4px solid #315d9b;
 }
 
+.dashboard-entry-links {
+  display: grid;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.dashboard-entry-link {
+  display: block;
+  padding: 13px 14px;
+  border: 1px solid #b7d8d3;
+  background: #eef8f6;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.dashboard-entry-link:hover {
+  border-color: var(--accent);
+  background: #e4f3f1;
+}
+
+.dashboard-entry-link strong,
+.dashboard-entry-link em {
+  display: block;
+}
+
+.dashboard-entry-link strong {
+  font-size: 15px;
+}
+
+.dashboard-entry-link em {
+  margin-top: 3px;
+  color: var(--muted);
+  font-style: normal;
+  font-size: 12px;
+}
+
+@media (min-width: 720px) {
+  .dashboard-entry-links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 .flow-arrow {
   display: grid;
   place-items: center;

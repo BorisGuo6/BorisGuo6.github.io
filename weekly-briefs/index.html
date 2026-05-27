@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Weekly Brief｜Romoya + Self-Improving Agents</title>
+    <style>
+      :root {
+        --paper: #ffffff;
+        --ink: #17222d;
+        --muted: #5f6f7b;
+        --line: #d8e1e8;
+        --soft: #f4f7f9;
+        --teal: #0f766e;
+        --teal-soft: #ddf3ef;
+        --amber: #965f07;
+        --amber-soft: #fff3dc;
+        --rose: #9d3b4d;
+        --rose-soft: #fde9ee;
+        --green: #1f7a44;
+        --green-soft: #e7f5ed;
+        --blue: #2e5f91;
+        --blue-soft: #e7f0fb;
+        --slate-soft: #eef2f5;
+        --shadow: 0 18px 50px rgba(23, 34, 45, 0.12);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        background: #edf1f4;
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      a {
+        color: var(--teal);
+        text-decoration-thickness: 1px;
+        text-underline-offset: 3px;
+      }
+
+      .page {
+        width: min(1180px, calc(100vw - 32px));
+        margin: 24px auto 64px;
+        background: var(--paper);
+        border: 1px solid var(--line);
+        box-shadow: var(--shadow);
+      }
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        padding: 10px 26px;
+        border-bottom: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.94);
+        backdrop-filter: blur(12px);
+      }
+
+      .topbar nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .topbar a,
+      .print-button {
+        min-height: 30px;
+        padding: 6px 10px;
+        border: 1px solid transparent;
+        background: transparent;
+        color: var(--muted);
+        font: inherit;
+        font-size: 12px;
+        font-weight: 800;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .topbar a:hover,
+      .print-button:hover {
+        border-color: var(--line);
+        color: var(--ink);
+        background: var(--soft);
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 320px;
+        gap: 36px;
+        padding: 38px;
+        border-bottom: 2px solid var(--ink);
+      }
+
+      .kicker,
+      .eyebrow,
+      .small-label {
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .kicker,
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        margin-top: 8px;
+        max-width: 860px;
+        font-size: clamp(36px, 5vw, 62px);
+        line-height: 1;
+        letter-spacing: 0;
+      }
+
+      h2 {
+        font-size: clamp(24px, 3vw, 36px);
+        line-height: 1.12;
+      }
+
+      h3 {
+        font-size: 17px;
+        line-height: 1.25;
+      }
+
+      .subtitle {
+        max-width: 780px;
+        margin-top: 18px;
+        color: var(--muted);
+        font-size: 17px;
+      }
+
+      .hero-note {
+        align-self: stretch;
+        padding: 18px;
+        border: 1px solid var(--line);
+        background: var(--soft);
+      }
+
+      .hero-note strong {
+        display: block;
+        margin-top: 6px;
+        font-size: 24px;
+        line-height: 1.15;
+      }
+
+      .hero-note p {
+        margin-top: 12px;
+        color: var(--muted);
+      }
+
+      .source-strip {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 22px;
+      }
+
+      .source-strip span {
+        padding: 5px 8px;
+        border: 1px solid var(--line);
+        background: var(--soft);
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      main {
+        padding: 0 38px 40px;
+      }
+
+      .section {
+        padding: 34px 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .section:last-child {
+        border-bottom: 0;
+      }
+
+      .section-title {
+        display: grid;
+        grid-template-columns: minmax(0, 0.9fr) minmax(260px, 0.55fr);
+        gap: 28px;
+        align-items: end;
+        margin-bottom: 18px;
+      }
+
+      .section-title > p {
+        color: var(--muted);
+      }
+
+      .grid-2,
+      .grid-3 {
+        display: grid;
+        gap: 14px;
+      }
+
+      .grid-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .grid-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .panel,
+      .decision-card,
+      .quote-box,
+      .diagram-card,
+      .table-card {
+        padding: 18px;
+        border: 1px solid var(--line);
+        background: var(--soft);
+      }
+
+      .panel h3,
+      .decision-card h3 {
+        margin-bottom: 10px;
+      }
+
+      .panel p + p,
+      .decision-card p + p {
+        margin-top: 10px;
+      }
+
+      .ok {
+        border-color: #a9d4ba;
+        background: var(--green-soft);
+      }
+
+      .decision {
+        border-color: #a2d4cd;
+        background: var(--teal-soft);
+      }
+
+      .warning {
+        border-color: #efcc8e;
+        background: var(--amber-soft);
+      }
+
+      .danger {
+        border-color: #efb7c1;
+        background: var(--rose-soft);
+      }
+
+      .blue {
+        border-color: #b8cfea;
+        background: var(--blue-soft);
+      }
+
+      .quote-box {
+        border-left: 5px solid var(--teal);
+        background: #f8fbfc;
+        font-size: 18px;
+        font-weight: 800;
+      }
+
+      .metric-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .metric {
+        padding: 16px;
+        border: 1px solid var(--line);
+        background: #ffffff;
+      }
+
+      .metric span {
+        display: block;
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .metric strong {
+        display: block;
+        margin-top: 8px;
+        font-size: 24px;
+        line-height: 1.1;
+      }
+
+      .compact-list {
+        margin: 0;
+        padding-left: 18px;
+      }
+
+      .compact-list li + li {
+        margin-top: 8px;
+      }
+
+      .diagram-card {
+        overflow: hidden;
+        background: #ffffff;
+      }
+
+      .diagram-card h3 {
+        margin-bottom: 12px;
+      }
+
+      .diagram {
+        display: block;
+        width: 100%;
+        height: auto;
+        border: 1px solid var(--line);
+        background: #fbfdfe;
+      }
+
+      .diagram text {
+        font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      }
+
+      .legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 12px;
+      }
+
+      .legend span {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .legend i {
+        width: 10px;
+        height: 10px;
+        border: 1px solid currentColor;
+        background: currentColor;
+      }
+
+      .visual-flow {
+        display: grid;
+        grid-template-columns: repeat(6, minmax(120px, 1fr));
+        gap: 8px;
+        margin-top: 14px;
+      }
+
+      .flow-step {
+        min-height: 150px;
+        padding: 14px;
+        border: 1px solid var(--line);
+        background: #ffffff;
+      }
+
+      .flow-step span {
+        display: block;
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .flow-step strong {
+        display: block;
+        margin: 8px 0;
+        font-size: 18px;
+        line-height: 1.15;
+      }
+
+      .flow-step p {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .evidence-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+
+      .evidence-table th,
+      .evidence-table td {
+        vertical-align: top;
+        padding: 12px;
+        border: 1px solid var(--line);
+        text-align: left;
+      }
+
+      .evidence-table th {
+        background: var(--slate-soft);
+        font-size: 11px;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .phase-grid {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .phase {
+        min-height: 210px;
+        padding: 16px;
+        border: 1px solid var(--line);
+        background: #ffffff;
+      }
+
+      .phase span {
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .phase strong {
+        display: block;
+        margin: 8px 0 10px;
+        font-size: 18px;
+        line-height: 1.15;
+      }
+
+      .phase p {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .footer-note {
+        padding: 20px 38px 28px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      @media (max-width: 980px) {
+        .visual-flow,
+        .phase-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 820px) {
+        .page {
+          width: 100%;
+          margin: 0;
+          border: 0;
+        }
+
+        .topbar,
+        .hero,
+        main,
+        .footer-note {
+          padding-left: 18px;
+          padding-right: 18px;
+        }
+
+        .hero,
+        .section-title,
+        .grid-2,
+        .grid-3,
+        .metric-grid,
+        .visual-flow,
+        .phase-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media print {
+        html,
+        body {
+          background: #ffffff;
+        }
+
+        .page {
+          width: 100%;
+          margin: 0;
+          border: 0;
+          box-shadow: none;
+        }
+
+        .topbar {
+          display: none;
+        }
+
+        .section,
+        .hero,
+        .diagram-card {
+          break-inside: avoid;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <div class="topbar">
+        <a href="../dashboard/">Back to Dashboard</a>
+        <nav aria-label="Page sections">
+          <a href="#venue-brief">场地</a>
+          <a href="#plan-one">方案一</a>
+          <a href="#plan-two">方案二</a>
+          <a href="#self-improving">Self-Improving</a>
+          <a href="#self-architecture">Architecture</a>
+          <a href="#self-roadmap">Roadmap</a>
+        </nav>
+        <button class="print-button" type="button" onclick="window.print()">Print / PDF</button>
+      </div>
+
+      <header class="hero" id="venue-brief">
+        <div>
+          <p class="kicker">Weekly Brief</p>
+          <h1>Romoya 场地方案：建议和 XB 一起向 Clement 汇报方案一</h1>
+          <p class="subtitle">
+            旧周报内容已汇报过，本页保留最新场地决策。两边刚回复确认后，第二个整租方案成本和条款都不现实；当前建议把方案一作为默认推进路径。
+          </p>
+          <div class="source-strip" aria-label="Source summary">
+            <span>颜老师最新确认</span>
+            <span>The Gemini 408 / 409 回复</span>
+            <span>Grace 报价回复</span>
+            <span>XB + Boris present 给 Clement</span>
+          </div>
+        </div>
+        <aside class="hero-note">
+          <span class="small-label">Recommended decision</span>
+          <strong>Proceed with Plan 1</strong>
+          <p>先用可落地的 Gemini 方案启动；409 作为可切换机会，不作为项目依赖。</p>
+        </aside>
+      </header>
+
+      <main>
+        <section class="section">
+          <div class="section-title">
+            <div>
+              <p class="eyebrow">Venue conclusion</p>
+              <h2>结论：方案二基本排除，方案一拿去和 Clement 拍板</h2>
+            </div>
+            <p>这部分保留为周报开头；Self-Improving Agents proposal 作为后面的项目更新。</p>
+          </div>
+          <div class="quote-box">
+            <p>建议口径：我们已经向两边确认过关键条款。Grace 的整租方案需要约 S$12,000/月、三年起租、三个月押金，且价格基本谈不动，因此不适合作为当前启动方案。建议先推进 The Gemini 方案一，并把 408 到 409 的切换作为可选机会。</p>
+          </div>
+        </section>
+
+        <section class="section" id="plan-one">
+          <div class="section-title">
+            <div>
+              <p class="eyebrow">Plan 1</p>
+              <h2>方案一：先落 The Gemini 408，保留换到 409 的机会</h2>
+            </div>
+            <p>核心优势是快、便宜、灵活；核心风险是 409 不能保证未来仍空着。</p>
+          </div>
+          <div class="grid-3">
+            <article class="panel decision">
+              <h3>当前动作</h3>
+              <p>用 The Gemini 408 作为第一阶段场地，先满足团队落地、设备调试、数据采集和对外展示的基本需求。</p>
+            </article>
+            <article class="panel ok">
+              <h3>409 切换条款</h3>
+              <p>已确认：408 换到 409 不算退租，前提是 409 当时还没有被别人租走。</p>
+            </article>
+            <article class="panel warning">
+              <h3>需要讲清楚的风险</h3>
+              <p>不能保证 409 到时候还在，所以不能把 409 写成必然 upgrade；只能写成 optional relocation / expansion opportunity。</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="plan-two">
+          <div class="section-title">
+            <div>
+              <p class="eyebrow">Plan 2 check</p>
+              <h2>Grace 整租方案：现在基本不可行</h2>
+            </div>
+            <p>这部分建议只作为“为什么不选方案二”的证据，不要在 Clement 会上继续花太多时间。</p>
+          </div>
+          <div class="metric-grid">
+            <article class="metric">
+              <span>Monthly rent</span>
+              <strong>S$12,000</strong>
+            </article>
+            <article class="metric">
+              <span>Minimum term</span>
+              <strong>3 years</strong>
+            </article>
+            <article class="metric">
+              <span>Deposit</span>
+              <strong>3 months</strong>
+            </article>
+            <article class="metric">
+              <span>Storage ask</span>
+              <strong>&ge;20 m²</strong>
+            </article>
+          </div>
+          <div class="grid-2" style="margin-top: 14px;">
+            <article class="panel danger">
+              <h3>为什么排除</h3>
+              <ul class="compact-list">
+                <li>全部租下来约 S$12,000/月，价格基本没有谈判空间。</li>
+                <li>最低三年，加三个月押金，现金压力和承诺周期都太重。</li>
+                <li>免费储物空间仍未确认；现在只是提出最好不少于 20 m²。</li>
+              </ul>
+            </article>
+            <article class="panel warning">
+              <h3>会上的表述</h3>
+              <p>可以说我们已经 check 过更大方案，但它把启动问题变成长期重资产承诺，不符合当前阶段。除非 Grace 后续大幅改变价格、租期或储物条件，否则不建议继续推进。</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="talk-track">
+          <div class="section-title">
+            <div>
+              <p class="eyebrow">Presentation script</p>
+              <h2>和 XB 给 Clement 的汇报口径</h2>
+            </div>
+            <p>建议按“事实确认、方案判断、请求拍板”的顺序讲，不要把会议带回全量场地比较。</p>
+          </div>
+          <div class="grid-2">
+            <article class="decision-card">
+              <h3>30 秒版</h3>
+              <p>我们刚刚确认了两边回复。The Gemini 408 后续换 409 不算退租，但 409 未来是否还空着不能保证；Grace 的整租方案需要 S$12,000/月、三年起租、三个月押金，基本没有议价空间，所以方案二不现实。建议我们先推进方案一，用 408 作为启动场地，把 409 作为如果还空着就切换的机会。</p>
+            </article>
+            <article class="decision-card">
+              <h3>决策句</h3>
+              <p>请 Clement 批准我们按方案一继续谈 The Gemini：先锁一个可启动的 408 场地，不承诺一定能拿到 409，同时让 XB 和 Boris 继续确认合同里关于换房、储物、用电、装修、设备进场和退出条款的文字。</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="self-improving">
+          <div class="section-title">
+            <div>
+              <p class="eyebrow">Self-Improving Agents / Project Proposal</p>
+              <h2>项目导语压缩版：先做仿真闭环，Robot4Robot 后移</h2>
+            </div>
+            <p>这里替代的是 Self-Improving Agents 项目自己的长 intro：proposal 已经展开，导语只保留方向判断和一两句话。</p>
+          </div>
+          <div class="quote-box">
+            <p>Proposal：把 Self-Improving Agents 做成 AgenticSim 的 simulation-first 系统。Scheduler 选择任务和难度，Scene Generator 生成环境和扰动，Train Agent 训练策略或 workflow，Evaluate Agent 用 verifier 评分，Analyze Agent 把失败变成 memory，再反向更新 task schedule。真机和 Robot4Robot 是后续 promotion layer。</p>
+          </div>
+          <div class="grid-3" style="margin-top: 14px;">
+            <article class="panel danger">
+              <h3>为什么不先真机</h3>
+              <p>真实机器人调试、采集、安全 gate 和失败复现成本都高。把 analyze、train、evaluate、schedule task 都压到真机上，会让第一阶段被工程复杂度拖住。</p>
+            </article>
+            <article class="panel decision">
+              <h3>为什么先仿真</h3>
+              <p>仿真可以并行生成 scene、固定 seed、快速评估、复现实验，并把失败归因转化为可持续变难的 benchmark 和 curriculum。</p>
+            </article>
+            <article class="panel ok">
+              <h3>本周可讲的 demo</h3>
+              <p>先做小闭环：任务族 -> 场景变体 -> rollout -> verifier -> failure memory -> 下一轮 schedule。</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="self-research">
+          <div class="section-title">
+            <div>
+              <p class="eyebrow">Reference reading</p>
+              <h2>调研结论：关键不是生成数据，而是生成可执行环境</h2>
+            </div>
+            <p>General Agent 和 EvoEnv 都支持这个 proposal 方向：把 self-improvement 从“多一点 synthetic data”改成“持续构造能训练模型的 verifier environment”。</p>
+          </div>
+          <div class="grid-2">
+            <article class="decision-card blue">
+              <h3><a href="https://www.primeintellect.ai/blog/general-agent">General Agent</a>：synthesizer / solver 循环</h3>
+              <p>Prime Intellect 的 General Agent 用 Synthesizer 生成任务族和难度 tier，用 Solver 估计 pass rate，只有落在目标难度区间的任务才进入 corpus。</p>
+              <p>迁移到机器人：每个任务也应该有 scene state、controller/tool API、instruction、reference rollout、verifier 和 difficulty tier。</p>
+            </article>
+            <article class="decision-card warning">
+              <h3><a href="https://arxiv.org/abs/2605.14392">EvoEnv</a>：environment-construction loop</h3>
+              <p>EvoEnv 强调每个 artifact 应是 executable object：能 sample instance、compute reference、score response，并经过 staged validation、semantic review、difficulty calibration 和 novelty checks。</p>
+              <p>迁移到机器人：生成场景必须能重放、能评分、能产生可诊断失败；只视觉上合理不够。</p>
+            </article>
+          </div>
+          <div class="table-card" style="margin-top: 14px;">
+            <table class="evidence-table">
+              <thead>
+                <tr>
+                  <th>Reference concept</th>
+                  <th>Robotics translation</th>
+                  <th>Proposal consequence</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>DB / tools / instruction / verification</td>
+                  <td>Scene state / robot controllers / task goal / executable simulator verifier</td>
+                  <td>AgenticSim 任务必须是可执行对象，不是 prose-only benchmark。</td>
+                </tr>
+                <tr>
+                  <td>Pass-rate calibrated difficulty</td>
+                  <td>用 baseline policy 或 VLA solver 的 rollout success rate 标定难度</td>
+                  <td>自动接受“刚好难”的任务，拒绝太简单、坏掉或不可复现的任务。</td>
+                </tr>
+                <tr>
+                  <td>Stable solve-verify asymmetry</td>
+                  <td>Verifier 容易执行，但策略在新场景里仍然容易失败</td>
+                  <td>reward 不会立刻失效，环境池可以持续提供训练信号。</td>
+                </tr>
+                <tr>
+                  <td>Novelty and semantic gates</td>
+                  <td>检查 scene 是否物理有效、是否重复、是否引入新 failure mode</td>
+                  <td>防止 agent 只生成重复任务、坏任务或 verifier 漏洞。</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="section" id="self-architecture">
+          <div class="section-title">
+            <div>
+              <p class="eyebrow">Detailed visual</p>
+              <h2>系统图：AgenticSim simulation-first self-improvement loop</h2>
+            </div>
+            <p>图里的主循环都在仿真里；真实机器人和 Robot4Robot 只作为后续 promotion layer。</p>
+          </div>
+          <div class="diagram-card">
+            <h3>闭环架构图</h3>
+            <svg class="diagram" viewBox="0 0 1120 640" role="img" aria-labelledby="loop-title loop-desc">
+              <title id="loop-title">Simulation-first self-improving agents loop</title>
+              <desc id="loop-desc">Scheduler, scene generator, training, evaluation, failure analysis, memory and governance loop in AgenticSim, with real robot and Robot4Robot deferred to a later promotion layer.</desc>
+              <defs>
+                <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#2e5f91"></path>
+                </marker>
+                <marker id="arrow-teal" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#0f766e"></path>
+                </marker>
+              </defs>
+
+              <rect x="30" y="34" width="1060" height="392" fill="#f8fbfc" stroke="#d8e1e8"></rect>
+              <text x="54" y="70" fill="#5f6f7b" font-size="16" font-weight="800">SIMULATION-FIRST CORE LOOP</text>
+
+              <rect x="70" y="130" width="150" height="96" fill="#e7f0fb" stroke="#9ab9d9"></rect>
+              <text x="145" y="160" text-anchor="middle" fill="#17222d" font-size="19" font-weight="800">Schedule</text>
+              <text x="145" y="184" text-anchor="middle" fill="#5f6f7b" font-size="13">pick task family</text>
+              <text x="145" y="202" text-anchor="middle" fill="#5f6f7b" font-size="13">difficulty, seed</text>
+
+              <rect x="270" y="130" width="150" height="96" fill="#ddf3ef" stroke="#95cbc2"></rect>
+              <text x="345" y="160" text-anchor="middle" fill="#17222d" font-size="19" font-weight="800">Generate scene</text>
+              <text x="345" y="184" text-anchor="middle" fill="#5f6f7b" font-size="13">object layout</text>
+              <text x="345" y="202" text-anchor="middle" fill="#5f6f7b" font-size="13">physics, distractors</text>
+
+              <rect x="470" y="130" width="150" height="96" fill="#fff3dc" stroke="#e2bd7c"></rect>
+              <text x="545" y="160" text-anchor="middle" fill="#17222d" font-size="19" font-weight="800">Train</text>
+              <text x="545" y="184" text-anchor="middle" fill="#5f6f7b" font-size="13">policy / workflow</text>
+              <text x="545" y="202" text-anchor="middle" fill="#5f6f7b" font-size="13">SFT, RL, prompt</text>
+
+              <rect x="670" y="130" width="150" height="96" fill="#e7f5ed" stroke="#9fceaf"></rect>
+              <text x="745" y="160" text-anchor="middle" fill="#17222d" font-size="19" font-weight="800">Evaluate</text>
+              <text x="745" y="184" text-anchor="middle" fill="#5f6f7b" font-size="13">rollout verifier</text>
+              <text x="745" y="202" text-anchor="middle" fill="#5f6f7b" font-size="13">success, safety</text>
+
+              <rect x="870" y="130" width="150" height="96" fill="#fde9ee" stroke="#e9a6b5"></rect>
+              <text x="945" y="160" text-anchor="middle" fill="#17222d" font-size="19" font-weight="800">Analyze</text>
+              <text x="945" y="184" text-anchor="middle" fill="#5f6f7b" font-size="13">failure attribution</text>
+              <text x="945" y="202" text-anchor="middle" fill="#5f6f7b" font-size="13">trace to memory</text>
+
+              <path d="M 220 178 L 262 178" stroke="#2e5f91" stroke-width="3" fill="none" marker-end="url(#arrow)"></path>
+              <path d="M 420 178 L 462 178" stroke="#2e5f91" stroke-width="3" fill="none" marker-end="url(#arrow)"></path>
+              <path d="M 620 178 L 662 178" stroke="#2e5f91" stroke-width="3" fill="none" marker-end="url(#arrow)"></path>
+              <path d="M 820 178 L 862 178" stroke="#2e5f91" stroke-width="3" fill="none" marker-end="url(#arrow)"></path>
+
+              <rect x="270" y="296" width="580" height="74" fill="#ffffff" stroke="#d8e1e8"></rect>
+              <text x="560" y="324" text-anchor="middle" fill="#17222d" font-size="18" font-weight="800">Memory + Curriculum Store</text>
+              <text x="560" y="348" text-anchor="middle" fill="#5f6f7b" font-size="13">typed failure modes, accepted scenes, rejected scenes, solver pass rates, verifier results</text>
+
+              <path d="M 945 226 C 945 312, 862 333, 850 333" stroke="#0f766e" stroke-width="3" fill="none" marker-end="url(#arrow-teal)"></path>
+              <path d="M 270 333 C 170 333, 145 270, 145 234" stroke="#0f766e" stroke-width="3" fill="none" marker-end="url(#arrow-teal)"></path>
+
+              <rect x="70" y="468" width="260" height="112" fill="#eef2f5" stroke="#d8e1e8"></rect>
+              <text x="200" y="498" text-anchor="middle" fill="#5f6f7b" font-size="14" font-weight="800">CURRENT FOUNDATION</text>
+              <text x="200" y="526" text-anchor="middle" fill="#17222d" font-size="18" font-weight="800">AgenticSim 129 envs</text>
+              <text x="200" y="552" text-anchor="middle" fill="#5f6f7b" font-size="13">LeHome + RoboLab task pool</text>
+
+              <rect x="430" y="468" width="260" height="112" fill="#eef2f5" stroke="#d8e1e8"></rect>
+              <text x="560" y="498" text-anchor="middle" fill="#5f6f7b" font-size="14" font-weight="800">GOVERNANCE GATE</text>
+              <text x="560" y="526" text-anchor="middle" fill="#17222d" font-size="18" font-weight="800">accept / reject / mutate</text>
+              <text x="560" y="552" text-anchor="middle" fill="#5f6f7b" font-size="13">executability, novelty, difficulty, safety</text>
+
+              <rect x="790" y="468" width="260" height="112" fill="#fff3dc" stroke="#e2bd7c"></rect>
+              <text x="920" y="498" text-anchor="middle" fill="#965f07" font-size="14" font-weight="800">LATER PROMOTION LAYER</text>
+              <text x="920" y="526" text-anchor="middle" fill="#17222d" font-size="18" font-weight="800">Real robot / Robot4Robot</text>
+              <text x="920" y="552" text-anchor="middle" fill="#5f6f7b" font-size="13">only after simulation gates pass</text>
+
+              <path d="M 200 468 L 200 426" stroke="#5f6f7b" stroke-width="2" fill="none" marker-end="url(#arrow)"></path>
+              <path d="M 560 370 L 560 460" stroke="#5f6f7b" stroke-width="2" fill="none" marker-end="url(#arrow)"></path>
+              <path d="M 690 524 L 782 524" stroke="#965f07" stroke-width="3" fill="none" marker-end="url(#arrow)"></path>
+            </svg>
+            <div class="legend">
+              <span><i style="color:#2e5f91;"></i> agent actions</span>
+              <span><i style="color:#0f766e;"></i> learning feedback</span>
+              <span><i style="color:#965f07;"></i> later real-world promotion</span>
+            </div>
+          </div>
+          <div class="visual-flow" aria-label="Simulation loop steps">
+            <article class="flow-step">
+              <span>1</span>
+              <strong>Schedule task</strong>
+              <p>选择任务族、难度、seed、目标 failure mode 和 evaluator budget。</p>
+            </article>
+            <article class="flow-step">
+              <span>2</span>
+              <strong>Generate scene</strong>
+              <p>生成 object layout、材质、遮挡、扰动和物理参数，保留 manifest。</p>
+            </article>
+            <article class="flow-step">
+              <span>3</span>
+              <strong>Train</strong>
+              <p>训练策略、微调 workflow、更新 prompt/tool 调用或 recovery policy。</p>
+            </article>
+            <article class="flow-step">
+              <span>4</span>
+              <strong>Evaluate</strong>
+              <p>跑 rollout、verifier、safety check、difficulty gate 和 regression suite。</p>
+            </article>
+            <article class="flow-step">
+              <span>5</span>
+              <strong>Analyze failure</strong>
+              <p>归因到 grasp、collision、contact、planning、perception 或 instruction mismatch。</p>
+            </article>
+            <article class="flow-step">
+              <span>6</span>
+              <strong>Update memory</strong>
+              <p>写入 failure memory、task curriculum、accepted/rejected scenes，触发下一轮。</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="self-roadmap">
+          <div class="section-title">
+            <div>
+              <p class="eyebrow">Progress and roadmap</p>
+              <h2>进展说明：已有环境底座，下一步补自动闭环</h2>
+            </div>
+            <p>周报里要强调这不是从零开始，而是从已注册环境和 failure trace 基础上，把方向切成仿真优先。</p>
+          </div>
+          <div class="metric-grid">
+            <article class="metric">
+              <span>Registered envs</span>
+              <strong>129</strong>
+            </article>
+            <article class="metric">
+              <span>LeHome / challenge</span>
+              <strong>9</strong>
+            </article>
+            <article class="metric">
+              <span>RoboLab tasks</span>
+              <strong>120</strong>
+            </article>
+            <article class="metric">
+              <span>Current pivot</span>
+              <strong>Sim-first</strong>
+            </article>
+          </div>
+          <div class="phase-grid" style="margin-top: 14px;">
+            <article class="phase">
+              <span>Phase 0</span>
+              <strong>整理环境底座</strong>
+              <p>固化 129 个环境，统一 task schema、seed、asset version、verifier 和 rollout command。</p>
+            </article>
+            <article class="phase">
+              <span>Phase 1</span>
+              <strong>Scene generation</strong>
+              <p>从任务族和 failure type 生成场景变体，先覆盖 tabletop / household manipulation。</p>
+            </article>
+            <article class="phase">
+              <span>Phase 2</span>
+              <strong>Evaluate + analyze</strong>
+              <p>跑 rollout 后自动归因失败，记录 trace memory，用 verifier 决定 accept、reject 或 mutate。</p>
+            </article>
+            <article class="phase">
+              <span>Phase 3</span>
+              <strong>Training signal</strong>
+              <p>用 accepted scene 和 failure memory 做 SFT/RL 或 workflow tuning，比较新旧 agent。</p>
+            </article>
+            <article class="phase">
+              <span>Phase 4</span>
+              <strong>Real promotion</strong>
+              <p>只把通过仿真 gate 的少量任务交给真实机器人验证。Robot4Robot 在这里出现。</p>
+            </article>
+          </div>
+          <div class="grid-3" style="margin-top: 14px;">
+            <article class="panel decision">
+              <h3>本周决定 1</h3>
+              <p>把 MVP 明确定义成 simulation-first self-improvement loop。</p>
+            </article>
+            <article class="panel warning">
+              <h3>本周决定 2</h3>
+              <p>优先做 scene / perturbation generator，因为它决定能否从静态 benchmark 变成 self-evolving environment pool。</p>
+            </article>
+            <article class="panel ok">
+              <h3>本周口径</h3>
+              <p>先在仿真里做得可验证，再把少量通过 gate 的改进推到真机。</p>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer-note">
+        Unified weekly brief page. Venue intro is preserved; the Self-Improving Agents project intro is compressed because the proposal, references, visual architecture, and roadmap now carry the detail.
+      </footer>
+    </div>
+  </body>
+</html>

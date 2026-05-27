@@ -4,7 +4,7 @@
   "title": "Real-Robot Lab Infra",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-05-25T17:20:00+08:00",
+  "updated_at": "2026-05-27T12:55:06+08:00",
   "description": "Engineering stack for teleoperation, data collection, and robot-side validation",
   "summary": "This is the engineering base that keeps weekly research work grounded in real data collection and real-robot validation.",
   "asset": "dashboard/assets/real-robot-infra-collage.png",
@@ -26,7 +26,9 @@
     "Teacher demo request: plan a dexterous-hand knife-cutting-meat demo, but treat it as a safety-gated manipulation demo rather than a casual kitchen task. Define fixture, blade guard / boundary, low-speed rehearsal, emergency-stop coverage, and multi-person supervision before any live cutting.",
     "FACTR procurement route: purchase through Jingte Intelligent; keep the dashboard task focused on procurement path, gravity compensation, and force-feedback safety value.",
     "Wrist tracking fallback: if VIVE Tracker is not used for wrist pose, evaluate an ACE Teleop-style wrist ring to replace the Gello-end trigger as the wrist / intent input device.",
-    "MANUS + VIVE merge: hardware verifier requirements are folded into the single MANUS + VIVE task; do not track a separate verifier TODO."
+    "MANUS + VIVE merge: hardware verifier requirements are folded into the single MANUS + VIVE task; do not track a separate verifier TODO.",
+    "VIVE Tracker real-robot debugging needs a chest mount / strap so the CHEST tracker frame can be stable enough for calibration and replay.",
+    "VR teleoperation direction: implement a SteamVR/OpenVR input path for controlling Franka end-effector pose with controller / tracker / headset input, gated by calibration, workspace limits, velocity / acceleration caps, deadman switch, and E-stop readiness."
   ],
   "task_ids": [
     "task_real_robot_infra_arx_setup",
@@ -35,6 +37,8 @@
     "task_real_robot_infra_franka_wuji",
     "task_real_robot_infra_wuji_glove",
     "task_real_robot_infra_manus_vive_tracker",
+    "task_real_robot_infra_vive_tracker_chest_mount",
+    "task_real_robot_infra_vr_teleop_franka",
     "task_real_robot_infra_safety_workspace",
     "task_real_robot_infra_factr_force_feedback",
     "task_real_robot_infra_knife_meat_demo_plan"
@@ -48,6 +52,7 @@
     "ARX drag-teaching / teleoperation collection must use the SOP as an operation gate: secure base, gripper, controller, power, cameras, and connections; clear the work area; test slow response first; keep people outside the workspace; stop immediately on abnormal resistance, sound, vibration, communication delay, unstable control, or unexpected motion.",
     "工程状态需要和研究项目解耦：infra 卡片只追踪设备可用性，算法结果留在各项目卡片里。",
     "Teacher knife demo safety: using a dexterous hand to hold a knife and cut meat must start from fixture / dummy-material rehearsal, speed limits, blade-safe workspace, and explicit abort conditions; do not combine sharp-tool trials with single-person operation.",
-    "FACTR procurement route: FACTR purchase should go through Jingte Intelligent rather than the slow school process, while xArm / already-started school items remain separate."
+    "FACTR procurement route: FACTR purchase should go through Jingte Intelligent rather than the slow school process, while xArm / already-started school items remain separate.",
+    "VR teleoperation of Franka must be hardware-gated: start in simulation or read-only pose preview, then low-speed Cartesian control with workspace bounds, deadman switch, rate limiting, collision checks, and an E-stop operator before any live robot motion."
   ]
 }
