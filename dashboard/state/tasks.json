@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-29T01:01:30+08:00",
+  "updated_at": "2026-05-29T01:03:18+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -115,7 +115,7 @@
       "project_id": "real-robot-infra",
       "title": "接入 Wuji Glove",
       "description": "用于手部姿态、触觉和高频输入流；需要确认网络、时间戳、标定和 retargeting 接口。",
-      "status": "done",
+      "status": "blocked",
       "priority": "medium",
       "assignee": "boris@100.70.181.44",
       "result": null,
@@ -182,9 +182,16 @@
           "body": "Strict validation 2026-05-29: wuji_glove_wrapper uv sync --all-extras succeeded and tests passed (27 passed, 2 skipped), but no real glove timestamp/frame capture was verified; keep blocked until hardware stream is recorded.",
           "created_at": "2026-05-29T00:58:32+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_264dd67a1ec1",
+          "author": "Progress",
+          "body": "[superseded by strict audit 2026-05-29] Local Codex host review accepted this TODO.\nworker 的提交、日志、smoke artefact 和 pytest 结果覆盖了 Wuji Glove 网络/时间戳/标定 API/retargeting 接口验收点，可自动验收。\nEvidence: dashboard state 中 task_real_robot_infra_wuji_glove 当前为 review，最新 result 记录 HEAD=346451ec32e548e7ff7ba48ff11064b1f53a105d。; worker 结果列出新增 adapter.py、calibration.py、mock.py、glove_retarget_mock_smoke.py、test_adapter.py、test_calibration.py 的 sha256。; mock smoke 记录 exit code 0、stderr empty、mock_smoke.json sha256=af4c7a026fb51c92dde8dcf876047862e8ce1940f4fe5ed0cab317c7a582aef1、qpos.shape=(20,) float32、/hand_input shape=(126,) float32。; pytest verifier 记录 27/27 passed，覆盖 adapter、calibration、metrics。; calibration 证据包含 real wuji_sdk 0.10.0 introspection 的 Param/PiParams/MitParam/CalibrationResult 以及 WujiGlove.params/get/set/save_params surface，默认 dry_run 避免写 flash。; 此前硬件 smoke result 记录右手 glove ping 192.168.1.101、UDP discovery/data、UTC us time sync、7 streams 活跃，覆盖网络/时间戳/高频输入流。; 远端 SSH 独立复跑受本机沙箱限制失败：ssh connect to 100.70.181.44 port 22 Operation not permitted。\nCommands: sed -n '1,220p' docs/repo-index.md; jq '.tasks[]? | select(.task_id==\"task_real_robot_infra_wuji_glove\")' /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json; ssh -o BatchMode=yes -o ConnectTimeout=8 boris@100.70.181.44 'cd /home/boris/workspace/wuji_glove_wrapper && git rev-parse HEAD && git status --short && find . -maxdepth 3 -type f \\( -path \"./src/*\" -o -path \"./scripts/*\" -o -path \"./tests/*\" \\) | sort'; rg -n \"task_real_robot_infra_wuji_glove|wuji_glove_calib_retarget|346451ec32e548e7ff7ba48ff11064b1f53a105d\" /Users/boris/workspace/BorisGuo6.github.io/dashboard/state /Users/boris/workspace/ClawCross/data 2>/dev/null; find /Users/boris/workspace/BorisGuo6.github.io/.claude -maxdepth 5 -type f | sort | sed -n '1,200p'; rg -n \"346451e|wuji_glove_calib_retarget|27 passed|glove_retarget_mock_smoke\" /Users/boris/workspace/BorisGuo6.github.io/.claude /Users/boris/workspace/BorisGuo6.github.io/dashboard/state 2>/dev/null\nReason: 验收范围要求的网络、时间戳和高频 stream 已由前一轮真实硬件 smoke 覆盖；本轮 reopen 要求的 calibration API/params/save_params 与 glove→wuji-retargeting 或 wuji-hand-teleop 最小接口验证，已有提交、可复现命令、artifact 路径、sha256、关键输出和 pytest verifier。虽然本机无法通过 SSH 独立复跑，但 dashboard/harness 证据足够具体且与 TODO 范围一致，无需退回 worker。",
+          "created_at": "2026-05-23T14:37:35+08:00",
+          "kind": "strict_rejected_host_verified"
         }
       ],
-      "updated_at": "2026-05-29T01:01:30+08:00",
+      "updated_at": "2026-05-29T01:03:03+08:00",
       "due_at": "",
       "completed_at": "2026-05-29"
     },
@@ -441,7 +448,7 @@
       "project_id": "umi-world-model",
       "title": "对照测试 Seed 2.0 Pro 做 UMI 标注",
       "description": "在 Gemini 已测过的 12 条样本上，补跑 Seed 2.0 Pro video understanding：比较关键动作边界、key-state 命名、caption 可用性和 3-5s 偏移案例是否改善；输出模型选择建议而不是只看单条效果。",
-      "status": "done",
+      "status": "active",
       "priority": "medium",
       "assignee": null,
       "result": null,
@@ -475,9 +482,16 @@
           "body": "Strict audit 2026-05-29: no fresh installed-deps real annotation test log was verified in this pass; keep active until command/output is attached.",
           "created_at": "2026-05-29T00:58:32+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_6e4638c1e2d5",
+          "author": "Progress",
+          "body": "[superseded by strict audit 2026-05-29] 暂不测试 Seed 2.0 Pro，关闭该项。",
+          "created_at": "2026-05-19T01:43:00+08:00",
+          "kind": "strict_rejected_host_verified"
         }
       ],
-      "updated_at": "2026-05-29T01:01:30+08:00",
+      "updated_at": "2026-05-29T01:03:03+08:00",
       "completed_at": "2026-05-29"
     },
     {
@@ -1031,7 +1045,7 @@
       "project_id": "self-improving-agents",
       "title": "Build agentic Real2Sim2Real-VLA evaluation pipeline",
       "description": "Construct an agentic AI-powered Real2Sim2Real evaluation pipeline that starts from real-robot traces and failures, builds or mutates simulation tasks/assets, evaluates VLA models in simulation, diagnoses failures, versions traces, and returns to real-robot verification.",
-      "status": "done",
+      "status": "active",
       "priority": "high",
       "assignee": null,
       "result": null,
@@ -1086,9 +1100,16 @@
           "body": "Strict audit 2026-05-29: full suite passes with mock traces, but this task name requires real/specified VLA evaluation evidence. Keep active until non-mock VLA eval logs are attached.",
           "created_at": "2026-05-29T00:58:32+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_15584d19cee0",
+          "author": "Progress",
+          "body": "[superseded by strict audit 2026-05-29] Host verification passed: same AgenticSim full runner produced 38/38 passed, including TraceLoader JSON/HDF5, SimRealGapDetector, and R2S2RPipeline full loop with mock traces. Accepted as Real2Sim2Real-VLA evaluation pipeline V0.",
+          "created_at": "2026-05-22T02:14:04+08:00",
+          "kind": "strict_rejected_host_verified"
         }
       ],
-      "updated_at": "2026-05-29T01:01:29+08:00",
+      "updated_at": "2026-05-29T01:03:03+08:00",
       "completed_at": "2026-05-29"
     },
     {
@@ -1211,7 +1232,7 @@
       "project_id": "self-improving-agents",
       "title": "Prototype VLM-guided simulator self-improvement",
       "description": "Let a VLM inspect rollouts, label failure causes, propose task/environment mutations, and feed candidates through executability and governance checks.",
-      "status": "done",
+      "status": "active",
       "priority": "medium",
       "assignee": null,
       "result": null,
@@ -1236,9 +1257,16 @@
           "body": "Strict audit 2026-05-29: current VLM loop coverage is mock VLM in the full suite. Keep active until a real VLM-backed loop run is logged.",
           "created_at": "2026-05-29T00:58:32+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_6065a705618e",
+          "author": "Progress",
+          "body": "[superseded by strict audit 2026-05-29] Host verification passed: same AgenticSim full runner produced 38/38 passed, including RolloutDiagnoser, TaskMutator, GovernanceGate, and PEARLLoop full cycle with mock VLM. Accepted as VLM-guided simulator self-improvement V0.",
+          "created_at": "2026-05-22T02:14:04+08:00",
+          "kind": "strict_rejected_host_verified"
         }
       ],
-      "updated_at": "2026-05-29T01:01:29+08:00",
+      "updated_at": "2026-05-29T01:03:03+08:00",
       "due_at": "",
       "completed_at": "2026-05-29"
     },
@@ -2327,7 +2355,7 @@
       "project_id": "superhuman-rate-curve-teleop",
       "title": "Run DAgger -> SFT -> RL pilot",
       "description": "Use force / tactile signals to detect unsafe or unstable rollouts and request correction, train the SFT base, then RL-tune only smoother and faster execution; compare operation types to see which benefit from acceleration.",
-      "status": "done",
+      "status": "active",
       "priority": "high",
       "assignee": null,
       "result": null,
@@ -2361,9 +2389,16 @@
           "body": "Strict audit 2026-05-29: current evidence is offline/synthetic rate-curve evaluation, not a real DAgger -> SFT -> RL pilot. Keep active until an actual RL pilot command and logs are present.",
           "created_at": "2026-05-29T00:58:32+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_c25ad7b6a9a6",
+          "author": "Progress",
+          "body": "[superseded by strict audit 2026-05-29] Host verification passed: inspected feibo artifact ~/workspace/superhuman-rate-curve-teleop/task_rate_curve_rl.md (260 lines). It defines the DAgger->SFT->RL pilot scope, safety detector rules, SFT/RL stages, reward weights, op-type targets, verifier logs, risks, and explicit non-claims that no real runs were performed. Accepted as experiment-plan TODO.",
+          "created_at": "2026-05-22T09:37:56+08:00",
+          "kind": "strict_rejected_host_verified"
         }
       ],
-      "updated_at": "2026-05-29T01:01:29+08:00",
+      "updated_at": "2026-05-29T01:03:03+08:00",
       "completed_at": "2026-05-29"
     },
     {
@@ -4176,11 +4211,11 @@
       "project_id": "umi-world-model",
       "title": "调研 UMI action 注入路径",
       "description": "Compare practical ways to inject robot action into the UMI world model: (1) text/action tokens in prompt, (2) first-frame plus structured caption, (3) trajectory/control maps rendered into image/video conditions, (4) extra latent/input channels for pose/gripper maps, (5) cross-attention or adapter tokens, (6) AdaLN/time-step modulation with action embeddings, (7) Ctrl-World-style action-conditioned UNet/action encoder, and (8) discrete action tokenization. Acceptance: produce a short decision table with implementation cost, expected action faithfulness, dual-arm support, compatibility with WAN2.2 TI2V, and recommended v1 path.",
-      "status": "done",
+      "status": "active",
       "priority": "high",
       "assignee": "jingxiang@100.112.245.1",
       "due_at": "2026-05-28",
-      "updated_at": "2026-05-29T01:01:28+08:00",
+      "updated_at": "2026-05-29T01:03:03+08:00",
       "comments": [
         {
           "comment_id": "comment_umi_action_injection_sources_20260525",
@@ -4209,6 +4244,13 @@
           "body": "Strict audit 2026-05-29: survey-only evidence is not accepted as done under the current rule; needs an implemented/runnable action-injection path or explicit blocker.",
           "created_at": "2026-05-29T00:58:32+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_81b3804017ae",
+          "author": "Progress",
+          "body": "[superseded by strict audit 2026-05-29] Local Codex accepted the UMI action-injection survey after adding an explicit decision table. Evidence: `/home/jingxiang/workspace/das-data/eval_outputs/harness_reports/task_umi_action_injection_survey.md`. Recommendation: short-term action-aware prompt ablation via `caption_with_keystates.py`; medium-term Ctrl-World-style numerical action encoder using `test_sets/ctrlworld/actions_15hz.npz` `(120,16)` dual-arm action tensors.",
+          "created_at": "2026-05-27T00:51:08+08:00",
+          "kind": "strict_rejected_host_verified"
         }
       ],
       "completed_at": "2026-05-29"
