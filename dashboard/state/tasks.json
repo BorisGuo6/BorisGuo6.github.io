@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-29T01:11:04+08:00",
+  "updated_at": "2026-05-29T01:15:49+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2417,9 +2417,16 @@
           "body": "shaol setup artifact: copied Superhuman project to /home/shaol/workspace/superhuman-rate-curve-teleop, installed numpy in .venv, and ran existing baselines. Logs/artifacts: /home/shaol/workspace/superhuman-rate-curve-teleop/runs/shaol_rate_curve_rl_20260529_010947. This is only a baseline, not task completion.",
           "created_at": "2026-05-29T01:11:04+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_shaol_dagger_sft_rl_pilot_20260529",
+          "author": "Artifact",
+          "body": "shaol DAgger/SFT/RL pilot harness executed: /home/shaol/workspace/superhuman-rate-curve-teleop/runs/dagger_sft_rl_pilot_20260529_011507. Final rl_policy safe=true, speedup=1.78x, event_violations=0, guardrail_critical=0, guardrail_violations=0; op-type speedups: free_space=2.4416x, approach=1.6667x, contact=1.0938x, manipulation=1.4903x. This is an executable synthetic pilot harness, not a real-robot completion claim, so task remains active pending real data/hardware validation.",
+          "created_at": "2026-05-29T01:15:38+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-29T01:11:04+08:00",
+      "updated_at": "2026-05-29T01:15:49+08:00",
       "completed_at": "2026-05-29"
     },
     {
