@@ -4082,6 +4082,28 @@
       "completed_at": "2026-05-27"
     },
     {
+      "task_id": "task_umi_wmfactory_iworld_bench",
+      "project_id": "umi-world-model",
+      "title": "把 WMFactory 和 iWorld-Bench 结合成交互世界模型评测前端",
+      "description": "Integrate WMFactory / WMBackend with EmbodiedCity/iWorld-Bench so UMI World Model has both WMFactory's user-interaction frontend and iWorld-Bench-style benchmarking for interactive world models. Source: https://github.com/EmbodiedCity/iWorld-Bench. Deliverable: clone/vendor or reference iWorld-Bench at a fixed commit; map WMFactory generated-video outputs and model adapters into iWorld-Bench metadata / camera-trajectory / evaluation inputs; expose a WMFactory UI or API entry that can launch benchmark jobs and show reports; support at least action_control and camera_following evaluation, with memory_ability/all noted as feasible or blocked; include compatibility notes for VIPE_ROOT, VBENCH_ROOT, dataset/all_pack metadata, camera_trajectories, and generated video output layout. Acceptance: one small dry-run or smoke benchmark using WMFactory-produced or fixture videos; generated reports under eval_outputs with command logs, JSON/CSV report paths, sha256, and a short recommendation on how to use iWorld-Bench scores alongside the existing UMI eval gallery.",
+      "status": "todo",
+      "priority": "high",
+      "assignee": null,
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_umi_iworld_bench_wmfactory_ref_20260529",
+          "author": "Codex",
+          "kind": "comment",
+          "body": "Reference checked 2026-05-29: EmbodiedCity/iWorld-Bench is a benchmark for camera-controllable / interactive world models. The repo provides run_iworldbench_evaluation.py, unified_video_metrics.py, camera_trajectories, packaged dataset metadata, reference inference demos, and metrics including action_control, memory_ability, camera_following, and all. The integration goal is to keep WMFactory's user-interaction frontend while adding iWorld-Bench benchmarking outputs for generated videos.",
+          "created_at": "2026-05-29T00:52:03+08:00"
+        }
+      ],
+      "updated_at": "2026-05-29T00:52:03+08:00",
+      "due_at": "",
+      "completed_at": null
+    },
+    {
       "task_id": "task_layered_wm_linux_layer_editor_pipeline",
       "project_id": "image-layered-world-model",
       "title": "用 AffinityOnLinux / GIMP 替代 Photoshop 分图层流程",
