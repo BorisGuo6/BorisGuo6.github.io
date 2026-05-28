@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-29T01:04:36+08:00",
+  "updated_at": "2026-05-29T01:09:32+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2396,9 +2396,16 @@
           "body": "[superseded by strict audit 2026-05-29] Host verification passed: inspected feibo artifact ~/workspace/superhuman-rate-curve-teleop/task_rate_curve_rl.md (260 lines). It defines the DAgger->SFT->RL pilot scope, safety detector rules, SFT/RL stages, reward weights, op-type targets, verifier logs, risks, and explicit non-claims that no real runs were performed. Accepted as experiment-plan TODO.",
           "created_at": "2026-05-22T09:37:56+08:00",
           "kind": "strict_rejected_host_verified"
+        },
+        {
+          "comment_id": "clawcross_route_task_rate_curve_rl_shaol_20260529",
+          "author": "Progress",
+          "body": "Reassigned to shaol@100.96.228.8 after 3D printing pause. shaol has idle RTX 4090 24GB but only ~35G free disk, so start with the executable DAgger/SFT/RL pilot and avoid heavyweight simulator/model downloads until disk is cleaned.",
+          "created_at": "2026-05-29T01:09:21+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-29T01:03:03+08:00",
+      "updated_at": "2026-05-29T01:09:24+08:00",
       "completed_at": "2026-05-29"
     },
     {
@@ -2818,7 +2825,7 @@
       "description": "Why now: printer_farm_cell scope 已完成，下一步要把 printed artifacts 接到真机控制边界。Deliverable: cell_driver/ skeleton，含 printer status adapter、bed perception placeholder、Piper-X pick/place API stub、安全 state machine。Acceptance: 用 assembly_plan.json dry-run 走完整状态机，输出每步 command envelope 和 fail-safe path。",
       "status": "done",
       "priority": "high",
-      "assignee": "shaol@100.96.228.8",
+      "assignee": null,
       "result": null,
       "comments": [
         {
@@ -2841,9 +2848,16 @@
           "body": "Strict validation 2026-05-29: cell tests included driver safety/preflight coverage in the 27/27 passing robotics-3d-printing suite; cell.main help imports with project PYTHONPATH.",
           "created_at": "2026-05-29T00:58:32+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_shaol_released_task_pod_cell_driver_skeleton_20260529",
+          "author": "Progress",
+          "body": "3D printing track is paused; shaol@100.96.228.8 released from this card on 2026-05-29.",
+          "created_at": "2026-05-29T01:09:21+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-29T00:58:32+08:00",
+      "updated_at": "2026-05-29T01:09:21+08:00",
       "due_at": "2026-05-28",
       "completed_at": "2026-05-29"
     },
@@ -2854,7 +2868,7 @@
       "description": "Why now: retrofit_extender 已能生成 STLs/URDF/GLB/runbook，但展示仍是文件列表和命令行。Deliverable: 一个本地可开的 demo viewer，展示 GLB、build plate、四个 STL、7-step robot/printer runbook。Acceptance: 一条命令启动 viewer；README 里写明 URL 和 demo flow；重新跑 run_demo.py 后 viewer 自动读取 out/。",
       "status": "done",
       "priority": "high",
-      "assignee": "shaol@100.96.228.8",
+      "assignee": null,
       "result": null,
       "comments": [
         {
@@ -2877,9 +2891,16 @@
           "body": "Local Codex host review accepted this TODO.\nworker 提供的 harness 结果覆盖了 viewer 的一键启动、README demo flow、GLB/STL/runbook 展示和 run_demo.py 后自动读取 out/ 的验收点。\nEvidence: 当前 TODO/harness agent message: one-command start 为 python3 demos/retrofit_extender/viewer/server.py; 当前 TODO/harness agent message: README 已添加 Demo flow 并写明 URL; 当前 TODO/harness agent message: /api/scene 返回 placements=4、steps=7、validation.ok=true、req_id=req_2026_05_22_mac_mini_extender_v0; 当前 TODO/harness agent message: GLB 与四个 STL 端点均 HTTP 200，且 /api/scene 与 /out/* 使用 Cache-Control: no-store; 当前 TODO/harness agent message: 重新运行 run_demo.py 后 build_plate.json mtime 1779468645 -> 1779469358，live GLB 20156 B == disk 20156 B; 本机 dashboard state 当前 task_pod_demo_viewer 仍为 review，result=null；远端 SSH/HTTP 独立复核受本机沙箱/网络限制未能完成\nCommands: jq '.tasks[] | select(.task_id==\"task_pod_demo_viewer\")' /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json; ssh -o BatchMode=yes -o ConnectTimeout=10 shaol@100.96.228.8 'cd /home/shaol/workspace/robotics-3d-printing && git status --short && git diff --name-only'; ssh -o BatchMode=yes -o ConnectTimeout=10 shaol@100.96.228.8 'cd /home/shaol/workspace/robotics-3d-printing && sed -n \"1,240p\" demos/retrofit_extender/viewer/server.py'; curl -fsS --max-time 5 -D - http://100.96.228.8:8765/api/scene -o /tmp/clawcross_reviewer_scene.json; curl -fsS --max-time 5 -D - http://100.96.228.8:8765/ -o /tmp/clawcross_reviewer_index.html\nReason: 验收所需的功能点都有具体运行命令、HTTP 端点结果、热更新指标和 evidence 文件路径；虽然本机受限无法通过 SSH/curl 独立拉取远端工作区，但 worker/harness 上报的结果足够具体且与 TODO 范围一致，不需要退回继续实现。",
           "created_at": "2026-05-23T02:05:11+08:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "clawcross_shaol_released_task_pod_demo_viewer_20260529",
+          "author": "Progress",
+          "body": "3D printing track is paused; shaol@100.96.228.8 released from this card on 2026-05-29.",
+          "created_at": "2026-05-29T01:09:21+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T02:05:11+08:00",
+      "updated_at": "2026-05-29T01:09:21+08:00",
       "due_at": "2026-05-26",
       "completed_at": "2026-05-23"
     },
@@ -2890,7 +2911,7 @@
       "description": "Why now: Mac-mini extender 证明了单例闭环，但 schema/pipeline 泛化还没验证。Deliverable: 一个不同接触/安装形态的第二产品（如 cable clip、drawer latch、tool holder），走 input_schema -> agent_pipeline -> STLs/URDF/jigs/runbook。Acceptance: 与 extender 共享同一 pipeline，无硬编码路径；validation_report ok。",
       "status": "done",
       "priority": "medium",
-      "assignee": "shaol@100.96.228.8",
+      "assignee": null,
       "result": null,
       "comments": [
         {
@@ -2899,9 +2920,16 @@
           "body": "Local Codex host review accepted this TODO.\n可自动验收：worker 给出了第二个 cable clip 产品的同 pipeline 产物、validation_report ok、cell dry-run 和 pytest 结果，覆盖 TODO 验收范围。\nEvidence: /Users/boris/.clawcross/data/harness_state.json 中 task_pod_second_retrofit_product 为 review，包含 worker comment_a58b8a26448c 的完整交付记录; /Users/boris/.clawcross/data/remote_claude_sessions_cache.json 显示远端 session idle，last_message 与 harness done 结果一致; worker 记录第二产品 desk-edge USB-C cable clip：contact_kind=edge、kind=cable_clip、1 个 STL part、0 articulations、0 jigs、5-step runbook; worker 记录同一 pipeline runner：pipelines/pod_agent/run.py --example desk_edge_cable_clip.json；pipeline.py 仅通过 DesignSpec.kind/contact_kind dispatch; worker 记录 artifact 路径：schemas/pod_input/examples/desk_edge_cable_clip.json、pipelines/pod_agent/out_desk_edge_cable_clip/、demos/retrofit_cable_clip/out/; worker 记录 validation_report.json ok=true，pod_cable_clip.manifest.json parts=[clip] articulations=[]，build_plate.json 1 placement 0 jigs，assembly_plan actions=[wait_for_print_done, perceive_bed, pick, place_at_pose, verify]; worker 记录 meshes/clip.stl watertight=True，bbox=[50.0,34.0,33.0]mm，volume=14082.2mm^3，112 faces; worker 记录验证命令全绿：default extender ok、cable_clip pipeline ok、demo ok、cell.main final_state=done steps=5、pod_agent tests 9/9、cell tests 16/16\nCommands: sed -n '1,220p' docs/repo-index.md; jq -r '.tasks[]? | select(.task_id==\"task_pod_second_retrofit_product\") | {task_id,status,updated_at,comments:(.comments|length)}' /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json; ssh -o BatchMode=yes -o ConnectTimeout=8 shaol@100.96.228.8 'cd /home/shaol/workspace/robotics-3d-printing && pwd && git status --short'; ls -1 /Users/boris/workspace; find /Users/boris/workspace -maxdepth 2 -type d -iname '*robotics*' -o -iname '*printing*'; sed -n '2240,2325p' /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json\nReason: TODO 要求用第二个不同接触/安装形态产品验证 PoD schema/pipeline 泛化，并要求同 pipeline、无硬编码路径、validation_report ok。harness 和远端 session cache 已记录具体代码路径、artifact 路径、validation_report 内容、STL/URDF/build_plate/assembly_plan 产物摘要以及可复现测试命令和结果；虽然当前沙箱阻止 SSH 独立重跑，但证据已满足自动验收门槛。",
           "created_at": "2026-05-23T03:22:07+08:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "clawcross_shaol_released_task_pod_second_retrofit_product_20260529",
+          "author": "Progress",
+          "body": "3D printing track is paused; shaol@100.96.228.8 released from this card on 2026-05-29.",
+          "created_at": "2026-05-29T01:09:21+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T03:22:07+08:00",
+      "updated_at": "2026-05-29T01:09:21+08:00",
       "due_at": "2026-05-30",
       "completed_at": "2026-05-23"
     },
