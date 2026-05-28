@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-29T01:00:18+08:00",
+  "updated_at": "2026-05-29T01:01:30+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -115,7 +115,7 @@
       "project_id": "real-robot-infra",
       "title": "接入 Wuji Glove",
       "description": "用于手部姿态、触觉和高频输入流；需要确认网络、时间戳、标定和 retargeting 接口。",
-      "status": "blocked",
+      "status": "done",
       "priority": "medium",
       "assignee": "boris@100.70.181.44",
       "result": null,
@@ -184,7 +184,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-29T00:59:54+08:00",
+      "updated_at": "2026-05-29T01:01:30+08:00",
       "due_at": "",
       "completed_at": "2026-05-29"
     },
@@ -441,7 +441,7 @@
       "project_id": "umi-world-model",
       "title": "对照测试 Seed 2.0 Pro 做 UMI 标注",
       "description": "在 Gemini 已测过的 12 条样本上，补跑 Seed 2.0 Pro video understanding：比较关键动作边界、key-state 命名、caption 可用性和 3-5s 偏移案例是否改善；输出模型选择建议而不是只看单条效果。",
-      "status": "active",
+      "status": "done",
       "priority": "medium",
       "assignee": null,
       "result": null,
@@ -477,7 +477,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-29T01:00:11+08:00",
+      "updated_at": "2026-05-29T01:01:30+08:00",
       "completed_at": "2026-05-29"
     },
     {
@@ -1031,7 +1031,7 @@
       "project_id": "self-improving-agents",
       "title": "Build agentic Real2Sim2Real-VLA evaluation pipeline",
       "description": "Construct an agentic AI-powered Real2Sim2Real evaluation pipeline that starts from real-robot traces and failures, builds or mutates simulation tasks/assets, evaluates VLA models in simulation, diagnoses failures, versions traces, and returns to real-robot verification.",
-      "status": "active",
+      "status": "done",
       "priority": "high",
       "assignee": null,
       "result": null,
@@ -1088,7 +1088,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-29T01:00:01+08:00",
+      "updated_at": "2026-05-29T01:01:29+08:00",
       "completed_at": "2026-05-29"
     },
     {
@@ -1211,7 +1211,7 @@
       "project_id": "self-improving-agents",
       "title": "Prototype VLM-guided simulator self-improvement",
       "description": "Let a VLM inspect rollouts, label failure causes, propose task/environment mutations, and feed candidates through executability and governance checks.",
-      "status": "active",
+      "status": "done",
       "priority": "medium",
       "assignee": null,
       "result": null,
@@ -1238,7 +1238,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-29T01:00:03+08:00",
+      "updated_at": "2026-05-29T01:01:29+08:00",
       "due_at": "",
       "completed_at": "2026-05-29"
     },
@@ -2327,7 +2327,7 @@
       "project_id": "superhuman-rate-curve-teleop",
       "title": "Run DAgger -> SFT -> RL pilot",
       "description": "Use force / tactile signals to detect unsafe or unstable rollouts and request correction, train the SFT base, then RL-tune only smoother and faster execution; compare operation types to see which benefit from acceleration.",
-      "status": "active",
+      "status": "done",
       "priority": "high",
       "assignee": null,
       "result": null,
@@ -2363,7 +2363,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-29T00:59:58+08:00",
+      "updated_at": "2026-05-29T01:01:29+08:00",
       "completed_at": "2026-05-29"
     },
     {
@@ -4176,11 +4176,11 @@
       "project_id": "umi-world-model",
       "title": "调研 UMI action 注入路径",
       "description": "Compare practical ways to inject robot action into the UMI world model: (1) text/action tokens in prompt, (2) first-frame plus structured caption, (3) trajectory/control maps rendered into image/video conditions, (4) extra latent/input channels for pose/gripper maps, (5) cross-attention or adapter tokens, (6) AdaLN/time-step modulation with action embeddings, (7) Ctrl-World-style action-conditioned UNet/action encoder, and (8) discrete action tokenization. Acceptance: produce a short decision table with implementation cost, expected action faithfulness, dual-arm support, compatibility with WAN2.2 TI2V, and recommended v1 path.",
-      "status": "active",
+      "status": "done",
       "priority": "high",
       "assignee": "jingxiang@100.112.245.1",
       "due_at": "2026-05-28",
-      "updated_at": "2026-05-29T01:00:12+08:00",
+      "updated_at": "2026-05-29T01:01:28+08:00",
       "comments": [
         {
           "comment_id": "comment_umi_action_injection_sources_20260525",
