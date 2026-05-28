@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-28T01:13:16+08:00",
+  "updated_at": "2026-05-29T00:39:59+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -8,11 +8,10 @@
       "project_id": "real-robot-infra",
       "title": "完成方舟无限真机 infra 搭建",
       "description": "把真机侧运行环境、基础连接和可操作入口先打通。",
-      "status": "done",
+      "status": "active",
       "priority": "medium",
       "assignee": null,
       "result": null,
-      "completed_at": "2026-05-15",
       "comments": [
         {
           "comment_id": "comment_result_task_real_robot_infra_arx_setup",
@@ -34,9 +33,16 @@
           "body": "本机 Codex 在 lv-robotics@100.113.210.127 复核 ARX infra: `~/workspace/ARX_A5_Dual_ARM` HEAD `80e8895be533faea5531ec480634bd8567724d8a`。`robo_ctrl` 环境里 `cv2 4.6.0`、`h5py 3.14.0`、`numpy 1.26.4`、`rerun 0.19.1` 可导入；`dual_arm_sys.sh` 和 `data_collection/auto_ingest.sh` 均为可执行入口。验证命令 `~/miniconda3/envs/robo_ctrl/bin/python -m pytest data_collection/test_sop_episode_verifier.py training/test_drag_demo_loader.py -q` 结果 `23 passed in 3.77s`。这覆盖真机 infra 的非硬件侧: 运行环境、采集/ingest 入口、SOP verifier 和 loader 测试。硬件上电/CAN/相机物理检查仍按 SOP 执行。",
           "created_at": "2026-05-27T01:07:57+08:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "strict_audit_task_real_robot_infra_arx_setup_20260529",
+          "author": "Codex strict audit",
+          "body": "Strict audit 2026-05-29: reopened because prior closure was a non-hardware verifier. Full acceptance now requires installed runtime dependencies plus a real ARX operational verifier or a current hardware-blocker log.",
+          "created_at": "2026-05-29T00:39:42+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-27T01:07:57+08:00",
+      "updated_at": "2026-05-29T00:39:42+08:00",
       "due_at": ""
     },
     {
@@ -155,11 +161,18 @@
           "body": "Local Codex host review accepted this TODO.\nworker 的提交、日志、smoke artefact 和 pytest 结果覆盖了 Wuji Glove 网络/时间戳/标定 API/retargeting 接口验收点，可自动验收。\nEvidence: dashboard state 中 task_real_robot_infra_wuji_glove 当前为 review，最新 result 记录 HEAD=346451ec32e548e7ff7ba48ff11064b1f53a105d。; worker 结果列出新增 adapter.py、calibration.py、mock.py、glove_retarget_mock_smoke.py、test_adapter.py、test_calibration.py 的 sha256。; mock smoke 记录 exit code 0、stderr empty、mock_smoke.json sha256=af4c7a026fb51c92dde8dcf876047862e8ce1940f4fe5ed0cab317c7a582aef1、qpos.shape=(20,) float32、/hand_input shape=(126,) float32。; pytest verifier 记录 27/27 passed，覆盖 adapter、calibration、metrics。; calibration 证据包含 real wuji_sdk 0.10.0 introspection 的 Param/PiParams/MitParam/CalibrationResult 以及 WujiGlove.params/get/set/save_params surface，默认 dry_run 避免写 flash。; 此前硬件 smoke result 记录右手 glove ping 192.168.1.101、UDP discovery/data、UTC us time sync、7 streams 活跃，覆盖网络/时间戳/高频输入流。; 远端 SSH 独立复跑受本机沙箱限制失败：ssh connect to 100.70.181.44 port 22 Operation not permitted。\nCommands: sed -n '1,220p' docs/repo-index.md; jq '.tasks[]? | select(.task_id==\"task_real_robot_infra_wuji_glove\")' /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json; ssh -o BatchMode=yes -o ConnectTimeout=8 boris@100.70.181.44 'cd /home/boris/workspace/wuji_glove_wrapper && git rev-parse HEAD && git status --short && find . -maxdepth 3 -type f \\( -path \"./src/*\" -o -path \"./scripts/*\" -o -path \"./tests/*\" \\) | sort'; rg -n \"task_real_robot_infra_wuji_glove|wuji_glove_calib_retarget|346451ec32e548e7ff7ba48ff11064b1f53a105d\" /Users/boris/workspace/BorisGuo6.github.io/dashboard/state /Users/boris/workspace/ClawCross/data 2>/dev/null; find /Users/boris/workspace/BorisGuo6.github.io/.claude -maxdepth 5 -type f | sort | sed -n '1,200p'; rg -n \"346451e|wuji_glove_calib_retarget|27 passed|glove_retarget_mock_smoke\" /Users/boris/workspace/BorisGuo6.github.io/.claude /Users/boris/workspace/BorisGuo6.github.io/dashboard/state 2>/dev/null\nReason: 验收范围要求的网络、时间戳和高频 stream 已由前一轮真实硬件 smoke 覆盖；本轮 reopen 要求的 calibration API/params/save_params 与 glove→wuji-retargeting 或 wuji-hand-teleop 最小接口验证，已有提交、可复现命令、artifact 路径、sha256、关键输出和 pytest verifier。虽然本机无法通过 SSH 独立复跑，但 dashboard/harness 证据足够具体且与 TODO 范围一致，无需退回 worker。",
           "created_at": "2026-05-23T14:37:35+08:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "strict_audit_task_real_robot_infra_wuji_glove_20260529",
+          "author": "Codex strict audit",
+          "body": "Strict audit 2026-05-29: downgraded because current Wuji Glove evidence is hardware-free while the network endpoint task is still blocked. Keep blocked until USB-C/Ethernet link is up and a real 10s timestamped stream verifier passes.",
+          "created_at": "2026-05-29T00:39:42+08:00",
+          "kind": "blocker"
         }
       ],
-      "updated_at": "2026-05-23T14:37:35+08:00",
+      "updated_at": "2026-05-29T00:39:47+08:00",
       "due_at": "",
-      "completed_at": "2026-05-23"
+      "completed_at": "2026-05-29"
     },
     {
       "task_id": "task_real_robot_infra_manus_vive_tracker",
@@ -434,21 +447,27 @@
           "body": "暂不测试 Seed 2.0 Pro，关闭该项。",
           "created_at": "2026-05-19T01:43:00+08:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "strict_audit_task_umi_seed2pro_annotation_test_20260529",
+          "author": "Codex strict audit",
+          "body": "Strict audit 2026-05-29: reopened because it was closed as “暂不测试”. Either run Seed 2.0 Pro on the comparison set or mark blocked/needs_user with the concrete API/model reason.",
+          "created_at": "2026-05-29T00:39:42+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-19T01:43:00+08:00",
-      "completed_at": "2026-05-19"
+      "updated_at": "2026-05-29T00:39:49+08:00",
+      "completed_at": "2026-05-29"
     },
     {
       "task_id": "task_umi_temporal_segmentation_survey",
       "project_id": "umi-world-model",
       "title": "细粒度时间帧切分调研",
       "description": "调研 EasyAnimate video caption、NILS、VLM-Video-Action-Localization。",
-      "status": "done",
+      "status": "active",
       "priority": "medium",
       "assignee": null,
       "result": null,
-      "completed_at": "2026-05-16",
       "comments": [
         {
           "comment_id": "comment_result_task_umi_temporal_segmentation_survey",
@@ -456,9 +475,17 @@
           "body": "结论：主线优先用 Gemini + key-state prompt 做可命名分段；EE-Z 多信号 segmenter 可作为快速 key-state 辅助；NILS 完整 pipeline 暂不进入主线，成本高且语义质量不稳定。",
           "created_at": "2026-05-16",
           "kind": "result"
+        },
+        {
+          "comment_id": "strict_audit_task_umi_temporal_segmentation_survey_20260529",
+          "author": "Codex strict audit",
+          "body": "Strict audit 2026-05-29: reopened because survey-only is not enough. Convert the selected route into a runnable segmentation probe with command, inputs, outputs, and error metrics.",
+          "created_at": "2026-05-29T00:39:42+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-17T01:27:36+08:00"
+      "updated_at": "2026-05-29T00:39:49+08:00",
+      "due_at": ""
     },
     {
       "task_id": "task_umi_base_model_decision",
@@ -1017,10 +1044,17 @@
           "body": "Host verification passed: same AgenticSim full runner produced 38/38 passed, including TraceLoader JSON/HDF5, SimRealGapDetector, and R2S2RPipeline full loop with mock traces. Accepted as Real2Sim2Real-VLA evaluation pipeline V0.",
           "created_at": "2026-05-22T02:14:04+08:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "strict_audit_task_self_improving_sim2real_vla_eval_20260529",
+          "author": "Codex strict audit",
+          "body": "Strict audit 2026-05-29: reopened because mock trace tests are not enough for a Real2Sim2Real-VLA evaluation pipeline. Add real/saved trace replay evidence or a blocker log.",
+          "created_at": "2026-05-29T00:39:42+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-22T02:14:04+08:00",
-      "completed_at": "2026-05-22"
+      "updated_at": "2026-05-29T00:39:50+08:00",
+      "completed_at": "2026-05-29"
     },
     {
       "task_id": "task_self_improving_trace_memory",
@@ -1153,11 +1187,18 @@
           "body": "Host verification passed: same AgenticSim full runner produced 38/38 passed, including RolloutDiagnoser, TaskMutator, GovernanceGate, and PEARLLoop full cycle with mock VLM. Accepted as VLM-guided simulator self-improvement V0.",
           "created_at": "2026-05-22T02:14:04+08:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "strict_audit_task_self_improving_vlm_loop_20260529",
+          "author": "Codex strict audit",
+          "body": "Strict audit 2026-05-29: reopened because mock VLM loop is not enough. Run with a real VLM/provider or mark the provider/environment blocker explicitly.",
+          "created_at": "2026-05-29T00:39:42+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-22T02:14:04+08:00",
-      "completed_at": "2026-05-22",
-      "due_at": ""
+      "updated_at": "2026-05-29T00:39:50+08:00",
+      "due_at": "",
+      "completed_at": "2026-05-29"
     },
     {
       "task_id": "task_self_improving_r4r_format",
@@ -1356,11 +1397,18 @@
           "body": "Host verification passed by artifact inspection: scope/printer_farm_cell/CELL_SCOPE.md exists with V0 hardware, behavior loop, sensing, safety, same-plate jig, and build-phase deliverables. Accepted as printer-farm cell scope deliverable.",
           "created_at": "2026-05-22T02:14:04+08:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "strict_audit_task_pod_printer_farm_cell_20260529",
+          "author": "Codex strict audit",
+          "body": "Strict audit 2026-05-29: reopened because scope artifact is not an executed cell. Next acceptance requires driver/sim/hardware command evidence or a hardware blocker.",
+          "created_at": "2026-05-29T00:39:42+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-22T02:14:04+08:00",
-      "completed_at": "2026-05-22",
-      "due_at": ""
+      "updated_at": "2026-05-29T00:39:50+08:00",
+      "due_at": "",
+      "completed_at": "2026-05-29"
     },
     {
       "task_id": "task_pod_retrofit_demo",
@@ -1509,20 +1557,26 @@
       "project_id": "drag-demo-video-editing",
       "title": "Compare hand-removal backends",
       "description": "Kling is promising but limited to 3-10s clips and paid credits; also test VACE, FLUX.1-Fill-dev, and Stable Diffusion 2 Inpainting with masks.",
-      "status": "done",
+      "status": "active",
       "priority": "high",
       "assignee": null,
       "result": null,
       "started_at": "2026-05-16",
       "due_at": "2026-05-23",
-      "completed_at": "2026-05-19",
-      "updated_at": "2026-05-24T23:47:00+08:00",
+      "updated_at": "2026-05-29T00:39:42+08:00",
       "comments": [
         {
           "comment_id": "comment_drag_demo_flux_fill_dev_20260524",
           "author": "Codex",
           "body": "Backend note: add FLUX.1-Fill-dev as the next explicit inpainting probe for masked hand removal. Evaluate with diff-map QA and contact-preservation checks.",
           "created_at": "2026-05-24T23:47:00+08:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "strict_audit_task_drag_demo_backend_compare_20260529",
+          "author": "Codex strict audit",
+          "body": "Strict audit 2026-05-29: reopened because backend comparison has no complete runnable evidence. Run actual backends or keep blockers with dependency/weights logs; do not close on notes only.",
+          "created_at": "2026-05-29T00:39:42+08:00",
           "kind": "comment"
         }
       ]
@@ -1532,14 +1586,22 @@
       "project_id": "drag-demo-video-editing",
       "title": "Build diff-map QA",
       "description": "Compute frame-wise before/after pixel differences and highlight changed regions; good edits should mainly light up human hands, not robot links, egg, bowl, or contact geometry.",
-      "status": "done",
+      "status": "active",
       "priority": "high",
       "assignee": null,
       "result": null,
       "started_at": "2026-05-16",
       "due_at": "2026-05-23",
-      "completed_at": "2026-05-19",
-      "updated_at": "2026-05-19T21:02:00+08:00"
+      "updated_at": "2026-05-29T00:39:42+08:00",
+      "comments": [
+        {
+          "comment_id": "strict_audit_task_drag_demo_diff_map_qa_20260529",
+          "author": "Codex strict audit",
+          "body": "Strict audit 2026-05-29: reopened because no QA artifact/run evidence is attached. Full acceptance requires a runnable diff-map QA command and output artifacts on real frames.",
+          "created_at": "2026-05-29T00:39:42+08:00",
+          "kind": "comment"
+        }
+      ]
     },
     {
       "task_id": "task_drag_demo_compose_pose_qa",
@@ -1628,11 +1690,18 @@
           "body": "Host verification passed: accepted the comparison-definition deliverables as complete for this TODO title: 4-arm spec, experiment tracker, train_smoke, loader fix, arm-C smoke run, metrics CSV, and report with sha256s. Full multi-arm training remains a future data-availability dependency, not an open definition task.",
           "created_at": "2026-05-23T14:28:33+08:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "strict_audit_task_drag_demo_finetuning_comparison_20260529",
+          "author": "Codex strict audit",
+          "body": "Strict audit 2026-05-29: reopened because prior closure mentions a smoke run. Full acceptance requires all intended comparison arms to run or explicit blockers per arm with logs.",
+          "created_at": "2026-05-29T00:39:42+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T14:28:33+08:00",
+      "updated_at": "2026-05-29T00:39:53+08:00",
       "due_at": "",
-      "completed_at": "2026-05-23"
+      "completed_at": "2026-05-29"
     },
     {
       "task_id": "task_drag_demo_masks_collection_aids",
@@ -2215,10 +2284,17 @@
           "body": "Host verification passed: inspected feibo artifact ~/workspace/superhuman-rate-curve-teleop/task_rate_curve_rl.md (260 lines). It defines the DAgger->SFT->RL pilot scope, safety detector rules, SFT/RL stages, reward weights, op-type targets, verifier logs, risks, and explicit non-claims that no real runs were performed. Accepted as experiment-plan TODO.",
           "created_at": "2026-05-22T09:37:56+08:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "strict_audit_task_rate_curve_rl_20260529",
+          "author": "Codex strict audit",
+          "body": "Strict audit 2026-05-29: reopened because it is explicitly PLAN ONLY. Run the DAgger/SFT/RL pilot or record blockers with dependency/log evidence.",
+          "created_at": "2026-05-29T00:39:42+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-22T09:37:56+08:00",
-      "completed_at": "2026-05-22"
+      "updated_at": "2026-05-29T00:39:54+08:00",
+      "completed_at": "2026-05-29"
     },
     {
       "task_id": "task_hoi_pnp_calibration",
@@ -2475,11 +2551,18 @@
           "body": "User update: the WAN2.2 fine-tuning compute requirement should be raised with the teacher. Also track a separate storage procurement task: buy a 2.5-inch SSD for server #2 to expand external/storage capacity for UMI fine-tuning data, checkpoints, and cache.",
           "created_at": "2026-05-27T23:12:46+08:00",
           "kind": "needs_user"
+        },
+        {
+          "comment_id": "strict_audit_task_umi_ai2v_v0_training_pack_20260529",
+          "author": "Codex strict audit",
+          "body": "Strict audit 2026-05-29: reopened because training-pack/dry-run evidence is not the completed fine-tune. Close only after the selected WAN2.2/DreamX route actually trains and emits checkpoint/log/metrics artifacts.",
+          "created_at": "2026-05-29T00:39:42+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-28T01:11:48+08:00",
+      "updated_at": "2026-05-29T00:39:54+08:00",
       "due_at": "2026-05-28",
-      "completed_at": "2026-05-28"
+      "completed_at": "2026-05-29"
     },
     {
       "task_id": "task_umi_finetune_compute_request_teacher",
@@ -2632,11 +2715,18 @@
           "body": "Local Codex host review accepted this TODO.\n可自动验收：harness/remote session 证据覆盖 cell driver skeleton、7-step dry-run、JSONL command envelope、测试和 fail-safe 路径。\nEvidence: /Users/boris/.clawcross/data/harness_state.json 中 task_pod_cell_driver_skeleton 为 review，worker 记录 cell/ 9 文件 skeleton：manifest/printer/perception/motion/safety/driver/main/tests/README; worker 验证记录：python3 -m pytest cell/tests.py -> 13 passed；python3 -m cell.main --out demos/retrofit_extender/out/ --skip-preflight -> final_state=done, steps=7, 7 ok; worker 验证记录 fail-safe：--estop -> final_state=failed, error=safety: EStopEngaged；--fail-grasp-once body -> final_state=done, steps=8, 1 retry; worker 记录 JSONL run logs：cell/runs/run_20260523_020750_3af575.jsonl happy path、run_20260523_020802_691cf7.jsonl estop failure、run_20260523_020802_f8d216.jsonl grasp retry；schema 含 header、phase markers、step records 和 fail tail; worker 记录 state machine：IDLE -> PREFLIGHT -> PRINTER_RUNNING -> COOLDOWN -> ROBOT_ACTIVE -> DONE，并支持任意状态 FAILED；hard gates 覆盖 preflight、bed temp/printer idle、estop; /Users/boris/.clawcross/data/remote_claude_sessions_cache.json 显示同一远端 session idle，后续第二产品也复用了 cell driver，报告 cell/tests.py 16/16 和 extender 7-step/cable clip 5-step dry-run 通过; 远端 SSH 独立复核被当前本机沙箱拒绝：ssh connect to 100.96.228.8 port 22 Operation not permitted\nCommands: sed -n '1,220p' docs/repo-index.md; python3 -c 'import json; p=\"/Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json\"; data=json.load(open(p)); tasks=data.get(\"tasks\", data if isinstance(data,list) else []); [print(json.dumps({k:t.get(k) for k in [\"task_id\",\"status\",\"title\",\"updated_at\",\"project_id\"]}, ensure_ascii=False)+\"\\ncomments \"+str(len(t.get(\"comments\",[])))) for t in tasks if t.get(\"task_id\")==\"task_pod_cell_driver_skeleton\"]'; sed -n '2200,2325p' /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json; jq '.users.boris.tasks.task_pod_cell_driver_skeleton // .tasks.task_pod_cell_driver_skeleton // empty' /Users/boris/.clawcross/data/harness_state.json; rg -n \"task_pod_cell_driver_skeleton|cell/runs/run_20260523_020750|Skeleton landed|final_state=done|cell/tests.py\" /Users/boris/.clawcross /Users/boris/workspace/BorisGuo6.github.io/dashboard/state 2>/dev/null; jq '.sessions[]? | select(.remote_key==\"shaol@100.96.228.8::session_01XYRjxsRGMybh8TnwReSdhH\") | {remote_key,status,cwd,last_message:.last_message.content}' /Users/boris/.clawcross/data/remote_claude_sessions_cache.json\nReason: TODO 要求 skeleton 而非真实硬件接入；worker 提供了可复现 pytest/CLI dry-run 命令、结果文件路径、完整状态机、每步 JSONL envelope schema，以及 estop/perception/grasp retry fail-safe 证据，范围与验收点一致。虽然本 sandbox 阻止 SSH 独立读取远端 artifact，但本机 harness 和 remote session cache 中的证据足够具体且后续任务继续复用了该 driver。",
           "created_at": "2026-05-23T03:12:20+08:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "strict_audit_task_pod_cell_driver_skeleton_20260529",
+          "author": "Codex strict audit",
+          "body": "Strict audit 2026-05-29: reopened because dry-run skeleton is not full execution. Connect to Piper-X/printer adapters where possible and attach command/log outputs.",
+          "created_at": "2026-05-29T00:39:42+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T03:12:20+08:00",
+      "updated_at": "2026-05-29T00:39:55+08:00",
       "due_at": "2026-05-28",
-      "completed_at": "2026-05-23"
+      "completed_at": "2026-05-29"
     },
     {
       "task_id": "task_pod_demo_viewer",
@@ -2813,6 +2903,13 @@
           "body": "Codex host review accepted: remote reported branch worktree-demo-cli @ ffff001, command `python scripts/demo_self_improving.py --output-dir /tmp/demo`, outputs r4r_output.json/memory_store.json/summary.txt, and 5 smoke checks passed. Closing so the worker can continue the next TODO.",
           "created_at": "2026-05-23T01:57:44+08:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "strict_audit_task_self_improving_demo_cli_pack_20260529",
+          "author": "Codex strict audit",
+          "body": "Strict audit 2026-05-29: reopened because mock demo/smoke evidence is insufficient. Add a non-mock or environment-backed run path, or explicitly block on Isaac/robot dependencies.",
+          "created_at": "2026-05-29T00:39:42+08:00",
+          "kind": "comment"
         }
       ],
       "updated_at": "2026-05-23T01:57:44+08:00",
@@ -2878,11 +2975,18 @@
           "body": "Host accepted Isaac smoke gate: scripts/check_isaac_env.py on branch worktree-demo-cli b638bf0, 11 checks with actionable fixes, --json CI mode, --smoke reset/step path, current host 6/11 pass with missing Isaac/CUDA deps reported, 129 Gym envs registered in mock mode.",
           "created_at": "2026-05-23T02:04:34+08:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "strict_audit_task_self_improving_isaac_smoke_gate_20260529",
+          "author": "Codex strict audit",
+          "body": "Strict audit 2026-05-29: reopened because missing Isaac/CUDA deps cannot be done. Install full Isaac/Isaac Lab dependencies where feasible and run reset/step, otherwise attach blocker logs.",
+          "created_at": "2026-05-29T00:39:42+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T02:04:34+08:00",
+      "updated_at": "2026-05-29T00:39:56+08:00",
       "due_at": "2026-05-27",
-      "completed_at": "2026-05-23"
+      "completed_at": "2026-05-29"
     },
     {
       "task_id": "task_drag_demo_finetune_loader_baseline",
@@ -2907,11 +3011,18 @@
           "body": "Local Codex host review accepted this TODO.\n可自动验收：worker 交付了 loader、split config、dry-run 报告和单测证据，覆盖 drag_only、teleop_only、mixed_70_30 的验收口径。\nEvidence: dashboard task task_drag_demo_finetune_loader_baseline 当前为 review，worker result 列出 drag_demo_loader.py、dry_run_loader.py、test_drag_demo_loader.py、split_config.json、loader_dry_run.json 的 sha256; worker dry-run 记录 drag_only episodes=19 samples=76，batch shapes: state/action=(4,14) float32，三路 RGB=(4,180,320,3) uint8; worker dry-run 记录 teleop_only 和 mixed_70_30 在 teleop manifest 缺失时 episodes=0 samples=0，并输出 missing_streams=[teleop manifest null]; worker 测试记录 python -m unittest test_drag_demo_loader -v => Ran 10 tests OK，包含 synthetic teleop manifest 下 mixed_70_30 实际混合约 70/30; /Users/boris/.clawcross/data/harness_state.json 与 /Users/boris/.clawcross/data/remote_claude_sessions_cache.json 均同步了同一交付摘要、artifact hashes、dry-run shapes 和测试结果; 尝试 SSH 远端复验被当前只读网络沙箱拒绝：Operation not permitted；未修改本机或远端文件\nCommands: sed -n '1,220p' docs/repo-index.md; jq '.tasks[] | select(.task_id==\"task_drag_demo_finetune_loader_baseline\")' /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json; jq '.users.boris.tasks.task_drag_demo_finetune_loader_baseline, .users.boris.agents[\"drag-demo-lvrobotics@100.113.210.127\"]' /Users/boris/.clawcross/data/harness_state.json; rg -n \"task_drag_demo_finetune_loader_baseline|loader_dry_run|drag_demo_loader\" /Users/boris/workspace/ClawCross /Users/boris/workspace/BorisGuo6.github.io /Users/boris/.clawcross/data /Users/boris/.clawcross/logs 2>/dev/null; rg --files /Users/boris/workspace | rg '(^|/)drag_demo_loader\\.py$|(^|/)dry_run_loader\\.py$|(^|/)test_drag_demo_loader\\.py$|(^|/)split_config\\.json$|loader_dry_run\\.json$'; ssh -o BatchMode=yes -o ConnectTimeout=8 lv-robotics@100.113.210.127 'hostname; pwd; ls -la /home/lv-robotics/workspace/ARX_A5_Dual_ARM/training | sed -n \"1,120p\"; ls -la /home/lv-robotics/workspace/.verifier_reports 2>/dev/null | sed -n \"1,80p\"'\nReason: TODO 的核心验收是 baseline loader + split config，并通过 dry-run 打印 batch shapes、episode counts、missing stream report。已有 dashboard/harness/session 证据包含 artifact hashes、可复现 dry-run 命令、结果文件路径、三种 mode 的计数/缺流报告和 10/10 单测；teleop 数据尚未采集属于明确缺流并由 loader 报告，不需要退回 worker。",
           "created_at": "2026-05-23T02:41:41+08:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "strict_audit_task_drag_demo_finetune_loader_baseline_20260529",
+          "author": "Codex strict audit",
+          "body": "Strict audit 2026-05-29: reopened because dry-run loader evidence is not enough under the new standard. Run the loader through real trainable batches and attach command/log outputs.",
+          "created_at": "2026-05-29T00:39:42+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T02:41:41+08:00",
+      "updated_at": "2026-05-29T00:39:56+08:00",
       "due_at": "2026-05-30",
-      "completed_at": "2026-05-23"
+      "completed_at": "2026-05-29"
     },
     {
       "task_id": "task_drag_demo_reach_100_manifest",
@@ -2936,11 +3047,18 @@
           "body": "Local Codex host review accepted this TODO.\n可自动验收：当前 TODO 已给出 19/100 可训练 manifest、81 条 onsite 采集缺口清单、可复现 verifier/manifest/loader 命令和 loader smoke test 结果。\nEvidence: /Users/boris/.clawcross/data/harness_state.json 中 task_drag_demo_reach_100_manifest 为 review，含 worker result/status_change：initial_batch_manifest.json sha256=58b3ffb76eacfd1ba12cbd41796da82d9311d421d0001f7c3c487251d23d4ed1，raw_data_full_report.json sha256=200c2b7669d05e123955f45623e2e9218d8b3465ffba450e8efd3f10dff487b2; worker result 记录 demo_target=100、stillness_threshold_rad_used=0.10、n_counted_toward_target=19、delta_to_target=81、n_eval_tier_strict=13、by_dataset_counted={egg_scoop_v1:3, egg_to_bowl:16}; worker result 记录 loader smoke test 命令 load_initial_batch.py --manifest ... --include-eval exit=0，覆盖 19 counted + 13 eval episodes，且 verifier unit tests 13/13 OK; harness_state 中 task_drag_demo_threshold_decision 已 done，并有 codex-main host_verified：接受 0.10 rad threshold、verifier config/CLI default 已更新、manifest rebuilt、13 unit tests pass; /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json 当前 dashboard task 为 review，result comment 同步了 artifact hashes、counts、reproduce commands 和 onsite collection gap; 直接 SSH 复验远端 artifact 被当前沙箱网络策略拒绝：ssh connect Operation not permitted；本机未找到 initial_batch_manifest/raw_data_full_report 的本地镜像\nCommands: sed -n '1,220p' docs/repo-index.md; jq '.users.boris.tasks.task_drag_demo_reach_100_manifest, .users.boris.agents[\"drag-demo-lvrobotics@100.113.210.127\"]' /Users/boris/.clawcross/data/harness_state.json; jq '.users.boris.tasks.task_drag_demo_threshold_decision | {status,comments}' /Users/boris/.clawcross/data/harness_state.json; jq '.tasks[] | select(.task_id==\"task_drag_demo_reach_100_manifest\")' /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json; rg --files /Users/boris/workspace | rg 'initial_batch_manifest\\.json$|raw_data_full_report\\.json$|load_initial_batch\\.py$|build_initial_batch_manifest\\.py$|sop_episode_verifier\\.py$'; ssh -o BatchMode=yes -o ConnectTimeout=8 lv-robotics@100.113.210.127 'pwd; hostname; test -f ~/workspace/.verifier_reports/initial_batch_manifest.json && sha256sum ~/workspace/.verifier_reports/initial_batch_manifest.json; test -f ~/workspace/.verifier_reports/raw_data_full_report.json && sha256sum ~/workspace/.verifier_reports/raw_data_full_report.json'\nReason: TODO 允许 manifest 达到 100 或给出 onsite 采集缺口清单；worker 在已被 host 接受的 0.10 rad threshold 下交付了 manifest/report/loader artifact 路径与 hashes、可复现三步 pipeline、loader 可读 smoke test 结果和 81 条物理采集缺口说明。虽然当前沙箱无法 SSH 重跑远端命令，但本机 harness/dashboard 保留的 host threshold 验收和 worker 结果已覆盖验收条件。",
           "created_at": "2026-05-23T02:29:00+08:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "strict_audit_task_drag_demo_reach_100_manifest_20260529",
+          "author": "Codex strict audit",
+          "body": "Strict audit 2026-05-29: reopened because the manifest evidence says 19/100 and a collection gap, not 100 valid episodes. Close only after 100 valid episodes or an explicit user-approved scope change.",
+          "created_at": "2026-05-29T00:39:42+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-23T02:29:00+08:00",
+      "updated_at": "2026-05-29T00:39:56+08:00",
       "due_at": "2026-05-27",
-      "completed_at": "2026-05-23"
+      "completed_at": "2026-05-29"
     },
     {
       "task_id": "task_drag_demo_threshold_decision",
@@ -3001,6 +3119,13 @@
           "body": "Local Codex host review accepted this TODO.\n可接受：dashboard 结果给出了 schema/writer/validator、23 个测试通过、10 秒 fake episode 写入 JSON/HDF5 并被 validator 读取 OK 的可复现证据。\nEvidence: /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json 中 task_real_robot_input_record_schema 处于 review，result comment 列出 commit dea26fdbe8be321283bdfea48401d9b91474ac06 与关键源码 sha256; result comment 报告 pytest tests/ -v 为 23 passed，覆盖 writer/reader round-trip、7-stream full episode 与 validator 错误路径; result comment 报告 rrr-write-fake --duration 10 后 rrr-validate OK，产物 manifest.json sha256=f307d5580bdb8961a5c0601b95e2f9aafa965df636280bf28d74ab0dec9034ea、data.h5 sha256=4cc088461bc248a98049098f23dd7e6b7ec1b618384d315614b1c295c8d84f4d; HDF5 inventory 覆盖 Wuji tactile/hand joints/IMU、MANUS hand skeleton、VIVE wrist pose、Franka robot state、camera extrinsics，且各 stream 有 ts_us/seq/frame_id; 尝试 SSH 读取远端工作区失败：Operation not permitted；本机 /Users/boris/workspace 下未发现 real_robot_record 副本\nCommands: sed -n '2535,2675p' /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json; rg -n \"dea26fdbe8be321283bdfea48401d9b91474ac06|real_robot_record|ep_fake_v2|rrr-validate\" /Users/boris/workspace/ClawCross /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json; ssh -o BatchMode=yes -o ConnectTimeout=10 boris@100.70.181.44 git -C /home/boris/workspace/real_robot_record rev-parse HEAD; ssh -o BatchMode=yes -o ConnectTimeout=10 boris@100.70.181.44 git -C /home/boris/workspace/real_robot_record status --short; rg --files /Users/boris/workspace | rg 'real_robot_record|real_robot'\nReason: 验收目标允许 fake episode；worker 提供了可复现命令、结果文件、validator 输出、日志/产物哈希和覆盖范围清单，已满足 schema + sample writer + 统一 JSON/HDF5 + validator 读取的范围。SSH 二次复跑被本机沙箱阻止，但未发现需要退回 worker 的交付缺口。",
           "created_at": "2026-05-23T04:19:23+08:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "strict_audit_task_real_robot_input_record_schema_20260529",
+          "author": "Codex strict audit",
+          "body": "Strict audit 2026-05-29: reopened because prior closure used a fake 10s episode. Full acceptance requires real MANUS/Wuji/VIVE/robot-state recording when hardware is visible, or a fresh hardware-blocker log.",
+          "created_at": "2026-05-29T00:39:42+08:00",
+          "kind": "comment"
         }
       ],
       "updated_at": "2026-05-23T04:19:23+08:00",
@@ -3136,6 +3261,13 @@
           "body": "Local Codex host review accepted this TODO.\n可接受：worker 已补充 mock verifier、复现记录、good/bad 报告和 4-case 回归测试证据，覆盖 TODO 验收范围。\nEvidence: /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json 中该 TODO 为 review，记录 verifier v0、REPRO.md、关键文件 sha256、good/bad 命令退出码和可解释 reject reasons; /Users/boris/.clawcross/data/harness_state.json 记录同一 TODO 的完整评论链，包含 tests/run_verifier_tests.py、verifier_reports/test_summary.json、4/4 PASS、每个失败分支覆盖说明; /Users/boris/.clawcross/data/remote_claude_sessions_cache.json 记录远端 session 最后消息：4 个 mock cases、exit 0/1、reject reasons、report sha256; 远端 SSH 复核尝试失败：ssh: connect to host 100.87.220.29 port 22: Operation not permitted\nCommands: jq '.tasks[]? // .[]? | select(.task_id==\"task_hoi_isaac_retargeting_verifier_v0\" or .id==\"task_hoi_isaac_retargeting_verifier_v0\")' /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json; ssh -o BatchMode=yes -o ConnectTimeout=10 feibo@100.87.220.29 'cd /home/feibo/workspace/diverse-same-task-dataset; pwd; git status --short; ls -l isaac_verifier_v0.py generate_mock_robot_candidates.py verifier-v0-spec.md samples_contact_pack/02_power_grasp_mug.json mock_robots/good_mug_pick.json mock_robots/bad_mug_pick.json tests/run_verifier_tests.py verifier_reports/test_summary.json verifier_reports/good_mug_pick.report.json verifier_reports/bad_mug_pick.report.json verifier_reports/self_collide_mug.report.json verifier_reports/wrong_slide_mug.report.json; sha256sum isaac_verifier_v0.py generate_mock_robot_candidates.py verifier-v0-spec.md samples_contact_pack/02_power_grasp_mug.json mock_robots/good_mug_pick.json mock_robots/bad_mug_pick.json tests/run_verifier_tests.py verifier_reports/test_summary.json verifier_reports/good_mug_pick.report.json verifier_reports/bad_mug_pick.report.json verifier_reports/self_collide_mug.report.json verifier_reports/wrong_slide_mug.report.json REPRO.md'; jq '.users.boris.tasks.task_hoi_isaac_retargeting_verifier_v0, .users.boris.agents[\"image-layered-feibo@100.87.220.29\"] | {task_id, project_id, title, status, updated_at, current_task_id, last_heartbeat_at, message, comments}' /Users/boris/.clawcross/data/harness_state.json; jq '.sessions[]? | select(.remote_key==\"feibo@100.87.220.29::session_01XEBJT4Shq5Wvashd9iG9Vt\")' /Users/boris/.clawcross/data/remote_claude_sessions_cache.json; jq '.codex_review.task_hoi_isaac_retargeting_verifier_v0' /Users/boris/.clawcross/data/harness_conductor_actions.json\nReason: TODO 要求 v0 verifier 在 mock scene 上跑通并给出 object pose/contact/joint-limit/collision/failure report；现有 dashboard/harness 证据包含实现文件、schema/spec、good case pass、bad case explicit reject reasons、额外 self_collision/sliding_consistency 回归用例和 4/4 PASS 测试命令。虽然本机 sandbox 阻止 SSH 二次读取远端文件，但 worker 已按上次 review 要求补足可复现命令、结果文件路径、sha256 和测试/verifier 证据，足以自动验收。",
           "created_at": "2026-05-23T03:17:09+08:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "strict_audit_task_hoi_isaac_retargeting_verifier_v0_20260529",
+          "author": "Codex strict audit",
+          "body": "Strict audit 2026-05-29: reopened because mock-Isaac verifier is insufficient. Install/run real Isaac where feasible, otherwise mark blocked with dependency logs.",
+          "created_at": "2026-05-29T00:39:42+08:00",
+          "kind": "comment"
         }
       ],
       "updated_at": "2026-05-23T03:17:09+08:00",
@@ -3186,6 +3318,13 @@
           "body": "Host verification passed: reran validate_hoi_schema on glove and UMI samples (both VALID), BAD sample fails as expected with schema errors; sha256s for hoi_schema.md, validate_hoi_schema.py, generate_samples.py and samples were provided. This closes the two-modality capture smoke TODO.",
           "created_at": "2026-05-23T14:28:32+08:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "strict_audit_task_hoi_two_modality_capture_smoke_20260529",
+          "author": "Codex strict audit",
+          "body": "Strict audit 2026-05-29: reopened because smoke capture is insufficient. Produce two real modality samples or attach fresh hardware blocker logs.",
+          "created_at": "2026-05-29T00:39:42+08:00",
+          "kind": "comment"
         }
       ],
       "updated_at": "2026-05-23T14:28:32+08:00",
@@ -3817,10 +3956,16 @@
           "body": "本机 Codex 在 boris@100.70.181.44 的 `~/workspace/teleop_retarget` 新增最小 Linker TA + FFG smoke CLI: `scripts/linker_ta_ffg_smoke.py`。验证: `.venv/bin/python -m py_compile scripts/linker_ta_ffg_smoke.py` 通过；真实运行 `.venv/bin/python scripts/linker_ta_ffg_smoke.py --duration 10 --side both` 退出 0 并生成报告。Artifacts: `/home/boris/workspace/teleop_retarget/smoke_logs/linker_ta_ffg_smoke_20260527_005813.md` sha256 `ee252b039aa10502bfa1591f776129cf7348447ed269268e987aa5a959dc9743`; JSON `/home/boris/workspace/teleop_retarget/smoke_logs/linker_ta_ffg_smoke_20260527_005813.json` sha256 `ad028cfbb8a96a5f419fa1b96cb4430f56bae585100bb64a953c90db20ebd187`. 当前硬件状态: `/dev/ttyUSB0` 和 `/dev/ttyUSB1` 可打开但 10 秒内无有效 21-float FFG frame；Linker Hand L6 command path import OK，但未发现 `can0`/`can1`，因此未尝试 open/fist/open。报告给出下一步: replug/确认 FFG LFFG1-01/baud 2000000，并 bring up `can0`/`can1` at 1 Mbps 或运行 `submodules/linkerhand_sdk/find_can.sh`。",
           "created_at": "2026-05-27T00:59:43+08:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "strict_audit_task_real_robot_infra_linker_ta_ffg_wrapper_20260529",
+          "author": "Codex strict audit",
+          "body": "Strict audit 2026-05-29: reopened because prior closure was wrapper/no-hardware smoke evidence. Full acceptance requires Linker TA + FFG dependencies installed and either a real hardware command log or a concrete hardware-unavailable blocker with command output.",
+          "created_at": "2026-05-29T00:39:42+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-27T00:51:07+08:00",
-      "completed_at": "2026-05-27"
+      "updated_at": "2026-05-29T00:39:36+08:00"
     },
     {
       "task_id": "task_umi_cosmos25_concat_prompt_update",
@@ -3859,7 +4004,6 @@
       "priority": "high",
       "assignee": "jingxiang@100.112.245.1",
       "due_at": "2026-05-28",
-      "completed_at": "2026-05-27",
       "updated_at": "2026-05-27T00:51:08+08:00",
       "comments": [
         {
@@ -3875,8 +4019,16 @@
           "body": "Local Codex accepted the UMI action-injection survey after adding an explicit decision table. Evidence: `/home/jingxiang/workspace/das-data/eval_outputs/harness_reports/task_umi_action_injection_survey.md`. Recommendation: short-term action-aware prompt ablation via `caption_with_keystates.py`; medium-term Ctrl-World-style numerical action encoder using `test_sets/ctrlworld/actions_15hz.npz` `(120,16)` dual-arm action tensors.",
           "created_at": "2026-05-27T00:51:08+08:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "strict_audit_task_umi_action_injection_survey_20260529",
+          "author": "Codex strict audit",
+          "body": "Strict audit 2026-05-29: reopened because survey-only is not enough. Produce a runnable action-injection probe or model-integration patch with verification outputs.",
+          "created_at": "2026-05-29T00:39:42+08:00",
+          "kind": "comment"
         }
-      ]
+      ],
+      "completed_at": "2026-05-27"
     },
     {
       "task_id": "task_umi_dreamxworld_wmfactory",
