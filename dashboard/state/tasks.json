@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-29T00:49:10+08:00",
+  "updated_at": "2026-05-29T00:54:14+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -4086,7 +4086,7 @@
       "project_id": "umi-world-model",
       "title": "把 WMFactory 和 iWorld-Bench 结合成交互世界模型评测前端",
       "description": "Integrate WMFactory / WMBackend with EmbodiedCity/iWorld-Bench so UMI World Model has both WMFactory's user-interaction frontend and iWorld-Bench-style benchmarking for interactive world models. Source: https://github.com/EmbodiedCity/iWorld-Bench. Deliverable: clone/vendor or reference iWorld-Bench at a fixed commit; map WMFactory generated-video outputs and model adapters into iWorld-Bench metadata / camera-trajectory / evaluation inputs; expose a WMFactory UI or API entry that can launch benchmark jobs and show reports; support at least action_control and camera_following evaluation, with memory_ability/all noted as feasible or blocked; include compatibility notes for VIPE_ROOT, VBENCH_ROOT, dataset/all_pack metadata, camera_trajectories, and generated video output layout. Acceptance: one small dry-run or smoke benchmark using WMFactory-produced or fixture videos; generated reports under eval_outputs with command logs, JSON/CSV report paths, sha256, and a short recommendation on how to use iWorld-Bench scores alongside the existing UMI eval gallery.",
-      "status": "todo",
+      "status": "active",
       "priority": "high",
       "assignee": null,
       "result": null,
@@ -4099,7 +4099,7 @@
           "created_at": "2026-05-29T00:52:03+08:00"
         }
       ],
-      "updated_at": "2026-05-29T00:52:03+08:00",
+      "updated_at": "2026-05-29T00:53:46+08:00",
       "due_at": "",
       "completed_at": null
     },
