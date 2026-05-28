@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-29T00:39:59+08:00",
+  "updated_at": "2026-05-29T00:40:52+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -3936,7 +3936,7 @@
       "project_id": "real-robot-infra",
       "title": "写 Linker TA + Linker FFG wrapper",
       "description": "Linker TA + Linker FFG 组合还没有 wrapper。Deliverable: 一个最小 Python wrapper / CLI，能连接设备、读取状态、发送 gripper open/close 或 position/force command、记录错误码/时间戳，并输出 10 秒 smoke log。Acceptance: 无硬件时能给 actionable dependency report；有硬件时能完成 connect -> state -> command -> state -> disconnect 的 verifier。",
-      "status": "todo",
+      "status": "active",
       "priority": "high",
       "assignee": null,
       "result": null,
@@ -3965,7 +3965,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-29T00:39:36+08:00"
+      "updated_at": "2026-05-29T00:40:47+08:00"
     },
     {
       "task_id": "task_umi_cosmos25_concat_prompt_update",
