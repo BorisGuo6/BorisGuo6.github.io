@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-29T00:40:52+08:00",
+  "updated_at": "2026-05-29T00:49:10+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2987,6 +2987,27 @@
       "updated_at": "2026-05-29T00:39:56+08:00",
       "due_at": "2026-05-27",
       "completed_at": "2026-05-29"
+    },
+    {
+      "task_id": "task_self_improving_test_genesis_world",
+      "project_id": "self-improving-agents",
+      "title": "测试 Genesis World 1.0 作为候选仿真环境 base",
+      "description": "Evaluate Genesis World 1.0 as a candidate simulator base for the Self-Improving Agents / AgenticSim loop. References: https://github.com/Genesis-Embodied-AI/genesis-world, https://github.com/Genesis-Embodied-AI/quadrants, https://github.com/Genesis-Embodied-AI/genesis-nyx. Deliverable: install or clone Genesis World in an isolated env, record exact commit/version and dependency notes, run at least one minimal rigid manipulation example, one deformable/contact-rich example if feasible, and one renderer/camera path using Nyx or a documented Nyx blocker. Also check Quadrants availability/backend selection and assess whether Genesis can expose reset/step/observation/action/verifier hooks compatible with AgenticSim. Acceptance: command log, environment YAML or pip freeze excerpt, generated artifact paths/screenshots/videos where possible, pass/fail/blocker summary for Genesis World, Quadrants, and Nyx, plus a recommendation on whether to build an AgenticSim adapter next.",
+      "status": "todo",
+      "priority": "medium",
+      "assignee": null,
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_self_improving_genesis_world_refs_20260529",
+          "author": "Codex",
+          "kind": "comment",
+          "body": "Reference TODO added 2026-05-29. Test Genesis World 1.0 as a candidate simulator base only; current implemented foundation remains LeHome / RoboLab / IsaacLab. Genesis World repo: https://github.com/Genesis-Embodied-AI/genesis-world. Quadrants compiler repo: https://github.com/Genesis-Embodied-AI/quadrants. Nyx renderer repo: https://github.com/Genesis-Embodied-AI/genesis-nyx. The evaluation should decide whether Genesis is worth an AgenticSim adapter for fast multi-physics, photorealistic rendering, contact-rich manipulation, and deformable-object scenes."
+        }
+      ],
+      "updated_at": "2026-05-29T00:49:10+08:00",
+      "due_at": "",
+      "completed_at": null
     },
     {
       "task_id": "task_drag_demo_finetune_loader_baseline",
