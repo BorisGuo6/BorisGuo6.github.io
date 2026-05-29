@@ -4,7 +4,7 @@
   "title": "Real-Robot Lab Infra",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-05-29T19:44:01+08:00",
+  "updated_at": "2026-05-29T20:07:00+08:00",
   "description": "Engineering stack for teleoperation, data collection, and robot-side validation",
   "summary": "This is the engineering base that keeps weekly research work grounded in real data collection, linked hardware assets/resources, and real-robot validation.",
   "asset": "dashboard/assets/real-robot-infra-collage.png",
@@ -32,7 +32,7 @@
     "Canonical asset table linked: Real Robot Infra asset sheet gid 1134950065 contains 16 rows; key current assets include Franka Research 3, Wuji Hand, Wuji glove with D405 capture, YAM arms for ALOHA, D405 cameras, MANUS gloves, and VIVE trackers.",
     "Hardware Resource Center is the canonical Notion target for manuals, SOPs, calibration notes, vendor PDFs, and hardware resource links; current connector access needs to be fixed before automated Notion content sync can verify page internals.",
     "YAM ALOHA setup is grounded in asset LV-ROB-010: 数量:4；aloha系统, location E2-01-04, status 搭建中.",
-    "Wuji glove data wrapper is grounded in asset GM-ROB-004: 各装一个D405做数采, location E2-01-04, status Ready."
+    "Wuji Glove is tracked as one canonical task: network smoke, timestamp logging, D405 capture wrapper, episode writer, and replay/loader verification are all acceptance items under task_real_robot_infra_wuji_glove."
   ],
   "task_ids": [
     "task_real_robot_infra_arx_setup",
@@ -46,11 +46,9 @@
     "task_real_robot_infra_safety_workspace",
     "task_real_robot_infra_factr_force_feedback",
     "task_real_robot_infra_knife_meat_demo_plan",
-    "task_real_robot_wuji_glove_network_smoke",
     "task_real_robot_infra_franka_curobo_motion_planning",
     "task_real_robot_infra_me_control_two_hosts",
-    "task_real_robot_infra_yam_aloha_setup",
-    "task_real_robot_infra_wuji_glove_data_wrapper"
+    "task_real_robot_infra_yam_aloha_setup"
   ],
   "risks_decisions": [
     "不同设备的驱动、SDK、ROS topic 和日志格式需要尽早统一，否则后面每条数据都会带维护成本。",
@@ -64,7 +62,8 @@
     "FACTR procurement route: FACTR purchase should go through Jingte Intelligent rather than the slow school process, while xArm / already-started school items remain separate.",
     "VR teleoperation of Franka must be hardware-gated: start in simulation or read-only pose preview, then low-speed Cartesian control with workspace bounds, deadman switch, rate limiting, collision checks, and an E-stop operator before any live robot motion.",
     "Every hardware TODO should cite its asset-table row and the corresponding Hardware Resource Center manual/SOP location before being marked done.",
-    "YAM ALOHA and Wuji glove capture both need a shared timestamp/schema path so their data can flow into the same real-robot dataset and replay verifier infrastructure."
+    "YAM ALOHA and Wuji glove capture both need a shared timestamp/schema path so their data can flow into the same real-robot dataset and replay verifier infrastructure.",
+    "Do not reopen separate Wuji Glove TODOs for network smoke or data wrapper; keep status, blockers, and evidence on the canonical Wuji Glove task."
   ],
   "external_resources": [
     {
