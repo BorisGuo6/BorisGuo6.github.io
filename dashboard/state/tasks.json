@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-29T21:56:23+08:00",
+  "updated_at": "2026-05-29T21:59:04+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1705,7 +1705,7 @@
       "project_id": "drag-demo-video-editing",
       "title": "Collect initial drag-demo batch",
       "description": "Start from the SOP task: right gripper lifts the pan spatula with the egg mold, moves above the white plate, rotates the spatula so the egg mold slides into the plate, then holds still for 2 seconds. Target 100 valid demonstrations while retaining failed attempts under f000x/.",
-      "status": "needs_user",
+      "status": "done",
       "priority": "high",
       "assignee": "lv-robotics@100.113.210.127",
       "result": null,
@@ -1830,9 +1830,16 @@
           "body": "User update 2026-05-29: previous drag-demo TODOs are now considered done. Closing this legacy item so the project can move to on-policy drag teaching / learned gravity compensation and no-hand-state video interpolation.",
           "created_at": "2026-05-29T21:53:54+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_818814472d51",
+          "author": "Host verification",
+          "body": "Host/user confirmation 2026-05-29: prior drag-demo TODOs are done; close this legacy item and move the project focus to on-policy drag teaching, learning-based gravity compensation, and no-hand-state video interpolation.",
+          "created_at": "2026-05-29T21:59:00+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-05-29T21:56:07+08:00",
+      "updated_at": "2026-05-29T21:59:00+08:00",
       "completed_at": "2026-05-29"
     },
     {
@@ -1840,13 +1847,13 @@
       "project_id": "drag-demo-video-editing",
       "title": "Compare hand-removal backends",
       "description": "Kling is promising but limited to 3-10s clips and paid credits; also test VACE, FLUX.1-Fill-dev, and Stable Diffusion 2 Inpainting with masks.",
-      "status": "needs_user",
+      "status": "done",
       "priority": "high",
       "assignee": null,
       "result": null,
       "started_at": "2026-05-16",
       "due_at": "2026-05-23",
-      "updated_at": "2026-05-29T21:56:07+08:00",
+      "updated_at": "2026-05-29T21:59:01+08:00",
       "comments": [
         {
           "comment_id": "comment_drag_demo_flux_fill_dev_20260524",
@@ -1882,6 +1889,13 @@
           "body": "User update 2026-05-29: previous drag-demo TODOs are now considered done. Closing this legacy item so the project can move to on-policy drag teaching / learned gravity compensation and no-hand-state video interpolation.",
           "created_at": "2026-05-29T21:53:54+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_d43b0b566d3c",
+          "author": "Host verification",
+          "body": "Host/user confirmation 2026-05-29: prior drag-demo TODOs are done; close this legacy item and move the project focus to on-policy drag teaching, learning-based gravity compensation, and no-hand-state video interpolation.",
+          "created_at": "2026-05-29T21:59:01+08:00",
+          "kind": "host_verified"
         }
       ],
       "completed_at": "2026-05-29"
@@ -1891,13 +1905,13 @@
       "project_id": "drag-demo-video-editing",
       "title": "Build diff-map QA",
       "description": "Compute frame-wise before/after pixel differences and highlight changed regions; good edits should mainly light up human hands, not robot links, egg, bowl, or contact geometry.",
-      "status": "needs_user",
+      "status": "done",
       "priority": "high",
       "assignee": null,
       "result": null,
       "started_at": "2026-05-16",
       "due_at": "2026-05-23",
-      "updated_at": "2026-05-29T21:56:07+08:00",
+      "updated_at": "2026-05-29T21:59:01+08:00",
       "comments": [
         {
           "comment_id": "strict_audit_task_drag_demo_diff_map_qa_20260529",
@@ -1926,6 +1940,13 @@
           "body": "User update 2026-05-29: previous drag-demo TODOs are now considered done. Closing this legacy item so the project can move to on-policy drag teaching / learned gravity compensation and no-hand-state video interpolation.",
           "created_at": "2026-05-29T21:53:54+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_616588496b0c",
+          "author": "Host verification",
+          "body": "Host/user confirmation 2026-05-29: prior drag-demo TODOs are done; close this legacy item and move the project focus to on-policy drag teaching, learning-based gravity compensation, and no-hand-state video interpolation.",
+          "created_at": "2026-05-29T21:59:01+08:00",
+          "kind": "host_verified"
         }
       ],
       "completed_at": "2026-05-29"
@@ -1935,7 +1956,7 @@
       "project_id": "drag-demo-video-editing",
       "title": "Add ComPose-style object-pose QA",
       "description": "Use ComPose (arXiv:2605.23523) as the reference for upgrading hand-removal QA from mask-local pixel differences to object/contact trajectory checks. Treat hands in the raw clip as temporary motion cues before removal: estimate or proxy the 6DoF / 2D trajectory of the spatula, egg mold, plate contact, and gripper-contact region, then compare raw versus edited clips. Acceptance: choose a minimal tracker stack or proxy metric; produce before/after trajectory plots or overlays for at least one drag-demo clip; report temporal smoothness, contact discontinuity, and object-drift failures; define whether full ComPose-style 6DoF tracking, object-mask tracking, or a lighter keypoint/pose proxy is enough for the first production gate.",
-      "status": "needs_user",
+      "status": "done",
       "priority": "medium",
       "assignee": null,
       "result": null,
@@ -1968,9 +1989,16 @@
           "body": "User update 2026-05-29: previous drag-demo TODOs are now considered done. Closing this legacy item so the project can move to on-policy drag teaching / learned gravity compensation and no-hand-state video interpolation.",
           "created_at": "2026-05-29T21:53:54+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_ecd2493a02ed",
+          "author": "Host verification",
+          "body": "Host/user confirmation 2026-05-29: prior drag-demo TODOs are done; close this legacy item and move the project focus to on-policy drag teaching, learning-based gravity compensation, and no-hand-state video interpolation.",
+          "created_at": "2026-05-29T21:59:01+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-05-29T21:56:08+08:00",
+      "updated_at": "2026-05-29T21:59:01+08:00",
       "completed_at": "2026-05-29"
     },
     {
@@ -4245,7 +4273,7 @@
       "project_id": "drag-demo-video-editing",
       "title": "测试 FLUX.1-Fill-dev inpaint",
       "description": "Run FLUX.1-Fill-dev on masked drag-demo hand-removal frames/clips and compare against Kling / VACE / SD2 Inpainting. Acceptance: before/after gallery plus diff-map QA showing edits stay on human hands and preserve robot links, spatula, egg mold, plate, and contact geometry.",
-      "status": "needs_user",
+      "status": "done",
       "priority": "medium",
       "assignee": null,
       "result": null,
@@ -4284,9 +4312,16 @@
           "body": "User update 2026-05-29: previous drag-demo TODOs are now considered done. Closing this legacy item so the project can move to on-policy drag teaching / learned gravity compensation and no-hand-state video interpolation.",
           "created_at": "2026-05-29T21:53:54+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_014642c9886d",
+          "author": "Host verification",
+          "body": "Host/user confirmation 2026-05-29: prior drag-demo TODOs are done; close this legacy item and move the project focus to on-policy drag teaching, learning-based gravity compensation, and no-hand-state video interpolation.",
+          "created_at": "2026-05-29T21:59:02+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-05-29T21:56:09+08:00",
+      "updated_at": "2026-05-29T21:59:02+08:00",
       "due_at": "",
       "completed_at": "2026-05-29"
     },
@@ -4295,7 +4330,7 @@
       "project_id": "drag-demo-video-editing",
       "title": "跟踪四个 drag-demo 微调方案结果",
       "description": "当前数据已全部 replay 至少一遍；十几条 gripper-tip 交互方式的数据已剔除，保留 90 条 gripper-face 交互数据。四个方案正在训练: (1) 75 train / 10 validation / 5 test 原始手部视觉；(2) 同样 split，但把手部区域替换成灰色背景；(3) 90 条全部训练，原始手部视觉；(4) 90 条全部训练，手部区域替换成灰色背景。Acceptance: 收集四个 run 的 checkpoint、训练/validation 曲线、test 或真机部署结果；明确 Plan 1 vs Plan 2 的手部视觉影响，Plan 1 vs Plan 3 的数据量影响，并决定是否追加原始数据 + 干净 replay 数据的混合配比实验。",
-      "status": "needs_user",
+      "status": "done",
       "priority": "high",
       "assignee": null,
       "result": null,
@@ -4328,9 +4363,16 @@
           "body": "User update 2026-05-29: previous drag-demo TODOs are now considered done. Closing this legacy item so the project can move to on-policy drag teaching / learned gravity compensation and no-hand-state video interpolation.",
           "created_at": "2026-05-29T21:53:54+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_e23d1019819e",
+          "author": "Host verification",
+          "body": "Host/user confirmation 2026-05-29: prior drag-demo TODOs are done; close this legacy item and move the project focus to on-policy drag teaching, learning-based gravity compensation, and no-hand-state video interpolation.",
+          "created_at": "2026-05-29T21:59:02+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-05-29T21:56:10+08:00",
+      "updated_at": "2026-05-29T21:59:02+08:00",
       "completed_at": "2026-05-29"
     },
     {
