@@ -243,6 +243,10 @@
         margin-top: 10px;
       }
 
+      .table-card {
+        overflow-x: auto;
+      }
+
       .ok {
         border-color: #a9d4ba;
         background: var(--green-soft);
@@ -319,6 +323,27 @@
 
       .diagram-card h3 {
         margin-bottom: 12px;
+      }
+
+      .reference-figure {
+        margin-top: 14px;
+        padding: 14px;
+        border: 1px solid var(--line);
+        background: #ffffff;
+      }
+
+      .reference-figure img {
+        display: block;
+        width: 100%;
+        height: auto;
+        border: 1px solid var(--line);
+      }
+
+      .reference-figure figcaption {
+        margin-top: 10px;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 800;
       }
 
       .diagram {
@@ -515,40 +540,42 @@
       <div class="topbar">
         <a href="../dashboard/">Back to Dashboard</a>
         <nav aria-label="Page sections">
-          <a href="#venue-brief">场地</a>
+          <a href="#brief">总览</a>
+          <a href="#venue-update">场地</a>
           <a href="#plan-one">方案一</a>
           <a href="#plan-two">方案二</a>
           <a href="#umi-world-model">UMI</a>
           <a href="#self-improving">Self-Improving</a>
+          <a href="#self-research">References</a>
           <a href="#self-architecture">Architecture</a>
           <a href="#self-roadmap">Roadmap</a>
         </nav>
         <button class="print-button" type="button" onclick="window.print()">Print / PDF</button>
       </div>
 
-      <header class="hero" id="venue-brief">
+      <header class="hero" id="brief">
         <div>
           <p class="kicker">Weekly Brief</p>
-          <h1>Romoya 场地方案：建议和 XB 一起向 Clement 汇报方案一</h1>
+          <h1>本周周报：场地、UMI 微调资源、AgenticSim proposal</h1>
           <p class="subtitle">
-            旧周报内容已汇报过，本页保留最新场地决策。两边刚回复确认后，第二个整租方案成本和条款都不现实；当前建议把方案一作为默认推进路径。
+            本页汇总三个当前需要推进的事项：Romoya 场地按方案一和 Clement 拍板；UMI WAN2.2 微调需要确认算力并扩充 2 号机存储；Self-Improving Agents 收敛到“场景想象 + test-time training”的 AgenticSim 仿真闭环。
           </p>
           <div class="source-strip" aria-label="Source summary">
-            <span>颜老师最新确认</span>
-            <span>The Gemini 408 / 409 回复</span>
-            <span>Grace 报价回复</span>
-            <span>XB + Boris present 给 Clement</span>
+            <span>Romoya 方案一</span>
+            <span>UMI WAN2.2 算力需求</span>
+            <span>2 号机 2.5 英寸 SSD</span>
+            <span>Scene imagination + TTT</span>
           </div>
         </div>
         <aside class="hero-note">
-          <span class="small-label">Recommended decision</span>
-          <strong>Proceed with Plan 1</strong>
-          <p>先用可落地的 Gemini 方案启动；409 作为可切换机会，不作为项目依赖。</p>
+          <span class="small-label">Current priorities</span>
+          <strong>3 个需要推进的决策</strong>
+          <p>场地拍板、UMI 资源确认、self-improving mini-loop demo。</p>
         </aside>
       </header>
 
       <main>
-        <section class="section">
+        <section class="section" id="venue-update">
           <div class="section-title">
             <div>
               <p class="eyebrow">Venue conclusion</p>
@@ -696,25 +723,103 @@
           <div class="section-title">
             <div>
               <p class="eyebrow">Self-Improving Agents / Project Proposal</p>
-              <h2>项目导语压缩版：先做仿真闭环，Robot4Robot 后移</h2>
+              <h2>Self-Improving Agents：AgenticSim 仿真闭环 proposal</h2>
             </div>
-            <p>这里替代的是 Self-Improving Agents 项目自己的长 intro：proposal 已经展开，导语只保留方向判断和一两句话。</p>
+            <p>目标是把 self-improvement 从口号落成可运行系统：agent 先根据 reference 想象可执行场景，再在场景里做 test-time training，并随着交互持续更新 3D world understanding。</p>
           </div>
           <div class="quote-box">
-            <p>Proposal：把 Self-Improving Agents 做成 AgenticSim 的 simulation-first 系统。Scheduler 选择任务和难度，Scene Generator 生成环境和扰动，Train Agent 训练策略或 workflow，Evaluate Agent 用 verifier 评分，Analyze Agent 把失败变成 memory，再反向更新 task schedule。真机和 Robot4Robot 是后续 promotion layer。</p>
+            <p>核心论点：当前机器人和 VLA 评估最缺的不是更多静态 benchmark，而是能持续制造“刚好难、能验证、能复现”的任务环境。AgenticSim 要做的是 simulation-first 的两阶段闭环：Stage 1 用 reference-conditioned imagination 生成可执行 3D 场景；Stage 2 在该场景里做 test-time training / workflow repair / policy tuning。交互过程中，场景的 3D 理解不是一次性固定资产，而是随 rollout、失败归因和主动修复持续更新的 world belief。</p>
+          </div>
+          <div class="grid-2" style="margin-top: 14px;">
+            <article class="panel decision">
+              <h3>Stage 1：Imagine scenes from references</h3>
+              <p>给定真实图片、demo trace、语言约束、失败类型或已有 benchmark 任务，agent 负责生成 scene state、object layout、物理参数、扰动、controller API 和 verifier。输出必须能 reset、rollout、score、replay，而不是只生成视觉上合理的静态 3D。</p>
+            </article>
+            <article class="panel warning">
+              <h3>Stage 2：Test-time training inside scenes</h3>
+              <p>agent 在生成场景里执行、观察、归因和修复：可以调 prompt / workflow / recovery policy / lightweight adapter，也可以生成新的 scene mutation 来逼近失败边界。每次 interaction 都更新 3D scene belief、failure memory 和下一轮 curriculum。</p>
+            </article>
+          </div>
+          <div class="table-card" style="margin-top: 14px;">
+            <table class="evidence-table">
+              <thead>
+                <tr>
+                  <th>Intro point</th>
+                  <th>具体含义</th>
+                  <th>为什么现在能做</th>
+                  <th>Proposal 写法</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>不是更多静态 benchmark</td>
+                  <td>只看 sim score、log 或 demo video，无法稳定回答 agent 为什么失败、下次该练什么、是否真的变强。</td>
+                  <td>dashboard 已完成 Real2Sim2Real-VLA eval V0：TraceLoader JSON/HDF5、SimRealGapDetector、R2S2RPipeline mock loop 均通过 full runner。</td>
+                  <td>把项目定位成可复现 evaluation loop，而不是一次性实验展示。</td>
+                </tr>
+                <tr>
+                  <td>先做 simulation-first</td>
+                  <td>真机上直接做 schedule、train、evaluate、analyze 和 scene generation 成本高、节奏慢、难并行，也更容易被硬件噪声打断。</td>
+                  <td>现有 mock demo 无 Isaac 依赖即可跑通；Isaac smoke gate 已把缺依赖、headless reset/step、Gym env registration 检查拆成可验收项。</td>
+                  <td>第一阶段把生成、调度、评估、分析和报告都放在仿真闭环里，真实实验只接收通过 gate 的候选。</td>
+                </tr>
+                <tr>
+                  <td>可执行任务环境</td>
+                  <td>每个 task family 必须包含 scene state、controller/tool API、instruction、reference rollout、verifier、difficulty tier；scene 还要记录当前 3D world belief 和可修复的 uncertainty。</td>
+                  <td>AgenticSim 已有 129 个注册 Gymnasium 环境：9 个 LeHome / LeHome-challenge，加 120 个 RoboLab formal benchmark tasks。</td>
+                  <td>先在仿真里定义 task object，再讨论训练、生成和真实验证。</td>
+                </tr>
+                <tr>
+                  <td>刚好难的任务</td>
+                  <td>生成器不能只产出视觉上合理的场景；场景必须通过 executability、novelty、difficulty 和 safety gates。</td>
+                  <td>已完成 RolloutDiagnoser、TaskMutator、GovernanceGate、PEARLLoop mock VLM full cycle；生成资产和 SceneMutator 也已验收。</td>
+                  <td>用 solver pass rate 和 gate decision 接受、拒绝或变异场景。</td>
+                </tr>
+                <tr>
+                  <td>失败变成 memory</td>
+                  <td>failure 不能停在 raw trace；要记录 failure type、证据窗口、可能原因、correction hint 和未来 retrieval 条件。</td>
+                  <td>Trace-to-Memory schema 已通过 FailureTaxonomy 和 MemoryStore add/retrieve/distill/save/load 测试；最小数据集已有 16 条 traces，覆盖 8/8 taxonomy。</td>
+                  <td>把失败归因写成下一轮 task schedule 和 recovery policy 的输入。</td>
+                </tr>
+                <tr>
+                  <td>训练信号闭环</td>
+                  <td>self-improvement 的验收不是“agent 解释得更好”，而是 test-time training 后的新 agent / workflow 在 accepted scene pool 上 pass rate、safety 和 regression 更好。</td>
+                  <td>demo CLI 已把 trace ingestion、sim-real gap、memory、workflow governance 和 task-pack export 串成一条命令；5/5 smoke checks 通过。</td>
+                  <td>本周 demo 输出 report、replay commands、accepted/rejected scenes、failure memory 和 next-task schedule。</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="metric-grid" style="margin-top: 14px;">
+            <article class="metric">
+              <span>Executable envs</span>
+              <strong>129</strong>
+            </article>
+            <article class="metric">
+              <span>Full runner</span>
+              <strong>38/38</strong>
+            </article>
+            <article class="metric">
+              <span>Failure traces</span>
+              <strong>16</strong>
+            </article>
+            <article class="metric">
+              <span>Demo smoke</span>
+              <strong>5/5</strong>
+            </article>
           </div>
           <div class="grid-3" style="margin-top: 14px;">
-            <article class="panel danger">
-              <h3>为什么不先真机</h3>
-              <p>真实机器人调试、采集、安全 gate 和失败复现成本都高。把 analyze、train、evaluate、schedule task 都压到真机上，会让第一阶段被工程复杂度拖住。</p>
+            <article class="panel decision">
+              <h3>1. 核心对象</h3>
+              <p>AgenticSim 里的基本单元不是论文里的 prose-only task，而是可以 reset、rollout、score、replay、version 的 task family，并且绑定一个会随 interaction 更新的 3D scene belief。</p>
             </article>
             <article class="panel decision">
-              <h3>为什么先仿真</h3>
-              <p>仿真可以并行生成 scene、固定 seed、快速评估、复现实验，并把失败归因转化为可持续变难的 benchmark 和 curriculum。</p>
+              <h3>2. 闭环信号</h3>
+              <p>每轮必须输出 pass/fail、failure label、solver pass rate、novelty check、accepted/rejected scene manifest、world-belief update 和 test-time training delta，并直接回写下一轮 scheduler。</p>
             </article>
             <article class="panel ok">
-              <h3>本周可讲的 demo</h3>
-              <p>先做小闭环：任务族 -> 场景变体 -> rollout -> verifier -> failure memory -> 下一轮 schedule。</p>
+              <h3>3. 本周 demo</h3>
+              <p>选一个 LeHome 或 RoboLab 任务族，生成一批 reference-conditioned 场景变体，跑 baseline rollout、verifier 和最小 TTT 修复，导出 failure summary、replay commands 和 next-task schedule。</p>
             </article>
           </div>
         </section>
@@ -725,7 +830,7 @@
               <p class="eyebrow">Reference reading</p>
               <h2>调研结论：关键不是生成数据，而是生成可执行环境</h2>
             </div>
-            <p>General Agent 和 EvoEnv 都支持这个 proposal 方向：把 self-improvement 从“多一点 synthetic data”改成“持续构造能训练模型的 verifier environment”。</p>
+            <p>General Agent、EvoEnv、FATE、RoboGen、Genesis World 1.0 和 RoboTwin 2.0 都把方向指向同一件事：agent 不只是消费环境，而是生成、验证、修复环境，并在交互中更新世界理解。</p>
           </div>
           <div class="grid-2">
             <article class="decision-card blue">
@@ -738,7 +843,36 @@
               <p>EvoEnv 强调每个 artifact 应是 executable object：能 sample instance、compute reference、score response，并经过 staged validation、semantic review、difficulty calibration 和 novelty checks。</p>
               <p>迁移到机器人：生成场景必须能重放、能评分、能产生可诊断失败；只视觉上合理不够。</p>
             </article>
+            <article class="decision-card decision">
+              <h3><a href="https://arxiv.org/abs/2603.01505">FATE</a>：feasibility-aware active repair</h3>
+              <p>FATE 把 task generation 改成闭环 validation-and-refinement：先检查 scene affordance / layout compatibility，再通过 simulated embodied interaction 验证 execution feasibility。</p>
+              <p>迁移到机器人：我们的 scene generator 要内置 active repair；不可执行场景不只是丢弃，也可以自动改 layout、物理参数或 policy specification。</p>
+            </article>
+            <article class="decision-card ok">
+              <h3><a href="https://robogen-ai.github.io/">RoboGen</a>：propose-generate-learn cycle</h3>
+              <p>RoboGen 用 foundation / generative models 自动提出任务、生成场景、生成训练监督，并选择 RL、motion planning 或 trajectory optimization 学习技能。</p>
+              <p>迁移到机器人：Stage 1 的 scene imagination 不能孤立存在，必须连到 Stage 2 的 supervision / TTT / skill-learning 输入。</p>
+            </article>
+            <article class="decision-card warning">
+              <h3><a href="https://arxiv.org/abs/2506.18088">RoboTwin 2.0</a>：simulation-in-the-loop code repair</h3>
+              <p>RoboTwin 2.0 的专家代码生成 pipeline 用 code agent 写 task execution code，再通过 repeated simulated execution、execution log、VLM observation 和 code repair 迭代到通过。</p>
+              <p>迁移到机器人：我们的 agent 也要分成 scene-generation agent 和 TTT agent；前者造环境，后者在执行日志和视觉观察里定位错误并修复策略。</p>
+            </article>
+            <article class="decision-card blue">
+              <h3><a href="https://github.com/Genesis-Embodied-AI/genesis-world">Genesis World 1.0</a>：candidate simulator base</h3>
+              <p>Genesis World 1.0 可以作为后续候选仿真底座：它把统一多物理引擎、Nyx photorealistic renderer 和 Quadrants cross-platform compiler 放在同一个 Pythonic simulation interface 里。</p>
+              <p>本周只作为参考方向记录，还没有接入 AgenticSim；后续适合评估 contact-rich dexterous manipulation、deformable objects、fast batch rollout 和低 sim-to-real gap 的可行性。</p>
+            </article>
+            <article class="decision-card decision">
+              <h3><a href="https://github.com/RoboTwin-Platform/RoboTwin">RoboTwin 2.0 base</a>：candidate dual-arm benchmark base</h3>
+              <p>RoboTwin 2.0 也可以作为后续候选环境 base：它面向 bimanual manipulation，强调 scalable data generation、expert-code synthesis、simulation-in-the-loop refinement 和 structured domain randomization。</p>
+              <p>本周同样只提为候选参考；当前已实施底座仍是 LeHome / RoboLab / IsaacLab，RoboTwin 2.0 待后续评估接口、任务 schema 和数据格式是否能并入 AgenticSim。</p>
+            </article>
           </div>
+          <figure class="reference-figure">
+            <img src="assets/robotwin2-expert-code-generation.png" alt="RoboTwin 2.0 expert code generation pipeline with code agent, VLM observer, execution log, code repair, and pass/fail simulation outcomes">
+            <figcaption>RoboTwin 2.0 参考图：Code Agent 生成任务执行代码，simulation-in-the-loop 反复执行，VLM Agent 从 observation 和 execution log 中定位错误，再回到 code repair。这里对应 AgenticSim 的 Stage 2 test-time training / workflow repair。</figcaption>
+          </figure>
           <div class="table-card" style="margin-top: 14px;">
             <table class="evidence-table">
               <thead>
@@ -769,6 +903,31 @@
                   <td>检查 scene 是否物理有效、是否重复、是否引入新 failure mode</td>
                   <td>防止 agent 只生成重复任务、坏任务或 verifier 漏洞。</td>
                 </tr>
+                <tr>
+                  <td>Feasibility-aware active repair</td>
+                  <td>先审 scene affordance / layout，再用 embodied rollout 检查是否真的能执行</td>
+                  <td>不可执行的 scene 进入 repair/mutate，而不是直接污染训练池。</td>
+                </tr>
+                <tr>
+                  <td>Propose / generate / supervise / learn</td>
+                  <td>agent 负责生成任务、场景和训练监督，并把可执行场景接到 policy / workflow 更新</td>
+                  <td>把 scene imagination 和 test-time training 合成一个闭环，而不是两个孤立模块。</td>
+                </tr>
+                <tr>
+                  <td>Execution log + VLM observation repair</td>
+                  <td>用仿真日志、图像观察和 failure taxonomy 定位错误，再修复 task code、prompt、controller 或 recovery policy</td>
+                  <td>把 RoboTwin 2.0 的 code repair loop 扩展成 AgenticSim 的 TTT / workflow repair loop。</td>
+                </tr>
+                <tr>
+                  <td>Ongoing 3D world understanding</td>
+                  <td>场景不是一次性生成的 mesh，而是带 uncertainty、contact evidence、failed action evidence 和 repair history 的 scene belief</td>
+                  <td>类似可微仿真的思想：interaction 会持续改变可优化的场景理解，并反馈到下一轮生成和训练。</td>
+                </tr>
+                <tr>
+                  <td>Candidate simulator base</td>
+                  <td>Genesis World 1.0 / Quadrants / Nyx 可作为未来 fast + photorealistic + multi-physics base；RoboTwin 2.0 可作为 dual-arm manipulation data generator / benchmark base</td>
+                  <td>先记录为参考，不算已实施；后续只在接口、任务 schema、asset pipeline 和 rollout verifier 可对齐时接入。</td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -780,13 +939,13 @@
               <p class="eyebrow">Detailed visual</p>
               <h2>系统图：AgenticSim simulation-first self-improvement loop</h2>
             </div>
-            <p>图里的主循环都在仿真里；真实机器人和 Robot4Robot 只作为后续 promotion layer。</p>
+            <p>图里只画本周要落地的核心闭环；重点从普通 train loop 调整为“Imagine scene → TTT / repair → update world belief”。</p>
           </div>
           <div class="diagram-card">
             <h3>闭环架构图</h3>
             <svg class="diagram" viewBox="0 0 1120 640" role="img" aria-labelledby="loop-title loop-desc">
               <title id="loop-title">Simulation-first self-improving agents loop</title>
-              <desc id="loop-desc">Scheduler, scene generator, training, evaluation, failure analysis, memory and governance loop in AgenticSim, with real robot and Robot4Robot deferred to a later promotion layer.</desc>
+              <desc id="loop-desc">Scheduler, reference-conditioned scene imagination, test-time training, evaluation, failure analysis, evolving 3D world belief, governance, and report export loop in AgenticSim.</desc>
               <defs>
                 <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
                   <path d="M 0 0 L 10 5 L 0 10 z" fill="#2e5f91"></path>
@@ -805,14 +964,14 @@
               <text x="145" y="202" text-anchor="middle" fill="#5f6f7b" font-size="13">difficulty, seed</text>
 
               <rect x="270" y="130" width="150" height="96" fill="#ddf3ef" stroke="#95cbc2"></rect>
-              <text x="345" y="160" text-anchor="middle" fill="#17222d" font-size="19" font-weight="800">Generate scene</text>
-              <text x="345" y="184" text-anchor="middle" fill="#5f6f7b" font-size="13">object layout</text>
-              <text x="345" y="202" text-anchor="middle" fill="#5f6f7b" font-size="13">physics, distractors</text>
+              <text x="345" y="160" text-anchor="middle" fill="#17222d" font-size="19" font-weight="800">Imagine scene</text>
+              <text x="345" y="184" text-anchor="middle" fill="#5f6f7b" font-size="13">reference-conditioned</text>
+              <text x="345" y="202" text-anchor="middle" fill="#5f6f7b" font-size="13">layout, physics, uncertainty</text>
 
               <rect x="470" y="130" width="150" height="96" fill="#fff3dc" stroke="#e2bd7c"></rect>
-              <text x="545" y="160" text-anchor="middle" fill="#17222d" font-size="19" font-weight="800">Train</text>
+              <text x="545" y="160" text-anchor="middle" fill="#17222d" font-size="19" font-weight="800">TTT / repair</text>
               <text x="545" y="184" text-anchor="middle" fill="#5f6f7b" font-size="13">policy / workflow</text>
-              <text x="545" y="202" text-anchor="middle" fill="#5f6f7b" font-size="13">SFT, RL, prompt</text>
+              <text x="545" y="202" text-anchor="middle" fill="#5f6f7b" font-size="13">adapter, prompt, code</text>
 
               <rect x="670" y="130" width="150" height="96" fill="#e7f5ed" stroke="#9fceaf"></rect>
               <text x="745" y="160" text-anchor="middle" fill="#17222d" font-size="19" font-weight="800">Evaluate</text>
@@ -822,7 +981,7 @@
               <rect x="870" y="130" width="150" height="96" fill="#fde9ee" stroke="#e9a6b5"></rect>
               <text x="945" y="160" text-anchor="middle" fill="#17222d" font-size="19" font-weight="800">Analyze</text>
               <text x="945" y="184" text-anchor="middle" fill="#5f6f7b" font-size="13">failure attribution</text>
-              <text x="945" y="202" text-anchor="middle" fill="#5f6f7b" font-size="13">trace to memory</text>
+              <text x="945" y="202" text-anchor="middle" fill="#5f6f7b" font-size="13">update 3D belief</text>
 
               <path d="M 220 178 L 262 178" stroke="#2e5f91" stroke-width="3" fill="none" marker-end="url(#arrow)"></path>
               <path d="M 420 178 L 462 178" stroke="#2e5f91" stroke-width="3" fill="none" marker-end="url(#arrow)"></path>
@@ -830,16 +989,16 @@
               <path d="M 820 178 L 862 178" stroke="#2e5f91" stroke-width="3" fill="none" marker-end="url(#arrow)"></path>
 
               <rect x="270" y="296" width="580" height="74" fill="#ffffff" stroke="#d8e1e8"></rect>
-              <text x="560" y="324" text-anchor="middle" fill="#17222d" font-size="18" font-weight="800">Memory + Curriculum Store</text>
-              <text x="560" y="348" text-anchor="middle" fill="#5f6f7b" font-size="13">typed failure modes, accepted scenes, rejected scenes, solver pass rates, verifier results</text>
+              <text x="560" y="324" text-anchor="middle" fill="#17222d" font-size="18" font-weight="800">World Belief + Curriculum Store</text>
+              <text x="560" y="348" text-anchor="middle" fill="#5f6f7b" font-size="13">typed failures, scene uncertainty, accepted scenes, solver pass rates, verifier results</text>
 
               <path d="M 945 226 C 945 312, 862 333, 850 333" stroke="#0f766e" stroke-width="3" fill="none" marker-end="url(#arrow-teal)"></path>
               <path d="M 270 333 C 170 333, 145 270, 145 234" stroke="#0f766e" stroke-width="3" fill="none" marker-end="url(#arrow-teal)"></path>
 
               <rect x="70" y="468" width="260" height="112" fill="#eef2f5" stroke="#d8e1e8"></rect>
               <text x="200" y="498" text-anchor="middle" fill="#5f6f7b" font-size="14" font-weight="800">CURRENT FOUNDATION</text>
-              <text x="200" y="526" text-anchor="middle" fill="#17222d" font-size="18" font-weight="800">AgenticSim 129 envs</text>
-              <text x="200" y="552" text-anchor="middle" fill="#5f6f7b" font-size="13">LeHome + RoboLab task pool</text>
+              <text x="200" y="526" text-anchor="middle" fill="#17222d" font-size="18" font-weight="800">LeHome + RoboLab</text>
+              <text x="200" y="552" text-anchor="middle" fill="#5f6f7b" font-size="13">AgenticSim 129 Gym envs</text>
 
               <rect x="430" y="468" width="260" height="112" fill="#eef2f5" stroke="#d8e1e8"></rect>
               <text x="560" y="498" text-anchor="middle" fill="#5f6f7b" font-size="14" font-weight="800">GOVERNANCE GATE</text>
@@ -847,9 +1006,9 @@
               <text x="560" y="552" text-anchor="middle" fill="#5f6f7b" font-size="13">executability, novelty, difficulty, safety</text>
 
               <rect x="790" y="468" width="260" height="112" fill="#fff3dc" stroke="#e2bd7c"></rect>
-              <text x="920" y="498" text-anchor="middle" fill="#965f07" font-size="14" font-weight="800">LATER PROMOTION LAYER</text>
-              <text x="920" y="526" text-anchor="middle" fill="#17222d" font-size="18" font-weight="800">Real robot / Robot4Robot</text>
-              <text x="920" y="552" text-anchor="middle" fill="#5f6f7b" font-size="13">only after simulation gates pass</text>
+              <text x="920" y="498" text-anchor="middle" fill="#965f07" font-size="14" font-weight="800">REPORT + HANDOFF</text>
+              <text x="920" y="526" text-anchor="middle" fill="#17222d" font-size="18" font-weight="800">Accepted task pack</text>
+              <text x="920" y="552" text-anchor="middle" fill="#5f6f7b" font-size="13">metrics, replay commands, TTT deltas</text>
 
               <path d="M 200 468 L 200 426" stroke="#5f6f7b" stroke-width="2" fill="none" marker-end="url(#arrow)"></path>
               <path d="M 560 370 L 560 460" stroke="#5f6f7b" stroke-width="2" fill="none" marker-end="url(#arrow)"></path>
@@ -858,8 +1017,71 @@
             <div class="legend">
               <span><i style="color:#2e5f91;"></i> agent actions</span>
               <span><i style="color:#0f766e;"></i> learning feedback</span>
-              <span><i style="color:#965f07;"></i> later real-world promotion</span>
+              <span><i style="color:#965f07;"></i> accepted artifacts</span>
             </div>
+          </div>
+          <div class="table-card" style="margin-top: 14px;">
+            <table class="evidence-table">
+              <thead>
+                <tr>
+                  <th>Architecture module</th>
+                  <th>参考实现 / 已完成基线</th>
+                  <th>在 proposal 里的作用</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Current foundation</td>
+                  <td>已实施底座是 LeHome / LeHome-challenge 的 9 个 household / garment 环境，加 RoboLab 的 120 个 formal benchmark tasks，统一注册成 AgenticSim 129 个 Gymnasium environments。</td>
+                  <td>提供第一批可 reset、rollout、score、version 的任务池；proposal 不从空 simulator 开始。Genesis World 1.0 和 RoboTwin 2.0 只作为候选环境 base，尚未接入。</td>
+                </tr>
+                <tr>
+                  <td>Candidate simulator bases</td>
+                  <td>Genesis World 1.0：统一 multi-physics、Nyx path-traced renderer、Quadrants compiler、rigid/deformable/contact-rich manipulation；RoboTwin 2.0：bimanual manipulation benchmark、expert data generator、domain randomization、simulation-in-the-loop code refinement。</td>
+                  <td>作为后续扩展方向：如果 AgenticSim 需要更快 batch rollout、更强 deformable/contact-rich physics 或 dual-arm manipulation benchmark，可以评估 Genesis / RoboTwin 2.0 adapter；本周不写成已完成实现。</td>
+                </tr>
+                <tr>
+                  <td>Schedule</td>
+                  <td>General Agent / EvoEnv 的 pass-rate difficulty tier 思路，加 FATE 的 feasibility-aware repair gate、AgenticSim task family、seed、failure taxonomy 和 accepted/rejected scene manifest。</td>
+                  <td>从固定 benchmark 变成 curriculum：按任务族、难度、failure mode、scene uncertainty 和 evaluator budget 选择下一轮任务。</td>
+                </tr>
+                <tr>
+                  <td>Imagine scene</td>
+                  <td>RoboGen 的 task proposal / scene generation / supervision generation 思路；FATE 的 static scene audit + embodied feasibility check；PhysX-Anything 生成 simulation-ready physical assets；WorldComposer 做 scene / Real2Sim asset generation；SceneMutator 做 task / asset mutation。</td>
+                  <td>把 reference、真实失败或真实轨迹落成可执行仿真场景，并显式保存 3D world belief、uncertainty 和 repair history，而不是只生成视觉数据或 prompt。</td>
+                </tr>
+                <tr>
+                  <td>TTT / repair</td>
+                  <td>RoboTwin 2.0 的 code agent + VLM observation + execution log + code repair loop；R2S2RPipeline、WorkflowOrchestrator 和 PEARLLoop 作为最小闭环；后续接 SFT / RL / prompt / recovery policy tuning。</td>
+                  <td>把 accepted scenes、failure memory 和执行观察变成 test-time training 输入：修复 task code、prompt、controller、recovery policy 或轻量 adapter。</td>
+                </tr>
+                <tr>
+                  <td>Evaluate</td>
+                  <td>LeHome / RoboLab rollout verifier、Isaac smoke gate、solver pass-rate calibration、RoboTwin-style repeated execution，以及 `scripts/check_isaac_env.py` 的 reset/step gate。</td>
+                  <td>判断一个场景是否可执行、一个 agent 是否真的通过任务、TTT 是否带来提升、以及难度是否处在有训练价值的区间。</td>
+                </tr>
+                <tr>
+                  <td>Analyze</td>
+                  <td>TraceLoader JSON/HDF5、SimRealGapDetector、RolloutDiagnoser、FailureTaxonomy。</td>
+                  <td>把 rollout 失败从 raw log 变成 typed failure attribution：grasp、slip、collision、contact、timing、planning 或 perception mismatch，并同步更新 scene belief 中的接触、遮挡、物理参数和目标关系。</td>
+                </tr>
+                <tr>
+                  <td>World Belief + Curriculum Store</td>
+                  <td>MemoryStore add/retrieve/distill/save/load；16 条 failure trace dataset；8/8 failure taxonomy coverage。</td>
+                  <td>保存失败证据、correction hint、accepted/rejected scenes、solver pass rate、verifier result、scene uncertainty 和 TTT delta，并驱动下一轮 schedule。</td>
+                </tr>
+                <tr>
+                  <td>Governance gate</td>
+                  <td>GovernanceGate、Eval-Gated Workflow、Isaac dependency / smoke gate、novelty / difficulty / safety checks。</td>
+                  <td>只让可执行、非重复、难度合适、没有明显 safety/schema 问题的任务进入训练池或报告包。</td>
+                </tr>
+                <tr>
+                  <td>Report + handoff</td>
+                  <td>demo CLI：`python scripts/demo_self_improving.py --output-dir /tmp/demo`；输出 `r4r_output.json`、`memory_store.json`、`summary.txt`，5/5 smoke checks pass。</td>
+                  <td>把每轮结果导出成可复现 artifact：metrics、replay commands、failure memory、world-belief diff、TTT delta、accepted task pack 和 next-task schedule。</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
           <div class="visual-flow" aria-label="Simulation loop steps">
             <article class="flow-step">
@@ -869,13 +1091,13 @@
             </article>
             <article class="flow-step">
               <span>2</span>
-              <strong>Generate scene</strong>
-              <p>生成 object layout、材质、遮挡、扰动和物理参数，保留 manifest。</p>
+              <strong>Imagine scene</strong>
+              <p>根据 reference 生成 object layout、材质、遮挡、扰动、物理参数和 scene uncertainty。</p>
             </article>
             <article class="flow-step">
               <span>3</span>
-              <strong>Train</strong>
-              <p>训练策略、微调 workflow、更新 prompt/tool 调用或 recovery policy。</p>
+              <strong>TTT / repair</strong>
+              <p>在场景里微调 workflow、更新 prompt/tool 调用、修复代码或 recovery policy。</p>
             </article>
             <article class="flow-step">
               <span>4</span>
@@ -889,8 +1111,8 @@
             </article>
             <article class="flow-step">
               <span>6</span>
-              <strong>Update memory</strong>
-              <p>写入 failure memory、task curriculum、accepted/rejected scenes，触发下一轮。</p>
+              <strong>Update world belief</strong>
+              <p>写入 failure memory、scene belief、TTT delta、accepted/rejected scenes，触发下一轮。</p>
             </article>
           </div>
         </section>
@@ -899,9 +1121,9 @@
           <div class="section-title">
             <div>
               <p class="eyebrow">Progress and roadmap</p>
-              <h2>进展说明：已有环境底座，下一步补自动闭环</h2>
+              <h2>进展说明：已有底座和 demo，下一步做两阶段自动闭环</h2>
             </div>
-            <p>周报里要强调这不是从零开始，而是从已注册环境和 failure trace 基础上，把方向切成仿真优先。</p>
+              <p>这不是从零开始：已有环境注册、pipeline tests、failure trace dataset、demo CLI 和 smoke gate，下一步补 reference-conditioned scene imagination、TTT / repair loop、evolving 3D scene belief 和 report export。</p>
           </div>
           <div class="metric-grid">
             <article class="metric">
@@ -909,64 +1131,64 @@
               <strong>129</strong>
             </article>
             <article class="metric">
-              <span>LeHome / challenge</span>
-              <strong>9</strong>
+              <span>Pipeline tests</span>
+              <strong>38/38</strong>
             </article>
             <article class="metric">
-              <span>RoboLab tasks</span>
-              <strong>120</strong>
+              <span>Trace dataset</span>
+              <strong>16</strong>
             </article>
             <article class="metric">
-              <span>Current pivot</span>
-              <strong>Sim-first</strong>
+              <span>Isaac gate</span>
+              <strong>11 checks</strong>
             </article>
           </div>
           <div class="phase-grid" style="margin-top: 14px;">
             <article class="phase">
               <span>Phase 0</span>
-              <strong>整理环境底座</strong>
-              <p>固化 129 个环境，统一 task schema、seed、asset version、verifier 和 rollout command。</p>
+              <strong>已完成底座</strong>
+              <p>129 个环境、38/38 pipeline tests、16 条 failure traces、demo CLI 和 Isaac smoke gate 已经能支撑 proposal。</p>
             </article>
             <article class="phase">
               <span>Phase 1</span>
-              <strong>Scene generation</strong>
-              <p>从任务族和 failure type 生成场景变体，先覆盖 tabletop / household manipulation。</p>
+              <strong>Imagine scenes</strong>
+              <p>从 reference、任务族和 failure type 生成场景变体，先覆盖 tabletop / household manipulation，并记录 scene uncertainty。</p>
             </article>
             <article class="phase">
               <span>Phase 2</span>
-              <strong>Evaluate + analyze</strong>
-              <p>跑 rollout 后自动归因失败，记录 trace memory，用 verifier 决定 accept、reject 或 mutate。</p>
+              <strong>Test-time training</strong>
+              <p>在生成场景里执行、观察、修复 workflow / prompt / code / recovery policy，并记录 TTT delta。</p>
             </article>
             <article class="phase">
               <span>Phase 3</span>
-              <strong>Training signal</strong>
-              <p>用 accepted scene 和 failure memory 做 SFT/RL 或 workflow tuning，比较新旧 agent。</p>
+              <strong>Evaluate + world update</strong>
+              <p>跑 rollout 后自动归因失败，更新 3D scene belief 和 trace memory，用 verifier 决定 accept、reject 或 mutate。</p>
             </article>
             <article class="phase">
               <span>Phase 4</span>
-              <strong>Real promotion</strong>
-              <p>只把通过仿真 gate 的少量任务交给真实机器人验证。Robot4Robot 在这里出现。</p>
+              <strong>Report export</strong>
+              <p>导出 accepted scene pool、失败记忆、pass-rate chart、replay command 和下一轮 task schedule。</p>
             </article>
           </div>
           <div class="grid-3" style="margin-top: 14px;">
             <article class="panel decision">
               <h3>本周决定 1</h3>
-              <p>把 MVP 明确定义成 simulation-first self-improvement loop。</p>
+              <p>把 MVP 明确定义成 simulation-first 两阶段 loop：reference-conditioned scene imagination + in-scene test-time training。</p>
             </article>
             <article class="panel warning">
               <h3>本周决定 2</h3>
-              <p>优先做 scene / perturbation generator，因为它决定能否从静态 benchmark 变成 self-evolving environment pool。</p>
+              <p>优先做 scene / perturbation generator 和 TTT repair harness，因为它们决定能否从静态 benchmark 变成 self-evolving environment pool。</p>
             </article>
             <article class="panel ok">
               <h3>本周口径</h3>
-              <p>先在仿真里做得可验证，再把少量通过 gate 的改进推到真机。</p>
+              <p>这周重点是把闭环 artifact 定义清楚：reference、scene belief、interaction log、TTT delta、verifier result 和 next-task schedule。</p>
             </article>
           </div>
         </section>
       </main>
 
       <footer class="footer-note">
-        Unified weekly brief page. Venue intro is preserved; UMI compute/storage TODOs are reflected; the Self-Improving Agents project intro is compressed because the proposal, references, visual architecture, and roadmap now carry the detail.
+        Unified weekly brief page for current venue, UMI, and self-improving agents updates.
       </footer>
     </div>
   </body>

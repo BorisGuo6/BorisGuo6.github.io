@@ -5,13 +5,13 @@
   "subtitle": "World models, self-improving simulators, teleop acceleration, and robotics + 3D printing",
   "week": "2026-W21",
   "date": "2026-05-22",
-  "updated_at": "2026-05-25T01:58:00+08:00",
+  "updated_at": "2026-05-29T01:09:21+08:00",
   "state_root": "dashboard/state",
   "summary": {
     "focus": "Frame the whole portfolio as one loop: real-robot infra collects and validates data; UMI / layered / HOI projects structure it; simulator and PoD projects turn it into robot tasks, evaluation, and physical outputs.",
-    "progress": "ARX infra is ready; Gello-controlled dual Franka + Wuji Hand is complete as a one-DoF gripper path; disposable nitrile gloves / finger cots are ready for waterproof demos; Alchedata collaboration discussion is scheduled for 2026-05-26 17:00; UMI base-model choice is settled on small-scale WAN fine-tuning; drag-demo tooling is waiting on onsite collection with richer control-loop logging.",
-    "blockers": "MANUS + VIVE / wrist tracking hardware completion; safe dexterous-hand knife demo design; FACTR / force-feedback procurement through Jingte; UMI storage + data download for WAN fine-tuning; drag-demo collection must log position-loop, velocity-loop, and current-loop signals; inpainting fallback needs FLUX.1-Fill-dev validation.",
-    "next": "Prepare the Alchedata Tuesday 17:00 discussion around the already-finished proposal, plan the Franka + Wuji knife-cutting demo with strict safety gates, route FACTR procurement through Jingte, install the 10T HDD from ME onto the server and download UMI data for WAN fine-tuning, try Genie Envisioner, update drag-demo collection logging, and test FLUX.1-Fill-dev inpainting."
+    "progress": "ARX infra is ready; Gello-controlled dual Franka + Wuji Hand is complete as a one-DoF gripper path; disposable nitrile gloves / finger cots are ready for waterproof demos; UMI base-model choice is settled on small-scale WAN fine-tuning; drag-demo fine-tuning is now running on a replay-cleaned 90-episode dataset with four ablations.",
+    "blockers": "MANUS + VIVE / wrist tracking hardware completion; safe dexterous-hand knife demo design; FACTR / force-feedback procurement through Jingte; UMI storage + data download for WAN fine-tuning; drag-demo results are pending for the four raw/gray-hand and split/all-data ablations; inpainting fallback needs FLUX.1-Fill-dev validation.",
+    "next": "Confirm UMI compute/storage for WAN fine-tuning, plan the Franka + Wuji knife-cutting demo with strict safety gates, route FACTR procurement through Jingte, install the 10T HDD from ME as group NAS, wait for the four drag-demo ablation results, and then test a raw-data plus clean-replay mixture if useful."
   },
   "storyline": {
     "summary": "How real-robot infra, human demonstrations, video world models, simulators, and physical outputs form one loop.",

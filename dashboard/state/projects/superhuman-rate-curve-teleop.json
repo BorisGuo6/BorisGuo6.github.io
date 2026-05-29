@@ -4,7 +4,7 @@
   "title": "Superhuman Robot Execution",
   "bucket": "survey",
   "status": "survey",
-  "updated_at": "2026-05-16T18:34:00+08:00",
+  "updated_at": "2026-05-29T01:15:38+08:00",
   "description": "Extract accelerable execution strategies from slow teleoperation",
   "summary": "This project asks whether slow human teleoperation can provide the task path, then DAgger + SFT first improves stability and safety, SFT action-frequency ablations measure speed / continuity tradeoffs, and RL further optimizes speed and smoothness.",
   "asset": null,
@@ -50,6 +50,10 @@
     "Force / tactile can provide the safer reward, but real-robot deployment still needs guardrails for force spikes, collision, and hardware stress.",
     "SFT action sampling frequency may change apparent speed and continuity even before RL, so it needs a separate ablation.",
     "Evaluation should report SFT stability/safety first, SFT action-frequency effects second, then RL improvement in speed, acceleration profile, jerk, success rate, and force / tactile overshoot.",
-    "The most important research question is which operation types can be accelerated without losing physical reliability."
+    "The most important research question is which operation types can be accelerated without losing physical reliability.",
+    "2026-05-29 routing update: shaol@100.96.228.8 (RTX 4090 24GB, ~35G free disk) is assigned to task_rate_curve_rl; avoid heavyweight simulator/model downloads until disk is cleaned."
+  ],
+  "milestones": [
+    "2026-05-29: shaol ran a lightweight executable DAgger/SFT/RL synthetic pilot harness with safe=true rl_policy, 1.78x speedup, and zero critical/violation guardrail counts; still needs real-data/hardware validation before done."
   ]
 }

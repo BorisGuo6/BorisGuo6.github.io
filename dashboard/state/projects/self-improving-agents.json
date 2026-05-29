@@ -4,46 +4,26 @@
   "title": "Self-Improving Agents for Physical AI",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-05-27T23:00:40+08:00",
-  "description": "Simulation-first AgenticSim proposal for self-improving Physical AI",
-  "summary": "Build AgenticSim as a simulation-first self-improvement loop: generate scenes, schedule tasks, train or tune agents, evaluate with executable verifiers, analyze failures into memory, then update the curriculum. Real robots and Robot4Robot become a later promotion layer after simulation gates and trace replay are reliable.",
+  "updated_at": "2026-05-29T00:55:00+08:00",
+  "description": "Simulation-first AgenticSim proposal: scene imagination plus test-time training",
+  "summary": "Simulation-first AgenticSim: imagine executable scenes from references, run test-time training / workflow repair inside those scenes, evaluate/analyze rollouts, and turn evolving 3D world belief plus failures into the next curriculum.",
   "asset": "dashboard/assets/pearl-overview.png",
   "asset_alt": "PEARL self-improving physical AI framework",
   "asset_caption": "Proposal frame: real execution failure -> trace memory -> eval gate -> world-model screening -> promoted agent / workflow / strategy -> harder diagnostic VLA eval.",
   "details": [
-    "Current proposal framing, Wednesday 2026-05-27: start with a simulation-first AgenticSim loop because analyze, train, evaluate, task scheduling, and scene generation are much easier and safer to iterate in simulation than on real robots.",
-    "Problem: current VLA / robot evaluations often stop at sim scores, raw logs, or demo videos. They do not reliably answer why a policy failed, whether the failure teaches a reusable skill memory, whether an agent workflow should change, or whether generated tasks remain executable and diagnostic.",
-    "Core thesis: self-improving Physical AI needs a verifiable simulation loop first: agents generate scenes and task variants, schedule difficulty, train or tune policies/workflows, evaluate with executable verifiers, analyze failures into memory, and update the curriculum. Real robots should receive only a small set of gate-passing candidates later.",
-    "System sketch: Task scheduler -> scene / perturbation generator -> policy or workflow training -> simulator rollout + executable verifier -> typed failure attribution -> memory and curriculum update -> governance gate -> optional later Robot4Robot / real-robot promotion.",
-    "Work package 1, Agentic Real2Sim2Real-VLA Evaluation: build an evaluation orchestrator around VLA policies, simulator tasks, real-robot traces, action logs, asset versions, seeds, and outcome metrics. Evaluation should test executability, world-model grounding, real-execution reliability, failure recoverability, and whether sim failures predict real failures.",
-    "Work package 2, Robotics Trace-to-Memory Distillation: convert raw robot execution traces into reusable skill memories. Initial failure taxonomy includes unstable grasp angle, object slip, excessive insertion force, motion-plan collision, contact-phase mismatch, and recovery failure. Output should be structured memory, not prose-only summaries.",
-    "Work package 3, Eval-Gated Workflow Evolution: let agents propose workflow, prompt, tool, controller, or task-generation changes, but promote them only through reproducible tests. A change is accepted when it improves target metrics without breaking safety, schema, replay, or simulator smoke gates.",
-    "Work package 4, World-Model-Guided Self-Improvement: use world models and generated object / scene physics assets to screen candidate improvements before risky robot trials. This is the imagination layer: useful for task mutation, counterfactual failures, object physics variation, and long-horizon rollouts.",
-    "Work package 5, Self-Evolving VLA Evaluation: avoid overfitting static benchmarks by generating harder diagnostic tasks from observed failures. The benchmark should evolve from failure memory and task-environment co-evolution, while preserving versioning and auditability.",
     {
-      "text": "General Agent reference: borrow the synthesizer-solver loop, typed task anatomy, gold-solution replay check, and pass-rate-calibrated difficulty tiers. For AgenticSim, the robotics analogue should be a task family object with robot state/schema, callable tools/controllers, instruction, reference rollout or recovery policy, and an executable verifier, not a prose-only benchmark entry.",
+      "text": "Full proposal lives in the weekly brief proposal section.",
       "links": [
         {
-          "label": "General Agent",
-          "url": "https://www.primeintellect.ai/blog/general-agent"
+          "label": "weekly brief proposal",
+          "url": "/weekly-briefs/#self-improving"
         }
       ]
     },
-    {
-      "text": "EvoEnv reference: treat each accepted robotics task/environment as a reusable executable reward source with sampler, renderer, oracle/reference path, scorer, and admission gates. The key design phrase for the proposal is stable solve-verify asymmetry: humans/agents can compile or verify a robotics environment once, while policies still struggle on fresh sampled instances.",
-      "links": [
-        {
-          "label": "EvoEnv",
-          "url": "https://arxiv.org/abs/2605.14392"
-        }
-      ]
-    },
-    "Existing foundation already built: AgenticSim currently registers 129 Gymnasium environments: 9 official LeHome / LeHome-challenge household environments and the exact 120 formal RoboLab benchmark tasks. The task stack includes ChallengeGarmentLoader with four garment types and specialized folding detectors, and the current test suite passes 28/28.",
-    "MVP proposal: consolidate AgenticSim into one clean repository; keep a small failure-trace dataset; add a scene / perturbation generator, task scheduler, executable verifier gates, semantic task review, novelty checks, and solver-relative difficulty calibration; ship a demo CLI that runs task generation, rollout, failure attribution, trace memory, eval gate, and report export end-to-end on a small task subset.",
-    "Robot-for-Robot output contract remains useful as a later promotion contract, but it should not define the MVP. For now every simulation run should produce task spec, environment version, sampler seed, asset version, action logs, sim outcome, failure attribution, trace memory, verifier/scorer result, governance decision, artifact paths, and replay/verifier commands.",
-    "Conceptual references: PEARL supplies the self-improvement loop of typed failure memory, attribution, task-environment co-evolution, and runtime governance. General Agent supplies the synthetic task-corpus and difficulty-gating recipe. EvoEnv supplies the reusable executable-environment framing and stable solve-verify asymmetry. RoboClaw is a lifecycle reference for VLM-driven collection, learning, deployment, monitoring, failure recovery, and human escalation. DreamDojo is a Real2Sim2Real world-model reference for learning from egocentric video and target robot data.",
-    "Concrete discussion ask: align on the first simulation task family, the verifier contract, the scene-generation scope, the scheduler metric, and whether the first deliverable should be an AgenticSim demo repo, a proposal document, or a benchmark/report package.",
-    "Success criteria for the proposal: a reviewer should be able to run the demo, inspect every artifact, reproduce the gate decision, understand why a failure was attributed, and see how that failure creates a harder simulator task or a safer workflow improvement."
+    "Current foundation: 129 registered AgenticSim environments, 38/38 full-runner tests, 16 failure traces, demo CLI, and Isaac smoke gate.",
+    "Two-stage direction: Stage 1 imagine reference-conditioned executable 3D scenes; Stage 2 run test-time training / workflow repair in the scene, using interaction logs and observations to update a continuing 3D world belief.",
+    "Architecture implementation map: implemented simulation environment = LeHome / LeHome-challenge plus RoboLab; candidate simulator bases to evaluate later = Genesis World 1.0 for fast multi-physics / photorealistic / contact-rich rollout and RoboTwin 2.0 for dual-arm benchmark / data-generation tasks; Real2Sim2Real scene imagination = RoboGen/FATE-style scene generation and repair, plus PhysX-Anything, WorldComposer, and SceneMutator; analysis/memory = TraceLoader, SimRealGapDetector, RolloutDiagnoser, FailureTaxonomy, and MemoryStore; governance/reporting = GovernanceGate, Isaac smoke gate, demo CLI, and accepted task-pack export.",
+    "Next decision: pick the first task family for the mini-loop demo and generate accepted/rejected scenes with replayable verifier output, world-belief diff, and TTT delta."
   ],
   "task_ids": [
     "task_self_improving_prepare_proposal",
@@ -55,7 +35,11 @@
     "task_self_improving_roboclaw_workflow",
     "task_self_improving_assets",
     "task_self_improving_vlm_loop",
-    "task_self_improving_r4r_format"
+    "task_self_improving_r4r_format",
+    "task_self_improving_demo_cli_pack",
+    "task_self_improving_failure_trace_dataset",
+    "task_self_improving_isaac_smoke_gate",
+    "task_self_improving_test_genesis_world"
   ],
   "references": [
     {
@@ -70,20 +54,59 @@
       "arxiv_id": "2605.14392",
       "submitted_at": "2026-05-14",
       "notes": "Reference for reusable executable environments, stable solve-verify asymmetry, staged validation, semantic review, solver-relative difficulty calibration, novelty gating, and active environment-pool rotation."
+    },
+    {
+      "title": "FATE: Closed-Loop Feasibility-Aware Task Generation with Active Repair for Physically Grounded Robotic Curricula",
+      "url": "https://arxiv.org/abs/2603.01505",
+      "arxiv_id": "2603.01505",
+      "submitted_at": "2026-03-02",
+      "notes": "Reference for closed-loop validation-and-refinement, static scene affordance/layout auditing, simulated embodied feasibility checks, and active repair of infeasible tasks."
+    },
+    {
+      "title": "RoboGen: Towards Unleashing Infinite Data for Automated Robot Learning via Generative Simulation",
+      "url": "https://robogen-ai.github.io/",
+      "arxiv_id": "2311.01455",
+      "submitted_at": "2023-11-02",
+      "notes": "Reference for a propose-generate-supervise-learn cycle: task proposal, scene generation, training supervision generation, and skill learning through generative simulation."
+    },
+    {
+      "title": "RoboTwin 2.0: Expert Code Generation Pipeline",
+      "url": "https://arxiv.org/abs/2506.18088",
+      "arxiv_id": "2506.18088",
+      "submitted_at": "2025-06-22",
+      "notes": "Reference for code-agent task generation, repeated simulated execution, execution-log/VLM observation, error localization, and simulation-in-the-loop code repair."
+    },
+    {
+      "title": "Genesis World 1.0",
+      "url": "https://github.com/Genesis-Embodied-AI/genesis-world",
+      "submitted_at": "2026-05-28",
+      "notes": "Candidate simulator base to evaluate later. Reference for unified multi-physics, photo-realistic Nyx rendering, Quadrants compiler, fast rollout, rigid/deformable/contact-rich manipulation, and possible lower sim-to-real gap."
+    },
+    {
+      "title": "Quadrants",
+      "url": "https://github.com/Genesis-Embodied-AI/quadrants",
+      "submitted_at": "2026-05-28",
+      "notes": "Reference compiler layer for large-scale physics simulation and robotics workloads across CUDA, Vulkan, Apple Metal, ROCm, x86, and ARM64."
+    },
+    {
+      "title": "Nyx renderer for Genesis",
+      "url": "https://github.com/Genesis-Embodied-AI/genesis-nyx",
+      "submitted_at": "2026-05-28",
+      "notes": "Reference rendering layer for GPU-accelerated path tracing as a Genesis camera sensor, including PBR materials, HDRI/analytic lighting, 3D Gaussian splat assets, multi-camera and multi-environment rendering."
+    },
+    {
+      "title": "RoboTwin 2.0 official repository",
+      "url": "https://github.com/RoboTwin-Platform/RoboTwin",
+      "submitted_at": "2025-06-22",
+      "notes": "Candidate dual-arm manipulation benchmark/data-generator base to evaluate later; not yet implemented in AgenticSim."
     }
   ],
   "risks_decisions": [
-    "Scope decision: start with simulation-first scene generation, task scheduling, training, evaluation, and failure analysis; Robot4Robot / real-robot validation is a later promotion layer after schema, replay, and safety gates are working.",
-    "Positioning decision: Alchedata is the active collaboration context; Periodic Labs is an external market signal for autonomous closed-loop labs, not a project partner.",
-    "Benchmark decision: emphasize the completed 129-environment foundation: 9 official LeHome / LeHome-challenge tasks plus 120 exact RoboLab formal benchmark tasks, not invented representative tasks.",
-    "Governance decision: runtime governance should be part of the learning signal, not only a safety wrapper. Agents should learn which proposed changes are rejected and why.",
-    "Schema risk: LeHome, LeHome Challenge, RoboLab, generated assets, and real-robot traces may expose incompatible task and observation schemas; the R4R contract must normalize them early into a reusable environment object with sampler, renderer, oracle/reference path, scorer, and artifact manifest.",
-    "Executability risk: generated tasks/assets must be physically valid, not only visually plausible. Isaac / simulator smoke gates, verifier replay, semantic task review, and malformed-answer / perturbation probes are mandatory before a task enters evaluation.",
-    "Evaluation risk: if we only optimize simulator score, agents may overfit old tests. The system must check sim-to-real predictive validity, solver-relative difficulty, and novelty/diversity before admitting new environments or promoting workflow changes.",
-    "Reference-driven decision: General Agent supports a synthesizer-solver robotics curriculum with pass-rate-calibrated task tiers; use this as the concrete mechanism for growing AgenticSim beyond static LeHome/RoboLab registration.",
-    "Reference-driven decision: EvoEnv supports a compile-once, solve-many environment pool; use frozen executable verifiers as reward sources and retire or mutate environments when policies saturate them.",
-    "Safety risk: real-robot deployment is expensive and risky; world-model screening and eval gates should reduce, not replace, human review for risky physical changes.",
-    "Meeting decision needed: choose the first demonstration slice: trace-memory demo, Real2Sim2Real VLA eval demo, generated asset/task mutation demo, or full mini-loop CLI."
+    "Scope decision: simulation-first MVP; external validation comes after the executable sim loop has gates and replayable reports.",
+    "Benchmark decision: start from the completed 129-environment AgenticSim foundation.",
+    "Candidate-base decision: mention Genesis World 1.0 and RoboTwin 2.0 as future simulator / benchmark bases, but keep them explicitly separate from the implemented LeHome / RoboLab foundation until adapters and verifier contracts are built.",
+    "Execution risk: generated scenes must be executable, reproducible, physically plausible, and gated by verifier / novelty / difficulty checks; TTT must improve held-out accepted scenes rather than overfit one generated scene.",
+    "Next decision: choose the first demo task family and lock the report format: accepted scenes, rejected scenes, pass-rate chart, failure memory, world-belief diff, TTT delta, and next-task schedule."
   ],
   "timeline": {
     "badges": [
@@ -93,7 +116,7 @@
       },
       {
         "label": "Meeting",
-        "value": "May 26, 17:00"
+        "value": "Tue 09:30-10:30 Beijing"
       },
       {
         "label": "Proposal",
@@ -105,9 +128,9 @@
       },
       {
         "label": "MVP",
-        "value": "Sim loop + gates"
+        "value": "Scene imagination + TTT"
       }
     ],
-    "target_note": "Meeting-ready proposal intro for simulation-first AgenticSim, with Robot4Robot deferred to the later promotion layer."
+    "target_note": "Meeting-ready proposal intro for simulation-first AgenticSim, grounded in completed environment coverage, pipeline tests, failure traces, demo CLI, smoke gate evidence, and a two-stage scene-imagination/test-time-training direction."
   }
 }

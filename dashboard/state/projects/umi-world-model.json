@@ -4,7 +4,7 @@
   "title": "UMI World Model",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-05-27T23:12:46+08:00",
+  "updated_at": "2026-05-29T00:52:03+08:00",
   "description": "Kinematics-conditioned dual eye-in-hand world modeling",
   "summary": "UMI World Model is now in the WAN2.2 TI2V fine-tuning phase: use a concatenated left/right first frame as the image condition, train one dual-wrist TI2V model first, then decide how to inject robot action beyond text and first-frame conditioning.",
   "asset": "dashboard/assets/umi-dataset-visualization.png",
@@ -26,7 +26,8 @@
     "Cosmos Predict 2.5 prompt update: explicitly describe the concatenated input layout. The left half is the left wrist/gripper view, the right half is the right wrist/gripper view, and the visible lower gripper parts are the interactive end-effectors that can contact and move objects.",
     "Action-injection survey: compare text action tokens, first-frame conditioning, trajectory/control maps, latent-channel concatenation, cross-attention adapters, AdaLN/action encoders, and Ctrl-World-style action-conditioned UNet paths; pick the smallest v1 path that can encode dual-arm pose and gripper state.",
     "Evaluation gallery format: use a TI2V qualitative-comparison layout where each sample shows generated video, matched GT video, and the exact text prompt/caption input together, plus run_id/model/metric metadata.",
-    "Operational update 2026-05-27: raise WAN2.2 fine-tuning compute needs with the teacher, and buy/install a 2.5-inch SSD on server #2 to expand storage for UMI training data, checkpoints, cache, and generated artifacts."
+    "Operational update 2026-05-27: raise WAN2.2 fine-tuning compute needs with the teacher, and buy/install a 2.5-inch SSD on server #2 to expand storage for UMI training data, checkpoints, cache, and generated artifacts.",
+    "Benchmarking direction 2026-05-29: integrate WMFactory with iWorld-Bench so the same system has WMFactory's user-interaction frontend and iWorld-Bench-style interactive world-model evaluation."
   ],
   "task_ids": [
     "task_umi_gemini_frame_test",
@@ -43,6 +44,7 @@
     "task_umi_cosmos25_concat_prompt_update",
     "task_umi_action_injection_survey",
     "task_umi_dreamxworld_wmfactory",
+    "task_umi_wmfactory_iworld_bench",
     "task_umi_eval_gallery",
     "task_umi_genie_envisioner_probe"
   ],
@@ -53,6 +55,13 @@
       "arxiv_id": "2605.15178",
       "submitted_at": "2026-05-14",
       "notes": "Reference for efficient minute-scale world modeling, hybrid linear attention, precise 6-DoF camera control, and metric pose-supervised long-video generation."
+    },
+    {
+      "title": "iWorld-Bench: A Benchmark for Interactive World Models with a Unified Action Generation Framework",
+      "url": "https://github.com/EmbodiedCity/iWorld-Bench",
+      "arxiv_id": "2605.03941",
+      "submitted_at": "2026-05-18",
+      "notes": "Reference for evaluating interactive/camera-controllable world models with packaged metadata, camera trajectories, action-control, memory-ability, camera-following, and all-metric evaluation wrappers."
     }
   ],
   "risks_decisions": [

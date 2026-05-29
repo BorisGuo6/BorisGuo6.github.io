@@ -4,12 +4,12 @@
   "title": "Drag-Demo Video Editing",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-05-27T12:51:21+08:00",
+  "updated_at": "2026-05-28T00:32:57+08:00",
   "description": "Remove human hands from drag-teaching robot data",
-  "summary": "This project turns drag-teaching demonstrations into cleaner robot-learning videos by deleting the human operator hands while preserving robot motion, object contacts, and task state.",
+  "summary": "Drag-demo fine-tuning is now running on a replay-cleaned 90-episode dataset, with four ablations comparing raw versus gray-hand inputs and 75/10/5 split versus all-90 training.",
   "asset": "dashboard/assets/drag-demo-video-editing.png",
   "asset_alt": "Drag-teaching robot data video editing and hand removal",
-  "asset_caption": "Current SOP: Fangzhou dual-arm spatula egg-mold-to-white-plate collection, green-sleeve gloves, 3-camera capture, and diff-map QA.",
+  "asset_caption": "Current status: all data replayed at least once, gripper-tip interaction outliers removed, 90 episodes kept for four fine-tuning ablations.",
   "details": [
     {
       "text": "Masquerade is the closest reference: use data editing to reduce the human-robot visual embodiment gap. Here the robot is already visible, so the key edit is hand removal rather than robot overlay.",
@@ -30,7 +30,9 @@
       ]
     },
     "Current seed SOP: Fangzhou dual-arm drag demonstration for moving an egg mold from a pan spatula into a white plate. The right gripper grasps the spatula handle text area, lifts without touching the pan wall, moves above the white plate, rotates the spatula, and holds still for 2 seconds as the task-end marker.",
-    "Collection target: 100 valid demonstrations. Success means the egg mold lands fully inside the white plate, the spatula contact stays within the yellow gripper region, and the final 2-second stillness is clear.",
+    "Training data status, 2026-05-28: all collected data has been replayed at least once. A dozen-plus episodes were removed because they used a different interaction mode: gripper tip contact rather than the gripper-face contact used by the rest of the data. The current clean set is 90 episodes.",
+    "Four active fine-tuning plans: Plan 1 uses 75 train / 10 validation / 5 test on the current clean data. Plan 2 uses the same 75 / 10 / 5 split, but replaces the hand region with a gray background. Plan 3 trains on all 90 clean episodes. Plan 4 also trains on all 90 episodes, with the hand region replaced by gray background.",
+    "Ablation readout: Plan 1 versus Plan 2 tests whether the visual representation of the human hand affects real-robot deployment interaction. Plan 1 versus Plan 3 tests whether using more data improves policy performance. After these four runs, try a raw-data plus clean-replay mixture if the first results suggest replay cleanliness and data diversity trade off.",
     "Failure episodes should be kept, not discarded: black arm contact outside the gripper, spatula head touching the pan wall, egg mold dropping in transit, egg not entering the plate, insufficient final stillness, long mid-task pause, black frames, or obvious video abnormality should be marked n and saved under f000x/.",
     "SOP capture stack: cam_top, cam_left_wrist, and cam_right_wrist RGB/depth plus eef_pose.pkl, image_timestamps.pkl, and state.pkl. Each episode should pass a 9-file completeness check before it counts as usable data.",
     "Collection controls: green long gloves with sleeves for color-key hand inpainting, no head occlusion of the top camera, clean table with only pan and plate, move-stop-grip / move-stop-rotate separation, and light-time diversity across morning, afternoon, and cloudy or other conditions.",
@@ -45,17 +47,38 @@
     "task_drag_demo_sop_episode_verifier",
     "task_drag_demo_finetuning_comparison",
     "task_drag_demo_masks_collection_aids",
-    "task_drag_demo_flux_fill_dev_inpaint_probe"
+    "task_drag_demo_flux_fill_dev_inpaint_probe",
+    "task_drag_demo_four_finetune_ablation_results"
   ],
   "timeline": {
     "sprint_start": "2026-05-16",
-    "sprint_due": "2026-05-23",
+    "sprint_due": "2026-05-30",
+    "badges": [
+      {
+        "label": "Clean data",
+        "value": "90 eps"
+      },
+      {
+        "label": "Training",
+        "value": "4 ablations"
+      },
+      {
+        "label": "Hand ablation",
+        "value": "raw vs gray"
+      }
+    ],
     "milestones": [
       {
         "milestone_id": "drag_demo_week21_sprint_due",
         "title": "Finish active drag-demo evaluation setup",
-        "status": "active",
+        "status": "done",
         "date": "2026-05-23"
+      },
+      {
+        "milestone_id": "drag_demo_four_ablation_training",
+        "title": "Compare four replay-cleaned fine-tuning ablations",
+        "status": "active",
+        "date": "2026-05-30"
       }
     ]
   },
@@ -65,6 +88,9 @@
     "Diff maps need object / contact consistency checks; a low difference score can still hide harmful hallucination.",
     "ComPose lesson: hand removal can destroy useful object-pose evidence. The editing QA should compare object/contact trajectories before and after editing, not only mask-local pixel changes.",
     "Drag demonstrations may have dynamics that differ from autonomous execution, so teleop-only and mixed-data baselines are required.",
+    "Dataset consistency decision: remove the gripper-tip interaction episodes from the current training batch because they use a different contact mode than the gripper-face demonstrations.",
+    "Current ablation decision: train four variants first, then choose the next route from result comparisons rather than changing the data recipe mid-run.",
+    "Next data-mixture hypothesis: after the four runs finish, test a blend of original raw data and clean replay data if the results suggest either more diversity or cleaner supervision is limiting performance.",
     "Mask constraints may be needed before the pipeline can scale beyond the first spatula egg-transfer task.",
     "Before counting the 100-sequence batch, enforce SOP gates: green-sleeve gloves, 3-camera sync, 2-second stillness marker, y/n success label, f000x failure retention, and 9-file episode completeness.",
     "Collection logging decision: future episodes should include position-loop, velocity-loop, and current-loop traces; RGB/depth-only videos are not enough to diagnose drag dynamics or train reliable fine-tuning baselines."
