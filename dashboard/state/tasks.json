@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-29T19:31:55+08:00",
+  "updated_at": "2026-05-29T19:44:01+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -4930,6 +4930,32 @@
       "result": null,
       "comments": [],
       "updated_at": "2026-05-29T19:31:55+08:00"
+    },
+    {
+      "task_id": "task_real_robot_infra_yam_aloha_setup",
+      "project_id": "real-robot-infra",
+      "title": "搭建 YAM 臂 ALOHA 系统",
+      "description": "基于真机资产表中的 LV-ROB-010 YAM臂（数量:4；aloha系统；存放 E2-01-04；状态: 搭建中）搭建 ALOHA 数据采集/遥操作栈。资产表: https://docs.google.com/spreadsheets/d/1zujQRhscAfwhXTTl_avQwI8eNeOctk0Hl_e8S-Ak_CY/edit?gid=1134950065#gid=1134950065。硬件说明书/SOP 统一归档到 Hardware Resource Center: https://www.notion.so/Hardware-Resource-Center-34120ba53f898026b4cfe366c9b71ac1?source=copy_link。验收：确认 4 台 YAM 臂硬件/控制盒/线缆/电源齐全；完成驱动、网络/串口、标定、限位和急停检查；跑通单臂和双臂 teleop smoke；输出 ALOHA episode 目录结构、时间戳、相机/机器人状态同步记录和 replay verifier。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Yuhang & Jingxiang",
+      "due_at": "",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-05-29T19:44:01+08:00"
+    },
+    {
+      "task_id": "task_real_robot_infra_wuji_glove_data_wrapper",
+      "project_id": "real-robot-infra",
+      "title": "实现 Wuji 手套数采 wrapper",
+      "description": "基于真机资产表中的 GM-ROB-004 Wuji手套（规格/描述: 各装一个D405做数采；存放 E2-01-04；状态: Ready）实现数据采集 wrapper。资产表: https://docs.google.com/spreadsheets/d/1zujQRhscAfwhXTTl_avQwI8eNeOctk0Hl_e8S-Ak_CY/edit?gid=1134950065#gid=1134950065。硬件说明书/SOP 统一归档到 Hardware Resource Center: https://www.notion.so/Hardware-Resource-Center-34120ba53f898026b4cfe366c9b71ac1?source=copy_link。验收：封装 Wuji 手套状态流、每只手对应 D405 图像流、相机内参/外参、统一时间戳、episode writer 和 replay/loader；与现有 input record schema 对齐；提供 10 秒采集 smoke，输出 JSON/HDF5 或项目约定格式，并验证 loader 能读回手套关节、图像帧和同步时间戳。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Yuhang & Jingxiang",
+      "due_at": "",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-05-29T19:44:01+08:00"
     }
   ]
 }
