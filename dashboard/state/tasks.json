@@ -4906,6 +4906,27 @@
       "updated_at": "2026-05-29T19:26:29+08:00"
     },
     {
+      "task_id": "task_self_improving_articraft3d_asset_expansion",
+      "project_id": "self-improving-agents",
+      "title": "试用 ArtiCraft3D 扩充 agentic 仿真资产",
+      "description": "把 ArtiCraft3D / Articraft 作为 Self-Improving Agents 的 agentic simulation asset expansion 候选路线来试。来源: https://articraft3d.github.io/ 和 arXiv:2605.15187。目标：评估其“LLM 写资产程序 + SDK 定义 parts/geometry/joints/tests + harness 验证”的方式是否能接到 AgenticSim 的 asset_graph。验收：找到可运行 repo / release / dataset 入口或明确缺失 blocker；生成或复现至少 1 个 articulated tabletop asset；导出 mesh/collision/joint graph/metadata 或等价 JSON；写一个最小 adapter stub `generate_asset(reference, task_hint) -> asset_graph`；用 GovernanceGate 检查 scale、joint limits、collision proxy、affordance tags 和 simulator export path；记录命令、日志、artifact 路径和 sha256。不要只做阅读调研后标 done。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": null,
+      "due_at": "",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_self_improving_articraft3d_trial_20260529",
+          "author": "Boris / Codex",
+          "body": "User suggested ArtiCraft3D for agentic generated simulation asset expansion. Add as a concrete TODO: try it as an articulated-asset generation route for AgenticSim, not just a paper reference; acceptance requires at least one runnable/generated asset or a clear release/access blocker.",
+          "created_at": "2026-05-29T20:32:23+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-05-29T20:32:23+08:00"
+    },
+    {
       "task_id": "task_real_robot_infra_franka_curobo_motion_planning",
       "project_id": "real-robot-infra",
       "title": "Franka 运动规划库切到 cuRobo",
@@ -4943,6 +4964,27 @@
       "result": null,
       "comments": [],
       "updated_at": "2026-05-29T19:44:01+08:00"
+    },
+    {
+      "task_id": "task_real_robot_infra_wuji_franka_slime_cut_demo",
+      "project_id": "real-robot-infra",
+      "title": "跑 Wuji + Franka 玩具刀切史莱姆泥 demo",
+      "description": "把 Wuji Hand + Franka 的切肉 demo 收敛到安全 Stage 0/1：仿真肉使用史莱姆泥，刀先使用玩具刀，不使用真刀或真实肉。验收：准备固定史莱姆泥的夹具/托盘和可清洁工作区；确认玩具刀不会割伤手指/线缆/相机；设置 Franka 低速/力矩/工作空间限制、急停看护和 abort 条件；完成至少一次 read-only 或仿真轨迹预演；完成一次真实低速玩具刀切史莱姆泥 run；记录视频、机器人状态、Wuji Hand command/state、相机视角、失败/成功判据和是否需要进入下一阶段。真实刀具、真实肉和高速切割必须另行审批。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Yuhang & Jingxiang / Boris / real-robot",
+      "due_at": "",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_real_robot_wuji_franka_slime_cut_demo_20260529",
+          "author": "Boris / Codex",
+          "body": "User clarified demo scope: Wuji + Franka should demonstrate cutting meat, but use slime clay as simulated meat and a toy knife first. This is a new execution TODO after the already host-verified safety plan; it is not done until the physical toy-knife slime-clay run has logs/video and safety evidence.",
+          "created_at": "2026-05-29T20:32:23+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-05-29T20:32:23+08:00"
     }
   ]
 }
