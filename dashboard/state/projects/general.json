@@ -4,7 +4,7 @@
   "title": "General",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-05-27T12:59:11+08:00",
+  "updated_at": "2026-05-29T22:01:25+08:00",
   "description": "General engineering backlog for cross-project tasks",
   "summary": "General engineering queue for hardware fixtures, small CAD jobs, gripper platforms, camera adapters, glove-to-gripper teleoperation, and tactile calibration hardware. These items are intentionally separate from Real-Robot Lab Infra and can support multiple projects when needed.",
   "details": [
@@ -16,7 +16,8 @@
     "Mounting direction: the Wuji/Franka camera flange is done; the next MANUS/Wuji glove camera adapter should follow a DexCap-style camera-mount and quick-release logic, keeping the observation camera stable across human collection and robot-side use while preserving field of view and cable strain relief.",
     "Teleop direction: the Gello-end trigger can be replaced by an ACE Teleop-style wrist ring for wrist/intention input, while MANUS provides hand posture for retargeting.",
     "Storage direction: repurpose the purchased 10T HDD as a small group NAS if the Taobao 7-day-return enclosure works; treat it as shared lab infrastructure rather than a UMI-only staging disk.",
-    "Procurement need: buy two USB 3.0 extension cables from Shopee for lab hardware routing; confirm whether direct group-card payment is allowed before checkout."
+    "Procurement need: buy two USB 3.0 extension cables from Shopee for lab hardware routing; confirm whether direct group-card payment is allowed before checkout.",
+    "Procurement need: add a short camera screw item. User wording is six-inch short screw; before purchase, confirm whether this actually means the common camera/tripod 1/4-20 short screw rather than a 6-inch-long screw."
   ],
   "task_ids": [
     "task_general_10t_hdd_nas_shared_storage",
@@ -28,7 +29,8 @@
     "task_hardware_manus_two_finger_retargeting",
     "task_hardware_two_finger_tactile_gripper_platform",
     "task_hardware_six_dof_tactile_calibration_platform",
-    "task_general_usb3_extension_cables_shopee"
+    "task_general_usb3_extension_cables_shopee",
+    "task_general_camera_short_screws"
   ],
   "risks_decisions": [
     "Ownership risk: several items need a remote CAD owner plus a local hardware owner for printing, sensor pickup, and test fitting.",
@@ -36,7 +38,8 @@
     "Scope decision: start with low-DoF gripper platforms because they are easier to instrument, calibrate, and use for VLA/VTLA datasets than full dexterous-hand hardware.",
     "Integration risk: camera mounts and wrist rings must avoid blocking hand motion, tactile contact surfaces, glove cables, and emergency access.",
     "NAS risk: the Taobao enclosure must physically support the actual 10T HDD form factor/interface and provide stable power, permissions, backup, and LAN sharing before the return window closes.",
-    "Procurement risk: do not store group-card details in dashboard state; confirm Shopee direct-card purchase approval with the card holder / lab admin before ordering, otherwise use the approved reimbursement or procurement path."
+    "Procurement risk: do not store group-card details in dashboard state; confirm Shopee direct-card purchase approval with the card holder / lab admin before ordering, otherwise use the approved reimbursement or procurement path.",
+    "Camera-screw procurement risk: camera mounts usually use 1/4-20 or 3/8-inch standards, while a literal six-inch screw would be unusually long. Confirm thread standard and usable shaft length before ordering."
   ],
   "timeline": {
     "badges": [

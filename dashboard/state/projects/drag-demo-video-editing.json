@@ -4,12 +4,12 @@
   "title": "Drag-Demo Video Editing",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-05-28T00:32:57+08:00",
+  "updated_at": "2026-05-29T21:53:54+08:00",
   "description": "Remove human hands from drag-teaching robot data",
-  "summary": "Drag-demo fine-tuning is now running on a replay-cleaned 90-episode dataset, with four ablations comparing raw versus gray-hand inputs and 75/10/5 split versus all-90 training.",
+  "summary": "Previous drag-demo collection, replay, QA, and four-ablation items are now treated as done; the next phase studies on-policy drag teaching / learning-based gravity compensation and video-model interpolation for hand-free start/end states.",
   "asset": "dashboard/assets/drag-demo-video-editing.png",
   "asset_alt": "Drag-teaching robot data video editing and hand removal",
-  "asset_caption": "Current status: all data replayed at least once, gripper-tip interaction outliers removed, 90 episodes kept for four fine-tuning ablations.",
+  "asset_caption": "Current status: legacy drag-demo TODOs are closed; next work targets on-policy drag teaching, learned gravity compensation, and video-model hand-free state synthesis.",
   "details": [
     {
       "text": "Masquerade is the closest reference: use data editing to reduce the human-robot visual embodiment gap. Here the robot is already visible, so the key edit is hand removal rather than robot overlay.",
@@ -33,6 +33,9 @@
     "Training data status, 2026-05-28: all collected data has been replayed at least once. A dozen-plus episodes were removed because they used a different interaction mode: gripper tip contact rather than the gripper-face contact used by the rest of the data. The current clean set is 90 episodes.",
     "Four active fine-tuning plans: Plan 1 uses 75 train / 10 validation / 5 test on the current clean data. Plan 2 uses the same 75 / 10 / 5 split, but replaces the hand region with a gray background. Plan 3 trains on all 90 clean episodes. Plan 4 also trains on all 90 episodes, with the hand region replaced by gray background.",
     "Ablation readout: Plan 1 versus Plan 2 tests whether the visual representation of the human hand affects real-robot deployment interaction. Plan 1 versus Plan 3 tests whether using more data improves policy performance. After these four runs, try a raw-data plus clean-replay mixture if the first results suggest replay cleanliness and data diversity trade off.",
+    "Status update, 2026-05-29: per user update, the previous drag-demo TODOs are considered done. New work shifts from closing the initial replay / ablation setup to studying on-policy drag teaching and learning-based gravity compensation, plus creating visually hand-free states for the start and end of each edited clip.",
+    "New TODO: research drag-teaching on-policy learning and learning-based gravity compensation / base control. The note should clarify what control-loop signals to log, how to separate human intent from passive gravity/contact dynamics, whether residual or on-policy correction should be learned, and what safe first experiment should run on the current robot stack.",
+    "New TODO: implement 'no-hand state' generation by using start/end empty-scene views and a video model to interpolate or synthesize hand-free frames. The output should preserve object pose, contact timing, and robot geometry, then be checked with before/after gallery, diff-map QA, and contact-preservation review.",
     "Failure episodes should be kept, not discarded: black arm contact outside the gripper, spatula head touching the pan wall, egg mold dropping in transit, egg not entering the plate, insufficient final stillness, long mid-task pause, black frames, or obvious video abnormality should be marked n and saved under f000x/.",
     "SOP capture stack: cam_top, cam_left_wrist, and cam_right_wrist RGB/depth plus eef_pose.pkl, image_timestamps.pkl, and state.pkl. Each episode should pass a 9-file completeness check before it counts as usable data.",
     "Collection controls: green long gloves with sleeves for color-key hand inpainting, no head occlusion of the top camera, clean table with only pan and plate, move-stop-grip / move-stop-rotate separation, and light-time diversity across morning, afternoon, and cloudy or other conditions.",
@@ -48,7 +51,9 @@
     "task_drag_demo_finetuning_comparison",
     "task_drag_demo_masks_collection_aids",
     "task_drag_demo_flux_fill_dev_inpaint_probe",
-    "task_drag_demo_four_finetune_ablation_results"
+    "task_drag_demo_four_finetune_ablation_results",
+    "task_drag_demo_on_policy_gravity_comp_survey",
+    "task_drag_demo_no_hand_state_video_interpolation"
   ],
   "timeline": {
     "sprint_start": "2026-05-16",
@@ -59,12 +64,12 @@
         "value": "90 eps"
       },
       {
-        "label": "Training",
-        "value": "4 ablations"
+        "label": "Legacy items",
+        "value": "done"
       },
       {
-        "label": "Hand ablation",
-        "value": "raw vs gray"
+        "label": "Next phase",
+        "value": "on-policy + no-hand"
       }
     ],
     "milestones": [
@@ -77,8 +82,14 @@
       {
         "milestone_id": "drag_demo_four_ablation_training",
         "title": "Compare four replay-cleaned fine-tuning ablations",
-        "status": "active",
+        "status": "done",
         "date": "2026-05-30"
+      },
+      {
+        "milestone_id": "drag_demo_on_policy_no_hand_state",
+        "title": "Research on-policy drag teaching and implement hand-free state synthesis",
+        "status": "active",
+        "date": "2026-06-05"
       }
     ]
   },
@@ -91,6 +102,8 @@
     "Dataset consistency decision: remove the gripper-tip interaction episodes from the current training batch because they use a different contact mode than the gripper-face demonstrations.",
     "Current ablation decision: train four variants first, then choose the next route from result comparisons rather than changing the data recipe mid-run.",
     "Next data-mixture hypothesis: after the four runs finish, test a blend of original raw data and clean replay data if the results suggest either more diversity or cleaner supervision is limiting performance.",
+    "On-policy / gravity-compensation work must be separated from visual hand removal: it needs control-loop evidence, operator-intent labels or proxies, and low-speed safety gates before robot-side deployment.",
+    "No-hand interpolation should not be accepted on visual smoothness alone; it must preserve object pose, contact state, and robot geometry across the synthesized start/end transition.",
     "Mask constraints may be needed before the pipeline can scale beyond the first spatula egg-transfer task.",
     "Before counting the 100-sequence batch, enforce SOP gates: green-sleeve gloves, 3-camera sync, 2-second stillness marker, y/n success label, f000x failure retention, and 9-file episode completeness.",
     "Collection logging decision: future episodes should include position-loop, velocity-loop, and current-loop traces; RGB/depth-only videos are not enough to diagnose drag dynamics or train reliable fine-tuning baselines."

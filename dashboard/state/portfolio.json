@@ -5,13 +5,13 @@
   "subtitle": "World models, self-improving simulators, teleop acceleration, and robotics + 3D printing",
   "week": "2026-W21",
   "date": "2026-05-22",
-  "updated_at": "2026-05-29T20:32:23+08:00",
+  "updated_at": "2026-05-29T21:50:00+08:00",
   "state_root": "dashboard/state",
   "summary": {
     "focus": "Frame the whole portfolio as one loop: real-robot infra collects and validates data; UMI / layered / HOI projects structure it; simulator and PoD projects turn it into robot tasks, evaluation, and physical outputs.",
-    "progress": "ARX infra is ready; Gello-controlled dual Franka + Wuji Hand is complete as a one-DoF gripper path; the first Wuji + Franka cutting demo is now scoped to simulated meat made from slime clay and a toy knife before any sharp blade; UMI base-model choice is settled on small-scale WAN fine-tuning; drag-demo fine-tuning is now running on a replay-cleaned 90-episode dataset with four ablations.",
-    "blockers": "MANUS + VIVE / wrist tracking hardware completion; supervised Wuji + Franka slime-clay toy-knife demo staging and fixture evidence; FACTR / force-feedback procurement through Jingte; UMI storage + data download for WAN fine-tuning; drag-demo results are pending for the four raw/gray-hand and split/all-data ablations; ArtiCraft3D asset generation still needs a local adapter smoke before it can be counted as part of AgenticSim.",
-    "next": "Stage the Wuji + Franka toy-knife slime-clay cutting demo with strict safety gates, confirm UMI compute/storage for WAN fine-tuning, test ArtiCraft3D as an agentic articulated-asset expansion route for Self-improving, route FACTR procurement through Jingte, install the 10T HDD from ME as group NAS, wait for the four drag-demo ablation results, and then test a raw-data plus clean-replay mixture if useful."
+    "progress": "ARX infra is ready; Gello-controlled dual Franka + Wuji Hand is complete as a one-DoF gripper path; the first Wuji + Franka cutting demo is now scoped to simulated meat made from slime clay and a toy knife before any sharp blade; UMI Wan2.2-TI2V-5B LoRA v0 has trained to step-125 on 003 / 8xL40S and is waiting for held-out quality evaluation; drag-demo fine-tuning is now running on a replay-cleaned 90-episode dataset with four ablations.",
+    "blockers": "MANUS + VIVE / wrist tracking hardware completion; supervised Wuji + Franka slime-clay toy-knife demo staging and fixture evidence; FACTR / force-feedback procurement through Jingte; UMI post-train held-out gallery is pending because the binding machine has been intermittently offline; any Wan2.2 A14B / 14B scale-up needs a separate 8xA100/H100 80GB-class compute ask rather than 8xL30; drag-demo results are pending for the four raw/gray-hand and split/all-data ablations; ArtiCraft3D asset generation still needs a local adapter smoke before it can be counted as part of AgenticSim.",
+    "next": "Stage the Wuji + Franka toy-knife slime-clay cutting demo with strict safety gates, finish the UMI step-125 held-out GT/base/LoRA gallery on the binding machine, prepare the teacher compute ask for any Wan2.2 A14B / 14B scale-up, test ArtiCraft3D as an agentic articulated-asset expansion route for Self-improving, route FACTR procurement through Jingte, install the 10T HDD from ME as group NAS, wait for the four drag-demo ablation results, and then test a raw-data plus clean-replay mixture if useful."
   },
   "storyline": {
     "summary": "How real-robot infra, human demonstrations, video world models, simulators, and physical outputs form one loop.",
