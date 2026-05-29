@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
-    <title>Weekly Brief｜Romoya + UMI + Self-Improving Agents</title>
+    <title>Weekly Brief｜Romoya + UMI + Real Robot + Self-Improving Agents</title>
     <style>
       :root {
         --paper: #ffffff;
@@ -546,6 +546,7 @@
           <a href="#plan-one">方案一</a>
           <a href="#plan-two">方案二</a>
           <a href="#umi-world-model">UMI</a>
+          <a href="#real-robot-demo">Real Robot</a>
           <a href="#self-improving">Self-Improving</a>
           <a href="#self-research">References</a>
           <a href="#self-architecture">Architecture</a>
@@ -558,21 +559,23 @@
       <header class="hero" id="brief">
         <div>
           <p class="kicker">Weekly Brief</p>
-          <h1>本周周报：场地、UMI 微调资源、AgenticSim proposal</h1>
+          <h1>本周周报：场地、UMI、真机 demo、AgenticSim</h1>
           <p class="subtitle">
-            本页汇总三个当前需要推进的事项：Romoya 场地按方案一和 Clement 拍板；UMI WAN2.2 微调需要确认算力并扩充 2 号机存储；Self-Improving Agents 收敛到“场景想象 + test-time training”的 AgenticSim 仿真闭环。
+            本页汇总四个当前需要推进的事项：Romoya 场地按方案一和 Clement 拍板；UMI WAN2.2 微调需要确认算力并扩充 2 号机存储；Wuji + Franka 先做玩具刀切史莱姆泥 demo；Self-Improving Agents 收敛到“场景想象 + test-time training”的 AgenticSim 仿真闭环，并试 ArtiCraft3D 扩充 agentic 仿真资产。
           </p>
           <div class="source-strip" aria-label="Source summary">
             <span>Romoya 方案一</span>
             <span>UMI WAN2.2 算力需求</span>
             <span>2 号机 2.5 英寸 SSD</span>
+            <span>Wuji + Franka toy knife</span>
+            <span>ArtiCraft3D assets</span>
             <span>Scene imagination + TTT</span>
           </div>
         </div>
         <aside class="hero-note">
           <span class="small-label">Current priorities</span>
-          <strong>3 个需要推进的决策</strong>
-          <p>场地拍板、UMI 资源确认、self-improving mini-loop demo。</p>
+          <strong>4 个需要推进的决策</strong>
+          <p>场地拍板、UMI 资源确认、Wuji + Franka 安全 demo、self-improving mini-loop demo。</p>
         </aside>
       </header>
 
@@ -596,7 +599,7 @@
               <p class="eyebrow">Venue conclusion</p>
               <h2>结论：方案二基本排除，方案一拿去和 Clement 拍板</h2>
             </div>
-            <p>这部分保留为周报开头；UMI 的算力/存储 TODO 和 Self-Improving Agents proposal 作为后面的项目更新。</p>
+            <p>这部分保留为周报开头；UMI 的算力/存储 TODO、Wuji + Franka 安全 demo 和 Self-Improving Agents proposal 作为后面的项目更新。</p>
           </div>
           <div class="quote-box">
             <p>建议口径：我们已经向两边确认过关键条款。Grace 的整租方案需要约 S$12,000/月、三年起租、三个月押金，且价格基本谈不动，因此不适合作为当前启动方案。建议先推进 The Gemini 方案一，并把 408 到 409 的切换作为可选机会。</p>
@@ -734,6 +737,33 @@
           </div>
         </section>
 
+        <section class="section" id="real-robot-demo">
+          <div class="section-title">
+            <div>
+              <p class="eyebrow">Real Robot Demo</p>
+              <h2>Wuji + Franka 切肉 demo：先用史莱姆泥和玩具刀</h2>
+            </div>
+            <p>本周把“灵巧手持刀切肉”收敛成可安全推进的 Stage 0/1 真机 demo，不直接上真刀或真实肉。</p>
+          </div>
+          <div class="quote-box">
+            <p>执行口径：仿真肉用史莱姆泥，刀先用玩具刀。目标不是证明能高速切开真实食材，而是验证 Wuji Hand + Franka 的持刀姿态、低速轨迹、接触稳定性、相机记录和急停流程。</p>
+          </div>
+          <div class="grid-3" style="margin-top: 14px;">
+            <article class="panel decision">
+              <h3>材料和夹具</h3>
+              <p>用史莱姆泥做 simulated meat，放在托盘或夹具中限制滑动；玩具刀要先确认不会割伤 Wuji 手指、线缆、相机或桌面。</p>
+            </article>
+            <article class="panel warning">
+              <h3>安全门控</h3>
+              <p>必须低速、限 workspace、限力矩/速度，现场至少一人专门看急停；先做 read-only 或仿真轨迹预演，再做真实玩具刀 run。</p>
+            </article>
+            <article class="panel ok">
+              <h3>验收证据</h3>
+              <p>TODO 不到视频、机器人状态、Wuji command/state、相机视角、成功/失败判据和 abort 记录齐全时不能 done；真刀和真肉另开审批。</p>
+            </article>
+          </div>
+        </section>
+
         <section class="section" id="self-improving">
           <div class="section-title">
             <div>
@@ -845,7 +875,7 @@
               <p class="eyebrow">Reference reading</p>
               <h2>调研结论：关键不是生成数据，而是生成可执行环境</h2>
             </div>
-            <p>General Agent、EvoEnv、FATE、RoboGen、PhysX-Anything / PhysX-Omni、WorldComposer / Marble、Genesis World 1.0 和 RoboTwin 2.0 都把方向指向同一件事：agent 不只是消费环境，而是生成、验证、修复环境，并在交互中更新世界理解。</p>
+            <p>General Agent、EvoEnv、FATE、RoboGen、PhysX-Anything / PhysX-Omni、ArtiCraft3D、WorldComposer / Marble、Genesis World 1.0 和 RoboTwin 2.0 都把方向指向同一件事：agent 不只是消费环境，而是生成、验证、修复环境，并在交互中更新世界理解。</p>
           </div>
           <div class="grid-2">
             <article class="decision-card blue">
@@ -872,6 +902,11 @@
               <h3><a href="https://physx-anything.github.io/">PhysX-Anything</a> / <a href="https://physx-omni.github.io/">PhysX-Omni</a>：simulation-ready physical assets</h3>
               <p>PhysX-Anything 从单张 in-the-wild image 生成带显式 geometry、articulation 和 physical attributes 的 sim-ready 3D asset；PhysX-Omni 是它的统一化延伸，把范围扩到 rigid、deformable 和 articulated objects，并用 geometry、absolute scale、material、affordance、kinematics、function description 六类属性做理解和生成评估。</p>
               <p>迁移到机器人：它们服务的是 AgenticSim 的 Stage 1 asset layer。WorldComposer / Marble 可以先给出可导航的高斯场景外壳；PhysX-Anything / PhysX-Omni 再把其中可交互物体补成有尺度、材质、关节、运动学和接触参数的仿真对象，供 verifier 和 TTT 真正执行。</p>
+            </article>
+            <article class="decision-card decision">
+              <h3><a href="https://articraft3d.github.io/">ArtiCraft3D / Articraft</a>：agentic articulated asset generation</h3>
+              <p>ArtiCraft 把 articulated 3D asset generation 变成“写程序构造物体”的问题：LLM 通过 SDK 定义 parts、geometry、joints 和 tests，harness 再验证输出。</p>
+              <p>迁移到机器人：它可以作为 PhysX-style asset generator 之外的 agentic asset expansion 路线，优先试 tabletop articulated objects，并把结果落到 AgenticSim 的 asset_graph、joint graph、collision proxy 和 GovernanceGate checks。</p>
             </article>
             <article class="decision-card ok">
               <h3><a href="https://www.worldlabs.ai/blog/marble-world-model">WorldComposer / Marble</a>：Gaussian scene shell</h3>
@@ -1072,7 +1107,7 @@
                 </tr>
                 <tr>
                   <td>Imagine scene</td>
-                  <td>RoboGen 的 task proposal / scene generation / supervision generation 思路；FATE 的 static scene audit + embodied feasibility check；WorldComposer / Marble 生成 Gaussian scene shell；PhysX-Anything 从单图生成 simulation-ready physical assets；PhysX-Omni 进一步统一 rigid / deformable / articulated object generation；SceneMutator 做 task / asset mutation。</td>
+                  <td>RoboGen 的 task proposal / scene generation / supervision generation 思路；FATE 的 static scene audit + embodied feasibility check；WorldComposer / Marble 生成 Gaussian scene shell；PhysX-Anything 从单图生成 simulation-ready physical assets；PhysX-Omni 进一步统一 rigid / deformable / articulated object generation；ArtiCraft3D 用 agentic program synthesis 生成 articulated asset；SceneMutator 做 task / asset mutation。</td>
                   <td>把 reference、真实失败或真实轨迹落成可执行仿真场景：先有空间/外观层的 3D Gaussian scene belief，再把关键交互物体转成带尺度、材质、关节、运动学、affordance 和物理参数的 asset graph，并显式保存 uncertainty 和 repair history。</td>
                 </tr>
                 <tr>
@@ -1145,15 +1180,15 @@
         <section class="section" id="physx-implementation">
           <div class="section-title">
             <div>
-              <p class="eyebrow">PhysX-Anything / PhysX-Omni</p>
-              <h2>具体实现：把视觉场景变成可交互物理资产</h2>
+              <p class="eyebrow">Physical asset generation</p>
+              <h2>具体实现：把视觉/程序化资产变成可交互物理资产</h2>
             </div>
-            <p>这一节专门服务 Self-Improving 里的 Agentic scene imagination：WorldComposer / Marble 负责生成 3D Gaussian scene shell，PhysX-Anything / PhysX-Omni 负责把关键物体补成能进 simulator 的 physical asset graph。</p>
+            <p>这一节专门服务 Self-Improving 里的 Agentic scene imagination：WorldComposer / Marble 负责生成 3D Gaussian scene shell，PhysX-Anything / PhysX-Omni 和 ArtiCraft3D 负责把关键物体补成能进 simulator 的 physical asset graph。</p>
           </div>
           <div class="quote-box">
-            <p>核心关系：PhysX-Anything 先证明 single image 可以生成带 geometry、articulation、physical attributes 的 simulation-ready object；PhysX-Omni 是它的统一化延伸，把对象类型扩到 rigid、deformable 和 articulated，并增加 PhysXVerse 数据集与 PhysX-Bench 评测。放到 AgenticSim 里，它们不是替代 WorldComposer / Marble，而是给高斯场景里的可交互物体补物理、尺度、材质、关节和 affordance。</p>
+            <p>核心关系：PhysX-Anything 先证明 single image 可以生成带 geometry、articulation、physical attributes 的 simulation-ready object；PhysX-Omni 是它的统一化延伸，把对象类型扩到 rigid、deformable 和 articulated，并增加 PhysXVerse 数据集与 PhysX-Bench 评测。ArtiCraft3D 则把资产生成做成 agentic program synthesis：LLM 写资产程序，harness 做结构化验证。放到 AgenticSim 里，它们不是替代 WorldComposer / Marble，而是给高斯场景里的可交互物体补物理、尺度、材质、关节和 affordance。</p>
           </div>
-          <div class="grid-2" style="margin-top: 14px;">
+          <div class="grid-3" style="margin-top: 14px;">
             <article class="decision-card blue">
               <h3><a href="https://physx-anything.github.io/">PhysX-Anything</a> 做了什么</h3>
               <p>输入是一张 in-the-wild object image，输出不是普通 mesh，而是 simulation-ready physical 3D asset：它要显式恢复 object geometry、part-level articulation 和 physical attributes，使物体能进入 MuJoCo-style / physics-based environment 参与 contact-rich policy learning。</p>
@@ -1164,21 +1199,26 @@
               <p>PhysX-Omni 解决 PhysX-Anything 偏 articulated object 的范围限制，把 simulation-ready 3D generation 统一到 rigid、deformable、articulated 三类对象。它强调一个统一的 physical asset generator，而不是每类物体各自一套 pipeline。</p>
               <p>实现上，它进一步使用面向 VLM 的高效 geometry representation，构建 PhysXVerse 作为通用 simulation-ready 3D dataset，并用 PhysX-Bench 同时评估 generation 和 understanding。PhysX-Bench 的六个关键属性是 geometry、absolute scale、material、affordance、kinematics 和 function description。</p>
             </article>
+            <article class="decision-card ok">
+              <h3><a href="https://articraft3d.github.io/">ArtiCraft3D</a> 为什么要试</h3>
+              <p>ArtiCraft 让 LLM 通过 domain-specific SDK 写 `model.py` 一类的资产程序，显式组织 part、geometry、joint 和 tests，再由 harness 验证。</p>
+              <p>它更像 agentic asset engineer：适合先试能否生成 tabletop articulated asset，并把程序、测试、joint graph 和 simulator export 都保存进 AgenticSim 的可复现资产包。</p>
+            </article>
           </div>
           <div class="table-card" style="margin-top: 14px;">
             <table class="evidence-table">
               <thead>
                 <tr>
                   <th>AgenticSim 需要的能力</th>
-                  <th>PhysX-Anything / PhysX-Omni 对应实现</th>
+                  <th>PhysX / ArtiCraft 对应实现</th>
                   <th>接到 Self-Improving 的方式</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td>从 reference 识别关键物体</td>
-                  <td>从单张物体图像恢复对象整体结构、部件、关节、物理属性和功能描述。</td>
-                  <td>scene-generation agent 先从 WorldComposer / Marble 场景里挑出可交互 object crops，再调用 PhysX-style asset generator。</td>
+                  <td>PhysX 从单张物体图像恢复对象整体结构、部件、关节、物理属性和功能描述；ArtiCraft 让 agent 写资产程序和测试。</td>
+                  <td>scene-generation agent 先从 WorldComposer / Marble 场景里挑出可交互 object crops，再调用 PhysX-style generator 或 ArtiCraft-style programmatic asset generator。</td>
                 </tr>
                 <tr>
                   <td>把视觉物体变成可 rollout asset</td>
@@ -1187,12 +1227,12 @@
                 </tr>
                 <tr>
                   <td>覆盖不同物体类型</td>
-                  <td>PhysX-Anything 主要强调 articulated physical assets；PhysX-Omni 统一 rigid、deformable、articulated objects。</td>
+                  <td>PhysX-Anything 主要强调 articulated physical assets；PhysX-Omni 统一 rigid、deformable、articulated objects；ArtiCraft-10K 覆盖大规模 articulated asset categories。</td>
                   <td>AgenticSim 第一阶段可以先接 tabletop articulated/rigid objects，后续再加入 garment、rope、soft object 等 deformable task family。</td>
                 </tr>
                 <tr>
                   <td>生成后能被评估</td>
-                  <td>PhysX-Omni 的 PhysX-Bench 用六类属性检查生成和理解质量；PhysX-Anything 用 simulation-based experiments 验证下游接触学习可用性。</td>
+                  <td>PhysX-Omni 的 PhysX-Bench 用六类属性检查生成和理解质量；PhysX-Anything 用 simulation-based experiments 验证下游接触学习可用性；ArtiCraft 用 object-specific tests 和 harness feedback 检查生成程序。</td>
                   <td>GovernanceGate 增加 asset-level checks：尺度是否合理、材质/摩擦是否可执行、关节是否物理有效、affordance 是否支持 task goal。</td>
                 </tr>
                 <tr>
@@ -1226,15 +1266,15 @@
           <div class="grid-3" style="margin-top: 14px;">
             <article class="panel decision">
               <h3>放进 AgenticSim 的最小接口</h3>
-              <p>`generate_asset(reference_image, task_hint) -> asset_graph`，其中 asset_graph 至少包含 mesh / collision proxy、scale、material/friction、joint graph、affordance tags 和 simulator export path。</p>
+              <p>`generate_asset(reference_image, task_hint) -> asset_graph` 或 `generate_articulated_asset(asset_spec) -> asset_graph`，其中 asset_graph 至少包含 mesh / collision proxy、scale、material/friction、joint graph、affordance tags、tests 和 simulator export path。</p>
             </article>
             <article class="panel warning">
               <h3>和 3DGS 场景的分工</h3>
-              <p>WorldComposer / Marble 负责全局空间、视角、遮挡和视觉上下文；PhysX-Anything / PhysX-Omni 负责可交互物体。两者组合后才是可执行环境。</p>
+              <p>WorldComposer / Marble 负责全局空间、视角、遮挡和视觉上下文；PhysX-Anything / PhysX-Omni / ArtiCraft3D 负责可交互物体。两者组合后才是可执行环境。</p>
             </article>
             <article class="panel ok">
               <h3>本周 proposal 写法</h3>
-              <p>先不声称已接入，只把它们写成 Stage 1 的 reference implementation：下一步做 tabletop objects 的 asset adapter 和 GovernanceGate asset checks。</p>
+              <p>先不声称已接入，只把 PhysX / ArtiCraft 写成 Stage 1 的 candidate implementations：下一步做 tabletop objects 的 asset adapter、ArtiCraft3D runnable smoke 和 GovernanceGate asset checks。</p>
             </article>
           </div>
         </section>
@@ -1274,7 +1314,7 @@
             <article class="phase">
               <span>Phase 1</span>
               <strong>Imagine scenes</strong>
-              <p>从 reference、任务族和 failure type 生成场景变体，先覆盖 tabletop / household manipulation，并记录 scene uncertainty。</p>
+              <p>从 reference、任务族和 failure type 生成场景变体，先覆盖 tabletop / household manipulation，并记录 scene uncertainty；asset 层补一个 ArtiCraft3D-style articulated asset smoke。</p>
             </article>
             <article class="phase">
               <span>Phase 2</span>
