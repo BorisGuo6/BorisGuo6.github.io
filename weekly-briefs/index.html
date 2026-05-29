@@ -541,6 +541,7 @@
         <a href="../dashboard/">Back to Dashboard</a>
         <nav aria-label="Page sections">
           <a href="#brief">总览</a>
+          <a href="#ops-note">工具账号</a>
           <a href="#venue-update">场地</a>
           <a href="#plan-one">方案一</a>
           <a href="#plan-two">方案二</a>
@@ -548,6 +549,7 @@
           <a href="#self-improving">Self-Improving</a>
           <a href="#self-research">References</a>
           <a href="#self-architecture">Architecture</a>
+          <a href="#physx-implementation">PhysX</a>
           <a href="#self-roadmap">Roadmap</a>
         </nav>
         <button class="print-button" type="button" onclick="window.print()">Print / PDF</button>
@@ -575,6 +577,19 @@
       </header>
 
       <main>
+        <section class="section" id="ops-note">
+          <div class="section-title">
+            <div>
+              <p class="eyebrow">Operational note</p>
+              <h2>Claude Code 账号访问异常</h2>
+            </div>
+            <p>这部分只作为本周工具风险记录，不展开成主要议题。</p>
+          </div>
+          <div class="quote-box">
+            <p>Claude Code 账号本周出现被封 / 无法正常使用的情况。当前推测原因是 ME 和 SoC 两边同时使用同一账号，导致登录物理位置或网络位置看起来异常。后续需要避免同一账号在不同地点并发使用，并准备 Codex、本地脚本或其他账号作为 fallback，防止周报、实验和远端调度被单一工具账号卡住。</p>
+          </div>
+        </section>
+
         <section class="section" id="venue-update">
           <div class="section-title">
             <div>
@@ -830,7 +845,7 @@
               <p class="eyebrow">Reference reading</p>
               <h2>调研结论：关键不是生成数据，而是生成可执行环境</h2>
             </div>
-            <p>General Agent、EvoEnv、FATE、RoboGen、Genesis World 1.0 和 RoboTwin 2.0 都把方向指向同一件事：agent 不只是消费环境，而是生成、验证、修复环境，并在交互中更新世界理解。</p>
+            <p>General Agent、EvoEnv、FATE、RoboGen、PhysX-Anything / PhysX-Omni、WorldComposer / Marble、Genesis World 1.0 和 RoboTwin 2.0 都把方向指向同一件事：agent 不只是消费环境，而是生成、验证、修复环境，并在交互中更新世界理解。</p>
           </div>
           <div class="grid-2">
             <article class="decision-card blue">
@@ -853,6 +868,16 @@
               <p>RoboGen 用 foundation / generative models 自动提出任务、生成场景、生成训练监督，并选择 RL、motion planning 或 trajectory optimization 学习技能。</p>
               <p>迁移到机器人：Stage 1 的 scene imagination 不能孤立存在，必须连到 Stage 2 的 supervision / TTT / skill-learning 输入。</p>
             </article>
+            <article class="decision-card blue">
+              <h3><a href="https://physx-anything.github.io/">PhysX-Anything</a> / <a href="https://physx-omni.github.io/">PhysX-Omni</a>：simulation-ready physical assets</h3>
+              <p>PhysX-Anything 从单张 in-the-wild image 生成带显式 geometry、articulation 和 physical attributes 的 sim-ready 3D asset；PhysX-Omni 是它的统一化延伸，把范围扩到 rigid、deformable 和 articulated objects，并用 geometry、absolute scale、material、affordance、kinematics、function description 六类属性做理解和生成评估。</p>
+              <p>迁移到机器人：它们服务的是 AgenticSim 的 Stage 1 asset layer。WorldComposer / Marble 可以先给出可导航的高斯场景外壳；PhysX-Anything / PhysX-Omni 再把其中可交互物体补成有尺度、材质、关节、运动学和接触参数的仿真对象，供 verifier 和 TTT 真正执行。</p>
+            </article>
+            <article class="decision-card ok">
+              <h3><a href="https://www.worldlabs.ai/blog/marble-world-model">WorldComposer / Marble</a>：Gaussian scene shell</h3>
+              <p>WorldComposer / Marble 这类 3D world generation 工具更适合先生成 scene-level spatial shell：房间、桌面、障碍物、视角、光照和可导航高斯场景，让 agent 有 reference-conditioned 的环境结构。</p>
+              <p>迁移到机器人：高斯场景本身偏视觉和导航，不足以直接训练 contact-rich manipulation；因此 proposal 里要把它和 PhysX-Anything / PhysX-Omni 组合成两层表示：Gaussian scene belief 负责空间和外观，physical asset graph 负责可抓取、可推、可变形、可关节运动的仿真交互。</p>
+            </article>
             <article class="decision-card warning">
               <h3><a href="https://arxiv.org/abs/2506.18088">RoboTwin 2.0</a>：simulation-in-the-loop code repair</h3>
               <p>RoboTwin 2.0 的专家代码生成 pipeline 用 code agent 写 task execution code，再通过 repeated simulated execution、execution log、VLM observation 和 code repair 迭代到通过。</p>
@@ -862,11 +887,6 @@
               <h3><a href="https://github.com/Genesis-Embodied-AI/genesis-world">Genesis World 1.0</a>：candidate simulator base</h3>
               <p>Genesis World 1.0 可以作为后续候选仿真底座：它把统一多物理引擎、Nyx photorealistic renderer 和 Quadrants cross-platform compiler 放在同一个 Pythonic simulation interface 里。</p>
               <p>本周只作为参考方向记录，还没有接入 AgenticSim；后续适合评估 contact-rich dexterous manipulation、deformable objects、fast batch rollout 和低 sim-to-real gap 的可行性。</p>
-            </article>
-            <article class="decision-card decision">
-              <h3><a href="https://github.com/RoboTwin-Platform/RoboTwin">RoboTwin 2.0 base</a>：candidate dual-arm benchmark base</h3>
-              <p>RoboTwin 2.0 也可以作为后续候选环境 base：它面向 bimanual manipulation，强调 scalable data generation、expert-code synthesis、simulation-in-the-loop refinement 和 structured domain randomization。</p>
-              <p>本周同样只提为候选参考；当前已实施底座仍是 LeHome / RoboLab / IsaacLab，RoboTwin 2.0 待后续评估接口、任务 schema 和数据格式是否能并入 AgenticSim。</p>
             </article>
           </div>
           <figure class="reference-figure">
@@ -912,6 +932,11 @@
                   <td>Propose / generate / supervise / learn</td>
                   <td>agent 负责生成任务、场景和训练监督，并把可执行场景接到 policy / workflow 更新</td>
                   <td>把 scene imagination 和 test-time training 合成一个闭环，而不是两个孤立模块。</td>
+                </tr>
+                <tr>
+                  <td>Gaussian scene + physical asset graph</td>
+                  <td>WorldComposer / Marble 生成可导航高斯场景和全局空间结构；PhysX-Anything / PhysX-Omni 生成可交互物体的 geometry、scale、material、affordance、kinematics、function 和物理属性。</td>
+                  <td>把“看起来像一个场景”的 3DGS 外壳升级成“能被 robot rollout 和 verifier 使用”的仿真环境；这是 Agentic scene imagination 的核心实现路线之一。</td>
                 </tr>
                 <tr>
                   <td>Execution log + VLM observation repair</td>
@@ -965,8 +990,8 @@
 
               <rect x="270" y="130" width="150" height="96" fill="#ddf3ef" stroke="#95cbc2"></rect>
               <text x="345" y="160" text-anchor="middle" fill="#17222d" font-size="19" font-weight="800">Imagine scene</text>
-              <text x="345" y="184" text-anchor="middle" fill="#5f6f7b" font-size="13">reference-conditioned</text>
-              <text x="345" y="202" text-anchor="middle" fill="#5f6f7b" font-size="13">layout, physics, uncertainty</text>
+              <text x="345" y="184" text-anchor="middle" fill="#5f6f7b" font-size="13">reference + task</text>
+              <text x="345" y="202" text-anchor="middle" fill="#5f6f7b" font-size="13">layout + physics</text>
 
               <rect x="470" y="130" width="150" height="96" fill="#fff3dc" stroke="#e2bd7c"></rect>
               <text x="545" y="160" text-anchor="middle" fill="#17222d" font-size="19" font-weight="800">TTT / repair</text>
@@ -1047,8 +1072,8 @@
                 </tr>
                 <tr>
                   <td>Imagine scene</td>
-                  <td>RoboGen 的 task proposal / scene generation / supervision generation 思路；FATE 的 static scene audit + embodied feasibility check；PhysX-Anything 生成 simulation-ready physical assets；WorldComposer 做 scene / Real2Sim asset generation；SceneMutator 做 task / asset mutation。</td>
-                  <td>把 reference、真实失败或真实轨迹落成可执行仿真场景，并显式保存 3D world belief、uncertainty 和 repair history，而不是只生成视觉数据或 prompt。</td>
+                  <td>RoboGen 的 task proposal / scene generation / supervision generation 思路；FATE 的 static scene audit + embodied feasibility check；WorldComposer / Marble 生成 Gaussian scene shell；PhysX-Anything 从单图生成 simulation-ready physical assets；PhysX-Omni 进一步统一 rigid / deformable / articulated object generation；SceneMutator 做 task / asset mutation。</td>
+                  <td>把 reference、真实失败或真实轨迹落成可执行仿真场景：先有空间/外观层的 3D Gaussian scene belief，再把关键交互物体转成带尺度、材质、关节、运动学、affordance 和物理参数的 asset graph，并显式保存 uncertainty 和 repair history。</td>
                 </tr>
                 <tr>
                   <td>TTT / repair</td>
@@ -1092,7 +1117,7 @@
             <article class="flow-step">
               <span>2</span>
               <strong>Imagine scene</strong>
-              <p>根据 reference 生成 object layout、材质、遮挡、扰动、物理参数和 scene uncertainty。</p>
+              <p>根据 reference 生成 Gaussian scene shell、object layout、物理资产、遮挡、扰动、物理参数和 scene uncertainty。</p>
             </article>
             <article class="flow-step">
               <span>3</span>
@@ -1113,6 +1138,103 @@
               <span>6</span>
               <strong>Update world belief</strong>
               <p>写入 failure memory、scene belief、TTT delta、accepted/rejected scenes，触发下一轮。</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="physx-implementation">
+          <div class="section-title">
+            <div>
+              <p class="eyebrow">PhysX-Anything / PhysX-Omni</p>
+              <h2>具体实现：把视觉场景变成可交互物理资产</h2>
+            </div>
+            <p>这一节专门服务 Self-Improving 里的 Agentic scene imagination：WorldComposer / Marble 负责生成 3D Gaussian scene shell，PhysX-Anything / PhysX-Omni 负责把关键物体补成能进 simulator 的 physical asset graph。</p>
+          </div>
+          <div class="quote-box">
+            <p>核心关系：PhysX-Anything 先证明 single image 可以生成带 geometry、articulation、physical attributes 的 simulation-ready object；PhysX-Omni 是它的统一化延伸，把对象类型扩到 rigid、deformable 和 articulated，并增加 PhysXVerse 数据集与 PhysX-Bench 评测。放到 AgenticSim 里，它们不是替代 WorldComposer / Marble，而是给高斯场景里的可交互物体补物理、尺度、材质、关节和 affordance。</p>
+          </div>
+          <div class="grid-2" style="margin-top: 14px;">
+            <article class="decision-card blue">
+              <h3><a href="https://physx-anything.github.io/">PhysX-Anything</a> 做了什么</h3>
+              <p>输入是一张 in-the-wild object image，输出不是普通 mesh，而是 simulation-ready physical 3D asset：它要显式恢复 object geometry、part-level articulation 和 physical attributes，使物体能进入 MuJoCo-style / physics-based environment 参与 contact-rich policy learning。</p>
+              <p>实现上，作者把 VLM 用到物理 3D 生成里，并设计了新的 geometry tokenization 表示，让高分辨率几何可以放进标准 VLM token budget 中学习；再通过 decoder 把全局结构、局部几何、关节和物理属性合成可仿真的 asset。</p>
+            </article>
+            <article class="decision-card decision">
+              <h3><a href="https://physx-omni.github.io/">PhysX-Omni</a> 如何延伸</h3>
+              <p>PhysX-Omni 解决 PhysX-Anything 偏 articulated object 的范围限制，把 simulation-ready 3D generation 统一到 rigid、deformable、articulated 三类对象。它强调一个统一的 physical asset generator，而不是每类物体各自一套 pipeline。</p>
+              <p>实现上，它进一步使用面向 VLM 的高效 geometry representation，构建 PhysXVerse 作为通用 simulation-ready 3D dataset，并用 PhysX-Bench 同时评估 generation 和 understanding。PhysX-Bench 的六个关键属性是 geometry、absolute scale、material、affordance、kinematics 和 function description。</p>
+            </article>
+          </div>
+          <div class="table-card" style="margin-top: 14px;">
+            <table class="evidence-table">
+              <thead>
+                <tr>
+                  <th>AgenticSim 需要的能力</th>
+                  <th>PhysX-Anything / PhysX-Omni 对应实现</th>
+                  <th>接到 Self-Improving 的方式</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>从 reference 识别关键物体</td>
+                  <td>从单张物体图像恢复对象整体结构、部件、关节、物理属性和功能描述。</td>
+                  <td>scene-generation agent 先从 WorldComposer / Marble 场景里挑出可交互 object crops，再调用 PhysX-style asset generator。</td>
+                </tr>
+                <tr>
+                  <td>把视觉物体变成可 rollout asset</td>
+                  <td>输出显式 geometry / articulation / material / scale / affordance / kinematics，而不是只输出视觉 mesh。</td>
+                  <td>把 3DGS scene shell 中的 key objects 替换或绑定到 simulator asset graph，供 reset、step、contact、collision 和 verifier 使用。</td>
+                </tr>
+                <tr>
+                  <td>覆盖不同物体类型</td>
+                  <td>PhysX-Anything 主要强调 articulated physical assets；PhysX-Omni 统一 rigid、deformable、articulated objects。</td>
+                  <td>AgenticSim 第一阶段可以先接 tabletop articulated/rigid objects，后续再加入 garment、rope、soft object 等 deformable task family。</td>
+                </tr>
+                <tr>
+                  <td>生成后能被评估</td>
+                  <td>PhysX-Omni 的 PhysX-Bench 用六类属性检查生成和理解质量；PhysX-Anything 用 simulation-based experiments 验证下游接触学习可用性。</td>
+                  <td>GovernanceGate 增加 asset-level checks：尺度是否合理、材质/摩擦是否可执行、关节是否物理有效、affordance 是否支持 task goal。</td>
+                </tr>
+                <tr>
+                  <td>随 interaction 更新 world belief</td>
+                  <td>初始 asset 只是 hypothesis；真实 rollout 会暴露接触、滑移、碰撞、关节范围和材质参数错误。</td>
+                  <td>Analyze 阶段把失败归因回写到 asset graph：修改 mass / friction / joint limit / collision shape / deformability，再重新进入 schedule。</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="grid-2" style="margin-top: 14px;">
+            <figure class="reference-figure" style="margin-top: 0;">
+              <img src="assets/physx-anything-framework.png" alt="PhysX-Anything original architecture diagram for simulation-ready physical 3D assets from a single image">
+              <figcaption>PhysX-Anything 原始架构图：从单张图片生成带显式 geometry、articulation 和 physical attributes 的 sim-ready physical asset。图源：<a href="https://physx-anything.github.io/">physx-anything.github.io</a>。</figcaption>
+            </figure>
+            <figure class="reference-figure" style="margin-top: 0;">
+              <img src="assets/physx-anything-decoder.png" alt="PhysX-Anything original decoder architecture diagram">
+              <figcaption>PhysX-Anything decoder 图：把生成出的结构、几何和物理描述解码成可用于仿真的 physical representation。图源：<a href="https://physx-anything.github.io/">physx-anything.github.io</a>。</figcaption>
+            </figure>
+          </div>
+          <div class="grid-2" style="margin-top: 14px;">
+            <figure class="reference-figure" style="margin-top: 0;">
+              <img src="assets/physx-omni-framework.png" alt="PhysX-Omni original overview architecture diagram for unified simulation-ready physical 3D generation">
+              <figcaption>PhysX-Omni 原始 overview 图：统一 rigid、deformable、articulated objects 的 simulation-ready physical 3D generation。图源：<a href="https://physx-omni.github.io/">physx-omni.github.io</a>。</figcaption>
+            </figure>
+            <figure class="reference-figure" style="margin-top: 0;">
+              <img src="assets/physx-omni-bench.png" alt="PhysX-Omni original PhysX-Bench overview diagram">
+              <figcaption>PhysX-Bench 原始 overview 图：从 geometry、scale、material、affordance、kinematics 和 function description 等属性评估生成资产。图源：<a href="https://physx-omni.github.io/">physx-omni.github.io</a>。</figcaption>
+            </figure>
+          </div>
+          <div class="grid-3" style="margin-top: 14px;">
+            <article class="panel decision">
+              <h3>放进 AgenticSim 的最小接口</h3>
+              <p>`generate_asset(reference_image, task_hint) -> asset_graph`，其中 asset_graph 至少包含 mesh / collision proxy、scale、material/friction、joint graph、affordance tags 和 simulator export path。</p>
+            </article>
+            <article class="panel warning">
+              <h3>和 3DGS 场景的分工</h3>
+              <p>WorldComposer / Marble 负责全局空间、视角、遮挡和视觉上下文；PhysX-Anything / PhysX-Omni 负责可交互物体。两者组合后才是可执行环境。</p>
+            </article>
+            <article class="panel ok">
+              <h3>本周 proposal 写法</h3>
+              <p>先不声称已接入，只把它们写成 Stage 1 的 reference implementation：下一步做 tabletop objects 的 asset adapter 和 GovernanceGate asset checks。</p>
             </article>
           </div>
         </section>
