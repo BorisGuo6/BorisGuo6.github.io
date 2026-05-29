@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-29T19:28:31+08:00",
+  "updated_at": "2026-05-29T19:31:55+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -4906,25 +4906,30 @@
       "updated_at": "2026-05-29T19:26:29+08:00"
     },
     {
-      "task_id": "task_real_robot_infra_qa_temporary_todo_1779523456554_20260523",
+      "task_id": "task_real_robot_infra_franka_curobo_motion_planning",
       "project_id": "real-robot-infra",
-      "title": "QA temporary TODO 1779523456554",
-      "description": "Temporary browser QA task for add-TODO flow; should be cleaned after verification.",
-      "status": "needs_user",
-      "priority": "medium",
+      "title": "Franka 运动规划库切到 cuRobo",
+      "description": "把 Franka / Franka + 灵巧手真机栈的运动规划从当前规划库迁移到 NVIDIA cuRobo。目标：确认 CUDA/驱动/机器人控制机环境，封装 cuRobo planner wrapper，配置 Franka joint limits、collision scene、末端/手部几何和安全 workspace，先在仿真或 dry-run 轨迹上验证，再接入真机低速 smoke。验收：给出可复现安装与启动命令；至少通过一个 pick/place 或 reach target 规划样例；记录规划耗时、碰撞检查结果、失败回退策略和真机安全限制。",
+      "status": "todo",
+      "priority": "high",
       "assignee": null,
-      "due_at": "2026-05-30",
+      "due_at": "",
       "result": null,
-      "comments": [
-        {
-          "comment_id": "clawcross_00c6d18e6e65",
-          "author": "Needs user",
-          "body": "This is a stale QA placeholder with no actionable spec. It requires human decision to delete it or replace it with a concrete task; there is no dependency to install or code path to run.",
-          "created_at": "2026-05-29T02:22:55+08:00",
-          "kind": "needs_user"
-        }
-      ],
-      "updated_at": "2026-05-29T02:22:55+08:00"
+      "comments": [],
+      "updated_at": "2026-05-29T19:31:55+08:00"
+    },
+    {
+      "task_id": "task_real_robot_infra_me_control_two_hosts",
+      "project_id": "real-robot-infra",
+      "title": "ME Control Lab 至少补两台主机",
+      "description": "为 ME Control Lab 真机实验至少补充两台主机，并明确各自主责。目标：盘点当前控制机/采集机/训练机缺口，提出至少 2 台新增主机的配置与放置方案，覆盖实时机器人控制、相机/手套/追踪器数据采集、远程监控、数据缓存和必要的 GPU/USB/NIC/存储需求。验收：列出两台主机的建议配置、预算/采购或调拨路径、网络与账号接入 checklist、预计绑定设备和上线验证步骤。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": null,
+      "due_at": "",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-05-29T19:31:55+08:00"
     }
   ]
 }
