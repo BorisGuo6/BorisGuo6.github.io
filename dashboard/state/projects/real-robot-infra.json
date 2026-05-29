@@ -4,9 +4,9 @@
   "title": "Real-Robot Lab Infra",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-05-27T12:55:06+08:00",
+  "updated_at": "2026-05-29T19:44:01+08:00",
   "description": "Engineering stack for teleoperation, data collection, and robot-side validation",
-  "summary": "This is the engineering base that keeps weekly research work grounded in real data collection and real-robot validation.",
+  "summary": "This is the engineering base that keeps weekly research work grounded in real data collection, linked hardware assets/resources, and real-robot validation.",
   "asset": "dashboard/assets/real-robot-infra-collage.png",
   "asset_alt": "Real-robot lab infrastructure hardware collage",
   "asset_caption": "Hardware matrix: ready systems, dual-Franka same-computer control, and planned glove / tracker teleoperation stack.",
@@ -28,7 +28,11 @@
     "Wrist tracking fallback: if VIVE Tracker is not used for wrist pose, evaluate an ACE Teleop-style wrist ring to replace the Gello-end trigger as the wrist / intent input device.",
     "MANUS + VIVE merge: hardware verifier requirements are folded into the single MANUS + VIVE task; do not track a separate verifier TODO.",
     "VIVE Tracker real-robot debugging needs a chest mount / strap so the CHEST tracker frame can be stable enough for calibration and replay.",
-    "VR teleoperation direction: implement a SteamVR/OpenVR input path for controlling Franka end-effector pose with controller / tracker / headset input, gated by calibration, workspace limits, velocity / acceleration caps, deadman switch, and E-stop readiness."
+    "VR teleoperation direction: implement a SteamVR/OpenVR input path for controlling Franka end-effector pose with controller / tracker / headset input, gated by calibration, workspace limits, velocity / acceleration caps, deadman switch, and E-stop readiness.",
+    "Canonical asset table linked: Real Robot Infra asset sheet gid 1134950065 contains 16 rows; key current assets include Franka Research 3, Wuji Hand, Wuji glove with D405 capture, YAM arms for ALOHA, D405 cameras, MANUS gloves, and VIVE trackers.",
+    "Hardware Resource Center is the canonical Notion target for manuals, SOPs, calibration notes, vendor PDFs, and hardware resource links; current connector access needs to be fixed before automated Notion content sync can verify page internals.",
+    "YAM ALOHA setup is grounded in asset LV-ROB-010: 数量:4；aloha系统, location E2-01-04, status 搭建中.",
+    "Wuji glove data wrapper is grounded in asset GM-ROB-004: 各装一个D405做数采, location E2-01-04, status Ready."
   ],
   "task_ids": [
     "task_real_robot_infra_arx_setup",
@@ -41,7 +45,12 @@
     "task_real_robot_infra_vr_teleop_franka",
     "task_real_robot_infra_safety_workspace",
     "task_real_robot_infra_factr_force_feedback",
-    "task_real_robot_infra_knife_meat_demo_plan"
+    "task_real_robot_infra_knife_meat_demo_plan",
+    "task_real_robot_wuji_glove_network_smoke",
+    "task_real_robot_infra_franka_curobo_motion_planning",
+    "task_real_robot_infra_me_control_two_hosts",
+    "task_real_robot_infra_yam_aloha_setup",
+    "task_real_robot_infra_wuji_glove_data_wrapper"
   ],
   "risks_decisions": [
     "不同设备的驱动、SDK、ROS topic 和日志格式需要尽早统一，否则后面每条数据都会带维护成本。",
@@ -53,6 +62,80 @@
     "工程状态需要和研究项目解耦：infra 卡片只追踪设备可用性，算法结果留在各项目卡片里。",
     "Teacher knife demo safety: using a dexterous hand to hold a knife and cut meat must start from fixture / dummy-material rehearsal, speed limits, blade-safe workspace, and explicit abort conditions; do not combine sharp-tool trials with single-person operation.",
     "FACTR procurement route: FACTR purchase should go through Jingte Intelligent rather than the slow school process, while xArm / already-started school items remain separate.",
-    "VR teleoperation of Franka must be hardware-gated: start in simulation or read-only pose preview, then low-speed Cartesian control with workspace bounds, deadman switch, rate limiting, collision checks, and an E-stop operator before any live robot motion."
-  ]
+    "VR teleoperation of Franka must be hardware-gated: start in simulation or read-only pose preview, then low-speed Cartesian control with workspace bounds, deadman switch, rate limiting, collision checks, and an E-stop operator before any live robot motion.",
+    "Every hardware TODO should cite its asset-table row and the corresponding Hardware Resource Center manual/SOP location before being marked done.",
+    "YAM ALOHA and Wuji glove capture both need a shared timestamp/schema path so their data can flow into the same real-robot dataset and replay verifier infrastructure."
+  ],
+  "external_resources": [
+    {
+      "label": "Real Robot Infra asset sheet",
+      "kind": "google_sheet",
+      "url": "https://docs.google.com/spreadsheets/d/1zujQRhscAfwhXTTl_avQwI8eNeOctk0Hl_e8S-Ak_CY/edit?gid=1134950065#gid=1134950065",
+      "notes": "gid 1134950065; read 16 rows on 2026-05-29T19:44:01+08:00."
+    },
+    {
+      "label": "Hardware Resource Center",
+      "kind": "notion",
+      "url": "https://www.notion.so/Hardware-Resource-Center-34120ba53f898026b4cfe366c9b71ac1?source=copy_link",
+      "notes": "Canonical place for hardware manuals, SOPs, calibration docs, and vendor resources. Current Codex Notion connector could not fetch page contents; keep link as resource target and fix permissions if live sync is required."
+    }
+  ],
+  "asset_inventory_snapshot": {
+    "source_url": "https://docs.google.com/spreadsheets/d/1zujQRhscAfwhXTTl_avQwI8eNeOctk0Hl_e8S-Ak_CY/edit?gid=1134950065#gid=1134950065",
+    "gid": "1134950065",
+    "read_at": "2026-05-29T19:44:01+08:00",
+    "row_count": 16,
+    "key_assets": [
+      {
+        "资产编号": "LV-ROB-008",
+        "资产名称": "D405相机",
+        "规格型号/描述": "数量:6",
+        "登记日期": "4/21/2026",
+        "存放地点": "E2-01-04",
+        "负责人": "Yuhang & Jingxiang",
+        "使用状态": "Ready",
+        "备注": ""
+      },
+      {
+        "资产编号": "GM-ROB-002",
+        "资产名称": "Franka机械臂",
+        "规格型号/描述": "Franka Research 3",
+        "登记日期": "5/29/2026",
+        "存放地点": "E2-01-04",
+        "负责人": "Yuhang & Jingxiang",
+        "使用状态": "Ready",
+        "备注": "共用 w 周建树"
+      },
+      {
+        "资产编号": "GM-ROB-003",
+        "资产名称": "Wuji灵巧手",
+        "规格型号/描述": "Wuji Hand 第一代",
+        "登记日期": "5/29/2026",
+        "存放地点": "E2-01-04",
+        "负责人": "Yuhang & Jingxiang",
+        "使用状态": "Ready",
+        "备注": "共用 w 周建树"
+      },
+      {
+        "资产编号": "GM-ROB-004",
+        "资产名称": "Wuji手套",
+        "规格型号/描述": "各装一个D405做数采",
+        "登记日期": "5/29/2026",
+        "存放地点": "E2-01-04",
+        "负责人": "Yuhang & Jingxiang",
+        "使用状态": "Ready",
+        "备注": "共用 w 周建树"
+      },
+      {
+        "资产编号": "LV-ROB-010",
+        "资产名称": "YAM臂",
+        "规格型号/描述": "数量:4；aloha系统",
+        "登记日期": "5/29/2026",
+        "存放地点": "E2-01-04",
+        "负责人": "Yuhang & Jingxiang",
+        "使用状态": "搭建中",
+        "备注": ""
+      }
+    ]
+  }
 }
