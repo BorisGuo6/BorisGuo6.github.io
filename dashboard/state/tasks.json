@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-29T19:44:01+08:00",
+  "updated_at": "2026-05-29T20:05:36+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -218,9 +218,65 @@
           "body": "Mirrored strict audit decision from default state for task_real_robot_infra_wuji_glove; remaining work requires human action/credential/hardware/decision, not more autonomous dependency installation.",
           "created_at": "2026-05-29T02:22:37+08:00",
           "kind": "needs_user"
+        },
+        {
+          "comment_id": "clawcross_88a4d3f37076",
+          "author": "Progress",
+          "body": "[Codex route 2026-05-23] Route: prioritize a logged hardware smoke over more desk research: Wuji glove packet stream, timestamps, sample-rate estimate, dropped frame count, and a minimal schema compatible with MANUS/VIVE/robot state. Wuji docs advertise 120 FPS tactile/pose; the local verifier should confirm what this lab setup actually emits.",
+          "created_at": "2026-05-23T01:11:43+08:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_7229250e8f32",
+          "author": "Blocker",
+          "body": "Network smoke implemented + offline-verified; blocked on link-level connectivity.\n\n== Repo + commit ==\n\nWorktree: /home/boris/workspace/wuji_glove_wrapper\nBranch:   main\nCommit:   6fbdb3725c8db393f613469e40a8977ea5b19097  ('Add 10s network-smoke script + offline metrics module')\n\nFiles (sha256):\n  scripts/glove_net_smoke.py            bc2efca9117a4cc35b41f77ac05bcf83f1757a2eb9e9117a0a9582f5836c4507\n  src/wuji_glove_wrapper/metrics.py     ec6d5844c928ec1c60bf4e9e4f98d8711ac40bcf5bbf6f92ebe493e292849c6a\n  tests/test_metrics.py                 9b29d00154543fb84eb452d3d26e19deb4bf7b7e28641094de31797cd629f748\n\n== Offline verifier (passes without glove on the wire) ==\n\nCommand:\n  cd ~/workspace/wuji_glove_wrapper && ~/workspace/wuji_wrapper/.venv/bin/python -m pytest tests/ -v\nResult: 9 passed in 0.09s\nCoverage: empty input / 120 Hz perfect / seq-gap drop counting / constant +5 ms drift / linearly growing drift / inter-arrival jitter / reorder safety / _percentile interpolation / schema_of attribute walk.\nLog:    /home/boris/.claude/jobs/wuji_glove_net/tests.log\nsha256: 2df20e810d9c45eefe60092e1f5749b4383c54d0aad5050b11229006c9e327c3\n\n== Smoke runner — actual 10 s run on this host, captured concrete blocker ==\n\nCommand:\n  ~/workspace/wuji_wrapper/.venv/bin/python ~/workspace/wuji_glove_wrapper/scripts/glove_net_smoke.py\n  (default --duration 10.0 --iface enp58s0 --ips 192.168.1.100,192.168.1.101)\n\nStdout:\n  [wuji-net-smoke] log     : /home/boris/.claude/jobs/wuji_glove_net/smoke.json\n  [wuji-net-smoke] sha256  : b8707f78071fa98f3d97426993ef2921bf5612196df5d0c4b8a6e55d84ba1d3b\n  [wuji-net-smoke] blocker : iface_enp58s0_no_carrier (cable unplugged or Wuji USB-C-to-Ethernet power adapter off; expected static IP 192.168.1.10/24 on host, glove at .100/.101)\n  [wuji-net-smoke] devices : 0\n  [wuji-net-smoke] frames  : 0\nExit: 2\n\nLog artifacts:\n  /home/boris/.claude/jobs/wuji_glove_net/smoke.json                 sha256=b8707f78071fa98f3d97426993ef2921bf5612196df5d0c4b8a6e55d84ba1d3b\n  /home/boris/.claude/jobs/wuji_glove_net/smoke_no_carrier_10s.json  (frozen copy of the above)\n\nJSON payload structure (schema_version wuji_glove_net_smoke.v1):\n  host, duration_s, started_at_utc_us, ended_at_utc_us\n  iface_state { iface, exists, carrier, operstate }\n  udp_probes [ { ip, port, reachable, error } ]\n  sdk { available, version }\n  devices [ { sn, ip, port, transport_type, firmware_version, hand_side, ... } ]\n  streams { <sn>: { <stream>: StreamMetrics } }\n  blocker (string or null)\n  total_frames, elapsed_s\n  StreamMetrics: { stream, frame_count, duration_s, rate_hz, seq_min, seq_max,\n                   seq_drop_count, seq_gap_max,\n                   drift_us_{min,max,mean,p50,p95},\n                   interarrival_us_{mean,std},\n                   schema {type, fields:{<attr>:{type,len}}} }\n\n== Concrete hardware/network blocker ==\n\niface_state (from /sys/class/net/enp58s0/{carrier,operstate}):\n  carrier=0 operstate=down\n\nEarlier verified-good state (per dashboard comment clawcross_34a5c74c0249, 2026-05-22 16:49):\n  enp58s0: 192.168.1.10/24 static, ping 192.168.1.101 -> 4/4 RTT 0.12-0.20 ms, SDK pulled 7 streams from SN WG1KA02260410009.\n\nWhat changed since then to drop the link is hardware-side (cable unplugged / glove adapter unpowered / glove off). I cannot bring enp58s0 up without sudo + a physical cable check. Per master-control instructions: not retrying with sudo.\n\n== What's needed to clear this blocker (no sudo from me) ==\n\nA human/local Codex needs to (in order):\n  1. Plug the Wuji USB-C-to-Ethernet adapter's RJ45 into enp58s0 (Arm A's old port).\n  2. Confirm the adapter's DC power barrel is in (the adapter should hum / LED on).\n  3. Power on the glove(s); the wrist LED should breath cyan ~4 s in standby.\n  4. Re-apply the static IP on host:\n       sudo ip addr add 192.168.1.10/24 dev enp58s0\n       sudo ip link set enp58s0 up\n     (or whichever NM/networkd profile was used before)\n  5. Verify: ping -c 2 192.168.1.101  (or .100 for left glove)\n  6. Re-run the smoke:\n       ~/workspace/wuji_wrapper/.venv/bin/python ~/workspace/wuji_glove_wrapper/scripts/glove_net_smoke.py\n     Expected (per earlier good run): 7 streams populated, rate_hz ~120 for tactile, seq_drop_count low, drift_us mean within ~1 ms (SDK syncs to host clock).\n\nOnce the link is back the script collects the full 10 s window and produces the acceptance-criteria deliverable in one run with no further code changes.\n\n== Status ==\n\nSetting needs_user / blocked on physical link. Implementation is committed & offline-verified. Will move to task_real_robot_input_record_schema (the second TODO on this rotation) while waiting on hardware.",
+          "created_at": "2026-05-23T02:14:48+08:00",
+          "kind": "blocker"
+        },
+        {
+          "comment_id": "clawcross_9c8e12258e7e",
+          "author": "Blocker",
+          "body": "Re-check after user request to verify connection recovery: NO, hardware link has NOT come back. Re-ran smoke to capture fresh evidence.\n\n== Current link state (2026-05-23) ==\n\nip -brief link:\n  enp58s0          DOWN           b4:45:06:b2:a5:42 <NO-CARRIER,BROADCAST,MULTICAST,UP>\n  enx2c16dbac331f  DOWN           2c:16:db:ac:33:1f <NO-CARRIER,BROADCAST,MULTICAST,UP>\n  wlp0s20f3        UP             10.249.234.23/16  (wifi only; not the Wuji path)\n  lo / tailscale0  UP\n\n/sys/class/net/enp58s0/carrier = 0\n/sys/class/net/enp58s0/operstate = down\n\nethtool enp58s0:\n  Speed: Unknown!\n  Duplex: Unknown! (255)\n  master-slave status: unknown\n  (these values are the canonical 'no physical link' readout)\n\nping -c 2 -W 1 192.168.1.101  ->  100% packet loss\nping -c 2 -W 1 192.168.1.100  ->  100% packet loss\n\ndmesg / journalctl -k blocked under this worker's policy (no sudo); cannot inspect the USB-C-to-Ethernet adapter's kernel-side enumeration directly.\n\n== Re-run of the smoke ==\n\nCommand:\n  ~/workspace/wuji_wrapper/.venv/bin/python ~/workspace/wuji_glove_wrapper/scripts/glove_net_smoke.py \\\n      --out ~/.claude/jobs/wuji_glove_net/smoke_retry.json\n\nOutput:\n  [wuji-net-smoke] log     : /home/boris/.claude/jobs/wuji_glove_net/smoke_retry.json\n  [wuji-net-smoke] sha256  : d9b1044869537a5079675201cd74081c76e5068065eb8a1abfb1fc7f2cee8496\n  [wuji-net-smoke] blocker : iface_enp58s0_no_carrier (cable unplugged or Wuji USB-C-to-Ethernet power adapter off; expected static IP 192.168.1.10/24 on host, glove at .100/.101)\n  [wuji-net-smoke] devices : 0\n  [wuji-net-smoke] frames  : 0\nExit: 2\n\nJSON evidence:\n  /home/boris/.claude/jobs/wuji_glove_net/smoke_retry.json\n  sha256=d9b1044869537a5079675201cd74081c76e5068065eb8a1abfb1fc7f2cee8496\n  started_at_utc_us=1779474628811325\n  ended_at_utc_us=1779474628811577\n  blocker=iface_enp58s0_no_carrier\n  iface_state={'carrier':'0','exists':True,'iface':'enp58s0','operstate':'down'}\n  devices=[]\n\n== Why I cannot fix this from this worker ==\n\nBringing the link up requires physical / privileged actions I am not allowed to perform:\n\n  1. Physically plug the Wuji USB-C-to-Ethernet adapter's RJ45 into enp58s0\n     (Arm A's old port). [需要人工]\n  2. Confirm the adapter's DC power barrel is in and the adapter LED is on.\n     [需要人工]\n  3. Power on the glove(s) — wrist LED should breathe cyan ~4 s in standby.\n     [需要人工]\n  4. After link comes up:\n       sudo ip addr add 192.168.1.10/24 dev enp58s0\n       sudo ip link set enp58s0 up\n     (or whichever NM/networkd profile was used to re-apply previously)\n     [需要 sudo — 我策略上不被允许]\n\nOnce any of those steps changes /sys/class/net/enp58s0/carrier to 1 and a\nping to 192.168.1.101 succeeds, the same smoke command will populate the\nstreams[]/devices[] sections and emit the full 10-second log automatically.\n\n== Status ==\n\nLeaving as blocked / needs_user. The implementation is committed (commit\n6fbdb37) and pre-verified offline (9/9 pytest). No code change is needed\nto clear this — only physical cable / power / sudo on the host.\n\nTo request the user run the recovery: please re-plug the Wuji USB-C-to-Ethernet\nadapter on enp58s0 with DC power and the glove on, then re-apply the\n192.168.1.10/24 static IP, then re-run:\n  ~/workspace/wuji_wrapper/.venv/bin/python ~/workspace/wuji_glove_wrapper/scripts/glove_net_smoke.py",
+          "created_at": "2026-05-23T02:30:59+08:00",
+          "kind": "blocker"
+        },
+        {
+          "comment_id": "clawcross_23c3ff075008",
+          "author": "Blocker",
+          "body": "Host/Codex triage: accepted the software smoke evidence as a hardware blocker. Latest remote smoke shows enp58s0 DOWN/NO-CARRIER, carrier=0, ethtool speed/duplex unknown, pings to 192.168.1.101 and .100 fail, devices=0, frames=0, exit=2, smoke log sha256 d9b1044869537a5079675201cd74081c76e5068065eb8a1abfb1fc7f2cee8496. Next unblock requires physical RJ45/DC/glove power and then static IP setup.",
+          "created_at": "2026-05-23T14:24:26+08:00",
+          "kind": "blocker"
+        },
+        {
+          "comment_id": "strict_validation_20260529_task_real_robot_wuji_glove_network_smoke",
+          "author": "Codex",
+          "body": "Strict validation 2026-05-29: Wuji wrapper deps/tests installed and passing; UDP send probe is not a real frame/timestamp capture, so this remains blocked pending the actual glove network stream.",
+          "created_at": "2026-05-29T00:58:32+08:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_f9d910ae00bb",
+          "author": "Needs user",
+          "body": "Still requires onsite network/hardware action: real Wuji glove timestamp capture cannot run while the target NIC/link has no carrier. If sudo ip link/addr changes are needed, that is human intervention.",
+          "created_at": "2026-05-29T02:16:47+08:00",
+          "kind": "needs_user"
+        },
+        {
+          "comment_id": "clawcross_be0c450cae39",
+          "author": "Needs user",
+          "body": "Mirrored strict audit decision from default state for task_real_robot_wuji_glove_network_smoke; remaining work requires human action/credential/hardware/decision, not more autonomous dependency installation.",
+          "created_at": "2026-05-29T02:22:37+08:00",
+          "kind": "needs_user"
+        },
+        {
+          "comment_id": "comment_merge_wuji_glove_tasks_20260529",
+          "author": "local-codex",
+          "kind": "comment",
+          "body": "Merged duplicate Wuji Glove TODOs into this canonical task: network smoke/timestamp logging and data-collection wrapper are now acceptance items here.",
+          "created_at": "2026-05-29T20:05:27+08:00"
         }
       ],
-      "updated_at": "2026-05-29T02:22:37+08:00",
+      "updated_at": "2026-05-29T20:05:22+08:00",
       "due_at": "",
       "completed_at": "2026-05-29"
     },
@@ -3577,69 +3633,6 @@
       "completed_at": "2026-05-23"
     },
     {
-      "task_id": "task_real_robot_wuji_glove_network_smoke",
-      "project_id": "real-robot-infra",
-      "title": "跑通 Wuji Glove 网络 smoke 与时间戳记录",
-      "description": "Why now: 已纠正 Wuji Glove 不是 MANUS，真实连接是 USB-C-to-Ethernet 网络端点。Deliverable: 网络发现、stream subscribe、timestamp drift/logging smoke。Acceptance: 记录 IP/port、packet rate、字段 schema、10 秒日志 sha256；失败时输出硬件/网络 blocker。",
-      "status": "needs_user",
-      "priority": "high",
-      "assignee": "boris@100.70.181.44",
-      "result": null,
-      "comments": [
-        {
-          "comment_id": "clawcross_88a4d3f37076",
-          "author": "Progress",
-          "body": "[Codex route 2026-05-23] Route: prioritize a logged hardware smoke over more desk research: Wuji glove packet stream, timestamps, sample-rate estimate, dropped frame count, and a minimal schema compatible with MANUS/VIVE/robot state. Wuji docs advertise 120 FPS tactile/pose; the local verifier should confirm what this lab setup actually emits.",
-          "created_at": "2026-05-23T01:11:43+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_7229250e8f32",
-          "author": "Blocker",
-          "body": "Network smoke implemented + offline-verified; blocked on link-level connectivity.\n\n== Repo + commit ==\n\nWorktree: /home/boris/workspace/wuji_glove_wrapper\nBranch:   main\nCommit:   6fbdb3725c8db393f613469e40a8977ea5b19097  ('Add 10s network-smoke script + offline metrics module')\n\nFiles (sha256):\n  scripts/glove_net_smoke.py            bc2efca9117a4cc35b41f77ac05bcf83f1757a2eb9e9117a0a9582f5836c4507\n  src/wuji_glove_wrapper/metrics.py     ec6d5844c928ec1c60bf4e9e4f98d8711ac40bcf5bbf6f92ebe493e292849c6a\n  tests/test_metrics.py                 9b29d00154543fb84eb452d3d26e19deb4bf7b7e28641094de31797cd629f748\n\n== Offline verifier (passes without glove on the wire) ==\n\nCommand:\n  cd ~/workspace/wuji_glove_wrapper && ~/workspace/wuji_wrapper/.venv/bin/python -m pytest tests/ -v\nResult: 9 passed in 0.09s\nCoverage: empty input / 120 Hz perfect / seq-gap drop counting / constant +5 ms drift / linearly growing drift / inter-arrival jitter / reorder safety / _percentile interpolation / schema_of attribute walk.\nLog:    /home/boris/.claude/jobs/wuji_glove_net/tests.log\nsha256: 2df20e810d9c45eefe60092e1f5749b4383c54d0aad5050b11229006c9e327c3\n\n== Smoke runner — actual 10 s run on this host, captured concrete blocker ==\n\nCommand:\n  ~/workspace/wuji_wrapper/.venv/bin/python ~/workspace/wuji_glove_wrapper/scripts/glove_net_smoke.py\n  (default --duration 10.0 --iface enp58s0 --ips 192.168.1.100,192.168.1.101)\n\nStdout:\n  [wuji-net-smoke] log     : /home/boris/.claude/jobs/wuji_glove_net/smoke.json\n  [wuji-net-smoke] sha256  : b8707f78071fa98f3d97426993ef2921bf5612196df5d0c4b8a6e55d84ba1d3b\n  [wuji-net-smoke] blocker : iface_enp58s0_no_carrier (cable unplugged or Wuji USB-C-to-Ethernet power adapter off; expected static IP 192.168.1.10/24 on host, glove at .100/.101)\n  [wuji-net-smoke] devices : 0\n  [wuji-net-smoke] frames  : 0\nExit: 2\n\nLog artifacts:\n  /home/boris/.claude/jobs/wuji_glove_net/smoke.json                 sha256=b8707f78071fa98f3d97426993ef2921bf5612196df5d0c4b8a6e55d84ba1d3b\n  /home/boris/.claude/jobs/wuji_glove_net/smoke_no_carrier_10s.json  (frozen copy of the above)\n\nJSON payload structure (schema_version wuji_glove_net_smoke.v1):\n  host, duration_s, started_at_utc_us, ended_at_utc_us\n  iface_state { iface, exists, carrier, operstate }\n  udp_probes [ { ip, port, reachable, error } ]\n  sdk { available, version }\n  devices [ { sn, ip, port, transport_type, firmware_version, hand_side, ... } ]\n  streams { <sn>: { <stream>: StreamMetrics } }\n  blocker (string or null)\n  total_frames, elapsed_s\n  StreamMetrics: { stream, frame_count, duration_s, rate_hz, seq_min, seq_max,\n                   seq_drop_count, seq_gap_max,\n                   drift_us_{min,max,mean,p50,p95},\n                   interarrival_us_{mean,std},\n                   schema {type, fields:{<attr>:{type,len}}} }\n\n== Concrete hardware/network blocker ==\n\niface_state (from /sys/class/net/enp58s0/{carrier,operstate}):\n  carrier=0 operstate=down\n\nEarlier verified-good state (per dashboard comment clawcross_34a5c74c0249, 2026-05-22 16:49):\n  enp58s0: 192.168.1.10/24 static, ping 192.168.1.101 -> 4/4 RTT 0.12-0.20 ms, SDK pulled 7 streams from SN WG1KA02260410009.\n\nWhat changed since then to drop the link is hardware-side (cable unplugged / glove adapter unpowered / glove off). I cannot bring enp58s0 up without sudo + a physical cable check. Per master-control instructions: not retrying with sudo.\n\n== What's needed to clear this blocker (no sudo from me) ==\n\nA human/local Codex needs to (in order):\n  1. Plug the Wuji USB-C-to-Ethernet adapter's RJ45 into enp58s0 (Arm A's old port).\n  2. Confirm the adapter's DC power barrel is in (the adapter should hum / LED on).\n  3. Power on the glove(s); the wrist LED should breath cyan ~4 s in standby.\n  4. Re-apply the static IP on host:\n       sudo ip addr add 192.168.1.10/24 dev enp58s0\n       sudo ip link set enp58s0 up\n     (or whichever NM/networkd profile was used before)\n  5. Verify: ping -c 2 192.168.1.101  (or .100 for left glove)\n  6. Re-run the smoke:\n       ~/workspace/wuji_wrapper/.venv/bin/python ~/workspace/wuji_glove_wrapper/scripts/glove_net_smoke.py\n     Expected (per earlier good run): 7 streams populated, rate_hz ~120 for tactile, seq_drop_count low, drift_us mean within ~1 ms (SDK syncs to host clock).\n\nOnce the link is back the script collects the full 10 s window and produces the acceptance-criteria deliverable in one run with no further code changes.\n\n== Status ==\n\nSetting needs_user / blocked on physical link. Implementation is committed & offline-verified. Will move to task_real_robot_input_record_schema (the second TODO on this rotation) while waiting on hardware.",
-          "created_at": "2026-05-23T02:14:48+08:00",
-          "kind": "blocker"
-        },
-        {
-          "comment_id": "clawcross_9c8e12258e7e",
-          "author": "Blocker",
-          "body": "Re-check after user request to verify connection recovery: NO, hardware link has NOT come back. Re-ran smoke to capture fresh evidence.\n\n== Current link state (2026-05-23) ==\n\nip -brief link:\n  enp58s0          DOWN           b4:45:06:b2:a5:42 <NO-CARRIER,BROADCAST,MULTICAST,UP>\n  enx2c16dbac331f  DOWN           2c:16:db:ac:33:1f <NO-CARRIER,BROADCAST,MULTICAST,UP>\n  wlp0s20f3        UP             10.249.234.23/16  (wifi only; not the Wuji path)\n  lo / tailscale0  UP\n\n/sys/class/net/enp58s0/carrier = 0\n/sys/class/net/enp58s0/operstate = down\n\nethtool enp58s0:\n  Speed: Unknown!\n  Duplex: Unknown! (255)\n  master-slave status: unknown\n  (these values are the canonical 'no physical link' readout)\n\nping -c 2 -W 1 192.168.1.101  ->  100% packet loss\nping -c 2 -W 1 192.168.1.100  ->  100% packet loss\n\ndmesg / journalctl -k blocked under this worker's policy (no sudo); cannot inspect the USB-C-to-Ethernet adapter's kernel-side enumeration directly.\n\n== Re-run of the smoke ==\n\nCommand:\n  ~/workspace/wuji_wrapper/.venv/bin/python ~/workspace/wuji_glove_wrapper/scripts/glove_net_smoke.py \\\n      --out ~/.claude/jobs/wuji_glove_net/smoke_retry.json\n\nOutput:\n  [wuji-net-smoke] log     : /home/boris/.claude/jobs/wuji_glove_net/smoke_retry.json\n  [wuji-net-smoke] sha256  : d9b1044869537a5079675201cd74081c76e5068065eb8a1abfb1fc7f2cee8496\n  [wuji-net-smoke] blocker : iface_enp58s0_no_carrier (cable unplugged or Wuji USB-C-to-Ethernet power adapter off; expected static IP 192.168.1.10/24 on host, glove at .100/.101)\n  [wuji-net-smoke] devices : 0\n  [wuji-net-smoke] frames  : 0\nExit: 2\n\nJSON evidence:\n  /home/boris/.claude/jobs/wuji_glove_net/smoke_retry.json\n  sha256=d9b1044869537a5079675201cd74081c76e5068065eb8a1abfb1fc7f2cee8496\n  started_at_utc_us=1779474628811325\n  ended_at_utc_us=1779474628811577\n  blocker=iface_enp58s0_no_carrier\n  iface_state={'carrier':'0','exists':True,'iface':'enp58s0','operstate':'down'}\n  devices=[]\n\n== Why I cannot fix this from this worker ==\n\nBringing the link up requires physical / privileged actions I am not allowed to perform:\n\n  1. Physically plug the Wuji USB-C-to-Ethernet adapter's RJ45 into enp58s0\n     (Arm A's old port). [需要人工]\n  2. Confirm the adapter's DC power barrel is in and the adapter LED is on.\n     [需要人工]\n  3. Power on the glove(s) — wrist LED should breathe cyan ~4 s in standby.\n     [需要人工]\n  4. After link comes up:\n       sudo ip addr add 192.168.1.10/24 dev enp58s0\n       sudo ip link set enp58s0 up\n     (or whichever NM/networkd profile was used to re-apply previously)\n     [需要 sudo — 我策略上不被允许]\n\nOnce any of those steps changes /sys/class/net/enp58s0/carrier to 1 and a\nping to 192.168.1.101 succeeds, the same smoke command will populate the\nstreams[]/devices[] sections and emit the full 10-second log automatically.\n\n== Status ==\n\nLeaving as blocked / needs_user. The implementation is committed (commit\n6fbdb37) and pre-verified offline (9/9 pytest). No code change is needed\nto clear this — only physical cable / power / sudo on the host.\n\nTo request the user run the recovery: please re-plug the Wuji USB-C-to-Ethernet\nadapter on enp58s0 with DC power and the glove on, then re-apply the\n192.168.1.10/24 static IP, then re-run:\n  ~/workspace/wuji_wrapper/.venv/bin/python ~/workspace/wuji_glove_wrapper/scripts/glove_net_smoke.py",
-          "created_at": "2026-05-23T02:30:59+08:00",
-          "kind": "blocker"
-        },
-        {
-          "comment_id": "clawcross_23c3ff075008",
-          "author": "Blocker",
-          "body": "Host/Codex triage: accepted the software smoke evidence as a hardware blocker. Latest remote smoke shows enp58s0 DOWN/NO-CARRIER, carrier=0, ethtool speed/duplex unknown, pings to 192.168.1.101 and .100 fail, devices=0, frames=0, exit=2, smoke log sha256 d9b1044869537a5079675201cd74081c76e5068065eb8a1abfb1fc7f2cee8496. Next unblock requires physical RJ45/DC/glove power and then static IP setup.",
-          "created_at": "2026-05-23T14:24:26+08:00",
-          "kind": "blocker"
-        },
-        {
-          "comment_id": "strict_validation_20260529_task_real_robot_wuji_glove_network_smoke",
-          "author": "Codex",
-          "body": "Strict validation 2026-05-29: Wuji wrapper deps/tests installed and passing; UDP send probe is not a real frame/timestamp capture, so this remains blocked pending the actual glove network stream.",
-          "created_at": "2026-05-29T00:58:32+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_f9d910ae00bb",
-          "author": "Needs user",
-          "body": "Still requires onsite network/hardware action: real Wuji glove timestamp capture cannot run while the target NIC/link has no carrier. If sudo ip link/addr changes are needed, that is human intervention.",
-          "created_at": "2026-05-29T02:16:47+08:00",
-          "kind": "needs_user"
-        },
-        {
-          "comment_id": "clawcross_be0c450cae39",
-          "author": "Needs user",
-          "body": "Mirrored strict audit decision from default state for task_real_robot_wuji_glove_network_smoke; remaining work requires human action/credential/hardware/decision, not more autonomous dependency installation.",
-          "created_at": "2026-05-29T02:22:37+08:00",
-          "kind": "needs_user"
-        }
-      ],
-      "updated_at": "2026-05-29T02:22:37+08:00",
-      "due_at": "2026-05-25"
-    },
-    {
       "task_id": "task_hoi_contact_annotation_pack",
       "project_id": "diverse-same-task-dataset",
       "title": "定义 object/contact annotation pack 并标注样例",
@@ -4936,19 +4929,6 @@
       "project_id": "real-robot-infra",
       "title": "搭建 YAM 臂 ALOHA 系统",
       "description": "基于真机资产表中的 LV-ROB-010 YAM臂（数量:4；aloha系统；存放 E2-01-04；状态: 搭建中）搭建 ALOHA 数据采集/遥操作栈。资产表: https://docs.google.com/spreadsheets/d/1zujQRhscAfwhXTTl_avQwI8eNeOctk0Hl_e8S-Ak_CY/edit?gid=1134950065#gid=1134950065。硬件说明书/SOP 统一归档到 Hardware Resource Center: https://www.notion.so/Hardware-Resource-Center-34120ba53f898026b4cfe366c9b71ac1?source=copy_link。验收：确认 4 台 YAM 臂硬件/控制盒/线缆/电源齐全；完成驱动、网络/串口、标定、限位和急停检查；跑通单臂和双臂 teleop smoke；输出 ALOHA episode 目录结构、时间戳、相机/机器人状态同步记录和 replay verifier。",
-      "status": "todo",
-      "priority": "high",
-      "assignee": "Yuhang & Jingxiang",
-      "due_at": "",
-      "result": null,
-      "comments": [],
-      "updated_at": "2026-05-29T19:44:01+08:00"
-    },
-    {
-      "task_id": "task_real_robot_infra_wuji_glove_data_wrapper",
-      "project_id": "real-robot-infra",
-      "title": "实现 Wuji 手套数采 wrapper",
-      "description": "基于真机资产表中的 GM-ROB-004 Wuji手套（规格/描述: 各装一个D405做数采；存放 E2-01-04；状态: Ready）实现数据采集 wrapper。资产表: https://docs.google.com/spreadsheets/d/1zujQRhscAfwhXTTl_avQwI8eNeOctk0Hl_e8S-Ak_CY/edit?gid=1134950065#gid=1134950065。硬件说明书/SOP 统一归档到 Hardware Resource Center: https://www.notion.so/Hardware-Resource-Center-34120ba53f898026b4cfe366c9b71ac1?source=copy_link。验收：封装 Wuji 手套状态流、每只手对应 D405 图像流、相机内参/外参、统一时间戳、episode writer 和 replay/loader；与现有 input record schema 对齐；提供 10 秒采集 smoke，输出 JSON/HDF5 或项目约定格式，并验证 loader 能读回手套关节、图像帧和同步时间戳。",
       "status": "todo",
       "priority": "high",
       "assignee": "Yuhang & Jingxiang",
