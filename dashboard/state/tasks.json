@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-29T20:05:36+08:00",
+  "updated_at": "2026-05-29T20:07:00+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -128,11 +128,11 @@
     {
       "task_id": "task_real_robot_infra_wuji_glove",
       "project_id": "real-robot-infra",
-      "title": "接入 Wuji Glove",
-      "description": "用于手部姿态、触觉和高频输入流；需要确认网络、时间戳、标定和 retargeting 接口。",
+      "title": "接入 Wuji Glove 并跑通数采 wrapper",
+      "description": "合并任务：接入 Wuji Glove、跑通网络 smoke/时间戳记录、实现 Wuji 手套数采 wrapper。资产依据：GM-ROB-004 Wuji手套，规格/描述为“各装一个D405做数采”，存放 E2-01-04，负责人 Yuhang & Jingxiang，状态 Ready。资产表: https://docs.google.com/spreadsheets/d/1zujQRhscAfwhXTTl_avQwI8eNeOctk0Hl_e8S-Ak_CY/edit?gid=1134950065#gid=1134950065。硬件说明书/SOP 统一归档到 Hardware Resource Center: https://www.notion.so/Hardware-Resource-Center-34120ba53f898026b4cfe366c9b71ac1?source=copy_link。验收：1) 确认 Wuji Glove 的 USB-C-to-Ethernet 网络端点、IP/port、packet rate 和字段 schema；2) 跑通 stream subscribe，记录 10 秒网络 smoke 日志、timestamp drift 和日志 sha256；3) 封装 Wuji 手套状态流、左右手 D405 图像流、相机内参/外参、统一时间戳、episode writer 和 replay/loader；4) 与现有 input record schema 对齐，输出 JSON/HDF5 或项目约定格式；5) loader 能读回手套关节、图像帧和同步时间戳；失败时明确硬件/网络/权限 blocker。",
       "status": "needs_user",
-      "priority": "medium",
-      "assignee": "boris@100.70.181.44",
+      "priority": "high",
+      "assignee": "Yuhang & Jingxiang / boris@100.70.181.44",
       "result": null,
       "comments": [
         {
@@ -276,7 +276,7 @@
           "created_at": "2026-05-29T20:05:27+08:00"
         }
       ],
-      "updated_at": "2026-05-29T20:05:22+08:00",
+      "updated_at": "2026-05-29T20:07:00+08:00",
       "due_at": "",
       "completed_at": "2026-05-29"
     },
