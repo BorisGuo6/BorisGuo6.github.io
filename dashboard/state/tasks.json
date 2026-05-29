@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-29T20:44:46+08:00",
+  "updated_at": "2026-05-29T21:52:55+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2945,9 +2945,16 @@
           "body": "Strict validation 2026-05-29: via jingxiang jump only, lv-l40s-0003 used all 8 L40S GPUs; metadata_rows=1000 missing_files=0; 8 cache shards x125 and LoRA checkpoints step-50/100/125 exist; train_diffsynth_1000_8gpu.log reached 125/125 and exited at 2026-05-27T18:32:42Z.",
           "created_at": "2026-05-29T00:58:32+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_umi_wan22_model_size_compute_clarification_20260529",
+          "author": "Codex",
+          "body": "Model-size clarification: the 003 / L40S completed run is Wan2.2-TI2V-5B, not a 2B model. The trained LoRA checkpoint is `/home/borisguo/runs/wan22_ti2v_v0_1000/diffsynth_lora_704x1280x121/step-125.safetensors` (copied to the UMI binding machine at `/home/jingxiang/workspace/das-data/models/train/wan22_ti2v_v0_1000_l40s_8gpu/step-125.safetensors`, sha256 `d804c9f2c3222da60aa18839a01ad9b1e17315b63a637ec6970b6ae6f67dc3ef`). If we later train Wan2.2 A14B / 14B, treat it as a separate high-memory compute request: plan around 8xA100/H100 80GB-class GPUs for serious fine-tuning; 8xL30 24GB is not a viable main plan, and 8xL40S 48GB should only be treated as a downscaled/offload dry-run possibility.",
+          "created_at": "2026-05-29T21:50:00+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-29T00:58:32+08:00",
+      "updated_at": "2026-05-29T01:00:10+08:00",
       "due_at": "2026-05-28",
       "completed_at": "2026-05-29"
     },
@@ -2974,9 +2981,16 @@
           "body": "Mirrored strict audit decision from default state for task_umi_finetune_compute_request_teacher; remaining work requires human action/credential/hardware/decision, not more autonomous dependency installation.",
           "created_at": "2026-05-29T02:22:49+08:00",
           "kind": "needs_user"
+        },
+        {
+          "comment_id": "comment_umi_compute_request_model_size_clarification_20260529",
+          "author": "Codex",
+          "body": "Compute-request clarification for teacher discussion: current checkpoint is Wan2.2-TI2V-5B LoRA, not 2B. The 5B run already finished on lv-l40s-0003 using 8xL40S and produced step-125; the open question is post-train quality and whether larger Wan2.2 A14B / 14B is worth a separate allocation. If asking for A14B / 14B fine-tuning, frame it as needing 8xA100/H100 80GB-class GPUs. Do not present 8xL30 24GB as sufficient for the main 14B route; at most, L40S-class hardware can be used for reduced-resolution/offload feasibility dry-runs.",
+          "created_at": "2026-05-29T21:50:00+08:00",
+          "kind": "needs_user"
         }
       ],
-      "updated_at": "2026-05-29T02:22:50+08:00",
+      "updated_at": "2026-05-29T20:46:42+08:00",
       "due_at": ""
     },
     {
@@ -4375,9 +4389,23 @@
           "body": "User confirmation on 2026-05-29: the Wuji + Franka camera adapter flange is complete. Marking this TODO done; prior fit-check and CAD-source notes remain as historical context.",
           "created_at": "2026-05-29T20:42:47+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_23269fb80b46",
+          "author": "Host verification",
+          "body": "User confirmation on 2026-05-29: the Wuji + Franka camera adapter flange is complete; mark done.",
+          "created_at": "2026-05-29T20:48:37+08:00",
+          "kind": "host_verified"
+        },
+        {
+          "comment_id": "clawcross_5538dbf09e17",
+          "author": "Needs user",
+          "body": "请现场用户或硬件负责人补充验收材料：CAD/STL/STEP 或 SCAD 可访问路径与 sha256、打印件/安装照片或视频、相机 FOV 判定、线缆应力释放做法、Wuji 手指全行程与 Franka wrist 运动不干涉检查表；若只要求按用户口头确认关闭，也请明确授权该确认可替代实物证据。",
+          "created_at": "2026-05-29T21:52:39+08:00",
+          "kind": "needs_user"
         }
       ],
-      "updated_at": "2026-05-29T20:43:26+08:00",
+      "updated_at": "2026-05-29T21:52:39+08:00",
       "completed_at": "2026-05-29"
     },
     {
@@ -4385,7 +4413,7 @@
       "project_id": "general",
       "title": "仿 DexCap 做 MANUS / Wuji 手套相机转接件",
       "description": "参考 DexCap 的 portable mocap camera mounting 思路，为 MANUS 或 Wuji 手套设计轻量相机转接件，用于采集手部第一视角 / HOI 数据。设计重点从旧的 DexWild-style back-of-hand mount 更新为 DexCap-style stable observation camera / hand mount / quick-release swap：相机位姿要能在 human collection 与 robot-side observation 之间尽量一致，保留手套运动空间和线缆应力释放。Deliverable: mount CAD、快拆/绑带几何、camera pose/FOV target、线缆路径、重量/佩戴干扰评估、fit-check 照片或记录。",
-      "status": "needs_user",
+      "status": "done",
       "priority": "medium",
       "assignee": null,
       "result": null,
@@ -4426,9 +4454,16 @@
           "body": "User confirmation on 2026-05-29: the DexCap-inspired MANUS / Wuji glove camera adapter is complete. Marking this TODO done; prior physical fit/FOV/cable-validation notes remain as historical context.",
           "created_at": "2026-05-29T20:42:47+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_49d105c3c3f1",
+          "author": "Host verification",
+          "body": "User confirmation on 2026-05-29: the DexCap-inspired MANUS / Wuji glove camera adapter is complete; mark done.",
+          "created_at": "2026-05-29T20:48:42+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-05-29T20:43:27+08:00",
+      "updated_at": "2026-05-29T20:48:46+08:00",
       "completed_at": "2026-05-29"
     },
     {
