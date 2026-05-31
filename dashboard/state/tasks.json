@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-29T22:01:25+08:00",
+  "updated_at": "2026-05-31T23:34:25+02:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -3141,10 +3141,10 @@
     {
       "task_id": "task_umi_eval_gallery",
       "project_id": "umi-world-model",
-      "title": "做 UMI 评测样例浏览器/对比 gallery",
-      "description": "Build a TI2V-style comparison gallery like a paper qualitative figure: each sample must show the generated video, the matched GT video, and the exact text input / caption prompt used by the TI2V model. Also keep first-frame / left-right concatenation metadata, model name, run_id, clip_id, and metrics beside each sample. Acceptance: at least 50 clips; every card/row has generated video, GT video, prompt text, and run metadata; support filtering by model/run/metric and open directly from the remote workspace.",
+      "title": "用 step-125 做 held-out GT / base WAN / LoRA 对比 gallery",
+      "description": "Run post-train quality evaluation for the existing Wan2.2-TI2V-5B LoRA step-125 checkpoint on the UMI binding machine. Use held-out clips, compare base WAN, step-125 LoRA, and GT side by side, and keep prompt/caption, first-frame, left/right concat metadata, run_id, model path, and metrics. Acceptance: at least 16 held-out examples for fast inspection, preferably 50 for dashboard/paper gallery; record output paths and a short quality conclusion.",
       "status": "done",
-      "priority": "medium",
+      "priority": "urgent",
       "assignee": "jingxiang@100.112.245.1",
       "result": null,
       "comments": [
@@ -3168,11 +3168,18 @@
           "body": "Online comparison gallery: http://100.112.245.1:8765/eval_outputs/eval_gallery/index.html. Browser-playable cards show TI2V text input, GT video, WAN2.2/LTX/Cosmos25 generated videos, and VBench scores for 186 clips.",
           "created_at": "2026-05-25T22:23:13+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_umi_eval_gallery_reopened_20260531",
+          "author": "Boris / Codex",
+          "body": "Reopened/reframed: the old gallery task built the viewer, but the current missing evidence is step-125 held-out quality against base WAN and GT.",
+          "created_at": "2026-05-31T09:19:08+02:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-25T22:23:13+08:00",
-      "due_at": "2026-05-29",
-      "completed_at": "2026-05-25"
+      "updated_at": "2026-05-31T23:32:08+02:00",
+      "due_at": "2026-06-03",
+      "completed_at": "2026-05-31"
     },
     {
       "task_id": "task_pod_cell_driver_skeleton",
@@ -5049,7 +5056,7 @@
       "project_id": "self-improving-agents",
       "title": "试用 ArtiCraft3D 扩充 agentic 仿真资产",
       "description": "把 ArtiCraft3D / Articraft 作为 Self-Improving Agents 的 agentic simulation asset expansion 候选路线来试。来源: https://articraft3d.github.io/ 和 arXiv:2605.15187。目标：评估其“LLM 写资产程序 + SDK 定义 parts/geometry/joints/tests + harness 验证”的方式是否能接到 AgenticSim 的 asset_graph。验收：找到可运行 repo / release / dataset 入口或明确缺失 blocker；生成或复现至少 1 个 articulated tabletop asset；导出 mesh/collision/joint graph/metadata 或等价 JSON；写一个最小 adapter stub `generate_asset(reference, task_hint) -> asset_graph`；用 GovernanceGate 检查 scale、joint limits、collision proxy、affordance tags 和 simulator export path；记录命令、日志、artifact 路径和 sha256。不要只做阅读调研后标 done。",
-      "status": "todo",
+      "status": "active",
       "priority": "high",
       "assignee": null,
       "due_at": "",
@@ -5061,9 +5068,23 @@
           "body": "User suggested ArtiCraft3D for agentic generated simulation asset expansion. Add as a concrete TODO: try it as an articulated-asset generation route for AgenticSim, not just a paper reference; acceptance requires at least one runnable/generated asset or a clear release/access blocker.",
           "created_at": "2026-05-29T20:32:23+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_e32ba726120c",
+          "author": "Result",
+          "body": "SSH shell probe finished ArtiCraft3D on yuhang/feibo. Cloned mattzh72/articraft at 46650ab42b1c402122b0b9135829890052e9bd96, installed uv 0.11.17, created Python 3.12 venv, ran `uv run articraft --help` and `uv run articraft status` successfully. Status showed records=10787, categories=246, dataset_entries=10786. External-agent and data workflow entrypoints confirmed. Artifact: /home/feibo/workspace/clawcross-dispatch/task_self_improving_articraft3d_asset_expansion/RESULT.md. Recommended dashboard state: review, not done, because AgenticSim asset_graph adapter/new generated asset is not wired yet.",
+          "created_at": "2026-05-31T17:35:08+02:00",
+          "kind": "result"
+        },
+        {
+          "comment_id": "clawcross_f31317fd3f00",
+          "author": "Review",
+          "body": "Local Codex host review reopened this TODO.\n请继续推进到完整验收：生成或复现至少 1 个 articulated tabletop asset，导出 mesh/collision/joint graph/metadata 或等价 JSON，补最小 adapter stub `generate_asset(reference, task_hint) -> asset_graph`，用 GovernanceGate 检查 scale、joint limits、collision proxy、affordance tags、simulator export path，并在 RESULT.md 记录可复现命令、日志、artifact 路径、git sha 和 sha256；如果 upstream release/API/dataset 使生成不可行，请给出明确 blocker 和已验证的替代复现证据。",
+          "created_at": "2026-05-31T23:33:59+02:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-29T20:32:23+08:00"
+      "updated_at": "2026-05-31T23:33:59+02:00"
     },
     {
       "task_id": "task_real_robot_infra_franka_curobo_motion_planning",
@@ -5187,6 +5208,559 @@
         }
       ],
       "updated_at": "2026-05-29T22:01:25+08:00"
+    },
+    {
+      "task_id": "task_umi_gamma_world_collision_strategy",
+      "project_id": "umi-world-model",
+      "title": "紧急评估 Gamma-World 撞车并确定 UMI 转向",
+      "description": "Fully read Gamma-World and write a concrete collision/pivot note for UMI World Model. Acceptance: summarize Gamma-World method, dataset/robotics setting, code/checkpoint release status, and exact overlap with our WAN2.2 dual-wrist path; identify what is no longer defensible; decide the new contribution statement around fixed third-person reward/eval, synchronized wrist/ego generation, and layered object/contact state; list next experiments and a go/no-go decision for the old dual-wrist-only framing.",
+      "status": "done",
+      "priority": "urgent",
+      "assignee": "Boris / Haoyu / UMI WM",
+      "due_at": "2026-06-03",
+      "result": "Gamma-World collision review completed and dashboard pivot recorded: generic synchronized multi-agent world modeling is no longer the contribution lane; the project is reframed as fixed-exo reward/eval + synchronized wrist/ego generation + explicit scene/object-contact/robot-ego layers.",
+      "comments": [
+        {
+          "comment_id": "comment_umi_gamma_world_collision_strategy_20260530",
+          "author": "Boris / Codex",
+          "body": "Emergency update: Gamma-World is a serious setting-level collision for synchronized action-conditioned bimanual world modeling. We need to pivot away from dual-wrist-only generation and own fixed-exo reward/eval plus layered object/contact/robot state.",
+          "created_at": "2026-05-30T23:52:50+02:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "comment_umi_gamma_world_collision_strategy_done_20260531",
+          "author": "Boris / Codex",
+          "body": "Completed the Gamma-World collision assessment and merged Image-Layered WM into the UMI card. Key decision: stop framing the project as pure dual-wrist synchronized video generation; move to tri-view layered manipulation WM with fixed-exo reward/eval and layer-supervised object/contact state.",
+          "created_at": "2026-05-31T00:05:33+02:00",
+          "kind": "result"
+        }
+      ],
+      "updated_at": "2026-05-31T00:05:33+02:00"
+    },
+    {
+      "task_id": "task_umi_fixed_exo_ego_layered_pivot",
+      "project_id": "umi-world-model",
+      "title": "定义 tri-view + layer 项目规格",
+      "description": "Define the v1 project spec after Gamma-World under the updated data constraint: current UMI has synchronized left/right wrist fisheye plus D435 main view, but no fixed third-person/exo stream. Specify current-data I/O, future fixed-exo capture I/O, optional synthesized fixed-exo I/O, dual-arm pose + gripper action traces, scene/object-contact/robot-ego/occluder layer heads, model schema, camera sync/calibration requirements, and how outputs feed reward/eval and IDM. Acceptance: one concrete schema plus model-input/output table, minimum viable training/eval plan, and a go/no-go decision for generated fixed-exo.",
+      "status": "active",
+      "priority": "urgent",
+      "assignee": "Boris / UMI WM / Image-Layered WM",
+      "due_at": "2026-06-04",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_umi_fixed_exo_ego_layered_pivot_20260530",
+          "author": "Boris / Codex",
+          "body": "New pivot TODO: combine UMI World Model with Image-Layered WM. Fixed third-person view should provide global state and reward/eval; wrist/ego views provide contact/local manipulation; layers make object/contact/robot state inspectable instead of flat video.",
+          "created_at": "2026-05-30T23:52:50+02:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "comment_umi_fixed_exo_ego_layered_pivot_merge_20260531",
+          "author": "Boris / Codex",
+          "body": "Project-card merge is done: all Image-Layered WM TODOs and done evidence now sit under UMI / Image-Layered World Model. Remaining work is the actual data schema, model I/O, camera sync/calibration, layer heads, and ablation/eval protocol.",
+          "created_at": "2026-05-31T00:05:33+02:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "comment_umi_tri_view_spec_reorg_20260531",
+          "author": "Boris / Codex",
+          "body": "Reorganized after Gamma-World: this is now the project-spec task for the new title, Tri-View Layered Manipulation World Model. The deliverable is no longer just “merge two cards”; it must define the actual view/layer/model/eval contract.",
+          "created_at": "2026-05-31T09:19:08+02:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "comment_task_umi_fixed_exo_ego_layered_pivot_bundle_started_20260531",
+          "author": "Boris / Codex",
+          "body": "Started merge from the former Image-Layered machine into the UMI project. Source reachable: feibo@100.87.220.29:/home/feibo/workspace/image-layered-world-model. Pulled a lightweight code/docs bundle excluding .venv, .hf-cache, data, and heavy outputs. Prepared local staging at /Users/boris/workspace/tri_view_layered_merge/tri_view_layered_wm and archive /Users/boris/workspace/tri_view_layered_merge/tri_view_layered_wm_merge_bundle_20260531.tar.gz sha256 aed241475f7318fdd01366a595c4489b44a75d1d2d87f2de9f1bbe549f14dccd. Included tri-view manifest schema/example and validate_tri_view_manifest.py; local validator passes. Blocker: UMI binding machine jingxiang-b850m-c / 100.112.245.1 is offline on Tailscale and SSH times out, so the final rsync into /home/jingxiang/workspace/das-data/codebases/tri_view_layered_wm cannot be executed until it comes online.",
+          "created_at": "2026-05-31T09:42:00+02:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "comment_umi_fixed_exo_ego_layered_pivot_data_reality_20260531",
+          "author": "Boris / Codex",
+          "body": "Project spec updated with the key data constraint: fixed-exo is not in the existing Yuhang/Daimon UMI data. The spec must distinguish current dual-wrist-fisheye + D435-main data, generated fixed-view probes, and future fixed-exo capture.",
+          "created_at": "2026-05-31T17:17:04+02:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-05-31T17:17:04+02:00"
+    },
+    {
+      "task_id": "task_umi_egox_fixed_main_view_probe",
+      "project_id": "umi-world-model",
+      "title": "测试 EgoX / 跨视角生成固定主视角的可行性",
+      "description": "Because Yuhang/Daimon UMI data has no fixed third-person/exo view and humanoid data with this setup is scarce, test whether EgoX-style or broader ego/exo view translation can synthesize a stable fixed/main view from available two-wrist-fisheye + D435-main data. Important nuance: EgoX is mainly exo-to-ego, while this project may need wrist/ego/main-D435 to fixed-main/exo, so this is a high-risk feasibility probe rather than a foundation assumption. Acceptance: pick 5-10 representative episodes with wrist fisheye + D435 main view; define source/target view pairs; run or dry-run at least one method; score camera stability, object-state correctness, contact visibility, occlusion handling, and reward/eval usability; decide whether to pursue synthesized fixed view or collect new fixed-exo data.",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Boris / Haoyu / UMI WM",
+      "due_at": "2026-06-08",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_task_umi_egox_fixed_main_view_probe_20260531",
+          "author": "Boris / Codex",
+          "body": "Discussion update: Yuhang/Daimon UMI has no fixed third-person view at all, not even non-fixed; humanoid data is very limited. What exists is two wrist fisheye cameras plus a D435 main view. Try EgoX/cross-view generation only as a feasibility probe for creating a stable fixed/main view; if it fails, new fixed-exo capture is required.",
+          "created_at": "2026-05-31T17:17:04+02:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-05-31T17:17:04+02:00"
+    },
+    {
+      "task_id": "task_umi_ego_exo_reverse_survey",
+      "project_id": "umi-world-model",
+      "title": "整理 Ego↔Exo / view-translation references 对 tri-view WM 的用法",
+      "description": "Summarize EgoX, IDE, WorldWander, Exo2Ego-style work, and robotics-specific cross-view generation for the updated UMI constraint. Focus on what maps to this project: camera pose requirements, point-cloud/geometry priors, latent concatenation, geometry-guided attention, whether the method supports wrist/ego/main-D435 to fixed-exo synthesis, and whether synthesized fixed views are credible for reward/eval rather than only visualization. Acceptance: one table plus a recommendation for what to borrow in v1 and whether EgoX-style synthesis should proceed or be replaced by new fixed-exo capture.",
+      "status": "todo",
+      "priority": "medium",
+      "assignee": "Boris / Haoyu",
+      "due_at": "2026-06-07",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_umi_ego_exo_reverse_survey_20260530",
+          "author": "Boris / Codex",
+          "body": "User asked whether reverse ego-to-exo work exists. Initial answer: yes, IDE explicitly targets ego-to-exo; WorldWander is bidirectional; EgoX is the opposite direction (exo-to-ego) but gives useful conditioning and geometry-guided attention design.",
+          "created_at": "2026-05-30T23:52:50+02:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "comment_umi_ego_exo_reverse_survey_data_reality_20260531",
+          "author": "Boris / Codex",
+          "body": "Updated framing: EgoX remains useful for conditioning design, but the project need may be the harder reverse/nonstandard direction: from wrist fisheye + D435 main evidence to a stable fixed main/exo view. Survey should explicitly separate exo-to-ego, ego-to-exo, bidirectional, and robotics-specific cases.",
+          "created_at": "2026-05-31T17:17:04+02:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-05-31T17:17:04+02:00"
+    },
+    {
+      "task_id": "task_model_assisted_teleop_survey_matrix",
+      "project_id": "model-assisted-teleop-survey",
+      "title": "Build model-assisted teleop survey matrix",
+      "description": "Compare TelePhantom, UMI2Render2Real, low-cost UMI, contact-annotated video models, and video-to-state routes. Acceptance: table with input signals, output prediction, demo task, data needs, evaluation metric, and first on/off preview experiment.",
+      "status": "needs_user",
+      "priority": "high",
+      "assignee": "Boris / Codex",
+      "due_at": "2026-06-08",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_model_assisted_teleop_ideas_20260530",
+          "author": "Codex",
+          "body": "Extracted from Notion ideas: model-assisted teleoperation, TelePhantom-new, UMI2Render2Real, low-cost UMI, contact arrows/fields, panorama-to-VR, and automatic video/keyframe evaluation.",
+          "created_at": "2026-05-30T23:59:00+02:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "comment_model_assisted_teleop_sources_20260530",
+          "author": "Codex",
+          "body": "Primary references checked: UMI, GELLO, Real2Render2Real, Differentiable Robot Rendering, Masquerade, real2sim policy evaluation, Manipulation as in Simulation, VGGT, FoundationStereo, CoTracker3, Diffusion Forcing, and Ego-centric World Model.",
+          "created_at": "2026-05-30T23:59:00+02:00",
+          "kind": "research"
+        },
+        {
+          "comment_id": "clawcross_0d4dcb36878e",
+          "author": "Needs user",
+          "body": "Remote Codex finished model-assisted teleop matrix. Best first preview = offline video-to-state / AVDC-style Passive video -> object state delta; hardware-first routes = TelePhantom and low-cost UMI; offline-continuable routes = video-to-state, contact-annotated video models, limited R2R2R. Artifact: /home/boris/workspace/clawcross-dispatch/task_model_assisted_teleop_survey_matrix/RESULT.md. Needs user decision: confirm video-to-state as first preview or explicitly prioritize hardware-first collection.",
+          "created_at": "2026-05-31T17:42:41+02:00",
+          "kind": "needs_user"
+        }
+      ],
+      "updated_at": "2026-05-31T17:42:41+02:00"
+    },
+    {
+      "task_id": "task_vtla_tactile_intuition_survey_map",
+      "project_id": "vtla-tactile-intuition-survey",
+      "title": "Map VTLA tactile-intuition problem space",
+      "description": "Turn EgoVTLA, Tactile-Bolt, proximity sensing, tactile memory, RobotCooking, and tactile-as-oracle notes into a representation / dataset / benchmark map. Acceptance: choose first benchmark family and list required sensors, labels, and success metrics.",
+      "status": "needs_user",
+      "priority": "high",
+      "assignee": "Boris / Codex",
+      "due_at": "2026-06-09",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_vtla_tactile_sources_20260530",
+          "author": "Codex",
+          "body": "Primary references checked: ARCTIC for bimanual hand-object contact, ViTacFormer for visuo-tactile representation, ViTaSCOPE for object-centric contact/pose fields, Taccel for tactile simulation, and soft-wrist insertion for compliant contact-rich policy.",
+          "created_at": "2026-05-30T23:59:00+02:00",
+          "kind": "research"
+        },
+        {
+          "comment_id": "clawcross_d54017f18e31",
+          "author": "Needs user",
+          "body": "Remote Codex finished VTLA tactile-intuition map. Best first benchmark family = contact-rich insertion / fine alignment anchored on VTLA + Touch2Insert; not RobotCooking/TactileMemory/EgoTouch first. Artifact: /home/shaol/workspace/clawcross-dispatch/task_vtla_tactile_intuition_survey_map/RESULT.md. Needs user/local decision: confirm tactile fingertip + robot/camera/fixture availability or choose simulation-first oracle baseline.",
+          "created_at": "2026-05-31T17:42:42+02:00",
+          "kind": "needs_user"
+        }
+      ],
+      "updated_at": "2026-05-31T17:42:42+02:00"
+    },
+    {
+      "task_id": "task_cross_embodiment_representation_table",
+      "project_id": "cross-embodiment-representations-survey",
+      "title": "Compare cross-embodiment action/state representations",
+      "description": "Survey camera-frame actions, latent actions, object/contact heatmaps, eigengrasp, hand graph/tree/chains, RGB+XYZ, point-cloud resampling, active vision, and color-space effects. Acceptance: pick one representation to test against existing HOI/UMI data.",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Boris / Codex",
+      "due_at": "2026-06-10",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_cross_embodiment_sources_20260530",
+          "author": "Codex",
+          "body": "Primary references checked: Unify Robot Actions in Camera Frame / CalibAll, LAPA, Retrieval-Augmented Manipulation, Manipulation as in Simulation, VGGT, FoundationStereo, and CoTracker3.",
+          "created_at": "2026-05-30T23:59:00+02:00",
+          "kind": "research"
+        }
+      ],
+      "updated_at": "2026-05-30T23:59:00+02:00"
+    },
+    {
+      "task_id": "task_agentic_human_captcha_benchmark_spec",
+      "project_id": "agentic-human-captcha-survey",
+      "title": "Write Human CAPTCHA benchmark spec",
+      "description": "Define labels, task probes, process signals, static/dynamic baselines, attack methods, bilingual setting, and privacy-safe data collection for Human vs HITL-LLM vs autonomous-agent classification.",
+      "status": "todo",
+      "priority": "medium",
+      "assignee": "Boris / Codex",
+      "due_at": "2026-06-12",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_agentic_human_captcha_sources_20260530",
+          "author": "Codex",
+          "body": "Primary/current references checked: TuringBench, PsySafe, CAMEL OASIS, and OpenCaptchaWorld. Private setup/proxy content from Notion was intentionally not copied into dashboard state.",
+          "created_at": "2026-05-30T23:59:00+02:00",
+          "kind": "research"
+        }
+      ],
+      "updated_at": "2026-05-30T23:59:00+02:00"
+    },
+    {
+      "task_id": "task_embodied_music_problem_formulation",
+      "project_id": "embodied-music-survey",
+      "title": "Formulate EmbodiedMusic as a measurable problem",
+      "description": "Separate action/contact-to-MIDI, motion-to-rhythm, and audio-generation objectives. Acceptance: related-work table plus one minimal dataset/demo plan with metrics for timing, pitch/event correctness, and audio quality.",
+      "status": "todo",
+      "priority": "medium",
+      "assignee": "Boris / Codex",
+      "due_at": "2026-06-13",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_embodied_music_sources_20260530",
+          "author": "Codex",
+          "body": "Primary references checked: RoboPianist, FürElise, MAESTRO, and DDSP. Notion Week-1 plan remains source material but this dashboard task starts with problem formulation.",
+          "created_at": "2026-05-30T23:59:00+02:00",
+          "kind": "research"
+        }
+      ],
+      "updated_at": "2026-05-30T23:59:00+02:00"
+    },
+    {
+      "task_id": "task_open_hardware_collection_decision_table",
+      "project_id": "open-hardware-mobile-collection-survey",
+      "title": "Score open-hardware collection platforms",
+      "description": "Compare OpenArm, AmazingHand, mobile dual-arm base concepts, dense dexterous hands, and low-cost humanoid/mobile platforms. Acceptance: decision table with cost, build risk, sensing, calibration, safety, and compatibility with UMI/HOI/VTLA schemas.",
+      "status": "todo",
+      "priority": "medium",
+      "assignee": "Boris / Codex",
+      "due_at": "2026-06-14",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_open_hardware_sources_20260530",
+          "author": "Codex",
+          "body": "References checked: OpenArm, AmazingHand, AhaRobot, Berkeley Humanoid Lite, and adjacent open-hand/humanoid hardware references. Build/no-build should be based on data value per setup hour.",
+          "created_at": "2026-05-30T23:59:00+02:00",
+          "kind": "research"
+        }
+      ],
+      "updated_at": "2026-05-30T23:59:00+02:00"
+    },
+    {
+      "task_id": "task_fracture_soft_wrist_benchmark_scope",
+      "project_id": "fracture-soft-wrist-assembly-survey",
+      "title": "Choose first assembly benchmark scope",
+      "description": "Decide whether fractured-object reassembly or soft-wrist insertion is the lower-risk first benchmark. Acceptance: state chosen benchmark, required assets, physical setup, policy inputs, simulator/real split, and success/failure metrics.",
+      "status": "todo",
+      "priority": "medium",
+      "assignee": "Boris / Codex",
+      "due_at": "2026-06-14",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_fracture_soft_wrist_sources_20260530",
+          "author": "Codex",
+          "body": "Primary references checked: Breaking Bad Dataset and Robotic Object Insertion with a Soft Wrist through Sim-to-Real Privileged Training. Survey should test whether they share one benchmark or should split later.",
+          "created_at": "2026-05-30T23:59:00+02:00",
+          "kind": "research"
+        }
+      ],
+      "updated_at": "2026-05-30T23:59:00+02:00"
+    },
+    {
+      "task_id": "task_ideas_archive_review_next_pass",
+      "project_id": "general",
+      "title": "Review individually archived Survey ideas on next pass",
+      "description": "Archive is now split into separate evidence-backed project cards. On the next survey pass, inspect each archived card independently; if any item gains a concrete owner, dataset, hardware path, or first experiment, move that specific item back to Survey instead of recreating one mixed archive card.",
+      "status": "todo",
+      "priority": "low",
+      "assignee": "Boris / Codex",
+      "due_at": "2026-06-30",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_ideas_archive_scope_20260530",
+          "author": "Codex",
+          "body": "Archive includes Notion [x] items, current-dashboard covered ideas, scooped LEAP-hand gloves, Tencent game-society background, and deferred non-core voice/ASCII benchmark ideas.",
+          "created_at": "2026-05-30T23:59:00+02:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "comment_archive_split_20260531",
+          "author": "Codex",
+          "body": "Moved this maintenance TODO from the old mixed Ideas Archive card to General after splitting Archive into independent project cards with explicit archive reasons.",
+          "created_at": "2026-05-31T09:27:00+02:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-05-31T09:27:00+02:00"
+    },
+    {
+      "task_id": "task_general_notion_migration_dashboard_sync",
+      "project_id": "general",
+      "title": "Sync dashboard after Notion migration",
+      "description": "After the Notion -> Obsidian/OpenHuman memory migration is completed, update dashboard state to reflect the migrated knowledge base: add or revise relevant project cards, survey/archive entries, source links, and next actions. Acceptance: dashboard references the new vault/memory structure where useful, migrated Notion ideas are not duplicated, completed/covered items are archived, and no secrets/private setup snippets are copied into public state.",
+      "status": "todo",
+      "priority": "medium",
+      "assignee": "Boris / Codex",
+      "due_at": "",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_general_notion_migration_dashboard_sync_20260531",
+          "author": "Boris / Codex",
+          "body": "User reminder: after Notion migration finishes, also update the dashboard so survey/archive/project state stays aligned with the migrated Obsidian/OpenHuman memory repository.",
+          "created_at": "2026-05-31T00:21:21+02:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-05-31T17:27:45+02:00"
+    },
+    {
+      "task_id": "task_umi_tri_view_capture_schema",
+      "project_id": "umi-world-model",
+      "title": "制定 fixed-exo + dual-wrist 数据采集 / 标注 schema",
+      "description": "Define the synchronized episode schema for the new project under the updated data reality: existing UMI gives left wrist fisheye, right wrist fisheye, and D435 main view, but no fixed third-person/exo view. The schema must support both current data and future/new fixed-exo capture: timestamps, camera intrinsics/extrinsics where available, dual-arm EEF pose, gripper state, task caption, object IDs, train/val/test split, optional fixed-exo_absent/fixed-exo_synthesized flags, and optional layer pseudo-label paths. Acceptance: JSON schema or manifest example for one current-data episode plus one future tri-view episode; explicit checklist for what old UMI data lacks and what new capture must add.",
+      "status": "active",
+      "priority": "urgent",
+      "assignee": "Boris / Haoyu / Jingxiang",
+      "due_at": "2026-06-04",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_task_umi_tri_view_capture_schema_created_20260531",
+          "author": "Boris / Codex",
+          "body": "Created during project reorganization after the Gamma-World analysis. This is part of the new Tri-View Layered Manipulation World Model task structure.",
+          "created_at": "2026-05-31T09:19:08+02:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "comment_task_umi_tri_view_capture_schema_bundle_started_20260531",
+          "author": "Boris / Codex",
+          "body": "Started merge from the former Image-Layered machine into the UMI project. Source reachable: feibo@100.87.220.29:/home/feibo/workspace/image-layered-world-model. Pulled a lightweight code/docs bundle excluding .venv, .hf-cache, data, and heavy outputs. Prepared local staging at /Users/boris/workspace/tri_view_layered_merge/tri_view_layered_wm and archive /Users/boris/workspace/tri_view_layered_merge/tri_view_layered_wm_merge_bundle_20260531.tar.gz sha256 aed241475f7318fdd01366a595c4489b44a75d1d2d87f2de9f1bbe549f14dccd. Included tri-view manifest schema/example and validate_tri_view_manifest.py; local validator passes. Blocker: UMI binding machine jingxiang-b850m-c / 100.112.245.1 is offline on Tailscale and SSH times out, so the final rsync into /home/jingxiang/workspace/das-data/codebases/tri_view_layered_wm cannot be executed until it comes online.",
+          "created_at": "2026-05-31T09:42:00+02:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "comment_task_umi_tri_view_capture_schema_data_reality_20260531",
+          "author": "Boris / Codex",
+          "body": "Data update from project discussion: old Yuhang/Daimon UMI data has no fixed third-person/exo view. The schema must represent the available two wrist fisheye + D435 main-view format and mark fixed-exo as absent, synthesized, or newly captured.",
+          "created_at": "2026-05-31T17:17:04+02:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-05-31T17:17:04+02:00"
+    },
+    {
+      "task_id": "task_umi_view_layer_ablation_plan",
+      "project_id": "umi-world-model",
+      "title": "设计 wrist-only / exo-only / wrist+exo / wrist+exo+layers 消融",
+      "description": "Turn the new research question into a concrete ablation plan that respects the actual data: start with wrist-only, D435-main-only, wrist+D435-main, and wrist+D435-main+layer-head variants on existing held-out episodes. Add fixed-exo-only / wrist+fixed-exo / wrist+fixed-exo+layers only after new fixed-exo capture or an EgoX/cross-view synthesized fixed view passes the feasibility gate. Acceptance: dataset split, model/input variants, metrics, expected artifacts, and decision criteria for whether wrist, main/D435, synthesized fixed-exo, or explicit layers carry useful manipulation state.",
+      "status": "todo",
+      "priority": "urgent",
+      "assignee": "Boris / UMI WM",
+      "due_at": "2026-06-05",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_task_umi_view_layer_ablation_plan_created_20260531",
+          "author": "Boris / Codex",
+          "body": "Created during project reorganization after the Gamma-World analysis. This is part of the new Tri-View Layered Manipulation World Model task structure.",
+          "created_at": "2026-05-31T09:19:08+02:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "comment_task_umi_view_layer_ablation_plan_data_reality_20260531",
+          "author": "Boris / Codex",
+          "body": "Ablation plan updated: fixed-exo comparisons cannot be assumed from existing UMI data. Existing-data ablations should use wrist fisheye and D435 main view; fixed-exo variants require new capture or a synthesized-view gate.",
+          "created_at": "2026-05-31T17:17:04+02:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-05-31T17:17:04+02:00"
+    },
+    {
+      "task_id": "task_umi_layer_heads_v1",
+      "project_id": "umi-world-model",
+      "title": "实现 v1 object/contact + robot/ego + occluder layer heads",
+      "description": "Convert the former Image-Layered probes into the v1 manipulation-state heads. Start with weak/pseudo labels for object/contact masks, robot/ego masks, occluder masks, and recomposition QA; connect outputs to fixed-exo and wrist views. Acceptance: minimal training/inference script or adapter, per-layer QA metrics, and examples showing layer outputs beside generated/GT videos.",
+      "status": "active",
+      "priority": "high",
+      "assignee": "Boris / Image-Layered WM",
+      "due_at": "2026-06-09",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_task_umi_layer_heads_v1_created_20260531",
+          "author": "Boris / Codex",
+          "body": "Created during project reorganization after the Gamma-World analysis. This is part of the new Tri-View Layered Manipulation World Model task structure.",
+          "created_at": "2026-05-31T09:19:08+02:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "comment_task_umi_layer_heads_v1_bundle_started_20260531",
+          "author": "Boris / Codex",
+          "body": "Started merge from the former Image-Layered machine into the UMI project. Source reachable: feibo@100.87.220.29:/home/feibo/workspace/image-layered-world-model. Pulled a lightweight code/docs bundle excluding .venv, .hf-cache, data, and heavy outputs. Prepared local staging at /Users/boris/workspace/tri_view_layered_merge/tri_view_layered_wm and archive /Users/boris/workspace/tri_view_layered_merge/tri_view_layered_wm_merge_bundle_20260531.tar.gz sha256 aed241475f7318fdd01366a595c4489b44a75d1d2d87f2de9f1bbe549f14dccd. Included tri-view manifest schema/example and validate_tri_view_manifest.py; local validator passes. Blocker: UMI binding machine jingxiang-b850m-c / 100.112.245.1 is offline on Tailscale and SSH times out, so the final rsync into /home/jingxiang/workspace/das-data/codebases/tri_view_layered_wm cannot be executed until it comes online.",
+          "created_at": "2026-05-31T09:42:00+02:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-05-31T09:42:00+02:00"
+    },
+    {
+      "task_id": "task_umi_reward_eval_probe",
+      "project_id": "umi-world-model",
+      "title": "验证 fixed-exo / layers 是否提升 reward/eval 与失败归因",
+      "description": "Build a small evaluation probe that uses fixed-exo frames and/or predicted layers to score task progress, contact success, object displacement, occlusion, and failure mode. Compare against flat video metrics and wrist-only signals. Acceptance: at least one manipulation task with GT labels or manually audited labels, AUROC/correlation or confusion table, and qualitative failure cases.",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Boris / UMI WM",
+      "due_at": "2026-06-10",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_task_umi_reward_eval_probe_created_20260531",
+          "author": "Boris / Codex",
+          "body": "Created during project reorganization after the Gamma-World analysis. This is part of the new Tri-View Layered Manipulation World Model task structure.",
+          "created_at": "2026-05-31T09:19:08+02:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-05-31T09:19:08+02:00"
+    },
+    {
+      "task_id": "task_umi_gamma_baseline_positioning",
+      "project_id": "umi-world-model",
+      "title": "写 Gamma-World 对照与新 contribution statement",
+      "description": "Write the project positioning note used in dashboard/proposal: what Gamma-World covers, what it does not cover, why our axis is view/layer/eval rather than agent-count scaling, and how base WAN / step-125 / Gamma-style framing appear in the baseline table. Acceptance: concise contribution paragraph, comparison table, and go/no-go statement for the old dual-wrist-only framing.",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Boris / Haoyu",
+      "due_at": "2026-06-04",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_task_umi_gamma_baseline_positioning_created_20260531",
+          "author": "Boris / Codex",
+          "body": "Created during project reorganization after the Gamma-World analysis. This is part of the new Tri-View Layered Manipulation World Model task structure.",
+          "created_at": "2026-05-31T09:19:08+02:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-05-31T09:19:08+02:00"
+    },
+    {
+      "task_id": "task_umi_merge_image_layered_code_to_binding_machine",
+      "project_id": "umi-world-model",
+      "title": "把 Image-Layered 代码合并到 UMI 绑定机器",
+      "description": "Move the former Image-Layered World Model implementation from feibo@100.87.220.29 into the UMI binding machine under das-data/codebases/tri_view_layered_wm, preserving source scripts, layer-head probes, reports, tri-view schema, and remote-start commands. Acceptance: rsync completed on jingxiang@100.112.245.1, validator passes there, and paths are recorded for layer-head/eval TODOs.",
+      "status": "blocked",
+      "priority": "urgent",
+      "assignee": "Boris / jingxiang@100.112.245.1",
+      "due_at": "2026-06-02",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_umi_merge_image_layered_code_blocked_offline_20260531",
+          "author": "Boris / Codex",
+          "body": "Started merge from the former Image-Layered machine into the UMI project. Source reachable: feibo@100.87.220.29:/home/feibo/workspace/image-layered-world-model. Pulled a lightweight code/docs bundle excluding .venv, .hf-cache, data, and heavy outputs. Prepared local staging at /Users/boris/workspace/tri_view_layered_merge/tri_view_layered_wm and archive /Users/boris/workspace/tri_view_layered_merge/tri_view_layered_wm_merge_bundle_20260531.tar.gz sha256 aed241475f7318fdd01366a595c4489b44a75d1d2d87f2de9f1bbe549f14dccd. Included tri-view manifest schema/example and validate_tri_view_manifest.py; local validator passes. Blocker: UMI binding machine jingxiang-b850m-c / 100.112.245.1 is offline on Tailscale and SSH times out, so the final rsync into /home/jingxiang/workspace/das-data/codebases/tri_view_layered_wm cannot be executed until it comes online.",
+          "created_at": "2026-05-31T09:42:00+02:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-05-31T09:42:00+02:00"
+    },
+    {
+      "task_id": "task_skill_world_model_survey_spec",
+      "project_id": "skill-world-model-survey",
+      "title": "Specify Skill World Model / agentic API scope",
+      "description": "From the migrated Notion ideas, compare demo-retrieval, object/contact transition graph, and callable skill-API schemas; choose one first benchmark and define inputs, outputs, verifier evidence, and promotion criteria.",
+      "status": "review",
+      "priority": "medium",
+      "assignee": null,
+      "result": null,
+      "due_at": "",
+      "comments": [
+        {
+          "comment_id": "ideas_migration_task_skill_world_model_survey_spec_20260531",
+          "author": "Codex migration",
+          "body": "Created from Notion ideas: Skill World Model, Agentic 4 General Manipulation / Retrieval-Augmented Manipulation, interaction-centric task library, tactile/force dynamic model, point-cloud fast rollout, and RobotCooking stress-test notes.",
+          "created_at": "2026-05-31T09:52:35+02:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_5952b43c87f6",
+          "author": "Result",
+          "body": "Remote Codex finished Skill World Model survey spec on boris-PC. Result: choose callable skill-API schemas first (SkillCall-Bench v0), with decision matrix, input/output schema, deterministic state-transition verifier, promotion/elimination criteria, and two-week experiment plan. Artifact: /home/boris/workspace/clawcross-dispatch/task_skill_world_model_survey_spec/RESULT.md. Recommended dashboard state: review, not done, because migrated Notion idea source files were absent from the remote task directory.",
+          "created_at": "2026-05-31T17:31:55+02:00",
+          "kind": "result"
+        }
+      ],
+      "updated_at": "2026-05-31T17:31:55+02:00"
+    },
+    {
+      "task_id": "task_rlbench_isaacsim_migration_feasibility",
+      "project_id": "rlbench-isaacsim-migration-survey",
+      "title": "Write RLBench -> IsaacSim 5-task pilot matrix",
+      "description": "Choose five representative RLBench tasks and score conversion feasibility across assets, robot/controller assumptions, observations, rewards, expert demos, VLA inputs, and automated verifier evidence.",
+      "status": "review",
+      "priority": "medium",
+      "assignee": null,
+      "result": null,
+      "due_at": "",
+      "comments": [
+        {
+          "comment_id": "ideas_migration_task_rlbench_isaacsim_20260531",
+          "author": "Codex migration",
+          "body": "Created from Notion idea: migrate RLBench 106 tasks to IsaacSim. Kept as Survey because full migration should wait for a 5-task feasibility pilot.",
+          "created_at": "2026-05-31T09:52:35+02:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_f5e3d3956cd5",
+          "author": "Result",
+          "body": "Remote Codex finished RLBench -> Isaac Sim feasibility matrix. Result: 5-task pilot = ReachTarget, PickAndLift, OpenDrawer, StackBlocks, InsertOntoSquarePeg; first formal pilot = PickAndLift; ReachTarget as smoke; InsertOntoSquarePeg highest false-friend risk. Artifact: /home/shaol/workspace/clawcross-dispatch/task_rlbench_isaacsim_migration_feasibility/RESULT.md. Recommended dashboard state: review, not done, because no Isaac-side prototype/verifier has been run yet.",
+          "created_at": "2026-05-31T17:35:07+02:00",
+          "kind": "result"
+        }
+      ],
+      "updated_at": "2026-05-31T17:35:07+02:00"
     }
   ]
 }
