@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-31T23:42:14+02:00",
+  "updated_at": "2026-05-31T23:46:17+02:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -5711,7 +5711,7 @@
       "project_id": "skill-world-model-survey",
       "title": "Specify Skill World Model / agentic API scope",
       "description": "From the migrated Notion ideas, compare demo-retrieval, object/contact transition graph, and callable skill-API schemas; choose one first benchmark and define inputs, outputs, verifier evidence, and promotion criteria.",
-      "status": "review",
+      "status": "active",
       "priority": "medium",
       "assignee": null,
       "result": null,
@@ -5730,9 +5730,16 @@
           "body": "Remote Codex finished Skill World Model survey spec on boris-PC. Result: choose callable skill-API schemas first (SkillCall-Bench v0), with decision matrix, input/output schema, deterministic state-transition verifier, promotion/elimination criteria, and two-week experiment plan. Artifact: /home/boris/workspace/clawcross-dispatch/task_skill_world_model_survey_spec/RESULT.md. Recommended dashboard state: review, not done, because migrated Notion idea source files were absent from the remote task directory.",
           "created_at": "2026-05-31T17:31:55+02:00",
           "kind": "result"
+        },
+        {
+          "comment_id": "clawcross_493fa3db94bc",
+          "author": "Review",
+          "body": "Local Codex host review reopened this TODO.\n请继续处理：使用 /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/projects/skill-world-model-survey.json 里的 migrated Notion details 和 risks_decisions 作为来源，重写/补齐 RESULT.md。结果需要明确比较 demo-retrieval、object/contact transition graph、callable skill-API schemas，选择第一个 benchmark，并给出 inputs、outputs、deterministic verifier evidence、promotion/elimination criteria；同时说明引用了哪些本地 dashboard source，并让 artifact 可由 reviewer 读取。",
+          "created_at": "2026-05-31T23:46:05+02:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-31T17:31:55+02:00"
+      "updated_at": "2026-05-31T23:46:05+02:00"
     },
     {
       "task_id": "task_rlbench_isaacsim_migration_feasibility",
