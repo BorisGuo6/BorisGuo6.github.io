@@ -4,8 +4,8 @@
   "title": "Diverse Dataset on Same Task",
   "bucket": "survey",
   "status": "survey",
-  "updated_at": "2026-05-21T21:44:00+08:00",
-  "description": "2077AI / Zhou Jianshu collaboration for unified HOI data",
+  "updated_at": "2026-05-31T09:27:00+02:00",
+  "description": "Keep in Survey: the same-task HOI dataset is still actionable even with completed setup tasks; the next decision is whether the unified object/contact schema produces useful cross-embodiment supervision.",
   "summary": "This pre-research project asks whether the same manipulation task can be collected across all major acquisition modes, then unified into an HOI-centric base model and predictive world model.",
   "asset": "dashboard/assets/hoi-diverse-dataset.png",
   "asset_alt": "HOI dataset capture frames with hand pose and depth map",
@@ -31,6 +31,9 @@
     "Human pose maps to multiple feasible robot poses, so retargeting labels should be object-centric: equivalent object trajectory, contact sequence, and task success are more important than matching human finger geometry.",
     "Object and hand tracking should share calibration assumptions; otherwise object-state supervision will drift from hand pose and depth.",
     "Predictive WM scope should start with aligned HOI state transitions before attempting a full cross-embodiment policy model.",
-    "Isaac validation depends on usable object assets: collision mesh, mass, friction, joint limits, and contact sensing must be good enough before treating simulation pass / fail as ground truth."
+    "Isaac validation depends on usable object assets: collision mesh, mass, friction, joint limits, and contact sensing must be good enough before treating simulation pass / fail as ground truth.",
+    "Survey disposition 2026-05-31: keep, because no cited paper has completed our exact goal of collecting one manipulation task across human, glove, UMI, ALOHA, drag-teach, and teleop modes under a shared object/contact schema.",
+    "Next executable analysis: pick one task, freeze the object/contact annotation pack, and decide whether Isaac retargeting pass/fail is reliable enough to be a dataset quality gate.",
+    "Do not archive just because current TODOs are done; this card is the survey holder for the next cross-modality capture decision."
   ]
 }

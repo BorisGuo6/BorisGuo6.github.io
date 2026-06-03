@@ -5,13 +5,13 @@
   "subtitle": "World models, self-improving simulators, teleop acceleration, and robotics + 3D printing",
   "week": "2026-W21",
   "date": "2026-05-22",
-  "updated_at": "2026-05-29T21:50:00+08:00",
+  "updated_at": "2026-05-31T09:52:35+02:00",
   "state_root": "dashboard/state",
   "summary": {
-    "focus": "Frame the whole portfolio as one loop: real-robot infra collects and validates data; UMI / layered / HOI projects structure it; simulator and PoD projects turn it into robot tasks, evaluation, and physical outputs.",
-    "progress": "ARX infra is ready; Gello-controlled dual Franka + Wuji Hand is complete as a one-DoF gripper path; the first Wuji + Franka cutting demo is now scoped to simulated meat made from slime clay and a toy knife before any sharp blade; UMI Wan2.2-TI2V-5B LoRA v0 has trained to step-125 on 003 / 8xL40S and is waiting for held-out quality evaluation; drag-demo fine-tuning is now running on a replay-cleaned 90-episode dataset with four ablations.",
-    "blockers": "MANUS + VIVE / wrist tracking hardware completion; supervised Wuji + Franka slime-clay toy-knife demo staging and fixture evidence; FACTR / force-feedback procurement through Jingte; UMI post-train held-out gallery is pending because the binding machine has been intermittently offline; any Wan2.2 A14B / 14B scale-up needs a separate 8xA100/H100 80GB-class compute ask rather than 8xL30; drag-demo results are pending for the four raw/gray-hand and split/all-data ablations; ArtiCraft3D asset generation still needs a local adapter smoke before it can be counted as part of AgenticSim.",
-    "next": "Stage the Wuji + Franka toy-knife slime-clay cutting demo with strict safety gates, finish the UMI step-125 held-out GT/base/LoRA gallery on the binding machine, prepare the teacher compute ask for any Wan2.2 A14B / 14B scale-up, test ArtiCraft3D as an agentic articulated-asset expansion route for Self-improving, route FACTR procurement through Jingte, install the 10T HDD from ME as group NAS, wait for the four drag-demo ablation results, and then test a raw-data plus clean-replay mixture if useful."
+    "focus": "Frame the portfolio as one loop: real-robot infra collects and validates data; the Tri-View Layered Manipulation World Model structures views, layers, reward/eval, and HOI evidence; simulator and PoD projects turn that into robot tasks, evaluation, and physical outputs.",
+    "progress": "ARX infra is ready; Gello-controlled dual Franka + Wuji Hand is complete as a one-DoF gripper path; the first Wuji + Franka cutting demo is scoped to simulated meat made from slime clay and a toy knife before any sharp blade; Wan2.2-TI2V-5B LoRA v0 trained to step-125 on 003 / 8xL40S; after Gamma-World, the UMI/Image-Layered direction has been reorganized into a tri-view layered manipulation-WM track; drag-demo fine-tuning is running on a replay-cleaned 90-episode dataset with four ablations.",
+    "blockers": "Survey blockers are now decision-quality gaps rather than missing cards: Skill World Model needs a first API/memory boundary, RLBench -> IsaacSim needs a 5-task pilot feasibility pass, VTLA needs the first Wuji/Franka tactile benchmark choice, and Model-Assisted Teleop needs one measurable preview/correction loop.",
+    "next": "Survey now has individually reasoned cards migrated from Notion ideas, including Skill World Model / Agentic Manipulation API and RLBench -> IsaacSim migration; Archive keeps covered or infra-only ideas as separate cards with reasons. Next step is to execute each survey task into a decision table/spec before promoting anything into Research or Engineering."
   },
   "storyline": {
     "summary": "How real-robot infra, human demonstrations, video world models, simulators, and physical outputs form one loop.",
@@ -45,20 +45,20 @@
       },
       {
         "eyebrow": "World-model sub-story",
-        "title": "How generated videos become robot data, not only visual prediction",
+        "title": "How tri-view layered world models become robot data, not only generated video",
         "aria_label": "World model data sub-story",
         "nodes": [
           {
             "role": "primary",
             "eyebrow": "Wrist-view route",
-            "title": "UMI Data via Teleop Video Model",
-            "body": "Wrist-view UMI data can be generated directly from teleoperation trajectories: action, gripper state, and dual eye-in-hand views condition the video world model."
+            "title": "Dual-Wrist Action Rollout Baseline",
+            "body": "UMI dual-wrist data and Wan2.2 step-125 LoRA provide the v0 action-conditioned rollout baseline, with action, gripper state, and paired wrist views as the starting point."
           },
           {
             "role": "primary",
             "eyebrow": "Third-person route",
-            "title": "Layered Video World Model",
-            "body": "Third-person videos are split into persistent scene, object/contact, and robot/ego dynamics. The IDM story is the LfD / LfO bridge: offline it recovers missing actions from visual state transitions; real-time it becomes vision-based teleoperation or shared control."
+            "title": "Fixed-Exo + Layered Manipulation State",
+            "body": "A fixed third-person view supplies global object state and reward/eval evidence, while object/contact, robot/ego, scene, and occluder layers make generated rollouts useful for IDM, reward models, and failure analysis."
           },
           {
             "role": "outcome",
@@ -137,14 +137,20 @@
     {
       "bucket": "survey",
       "label": "Survey",
-      "title": "Scoping projects",
+      "title": "Individually analyzed scoping projects",
+      "default_open": true
+    },
+    {
+      "bucket": "archive",
+      "label": "Archive",
+      "title": "Individually archived / covered ideas",
       "default_open": false
     }
   ],
   "projects": [
     {
       "project_id": "umi-world-model",
-      "title": "UMI World Model",
+      "title": "Tri-View Layered Manipulation World Model",
       "bucket": "research",
       "status": "ongoing",
       "state_path": "dashboard/state/projects/umi-world-model.json"
@@ -155,13 +161,6 @@
       "bucket": "research",
       "status": "ongoing",
       "state_path": "dashboard/state/projects/self-improving-agents.json"
-    },
-    {
-      "project_id": "image-layered-world-model",
-      "title": "Image-Layered World Model",
-      "bucket": "research",
-      "status": "ongoing",
-      "state_path": "dashboard/state/projects/image-layered-world-model.json"
     },
     {
       "project_id": "real-robot-infra",
@@ -204,6 +203,132 @@
       "bucket": "survey",
       "status": "survey",
       "state_path": "dashboard/state/projects/robotics-3d-printing.json"
+    },
+    {
+      "project_id": "model-assisted-teleop-survey",
+      "title": "Model-Assisted Teleoperation",
+      "bucket": "survey",
+      "status": "survey",
+      "state_path": "dashboard/state/projects/model-assisted-teleop-survey.json"
+    },
+    {
+      "project_id": "skill-world-model-survey",
+      "title": "Skill World Model / Agentic Manipulation API",
+      "bucket": "survey",
+      "status": "survey",
+      "state_path": "dashboard/state/projects/skill-world-model-survey.json"
+    },
+    {
+      "project_id": "vtla-tactile-intuition-survey",
+      "title": "VTLA / Tactile Intuition",
+      "bucket": "survey",
+      "status": "survey",
+      "state_path": "dashboard/state/projects/vtla-tactile-intuition-survey.json"
+    },
+    {
+      "project_id": "cross-embodiment-representations-survey",
+      "title": "Cross-Embodiment Representations",
+      "bucket": "survey",
+      "status": "survey",
+      "state_path": "dashboard/state/projects/cross-embodiment-representations-survey.json"
+    },
+    {
+      "project_id": "agentic-human-captcha-survey",
+      "title": "Agentic Human CAPTCHA",
+      "bucket": "survey",
+      "status": "survey",
+      "state_path": "dashboard/state/projects/agentic-human-captcha-survey.json"
+    },
+    {
+      "project_id": "embodied-music-survey",
+      "title": "EmbodiedMusic",
+      "bucket": "survey",
+      "status": "survey",
+      "state_path": "dashboard/state/projects/embodied-music-survey.json"
+    },
+    {
+      "project_id": "open-hardware-mobile-collection-survey",
+      "title": "Open-Hardware Mobile Collection",
+      "bucket": "survey",
+      "status": "survey",
+      "state_path": "dashboard/state/projects/open-hardware-mobile-collection-survey.json"
+    },
+    {
+      "project_id": "fracture-soft-wrist-assembly-survey",
+      "title": "Fracture / Soft-Wrist Assembly",
+      "bucket": "survey",
+      "status": "survey",
+      "state_path": "dashboard/state/projects/fracture-soft-wrist-assembly-survey.json"
+    },
+    {
+      "project_id": "rlbench-isaacsim-migration-survey",
+      "title": "RLBench -> IsaacSim Task Migration",
+      "bucket": "survey",
+      "status": "survey",
+      "state_path": "dashboard/state/projects/rlbench-isaacsim-migration-survey.json"
+    },
+    {
+      "project_id": "archive-egovla-viewvla-standalone",
+      "title": "Archive: EgoVLA / ViewVLA Standalone Track",
+      "bucket": "archive",
+      "status": "archived",
+      "state_path": "dashboard/state/projects/archive-egovla-viewvla-standalone.json"
+    },
+    {
+      "project_id": "archive-observation-centric-vla-standalone",
+      "title": "Archive: ObsVLA / Camera-Space Action Track",
+      "bucket": "archive",
+      "status": "archived",
+      "state_path": "dashboard/state/projects/archive-observation-centric-vla-standalone.json"
+    },
+    {
+      "project_id": "archive-vla-safety-standalone",
+      "title": "Archive: BiSafeVLA / VLA Safety Standalone Track",
+      "bucket": "archive",
+      "status": "archived",
+      "state_path": "dashboard/state/projects/archive-vla-safety-standalone.json"
+    },
+    {
+      "project_id": "archive-ascii-art-safety-benchmark",
+      "title": "Archive: ASCII-Art Sensitive-Content Benchmark",
+      "bucket": "archive",
+      "status": "archived",
+      "state_path": "dashboard/state/projects/archive-ascii-art-safety-benchmark.json"
+    },
+    {
+      "project_id": "archive-vlm-aesthetic-evaluation",
+      "title": "Archive: VLM Aesthetic Evaluation",
+      "bucket": "archive",
+      "status": "archived",
+      "state_path": "dashboard/state/projects/archive-vlm-aesthetic-evaluation.json"
+    },
+    {
+      "project_id": "archive-deep-cantonese-voice",
+      "title": "Archive: Deep Cantonese Voice Generation",
+      "bucket": "archive",
+      "status": "archived",
+      "state_path": "dashboard/state/projects/archive-deep-cantonese-voice.json"
+    },
+    {
+      "project_id": "archive-agent-society-world-model",
+      "title": "Archive: Agent Society / Game World Model Background",
+      "bucket": "archive",
+      "status": "archived",
+      "state_path": "dashboard/state/projects/archive-agent-society-world-model.json"
+    },
+    {
+      "project_id": "archive-embodied-openrouter-gateway",
+      "title": "Archive: Embodied OpenRouter / WMFactory Gateway",
+      "bucket": "archive",
+      "status": "archived",
+      "state_path": "dashboard/state/projects/archive-embodied-openrouter-gateway.json"
+    },
+    {
+      "project_id": "archive-leap-hand-glove-scooped",
+      "title": "Archive: LEAP-Hand Glove / Standalone Hand Hardware",
+      "bucket": "archive",
+      "status": "archived",
+      "state_path": "dashboard/state/projects/archive-leap-hand-glove-scooped.json"
     }
   ],
   "task_queue": "dashboard/state/tasks.json",

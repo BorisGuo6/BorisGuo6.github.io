@@ -1,0 +1,108 @@
+{
+  "schema_version": "project.v1",
+  "project_id": "vtla-tactile-intuition-survey",
+  "title": "VTLA / Tactile Intuition",
+  "bucket": "survey",
+  "status": "survey",
+  "updated_at": "2026-05-31T09:52:35+02:00",
+  "description": "Keep in Survey: tactile intuition remains actionable because external tactile papers solve pieces, while our unresolved decision is the first Wuji/Franka/HOI benchmark and representation.",
+  "summary": "Survey-stage consolidation of the Notion tactile / VTLA ideas: use ego video, tactile patches, force/proximity signals, and object-centric contact representations to make tactile evidence reusable for manipulation policy, world-model prediction, and contact-rich task evaluation.",
+  "asset": null,
+  "details": [
+    {
+      "text": "EgoVTLA idea: AprilTag + tactile patch glove, FK over egocentric video, contact as depth point plus force magnitude, and eye gaze for useful pixels. This should be scoped as perception/intention alignment, not only another tactile sensor build.",
+      "links": [
+        {
+          "label": "ARCTIC",
+          "url": "https://arctic.is.tue.mpg.de/"
+        },
+        {
+          "label": "HOLD",
+          "url": "https://zc-alexfan.github.io/hold/"
+        },
+        {
+          "label": "Object Rewards",
+          "url": "https://object-rewards.github.io/"
+        }
+      ]
+    },
+    {
+      "text": "Tactile-Bolt / AnyInsert / InsertAnyShape idea: a tactile dataset and digital twin for bolts, caps, peg-in-hole, and insertion-style tasks. This is a strong survey candidate because it connects data-driven tactile simulation, tactile memory, and real contact-rich assembly.",
+      "links": [
+        {
+          "label": "ViTaSCOPE",
+          "url": "https://arxiv.org/abs/2506.12239"
+        },
+        {
+          "label": "Taccel",
+          "url": "https://arxiv.org/abs/2504.12908"
+        },
+        {
+          "label": "Soft-wrist insertion",
+          "url": "https://omron-sinicx.github.io/soft-robot-sim-to-real/"
+        }
+      ]
+    },
+    {
+      "text": "接近觉 / proximity idea: train visual priors for hand-object distance and joint values, then add VL53L5CX-like time-of-flight sensing on robot hands. The promising route is pre-contact contact prediction and occlusion handling, not replacing tactile sensing entirely."
+    },
+    {
+      "text": "RobotCooking VTLA demo idea: tactile memory for avocado sandwich, opaque-bag search, peeling/cutting/plating. This should be treated as a long-horizon benchmark theme after the tactile representation is defined, not the first experiment.",
+      "links": [
+        {
+          "label": "ViTacFormer",
+          "url": "https://arxiv.org/abs/2506.15953"
+        }
+      ]
+    },
+    "Other open Notion items folded here: TouchNet / ViTaRAG, tactile as oracle for current/torque-loop control, emulating tactile from motor currents, fine-grained cylinder-rotation force control, articulated-object manipulation with tactile/force feedback, proprioception for object pose, and event-camera VLA as an additional modality.",
+    {
+      "text": "Moved back from the mixed archive: tactile-glove wearable-by-human-and-robot ideas and full-palm tactile fusion should live here, not in Archive, because they are active ingredients for Wuji Glove, VTLA, and contact-rich manipulation benchmarks.",
+      "links": [
+        {
+          "label": "ViTacFormer",
+          "url": "https://arxiv.org/abs/2506.15953"
+        },
+        {
+          "label": "ViTaSCOPE",
+          "url": "https://arxiv.org/abs/2506.12239"
+        },
+        {
+          "label": "FingerEye",
+          "url": "https://arxiv.org/abs/2604.20689"
+        }
+      ]
+    },
+    {
+      "text": "Notion migration addendum 2026-05-31: Tactile-Bolt / InsertAnyShape, proximity sensing, EgoVTLA task-library, full-palm tactile-assisted human-to-robot dynamics transfer, UMI hand-vitac, DEXO/DEXOP-style hand exoskeleton capture, and Wuji/Franka tactile benchmark choices all belong here as live survey material.",
+      "links": [
+        {
+          "label": "DEXOP",
+          "url": "https://arxiv.org/abs/2509.04441"
+        },
+        {
+          "label": "FingerEye",
+          "url": "https://nus-lins-lab.github.io/FingerEyeWeb/"
+        },
+        {
+          "label": "Taccel",
+          "url": "https://arxiv.org/abs/2504.12908"
+        }
+      ]
+    },
+    "Additional benchmark candidates from Notion: spilling/pouring water, cap/screw/bolt with tactile reconstruction, cylinder in-hand rotation, opaque-bag search, cutting/peeling/food prep, object handover/exchange, and DexH2R interaction tasks. These need a first-task selection before engineering."
+  ],
+  "task_ids": [
+    "task_vtla_tactile_intuition_survey_map"
+  ],
+  "risks_decisions": [
+    "The project should not become a shopping list of sensors; the first output needs a contact-state representation and a benchmarkable manipulation question.",
+    "Tactile data is expensive. Prioritize tasks where vision is genuinely occluded or ambiguous: insertion, cap/screw, opaque-bag search, cutting/peeling, and in-hand pose/contact estimation.",
+    "If tactile is only used as another observation channel, the novelty is weak. Stronger framing: tactile as oracle, memory, contact-field label, or failure/reward evidence.",
+    "Do not leave tactile glove / full-palm fusion notes in Archive if they feed Wuji/Franka, VTLA, or HOI data collection; keep this card for unresolved representation and benchmark choices.",
+    "Survey disposition 2026-05-31: keep, because ViTacFormer, ViTaSCOPE, FingerEye, and related sensor work prove the importance of visuo-tactile fusion but do not choose our first Wuji/Franka benchmark or data schema.",
+    "Next executable analysis: decide between tactile-bolt/insertion, opaque-bag search, and food/cutting as the first benchmark family, then list sensors, labels, and success metrics.",
+    "Archive only sub-ideas that have no path to Wuji/Franka/HOI data collection; keep full-palm tactile and glove-wearable ideas here.",
+    "Do not archive tactile glove or full-palm tactile notes just because a LEAP-hand subpage is archived; the live value is Wuji/Franka sensing, data schema, and the first tactile benchmark."
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "schema_version": "project.v1",
+  "bucket": "archive",
+  "status": "archived",
+  "updated_at": "2026-05-31T09:52:35+02:00",
+  "asset": null,
+  "asset_alt": null,
+  "asset_caption": null,
+  "visual": {
+    "layout": "single_column"
+  },
+  "timeline": null,
+  "references": [],
+  "project_id": "archive-embodied-openrouter-gateway",
+  "title": "Archive: Embodied OpenRouter / WMFactory Gateway",
+  "description": "Archive reason: this Notion item is operational model-serving infrastructure, not an independent survey project; OpenAI-compatible gateway patterns already exist and live work belongs in WMFactory / General engineering when needed.",
+  "summary": "The embodied OpenRouter / WMFactory / new-api note is archived out of Survey so it does not masquerade as a research project. Keep it as an implementation pattern for model routing and inference integration.",
+  "details": [
+    {
+      "text": "The idea is to route embodied model inference through an OpenAI-compatible gateway, using systems such as new-api or WMFactory integration points. That is useful infrastructure but does not define a new paper, benchmark, dataset, or hardware decision by itself.",
+      "links": [
+        {
+          "label": "new-api",
+          "url": "https://github.com/QuantumNous/new-api"
+        }
+      ]
+    },
+    "Moved-out live work: DreamX / Wan / other world-model inference integration should remain in the relevant Engineering or WMFactory task, where it can be validated with actual weights, dependencies, and inference smoke tests.",
+    "Archive decision: do not keep a separate Survey card unless there is a new model-routing benchmark or a cross-model embodied inference product spec."
+  ],
+  "risks_decisions": [
+    "Archived 2026-05-31 after Notion ideas migration audit.",
+    "Reason type: operational infrastructure / duplicate of existing gateway patterns, not a standalone survey topic.",
+    "Reopen condition: a concrete WMFactory gateway implementation task with endpoint contract, models, auth, and smoke-test evidence is requested."
+  ]
+}

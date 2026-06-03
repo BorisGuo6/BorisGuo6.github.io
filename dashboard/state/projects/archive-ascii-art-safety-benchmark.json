@@ -1,0 +1,37 @@
+{
+  "schema_version": "project.v1",
+  "bucket": "archive",
+  "status": "archived",
+  "updated_at": "2026-05-31T09:52:35+02:00",
+  "asset": null,
+  "asset_alt": null,
+  "asset_caption": null,
+  "visual": {
+    "layout": "single_column"
+  },
+  "timeline": null,
+  "references": [],
+  "project_id": "archive-ascii-art-safety-benchmark",
+  "title": "Archive: ASCII-Art Sensitive-Content Benchmark",
+  "description": "Archive reason: ArtPrompt / ViTC already covers the ASCII-art jailbreak benchmark, and this topic is outside the embodied-AI portfolio loop.",
+  "summary": "The ASCII-art safety idea is archived as a completed external benchmark direction rather than a Survey project. It remains useful background for adversarial prompt formats and Human CAPTCHA attack design.",
+  "details": [
+    {
+      "text": "ArtPrompt introduces the Vision-in-Text Challenge and an ASCII-art jailbreak attack against aligned LLMs, which covers the core benchmark idea. The dashboard should not duplicate it as a new project.",
+      "links": [
+        {
+          "label": "ArtPrompt",
+          "url": "https://arxiv.org/abs/2402.11753"
+        }
+      ]
+    },
+    "Moved-out live work: if needed, Human CAPTCHA can borrow this as one adversarial encoding family, but it is not an embodied-AI project on its own.",
+    "Archive decision: keep historical reference only."
+  ],
+  "risks_decisions": [
+    "Archived 2026-05-31 after per-project survey audit.",
+    "Reason type: already completed by a paper/benchmark and outside current embodied portfolio scope.",
+    "Reopen condition: only if the Human CAPTCHA benchmark explicitly adopts visual-in-text process signals as a core measurement axis.",
+    "Notion migration 2026-05-31: the open checkbox about LLM ASCII-art sensitive-content detection is intentionally archived as a safety-benchmark side project outside the embodied robotics loop."
+  ]
+}

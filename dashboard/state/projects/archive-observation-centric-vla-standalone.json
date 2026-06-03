@@ -1,0 +1,36 @@
+{
+  "schema_version": "project.v1",
+  "bucket": "archive",
+  "status": "archived",
+  "updated_at": "2026-05-31T09:27:00+02:00",
+  "asset": null,
+  "asset_alt": null,
+  "asset_caption": null,
+  "visual": {
+    "layout": "single_column"
+  },
+  "timeline": null,
+  "references": [],
+  "project_id": "archive-observation-centric-vla-standalone",
+  "title": "Archive: ObsVLA / Camera-Space Action Track",
+  "description": "Archive reason: OC-VLA already completes the standalone camera-space action-normalization topic; our live use is inside Cross-Embodiment Representations.",
+  "summary": "Observation-centric action prediction is archived as its own card because camera-space action grounding is now a concrete paper direction, not an independent dashboard project for us.",
+  "details": [
+    {
+      "text": "OC-VLA grounds end-effector actions in camera observation coordinates using camera extrinsics, improving cross-view generalization while staying plug-compatible with existing VLA architectures. This is exactly the standalone ObsVLA idea.",
+      "links": [
+        {
+          "label": "OC-VLA / Grounding Actions in Camera Space",
+          "url": "https://arxiv.org/abs/2508.13103"
+        }
+      ]
+    },
+    "Moved-out live work: Cross-Embodiment Representations should compare camera-frame actions against latent actions, object/contact heatmaps, and RGB+XYZ on one HOI/UMI task.",
+    "Archive decision: do not create a second Survey card for camera-frame action unless we implement a concrete baseline on our data."
+  ],
+  "risks_decisions": [
+    "Archived 2026-05-31 after per-project survey audit.",
+    "Reason type: paper completed the core topic; remaining value is an evaluation row inside an existing Survey card.",
+    "Reopen condition: our own camera-frame-action baseline produces a distinct result worthy of promotion from method row to project."
+  ]
+}

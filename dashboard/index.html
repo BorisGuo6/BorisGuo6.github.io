@@ -84,7 +84,7 @@
       <section class="section project-status-section">
         <div class="section-title">
           <h2>Project Status</h2>
-          <p>Three buckets: research, engineering, and survey.</p>
+          <p>Four buckets: research, engineering, survey, and archive.</p>
         </div>
         <div class="status-columns" data-status-columns></div>
       </section>
@@ -767,6 +767,8 @@
           mark.className = "status";
           if (status === "survey" || status === "research") {
             mark.classList.add("research");
+          } else if (status === "archive" || status === "archived") {
+            mark.classList.add("archived");
           } else if (status === "blocked" || status === "attention") {
             mark.classList.add("attention");
           } else {
@@ -982,7 +984,11 @@
           label.textContent = bucket.label || bucket.bucket;
           const strong = document.createElement("strong");
           strong.textContent = bucket.title || bucket.bucket;
-          summary.append(label, strong);
+          const count = document.createElement("em");
+          count.className = "bucket-count";
+          count.dataset.bucketCount = bucket.bucket;
+          count.textContent = "0 projects";
+          summary.append(label, strong, count);
           column.append(summary, content);
           return column;
         }
@@ -996,6 +1002,7 @@
             { bucket: "research", label: "Research", title: "Paper / proposal tracks", default_open: true },
             { bucket: "engineering", label: "Engineering", title: "Collaboration / infra tracks", default_open: false },
             { bucket: "survey", label: "Survey", title: "Scoping projects", default_open: false },
+            { bucket: "archive", label: "Archive", title: "Completed / covered ideas", default_open: false },
           ];
         }
 
@@ -1012,16 +1019,27 @@
               .map((projectElement) => [projectElement.dataset.projectId, projectElement])
           );
           const columns = new Map();
+          const projectCounts = new Map();
           const columnElements = [];
           buckets.forEach((bucket) => {
             const column = createProjectBucket(bucket);
             columns.set(bucket.bucket, column);
+            projectCounts.set(bucket.bucket, 0);
             columnElements.push(column);
           });
           (portfolio.projects || []).forEach((projectRef) => {
             const column = columns.get(projectRef.bucket) || columns.values().next().value;
+            const bucketKey = columns.has(projectRef.bucket) ? projectRef.bucket : columns.keys().next().value;
             const projectElement = existingProjects.get(projectRef.project_id) || createProjectShell(projectRef);
+            projectCounts.set(bucketKey, (projectCounts.get(bucketKey) || 0) + 1);
             bucketProjectContainer(column)?.append(projectElement);
+          });
+          columns.forEach((column, bucketKey) => {
+            const count = projectCounts.get(bucketKey) || 0;
+            const countElement = column.querySelector("[data-bucket-count]");
+            if (countElement) {
+              countElement.textContent = count === 1 ? "1 project" : `${count} projects`;
+            }
           });
           replaceChildrenPreservingDetails(container, ...columnElements);
         }
@@ -1243,6 +1261,16 @@
             makeTextCollapsible(item, decision, { maxLength: 230, maxLines: 4, stateKey: `project:${projectElement.dataset.projectId}:decision:${index}` });
             return item;
           }));
+        }
+
+        function findProjectDoc(projectId) {
+          return projectDocs.find((project) => project.project_id === projectId) || null;
+        }
+
+        function isArchivedProjectDoc(projectDoc) {
+          const bucket = normalizeProjectBucket(projectDoc?.bucket, projectDoc?.status);
+          const status = String(projectDoc?.status || "").trim().toLowerCase();
+          return bucket === "archive" || status === "archive" || status === "archived";
         }
 
         function renderProjectState(projectElement, projectDoc) {
@@ -1549,6 +1577,7 @@
 
         function renderProject(projectElement, tasks) {
           const projectId = projectElement.dataset.projectId;
+          const projectDoc = findProjectDoc(projectId);
           const projectTasks = sortTasks(tasks.filter((task) => task.project_id === projectId));
           const activeTasks = projectTasks.filter((task) => getEffectiveStatus(task) !== "done");
           const completedTasks = projectTasks.filter((task) => getEffectiveStatus(task) === "done");
@@ -1558,6 +1587,13 @@
           if (!taskPanel) {
             return;
           }
+
+          if (isArchivedProjectDoc(projectDoc) && projectTasks.length === 0) {
+            taskPanel.hidden = true;
+            projectElement.querySelector(".archive-panel")?.remove();
+            return;
+          }
+          taskPanel.hidden = false;
 
           const heading = taskPanel.querySelector("h3");
           const taskList = taskPanel.querySelector(".todo-list.project-list");

@@ -1,0 +1,75 @@
+{
+  "schema_version": "project.v1",
+  "project_id": "open-hardware-mobile-collection-survey",
+  "title": "Open-Hardware Mobile Collection",
+  "bucket": "survey",
+  "status": "survey",
+  "updated_at": "2026-05-31T09:52:35+02:00",
+  "description": "Keep in Survey: the open-hardware question is a data-value-per-setup-hour decision, not a build commitment.",
+  "summary": "Survey-stage consolidation of Notion open-hardware and mobile data-collection ideas: decide which low-cost robot arms, hands, mobile bases, and sensing rigs can become a realistic collection platform rather than a hardware distraction.",
+  "asset": null,
+  "details": [
+    {
+      "text": "Bimanual open-hardware idea: compare OpenArm, AmazingHand, Calibur-like controllers, and other low-cost platforms as data-collection devices for VLA/VLN. The dashboard already tracks real-robot infra, so this survey should only keep candidates that change data scale or embodiment coverage.",
+      "links": [
+        {
+          "label": "OpenArm",
+          "url": "https://open-arm.org/"
+        },
+        {
+          "label": "AmazingHand",
+          "url": "https://wiki.seeedstudio.com/hand_amazinghand"
+        }
+      ]
+    },
+    "Mobile platform idea: triangular omniwheel balancing base, dual-arm frame, and lift stage for collection in human environments. This needs a BOM/safety/teleop feasibility pass before it becomes engineering.",
+    "Dexterous-hand hardware ideas folded here: water-cooled dense-motor hand, fingernail-in-fingertip for picking, dexterous hand hanging objects on rack, humanoid acrobatics, and multi-robot contact cooperation. These should be triaged by cost, controllability, safety, and whether they unlock a specific dataset.",
+    {
+      "text": "Adjacent reference space includes low-cost mobile/bimanual robots and open-source humanoids; use them as feasibility comparators, not as automatic build targets.",
+      "links": [
+        {
+          "label": "AhaRobot",
+          "url": "https://arxiv.org/abs/2503.10070"
+        },
+        {
+          "label": "Berkeley Humanoid Lite",
+          "url": "https://arxiv.org/abs/2504.17249"
+        }
+      ]
+    },
+    {
+      "text": "Notion migration addendum 2026-05-31: open-hardware dual-arm with OpenArm + AmazingHand + Calibur-like controllers, mobile collection base, dense-motor/water-cooled hand, fingernail fingertip picking, dexterous rack-hanging tasks, humanoid acrobatics, and multi-robot contact cooperation are retained only as build/no-build candidates.",
+      "links": [
+        {
+          "label": "OpenArm",
+          "url": "https://openarm.dev/"
+        },
+        {
+          "label": "AmazingHand",
+          "url": "https://wiki.seeedstudio.com/hand_amazinghand"
+        },
+        {
+          "label": "AhaRobot",
+          "url": "https://arxiv.org/abs/2503.10070"
+        },
+        {
+          "label": "Berkeley Humanoid Lite",
+          "url": "https://arxiv.org/abs/2504.17249"
+        }
+      ]
+    }
+  ],
+  "task_ids": [
+    "task_open_hardware_collection_decision_table"
+  ],
+  "risks_decisions": [
+    "Hardware ideas are easy to over-expand. The survey must score candidates by data value per setup hour, not just novelty.",
+    "Anything involving sharp tools, high force, mobile bases, or acrobatics stays out of active engineering until safety and supervision constraints are explicit.",
+    "If a platform cannot produce calibrated observations/actions compatible with UMI/HOI/VTLA state schemas, it should remain archived/reference-only.",
+    "First deliverable is a decision table and one recommended build/no-build call.",
+    "Survey disposition 2026-05-31: keep, because existing open-hand/mobile robot papers provide candidates but do not decide which platform, if any, improves our data collection enough to justify setup cost.",
+    "Next executable analysis: score each candidate by cost, build risk, sensing, calibration, safety, UMI/HOI/VTLA compatibility, and expected unique data.",
+    "Move standalone LEAP-hand glove ideas to Archive as external/covered hardware references, while keeping this card for platform-level build/no-build decisions.",
+    "The migration audit keeps shaol/3D-printing paused separately; this card is only for data-collection hardware ROI, not for committing to every interesting robot build."
+  ]
+}

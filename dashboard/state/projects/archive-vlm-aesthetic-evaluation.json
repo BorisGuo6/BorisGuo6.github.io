@@ -1,0 +1,40 @@
+{
+  "schema_version": "project.v1",
+  "bucket": "archive",
+  "status": "archived",
+  "updated_at": "2026-05-31T09:27:00+02:00",
+  "asset": null,
+  "asset_alt": null,
+  "asset_caption": null,
+  "visual": {
+    "layout": "single_column"
+  },
+  "timeline": null,
+  "references": [],
+  "project_id": "archive-vlm-aesthetic-evaluation",
+  "title": "Archive: VLM Aesthetic Evaluation",
+  "description": "Archive reason: recent aesthetic-evaluation benchmarks cover the generic VLM-as-aesthetic-judge topic, and it does not connect to the current robot data loop.",
+  "summary": "VLM aesthetic evaluation is archived as a non-core evaluation direction. It can inform presentation or generated-asset quality checks, but it should not occupy Survey space until it is tied to robot assets or CAD acceptance.",
+  "details": [
+    {
+      "text": "AesEval-Bench and Visual Aesthetic Benchmark already frame systematic VLM/MLLM aesthetic judgment. That completes the generic topic more directly than our dashboard needs.",
+      "links": [
+        {
+          "label": "AesEval-Bench",
+          "url": "https://arxiv.org/abs/2603.01083"
+        },
+        {
+          "label": "Visual Aesthetic Benchmark",
+          "url": "https://arxiv.org/abs/2605.12684"
+        }
+      ]
+    },
+    "Moved-out live work: if Robotics + 3D Printing reopens, use aesthetic checks as a secondary product-quality metric, not a standalone Survey project.",
+    "Archive decision: no open TODO until tied to a specific product/CAD/demo acceptance gate."
+  ],
+  "risks_decisions": [
+    "Archived 2026-05-31 after per-project survey audit.",
+    "Reason type: externally covered and not currently connected to embodied data/model/robot execution.",
+    "Reopen condition: generated robot assets or PoD products need a measurable aesthetic/utility scoring pipeline."
+  ]
+}

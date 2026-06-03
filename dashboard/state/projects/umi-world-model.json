@@ -1,12 +1,12 @@
 {
   "schema_version": "project.v1",
   "project_id": "umi-world-model",
-  "title": "UMI World Model",
+  "title": "Tri-View Layered Manipulation World Model",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-05-29T21:50:00+08:00",
-  "description": "Kinematics-conditioned dual eye-in-hand world modeling",
-  "summary": "UMI World Model is now in the WAN2.2 TI2V fine-tuning phase: use a concatenated left/right first frame as the image condition, train one dual-wrist TI2V model first, then decide how to inject robot action beyond text and first-frame conditioning.",
+  "updated_at": "2026-05-31T17:17:04+02:00",
+  "description": "Dual-wrist + D435 data now; fixed-exo capture/synthesis target + object/contact layers",
+  "summary": "Post-Gamma-World, this project is reframed away from generic synchronized multi-agent video generation. The current data reality is stricter than the first tri-view plan: Yuhang/Daimon UMI data has dual wrist fisheye views and a D435 main view, but no fixed third-person/exo view. The core question is therefore which view and which explicit layer carries manipulation-useful state, and whether fixed-exo evidence must be newly captured or can be synthesized well enough for reward/eval and failure analysis.",
   "asset": "dashboard/assets/umi-dataset-visualization.png",
   "asset_alt": "UMI dataset annotation and subtask segmentation visualization panel",
   "asset_caption": "Dataset QA: synchronized wrist views, 3D pose, EEF traces, current segment, and action log after subtask splitting.",
@@ -14,24 +14,32 @@
     "layout": "standard"
   },
   "details": [
-    "Use the annotation / subtask-splitting panel to inspect dual wrist videos, task labels, motion curves, and segment boundaries together; compare Gemini with Seed 2.0 Pro video understanding for key-state labels.",
-    "Generate bimanual wrist-view videos conditioned on kinematics and gripper state.",
-    "Maintain left-right consistency over object state and scene state.",
-    "First decision: one-side generation + camera transform, or end-to-end synchronized dual video.",
-    "Potential contribution: DiT structure with attention / AdaLN changes, then CameraNoise-style control after the base model works.",
-    "Try Genie Envisioner as an additional UMI/world-model probe, especially for whether it can help with envisioning action-conditioned future frames or evaluation cases.",
-    "Meeting update 2026-05-25: WAN2.2 fine-tuning is starting with left/right wrist views concatenated into one first-frame image condition; train one TI2V model first instead of separate left/right models.",
-    "Initial training scale: prepare 1k-2k UMI clips/trajectories for the first run; compare 5B versus 14B cost, but keep the v0 path on the manageable TI2V fine-tune route unless 14B quality justifies the extra compute.",
-    "Model-size clarification 2026-05-29: the completed 003 / L40S run is Wan2.2-TI2V-5B, not a 2B model. The trained LoRA checkpoint is `step-125.safetensors` from `/home/borisguo/runs/wan22_ti2v_v0_1000/diffsynth_lora_704x1280x121/`, copied to the UMI binding machine under `/home/jingxiang/workspace/das-data/models/train/wan22_ti2v_v0_1000_l40s_8gpu/` for held-out post-train evaluation.",
-    "Large-model compute note: treat Wan2.2 A14B / 14B fine-tuning as a separate high-memory request. Serious 14B fine-tuning should be planned around 8xA100/H100 80GB-class GPUs; 8xL30 24GB should not be treated as viable for this path, and 8xL40S 48GB is only a possible downscaled/offload dry-run target.",
-    "Training audit: inspect the LingBot / LingBot-World training recipe to understand which parameters/modules were trained and how interaction/action information enters the world model; use it as a reference for active simulation, not as a drop-in baseline.",
-    "Cosmos Predict 2.5 prompt update: explicitly describe the concatenated input layout. The left half is the left wrist/gripper view, the right half is the right wrist/gripper view, and the visible lower gripper parts are the interactive end-effectors that can contact and move objects.",
-    "Action-injection survey: compare text action tokens, first-frame conditioning, trajectory/control maps, latent-channel concatenation, cross-attention adapters, AdaLN/action encoders, and Ctrl-World-style action-conditioned UNet paths; pick the smallest v1 path that can encode dual-arm pose and gripper state.",
-    "Evaluation gallery format: use a TI2V qualitative-comparison layout where each sample shows generated video, matched GT video, and the exact text prompt/caption input together, plus run_id/model/metric metadata.",
-    "Operational update 2026-05-27: raise WAN2.2 fine-tuning compute needs with the teacher, and buy/install a 2.5-inch SSD on server #2 to expand storage for UMI training data, checkpoints, cache, and generated artifacts.",
-    "Benchmarking direction 2026-05-29: integrate WMFactory with iWorld-Bench so the same system has WMFactory's user-interaction frontend and iWorld-Bench-style interactive world-model evaluation."
+    "Reorganized title / intro 2026-05-31: the project is now Tri-View Layered Manipulation World Model. UMI remains the main data and v0 training substrate, but the paper story is not UMI-only and not Image-Layered-only.",
+    "Gamma-World boundary: Gamma already occupies the generic synchronized action-conditioned multi-agent world-model lane with agent identity encoding, Sparse Hub Attention, and streaming rollout. Our contribution must avoid “dual-wrist video generation” as the main claim.",
+    "Core hypothesis: for tabletop manipulation, useful information is not “more cameras” by default. The key is whether fixed exo, wrist/ego, and explicit layers expose object state, contact, reward, and failure evidence better than flat generated pixels.",
+    "View design after data check: the available UMI substrate is left/right wrist fisheye plus a D435 main view. Fixed third-person/exo remains the desired reward/eval view, but it is not present in Yuhang/Daimon UMI data and must come from new capture or a risky cross-view synthesis probe.",
+    "Layer design: predict or infer scene/background, object/contact transition, robot/ego motion, human/occluder mask, and recomposed views. These layers should be state supervision for manipulation, not only editable visual PSD layers.",
+    "v0 baseline: keep Wan2.2-TI2V-5B LoRA step-125 as the dual-wrist concatenation baseline. It answers whether the current training run learned anything useful, but it is no longer the final contribution by itself.",
+    "v1 model direction: move from spatial concatenation toward structured view-axis conditioning and layer heads. Action should enter through explicit dual-arm pose/gripper traces, not only captions or first-frame appearance.",
+    "Evaluation direction: first compare wrist-only, D435-main, wrist+D435, and layer-head variants on existing data; only run fixed-exo-only / wrist+exo / wrist+exo+layers after new fixed-exo capture or a credible synthesized fixed view exists. Report visual quality only as secondary evidence; primary evidence should be object/contact consistency, action controllability, reward-model usefulness, failure attribution, and held-out task correlation.",
+    "Existing done evidence folded in: Qwen-Image-Layered proved scene/background separation is useful but robot/ego isolation is weak; object/contact and robot/ego probes justify explicit heads; WMFactory + iWorld-Bench gives the UI/eval harness; DreamX-World and Genie remain baselines/tools.",
+    "Data requirement update 2026-05-31: Yuhang/Daimon UMI data has no fixed third-person/exo view at all, not even non-fixed. Humanoid data with this setting is also very scarce. The usable existing format is two wrist fisheye cameras plus a D435 main view, so fixed-exo reward/eval either requires new synchronized capture or a high-risk EgoX/ego-exo generation feasibility probe.",
+    "Discussion update 2026-05-31: the immediate experiment is to test whether EgoX-style or broader ego/exo view translation can synthesize a stable fixed/main view from wrist fisheye + D435 evidence. This is not assumed to work; it is a go/no-go probe because the desired direction may be wrist/ego/main-D435 to fixed-exo, while EgoX itself is primarily exo-to-ego.",
+    "Positioning sentence for proposal: instead of asking whether synchronized robot videos can be generated, this project asks which views and explicit state layers make generated rollouts useful for manipulation reward, evaluation, and failure analysis."
   ],
   "task_ids": [
+    "task_umi_eval_gallery",
+    "task_umi_merge_image_layered_code_to_binding_machine",
+    "task_umi_fixed_exo_ego_layered_pivot",
+    "task_umi_tri_view_capture_schema",
+    "task_umi_egox_fixed_main_view_probe",
+    "task_umi_view_layer_ablation_plan",
+    "task_umi_layer_heads_v1",
+    "task_umi_reward_eval_probe",
+    "task_umi_gamma_baseline_positioning",
+    "task_umi_ego_exo_reverse_survey",
+    "task_umi_finetune_compute_request_teacher",
+    "task_umi_server2_25inch_ssd_storage",
     "task_umi_gemini_frame_test",
     "task_umi_seed2pro_annotation_test",
     "task_umi_temporal_segmentation_survey",
@@ -41,14 +49,21 @@
     "task_umi_vbench_eval",
     "task_umi_decide_ai2v_after_186_vbench",
     "task_umi_ai2v_v0_training_pack",
-    "task_umi_finetune_compute_request_teacher",
-    "task_umi_server2_25inch_ssd_storage",
     "task_umi_cosmos25_concat_prompt_update",
     "task_umi_action_injection_survey",
     "task_umi_dreamxworld_wmfactory",
     "task_umi_wmfactory_iworld_bench",
-    "task_umi_eval_gallery",
-    "task_umi_genie_envisioner_probe"
+    "task_umi_genie_envisioner_probe",
+    "task_umi_gamma_world_collision_strategy",
+    "task_layered_wm_survey_notes",
+    "task_layered_wm_methods",
+    "task_layered_wm_qwen_image_layered_probe",
+    "task_layered_wm_photoshop_psd_pipeline",
+    "task_layered_wm_layer_qa_metrics",
+    "task_layered_wm_contact_object_head",
+    "task_layered_wm_robot_ego_head",
+    "task_layered_wm_video_temporal_probe",
+    "task_layered_wm_linux_layer_editor_pipeline"
   ],
   "references": [
     {
@@ -64,23 +79,62 @@
       "arxiv_id": "2605.03941",
       "submitted_at": "2026-05-18",
       "notes": "Reference for evaluating interactive/camera-controllable world models with packaged metadata, camera trajectories, action-control, memory-ability, camera-following, and all-metric evaluation wrappers."
+    },
+    {
+      "title": "Gamma-World: Generative Multi-Agent World Modeling Beyond Two Players",
+      "url": "https://research.nvidia.com/labs/sil/projects/gamma-world/",
+      "arxiv_id": "2605.28816",
+      "submitted_at": "2026-05-27",
+      "notes": "Collision/baseline reference: generic synchronized action-conditioned multi-agent world model with Simplex Rotary Agent Encoding, Sparse Hub Attention, and streaming rollout. Use it to motivate our shift to view/layer-grounded manipulation evaluation."
+    },
+    {
+      "title": "EgoX: Egocentric Video Generation from a Single Exocentric Video",
+      "url": "https://arxiv.org/abs/2512.08269",
+      "arxiv_id": "2512.08269",
+      "submitted_at": "2025-12-09",
+      "notes": "Exo-to-ego reference: point-cloud rendered ego prior, width/channel latent concatenation, geometry-guided self-attention, LoRA on Wan 2.1 14B; useful for cross-view conditioning design."
+    },
+    {
+      "title": "Intention-driven Ego-to-Exo Video Generation",
+      "url": "https://arxiv.org/abs/2403.09194",
+      "arxiv_id": "2403.09194",
+      "submitted_at": "2024-03-14",
+      "notes": "Ego-to-exo reference: uses view-independent intention, head trajectory, action description, optical flow and occlusion maps to synthesize exocentric video from egocentric input."
+    },
+    {
+      "title": "WorldWander: Bridging Egocentric and Exocentric Worlds in Video Generation",
+      "url": "https://arxiv.org/abs/2511.22098",
+      "arxiv_id": "2511.22098",
+      "submitted_at": "2025-11-27",
+      "notes": "Bidirectional ego/exo translation reference with in-context perspective alignment and synchronized ego-exo triplets; relevant for tri-view cross-view synchronization."
+    },
+    {
+      "title": "Qwen-Image-Layered",
+      "url": "https://huggingface.co/Qwen/Qwen-Image-Layered",
+      "notes": "Layer-decomposition probe from the former Image-Layered card; useful for scene/background separation, but robot/ego and contact require explicit manipulation heads."
     }
   ],
   "risks_decisions": [
-    "时间帧切分精度会直接影响 caption / relabel 质量，需要早做小样本检查，并比较 Gemini 与 Seed 2.0 Pro 标注的一致性。",
-    "初版数据规模要控制在能快速迭代的范围，避免一开始就把训练周期拉长。",
-    "Evaluation 需要同时覆盖视觉质量、时序定位、动作条件一致性。",
-    "基模结论：v0 主线进入 WAN2.2 TI2V 少量微调；首帧使用左右 wrist view 拼接，只训练一个双视角模型，避免过早拆成两个单视角模型。",
+    "Remote merge attempt 2026-05-31: Image-Layered code bundle is prepared locally from feibo; final installation on the UMI binding machine is blocked because jingxiang-b850m-c / 100.112.245.1 is offline on Tailscale.",
+    "Data reality 2026-05-31: Yuhang/Daimon UMI data has no fixed third-person/exo view, and humanoid data with this camera setup is extremely scarce. Do not assume fixed-exo reward/eval can be built from the old UMI data.",
+    "Available-view decision: treat two wrist fisheye cameras plus the D435 main view as the current train/eval substrate; fixed-exo is a target to synthesize or newly capture, not a guaranteed input.",
+    "EgoX-style fixed-view synthesis is a risky fallback: useful as a probe, but if camera stability, contact visibility, or object-state correctness is weak, the project must collect new synchronized fixed-exo data instead of building the paper claim on generated views.",
+    "Do not pitch the project as generic multi-agent synchronized world modeling; Gamma-World already occupies that lane.",
+    "Do not pitch the Wan2.2 dual-wrist concat LoRA as the final contribution; keep it as v0 baseline and qualitative/eval evidence.",
+    "The fixed-exo view is necessary for the new claim: without synchronized third-person data, reward/eval and global object-state arguments will be weak.",
+    "Layer heads must be manipulation-state heads, not aesthetic image-editing layers. Object/contact, robot/ego, occluder, and reward/eval utility are the criteria.",
+    "Any quality claim needs a comparison against base WAN, step-125 LoRA, GT, and a Gamma-style synchronized-agent framing where feasible.",
+    "If ego/wrist views do not improve over fixed-exo for tabletop tasks, that is still a valid contribution: the project should report view utility rather than assume ego is always useful.",
+    "Data/schema risk: tri-view capture requires camera sync, calibration, and consistent action traces; otherwise layer/eval metrics become hard to trust.",
+    "Compute risk: 14B-scale Wan2.2 remains a separate 8xA100/H100-class request; current project plan should not depend on it.",
     "模型规模澄清：当前已经在 003 / L40S 上跑完的是 Wan2.2-TI2V-5B LoRA，不是 2B；如果后续要推进 Wan2.2 A14B / 14B，需要单独按 8xA100/H100 80GB 级别申请算力，8xL30 24GB 不作为主方案。",
-    "训练规模决策：首轮控制在 1k-2k 条，先证明双腕视角一致性、动作条件可用性和失败样例可解释，再扩到 5k-10k。",
-    "Action 注入风险：如果只靠 prompt 和第一帧，模型可能学到外观和短期运动但不听机器人轨迹；必须尽快比较 token、control-map、latent-channel、adapter/AdaLN/action-encoder 等注入路径。",
-    "Cosmos Predict 2.5 继续作为 prompt / inference 对照时，system prompt 必须写清左右拼接语义和可交互夹爪区域，否则模型容易把双腕画面当普通拼图或不相关双视角。",
-    "运维决策：WAN2.2 微调进入实际运行前，需要向老师明确算力需求、GPU 时间窗口和预算；2 号机服务器需要通过 2.5 英寸 SSD 扩充外存，避免训练数据、checkpoint 和 cache 卡在磁盘容量上。"
+    "运维决策：WAN2.2 微调进入实际运行前，需要向老师明确算力需求、GPU 时间窗口和预算；2 号机服务器需要通过 2.5 英寸 SSD 扩充外存，避免训练数据、checkpoint 和 cache 卡在磁盘容量上。",
+    "Dashboard structure decision 2026-05-31: UMI World Model and Image-Layered World Model are merged into one visible card. The former Image-Layered project file remains only as an archived pointer to avoid losing history."
   ],
   "timeline": {
     "target_venue": "ICLR",
     "target_cycle": "ICLR submission",
-    "target_note": "Paper target for UMI World Model; exact conference-year deadline should be filled once the official schedule is fixed.",
+    "target_note": "Paper target for the tri-view layered manipulation world model; schedule should be updated once the exact submission plan is fixed.",
     "sprint_start": "2026-05-16",
     "sprint_due": "2026-05-23",
     "milestones": [
@@ -101,6 +155,24 @@
         "title": "Finish active UMI sprint items",
         "status": "active",
         "date": "2026-05-23"
+      },
+      {
+        "milestone_id": "umi_gamma_world_pivot_decision",
+        "title": "Finalize Gamma-aware tri-view/layered project positioning",
+        "status": "active",
+        "date": "2026-06-04"
+      },
+      {
+        "milestone_id": "umi_image_layered_card_merge",
+        "title": "Merge Image-Layered WM into UMI tri-view layered world-model card",
+        "status": "done",
+        "date": "2026-05-31"
+      },
+      {
+        "milestone_id": "umi_tri_view_layer_spec_due",
+        "title": "Tri-view data schema and layer/eval ablation spec ready",
+        "status": "active",
+        "date": "2026-06-05"
       }
     ]
   }

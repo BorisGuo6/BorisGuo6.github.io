@@ -1,0 +1,67 @@
+{
+  "schema_version": "project.v1",
+  "project_id": "fracture-soft-wrist-assembly-survey",
+  "title": "Fracture / Soft-Wrist Assembly",
+  "bucket": "survey",
+  "status": "survey",
+  "updated_at": "2026-05-31T09:52:35+02:00",
+  "description": "Keep in Survey: fracture reassembly and soft-wrist insertion each have strong references, but the first benchmark choice is still open.",
+  "summary": "Survey-stage track for Notion child pages on fractured-object reassembly and soft-wrist contact-rich policy: combine geometric assembly, ordering/planning, force/tactile feedback, and compliant hardware into a possible manipulation benchmark.",
+  "asset": null,
+  "details": [
+    {
+      "text": "Stepwise fractured-object reassembly idea: use one arm to predict ordered trajectories for fractured parts. Breaking Bad provides a large geometric fracture/reassembly benchmark, but the robotics gap is sequencing, grasping, collision, and physical verification rather than only part-pose prediction.",
+      "links": [
+        {
+          "label": "Breaking Bad Dataset",
+          "url": "https://breaking-bad-dataset.github.io/"
+        }
+      ]
+    },
+    "Notion extensions: bimanual reassembly, image guidance, graph networks, and data generation through disassembly. These are survey-level until there is a physical object set and a simulator/real evaluation protocol.",
+    {
+      "text": "Soft Wrist Contact-rich Policy idea: soft wrist insertion suggests a robust route for peg/hole and uncertain contact tasks. Its best connection to the dashboard is a tactile/force assembly benchmark, not a standalone robot-hardware build.",
+      "links": [
+        {
+          "label": "Soft-wrist insertion",
+          "url": "https://omron-sinicx.github.io/soft-robot-sim-to-real/"
+        }
+      ]
+    },
+    "Open Notion items folded here: peg CAD plus force sensor contact localization, general contact-rich assembly policy, and using compliant hardware as either a training simplifier or a real-world safety margin.",
+    {
+      "text": "Notion migration addendum 2026-05-31: Stepwise fractured-object reassembly, Soft Wrist Contact-rich Policy, peg CAD + force-sensor collision localization, Tactile-Bolt, and screw/cap/bolt articulated-object manipulation are connected as one assembly/contact-rich benchmark family, with VTLA owning sensor representation details.",
+      "links": [
+        {
+          "label": "Breaking Bad Dataset",
+          "url": "https://breaking-bad-dataset.github.io/"
+        },
+        {
+          "label": "Soft-wrist insertion",
+          "url": "https://omron-sinicx.github.io/soft-robot-sim-to-real/"
+        },
+        {
+          "label": "NeuralFeels",
+          "url": "https://github.com/facebookresearch/neuralfeels"
+        },
+        {
+          "label": "AutoBio",
+          "url": "https://arxiv.org/abs/2505.14030"
+        }
+      ]
+    }
+  ],
+  "task_ids": [
+    "task_fracture_soft_wrist_benchmark_scope"
+  ],
+  "risks_decisions": [
+    "Fracture reassembly and soft-wrist insertion may be two papers; keep one survey card only until a shared benchmark emerges.",
+    "Synthetic geometry success does not imply robot success. Need graspability, collision, force, fixture, and object-damage constraints.",
+    "A soft wrist can hide controller weaknesses if used only as compliance; define what perception/control signal is actually learned.",
+    "First deliverable should choose between fractured-object sequencing and peg/contact insertion as the lower-risk first benchmark.",
+    "Survey disposition 2026-05-31: keep, because Breaking Bad and soft-wrist insertion solve different components; they do not decide whether our first assembly benchmark should be fractured-object reassembly or compliant insertion.",
+    "Next executable analysis: choose one benchmark family, list assets and sensors, define simulator/real split, and write success/failure metrics before opening engineering TODOs.",
+    "Archive only if both candidate benchmark families are rejected as too far from current hardware and dataset goals.",
+    "Tactile-Bolt appears in both VTLA and this assembly card by design: VTLA decides the sensing/data representation, while this card decides whether screw/bolt/insertion/reassembly is the first benchmark."
+  ]
+}

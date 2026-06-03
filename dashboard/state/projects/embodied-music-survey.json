@@ -1,0 +1,70 @@
+{
+  "schema_version": "project.v1",
+  "project_id": "embodied-music-survey",
+  "title": "EmbodiedMusic",
+  "bucket": "survey",
+  "status": "survey",
+  "updated_at": "2026-05-31T09:52:35+02:00",
+  "description": "Keep in Survey: robot music is niche but still testable if scoped as action/contact-to-MIDI before full audio generation.",
+  "summary": "Survey-stage project from Notion EmbodiedMusic and robot rhythm ideas: connect physical action, tactile/contact timing, motion capture, symbolic music, and audio generation so embodied agents can perform or generate music grounded in real instrument interactions.",
+  "asset": null,
+  "details": [
+    {
+      "text": "Core idea: physical action prompt / PAP for action-conditioned music generation over 3D instrument assets. The minimum contribution should map action/contact trajectories to MIDI or audio events before attempting full music generation.",
+      "links": [
+        {
+          "label": "RoboPianist",
+          "url": "https://kzakka.com/robopianist/"
+        },
+        {
+          "label": "FürElise",
+          "url": "https://arxiv.org/abs/2410.05791"
+        }
+      ]
+    },
+    {
+      "text": "Data route from Notion: tactile glove, camera, microphone, AMT/MIDI, rule mapping, and DDSP/diffusion audio generation. Existing music datasets and differentiable audio tools should be treated as output/evaluation support, while the embodied novelty is action/contact-to-sound grounding.",
+      "links": [
+        {
+          "label": "MAESTRO",
+          "url": "https://magenta.tensorflow.org/datasets/maestro"
+        },
+        {
+          "label": "DDSP",
+          "url": "https://magenta.tensorflow.org/ddsp"
+        }
+      ]
+    },
+    "Open Notion items folded here: robot musical rhythm from rapper/body-motion data, embodied instrument assets, action-conditioned generation, evaluation by timing/pitch/F1/audio quality, and Week-1 task planning already written inside Notion.",
+    {
+      "text": "Notion migration addendum 2026-05-31: the detailed Notion plan already defines PAP = timestamp, instrument part, contact location, velocity, force, plus AMT/MIDI bootstrapping, MAESTRO, tactile glove/camera/mic sync, DDSP/diffusion backends, and pitch/timing/loudness/FAD-style evaluation. Keep as Survey until one instrument and one metric set are chosen.",
+      "links": [
+        {
+          "label": "PianoMime",
+          "url": "https://pianomime.github.io/"
+        },
+        {
+          "label": "RP1M",
+          "url": "https://rp1m.github.io/"
+        },
+        {
+          "label": "RoboPianist",
+          "url": "https://kzakka.com/robopianist/"
+        }
+      ]
+    }
+  ],
+  "task_ids": [
+    "task_embodied_music_problem_formulation"
+  ],
+  "risks_decisions": [
+    "This is interesting but off the main robotics manipulation pipeline; keep it survey unless there is a concrete dataset or demo owner.",
+    "Need separate symbolic and audio objectives. MIDI/event correctness is easier to verify than generated audio quality.",
+    "Robot rhythm from human body motion may be a different paper from contact-conditioned instrument performance; do not merge them prematurely.",
+    "First deliverable should be a problem formulation and related-work map, not a model build.",
+    "Survey disposition 2026-05-31: keep, because RoboPianist/FürElise establish important baselines but do not close the general action-contact-to-symbolic-music problem for our glove/tactile/camera stack.",
+    "Next executable analysis: choose one minimal instrument/task, define timing and pitch/event metrics, and decide whether the dataset starts from MIDI supervision, microphone audio, or tactile/contact traces.",
+    "Archive if there is no measurable action-to-event objective and the idea drifts into generic music generation.",
+    "The rapper/body-motion rhythm idea is folded here as a possible rhythm-conditioning dataset, but should stay separate from contact-to-instrument-event grounding until the first problem formulation is written."
+  ]
+}

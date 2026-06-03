@@ -350,6 +350,11 @@ td small {
   color: #315d9b;
 }
 
+.status.archived {
+  background: #e7e4dc;
+  color: #676159;
+}
+
 .bar {
   position: relative;
   height: 7px;
@@ -638,7 +643,6 @@ figcaption {
 .bucket-title {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 12px;
   padding-bottom: 7px;
   border-bottom: 2px solid var(--ink);
@@ -685,9 +689,24 @@ summary.bucket-title::-webkit-details-marker {
 }
 
 .bucket-title strong {
+  min-width: 0;
   margin-left: auto;
   text-align: right;
   font-size: 15px;
+  line-height: 1.2;
+}
+
+.bucket-count {
+  flex: 0 0 auto;
+  min-width: max-content;
+  padding: 3px 7px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fbfcf8;
+  color: var(--muted);
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 800;
 }
 
 .project-detail {

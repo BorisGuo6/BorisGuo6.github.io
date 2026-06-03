@@ -1,0 +1,37 @@
+{
+  "schema_version": "project.v1",
+  "bucket": "archive",
+  "status": "archived",
+  "updated_at": "2026-05-31T09:52:35+02:00",
+  "asset": null,
+  "asset_alt": null,
+  "asset_caption": null,
+  "visual": {
+    "layout": "single_column"
+  },
+  "timeline": null,
+  "references": [],
+  "project_id": "archive-deep-cantonese-voice",
+  "title": "Archive: Deep Cantonese Voice Generation",
+  "description": "Archive reason: Cantonese ASR/TTS corpora and benchmarks now exist, and speech generation is outside the current embodied robotics dashboard scope.",
+  "summary": "Deep Cantonese voice generation is archived as a deferred non-core language/audio item. It should not stay in Survey unless a robot/audio interaction project needs Cantonese speech data.",
+  "details": [
+    {
+      "text": "WenetSpeech-Yue provides a large-scale Cantonese corpus and ASR/TTS evaluation resources, covering the data/benchmark foundation this topic would otherwise need.",
+      "links": [
+        {
+          "label": "WenetSpeech-Yue",
+          "url": "https://arxiv.org/abs/2509.03959"
+        }
+      ]
+    },
+    "Moved-out live work: none in the current embodied-AI dashboard. It can be revisited under a voice-agent or robot-HRI track.",
+    "Archive decision: defer rather than keep as Survey clutter."
+  ],
+  "risks_decisions": [
+    "Archived 2026-05-31 after per-project survey audit.",
+    "Reason type: out of current portfolio scope and externally supplied corpus/benchmark foundation.",
+    "Reopen condition: a concrete Cantonese robot-HRI demo or reading/speech assistant becomes part of the dashboard.",
+    "Notion migration 2026-05-31: the open checkbox from idea bak is intentionally archived because it is speech-generation work outside the embodied robotics dashboard loop; reopen only if tied to a concrete robot interaction dataset or lab product need."
+  ]
+}

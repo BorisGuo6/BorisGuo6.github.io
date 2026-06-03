@@ -16,6 +16,7 @@
         --deck-muted: rgba(248, 250, 252, 0.72);
         --deck-line: rgba(148, 163, 184, 0.34);
         --deck-accent: #18a394;
+        --deck-topbar-height: 42px;
       }
 
       * {
@@ -45,8 +46,8 @@
         align-items: center;
         justify-content: space-between;
         gap: 12px;
-        min-height: 42px;
-        padding: 8px 14px;
+        height: var(--deck-topbar-height);
+        padding: 0 14px;
         background: rgba(11, 17, 23, 0.82);
         border-bottom: 1px solid var(--deck-line);
         backdrop-filter: blur(16px);
@@ -65,18 +66,28 @@
         font-size: 12px;
         line-height: 1;
         text-decoration: none;
+        white-space: nowrap;
       }
 
       .deck-topbar strong {
         color: var(--deck-ink);
         font-size: 12px;
         font-weight: 800;
+        white-space: nowrap;
       }
 
       .deck-topbar nav {
         display: flex;
         gap: 10px;
         align-items: center;
+        min-width: 0;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+
+      .deck-topbar span {
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       .deck-topbar a:hover {
@@ -84,7 +95,19 @@
       }
 
       .reveal {
+        position: fixed;
+        top: var(--deck-topbar-height);
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: calc(100dvh - var(--deck-topbar-height));
         background: var(--deck-bg);
+      }
+
+      body.full-video-active .reveal {
+        top: 0;
+        height: 100dvh;
       }
 
       .reveal .slides {
@@ -294,9 +317,12 @@
       }
 
       @media (max-width: 760px) {
+        :root {
+          --deck-topbar-height: 38px;
+        }
+
         .deck-topbar {
-          min-height: 38px;
-          padding: 7px 10px;
+          padding: 0 10px;
         }
 
         .deck-topbar nav {
@@ -614,10 +640,13 @@
       }
 
       function syncDeckChrome(currentSlide) {
-        document.body.classList.toggle(
+        const changed = document.body.classList.toggle(
           "full-video-active",
           Boolean(currentSlide?.querySelector(".video-layer-full"))
         );
+        if (changed && window.Reveal?.layout) {
+          requestAnimationFrame(() => Reveal.layout());
+        }
       }
 
       function buildVideoLayer(slide) {

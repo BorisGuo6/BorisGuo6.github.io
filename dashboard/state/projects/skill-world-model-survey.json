@@ -1,0 +1,68 @@
+{
+  "schema_version": "project.v1",
+  "project_id": "skill-world-model-survey",
+  "title": "Skill World Model / Agentic Manipulation API",
+  "bucket": "survey",
+  "status": "survey",
+  "updated_at": "2026-05-31T09:52:35+02:00",
+  "description": "Keep in Survey: the Notion Skill World Model and Agentic API ideas are still open, but need a precise boundary between skill memory, interaction dynamics, and tool/API orchestration.",
+  "summary": "Survey-stage migration of the Notion Skill World Model, Agentic 4 General Manipulation, and interaction-centric dynamics notes: define whether a reusable manipulation skill memory should store demos, object/contact transitions, tactile/force evidence, API calls, or all of them, and choose the first benchmark before it becomes engineering.",
+  "asset": null,
+  "details": [
+    {
+      "text": "Core Notion idea: Skill World Model should model reusable manipulation skills as state/action/contact transitions, not only generated video. The live research question is what the minimal skill primitive is: object-centric transition, contact field, reward/failure label, or callable API/tool.",
+      "links": [
+        {
+          "label": "World Models",
+          "url": "https://worldmodels.github.io/"
+        },
+        {
+          "label": "Diffusion Forcing",
+          "url": "https://boyuan.space/diffusion-forcing/"
+        }
+      ]
+    },
+    {
+      "text": "Agentic API pipeline / Retrieval-Augmented Manipulation: use retrieval over prior demos, object affordances, and learned action snippets as an API-like layer for general manipulation. This belongs in Survey until the retrieval key, memory schema, and fallback policy are explicit.",
+      "links": [
+        {
+          "label": "Retrieval-Augmented Manipulation",
+          "url": "https://www.science.org/doi/10.1126/scirobotics.aea2092"
+        }
+      ]
+    },
+    {
+      "text": "Interaction-centric task-library notes split the signal into affordance before interaction, object trajectory after interaction, and force/contact as the bridge. That gives this card a concrete data schema direction and connects it to VTLA rather than creating another abstract world-model topic."
+    },
+    {
+      "text": "Random Thought entries folded here: tactile/force dynamic model, human-robot perception alignment, point-cloud fast rollout, spilling-water quantitative tasks, RobotCooking as a later stress test, and skill libraries that can be reused across robots and simulators."
+    },
+    {
+      "text": "Relevant tactile/video foundations include ViTacFormer for future contact prediction, ViTaSCOPE for object-centric contact fields, and Universal Visuo-Tactile Video Understanding for video-level tactile semantics. These solve representation pieces but not the dashboard-level skill memory/API boundary.",
+      "links": [
+        {
+          "label": "ViTacFormer",
+          "url": "https://arxiv.org/abs/2506.15953"
+        },
+        {
+          "label": "ViTaSCOPE",
+          "url": "https://jayjunlee.github.io/vitascope/"
+        },
+        {
+          "label": "Universal Visuo-Tactile Video Understanding",
+          "url": "https://arxiv.org/abs/2505.22566"
+        }
+      ]
+    }
+  ],
+  "task_ids": [
+    "task_skill_world_model_survey_spec"
+  ],
+  "risks_decisions": [
+    "Do not promote this into Research until it chooses one first skill primitive and one benchmark family; otherwise it duplicates UMI, VTLA, and Self-Improving Agents.",
+    "A useful skill memory must be executable or evaluable. A list of paper links or natural-language skill names is not enough.",
+    "The Agentic API angle should specify what is retrieved, what is generated, what is executed, and what happens when the skill is missing or low confidence.",
+    "Next executable analysis: write a 1-page spec comparing three memory schemas: demo retrieval, object/contact transition graph, and callable skill API with verifier outputs.",
+    "Survey disposition 2026-05-31: keep, because no current dashboard card owns the skill-memory/API boundary even though UMI, VTLA, and Self-Improving Agents each need parts of it."
+  ]
+}

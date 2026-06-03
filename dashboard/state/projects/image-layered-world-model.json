@@ -1,16 +1,18 @@
 {
   "schema_version": "project.v1",
   "project_id": "image-layered-world-model",
-  "title": "Image-Layered World Model",
+  "title": "Image-Layered World Model (merged into UMI)",
   "bucket": "research",
-  "status": "ongoing",
-  "updated_at": "2026-05-27T00:39:21+08:00",
-  "description": "Third-person video decomposition for reasoning and control",
-  "summary": "Third-person video generation can be more useful if it separates persistent scene state, object/contact dynamics, and robot/ego dynamics instead of treating video as flat pixels.",
+  "status": "merged",
+  "updated_at": "2026-05-31T17:17:04+02:00",
+  "description": "Archived pointer; tasks live under dashboard/state/projects/umi-world-model.json",
+  "summary": "Archived visible card: this project has been merged into UMI / Image-Layered World Model. The former standalone image/video-layer decomposition work now serves the UMI tri-view layered manipulation world model as scene/background, object/contact, robot/ego, occluder, IDM, and reward/eval supervision.",
   "asset": "dashboard/assets/layered-world-model.png",
   "asset_alt": "Layered world model pipeline",
   "asset_caption": "Persistent scene, object/contact, and robot/ego layers.",
   "details": [
+    "Archive note 2026-05-31: removed from portfolio project list; all tasks formerly under image-layered-world-model were reassigned to umi-world-model so the dashboard shows one unified card.",
+    "Archive pointer cleanup 2026-05-31: task_ids intentionally cleared because all former Image-Layered tasks now belong to umi-world-model; this file is kept only to preserve history and redirect readers.",
     "WEM is the closest current conceptual neighbor: it separates instruction-agnostic world evolution from instruction-conditioned robot ego dynamics for long-horizon navigation-manipulation rollout.",
     "The project delta should be a finer manipulation decomposition: scene/background layer, object/contact transition layer, and robot/ego action layer rather than only world versus ego.",
     "Target outputs: data augmentation, reward model, and inverse dynamics model.",
@@ -20,21 +22,19 @@
     "Immediate work: move from survey into layer-generation probes: first validate whether visual decomposition can produce reusable layer assets for robot scenes, not only clean poster-style edits.",
     "Test track 1: Qwen-Image-Layered. Use poster-like images and robot manipulation stills to generate RGBA layers, then score recomposition error, duplicate or missing elements, layer purity, and whether scene/background, object/contact, and robot/ego regions are separable.",
     "Test track 2: ChatGPT + Photoshop PSD pipeline. Prompt an image model to split each visual element into fixed-position white-background images, then use Photoshop scripting/actions to remove white, keep one layer per element, and export a PSD for inspection.",
-    "Agentic system shape: decomposition agent -> layer QA / recomposition agent -> PSD assembly agent -> manipulation relabel agent that maps visual layers into scene/background, object-contact, and robot/ego action layers."
+    "Agentic system shape: decomposition agent -> layer QA / recomposition agent -> PSD assembly agent -> manipulation relabel agent that maps visual layers into scene/background, object-contact, and robot/ego action layers.",
+    "Pivot update 2026-05-30: after Gamma-World, this project should no longer be only a standalone image/video decomposition idea. Its role is to make UMI World Model defensible by adding layered state: fixed third-person scene/background, object/contact state, robot/ego motion, human/occluder masks, and reward/eval heads.",
+    "Layered contribution inside UMI: generate or predict not only pixels but also layer-wise supervision that a policy/evaluator can use: object center/contact masks, gripper-object relation, occlusion state, and recomposed fixed-exo / wrist views.",
+    "Immediate merge target: tri-view manipulation world model with fixed third-person camera for global state and reward, dual wrist/ego views for local contact, and layer heads for object/contact/robot state consistency."
   ],
-  "task_ids": [
-    "task_layered_wm_survey_notes",
-    "task_layered_wm_methods",
-    "task_layered_wm_qwen_image_layered_probe",
-    "task_layered_wm_photoshop_psd_pipeline",
-    "task_layered_wm_linux_layer_editor_pipeline",
-    "task_layered_wm_layer_qa_metrics"
-  ],
+  "task_ids": [],
   "risks_decisions": [
     "Layered model scope should move beyond visual decomposition toward state-aware scene / object-contact / robot-ego dynamics.",
     "Object/contact state is the bridge between WEM's world and ego; if ignored, generated videos can look stable while failing manipulation physics.",
     "Evaluation target: data augmentation quality, reward-model usefulness, IDM recoverability, real-time teleop controllability, and long-horizon phase consistency.",
     "Qwen / poster-style layer separation may produce editable design layers but not manipulation semantics; v1 must explicitly check scene/background, object/contact, and robot/ego separability.",
-    "White-background prompt + Photoshop composition can create duplicate or missing elements; require reconstruction QA before using layers as training or evaluation data."
+    "White-background prompt + Photoshop composition can create duplicate or missing elements; require reconstruction QA before using layers as training or evaluation data.",
+    "After Gamma-World, layered decomposition is the main differentiation lever: without explicit object/contact/robot layers, the project risks looking like a weaker synchronized video-generation baseline.",
+    "Fixed third-person camera should be treated as a reward/eval and global-state view, not just another camera to concatenate."
   ]
 }

@@ -1,0 +1,44 @@
+{
+  "schema_version": "project.v1",
+  "bucket": "archive",
+  "status": "archived",
+  "updated_at": "2026-05-31T09:27:00+02:00",
+  "asset": null,
+  "asset_alt": null,
+  "asset_caption": null,
+  "visual": {
+    "layout": "single_column"
+  },
+  "timeline": null,
+  "references": [],
+  "project_id": "archive-agent-society-world-model",
+  "title": "Archive: Agent Society / Game World Model Background",
+  "description": "Archive reason: multi-agent society and game-world modeling are useful background, but active work is already represented by OASIS, Self-Improving Agents, and UMI world-model cards.",
+  "summary": "The game-society / multi-agent world-model idea is archived as background. It is too broad and overlaps existing active cards unless it becomes a robot-task simulator or evaluation generator.",
+  "details": [
+    {
+      "text": "OASIS covers scalable LLM agent society simulation, while Gamma-World and MultiWorld cover recent multi-agent or multi-view generative world-model directions. These are references, not a separate dashboard project today.",
+      "links": [
+        {
+          "label": "OASIS",
+          "url": "https://github.com/camel-ai/oasis"
+        },
+        {
+          "label": "Gamma-World",
+          "url": "https://arxiv.org/abs/2605.28816"
+        },
+        {
+          "label": "MultiWorld",
+          "url": "https://huggingface.co/papers/2604.18564"
+        }
+      ]
+    },
+    "Moved-out live work: Self-Improving Agents owns agentic simulation/asset generation; UMI owns robot manipulation world modeling.",
+    "Archive decision: keep only as literature/background until it proposes a first robot-task simulator experiment."
+  ],
+  "risks_decisions": [
+    "Archived 2026-05-31 after per-project survey audit.",
+    "Reason type: background/overlap with existing active cards.",
+    "Reopen condition: a game/society world model becomes a concrete source of robot tasks, reward functions, or training data."
+  ]
+}

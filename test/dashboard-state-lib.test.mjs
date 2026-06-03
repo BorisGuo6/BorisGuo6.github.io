@@ -56,7 +56,7 @@ assert.ok(state.tasks.length > 0);
 assert.match(await dashboardHash(state), /^[a-f0-9]{64}$/);
 
 const projectBucketNames = new Set((state.portfolio.project_buckets || []).map((bucket) => bucket.bucket));
-assert.deepEqual(projectBucketNames, new Set(["research", "engineering", "survey"]));
+assert.deepEqual(projectBucketNames, new Set(["research", "engineering", "survey", "archive"]));
 for (const project of state.projects) {
   assert.ok(projectBucketNames.has(project.doc.bucket), `Unexpected project bucket ${project.doc.bucket}`);
   assert.notEqual(project.doc.bucket, "active", `Project bucket must not use TODO status name: ${project.doc.project_id}`);

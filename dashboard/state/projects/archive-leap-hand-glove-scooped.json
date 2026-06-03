@@ -1,0 +1,41 @@
+{
+  "schema_version": "project.v1",
+  "bucket": "archive",
+  "status": "archived",
+  "updated_at": "2026-05-31T09:52:35+02:00",
+  "asset": null,
+  "asset_alt": null,
+  "asset_caption": null,
+  "visual": {
+    "layout": "single_column"
+  },
+  "timeline": null,
+  "references": [],
+  "project_id": "archive-leap-hand-glove-scooped",
+  "title": "Archive: LEAP-Hand Glove / Standalone Hand Hardware",
+  "description": "Archive reason: LEAP Hand and related embodiment-generalization work already cover the generic low-cost dexterous-hand hardware angle; live value belongs in Open-Hardware scoring or VTLA sensor choices.",
+  "summary": "Standalone LEAP-hand glove/hardware ideas are archived so they do not duplicate the Open-Hardware Mobile Collection Survey. Keep only the useful build, embodiment, and tactile-sensor lessons.",
+  "details": [
+    {
+      "text": "LEAP Hand already establishes a low-cost anthropomorphic robot hand for robot learning, and GET-Zero extends the hand-hardware variation angle for zero-shot embodiment generalization. That makes a standalone LEAP-hand/glove card redundant for this dashboard.",
+      "links": [
+        {
+          "label": "LEAP Hand",
+          "url": "https://arxiv.org/abs/2309.06440"
+        },
+        {
+          "label": "GET-Zero",
+          "url": "https://get-zero-paper.github.io/"
+        }
+      ]
+    },
+    "Moved-out live work: Open-Hardware Mobile Collection should score whether any hand/platform is worth building; VTLA should track tactile sensor and glove data value.",
+    "Archive decision: do not keep a separate project unless we commit to building or buying a specific hand with an owner, BOM, and validation demo.",
+    "Notion migration addendum 2026-05-31: UMI hand-vitac / DEXO-like exoskeleton capture and tactile glove data value were moved out to VTLA and Open-Hardware; only the standalone LEAP-hand glove card stays archived because the original note says the generic direction was scooped."
+  ],
+  "risks_decisions": [
+    "Archived 2026-05-31 after per-project survey audit.",
+    "Reason type: externally covered hardware family and internal duplication with open-hardware survey.",
+    "Reopen condition: a lab purchase/build decision requires a dedicated LEAP-style hand implementation card."
+  ]
+}

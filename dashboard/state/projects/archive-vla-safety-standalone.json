@@ -1,0 +1,40 @@
+{
+  "schema_version": "project.v1",
+  "bucket": "archive",
+  "status": "archived",
+  "updated_at": "2026-05-31T09:27:00+02:00",
+  "asset": null,
+  "asset_alt": null,
+  "asset_caption": null,
+  "visual": {
+    "layout": "single_column"
+  },
+  "timeline": null,
+  "references": [],
+  "project_id": "archive-vla-safety-standalone",
+  "title": "Archive: BiSafeVLA / VLA Safety Standalone Track",
+  "description": "Archive reason: VLA safety alignment and attack benchmarking are now covered by SafeVLA and AttackVLA-style work; keep safety as constraints inside active robot projects.",
+  "summary": "The standalone VLA safety card is archived because current papers already provide the safety-alignment and attack-benchmark framing. For this dashboard, safety should be task-specific guardrails and verification criteria, not a separate survey project yet.",
+  "details": [
+    {
+      "text": "SafeVLA frames constrained-learning safety alignment for VLA models and demonstrates sim-to-real safety transfer; AttackVLA supplies a unified adversarial/backdoor benchmark with real/sim robot settings. Together they cover the generic standalone VLA-safety topic well enough for this dashboard.",
+      "links": [
+        {
+          "label": "SafeVLA",
+          "url": "https://safevla.github.io/"
+        },
+        {
+          "label": "AttackVLA",
+          "url": "https://arxiv.org/abs/2511.12149"
+        }
+      ]
+    },
+    "Moved-out live work: use these as safety references for Superhuman Robot Execution, Real-Robot Infra, Human CAPTCHA, and any VLA deployment gate.",
+    "Archive decision: no separate Survey card until we have a local VLA policy and need a safety benchmark implementation."
+  ],
+  "risks_decisions": [
+    "Archived 2026-05-31 after per-project survey audit.",
+    "Reason type: externally covered and currently lacks a local implementation target.",
+    "Reopen condition: a deployed or trained VLA in this portfolio needs a local safety-alignment evaluation suite."
+  ]
+}

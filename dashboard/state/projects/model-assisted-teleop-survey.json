@@ -1,0 +1,117 @@
+{
+  "schema_version": "project.v1",
+  "project_id": "model-assisted-teleop-survey",
+  "title": "Model-Assisted Teleoperation",
+  "bucket": "survey",
+  "status": "survey",
+  "updated_at": "2026-05-31T09:52:35+02:00",
+  "description": "Keep in Survey: model-assisted teleop is still a plausible project, but it needs one concrete operator-assist loop instead of a broad list of video-model ideas.",
+  "summary": "Survey-stage track extracted from the Notion ideas page: turn teleoperation from direct human control into a model-assisted loop where a world model predicts likely futures, exposes contact/object risk, and uses low-cost UMI or rendered data to scale demonstrations without immediately becoming another generic video-generation project.",
+  "asset": null,
+  "details": [
+    {
+      "text": "Core Notion idea: Model-assisted Teleoperation = text prompter -> world prompter, where an agentic R2S2R / controllable VideoGen / Image-Layered world model previews outcomes before or during teleop. This is not yet a standalone dashboard project; it should sit in survey until a concrete demo is chosen.",
+      "links": [
+        {
+          "label": "UMI",
+          "url": "https://umi-gripper.github.io/"
+        },
+        {
+          "label": "GELLO",
+          "url": "https://wuphilipp.github.io/gello_site/"
+        }
+      ]
+    },
+    {
+      "text": "TelePhantom-new: use a 3D URDF-conditioned subject inside video generation so qpos / future object state can generate a phantom preview. This is the most direct continuation of TelePreview, but needs a measurable criterion: preview alignment, collision/contact warning, or faster operator correction.",
+      "links": [
+        {
+          "label": "Diffusion Forcing",
+          "url": "https://www.boyuan.space/diffusion-forcing/"
+        },
+        {
+          "label": "Ego-centric World Model",
+          "url": "https://egowm.github.io/"
+        }
+      ]
+    },
+    {
+      "text": "UMI2Render2Real: combine Real2Render2Real, differentiable robot rendering, Masquerade-style robotization, UMIGS / Real2Sim evaluation, and UMI data to generate semi-teleop or robot-agnostic data. This overlaps with the active UMI card, but the assisted-teleop framing is still unclaimed and should remain survey until it has its own protocol.",
+      "links": [
+        {
+          "label": "Real2Render2Real",
+          "url": "https://real2render2real.com/"
+        },
+        {
+          "label": "Differentiable Robot Rendering",
+          "url": "https://drrobot.cs.columbia.edu/"
+        },
+        {
+          "label": "Masquerade",
+          "url": "https://masquerade-robot.github.io/"
+        },
+        {
+          "label": "Real2Sim Eval",
+          "url": "https://real2sim-eval.github.io/"
+        }
+      ]
+    },
+    {
+      "text": "Low-cost UMI: webcam + IMU only, fiducial objects for tracking, and possible camera-depth-model augmentation. This is promising only if it can preserve action recoverability and calibration quality; otherwise it is just a cheaper recorder with weaker labels.",
+      "links": [
+        {
+          "label": "Manipulation as in Simulation",
+          "url": "https://manipulation-as-in-simulation.github.io/"
+        },
+        {
+          "label": "FoundationStereo",
+          "url": "https://arxiv.org/abs/2501.09898"
+        }
+      ]
+    },
+    {
+      "text": "Video-to-state sub-idea: infer robot joint values, camera pose, and articulated object state from videos using URDF, stereo/depth, VGGT, point tracking, and articulated pose estimation. This can become the state-estimation layer for model-assisted teleop, but the missing hard piece is robust articulated object pose under contact.",
+      "links": [
+        {
+          "label": "VGGT",
+          "url": "https://vgg-t.github.io/"
+        },
+        {
+          "label": "CoTracker3",
+          "url": "https://github.com/facebookresearch/co-tracker"
+        }
+      ]
+    },
+    "Other open sub-ideas from Notion: explicit contact annotations or arrows/fields in video models, panorama generation followed by VR video, automatic keyframe/progress/corner-case evaluation, and diffusion-forcing style VLA/video rollout. Keep them as methods inside this survey rather than separate dashboard cards.",
+    {
+      "text": "Notion migration addendum 2026-05-31: also folded in low-cost UMI webcam+IMU+fiducial tracking, camera-depth augmentation, UMI2Render2Real / Real2Render2Real, explicit contact arrows or fields in video models, panorama-to-VR video, and automatic video2sim reward / keyframe / corner-case evaluation. These remain methods inside one assisted-teleop card.",
+      "links": [
+        {
+          "label": "FusionPose visual-inertial tracking",
+          "url": "https://papers.miccai.org/miccai-2025/0005-Paper4160.html"
+        },
+        {
+          "label": "Real2Render2Real",
+          "url": "https://real2render2real.com/"
+        },
+        {
+          "label": "UMI",
+          "url": "https://umi-gripper.github.io/"
+        }
+      ]
+    }
+  ],
+  "task_ids": [
+    "task_model_assisted_teleop_survey_matrix"
+  ],
+  "risks_decisions": [
+    "Do not duplicate the active UMI / Image-Layered World Model card. This survey must answer the teleoperation question: does prediction or preview measurably improve operator speed, safety, or correction rate?",
+    "Rendering-only data generation is not enough; the task needs object/contact state, action faithfulness, and a policy/evaluation bridge.",
+    "Low-cost UMI is only worth keeping if camera/IMU/fiducial labels can recover action and calibration with acceptable error.",
+    "First demo should be small: one contact-rich teleop task with preview on/off, not a full general world-model platform.",
+    "Survey disposition 2026-05-31: keep, because no single reference closes the full loop of teleop preview, contact risk, operator correction, and measurable data-quality improvement for our UMI/Franka/ARX setting.",
+    "Next executable analysis: choose one offline preview experiment on a recorded clip, define inputs/outputs, and score whether the preview changes operator decisions or flags contact/object-state failures.",
+    "Fold video-to-state, contact arrows/fields, and panorama-to-VR into this card as methods; do not create separate dashboard cards until one method has a measurable demo.",
+    "Ideas migrated here rather than new cards: low-cost UMI, video-to-state, UMI2Render2Real, contact-field video annotation, panorama-to-VR, Diffusion-Forcing VLA rollout, and embodied-video evaluation. Promote only after one method has a measurable preview/correction demo."
+  ]
+}

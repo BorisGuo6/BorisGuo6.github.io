@@ -4,8 +4,8 @@
   "title": "Superhuman Robot Execution",
   "bucket": "survey",
   "status": "survey",
-  "updated_at": "2026-05-29T01:15:38+08:00",
-  "description": "Extract accelerable execution strategies from slow teleoperation",
+  "updated_at": "2026-05-31T09:27:00+02:00",
+  "description": "Keep in Survey: the action-rate acceleration idea is still executable, but it needs a bounded DAgger/SFT/RL pilot plus hardware-safe rate and force guardrails before becoming Research.",
   "summary": "This project asks whether slow human teleoperation can provide the task path, then DAgger + SFT first improves stability and safety, SFT action-frequency ablations measure speed / continuity tradeoffs, and RL further optimizes speed and smoothness.",
   "asset": null,
   "visual": {
@@ -51,7 +51,10 @@
     "SFT action sampling frequency may change apparent speed and continuity even before RL, so it needs a separate ablation.",
     "Evaluation should report SFT stability/safety first, SFT action-frequency effects second, then RL improvement in speed, acceleration profile, jerk, success rate, and force / tactile overshoot.",
     "The most important research question is which operation types can be accelerated without losing physical reliability.",
-    "2026-05-29 routing update: shaol@100.96.228.8 (RTX 4090 24GB, ~35G free disk) is assigned to task_rate_curve_rl; avoid heavyweight simulator/model downloads until disk is cleaned."
+    "2026-05-29 routing update: shaol@100.96.228.8 (RTX 4090 24GB, ~35G free disk) is assigned to task_rate_curve_rl; avoid heavyweight simulator/model downloads until disk is cleaned.",
+    "Survey disposition 2026-05-31: keep, because the topic is not completed by EKA-style fast execution demos; our unresolved contribution is learning when a human teleop trajectory can be safely retimed on our robot stack.",
+    "Next executable analysis: run one offline teleop trajectory through classical retiming, SFT action-frequency replay, and a no-hardware RL objective sketch before asking for real-robot acceleration.",
+    "Archive only if the pilot shows no controllable speed/smoothness gain beyond classical retiming or if hardware safety limits make the project non-actionable."
   ],
   "milestones": [
     "2026-05-29: shaol ran a lightweight executable DAgger/SFT/RL synthetic pilot harness with safe=true rl_policy, 1.78x speedup, and zero critical/violation guardrail counts; still needs real-data/hardware validation before done."
