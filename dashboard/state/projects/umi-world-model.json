@@ -4,7 +4,7 @@
   "title": "Tri-View Layered Manipulation World Model",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-05-31T17:17:04+02:00",
+  "updated_at": "2026-06-05T01:35:00+02:00",
   "description": "Dual-wrist + D435 data now; fixed-exo capture/synthesis target + object/contact layers",
   "summary": "Post-Gamma-World, this project is reframed away from generic synchronized multi-agent video generation. The current data reality is stricter than the first tri-view plan: Yuhang/Daimon UMI data has dual wrist fisheye views and a D435 main view, but no fixed third-person/exo view. The core question is therefore which view and which explicit layer carries manipulation-useful state, and whether fixed-exo evidence must be newly captured or can be synthesized well enough for reward/eval and failure analysis.",
   "asset": "dashboard/assets/umi-dataset-visualization.png",
@@ -24,8 +24,12 @@
     "Evaluation direction: first compare wrist-only, D435-main, wrist+D435, and layer-head variants on existing data; only run fixed-exo-only / wrist+exo / wrist+exo+layers after new fixed-exo capture or a credible synthesized fixed view exists. Report visual quality only as secondary evidence; primary evidence should be object/contact consistency, action controllability, reward-model usefulness, failure attribution, and held-out task correlation.",
     "Existing done evidence folded in: Qwen-Image-Layered proved scene/background separation is useful but robot/ego isolation is weak; object/contact and robot/ego probes justify explicit heads; WMFactory + iWorld-Bench gives the UI/eval harness; DreamX-World and Genie remain baselines/tools.",
     "Data requirement update 2026-05-31: Yuhang/Daimon UMI data has no fixed third-person/exo view at all, not even non-fixed. Humanoid data with this setting is also very scarce. The usable existing format is two wrist fisheye cameras plus a D435 main view, so fixed-exo reward/eval either requires new synchronized capture or a high-risk EgoX/ego-exo generation feasibility probe.",
+    "Dataset-selection update 2026-06-04: use MolmoAct's real-robot data design as a reference for side/external + wrist pairing and action-reasoning supervision, and use MolmoAct2-BimanualYAM as a LeRobot-format reference for synchronized top/left/right video plus bimanual state/action. This is only a schema and ablation reference: current UMI/Jianzhi data still lacks the third robot-ego fixed view, so fixed-view reward/eval cannot be assumed.",
     "Discussion update 2026-05-31: the immediate experiment is to test whether EgoX-style or broader ego/exo view translation can synthesize a stable fixed/main view from wrist fisheye + D435 evidence. This is not assumed to work; it is a go/no-go probe because the desired direction may be wrist/ego/main-D435 to fixed-exo, while EgoX itself is primarily exo-to-ego.",
-    "Positioning sentence for proposal: instead of asking whether synchronized robot videos can be generated, this project asks which views and explicit state layers make generated rollouts useful for manipulation reward, evaluation, and failure analysis."
+    "Positioning sentence for proposal: instead of asking whether synchronized robot videos can be generated, this project asks which views and explicit state layers make generated rollouts useful for manipulation reward, evaluation, and failure analysis.",
+    "Survey absorption 2026-06-05: Diverse Same Task Dataset becomes the object/contact schema and HOI data substrate for Tri-View. The next manifest pass should encode task_id, object_id, synchronized timestamps, camera provenance/extrinsics, object trajectory, contact sequence, grasp/tool-use mode, and task result.",
+    "Survey absorption 2026-06-05: Cross-Embodiment Representations becomes a v1 ablation axis. Compare camera-frame delta pose, object/contact heatmap, RGB+XYZ or point-cloud state, latent action, and an OHRA-style canonical-hand baseline on one existing HOI/UMI task before adding another architecture.",
+    "Bridge update 2026-06-05: VTLA contact-rich insertion and the Model-Assisted Teleop failure monitor feed UMI reward/eval/failure attribution. They are not independent Tri-View claims until warning lead time, contact timing, or reward/eval correlation improves an actual decision."
   ],
   "task_ids": [
     "task_umi_eval_gallery",
@@ -63,7 +67,11 @@
     "task_layered_wm_contact_object_head",
     "task_layered_wm_robot_ego_head",
     "task_layered_wm_video_temporal_probe",
-    "task_layered_wm_linux_layer_editor_pipeline"
+    "task_layered_wm_linux_layer_editor_pipeline",
+    "task_umi_absorb_hoi_same_task_schema",
+    "task_umi_cross_embodiment_representation_ablation",
+    "task_umi_vtla_contact_failure_eval_bridge",
+    "task_umi_teleop_failure_monitor_bridge"
   ],
   "references": [
     {
@@ -112,6 +120,20 @@
       "title": "Qwen-Image-Layered",
       "url": "https://huggingface.co/Qwen/Qwen-Image-Layered",
       "notes": "Layer-decomposition probe from the former Image-Layered card; useful for scene/background separation, but robot/ego and contact require explicit manipulation heads."
+    },
+    {
+      "title": "MolmoAct: Action Reasoning Models that can Reason in Space",
+      "url": "https://arxiv.org/abs/2508.07917",
+      "arxiv_id": "2508.07917",
+      "submitted_at": "2025-08-11",
+      "notes": "Dataset-design reference for this project, not a direct substitute for our missing view: MolmoAct's real-robot dataset uses two side-mounted views and one wrist camera, converts episodes into side+wrist paired examples, and adds depth/trace/action-reasoning supervision."
+    },
+    {
+      "title": "MolmoAct2-BimanualYAM Dataset",
+      "url": "https://huggingface.co/datasets/allenai/24112025-yam-01",
+      "arxiv_id": "2605.02881",
+      "submitted_at": "2026",
+      "notes": "LeRobot-format schema reference for synchronized bimanual manipulation data: camera streams are observation.images.top / left / right at 360x640 30fps, with 14D bimanual state/action. Useful for dataset packaging and ablations, but it does not resolve the current UMI/Jianzhi missing fixed robot-ego view."
     }
   ],
   "risks_decisions": [
@@ -126,10 +148,14 @@
     "Any quality claim needs a comparison against base WAN, step-125 LoRA, GT, and a Gamma-style synchronized-agent framing where feasible.",
     "If ego/wrist views do not improve over fixed-exo for tabletop tasks, that is still a valid contribution: the project should report view utility rather than assume ego is always useful.",
     "Data/schema risk: tri-view capture requires camera sync, calibration, and consistent action traces; otherwise layer/eval metrics become hard to trust.",
+    "MolmoAct data reference decision 2026-06-04: borrow side+wrist pairing, LeRobot-style schema, language/action annotations, and view ablations from MolmoAct/MolmoAct2; do not treat them as evidence that our current dataset already has the needed fixed robot-ego/exo view.",
+    "Jianzhi/current-data risk 2026-06-04: current Jianzhi data also lacks the third robot-ego fixed view. The schema must explicitly encode camera provenance and fixed_view_status = absent/synthesized/new_capture before any reward/eval or object-state claim uses that view.",
     "Compute risk: 14B-scale Wan2.2 remains a separate 8xA100/H100-class request; current project plan should not depend on it.",
     "模型规模澄清：当前已经在 003 / L40S 上跑完的是 Wan2.2-TI2V-5B LoRA，不是 2B；如果后续要推进 Wan2.2 A14B / 14B，需要单独按 8xA100/H100 80GB 级别申请算力，8xL30 24GB 不作为主方案。",
     "运维决策：WAN2.2 微调进入实际运行前，需要向老师明确算力需求、GPU 时间窗口和预算；2 号机服务器需要通过 2.5 英寸 SSD 扩充外存，避免训练数据、checkpoint 和 cache 卡在磁盘容量上。",
-    "Dashboard structure decision 2026-05-31: UMI World Model and Image-Layered World Model are merged into one visible card. The former Image-Layered project file remains only as an archived pointer to avoid losing history."
+    "Dashboard structure decision 2026-05-31: UMI World Model and Image-Layered World Model are merged into one visible card. The former Image-Layered project file remains only as an archived pointer to avoid losing history.",
+    "Survey merge decision 2026-06-05: do not leave same-task dataset design and cross-embodiment representation work as detached Survey TODOs. They now drive concrete Tri-View manifest, feature, and ablation tasks.",
+    "Bridge boundary 2026-06-05: VTLA/contact and teleop failure-monitor work should contribute metrics, labels, and failure traces to UMI, but the UMI paper should not claim tactile or assisted-teleop novelty unless a runnable prototype shows a measurable benefit."
   ],
   "timeline": {
     "target_venue": "ICLR",

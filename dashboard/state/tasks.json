@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-05-31T23:46:17+02:00",
+  "updated_at": "2026-06-05T01:35:00+02:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -130,7 +130,7 @@
       "project_id": "real-robot-infra",
       "title": "接入 Wuji Glove 并跑通数采 wrapper",
       "description": "合并任务：接入 Wuji Glove、跑通网络 smoke/时间戳记录、实现 Wuji 手套数采 wrapper。资产依据：GM-ROB-004 Wuji手套，规格/描述为“各装一个D405做数采”，存放 E2-01-04，负责人 Yuhang & Jingxiang，状态 Ready。资产表: https://docs.google.com/spreadsheets/d/1zujQRhscAfwhXTTl_avQwI8eNeOctk0Hl_e8S-Ak_CY/edit?gid=1134950065#gid=1134950065。硬件说明书/SOP 统一归档到 Hardware Resource Center: https://www.notion.so/Hardware-Resource-Center-34120ba53f898026b4cfe366c9b71ac1?source=copy_link。验收：1) 确认 Wuji Glove 的 USB-C-to-Ethernet 网络端点、IP/port、packet rate 和字段 schema；2) 跑通 stream subscribe，记录 10 秒网络 smoke 日志、timestamp drift 和日志 sha256；3) 封装 Wuji 手套状态流、左右手 D405 图像流、相机内参/外参、统一时间戳、episode writer 和 replay/loader；4) 与现有 input record schema 对齐，输出 JSON/HDF5 或项目约定格式；5) loader 能读回手套关节、图像帧和同步时间戳；失败时明确硬件/网络/权限 blocker。",
-      "status": "needs_user",
+      "status": "active",
       "priority": "high",
       "assignee": "Yuhang & Jingxiang / boris@100.70.181.44",
       "result": null,
@@ -1448,6 +1448,27 @@
       "completed_at": "2026-05-29"
     },
     {
+      "task_id": "task_self_improving_molmoact2_reasoning_base",
+      "project_id": "self-improving-agents",
+      "title": "Evaluate MolmoAct 2 as self-improving reasoning VLA base",
+      "description": "调研并设计 MolmoAct 2 -> AgenticSim self-improving loop：把 MolmoAct 2 / LeRobot 作为 open reasoning VLA backbone，结合 RISE-style imaginary rollout advantage、InternDataEngine-style synthetic data production、trace memory 和 governance gate，形成类似 LLM reasoning model 的机器人自改进训练路线。Acceptance: 写出 base-model adapter plan、action-space/hardware gap、finetune data recipe、evaluation protocol、first runnable smoke/failure criteria。",
+      "status": "done",
+      "priority": "high",
+      "assignee": null,
+      "due_at": "",
+      "result": "Migrated into task_umi_cross_embodiment_representation_ablation. The Survey comparison axes are now the concrete Tri-View v1 representation ablation: camera-frame delta pose, object/contact heatmap, RGB+XYZ or point-cloud state, latent action, and OHRA-style canonical-hand baseline.",
+      "comments": [
+        {
+          "comment_id": "comment_self_improving_molmoact2_refs_20260604",
+          "author": "Boris / Codex",
+          "body": "New direction reference pack: MolmoAct 2 is a candidate open reasoning VLA base; RISE provides the imagination/self-improving policy template; InternData-A1 / InternDataEngine provides the synthetic data-engine reference. Need to decide whether AgenticSim should finetune/evaluate MolmoAct 2 directly through LeRobot adapters or first build an offline reasoning/action-data recipe.",
+          "created_at": "2026-06-04T23:52:04+02:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-06-04T23:52:04+02:00"
+    },
+    {
       "task_id": "task_self_improving_r4r_format",
       "project_id": "self-improving-agents",
       "title": "Define Robot-for-Robot output format",
@@ -2117,7 +2138,7 @@
     },
     {
       "task_id": "task_layered_wm_survey_notes",
-      "project_id": "image-layered-world-model",
+      "project_id": "umi-world-model",
       "title": "Write Image-Layered World Model survey notes",
       "description": "Define persistent scene / object-contact / robot-ego layers and connect WEM-style world-ego decomposition to IDM, reward model, and augmentation.",
       "status": "done",
@@ -2161,7 +2182,7 @@
     },
     {
       "task_id": "task_layered_wm_methods",
-      "project_id": "image-layered-world-model",
+      "project_id": "umi-world-model",
       "title": "Compare layered video / object-centric generation methods",
       "description": "Compare WEM-style world/ego disentanglement, layered video generation, and object-centric generation; decide whether v1 needs explicit object/contact and robot state supervision.",
       "status": "done",
@@ -2198,7 +2219,7 @@
     },
     {
       "task_id": "task_layered_wm_qwen_image_layered_probe",
-      "project_id": "image-layered-world-model",
+      "project_id": "umi-world-model",
       "title": "Run Qwen-Image-Layered decomposition probe",
       "description": "Test Qwen/Qwen-Image-Layered on one poster-like image and one robot manipulation still; export generated RGBA layers plus a manifest; score recomposition error, duplicate or missing elements, layer purity, and whether scene/background, object/contact, and robot/ego regions are separable.",
       "status": "done",
@@ -2263,7 +2284,7 @@
     },
     {
       "task_id": "task_layered_wm_photoshop_psd_pipeline",
-      "project_id": "image-layered-world-model",
+      "project_id": "umi-world-model",
       "title": "Prototype ChatGPT + Photoshop PSD layer pipeline",
       "description": "Use the white-background element-splitting prompt to generate one image per visual element without changing relative positions, then use Photoshop scripting/actions to remove white, keep every element as a separate layer, and export a PSD for inspection.",
       "status": "done",
@@ -2405,7 +2426,7 @@
     },
     {
       "task_id": "task_layered_wm_layer_qa_metrics",
-      "project_id": "image-layered-world-model",
+      "project_id": "umi-world-model",
       "title": "Define layer decomposition QA metrics",
       "description": "For each layered output, compute reconstruction / recomposition error, duplicate or missing elements, layer mask overlap, object/contact preservation, robot/ego isolation, and whether the layers support IDM / reward-model targets.",
       "status": "done",
@@ -3298,7 +3319,7 @@
     },
     {
       "task_id": "task_layered_wm_contact_object_head",
-      "project_id": "image-layered-world-model",
+      "project_id": "umi-world-model",
       "title": "补 object/contact supervision probe",
       "description": "Why now: object_contact 在 robot_still 只有约 0.21，说明单靠 layered image 不足。Deliverable: object/contact head 的弱监督方案，对比 color/geometry/Qwen layer features。Acceptance: poster 和 robot_still 都输出 object/contact mask；记录 contact recall/precision、penetration/sliding proxy。",
       "status": "done",
@@ -3327,7 +3348,7 @@
     },
     {
       "task_id": "task_layered_wm_robot_ego_head",
-      "project_id": "image-layered-world-model",
+      "project_id": "umi-world-model",
       "title": "Prototype explicit robot/ego layer head",
       "description": "Why now: Qwen-Image-Layered 已证明 scene layer 强，但 robot_ego IoU 只有约 0.14，不能直接服务 IDM/robot prior。Deliverable: 一个显式 robot/ego mask/head 的最小 probe，可用 synthetic robot still + simple robot prior/segmentation baseline。Acceptance: robot_still robot_ego max-IoU 明显超过 Qwen baseline；输出 score_summary 和失败样例。",
       "status": "done",
@@ -3363,7 +3384,7 @@
     },
     {
       "task_id": "task_layered_wm_video_temporal_probe",
-      "project_id": "image-layered-world-model",
+      "project_id": "umi-world-model",
       "title": "把单图 layer probe 扩展到短视频 temporal consistency",
       "description": "Why now: world model 要服务视频/IDM，PSD/单图 round-trip 只是静态验证。Deliverable: 3-5 帧短序列 layer propagation 或逐帧 decomposition + consistency metric。Acceptance: 输出 temporal flicker / mask IoU over time / object-contact continuity 指标，并列出最小训练目标。",
       "status": "done",
@@ -4990,7 +5011,7 @@
     },
     {
       "task_id": "task_layered_wm_linux_layer_editor_pipeline",
-      "project_id": "image-layered-world-model",
+      "project_id": "umi-world-model",
       "title": "用 AffinityOnLinux / GIMP 替代 Photoshop 分图层流程",
       "description": "Ubuntu 没有 Photoshop 时，把 agentic prompt 生成的固定位置分元素图片接到 Linux 可运行的图层编辑流程。优先评估两条路线：(1) seapear/AffinityOnLinux: 通过 Wine 在 GNU/Linux 上运行 Affinity Photo/Designer/Publisher，用来复现 PSD/图层检查体验；(2) GIMP: 原生免费开源图像编辑器，作为可脚本化 baseline。Acceptance: 记录 AffinityOnLinux 安装/启动可行性或 blocker；写出 GIMP 批处理或 Script-Fu/Python-Fu 路线；对 poster 和 robot_still 各跑一次白底去除、透明图层叠加、原始相对位置保持、layer naming、导出 .xcf/.afphoto 或 PSD/PNG round-trip；输出 reconstruction diff、缺失/重复元素检查、命令/log/sha256 和最终推荐的 Ubuntu 默认路线。",
       "status": "done",
@@ -5048,8 +5069,16 @@
       "assignee": null,
       "due_at": "",
       "result": null,
-      "comments": [],
-      "updated_at": "2026-05-29T19:26:29+08:00"
+      "comments": [
+        {
+          "comment_id": "comment_task_self_improving_scenesmith_reference_20260603",
+          "author": "Boris / Codex",
+          "body": "Environment-creation reference added: SceneSmith provides a useful contract for this pipeline. Treat generated scenes as simulation-ready artifacts, not image-only assets: prompt -> VLM designer/critic/orchestrator -> staged layout/furniture/mounted objects/manipulands -> physical properties/collision/inertia -> robot rollout/evaluator queries.",
+          "created_at": "2026-06-03T17:50:50+02:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-06-03T17:50:50+02:00"
     },
     {
       "task_id": "task_self_improving_articraft3d_asset_expansion",
@@ -5366,15 +5395,50 @@
           "body": "Remote Codex finished model-assisted teleop matrix. Best first preview = offline video-to-state / AVDC-style Passive video -> object state delta; hardware-first routes = TelePhantom and low-cost UMI; offline-continuable routes = video-to-state, contact-annotated video models, limited R2R2R. Artifact: /home/boris/workspace/clawcross-dispatch/task_model_assisted_teleop_survey_matrix/RESULT.md. Needs user decision: confirm video-to-state as first preview or explicitly prioritize hardware-first collection.",
           "created_at": "2026-05-31T17:42:41+02:00",
           "kind": "needs_user"
+        },
+        {
+          "comment_id": "comment_model_assisted_teleop_cosmos_failure_monitor_20260605",
+          "author": "Boris / Codex",
+          "body": "ICRA 2026 poster reference from user: Foundational World Models Accurately Detect Bimanual Manipulator Failures (arXiv:2603.06987), Stanford / Watney / TRI. Key relevance: the first assisted-teleop loop can be a runtime failure monitor rather than a full future-video preview. The paper trains a probabilistic, history-informed world model in NVIDIA Cosmos Tokenizer latent space using nominal bimanual manipulation trajectories; uses uncertainty and prediction error as nonconformity scores; calibrates thresholds with conformal prediction without failure data; and detects real bimanual cable-drop failures. Reported evidence: Bimanual Cable Manipulation dataset with synchronized camera views plus proprio/action, ~569.7k trainable parameters, ~92% weighted classification accuracy on the real dataset, and real-time inference around 11 Hz on H100 in the poster. Recommendation: update the matrix to add a Cosmos-latent failure-monitor route and treat it as the first operator-facing on/off experiment for warning lead time, false alarm rate, and correction success.",
+          "created_at": "2026-06-05T00:03:53+02:00",
+          "kind": "research"
         }
       ],
-      "updated_at": "2026-05-31T17:42:41+02:00"
+      "updated_at": "2026-06-05T00:03:53+02:00"
+    },
+    {
+      "task_id": "task_model_assisted_teleop_failure_monitor_prototype",
+      "project_id": "model-assisted-teleop-survey",
+      "title": "Prototype Cosmos-latent teleop failure monitor",
+      "description": "Use the ICRA 2026 Foundational World Models failure-detection paper as the first concrete Model-Assisted Teleoperation loop. Build a minimal offline prototype that takes nominal teleop episodes, encodes multi-view video plus robot state/action history, trains a compact probabilistic world model or a documented Cosmos-tokenizer fallback, calibrates a conformal threshold on nominal validation clips, and overlays an uncertainty / nonconformity warning on held-out normal and induced-failure clips. Acceptance: source paper notes; exact data schema; at least one recorded or synthetic contact-rich task candidate such as cable/plug, slime-meat cutting, insertion, or handoff; command log; plots of uncertainty/error over time; false-positive estimate on nominal clips; warning lead-time estimate on failure/near-failure clips; and a dashboard recommendation on whether to promote this survey card into an engineering prototype.",
+      "status": "active",
+      "priority": "high",
+      "assignee": "Boris / Codex",
+      "due_at": "2026-06-12",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_model_assisted_teleop_failure_monitor_seed_20260605",
+          "author": "Boris / Codex",
+          "body": "Seeded from user's ICRA 2026 poster photo: Foundational World Models Accurately Detect Bimanual Manipulator Failures, arXiv:2603.06987. First implementation should not depend on collecting many failures; follow the paper's nominal-data calibration idea and only use failures/near-failures for evaluation.",
+          "created_at": "2026-06-05T00:03:53+02:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "comment_model_assisted_teleop_to_umi_bridge_20260605",
+          "author": "Boris / Codex",
+          "body": "Mainline bridge: reuse this failure-monitor prototype as an input to Tri-View UMI failure attribution via task_umi_teleop_failure_monitor_bridge. Keep the Survey task active until it produces runnable warning lead-time / false-positive evidence.",
+          "created_at": "2026-06-05T00:58:00+02:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-06-05T00:58:00+02:00"
     },
     {
       "task_id": "task_vtla_tactile_intuition_survey_map",
       "project_id": "vtla-tactile-intuition-survey",
       "title": "Map VTLA tactile-intuition problem space",
-      "description": "Turn EgoVTLA, Tactile-Bolt, proximity sensing, tactile memory, RobotCooking, and tactile-as-oracle notes into a representation / dataset / benchmark map. Acceptance: choose first benchmark family and list required sensors, labels, and success metrics.",
+      "description": "Turn EgoVTLA, Tactile-Bolt, tactile memory, RobotCooking, and tactile-as-oracle notes into a representation / dataset / benchmark map. Proximity sensing / FingerEye is now archived as externally covered. Acceptance: choose first benchmark family and list required sensors, labels, and success metrics.",
       "status": "needs_user",
       "priority": "high",
       "assignee": "Boris / Codex",
@@ -5394,15 +5458,36 @@
           "body": "Remote Codex finished VTLA tactile-intuition map. Best first benchmark family = contact-rich insertion / fine alignment anchored on VTLA + Touch2Insert; not RobotCooking/TactileMemory/EgoTouch first. Artifact: /home/shaol/workspace/clawcross-dispatch/task_vtla_tactile_intuition_survey_map/RESULT.md. Needs user/local decision: confirm tactile fingertip + robot/camera/fixture availability or choose simulation-first oracle baseline.",
           "created_at": "2026-05-31T17:42:42+02:00",
           "kind": "needs_user"
+        },
+        {
+          "comment_id": "comment_vtla_fingereye_archive_20260605",
+          "author": "Boris / Codex",
+          "body": "Archive update from user-provided reference: FingerEye: Continuous and Unified Vision-Tactile Sensing for Dexterous Manipulation (arXiv:2604.20689) completes the standalone proximity / Finger Eye sub-idea. It covers pre-contact close-range vision, implicit stereo depth, post-contact compliant-ring deformation sensing, and policy learning over delicate manipulation tasks. Keep VTLA open for benchmark/schema decisions, but do not keep proximity sensing as a separate live subproject.",
+          "created_at": "2026-06-05T00:45:00+02:00",
+          "kind": "research"
+        },
+        {
+          "comment_id": "comment_vtla_random_thought_perception_alignment_20260605",
+          "author": "Boris / Codex",
+          "body": "Random Thought coverage update: the original page is mainly a human-robot perception alignment proposal with glove/hand data collection, interaction-centric object/force/contact labels, and tactile-force dynamics modeling. Keep those in VTLA; only the proximity/FingerEye sub-idea is archived as externally covered.",
+          "created_at": "2026-06-05T00:20:17+02:00",
+          "kind": "research"
+        },
+        {
+          "comment_id": "comment_vtla_to_mainline_bridge_20260605",
+          "author": "Boris / Codex",
+          "body": "Mainline bridge: contact-rich insertion / fine-alignment is now split into task_umi_vtla_contact_failure_eval_bridge and task_self_improving_contact_curriculum_bridge. This Survey task remains needs_user only for the sensor/hardware route decision.",
+          "created_at": "2026-06-05T00:58:00+02:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-31T17:42:42+02:00"
+      "updated_at": "2026-06-05T00:58:00+02:00"
     },
     {
       "task_id": "task_cross_embodiment_representation_table",
       "project_id": "cross-embodiment-representations-survey",
       "title": "Compare cross-embodiment action/state representations",
-      "description": "Survey camera-frame actions, latent actions, object/contact heatmaps, eigengrasp, hand graph/tree/chains, RGB+XYZ, point-cloud resampling, active vision, and color-space effects. Acceptance: pick one representation to test against existing HOI/UMI data.",
+      "description": "Survey camera-frame actions, latent actions, object/contact heatmaps, OHRA canonical hand representation, eigengrasp, hand graph/tree/chains, RGB+XYZ, point-cloud resampling, active vision, and color-space effects. Acceptance: pick one representation to test against existing HOI/UMI data and state whether OHRA already covers the hand-representation row.",
       "status": "todo",
       "priority": "high",
       "assignee": "Boris / Codex",
@@ -5415,9 +5500,24 @@
           "body": "Primary references checked: Unify Robot Actions in Camera Frame / CalibAll, LAPA, Retrieval-Augmented Manipulation, Manipulation as in Simulation, VGGT, FoundationStereo, and CoTracker3.",
           "created_at": "2026-05-30T23:59:00+02:00",
           "kind": "research"
+        },
+        {
+          "comment_id": "comment_cross_embodiment_random_thought_ohra_20260605",
+          "author": "Boris / Codex",
+          "body": "Random Thought coverage update: hand graph/tree/chains, cable-driven analogy, eigengrasp/PCA, active vision, RGB+XYZ, and point-cloud resampling are explicitly in this task. OHRA should be treated as the canonical-hand baseline/boundary, not ignored.",
+          "created_at": "2026-06-05T00:20:17+02:00",
+          "kind": "research"
+        },
+        {
+          "comment_id": "comment_cross_embodiment_migrated_to_umi_20260605",
+          "author": "Boris / Codex",
+          "body": "Migrated out of standalone Survey queue: the next work is task_umi_cross_embodiment_representation_ablation under Tri-View Layered Manipulation World Model.",
+          "created_at": "2026-06-05T00:58:00+02:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-30T23:59:00+02:00"
+      "updated_at": "2026-06-05T00:58:00+02:00",
+      "completed_at": "2026-06-05"
     },
     {
       "task_id": "task_agentic_human_captcha_benchmark_spec",
@@ -5442,14 +5542,14 @@
     },
     {
       "task_id": "task_embodied_music_problem_formulation",
-      "project_id": "embodied-music-survey",
+      "project_id": "archive-embodied-music",
       "title": "Formulate EmbodiedMusic as a measurable problem",
       "description": "Separate action/contact-to-MIDI, motion-to-rhythm, and audio-generation objectives. Acceptance: related-work table plus one minimal dataset/demo plan with metrics for timing, pitch/event correctness, and audio quality.",
-      "status": "todo",
+      "status": "done",
       "priority": "medium",
       "assignee": "Boris / Codex",
       "due_at": "2026-06-13",
-      "result": null,
+      "result": "Archived EmbodiedMusic as a standalone Survey project. HandelBot completes the main measurable loop: sim-trained dexterous piano policy, real-world structured refinement, residual RL with MIDI rewards, and real hardware evaluation across recognized songs.",
       "comments": [
         {
           "comment_id": "comment_embodied_music_sources_20260530",
@@ -5457,9 +5557,17 @@
           "body": "Primary references checked: RoboPianist, FürElise, MAESTRO, and DDSP. Notion Week-1 plan remains source material but this dashboard task starts with problem formulation.",
           "created_at": "2026-05-30T23:59:00+02:00",
           "kind": "research"
+        },
+        {
+          "comment_id": "comment_embodied_music_handelbot_archive_20260605",
+          "author": "Boris / Codex",
+          "body": "Archive decision from user-provided reference: HandelBot: Real-World Piano Playing via Fast Adaptation of Dexterous Robot Policies (arXiv:2603.12243) covers the actionable embodied-music target. It uses a sim-trained bimanual dexterous policy, structured real-world refinement for key/finger alignment, residual RL with MIDI output as reward, and real hardware experiments across five songs. Keep HandelBot as the reference; reopen only for a distinct non-piano contact-to-sound dataset or instrument task tied to lab hardware.",
+          "created_at": "2026-06-05T00:43:00+02:00",
+          "kind": "research"
         }
       ],
-      "updated_at": "2026-05-30T23:59:00+02:00"
+      "updated_at": "2026-06-05T00:43:00+02:00",
+      "completed_at": "2026-06-05"
     },
     {
       "task_id": "task_open_hardware_collection_decision_table",
@@ -5484,14 +5592,14 @@
     },
     {
       "task_id": "task_fracture_soft_wrist_benchmark_scope",
-      "project_id": "fracture-soft-wrist-assembly-survey",
+      "project_id": "archive-fracture-soft-wrist-assembly",
       "title": "Choose first assembly benchmark scope",
       "description": "Decide whether fractured-object reassembly or soft-wrist insertion is the lower-risk first benchmark. Acceptance: state chosen benchmark, required assets, physical setup, policy inputs, simulator/real split, and success/failure metrics.",
-      "status": "todo",
+      "status": "done",
       "priority": "medium",
       "assignee": "Boris / Codex",
       "due_at": "2026-06-14",
-      "result": null,
+      "result": "Archived the combined Fracture / Soft-Wrist Assembly survey card. ShapeForce covers the low-cost soft-wrist contact-rich manipulation direction directly; fractured-object reassembly should only reopen as a separate, narrower benchmark with concrete physical assets and owner.",
       "comments": [
         {
           "comment_id": "comment_fracture_soft_wrist_sources_20260530",
@@ -5499,9 +5607,17 @@
           "body": "Primary references checked: Breaking Bad Dataset and Robotic Object Insertion with a Soft Wrist through Sim-to-Real Privileged Training. Survey should test whether they share one benchmark or should split later.",
           "created_at": "2026-05-30T23:59:00+02:00",
           "kind": "research"
+        },
+        {
+          "comment_id": "comment_fracture_soft_wrist_shapeforce_archive_20260605",
+          "author": "Boris / Codex",
+          "body": "Archive decision from user-provided paper: ShapeForce: Low-Cost Soft Robotic Wrist for Contact-Rich Manipulation (arXiv:2511.19955) directly covers the standalone soft-wrist/contact-feedback route with a low-cost plug-and-play compliant wrist, marker-tracked deformation, force-like signals, and contact-rich manipulation evaluation comparable to six-axis force-torque sensing. Keep ShapeForce as a reference, not a separate active Survey project. The fracture-reassembly half is not solved by ShapeForce, but it should reopen only as an independent benchmark with real objects, simulator/real split, metrics, and owner.",
+          "created_at": "2026-06-05T00:42:00+02:00",
+          "kind": "research"
         }
       ],
-      "updated_at": "2026-05-30T23:59:00+02:00"
+      "updated_at": "2026-06-05T00:42:00+02:00",
+      "completed_at": "2026-06-05"
     },
     {
       "task_id": "task_ideas_archive_review_next_pass",
@@ -5557,7 +5673,7 @@
       "project_id": "umi-world-model",
       "title": "制定 fixed-exo + dual-wrist 数据采集 / 标注 schema",
       "description": "Define the synchronized episode schema for the new project under the updated data reality: existing UMI gives left wrist fisheye, right wrist fisheye, and D435 main view, but no fixed third-person/exo view. The schema must support both current data and future/new fixed-exo capture: timestamps, camera intrinsics/extrinsics where available, dual-arm EEF pose, gripper state, task caption, object IDs, train/val/test split, optional fixed-exo_absent/fixed-exo_synthesized flags, and optional layer pseudo-label paths. Acceptance: JSON schema or manifest example for one current-data episode plus one future tri-view episode; explicit checklist for what old UMI data lacks and what new capture must add.",
-      "status": "active",
+      "status": "review",
       "priority": "urgent",
       "assignee": "Boris / Haoyu / Jingxiang",
       "due_at": "2026-06-04",
@@ -5583,9 +5699,25 @@
           "body": "Data update from project discussion: old Yuhang/Daimon UMI data has no fixed third-person/exo view. The schema must represent the available two wrist fisheye + D435 main-view format and mark fixed-exo as absent, synthesized, or newly captured.",
           "created_at": "2026-05-31T17:17:04+02:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_task_umi_tri_view_capture_schema_molmoact_reference_20260604",
+          "author": "Boris / Codex",
+          "body": "Dataset-selection update: use MolmoAct's original side/external + single-wrist real-robot data and MolmoAct2-BimanualYAM's LeRobot top/left/right + 14D bimanual state/action schema as references for packaging and ablation design. Do not assume they solve our data gap: current UMI/Jianzhi data still lacks the third robot-ego fixed view, so the manifest must explicitly encode camera provenance and fixed_view_status = absent/synthesized/new_capture.",
+          "created_at": "2026-06-04T23:55:44+02:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "comment_umi_tri_view_capture_schema_review_20260605",
+          "task_id": "task_umi_tri_view_capture_schema",
+          "author": "Boris / Codex",
+          "kind": "host_verified",
+          "body": "Remote schema/audit pass is ready for review at jingxiang@100.112.245.1:/home/jingxiang/workspace/das-data/codebases/tri_view_layered_wm. Added tri-view manifest schema plus two examples: current UMI/DAS-style dual-wrist + D435/main evidence with fixed_view_status=absent, and future tri-view capture with left_wrist + right_wrist + front_ego.fixed_mount=true. Validator passed on the target machine. Data audit conclusion: local DAS / 10Kh RealOmni and current UMI/Jianzhi packs are partial only; they have robot0/robot1 or left/right wrist evidence but no real synchronized fixed front/top stream. `test_sets/ctrlworld/views/wrist.mp4` is explicitly a crop placeholder, not a third camera. Closest public full-match candidates are ALOHA/LeRobot datasets exposing cam_high + cam_left_wrist + cam_right_wrist with 14D state/action; MolmoAct2-BimanualYAM is a strong bimanual schema/model reference but needs camera-mount verification because public examples are top/left/right, not explicitly left/right wrist. DROID is not a full match because it is single-arm.",
+          "created_at": "2026-06-05T00:22:00+02:00"
         }
       ],
-      "updated_at": "2026-05-31T17:17:04+02:00"
+      "updated_at": "2026-06-05T00:22:00+02:00",
+      "completed_at": null
     },
     {
       "task_id": "task_umi_view_layer_ablation_plan",
@@ -5611,9 +5743,16 @@
           "body": "Ablation plan updated: fixed-exo comparisons cannot be assumed from existing UMI data. Existing-data ablations should use wrist fisheye and D435 main view; fixed-exo variants require new capture or a synthesized-view gate.",
           "created_at": "2026-05-31T17:17:04+02:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_task_umi_view_layer_ablation_plan_molmoact_reference_20260604",
+          "author": "Boris / Codex",
+          "body": "MolmoAct reference added for ablation design: compare side/external + wrist pairing and MolmoAct2-style top/left/right packaging against our actual available views. The first ablation table should include current-data variants only (wrist-only, D435-main-only, wrist+D435, wrist+D435+layers), then separate future/synthesized variants for fixed robot-ego/exo after the view-status gate passes.",
+          "created_at": "2026-06-04T23:55:44+02:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-31T17:17:04+02:00"
+      "updated_at": "2026-06-04T23:55:44+02:00"
     },
     {
       "task_id": "task_umi_layer_heads_v1",
@@ -5690,7 +5829,7 @@
       "project_id": "umi-world-model",
       "title": "把 Image-Layered 代码合并到 UMI 绑定机器",
       "description": "Move the former Image-Layered World Model implementation from feibo@100.87.220.29 into the UMI binding machine under das-data/codebases/tri_view_layered_wm, preserving source scripts, layer-head probes, reports, tri-view schema, and remote-start commands. Acceptance: rsync completed on jingxiang@100.112.245.1, validator passes there, and paths are recorded for layer-head/eval TODOs.",
-      "status": "blocked",
+      "status": "done",
       "priority": "urgent",
       "assignee": "Boris / jingxiang@100.112.245.1",
       "due_at": "2026-06-02",
@@ -5702,19 +5841,28 @@
           "body": "Started merge from the former Image-Layered machine into the UMI project. Source reachable: feibo@100.87.220.29:/home/feibo/workspace/image-layered-world-model. Pulled a lightweight code/docs bundle excluding .venv, .hf-cache, data, and heavy outputs. Prepared local staging at /Users/boris/workspace/tri_view_layered_merge/tri_view_layered_wm and archive /Users/boris/workspace/tri_view_layered_merge/tri_view_layered_wm_merge_bundle_20260531.tar.gz sha256 aed241475f7318fdd01366a595c4489b44a75d1d2d87f2de9f1bbe549f14dccd. Included tri-view manifest schema/example and validate_tri_view_manifest.py; local validator passes. Blocker: UMI binding machine jingxiang-b850m-c / 100.112.245.1 is offline on Tailscale and SSH times out, so the final rsync into /home/jingxiang/workspace/das-data/codebases/tri_view_layered_wm cannot be executed until it comes online.",
           "created_at": "2026-05-31T09:42:00+02:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_umi_merge_image_layered_code_done_20260605",
+          "task_id": "task_umi_merge_image_layered_code_to_binding_machine",
+          "author": "Boris / Codex",
+          "kind": "host_verified",
+          "body": "Completed remote merge on jingxiang@100.112.245.1. Source was feibo@100.87.220.29:/home/feibo/workspace/image-layered-world-model; target is /home/jingxiang/workspace/das-data/codebases/tri_view_layered_wm. Rebuilt a lightweight bundle excluding .venv, HF cache, raw data, PNG/PSD/video/model weights; local tarball /Users/boris/workspace/tri_view_layered_merge/tri_view_layered_wm_merge_bundle_20260605.tar.gz sha256=86cd25da105f73772e7d1a0fc12b739711d762d8316d20907086182dc54f31d9. Target inventory: 63 files, 492K. Remote validation passed: `python3 validate_tri_view_manifest.py examples/current_umi_episode_manifest.json examples/future_fixed_front_ego_episode_manifest.json` => both PASS; `python3 verifier.py` => PASS. New artifacts include README.md, schemas/tri_view_manifest.schema.json, examples/current_umi_episode_manifest.json, examples/future_fixed_front_ego_episode_manifest.json, validate_tri_view_manifest.py, and data_requirements_audit_20260605.md (sha256=d774a8bdfa8f6644d555eff5f9a12d885cc6bd4696e5f0fb173c587241dcadcd). Available-machine check: jingxiang, feibo, and boris-pc were reachable; lv-robotics@100.113.210.127 timed out.",
+          "created_at": "2026-06-05T00:22:00+02:00"
         }
       ],
-      "updated_at": "2026-05-31T09:42:00+02:00"
+      "updated_at": "2026-06-05T00:22:00+02:00",
+      "completed_at": "2026-06-05"
     },
     {
       "task_id": "task_skill_world_model_survey_spec",
       "project_id": "skill-world-model-survey",
       "title": "Specify Skill World Model / agentic API scope",
       "description": "From the migrated Notion ideas, compare demo-retrieval, object/contact transition graph, and callable skill-API schemas; choose one first benchmark and define inputs, outputs, verifier evidence, and promotion criteria.",
-      "status": "active",
+      "status": "done",
       "priority": "medium",
       "assignee": null,
-      "result": null,
+      "result": "Migrated into task_self_improving_skill_api_memory_gate. Survey result selects callable skill-API schemas / SkillCall-Bench v0 as the first benchmark; remaining work is executable verifier and MemoryStore integration under Self-improving.",
       "due_at": "",
       "comments": [
         {
@@ -5737,19 +5885,34 @@
           "body": "Local Codex host review reopened this TODO.\n请继续处理：使用 /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/projects/skill-world-model-survey.json 里的 migrated Notion details 和 risks_decisions 作为来源，重写/补齐 RESULT.md。结果需要明确比较 demo-retrieval、object/contact transition graph、callable skill-API schemas，选择第一个 benchmark，并给出 inputs、outputs、deterministic verifier evidence、promotion/elimination criteria；同时说明引用了哪些本地 dashboard source，并让 artifact 可由 reviewer 读取。",
           "created_at": "2026-05-31T23:46:05+02:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_skill_world_model_random_thought_quama_20260605",
+          "author": "Boris / Codex",
+          "body": "Random Thought coverage update: interaction-centric task representation and tactile/force dynamics remain in scope. QuaMa already covers the quantitative pouring / precise liquid-granule amount-control sub-idea, so the spec should use QuaMa as a baseline/boundary and focus our novelty on reusable skill memory, object/contact transitions, and tactile-force API/verifier outputs.",
+          "created_at": "2026-06-05T00:20:17+02:00",
+          "kind": "research"
+        },
+        {
+          "comment_id": "comment_skill_world_model_migrated_to_self_improving_20260605",
+          "author": "Boris / Codex",
+          "body": "Closed as standalone Survey work. The execution path is now task_self_improving_skill_api_memory_gate, which must produce a runnable SkillCall schema, deterministic verifier evidence, and MemoryStore promotion/elimination criteria.",
+          "created_at": "2026-06-05T00:58:00+02:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-31T23:46:05+02:00"
+      "updated_at": "2026-06-05T00:58:00+02:00",
+      "completed_at": "2026-06-05"
     },
     {
       "task_id": "task_rlbench_isaacsim_migration_feasibility",
       "project_id": "rlbench-isaacsim-migration-survey",
       "title": "Write RLBench -> IsaacSim 5-task pilot matrix",
       "description": "Choose five representative RLBench tasks and score conversion feasibility across assets, robot/controller assumptions, observations, rewards, expert demos, VLA inputs, and automated verifier evidence.",
-      "status": "active",
+      "status": "done",
       "priority": "medium",
       "assignee": null,
-      "result": null,
+      "result": "Migrated into task_self_improving_rlbench_isaacsim_pilot_gate. The old Survey result selected the 5-task pilot; the remaining work is Isaac-side smoke/verifier execution under Self-improving.",
       "due_at": "",
       "comments": [
         {
@@ -5772,9 +5935,219 @@
           "body": "Local Codex host review reopened this TODO.\n请继续处理：把 RESULT.md 内容或可访问副本同步到 dashboard/本机可读位置，并补齐每个 pilot task 的自动 verifier evidence；如果无法运行 Isaac-side verifier，请写明可复现的 blocker、尝试命令、环境缺口和下一步最小验证计划。",
           "created_at": "2026-05-31T23:42:01+02:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_rlbench_isaacsim_migrated_to_self_improving_20260605",
+          "author": "Boris / Codex",
+          "body": "Closed as standalone Survey work. The selected 5-task matrix now feeds task_self_improving_rlbench_isaacsim_pilot_gate: ReachTarget smoke, PickAndLift formal verifier, then OpenDrawer, StackBlocks, and InsertOntoSquarePeg with explicit blocker evidence if Isaac execution is unavailable.",
+          "created_at": "2026-06-05T00:58:00+02:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-31T23:42:02+02:00"
+      "updated_at": "2026-06-05T00:58:00+02:00",
+      "completed_at": "2026-06-05"
+    },
+    {
+      "task_id": "task_umi_absorb_hoi_same_task_schema",
+      "project_id": "umi-world-model",
+      "title": "Absorb same-task HOI schema into tri-view manifests",
+      "description": "Pull the Diverse Same Task Dataset survey result into tri_view_layered_wm. Map task_id, object_id, synchronized timestamps, camera provenance/extrinsics, object trajectory, contact sequence, grasp/tool-use mode, and task result into the tri-view manifest. Acceptance: one current UMI example and one HOI cross-modality example validate against schema; source notes explain which fields are required vs optional.",
+      "status": "done",
+      "priority": "high",
+      "assignee": "Boris / Codex",
+      "due_at": "2026-06-09",
+      "result": "Completed on jingxiang@100.112.245.1:/home/jingxiang/workspace/das-data/codebases/tri_view_layered_wm. Added same_task_hoi, object_state, contact_sequence, and representation_candidates schema fields; updated current UMI example; added same_task_hoi_cross_modality_manifest.json; validator checks all three examples. Artifact: /home/jingxiang/workspace/clawcross-dispatch/task_umi_absorb_hoi_same_task_schema/RESULT.md.",
+      "comments": [
+        {
+          "comment_id": "comment_umi_absorb_hoi_same_task_schema_seed_20260605",
+          "author": "Boris / Codex",
+          "body": "Created by merging Survey project diverse-same-task-dataset into Tri-View Layered Manipulation World Model. This is now a schema/data-substrate task, not a standalone survey.",
+          "created_at": "2026-06-05T00:58:00+02:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "comment_umi_absorb_hoi_same_task_schema_done_20260605",
+          "author": "Boris / Codex",
+          "body": "Remote validation on jingxiang passed: `python3 validate_tri_view_manifest.py examples/current_umi_episode_manifest.json examples/future_fixed_front_ego_episode_manifest.json examples/same_task_hoi_cross_modality_manifest.json` all PASS; `python3 verifier.py` PASS. Fixed/front absent warnings are expected for current/cross-modality examples and prevent overclaiming fixed-exo reward/eval.",
+          "created_at": "2026-06-05T01:28:00+02:00",
+          "kind": "host_verified"
+        }
+      ],
+      "updated_at": "2026-06-05T01:28:00+02:00",
+      "completed_at": "2026-06-05"
+    },
+    {
+      "task_id": "task_umi_cross_embodiment_representation_ablation",
+      "project_id": "umi-world-model",
+      "title": "Run cross-embodiment representation ablation on one HOI/UMI task",
+      "description": "Convert the cross-embodiment representation survey into a runnable Tri-View v1 ablation. Compare camera-frame delta pose, object/contact heatmap, RGB+XYZ or point-cloud state, latent action, and OHRA-style canonical-hand baseline on one existing HOI/UMI task. Acceptance: representation matrix, feature extraction or dry-run command on an existing sample, and a recommendation for the first model input format.",
+      "status": "done",
+      "priority": "high",
+      "assignee": "Boris / Codex",
+      "due_at": "2026-06-10",
+      "result": "Completed on jingxiang@100.112.245.1:/home/jingxiang/workspace/das-data/codebases/tri_view_layered_wm. Added cross_embodiment_representation_ablation.md and manifest-level representation candidates. First model input recommendation: object_contact_heatmap + camera_frame_delta_pose. Artifact: /home/jingxiang/workspace/clawcross-dispatch/task_umi_cross_embodiment_representation_ablation/RESULT.md.",
+      "comments": [
+        {
+          "comment_id": "comment_umi_cross_embodiment_ablation_seed_20260605",
+          "author": "Boris / Codex",
+          "body": "Created from task_cross_embodiment_representation_table. OHRA is the canonical-hand boundary/baseline; the main decision is which representation is testable with current HOI/UMI data.",
+          "created_at": "2026-06-05T00:58:00+02:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "comment_umi_cross_embodiment_ablation_done_20260605",
+          "author": "Boris / Codex",
+          "body": "Remote dry-run on jingxiang passed through the manifest validator. Representation rows now include camera-frame delta pose, object/contact heatmap, RGB+XYZ state, point-cloud state, latent action, and OHRA canonical hand. Recommendation is to start with object_contact_heatmap + camera_frame_delta_pose.",
+          "created_at": "2026-06-05T01:28:00+02:00",
+          "kind": "host_verified"
+        }
+      ],
+      "updated_at": "2026-06-05T01:28:00+02:00",
+      "completed_at": "2026-06-05"
+    },
+    {
+      "task_id": "task_umi_vtla_contact_failure_eval_bridge",
+      "project_id": "umi-world-model",
+      "title": "Bridge VTLA contact benchmark into UMI reward/eval",
+      "description": "Use VTLA contact-rich insertion / fine alignment as a Tri-View evaluation family. Define contact labels, failure modes, layer heads, reward/eval metrics, and which pieces can be simulated before tactile hardware is fixed. Acceptance: a schema and metric spec that can be consumed by UMI layer heads and failure attribution.",
+      "status": "done",
+      "priority": "medium",
+      "assignee": "Boris / Codex",
+      "due_at": "2026-06-11",
+      "result": "Completed on jingxiang@100.112.245.1:/home/jingxiang/workspace/das-data/codebases/tri_view_layered_wm. Added vtla_contact_failure_eval_bridge.md defining contact-rich eval families, labels, layer-head mapping, metrics, and tactile-hardware boundary. Artifact: /home/jingxiang/workspace/clawcross-dispatch/task_umi_vtla_contact_failure_eval_bridge/RESULT.md.",
+      "comments": [
+        {
+          "comment_id": "comment_umi_vtla_contact_bridge_seed_20260605",
+          "author": "Boris / Codex",
+          "body": "Created as a bridge from VTLA, not a claim that tactile hardware is ready. If tactile fingertip / robot / fixture availability is unresolved, produce a sim-first or oracle-label plan with explicit blocker evidence.",
+          "created_at": "2026-06-05T00:58:00+02:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "comment_umi_vtla_contact_bridge_done_20260605",
+          "author": "Boris / Codex",
+          "body": "Bridge spec completed and synced to jingxiang. It explicitly allows visual/oracle contact labels now and leaves tactile_pressure blocked until tactile fingertip/Wuji stream is available and calibrated. Manifest validator still passes all three examples.",
+          "created_at": "2026-06-05T01:35:00+02:00",
+          "kind": "host_verified"
+        }
+      ],
+      "updated_at": "2026-06-05T01:35:00+02:00",
+      "completed_at": "2026-06-05"
+    },
+    {
+      "task_id": "task_umi_teleop_failure_monitor_bridge",
+      "project_id": "umi-world-model",
+      "title": "Bridge teleop failure monitor into tri-view failure attribution",
+      "description": "Reuse the Model-Assisted Teleop / Cosmos-latent failure monitor route as a UMI failure-attribution probe. Acceptance: define clip inputs, nominal calibration split, warning lead-time metric, false-positive metric, object/contact failure timing, and which UMI views/layers the monitor consumes.",
+      "status": "done",
+      "priority": "medium",
+      "assignee": "Boris / Codex",
+      "due_at": "2026-06-11",
+      "result": "Completed on jingxiang@100.112.245.1:/home/jingxiang/workspace/das-data/codebases/tri_view_layered_wm. Added teleop_failure_monitor_bridge.md defining clip inputs, nominal calibration split, warning lead-time/false-positive/false-negative/object-contact timing metrics, view/layer contribution, and promotion rule. Artifact: /home/jingxiang/workspace/clawcross-dispatch/task_umi_teleop_failure_monitor_bridge/RESULT.md.",
+      "comments": [
+        {
+          "comment_id": "comment_umi_teleop_failure_bridge_seed_20260605",
+          "author": "Boris / Codex",
+          "body": "Created from model-assisted teleop failure-monitor survey. The bridge is useful only if it produces warning lead-time / false-positive / failure-timing evidence on generated or real clips.",
+          "created_at": "2026-06-05T00:58:00+02:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "comment_umi_teleop_failure_bridge_done_20260605",
+          "author": "Boris / Codex",
+          "body": "Bridge spec completed and synced to jingxiang. This is a wiring/metric spec for future monitor evaluation, not a claim that a trained Cosmos-latent monitor already exists. Manifest validator still passes all three examples.",
+          "created_at": "2026-06-05T01:35:00+02:00",
+          "kind": "host_verified"
+        }
+      ],
+      "updated_at": "2026-06-05T01:35:00+02:00",
+      "completed_at": "2026-06-05"
+    },
+    {
+      "task_id": "task_self_improving_skill_api_memory_gate",
+      "project_id": "self-improving-agents",
+      "title": "Promote Skill World Model into executable SkillCall memory gate",
+      "description": "Turn the Skill World Model survey result into a Self-improving component. Define SkillCall schema, object/contact transition outputs, MemoryStore adapter, deterministic state-transition verifier, and promotion/elimination criteria. Acceptance: local or remote RESULT.md, runnable schema/verifier smoke or exact blocker command, and a first SkillCall-Bench v0 task definition.",
+      "status": "done",
+      "priority": "high",
+      "assignee": "Boris / Codex",
+      "due_at": "2026-06-10",
+      "result": "Completed on boris@100.101.68.35:/home/boris/workspace/AgenticSim. Added executable SkillCall schema/verifier/gate, MemoryStore skill-memory adapter, promotion/failure handling, and tests. Artifact: /home/boris/workspace/clawcross-dispatch/task_self_improving_skill_api_memory_gate/RESULT.md. Verification: `.venv/bin/pytest -q` => 41 passed, 1 warning.",
+      "comments": [
+        {
+          "comment_id": "comment_self_improving_skill_api_gate_seed_20260605",
+          "author": "Boris / Codex",
+          "body": "Created from task_skill_world_model_survey_spec. The research decision is done; now it must become an executable memory/verifier gate in the Self-improving project.",
+          "created_at": "2026-06-05T00:58:00+02:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "comment_self_improving_skill_api_gate_done_20260605",
+          "author": "Boris / Codex",
+          "body": "Remote implementation completed on AgenticSim. Files include source/agenticsim/agenticsim/memory/skill_call.py, MemoryStore skill-memory save/load adapter, tests/test_skill_call_gate.py, and pytest collection fix in tests/test_full_pipeline.py. Verification on boris@100.101.68.35: `.venv/bin/pytest -q` returned 41 passed, 1 warning.",
+          "created_at": "2026-06-05T01:18:00+02:00",
+          "kind": "host_verified"
+        }
+      ],
+      "updated_at": "2026-06-05T01:18:00+02:00",
+      "completed_at": "2026-06-05"
+    },
+    {
+      "task_id": "task_self_improving_rlbench_isaacsim_pilot_gate",
+      "project_id": "self-improving-agents",
+      "title": "Promote RLBench->IsaacSim 5-task pilot into AgenticSim verifier gate",
+      "description": "Turn the RLBench->IsaacSim survey matrix into a concrete AgenticSim verifier pilot. Start with ReachTarget smoke and PickAndLift formal verifier; then document OpenDrawer, StackBlocks, and InsertOntoSquarePeg conversion requirements. Acceptance: synced prior RESULT content, Isaac-side smoke/verifier command evidence or exact environment blocker, and a dashboard-readable artifact.",
+      "status": "active",
+      "priority": "high",
+      "assignee": "Boris / Codex",
+      "due_at": "2026-06-12",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_self_improving_rlbench_isaacsim_gate_seed_20260605",
+          "author": "Boris / Codex",
+          "body": "Created from task_rlbench_isaacsim_migration_feasibility. Do not mark done on matrix alone; this task requires Isaac-side verifier evidence or a reproducible blocker.",
+          "created_at": "2026-06-05T00:58:00+02:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "comment_self_improving_rlbench_isaacsim_blocker_20260605",
+          "author": "Boris / Codex",
+          "body": "Remote environment probe on boris@100.101.68.35: AgenticSim pytest passes 41/41. `isaacsim` package is installed and `OMNI_KIT_ACCEPT_EULA=YES .venv/bin/isaacsim --version` reaches Isaac Sim Full Version 5.1.0-rc.19, but full app launch is not yet a usable headless verifier because it reports GLFW/default display/window errors; `isaaclab` Python module is missing; `.venv/bin/python` has no pip module; `uv` is not on PATH despite uv.lock. Artifact: /home/boris/workspace/clawcross-dispatch/task_self_improving_rlbench_isaacsim_pilot_gate/RESULT.md. Next step is to expose/install the original uv environment manager or controlled IsaacLab install, then run a headless ReachTarget smoke.",
+          "created_at": "2026-06-05T01:18:00+02:00",
+          "kind": "blocked"
+        }
+      ],
+      "updated_at": "2026-06-05T01:18:00+02:00"
+    },
+    {
+      "task_id": "task_self_improving_contact_curriculum_bridge",
+      "project_id": "self-improving-agents",
+      "title": "Use VTLA/UMI contact failures as self-improving curriculum traces",
+      "description": "Define how contact labels, UMI failure-monitor outputs, and VTLA insertion/fine-alignment failures become AgenticSim curriculum traces. Acceptance: failure trace schema, one sample trace, curriculum update rule, and a note on which signals are available now vs blocked by tactile hardware.",
+      "status": "done",
+      "priority": "medium",
+      "assignee": "Boris / Codex",
+      "due_at": "2026-06-13",
+      "result": "Completed on boris@100.101.68.35:/home/boris/workspace/AgenticSim. Added ContactFailureTrace, CurriculumUpdate, deterministic contact-failure-to-curriculum rule, sample test with tactile blocked and visual oracle available. Artifact: /home/boris/workspace/clawcross-dispatch/task_self_improving_contact_curriculum_bridge/RESULT.md. Verification: `.venv/bin/pytest -q` => 41 passed, 1 warning.",
+      "comments": [
+        {
+          "comment_id": "comment_self_improving_contact_curriculum_seed_20260605",
+          "author": "Boris / Codex",
+          "body": "Created as a bridge from VTLA and UMI failure-attribution work. This lets Self-improving use contact failures as curriculum data without waiting for the full tactile hardware path.",
+          "created_at": "2026-06-05T00:58:00+02:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "comment_self_improving_contact_curriculum_done_20260605",
+          "author": "Boris / Codex",
+          "body": "Remote implementation completed on AgenticSim. Added source/agenticsim/agenticsim/curriculum/contact_curriculum.py and tests covering an InsertOntoSquarePeg contact failure trace. Verification on boris@100.101.68.35: `.venv/bin/pytest -q` returned 41 passed, 1 warning.",
+          "created_at": "2026-06-05T01:18:00+02:00",
+          "kind": "host_verified"
+        }
+      ],
+      "updated_at": "2026-06-05T01:18:00+02:00",
+      "completed_at": "2026-06-05"
     }
   ]
 }

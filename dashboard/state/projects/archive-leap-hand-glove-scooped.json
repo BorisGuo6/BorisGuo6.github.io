@@ -2,40 +2,53 @@
   "schema_version": "project.v1",
   "bucket": "archive",
   "status": "archived",
-  "updated_at": "2026-05-31T09:52:35+02:00",
-  "asset": null,
-  "asset_alt": null,
-  "asset_caption": null,
+  "updated_at": "2026-06-05T00:44:00+02:00",
+  "asset": "dashboard/assets/archive-leap-hand-glove.svg",
+  "asset_alt": "Archived data-capture glove direction covered by DexUMI and Sunday Robotics",
+  "asset_caption": "Archive diagram: the data-capture glove direction is covered by DexUMI and Sunday Robotics, with remaining sensor questions folded into VTLA and real-robot infra.",
   "visual": {
     "layout": "single_column"
   },
   "timeline": null,
   "references": [],
   "project_id": "archive-leap-hand-glove-scooped",
-  "title": "Archive: LEAP-Hand Glove / Standalone Hand Hardware",
-  "description": "Archive reason: LEAP Hand and related embodiment-generalization work already cover the generic low-cost dexterous-hand hardware angle; live value belongs in Open-Hardware scoring or VTLA sensor choices.",
-  "summary": "Standalone LEAP-hand glove/hardware ideas are archived so they do not duplicate the Open-Hardware Mobile Collection Survey. Keep only the useful build, embodiment, and tactile-sensor lessons.",
+  "title": "Archive: LEAP-Hand Glove / Data-Capture Glove",
+  "description": "Archive reason: DexUMI and Sunday Robotics' data-capture glove stacks already cover the intended idea: collect dexterous human-hand demonstrations through a wearable glove/exoskeleton, preserve haptic/contact cues, and translate those demonstrations into robot-hand policy data.",
+  "summary": "The LEAP-Hand glove idea is archived because the desired data-collection shape has effectively been done. DexUMI uses the human hand as a universal manipulation interface with a wearable exoskeleton, direct haptic feedback, tactile sensing, visual adaptation, and robot-hand policy learning. Sunday Robotics independently validates the same product-scale thesis with a Skill/Memory/Data Capture Glove plus Skill Transform pipeline for translating human glove data into robot data. Keep this card as a reference, not a standalone project.",
   "details": [
     {
-      "text": "LEAP Hand already establishes a low-cost anthropomorphic robot hand for robot learning, and GET-Zero extends the hand-hardware variation angle for zero-shot embodiment generalization. That makes a standalone LEAP-hand/glove card redundant for this dashboard.",
+      "text": "DexUMI directly covers the academic version of the idea: a data collection and policy learning framework that uses the human hand as the manipulation interface, bridges the kinematic gap with a wearable hand exoskeleton, preserves direct haptic feedback during collection, adds tactile sensing, adapts human motion to feasible robot-hand motion, and uses visual inpainting to reduce the human/robot embodiment gap.",
       "links": [
         {
-          "label": "LEAP Hand",
-          "url": "https://arxiv.org/abs/2309.06440"
+          "label": "DexUMI project",
+          "url": "https://dex-umi.github.io/"
         },
         {
-          "label": "GET-Zero",
-          "url": "https://get-zero-paper.github.io/"
+          "label": "DexUMI arXiv",
+          "url": "https://arxiv.org/abs/2505.21864"
         }
       ]
     },
-    "Moved-out live work: Open-Hardware Mobile Collection should score whether any hand/platform is worth building; VTLA should track tactile sensor and glove data value.",
-    "Archive decision: do not keep a separate project unless we commit to building or buying a specific hand with an owner, BOM, and validation demo.",
-    "Notion migration addendum 2026-05-31: UMI hand-vitac / DEXO-like exoskeleton capture and tactile glove data value were moved out to VTLA and Open-Hardware; only the standalone LEAP-hand glove card stays archived because the original note says the generic direction was scooped."
+    {
+      "text": "Sunday Robotics covers the product/data-engine version: their Skill Capture Glove / Memory Glove captures human task data through force sensors, cameras, and joint potentiometers; the glove and robot hand are co-designed to share geometry and sensor layout; Skill Transform converts glove demonstrations into robot-like kinematic and visual training data.",
+      "links": [
+        {
+          "label": "Sunday ACT-1 / glove data",
+          "url": "https://www.sunday.ai/journal/no-robot-data"
+        },
+        {
+          "label": "Sunday technology",
+          "url": "https://www.sunday.ai/technology"
+        }
+      ]
+    },
+    "Earlier LEAP Hand / GET-Zero-style hardware references remain useful for embodiment and low-cost hand design, but they are not the real archive reason for this card. The reason is that DexUMI and Sunday already demonstrate the glove-based dexterous data capture route the original idea wanted.",
+    "Moved-out live work: VTLA should keep unresolved tactile/contact representation questions, Real Robot Infra should own Wuji/MANUS glove integration and wrappers, and Open-Hardware should only score concrete buy/build decisions.",
+    "Archive decision: do not keep a separate LEAP-hand glove project unless we are building a distinct lab-specific data-capture glove that is meaningfully different from DexUMI/Sunday and tied to a named hardware owner, dataset schema, and validation task."
   ],
   "risks_decisions": [
-    "Archived 2026-05-31 after per-project survey audit.",
-    "Reason type: externally covered hardware family and internal duplication with open-hardware survey.",
-    "Reopen condition: a lab purchase/build decision requires a dedicated LEAP-style hand implementation card."
+    "Archived 2026-05-31 after per-project survey audit; archive reason corrected 2026-06-05 per user: DexUMI and Sunday Robotics data-capture gloves already complete the intended direction.",
+    "Reason type: externally completed glove-based dexterous data collection and human-to-robot demonstration translation route.",
+    "Reopen condition: a lab-specific glove/exoskeleton design has a distinct sensor stack, robot-hand mapping, dataset schema, and validation task not covered by DexUMI or Sunday."
   ]
 }

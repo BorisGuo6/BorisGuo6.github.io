@@ -4,10 +4,10 @@
   "title": "VTLA / Tactile Intuition",
   "bucket": "survey",
   "status": "survey",
-  "updated_at": "2026-05-31T09:52:35+02:00",
+  "updated_at": "2026-06-05T00:20:17+02:00",
   "description": "Keep in Survey: tactile intuition remains actionable because external tactile papers solve pieces, while our unresolved decision is the first Wuji/Franka/HOI benchmark and representation.",
-  "summary": "Survey-stage consolidation of the Notion tactile / VTLA ideas: use ego video, tactile patches, force/proximity signals, and object-centric contact representations to make tactile evidence reusable for manipulation policy, world-model prediction, and contact-rich task evaluation.",
-  "asset": null,
+  "summary": "Survey-stage consolidation of the Notion tactile / VTLA ideas: use ego video, tactile patches, force signals, and object-centric contact representations to make tactile evidence reusable for manipulation policy, world-model prediction, and contact-rich task evaluation. The standalone proximity / FingerEye sensor sub-idea is archived because FingerEye now covers that route.",
+  "asset": "dashboard/assets/survey-vtla-tactile-intuition.svg",
   "details": [
     {
       "text": "EgoVTLA idea: AprilTag + tactile patch glove, FK over egocentric video, contact as depth point plus force magnitude, and eye gaze for useful pixels. This should be scoped as perception/intention alignment, not only another tactile sensor build.",
@@ -44,7 +44,17 @@
       ]
     },
     {
-      "text": "接近觉 / proximity idea: train visual priors for hand-object distance and joint values, then add VL53L5CX-like time-of-flight sensing on robot hands. The promising route is pre-contact contact prediction and occlusion handling, not replacing tactile sensing entirely."
+      "text": "Archived sub-idea 2026-06-05: 接近觉 / proximity / FingerEye is no longer live survey material. FingerEye already provides continuous pre-contact visual perception and post-contact tactile feedback in one compact fingertip sensor, so the remaining VTLA work should not spend a separate project slot on VL53L5CX-like proximity sensing unless we commit to a distinct lab hardware integration.",
+      "links": [
+        {
+          "label": "FingerEye",
+          "url": "https://nus-lins-lab.github.io/FingerEyeWeb/"
+        },
+        {
+          "label": "arXiv 2604.20689",
+          "url": "https://arxiv.org/abs/2604.20689"
+        }
+      ]
     },
     {
       "text": "RobotCooking VTLA demo idea: tactile memory for avocado sandwich, opaque-bag search, peeling/cutting/plating. This should be treated as a long-horizon benchmark theme after the tactile representation is defined, not the first experiment.",
@@ -74,7 +84,7 @@
       ]
     },
     {
-      "text": "Notion migration addendum 2026-05-31: Tactile-Bolt / InsertAnyShape, proximity sensing, EgoVTLA task-library, full-palm tactile-assisted human-to-robot dynamics transfer, UMI hand-vitac, DEXO/DEXOP-style hand exoskeleton capture, and Wuji/Franka tactile benchmark choices all belong here as live survey material.",
+      "text": "Notion migration addendum updated 2026-06-05: Tactile-Bolt / InsertAnyShape, EgoVTLA task-library, full-palm tactile-assisted human-to-robot dynamics transfer, UMI hand-vitac, DEXO/DEXOP-style hand exoskeleton capture, and Wuji/Franka tactile benchmark choices remain live survey material. Proximity sensing / FingerEye is now archived as a covered sub-idea.",
       "links": [
         {
           "label": "DEXOP",
@@ -90,7 +100,16 @@
         }
       ]
     },
-    "Additional benchmark candidates from Notion: spilling/pouring water, cap/screw/bolt with tactile reconstruction, cylinder in-hand rotation, opaque-bag search, cutting/peeling/food prep, object handover/exchange, and DexH2R interaction tasks. These need a first-task selection before engineering."
+    "Additional benchmark candidates from Notion: spilling/pouring water, cap/screw/bolt with tactile reconstruction, cylinder in-hand rotation, opaque-bag search, cutting/peeling/food prep, object handover/exchange, and DexH2R interaction tasks. These need a first-task selection before engineering.",
+    {
+      "text": "Random Thought coverage 2026-06-05: the top-level research proposal is now explicitly mapped here. Its core target is human-robot perception alignment: move robot learning beyond vision-only perception by collecting human-worn glove/tactile/force data, then learning tactile/force dynamics models that predict visuo-tactile sensor outputs under actions. This remains live in VTLA because the unresolved part is not proximity sensing, but a Wuji/Franka/HOI benchmark and a reusable contact-state representation.",
+      "links": [
+        {
+          "label": "Random Thought",
+          "url": "https://www.notion.so/Random-Thought-1b395c72020b8017b612d2a7d0743f15"
+        }
+      ]
+    }
   ],
   "task_ids": [
     "task_vtla_tactile_intuition_survey_map"
@@ -100,9 +119,21 @@
     "Tactile data is expensive. Prioritize tasks where vision is genuinely occluded or ambiguous: insertion, cap/screw, opaque-bag search, cutting/peeling, and in-hand pose/contact estimation.",
     "If tactile is only used as another observation channel, the novelty is weak. Stronger framing: tactile as oracle, memory, contact-field label, or failure/reward evidence.",
     "Do not leave tactile glove / full-palm fusion notes in Archive if they feed Wuji/Franka, VTLA, or HOI data collection; keep this card for unresolved representation and benchmark choices.",
-    "Survey disposition 2026-05-31: keep, because ViTacFormer, ViTaSCOPE, FingerEye, and related sensor work prove the importance of visuo-tactile fusion but do not choose our first Wuji/Franka benchmark or data schema.",
+    "Survey disposition 2026-05-31: keep, because ViTacFormer, ViTaSCOPE, and related sensor work prove the importance of visuo-tactile fusion but do not choose our first Wuji/Franka benchmark or data schema.",
+    "Archive decision 2026-06-05: proximity / FingerEye is now archived as a covered sub-idea because FingerEye completes the continuous pre-contact vision to post-contact tactile sensing route.",
     "Next executable analysis: decide between tactile-bolt/insertion, opaque-bag search, and food/cutting as the first benchmark family, then list sensors, labels, and success metrics.",
     "Archive only sub-ideas that have no path to Wuji/Franka/HOI data collection; keep full-palm tactile and glove-wearable ideas here.",
-    "Do not archive tactile glove or full-palm tactile notes just because a LEAP-hand subpage is archived; the live value is Wuji/Franka sensing, data schema, and the first tactile benchmark."
+    "Do not archive tactile glove or full-palm tactile notes just because a LEAP-hand subpage is archived; the live value is Wuji/Franka sensing, data schema, and the first tactile benchmark.",
+    "Random Thought coverage decision 2026-06-05: keep human-robot perception alignment, tactile/force dynamics, and glove/hand data-collection hardware inside VTLA; archive only sub-ideas that are directly completed by specific papers or have no path to Wuji/Franka/HOI data."
+  ],
+  "asset_alt": "Visuo-tactile manipulation diagram connecting vision, tactile patches, contact fields, and policy/world-model evidence",
+  "asset_caption": "Survey diagram: tactile as contact evidence for policy, world-model prediction, and failure/reward signals.",
+  "references": [
+    {
+      "title": "Notion: Random Thought",
+      "url": "https://www.notion.so/Random-Thought-1b395c72020b8017b612d2a7d0743f15",
+      "submitted_at": "2025-06-07",
+      "notes": "Original Notion source for human-robot perception alignment, glove/hand data-collection hardware, interaction-centric object/affordance/force representation, tactile/force dynamics model, hand graph/tree/chains, eigengrasp/PCA, active vision, RGB+XYZ, point-cloud resampling, and quantitative pouring/manipulation ideas."
+    }
   ]
 }

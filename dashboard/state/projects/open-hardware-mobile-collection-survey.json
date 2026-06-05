@@ -4,10 +4,10 @@
   "title": "Open-Hardware Mobile Collection",
   "bucket": "survey",
   "status": "survey",
-  "updated_at": "2026-05-31T09:52:35+02:00",
+  "updated_at": "2026-06-05T00:18:00+02:00",
   "description": "Keep in Survey: the open-hardware question is a data-value-per-setup-hour decision, not a build commitment.",
   "summary": "Survey-stage consolidation of Notion open-hardware and mobile data-collection ideas: decide which low-cost robot arms, hands, mobile bases, and sensing rigs can become a realistic collection platform rather than a hardware distraction.",
-  "asset": null,
+  "asset": "dashboard/assets/survey-open-hardware-mobile-collection.svg",
   "details": [
     {
       "text": "Bimanual open-hardware idea: compare OpenArm, AmazingHand, Calibur-like controllers, and other low-cost platforms as data-collection devices for VLA/VLN. The dashboard already tracks real-robot infra, so this survey should only keep candidates that change data scale or embodiment coverage.",
@@ -71,5 +71,7 @@
     "Next executable analysis: score each candidate by cost, build risk, sensing, calibration, safety, UMI/HOI/VTLA compatibility, and expected unique data.",
     "Move standalone LEAP-hand glove ideas to Archive as external/covered hardware references, while keeping this card for platform-level build/no-build decisions.",
     "The migration audit keeps shaol/3D-printing paused separately; this card is only for data-collection hardware ROI, not for committing to every interesting robot build."
-  ]
+  ],
+  "asset_alt": "Open hardware data-collection decision diagram comparing arm, hand, mobile base, and ROI score",
+  "asset_caption": "Survey diagram: build/no-build scoring by data value, sensing, calibration, safety, and setup cost."
 }

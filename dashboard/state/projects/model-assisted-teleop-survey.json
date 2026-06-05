@@ -4,10 +4,10 @@
   "title": "Model-Assisted Teleoperation",
   "bucket": "survey",
   "status": "survey",
-  "updated_at": "2026-05-31T09:52:35+02:00",
+  "updated_at": "2026-06-05T00:18:00+02:00",
   "description": "Keep in Survey: model-assisted teleop is still a plausible project, but it needs one concrete operator-assist loop instead of a broad list of video-model ideas.",
   "summary": "Survey-stage track extracted from the Notion ideas page: turn teleoperation from direct human control into a model-assisted loop where a world model predicts likely futures, exposes contact/object risk, and uses low-cost UMI or rendered data to scale demonstrations without immediately becoming another generic video-generation project.",
-  "asset": null,
+  "asset": "dashboard/assets/survey-model-assisted-teleop.svg",
   "details": [
     {
       "text": "Core Notion idea: Model-assisted Teleoperation = text prompter -> world prompter, where an agentic R2S2R / controllable VideoGen / Image-Layered world model previews outcomes before or during teleop. This is not yet a standalone dashboard project; it should sit in survey until a concrete demo is chosen.",
@@ -99,10 +99,24 @@
           "url": "https://umi-gripper.github.io/"
         }
       ]
+    },
+    {
+      "text": "ICRA 2026 poster update: Foundational World Models Accurately Detect Bimanual Manipulator Failures is directly relevant because it turns model assistance into a runtime failure/risk monitor instead of requiring a photorealistic future preview. It trains a small probabilistic world model in NVIDIA Cosmos Tokenizer latent space on nominal bimanual teleop data, then uses world-model uncertainty / prediction error with conformal thresholds to flag cable-drop failures. For our card, this suggests the first measurable loop should be an overlayed uncertainty gauge or stop/correct signal during teleop.",
+      "links": [
+        {
+          "label": "arXiv 2603.06987",
+          "url": "https://arxiv.org/abs/2603.06987"
+        },
+        {
+          "label": "Gist summary",
+          "url": "https://gist.science/paper/2603.06987"
+        }
+      ]
     }
   ],
   "task_ids": [
-    "task_model_assisted_teleop_survey_matrix"
+    "task_model_assisted_teleop_survey_matrix",
+    "task_model_assisted_teleop_failure_monitor_prototype"
   ],
   "risks_decisions": [
     "Do not duplicate the active UMI / Image-Layered World Model card. This survey must answer the teleoperation question: does prediction or preview measurably improve operator speed, safety, or correction rate?",
@@ -112,6 +126,10 @@
     "Survey disposition 2026-05-31: keep, because no single reference closes the full loop of teleop preview, contact risk, operator correction, and measurable data-quality improvement for our UMI/Franka/ARX setting.",
     "Next executable analysis: choose one offline preview experiment on a recorded clip, define inputs/outputs, and score whether the preview changes operator decisions or flags contact/object-state failures.",
     "Fold video-to-state, contact arrows/fields, and panorama-to-VR into this card as methods; do not create separate dashboard cards until one method has a measurable demo.",
-    "Ideas migrated here rather than new cards: low-cost UMI, video-to-state, UMI2Render2Real, contact-field video annotation, panorama-to-VR, Diffusion-Forcing VLA rollout, and embodied-video evaluation. Promote only after one method has a measurable preview/correction demo."
-  ]
+    "Ideas migrated here rather than new cards: low-cost UMI, video-to-state, UMI2Render2Real, contact-field video annotation, panorama-to-VR, Diffusion-Forcing VLA rollout, and embodied-video evaluation. Promote only after one method has a measurable preview/correction demo.",
+    "Research update 2026-06-05: the Stanford/Watney Cosmos-latent failure monitor suggests a narrower first demo than full video preview: train on nominal teleop episodes and show an uncertainty / nonconformity warning when the operator approaches an out-of-distribution contact or object-state failure.",
+    "Do not claim assistance unless it changes an operator-facing decision: measure warning lead time, false alarm rate, correction rate, and task completion delta with monitor on/off."
+  ],
+  "asset_alt": "Model-assisted teleoperation loop with world-model preview and risk overlay",
+  "asset_caption": "Survey diagram: operator input, world-model preview, contact-risk overlay, and corrected teleoperation output."
 }

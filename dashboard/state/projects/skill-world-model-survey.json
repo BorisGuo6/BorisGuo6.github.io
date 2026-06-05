@@ -4,10 +4,10 @@
   "title": "Skill World Model / Agentic Manipulation API",
   "bucket": "survey",
   "status": "survey",
-  "updated_at": "2026-05-31T09:52:35+02:00",
-  "description": "Keep in Survey: the Notion Skill World Model and Agentic API ideas are still open, but need a precise boundary between skill memory, interaction dynamics, and tool/API orchestration.",
+  "updated_at": "2026-06-05T00:58:00+02:00",
+  "description": "Survey holder retained; the SkillCall / skill-memory decision has been promoted into the Self-improving executable memory gate.",
   "summary": "Survey-stage migration of the Notion Skill World Model, Agentic 4 General Manipulation, and interaction-centric dynamics notes: define whether a reusable manipulation skill memory should store demos, object/contact transitions, tactile/force evidence, API calls, or all of them, and choose the first benchmark before it becomes engineering.",
-  "asset": null,
+  "asset": "dashboard/assets/survey-skill-world-model.svg",
   "details": [
     {
       "text": "Core Notion idea: Skill World Model should model reusable manipulation skills as state/action/contact transitions, not only generated video. The live research question is what the minimal skill primitive is: object-centric transition, contact field, reward/failure label, or callable API/tool.",
@@ -53,7 +53,21 @@
           "url": "https://arxiv.org/abs/2505.22566"
         }
       ]
-    }
+    },
+    {
+      "text": "Random Thought coverage 2026-06-05: the interaction-centric data-format idea is assigned here: represent tasks through object trajectory, affordance, force/contact application points, and force trajectories rather than embodiment-specific joints. The quantitative pouring/spilling-water sub-idea is now marked as externally covered by QuaMa for liquid/granule quantity control, so our remaining angle should be broader skill memory / contact-state API / tactile-force dynamics rather than just “do pouring.”",
+      "links": [
+        {
+          "label": "Random Thought",
+          "url": "https://www.notion.so/Random-Thought-1b395c72020b8017b612d2a7d0743f15"
+        },
+        {
+          "label": "QuaMa",
+          "url": "https://quantitativemanipulation.github.io/"
+        }
+      ]
+    },
+    "Mainline merge 2026-06-05: execution moved to task_self_improving_skill_api_memory_gate. This Survey card now preserves the schema tradeoffs and paper boundaries while Self-improving owns implementation."
   ],
   "task_ids": [
     "task_skill_world_model_survey_spec"
@@ -63,6 +77,24 @@
     "A useful skill memory must be executable or evaluable. A list of paper links or natural-language skill names is not enough.",
     "The Agentic API angle should specify what is retrieved, what is generated, what is executed, and what happens when the skill is missing or low confidence.",
     "Next executable analysis: write a 1-page spec comparing three memory schemas: demo retrieval, object/contact transition graph, and callable skill API with verifier outputs.",
-    "Survey disposition 2026-05-31: keep, because no current dashboard card owns the skill-memory/API boundary even though UMI, VTLA, and Self-Improving Agents each need parts of it."
+    "Survey disposition 2026-05-31: keep, because no current dashboard card owns the skill-memory/API boundary even though UMI, VTLA, and Self-Improving Agents each need parts of it.",
+    "QuaMa boundary 2026-06-05: quantitative pouring / precise quantity control is no longer an unclaimed standalone direction. Keep it only as a benchmark candidate or baseline inside interaction-centric skill memory, unless we add tactile/force/object-contact generalization beyond QuaMa.",
+    "Mainline merge decision 2026-06-05: standalone Survey TODO is closed; remaining work must be a runnable SkillCall schema, deterministic verifier, MemoryStore adapter, and promotion/elimination rule under Self-improving."
+  ],
+  "asset_alt": "Skill memory architecture comparing demo retrieval, contact graph, skill API, and verifier fallback",
+  "asset_caption": "Survey diagram: three candidate skill-memory schemas and the verifier gate needed before implementation.",
+  "references": [
+    {
+      "title": "Notion: Random Thought",
+      "url": "https://www.notion.so/Random-Thought-1b395c72020b8017b612d2a7d0743f15",
+      "submitted_at": "2025-06-07",
+      "notes": "Original Notion source for human-robot perception alignment, glove/hand data-collection hardware, interaction-centric object/affordance/force representation, tactile/force dynamics model, hand graph/tree/chains, eigengrasp/PCA, active vision, RGB+XYZ, point-cloud resampling, and quantitative pouring/manipulation ideas."
+    },
+    {
+      "title": "QuaMa: Extending Skill Learning with Delta Dynamics Modeling for Precise and Generalizable Quantitative Manipulation",
+      "url": "https://quantitativemanipulation.github.io/",
+      "submitted_at": "2026",
+      "notes": "Direct boundary for the Random Thought quantitative-pouring / quantitative manipulation idea. QuaMa combines weighted behavior cloning, a delta-based Quantity Prediction Model, and Model Predictive Action Refinement, reporting sub-gram average pouring error on liquids/granules and zero-shot generalization to unseen containers, materials, and target quantities."
+    }
   ]
 }

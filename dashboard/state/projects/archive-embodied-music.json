@@ -1,0 +1,57 @@
+{
+  "schema_version": "project.v1",
+  "bucket": "archive",
+  "status": "archived",
+  "updated_at": "2026-06-05T00:43:00+02:00",
+  "asset": "dashboard/assets/survey-embodied-music.svg",
+  "asset_alt": "Archived embodied music pipeline from robot actions to MIDI events and piano performance",
+  "asset_caption": "Archive diagram: action/contact-to-MIDI and real robot piano performance are retained as references, not an active survey project.",
+  "visual": {
+    "layout": "single_column"
+  },
+  "timeline": null,
+  "references": [],
+  "project_id": "archive-embodied-music",
+  "title": "Archive: EmbodiedMusic",
+  "description": "Archive reason: HandelBot now covers the main real-world embodied-music target: precise bimanual robot piano playing through sim-trained dexterous policies, rapid real-world refinement, residual RL, and MIDI-based rewards.",
+  "summary": "EmbodiedMusic is archived as a standalone Survey project. HandelBot demonstrates the exact measurable loop this card was trying to formulate: robot action policies grounded in a real instrument, MIDI/event feedback as the objective, and hardware experiments across recognized songs. Remaining music/audio-generation ideas should only reopen if they move beyond piano performance into a distinct contact-to-sound or multimodal instrument dataset that is tied to current lab hardware.",
+  "details": [
+    {
+      "text": "HandelBot completes the actionable piano-performance version of this topic: it starts from a simulation-trained policy, applies structured real-world refinement to correct finger/key alignment, then uses residual RL with keyboard MIDI output as reward. The system performs precise bimanual piano playing on real hardware across five recognized songs and reports a 1.8x improvement over direct simulation deployment with about 30 minutes of physical interaction data.",
+      "links": [
+        {
+          "label": "HandelBot project",
+          "url": "https://amberxie88.github.io/handelbot/"
+        },
+        {
+          "label": "arXiv 2603.12243",
+          "url": "https://arxiv.org/abs/2603.12243"
+        }
+      ]
+    },
+    {
+      "text": "Earlier references such as RoboPianist and FürElise remain useful background for simulation and humanoid piano baselines, but HandelBot closes the missing real-world adaptation/evaluation gap that kept this card in Survey.",
+      "links": [
+        {
+          "label": "RoboPianist",
+          "url": "https://kzakka.com/robopianist/"
+        },
+        {
+          "label": "FürElise",
+          "url": "https://arxiv.org/abs/2410.05791"
+        }
+      ]
+    },
+    "Moved-out live work: if the lab later wants music again, it should be a narrower dataset or hardware card, such as tactile/contact-to-sound for a non-piano instrument, motion-to-rhythm from human body data, or evaluation tooling that directly supports an active robot manipulation project.",
+    "Archive decision: do not keep a general EmbodiedMusic survey unless there is a distinct instrument, sensor stack, dataset owner, and metric that is not already addressed by real-world MIDI-supervised piano performance."
+  ],
+  "task_ids": [
+    "task_embodied_music_problem_formulation"
+  ],
+  "risks_decisions": [
+    "Archived 2026-06-05 after user flagged HandelBot as completing the desired effect.",
+    "Reason type: paper/project completed the core measurable embodied-music loop for robot action -> instrument event -> real-world policy adaptation.",
+    "Generic audio-generation or body-rhythm ideas are not enough to reopen this card unless they become a concrete robotics dataset or demo.",
+    "Reopen condition: a named owner commits to a non-piano embodied instrument task with synchronized action/contact/audio data and metrics beyond MIDI event correctness."
+  ]
+}

@@ -4,7 +4,7 @@
   "title": "Image-Layered World Model (merged into UMI)",
   "bucket": "research",
   "status": "merged",
-  "updated_at": "2026-05-31T17:17:04+02:00",
+  "updated_at": "2026-06-04T23:55:44+02:00",
   "description": "Archived pointer; tasks live under dashboard/state/projects/umi-world-model.json",
   "summary": "Archived visible card: this project has been merged into UMI / Image-Layered World Model. The former standalone image/video-layer decomposition work now serves the UMI tri-view layered manipulation world model as scene/background, object/contact, robot/ego, occluder, IDM, and reward/eval supervision.",
   "asset": "dashboard/assets/layered-world-model.png",
@@ -25,7 +25,8 @@
     "Agentic system shape: decomposition agent -> layer QA / recomposition agent -> PSD assembly agent -> manipulation relabel agent that maps visual layers into scene/background, object-contact, and robot/ego action layers.",
     "Pivot update 2026-05-30: after Gamma-World, this project should no longer be only a standalone image/video decomposition idea. Its role is to make UMI World Model defensible by adding layered state: fixed third-person scene/background, object/contact state, robot/ego motion, human/occluder masks, and reward/eval heads.",
     "Layered contribution inside UMI: generate or predict not only pixels but also layer-wise supervision that a policy/evaluator can use: object center/contact masks, gripper-object relation, occlusion state, and recomposed fixed-exo / wrist views.",
-    "Immediate merge target: tri-view manipulation world model with fixed third-person camera for global state and reward, dual wrist/ego views for local contact, and layer heads for object/contact/robot state consistency."
+    "Immediate merge target: tri-view manipulation world model with fixed third-person camera for global state and reward, dual wrist/ego views for local contact, and layer heads for object/contact/robot state consistency.",
+    "Dataset note 2026-06-04: MolmoAct/MolmoAct2 can guide the active UMI card's view schema and ablation design, but this archived Image-Layered pointer should not imply that current UMI/Jianzhi data has the missing third robot-ego fixed view."
   ],
   "task_ids": [],
   "risks_decisions": [
@@ -35,6 +36,7 @@
     "Qwen / poster-style layer separation may produce editable design layers but not manipulation semantics; v1 must explicitly check scene/background, object/contact, and robot/ego separability.",
     "White-background prompt + Photoshop composition can create duplicate or missing elements; require reconstruction QA before using layers as training or evaluation data.",
     "After Gamma-World, layered decomposition is the main differentiation lever: without explicit object/contact/robot layers, the project risks looking like a weaker synchronized video-generation baseline.",
-    "Fixed third-person camera should be treated as a reward/eval and global-state view, not just another camera to concatenate."
+    "Fixed third-person camera should be treated as a reward/eval and global-state view, not just another camera to concatenate.",
+    "MolmoAct reference is schema guidance only: side+wrist or top/left/right datasets do not remove the need to mark fixed-view status as absent, synthesized, or newly captured."
   ]
 }

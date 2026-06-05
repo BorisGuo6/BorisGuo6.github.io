@@ -4,10 +4,10 @@
   "title": "Cross-Embodiment Representations",
   "bucket": "survey",
   "status": "survey",
-  "updated_at": "2026-05-31T09:52:35+02:00",
-  "description": "Keep in Survey: camera-space and latent-action papers solve important components, but our open decision is which representation to test on existing HOI/UMI data first.",
+  "updated_at": "2026-06-05T00:58:00+02:00",
+  "description": "Survey holder retained; the representation decision has been promoted into a Tri-View ablation task.",
   "summary": "Survey-stage track for the Notion representation ideas: decide which action/state space can transfer across robot hands, arms, camera setups, and HOI demonstrations without collapsing into embodiment-specific joint values.",
-  "asset": null,
+  "asset": "dashboard/assets/survey-cross-embodiment-representations.svg",
   "details": [
     {
       "text": "Dexterous-hand world model idea: represent action using fingertip camera pose or camera-frame geometry instead of robot-specific joint values. The strongest direct reference is camera-frame action unification with calibration-free dataset conversion, which is highly aligned with cross-embodiment pretraining.",
@@ -65,7 +65,21 @@
           "url": "https://arxiv.org/abs/2505.21864"
         }
       ]
-    }
+    },
+    {
+      "text": "Random Thought coverage 2026-06-05: the hand-as-graph/tree/chains, cable-driven analogy, eigengrasp/PCA action space, active-vision-for-occlusion, RGB+XYZ image-like state, and point-cloud resampling notes are explicitly owned by this Cross-Embodiment Survey. OHRA now covers a major part of the hand-representation direction, so our remaining question should be a comparison row rather than a fresh standalone hand-representation project.",
+      "links": [
+        {
+          "label": "Random Thought",
+          "url": "https://www.notion.so/Random-Thought-1b395c72020b8017b612d2a7d0743f15"
+        },
+        {
+          "label": "OHRA",
+          "url": "https://zhenyuwei2003.github.io/OHRA/"
+        }
+      ]
+    },
+    "Mainline merge 2026-06-05: execution moved to task_umi_cross_embodiment_representation_ablation under Tri-View. This Survey card now preserves the comparison axes and paper boundaries."
   ],
   "task_ids": [
     "task_cross_embodiment_representation_table"
@@ -78,6 +92,25 @@
     "Survey disposition 2026-05-31: keep, because OC-VLA and camera-frame action papers cover the camera-space component, not the full cross-embodiment representation choice across hands, arms, HOI videos, and robot trajectories.",
     "Next executable analysis: compare camera-frame delta pose, object/contact heatmap, latent action, and RGB+XYZ state on one existing HOI/UMI task, then nominate one for a baseline.",
     "Archive standalone ObsVLA/OC-VLA duplication, but keep this card as the live decision point for representation selection.",
-    "The migration audit found no reason to archive the representation cluster; archive only standalone paper duplicates such as OC-VLA/EgoVLA, while keeping the cross-embodiment decision matrix live."
+    "The migration audit found no reason to archive the representation cluster; archive only standalone paper duplicates such as OC-VLA/EgoVLA, while keeping the cross-embodiment decision matrix live.",
+    "OHRA boundary 2026-06-05: canonical hand representation / canonical URDF / cross-hand latent conditioning is now a strong external baseline, so do not pitch hand graph/eigengrasp as a standalone project unless we test it against OHRA on our HOI/UMI/Wuji data.",
+    "Mainline merge decision 2026-06-05: standalone Survey TODO is closed; the next artifact must be a Tri-View representation ablation with runnable feature extraction or a reproducible blocker."
+  ],
+  "asset_alt": "Cross-embodiment representation diagram linking human HOI, camera-frame actions, object-contact state, and robot policy adapters",
+  "asset_caption": "Survey diagram: candidate shared action/state spaces for hands, arms, cameras, and HOI demonstrations.",
+  "references": [
+    {
+      "title": "Notion: Random Thought",
+      "url": "https://www.notion.so/Random-Thought-1b395c72020b8017b612d2a7d0743f15",
+      "submitted_at": "2025-06-07",
+      "notes": "Original Notion source for human-robot perception alignment, glove/hand data-collection hardware, interaction-centric object/affordance/force representation, tactile/force dynamics model, hand graph/tree/chains, eigengrasp/PCA, active vision, RGB+XYZ, point-cloud resampling, and quantitative pouring/manipulation ideas."
+    },
+    {
+      "title": "One Hand to Rule Them All: Canonical Representations for Unified Dexterous Manipulation",
+      "url": "https://zhenyuwei2003.github.io/OHRA/",
+      "arxiv_id": "2602.16712",
+      "submitted_at": "2026",
+      "notes": "OHRA directly addresses the Random Thought hand-representation cluster by unifying diverse dexterous hands into a canonical parameter space and canonical URDF format for cross-embodiment policy learning, including latent morphology interpolation, policy conditioning, and zero-shot transfer to new hand morphologies."
+    }
   ]
 }

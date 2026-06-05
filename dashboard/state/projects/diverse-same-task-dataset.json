@@ -4,8 +4,8 @@
   "title": "Diverse Dataset on Same Task",
   "bucket": "survey",
   "status": "survey",
-  "updated_at": "2026-05-31T09:27:00+02:00",
-  "description": "Keep in Survey: the same-task HOI dataset is still actionable even with completed setup tasks; the next decision is whether the unified object/contact schema produces useful cross-embodiment supervision.",
+  "updated_at": "2026-06-05T00:58:00+02:00",
+  "description": "Survey holder retained, but the actionable schema work has been folded into Tri-View Layered Manipulation World Model.",
   "summary": "This pre-research project asks whether the same manipulation task can be collected across all major acquisition modes, then unified into an HOI-centric base model and predictive world model.",
   "asset": "dashboard/assets/hoi-diverse-dataset.png",
   "asset_alt": "HOI dataset capture frames with hand pose and depth map",
@@ -15,7 +15,8 @@
     "Reference framing: HOI-consistent retargeting, not joint-angle imitation. The target is that the human hand and robot hand manipulate the same object into the same HOI outcome: matched object pose / velocity trajectory, matched contact intent, matched grasp or tool-use mode, and matched task result.",
     "Retargeting pipeline: capture glove / human posture plus object pose, lift them into a shared 3D object frame, infer contact patches / normals / timing, propose robot wrist and hand configurations, then optimize for object-state transition and contact consistency rather than visual hand-pose similarity.",
     "Isaac Sim bridge: replay candidate robot trajectories on the same USD object and scene, drive the robot through articulation commands, read contact / collision / object-pose results, and reject candidates that look plausible kinematically but slide, penetrate, drop the object, violate joint limits, or fail to reproduce the human HOI result.",
-    "Recent status: 2077AI spent substantial time on sensor synchronization; camera extrinsics now have an extra PnP calibration layer, and hand pose, depth, and ego camera are mostly ready."
+    "Recent status: 2077AI spent substantial time on sensor synchronization; camera extrinsics now have an extra PnP calibration layer, and hand pose, depth, and ego camera are mostly ready.",
+    "Mainline merge 2026-06-05: same-task HOI schema now feeds Tri-View through task_umi_absorb_hoi_same_task_schema. Keep this Survey card as the rationale/source holder, not as a duplicate execution queue."
   ],
   "task_ids": [
     "task_hoi_pnp_calibration",
@@ -34,6 +35,7 @@
     "Isaac validation depends on usable object assets: collision mesh, mass, friction, joint limits, and contact sensing must be good enough before treating simulation pass / fail as ground truth.",
     "Survey disposition 2026-05-31: keep, because no cited paper has completed our exact goal of collecting one manipulation task across human, glove, UMI, ALOHA, drag-teach, and teleop modes under a shared object/contact schema.",
     "Next executable analysis: pick one task, freeze the object/contact annotation pack, and decide whether Isaac retargeting pass/fail is reliable enough to be a dataset quality gate.",
-    "Do not archive just because current TODOs are done; this card is the survey holder for the next cross-modality capture decision."
+    "Do not archive just because current TODOs are done; this card is the survey holder for the next cross-modality capture decision.",
+    "Mainline merge decision 2026-06-05: object/contact schema work should be implemented inside Tri-View manifests first; only reopen this Survey card if a broader cross-modality collection decision is needed."
   ]
 }

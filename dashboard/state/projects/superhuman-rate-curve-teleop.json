@@ -4,10 +4,10 @@
   "title": "Superhuman Robot Execution",
   "bucket": "survey",
   "status": "survey",
-  "updated_at": "2026-05-31T09:27:00+02:00",
+  "updated_at": "2026-06-05T00:18:00+02:00",
   "description": "Keep in Survey: the action-rate acceleration idea is still executable, but it needs a bounded DAgger/SFT/RL pilot plus hardware-safe rate and force guardrails before becoming Research.",
   "summary": "This project asks whether slow human teleoperation can provide the task path, then DAgger + SFT first improves stability and safety, SFT action-frequency ablations measure speed / continuity tradeoffs, and RL further optimizes speed and smoothness.",
-  "asset": null,
+  "asset": "dashboard/assets/survey-superhuman-rate-curve.svg",
   "visual": {
     "kind": "rate_curve",
     "aria_label": "Playback rate curve from human speed to learned robot speed",
@@ -58,5 +58,7 @@
   ],
   "milestones": [
     "2026-05-29: shaol ran a lightweight executable DAgger/SFT/RL synthetic pilot harness with safe=true rl_policy, 1.78x speedup, and zero critical/violation guardrail counts; still needs real-data/hardware validation before done."
-  ]
+  ],
+  "asset_alt": "Rate-curve acceleration diagram from human teleoperation through DAgger, SFT, and RL guardrails",
+  "asset_caption": "Survey diagram: slow human path, DAgger/SFT stabilization, action-rate ablation, and RL speed/smoothness guardrails."
 }

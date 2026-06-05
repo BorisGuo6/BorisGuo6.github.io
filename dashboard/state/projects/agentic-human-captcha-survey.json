@@ -4,10 +4,10 @@
   "title": "Agentic Human CAPTCHA",
   "bucket": "survey",
   "status": "survey",
-  "updated_at": "2026-05-31T09:52:35+02:00",
+  "updated_at": "2026-06-05T00:18:00+02:00",
   "description": "Keep in Survey: this is not embodied-core, but it has a concrete benchmark framing for distinguishing direct human input, HITL LLM use, and autonomous agents.",
   "summary": "Survey-stage extraction from the Notion “I’m not a Human CAPTCHA” page: build a benchmark that distinguishes direct human input, human-in-the-loop LLM use, and autonomous agent LLM behavior through process signals, pragmatic ambiguity, preference drift, planning footprint, and multi-agent safety probes.",
-  "asset": null,
+  "asset": "dashboard/assets/survey-agentic-human-captcha.svg",
   "details": [
     {
       "text": "Core benchmark idea: distinguish Human Input, Human-in-loop LLM, and Autonomous Agent LLM. The unresolved contribution is not another static safety set; it is process-aware behavioral classification under ambiguous, bilingual, and adversarial interaction.",
@@ -55,5 +55,7 @@
     "Next executable analysis: specify labels, observable process signals, bilingual probes, privacy constraints, and an attack/defense split before collecting any private data.",
     "Archive if it loses the process-signal benchmark angle and becomes only another static LLM safety or CAPTCHA dataset.",
     "Migration cleanup rule: keep process-signal benchmark design; never copy local proxy strings, credentials, or private deployment commands into dashboard state."
-  ]
+  ],
+  "asset_alt": "Process-aware Human CAPTCHA benchmark diagram comparing human, human-in-loop LLM, and autonomous agent traces",
+  "asset_caption": "Survey diagram: behavioral process signals for classifying direct human input, HITL LLM use, and autonomous agents."
 }

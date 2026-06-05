@@ -4,7 +4,7 @@
   "title": "Self-Improving Agents for Physical AI",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-05-29T20:32:23+08:00",
+  "updated_at": "2026-06-05T01:18:00+02:00",
   "description": "Simulation-first AgenticSim proposal: scene imagination plus test-time training",
   "summary": "Simulation-first AgenticSim: imagine executable scenes from references, run test-time training / workflow repair inside those scenes, evaluate/analyze rollouts, and turn evolving 3D world belief plus failures into the next curriculum.",
   "asset": "dashboard/assets/pearl-overview.png",
@@ -22,8 +22,15 @@
     },
     "Current foundation: 129 registered AgenticSim environments, 38/38 full-runner tests, 16 failure traces, demo CLI, and Isaac smoke gate.",
     "Two-stage direction: Stage 1 imagine reference-conditioned executable 3D scenes; Stage 2 run test-time training / workflow repair in the scene, using interaction logs and observations to update a continuing 3D world belief.",
-    "Architecture implementation map: implemented simulation environment = LeHome / LeHome-challenge plus RoboLab; candidate simulator bases to evaluate later = Genesis World 1.0 for fast multi-physics / photorealistic / contact-rich rollout and RoboTwin 2.0 for dual-arm benchmark / data-generation tasks; Real2Sim2Real scene imagination = RoboGen/FATE-style scene generation and repair, plus PhysX-Anything, PhysX-Omni, ArtiCraft3D / Articraft, WorldComposer, and SceneMutator; analysis/memory = TraceLoader, SimRealGapDetector, RolloutDiagnoser, FailureTaxonomy, and MemoryStore; governance/reporting = GovernanceGate, Isaac smoke gate, demo CLI, and accepted task-pack export.",
-    "Next decision: pick the first task family for the mini-loop demo and generate accepted/rejected scenes with replayable verifier output, world-belief diff, TTT delta, and at least one ArtiCraft3D-style articulated asset smoke."
+    "Architecture implementation map: implemented simulation environment = LeHome / LeHome-challenge plus RoboLab; candidate simulator bases to evaluate later = Genesis World 1.0 for fast multi-physics / photorealistic / contact-rich rollout and RoboTwin 2.0 for dual-arm benchmark / data-generation tasks; Real2Sim2Real scene imagination = RoboGen/FATE-style scene generation and repair, SceneSmith-style agentic text-to-simulation-ready indoor scene construction, plus PhysX-Anything, PhysX-Omni, ArtiCraft3D / Articraft, WorldComposer, and SceneMutator; analysis/memory = TraceLoader, SimRealGapDetector, RolloutDiagnoser, FailureTaxonomy, and MemoryStore; governance/reporting = GovernanceGate, Isaac smoke gate, demo CLI, and accepted task-pack export.",
+    "Environment creation reference 2026-06-03: use SceneSmith as the concrete reference for agentic scene construction: natural-language task/room prompt -> multi-stage VLM designer/critic/orchestrator -> layout, furniture, wall/ceiling objects, manipulands, physical properties, and simulator-ready scene export; then pair the generated scenes with automatic policy evaluation and simulator-state / visual success checking.",
+    "Next decision: pick the first task family for the mini-loop demo and generate accepted/rejected scenes with replayable verifier output, world-belief diff, TTT delta, and at least one ArtiCraft3D-style articulated asset smoke.",
+    "Reference update 2026-06-04: add InternData-A1 / InternDataEngine as the large-scale synthetic-data engine reference. The useful pattern is not only more simulator tasks, but a decoupled production stack: compositional skill/task assembly, heterogeneous embodiments, rich simulator-state annotations, multi-dimensional randomization, and high-throughput scheduling for policy pretraining data.",
+    "Policy-base direction 2026-06-04: consider MolmoAct 2 as an open reasoning VLA backbone for the self-improving loop, similar in spirit to LLM-based reasoning-model improvement. AgenticSim can provide generated/evaluated trajectories, RISE-style imaginary rollout advantages, trace memory, and governance gates; MolmoAct 2 / LeRobot can be the finetune/inference entry point once hardware and action-space adapters are checked.",
+    "New reference triangulation: InternDataEngine supplies the scalable synthetic data/data-engine layer; MolmoAct 2 supplies an open 3D reasoning action model to adapt; RISE supplies the closed-loop imagination-policy-improvement template. Our differentiator should remain agentic environment generation, memory/governance, and executable task-pack feedback rather than just another VLA finetune.",
+    "Survey absorption 2026-06-05: Skill World Model becomes the executable skill-memory gate for Self-improving. The first unit is SkillCall-Bench v0: callable skill schemas, object/contact transition outputs, deterministic verifier evidence, and promotion/elimination criteria for MemoryStore.",
+    "Survey absorption 2026-06-05: RLBench -> IsaacSim becomes a concrete AgenticSim verifier pilot instead of a detached migration survey. Start with ReachTarget smoke and PickAndLift formal verifier, then OpenDrawer, StackBlocks, and InsertOntoSquarePeg as increasing-risk conversion tests.",
+    "Bridge update 2026-06-05: VTLA/UMI contact failures should become curriculum traces for AgenticSim. Articraft remains the asset-generation path folded from the paused 3D-printing direction; printer-cell / PoD hardware stays paused unless the user reactivates it."
   ],
   "task_ids": [
     "task_self_improving_prepare_proposal",
@@ -37,11 +44,15 @@
     "task_self_improving_articraft3d_asset_expansion",
     "task_self_improving_insta360_scene_capture",
     "task_self_improving_vlm_loop",
+    "task_self_improving_molmoact2_reasoning_base",
     "task_self_improving_r4r_format",
     "task_self_improving_demo_cli_pack",
     "task_self_improving_failure_trace_dataset",
     "task_self_improving_isaac_smoke_gate",
-    "task_self_improving_test_genesis_world"
+    "task_self_improving_test_genesis_world",
+    "task_self_improving_skill_api_memory_gate",
+    "task_self_improving_rlbench_isaacsim_pilot_gate",
+    "task_self_improving_contact_curriculum_bridge"
   ],
   "references": [
     {
@@ -108,6 +119,45 @@
       "url": "https://github.com/RoboTwin-Platform/RoboTwin",
       "submitted_at": "2025-06-22",
       "notes": "Candidate dual-arm manipulation benchmark/data-generator base to evaluate later; not yet implemented in AgenticSim."
+    },
+    {
+      "title": "SceneSmith: Agentic Generation of Simulation-Ready Indoor Scenes",
+      "url": "https://scenesmith.github.io/",
+      "arxiv_id": "2602.09153",
+      "submitted_at": "2026",
+      "notes": "Environment-creation reference for Self-Improving Agents: hierarchical VLM-agent text-to-scene pipeline with designer/critic/orchestrator stages; constructs layout, furniture, mounted objects, lights, manipulands, physical properties, collision/inertia-ready assets, and simulation-ready indoor scenes that support teleoperation, zero-shot policy rollouts, and automatic robot policy evaluation."
+    },
+    {
+      "title": "InternData-A1: Pioneering High-Fidelity Synthetic Data for Pre-training Generalist Policy",
+      "url": "https://arxiv.org/abs/2511.16651",
+      "arxiv_id": "2511.16651",
+      "submitted_at": "2025-11-20",
+      "notes": "User-flagged CVPR reference. Synthetic-data scaling reference for VLA pretraining: 630k trajectories / 7,433 hours across 4 embodiments, 18 skills, 70 tasks, and 227 scenes; covers rigid, articulated, deformable, and fluid manipulation and reports simulation-only pretraining competitive with strong real-robot pi-data baselines plus zero-shot sim-to-real transfer."
+    },
+    {
+      "title": "InternDataEngine: High-Fidelity Synthetic Data Generator for Robotic Manipulation",
+      "url": "https://github.com/InternRobotics/InternDataEngine",
+      "submitted_at": "2026-03",
+      "notes": "Implementation reference for scalable embodied-data production on Isaac Sim. Unifies InternData-A1 physical interaction, InternData-M1 semantic task/scene generation, and Nimbus asynchronous scheduling; exports rich annotations such as bounding boxes, segmentation masks, and keypoints, with layout/texture/structure/lighting randomization and 2-3x throughput scheduling claims."
+    },
+    {
+      "title": "MolmoAct 2: An open foundation for robots that work in the real world",
+      "url": "https://allenai.org/blog/molmoact2",
+      "submitted_at": "2026-05-05",
+      "notes": "Candidate open reasoning VLA base. MolmoAct 2 frames itself as an Action Reasoning Model that reasons in 3D before acting, releases models/data/code/training recipes, integrates with LeRobot, and includes the 720-hour bimanual YAM dataset. Important for a self-improving direction because it gives an inspectable reasoning/action backbone rather than a closed VLA."
+    },
+    {
+      "title": "RISE: Self-Improving Robot Policy with Compositional World Model",
+      "url": "https://arxiv.org/abs/2602.11075",
+      "arxiv_id": "2602.11075",
+      "submitted_at": "2026-02-11; v2 2026-04-28",
+      "notes": "Direct self-improving robot-policy reference. Uses a compositional world model to predict controllable multi-view futures and a progress value model to estimate advantages, then continuously generates imagined rollouts and updates the policy in imaginary space before real-world deployment."
+    },
+    {
+      "title": "Intern report: MolmoAct 2 / self-improving direction",
+      "url": "https://docs.google.com/presentation/d/1FNFpXEQoJjUGaMekdncP0OHKxLN05BsgmqFqqzVAZ64/edit?slide=id.p9#slide=id.p9",
+      "submitted_at": "2026-06-04",
+      "notes": "Internal discussion/report link provided by the user. Use as the local slide reference for the MolmoAct-based self-improving direction; public page content was not fetched in this run."
     }
   ],
   "risks_decisions": [
@@ -115,7 +165,14 @@
     "Benchmark decision: start from the completed 129-environment AgenticSim foundation.",
     "Candidate-base decision: mention Genesis World 1.0 and RoboTwin 2.0 as future simulator / benchmark bases, but keep them explicitly separate from the implemented LeHome / RoboLab foundation until adapters and verifier contracts are built.",
     "Execution risk: generated scenes and ArtiCraft3D-style generated assets must be executable, reproducible, physically plausible, and gated by verifier / novelty / difficulty checks; TTT must improve held-out accepted scenes rather than overfit one generated scene.",
-    "Next decision: choose the first demo task family and lock the report format: accepted scenes, rejected scenes, pass-rate chart, failure memory, world-belief diff, TTT delta, and next-task schedule."
+    "SceneSmith reference decision: borrow its staged designer/critic/orchestrator scene-construction contract and automatic policy-evaluation loop, but gate adoption on whether AgenticSim can export/query collision, inertia, manipuland affordances, and verifier-readable simulator state rather than only visual scene assets.",
+    "Next decision: choose the first demo task family and lock the report format: accepted scenes, rejected scenes, pass-rate chart, failure memory, world-belief diff, TTT delta, and next-task schedule.",
+    "MolmoAct 2 base decision: promising as an open reasoning/action backbone because weights, data, code, training recipe, and LeRobot integration are available, but it is not itself a self-improving loop. We need an adapter for our robot/action space and a closed-loop AgenticSim finetune/eval recipe before treating it as the main base.",
+    "MolmoAct 2 limitation to verify: current public framing notes batch-style action planning and strongest support for SO-100, bimanual YAM, and Franka-like setups. Continuous replanning, hand-equipped robots, and our exact embodiments require additional data or adapters.",
+    "InternDataEngine adoption risk: useful as a synthetic-data production reference, but license / Isaac Sim stack / cluster scheduling requirements mean it should start as a design reference until a small compatible generation job is tested inside AgenticSim.",
+    "RISE collision/differentiation risk: it already covers self-improving robot policy via imagination. Our angle should be MolmoAct-style reasoning VLA plus agentic scene/task generation, trace memory, governance gates, and executable task-pack feedback rather than only imagined RL.",
+    "Survey merge decision 2026-06-05: Skill World Model and RLBench->IsaacSim are no longer standalone Survey TODOs. Their remaining work is executable: SkillCall memory gate and AgenticSim Isaac verifier pilot.",
+    "Bridge boundary 2026-06-05: contact-rich VTLA/UMI traces can drive curriculum and failure-memory design, but Self-improving should not depend on tactile hardware until the sim-first oracle or available sensor path is verified."
   ],
   "timeline": {
     "badges": [

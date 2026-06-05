@@ -1,0 +1,57 @@
+{
+  "schema_version": "project.v1",
+  "bucket": "archive",
+  "status": "archived",
+  "updated_at": "2026-06-05T00:42:00+02:00",
+  "asset": "dashboard/assets/survey-fracture-soft-wrist-assembly.svg",
+  "asset_alt": "Archived assembly benchmark diagram combining fractured-object reassembly and soft-wrist contact insertion",
+  "asset_caption": "Archive diagram: fractured-object sequencing and soft-wrist contact insertion are retained as references, not active survey projects.",
+  "visual": {
+    "layout": "single_column"
+  },
+  "timeline": null,
+  "references": [],
+  "project_id": "archive-fracture-soft-wrist-assembly",
+  "title": "Archive: Fracture / Soft-Wrist Assembly",
+  "description": "Archive reason: ShapeForce now covers the low-cost soft robotic wrist for contact-rich manipulation direction directly, while fractured-object reassembly remains too far from current hardware/data priorities to justify a combined Survey card.",
+  "summary": "The combined Fracture / Soft-Wrist Assembly survey is archived. ShapeForce provides the concrete low-cost, plug-and-play soft-wrist contact-feedback system and contact-rich manipulation evaluation that the soft-wrist half of the card needed; the remaining fractured-object reassembly half should only reopen as a separate benchmark if there is a physical object set, simulator/real protocol, and owner.",
+  "details": [
+    {
+      "text": "ShapeForce directly addresses the soft-wrist project: it proposes a low-cost, plug-and-play compliant wrist that turns external force/torque into marker-tracked deformation and force-like signals, then evaluates it across contact-rich manipulation tasks against six-axis force-torque sensing. This completes the standalone soft-wrist/contact-feedback angle for our dashboard.",
+      "links": [
+        {
+          "label": "ShapeForce",
+          "url": "https://arxiv.org/abs/2511.19955"
+        }
+      ]
+    },
+    {
+      "text": "Earlier soft-wrist insertion work remains useful background for sim-to-real contact-rich insertion, but it is no longer enough to keep this as an open Survey project after ShapeForce covers the cheaper hardware and policy-evaluation route.",
+      "links": [
+        {
+          "label": "Soft-wrist insertion",
+          "url": "https://omron-sinicx.github.io/soft-robot-sim-to-real/"
+        }
+      ]
+    },
+    {
+      "text": "The fractured-object reassembly half is not being claimed as solved by ShapeForce. It is archived because it should not be bundled with soft-wrist hardware anymore; reopen it only as a narrower fracture/reassembly benchmark with real object assets, sequencing/planning metrics, and a clear relation to current robot infrastructure.",
+      "links": [
+        {
+          "label": "Breaking Bad Dataset",
+          "url": "https://breaking-bad-dataset.github.io/"
+        }
+      ]
+    },
+    "Moved-out live work: VTLA should keep tactile/contact representation questions; Real Robot Infra should handle any actual wrist/force-sensor hardware purchase or build; UMI/World-Model work should only borrow contact-rich task cases if they become part of a real data-collection plan."
+  ],
+  "task_ids": [
+    "task_fracture_soft_wrist_benchmark_scope"
+  ],
+  "risks_decisions": [
+    "Archived 2026-06-05 after user flagged ShapeForce as completing the soft-wrist direction.",
+    "Reason type: paper completed the core low-cost soft-wrist contact-rich manipulation topic; remaining value is background or a hardware decision, not an independent Survey project.",
+    "Fractured-object reassembly is archived with this mixed card only because it lacks a current owner, object set, simulator/real split, and acceptance metrics. It can be reopened as its own project if those become concrete.",
+    "Reopen condition: we commit to a specific assembly benchmark with real parts/fixtures, policy inputs, success metrics, and a named owner."
+  ]
+}

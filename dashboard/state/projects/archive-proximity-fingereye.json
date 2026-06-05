@@ -1,0 +1,40 @@
+{
+  "schema_version": "project.v1",
+  "bucket": "archive",
+  "status": "archived",
+  "updated_at": "2026-06-05T00:45:00+02:00",
+  "asset": "dashboard/assets/survey-vtla-tactile-intuition.svg",
+  "asset_alt": "Archived proximity and FingerEye-style continuous vision-tactile sensing direction",
+  "asset_caption": "Archive diagram: FingerEye covers the pre-contact proximity to post-contact tactile sensing route.",
+  "visual": {
+    "layout": "single_column"
+  },
+  "timeline": null,
+  "references": [],
+  "project_id": "archive-proximity-fingereye",
+  "title": "Archive: Proximity / FingerEye Sensing",
+  "description": "Archive reason: FingerEye completes the proximity / pre-contact-to-contact tactile sensor idea by building a compact vision-tactile fingertip sensor with binocular close-range RGB perception, implicit stereo depth, compliant-ring deformation sensing, and dexterous manipulation policy learning.",
+  "summary": "The standalone proximity / FingerEye idea is archived. The original dashboard note wanted hand-object distance and pre-contact sensing before tactile contact; FingerEye directly implements that continuous perception stream, smoothly transitioning from pre-contact visual cues to post-contact tactile feedback, and demonstrates manipulation policies across delicate/dexterous tasks.",
+  "details": [
+    {
+      "text": "FingerEye directly covers the sensor concept: many tactile sensors only respond after contact, while FingerEye integrates binocular RGB cameras for close-range visual perception before contact and marker-based deformation sensing after external force/torque deforms a compliant ring. That is the pre-contact proximity plus contact-tactile transition the original idea was looking for.",
+      "links": [
+        {
+          "label": "FingerEye project",
+          "url": "https://nus-lins-lab.github.io/FingerEyeWeb/"
+        },
+        {
+          "label": "arXiv 2604.20689",
+          "url": "https://arxiv.org/abs/2604.20689"
+        }
+      ]
+    },
+    "Moved-out live work: VTLA should keep broader tactile representation and benchmark choices, such as insertion/fine alignment, opaque-bag search, tactile memory, force/contact fields, and Wuji/Franka data schema. It should not keep proximity/FingerEye as an open subproject.",
+    "Archive decision: do not open a separate proximity-sensor build unless the lab is committing to a materially different fingertip hardware design or integrating FingerEye-like sensing into a named robot platform with owner, BOM, and benchmark."
+  ],
+  "risks_decisions": [
+    "Archived 2026-06-05 after user flagged FingerEye as completing the proximity / Finger Eye direction.",
+    "Reason type: paper/project completed the core continuous pre-contact vision to post-contact tactile sensing idea.",
+    "Reopen condition: a lab-specific sensor build or FingerEye integration has a clear hardware owner, platform, data schema, and evaluation task not already covered by the paper."
+  ]
+}
