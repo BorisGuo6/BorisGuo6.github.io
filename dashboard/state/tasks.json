@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-05T01:35:00+02:00",
+  "updated_at": "2026-06-09T02:23:52+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -130,7 +130,7 @@
       "project_id": "real-robot-infra",
       "title": "接入 Wuji Glove 并跑通数采 wrapper",
       "description": "合并任务：接入 Wuji Glove、跑通网络 smoke/时间戳记录、实现 Wuji 手套数采 wrapper。资产依据：GM-ROB-004 Wuji手套，规格/描述为“各装一个D405做数采”，存放 E2-01-04，负责人 Yuhang & Jingxiang，状态 Ready。资产表: https://docs.google.com/spreadsheets/d/1zujQRhscAfwhXTTl_avQwI8eNeOctk0Hl_e8S-Ak_CY/edit?gid=1134950065#gid=1134950065。硬件说明书/SOP 统一归档到 Hardware Resource Center: https://www.notion.so/Hardware-Resource-Center-34120ba53f898026b4cfe366c9b71ac1?source=copy_link。验收：1) 确认 Wuji Glove 的 USB-C-to-Ethernet 网络端点、IP/port、packet rate 和字段 schema；2) 跑通 stream subscribe，记录 10 秒网络 smoke 日志、timestamp drift 和日志 sha256；3) 封装 Wuji 手套状态流、左右手 D405 图像流、相机内参/外参、统一时间戳、episode writer 和 replay/loader；4) 与现有 input record schema 对齐，输出 JSON/HDF5 或项目约定格式；5) loader 能读回手套关节、图像帧和同步时间戳；失败时明确硬件/网络/权限 blocker。",
-      "status": "active",
+      "status": "needs_user",
       "priority": "high",
       "assignee": "Yuhang & Jingxiang / boris@100.70.181.44",
       "result": null,
@@ -276,7 +276,7 @@
           "created_at": "2026-05-29T20:05:27+08:00"
         }
       ],
-      "updated_at": "2026-05-29T20:43:16+08:00",
+      "updated_at": "2026-06-09T02:20:37+08:00",
       "due_at": "",
       "completed_at": "2026-05-29"
     },
@@ -561,7 +561,7 @@
           "kind": "result"
         }
       ],
-      "updated_at": "2026-05-17T01:27:36+08:00"
+      "updated_at": "2026-06-09T00:30:00+08:00"
     },
     {
       "task_id": "task_umi_seed2pro_annotation_test",
@@ -623,9 +623,16 @@
           "body": "Mirrored strict audit decision from default state for task_umi_seed2pro_annotation_test; remaining work requires human action/credential/hardware/decision, not more autonomous dependency installation.",
           "created_at": "2026-05-29T02:22:42+08:00",
           "kind": "needs_user"
+        },
+        {
+          "comment_id": "comment_task_umi_seed2pro_annotation_test_todo_reset_20260609",
+          "author": "Codex",
+          "body": "按 2026-06-09 Tri-View TODO 重组收口：旧开放项先统一标注 done，当前项目 TODO 只保留 Cosmos3 测试、三视角数据集替换、Gamma-World 复现、分图层/segment+inpaint/SVG 化数据集准备四项。原任务内容作为历史归档，不再作为当前开放 TODO。",
+          "created_at": "2026-06-09T00:30:00+08:00",
+          "kind": "todo_reset"
         }
       ],
-      "updated_at": "2026-05-29T02:22:43+08:00",
+      "updated_at": "2026-06-03T08:33:01+02:00",
       "completed_at": "2026-05-29"
     },
     {
@@ -674,7 +681,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-05-29T02:22:44+08:00",
+      "updated_at": "2026-06-09T00:30:00+08:00",
       "due_at": "",
       "completed_at": "2026-05-29"
     },
@@ -719,7 +726,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-19T01:12:34+08:00",
+      "updated_at": "2026-06-09T00:30:00+08:00",
       "completed_at": "2026-05-19"
     },
     {
@@ -826,7 +833,7 @@
           "created_at": "2026-05-22T00:16:58+08:00"
         }
       ],
-      "updated_at": "2026-05-22T00:16:58+08:00",
+      "updated_at": "2026-06-09T00:30:00+08:00",
       "completed_at": "2026-05-22"
     },
     {
@@ -848,7 +855,7 @@
           "kind": "result"
         }
       ],
-      "updated_at": "2026-05-17T01:27:36+08:00"
+      "updated_at": "2026-06-09T00:30:00+08:00"
     },
     {
       "task_id": "task_umi_vbench_eval",
@@ -1120,7 +1127,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-05-25T21:45:40+08:00",
+      "updated_at": "2026-06-09T00:30:00+08:00",
       "due_at": "",
       "completed_at": "2026-05-25"
     },
@@ -1464,9 +1471,16 @@
           "body": "New direction reference pack: MolmoAct 2 is a candidate open reasoning VLA base; RISE provides the imagination/self-improving policy template; InternData-A1 / InternDataEngine provides the synthetic data-engine reference. Need to decide whether AgenticSim should finetune/evaluate MolmoAct 2 directly through LeRobot adapters or first build an offline reasoning/action-data recipe.",
           "created_at": "2026-06-04T23:52:04+02:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_self_improving_agentic_brain_architecture_20260609",
+          "author": "Boris / Codex",
+          "body": "Saved user's robot-brain thought: a brain-like robot controller should be agentic/modular. Simple tasks route to specialized small models or deterministic controllers; long tasks use VLM decomposition and context; each subtask chooses classical optimization, VLA, skill/API call, simulator/world-model check, or escalation. Keep an edge fallback such as SmolVLA-style local LeRobot policy so network failure does not leave the robot with no action output.",
+          "created_at": "2026-06-09T02:05:21+08:00",
+          "kind": "framing_note"
         }
       ],
-      "updated_at": "2026-06-04T23:52:04+02:00"
+      "updated_at": "2026-06-09T02:05:21+08:00"
     },
     {
       "task_id": "task_self_improving_r4r_format",
@@ -2138,7 +2152,7 @@
     },
     {
       "task_id": "task_layered_wm_survey_notes",
-      "project_id": "umi-world-model",
+      "project_id": "image-layered-world-model",
       "title": "Write Image-Layered World Model survey notes",
       "description": "Define persistent scene / object-contact / robot-ego layers and connect WEM-style world-ego decomposition to IDM, reward model, and augmentation.",
       "status": "done",
@@ -2182,7 +2196,7 @@
     },
     {
       "task_id": "task_layered_wm_methods",
-      "project_id": "umi-world-model",
+      "project_id": "image-layered-world-model",
       "title": "Compare layered video / object-centric generation methods",
       "description": "Compare WEM-style world/ego disentanglement, layered video generation, and object-centric generation; decide whether v1 needs explicit object/contact and robot state supervision.",
       "status": "done",
@@ -2219,7 +2233,7 @@
     },
     {
       "task_id": "task_layered_wm_qwen_image_layered_probe",
-      "project_id": "umi-world-model",
+      "project_id": "image-layered-world-model",
       "title": "Run Qwen-Image-Layered decomposition probe",
       "description": "Test Qwen/Qwen-Image-Layered on one poster-like image and one robot manipulation still; export generated RGBA layers plus a manifest; score recomposition error, duplicate or missing elements, layer purity, and whether scene/background, object/contact, and robot/ego regions are separable.",
       "status": "done",
@@ -2284,7 +2298,7 @@
     },
     {
       "task_id": "task_layered_wm_photoshop_psd_pipeline",
-      "project_id": "umi-world-model",
+      "project_id": "image-layered-world-model",
       "title": "Prototype ChatGPT + Photoshop PSD layer pipeline",
       "description": "Use the white-background element-splitting prompt to generate one image per visual element without changing relative positions, then use Photoshop scripting/actions to remove white, keep every element as a separate layer, and export a PSD for inspection.",
       "status": "done",
@@ -2426,7 +2440,7 @@
     },
     {
       "task_id": "task_layered_wm_layer_qa_metrics",
-      "project_id": "umi-world-model",
+      "project_id": "image-layered-world-model",
       "title": "Define layer decomposition QA metrics",
       "description": "For each layered output, compute reconstruction / recomposition error, duplicate or missing elements, layer mask overlap, object/contact preservation, robot/ego isolation, and whether the layers support IDM / reward-model targets.",
       "status": "done",
@@ -2752,9 +2766,16 @@
           "body": "Mirrored strict audit decision from default state for task_rate_curve_rl; remaining work requires human action/credential/hardware/decision, not more autonomous dependency installation.",
           "created_at": "2026-05-29T02:22:42+08:00",
           "kind": "needs_user"
+        },
+        {
+          "comment_id": "comment_task_rate_curve_rl_human_demo_superhuman_20260609",
+          "author": "Boris / Codex",
+          "body": "New project framing: human demo data should be treated as path, phase, contact-event, and safety priors, not as the direct source of superhuman execution. The superhuman part likely requires RL finetune on top of SFT / retiming, with rewards for completion time, velocity profile, recovery behavior, smoothness, and strict force / tactile / event guardrails. Hardware is part of the claim: Wuji should be paired with a robot arm whose servo bandwidth, velocity, acceleration, and latency can approach human real-time execution; Flexiv / 非夕-style arms are a candidate to evaluate before claiming speed beyond replay.",
+          "created_at": "2026-06-09T02:22:25+08:00",
+          "kind": "framing_note"
         }
       ],
-      "updated_at": "2026-05-29T02:22:58+08:00",
+      "updated_at": "2026-06-09T02:22:10+08:00",
       "completed_at": "2026-05-29"
     },
     {
@@ -3035,7 +3056,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-29T01:00:10+08:00",
+      "updated_at": "2026-06-09T00:30:00+08:00",
       "due_at": "2026-05-28",
       "completed_at": "2026-05-29"
     },
@@ -3069,10 +3090,18 @@
           "body": "Compute-request clarification for teacher discussion: current checkpoint is Wan2.2-TI2V-5B LoRA, not 2B. The 5B run already finished on lv-l40s-0003 using 8xL40S and produced step-125; the open question is post-train quality and whether larger Wan2.2 A14B / 14B is worth a separate allocation. If asking for A14B / 14B fine-tuning, frame it as needing 8xA100/H100 80GB-class GPUs. Do not present 8xL30 24GB as sufficient for the main 14B route; at most, L40S-class hardware can be used for reduced-resolution/offload feasibility dry-runs.",
           "created_at": "2026-05-29T21:50:00+08:00",
           "kind": "needs_user"
+        },
+        {
+          "comment_id": "comment_task_umi_finetune_compute_request_teacher_todo_reset_20260609",
+          "author": "Codex",
+          "body": "按 2026-06-09 Tri-View TODO 重组收口：旧开放项先统一标注 done，当前项目 TODO 只保留 Cosmos3 测试、三视角数据集替换、Gamma-World 复现、分图层/segment+inpaint/SVG 化数据集准备四项。原任务内容作为历史归档，不再作为当前开放 TODO。",
+          "created_at": "2026-06-09T00:30:00+08:00",
+          "kind": "todo_reset"
         }
       ],
-      "updated_at": "2026-05-29T20:46:42+08:00",
-      "due_at": ""
+      "updated_at": "2026-06-03T08:33:03+02:00",
+      "due_at": "",
+      "completed_at": "2026-06-09"
     },
     {
       "task_id": "task_umi_server2_25inch_ssd_storage",
@@ -3082,7 +3111,7 @@
       "status": "needs_user",
       "priority": "high",
       "assignee": "Boris / lab admin",
-      "result": null,
+      "result": "Storage expansion completed via the actual hardware route used today: Boris installed the 10T hard drive into the cloud NAS. This closes the storage-capacity blocker for large Tri-View / UMI datasets and generated artifacts. Note: this completion evidence corrects the older 2.5-inch server-SSD wording; the realized storage path is cloud NAS, not an internal server #2 SSD install.",
       "comments": [
         {
           "comment_id": "comment_umi_server2_25inch_ssd_storage_20260527",
@@ -3097,10 +3126,25 @@
           "body": "Mirrored strict audit decision from default state for task_umi_server2_25inch_ssd_storage; remaining work requires human action/credential/hardware/decision, not more autonomous dependency installation.",
           "created_at": "2026-05-29T02:22:50+08:00",
           "kind": "needs_user"
+        },
+        {
+          "comment_id": "comment_task_umi_server2_25inch_ssd_storage_todo_reset_20260609",
+          "author": "Codex",
+          "body": "按 2026-06-09 Tri-View TODO 重组收口：旧开放项先统一标注 done，当前项目 TODO 只保留 Cosmos3 测试、三视角数据集替换、Gamma-World 复现、分图层/segment+inpaint/SVG 化数据集准备四项。原任务内容作为历史归档，不再作为当前开放 TODO。",
+          "created_at": "2026-06-09T00:30:00+08:00",
+          "kind": "todo_reset"
+        },
+        {
+          "comment_id": "comment_umi_storage_cloud_nas_10t_done_20260609",
+          "author": "Boris / Codex",
+          "body": "用户更新 2026-06-09：今天已把 10T 硬盘装进云 NAS。以此作为该存储扩容事项的真实完成证据。纠偏：这不是 2 号机内部 2.5 英寸 SSD 安装，而是通过云 NAS 扩容解决大数据集 / 生成结果 / checkpoint 存储容量问题。",
+          "created_at": "2026-06-09T01:25:00+08:00",
+          "kind": "user_evidence"
         }
       ],
-      "updated_at": "2026-05-29T02:22:50+08:00",
-      "due_at": ""
+      "updated_at": "2026-06-03T08:33:04+02:00",
+      "due_at": "",
+      "completed_at": "2026-06-09"
     },
     {
       "task_id": "task_umi_decide_ai2v_after_186_vbench",
@@ -3155,7 +3199,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-05-25T00:02:33+08:00",
+      "updated_at": "2026-06-09T00:30:00+08:00",
       "due_at": "2026-05-26",
       "completed_at": "2026-05-24"
     },
@@ -3198,7 +3242,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-31T23:32:08+02:00",
+      "updated_at": "2026-06-09T00:30:00+08:00",
       "due_at": "2026-06-03",
       "completed_at": "2026-05-31"
     },
@@ -3319,7 +3363,7 @@
     },
     {
       "task_id": "task_layered_wm_contact_object_head",
-      "project_id": "umi-world-model",
+      "project_id": "image-layered-world-model",
       "title": "补 object/contact supervision probe",
       "description": "Why now: object_contact 在 robot_still 只有约 0.21，说明单靠 layered image 不足。Deliverable: object/contact head 的弱监督方案，对比 color/geometry/Qwen layer features。Acceptance: poster 和 robot_still 都输出 object/contact mask；记录 contact recall/precision、penetration/sliding proxy。",
       "status": "done",
@@ -3348,7 +3392,7 @@
     },
     {
       "task_id": "task_layered_wm_robot_ego_head",
-      "project_id": "umi-world-model",
+      "project_id": "image-layered-world-model",
       "title": "Prototype explicit robot/ego layer head",
       "description": "Why now: Qwen-Image-Layered 已证明 scene layer 强，但 robot_ego IoU 只有约 0.14，不能直接服务 IDM/robot prior。Deliverable: 一个显式 robot/ego mask/head 的最小 probe，可用 synthetic robot still + simple robot prior/segmentation baseline。Acceptance: robot_still robot_ego max-IoU 明显超过 Qwen baseline；输出 score_summary 和失败样例。",
       "status": "done",
@@ -3384,7 +3428,7 @@
     },
     {
       "task_id": "task_layered_wm_video_temporal_probe",
-      "project_id": "umi-world-model",
+      "project_id": "image-layered-world-model",
       "title": "把单图 layer probe 扩展到短视频 temporal consistency",
       "description": "Why now: world model 要服务视频/IDM，PSD/单图 round-trip 只是静态验证。Deliverable: 3-5 帧短序列 layer propagation 或逐帧 decomposition + consistency metric。Acceptance: 输出 temporal flicker / mask IoU over time / object-contact continuity 指标，并列出最小训练目标。",
       "status": "done",
@@ -4215,7 +4259,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-05-29T02:22:44+08:00",
+      "updated_at": "2026-06-09T00:30:00+08:00",
       "due_at": "",
       "completed_at": "2026-05-29"
     },
@@ -4835,7 +4879,7 @@
       "assignee": "jingxiang@100.112.245.1",
       "due_at": "2026-05-27",
       "completed_at": "2026-05-27",
-      "updated_at": "2026-05-27T00:51:08+08:00",
+      "updated_at": "2026-06-09T00:30:00+08:00",
       "comments": [
         {
           "comment_id": "comment_umi_cosmos_prompt_meeting_20260525",
@@ -4862,7 +4906,7 @@
       "priority": "high",
       "assignee": "jingxiang@100.112.245.1",
       "due_at": "2026-05-28",
-      "updated_at": "2026-05-29T02:23:40+08:00",
+      "updated_at": "2026-06-09T00:30:00+08:00",
       "comments": [
         {
           "comment_id": "comment_umi_action_injection_sources_20260525",
@@ -4962,7 +5006,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-05-29T02:22:44+08:00",
+      "updated_at": "2026-06-09T00:30:00+08:00",
       "due_at": "",
       "completed_at": "2026-05-29"
     },
@@ -5005,13 +5049,13 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-05-29T02:22:45+08:00",
+      "updated_at": "2026-06-09T00:30:00+08:00",
       "due_at": "",
       "completed_at": "2026-05-29"
     },
     {
       "task_id": "task_layered_wm_linux_layer_editor_pipeline",
-      "project_id": "umi-world-model",
+      "project_id": "image-layered-world-model",
       "title": "用 AffinityOnLinux / GIMP 替代 Photoshop 分图层流程",
       "description": "Ubuntu 没有 Photoshop 时，把 agentic prompt 生成的固定位置分元素图片接到 Linux 可运行的图层编辑流程。优先评估两条路线：(1) seapear/AffinityOnLinux: 通过 Wine 在 GNU/Linux 上运行 Affinity Photo/Designer/Publisher，用来复现 PSD/图层检查体验；(2) GIMP: 原生免费开源图像编辑器，作为可脚本化 baseline。Acceptance: 记录 AffinityOnLinux 安装/启动可行性或 blocker；写出 GIMP 批处理或 Script-Fu/Python-Fu 路线；对 poster 和 robot_still 各跑一次白底去除、透明图层叠加、原始相对位置保持、layer naming、导出 .xcf/.afphoto 或 PSD/PNG round-trip；输出 reconstruction diff、缺失/重复元素检查、命令/log/sha256 和最终推荐的 Ubuntu 默认路线。",
       "status": "done",
@@ -5264,7 +5308,8 @@
           "kind": "result"
         }
       ],
-      "updated_at": "2026-05-31T00:05:33+02:00"
+      "updated_at": "2026-06-09T00:30:00+08:00",
+      "completed_at": "2026-06-09"
     },
     {
       "task_id": "task_umi_fixed_exo_ego_layered_pivot",
@@ -5311,9 +5356,17 @@
           "body": "Project spec updated with the key data constraint: fixed-exo is not in the existing Yuhang/Daimon UMI data. The spec must distinguish current dual-wrist-fisheye + D435-main data, generated fixed-view probes, and future fixed-exo capture.",
           "created_at": "2026-05-31T17:17:04+02:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_task_umi_fixed_exo_ego_layered_pivot_todo_reset_20260609",
+          "author": "Codex",
+          "body": "按 2026-06-09 Tri-View TODO 重组收口：旧开放项先统一标注 done，当前项目 TODO 只保留 Cosmos3 测试、三视角数据集替换、Gamma-World 复现、分图层/segment+inpaint/SVG 化数据集准备四项。原任务内容作为历史归档，不再作为当前开放 TODO。",
+          "created_at": "2026-06-09T00:30:00+08:00",
+          "kind": "todo_reset"
         }
       ],
-      "updated_at": "2026-05-31T17:17:04+02:00"
+      "updated_at": "2026-06-03T08:33:13+02:00",
+      "completed_at": "2026-06-09"
     },
     {
       "task_id": "task_umi_egox_fixed_main_view_probe",
@@ -5332,9 +5385,17 @@
           "body": "Discussion update: Yuhang/Daimon UMI has no fixed third-person view at all, not even non-fixed; humanoid data is very limited. What exists is two wrist fisheye cameras plus a D435 main view. Try EgoX/cross-view generation only as a feasibility probe for creating a stable fixed/main view; if it fails, new fixed-exo capture is required.",
           "created_at": "2026-05-31T17:17:04+02:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_task_umi_egox_fixed_main_view_probe_todo_reset_20260609",
+          "author": "Codex",
+          "body": "按 2026-06-09 Tri-View TODO 重组收口：旧开放项先统一标注 done，当前项目 TODO 只保留 Cosmos3 测试、三视角数据集替换、Gamma-World 复现、分图层/segment+inpaint/SVG 化数据集准备四项。原任务内容作为历史归档，不再作为当前开放 TODO。",
+          "created_at": "2026-06-09T00:30:00+08:00",
+          "kind": "todo_reset"
         }
       ],
-      "updated_at": "2026-05-31T17:17:04+02:00"
+      "updated_at": "2026-06-03T08:33:13+02:00",
+      "completed_at": "2026-06-09"
     },
     {
       "task_id": "task_umi_ego_exo_reverse_survey",
@@ -5360,9 +5421,17 @@
           "body": "Updated framing: EgoX remains useful for conditioning design, but the project need may be the harder reverse/nonstandard direction: from wrist fisheye + D435 main evidence to a stable fixed main/exo view. Survey should explicitly separate exo-to-ego, ego-to-exo, bidirectional, and robotics-specific cases.",
           "created_at": "2026-05-31T17:17:04+02:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_task_umi_ego_exo_reverse_survey_todo_reset_20260609",
+          "author": "Codex",
+          "body": "按 2026-06-09 Tri-View TODO 重组收口：旧开放项先统一标注 done，当前项目 TODO 只保留 Cosmos3 测试、三视角数据集替换、Gamma-World 复现、分图层/segment+inpaint/SVG 化数据集准备四项。原任务内容作为历史归档，不再作为当前开放 TODO。",
+          "created_at": "2026-06-09T00:30:00+08:00",
+          "kind": "todo_reset"
         }
       ],
-      "updated_at": "2026-05-31T17:17:04+02:00"
+      "updated_at": "2026-06-03T08:33:13+02:00",
+      "completed_at": "2026-06-09"
     },
     {
       "task_id": "task_model_assisted_teleop_survey_matrix",
@@ -5484,6 +5553,48 @@
       "updated_at": "2026-06-05T00:58:00+02:00"
     },
     {
+      "task_id": "task_human_intention_sensorium_xla_proposal",
+      "project_id": "human-intention-sensorium-survey",
+      "title": "Write XLA human-intention data-collection proposal",
+      "description": "Turn Boris' ordered human-data-capture idea into a complete proposal for an XLA-style multimodal latent action / intention model. Preserve the priority order: eye tracking, EMG, EEG, wrist muscle ultrasound, wrist cameras, tactile, whole-body pose, proximity, temperature, vibration, multichannel audio / source localization, smell, and taste. Acceptance: proposal includes motivation, target robot-learning labels, ordered modality rationale, XLA input/output schema, sync/calibration/privacy requirements, v0 capture rig, ablation plan, task families where low-priority sensors become useful, and a partner discussion checklist for Zhiyuan / Mifeng Tech-style data-capture hardware.",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Boris / Codex",
+      "due_at": "2026-06-16",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_human_intention_sensorium_seed_20260609",
+          "author": "Boris / Codex",
+          "body": "Seeded from Boris idea: infer human intention from collectable human signals, listed in importance order: eye tracking, EMG, EEG, wrist muscle ultrasound, wrist cameras, tactile, whole-body pose, proximity, temperature, vibration, multichannel audio/source localization, and smell/taste. Initial decision: keep as a proposal-oriented Survey card because the value is an XLA data proposal and signal-fusion schema, not an immediate all-sensor engineering build.",
+          "created_at": "2026-06-09T01:50:44+08:00",
+          "kind": "research"
+        },
+        {
+          "comment_id": "comment_human_intention_sensorium_partner_20260609",
+          "author": "Boris / Codex",
+          "body": "Partner angle from user: after visiting Zhiyuan, consider discussing requirements with Mifeng Tech. Their MEgo direction appears aligned with no-body data capture, head/wrist views, trajectory, depth/IMU, tactile, gripper state, and tight sync. Proposal should ask for expansion to eye tracking, EMG/EEG, wrist ultrasound, whole-body pose, multichannel audio, raw synchronized streams, and XLA-ready schema.",
+          "created_at": "2026-06-09T01:50:44+08:00",
+          "kind": "partner_discussion"
+        },
+        {
+          "comment_id": "comment_human_intention_sensorium_refs_20260609",
+          "author": "Codex",
+          "body": "Initial references: EgoVerse for robot-learning human data; HoloAssist and HOT3D for gaze/audio/pose/IMU egocentric stacks; TouchAnything/EgoTouch and Hoi! for wrist/ego/tactile/force supervision; EMG+vision grasp-intent fusion for physiological evidence; bio-signal and wearable-intent surveys for EMG/MMG/ultrasound/EEG tradeoffs; MEgo release coverage for partner hardware fit.",
+          "created_at": "2026-06-09T01:50:44+08:00",
+          "kind": "reference_update"
+        },
+        {
+          "comment_id": "comment_human_intention_sensorium_data_pragmatism_20260609",
+          "author": "Boris / Codex",
+          "body": "Saved user's philosophy note: robots are practical, so the proposal should not abandon any useful data source, including LLM/VLM/video-generation priors, human ego data, UMI, teleoperation, simulation, wearable capture, or YouTube-scale video. The explicit missing source is human-robot collaboration data: shared episodes with instruction, intent transfer, intervention, correction, handoff, and recovery.",
+          "created_at": "2026-06-09T02:12:00+08:00",
+          "kind": "framing_note"
+        }
+      ],
+      "updated_at": "2026-06-09T02:12:00+08:00"
+    },
+    {
       "task_id": "task_cross_embodiment_representation_table",
       "project_id": "cross-embodiment-representations-survey",
       "title": "Compare cross-embodiment action/state representations",
@@ -5542,10 +5653,10 @@
     },
     {
       "task_id": "task_embodied_music_problem_formulation",
-      "project_id": "archive-embodied-music",
+      "project_id": "embodied-music-survey",
       "title": "Formulate EmbodiedMusic as a measurable problem",
       "description": "Separate action/contact-to-MIDI, motion-to-rhythm, and audio-generation objectives. Acceptance: related-work table plus one minimal dataset/demo plan with metrics for timing, pitch/event correctness, and audio quality.",
-      "status": "done",
+      "status": "todo",
       "priority": "medium",
       "assignee": "Boris / Codex",
       "due_at": "2026-06-13",
@@ -5566,7 +5677,7 @@
           "kind": "research"
         }
       ],
-      "updated_at": "2026-06-05T00:43:00+02:00",
+      "updated_at": "2026-06-03T08:33:15+02:00",
       "completed_at": "2026-06-05"
     },
     {
@@ -5592,10 +5703,10 @@
     },
     {
       "task_id": "task_fracture_soft_wrist_benchmark_scope",
-      "project_id": "archive-fracture-soft-wrist-assembly",
+      "project_id": "fracture-soft-wrist-assembly-survey",
       "title": "Choose first assembly benchmark scope",
       "description": "Decide whether fractured-object reassembly or soft-wrist insertion is the lower-risk first benchmark. Acceptance: state chosen benchmark, required assets, physical setup, policy inputs, simulator/real split, and success/failure metrics.",
-      "status": "done",
+      "status": "todo",
       "priority": "medium",
       "assignee": "Boris / Codex",
       "due_at": "2026-06-14",
@@ -5616,7 +5727,7 @@
           "kind": "research"
         }
       ],
-      "updated_at": "2026-06-05T00:42:00+02:00",
+      "updated_at": "2026-06-03T08:33:15+02:00",
       "completed_at": "2026-06-05"
     },
     {
@@ -5673,7 +5784,7 @@
       "project_id": "umi-world-model",
       "title": "制定 fixed-exo + dual-wrist 数据采集 / 标注 schema",
       "description": "Define the synchronized episode schema for the new project under the updated data reality: existing UMI gives left wrist fisheye, right wrist fisheye, and D435 main view, but no fixed third-person/exo view. The schema must support both current data and future/new fixed-exo capture: timestamps, camera intrinsics/extrinsics where available, dual-arm EEF pose, gripper state, task caption, object IDs, train/val/test split, optional fixed-exo_absent/fixed-exo_synthesized flags, and optional layer pseudo-label paths. Acceptance: JSON schema or manifest example for one current-data episode plus one future tri-view episode; explicit checklist for what old UMI data lacks and what new capture must add.",
-      "status": "review",
+      "status": "active",
       "priority": "urgent",
       "assignee": "Boris / Haoyu / Jingxiang",
       "due_at": "2026-06-04",
@@ -5714,10 +5825,17 @@
           "kind": "host_verified",
           "body": "Remote schema/audit pass is ready for review at jingxiang@100.112.245.1:/home/jingxiang/workspace/das-data/codebases/tri_view_layered_wm. Added tri-view manifest schema plus two examples: current UMI/DAS-style dual-wrist + D435/main evidence with fixed_view_status=absent, and future tri-view capture with left_wrist + right_wrist + front_ego.fixed_mount=true. Validator passed on the target machine. Data audit conclusion: local DAS / 10Kh RealOmni and current UMI/Jianzhi packs are partial only; they have robot0/robot1 or left/right wrist evidence but no real synchronized fixed front/top stream. `test_sets/ctrlworld/views/wrist.mp4` is explicitly a crop placeholder, not a third camera. Closest public full-match candidates are ALOHA/LeRobot datasets exposing cam_high + cam_left_wrist + cam_right_wrist with 14D state/action; MolmoAct2-BimanualYAM is a strong bimanual schema/model reference but needs camera-mount verification because public examples are top/left/right, not explicitly left/right wrist. DROID is not a full match because it is single-arm.",
           "created_at": "2026-06-05T00:22:00+02:00"
+        },
+        {
+          "comment_id": "comment_task_umi_tri_view_capture_schema_todo_reset_20260609",
+          "author": "Codex",
+          "body": "按 2026-06-09 Tri-View TODO 重组收口：旧开放项先统一标注 done，当前项目 TODO 只保留 Cosmos3 测试、三视角数据集替换、Gamma-World 复现、分图层/segment+inpaint/SVG 化数据集准备四项。原任务内容作为历史归档，不再作为当前开放 TODO。",
+          "created_at": "2026-06-09T00:30:00+08:00",
+          "kind": "todo_reset"
         }
       ],
-      "updated_at": "2026-06-05T00:22:00+02:00",
-      "completed_at": null
+      "updated_at": "2026-06-03T08:33:16+02:00",
+      "completed_at": "2026-06-09"
     },
     {
       "task_id": "task_umi_view_layer_ablation_plan",
@@ -5750,9 +5868,17 @@
           "body": "MolmoAct reference added for ablation design: compare side/external + wrist pairing and MolmoAct2-style top/left/right packaging against our actual available views. The first ablation table should include current-data variants only (wrist-only, D435-main-only, wrist+D435, wrist+D435+layers), then separate future/synthesized variants for fixed robot-ego/exo after the view-status gate passes.",
           "created_at": "2026-06-04T23:55:44+02:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_task_umi_view_layer_ablation_plan_todo_reset_20260609",
+          "author": "Codex",
+          "body": "按 2026-06-09 Tri-View TODO 重组收口：旧开放项先统一标注 done，当前项目 TODO 只保留 Cosmos3 测试、三视角数据集替换、Gamma-World 复现、分图层/segment+inpaint/SVG 化数据集准备四项。原任务内容作为历史归档，不再作为当前开放 TODO。",
+          "created_at": "2026-06-09T00:30:00+08:00",
+          "kind": "todo_reset"
         }
       ],
-      "updated_at": "2026-06-04T23:55:44+02:00"
+      "updated_at": "2026-06-03T08:33:17+02:00",
+      "completed_at": "2026-06-09"
     },
     {
       "task_id": "task_umi_layer_heads_v1",
@@ -5778,9 +5904,17 @@
           "body": "Started merge from the former Image-Layered machine into the UMI project. Source reachable: feibo@100.87.220.29:/home/feibo/workspace/image-layered-world-model. Pulled a lightweight code/docs bundle excluding .venv, .hf-cache, data, and heavy outputs. Prepared local staging at /Users/boris/workspace/tri_view_layered_merge/tri_view_layered_wm and archive /Users/boris/workspace/tri_view_layered_merge/tri_view_layered_wm_merge_bundle_20260531.tar.gz sha256 aed241475f7318fdd01366a595c4489b44a75d1d2d87f2de9f1bbe549f14dccd. Included tri-view manifest schema/example and validate_tri_view_manifest.py; local validator passes. Blocker: UMI binding machine jingxiang-b850m-c / 100.112.245.1 is offline on Tailscale and SSH times out, so the final rsync into /home/jingxiang/workspace/das-data/codebases/tri_view_layered_wm cannot be executed until it comes online.",
           "created_at": "2026-05-31T09:42:00+02:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_task_umi_layer_heads_v1_todo_reset_20260609",
+          "author": "Codex",
+          "body": "按 2026-06-09 Tri-View TODO 重组收口：旧开放项先统一标注 done，当前项目 TODO 只保留 Cosmos3 测试、三视角数据集替换、Gamma-World 复现、分图层/segment+inpaint/SVG 化数据集准备四项。原任务内容作为历史归档，不再作为当前开放 TODO。",
+          "created_at": "2026-06-09T00:30:00+08:00",
+          "kind": "todo_reset"
         }
       ],
-      "updated_at": "2026-05-31T09:42:00+02:00"
+      "updated_at": "2026-06-03T08:33:17+02:00",
+      "completed_at": "2026-06-09"
     },
     {
       "task_id": "task_umi_reward_eval_probe",
@@ -5799,9 +5933,17 @@
           "body": "Created during project reorganization after the Gamma-World analysis. This is part of the new Tri-View Layered Manipulation World Model task structure.",
           "created_at": "2026-05-31T09:19:08+02:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_task_umi_reward_eval_probe_todo_reset_20260609",
+          "author": "Codex",
+          "body": "按 2026-06-09 Tri-View TODO 重组收口：旧开放项先统一标注 done，当前项目 TODO 只保留 Cosmos3 测试、三视角数据集替换、Gamma-World 复现、分图层/segment+inpaint/SVG 化数据集准备四项。原任务内容作为历史归档，不再作为当前开放 TODO。",
+          "created_at": "2026-06-09T00:30:00+08:00",
+          "kind": "todo_reset"
         }
       ],
-      "updated_at": "2026-05-31T09:19:08+02:00"
+      "updated_at": "2026-06-03T08:33:17+02:00",
+      "completed_at": "2026-06-09"
     },
     {
       "task_id": "task_umi_gamma_baseline_positioning",
@@ -5820,16 +5962,24 @@
           "body": "Created during project reorganization after the Gamma-World analysis. This is part of the new Tri-View Layered Manipulation World Model task structure.",
           "created_at": "2026-05-31T09:19:08+02:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_task_umi_gamma_baseline_positioning_todo_reset_20260609",
+          "author": "Codex",
+          "body": "按 2026-06-09 Tri-View TODO 重组收口：旧开放项先统一标注 done，当前项目 TODO 只保留 Cosmos3 测试、三视角数据集替换、Gamma-World 复现、分图层/segment+inpaint/SVG 化数据集准备四项。原任务内容作为历史归档，不再作为当前开放 TODO。",
+          "created_at": "2026-06-09T00:30:00+08:00",
+          "kind": "todo_reset"
         }
       ],
-      "updated_at": "2026-05-31T09:19:08+02:00"
+      "updated_at": "2026-06-03T08:33:18+02:00",
+      "completed_at": "2026-06-09"
     },
     {
       "task_id": "task_umi_merge_image_layered_code_to_binding_machine",
       "project_id": "umi-world-model",
       "title": "把 Image-Layered 代码合并到 UMI 绑定机器",
       "description": "Move the former Image-Layered World Model implementation from feibo@100.87.220.29 into the UMI binding machine under das-data/codebases/tri_view_layered_wm, preserving source scripts, layer-head probes, reports, tri-view schema, and remote-start commands. Acceptance: rsync completed on jingxiang@100.112.245.1, validator passes there, and paths are recorded for layer-head/eval TODOs.",
-      "status": "done",
+      "status": "blocked",
       "priority": "urgent",
       "assignee": "Boris / jingxiang@100.112.245.1",
       "due_at": "2026-06-02",
@@ -5851,7 +6001,7 @@
           "created_at": "2026-06-05T00:22:00+02:00"
         }
       ],
-      "updated_at": "2026-06-05T00:22:00+02:00",
+      "updated_at": "2026-06-03T08:33:18+02:00",
       "completed_at": "2026-06-05"
     },
     {
@@ -5859,7 +6009,7 @@
       "project_id": "skill-world-model-survey",
       "title": "Specify Skill World Model / agentic API scope",
       "description": "From the migrated Notion ideas, compare demo-retrieval, object/contact transition graph, and callable skill-API schemas; choose one first benchmark and define inputs, outputs, verifier evidence, and promotion criteria.",
-      "status": "done",
+      "status": "active",
       "priority": "medium",
       "assignee": null,
       "result": "Migrated into task_self_improving_skill_api_memory_gate. Survey result selects callable skill-API schemas / SkillCall-Bench v0 as the first benchmark; remaining work is executable verifier and MemoryStore integration under Self-improving.",
@@ -5901,7 +6051,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-05T00:58:00+02:00",
+      "updated_at": "2026-06-03T08:33:19+02:00",
       "completed_at": "2026-06-05"
     },
     {
@@ -5909,7 +6059,7 @@
       "project_id": "rlbench-isaacsim-migration-survey",
       "title": "Write RLBench -> IsaacSim 5-task pilot matrix",
       "description": "Choose five representative RLBench tasks and score conversion feasibility across assets, robot/controller assumptions, observations, rewards, expert demos, VLA inputs, and automated verifier evidence.",
-      "status": "done",
+      "status": "active",
       "priority": "medium",
       "assignee": null,
       "result": "Migrated into task_self_improving_rlbench_isaacsim_pilot_gate. The old Survey result selected the 5-task pilot; the remaining work is Isaac-side smoke/verifier execution under Self-improving.",
@@ -5944,7 +6094,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-05T00:58:00+02:00",
+      "updated_at": "2026-06-03T08:33:20+02:00",
       "completed_at": "2026-06-05"
     },
     {
@@ -5973,7 +6123,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-05T01:28:00+02:00",
+      "updated_at": "2026-06-09T00:30:00+08:00",
       "completed_at": "2026-06-05"
     },
     {
@@ -6002,7 +6152,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-05T01:28:00+02:00",
+      "updated_at": "2026-06-09T00:30:00+08:00",
       "completed_at": "2026-06-05"
     },
     {
@@ -6031,7 +6181,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-05T01:35:00+02:00",
+      "updated_at": "2026-06-09T00:30:00+08:00",
       "completed_at": "2026-06-05"
     },
     {
@@ -6060,7 +6210,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-05T01:35:00+02:00",
+      "updated_at": "2026-06-09T00:30:00+08:00",
       "completed_at": "2026-06-05"
     },
     {
@@ -6148,6 +6298,179 @@
       ],
       "updated_at": "2026-06-05T01:18:00+02:00",
       "completed_at": "2026-06-05"
+    },
+    {
+      "task_id": "task_umi_cosmos3_test",
+      "project_id": "umi-world-model",
+      "title": "Cosmos3 测试",
+      "description": "测试 Cosmos / Cosmos3 相关视频生成模型能否作为 action-conditioned Ego World baseline。重点包括：实时外部 action condition、双腕和机器人头部 ego views 的共享 context、纯视频生成模型对去掉前景 robot layer / 保留 object-interaction-scene 的 prompt 响应，以及与 Gamma-World / WAN2.2 / Cosmos2.5 的最小对照。Acceptance: 至少一组可复现输入、命令或调用记录、输出样例、失败模式记录，并给出是否值得进入 Ego World + IDM 训练链路。",
+      "status": "active",
+      "priority": "high",
+      "assignee": "Boris",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_task_umi_cosmos3_test_meeting_source_20260609",
+          "author": "Meeting notes",
+          "body": "来自 Boris / Haoyu 同步：先测试 cosmos 三模型，并尝试把数据集替换为三视角数据；也可以试 Seedance 等纯视频生成模型，让模型去掉前景 robot layer，看是否能形成粗略 layered baseline。",
+          "created_at": "2026-06-09T00:30:00+08:00",
+          "kind": "source_note"
+        },
+        {
+          "comment_id": "comment_task_umi_cosmos3_test_main_refs_20260609",
+          "author": "Codex",
+          "body": "Main refs now include Gamma-World (https://arxiv.org/abs/2605.28816) as the multi-agent world-model baseline and Qwen-Image-Layered (https://qwen.ai/blog?id=qwen-image-layered) as the layer-removal/decomposition baseline for prompt tests such as removing the foreground robot layer.",
+          "created_at": "2026-06-09T01:35:00+08:00",
+          "kind": "reference_update"
+        },
+        {
+          "comment_id": "comment_task_umi_cosmos3_test_ego_world_idm_rewrite_20260609",
+          "author": "Codex",
+          "body": "Updated after Boris rewrite: Tri-View is now framed as a two-stage Ego World + IDM foundation model with object-interaction-robot layers and position/velocity/current-loop decoding.",
+          "created_at": "2026-06-09T02:05:00+08:00",
+          "kind": "story_rewrite"
+        }
+      ],
+      "updated_at": "2026-06-09T02:05:00+08:00",
+      "due_at": "",
+      "completed_at": null
+    },
+    {
+      "task_id": "task_umi_replace_dataset_with_tri_view",
+      "project_id": "umi-world-model",
+      "title": "数据集替换成三视角的",
+      "description": "把当前训练/评测数据面替换成三视角/多 ego-view 数据：左右 wrist view 加固定或浮动 robot-head view，所有视角共享同一 scene/object/action context。允许先混用原有数据，但 manifest 必须显式记录 camera mount、ego_view_type、shared_context_id、POV overlap、timestamps、action/state、robot visibility、object interaction labels 和 task result。Acceptance: 三视角候选数据集清单、替换/混用策略、可跑 manifest 示例、以及第一批用于 Cosmos/Gamma/EgoWorld/layered pipeline 的 episode 列表。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Boris",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_task_umi_replace_dataset_with_tri_view_meeting_source_20260609",
+          "author": "Meeting notes",
+          "body": "会议后续步骤：寻找合适的同时包含双臂和第三视角的数据集，避免与他人工作重复；测试 cosmos 三模型时尝试将数据集替换为三视角数据，可混用原有数据。",
+          "created_at": "2026-06-09T00:30:00+08:00",
+          "kind": "source_note"
+        },
+        {
+          "comment_id": "comment_task_umi_replace_dataset_with_tri_view_main_refs_20260609",
+          "author": "Codex",
+          "body": "Main refs now include ObjectForesight (https://objectforesight.github.io/) as the object-centric human-video data-pipeline reference, plus Gamma-World for the world-model baseline that should consume the replacement data.",
+          "created_at": "2026-06-09T01:35:00+08:00",
+          "kind": "reference_update"
+        },
+        {
+          "comment_id": "comment_task_umi_replace_dataset_with_tri_view_ego_world_idm_rewrite_20260609",
+          "author": "Codex",
+          "body": "Updated after Boris rewrite: Tri-View is now framed as a two-stage Ego World + IDM foundation model with object-interaction-robot layers and position/velocity/current-loop decoding.",
+          "created_at": "2026-06-09T02:05:00+08:00",
+          "kind": "story_rewrite"
+        }
+      ],
+      "updated_at": "2026-06-09T02:05:00+08:00",
+      "due_at": "",
+      "completed_at": null
+    },
+    {
+      "task_id": "task_umi_gamma_world_reproduction",
+      "project_id": "umi-world-model",
+      "title": "Gamma-World 复现",
+      "description": "复现 Gamma-World / Gamar 相关工作的核心架构与最小实验，先确认它在现有数据或小规模 ego-view 替换数据上是否能跑通。重点不是再写 collision note，而是把 Gamma-World 作为 multi-agent interactive world-model baseline，明确它与 Ego World + IDM 的差别。Acceptance: 复现环境、依赖与代码路径；最小输入/输出；在现有或三视角候选数据上的 smoke run；与 Tri-View Ego World + IDM proposal 的 baseline 关系说明。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Boris",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_task_umi_gamma_world_reproduction_meeting_source_20260609",
+          "author": "Meeting notes",
+          "body": "会议后续步骤：Boris 尝试复现 Gamma-World 相关工作的架构，并在现有数据上验证是否能跑通；Haoyu 建议也可把该方法作为制作数据、预处理或 baseline 对照。",
+          "created_at": "2026-06-09T00:30:00+08:00",
+          "kind": "source_note"
+        },
+        {
+          "comment_id": "comment_task_umi_gamma_world_reproduction_main_refs_20260609",
+          "author": "Codex",
+          "body": "Main ref: Gamma-World arXiv 2605.28816 (https://arxiv.org/abs/2605.28816). Reproduction should target the concrete multi-agent world-model architecture and smoke baseline, not only a positioning note.",
+          "created_at": "2026-06-09T01:35:00+08:00",
+          "kind": "reference_update"
+        },
+        {
+          "comment_id": "comment_task_umi_gamma_world_reproduction_ego_world_idm_rewrite_20260609",
+          "author": "Codex",
+          "body": "Updated after Boris rewrite: Tri-View is now framed as a two-stage Ego World + IDM foundation model with object-interaction-robot layers and position/velocity/current-loop decoding.",
+          "created_at": "2026-06-09T02:05:00+08:00",
+          "kind": "story_rewrite"
+        }
+      ],
+      "updated_at": "2026-06-09T02:05:00+08:00",
+      "due_at": "",
+      "completed_at": null
+    },
+    {
+      "task_id": "task_umi_layered_dataset_segment_inpaint_svg",
+      "project_id": "umi-world-model",
+      "title": "分图层（segment + inpaint）/ SVG 化的数据集准备",
+      "description": "为 Ego World + IDM 准备 Image-Layered 可训练数据。先小规模验证 robot / object-interaction / scene 三层 pipeline：语义分割或 mask tracking、segment + inpaint 去前景、Qwen Image-Layered / ChatGPT image-agent 拆图层、纯视频模型去 robot layer prompt、以及 SVG/结构化表示。robot layer 用于 IDM / pose / VO 辅助，object layer 用于过程奖励和 RL 自监督，scene layer 用于 RoboEngine-style 物理/任务感知背景替换。Acceptance: 少量 episode 的分层数据样例、每层命名与 mask/video/SVG 输出 schema、失败样例、QA 指标，以及是否扩成大规模自造数据集的判断。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Boris / Haoyu / Xiaobin",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_task_umi_layered_dataset_segment_inpaint_svg_meeting_source_20260609",
+          "author": "Meeting notes",
+          "body": "会议/聊天依据：分图层世界模型最难的是数据，必须从一开始把自造数据做到可用；传统分隔方法跟随效果可能不好；可以测试纯视频生成模型去掉前景 robot layer；也要和 Xiaobin 讨论 Qwen 端到端 Image-Layered 拆分、ChatGPT image agent 拆图层，以及语义分割 / mask 源码 / SVG 结构化图像路线。",
+          "created_at": "2026-06-09T00:30:00+08:00",
+          "kind": "source_note"
+        },
+        {
+          "comment_id": "comment_task_umi_layered_dataset_segment_inpaint_svg_main_refs_20260609",
+          "author": "Codex",
+          "body": "Main refs now include Qwen-Image-Layered blog (https://qwen.ai/blog?id=qwen-image-layered) for RGBA layer decomposition and ObjectForesight (https://objectforesight.github.io/) for segment/track/reconstruct object trajectory data curation from human videos.",
+          "created_at": "2026-06-09T01:35:00+08:00",
+          "kind": "reference_update"
+        },
+        {
+          "comment_id": "comment_task_umi_layered_dataset_segment_inpaint_svg_ego_world_idm_rewrite_20260609",
+          "author": "Codex",
+          "body": "Updated after Boris rewrite: Tri-View is now framed as a two-stage Ego World + IDM foundation model with object-interaction-robot layers and position/velocity/current-loop decoding.",
+          "created_at": "2026-06-09T02:05:00+08:00",
+          "kind": "story_rewrite"
+        }
+      ],
+      "updated_at": "2026-06-09T02:05:00+08:00",
+      "due_at": "",
+      "completed_at": null
+    },
+    {
+      "task_id": "task_online_sensor_calibration_survey_spec",
+      "project_id": "online-sensor-calibration-survey",
+      "title": "形成 sensor online calibration v0 spec / benchmark",
+      "description": "把 online sensor calibration / drift adaptation 点子落成可执行 v0 spec。范围包括温度、磁场、光照、震动、warm-up、安装变化、老化导致的 camera/RGB-D/IMU/magnetometer/tactile/force/proximity 漂移。Acceptance: 1) 列出每类 sensor 的可学习 calibration state、可观测信号、不可观测/退回条件；2) 明确 classical offline calibration anchor + learning residual 的方法，而不是让神经网络静默改标定；3) 设计 D405/RGB-D + fiducial/robot-FK 的最小 benchmark，覆盖 warm-up、lighting、slight remount、magnetic/electrical interference；4) 指标包括 reprojection error、depth-RGB alignment、robot-frame pose error、VIO/SLAM residual、downstream policy/world-model sensitivity、false correction rate；5) 输出 episode manifest 字段：calib_state、confidence、observability、correction_delta、rollback/recapture flag；6) 给出接入 Real-Robot Infra、UMI/Tri-View、VTLA、Human Intention XLA 的边界。",
+      "status": "todo",
+      "priority": "medium",
+      "assignee": "Boris / Codex",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_online_sensor_calibration_seed_20260609",
+          "author": "Boris",
+          "body": "Idea source: 对 sensor 的 online calibration。温度、磁场、光照等环境变化会给传感器带来各种变化，例如相机畸变；希望调研如何用 learning-based 方法做在线调整。",
+          "created_at": "2026-06-09T02:12:13+08:00",
+          "kind": "source_note"
+        },
+        {
+          "comment_id": "comment_online_sensor_calibration_refs_20260609",
+          "author": "Codex",
+          "body": "Initial refs checked: learning-based camera calibration survey, online VINS self-calibration and degeneracy, CalibNet, DST-Calib, Deep-BrownConrady, calibration tokens, Basler thermal drift correction, online photometric calibration, dynamic magnetometer calibration, MAGYC, online MEMS calibration, tactile drift/error analysis, and F/T temperature compensation.",
+          "created_at": "2026-06-09T02:12:13+08:00",
+          "kind": "reference_update"
+        }
+      ],
+      "updated_at": "2026-06-09T02:12:13+08:00",
+      "due_at": "",
+      "completed_at": null
     }
   ]
 }
