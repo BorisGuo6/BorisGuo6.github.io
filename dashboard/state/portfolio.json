@@ -3,15 +3,15 @@
   "portfolio_id": "embodied-ai-dashboard",
   "title": "Embodied AI Project Dashboard",
   "subtitle": "World models, self-improving simulators, teleop acceleration, and robotics + 3D printing",
-  "week": "2026-W21",
-  "date": "2026-05-22",
-  "updated_at": "2026-06-05T00:45:00+02:00",
+  "week": "2026-W24",
+  "date": "2026-06-09",
+  "updated_at": "2026-06-09T02:12:13+08:00",
   "state_root": "dashboard/state",
   "summary": {
-    "focus": "Frame the portfolio as one loop: real-robot infra collects and validates data; the Tri-View Layered Manipulation World Model structures views, layers, reward/eval, and HOI evidence; simulator and PoD projects turn that into robot tasks, evaluation, and physical outputs.",
-    "progress": "ARX infra is ready; Gello-controlled dual Franka + Wuji Hand is complete as a one-DoF gripper path; the first Wuji + Franka cutting demo is scoped to simulated meat made from slime clay and a toy knife before any sharp blade; Wan2.2-TI2V-5B LoRA v0 trained to step-125 on 003 / 8xL40S; after Gamma-World, the UMI/Image-Layered direction has been reorganized into a tri-view layered manipulation-WM track; drag-demo fine-tuning is running on a replay-cleaned 90-episode dataset with four ablations.",
-    "blockers": "Survey blockers are now decision-quality gaps rather than missing cards: Skill World Model needs a first API/memory boundary, RLBench -> IsaacSim needs a 5-task pilot feasibility pass, VTLA needs the first Wuji/Franka tactile benchmark choice, and Model-Assisted Teleop needs one measurable preview/correction loop.",
-    "next": "Survey now has individually reasoned cards migrated from Notion ideas, including Skill World Model / Agentic Manipulation API and RLBench -> IsaacSim migration; Archive keeps covered or infra-only ideas as separate cards with reasons. Next step is to execute each survey task into a decision table/spec before promoting anything into Research or Engineering."
+    "focus": "本周第一条周报重写为 Tri-View Ego World + IDM 整体 proposal。",
+    "progress": "Tri-View 项目卡 intro 已按两阶段 Ego World + IDM 基座模型重写；周报同步展开 object-interaction-robot 分层、IDM/control decoding、数据与实验计划。",
+    "blockers": "核心瓶颈从单纯缺某个固定外部视角改为三类数据闭环：多 ego-view 共享 context、Image-Layered 分解质量、以及 generated video -> IDM action 的可执行性验证。",
+    "next": "当前 TODO 收敛到 Cosmos3 测试、三视角/多 ego-view 数据替换、Gamma-World 复现、分图层/segment+inpaint/SVG 化数据集准备。"
   },
   "storyline": {
     "summary": "How real-robot infra, human demonstrations, video world models, simulators, and physical outputs form one loop.",
@@ -29,7 +29,7 @@
             "role": "primary",
             "eyebrow": "Data Models",
             "title": "Video + HOI World Modeling",
-            "body": "UMI wrist views, layered third-person videos, same-task HOI data, and rate-curve teleop research turn human operation into structured video, inferred action, and state data."
+            "body": "UMI wrist views, robot-head ego videos, layered manipulation state, same-task HOI data, and rate-curve teleop research turn human operation into structured video, inferred action, and state data."
           },
           {
             "role": "outcome",
@@ -45,26 +45,26 @@
       },
       {
         "eyebrow": "World-model sub-story",
-        "title": "How tri-view layered world models become robot data, not only generated video",
+      "title": "How Tri-View Ego World + IDM becomes robot data, not only generated video",
         "aria_label": "World model data sub-story",
         "nodes": [
           {
             "role": "primary",
             "eyebrow": "Wrist-view route",
-            "title": "Dual-Wrist Action Rollout Baseline",
-            "body": "UMI dual-wrist data and Wan2.2 step-125 LoRA provide the v0 action-conditioned rollout baseline, with action, gripper state, and paired wrist views as the starting point."
+            "title": "Shared-Context Ego World",
+            "body": "UMI wrist cameras plus fixed or floating robot-head cameras are treated as ego views. The world model predicts synchronized, action-responsive futures over overlapping object-interaction-robot context."
           },
           {
             "role": "primary",
-            "eyebrow": "Third-person route",
-            "title": "Fixed-Exo + Layered Manipulation State",
-            "body": "A fixed third-person view supplies global object state and reward/eval evidence, while object/contact, robot/ego, scene, and occluder layers make generated rollouts useful for IDM, reward models, and failure analysis."
+            "eyebrow": "Layer route",
+            "title": "Image-Layered State for IDM",
+            "body": "Robot layers feed pose / joint estimation and IDM supervision; object-interaction layers feed process reward and RL self-supervision; scene layers support RoboEngine-style physical augmentation and self-adaptation."
           },
           {
             "role": "outcome",
             "eyebrow": "Robot-data route",
-            "title": "Agentic R2S2R to Dual-Simulator Data",
-            "body": "Large volumes of generated video data become dual-simulator Robot Data through object physics assets, panoramic scene reconstruction, digital-twin robot rollouts, and agentic Real2Sim2Real-VLA evaluation traces."
+            "title": "Executable Robot Control",
+            "body": "When the arm is visible, robot pose estimation supports IDM; when it is not visible, wrist/head VO, SLAM, or visual geometry recover egomotion. The final decoder emits position, velocity, or current-loop commands."
           }
         ],
         "connectors": [
@@ -121,6 +121,17 @@
       "caption": "Diverse same-task HOI data: ego RGB, hand pose, and z16 depth."
     }
   ],
+  "weekly_briefs": [
+    {
+      "brief_id": "weekly_2026_w24_tri_view_ego_world_idm_proposal",
+      "title": "Tri-View Ego World + IDM overall proposal",
+      "project_id": "umi-world-model",
+      "href": "/weekly-briefs/#tri-view-proposal",
+      "summary": "Rewrote Tri-View as a two-stage Ego World + IDM foundation-model proposal: shared-context ego-view video generation first, then Image-Layered robot/object/scene decomposition for IDM, process reward, RL supervision, and control decoding.",
+      "status": "draft",
+      "updated_at": "2026-06-09"
+    }
+  ],
   "project_buckets": [
     {
       "bucket": "research",
@@ -150,7 +161,7 @@
   "projects": [
     {
       "project_id": "umi-world-model",
-      "title": "Tri-View Layered Manipulation World Model",
+      "title": "Tri-View Ego World + IDM Foundation Model",
       "bucket": "research",
       "status": "ongoing",
       "state_path": "dashboard/state/projects/umi-world-model.json"
@@ -224,6 +235,20 @@
       "bucket": "survey",
       "status": "survey",
       "state_path": "dashboard/state/projects/vtla-tactile-intuition-survey.json"
+    },
+    {
+      "project_id": "human-intention-sensorium-survey",
+      "title": "Human Intention Data Collection Proposal",
+      "bucket": "survey",
+      "status": "survey",
+      "state_path": "dashboard/state/projects/human-intention-sensorium-survey.json"
+    },
+    {
+      "project_id": "online-sensor-calibration-survey",
+      "title": "Online Sensor Calibration / Drift Adaptation",
+      "bucket": "survey",
+      "status": "survey",
+      "state_path": "dashboard/state/projects/online-sensor-calibration-survey.json"
     },
     {
       "project_id": "cross-embodiment-representations-survey",

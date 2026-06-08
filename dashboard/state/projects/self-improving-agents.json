@@ -4,7 +4,7 @@
   "title": "Self-Improving Agents for Physical AI",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-06-05T01:18:00+02:00",
+  "updated_at": "2026-06-09T02:25:28+08:00",
   "description": "Simulation-first AgenticSim proposal: scene imagination plus test-time training",
   "summary": "Simulation-first AgenticSim: imagine executable scenes from references, run test-time training / workflow repair inside those scenes, evaluate/analyze rollouts, and turn evolving 3D world belief plus failures into the next curriculum.",
   "asset": "dashboard/assets/pearl-overview.png",
@@ -27,6 +27,8 @@
     "Next decision: pick the first task family for the mini-loop demo and generate accepted/rejected scenes with replayable verifier output, world-belief diff, TTT delta, and at least one ArtiCraft3D-style articulated asset smoke.",
     "Reference update 2026-06-04: add InternData-A1 / InternDataEngine as the large-scale synthetic-data engine reference. The useful pattern is not only more simulator tasks, but a decoupled production stack: compositional skill/task assembly, heterogeneous embodiments, rich simulator-state annotations, multi-dimensional randomization, and high-throughput scheduling for policy pretraining data.",
     "Policy-base direction 2026-06-04: consider MolmoAct 2 as an open reasoning VLA backbone for the self-improving loop, similar in spirit to LLM-based reasoning-model improvement. AgenticSim can provide generated/evaluated trajectories, RISE-style imaginary rollout advantages, trace memory, and governance gates; MolmoAct 2 / LeRobot can be the finetune/inference entry point once hardware and action-space adapters are checked.",
+    "Agentic robot-brain architecture note 2026-06-09: if the robot brain is brain-like, it should be agentic and modular rather than one monolithic VLA. Simple bounded tasks can route to specialized small models or deterministic controllers; long-horizon tasks should let a VLM decompose goals and maintain context; each subtask then chooses between classical optimization, a VLA policy, a skill/API call, or a simulator/world-model check. The edge fallback must still output safe actions when cloud/VLM service is unavailable, so keep a compact LeRobot/SmolVLA-style local policy as the offline action fallback.",
+    "System 0/1/2 robot-brain framing 2026-06-09: extend the fast/slow-brain story into three control layers. System 0 is reflexive proprioception-driven reaction using tactile, motor current, joint state, force, and other body signals, similar to spinal reflexes. System 1 is fast action selection for short-horizon behavior that does not need long history or heavy context. System 2 is memory/context-dependent reasoning, planning, decomposition, and recovery. The mediator between them should be a shared latent space rather than only natural-language prompts, so reflex state, short-horizon policy state, long-horizon intent, confidence, and safety constraints can be routed across layers.",
     "New reference triangulation: InternDataEngine supplies the scalable synthetic data/data-engine layer; MolmoAct 2 supplies an open 3D reasoning action model to adapt; RISE supplies the closed-loop imagination-policy-improvement template. Our differentiator should remain agentic environment generation, memory/governance, and executable task-pack feedback rather than just another VLA finetune.",
     "Survey absorption 2026-06-05: Skill World Model becomes the executable skill-memory gate for Self-improving. The first unit is SkillCall-Bench v0: callable skill schemas, object/contact transition outputs, deterministic verifier evidence, and promotion/elimination criteria for MemoryStore.",
     "Survey absorption 2026-06-05: RLBench -> IsaacSim becomes a concrete AgenticSim verifier pilot instead of a detached migration survey. Start with ReachTarget smoke and PickAndLift formal verifier, then OpenDrawer, StackBlocks, and InsertOntoSquarePeg as increasing-risk conversion tests.",
@@ -147,6 +149,13 @@
       "notes": "Candidate open reasoning VLA base. MolmoAct 2 frames itself as an Action Reasoning Model that reasons in 3D before acting, releases models/data/code/training recipes, integrates with LeRobot, and includes the 720-hour bimanual YAM dataset. Important for a self-improving direction because it gives an inspectable reasoning/action backbone rather than a closed VLA."
     },
     {
+      "title": "SmolVLA: A Vision-Language-Action Model for Affordable and Efficient Robotics",
+      "url": "https://huggingface.co/lerobot/smolvla_base",
+      "arxiv_id": "2506.01844",
+      "submitted_at": "2025-06-02",
+      "notes": "Reference for the local fallback-policy requirement in an agentic robot brain. Official LeRobot/Hugging Face model card describes a compact VLA with multi-view image, robot state, and optional language inputs, continuous action outputs, flow-matching objective, and intended fine-tuning/deployment through LeRobot on affordable hardware."
+    },
+    {
       "title": "RISE: Self-Improving Robot Policy with Compositional World Model",
       "url": "https://arxiv.org/abs/2602.11075",
       "arxiv_id": "2602.11075",
@@ -169,6 +178,9 @@
     "Next decision: choose the first demo task family and lock the report format: accepted scenes, rejected scenes, pass-rate chart, failure memory, world-belief diff, TTT delta, and next-task schedule.",
     "MolmoAct 2 base decision: promising as an open reasoning/action backbone because weights, data, code, training recipe, and LeRobot integration are available, but it is not itself a self-improving loop. We need an adapter for our robot/action space and a closed-loop AgenticSim finetune/eval recipe before treating it as the main base.",
     "MolmoAct 2 limitation to verify: current public framing notes batch-style action planning and strongest support for SO-100, bimanual YAM, and Franka-like setups. Continuous replanning, hand-equipped robots, and our exact embodiments require additional data or adapters.",
+    "Robot-brain architecture decision 2026-06-09: treat the robot controller as a modular agentic brain. Route short/simple jobs to specialized small policies or classical optimization; route long-horizon jobs through VLM task decomposition; let each subtask choose optimizer, VLA, skill API, simulator check, or human escalation.",
+    "System 0/1/2 decision 2026-06-09: organize the robot-brain story around latency and context. System 0 owns fast embodied reflexes from proprioception/tactile/current/force signals; System 1 owns quick short-history action decisions; System 2 owns memory-heavy reasoning and planning. The hidden latent mediator is the key interface to design, because it decides what low-level body state reaches planning and what high-level intent can safely modulate reflex/action layers.",
+    "Edge fallback decision 2026-06-09: the system should not go actionless when network/cloud VLM access fails. Keep a local small VLA/policy fallback such as SmolVLA-style LeRobot policy for safe stop, retry, retreat, and bounded primitive execution.",
     "InternDataEngine adoption risk: useful as a synthetic-data production reference, but license / Isaac Sim stack / cluster scheduling requirements mean it should start as a design reference until a small compatible generation job is tested inside AgenticSim.",
     "RISE collision/differentiation risk: it already covers self-improving robot policy via imagination. Our angle should be MolmoAct-style reasoning VLA plus agentic scene/task generation, trace memory, governance gates, and executable task-pack feedback rather than only imagined RL.",
     "Survey merge decision 2026-06-05: Skill World Model and RLBench->IsaacSim are no longer standalone Survey TODOs. Their remaining work is executable: SkillCall memory gate and AgenticSim Isaac verifier pilot.",

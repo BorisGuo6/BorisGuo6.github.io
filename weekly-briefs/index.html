@@ -4,14 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
-    <title>Weekly Brief｜Romoya + UMI + Real Robot + Self-Improving Agents</title>
+    <title>Weekly Brief｜Tri-View Ego World + IDM Proposal</title>
     <style>
       :root {
         --paper: #ffffff;
         --ink: #17222d;
         --muted: #5f6f7b;
         --line: #d8e1e8;
-        --soft: #f4f7f9;
+        --soft: #f5f7f9;
+        --blue: #2e5f91;
+        --blue-soft: #e7f0fb;
         --teal: #0f766e;
         --teal-soft: #ddf3ef;
         --amber: #965f07;
@@ -20,9 +22,6 @@
         --rose-soft: #fde9ee;
         --green: #1f7a44;
         --green-soft: #e7f5ed;
-        --blue: #2e5f91;
-        --blue-soft: #e7f0fb;
-        --slate-soft: #eef2f5;
         --shadow: 0 18px 50px rgba(23, 34, 45, 0.12);
       }
 
@@ -40,7 +39,7 @@
         color: var(--ink);
         font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
         font-size: 14px;
-        line-height: 1.6;
+        line-height: 1.62;
       }
 
       a {
@@ -49,11 +48,36 @@
         text-underline-offset: 3px;
       }
 
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        max-width: 900px;
+        margin-top: 8px;
+        font-size: clamp(36px, 5vw, 62px);
+        line-height: 1;
+        letter-spacing: 0;
+      }
+
+      h2 {
+        font-size: clamp(24px, 3vw, 36px);
+        line-height: 1.12;
+      }
+
+      h3 {
+        font-size: 17px;
+        line-height: 1.25;
+      }
+
       .page {
         width: min(1180px, calc(100vw - 32px));
         margin: 24px auto 64px;
-        background: var(--paper);
         border: 1px solid var(--line);
+        background: var(--paper);
         box-shadow: var(--shadow);
       }
 
@@ -116,34 +140,8 @@
         text-transform: uppercase;
       }
 
-      .kicker,
-      h1,
-      h2,
-      h3,
-      p {
-        margin: 0;
-      }
-
-      h1 {
-        margin-top: 8px;
-        max-width: 860px;
-        font-size: clamp(36px, 5vw, 62px);
-        line-height: 1;
-        letter-spacing: 0;
-      }
-
-      h2 {
-        font-size: clamp(24px, 3vw, 36px);
-        line-height: 1.12;
-      }
-
-      h3 {
-        font-size: 17px;
-        line-height: 1.25;
-      }
-
       .subtitle {
-        max-width: 780px;
+        max-width: 820px;
         margin-top: 18px;
         color: var(--muted);
         font-size: 17px;
@@ -210,7 +208,9 @@
       }
 
       .grid-2,
-      .grid-3 {
+      .grid-3,
+      .metric-grid,
+      .phase-grid {
         display: grid;
         gap: 14px;
       }
@@ -223,33 +223,49 @@
         grid-template-columns: repeat(3, minmax(0, 1fr));
       }
 
+      .metric-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .phase-grid {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+      }
+
       .panel,
-      .decision-card,
       .quote-box,
-      .diagram-card,
-      .table-card {
-        padding: 18px;
+      .table-card,
+      .figure-card,
+      .phase,
+      .metric {
         border: 1px solid var(--line);
         background: var(--soft);
       }
 
-      .panel h3,
-      .decision-card h3 {
+      .panel,
+      .quote-box,
+      .table-card,
+      .figure-card {
+        padding: 18px;
+      }
+
+      .panel h3 {
         margin-bottom: 10px;
       }
 
-      .panel p + p,
-      .decision-card p + p {
+      .panel p + p {
         margin-top: 10px;
       }
 
-      .table-card {
-        overflow-x: auto;
+      .quote-box {
+        border-left: 5px solid var(--teal);
+        background: #f8fbfc;
+        font-size: 18px;
+        font-weight: 800;
       }
 
-      .ok {
-        border-color: #a9d4ba;
-        background: var(--green-soft);
+      .blue {
+        border-color: #b8cfea;
+        background: var(--blue-soft);
       }
 
       .decision {
@@ -267,44 +283,9 @@
         background: var(--rose-soft);
       }
 
-      .blue {
-        border-color: #b8cfea;
-        background: var(--blue-soft);
-      }
-
-      .quote-box {
-        border-left: 5px solid var(--teal);
-        background: #f8fbfc;
-        font-size: 18px;
-        font-weight: 800;
-      }
-
-      .metric-grid {
-        display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 12px;
-      }
-
-      .metric {
-        padding: 16px;
-        border: 1px solid var(--line);
-        background: #ffffff;
-      }
-
-      .metric span {
-        display: block;
-        color: var(--muted);
-        font-size: 11px;
-        font-weight: 900;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-      }
-
-      .metric strong {
-        display: block;
-        margin-top: 8px;
-        font-size: 24px;
-        line-height: 1.1;
+      .ok {
+        border-color: #a9d4ba;
+        background: var(--green-soft);
       }
 
       .compact-list {
@@ -316,86 +297,22 @@
         margin-top: 8px;
       }
 
-      .diagram-card {
-        overflow: hidden;
+      .numbered-list {
+        margin: 0;
+        padding-left: 22px;
+      }
+
+      .numbered-list li + li {
+        margin-top: 9px;
+      }
+
+      .metric {
+        padding: 16px;
         background: #ffffff;
       }
 
-      .diagram-card h3 {
-        margin-bottom: 12px;
-      }
-
-      .reference-figure {
-        margin-top: 14px;
-        padding: 14px;
-        border: 1px solid var(--line);
-        background: #ffffff;
-      }
-
-      .reference-figure img {
-        display: block;
-        width: 100%;
-        height: auto;
-        border: 1px solid var(--line);
-      }
-
-      .reference-figure figcaption {
-        margin-top: 10px;
-        color: var(--muted);
-        font-size: 12px;
-        font-weight: 800;
-      }
-
-      .diagram {
-        display: block;
-        width: 100%;
-        height: auto;
-        border: 1px solid var(--line);
-        background: #fbfdfe;
-      }
-
-      .diagram text {
-        font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
-      }
-
-      .legend {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        margin-top: 12px;
-      }
-
-      .legend span {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        color: var(--muted);
-        font-size: 12px;
-        font-weight: 800;
-      }
-
-      .legend i {
-        width: 10px;
-        height: 10px;
-        border: 1px solid currentColor;
-        background: currentColor;
-      }
-
-      .visual-flow {
-        display: grid;
-        grid-template-columns: repeat(6, minmax(120px, 1fr));
-        gap: 8px;
-        margin-top: 14px;
-      }
-
-      .flow-step {
-        min-height: 150px;
-        padding: 14px;
-        border: 1px solid var(--line);
-        background: #ffffff;
-      }
-
-      .flow-step span {
+      .metric span,
+      .phase span {
         display: block;
         color: var(--muted);
         font-size: 11px;
@@ -404,16 +321,15 @@
         text-transform: uppercase;
       }
 
-      .flow-step strong {
+      .metric strong {
         display: block;
-        margin: 8px 0;
-        font-size: 18px;
-        line-height: 1.15;
+        margin-top: 8px;
+        font-size: 23px;
+        line-height: 1.1;
       }
 
-      .flow-step p {
-        color: var(--muted);
-        font-size: 13px;
+      .table-card {
+        overflow-x: auto;
       }
 
       .evidence-table {
@@ -431,32 +347,36 @@
       }
 
       .evidence-table th {
-        background: var(--slate-soft);
-        font-size: 11px;
-        font-weight: 900;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-      }
-
-      .phase-grid {
-        display: grid;
-        grid-template-columns: repeat(5, minmax(0, 1fr));
-        gap: 10px;
-      }
-
-      .phase {
-        min-height: 210px;
-        padding: 16px;
-        border: 1px solid var(--line);
-        background: #ffffff;
-      }
-
-      .phase span {
+        background: #eef2f5;
         color: var(--muted);
         font-size: 11px;
         font-weight: 900;
         letter-spacing: 0.08em;
         text-transform: uppercase;
+      }
+
+      .figure-card {
+        background: #ffffff;
+      }
+
+      .figure-card img {
+        display: block;
+        width: 100%;
+        height: auto;
+        border: 1px solid var(--line);
+      }
+
+      .figure-card figcaption {
+        margin-top: 10px;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .phase {
+        min-height: 220px;
+        padding: 16px;
+        background: #ffffff;
       }
 
       .phase strong {
@@ -478,7 +398,6 @@
       }
 
       @media (max-width: 980px) {
-        .visual-flow,
         .phase-grid {
           grid-template-columns: repeat(2, minmax(0, 1fr));
         }
@@ -504,7 +423,6 @@
         .grid-2,
         .grid-3,
         .metric-grid,
-        .visual-flow,
         .phase-grid {
           grid-template-columns: 1fr;
         }
@@ -529,7 +447,8 @@
 
         .section,
         .hero,
-        .diagram-card {
+        .table-card,
+        .figure-card {
           break-inside: avoid;
         }
       }
@@ -540,817 +459,346 @@
       <div class="topbar">
         <a href="../dashboard/">Back to Dashboard</a>
         <nav aria-label="Page sections">
-          <a href="#brief">总览</a>
-          <a href="#ops-note">工具账号</a>
-          <a href="#venue-update">场地</a>
-          <a href="#plan-one">方案一</a>
-          <a href="#plan-two">方案二</a>
-          <a href="#umi-world-model">UMI</a>
-          <a href="#real-robot-demo">Real Robot</a>
-          <a href="#self-improving">Self-Improving</a>
-          <a href="#self-research">References</a>
-          <a href="#self-architecture">Architecture</a>
-          <a href="#physx-implementation">PhysX</a>
-          <a href="#self-roadmap">Roadmap</a>
+          <a href="#tri-view-proposal">Proposal</a>
+          <a href="#main-references">References</a>
+          <a href="#current-todos">TODOs</a>
+          <a href="#story-rewrite">Story</a>
+          <a href="#method">Method</a>
+          <a href="#evaluation">Evaluation</a>
+          <a href="#rewrite-queue">Rewrite queue</a>
         </nav>
         <button class="print-button" type="button" onclick="window.print()">Print / PDF</button>
       </div>
 
       <header class="hero" id="brief">
         <div>
-          <p class="kicker">Weekly Brief</p>
-          <h1>本周周报：场地、UMI、真机 demo、AgenticSim</h1>
+          <p class="kicker">Weekly Brief · 2026-W24</p>
+          <h1>Tri-View Ego World + IDM Proposal</h1>
           <p class="subtitle">
-            本页汇总四个当前需要推进的事项：Romoya 场地按方案一和 Clement 拍板；UMI WAN2.2 微调需要确认算力并扩充 2 号机存储；Wuji + Franka 先做玩具刀切史莱姆泥 demo；Self-Improving Agents 收敛到“场景想象 + test-time training”的 AgenticSim 仿真闭环，并试 ArtiCraft3D 扩充 agentic 仿真资产。
+            Tri-View 的故事重写成两阶段基座模型：先做可交互的 Ego World，再用 Image-Layered 分解把生成的视频转成 IDM、过程奖励和数据增强信号。
           </p>
           <div class="source-strip" aria-label="Source summary">
-            <span>Romoya 方案一</span>
-            <span>UMI WAN2.2 算力需求</span>
-            <span>2 号机 2.5 英寸 SSD</span>
-            <span>Wuji + Franka toy knife</span>
-            <span>ArtiCraft3D assets</span>
-            <span>Scene imagination + TTT</span>
+            <span>Ego World</span>
+            <span>IDM</span>
+            <span>Wrist ego views</span>
+            <span>Robot-head ego view</span>
+            <span>Object-interaction-robot</span>
+            <span>Position / velocity / current loops</span>
+            <span>Gamma-World</span>
+            <span>Qwen-Image-Layered</span>
+            <span>ObjectForesight</span>
           </div>
         </div>
         <aside class="hero-note">
-          <span class="small-label">Current priorities</span>
-          <strong>4 个需要推进的决策</strong>
-          <p>场地拍板、UMI 资源确认、Wuji + Franka 安全 demo、self-improving mini-loop demo。</p>
+          <span class="small-label">Current state</span>
+          <strong>Two-stage Ego World + IDM story</strong>
+          <p>dashboard 项目 intro 已重写；这页同步保留周报版论证、参考和当前 4 个 TODO。</p>
         </aside>
       </header>
 
       <main>
-        <section class="section" id="ops-note">
+        <section class="section" id="tri-view-proposal">
           <div class="section-title">
             <div>
-              <p class="eyebrow">Operational note</p>
-              <h2>Claude Code 账号访问异常</h2>
+              <p class="eyebrow">Item 1 / Overall proposal</p>
+              <h2>两阶段：Ego World 预测世界变化，IDM 把视觉变化变成机器人动作</h2>
             </div>
-            <p>这部分只作为本周工具风险记录，不展开成主要议题。</p>
+            <p>腕部视角和固定/浮动机器人头部视角都算 ego view；关键是所有视角共享同一 context，并能接受实时外部 action condition。</p>
           </div>
           <div class="quote-box">
-            <p>Claude Code 账号本周出现被封 / 无法正常使用的情况。当前推测原因是 ME 和 SoC 两边同时使用同一账号，导致登录物理位置或网络位置看起来异常。后续需要避免同一账号在不同地点并发使用，并准备 Codex、本地脚本或其他账号作为 fallback，防止周报、实验和远端调度被单一工具账号卡住。</p>
+            <p>Proposal one-liner: Tri-View builds an interactive Ego World + IDM foundation model. The Ego World predicts how the shared object-interaction-robot scene changes under external actions; the Image-Layered stage decomposes generated rollouts into robot, object-interaction, and scene layers so an IDM can decode pose/velocity/current-loop commands and a process reward can supervise further learning.</p>
+          </div>
+          <div class="metric-grid" style="margin-top: 14px;">
+            <article class="metric">
+              <span>Stage 1</span>
+              <strong>Ego World</strong>
+            </article>
+            <article class="metric">
+              <span>Stage 2</span>
+              <strong>IDM + layers</strong>
+            </article>
+            <article class="metric">
+              <span>Core state</span>
+              <strong>object interaction</strong>
+            </article>
+            <article class="metric">
+              <span>Control output</span>
+              <strong>pos / vel / current</strong>
+            </article>
+          </div>
+          <div class="grid-3" style="margin-top: 14px;">
+            <article class="panel decision">
+              <h3>1. How should world change?</h3>
+              <p>给定当前 wrist / robot-head ego observations、共享 context 和外部 action condition，模型要预测 object、robot、scene 在未来如何变化，而不是只生成好看的多视角视频。</p>
+            </article>
+            <article class="panel warning">
+              <h3>2. What interaction info?</h3>
+              <p>Image-Layered 回答生成视频怎么用：robot layer 用于 IDM / pose / VO，object-interaction layer 用于过程奖励和 RL 自监督，scene layer 用于物理合理的增强和自适应。</p>
+            </article>
+            <article class="panel ok">
+              <h3>3. How to command robot?</h3>
+              <p>看得见臂时从 robot layer 做 pose / joint estimation；看不见臂时用 wrist/head VO、SLAM 或 visual geometry 估计 egomotion；最后由 IDM/control decoder 发 position、velocity 或 current-loop 命令。</p>
+            </article>
           </div>
         </section>
 
-        <section class="section" id="venue-update">
+        <section class="section" id="main-references">
           <div class="section-title">
             <div>
-              <p class="eyebrow">Venue conclusion</p>
-              <h2>结论：方案二基本排除，方案一拿去和 Clement 拍板</h2>
+              <p class="eyebrow">Main references</p>
+              <h2>主参考扩成三条主线 + 四个支撑模块</h2>
             </div>
-            <p>这部分保留为周报开头；UMI 的算力/存储 TODO、Wuji + Franka 安全 demo 和 Self-Improving Agents proposal 作为后面的项目更新。</p>
+            <p>前三条仍是主参考；后面四类调研支撑 Ego World、IDM、scene layer 和 control/geometry 分支。</p>
           </div>
-          <div class="quote-box">
-            <p>建议口径：我们已经向两边确认过关键条款。Grace 的整租方案需要约 S$12,000/月、三年起租、三个月押金，且价格基本谈不动，因此不适合作为当前启动方案。建议先推进 The Gemini 方案一，并把 408 到 409 的切换作为可选机会。</p>
+          <div class="grid-3">
+            <article class="panel warning">
+              <h3><a href="https://arxiv.org/abs/2605.28816">Gamma-World</a></h3>
+              <p>multi-agent interactive world-model baseline。它证明多 agent / 多控制流同步生成这条线已经有人做；我们的差异要放在 ego views、object-interaction-robot layers 和 IDM/control decoding。</p>
+            </article>
+            <article class="panel decision">
+              <h3><a href="https://qwen.ai/blog?id=qwen-image-layered">Qwen-Image-Layered</a></h3>
+              <p>image-layer decomposition baseline。它说明 RGB 图像可以拆成 RGBA layers；我们的任务是把 layer 从可编辑图层升级成 robot / object-interaction / scene 训练信号。</p>
+            </article>
+            <article class="panel ok">
+              <h3><a href="https://objectforesight.github.io/">ObjectForesight</a></h3>
+              <p>object layer 的关键类比：它预测 object 未来 6-DoF trajectory，并用 segmentation / reconstruction / pose estimation 从人类视频构建伪 GT。我们可以把 object layer 当成交互过程奖励和 RL 监督。</p>
+            </article>
+          </div>
+          <div class="grid-2" style="margin-top: 14px;">
+            <article class="panel blue">
+              <h3><a href="https://arxiv.org/abs/2601.15284">EgoWM</a> / <a href="https://zerg-overmind.github.io/LOME.github.io/">LOME</a> / <a href="https://egosimulator.github.io/">EgoSim</a></h3>
+              <p>支撑 Ego World：action-conditioned egocentric generation、shared 3D state update、human/object interaction video。它们把“如何让 ego video 随 action 改变”变成可写的阶段一目标。</p>
+            </article>
+            <article class="panel blue">
+              <h3><a href="https://arxiv.org/abs/2603.17808">EVA</a> / <a href="https://roboengine.github.io/">RoboEngine</a> / <a href="https://arxiv.org/abs/2007.11898">ORB-SLAM3</a> / <a href="https://arxiv.org/abs/2503.11651">VGGT</a></h3>
+              <p>EVA 支撑 IDM 和 executability reward；RoboEngine 支撑 robot/object mask 后的物理任务感知背景替换；ORB-SLAM3 / VGGT 支撑看不见臂时的 VO、SLAM 和 feed-forward visual geometry。</p>
+            </article>
           </div>
         </section>
 
-        <section class="section" id="plan-one">
+        <section class="section" id="current-todos">
           <div class="section-title">
             <div>
-              <p class="eyebrow">Plan 1</p>
-              <h2>方案一：先落 The Gemini 408，保留换到 409 的机会</h2>
+              <p class="eyebrow">Current TODOs</p>
+              <h2>现在 Tri-View 只保留 4 个 TODO</h2>
             </div>
-            <p>核心优势是快、便宜、灵活；核心风险是 409 不能保证未来仍空着。</p>
+            <p>旧开放项已按 2026-06-09 重组收口为 done；下面四项是接下来 dashboard 里唯一保留的开放工作面。</p>
+          </div>
+          <div class="grid-2">
+            <article class="panel decision">
+              <h3>Cosmos3 测试</h3>
+              <p>测试 Cosmos / Cosmos3 能否作为 action-conditioned Ego World baseline：实时外部 action condition、双腕 + robot-head ego views、去掉 foreground robot layer 的 prompt 响应。</p>
+            </article>
+            <article class="panel warning">
+              <h3>数据集替换成三视角 / 多 ego-view</h3>
+              <p>目标是左右 wrist view 加固定或浮动 robot-head view，所有视角共享同一 scene/object/action context；manifest 记录 ego_view_type、robot visibility、POV overlap 和 shared_context_id。</p>
+            </article>
+            <article class="panel blue">
+              <h3>Gamma-World 复现</h3>
+              <p>复现 Gamma-World / Gamar 核心架构与最小实验，把它作为 multi-agent interactive world-model baseline，并明确它和 Ego World + IDM 的差别。</p>
+            </article>
+            <article class="panel ok">
+              <h3>分图层 / SVG 化数据集准备</h3>
+              <p>小规模验证 robot / object-interaction / scene 三层 pipeline：segment + inpaint、Qwen Image-Layered、ChatGPT image-agent、纯视频模型去 robot layer prompt 和 SVG 结构化表示。</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="story-rewrite">
+          <div class="section-title">
+            <div>
+              <p class="eyebrow">Rewritten story</p>
+              <h2>Object-interaction-robot，而不是简单 tri-view 视频</h2>
+            </div>
+            <p>新的 intro 已写回 dashboard 项目卡。这里保留周报版完整解释。</p>
           </div>
           <div class="grid-3">
             <article class="panel decision">
-              <h3>当前动作</h3>
-              <p>用 The Gemini 408 作为第一阶段场地，先满足团队落地、设备调试、数据采集和对外展示的基本需求。</p>
+              <h3>Ego views</h3>
+              <p>腕部相机、固定机器人头部相机、浮动机器人头部相机都算 ego。三视角不是“必须 detached exo”，而是同步的 robot-centered POVs。</p>
+            </article>
+            <article class="panel warning">
+              <h3>Shared context</h3>
+              <p>所有视角视频要 share context：同一 scene、object、action、timestamp、task result，并尽量有 POV overlap。否则它只是多路独立生成。</p>
             </article>
             <article class="panel ok">
-              <h3>409 切换条款</h3>
-              <p>已确认：408 换到 409 不算退租，前提是 409 当时还没有被别人租走。</p>
-            </article>
-            <article class="panel warning">
-              <h3>需要讲清楚的风险</h3>
-              <p>不能保证 409 到时候还在，所以不能把 409 写成必然 upgrade；只能写成 optional relocation / expansion opportunity。</p>
+              <h3>External action</h3>
+              <p>模型必须能接受实时外部 action condition，目标是像“直接遥操作视频模型”一样看到动作导致的视觉变化。</p>
             </article>
           </div>
         </section>
 
-        <section class="section" id="plan-two">
+        <section class="section" id="method">
           <div class="section-title">
             <div>
-              <p class="eyebrow">Plan 2 check</p>
-              <h2>Grace 整租方案：现在基本不可行</h2>
+              <p class="eyebrow">Method decomposition</p>
+              <h2>Image-Layered 回答：生成视频之后怎么用</h2>
             </div>
-            <p>这部分建议只作为“为什么不选方案二”的证据，不要在 Clement 会上继续花太多时间。</p>
+            <p>分层不是为了 Photoshop 式编辑，而是为了把视频变成 IDM、reward 和 adaptation 的训练信号。</p>
           </div>
-          <div class="metric-grid">
-            <article class="metric">
-              <span>Monthly rent</span>
-              <strong>S$12,000</strong>
+          <div class="phase-grid">
+            <article class="phase">
+              <span>Layer 1</span>
+              <strong>Robot layer</strong>
+              <p>看到臂时训 robot pose / joint estimation 和 IDM；也可辅助 wrist-view VO 结果。</p>
             </article>
-            <article class="metric">
-              <span>Minimum term</span>
-              <strong>3 years</strong>
+            <article class="phase">
+              <span>Layer 2</span>
+              <strong>Object-interaction</strong>
+              <p>训练 process reward 和 RL 自监督；ObjectForesight 是 mesh/pose 版本的 object-layer world model 类比。</p>
             </article>
-            <article class="metric">
-              <span>Deposit</span>
-              <strong>3 months</strong>
+            <article class="phase">
+              <span>Layer 3</span>
+              <strong>Scene layer</strong>
+              <p>用 RoboEngine 式物理/任务感知背景替换做数据增强和 domain / self-adaptation。</p>
             </article>
-            <article class="metric">
-              <span>Storage ask</span>
-              <strong>&ge;20 m²</strong>
+            <article class="phase">
+              <span>Geometry</span>
+              <strong>VO / SLAM</strong>
+              <p>看不见臂时从 wrist/head ego video 恢复 egomotion 和局部几何，再让 IDM 从 object-scene transition 推动作。</p>
+            </article>
+            <article class="phase">
+              <span>Control</span>
+              <strong>IDM decoder</strong>
+              <p>输出 position-loop target、velocity command 或 current/torque-loop supervision。</p>
             </article>
           </div>
-          <div class="grid-2" style="margin-top: 14px;">
-            <article class="panel danger">
-              <h3>为什么排除</h3>
-              <ul class="compact-list">
-                <li>全部租下来约 S$12,000/月，价格基本没有谈判空间。</li>
-                <li>最低三年，加三个月押金，现金压力和承诺周期都太重。</li>
-                <li>免费储物空间仍未确认；现在只是提出最好不少于 20 m²。</li>
-              </ul>
-            </article>
-            <article class="panel warning">
-              <h3>会上的表述</h3>
-              <p>可以说我们已经 check 过更大方案，但它把启动问题变成长期重资产承诺，不符合当前阶段。除非 Grace 后续大幅改变价格、租期或储物条件，否则不建议继续推进。</p>
-            </article>
+          <div class="table-card" style="margin-top: 14px;">
+            <table class="evidence-table">
+              <thead>
+                <tr>
+                  <th>Module</th>
+                  <th>Input</th>
+                  <th>Output</th>
+                  <th>Why it matters</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Ego World</td>
+                  <td>wrist / robot-head ego views + external action</td>
+                  <td>multi-view action-responsive future video</td>
+                  <td>回答 how should world change。</td>
+                </tr>
+                <tr>
+                  <td>Robot layer</td>
+                  <td>visible arm pixels, masks, CAD/prior, joint state</td>
+                  <td>pose / joint estimate, IDM supervision</td>
+                  <td>看得见臂时把视频和机器人状态对齐。</td>
+                </tr>
+                <tr>
+                  <td>Object layer</td>
+                  <td>object mask, track, mesh/pose, contact event</td>
+                  <td>process reward / RL signal</td>
+                  <td>回答 what interaction-centric info we need。</td>
+                </tr>
+                <tr>
+                  <td>Scene layer</td>
+                  <td>background, layout, lighting, task context</td>
+                  <td>augmentation / adaptation scenes</td>
+                  <td>在不改交互标签的前提下扩数据。</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </section>
 
-        <section class="section" id="talk-track">
+        <section class="section" id="evaluation">
           <div class="section-title">
             <div>
-              <p class="eyebrow">Presentation script</p>
-              <h2>和 XB 给 Clement 的汇报口径</h2>
+              <p class="eyebrow">Evaluation plan</p>
+              <h2>评估围绕三个问题，而不是只看视频质量</h2>
             </div>
-            <p>建议按“事实确认、方案判断、请求拍板”的顺序讲，不要把会议带回全量场地比较。</p>
+            <p>视频质量是辅助证据；主要证据是 action responsiveness、interaction state、IDM executability。</p>
           </div>
           <div class="grid-2">
-            <article class="decision-card">
-              <h3>30 秒版</h3>
-              <p>我们刚刚确认了两边回复。The Gemini 408 后续换 409 不算退租，但 409 未来是否还空着不能保证；Grace 的整租方案需要 S$12,000/月、三年起租、三个月押金，基本没有议价空间，所以方案二不现实。建议我们先推进方案一，用 408 作为启动场地，把 409 作为如果还空着就切换的机会。</p>
-            </article>
-            <article class="decision-card">
-              <h3>决策句</h3>
-              <p>请 Clement 批准我们按方案一继续谈 The Gemini：先锁一个可启动的 408 场地，不承诺一定能拿到 409，同时让 XB 和 Boris 继续确认合同里关于换房、储物、用电、装修、设备进场和退出条款的文字。</p>
-            </article>
-          </div>
-        </section>
-
-        <section class="section" id="umi-world-model">
-          <div class="section-title">
-            <div>
-              <p class="eyebrow">UMI World Model / WAN2.2 fine-tuning</p>
-              <h2>UMI 更新：微调进入算力确认和 2 号机存储扩容</h2>
-            </div>
-            <p>对应 dashboard 新增的两个 TODO：先把 WAN2.2 TI2V 微调的算力需求跟老师讲清楚，同时给 2 号机服务器买 2.5 英寸 SSD 扩外存。</p>
-          </div>
-          <div class="quote-box">
-            <p>本周口径：WAN2.2 左右腕视角拼接微调已经从训练包/远端准备进入资源确认阶段。下一步不是继续堆实验，而是确认 GPU 时间窗口、5B/14B 取舍、训练缓存/数据/checkpoint 空间，并把 2 号机的 2.5 英寸 SSD 存储扩起来。</p>
-          </div>
-          <div class="metric-grid" style="margin-top: 14px;">
-            <article class="metric">
-              <span>Compute ask</span>
-              <strong>Ask teacher</strong>
-            </article>
-            <article class="metric">
-              <span>Model route</span>
-              <strong>WAN2.2 5B</strong>
-            </article>
-            <article class="metric">
-              <span>Storage</span>
-              <strong>2.5&quot; SSD</strong>
-            </article>
-            <article class="metric">
-              <span>Machine</span>
-              <strong>Server #2</strong>
-            </article>
-          </div>
-          <div class="grid-3" style="margin-top: 14px;">
             <article class="panel decision">
-              <h3>1. 跟老师提算力需求</h3>
-              <p>把微调 request 讲成可决策事项：5B 先跑、14B 只在质量明显值得时再考虑；需要说明预计 GPU memory/time、L40S 或 2 号机的运行窗口、队列情况、预算和单卡 LoRA 路线失败时的 fallback。</p>
+              <h3>Ego World tests</h3>
+              <ol class="numbered-list">
+                <li>all views share context and synchronized action</li>
+                <li>external action changes future video in the right direction</li>
+                <li>robot-head and wrist views remain cross-view consistent</li>
+                <li>Gamma-World / Cosmos / Wan baselines are comparable</li>
+              </ol>
             </article>
             <article class="panel warning">
-              <h3>2. 购买 2.5 英寸 SSD</h3>
-              <p>为了扩充 2 号机服务器外存，采购一块 2.5 英寸固态硬盘装到机器上。购买前要确认服务器实际硬盘位、接口、托架、容量目标、散热/供电和组内采购路径。</p>
-            </article>
-            <article class="panel ok">
-              <h3>3. 验收记录</h3>
-              <p>SSD 到位后记录型号/容量/价格、安装结果、`lsblk` / `findmnt` / `df`、文件系统、稳定挂载路径、权限、简单读写吞吐，以及 WAN2.2 数据、checkpoint、cache 的落盘规划。</p>
-            </article>
-          </div>
-        </section>
-
-        <section class="section" id="real-robot-demo">
-          <div class="section-title">
-            <div>
-              <p class="eyebrow">Real Robot Demo</p>
-              <h2>Wuji + Franka 切肉 demo：先用史莱姆泥和玩具刀</h2>
-            </div>
-            <p>本周把“灵巧手持刀切肉”收敛成可安全推进的 Stage 0/1 真机 demo，不直接上真刀或真实肉。</p>
-          </div>
-          <div class="quote-box">
-            <p>执行口径：仿真肉用史莱姆泥，刀先用玩具刀。目标不是证明能高速切开真实食材，而是验证 Wuji Hand + Franka 的持刀姿态、低速轨迹、接触稳定性、相机记录和急停流程。</p>
-          </div>
-          <div class="grid-3" style="margin-top: 14px;">
-            <article class="panel decision">
-              <h3>材料和夹具</h3>
-              <p>用史莱姆泥做 simulated meat，放在托盘或夹具中限制滑动；玩具刀要先确认不会割伤 Wuji 手指、线缆、相机或桌面。</p>
-            </article>
-            <article class="panel warning">
-              <h3>安全门控</h3>
-              <p>必须低速、限 workspace、限力矩/速度，现场至少一人专门看急停；先做 read-only 或仿真轨迹预演，再做真实玩具刀 run。</p>
-            </article>
-            <article class="panel ok">
-              <h3>验收证据</h3>
-              <p>TODO 不到视频、机器人状态、Wuji command/state、相机视角、成功/失败判据和 abort 记录齐全时不能 done；真刀和真肉另开审批。</p>
-            </article>
-          </div>
-        </section>
-
-        <section class="section" id="self-improving">
-          <div class="section-title">
-            <div>
-              <p class="eyebrow">Self-Improving Agents / Project Proposal</p>
-              <h2>Self-Improving Agents：AgenticSim 仿真闭环 proposal</h2>
-            </div>
-            <p>目标是把 self-improvement 从口号落成可运行系统：agent 先根据 reference 想象可执行场景，再在场景里做 test-time training，并随着交互持续更新 3D world understanding。</p>
-          </div>
-          <div class="quote-box">
-            <p>核心论点：当前机器人和 VLA 评估最缺的不是更多静态 benchmark，而是能持续制造“刚好难、能验证、能复现”的任务环境。AgenticSim 要做的是 simulation-first 的两阶段闭环：Stage 1 用 reference-conditioned imagination 生成可执行 3D 场景；Stage 2 在该场景里做 test-time training / workflow repair / policy tuning。交互过程中，场景的 3D 理解不是一次性固定资产，而是随 rollout、失败归因和主动修复持续更新的 world belief。</p>
-          </div>
-          <div class="grid-2" style="margin-top: 14px;">
-            <article class="panel decision">
-              <h3>Stage 1：Imagine scenes from references</h3>
-              <p>给定真实图片、demo trace、语言约束、失败类型或已有 benchmark 任务，agent 负责生成 scene state、object layout、物理参数、扰动、controller API 和 verifier。输出必须能 reset、rollout、score、replay，而不是只生成视觉上合理的静态 3D。</p>
-            </article>
-            <article class="panel warning">
-              <h3>Stage 2：Test-time training inside scenes</h3>
-              <p>agent 在生成场景里执行、观察、归因和修复：可以调 prompt / workflow / recovery policy / lightweight adapter，也可以生成新的 scene mutation 来逼近失败边界。每次 interaction 都更新 3D scene belief、failure memory 和下一轮 curriculum。</p>
+              <h3>IDM / control tests</h3>
+              <ol class="numbered-list">
+                <li>robot visible: pose / joint estimation quality</li>
+                <li>robot hidden: VO / SLAM / geometry stability</li>
+                <li>generated video -> IDM action smoothness</li>
+                <li>position / velocity / current-loop feasibility</li>
+              </ol>
             </article>
           </div>
           <div class="table-card" style="margin-top: 14px;">
             <table class="evidence-table">
               <thead>
                 <tr>
-                  <th>Intro point</th>
-                  <th>具体含义</th>
-                  <th>为什么现在能做</th>
-                  <th>Proposal 写法</th>
+                  <th>Metric family</th>
+                  <th>Primary question</th>
+                  <th>Why it matters</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>不是更多静态 benchmark</td>
-                  <td>只看 sim score、log 或 demo video，无法稳定回答 agent 为什么失败、下次该练什么、是否真的变强。</td>
-                  <td>dashboard 已完成 Real2Sim2Real-VLA eval V0：TraceLoader JSON/HDF5、SimRealGapDetector、R2S2RPipeline mock loop 均通过 full runner。</td>
-                  <td>把项目定位成可复现 evaluation loop，而不是一次性实验展示。</td>
+                  <td>World change</td>
+                  <td>Does the predicted future respond correctly to the commanded action?</td>
+                  <td>Separates interactive world model from generic video generation.</td>
                 </tr>
                 <tr>
-                  <td>先做 simulation-first</td>
-                  <td>真机上直接做 schedule、train、evaluate、analyze 和 scene generation 成本高、节奏慢、难并行，也更容易被硬件噪声打断。</td>
-                  <td>现有 mock demo 无 Isaac 依赖即可跑通；Isaac smoke gate 已把缺依赖、headless reset/step、Gym env registration 检查拆成可验收项。</td>
-                  <td>第一阶段把生成、调度、评估、分析和报告都放在仿真闭环里，真实实验只接收通过 gate 的候选。</td>
+                  <td>Interaction info</td>
+                  <td>Do robot/object/scene layers expose the information needed for IDM and reward?</td>
+                  <td>Validates object-interaction-robot as a useful representation.</td>
                 </tr>
                 <tr>
-                  <td>可执行任务环境</td>
-                  <td>每个 task family 必须包含 scene state、controller/tool API、instruction、reference rollout、verifier、difficulty tier；scene 还要记录当前 3D world belief 和可修复的 uncertainty。</td>
-                  <td>AgenticSim 已有 129 个注册 Gymnasium 环境：9 个 LeHome / LeHome-challenge，加 120 个 RoboLab formal benchmark tasks。</td>
-                  <td>先在仿真里定义 task object，再讨论训练、生成和真实验证。</td>
+                  <td>Executable action</td>
+                  <td>Can IDM convert visual transitions into feasible position, velocity, or current-loop commands?</td>
+                  <td>Closes the gap between video rollout and robot control.</td>
                 </tr>
                 <tr>
-                  <td>刚好难的任务</td>
-                  <td>生成器不能只产出视觉上合理的场景；场景必须通过 executability、novelty、difficulty 和 safety gates。</td>
-                  <td>已完成 RolloutDiagnoser、TaskMutator、GovernanceGate、PEARLLoop mock VLM full cycle；生成资产和 SceneMutator 也已验收。</td>
-                  <td>用 solver pass rate 和 gate decision 接受、拒绝或变异场景。</td>
-                </tr>
-                <tr>
-                  <td>失败变成 memory</td>
-                  <td>failure 不能停在 raw trace；要记录 failure type、证据窗口、可能原因、correction hint 和未来 retrieval 条件。</td>
-                  <td>Trace-to-Memory schema 已通过 FailureTaxonomy 和 MemoryStore add/retrieve/distill/save/load 测试；最小数据集已有 16 条 traces，覆盖 8/8 taxonomy。</td>
-                  <td>把失败归因写成下一轮 task schedule 和 recovery policy 的输入。</td>
-                </tr>
-                <tr>
-                  <td>训练信号闭环</td>
-                  <td>self-improvement 的验收不是“agent 解释得更好”，而是 test-time training 后的新 agent / workflow 在 accepted scene pool 上 pass rate、safety 和 regression 更好。</td>
-                  <td>demo CLI 已把 trace ingestion、sim-real gap、memory、workflow governance 和 task-pack export 串成一条命令；5/5 smoke checks 通过。</td>
-                  <td>本周 demo 输出 report、replay commands、accepted/rejected scenes、failure memory 和 next-task schedule。</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="metric-grid" style="margin-top: 14px;">
-            <article class="metric">
-              <span>Executable envs</span>
-              <strong>129</strong>
-            </article>
-            <article class="metric">
-              <span>Full runner</span>
-              <strong>38/38</strong>
-            </article>
-            <article class="metric">
-              <span>Failure traces</span>
-              <strong>16</strong>
-            </article>
-            <article class="metric">
-              <span>Demo smoke</span>
-              <strong>5/5</strong>
-            </article>
-          </div>
-          <div class="grid-3" style="margin-top: 14px;">
-            <article class="panel decision">
-              <h3>1. 核心对象</h3>
-              <p>AgenticSim 里的基本单元不是论文里的 prose-only task，而是可以 reset、rollout、score、replay、version 的 task family，并且绑定一个会随 interaction 更新的 3D scene belief。</p>
-            </article>
-            <article class="panel decision">
-              <h3>2. 闭环信号</h3>
-              <p>每轮必须输出 pass/fail、failure label、solver pass rate、novelty check、accepted/rejected scene manifest、world-belief update 和 test-time training delta，并直接回写下一轮 scheduler。</p>
-            </article>
-            <article class="panel ok">
-              <h3>3. 本周 demo</h3>
-              <p>选一个 LeHome 或 RoboLab 任务族，生成一批 reference-conditioned 场景变体，跑 baseline rollout、verifier 和最小 TTT 修复，导出 failure summary、replay commands 和 next-task schedule。</p>
-            </article>
-          </div>
-        </section>
-
-        <section class="section" id="self-research">
-          <div class="section-title">
-            <div>
-              <p class="eyebrow">Reference reading</p>
-              <h2>调研结论：关键不是生成数据，而是生成可执行环境</h2>
-            </div>
-            <p>General Agent、EvoEnv、FATE、RoboGen、PhysX-Anything / PhysX-Omni、ArtiCraft3D、WorldComposer / Marble、Genesis World 1.0 和 RoboTwin 2.0 都把方向指向同一件事：agent 不只是消费环境，而是生成、验证、修复环境，并在交互中更新世界理解。</p>
-          </div>
-          <div class="grid-2">
-            <article class="decision-card blue">
-              <h3><a href="https://www.primeintellect.ai/blog/general-agent">General Agent</a>：synthesizer / solver 循环</h3>
-              <p>Prime Intellect 的 General Agent 用 Synthesizer 生成任务族和难度 tier，用 Solver 估计 pass rate，只有落在目标难度区间的任务才进入 corpus。</p>
-              <p>迁移到机器人：每个任务也应该有 scene state、controller/tool API、instruction、reference rollout、verifier 和 difficulty tier。</p>
-            </article>
-            <article class="decision-card warning">
-              <h3><a href="https://arxiv.org/abs/2605.14392">EvoEnv</a>：environment-construction loop</h3>
-              <p>EvoEnv 强调每个 artifact 应是 executable object：能 sample instance、compute reference、score response，并经过 staged validation、semantic review、difficulty calibration 和 novelty checks。</p>
-              <p>迁移到机器人：生成场景必须能重放、能评分、能产生可诊断失败；只视觉上合理不够。</p>
-            </article>
-            <article class="decision-card decision">
-              <h3><a href="https://arxiv.org/abs/2603.01505">FATE</a>：feasibility-aware active repair</h3>
-              <p>FATE 把 task generation 改成闭环 validation-and-refinement：先检查 scene affordance / layout compatibility，再通过 simulated embodied interaction 验证 execution feasibility。</p>
-              <p>迁移到机器人：我们的 scene generator 要内置 active repair；不可执行场景不只是丢弃，也可以自动改 layout、物理参数或 policy specification。</p>
-            </article>
-            <article class="decision-card ok">
-              <h3><a href="https://robogen-ai.github.io/">RoboGen</a>：propose-generate-learn cycle</h3>
-              <p>RoboGen 用 foundation / generative models 自动提出任务、生成场景、生成训练监督，并选择 RL、motion planning 或 trajectory optimization 学习技能。</p>
-              <p>迁移到机器人：Stage 1 的 scene imagination 不能孤立存在，必须连到 Stage 2 的 supervision / TTT / skill-learning 输入。</p>
-            </article>
-            <article class="decision-card blue">
-              <h3><a href="https://physx-anything.github.io/">PhysX-Anything</a> / <a href="https://physx-omni.github.io/">PhysX-Omni</a>：simulation-ready physical assets</h3>
-              <p>PhysX-Anything 从单张 in-the-wild image 生成带显式 geometry、articulation 和 physical attributes 的 sim-ready 3D asset；PhysX-Omni 是它的统一化延伸，把范围扩到 rigid、deformable 和 articulated objects，并用 geometry、absolute scale、material、affordance、kinematics、function description 六类属性做理解和生成评估。</p>
-              <p>迁移到机器人：它们服务的是 AgenticSim 的 Stage 1 asset layer。WorldComposer / Marble 可以先给出可导航的高斯场景外壳；PhysX-Anything / PhysX-Omni 再把其中可交互物体补成有尺度、材质、关节、运动学和接触参数的仿真对象，供 verifier 和 TTT 真正执行。</p>
-            </article>
-            <article class="decision-card decision">
-              <h3><a href="https://articraft3d.github.io/">ArtiCraft3D / Articraft</a>：agentic articulated asset generation</h3>
-              <p>ArtiCraft 把 articulated 3D asset generation 变成“写程序构造物体”的问题：LLM 通过 SDK 定义 parts、geometry、joints 和 tests，harness 再验证输出。</p>
-              <p>迁移到机器人：它可以作为 PhysX-style asset generator 之外的 agentic asset expansion 路线，优先试 tabletop articulated objects，并把结果落到 AgenticSim 的 asset_graph、joint graph、collision proxy 和 GovernanceGate checks。</p>
-            </article>
-            <article class="decision-card ok">
-              <h3><a href="https://www.worldlabs.ai/blog/marble-world-model">WorldComposer / Marble</a>：Gaussian scene shell</h3>
-              <p>WorldComposer / Marble 这类 3D world generation 工具更适合先生成 scene-level spatial shell：房间、桌面、障碍物、视角、光照和可导航高斯场景，让 agent 有 reference-conditioned 的环境结构。</p>
-              <p>迁移到机器人：高斯场景本身偏视觉和导航，不足以直接训练 contact-rich manipulation；因此 proposal 里要把它和 PhysX-Anything / PhysX-Omni 组合成两层表示：Gaussian scene belief 负责空间和外观，physical asset graph 负责可抓取、可推、可变形、可关节运动的仿真交互。</p>
-            </article>
-            <article class="decision-card warning">
-              <h3><a href="https://arxiv.org/abs/2506.18088">RoboTwin 2.0</a>：simulation-in-the-loop code repair</h3>
-              <p>RoboTwin 2.0 的专家代码生成 pipeline 用 code agent 写 task execution code，再通过 repeated simulated execution、execution log、VLM observation 和 code repair 迭代到通过。</p>
-              <p>迁移到机器人：我们的 agent 也要分成 scene-generation agent 和 TTT agent；前者造环境，后者在执行日志和视觉观察里定位错误并修复策略。</p>
-            </article>
-            <article class="decision-card blue">
-              <h3><a href="https://github.com/Genesis-Embodied-AI/genesis-world">Genesis World 1.0</a>：candidate simulator base</h3>
-              <p>Genesis World 1.0 可以作为后续候选仿真底座：它把统一多物理引擎、Nyx photorealistic renderer 和 Quadrants cross-platform compiler 放在同一个 Pythonic simulation interface 里。</p>
-              <p>本周只作为参考方向记录，还没有接入 AgenticSim；后续适合评估 contact-rich dexterous manipulation、deformable objects、fast batch rollout 和低 sim-to-real gap 的可行性。</p>
-            </article>
-          </div>
-          <figure class="reference-figure">
-            <img src="assets/robotwin2-expert-code-generation.png" alt="RoboTwin 2.0 expert code generation pipeline with code agent, VLM observer, execution log, code repair, and pass/fail simulation outcomes">
-            <figcaption>RoboTwin 2.0 参考图：Code Agent 生成任务执行代码，simulation-in-the-loop 反复执行，VLM Agent 从 observation 和 execution log 中定位错误，再回到 code repair。这里对应 AgenticSim 的 Stage 2 test-time training / workflow repair。</figcaption>
-          </figure>
-          <div class="table-card" style="margin-top: 14px;">
-            <table class="evidence-table">
-              <thead>
-                <tr>
-                  <th>Reference concept</th>
-                  <th>Robotics translation</th>
-                  <th>Proposal consequence</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>DB / tools / instruction / verification</td>
-                  <td>Scene state / robot controllers / task goal / executable simulator verifier</td>
-                  <td>AgenticSim 任务必须是可执行对象，不是 prose-only benchmark。</td>
-                </tr>
-                <tr>
-                  <td>Pass-rate calibrated difficulty</td>
-                  <td>用 baseline policy 或 VLA solver 的 rollout success rate 标定难度</td>
-                  <td>自动接受“刚好难”的任务，拒绝太简单、坏掉或不可复现的任务。</td>
-                </tr>
-                <tr>
-                  <td>Stable solve-verify asymmetry</td>
-                  <td>Verifier 容易执行，但策略在新场景里仍然容易失败</td>
-                  <td>reward 不会立刻失效，环境池可以持续提供训练信号。</td>
-                </tr>
-                <tr>
-                  <td>Novelty and semantic gates</td>
-                  <td>检查 scene 是否物理有效、是否重复、是否引入新 failure mode</td>
-                  <td>防止 agent 只生成重复任务、坏任务或 verifier 漏洞。</td>
-                </tr>
-                <tr>
-                  <td>Feasibility-aware active repair</td>
-                  <td>先审 scene affordance / layout，再用 embodied rollout 检查是否真的能执行</td>
-                  <td>不可执行的 scene 进入 repair/mutate，而不是直接污染训练池。</td>
-                </tr>
-                <tr>
-                  <td>Propose / generate / supervise / learn</td>
-                  <td>agent 负责生成任务、场景和训练监督，并把可执行场景接到 policy / workflow 更新</td>
-                  <td>把 scene imagination 和 test-time training 合成一个闭环，而不是两个孤立模块。</td>
-                </tr>
-                <tr>
-                  <td>Gaussian scene + physical asset graph</td>
-                  <td>WorldComposer / Marble 生成可导航高斯场景和全局空间结构；PhysX-Anything / PhysX-Omni 生成可交互物体的 geometry、scale、material、affordance、kinematics、function 和物理属性。</td>
-                  <td>把“看起来像一个场景”的 3DGS 外壳升级成“能被 robot rollout 和 verifier 使用”的仿真环境；这是 Agentic scene imagination 的核心实现路线之一。</td>
-                </tr>
-                <tr>
-                  <td>Execution log + VLM observation repair</td>
-                  <td>用仿真日志、图像观察和 failure taxonomy 定位错误，再修复 task code、prompt、controller 或 recovery policy</td>
-                  <td>把 RoboTwin 2.0 的 code repair loop 扩展成 AgenticSim 的 TTT / workflow repair loop。</td>
-                </tr>
-                <tr>
-                  <td>Ongoing 3D world understanding</td>
-                  <td>场景不是一次性生成的 mesh，而是带 uncertainty、contact evidence、failed action evidence 和 repair history 的 scene belief</td>
-                  <td>类似可微仿真的思想：interaction 会持续改变可优化的场景理解，并反馈到下一轮生成和训练。</td>
-                </tr>
-                <tr>
-                  <td>Candidate simulator base</td>
-                  <td>Genesis World 1.0 / Quadrants / Nyx 可作为未来 fast + photorealistic + multi-physics base；RoboTwin 2.0 可作为 dual-arm manipulation data generator / benchmark base</td>
-                  <td>先记录为参考，不算已实施；后续只在接口、任务 schema、asset pipeline 和 rollout verifier 可对齐时接入。</td>
+                  <td>Adaptation</td>
+                  <td>Can scene-layer replacement improve robustness without corrupting robot/object labels?</td>
+                  <td>Turns layered generation into useful data augmentation.</td>
                 </tr>
               </tbody>
             </table>
           </div>
         </section>
 
-        <section class="section" id="self-architecture">
+        <section class="section" id="rewrite-queue">
           <div class="section-title">
             <div>
-              <p class="eyebrow">Detailed visual</p>
-              <h2>系统图：AgenticSim simulation-first self-improvement loop</h2>
+              <p class="eyebrow">Rewrite queue</p>
+              <h2>接下来要把 story 落到实验和数据结构</h2>
             </div>
-            <p>图里只画本周要落地的核心闭环；重点从普通 train loop 调整为“Imagine scene → TTT / repair → update world belief”。</p>
+            <p>dashboard intro 已更新；下一步是把这套故事变成可跑的 manifest、layer schema 和 IDM probe。</p>
           </div>
-          <div class="diagram-card">
-            <h3>闭环架构图</h3>
-            <svg class="diagram" viewBox="0 0 1120 640" role="img" aria-labelledby="loop-title loop-desc">
-              <title id="loop-title">Simulation-first self-improving agents loop</title>
-              <desc id="loop-desc">Scheduler, reference-conditioned scene imagination, test-time training, evaluation, failure analysis, evolving 3D world belief, governance, and report export loop in AgenticSim.</desc>
-              <defs>
-                <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#2e5f91"></path>
-                </marker>
-                <marker id="arrow-teal" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#0f766e"></path>
-                </marker>
-              </defs>
-
-              <rect x="30" y="34" width="1060" height="392" fill="#f8fbfc" stroke="#d8e1e8"></rect>
-              <text x="54" y="70" fill="#5f6f7b" font-size="16" font-weight="800">SIMULATION-FIRST CORE LOOP</text>
-
-              <rect x="70" y="130" width="150" height="96" fill="#e7f0fb" stroke="#9ab9d9"></rect>
-              <text x="145" y="160" text-anchor="middle" fill="#17222d" font-size="19" font-weight="800">Schedule</text>
-              <text x="145" y="184" text-anchor="middle" fill="#5f6f7b" font-size="13">pick task family</text>
-              <text x="145" y="202" text-anchor="middle" fill="#5f6f7b" font-size="13">difficulty, seed</text>
-
-              <rect x="270" y="130" width="150" height="96" fill="#ddf3ef" stroke="#95cbc2"></rect>
-              <text x="345" y="160" text-anchor="middle" fill="#17222d" font-size="19" font-weight="800">Imagine scene</text>
-              <text x="345" y="184" text-anchor="middle" fill="#5f6f7b" font-size="13">reference + task</text>
-              <text x="345" y="202" text-anchor="middle" fill="#5f6f7b" font-size="13">layout + physics</text>
-
-              <rect x="470" y="130" width="150" height="96" fill="#fff3dc" stroke="#e2bd7c"></rect>
-              <text x="545" y="160" text-anchor="middle" fill="#17222d" font-size="19" font-weight="800">TTT / repair</text>
-              <text x="545" y="184" text-anchor="middle" fill="#5f6f7b" font-size="13">policy / workflow</text>
-              <text x="545" y="202" text-anchor="middle" fill="#5f6f7b" font-size="13">adapter, prompt, code</text>
-
-              <rect x="670" y="130" width="150" height="96" fill="#e7f5ed" stroke="#9fceaf"></rect>
-              <text x="745" y="160" text-anchor="middle" fill="#17222d" font-size="19" font-weight="800">Evaluate</text>
-              <text x="745" y="184" text-anchor="middle" fill="#5f6f7b" font-size="13">rollout verifier</text>
-              <text x="745" y="202" text-anchor="middle" fill="#5f6f7b" font-size="13">success, safety</text>
-
-              <rect x="870" y="130" width="150" height="96" fill="#fde9ee" stroke="#e9a6b5"></rect>
-              <text x="945" y="160" text-anchor="middle" fill="#17222d" font-size="19" font-weight="800">Analyze</text>
-              <text x="945" y="184" text-anchor="middle" fill="#5f6f7b" font-size="13">failure attribution</text>
-              <text x="945" y="202" text-anchor="middle" fill="#5f6f7b" font-size="13">update 3D belief</text>
-
-              <path d="M 220 178 L 262 178" stroke="#2e5f91" stroke-width="3" fill="none" marker-end="url(#arrow)"></path>
-              <path d="M 420 178 L 462 178" stroke="#2e5f91" stroke-width="3" fill="none" marker-end="url(#arrow)"></path>
-              <path d="M 620 178 L 662 178" stroke="#2e5f91" stroke-width="3" fill="none" marker-end="url(#arrow)"></path>
-              <path d="M 820 178 L 862 178" stroke="#2e5f91" stroke-width="3" fill="none" marker-end="url(#arrow)"></path>
-
-              <rect x="270" y="296" width="580" height="74" fill="#ffffff" stroke="#d8e1e8"></rect>
-              <text x="560" y="324" text-anchor="middle" fill="#17222d" font-size="18" font-weight="800">World Belief + Curriculum Store</text>
-              <text x="560" y="348" text-anchor="middle" fill="#5f6f7b" font-size="13">typed failures, scene uncertainty, accepted scenes, solver pass rates, verifier results</text>
-
-              <path d="M 945 226 C 945 312, 862 333, 850 333" stroke="#0f766e" stroke-width="3" fill="none" marker-end="url(#arrow-teal)"></path>
-              <path d="M 270 333 C 170 333, 145 270, 145 234" stroke="#0f766e" stroke-width="3" fill="none" marker-end="url(#arrow-teal)"></path>
-
-              <rect x="70" y="468" width="260" height="112" fill="#eef2f5" stroke="#d8e1e8"></rect>
-              <text x="200" y="498" text-anchor="middle" fill="#5f6f7b" font-size="14" font-weight="800">CURRENT FOUNDATION</text>
-              <text x="200" y="526" text-anchor="middle" fill="#17222d" font-size="18" font-weight="800">LeHome + RoboLab</text>
-              <text x="200" y="552" text-anchor="middle" fill="#5f6f7b" font-size="13">AgenticSim 129 Gym envs</text>
-
-              <rect x="430" y="468" width="260" height="112" fill="#eef2f5" stroke="#d8e1e8"></rect>
-              <text x="560" y="498" text-anchor="middle" fill="#5f6f7b" font-size="14" font-weight="800">GOVERNANCE GATE</text>
-              <text x="560" y="526" text-anchor="middle" fill="#17222d" font-size="18" font-weight="800">accept / reject / mutate</text>
-              <text x="560" y="552" text-anchor="middle" fill="#5f6f7b" font-size="13">executability, novelty, difficulty, safety</text>
-
-              <rect x="790" y="468" width="260" height="112" fill="#fff3dc" stroke="#e2bd7c"></rect>
-              <text x="920" y="498" text-anchor="middle" fill="#965f07" font-size="14" font-weight="800">REPORT + HANDOFF</text>
-              <text x="920" y="526" text-anchor="middle" fill="#17222d" font-size="18" font-weight="800">Accepted task pack</text>
-              <text x="920" y="552" text-anchor="middle" fill="#5f6f7b" font-size="13">metrics, replay commands, TTT deltas</text>
-
-              <path d="M 200 468 L 200 426" stroke="#5f6f7b" stroke-width="2" fill="none" marker-end="url(#arrow)"></path>
-              <path d="M 560 370 L 560 460" stroke="#5f6f7b" stroke-width="2" fill="none" marker-end="url(#arrow)"></path>
-              <path d="M 690 524 L 782 524" stroke="#965f07" stroke-width="3" fill="none" marker-end="url(#arrow)"></path>
-            </svg>
-            <div class="legend">
-              <span><i style="color:#2e5f91;"></i> agent actions</span>
-              <span><i style="color:#0f766e;"></i> learning feedback</span>
-              <span><i style="color:#965f07;"></i> accepted artifacts</span>
-            </div>
-          </div>
-          <div class="table-card" style="margin-top: 14px;">
-            <table class="evidence-table">
-              <thead>
-                <tr>
-                  <th>Architecture module</th>
-                  <th>参考实现 / 已完成基线</th>
-                  <th>在 proposal 里的作用</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Current foundation</td>
-                  <td>已实施底座是 LeHome / LeHome-challenge 的 9 个 household / garment 环境，加 RoboLab 的 120 个 formal benchmark tasks，统一注册成 AgenticSim 129 个 Gymnasium environments。</td>
-                  <td>提供第一批可 reset、rollout、score、version 的任务池；proposal 不从空 simulator 开始。Genesis World 1.0 和 RoboTwin 2.0 只作为候选环境 base，尚未接入。</td>
-                </tr>
-                <tr>
-                  <td>Candidate simulator bases</td>
-                  <td>Genesis World 1.0：统一 multi-physics、Nyx path-traced renderer、Quadrants compiler、rigid/deformable/contact-rich manipulation；RoboTwin 2.0：bimanual manipulation benchmark、expert data generator、domain randomization、simulation-in-the-loop code refinement。</td>
-                  <td>作为后续扩展方向：如果 AgenticSim 需要更快 batch rollout、更强 deformable/contact-rich physics 或 dual-arm manipulation benchmark，可以评估 Genesis / RoboTwin 2.0 adapter；本周不写成已完成实现。</td>
-                </tr>
-                <tr>
-                  <td>Schedule</td>
-                  <td>General Agent / EvoEnv 的 pass-rate difficulty tier 思路，加 FATE 的 feasibility-aware repair gate、AgenticSim task family、seed、failure taxonomy 和 accepted/rejected scene manifest。</td>
-                  <td>从固定 benchmark 变成 curriculum：按任务族、难度、failure mode、scene uncertainty 和 evaluator budget 选择下一轮任务。</td>
-                </tr>
-                <tr>
-                  <td>Imagine scene</td>
-                  <td>RoboGen 的 task proposal / scene generation / supervision generation 思路；FATE 的 static scene audit + embodied feasibility check；WorldComposer / Marble 生成 Gaussian scene shell；PhysX-Anything 从单图生成 simulation-ready physical assets；PhysX-Omni 进一步统一 rigid / deformable / articulated object generation；ArtiCraft3D 用 agentic program synthesis 生成 articulated asset；SceneMutator 做 task / asset mutation。</td>
-                  <td>把 reference、真实失败或真实轨迹落成可执行仿真场景：先有空间/外观层的 3D Gaussian scene belief，再把关键交互物体转成带尺度、材质、关节、运动学、affordance 和物理参数的 asset graph，并显式保存 uncertainty 和 repair history。</td>
-                </tr>
-                <tr>
-                  <td>TTT / repair</td>
-                  <td>RoboTwin 2.0 的 code agent + VLM observation + execution log + code repair loop；R2S2RPipeline、WorkflowOrchestrator 和 PEARLLoop 作为最小闭环；后续接 SFT / RL / prompt / recovery policy tuning。</td>
-                  <td>把 accepted scenes、failure memory 和执行观察变成 test-time training 输入：修复 task code、prompt、controller、recovery policy 或轻量 adapter。</td>
-                </tr>
-                <tr>
-                  <td>Evaluate</td>
-                  <td>LeHome / RoboLab rollout verifier、Isaac smoke gate、solver pass-rate calibration、RoboTwin-style repeated execution，以及 `scripts/check_isaac_env.py` 的 reset/step gate。</td>
-                  <td>判断一个场景是否可执行、一个 agent 是否真的通过任务、TTT 是否带来提升、以及难度是否处在有训练价值的区间。</td>
-                </tr>
-                <tr>
-                  <td>Analyze</td>
-                  <td>TraceLoader JSON/HDF5、SimRealGapDetector、RolloutDiagnoser、FailureTaxonomy。</td>
-                  <td>把 rollout 失败从 raw log 变成 typed failure attribution：grasp、slip、collision、contact、timing、planning 或 perception mismatch，并同步更新 scene belief 中的接触、遮挡、物理参数和目标关系。</td>
-                </tr>
-                <tr>
-                  <td>World Belief + Curriculum Store</td>
-                  <td>MemoryStore add/retrieve/distill/save/load；16 条 failure trace dataset；8/8 failure taxonomy coverage。</td>
-                  <td>保存失败证据、correction hint、accepted/rejected scenes、solver pass rate、verifier result、scene uncertainty 和 TTT delta，并驱动下一轮 schedule。</td>
-                </tr>
-                <tr>
-                  <td>Governance gate</td>
-                  <td>GovernanceGate、Eval-Gated Workflow、Isaac dependency / smoke gate、novelty / difficulty / safety checks。</td>
-                  <td>只让可执行、非重复、难度合适、没有明显 safety/schema 问题的任务进入训练池或报告包。</td>
-                </tr>
-                <tr>
-                  <td>Report + handoff</td>
-                  <td>demo CLI：`python scripts/demo_self_improving.py --output-dir /tmp/demo`；输出 `r4r_output.json`、`memory_store.json`、`summary.txt`，5/5 smoke checks pass。</td>
-                  <td>把每轮结果导出成可复现 artifact：metrics、replay commands、failure memory、world-belief diff、TTT delta、accepted task pack 和 next-task schedule。</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="visual-flow" aria-label="Simulation loop steps">
-            <article class="flow-step">
-              <span>1</span>
-              <strong>Schedule task</strong>
-              <p>选择任务族、难度、seed、目标 failure mode 和 evaluator budget。</p>
-            </article>
-            <article class="flow-step">
-              <span>2</span>
-              <strong>Imagine scene</strong>
-              <p>根据 reference 生成 Gaussian scene shell、object layout、物理资产、遮挡、扰动、物理参数和 scene uncertainty。</p>
-            </article>
-            <article class="flow-step">
-              <span>3</span>
-              <strong>TTT / repair</strong>
-              <p>在场景里微调 workflow、更新 prompt/tool 调用、修复代码或 recovery policy。</p>
-            </article>
-            <article class="flow-step">
-              <span>4</span>
-              <strong>Evaluate</strong>
-              <p>跑 rollout、verifier、safety check、difficulty gate 和 regression suite。</p>
-            </article>
-            <article class="flow-step">
-              <span>5</span>
-              <strong>Analyze failure</strong>
-              <p>归因到 grasp、collision、contact、planning、perception 或 instruction mismatch。</p>
-            </article>
-            <article class="flow-step">
-              <span>6</span>
-              <strong>Update world belief</strong>
-              <p>写入 failure memory、scene belief、TTT delta、accepted/rejected scenes，触发下一轮。</p>
-            </article>
-          </div>
-        </section>
-
-        <section class="section" id="physx-implementation">
-          <div class="section-title">
-            <div>
-              <p class="eyebrow">Physical asset generation</p>
-              <h2>具体实现：把视觉/程序化资产变成可交互物理资产</h2>
-            </div>
-            <p>这一节专门服务 Self-Improving 里的 Agentic scene imagination：WorldComposer / Marble 负责生成 3D Gaussian scene shell，PhysX-Anything / PhysX-Omni 和 ArtiCraft3D 负责把关键物体补成能进 simulator 的 physical asset graph。</p>
-          </div>
-          <div class="quote-box">
-            <p>核心关系：PhysX-Anything 先证明 single image 可以生成带 geometry、articulation、physical attributes 的 simulation-ready object；PhysX-Omni 是它的统一化延伸，把对象类型扩到 rigid、deformable 和 articulated，并增加 PhysXVerse 数据集与 PhysX-Bench 评测。ArtiCraft3D 则把资产生成做成 agentic program synthesis：LLM 写资产程序，harness 做结构化验证。放到 AgenticSim 里，它们不是替代 WorldComposer / Marble，而是给高斯场景里的可交互物体补物理、尺度、材质、关节和 affordance。</p>
-          </div>
-          <div class="grid-3" style="margin-top: 14px;">
-            <article class="decision-card blue">
-              <h3><a href="https://physx-anything.github.io/">PhysX-Anything</a> 做了什么</h3>
-              <p>输入是一张 in-the-wild object image，输出不是普通 mesh，而是 simulation-ready physical 3D asset：它要显式恢复 object geometry、part-level articulation 和 physical attributes，使物体能进入 MuJoCo-style / physics-based environment 参与 contact-rich policy learning。</p>
-              <p>实现上，作者把 VLM 用到物理 3D 生成里，并设计了新的 geometry tokenization 表示，让高分辨率几何可以放进标准 VLM token budget 中学习；再通过 decoder 把全局结构、局部几何、关节和物理属性合成可仿真的 asset。</p>
-            </article>
-            <article class="decision-card decision">
-              <h3><a href="https://physx-omni.github.io/">PhysX-Omni</a> 如何延伸</h3>
-              <p>PhysX-Omni 解决 PhysX-Anything 偏 articulated object 的范围限制，把 simulation-ready 3D generation 统一到 rigid、deformable、articulated 三类对象。它强调一个统一的 physical asset generator，而不是每类物体各自一套 pipeline。</p>
-              <p>实现上，它进一步使用面向 VLM 的高效 geometry representation，构建 PhysXVerse 作为通用 simulation-ready 3D dataset，并用 PhysX-Bench 同时评估 generation 和 understanding。PhysX-Bench 的六个关键属性是 geometry、absolute scale、material、affordance、kinematics 和 function description。</p>
-            </article>
-            <article class="decision-card ok">
-              <h3><a href="https://articraft3d.github.io/">ArtiCraft3D</a> 为什么要试</h3>
-              <p>ArtiCraft 让 LLM 通过 domain-specific SDK 写 `model.py` 一类的资产程序，显式组织 part、geometry、joint 和 tests，再由 harness 验证。</p>
-              <p>它更像 agentic asset engineer：适合先试能否生成 tabletop articulated asset，并把程序、测试、joint graph 和 simulator export 都保存进 AgenticSim 的可复现资产包。</p>
-            </article>
-          </div>
-          <div class="table-card" style="margin-top: 14px;">
-            <table class="evidence-table">
-              <thead>
-                <tr>
-                  <th>AgenticSim 需要的能力</th>
-                  <th>PhysX / ArtiCraft 对应实现</th>
-                  <th>接到 Self-Improving 的方式</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>从 reference 识别关键物体</td>
-                  <td>PhysX 从单张物体图像恢复对象整体结构、部件、关节、物理属性和功能描述；ArtiCraft 让 agent 写资产程序和测试。</td>
-                  <td>scene-generation agent 先从 WorldComposer / Marble 场景里挑出可交互 object crops，再调用 PhysX-style generator 或 ArtiCraft-style programmatic asset generator。</td>
-                </tr>
-                <tr>
-                  <td>把视觉物体变成可 rollout asset</td>
-                  <td>输出显式 geometry / articulation / material / scale / affordance / kinematics，而不是只输出视觉 mesh。</td>
-                  <td>把 3DGS scene shell 中的 key objects 替换或绑定到 simulator asset graph，供 reset、step、contact、collision 和 verifier 使用。</td>
-                </tr>
-                <tr>
-                  <td>覆盖不同物体类型</td>
-                  <td>PhysX-Anything 主要强调 articulated physical assets；PhysX-Omni 统一 rigid、deformable、articulated objects；ArtiCraft-10K 覆盖大规模 articulated asset categories。</td>
-                  <td>AgenticSim 第一阶段可以先接 tabletop articulated/rigid objects，后续再加入 garment、rope、soft object 等 deformable task family。</td>
-                </tr>
-                <tr>
-                  <td>生成后能被评估</td>
-                  <td>PhysX-Omni 的 PhysX-Bench 用六类属性检查生成和理解质量；PhysX-Anything 用 simulation-based experiments 验证下游接触学习可用性；ArtiCraft 用 object-specific tests 和 harness feedback 检查生成程序。</td>
-                  <td>GovernanceGate 增加 asset-level checks：尺度是否合理、材质/摩擦是否可执行、关节是否物理有效、affordance 是否支持 task goal。</td>
-                </tr>
-                <tr>
-                  <td>随 interaction 更新 world belief</td>
-                  <td>初始 asset 只是 hypothesis；真实 rollout 会暴露接触、滑移、碰撞、关节范围和材质参数错误。</td>
-                  <td>Analyze 阶段把失败归因回写到 asset graph：修改 mass / friction / joint limit / collision shape / deformability，再重新进入 schedule。</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="grid-2" style="margin-top: 14px;">
-            <figure class="reference-figure" style="margin-top: 0;">
-              <img src="assets/physx-anything-framework.png" alt="PhysX-Anything original architecture diagram for simulation-ready physical 3D assets from a single image">
-              <figcaption>PhysX-Anything 原始架构图：从单张图片生成带显式 geometry、articulation 和 physical attributes 的 sim-ready physical asset。图源：<a href="https://physx-anything.github.io/">physx-anything.github.io</a>。</figcaption>
-            </figure>
-            <figure class="reference-figure" style="margin-top: 0;">
-              <img src="assets/physx-anything-decoder.png" alt="PhysX-Anything original decoder architecture diagram">
-              <figcaption>PhysX-Anything decoder 图：把生成出的结构、几何和物理描述解码成可用于仿真的 physical representation。图源：<a href="https://physx-anything.github.io/">physx-anything.github.io</a>。</figcaption>
-            </figure>
-          </div>
-          <div class="grid-2" style="margin-top: 14px;">
-            <figure class="reference-figure" style="margin-top: 0;">
-              <img src="assets/physx-omni-framework.png" alt="PhysX-Omni original overview architecture diagram for unified simulation-ready physical 3D generation">
-              <figcaption>PhysX-Omni 原始 overview 图：统一 rigid、deformable、articulated objects 的 simulation-ready physical 3D generation。图源：<a href="https://physx-omni.github.io/">physx-omni.github.io</a>。</figcaption>
-            </figure>
-            <figure class="reference-figure" style="margin-top: 0;">
-              <img src="assets/physx-omni-bench.png" alt="PhysX-Omni original PhysX-Bench overview diagram">
-              <figcaption>PhysX-Bench 原始 overview 图：从 geometry、scale、material、affordance、kinematics 和 function description 等属性评估生成资产。图源：<a href="https://physx-omni.github.io/">physx-omni.github.io</a>。</figcaption>
-            </figure>
-          </div>
-          <div class="grid-3" style="margin-top: 14px;">
+          <div class="grid-3">
             <article class="panel decision">
-              <h3>放进 AgenticSim 的最小接口</h3>
-              <p>`generate_asset(reference_image, task_hint) -> asset_graph` 或 `generate_articulated_asset(asset_spec) -> asset_graph`，其中 asset_graph 至少包含 mesh / collision proxy、scale、material/friction、joint graph、affordance tags、tests 和 simulator export path。</p>
+              <h3>Dataset schema</h3>
+              <p>manifest 需要补 `ego_view_type`、`shared_context_id`、`robot_visibility`、`object_interaction_state`、`control_loop_target`。</p>
             </article>
             <article class="panel warning">
-              <h3>和 3DGS 场景的分工</h3>
-              <p>WorldComposer / Marble 负责全局空间、视角、遮挡和视觉上下文；PhysX-Anything / PhysX-Omni / ArtiCraft3D 负责可交互物体。两者组合后才是可执行环境。</p>
+              <h3>Layer pipeline</h3>
+              <p>传统 segmentation 可能跟随不好，所以要并行测试 segment+inpaint、Qwen、纯视频 prompt、SVG/结构化路线。</p>
             </article>
             <article class="panel ok">
-              <h3>本周 proposal 写法</h3>
-              <p>先不声称已接入，只把 PhysX / ArtiCraft 写成 Stage 1 的 candidate implementations：下一步做 tabletop objects 的 asset adapter、ArtiCraft3D runnable smoke 和 GovernanceGate asset checks。</p>
+              <h3>First IDM probe</h3>
+              <p>选一个可见臂场景做 robot layer -> pose / joint estimate -> IDM action，再选一个不可见臂场景做 VO/SLAM -> IDM action。</p>
             </article>
           </div>
-        </section>
-
-        <section class="section" id="self-roadmap">
-          <div class="section-title">
-            <div>
-              <p class="eyebrow">Progress and roadmap</p>
-              <h2>进展说明：已有底座和 demo，下一步做两阶段自动闭环</h2>
-            </div>
-              <p>这不是从零开始：已有环境注册、pipeline tests、failure trace dataset、demo CLI 和 smoke gate，下一步补 reference-conditioned scene imagination、TTT / repair loop、evolving 3D scene belief 和 report export。</p>
+          <div class="quote-box" style="margin-top: 14px;">
+            <p>ICRA 会后一个小观察：robotics 方向后面不只是把项目做出来，也需要更稳定的 community presence。建议颜老师后续多出现在 robotics community 的 workshop、poster session、lab visit 和 informal meetup 里，让外部同学、老师和潜在合作者自然形成 “Yan lab is actively doing robotics” 的认知。这样我们在 conference social、数据/硬件合作、学生互访和资源统合时，入口会更顺，也更容易把现在这些机器人项目接到合适的人和平台上。</p>
           </div>
-          <div class="metric-grid">
-            <article class="metric">
-              <span>Registered envs</span>
-              <strong>129</strong>
-            </article>
-            <article class="metric">
-              <span>Pipeline tests</span>
-              <strong>38/38</strong>
-            </article>
-            <article class="metric">
-              <span>Trace dataset</span>
-              <strong>16</strong>
-            </article>
-            <article class="metric">
-              <span>Isaac gate</span>
-              <strong>11 checks</strong>
-            </article>
-          </div>
-          <div class="phase-grid" style="margin-top: 14px;">
-            <article class="phase">
-              <span>Phase 0</span>
-              <strong>已完成底座</strong>
-              <p>129 个环境、38/38 pipeline tests、16 条 failure traces、demo CLI 和 Isaac smoke gate 已经能支撑 proposal。</p>
-            </article>
-            <article class="phase">
-              <span>Phase 1</span>
-              <strong>Imagine scenes</strong>
-              <p>从 reference、任务族和 failure type 生成场景变体，先覆盖 tabletop / household manipulation，并记录 scene uncertainty；asset 层补一个 ArtiCraft3D-style articulated asset smoke。</p>
-            </article>
-            <article class="phase">
-              <span>Phase 2</span>
-              <strong>Test-time training</strong>
-              <p>在生成场景里执行、观察、修复 workflow / prompt / code / recovery policy，并记录 TTT delta。</p>
-            </article>
-            <article class="phase">
-              <span>Phase 3</span>
-              <strong>Evaluate + world update</strong>
-              <p>跑 rollout 后自动归因失败，更新 3D scene belief 和 trace memory，用 verifier 决定 accept、reject 或 mutate。</p>
-            </article>
-            <article class="phase">
-              <span>Phase 4</span>
-              <strong>Report export</strong>
-              <p>导出 accepted scene pool、失败记忆、pass-rate chart、replay command 和下一轮 task schedule。</p>
-            </article>
-          </div>
-          <div class="grid-3" style="margin-top: 14px;">
-            <article class="panel decision">
-              <h3>本周决定 1</h3>
-              <p>把 MVP 明确定义成 simulation-first 两阶段 loop：reference-conditioned scene imagination + in-scene test-time training。</p>
-            </article>
-            <article class="panel warning">
-              <h3>本周决定 2</h3>
-              <p>优先做 scene / perturbation generator 和 TTT repair harness，因为它们决定能否从静态 benchmark 变成 self-evolving environment pool。</p>
-            </article>
-            <article class="panel ok">
-              <h3>本周口径</h3>
-              <p>这周重点是把闭环 artifact 定义清楚：reference、scene belief、interaction log、TTT delta、verifier result 和 next-task schedule。</p>
-            </article>
+          <div class="quote-box" style="margin-top: 14px;">
+            <p>Paper story should read as: Ego World predicts interaction futures; Image-Layered extracts object-interaction-robot state; IDM turns state changes into robot control.</p>
           </div>
         </section>
       </main>
 
       <footer class="footer-note">
-        Unified weekly brief page for current venue, UMI, and self-improving agents updates.
+        Weekly brief reset on 2026-06-09. Current version rewrites Tri-View as a two-stage Ego World + IDM foundation-model proposal.
       </footer>
     </div>
   </body>

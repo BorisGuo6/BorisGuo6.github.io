@@ -1,0 +1,193 @@
+{
+  "schema_version": "project.v1",
+  "project_id": "online-sensor-calibration-survey",
+  "title": "Online Sensor Calibration / Drift Adaptation",
+  "bucket": "survey",
+  "status": "survey",
+  "updated_at": "2026-06-09T02:12:13+08:00",
+  "description": "Keep in Survey: learning-based online calibration is a cross-cutting data-quality and deployment problem, not a one-off camera calibration task.",
+  "summary": "Survey-stage proposal for online sensor calibration and drift adaptation. Temperature, magnetic field, lighting, vibration, sensor warm-up, mounting changes, and aging can shift camera geometry/photometry, IMU or magnetometer bias, force/tactile baselines, and proximity/depth measurements. The goal is to estimate a calibration state plus confidence online, correct observations only when observable, and expose the result to Real-Robot Infra, UMI/Tri-View, VTLA, and human-data XLA schemas.",
+  "asset": "dashboard/assets/survey-online-sensor-calibration.svg",
+  "details": [
+    {
+      "text": "Core idea: every robot episode should carry not only raw sensor streams, but also a live calibration state. For cameras this can include intrinsics, distortion, extrinsics, rolling-shutter/readout, depth scale, exposure/gain, and photometric state. For IMU/magnetometer this includes bias, scale, axis misalignment, hard/soft-iron effects, and local magnetic confidence. For tactile/force/proximity sensors this includes zero offset, temperature drift, hysteresis, crosstalk, contact baseline, and confidence.",
+      "links": [
+        {
+          "label": "Learning-based camera calibration survey",
+          "url": "https://arxiv.org/abs/2303.10559"
+        },
+        {
+          "label": "Online VINS self-calibration",
+          "url": "https://arxiv.org/abs/2201.09170"
+        }
+      ]
+    },
+    {
+      "text": "Method framing: do not replace classical calibration with an unconstrained neural net. Use offline calibration as the anchor, then learn residual drift models and online confidence from self-supervised consistency: reprojection error, cross-view epipolar/hand-eye consistency, robot kinematics, VIO/SLAM residuals, fiducial or ChArUco checks, depth-to-RGB alignment, tactile/contact-force consistency, and metadata such as temperature, gain, illumination, magnetic disturbance, and time since warm-up."
+    },
+    {
+      "text": "Learning-based references are already credible for pieces of the stack. CalibNet and DST-Calib show self-supervised, target-free LiDAR-camera extrinsic calibration directions; Deep-BrownConrady and Calibration Tokens show learned camera-parameter or calibration-token adaptation; online VINS self-calibration gives the observability warning: calibration parameters are only trustworthy when motion sufficiently excites the relevant axes.",
+      "links": [
+        {
+          "label": "CalibNet",
+          "url": "https://arxiv.org/abs/1803.08181"
+        },
+        {
+          "label": "DST-Calib",
+          "url": "https://arxiv.org/abs/2601.01188"
+        },
+        {
+          "label": "Deep-BrownConrady",
+          "url": "https://arxiv.org/abs/2501.14510"
+        },
+        {
+          "label": "Calibration Tokens",
+          "url": "https://arxiv.org/abs/2508.04928"
+        }
+      ]
+    },
+    {
+      "text": "Temperature and light need separate treatment. Temperature can cause physical drift in camera/depth/force sensors; Basler's thermal drift documentation and F/T temperature-compensation work show that measurement error can be temperature-dependent. Lighting mostly changes photometric distribution, feature quality, and model behavior; it should feed exposure/photometric calibration or test-time perception adaptation rather than silently changing geometric camera intrinsics.",
+      "links": [
+        {
+          "label": "Basler thermal drift correction",
+          "url": "https://docs.baslerweb.com/thermal-drift-correction"
+        },
+        {
+          "label": "F/T temperature compensation",
+          "url": "https://arxiv.org/abs/1812.00650"
+        },
+        {
+          "label": "Online photometric calibration",
+          "url": "https://arxiv.org/abs/2012.14292"
+        }
+      ]
+    },
+    {
+      "text": "Magnetic and inertial drift should be treated as state estimation plus environment memory. Dynamic magnetometer calibration and MAGYC show that magnetometer/gyro bias can be estimated online or incrementally; magnetic distortion resistant orientation estimation suggests keeping a location-conditioned magnetic map or confidence field. For wearable human-data capture, this matters because gloves, IMUs, VIVE trackers, and body sensors may move through electrically noisy lab environments.",
+      "links": [
+        {
+          "label": "Dynamic magnetometer calibration",
+          "url": "https://arxiv.org/abs/1612.01044"
+        },
+        {
+          "label": "MAGYC",
+          "url": "https://arxiv.org/abs/2412.09690"
+        },
+        {
+          "label": "Magnetic distortion resistant orientation",
+          "url": "https://arxiv.org/abs/2410.12304"
+        }
+      ]
+    },
+    {
+      "text": "First v0 experiment: use the lab D405 / RGB-D camera path plus a stable workspace target as the smallest measurable benchmark. Record baseline offline calibration, then introduce warm-up/temperature, lighting, slight mount disturbance, and magnetic/electrical interference conditions. The online adapter should output corrected calibration, confidence, and a reject/rollback decision. Metrics: reprojection error, depth-to-RGB alignment, robot-frame pose error, VIO/SLAM residual, downstream policy/world-model sensitivity, and false correction rate."
+    },
+    {
+      "text": "Portfolio routing: Real-Robot Infra should implement the final monitor only after this survey defines the v0 spec. UMI/Tri-View needs calibration confidence in manifests so world-model failures are not misread as model failures. VTLA needs tactile/force drift state for contact labels. Human Intention Data Collection should log calibration confidence for every wearable modality before XLA consumes the signals."
+    }
+  ],
+  "task_ids": [
+    "task_online_sensor_calibration_survey_spec"
+  ],
+  "risks_decisions": [
+    "Survey decision 2026-06-09: keep as a new Survey card. This is bigger than Real-Robot Infra because it defines calibration-state learning, observability, confidence, and data-schema policy across sensors.",
+    "Do not let online learning silently rewrite calibration. Every update needs confidence, observability checks, bounded parameter deltas, rollback, and a clear re-calibration / re-capture trigger.",
+    "Separate geometry, photometry, and policy adaptation. Temperature or mounting changes can affect geometry; lighting usually affects photometry and perception quality; downstream model adaptation should not hide bad sensor calibration.",
+    "Start with camera/RGB-D plus IMU-style state before trying all sensors. Tactile, force, proximity, audio, and wearable biosignals should join only after the first benchmark shows useful confidence-gated adaptation.",
+    "A learned calibration token is useful only if it is interpretable enough for episode QA: what changed, why it changed, whether the correction is observable, and whether downstream labels remain valid.",
+    "Classical calibration remains the baseline. The learning contribution should be online residual correction, drift detection, confidence estimation, and schema integration, not claiming that a neural model can replace metrology."
+  ],
+  "asset_alt": "Online sensor calibration survey diagram from environmental drift through calibration-state estimator, safety gate, and robot data consumers",
+  "asset_caption": "Survey diagram: environmental drift becomes an explicit calibration state and confidence token before observations flow into robot learning.",
+  "references": [
+    {
+      "title": "Deep Learning for Camera Calibration and Beyond: A Survey",
+      "url": "https://arxiv.org/abs/2303.10559",
+      "arxiv_id": "2303.10559",
+      "submitted_at": "2023",
+      "notes": "Learning-based camera calibration survey covering pinhole, distortion, cross-view, cross-sensor models, benchmarks, and generalization gaps."
+    },
+    {
+      "title": "Online Self-Calibration for Visual-Inertial Navigation Systems: Models, Analysis and Degeneracy",
+      "url": "https://arxiv.org/abs/2201.09170",
+      "arxiv_id": "2201.09170",
+      "submitted_at": "2022",
+      "notes": "Key observability reference for camera/IMU intrinsics, spatial-temporal extrinsics, rolling shutter readout, and degenerate motions."
+    },
+    {
+      "title": "CalibNet: Geometrically Supervised Extrinsic Calibration using 3D Spatial Transformer Networks",
+      "url": "https://arxiv.org/abs/1803.08181",
+      "arxiv_id": "1803.08181",
+      "submitted_at": "2018",
+      "notes": "Self-supervised LiDAR-camera extrinsic calibration using geometric and photometric consistency rather than direct parameter supervision."
+    },
+    {
+      "title": "DST-Calib: A Dual-Path, Self-Supervised, Target-Free LiDAR-Camera Extrinsic Calibration Network",
+      "url": "https://arxiv.org/abs/2601.01188",
+      "arxiv_id": "2601.01188",
+      "submitted_at": "2026",
+      "notes": "Recent online, target-free LiDAR-camera extrinsic calibration reference with cross-modal difference-map association and generalization focus."
+    },
+    {
+      "title": "Deep-BrownConrady: Prediction of Camera Calibration and Distortion Parameters Using Deep Learning and Synthetic Data",
+      "url": "https://arxiv.org/abs/2501.14510",
+      "arxiv_id": "2501.14510",
+      "submitted_at": "2025",
+      "notes": "Single-image learned camera calibration and Brown-Conrady distortion parameter prediction with synthetic/real training data."
+    },
+    {
+      "title": "Extending Foundational Monocular Depth Estimators to Fisheye Cameras with Calibration Tokens",
+      "url": "https://arxiv.org/abs/2508.04928",
+      "arxiv_id": "2508.04928",
+      "submitted_at": "2025",
+      "notes": "Calibration-token framing: adapt foundation depth-model embeddings to calibration-induced distribution shift rather than always rectifying in image space."
+    },
+    {
+      "title": "Basler Thermal Drift Correction",
+      "url": "https://docs.baslerweb.com/thermal-drift-correction",
+      "submitted_at": "2026",
+      "notes": "Industrial camera documentation showing temperature-dependent measurement drift and correction as a practical sensor-lifecycle issue."
+    },
+    {
+      "title": "Online Photometric Calibration of Automatic Gain Thermal Infrared Cameras",
+      "url": "https://arxiv.org/abs/2012.14292",
+      "arxiv_id": "2012.14292",
+      "submitted_at": "2020",
+      "notes": "Reference for online photometric calibration under sensor-specific image-formation shifts, useful for separating lighting/photometric adaptation from geometry."
+    },
+    {
+      "title": "Dynamic Magnetometer Calibration and Alignment to Inertial Sensors by Kalman Filtering",
+      "url": "https://arxiv.org/abs/1612.01044",
+      "arxiv_id": "1612.01044",
+      "submitted_at": "2016",
+      "notes": "State-estimation framing for magnetometer intrinsic/cross-sensor calibration and gyroscope bias under dynamic conditions."
+    },
+    {
+      "title": "Full Magnetometer and Gyroscope Bias Estimation using Angular Rates",
+      "url": "https://arxiv.org/abs/2412.09690",
+      "arxiv_id": "2412.09690",
+      "submitted_at": "2024",
+      "notes": "MAGYC reference for batch and online incremental factor-graph estimation of hard/soft-iron magnetometer bias and gyroscope bias."
+    },
+    {
+      "title": "Learning Online MEMS Calibration with Time-Varying and Memory-Efficient Gaussian Neural Topologies",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12196877/",
+      "submitted_at": "2025",
+      "notes": "On-device learning reference for MEMS-IMU calibration under time-varying bias, temperature drift, aging, stress, and memory constraints."
+    },
+    {
+      "title": "Influence of Errors in Tactile Sensors on Some High Level Parameters Used for Manipulation with Robotic Hands",
+      "url": "https://www.mdpi.com/1424-8220/15/8/20409",
+      "submitted_at": "2015",
+      "notes": "Tactile-sensor reference for drift, hysteresis, crosstalk, nonlinearity, repeated calibration pressure, and manipulation-level parameter robustness."
+    },
+    {
+      "title": "Model Based In Situ Calibration with Temperature compensation of 6 axis Force Torque Sensors",
+      "url": "https://arxiv.org/abs/1812.00650",
+      "arxiv_id": "1812.00650",
+      "submitted_at": "2018",
+      "notes": "Force/torque sensor reference showing temperature drift can be significant in long experiments or environments unlike the original calibration setting."
+    }
+  ]
+}

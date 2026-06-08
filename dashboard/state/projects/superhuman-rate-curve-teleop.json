@@ -4,9 +4,9 @@
   "title": "Superhuman Robot Execution",
   "bucket": "survey",
   "status": "survey",
-  "updated_at": "2026-06-05T00:18:00+02:00",
+  "updated_at": "2026-06-09T02:22:25+08:00",
   "description": "Keep in Survey: the action-rate acceleration idea is still executable, but it needs a bounded DAgger/SFT/RL pilot plus hardware-safe rate and force guardrails before becoming Research.",
-  "summary": "This project asks whether slow human teleoperation can provide the task path, then DAgger + SFT first improves stability and safety, SFT action-frequency ablations measure speed / continuity tradeoffs, and RL further optimizes speed and smoothness.",
+  "summary": "This project treats human demos as task-path, phase, contact-event, and safety priors rather than the final source of superhuman speed. DAgger + SFT should first stabilize the demonstrated behavior, SFT action-frequency ablations measure speed / continuity tradeoffs, and RL finetune likely has to discover the genuinely faster rate curve under force, tactile, event, and hardware guardrails.",
   "asset": "dashboard/assets/survey-superhuman-rate-curve.svg",
   "visual": {
     "kind": "rate_curve",
@@ -32,6 +32,8 @@
     "Stage 1: use DAgger to collect corrective data under the current policy, then SFT a stable and safe base policy.",
     "SFT ablation: sample actions at different frequencies to measure how action rate affects speed, continuity, and stability before adding RL.",
     "Stage 2: run RL on top of the SFT policy; add velocity / completion-time rewards for speed and acceleration / jerk rewards for smoothness.",
+    "New judgment: human demo data gives the robot a path, phase structure, contact timing, and correction distribution, but it does not directly contain superhuman behavior. Any capability beyond human 1x should be claimed as RL-finetuned retiming / recovery / smoothness, not pure imitation.",
+    "Hardware judgment: Wuji should be mounted on a robot arm whose servo bandwidth, velocity, acceleration, payload margin, and control latency can approach human real-time execution. A slow or conservative arm will cap the project at replay / retiming even if the learned rate curve is good; Flexiv / 非夕-style arms are a candidate direction to evaluate.",
     "Force and tactile signals should mainly define safety scores, DAgger correction triggers, evaluation, and real-robot guardrails rather than being the only RL objective."
   ],
   "task_ids": [
@@ -45,6 +47,9 @@
   ],
   "risks_decisions": [
     "Need to distinguish hardware capability from policy speed; faster timing alone may not reproduce EKA-like performance.",
+    "Need to distinguish demo-derived task structure from RL-derived superhuman speed: human data alone supplies the route and event priors, while speed beyond the demo distribution must be validated by RL improvement and held-out physical tests.",
+    "Wuji + arm selection is now part of the research question. If the arm cannot track near-human real-time motion with low latency and safe force limits, learned acceleration remains a simulation or offline artifact.",
+    "Flexiv / 非夕 is only a candidate hardware direction for now; compare control bandwidth, SDK access, safety mode, payload, Wuji mount feasibility, and local availability before treating it as the committed platform.",
     "Contact-rich manipulation may fail under naive acceleration even if the geometric path and event order are unchanged.",
     "The first learnable object should probably be the rate curve or action latent, not arbitrary raw actions; otherwise the project becomes generic RL.",
     "Force / tactile can provide the safer reward, but real-robot deployment still needs guardrails for force spikes, collision, and hardware stress.",

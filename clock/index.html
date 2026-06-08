@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Jingxiang Guo">
+    <title>Embodied Intelligence Doomsday Clock</title>
+    <link rel="shortcut icon" href="../assets/img/site/favicon.png" type="image/x-icon">
+    <style>
+      :root {
+        --paper: #fbfcfb;
+        --ink: #15212a;
+        --muted: #596875;
+        --line: #d7e0e5;
+        --steel: #325d7b;
+        --steel-soft: #e5eef3;
+        --teal: #127772;
+        --teal-soft: #dff2ef;
+        --amber: #b46613;
+        --amber-soft: #fff1d8;
+        --rose: #a23c4d;
+        --rose-soft: #fbe6eb;
+        --green: #227449;
+        --green-soft: #e4f2ea;
+        --shadow: 0 22px 70px rgba(21, 33, 42, 0.12);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        background: #e9eef1;
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        background:
+          linear-gradient(180deg, rgba(229, 238, 243, 0.8), rgba(251, 252, 251, 0.8) 420px),
+          var(--paper);
+        font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+        font-size: 15px;
+        line-height: 1.65;
+      }
+
+      a {
+        color: var(--steel);
+        text-decoration-thickness: 1px;
+        text-underline-offset: 3px;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        max-width: 900px;
+        font-size: clamp(42px, 5.2vw, 72px);
+        line-height: 0.98;
+        letter-spacing: 0;
+      }
+
+      h2 {
+        font-size: clamp(25px, 3vw, 40px);
+        line-height: 1.12;
+        letter-spacing: 0;
+      }
+
+      h3 {
+        font-size: 17px;
+        line-height: 1.25;
+        letter-spacing: 0;
+      }
+
+      .page {
+        width: min(1220px, calc(100vw - 32px));
+        margin: 22px auto 58px;
+        border: 1px solid var(--line);
+        background: var(--paper);
+        box-shadow: var(--shadow);
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        min-height: 64px;
+        padding: 0 22px;
+        border-bottom: 1px solid var(--line);
+        background: rgba(251, 252, 251, 0.94);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        backdrop-filter: blur(10px);
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--ink);
+        text-decoration: none;
+        font-weight: 760;
+      }
+
+      .brand-mark {
+        width: 28px;
+        height: 28px;
+        border: 2px solid var(--ink);
+        border-radius: 50%;
+        position: relative;
+      }
+
+      .brand-mark::after {
+        content: "";
+        position: absolute;
+        width: 10px;
+        height: 2px;
+        left: 12px;
+        top: 12px;
+        background: var(--amber);
+        transform: rotate(-18deg);
+        transform-origin: left center;
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        flex-wrap: wrap;
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .nav a {
+        color: var(--muted);
+        text-decoration: none;
+      }
+
+      .nav a:hover {
+        color: var(--ink);
+      }
+
+      .hero {
+        padding: clamp(28px, 5vw, 58px);
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: minmax(420px, 0.82fr) minmax(500px, 1.18fr);
+        gap: clamp(24px, 3vw, 36px);
+        align-items: center;
+      }
+
+      .hero-copy {
+        display: grid;
+        gap: 22px;
+        min-width: 0;
+      }
+
+      .subtitle {
+        max-width: 700px;
+        color: var(--muted);
+        font-size: clamp(17px, 2vw, 22px);
+        line-height: 1.55;
+      }
+
+      .clock-readout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        max-width: 640px;
+      }
+
+      .readout {
+        border-left: 4px solid var(--steel);
+        padding: 10px 12px;
+        background: var(--steel-soft);
+      }
+
+      .readout.warn {
+        border-color: var(--amber);
+        background: var(--amber-soft);
+      }
+
+      .readout span {
+        display: block;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 760;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      .readout strong {
+        display: block;
+        margin-top: 2px;
+        font-size: clamp(26px, 3.4vw, 38px);
+        line-height: 1;
+        letter-spacing: 0;
+        white-space: nowrap;
+      }
+
+      .clock-panel {
+        border: 1px solid var(--line);
+        background: #ffffff;
+        padding: 14px;
+        box-shadow: 0 14px 36px rgba(21, 33, 42, 0.09);
+      }
+
+      .track-stage {
+        position: relative;
+        min-height: 560px;
+        overflow: hidden;
+        border: 1px solid #e1e7eb;
+        background: #f7fafb;
+      }
+
+      .rail-art {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center center;
+        filter: saturate(1.02) contrast(1.02);
+      }
+
+      .art-vignette {
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(90deg, rgba(255,255,255,0.74), rgba(255,255,255,0.08) 34%, rgba(255,255,255,0.05) 72%, rgba(255,255,255,0.42)),
+          linear-gradient(180deg, rgba(255,255,255,0.78), rgba(255,255,255,0) 22%, rgba(255,255,255,0) 70%, rgba(255,255,255,0.86));
+        pointer-events: none;
+      }
+
+      .rail-overlay {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+
+      .hud-chip {
+        position: absolute;
+        max-width: 170px;
+        padding: 8px 10px;
+        border: 1px solid rgba(21, 33, 42, 0.16);
+        background: rgba(255, 255, 255, 0.82);
+        box-shadow: 0 8px 24px rgba(21, 33, 42, 0.12);
+        backdrop-filter: blur(8px);
+      }
+
+      .hud-chip span {
+        display: block;
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 820;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .hud-chip strong {
+        display: block;
+        margin-top: 2px;
+        font-size: 14px;
+        line-height: 1.2;
+      }
+
+      .hud-chip.rail {
+        left: 7%;
+        top: 38%;
+        border-left: 4px solid var(--teal);
+      }
+
+      .hud-chip.train {
+        right: 12%;
+        top: 35%;
+        border-left: 4px solid var(--amber);
+      }
+
+      .hud-chip.gap {
+        right: 6%;
+        bottom: 22%;
+        border-left: 4px solid var(--rose);
+      }
+
+      .clock-needle {
+        position: absolute;
+        left: 41%;
+        bottom: 22%;
+        width: 31%;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, var(--rose));
+        transform: rotate(-3deg);
+        transform-origin: left center;
+        opacity: 0.9;
+      }
+
+      .gap-bracket {
+        position: absolute;
+        right: 23%;
+        bottom: 26%;
+        width: 19%;
+        height: 52px;
+        border-top: 3px solid var(--rose);
+        border-right: 3px solid var(--rose);
+        border-bottom: 3px solid var(--rose);
+        opacity: 0.74;
+      }
+
+      .station-strip {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 8px;
+        margin-top: 12px;
+      }
+
+      .station {
+        min-height: 72px;
+        border: 1px solid var(--line);
+        background: #fff;
+        padding: 10px;
+      }
+
+      .station span {
+        display: block;
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 820;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .station strong {
+        display: block;
+        margin-top: 4px;
+        font-size: 14px;
+        line-height: 1.2;
+      }
+
+      .station.done {
+        border-top: 4px solid var(--teal);
+      }
+
+      .station.warn {
+        border-top: 4px solid var(--amber);
+      }
+
+      .station.gap {
+        border-top: 4px solid var(--rose);
+      }
+
+      .gauge-stack {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+        margin-top: 14px;
+      }
+
+      .gauge {
+        border: 1px solid var(--line);
+        background: #fff;
+        padding: 12px;
+      }
+
+      .gauge-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .gauge-head strong {
+        font-size: 15px;
+      }
+
+      .gauge-head span {
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 760;
+      }
+
+      .bar {
+        height: 8px;
+        margin-top: 10px;
+        border: 1px solid #c9d5db;
+        background: #edf2f4;
+        overflow: hidden;
+      }
+
+      .bar i {
+        display: block;
+        height: 100%;
+        width: var(--value);
+        background: var(--steel);
+      }
+
+      .bar.train i {
+        background: var(--amber);
+      }
+
+      .bar.risk i {
+        background: var(--rose);
+      }
+
+      .section {
+        padding: clamp(28px, 5vw, 54px);
+        border-top: 1px solid var(--line);
+      }
+
+      .section-title {
+        display: flex;
+        justify-content: space-between;
+        gap: 24px;
+        align-items: end;
+        margin-bottom: 20px;
+      }
+
+      .section-title p {
+        max-width: 430px;
+        color: var(--muted);
+      }
+
+      .signal-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .signal {
+        display: grid;
+        grid-template-columns: 52px 1fr auto;
+        gap: 14px;
+        align-items: center;
+        padding: 14px;
+        border: 1px solid var(--line);
+        background: #fff;
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+      }
+
+      .signal::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: var(--score);
+        height: 3px;
+        background: var(--steel);
+      }
+
+      .signal.capital::after {
+        background: var(--amber);
+      }
+
+      .signal:hover {
+        transform: translateY(-2px);
+        border-color: #b7c9d4;
+        box-shadow: 0 12px 28px rgba(21, 33, 42, 0.08);
+      }
+
+      .signal-score {
+        display: grid;
+        place-items: center;
+        width: 52px;
+        height: 52px;
+        border: 2px solid currentColor;
+        border-radius: 50%;
+        color: var(--steel);
+        font-weight: 820;
+      }
+
+      .signal.capital .signal-score {
+        color: var(--amber);
+      }
+
+      .signal strong {
+        display: block;
+        margin-bottom: 3px;
+      }
+
+      .signal p {
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .signal a {
+        align-self: start;
+        font-size: 13px;
+        font-weight: 760;
+        white-space: nowrap;
+      }
+
+      .method {
+        display: grid;
+        grid-template-columns: minmax(340px, 0.82fr) minmax(420px, 1.18fr);
+        gap: 18px;
+      }
+
+      .method-copy {
+        border-left: 4px solid var(--teal);
+        background: var(--teal-soft);
+        padding: 18px;
+      }
+
+      .method-copy p + p {
+        margin-top: 12px;
+      }
+
+      .table-wrap {
+        overflow-x: auto;
+        border: 1px solid var(--line);
+        background: #fff;
+      }
+
+      table {
+        width: 100%;
+        min-width: 560px;
+        border-collapse: collapse;
+      }
+
+      th,
+      td {
+        padding: 12px 14px;
+        border-bottom: 1px solid var(--line);
+        text-align: left;
+        vertical-align: top;
+      }
+
+      th {
+        color: var(--muted);
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        background: #f3f7f8;
+      }
+
+      td {
+        font-size: 13px;
+      }
+
+      .source-tape {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .source {
+        min-height: 126px;
+        border: 1px solid var(--line);
+        background: #fff;
+        padding: 14px;
+        text-decoration: none;
+        color: var(--ink);
+        transition: transform 0.18s ease, box-shadow 0.18s ease;
+      }
+
+      .source:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 24px rgba(21, 33, 42, 0.09);
+      }
+
+      .source span {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 760;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      .source strong {
+        display: block;
+        margin-top: 7px;
+        font-size: 16px;
+        line-height: 1.25;
+      }
+
+      .source p {
+        margin-top: 8px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .notes {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .note {
+        border-top: 4px solid var(--line);
+        background: #fff;
+        padding: 16px;
+      }
+
+      .note.rail {
+        border-color: var(--steel);
+      }
+
+      .note.train {
+        border-color: var(--amber);
+      }
+
+      .note.risk {
+        border-color: var(--rose);
+      }
+
+      .note p {
+        margin-top: 8px;
+        color: var(--muted);
+      }
+
+      .footer {
+        padding: 22px clamp(28px, 5vw, 54px);
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .metric-line {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        display: inline-block;
+        background: var(--steel);
+      }
+
+      .dot.train {
+        background: var(--amber);
+      }
+
+      .dot.risk {
+        background: var(--rose);
+      }
+
+      @media (max-width: 920px) {
+        .page {
+          width: 100%;
+          margin: 0;
+          border-left: 0;
+          border-right: 0;
+        }
+
+        .topbar {
+          position: static;
+        }
+
+        .hero-grid,
+        .method,
+        .signal-grid,
+        .notes {
+          grid-template-columns: 1fr;
+        }
+
+        .clock-readout,
+        .gauge-stack,
+        .station-strip,
+        .source-tape {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .track-stage {
+          min-height: 430px;
+        }
+      }
+
+      @media (max-width: 620px) {
+        body {
+          font-size: 14px;
+        }
+
+        .topbar {
+          align-items: flex-start;
+          flex-direction: column;
+          padding: 14px 18px;
+        }
+
+        .hero,
+        .section {
+          padding: 24px 18px;
+        }
+
+        .clock-readout,
+        .gauge-stack,
+        .station-strip,
+        .source-tape {
+          grid-template-columns: 1fr;
+        }
+
+        .signal {
+          grid-template-columns: 44px 1fr;
+        }
+
+        .signal a {
+          grid-column: 2;
+        }
+
+        .signal-score {
+          width: 44px;
+          height: 44px;
+          font-size: 13px;
+        }
+
+        .track-stage {
+          min-height: 360px;
+        }
+
+        .hud-chip {
+          position: static;
+          max-width: none;
+          margin: 8px;
+        }
+
+        .rail-overlay {
+          display: grid;
+          align-content: end;
+          padding-bottom: 6px;
+        }
+
+        .clock-needle,
+        .gap-bracket {
+          display: none;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          transition: none !important;
+          animation: none !important;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <main class="page">
+      <header class="topbar">
+        <a class="brand" href="../">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span>Jingxiang Guo / Clock</span>
+        </a>
+        <nav class="nav" aria-label="Clock sections">
+          <a href="#signals">Signals</a>
+          <a href="#method">Method</a>
+          <a href="#sources">Sources</a>
+          <a href="../">Home</a>
+        </nav>
+      </header>
+
+      <section class="hero">
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <h1>Embodied Intelligence Doomsday Clock</h1>
+            <p class="subtitle">
+              具身智能的末日钟不是说机器人世界末日，而是衡量一件事：技术铁轨铺设速度，能不能追上资本火车和行业 PR 的燃烧速度。
+            </p>
+            <div class="clock-readout" aria-label="Current clock readout">
+              <div class="readout warn">
+                <span>Clock time</span>
+                <strong>11:42 PM</strong>
+              </div>
+              <div class="readout">
+                <span>Current gap</span>
+                <strong>18 pts</strong>
+              </div>
+            </div>
+            <p class="subtitle" style="font-size: 16px;">
+              现在这辆车已经很快：Figure、Skild、Sunday、PI 等融资和估值把火车推到高速段；铁轨也确实在铺，VLA、robot foundation model、world model、data engine、on-device inference 都在进步。风险在于：铁轨不是没有，而是资本火车可能先跑到未铺好的地方。
+            </p>
+          </div>
+
+          <aside class="clock-panel" aria-label="Rail and train visualization">
+            <div class="track-stage">
+              <img
+                class="rail-art"
+                src="../assets/img/clock/embodied-clock-rail-train.png"
+                alt="A high-speed capital train rushing toward unfinished embodied intelligence rails"
+                loading="eager">
+              <div class="art-vignette" aria-hidden="true"></div>
+              <div class="rail-overlay" aria-hidden="true">
+                <div class="clock-needle"></div>
+                <div class="gap-bracket"></div>
+                <div class="hud-chip rail">
+                  <span>Track builders</span>
+                  <strong>VLA / World Model / Data Engine</strong>
+                </div>
+                <div class="hud-chip train">
+                  <span>Capital train</span>
+                  <strong>mega-rounds + PR heat</strong>
+                </div>
+                <div class="hud-chip gap">
+                  <span>Derailment gap</span>
+                  <strong>18 pts to midnight</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="gauge-stack">
+              <div class="gauge">
+                <div class="gauge-head">
+                  <strong>Rail progress</strong>
+                  <span>64/100</span>
+                </div>
+                <div class="bar" style="--value: 64%;">
+                  <i></i>
+                </div>
+              </div>
+              <div class="gauge">
+                <div class="gauge-head">
+                  <strong>Capital train pressure</strong>
+                  <span>82/100</span>
+                </div>
+                <div class="bar train" style="--value: 82%;">
+                  <i></i>
+                </div>
+              </div>
+              <div class="gauge">
+                <div class="gauge-head">
+                  <strong>Patience reserve</strong>
+                  <span>36/100</span>
+                </div>
+                <div class="bar risk" style="--value: 36%;">
+                  <i></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="station-strip" aria-label="Track construction stages">
+              <div class="station done">
+                <span>laid</span>
+                <strong>VLA control</strong>
+              </div>
+              <div class="station done">
+                <span>laid</span>
+                <strong>robot data engines</strong>
+              </div>
+              <div class="station warn">
+                <span>under load</span>
+                <strong>world models</strong>
+              </div>
+              <div class="station warn">
+                <span>thin rail</span>
+                <strong>deployment eval</strong>
+              </div>
+              <div class="station gap">
+                <span>unfinished</span>
+                <strong>scaled PMF</strong>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section" id="signals">
+        <div class="section-title">
+          <div>
+            <h2>Signal Board</h2>
+          </div>
+          <p>这些分数是人工判断，不是自动爬虫精算。高分不等于真实产品成熟，只说明这个方向正在更快地铺轨或更快地给火车加燃料。</p>
+        </div>
+
+        <div class="signal-grid">
+          <article class="signal" style="--score: 76%;">
+            <div class="signal-score">76</div>
+            <div>
+              <strong>PI / VLA generalist rail</strong>
+              <p>π0 和 π0.7 把多机器人、多任务、语言/视觉子目标、dexterous manipulation 推成当前最强铁轨之一。</p>
+            </div>
+            <a href="https://arxiv.org/abs/2410.24164">source</a>
+          </article>
+          <article class="signal" style="--score: 70%;">
+            <div class="signal-score">70</div>
+            <div>
+              <strong>Google / on-device VLA rail</strong>
+              <p>Gemini Robotics On-Device 把低延迟、本地推理、50-100 demos 快速适配变成真实机器人开发问题。</p>
+            </div>
+            <a href="https://deepmind.google/blog/gemini-robotics-on-device-brings-ai-to-local-robotic-devices/">source</a>
+          </article>
+          <article class="signal" style="--score: 68%;">
+            <div class="signal-score">68</div>
+            <div>
+              <strong>NVIDIA / open humanoid rail</strong>
+              <p>GR00T N1.5/N1.6、Cosmos、Isaac Sim、synthetic motion data 正在把机器人训练管线工业化。</p>
+            </div>
+            <a href="https://research.nvidia.com/labs/gear/gr00t-n1_6/">source</a>
+          </article>
+          <article class="signal" style="--score: 58%;">
+            <div class="signal-score">58</div>
+            <div>
+              <strong>Conference and arXiv rail</strong>
+              <p>RSS、ICRA、IROS 的 VLA / world generation / data-engine workshop 增多，但评估、泛化、sim-to-real 仍是短轨。</p>
+            </div>
+            <a href="https://arxiv.org/abs/2604.23001">source</a>
+          </article>
+          <article class="signal capital" style="--score: 94%;">
+            <div class="signal-score">94</div>
+            <div>
+              <strong>Figure mega-round fuel</strong>
+              <p>$1B+ Series C、$39B post-money valuation，同时承诺 Helix、BotQ、GPU infrastructure 和数据采集扩张。</p>
+            </div>
+            <a href="https://www.figure.ai/news/series-c">source</a>
+          </article>
+          <article class="signal capital" style="--score: 91%;">
+            <div class="signal-score">91</div>
+            <div>
+              <strong>Skild universal brain fuel</strong>
+              <p>Close to $1.4B、over $14B valuation，叙事是 omni-bodied robot brain，资本火车速度非常高。</p>
+            </div>
+            <a href="https://www.businesswire.com/news/home/20260114335623/en/Skild-AI-Raises-%241.4B-Now-Valued-Over-%2414B">source</a>
+          </article>
+          <article class="signal capital" style="--score: 82%;">
+            <div class="signal-score">82</div>
+            <div>
+              <strong>Sunday deployment PR heat</strong>
+              <p>Series B $165M、$1.15B valuation，同时明确说 No More Demos、2026 household beta，这会显著抬高耐心消耗。</p>
+            </div>
+            <a href="https://www.sunday.ai/journal/series-b">source</a>
+          </article>
+          <article class="signal capital" style="--score: 74%;">
+            <div class="signal-score">74</div>
+            <div>
+              <strong>Readiness counter-signal</strong>
+              <p>Gartner 预测 2028 前少于 20 家 humanoid 公司能在制造和供应链生产级规模化，说明火车前方仍有断轨。</p>
+            </div>
+            <a href="https://www.gartner.com/en/newsroom/press-releases/2026-01-21-gartner-predicts-fewer-than-20-companies-will-scale-humanoid-robots-for-manufacturing-and-supply-chain-to-production-stage-by-2028">source</a>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="method">
+        <div class="section-title">
+          <div>
+            <h2>How the Clock Is Set</h2>
+          </div>
+          <p>末日钟是一种诊断，不是预测。这里的 midnight 表示资本耐心比技术闭环先耗尽：融资撤场、估值重定价、PR 叙事反噬。</p>
+        </div>
+
+        <div class="method">
+          <div class="method-copy">
+            <p>
+              铁轨 = research / lab progress：VLA 控制、world model、真实数据飞轮、synthetic data、on-device 推理、跨 embodiment 泛化、会议和 arXiv 的问题密度。
+            </p>
+            <p>
+              火车 = capital / PR pressure：融资速度、估值斜率、mega-round、发布会承诺、household / factory deployment narrative，以及“今年就能落地”的语气强度。
+            </p>
+            <p>
+              当前读数 11:42 PM = rail 64, train 82。差距 18 点，所以离 midnight 18 分钟。若铁轨超过火车，钟会往回拨；若资本火车继续加速而技术闭环停滞，钟会靠近 midnight。
+            </p>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Track</th>
+                  <th>What I count</th>
+                  <th>Current read</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>VLA / policy</td>
+                  <td>π0/π0.7, Gemini Robotics, GR00T, SmolVLA-style baselines, cross-embodiment demos</td>
+                  <td>Good rail, but still task-family dependent</td>
+                </tr>
+                <tr>
+                  <td>World/data engine</td>
+                  <td>World generation, synthetic motion data, robot data engines, simulation-to-real evaluation</td>
+                  <td>Fast rail construction, still weak grounding</td>
+                </tr>
+                <tr>
+                  <td>Deployment</td>
+                  <td>Real homes, factories, warehouses, logistics, uptime, safety, cost and maintenance</td>
+                  <td>Short track after demos</td>
+                </tr>
+                <tr>
+                  <td>Capital pressure</td>
+                  <td>Figure, Skild, Sunday, PI-style funding, China May 2026 financing sheet, state/strategic money</td>
+                  <td>Train already at high speed</td>
+                </tr>
+                <tr>
+                  <td>PR heat</td>
+                  <td>Claims like robot brain, no more demos, beta this year, general intelligence for the physical world</td>
+                  <td>Useful for recruiting, dangerous for patience</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="sources">
+        <div class="section-title">
+          <div>
+            <h2>Source Tape</h2>
+          </div>
+          <p>这个页面会定期换源。现在版本按 2026-06-09 的公开资料和你给的 2026 年 5 月融资汇总图做一次手工设钟。</p>
+        </div>
+
+        <div class="source-tape">
+          <a class="source" href="https://thebulletin.org/doomsday-clock/faq/">
+            <span>Metaphor</span>
+            <strong>Bulletin Doomsday Clock FAQ</strong>
+            <p>Clock as warning metaphor, not precision instrument.</p>
+          </a>
+          <a class="source" href="https://arxiv.org/abs/2410.24164">
+            <span>Rail</span>
+            <strong>π0 VLA model</strong>
+            <p>Multi-platform dexterous robot policy, RSS 2025.</p>
+          </a>
+          <a class="source" href="https://www.pi.website/blog/pi07">
+            <span>Rail</span>
+            <strong>π 0.7</strong>
+            <p>Compositional generalization and steerable generalist model.</p>
+          </a>
+          <a class="source" href="https://generalistai.com/">
+            <span>Rail</span>
+            <strong>Generalist AI</strong>
+            <p>Frontier lab signal: robots that work, GEN-1, physical AI.</p>
+          </a>
+          <a class="source" href="https://deepmind.google/blog/gemini-robotics-on-device-brings-ai-to-local-robotic-devices/">
+            <span>Rail</span>
+            <strong>Gemini Robotics On-Device</strong>
+            <p>Local VLA, low latency, fast task adaptation.</p>
+          </a>
+          <a class="source" href="https://research.nvidia.com/labs/gear/gr00t-n1_6/">
+            <span>Rail</span>
+            <strong>GR00T N1.6</strong>
+            <p>Open humanoid foundation model progress and data mix.</p>
+          </a>
+          <a class="source" href="https://arxiv.org/abs/2604.23001">
+            <span>Rail</span>
+            <strong>VLA data-engine survey</strong>
+            <p>Data infrastructure, benchmarks and scalable data gaps.</p>
+          </a>
+          <a class="source" href="https://roboticsfoundation.org/awards/best-paper-award/">
+            <span>Conference</span>
+            <strong>RSS 2025 awards</strong>
+            <p>World model learning appears in core robotics awards.</p>
+          </a>
+          <a class="source" href="https://icra2026vlapipeline.github.io/">
+            <span>Conference</span>
+            <strong>ICRA 2026 VLA pipeline</strong>
+            <p>Data-to-decision workshop and real robot data competition.</p>
+          </a>
+          <a class="source" href="https://robogen-iros.github.io/">
+            <span>Conference</span>
+            <strong>IROS 2025 RoboGen</strong>
+            <p>World generation for robot learning and validation.</p>
+          </a>
+          <a class="source" href="https://www.figure.ai/news/series-c">
+            <span>Train</span>
+            <strong>Figure Series C</strong>
+            <p>$1B+ committed capital, $39B post-money valuation.</p>
+          </a>
+          <a class="source" href="https://www.businesswire.com/news/home/20260114335623/en/Skild-AI-Raises-%241.4B-Now-Valued-Over-%2414B">
+            <span>Train</span>
+            <strong>Skild AI Series C</strong>
+            <p>Close to $1.4B funding, over $14B valuation.</p>
+          </a>
+          <a class="source" href="https://www.sunday.ai/journal/series-b">
+            <span>Train</span>
+            <strong>Sunday Series B</strong>
+            <p>$165M at $1.15B valuation, explicit deployment narrative.</p>
+          </a>
+          <a class="source" href="https://www.gartner.com/en/newsroom/press-releases/2026-01-21-gartner-predicts-fewer-than-20-companies-will-scale-humanoid-robots-for-manufacturing-and-supply-chain-to-production-stage-by-2028">
+            <span>Risk</span>
+            <strong>Gartner readiness warning</strong>
+            <p>Hype outpaces readiness for large-scale humanoid deployment.</p>
+          </a>
+          <a class="source" href="https://arxiv.org/abs/2606.03551">
+            <span>Infra</span>
+            <strong>Isaac Sim paper</strong>
+            <p>Simulation and synthetic data as robotics infrastructure.</p>
+          </a>
+          <a class="source" href="https://arxiv.org/abs/2603.11101">
+            <span>Infra</span>
+            <strong>Thousand-GPU embodied infra</strong>
+            <p>Large-scale cloud training, data, evaluation and compute.</p>
+          </a>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="notes">
+          <article class="note rail">
+            <h3>What would move the clock back?</h3>
+            <p>可靠的跨场景部署、可复现的 robot data engine、公开 benchmark 上的长期任务成功率、真实客户的 uptime/cost 数据。</p>
+          </article>
+          <article class="note train">
+            <h3>What moves it forward?</h3>
+            <p>融资和估值继续倍增，但实际交付仍停留在 demo、beta waitlist 或少量 pilot；发布会承诺越具体，耐心消耗越快。</p>
+          </article>
+          <article class="note risk">
+            <h3>What is derailment?</h3>
+            <p>不是技术失败，而是资本撤场：估值重定价、下一轮断裂、客户不续约、媒体从“具身智能新工业革命”转向“机器人泡沫”。</p>
+          </article>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <div class="metric-line">
+          <span class="dot"></span><span>Rail progress 64</span>
+          <span class="dot train"></span><span>Capital train pressure 82</span>
+          <span class="dot risk"></span><span>Manual clock set on 2026-06-09</span>
+        </div>
+      </footer>
+    </main>
+  </body>
+</html>

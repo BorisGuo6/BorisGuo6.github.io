@@ -1,12 +1,12 @@
 {
   "schema_version": "project.v1",
   "project_id": "umi-world-model",
-  "title": "Tri-View Layered Manipulation World Model",
+  "title": "Tri-View Ego World + IDM Foundation Model",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-06-05T01:35:00+02:00",
-  "description": "Dual-wrist + D435 data now; fixed-exo capture/synthesis target + object/contact layers",
-  "summary": "Post-Gamma-World, this project is reframed away from generic synchronized multi-agent video generation. The current data reality is stricter than the first tri-view plan: Yuhang/Daimon UMI data has dual wrist fisheye views and a D435 main view, but no fixed third-person/exo view. The core question is therefore which view and which explicit layer carries manipulation-useful state, and whether fixed-exo evidence must be newly captured or can be synthesized well enough for reward/eval and failure analysis.",
+  "updated_at": "2026-06-09T02:05:00+08:00",
+  "description": "Two-stage ego-view world model + Image-Layered IDM/control stack",
+  "summary": "Tri-View is being rewritten as a two-stage Ego World + IDM foundation model. Stage 1 learns an interactive UMI Ego World: wrist cameras and fixed or floating robot-head cameras are all ego views, all views share overlapping context, and future video responds to real-time external action conditions like a teleoperation video model. Stage 2 explains how to use those generated videos through Image-Layered decomposition: the robot layer trains IDM and supports pose / VO, the object-interaction layer trains process reward and RL self-supervision, and the scene layer enables physics-aware augmentation or self-adaptation. The project answers three questions: how should the world change, what interaction-centric information is needed, and how to decode visual futures into robot position, velocity, and current-loop commands.",
   "asset": "dashboard/assets/umi-dataset-visualization.png",
   "asset_alt": "UMI dataset annotation and subtask segmentation visualization panel",
   "asset_caption": "Dataset QA: synchronized wrist views, 3D pose, EEF traces, current segment, and action log after subtask splitting.",
@@ -14,66 +14,97 @@
     "layout": "standard"
   },
   "details": [
-    "Reorganized title / intro 2026-05-31: the project is now Tri-View Layered Manipulation World Model. UMI remains the main data and v0 training substrate, but the paper story is not UMI-only and not Image-Layered-only.",
-    "Gamma-World boundary: Gamma already occupies the generic synchronized action-conditioned multi-agent world-model lane with agent identity encoding, Sparse Hub Attention, and streaming rollout. Our contribution must avoid “dual-wrist video generation” as the main claim.",
-    "Core hypothesis: for tabletop manipulation, useful information is not “more cameras” by default. The key is whether fixed exo, wrist/ego, and explicit layers expose object state, contact, reward, and failure evidence better than flat generated pixels.",
-    "View design after data check: the available UMI substrate is left/right wrist fisheye plus a D435 main view. Fixed third-person/exo remains the desired reward/eval view, but it is not present in Yuhang/Daimon UMI data and must come from new capture or a risky cross-view synthesis probe.",
-    "Layer design: predict or infer scene/background, object/contact transition, robot/ego motion, human/occluder mask, and recomposed views. These layers should be state supervision for manipulation, not only editable visual PSD layers.",
-    "v0 baseline: keep Wan2.2-TI2V-5B LoRA step-125 as the dual-wrist concatenation baseline. It answers whether the current training run learned anything useful, but it is no longer the final contribution by itself.",
-    "v1 model direction: move from spatial concatenation toward structured view-axis conditioning and layer heads. Action should enter through explicit dual-arm pose/gripper traces, not only captions or first-frame appearance.",
-    "Evaluation direction: first compare wrist-only, D435-main, wrist+D435, and layer-head variants on existing data; only run fixed-exo-only / wrist+exo / wrist+exo+layers after new fixed-exo capture or a credible synthesized fixed view exists. Report visual quality only as secondary evidence; primary evidence should be object/contact consistency, action controllability, reward-model usefulness, failure attribution, and held-out task correlation.",
-    "Existing done evidence folded in: Qwen-Image-Layered proved scene/background separation is useful but robot/ego isolation is weak; object/contact and robot/ego probes justify explicit heads; WMFactory + iWorld-Bench gives the UI/eval harness; DreamX-World and Genie remain baselines/tools.",
-    "Data requirement update 2026-05-31: Yuhang/Daimon UMI data has no fixed third-person/exo view at all, not even non-fixed. Humanoid data with this setting is also very scarce. The usable existing format is two wrist fisheye cameras plus a D435 main view, so fixed-exo reward/eval either requires new synchronized capture or a high-risk EgoX/ego-exo generation feasibility probe.",
-    "Dataset-selection update 2026-06-04: use MolmoAct's real-robot data design as a reference for side/external + wrist pairing and action-reasoning supervision, and use MolmoAct2-BimanualYAM as a LeRobot-format reference for synchronized top/left/right video plus bimanual state/action. This is only a schema and ablation reference: current UMI/Jianzhi data still lacks the third robot-ego fixed view, so fixed-view reward/eval cannot be assumed.",
-    "Discussion update 2026-05-31: the immediate experiment is to test whether EgoX-style or broader ego/exo view translation can synthesize a stable fixed/main view from wrist fisheye + D435 evidence. This is not assumed to work; it is a go/no-go probe because the desired direction may be wrist/ego/main-D435 to fixed-exo, while EgoX itself is primarily exo-to-ego.",
-    "Positioning sentence for proposal: instead of asking whether synchronized robot videos can be generated, this project asks which views and explicit state layers make generated rollouts useful for manipulation reward, evaluation, and failure analysis.",
-    "Survey absorption 2026-06-05: Diverse Same Task Dataset becomes the object/contact schema and HOI data substrate for Tri-View. The next manifest pass should encode task_id, object_id, synchronized timestamps, camera provenance/extrinsics, object trajectory, contact sequence, grasp/tool-use mode, and task result.",
-    "Survey absorption 2026-06-05: Cross-Embodiment Representations becomes a v1 ablation axis. Compare camera-frame delta pose, object/contact heatmap, RGB+XYZ or point-cloud state, latent action, and an OHRA-style canonical-hand baseline on one existing HOI/UMI task before adding another architecture.",
-    "Bridge update 2026-06-05: VTLA contact-rich insertion and the Model-Assisted Teleop failure monitor feed UMI reward/eval/failure attribution. They are not independent Tri-View claims until warning lead time, contact timing, or reward/eval correlation improves an actual decision."
+    "Ego-view definition: wrist cameras and fixed or floating robot-head cameras are all treated as ego because they are robot-attached or robot-centered observation streams. Tri-View no longer means only a missing external fixed camera; it means synchronized ego views that share scene context and partially overlapping POVs.",
+    "Stage 1, Ego World: train an action-conditioned multi-view video world model that accepts current ego observations, shared context, and real-time external action conditions, then predicts action-responsive futures across wrist and robot-head views. This is the interactive UMI World Model side of the project.",
+    "Stage 2, IDM base: use the generated ego rollouts to infer executable robot actions. The IDM maps visual transitions and layer states into commands, then a controller-specific decoder chooses position-loop targets, velocity-loop commands, or current/torque-loop supervision depending on the required interaction.",
+    "Object-interaction-robot framing: the representation is not generic layered image editing. It separates robot motion, object interaction state, and scene/background so the model can reason about what changes, what caused it, and which part is useful for control.",
+    "Robot layer: when the arm is visible, use the robot layer in head / third ego view for robot pose or joint estimation and IDM supervision; this can also regularize wrist-view visual odometry by providing a robot-motion prior.",
+    "No-arm-visible branch: when the robot is not visible in a wrist or head view, use VO / SLAM / feed-forward visual geometry to recover camera egomotion and local scene coordinates, then let IDM infer action from object and scene transitions rather than direct arm pixels.",
+    "Object-interaction layer: treat object state, contact, and 6-DoF trajectory as the central dynamics target. ObjectForesight is the closest object-layer reference: it models future object motion with mesh/pose trajectories rather than raw pixels.",
+    "Scene layer: use physically and task-aware scene/background transformations, following the RoboEngine direction, for augmentation, domain adaptation, and self-adaptation without changing the robot/object interaction evidence.",
+    "Data bottleneck: the hard part is building usable layered and ego-view data. The current four TODOs are now aligned to this: Cosmos3 testing, three-view/ego-view dataset replacement, Gamma-World reproduction, and segment+inpaint/SVG/Image-Layered dataset preparation.",
+    "Positioning: Gamma-World remains the multi-agent interactive world-model baseline; Qwen-Image-Layered remains the layer decomposition baseline; ObjectForesight motivates the object-interaction layer; EVA-style IDM rewards motivate converting generated videos into executable control evidence."
   ],
   "task_ids": [
-    "task_umi_eval_gallery",
-    "task_umi_merge_image_layered_code_to_binding_machine",
-    "task_umi_fixed_exo_ego_layered_pivot",
-    "task_umi_tri_view_capture_schema",
-    "task_umi_egox_fixed_main_view_probe",
-    "task_umi_view_layer_ablation_plan",
-    "task_umi_layer_heads_v1",
-    "task_umi_reward_eval_probe",
-    "task_umi_gamma_baseline_positioning",
-    "task_umi_ego_exo_reverse_survey",
-    "task_umi_finetune_compute_request_teacher",
-    "task_umi_server2_25inch_ssd_storage",
-    "task_umi_gemini_frame_test",
-    "task_umi_seed2pro_annotation_test",
-    "task_umi_temporal_segmentation_survey",
-    "task_umi_base_model_decision",
-    "task_umi_dreamzero_ctrlworld_inference",
-    "task_umi_prepare_haoyu_test_set",
-    "task_umi_vbench_eval",
-    "task_umi_decide_ai2v_after_186_vbench",
-    "task_umi_ai2v_v0_training_pack",
-    "task_umi_cosmos25_concat_prompt_update",
-    "task_umi_action_injection_survey",
-    "task_umi_dreamxworld_wmfactory",
-    "task_umi_wmfactory_iworld_bench",
-    "task_umi_genie_envisioner_probe",
-    "task_umi_gamma_world_collision_strategy",
-    "task_layered_wm_survey_notes",
-    "task_layered_wm_methods",
-    "task_layered_wm_qwen_image_layered_probe",
-    "task_layered_wm_photoshop_psd_pipeline",
-    "task_layered_wm_layer_qa_metrics",
-    "task_layered_wm_contact_object_head",
-    "task_layered_wm_robot_ego_head",
-    "task_layered_wm_video_temporal_probe",
-    "task_layered_wm_linux_layer_editor_pipeline",
-    "task_umi_absorb_hoi_same_task_schema",
-    "task_umi_cross_embodiment_representation_ablation",
-    "task_umi_vtla_contact_failure_eval_bridge",
-    "task_umi_teleop_failure_monitor_bridge"
+    "task_umi_cosmos3_test",
+    "task_umi_replace_dataset_with_tri_view",
+    "task_umi_gamma_world_reproduction",
+    "task_umi_layered_dataset_segment_inpaint_svg"
   ],
   "references": [
+    {
+      "title": "Gamma-World: Generative Multi-Agent World Modeling Beyond Two Players",
+      "url": "https://arxiv.org/abs/2605.28816",
+      "arxiv_id": "2605.28816",
+      "submitted_at": "2026-05-27",
+      "notes": "MAIN REFERENCE / collision baseline. Gamma-World defines the generic synchronized action-conditioned multi-agent world-model lane, with Simplex Rotary Agent Encoding, Sparse Hub Attention, and causal real-time rollout. Tri-View should reproduce or baseline against this direction, then pivot the claim toward view/layer/eval utility for manipulation rather than agent-count scaling."
+    },
+    {
+      "title": "Qwen-Image-Layered: Layered Decomposition for Inherent Editability",
+      "url": "https://qwen.ai/blog?id=qwen-image-layered",
+      "arxiv_id": "2512.15603",
+      "submitted_at": "2025-12-17",
+      "notes": "MAIN REFERENCE / layer-decomposition route. Qwen-Image-Layered decomposes a single image into multiple RGBA layers for independent editing and recomposition. Use it as the direct image-layer baseline and as evidence that robot manipulation needs stronger object/contact and robot/ego supervision than generic editable layers."
+    },
+    {
+      "title": "ObjectForesight: Predicting Future 3D Object Trajectories from Human Videos",
+      "url": "https://objectforesight.github.io/",
+      "arxiv_id": "2601.05237",
+      "submitted_at": "2026",
+      "notes": "MAIN REFERENCE / object-centric dynamics route. ObjectForesight predicts future 6-DoF object trajectories from short egocentric video histories and builds large-scale pseudo-ground-truth object trajectory data from human videos using segmentation, tracking, reconstruction, depth/camera motion, and pose estimation. Use as the reference for object/contact layer targets and for the segment+track+reconstruct data pipeline."
+    },
+    {
+      "title": "Walk through Paintings: Egocentric World Models from Internet Priors",
+      "url": "https://arxiv.org/abs/2601.15284",
+      "arxiv_id": "2601.15284",
+      "submitted_at": "2026-01-21",
+      "notes": "Support reference for Ego World: transforms pretrained video diffusion models into action-conditioned egocentric world models with motor-command conditioning and structural consistency evaluation."
+    },
+    {
+      "title": "LOME: Learning Human-Object Manipulation with Action-Conditioned Egocentric World Model",
+      "url": "https://zerg-overmind.github.io/LOME.github.io/",
+      "notes": "Support reference for action-conditioned egocentric human-object interaction video: uses reference image, text prompt, and per-frame actions to generate physically plausible manipulation videos."
+    },
+    {
+      "title": "EgoSim: Egocentric World Simulator for Embodied Interaction Generation",
+      "url": "https://egosimulator.github.io/",
+      "arxiv_id": "2604.01001",
+      "submitted_at": "2026",
+      "notes": "Support reference for continuously updated egocentric interaction simulation with 3D state updating, geometry-action-aware observation simulation, and scalable egocentric video data construction."
+    },
+    {
+      "title": "EVA: Aligning Video World Models with Executable Robot Actions via Inverse Dynamics Rewards",
+      "url": "https://arxiv.org/abs/2603.17808",
+      "arxiv_id": "2603.17808",
+      "submitted_at": "2026-03-18",
+      "notes": "Support reference for IDM: generated video rollouts can be decoded into actions by an inverse dynamics model, and IDM-derived rewards can align video generation with executable robot constraints."
+    },
+    {
+      "title": "RoboEngine: Plug-and-Play Robot Data Augmentation with Semantic Robot Segmentation and Background Generation",
+      "url": "https://roboengine.github.io/",
+      "arxiv_id": "2503.18738",
+      "submitted_at": "2025",
+      "notes": "Support reference for scene layer: robot/object masks plus physics- and task-aware background generation for robot data augmentation and domain adaptation."
+    },
+    {
+      "title": "Single-View Robot Pose and Joint Angle Estimation via Render & Compare",
+      "url": "https://openaccess.thecvf.com/content/CVPR2021/papers/Labbe_Single-View_Robot_Pose_and_Joint_Angle_Estimation_via_Render__CVPR_2021_paper.pdf",
+      "notes": "Support reference for visible-robot branch: RoboPose estimates robot joint angles and 6D camera-to-robot pose from a single RGB image of a known articulated robot."
+    },
+    {
+      "title": "ORB-SLAM3: An Accurate Open-Source Library for Visual, Visual-Inertial and Multi-Map SLAM",
+      "url": "https://arxiv.org/abs/2007.11898",
+      "arxiv_id": "2007.11898",
+      "submitted_at": "2020-07-23",
+      "notes": "Support reference for no-arm-visible branch: visual/visual-inertial SLAM supports monocular, stereo, RGB-D, pinhole, and fisheye cameras, suitable as a VO/SLAM baseline for wrist/head ego views."
+    },
+    {
+      "title": "VGGT: Visual Geometry Grounded Transformer",
+      "url": "https://arxiv.org/abs/2503.11651",
+      "arxiv_id": "2503.11651",
+      "submitted_at": "2025-03-14",
+      "notes": "Support reference for feed-forward visual geometry: predicts camera parameters, depth, point maps, and 3D point tracks from one or many views, useful for wrist/head egomotion and object-scene geometry."
+    },
     {
       "title": "SANA-WM: Efficient Minute-Scale World Modeling with Hybrid Linear Diffusion Transformer",
       "url": "https://arxiv.org/abs/2605.15178",
@@ -87,13 +118,6 @@
       "arxiv_id": "2605.03941",
       "submitted_at": "2026-05-18",
       "notes": "Reference for evaluating interactive/camera-controllable world models with packaged metadata, camera trajectories, action-control, memory-ability, camera-following, and all-metric evaluation wrappers."
-    },
-    {
-      "title": "Gamma-World: Generative Multi-Agent World Modeling Beyond Two Players",
-      "url": "https://research.nvidia.com/labs/sil/projects/gamma-world/",
-      "arxiv_id": "2605.28816",
-      "submitted_at": "2026-05-27",
-      "notes": "Collision/baseline reference: generic synchronized action-conditioned multi-agent world model with Simplex Rotary Agent Encoding, Sparse Hub Attention, and streaming rollout. Use it to motivate our shift to view/layer-grounded manipulation evaluation."
     },
     {
       "title": "EgoX: Egocentric Video Generation from a Single Exocentric Video",
@@ -117,11 +141,6 @@
       "notes": "Bidirectional ego/exo translation reference with in-context perspective alignment and synchronized ego-exo triplets; relevant for tri-view cross-view synchronization."
     },
     {
-      "title": "Qwen-Image-Layered",
-      "url": "https://huggingface.co/Qwen/Qwen-Image-Layered",
-      "notes": "Layer-decomposition probe from the former Image-Layered card; useful for scene/background separation, but robot/ego and contact require explicit manipulation heads."
-    },
-    {
       "title": "MolmoAct: Action Reasoning Models that can Reason in Space",
       "url": "https://arxiv.org/abs/2508.07917",
       "arxiv_id": "2508.07917",
@@ -137,25 +156,16 @@
     }
   ],
   "risks_decisions": [
-    "Remote merge attempt 2026-05-31: Image-Layered code bundle is prepared locally from feibo; final installation on the UMI binding machine is blocked because jingxiang-b850m-c / 100.112.245.1 is offline on Tailscale.",
-    "Data reality 2026-05-31: Yuhang/Daimon UMI data has no fixed third-person/exo view, and humanoid data with this camera setup is extremely scarce. Do not assume fixed-exo reward/eval can be built from the old UMI data.",
-    "Available-view decision: treat two wrist fisheye cameras plus the D435 main view as the current train/eval substrate; fixed-exo is a target to synthesize or newly capture, not a guaranteed input.",
-    "EgoX-style fixed-view synthesis is a risky fallback: useful as a probe, but if camera stability, contact visibility, or object-state correctness is weak, the project must collect new synchronized fixed-exo data instead of building the paper claim on generated views.",
-    "Do not pitch the project as generic multi-agent synchronized world modeling; Gamma-World already occupies that lane.",
-    "Do not pitch the Wan2.2 dual-wrist concat LoRA as the final contribution; keep it as v0 baseline and qualitative/eval evidence.",
-    "The fixed-exo view is necessary for the new claim: without synchronized third-person data, reward/eval and global object-state arguments will be weak.",
-    "Layer heads must be manipulation-state heads, not aesthetic image-editing layers. Object/contact, robot/ego, occluder, and reward/eval utility are the criteria.",
-    "Any quality claim needs a comparison against base WAN, step-125 LoRA, GT, and a Gamma-style synchronized-agent framing where feasible.",
-    "If ego/wrist views do not improve over fixed-exo for tabletop tasks, that is still a valid contribution: the project should report view utility rather than assume ego is always useful.",
-    "Data/schema risk: tri-view capture requires camera sync, calibration, and consistent action traces; otherwise layer/eval metrics become hard to trust.",
-    "MolmoAct data reference decision 2026-06-04: borrow side+wrist pairing, LeRobot-style schema, language/action annotations, and view ablations from MolmoAct/MolmoAct2; do not treat them as evidence that our current dataset already has the needed fixed robot-ego/exo view.",
-    "Jianzhi/current-data risk 2026-06-04: current Jianzhi data also lacks the third robot-ego fixed view. The schema must explicitly encode camera provenance and fixed_view_status = absent/synthesized/new_capture before any reward/eval or object-state claim uses that view.",
-    "Compute risk: 14B-scale Wan2.2 remains a separate 8xA100/H100-class request; current project plan should not depend on it.",
-    "模型规模澄清：当前已经在 003 / L40S 上跑完的是 Wan2.2-TI2V-5B LoRA，不是 2B；如果后续要推进 Wan2.2 A14B / 14B，需要单独按 8xA100/H100 80GB 级别申请算力，8xL30 24GB 不作为主方案。",
-    "运维决策：WAN2.2 微调进入实际运行前，需要向老师明确算力需求、GPU 时间窗口和预算；2 号机服务器需要通过 2.5 英寸 SSD 扩充外存，避免训练数据、checkpoint 和 cache 卡在磁盘容量上。",
-    "Dashboard structure decision 2026-05-31: UMI World Model and Image-Layered World Model are merged into one visible card. The former Image-Layered project file remains only as an archived pointer to avoid losing history.",
-    "Survey merge decision 2026-06-05: do not leave same-task dataset design and cross-embodiment representation work as detached Survey TODOs. They now drive concrete Tri-View manifest, feature, and ablation tasks.",
-    "Bridge boundary 2026-06-05: VTLA/contact and teleop failure-monitor work should contribute metrics, labels, and failure traces to UMI, but the UMI paper should not claim tactile or assisted-teleop novelty unless a runnable prototype shows a measurable benefit."
+    "Story rewrite 2026-06-09: project is now a two-stage Ego World + IDM foundation-model story, not just tri-view video generation or image-layer decomposition.",
+    "Ego-view decision: wrist cameras and fixed/floating robot-head cameras count as ego views. A fixed robot-head camera can be the third view even if it is not a detached exocentric lab camera.",
+    "Shared-context requirement: all views must share the same scene/object/action context; if POV overlap and synchronization are weak, the model becomes independent video generation rather than an interactive world model.",
+    "Action-conditioning requirement: the Ego World must accept real-time external action conditions. Without action responsiveness, it cannot support teleoperation-like interaction or IDM training.",
+    "IDM executability risk: visually plausible generated video is not enough. The IDM/control decoder must produce smooth and feasible position, velocity, or current/torque-loop commands.",
+    "Robot visibility branch: if the arm is visible, prioritize robot pose/joint estimation from the robot layer; if not visible, use VO/SLAM/visual geometry to estimate camera egomotion and infer actions from object-scene transitions.",
+    "Object-layer decision: object interaction state is the main process-reward target. ObjectForesight-like 6-DoF object trajectories are a better analogy than generic object masks alone.",
+    "Scene-layer decision: scene/background replacement is for physics/task-aware augmentation and domain adaptation, not for changing the core object-robot interaction label.",
+    "Data risk: layered video data is the main bottleneck. Traditional segmentation may not track well enough, so Qwen-Image-Layered, segment+inpaint, pure video generation prompts, and SVG/structured representations should all be tested on small samples first.",
+    "Gamma-World boundary: reproduce or baseline against Gamma-World, but claim novelty around ego-view interaction, object-interaction-robot layers, and IDM/control decoding."
   ],
   "timeline": {
     "target_venue": "ICLR",
