@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-09T02:23:52+08:00",
+  "updated_at": "2026-06-09T02:25:28+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1478,9 +1478,16 @@
           "body": "Saved user's robot-brain thought: a brain-like robot controller should be agentic/modular. Simple tasks route to specialized small models or deterministic controllers; long tasks use VLM decomposition and context; each subtask chooses classical optimization, VLA, skill/API call, simulator/world-model check, or escalation. Keep an edge fallback such as SmolVLA-style local LeRobot policy so network failure does not leave the robot with no action output.",
           "created_at": "2026-06-09T02:05:21+08:00",
           "kind": "framing_note"
+        },
+        {
+          "comment_id": "comment_self_improving_system_0_1_2_robot_brain_20260609",
+          "author": "Boris / Codex",
+          "body": "Saved user's System 0/1/2 robot-brain story: System 0 is embodied reflex using proprioception, tactile, motor current, joint/force/body signals, similar to spinal control; System 1 is fast action selection for behavior that does not need long history or heavy context; System 2 is memory/context-dependent reasoning, planning, decomposition, and recovery. The mediator should be a latent space rather than only prompt text, so low-level reflex state, short-horizon policy state, high-level intent, uncertainty, and safety constraints can be exchanged across layers.",
+          "created_at": "2026-06-09T02:25:28+08:00",
+          "kind": "framing_note"
         }
       ],
-      "updated_at": "2026-06-09T02:05:21+08:00"
+      "updated_at": "2026-06-09T02:25:28+08:00"
     },
     {
       "task_id": "task_self_improving_r4r_format",
