@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-09T11:04:55+08:00",
+  "updated_at": "2026-06-09T11:09:33+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -6329,9 +6329,16 @@
           "body": "Remote implementation completed on AgenticSim. Files include source/agenticsim/agenticsim/memory/skill_call.py, MemoryStore skill-memory save/load adapter, tests/test_skill_call_gate.py, and pytest collection fix in tests/test_full_pipeline.py. Verification on boris@100.101.68.35: `.venv/bin/pytest -q` returned 41 passed, 1 warning.",
           "created_at": "2026-06-05T01:18:00+02:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "clawcross_a20292ad5e65",
+          "author": "Host verification",
+          "body": "Local Codex host review accepted this TODO.\n可自动验收：本机已有 RESULT.md、实现文件、测试文件和可运行 SkillCall gate smoke，dashboard 当前 state 也已记录 host_verified/done。\nEvidence: /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json 中该 task 当前为 status=done，result 记录远端 pytest: 41 passed, 1 warning，并有 host_verified comment; /Users/boris/workspace/agenticsim_remote_patch/results/task_self_improving_skill_api_memory_gate/RESULT.md 记录 SkillCall schema/verifier/gate、MemoryStore adapter、promotion/failure handling 和验证结果; /Users/boris/workspace/agenticsim_remote_patch/source/agenticsim/agenticsim/memory/skill_call.py 定义 SkillCall、SkillTransition、SkillCallVerifier、SkillMemoryGate; /Users/boris/workspace/agenticsim_remote_patch/source/agenticsim/agenticsim/memory/trace_memory.py 定义 add_skill_memory/list_skill_memories 并持久化 skill_memories; /Users/boris/workspace/agenticsim_remote_patch/tests/test_skill_call_gate.py 覆盖 promotion、failure memory、persistence，并包含 InsertOntoSquarePeg 作为首个 SkillCall-Bench v0 smoke/task; 本机直接 smoke 输出: skill_call_gate_smoke passed; 完整 pytest 未能在本机重跑：.venv/bin/pytest 缺失，python3 环境缺 pytest/numpy；远端 ssh 被 sandbox 拒绝 Operation not permitted\nCommands: jq '.tasks[]? // empty | select(.task_id==\"task_self_improving_skill_api_memory_gate\")' /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json; rg -n \"task_self_improving_skill_api_memory_gate|SkillCall-Bench|SkillCall|MemoryStore adapter|state-transition verifier\" /Users/boris/workspace --glob '!**/.git/**' --glob '!**/node_modules/**' --glob '!**/.venv/**' --glob '!**/venv/**' --glob '!**/__pycache__/**'; sed -n '1,220p' /Users/boris/workspace/agenticsim_remote_patch/results/task_self_improving_skill_api_memory_gate/RESULT.md; sed -n '1,240p' source/agenticsim/agenticsim/memory/skill_call.py; sed -n '1,220p' tests/test_skill_call_gate.py; PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=source/agenticsim python3 -c \"import sys, types; sys.modules['numpy']=types.SimpleNamespace(ndarray=object); from agenticsim.memory import FailureType, MemoryStore, SkillCall, SkillMemoryGate, SkillTransition; store=MemoryStore(); gate=SkillMemoryGate(store,promotion_threshold=0.8); call=SkillCall(skill_name='insert_peg', preconditions={'peg_visible': True}, expected_outputs={'peg_pose':'seated'}, metadata={'requires_contact': True}); transition=SkillTransition(before={'peg_visible': True}, after={'peg_pose':'seated'}, contacts=[{'label':'peg_socket_contact'}], objects=['peg','socket'], success=True); result=gate.observe(call, transition, task_name='InsertOntoSquarePeg'); assert result.passed and result.promoted_memory_id == 'insert_peg'; assert store.list_skill_memories()[0].skill_name == 'insert_peg'; fail=gate.observe(call, SkillTransition(after={'peg_pose':'near_socket'}, contacts=[], success=False, failure_modes=['missed_contact']), task_name='InsertOntoSquarePeg'); assert not fail.passed; assert store.list_memories(FailureType.UNKNOWN)[0].metadata['skill_name'] == 'insert_peg'; print('skill_call_gate_smoke passed')\"\nReason: 验收所需的结果文件、实现、测试/verifier 和本机可复现 smoke 均存在；虽然本机缺少 pytest/numpy 且远端 ssh 被当前 sandbox 拦截，dashboard state 已有 host_verified 结果且本机 smoke 验证了核心 SkillCall promotion/failure gate 行为。",
+          "created_at": "2026-06-09T11:09:32+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-05T01:18:00+02:00",
+      "updated_at": "2026-06-09T11:09:32+08:00",
       "completed_at": "2026-06-05"
     },
     {
