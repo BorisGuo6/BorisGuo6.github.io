@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-09T10:30:53+08:00",
+  "updated_at": "2026-06-09T10:36:44+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -568,7 +568,7 @@
       "project_id": "umi-world-model",
       "title": "对照测试 Seed 2.0 Pro 做 UMI 标注",
       "description": "在 Gemini 已测过的 12 条样本上，补跑 Seed 2.0 Pro video understanding：比较关键动作边界、key-state 命名、caption 可用性和 3-5s 偏移案例是否改善；输出模型选择建议而不是只看单条效果。",
-      "status": "needs_user",
+      "status": "done",
       "priority": "medium",
       "assignee": null,
       "result": null,
@@ -630,9 +630,16 @@
           "body": "按 2026-06-09 Tri-View TODO 重组收口：旧开放项先统一标注 done，当前项目 TODO 只保留 Cosmos3 测试、三视角数据集替换、Gamma-World 复现、分图层/segment+inpaint/SVG 化数据集准备四项。原任务内容作为历史归档，不再作为当前开放 TODO。",
           "created_at": "2026-06-09T00:30:00+08:00",
           "kind": "todo_reset"
+        },
+        {
+          "comment_id": "clawcross_2f413d2c2c56",
+          "author": "Host verification",
+          "body": "Dashboard cleanup 2026-06-09: archived per Boris Tri-View TODO reset. Current open UMI TODOs are Cosmos3 test, tri-view dataset replacement, Gamma-World reproduction, and layered segment/inpaint/SVG dataset preparation.",
+          "created_at": "2026-06-09T10:42:00+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-09T10:30:38+08:00",
+      "updated_at": "2026-06-09T10:42:00+08:00",
       "completed_at": "2026-05-29"
     },
     {
@@ -3072,7 +3079,7 @@
       "project_id": "umi-world-model",
       "title": "向老师确认 WAN2.2 微调算力需求",
       "description": "Before committing to the WAN2.2 TI2V fine-tuning run, summarize and raise the compute ask to the teacher: target model route (5B first, 14B only if quality justifies it), expected GPU memory/time, dataset scale, queue/runtime assumptions on L40S or server #2, storage/cache needs, and fallback if the single-GPU LoRA route stalls. Acceptance: prepare the ask, record the teacher decision on GPU allocation/time window/budget/server choice, and update the fine-tune run plan.",
-      "status": "needs_user",
+      "status": "done",
       "priority": "high",
       "assignee": "Boris / teacher",
       "result": null,
@@ -3104,9 +3111,16 @@
           "body": "按 2026-06-09 Tri-View TODO 重组收口：旧开放项先统一标注 done，当前项目 TODO 只保留 Cosmos3 测试、三视角数据集替换、Gamma-World 复现、分图层/segment+inpaint/SVG 化数据集准备四项。原任务内容作为历史归档，不再作为当前开放 TODO。",
           "created_at": "2026-06-09T00:30:00+08:00",
           "kind": "todo_reset"
+        },
+        {
+          "comment_id": "clawcross_27d0a430f586",
+          "author": "Host verification",
+          "body": "Dashboard cleanup 2026-06-09: archived per Boris Tri-View TODO reset. Current open UMI TODOs are Cosmos3 test, tri-view dataset replacement, Gamma-World reproduction, and layered segment/inpaint/SVG dataset preparation.",
+          "created_at": "2026-06-09T10:42:00+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-09T10:30:39+08:00",
+      "updated_at": "2026-06-09T10:42:00+08:00",
       "due_at": "",
       "completed_at": "2026-06-09"
     },
@@ -3115,7 +3129,7 @@
       "project_id": "umi-world-model",
       "title": "给 2 号机服务器扩外存：购买并安装 2.5 英寸 SSD",
       "description": "Buy and install a 2.5-inch SSD on server #2 to expand storage for UMI WAN2.2 fine-tuning data, checkpoints, cache, and generated artifacts. Before purchase, confirm the actual server bay/interface/tray requirements, capacity target, power/thermal constraints, budget, and lab purchase path. Acceptance: record SSD model/capacity/price/purchase path; install and format/mount it; record lsblk/findmnt/df output, filesystem, stable mount path, permissions, simple read/write throughput, and the updated WAN2.2 data/checkpoint/cache placement plan.",
-      "status": "needs_user",
+      "status": "done",
       "priority": "high",
       "assignee": "Boris / lab admin",
       "result": "Storage expansion completed via the actual hardware route used today: Boris installed the 10T hard drive into the cloud NAS. This closes the storage-capacity blocker for large Tri-View / UMI datasets and generated artifacts. Note: this completion evidence corrects the older 2.5-inch server-SSD wording; the realized storage path is cloud NAS, not an internal server #2 SSD install.",
@@ -3147,9 +3161,16 @@
           "body": "用户更新 2026-06-09：今天已把 10T 硬盘装进云 NAS。以此作为该存储扩容事项的真实完成证据。纠偏：这不是 2 号机内部 2.5 英寸 SSD 安装，而是通过云 NAS 扩容解决大数据集 / 生成结果 / checkpoint 存储容量问题。",
           "created_at": "2026-06-09T01:25:00+08:00",
           "kind": "user_evidence"
+        },
+        {
+          "comment_id": "clawcross_5da417f80c6d",
+          "author": "Host verification",
+          "body": "Dashboard cleanup 2026-06-09: archived per Boris Tri-View TODO reset. Current open UMI TODOs are Cosmos3 test, tri-view dataset replacement, Gamma-World reproduction, and layered segment/inpaint/SVG dataset preparation.",
+          "created_at": "2026-06-09T10:42:00+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-09T10:30:39+08:00",
+      "updated_at": "2026-06-09T10:42:00+08:00",
       "due_at": "",
       "completed_at": "2026-06-09"
     },
@@ -5323,7 +5344,7 @@
       "project_id": "umi-world-model",
       "title": "定义 tri-view + layer 项目规格",
       "description": "Define the v1 project spec after Gamma-World under the updated data constraint: current UMI has synchronized left/right wrist fisheye plus D435 main view, but no fixed third-person/exo stream. Specify current-data I/O, future fixed-exo capture I/O, optional synthesized fixed-exo I/O, dual-arm pose + gripper action traces, scene/object-contact/robot-ego/occluder layer heads, model schema, camera sync/calibration requirements, and how outputs feed reward/eval and IDM. Acceptance: one concrete schema plus model-input/output table, minimum viable training/eval plan, and a go/no-go decision for generated fixed-exo.",
-      "status": "active",
+      "status": "done",
       "priority": "urgent",
       "assignee": "Boris / UMI WM / Image-Layered WM",
       "due_at": "2026-06-04",
@@ -5370,9 +5391,16 @@
           "body": "按 2026-06-09 Tri-View TODO 重组收口：旧开放项先统一标注 done，当前项目 TODO 只保留 Cosmos3 测试、三视角数据集替换、Gamma-World 复现、分图层/segment+inpaint/SVG 化数据集准备四项。原任务内容作为历史归档，不再作为当前开放 TODO。",
           "created_at": "2026-06-09T00:30:00+08:00",
           "kind": "todo_reset"
+        },
+        {
+          "comment_id": "clawcross_cdf4e2501c67",
+          "author": "Host verification",
+          "body": "Dashboard cleanup 2026-06-09: archived per Boris Tri-View TODO reset. Current open UMI TODOs are Cosmos3 test, tri-view dataset replacement, Gamma-World reproduction, and layered segment/inpaint/SVG dataset preparation.",
+          "created_at": "2026-06-09T10:42:00+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-09T10:29:35+08:00",
+      "updated_at": "2026-06-09T10:42:00+08:00",
       "completed_at": "2026-06-09"
     },
     {
@@ -5380,7 +5408,7 @@
       "project_id": "umi-world-model",
       "title": "测试 EgoX / 跨视角生成固定主视角的可行性",
       "description": "Because Yuhang/Daimon UMI data has no fixed third-person/exo view and humanoid data with this setup is scarce, test whether EgoX-style or broader ego/exo view translation can synthesize a stable fixed/main view from available two-wrist-fisheye + D435-main data. Important nuance: EgoX is mainly exo-to-ego, while this project may need wrist/ego/main-D435 to fixed-main/exo, so this is a high-risk feasibility probe rather than a foundation assumption. Acceptance: pick 5-10 representative episodes with wrist fisheye + D435 main view; define source/target view pairs; run or dry-run at least one method; score camera stability, object-state correctness, contact visibility, occlusion handling, and reward/eval usability; decide whether to pursue synthesized fixed view or collect new fixed-exo data.",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignee": "Boris / Haoyu / UMI WM",
       "due_at": "2026-06-08",
@@ -5399,9 +5427,16 @@
           "body": "按 2026-06-09 Tri-View TODO 重组收口：旧开放项先统一标注 done，当前项目 TODO 只保留 Cosmos3 测试、三视角数据集替换、Gamma-World 复现、分图层/segment+inpaint/SVG 化数据集准备四项。原任务内容作为历史归档，不再作为当前开放 TODO。",
           "created_at": "2026-06-09T00:30:00+08:00",
           "kind": "todo_reset"
+        },
+        {
+          "comment_id": "clawcross_34d7035b2d0b",
+          "author": "Host verification",
+          "body": "Dashboard cleanup 2026-06-09: archived per Boris Tri-View TODO reset. Current open UMI TODOs are Cosmos3 test, tri-view dataset replacement, Gamma-World reproduction, and layered segment/inpaint/SVG dataset preparation.",
+          "created_at": "2026-06-09T10:42:00+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-09T10:30:43+08:00",
+      "updated_at": "2026-06-09T10:42:00+08:00",
       "completed_at": "2026-06-09"
     },
     {
@@ -5409,7 +5444,7 @@
       "project_id": "umi-world-model",
       "title": "整理 Ego↔Exo / view-translation references 对 tri-view WM 的用法",
       "description": "Summarize EgoX, IDE, WorldWander, Exo2Ego-style work, and robotics-specific cross-view generation for the updated UMI constraint. Focus on what maps to this project: camera pose requirements, point-cloud/geometry priors, latent concatenation, geometry-guided attention, whether the method supports wrist/ego/main-D435 to fixed-exo synthesis, and whether synthesized fixed views are credible for reward/eval rather than only visualization. Acceptance: one table plus a recommendation for what to borrow in v1 and whether EgoX-style synthesis should proceed or be replaced by new fixed-exo capture.",
-      "status": "todo",
+      "status": "done",
       "priority": "medium",
       "assignee": "Boris / Haoyu",
       "due_at": "2026-06-07",
@@ -5435,9 +5470,16 @@
           "body": "按 2026-06-09 Tri-View TODO 重组收口：旧开放项先统一标注 done，当前项目 TODO 只保留 Cosmos3 测试、三视角数据集替换、Gamma-World 复现、分图层/segment+inpaint/SVG 化数据集准备四项。原任务内容作为历史归档，不再作为当前开放 TODO。",
           "created_at": "2026-06-09T00:30:00+08:00",
           "kind": "todo_reset"
+        },
+        {
+          "comment_id": "clawcross_d4eef1976638",
+          "author": "Host verification",
+          "body": "Dashboard cleanup 2026-06-09: archived per Boris Tri-View TODO reset. Current open UMI TODOs are Cosmos3 test, tri-view dataset replacement, Gamma-World reproduction, and layered segment/inpaint/SVG dataset preparation.",
+          "created_at": "2026-06-09T10:42:00+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-09T10:30:43+08:00",
+      "updated_at": "2026-06-09T10:42:00+08:00",
       "completed_at": "2026-06-09"
     },
     {
@@ -5791,7 +5833,7 @@
       "project_id": "umi-world-model",
       "title": "制定 fixed-exo + dual-wrist 数据采集 / 标注 schema",
       "description": "Define the synchronized episode schema for the new project under the updated data reality: existing UMI gives left wrist fisheye, right wrist fisheye, and D435 main view, but no fixed third-person/exo view. The schema must support both current data and future/new fixed-exo capture: timestamps, camera intrinsics/extrinsics where available, dual-arm EEF pose, gripper state, task caption, object IDs, train/val/test split, optional fixed-exo_absent/fixed-exo_synthesized flags, and optional layer pseudo-label paths. Acceptance: JSON schema or manifest example for one current-data episode plus one future tri-view episode; explicit checklist for what old UMI data lacks and what new capture must add.",
-      "status": "active",
+      "status": "done",
       "priority": "urgent",
       "assignee": "Boris / Haoyu / Jingxiang",
       "due_at": "2026-06-04",
@@ -5839,9 +5881,16 @@
           "body": "按 2026-06-09 Tri-View TODO 重组收口：旧开放项先统一标注 done，当前项目 TODO 只保留 Cosmos3 测试、三视角数据集替换、Gamma-World 复现、分图层/segment+inpaint/SVG 化数据集准备四项。原任务内容作为历史归档，不再作为当前开放 TODO。",
           "created_at": "2026-06-09T00:30:00+08:00",
           "kind": "todo_reset"
+        },
+        {
+          "comment_id": "clawcross_795cd7c01968",
+          "author": "Host verification",
+          "body": "Dashboard cleanup 2026-06-09: archived per Boris Tri-View TODO reset. Current open UMI TODOs are Cosmos3 test, tri-view dataset replacement, Gamma-World reproduction, and layered segment/inpaint/SVG dataset preparation.",
+          "created_at": "2026-06-09T10:42:00+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-09T10:30:46+08:00",
+      "updated_at": "2026-06-09T10:42:00+08:00",
       "completed_at": "2026-06-09"
     },
     {
@@ -5849,7 +5898,7 @@
       "project_id": "umi-world-model",
       "title": "设计 wrist-only / exo-only / wrist+exo / wrist+exo+layers 消融",
       "description": "Turn the new research question into a concrete ablation plan that respects the actual data: start with wrist-only, D435-main-only, wrist+D435-main, and wrist+D435-main+layer-head variants on existing held-out episodes. Add fixed-exo-only / wrist+fixed-exo / wrist+fixed-exo+layers only after new fixed-exo capture or an EgoX/cross-view synthesized fixed view passes the feasibility gate. Acceptance: dataset split, model/input variants, metrics, expected artifacts, and decision criteria for whether wrist, main/D435, synthesized fixed-exo, or explicit layers carry useful manipulation state.",
-      "status": "todo",
+      "status": "done",
       "priority": "urgent",
       "assignee": "Boris / UMI WM",
       "due_at": "2026-06-05",
@@ -5882,9 +5931,16 @@
           "body": "按 2026-06-09 Tri-View TODO 重组收口：旧开放项先统一标注 done，当前项目 TODO 只保留 Cosmos3 测试、三视角数据集替换、Gamma-World 复现、分图层/segment+inpaint/SVG 化数据集准备四项。原任务内容作为历史归档，不再作为当前开放 TODO。",
           "created_at": "2026-06-09T00:30:00+08:00",
           "kind": "todo_reset"
+        },
+        {
+          "comment_id": "clawcross_e9872a0b174e",
+          "author": "Host verification",
+          "body": "Dashboard cleanup 2026-06-09: archived per Boris Tri-View TODO reset. Current open UMI TODOs are Cosmos3 test, tri-view dataset replacement, Gamma-World reproduction, and layered segment/inpaint/SVG dataset preparation.",
+          "created_at": "2026-06-09T10:42:00+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-09T10:30:47+08:00",
+      "updated_at": "2026-06-09T10:42:00+08:00",
       "completed_at": "2026-06-09"
     },
     {
@@ -5892,7 +5948,7 @@
       "project_id": "umi-world-model",
       "title": "实现 v1 object/contact + robot/ego + occluder layer heads",
       "description": "Convert the former Image-Layered probes into the v1 manipulation-state heads. Start with weak/pseudo labels for object/contact masks, robot/ego masks, occluder masks, and recomposition QA; connect outputs to fixed-exo and wrist views. Acceptance: minimal training/inference script or adapter, per-layer QA metrics, and examples showing layer outputs beside generated/GT videos.",
-      "status": "active",
+      "status": "done",
       "priority": "high",
       "assignee": "Boris / Image-Layered WM",
       "due_at": "2026-06-09",
@@ -5918,9 +5974,16 @@
           "body": "按 2026-06-09 Tri-View TODO 重组收口：旧开放项先统一标注 done，当前项目 TODO 只保留 Cosmos3 测试、三视角数据集替换、Gamma-World 复现、分图层/segment+inpaint/SVG 化数据集准备四项。原任务内容作为历史归档，不再作为当前开放 TODO。",
           "created_at": "2026-06-09T00:30:00+08:00",
           "kind": "todo_reset"
+        },
+        {
+          "comment_id": "clawcross_d530cf9a6581",
+          "author": "Host verification",
+          "body": "Dashboard cleanup 2026-06-09: archived per Boris Tri-View TODO reset. Current open UMI TODOs are Cosmos3 test, tri-view dataset replacement, Gamma-World reproduction, and layered segment/inpaint/SVG dataset preparation.",
+          "created_at": "2026-06-09T10:42:00+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-09T10:30:47+08:00",
+      "updated_at": "2026-06-09T10:42:00+08:00",
       "completed_at": "2026-06-09"
     },
     {
@@ -5928,7 +5991,7 @@
       "project_id": "umi-world-model",
       "title": "验证 fixed-exo / layers 是否提升 reward/eval 与失败归因",
       "description": "Build a small evaluation probe that uses fixed-exo frames and/or predicted layers to score task progress, contact success, object displacement, occlusion, and failure mode. Compare against flat video metrics and wrist-only signals. Acceptance: at least one manipulation task with GT labels or manually audited labels, AUROC/correlation or confusion table, and qualitative failure cases.",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignee": "Boris / UMI WM",
       "due_at": "2026-06-10",
@@ -5947,9 +6010,16 @@
           "body": "按 2026-06-09 Tri-View TODO 重组收口：旧开放项先统一标注 done，当前项目 TODO 只保留 Cosmos3 测试、三视角数据集替换、Gamma-World 复现、分图层/segment+inpaint/SVG 化数据集准备四项。原任务内容作为历史归档，不再作为当前开放 TODO。",
           "created_at": "2026-06-09T00:30:00+08:00",
           "kind": "todo_reset"
+        },
+        {
+          "comment_id": "clawcross_584e7f1a0d65",
+          "author": "Host verification",
+          "body": "Dashboard cleanup 2026-06-09: archived per Boris Tri-View TODO reset. Current open UMI TODOs are Cosmos3 test, tri-view dataset replacement, Gamma-World reproduction, and layered segment/inpaint/SVG dataset preparation.",
+          "created_at": "2026-06-09T10:42:00+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-09T10:30:48+08:00",
+      "updated_at": "2026-06-09T10:42:00+08:00",
       "completed_at": "2026-06-09"
     },
     {
@@ -5957,7 +6027,7 @@
       "project_id": "umi-world-model",
       "title": "写 Gamma-World 对照与新 contribution statement",
       "description": "Write the project positioning note used in dashboard/proposal: what Gamma-World covers, what it does not cover, why our axis is view/layer/eval rather than agent-count scaling, and how base WAN / step-125 / Gamma-style framing appear in the baseline table. Acceptance: concise contribution paragraph, comparison table, and go/no-go statement for the old dual-wrist-only framing.",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignee": "Boris / Haoyu",
       "due_at": "2026-06-04",
@@ -5976,9 +6046,16 @@
           "body": "按 2026-06-09 Tri-View TODO 重组收口：旧开放项先统一标注 done，当前项目 TODO 只保留 Cosmos3 测试、三视角数据集替换、Gamma-World 复现、分图层/segment+inpaint/SVG 化数据集准备四项。原任务内容作为历史归档，不再作为当前开放 TODO。",
           "created_at": "2026-06-09T00:30:00+08:00",
           "kind": "todo_reset"
+        },
+        {
+          "comment_id": "clawcross_84902c6c3fe0",
+          "author": "Host verification",
+          "body": "Dashboard cleanup 2026-06-09: archived per Boris Tri-View TODO reset. Current open UMI TODOs are Cosmos3 test, tri-view dataset replacement, Gamma-World reproduction, and layered segment/inpaint/SVG dataset preparation.",
+          "created_at": "2026-06-09T10:42:00+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-09T10:30:48+08:00",
+      "updated_at": "2026-06-09T10:42:00+08:00",
       "completed_at": "2026-06-09"
     },
     {
@@ -5986,7 +6063,7 @@
       "project_id": "umi-world-model",
       "title": "把 Image-Layered 代码合并到 UMI 绑定机器",
       "description": "Move the former Image-Layered World Model implementation from feibo@100.87.220.29 into the UMI binding machine under das-data/codebases/tri_view_layered_wm, preserving source scripts, layer-head probes, reports, tri-view schema, and remote-start commands. Acceptance: rsync completed on jingxiang@100.112.245.1, validator passes there, and paths are recorded for layer-head/eval TODOs.",
-      "status": "blocked",
+      "status": "done",
       "priority": "urgent",
       "assignee": "Boris / jingxiang@100.112.245.1",
       "due_at": "2026-06-02",
@@ -6006,9 +6083,16 @@
           "kind": "host_verified",
           "body": "Completed remote merge on jingxiang@100.112.245.1. Source was feibo@100.87.220.29:/home/feibo/workspace/image-layered-world-model; target is /home/jingxiang/workspace/das-data/codebases/tri_view_layered_wm. Rebuilt a lightweight bundle excluding .venv, HF cache, raw data, PNG/PSD/video/model weights; local tarball /Users/boris/workspace/tri_view_layered_merge/tri_view_layered_wm_merge_bundle_20260605.tar.gz sha256=86cd25da105f73772e7d1a0fc12b739711d762d8316d20907086182dc54f31d9. Target inventory: 63 files, 492K. Remote validation passed: `python3 validate_tri_view_manifest.py examples/current_umi_episode_manifest.json examples/future_fixed_front_ego_episode_manifest.json` => both PASS; `python3 verifier.py` => PASS. New artifacts include README.md, schemas/tri_view_manifest.schema.json, examples/current_umi_episode_manifest.json, examples/future_fixed_front_ego_episode_manifest.json, validate_tri_view_manifest.py, and data_requirements_audit_20260605.md (sha256=d774a8bdfa8f6644d555eff5f9a12d885cc6bd4696e5f0fb173c587241dcadcd). Available-machine check: jingxiang, feibo, and boris-pc were reachable; lv-robotics@100.113.210.127 timed out.",
           "created_at": "2026-06-05T00:22:00+02:00"
+        },
+        {
+          "comment_id": "clawcross_2132f5b0722f",
+          "author": "Host verification",
+          "body": "Dashboard cleanup 2026-06-09: archived per Boris Tri-View TODO reset. Current open UMI TODOs are Cosmos3 test, tri-view dataset replacement, Gamma-World reproduction, and layered segment/inpaint/SVG dataset preparation.",
+          "created_at": "2026-06-09T10:42:00+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-09T10:30:48+08:00",
+      "updated_at": "2026-06-09T10:42:00+08:00",
       "completed_at": "2026-06-05"
     },
     {
