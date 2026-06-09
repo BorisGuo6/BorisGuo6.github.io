@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-09T11:52:54+08:00",
+  "updated_at": "2026-06-09T14:05:07+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -6320,9 +6320,16 @@
           "body": "Bridge spec completed and synced to jingxiang. It explicitly allows visual/oracle contact labels now and leaves tactile_pressure blocked until tactile fingertip/Wuji stream is available and calibrated. Manifest validator still passes all three examples.",
           "created_at": "2026-06-05T01:35:00+02:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "clawcross_5c0b2baa1ee4",
+          "author": "Host verification",
+          "body": "Local Codex host review accepted this TODO.\n可本机验收：已有本地同步产物、host_verified 记录和可复现 manifest validator，满足 schema 与 metric spec 接入要求。\nEvidence: /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json 中该 task 当前为 done，result 指向 vtla_contact_failure_eval_bridge.md 和 RESULT.md，且有 host_verified 评论说明 manifest validator 通过三例。; /Users/boris/workspace/tri_view_layered_remote_patch/results/task_umi_vtla_contact_failure_eval_bridge/RESULT.md 记录实现内容和验证命令，结果为 all three manifests PASS。; /Users/boris/workspace/tri_view_layered_remote_patch/vtla_contact_failure_eval_bridge.md 定义 eval family、required labels、layer heads、metrics、hardware boundary。; /Users/boris/workspace/tri_view_layered_remote_patch/schemas/tri_view_manifest.schema.json 与 examples/* 包含 contact_sequence、object_state、object_contact/robot_ego/occluder layer labels。; 本机复跑 validator 输出 current_umi_episode_manifest、future_fixed_front_ego_episode_manifest、same_task_hoi_cross_modality_manifest 均 PASS；SSH 远端读取被沙箱拒绝但本地同步副本足够核验。\nCommands: jq '.tasks[]? | select(.task_id==\"task_umi_vtla_contact_failure_eval_bridge\")' /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json; rg --files /Users/boris/workspace | rg 'vtla_contact_failure_eval_bridge|task_umi_vtla_contact_failure_eval_bridge|tri_view_layered_wm|contact_failure'; sed -n '1,260p' /Users/boris/workspace/tri_view_layered_remote_patch/results/task_umi_vtla_contact_failure_eval_bridge/RESULT.md; sed -n '1,320p' /Users/boris/workspace/tri_view_layered_remote_patch/vtla_contact_failure_eval_bridge.md; python3 validate_tri_view_manifest.py examples/current_umi_episode_manifest.json examples/future_fixed_front_ego_episode_manifest.json examples/same_task_hoi_cross_modality_manifest.json; rg -n 'contact_sequence|object_contact|robot_ego|occluder|tactile_pressure|force_torque|failure|reward|metric|layer' /Users/boris/workspace/tri_view_layered_remote_patch/schemas /Users/boris/workspace/tri_view_layered_remote_patch/examples /Users/boris/workspace/tri_view_layered_remote_patch/validate_tri_view_manifest.py\nReason: TODO 要求的是可供 UMI layer heads 与 failure attribution 消费的 schema 和 metric spec；本地 artifact 明确给出 contact labels、failure/eval family、object_contact/robot_ego/occluder heads、reward/eval metrics，以及 tactile hardware 未就绪时的 visual/oracle label 边界，并有本机可复跑 validator 通过结果。",
+          "created_at": "2026-06-09T14:05:05+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-09T00:30:00+08:00",
+      "updated_at": "2026-06-09T14:05:06+08:00",
       "completed_at": "2026-06-05"
     },
     {
