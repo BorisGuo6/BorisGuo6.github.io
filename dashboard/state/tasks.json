@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-09T10:36:44+08:00",
+  "updated_at": "2026-06-09T11:04:55+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1329,7 +1329,8 @@
       "assignee": null,
       "result": "LeHome / LeHome-challenge task coverage is complete inside AgenticSim: 9 official environments registered, including single-arm garment v0, bimanual garment v0/v2/fling, cut, burger, fire, water, and wipe. ChallengeGarmentLoader and garment-specific folding checks are included.",
       "completed_at": "2026-05-21",
-      "updated_at": "2026-05-21T10:20:00+08:00"
+      "updated_at": "2026-05-21T10:20:00+08:00",
+      "comments": []
     },
     {
       "task_id": "task_self_improving_unify_isaac",
@@ -6385,9 +6386,16 @@
           "body": "Remote implementation completed on AgenticSim. Added source/agenticsim/agenticsim/curriculum/contact_curriculum.py and tests covering an InsertOntoSquarePeg contact failure trace. Verification on boris@100.101.68.35: `.venv/bin/pytest -q` returned 41 passed, 1 warning.",
           "created_at": "2026-06-05T01:18:00+02:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "clawcross_7dad56fb002e",
+          "author": "Host verification",
+          "body": "Local Codex host review accepted this TODO.\n可本机验收：该 TODO 的 schema、样例 trace、curriculum update 规则和 tactile hardware blocker 说明均有可核对产物。\nEvidence: /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json 中唯一 task_self_improving_contact_curriculum_bridge 已是 done，含 result 和 host_verified 评论，记录 .venv/bin/pytest -q => 41 passed, 1 warning; /Users/boris/workspace/agenticsim_remote_patch/results/task_self_improving_contact_curriculum_bridge/RESULT.md 说明 ContactFailureTrace、CurriculumUpdate、build_curriculum_update、UMI/VTLA contact failure mapping 和 tactile blocked/visual oracle available; /Users/boris/workspace/agenticsim_remote_patch/source/agenticsim/agenticsim/curriculum/contact_curriculum.py 定义 failure trace schema 与确定性 update rule; /Users/boris/workspace/agenticsim_remote_patch/tests/test_skill_call_gate.py 包含 InsertOntoSquarePeg 样例 trace，available_signals=[object_pose, visual_contact_oracle]，blocked_signals=[tactile]; 本机内联 Python 验证通过：jammed/excessive_force contact trace 生成 high priority 的 increase_contact_alignment_variants update，blockers 保留 tactile\nCommands: jq '.tasks[]? | select(.task_id==\"task_self_improving_contact_curriculum_bridge\")' /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json; rg -n \"task_self_improving_contact_curriculum_bridge|VTLA|UMI|contact failures|curriculum trace|failure trace schema|AgenticSim\" /Users/boris/workspace/BorisGuo6.github.io /Users/boris/workspace/ClawCross -S; ssh -o BatchMode=yes -o ConnectTimeout=8 boris@100.101.68.35 'set -e; ...'; sed -n '1,220p' results/task_self_improving_contact_curriculum_bridge/RESULT.md; sed -n '1,220p' source/agenticsim/agenticsim/curriculum/contact_curriculum.py; sed -n '1,140p' tests/test_skill_call_gate.py\nReason: 虽然远端 SSH 被沙箱拒绝且本机没有 pytest 无法复跑完整测试，但 dashboard state 已有 host_verified 结果，本机归档副本包含完整代码/测试/RESULT.md，且核心转换逻辑已用只读内联命令复核通过；acceptance 四项均满足。",
+          "created_at": "2026-06-09T11:04:54+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-05T01:18:00+02:00",
+      "updated_at": "2026-06-09T11:04:54+08:00",
       "completed_at": "2026-06-05"
     },
     {
