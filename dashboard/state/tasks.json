@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-09T11:14:31+08:00",
+  "updated_at": "2026-06-09T11:18:54+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -6249,9 +6249,16 @@
           "body": "Remote dry-run on jingxiang passed through the manifest validator. Representation rows now include camera-frame delta pose, object/contact heatmap, RGB+XYZ state, point-cloud state, latent action, and OHRA canonical hand. Recommendation is to start with object_contact_heatmap + camera_frame_delta_pose.",
           "created_at": "2026-06-05T01:28:00+02:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "clawcross_c496f8bce232",
+          "author": "Host verification",
+          "body": "Local Codex host review accepted this TODO.\n本机可自动验收：本地 dashboard 已有完成记录，结果文件和本地镜像 dry-run 验证覆盖 TODO 验收项。\nEvidence: /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json 中该 task 当前为 done，含 result 与 host_verified 评论; /Users/boris/workspace/tri_view_layered_remote_patch/results/task_umi_cross_embodiment_representation_ablation/RESULT.md 记录远端路径、实现内容、dry-run 命令和三个 manifest PASS 结果; /Users/boris/workspace/tri_view_layered_remote_patch/cross_embodiment_representation_ablation.md 含 representation matrix、dry-run contract 和推荐输入 object_contact_heatmap + camera_frame_delta_pose; /Users/boris/workspace/tri_view_layered_remote_patch/examples/same_task_hoi_cross_modality_manifest.json 含 same_task_hoi/object_state/contact_sequence 以及 camera_frame_delta_pose、object_contact_heatmap、point_cloud_state、latent_action、ohra_canonical_hand 候选; 本轮补跑 validate_tri_view_manifest.py 对 current_umi、future_fixed_front_ego、same_task_hoi_cross_modality 三个样例均 PASS; SSH 直连 jingxiang@100.112.245.1 被当前沙箱拒绝：Operation not permitted\nCommands: jq '.tasks[]? | select(.task_id==\"task_umi_cross_embodiment_representation_ablation\")' /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json; ssh -o BatchMode=yes -o ConnectTimeout=10 jingxiang@100.112.245.1 'find /home/jingxiang/workspace/clawcross-dispatch/task_umi_cross_embodiment_representation_ablation -maxdepth 2 -type f -printf \"%p\\n\" | sort'; sed -n '1,220p' /Users/boris/workspace/tri_view_layered_remote_patch/results/task_umi_cross_embodiment_representation_ablation/RESULT.md; sed -n '1,220p' /Users/boris/workspace/tri_view_layered_remote_patch/cross_embodiment_representation_ablation.md; jq '{same_task_hoi, object_state, contact_sequence, representation_candidates}' /Users/boris/workspace/tri_view_layered_remote_patch/examples/same_task_hoi_cross_modality_manifest.json; PYTHONDONTWRITEBYTECODE=1 python3 validate_tri_view_manifest.py examples/current_umi_episode_manifest.json examples/future_fixed_front_ego_episode_manifest.json examples/same_task_hoi_cross_modality_manifest.json\nReason: 验收要求的 representation matrix、可复现 dry-run 命令/结果、以及 first model input recommendation 都能在本地镜像和 dashboard 记录中复核；虽然远端 SSH 被沙箱阻止，已有 host_verified 记录加本轮本地 verifier PASS 足够支持关闭。",
+          "created_at": "2026-06-09T11:18:53+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-09T00:30:00+08:00",
+      "updated_at": "2026-06-09T11:18:53+08:00",
       "completed_at": "2026-06-05"
     },
     {
