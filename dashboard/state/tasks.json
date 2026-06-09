@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-09T11:09:33+08:00",
+  "updated_at": "2026-06-09T11:14:31+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -6213,9 +6213,16 @@
           "body": "Remote validation on jingxiang passed: `python3 validate_tri_view_manifest.py examples/current_umi_episode_manifest.json examples/future_fixed_front_ego_episode_manifest.json examples/same_task_hoi_cross_modality_manifest.json` all PASS; `python3 verifier.py` PASS. Fixed/front absent warnings are expected for current/cross-modality examples and prevent overclaiming fixed-exo reward/eval.",
           "created_at": "2026-06-05T01:28:00+02:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "clawcross_3aea7ebb8661",
+          "author": "Host verification",
+          "body": "Local Codex host review accepted this TODO.\n本机可自动验收：本地 dashboard 已有 host_verified 记录，补跑本地 manifest validator 通过，schema/examples 覆盖 TODO 要求。\nEvidence: /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json 中该 task 当前为 done，含 result 与 host_verified 评论：remote validation 三个 manifest PASS、verifier.py PASS; /Users/boris/workspace/tri_view_layered_remote_patch/results/task_umi_absorb_hoi_same_task_schema/RESULT.md 记录远端路径、实现字段与验证命令/结果; /Users/boris/workspace/tri_view_layered_remote_patch/schemas/tri_view_manifest.schema.json 定义 same_task_hoi/object_state/contact_sequence/representation_candidates，required 数组明确必填字段，未列入 required 的字段为可选; /Users/boris/workspace/tri_view_layered_remote_patch/examples/current_umi_episode_manifest.json 含 current UMI 的 task_id/object_id/sync/cameras/calibration/object_state/contact_sequence/grasp_or_tool_use_mode/task_result; /Users/boris/workspace/tri_view_layered_remote_patch/examples/same_task_hoi_cross_modality_manifest.json 含 HOI cross-modality 的同类字段; 本轮 SSH 直连 jingxiang@100.112.245.1 被沙箱拒绝：Operation not permitted；因此远端现态依赖 dashboard host_verified 记录与本地镜像补验\nCommands: jq '.tasks[]? | select(.task_id==\"task_umi_absorb_hoi_same_task_schema\")' /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json; ssh -o BatchMode=yes -o ConnectTimeout=8 jingxiang@100.112.245.1 'cd /home/jingxiang/workspace/das-data/codebases/tri_view_layered_wm && pwd && git status --short && find . -maxdepth 3 -type f | sort | sed -n \"1,220p\"'; PYTHONDONTWRITEBYTECODE=1 python3 validate_tri_view_manifest.py examples/current_umi_episode_manifest.json examples/future_fixed_front_ego_episode_manifest.json examples/same_task_hoi_cross_modality_manifest.json; jq '.[\"$defs\"] | {same_task_hoi, object_state, contact_event, representation_candidate}' schemas/tri_view_manifest.schema.json; jq '{episode_id, source_dataset, fixed_view_status, same_task_hoi, object_state, contact_sequence, representation_candidates, sync, calibration, camera_keys:(.cameras|keys)}' examples/current_umi_episode_manifest.json; jq '{episode_id, source_dataset, fixed_view_status, same_task_hoi, object_state, contact_sequence, representation_candidates, sync, calibration, camera_keys:(.cameras|keys)}' examples/same_task_hoi_cross_modality_manifest.json\nReason: 验收所需的两个 example 已通过 validator；schema 明确新增 HOI 字段及必填/可选边界；dashboard state 已有 host_verified 的远端验证记录。虽然当前沙箱禁止 SSH 复核远端现态，但本地状态和镜像证据足够支持 accept。",
+          "created_at": "2026-06-09T11:14:30+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-09T00:30:00+08:00",
+      "updated_at": "2026-06-09T11:14:30+08:00",
       "completed_at": "2026-06-05"
     },
     {
