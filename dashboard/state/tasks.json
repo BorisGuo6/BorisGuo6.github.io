@@ -6469,6 +6469,28 @@
       "completed_at": "2026-06-05"
     },
     {
+      "task_id": "task_self_improving_video2sim2real_anchor_contract",
+      "project_id": "self-improving-agents",
+      "title": "Add Video2Sim2Real-style anchor contract to Real2Sim2Real",
+      "description": "把 Video2Sim2Real (arXiv:2606.08828) 的单视频 Real2Sim2Real 机制整理成 AgenticSim 可执行 contract。核心不是直接全轨迹 retarget，而是从人类视频构建 simulator-ready digital twin 和 object/robot motion priors，抽 object-centric keyframes，优化 robot configuration anchors，再用 IL 做 real point-cloud recalibration、residual RL 做局部 finger/contact adaptation，并保留 collision-aware planning / verifier。Acceptance: 1) 写出 manifest schema：video source、digital twin assets、object tracks、object-centric keyframes、robot anchor configs、recalibration samples、residual adaptation hooks、planner/verifier outputs；2) 选一个 tabletop manipulation task 做最小样例；3) 说明哪些模块可先用现有 AgenticSim mock/Isaac/Genesis/LeHome 接口跑，哪些依赖真实视频/点云/hand hardware；4) 给出接入 R2S2RPipeline、TraceLoader、MemoryStore 和 GovernanceGate 的字段映射；5) 输出 RESULT.md 或 dashboard comment，明确是否下一步做 runnable implementation。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Boris / Codex",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_self_improving_video2sim2real_ref_20260609",
+          "author": "Codex",
+          "body": "Reference added from user: Video2Sim2Real (https://arxiv.org/abs/2606.08828, project page https://video2sim2real.github.io/). Key update for our Real2Sim2Real section: treat human video as a source for digital twin + object-centric anchors, not as a reliable full robot-motion target. Candidate AgenticSim modules: perception/digital-twin import, object-keyframe anchor optimizer, IL recalibration from noisy point clouds, residual RL contact adaptation, and collision-aware planning/verifier for spatial generalization.",
+          "created_at": "2026-06-09T21:18:31+08:00",
+          "kind": "reference_update"
+        }
+      ],
+      "updated_at": "2026-06-09T21:18:31+08:00",
+      "due_at": "",
+      "completed_at": null
+    },
+    {
       "task_id": "task_umi_cosmos3_test",
       "project_id": "umi-world-model",
       "title": "Cosmos3 测试",
