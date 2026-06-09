@@ -305,7 +305,7 @@
 
       .readout-grid {
         display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 176px), 1fr));
         gap: 10px;
       }
 
@@ -341,9 +341,10 @@
       .readout strong {
         display: block;
         margin-top: 10px;
-        font-size: 40px;
-        line-height: 0.9;
-        white-space: nowrap;
+        font-size: clamp(30px, 2.7vw, 40px);
+        line-height: 1;
+        overflow-wrap: anywhere;
+        white-space: normal;
       }
 
       .cockpit {
@@ -489,6 +490,7 @@
         font-size: 25px;
         font-weight: 800;
         line-height: 0.9;
+        overflow-wrap: anywhere;
         text-transform: uppercase;
       }
 
@@ -558,9 +560,11 @@
         justify-content: space-between;
         gap: 10px;
         font-size: 15px;
+        min-width: 0;
       }
 
       .gauge-card h3 span {
+        flex: 0 0 auto;
         color: var(--muted);
         font-family: "IBM Plex Mono", monospace;
         font-size: 13px;
@@ -629,6 +633,7 @@
         font-size: 46px;
         font-weight: 800;
         line-height: 0.92;
+        overflow-wrap: anywhere;
         text-transform: uppercase;
       }
 
@@ -711,6 +716,7 @@
         font-size: 11px;
         font-weight: 600;
         line-height: 1.25;
+        overflow-wrap: anywhere;
         text-transform: uppercase;
       }
 
@@ -808,6 +814,8 @@
         font-size: 11px;
         font-weight: 600;
         letter-spacing: 0.05em;
+        overflow-wrap: anywhere;
+        text-align: center;
       }
 
       .capital-train::after {
@@ -1059,9 +1067,10 @@
         display: block;
         margin-top: 8px;
         font-family: "Barlow Condensed", "Arial Narrow", sans-serif;
-        font-size: 40px;
+        font-size: clamp(31px, 3vw, 40px);
         font-weight: 800;
-        line-height: 0.9;
+        line-height: 0.98;
+        overflow-wrap: anywhere;
         text-transform: uppercase;
       }
 
