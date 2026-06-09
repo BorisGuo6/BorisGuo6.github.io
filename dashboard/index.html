@@ -104,7 +104,7 @@
       (() => {
         const stateRoot = document.querySelector('meta[name="dashboard-state-root"]')?.content || "state/";
         const storageKey = "dashboard.task-interactions.v1";
-        const detailsStorageKey = "dashboard.details-open.v1";
+        const detailsStorageKey = "dashboard.details-open.v2";
         const textCollapseStorageKey = "dashboard.text-collapse.v1";
         const supabaseEsmUrl = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
         const statusCycle = ["todo", "active", "done"];
@@ -917,7 +917,9 @@
           const details = document.createElement("details");
           details.className = "project-detail";
           details.dataset.projectId = projectRef.project_id;
-          preserveDetailsOpenState(details, `project:${projectRef.project_id}`, true);
+          details.dataset.bucket = projectRef.bucket || "";
+          const defaultOpen = projectRef.bucket === "research";
+          preserveDetailsOpenState(details, `project:${projectRef.project_id}`, defaultOpen);
 
           const summary = document.createElement("summary");
           const titleBlock = document.createElement("span");
@@ -927,7 +929,10 @@
           titleBlock.append(title, description);
           const mark = document.createElement("mark");
           renderStatusMark(mark, projectRef.status);
-          summary.append(titleBlock, mark);
+          const meta = document.createElement("small");
+          meta.className = "project-summary-meta";
+          meta.textContent = "0 open";
+          summary.append(titleBlock, meta, mark);
 
           const body = document.createElement("div");
           body.className = "project-body compact";
@@ -1018,27 +1023,53 @@
             Array.from(container.querySelectorAll(".project-detail[data-project-id]"))
               .map((projectElement) => [projectElement.dataset.projectId, projectElement])
           );
+          const hasTaskStats = Boolean(taskDoc?.tasks);
           const columns = new Map();
           const projectCounts = new Map();
+          const bucketTaskStats = new Map();
           const columnElements = [];
           buckets.forEach((bucket) => {
             const column = createProjectBucket(bucket);
             columns.set(bucket.bucket, column);
             projectCounts.set(bucket.bucket, 0);
+            if (hasTaskStats) {
+              bucketTaskStats.set(bucket.bucket, { open: 0, done: 0 });
+            }
             columnElements.push(column);
           });
           (portfolio.projects || []).forEach((projectRef) => {
             const column = columns.get(projectRef.bucket) || columns.values().next().value;
             const bucketKey = columns.has(projectRef.bucket) ? projectRef.bucket : columns.keys().next().value;
             const projectElement = existingProjects.get(projectRef.project_id) || createProjectShell(projectRef);
+            projectElement.dataset.bucket = projectRef.bucket || bucketKey || "";
             projectCounts.set(bucketKey, (projectCounts.get(bucketKey) || 0) + 1);
+            if (hasTaskStats) {
+              const tasks = taskDoc.tasks.filter((task) => task.project_id === projectRef.project_id);
+              const stats = bucketTaskStats.get(bucketKey) || { open: 0, done: 0 };
+              tasks.forEach((task) => {
+                if (getEffectiveStatus(task) === "done") {
+                  stats.done += 1;
+                } else {
+                  stats.open += 1;
+                }
+              });
+              bucketTaskStats.set(bucketKey, stats);
+            }
             bucketProjectContainer(column)?.append(projectElement);
           });
           columns.forEach((column, bucketKey) => {
             const count = projectCounts.get(bucketKey) || 0;
             const countElement = column.querySelector("[data-bucket-count]");
             if (countElement) {
-              countElement.textContent = count === 1 ? "1 project" : `${count} projects`;
+              const stats = bucketTaskStats.get(bucketKey);
+              if (bucketKey === "archive") {
+                countElement.textContent = count === 1 ? "1 archived" : `${count} archived`;
+                return;
+              }
+              const projectLabel = count === 1 ? "1 project" : `${count} projects`;
+              countElement.textContent = hasTaskStats && stats
+                ? `${projectLabel} · ${stats.open} open`
+                : projectLabel;
             }
           });
           replaceChildrenPreservingDetails(container, ...columnElements);
@@ -1587,8 +1618,15 @@
           if (!taskPanel) {
             return;
           }
+          const summaryMeta = projectElement.querySelector(".project-summary-meta");
+          if (summaryMeta) {
+            summaryMeta.textContent = `${activeTasks.length} open · ${completedTasks.length} done`;
+          }
 
-          if (isArchivedProjectDoc(projectDoc) && projectTasks.length === 0) {
+          if (isArchivedProjectDoc(projectDoc)) {
+            if (summaryMeta) {
+              summaryMeta.textContent = "archived";
+            }
             taskPanel.hidden = true;
             projectElement.querySelector(".archive-panel")?.remove();
             return;

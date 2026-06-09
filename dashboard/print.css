@@ -632,7 +632,7 @@ figcaption {
 .status-columns {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 24px;
+  gap: 14px;
   align-items: start;
 }
 
@@ -644,8 +644,11 @@ figcaption {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding-bottom: 7px;
-  border-bottom: 2px solid var(--ink);
+  min-height: 44px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--ink);
+  background: #fbfcfd;
 }
 
 summary.bucket-title {
@@ -675,8 +678,8 @@ summary.bucket-title::-webkit-details-marker {
 
 .bucket-projects {
   display: grid;
-  gap: 12px;
-  margin-top: 12px;
+  gap: 8px;
+  margin-top: 8px;
 }
 
 .bucket-title span {
@@ -692,7 +695,7 @@ summary.bucket-title::-webkit-details-marker {
   min-width: 0;
   margin-left: auto;
   text-align: right;
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.2;
 }
 
@@ -714,15 +717,29 @@ summary.bucket-title::-webkit-details-marker {
   background: #ffffff;
 }
 
+.project-detail:not([open]) {
+  border-color: #e0e7ee;
+  background: #fbfcfd;
+}
+
 .project-detail > summary {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 10px 12px;
+  min-height: 46px;
+  padding: 8px 10px;
   cursor: pointer;
   list-style: none;
   background: var(--soft);
+}
+
+.project-detail:not([open]) > summary {
+  background: #ffffff;
+}
+
+.project-detail[data-bucket="archive"] > summary {
+  background: #fbfaf7;
 }
 
 .project-detail > summary::-webkit-details-marker {
@@ -760,6 +777,24 @@ summary.bucket-title::-webkit-details-marker {
   color: var(--muted);
   font-style: normal;
   font-size: 12px;
+}
+
+.project-detail:not([open]) > summary em {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.project-summary-meta {
+  flex: 0 0 auto;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.project-detail[data-bucket="archive"] .project-summary-meta {
+  color: #777066;
 }
 
 .project-body {
@@ -1755,6 +1790,8 @@ body.lightbox-open {
 
   .bucket-title {
     border-bottom: 1px solid var(--line);
+    border-left-color: var(--ink);
+    border-radius: 8px;
   }
 
   .project-detail {
@@ -1762,11 +1799,35 @@ body.lightbox-open {
   }
 
   .project-detail > summary {
-    min-height: 58px;
+    min-height: 46px;
   }
 
   .project-detail > summary strong {
-    font-size: 16px;
+    font-size: 15px;
+  }
+
+  .project-detail:not([open]) {
+    box-shadow: none;
+  }
+
+  .project-detail[data-bucket="engineering"] {
+    border-left-color: var(--warning);
+  }
+
+  .project-detail[data-bucket="survey"] {
+    border-left-color: var(--blue);
+  }
+
+  .project-detail[data-bucket="archive"] {
+    border-left-color: #8b8378;
+    box-shadow: none;
+  }
+
+  .project-summary-meta {
+    padding: 3px 7px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: #ffffff;
   }
 
   .status {
