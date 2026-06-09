@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-09T11:44:50+08:00",
+  "updated_at": "2026-06-09T11:52:54+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -6349,9 +6349,16 @@
           "body": "Bridge spec completed and synced to jingxiang. This is a wiring/metric spec for future monitor evaluation, not a claim that a trained Cosmos-latent monitor already exists. Manifest validator still passes all three examples.",
           "created_at": "2026-06-05T01:35:00+02:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "clawcross_b41ff7d64658",
+          "author": "Host verification",
+          "body": "Local Codex host review accepted this TODO.\n可自动验收：本机同步 artifact 已覆盖 TODO 全部定义项，并有本地可复现 manifest verifier 通过结果。\nEvidence: /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json 中该 task 已是 done，result 指向远端 RESULT.md，且有 host_verified 评论。; /Users/boris/workspace/tri_view_layered_remote_patch/teleop_failure_monitor_bridge.md 定义了 clip inputs、nominal calibration split、warning lead time、false positive rate、object/contact failure timing error、view/layer contribution。; /Users/boris/workspace/tri_view_layered_remote_patch/results/task_umi_teleop_failure_monitor_bridge/RESULT.md 记录 implemented 项和 verifier 命令。; 本机运行 validate_tri_view_manifest.py 后三个 manifest 均 PASS。; 远端 SSH 复核因 sandbox/network 限制失败：Operation not permitted；但本机 dashboard 与同步 artifact 已足够覆盖验收范围。\nCommands: jq '.tasks[]? | select(.task_id==\"task_umi_teleop_failure_monitor_bridge\")' /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json; sed -n '1,220p' /Users/boris/workspace/tri_view_layered_remote_patch/teleop_failure_monitor_bridge.md; sed -n '1,220p' /Users/boris/workspace/tri_view_layered_remote_patch/results/task_umi_teleop_failure_monitor_bridge/RESULT.md; rg -n \"Clip Inputs|Calibration Split|warning lead time|false positive rate|object/contact failure timing error|view/layer contribution|synchronized video paths|robot state/action|object trajectory|contact intervals\" /Users/boris/workspace/tri_view_layered_remote_patch/teleop_failure_monitor_bridge.md /Users/boris/workspace/tri_view_layered_remote_patch/results/task_umi_teleop_failure_monitor_bridge/RESULT.md; python3 validate_tri_view_manifest.py examples/current_umi_episode_manifest.json examples/future_fixed_front_ego_episode_manifest.json examples/same_task_hoi_cross_modality_manifest.json\nReason: TODO 的 acceptance 是桥接/指标规格定义，不要求证明训练好的 Cosmos-latent monitor；artifact 明确声明非 claim，并完整给出输入、split、metrics、failure timing 和消费的 UMI views/layers，且相关 manifest verifier 可复现通过。",
+          "created_at": "2026-06-09T11:52:53+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-09T00:30:00+08:00",
+      "updated_at": "2026-06-09T11:52:54+08:00",
       "completed_at": "2026-06-05"
     },
     {
