@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-09T11:18:54+08:00",
+  "updated_at": "2026-06-09T11:25:01+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -5335,9 +5335,16 @@
           "body": "Completed the Gamma-World collision assessment and merged Image-Layered WM into the UMI card. Key decision: stop framing the project as pure dual-wrist synchronized video generation; move to tri-view layered manipulation WM with fixed-exo reward/eval and layer-supervised object/contact state.",
           "created_at": "2026-05-31T00:05:33+02:00",
           "kind": "result"
+        },
+        {
+          "comment_id": "clawcross_67176ee3dc3c",
+          "author": "Host verification",
+          "body": "Local Codex host review accepted this TODO.\n可由本机验收：这是决策/定位类 TODO，dashboard 已有完成结果与项目 pivot，官方来源补齐了 Gamma-World 方法、场景和代码发布状态，真正复现已拆成新的 Gamma-World 复现 TODO。\nEvidence: /Users/boris/.clawcross/data/harness_state.json 中该 task 仍是 review，且仅有自动门槛失败评论，说明 harness 漏了可接受结果镜像; /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json:5315 当前为 done，含 result 与 kind=result 评论：停止 dual-wrist-only 叙事，转向 fixed-exo reward/eval、同步 wrist/ego、layered object/contact/robot state; /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/projects/umi-world-model.json 已记录 Gamma-World boundary、Ego World + IDM、object-interaction-robot layers 和当前四个后续 TODO; Gamma-World 官方项目页 https://research.nvidia.com/labs/sil/projects/gamma-world/ 记录 SRAE、Sparse Hub Attention、24 FPS、two-to-four-player generalization、real-world robotics coordination; Gamma-World GitHub https://github.com/nv-tlabs/Gamma-World 记录代码和 distilled streaming checkpoints 仍 Coming Soon，training scripts/data prep planned，No releases published; arXiv https://arxiv.org/abs/2605.28816 记录 v1 submitted 2026-05-27，方法和 multiplayer virtual environment 结果\nCommands: jq '.users.boris.tasks.task_umi_gamma_world_collision_strategy' /Users/boris/.clawcross/data/harness_state.json; jq '.tasks[]? // empty | select(.task_id==\"task_umi_gamma_world_collision_strategy\")' /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json; jq '{title,description,summary,details,risks_decisions,task_ids}' /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/projects/umi-world-model.json; rg -n \"Gamma-World|2605\\.28816|Simplex Rotary|Sparse Hub|dual-wrist-only|fixed-exo\" /Users/boris/workspace/BorisGuo6.github.io /Users/boris/workspace/ClawCross -g '!**/.git/**'; ssh -o BatchMode=yes -o ConnectTimeout=8 jingxiang@100.112.245.1 'cd /home/jingxiang/workspace/das-data && pwd && find . -maxdepth 4 -iname \"*gamma*\" -o -iname \"*pivot*\" -o -iname \"*collision*\" | sed -n \"1,120p\"'\nReason: 该 TODO 的核心是 collision/pivot 决策，不是复现实验；本地 dashboard 和项目卡已经记录 no-go old dual-wrist-only、不能再 claim generic synchronized multi-agent WM、以及新贡献轴。官方源补齐了代码/ckpt release status。SSH 复核远端被当前沙箱拒绝，但本任务没有要求远端实验；Gamma-World 复现已作为独立 open TODO 保留。",
+          "created_at": "2026-06-09T11:25:00+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-09T00:30:00+08:00",
+      "updated_at": "2026-06-09T11:25:00+08:00",
       "completed_at": "2026-06-09"
     },
     {
