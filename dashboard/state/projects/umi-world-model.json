@@ -1,29 +1,49 @@
 {
   "schema_version": "project.v1",
   "project_id": "umi-world-model",
-  "title": "Tri-View Ego World + IDM Foundation Model",
+  "title": "Tri-View Ego World + Image-Layered IDM Foundation Model",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-06-09T02:05:00+08:00",
-  "description": "Two-stage ego-view world model + Image-Layered IDM/control stack",
-  "summary": "Tri-View is being rewritten as a two-stage Ego World + IDM foundation model. Stage 1 learns an interactive UMI Ego World: wrist cameras and fixed or floating robot-head cameras are all ego views, all views share overlapping context, and future video responds to real-time external action conditions like a teleoperation video model. Stage 2 explains how to use those generated videos through Image-Layered decomposition: the robot layer trains IDM and supports pose / VO, the object-interaction layer trains process reward and RL self-supervision, and the scene layer enables physics-aware augmentation or self-adaptation. The project answers three questions: how should the world change, what interaction-centric information is needed, and how to decode visual futures into robot position, velocity, and current-loop commands.",
-  "asset": "dashboard/assets/umi-dataset-visualization.png",
-  "asset_alt": "UMI dataset annotation and subtask segmentation visualization panel",
-  "asset_caption": "Dataset QA: synchronized wrist views, 3D pose, EEF traces, current segment, and action log after subtask splitting.",
+  "updated_at": "2026-06-10T21:18:00+08:00",
+  "description": "Three-track robot-data foundation model: generate robot videos, decompose them into layers, then prove layered robot data improves manipulation.",
+  "summary": "The project is split into three linked sub-projects: generate robot video data, decompose it into robot / object-contact / background layers, then prove layered robot data improves manipulation.",
+  "subprojects": [
+    {
+      "label": "A",
+      "title": "UMI Ego World",
+      "body": "Generate synchronized action-conditioned robot videos from wrist + robot-head ego views.",
+      "output": "robot video data"
+    },
+    {
+      "label": "B",
+      "title": "Robot Video Layers",
+      "body": "Decompose real or generated robot videos into robot, object/contact, and background layers.",
+      "output": "layered robot data"
+    },
+    {
+      "label": "C",
+      "title": "Layered Data Utility",
+      "body": "Use layers for IDM / pose / VO, process reward, RL supervision, and scene adaptation.",
+      "output": "policy + eval gains"
+    }
+  ],
+  "asset": "dashboard/assets/layered-world-model.png",
+  "asset_alt": "Layered robot data hierarchy: background, object, and robot layers feed augmentation, reward, and inverse dynamics.",
+  "asset_caption": "Layered robot data hypothesis: background -> augmentation/adaptation, object/contact -> process reward, robot -> IDM and pose/VO supervision.",
   "visual": {
     "layout": "standard"
   },
   "details": [
-    "Ego-view definition: wrist cameras and fixed or floating robot-head cameras are all treated as ego because they are robot-attached or robot-centered observation streams. Tri-View no longer means only a missing external fixed camera; it means synchronized ego views that share scene context and partially overlapping POVs.",
-    "Stage 1, Ego World: train an action-conditioned multi-view video world model that accepts current ego observations, shared context, and real-time external action conditions, then predicts action-responsive futures across wrist and robot-head views. This is the interactive UMI World Model side of the project.",
-    "Stage 2, IDM base: use the generated ego rollouts to infer executable robot actions. The IDM maps visual transitions and layer states into commands, then a controller-specific decoder chooses position-loop targets, velocity-loop commands, or current/torque-loop supervision depending on the required interaction.",
-    "Object-interaction-robot framing: the representation is not generic layered image editing. It separates robot motion, object interaction state, and scene/background so the model can reason about what changes, what caused it, and which part is useful for control.",
-    "Robot layer: when the arm is visible, use the robot layer in head / third ego view for robot pose or joint estimation and IDM supervision; this can also regularize wrist-view visual odometry by providing a robot-motion prior.",
-    "No-arm-visible branch: when the robot is not visible in a wrist or head view, use VO / SLAM / feed-forward visual geometry to recover camera egomotion and local scene coordinates, then let IDM infer action from object and scene transitions rather than direct arm pixels.",
-    "Object-interaction layer: treat object state, contact, and 6-DoF trajectory as the central dynamics target. ObjectForesight is the closest object-layer reference: it models future object motion with mesh/pose trajectories rather than raw pixels.",
-    "Scene layer: use physically and task-aware scene/background transformations, following the RoboEngine direction, for augmentation, domain adaptation, and self-adaptation without changing the robot/object interaction evidence.",
-    "Data bottleneck: the hard part is building usable layered and ego-view data. The current four TODOs are now aligned to this: Cosmos3 testing, three-view/ego-view dataset replacement, Gamma-World reproduction, and segment+inpaint/SVG/Image-Layered dataset preparation.",
-    "Positioning: Gamma-World remains the multi-agent interactive world-model baseline; Qwen-Image-Layered remains the layer decomposition baseline; ObjectForesight motivates the object-interaction layer; EVA-style IDM rewards motivate converting generated videos into executable control evidence."
+    "Sub-project A, UMI Ego World for robot-data generation: train or adapt an action-conditioned multi-view world model that generates synchronized robot videos from UMI-style wrist views plus a fixed or floating robot-head/main view. This track owns WAN/Cosmos/Gamma baselines, dataset manifests, cross-view synchronization, and generated robot-video galleries.",
+    "Sub-project B, Robot Video Image-Layered Model: build a general layer decomposition model for robot videos, not just a one-off image editing tool. Inputs can be real UMI clips or generated world-model rollouts; outputs should be temporally consistent robot layer, object/contact layer, background/scene layer, occluder/human masks, recomposition QA, and optional SVG/structured layer metadata.",
+    "Sub-project C, Layered Robot Data for low-level control: test how each layer is consumed by downstream robot learning. Robot layer -> IDM and pose estimation; wrist robot/camera layer -> visual odometry / SLAM; object/contact layer -> process reward or RL self-supervision; background layer -> domain randomization and scene adaptation.",
+    "Robot-layer route: for whole-arm visible views, use Dr. Robot / differentiable robot rendering as a reference for reconstructing robot pose or joint state from visual appearance; for simpler gripper-only settings, estimate gripper pose directly and use the visual transition as inverse-dynamics supervision.",
+    "Wrist-view geometry route: when the robot is not fully visible, use ORB-SLAM3-style visual or visual-inertial SLAM, feed-forward geometry, and camera egomotion to recover the wrist/head motion context, then let IDM infer actions from object and scene transitions rather than arm pixels alone.",
+    "Object-layer route: treat object state, contact, and task progress as the reward-bearing dynamics. LIV-style video/language reward models and object-centric trajectory methods become the reference for process reward, failure attribution, and RL fine-tuning signals.",
+    "Background-layer route: keep object and robot evidence fixed while varying scene/background for robustness. RoboEngine-style semantic robot segmentation plus background generation is the immediate analogy; the layer model should make this cleaner than flat-image augmentation.",
+    "Prior evidence: ARRO shows that SAM/open-vocabulary segmentation and task-specific visual masking can improve robot policies. Our stronger claim is that a full Image-Layered Robot Data representation, beyond masks alone, should improve manipulation by separating robot, object/contact, and scene factors.",
+    "Main experiment framing: compare flat RGB robot data vs SAM/mask-only data vs Image-Layered Robot Data on the same manipulation policy/eval tasks. Success requires gains in policy robustness, IDM recoverability, reward/eval quality, or domain adaptation, not only visually clean layer images.",
+    "Boundary after Gamma-World: Gamma-style multi-agent world modeling remains a baseline for synchronized interactive video generation. The project novelty should sit in robot-data utility: layer-aware manipulation state, IDM/control decoding, reward/eval heads, and policy ablations."
   ],
   "task_ids": [
     "task_umi_cosmos3_test",
@@ -80,11 +100,11 @@
       "notes": "Support reference for IDM: generated video rollouts can be decoded into actions by an inverse dynamics model, and IDM-derived rewards can align video generation with executable robot constraints."
     },
     {
-      "title": "RoboEngine: Plug-and-Play Robot Data Augmentation with Semantic Robot Segmentation and Background Generation",
+      "title": "RoboEngine: Plug-and-Play Robot Data Augmentation",
       "url": "https://roboengine.github.io/",
       "arxiv_id": "2503.18738",
       "submitted_at": "2025",
-      "notes": "Support reference for scene layer: robot/object masks plus physics- and task-aware background generation for robot data augmentation and domain adaptation."
+      "notes": "Background-layer / scene-adaptation reference. RoboEngine uses semantic robot segmentation and background generation for physics- and task-aware robot data augmentation, matching the scene-layer domain-randomization track."
     },
     {
       "title": "Single-View Robot Pose and Joint Angle Estimation via Render & Compare",
@@ -153,19 +173,40 @@
       "arxiv_id": "2605.02881",
       "submitted_at": "2026",
       "notes": "LeRobot-format schema reference for synchronized bimanual manipulation data: camera streams are observation.images.top / left / right at 360x640 30fps, with 14D bimanual state/action. Useful for dataset packaging and ablations, but it does not resolve the current UMI/Jianzhi missing fixed robot-ego view."
+    },
+    {
+      "title": "Dr. Robot: Differentiable Robot Rendering",
+      "url": "https://drrobot.cs.columbia.edu/",
+      "arxiv_id": "2410.13851",
+      "notes": "Robot-layer / IDM reference. Dr. Robot makes robot appearance differentiable with respect to control parameters, so it is a natural reference for whole-arm pose/joint recovery and for replacing a generic IDM with robot-kinematic visual gradients."
+    },
+    {
+      "title": "ORB-SLAM3: Visual, Visual-Inertial and Multi-Map SLAM",
+      "url": "https://github.com/UZ-SLAMLab/ORB_SLAM3",
+      "arxiv_id": "2007.11898",
+      "notes": "Wrist/head ego geometry baseline. ORB-SLAM3 supports visual and visual-inertial SLAM with monocular, stereo, RGB-D, pinhole, and fisheye setups, which matches the need to recover wrist-camera motion when robot pixels are incomplete or absent."
+    },
+    {
+      "title": "LIV: Language-Image Representations and Rewards for Robotic Control",
+      "url": "https://penn-pal-lab.github.io/LIV/",
+      "notes": "Object-layer reward reference. LIV pretrains control-centric visual-language representations from human video without action labels and can produce language-conditioned rewards on human and robot videos, which maps to object/contact process reward."
+    },
+    {
+      "title": "ARRO: Augmented Reality for Robots",
+      "url": "https://augmented-reality-for-robots.github.io/",
+      "arxiv_id": "2505.08627",
+      "notes": "Policy-utility evidence. ARRO shows that segmentation-driven augmented robot observations can improve Diffusion Policy and generalist robot policies; this supports the stronger ablation that full Image-Layered Robot Data should help manipulation."
     }
   ],
   "risks_decisions": [
-    "Story rewrite 2026-06-09: project is now a two-stage Ego World + IDM foundation-model story, not just tri-view video generation or image-layer decomposition.",
-    "Ego-view decision: wrist cameras and fixed/floating robot-head cameras count as ego views. A fixed robot-head camera can be the third view even if it is not a detached exocentric lab camera.",
-    "Shared-context requirement: all views must share the same scene/object/action context; if POV overlap and synchronization are weak, the model becomes independent video generation rather than an interactive world model.",
-    "Action-conditioning requirement: the Ego World must accept real-time external action conditions. Without action responsiveness, it cannot support teleoperation-like interaction or IDM training.",
-    "IDM executability risk: visually plausible generated video is not enough. The IDM/control decoder must produce smooth and feasible position, velocity, or current/torque-loop commands.",
-    "Robot visibility branch: if the arm is visible, prioritize robot pose/joint estimation from the robot layer; if not visible, use VO/SLAM/visual geometry to estimate camera egomotion and infer actions from object-scene transitions.",
-    "Object-layer decision: object interaction state is the main process-reward target. ObjectForesight-like 6-DoF object trajectories are a better analogy than generic object masks alone.",
-    "Scene-layer decision: scene/background replacement is for physics/task-aware augmentation and domain adaptation, not for changing the core object-robot interaction label.",
-    "Data risk: layered video data is the main bottleneck. Traditional segmentation may not track well enough, so Qwen-Image-Layered, segment+inpaint, pure video generation prompts, and SVG/structured representations should all be tested on small samples first.",
-    "Gamma-World boundary: reproduce or baseline against Gamma-World, but claim novelty around ego-view interaction, object-interaction-robot layers, and IDM/control decoding."
+    "Architecture update 2026-06-10: keep one main research card, but organize execution as three sub-projects: UMI Ego World robot-data generation, Robot Video Image-Layered Model, and low-level layered-data utility for IDM/reward/adaptation.",
+    "Core claim: prove Image-Layered Robot Data helps robot manipulation. Clean decomposition is necessary but not sufficient; the evidence must be downstream policy, IDM, reward/eval, or adaptation improvement.",
+    "Robot layer is not only a mask. It should carry enough temporal and kinematic signal to support pose estimation, gripper/arm state estimation, inverse dynamics, or wrist-camera egomotion estimation.",
+    "Object layer is the reward/process layer. It should preserve object identity, contact, 6-DoF motion, and task-progress information rather than only foreground pixels.",
+    "Background layer is an adaptation handle. Randomizing or generating backgrounds must not corrupt robot/object interaction labels, and evaluation should separate visual robustness from dynamics hallucination.",
+    "Dataset risk: pseudo-layers from SAM/Qwen/Image agents may be temporally unstable. The v0 needs recomposition error, temporal consistency, object-contact preservation, and IDM recoverability metrics before large-scale training.",
+    "Gamma-World boundary: use Gamma/WAN/Cosmos as world-video baselines, but do not let the project collapse into generic synchronized video generation; the defensible axis is layer-aware robot-data utility.",
+    "Ablation requirement: compare flat RGB, mask-only/SAM, and full layered data under the same policy and reward/eval setup. Without this ablation, the claim stays qualitative."
   ],
   "timeline": {
     "target_venue": "ICLR",

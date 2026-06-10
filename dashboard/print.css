@@ -638,6 +638,7 @@ figcaption {
 
 .status-column {
   display: block;
+  min-width: 0;
 }
 
 .bucket-title {
@@ -679,6 +680,7 @@ summary.bucket-title::-webkit-details-marker {
 .bucket-projects {
   display: grid;
   gap: 8px;
+  min-width: 0;
   margin-top: 8px;
 }
 
@@ -713,6 +715,7 @@ summary.bucket-title::-webkit-details-marker {
 }
 
 .project-detail {
+  min-width: 0;
   border: 1px solid var(--line);
   background: #ffffff;
 }
@@ -948,6 +951,73 @@ summary.bucket-title::-webkit-details-marker {
   color: var(--ink);
   font-size: 10px;
   letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.subproject-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 9px 0 10px;
+}
+
+.subproject-card {
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid #cbdbe0;
+  border-top: 4px solid var(--accent);
+  background: #f7fbfb;
+}
+
+.subproject-card:nth-child(2) {
+  border-top-color: #315d9b;
+}
+
+.subproject-card:nth-child(3) {
+  border-top-color: #946e23;
+}
+
+.subproject-label {
+  display: inline-grid;
+  place-items: center;
+  width: 21px;
+  height: 21px;
+  margin-bottom: 7px;
+  border: 1px solid #b7c9d0;
+  background: #ffffff;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.subproject-card strong,
+.subproject-card p,
+.subproject-card em {
+  display: block;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.subproject-card strong {
+  color: var(--ink);
+  font-size: 13px;
+  line-height: 1.18;
+}
+
+.subproject-card p {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.subproject-card em {
+  margin-top: 8px;
+  color: var(--accent);
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 900;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
 }
 
@@ -2351,6 +2421,10 @@ body.lightbox-open {
   .status-columns,
   .project-body,
   .project-body.compact {
+    grid-template-columns: 1fr;
+  }
+
+  .subproject-grid {
     grid-template-columns: 1fr;
   }
 

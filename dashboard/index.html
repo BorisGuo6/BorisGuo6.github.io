@@ -598,6 +598,7 @@
             asset_alt: project.asset_alt,
             asset_caption: project.asset_caption,
             visual: project.visual,
+            subprojects: project.subprojects || [],
             details: project.details || [],
             timeline: project.timeline,
             risks_decisions: project.risks_decisions || [],
@@ -1203,6 +1204,50 @@
           strip.replaceChildren(...chips);
         }
 
+        function createSubprojectCard(subproject) {
+          const card = document.createElement("article");
+          card.className = "subproject-card";
+
+          const label = document.createElement("span");
+          label.className = "subproject-label";
+          label.textContent = subproject.label || "";
+
+          const title = document.createElement("strong");
+          title.textContent = subproject.title || "";
+
+          const body = document.createElement("p");
+          body.textContent = subproject.body || "";
+
+          card.append(label, title, body);
+          if (subproject.output) {
+            const output = document.createElement("em");
+            output.textContent = subproject.output;
+            card.append(output);
+          }
+          return card;
+        }
+
+        function renderProjectSubprojects(projectElement, subprojects) {
+          const intro = projectElement.querySelector(".project-intro");
+          const summaryParagraph = intro?.querySelector(":scope > p");
+          if (!intro || !summaryParagraph) {
+            return;
+          }
+          let grid = intro.querySelector(":scope > .subproject-grid");
+          if (!Array.isArray(subprojects) || subprojects.length === 0) {
+            grid?.remove();
+            return;
+          }
+          if (!grid) {
+            grid = document.createElement("div");
+            grid.className = "subproject-grid";
+            grid.setAttribute("aria-label", "Sub-project split");
+          }
+          const timeline = intro.querySelector(":scope > .timeline-strip");
+          (timeline || summaryParagraph).after(grid);
+          grid.replaceChildren(...subprojects.map(createSubprojectCard));
+        }
+
         function renderProjectDetails(projectElement, details) {
           const bodyColumn = projectElement.querySelector(".project-body > div");
           const intro = bodyColumn?.querySelector(".project-intro");
@@ -1325,6 +1370,7 @@
           }
           renderProjectFigure(projectElement, projectDoc);
           renderProjectTimeline(projectElement, projectDoc.timeline);
+          renderProjectSubprojects(projectElement, projectDoc.subprojects);
           renderProjectDetails(projectElement, projectDoc.details);
           updateProjectIntroCollapse(projectElement, projectDoc);
           renderProjectDecisions(projectElement, projectDoc.risks_decisions);

@@ -4,14 +4,14 @@
   "title": "Embodied AI Project Dashboard",
   "subtitle": "World models, self-improving simulators, teleop acceleration, and robotics + 3D printing",
   "week": "2026-W24",
-  "date": "2026-06-09",
-  "updated_at": "2026-06-09T02:39:11+08:00",
+  "date": "2026-06-10",
+  "updated_at": "2026-06-10T20:45:00+08:00",
   "state_root": "dashboard/state",
   "summary": {
-    "focus": "本周第一条周报重写为 Tri-View Ego World + IDM 整体 proposal。",
-    "progress": "Tri-View 项目卡 intro 已按两阶段 Ego World + IDM 基座模型重写；周报同步展开 object-interaction-robot 分层、IDM/control decoding、数据与实验计划。",
-    "blockers": "核心瓶颈从单纯缺某个固定外部视角改为三类数据闭环：多 ego-view 共享 context、Image-Layered 分解质量、以及 generated video -> IDM action 的可执行性验证。",
-    "next": "当前 TODO 收敛到 Cosmos3 测试、三视角/多 ego-view 数据替换、Gamma-World 复现、分图层/segment+inpaint/SVG 化数据集准备。"
+    "focus": "Tri-View 主项目重组为三条可拆分子项目：UMI Ego World、Robot Video Image-Layered Model、Layered Robot Data for IDM/reward/adaptation。",
+    "progress": "UMI / Image-Layered / IDM 合并卡已改成“生成 robot data -> 分图层 -> 验证分层数据对操纵有益”的完整 proposal 结构。",
+    "blockers": "关键风险从“能不能生成视频”升级为“分层数据是否稳定、可重组、可用于 IDM / reward / policy ablation”。",
+    "next": "优先做三组可验证输出：世界模型生成机器人视频样例、robot/object/background 三层数据样例、flat RGB vs mask-only vs layered data 的操纵策略消融。"
   },
   "storyline": {
     "summary": "How real-robot infra, human demonstrations, video world models, simulators, and physical outputs form one loop.",
@@ -45,30 +45,30 @@
       },
       {
         "eyebrow": "World-model sub-story",
-      "title": "How Tri-View Ego World + IDM becomes robot data, not only generated video",
+        "title": "How Tri-View becomes layered robot data for IDM, reward, and adaptation",
         "aria_label": "World model data sub-story",
         "nodes": [
           {
             "role": "primary",
-            "eyebrow": "Wrist-view route",
-            "title": "Shared-Context Ego World",
-            "body": "UMI wrist cameras plus fixed or floating robot-head cameras are treated as ego views. The world model predicts synchronized, action-responsive futures over overlapping object-interaction-robot context."
+            "eyebrow": "Sub-project A",
+            "title": "UMI Ego World",
+            "body": "Generate synchronized action-conditioned robot videos from UMI wrist views plus fixed/floating robot-head ego context. This track owns WAN/Cosmos/Gamma baselines and robot-video galleries."
           },
           {
             "role": "primary",
-            "eyebrow": "Layer route",
-            "title": "Image-Layered State for IDM",
-            "body": "Robot layers feed pose / joint estimation and IDM supervision; object-interaction layers feed process reward and RL self-supervision; scene layers support RoboEngine-style physical augmentation and self-adaptation."
+            "eyebrow": "Sub-project B",
+            "title": "Robot Video Layers",
+            "body": "Decompose real or generated robot videos into temporally consistent robot, object/contact, and background layers with masks, recomposition QA, and structured metadata."
           },
           {
             "role": "outcome",
-            "eyebrow": "Robot-data route",
-            "title": "Executable Robot Control",
-            "body": "When the arm is visible, robot pose estimation supports IDM; when it is not visible, wrist/head VO, SLAM, or visual geometry recover egomotion. The final decoder emits position, velocity, or current-loop commands."
+            "eyebrow": "Sub-project C",
+            "title": "Layered Data Utility",
+            "body": "Robot layer feeds IDM / pose / VO, object layer feeds process reward and RL supervision, and background layer feeds RoboEngine-style adaptation. The ablation asks whether layered data beats flat RGB or masks alone."
           }
         ],
         "connectors": [
-          "+",
+          "->",
           "->"
         ]
       }
@@ -97,8 +97,8 @@
     },
     {
       "src": "dashboard/assets/layered-world-model.png",
-      "alt": "Layered world model diagram",
-      "caption": "Layered world model: persistent scene, object/contact, and robot/ego dynamics."
+      "alt": "Layered robot data hierarchy: background, object, and robot layers feed augmentation, reward, and inverse dynamics.",
+      "caption": "Layered robot data hypothesis: background -> augmentation/adaptation, object/contact -> process reward, robot -> IDM and pose/VO supervision."
     },
     {
       "src": "dashboard/assets/pearl-overview.png",
@@ -161,7 +161,7 @@
   "projects": [
     {
       "project_id": "umi-world-model",
-      "title": "Tri-View Ego World + IDM Foundation Model",
+      "title": "Tri-View Ego World + Image-Layered IDM Foundation Model",
       "bucket": "research",
       "status": "ongoing",
       "state_path": "dashboard/state/projects/umi-world-model.json"
