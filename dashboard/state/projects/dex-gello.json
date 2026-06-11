@@ -1,0 +1,132 @@
+{
+  "schema_version": "project.v1",
+  "project_id": "dex-gello",
+  "title": "DexGello: Arm-Hand Decoupled Teleoperation",
+  "bucket": "research",
+  "status": "ongoing",
+  "updated_at": "2026-06-11T23:12:57+08:00",
+  "description": "Yongxi Lai-led Franka + Wuji dexterous-hand data-collection project using GELLO, MANUS, and VIVE as decoupled arm, hand-pose, and finger channels.",
+  "summary": "DexGello separates robot-oriented arm control from human-oriented hand pose and finger articulation: GELLO controls/logs q_arm for Franka, VIVE logs independent T_hand on the operator hand, and MANUS logs/retargets q_finger for Wuji hand. The core question is whether this richer decoupled state improves dexterous teleoperation data quality and downstream policy learning.",
+  "subprojects": [
+    {
+      "label": "A",
+      "title": "Arm channel",
+      "body": "GELLO gives low-latency, kinematically matched arm control and robot joint records.",
+      "output": "q_arm"
+    },
+    {
+      "label": "B",
+      "title": "Hand-pose channel",
+      "body": "VIVE Tracker on the operator hand records independent human hand pose, not another Franka control input.",
+      "output": "T_hand"
+    },
+    {
+      "label": "C",
+      "title": "Finger channel",
+      "body": "MANUS captures full finger articulation and drives/logs Wuji dexterous-hand retargeting.",
+      "output": "q_finger"
+    }
+  ],
+  "asset": "dashboard/assets/dex-gello-decoupled-teleop.svg",
+  "asset_alt": "DexGello arm hand finger decoupled teleoperation architecture",
+  "asset_caption": "DexGello: GELLO -> q_arm, VIVE -> T_hand, MANUS -> q_finger, synchronized into one dexterous demonstration record.",
+  "visual": {
+    "layout": "standard"
+  },
+  "details": [
+    "Lead / ownership: Yongxi Lai leads this project; Boris provides dashboard / research organization and real-robot integration support.",
+    "Motivation: GELLO is strong for accurate, low-latency robot-arm teleoperation because the leader arm mirrors the target arm kinematics. For dexterous manipulation, however, the human wrist/hand/finger semantics are compressed if everything is treated as only robot end-effector or joint state.",
+    "Core representation: each demo should record (q_arm, T_hand, q_finger). q_arm is the GELLO / Franka arm configuration, T_hand is the calibrated VIVE pose of the operator's hand-back tracker, and q_finger is MANUS finger articulation retargeted or logged for Wuji hand.",
+    "Key design decision: VIVE should not be treated as an extra Franka command channel in v0. It is an independent human hand-pose measurement used to quantify what GELLO end-effector pose misses, how much overlap exists, and whether arm-hand decoupling improves usability and data quality.",
+    "System path: start from the already completed Franka + Wuji + GELLO base, then finish MANUS glove streaming, VIVE tracker pairing / serial listing, time sync, extrinsic calibration, and a replay verifier that can reconstruct one aligned DexGello episode.",
+    "Research comparison: evaluate Gello-only, Gello + MANUS, and Gello + VIVE + MANUS. The expected useful signals are operator comfort, trajectory smoothness, contact timing, finger-pose quality, hand-pose alignment, demo diversity, and downstream imitation-learning / diffusion-policy performance.",
+    "Relation to DexUMI: DexUMI uses the human hand as a universal dexterous interface and bridges visual/kinematic gaps. DexGello keeps the efficient GELLO arm channel instead of replacing arm teleop with only hand tracking, and adds an explicit hand-pose channel so the dataset can study arm-hand information overlap.",
+    "Relation to VR teleoperation: the separate Real Robot Infra task for VR-controlling Franka remains a hardware/control baseline. DexGello's v0 should stay cleaner: Gello controls arm, MANUS controls/logs fingers, VIVE logs hand pose for data and analysis.",
+    "Completed input-stack decision 2026-06-11: GELLO distal trigger path is now treated as ACE-style wrist ring + MANUS hand-pose input inside DexGello. GELLO remains arm joint-space teleop; MANUS supplies hand/finger pose; the wrist ring is wrist/intent hardware, not a separate hand-pose camera route."
+  ],
+  "task_ids": [
+    "task_dex_gello_system_design",
+    "task_real_robot_infra_manus_vive_tracker",
+    "task_real_robot_infra_ace_wrist_ring",
+    "task_dex_gello_vive_hand_mount_calibration",
+    "task_dex_gello_data_schema_logger",
+    "task_dex_gello_ablation_protocol",
+    "task_dex_gello_policy_training_eval"
+  ],
+  "references": [
+    {
+      "title": "GELLO: A General, Low-Cost, and Intuitive Teleoperation Framework for Robot Manipulators",
+      "url": "https://wuphilipp.github.io/gello_site/",
+      "arxiv_id": "2309.13037",
+      "notes": "Primary arm-teleoperation reference. GELLO uses a kinematically equivalent low-cost leader arm for intuitive joint-space control and has demonstrated Franka / UR5 / xArm systems."
+    },
+    {
+      "title": "GELLO software",
+      "url": "https://github.com/wuphilipp/gello_software",
+      "notes": "Implementation reference for leader-arm robot control, calibration, and data-collection hooks."
+    },
+    {
+      "title": "GELLO mechanical design",
+      "url": "https://github.com/wuphilipp/gello_mechanical",
+      "notes": "Hardware reference for low-cost leader construction and maintainable arm-teleop rigs."
+    },
+    {
+      "title": "DexUMI: Using Human Hand as the Universal Manipulation Interface for Dexterous Manipulation",
+      "url": "https://dex-umi.github.io/",
+      "arxiv_id": "2505.21864",
+      "notes": "Closest dexterous-data motivation reference: human-hand interface, visual adaptation, retargeting, tactile/haptic considerations, and downstream policy learning."
+    },
+    {
+      "title": "MANUS robotics: high precision hand tracking for dexterous manipulation",
+      "url": "https://www.manus-meta.com/robotics",
+      "notes": "MANUS reference for high-DoF finger tracking, low-latency streaming, robot-hand teleoperation, and Isaac Lab / simulation integration."
+    },
+    {
+      "title": "VIVE Wrist Tracker for developers",
+      "url": "https://developer.vive.com/us/hardware/wrist-tracker/",
+      "notes": "Tracker reference for lightweight wrist/object tracking, 6DoF pose, CAD/mounting, and OpenXR / OpenVR ecosystem considerations."
+    },
+    {
+      "title": "dex-teleop: VR-based teleoperation for dexterous manipulation",
+      "url": "https://github.com/GeneralTrajectory/dex-teleop",
+      "notes": "Engineering reference for VIVE Tracker + hand tracking + synchronized HDF5 recording. Use as a comparison point, but DexGello keeps GELLO as the arm-control channel."
+    }
+  ],
+  "risks_decisions": [
+    "Do not collapse the project into generic VR teleoperation. The novelty is the decoupled semantic record: q_arm from GELLO, T_hand from VIVE, and q_finger from MANUS.",
+    "Calibration risk: T_hand only becomes useful if VIVE world frame, Franka base, GELLO state, camera streams, and MANUS hand root share a reproducible time-sync and extrinsic-calibration procedure.",
+    "Mounting risk: a back-of-hand tracker must be rigid enough for pose analysis while not blocking MANUS glove motion, Wuji retargeting, camera mounts, cables, or emergency operation.",
+    "Information-overlap risk: VIVE hand pose may be redundant with GELLO end-effector pose for some tabletop tasks. The project needs explicit overlap metrics rather than assuming more sensors always help.",
+    "Policy risk: downstream gains may appear only after enough dexterous tasks involve wrist roll, hand approach posture, or human finger pre-shaping. Choose tasks where the extra human-hand channel has a plausible role.",
+    "DexGello input boundary: do not reintroduce GELLO trigger as the hand/finger control source. Keep arm control on GELLO, wrist/intent on ACE-style ring, and hand/finger retargeting on MANUS."
+  ],
+  "timeline": {
+    "badges": [
+      {
+        "label": "Lead",
+        "value": "Yongxi Lai"
+      },
+      {
+        "label": "Robot",
+        "value": "Franka + Wuji"
+      },
+      {
+        "label": "Arm",
+        "value": "GELLO"
+      },
+      {
+        "label": "Hand pose",
+        "value": "VIVE"
+      },
+      {
+        "label": "Fingers",
+        "value": "MANUS"
+      }
+    ],
+    "target_cycle": "v0 real-robot data collection",
+    "target_note": "First finish an aligned hardware verifier and one replayable DexGello episode before scaling task collection.",
+    "sprint_start": "2026-06-11",
+    "sprint_due": null,
+    "milestones": []
+  }
+}

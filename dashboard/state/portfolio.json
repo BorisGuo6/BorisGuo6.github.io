@@ -4,14 +4,14 @@
   "title": "Embodied AI Project Dashboard",
   "subtitle": "World models, self-improving simulators, teleop acceleration, and robotics + 3D printing",
   "week": "2026-W24",
-  "date": "2026-06-10",
-  "updated_at": "2026-06-10T20:45:00+08:00",
+  "date": "2026-06-11",
+  "updated_at": "2026-06-11T23:17:44+08:00",
   "state_root": "dashboard/state",
   "summary": {
-    "focus": "Tri-View 主项目重组为三条可拆分子项目：UMI Ego World、Robot Video Image-Layered Model、Layered Robot Data for IDM/reward/adaptation。",
-    "progress": "UMI / Image-Layered / IDM 合并卡已改成“生成 robot data -> 分图层 -> 验证分层数据对操纵有益”的完整 proposal 结构。",
+    "focus": "Research 主线扩展为 Tri-View/Image-Layered IDM、Self-Improving Agents、DexGello 和新 Tactile-WAM：从 robot video/layered data 走到 tactile grounding 和 action output。",
+    "progress": "新增 Tactile-WAM 研究卡，把 Wuji proposal 讨论中的三段 demo 组织成外部摄像头 human retarget -> robot arm+hand video world model -> tactile prediction -> WAM action head。",
     "blockers": "关键风险从“能不能生成视频”升级为“分层数据是否稳定、可重组、可用于 IDM / reward / policy ablation”。",
-    "next": "优先做三组可验证输出：世界模型生成机器人视频样例、robot/object/background 三层数据样例、flat RGB vs mask-only vs layered data 的操纵策略消融。"
+    "next": "Tri-View 继续做 layered-data utility ablation；DexGello 做硬件 verifier；Tactile-WAM 先完成 3-demo spec、外部摄像头 retarget video mock、video-to-tactile 监督数据定义和 action-head eval。"
   },
   "storyline": {
     "summary": "How real-robot infra, human demonstrations, video world models, simulators, and physical outputs form one loop.",
@@ -174,6 +174,20 @@
       "state_path": "dashboard/state/projects/self-improving-agents.json"
     },
     {
+      "project_id": "dex-gello",
+      "title": "DexGello: Arm-Hand Decoupled Teleoperation",
+      "bucket": "research",
+      "status": "ongoing",
+      "state_path": "dashboard/state/projects/dex-gello.json"
+    },
+    {
+      "project_id": "tactile-wam",
+      "title": "Tactile-WAM: Video-to-Touch World Action Model",
+      "bucket": "research",
+      "status": "ongoing",
+      "state_path": "dashboard/state/projects/tactile-wam.json"
+    },
+    {
       "project_id": "real-robot-infra",
       "title": "Real-Robot Lab Infra",
       "bucket": "engineering",
@@ -191,7 +205,7 @@
       "project_id": "drag-demo-video-editing",
       "title": "Drag-Demo Video Editing",
       "bucket": "engineering",
-      "status": "ongoing",
+      "status": "done",
       "state_path": "dashboard/state/projects/drag-demo-video-editing.json"
     },
     {
@@ -221,6 +235,13 @@
       "bucket": "survey",
       "status": "survey",
       "state_path": "dashboard/state/projects/model-assisted-teleop-survey.json"
+    },
+    {
+      "project_id": "urdf-embodiment-prior-world-model-idea",
+      "title": "Idea: URDF Embodiment-Prior World Model",
+      "bucket": "survey",
+      "status": "survey",
+      "state_path": "dashboard/state/projects/urdf-embodiment-prior-world-model-idea.json"
     },
     {
       "project_id": "skill-world-model-survey",

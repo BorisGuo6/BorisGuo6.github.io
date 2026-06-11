@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-10T21:18:00+08:00",
+  "updated_at": "2026-06-11T23:17:44+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -282,12 +282,12 @@
     },
     {
       "task_id": "task_real_robot_infra_manus_vive_tracker",
-      "project_id": "real-robot-infra",
-      "title": "接入 MANUS + VIVE 并完成硬件 verifier",
-      "description": "把 MANUS glove 和 VIVE Tracker 作为同一套高精度手部 / 腕部输入栈接入，并完成硬件 verifier：MANUS hand stream Hz、VIVE tracker serial、外参 / 时间同步最小记录、retargeting replay verifier。若不走 VIVE Tracker，评估 ACE Teleop-style wrist ring 替代 Gello 末端扳机作为腕部姿态 / 意图输入。",
+      "project_id": "dex-gello",
+      "title": "接入 MANUS + VIVE 作为 DexGello hand/finger verifier",
+      "description": "把 MANUS glove 和 VIVE Tracker 接入 DexGello 的解耦输入栈：MANUS 提供 q_finger 并验证 Wuji hand retargeting，VIVE hand-back tracker 提供独立 T_hand，GELLO / Franka 侧提供 q_arm。验收：MANUS hand stream Hz、VIVE tracker serial、外参 / 时间同步最小记录、fused hand-frame log、retargeting replay verifier，以及一条可重放的 (q_arm, T_hand, q_finger) episode。若不走 VIVE Tracker，再评估 ACE Teleop-style wrist ring 作为 T_hand / intent fallback。",
       "status": "needs_user",
       "priority": "high",
-      "assignee": "boris@100.70.181.44",
+      "assignee": "Yongxi Lai / boris@100.70.181.44",
       "result": null,
       "started_at": "2026-05-20",
       "due_at": "2026-05-25",
@@ -375,9 +375,16 @@
           "body": "Mirrored strict audit decision from default state for task_real_robot_infra_manus_vive_tracker; remaining work requires human action/credential/hardware/decision, not more autonomous dependency installation.",
           "created_at": "2026-05-29T02:22:51+08:00",
           "kind": "needs_user"
+        },
+        {
+          "comment_id": "comment_dex_gello_migration_20260611",
+          "author": "Boris / Codex",
+          "body": "Moved from Real Robot Infra into DexGello because this MANUS + VIVE verifier is now the core of the decoupled arm-hand-finger research representation: q_arm from GELLO/Franka, T_hand from VIVE, and q_finger from MANUS/Wuji. Real Robot Infra keeps generic robot availability, safety, VR-control baseline, and purchase/setup tasks.",
+          "created_at": "2026-06-11T22:51:58+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-29T02:22:51+08:00"
+      "updated_at": "2026-06-11T22:51:58+08:00"
     },
     {
       "task_id": "task_real_robot_infra_vive_tracker_chest_mount",
@@ -4243,13 +4250,13 @@
     },
     {
       "task_id": "task_real_robot_infra_ace_wrist_ring",
-      "project_id": "general",
+      "project_id": "dex-gello",
       "title": "GELLO 末端从 trigger 改 ACE-style 腕环 + MANUS 手姿态",
-      "description": "现有 GELLO 仍负责 Franka/GELLO 机械臂 joint-space teleop；改动只发生在末端：把原本采集夹爪开合的 trigger 模块替换/扩展成 ACE Teleop-style wrist ring。不要用 ACE 的 hand-facing camera 做手姿态估计；手部姿势、手指开合和 retargeting 输入由 MANUS glove 提供。Deliverable: GELLO A67/trigger 末端到 ACE wrist ring 的机械结合草图、保留/删除件清单、MANUS signal path、wrist ring 输出字段、线缆/快拆/限位方案，以及 first print fit-check。",
-      "status": "needs_user",
+      "description": "DexGello input-stack update: keep GELLO responsible for Franka/GELLO arm joint-space teleop, and replace/extend the distal trigger module with an ACE-style wrist ring for wrist/intent input. Do not use ACE hand-facing camera for hand pose; hand posture, finger state, and retargeting input come from MANUS glove. Deliverable covered: GELLO A67/trigger distal interface to ACE wrist ring, keep/delete list, MANUS signal path, wrist-ring output fields, cable/quick-release/limit plan, CAD-source artifact, and fit-check decision.",
+      "status": "done",
       "priority": "medium",
       "assignee": "Boris / CAD owner",
-      "result": null,
+      "result": "User confirmed on 2026-06-11 that the GELLO distal trigger -> ACE-style wrist ring + MANUS hand-pose path belongs to DexGello and can be marked done.",
       "comments": [
         {
           "comment_id": "comment_gello_ace_manus_design_clarification_20260525",
@@ -4278,11 +4285,19 @@
           "body": "Mirrored strict audit decision from default state for task_real_robot_infra_ace_wrist_ring; remaining work requires human action/credential/hardware/decision, not more autonomous dependency installation.",
           "created_at": "2026-05-29T02:22:38+08:00",
           "kind": "needs_user"
+        },
+        {
+          "comment_id": "comment_dex_gello_ace_wrist_ring_done_20260611",
+          "author": "Boris / Codex",
+          "body": "User correction on 2026-06-11: this belongs to DexGello, not General. Marking done: GELLO distal trigger has been replaced conceptually by ACE-style wrist ring + MANUS hand-pose path for the DexGello input stack.",
+          "created_at": "2026-06-11T23:12:57+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-05-29T02:22:38+08:00",
+      "updated_at": "2026-06-11T23:12:57+08:00",
       "due_at": "",
-      "started_at": "2026-05-25"
+      "started_at": "2026-05-25",
+      "completed_at": "2026-06-11"
     },
     {
       "task_id": "task_umi_genie_envisioner_probe",
@@ -4325,10 +4340,10 @@
       "project_id": "general",
       "title": "改造 10T 硬盘为组内共享 NAS",
       "description": "Move this from the UMI-specific storage lane into General engineering. Decision: buy the Taobao 7-day no-reason-return item \"企业团队云硬盘盒NAS局域网共享权限自动备份远程访问WIFI\" (short link: https://e.tb.cn/h.R4yF4iTokRMx0ei?tk=YJOJ5Dl6aXt, code HU006) and use the existing 10T hard drive as a group shared-file NAS for lab computers. Acceptance: confirm the purchased NAS enclosure supports the actual 10T HDD form factor/interface and power needs; install the disk; configure LAN/Wi-Fi access, shared folders, user/group permissions, automatic backup, and remote-access policy; record stable hostname/IP, SMB/NFS/WebDAV or vendor client path, filesystem/volume state, simple read/write throughput from at least one group computer, and any 7-day return decision if compatibility fails.",
-      "status": "needs_user",
+      "status": "done",
       "priority": "high",
       "assignee": null,
-      "result": null,
+      "result": "User confirmed on 2026-06-11 that the 10T HDD group shared NAS conversion can be marked done.",
       "comments": [
         {
           "comment_id": "comment_umi_10t_no_sata_20260525",
@@ -4392,10 +4407,18 @@
           "body": "Mirrored strict audit decision from default state for task_general_10t_hdd_nas_shared_storage; remaining work requires human action/credential/hardware/decision, not more autonomous dependency installation.",
           "created_at": "2026-05-29T02:22:49+08:00",
           "kind": "needs_user"
+        },
+        {
+          "comment_id": "comment_general_10t_hdd_nas_done_20260611",
+          "author": "Boris / Codex",
+          "body": "User confirmation on 2026-06-11: mark 改造 10T 硬盘为组内共享 NAS as done.",
+          "created_at": "2026-06-11T23:12:02+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-05-29T02:22:49+08:00",
-      "due_at": ""
+      "updated_at": "2026-06-11T23:12:02+08:00",
+      "due_at": "",
+      "completed_at": "2026-06-11"
     },
     {
       "task_id": "task_drag_demo_flux_fill_dev_inpaint_probe",
@@ -5233,14 +5256,24 @@
       "task_id": "task_real_robot_infra_me_control_two_hosts",
       "project_id": "real-robot-infra",
       "title": "ME Control Lab 至少补两台主机",
-      "description": "为 ME Control Lab 真机实验至少补充两台主机，并明确各自主责。目标：盘点当前控制机/采集机/训练机缺口，提出至少 2 台新增主机的配置与放置方案，覆盖实时机器人控制、相机/手套/追踪器数据采集、远程监控、数据缓存和必要的 GPU/USB/NIC/存储需求。验收：列出两台主机的建议配置、预算/采购或调拨路径、网络与账号接入 checklist、预计绑定设备和上线验证步骤。",
-      "status": "todo",
+      "description": "为 ME Control Lab 真机实验至少补充两台主机，并明确各自主责。目标：盘点当前控制机/采集机/训练机缺口，提出至少 2 台新增主机的配置与放置方案，覆盖实时机器人控制、相机/手套/追踪器数据采集、远程监控、数据缓存和必要的 GPU/USB/NIC/存储需求。当前进展：只搬了一台主机，因此不能标记 done；还需要补齐第二台主机及两台机器的职责划分、网络/账号/设备绑定和上线验证。验收：列出两台主机的建议配置、预算/采购或调拨路径、网络与账号接入 checklist、预计绑定设备和上线验证步骤；两台主机都到位并完成 smoke 后才能 done。",
+      "status": "active",
       "priority": "high",
       "assignee": null,
       "due_at": "",
       "result": null,
-      "comments": [],
-      "updated_at": "2026-05-29T19:31:55+08:00"
+      "comments": [
+        {
+          "comment_id": "comment_me_control_two_hosts_partial_20260611",
+          "author": "Boris / Codex",
+          "body": "User correction on 2026-06-11: this was incorrectly understood as done, but only one host has been moved. Keep task active until a second host is added and both hosts have explicit roles, network/account setup, bound devices, and上线 smoke evidence.",
+          "created_at": "2026-06-11T23:10:37+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-06-11T23:10:37+08:00",
+      "started_at": "2026-06-11",
+      "completed_at": null
     },
     {
       "task_id": "task_real_robot_infra_yam_aloha_setup",
@@ -5281,11 +5314,11 @@
       "project_id": "drag-demo-video-editing",
       "title": "调研拖动示教 on-policy 与 learning-based 重力补偿",
       "description": "Research on-policy drag-teaching / kinesthetic-teaching approaches and learning-based gravity compensation or base control for the drag-demo setup. Focus on what control-loop, current, velocity, force, and contact signals should be collected; how to estimate payload/contact/gravity terms; how to distinguish operator intent from passive dynamics; and whether residual learning or on-policy correction should be added to the current offline replay/fine-tuning pipeline. Acceptance: short decision note with candidate algorithms, required logged signals, safety gates, implementation route on the current ARX/Franka-like setup, and the first experiment to run.",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignee": null,
       "due_at": "",
-      "result": null,
+      "result": "Closed by user direction on 2026-06-11: Drag-Demo Video Editing / Feibo collaboration is no longer a current priority, so remaining open TODOs are marked done for dashboard cleanup.",
       "comments": [
         {
           "comment_id": "comment_drag_demo_on_policy_gravity_comp_survey_20260529",
@@ -5293,20 +5326,28 @@
           "body": "New user TODO: research drag-demo on-policy learning and learning-based gravity compensation. This should connect the previously requested position / velocity / current-loop logging to a concrete control-learning plan, not just remain a visual editing note.",
           "created_at": "2026-05-29T21:53:54+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_task_drag_demo_on_policy_gravity_comp_survey_closed_by_user_20260611",
+          "author": "Boris / Codex",
+          "body": "User direction on 2026-06-11: mark Drag-Demo Video Editing items all done because this Feibo collaboration project is no longer a current focus.",
+          "created_at": "2026-06-11T23:17:44+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-05-29T21:53:54+08:00"
+      "updated_at": "2026-06-11T23:17:44+08:00",
+      "completed_at": "2026-06-11"
     },
     {
       "task_id": "task_drag_demo_no_hand_state_video_interpolation",
       "project_id": "drag-demo-video-editing",
       "title": "用视频模型插帧生成首尾“无手状态”",
       "description": "Implement a pipeline that uses start/end empty-scene views and a video model to interpolate or synthesize no-hand frames/states for drag-demo clips. The goal is to create visually hand-free beginning/end states while preserving robot/object/scene geometry for training and evaluation. Acceptance: select a video model/backend; define inputs such as empty start/end views, masks, raw clip, and camera metadata; generate at least one before/after gallery; run diff/contact QA; and document failure cases where object state, robot geometry, or contact timing drifts.",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignee": null,
       "due_at": "",
-      "result": null,
+      "result": "Closed by user direction on 2026-06-11: Drag-Demo Video Editing / Feibo collaboration is no longer a current priority, so remaining open TODOs are marked done for dashboard cleanup.",
       "comments": [
         {
           "comment_id": "comment_drag_demo_no_hand_state_video_interpolation_20260529",
@@ -5314,9 +5355,17 @@
           "body": "New user TODO: use the start/end empty views plus a video model to interpolate hand-free states. The acceptance gate should include gallery review and contact/object-preservation QA, because a smooth-looking video can still corrupt policy-useful geometry.",
           "created_at": "2026-05-29T21:53:54+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_task_drag_demo_no_hand_state_video_interpolation_closed_by_user_20260611",
+          "author": "Boris / Codex",
+          "body": "User direction on 2026-06-11: mark Drag-Demo Video Editing items all done because this Feibo collaboration project is no longer a current focus.",
+          "created_at": "2026-06-11T23:17:44+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-05-29T21:53:54+08:00"
+      "updated_at": "2026-06-11T23:17:44+08:00",
+      "completed_at": "2026-06-11"
     },
     {
       "task_id": "task_general_camera_short_screws",
@@ -5814,55 +5863,6 @@
       ],
       "updated_at": "2026-06-03T08:33:15+02:00",
       "completed_at": "2026-06-05"
-    },
-    {
-      "task_id": "task_ideas_archive_review_next_pass",
-      "project_id": "general",
-      "title": "Review individually archived Survey ideas on next pass",
-      "description": "Archive is now split into separate evidence-backed project cards. On the next survey pass, inspect each archived card independently; if any item gains a concrete owner, dataset, hardware path, or first experiment, move that specific item back to Survey instead of recreating one mixed archive card.",
-      "status": "todo",
-      "priority": "low",
-      "assignee": "Boris / Codex",
-      "due_at": "2026-06-30",
-      "result": null,
-      "comments": [
-        {
-          "comment_id": "comment_ideas_archive_scope_20260530",
-          "author": "Codex",
-          "body": "Archive includes Notion [x] items, current-dashboard covered ideas, scooped LEAP-hand gloves, Tencent game-society background, and deferred non-core voice/ASCII benchmark ideas.",
-          "created_at": "2026-05-30T23:59:00+02:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "comment_archive_split_20260531",
-          "author": "Codex",
-          "body": "Moved this maintenance TODO from the old mixed Ideas Archive card to General after splitting Archive into independent project cards with explicit archive reasons.",
-          "created_at": "2026-05-31T09:27:00+02:00",
-          "kind": "comment"
-        }
-      ],
-      "updated_at": "2026-05-31T09:27:00+02:00"
-    },
-    {
-      "task_id": "task_general_notion_migration_dashboard_sync",
-      "project_id": "general",
-      "title": "Sync dashboard after Notion migration",
-      "description": "After the Notion -> Obsidian/OpenHuman memory migration is completed, update dashboard state to reflect the migrated knowledge base: add or revise relevant project cards, survey/archive entries, source links, and next actions. Acceptance: dashboard references the new vault/memory structure where useful, migrated Notion ideas are not duplicated, completed/covered items are archived, and no secrets/private setup snippets are copied into public state.",
-      "status": "todo",
-      "priority": "medium",
-      "assignee": "Boris / Codex",
-      "due_at": "",
-      "result": null,
-      "comments": [
-        {
-          "comment_id": "comment_general_notion_migration_dashboard_sync_20260531",
-          "author": "Boris / Codex",
-          "body": "User reminder: after Notion migration finishes, also update the dashboard so survey/archive/project state stays aligned with the migrated Obsidian/OpenHuman memory repository.",
-          "created_at": "2026-05-31T00:21:21+02:00",
-          "kind": "comment"
-        }
-      ],
-      "updated_at": "2026-05-31T17:27:45+02:00"
     },
     {
       "task_id": "task_umi_tri_view_capture_schema",
@@ -6433,6 +6433,35 @@
       "updated_at": "2026-06-05T01:18:00+02:00"
     },
     {
+      "task_id": "task_self_improving_dual_sim_robotwin_isaacsim_merge",
+      "project_id": "self-improving-agents",
+      "title": "参考 Dual-Sim 把 RoboTwin 任务迁移进 AgenticSim / IsaacSim",
+      "description": "参考 chengaopro/Dual-Sim 中 RoboTwin tasks -> IsaacSim 的迁移实现，把可复用部分 merge 进 AgenticSim。第一步先确认仓库访问/clone，因为公开页面在本次更新时返回 404；拿到代码后重点抽取 task schema、asset/USD/URDF 转换、reset/step API、robot/action adapter、observation/reward/verifier 结构，并和现有 RLBench->IsaacSim verifier gate 对齐。Acceptance: 1) 记录 Dual-Sim 可访问 commit 或访问 blocker；2) 写出 RoboTwin task 到 AgenticSim task registry 的字段映射；3) 选 1 个 RoboTwin task 做 IsaacSim smoke/verifier plan；4) 给出 merge patch 或明确 blocker。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Boris / Codex",
+      "due_at": "",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_self_improving_dual_sim_seed_20260611",
+          "author": "Boris / Codex",
+          "body": "User request: add Dual-Sim reference (https://github.com/chengaopro/Dual-Sim). Claimed value: it contains RoboTwin task migration into IsaacSim; use it as a concrete reference and merge the relevant adapter pattern into AgenticSim.",
+          "created_at": "2026-06-11T13:24:16+08:00",
+          "kind": "source_note"
+        },
+        {
+          "comment_id": "comment_self_improving_dual_sim_public_access_20260611",
+          "author": "Codex",
+          "body": "Public lookup note: direct fetch of https://github.com/chengaopro/Dual-Sim returned 404 and search did not expose the repo contents. Treat access confirmation as the first acceptance step before claiming code-level details.",
+          "created_at": "2026-06-11T13:24:16+08:00",
+          "kind": "blocker"
+        }
+      ],
+      "updated_at": "2026-06-11T13:24:16+08:00",
+      "completed_at": null
+    },
+    {
       "task_id": "task_self_improving_contact_curriculum_bridge",
       "project_id": "self-improving-agents",
       "title": "Use VTLA/UMI contact failures as self-improving curriculum traces",
@@ -6690,6 +6719,247 @@
       "updated_at": "2026-06-09T02:12:13+08:00",
       "due_at": "",
       "completed_at": null
+    },
+    {
+      "task_id": "task_dex_gello_system_design",
+      "project_id": "dex-gello",
+      "title": "DexGello v0 架构 / frame graph / safety spec",
+      "description": "把 DexGello 写成可执行 v0 spec：GELLO->Franka arm command/logging，MANUS->Wuji finger retargeting/logging，VIVE hand-back tracker->T_hand logging；定义 frame graph、time-sync、deadman / E-stop、安全限速、数据字段、启动顺序和一条最小可复现实验流程。验收：spec 页面或 markdown、frame graph、设备 checklist、single-arm dry-run 命令、失败/急停条件。",
+      "status": "active",
+      "priority": "high",
+      "assignee": "Yongxi Lai / Boris",
+      "result": null,
+      "started_at": "2026-06-11",
+      "due_at": "",
+      "comments": [
+        {
+          "comment_id": "comment_dex_gello_proposal_seed_20260611",
+          "author": "Boris / Codex",
+          "body": "Seeded from Yongxi Lai-led proposal: Arm-Hand Decoupled Teleoperation Framework for Franka + Dexterous Hand Data Collection. The v0 representation is (q_arm, T_hand, q_finger).",
+          "created_at": "2026-06-11T22:51:58+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-06-11T22:51:58+08:00"
+    },
+    {
+      "task_id": "task_dex_gello_vive_hand_mount_calibration",
+      "project_id": "dex-gello",
+      "title": "做 VIVE 手背 tracker 安装与外参标定",
+      "description": "为操作员手背安装 VIVE Tracker，验证不挡 MANUS glove、线缆、相机视野和自然抓握；标定 T_world_vive、T_franka_base_vive、T_hand_tracker_manus_root，并记录一段同步日志来比较 VIVE T_hand 与 GELLO / Franka end-effector pose 的重叠和偏差。验收：安装照片/说明、tracker serial、SteamVR/OpenVR 设备列表、标定文件、10 秒同步日志、overlap plot 或统计。胸挂 tracker 可作为稳定 body/world reference 的可选辅助，但不要把它当成主任务。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Yongxi Lai / lab",
+      "result": null,
+      "started_at": "",
+      "due_at": "",
+      "comments": [
+        {
+          "comment_id": "comment_dex_gello_vive_mount_scope_20260611",
+          "author": "Boris / Codex",
+          "body": "This is separate from the existing chest-strap purchase task. DexGello needs the hand-back tracker mount and calibration first; the chest strap remains a Real Robot Infra helper if a stable CHEST frame is useful.",
+          "created_at": "2026-06-11T22:51:58+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-06-11T22:51:58+08:00"
+    },
+    {
+      "task_id": "task_dex_gello_data_schema_logger",
+      "project_id": "dex-gello",
+      "title": "实现 (q_arm, T_hand, q_finger) episode logger",
+      "description": "实现 DexGello 数据记录 schema，把 Franka/GELLO q_arm、VIVE T_hand、MANUS q_finger、Wuji hand state、相机流、robot state、timestamps 和 calibration snapshot 写入统一 episode。优先兼容现有 real_robot_record / LeRobot / HDF5 路线，必须能 replay 和做 sanity QA。验收：一条 dry-run episode、一条真实短 episode、loader 可读回、replay verifier 输出 sync drift、missing frame、pose alignment 和 finger retargeting residual。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Yongxi Lai / Boris",
+      "result": null,
+      "started_at": "",
+      "due_at": "",
+      "comments": [],
+      "updated_at": "2026-06-11T22:51:58+08:00"
+    },
+    {
+      "task_id": "task_dex_gello_ablation_protocol",
+      "project_id": "dex-gello",
+      "title": "设计 Gello-only / Gello+MANUS / Gello+VIVE+MANUS 消融",
+      "description": "设计三组 teleoperation / data-quality 对比：1) Gello-only；2) Gello + MANUS；3) Gello + VIVE + MANUS。指标包括任务成功率、完成时间、operator workload、轨迹平滑度、接触/预抓取时序、GELLO EE 与 VIVE hand pose 的互信息/残差、finger-pose 质量、数据多样性和下游 policy 性能。验收：任务列表、采集 protocol、metric 定义、统计表模板和最小样本量建议。",
+      "status": "todo",
+      "priority": "medium",
+      "assignee": "Yongxi Lai / Boris",
+      "result": null,
+      "started_at": "",
+      "due_at": "",
+      "comments": [],
+      "updated_at": "2026-06-11T22:51:58+08:00"
+    },
+    {
+      "task_id": "task_dex_gello_policy_training_eval",
+      "project_id": "dex-gello",
+      "title": "验证 DexGello 数据是否提升 policy / world model",
+      "description": "用 DexGello 采集数据做下游验证：至少比较 flat robot state/video、加 MANUS finger、加 VIVE hand-pose 三种输入对 imitation learning、diffusion policy 或 world-model conditioning 的影响。优先选需要 wrist approach pose、finger pre-shape 或多指接触的任务，避免只做额外传感器但没有可见收益的简单 pick-place。验收：训练配置、held-out test、成功率/鲁棒性表、失败案例和是否继续扩大采集的 go/no-go 判断。",
+      "status": "todo",
+      "priority": "medium",
+      "assignee": "Yongxi Lai / Boris",
+      "result": null,
+      "started_at": "",
+      "due_at": "",
+      "comments": [],
+      "updated_at": "2026-06-11T22:51:58+08:00"
+    },
+    {
+      "task_id": "task_tactile_wam_proposal_spec",
+      "project_id": "tactile-wam",
+      "title": "写清 Tactile-WAM 三段 demo proposal spec",
+      "description": "把 Wuji proposal 讨论整理成可讲清的 3-demo spec：Demo 3 外部摄像头观测人手并 retarget 控制视频模型里的机械臂+机械手；Demo 1 从上一步生成视频里估计 tactile / contact / pressure / slip；最终把整体预测世界模型接 action head，输出可执行 action，成为 WAM。验收：1 页 proposal summary、系统图、输入/输出定义、三个 demo 的最小可行标准和数据需求。",
+      "status": "active",
+      "priority": "high",
+      "assignee": "Boris / Wuji discussion",
+      "result": null,
+      "started_at": "2026-06-11",
+      "due_at": "",
+      "comments": [
+        {
+          "comment_id": "comment_tactile_wam_wuji_proposal_seed_20260611",
+          "author": "Boris / Codex",
+          "body": "Seeded from the 2026-06-11 Wuji proposal discussion. User-provided demo references are preserved in the Tactile-WAM project references; full viewing may require Xiaohongshu / WeChat app access.",
+          "created_at": "2026-06-11T23:05:06+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-06-11T23:05:06+08:00"
+    },
+    {
+      "task_id": "task_tactile_wam_external_camera_retarget_demo",
+      "project_id": "tactile-wam",
+      "title": "Demo 3: 外部摄像头人手 retarget 控制 robot video model",
+      "description": "做一个 video-model demo：外部摄像头看人手/手臂动作，估计 hand/arm pose 或 motion tokens，retarget 成机械臂+机械手的控制条件，让视频世界模型生成机器人执行同一交互的 rollout。验收：输入视频、retarget tokens、robot arm+hand generated video、对齐可视化、失败案例；v0 可以先 mock video model，不要求立刻真机闭环。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Boris / Wuji",
+      "result": null,
+      "started_at": "",
+      "due_at": "",
+      "comments": [],
+      "updated_at": "2026-06-11T23:05:06+08:00"
+    },
+    {
+      "task_id": "task_tactile_wam_video_to_tactile_model",
+      "project_id": "tactile-wam",
+      "title": "Demo 1: 从 robot video 估计 tactile world model",
+      "description": "从真实或生成的机器人视频里估计 tactile 序列：contact/no-contact、contact patch、pressure/force proxy、slip risk、contact transition。优先用 Wuji glove/hand tactile 或现有 tactile dataset 做监督，先做离线 frame/clip-level predictor，再接到视频世界模型 rollout。验收：数据 schema、监督信号来源、baseline predictor、tactile map visualization、与真实 tactile 对齐指标。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Boris / Wuji",
+      "result": null,
+      "started_at": "",
+      "due_at": "",
+      "comments": [],
+      "updated_at": "2026-06-11T23:05:06+08:00"
+    },
+    {
+      "task_id": "task_tactile_wam_action_head",
+      "project_id": "tactile-wam",
+      "title": "把预测世界模型扩展成输出 action 的 WAM",
+      "description": "在 video+tactile predictive model 上加 action head，让模型不仅预测未来视频/触觉，也输出实现该未来的 robot action。先定义 action 空间：arm delta pose / joint delta、hand qpos、gripper/contact primitive 或 latent action；再比较 IDM decoding、behavior cloning head、planning-in-latent 三条路线。验收：action-space spec、offline action reconstruction、held-out action error、rollout consistency 和 go/no-go 结论。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Boris / Wuji",
+      "result": null,
+      "started_at": "",
+      "due_at": "",
+      "comments": [],
+      "updated_at": "2026-06-11T23:05:06+08:00"
+    },
+    {
+      "task_id": "task_tactile_wam_wuji_data_alignment",
+      "project_id": "tactile-wam",
+      "title": "整理 Wuji tactile / video / action 对齐数据需求",
+      "description": "确定 Tactile-WAM 需要的真实监督数据：外部 RGB/RGB-D、robot wrist/hand video、robot state/action、Wuji hand qpos、tactile frames、timestamps、calibration snapshot。复用 DexGello / Real Robot Infra 的 logger，但要额外保证 high-frequency tactile 与 video/action 对齐。验收：episode schema、最小采集脚本入口、同步 drift 指标、一个短 episode 的可视化报告。",
+      "status": "todo",
+      "priority": "medium",
+      "assignee": "Boris / Wuji / DexGello",
+      "result": null,
+      "started_at": "",
+      "due_at": "",
+      "comments": [],
+      "updated_at": "2026-06-11T23:05:06+08:00"
+    },
+    {
+      "task_id": "task_tactile_wam_eval_protocol",
+      "project_id": "tactile-wam",
+      "title": "定义 Tactile-WAM 评估协议",
+      "description": "定义 Tactile-WAM 不同阶段的验收指标：robot video controllability、tactile prediction accuracy/contact timing、action reconstruction/executability、closed-loop contact success。优先选择 tactile 真正有价值的任务：pressing、wiping、grasp adjustment、slip recovery、cutting/peeling、insertion/assembly。验收：任务表、指标表、baseline 列表、首个 benchmark family 决策。",
+      "status": "todo",
+      "priority": "medium",
+      "assignee": "Boris / Wuji",
+      "result": null,
+      "started_at": "",
+      "due_at": "",
+      "comments": [],
+      "updated_at": "2026-06-11T23:05:06+08:00"
+    },
+    {
+      "task_id": "task_general_claude_code_yuhang_account_recharge",
+      "project_id": "general",
+      "title": "Claude Code 让宇航重新开号充值",
+      "description": "让宇航重新开 Claude Code / Claude 账号并充值，避免一个账号在 ME 和 SoC / 多个 robot base 之间频繁切换物理位置导致继续被封。背景：AGI Max 和 Team 账号也出现阵亡风险；当前判断是 ME 和 SoC 最好分开账号，一个 base 尽量对应独立账号。验收：确认宇航新账号开通、套餐/充值路径、绑定邮箱/手机号归属、可报销或个人垫付方案、ME/SoC 使用边界、账号共享规则；不要把密码、token、付款信息写入 dashboard。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Yuhang / Boris",
+      "due_at": "",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_general_claude_code_account_chat_20260611",
+          "author": "Boris / Codex",
+          "body": "Seeded from chat on 2026-06-11: Claude / Claude Code accounts are being banned too often; ME and SoC usage should be separated instead of frequently switching one account across physical locations. User asked to add TODO for Yuhang to reopen and recharge an account.",
+          "created_at": "2026-06-11T23:16:25+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-06-11T23:16:25+08:00"
+    },
+    {
+      "task_id": "task_general_api_gateway_procurement_query",
+      "project_id": "general",
+      "title": "API 中转站采购查询",
+      "description": "查询 API 中转站采购方案，重点看能否走 NUS / 组内报销、稳定性、模型覆盖、企业用户支持、价格和风险。候选：DMXAPI https://www.dmxapi.com；文档 https://doc.dmxapi.cn/kaishi.html；报价页 https://www.dmxapi.cn/rmb。聊天记录信息：对方称企业用户，注册给用户名可送体验金；GPT / Claude / Gemini 基本按官方 6.8 折；开通 GPT 等模型需要给用户名。验收：Karen 确认是否可报销；列出官方 Max/Team vs 中转站的成本和稳定性对比；确认充值/发票/合同/账号归属；小额试用通过；明确不在 dashboard 保存 API key、账号密码、付款信息。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Boris / Karen / Yuhang",
+      "due_at": "",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_general_dmxapi_chat_20260611",
+          "author": "Boris / Codex",
+          "body": "Seeded from chat on 2026-06-11: boss direction is buy if purchase is feasible; Karen needs to confirm reimbursement; DMXAPI candidate says enterprise users, trial credit after username registration, and pricing around official 68%. Treat as procurement inquiry until reimbursement/stability are verified.",
+          "created_at": "2026-06-11T23:16:25+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-06-11T23:16:25+08:00"
+    },
+    {
+      "task_id": "task_general_me_control_lab_anti_vibration_table_assembly",
+      "project_id": "general",
+      "title": "ME Control Lab 防振桌找本地人力公司组装",
+      "description": "为 ME Control Lab 的防振桌 / 防震桌组装找当地人力公司或校内 approved vendor 派工人处理，减少机器人硬件搬运和人工组装压力。目标：确认桌子型号、重量、包装尺寸、安装说明、所需工具、现场可进入时间、ME building 搬运/施工限制、是否需要 lift / trolley / PPE / risk assessment，以及组装后是否影响真机摆放和线缆走线。验收：拿到至少 1-2 个本地人力/安装报价或校内 approved vendor 路径；确认付款/报销方式；约定时间；完成组装；记录安装照片、水平/稳定性检查、设备摆位和防振效果初步检查。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Boris / ME Control Lab local support",
+      "due_at": "",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_general_me_table_labor_seed_20260611",
+          "author": "Boris / Codex",
+          "body": "User request on 2026-06-11: add General TODO to find a local manpower company / workers to assemble the ME Control Lab anti-vibration table. Context: repeated ME/SoC equipment moves are exhausting and should be reduced by using local labor where possible.",
+          "created_at": "2026-06-11T23:16:25+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-06-11T23:16:25+08:00"
     }
   ]
 }

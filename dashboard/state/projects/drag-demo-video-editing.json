@@ -3,13 +3,13 @@
   "project_id": "drag-demo-video-editing",
   "title": "Drag-Demo Video Editing",
   "bucket": "engineering",
-  "status": "ongoing",
-  "updated_at": "2026-05-29T21:53:54+08:00",
+  "status": "done",
+  "updated_at": "2026-06-11T23:17:44+08:00",
   "description": "Remove human hands from drag-teaching robot data",
-  "summary": "Previous drag-demo collection, replay, QA, and four-ablation items are now treated as done; the next phase studies on-policy drag teaching / learning-based gravity compensation and video-model interpolation for hand-free start/end states.",
+  "summary": "All Drag-Demo Video Editing TODOs are closed as of 2026-06-11 because this Feibo collaboration line is no longer a current focus. Keep the page as historical context for replay-cleaned data, hand-removal QA, and the four fine-tuning ablations.",
   "asset": "dashboard/assets/drag-demo-video-editing.png",
   "asset_alt": "Drag-teaching robot data video editing and hand removal",
-  "asset_caption": "Current status: legacy drag-demo TODOs are closed; next work targets on-policy drag teaching, learned gravity compensation, and video-model hand-free state synthesis.",
+  "asset_caption": "Closed status: drag-demo editing and follow-up TODOs are done / deprioritized; retained as historical context.",
   "details": [
     {
       "text": "Masquerade is the closest reference: use data editing to reduce the human-robot visual embodiment gap. Here the robot is already visible, so the key edit is hand removal rather than robot overlay.",
@@ -40,7 +40,8 @@
     "SOP capture stack: cam_top, cam_left_wrist, and cam_right_wrist RGB/depth plus eef_pose.pkl, image_timestamps.pkl, and state.pkl. Each episode should pass a 9-file completeness check before it counts as usable data.",
     "Collection controls: green long gloves with sleeves for color-key hand inpainting, no head occlusion of the top camera, clean table with only pan and plate, move-stop-grip / move-stop-rotate separation, and light-time diversity across morning, afternoon, and cloudy or other conditions.",
     "Control-loop logging update: new drag-demo collection should record position-loop, velocity-loop, and current-loop signals together with RGB/depth, EEF pose, timestamps, and state.pkl so later analysis can separate motion intent, tracking behavior, and contact / load response.",
-    "Inpainting backend update: explicitly test FLUX.1-Fill-dev for masked hand removal; judge it with diff-map QA and contact-preservation checks rather than visual plausibility alone."
+    "Inpainting backend update: explicitly test FLUX.1-Fill-dev for masked hand removal; judge it with diff-map QA and contact-preservation checks rather than visual plausibility alone.",
+    "Closure update 2026-06-11: user is no longer focused on this Feibo collaboration project, so all remaining Drag-Demo Video Editing TODOs are marked done for dashboard cleanup. Reopen only if the collaboration resumes with a concrete owner and next experiment."
   ],
   "task_ids": [
     "task_drag_demo_initial_batch",
@@ -70,6 +71,10 @@
       {
         "label": "Next phase",
         "value": "on-policy + no-hand"
+      },
+      {
+        "label": "Status",
+        "value": "closed"
       }
     ],
     "milestones": [
@@ -88,10 +93,11 @@
       {
         "milestone_id": "drag_demo_on_policy_no_hand_state",
         "title": "Research on-policy drag teaching and implement hand-free state synthesis",
-        "status": "active",
+        "status": "done",
         "date": "2026-06-05"
       }
-    ]
+    ],
+    "target_note": "Closed/deprioritized by user on 2026-06-11; retained as historical context."
   },
   "risks_decisions": [
     "Editing quality must be judged by contact preservation and policy usefulness, not only by visual plausibility.",
@@ -106,6 +112,7 @@
     "No-hand interpolation should not be accepted on visual smoothness alone; it must preserve object pose, contact state, and robot geometry across the synthesized start/end transition.",
     "Mask constraints may be needed before the pipeline can scale beyond the first spatula egg-transfer task.",
     "Before counting the 100-sequence batch, enforce SOP gates: green-sleeve gloves, 3-camera sync, 2-second stillness marker, y/n success label, f000x failure retention, and 9-file episode completeness.",
-    "Collection logging decision: future episodes should include position-loop, velocity-loop, and current-loop traces; RGB/depth-only videos are not enough to diagnose drag dynamics or train reliable fine-tuning baselines."
+    "Collection logging decision: future episodes should include position-loop, velocity-loop, and current-loop traces; RGB/depth-only videos are not enough to diagnose drag dynamics or train reliable fine-tuning baselines.",
+    "Closure decision 2026-06-11: do not add new Drag-Demo / Feibo follow-up tasks unless the collaboration becomes active again with a clear next experiment."
   ]
 }

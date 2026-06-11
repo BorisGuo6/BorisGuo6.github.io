@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">DexGello arm hand finger decoupled teleoperation architecture</title>
+  <desc id="desc">GELLO captures arm configuration, VIVE Tracker captures independent hand pose, and MANUS captures finger articulation. The signals are synchronized into DexGello records for Franka and Wuji dexterous hand data collection and policy training.</desc>
+  <defs>
+    <marker id="arrow-blue" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="13" markerHeight="13" orient="auto">
+      <path d="M1 1 L11 6 L1 11 Z" fill="#2b5d8f"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="13" markerHeight="13" orient="auto">
+      <path d="M1 1 L11 6 L1 11 Z" fill="#0f766e"/>
+    </marker>
+    <filter id="soft-shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#16324f" flood-opacity="0.12"/>
+    </filter>
+    <style>
+      .bg { fill: #f7fafc; }
+      .panel { fill: #ffffff; stroke: #d8e2ea; stroke-width: 2; rx: 22; }
+      .source { fill: #eef6ff; stroke: #9fc3e8; stroke-width: 2; rx: 18; }
+      .source2 { fill: #ecfdf5; stroke: #8fd3b4; stroke-width: 2; rx: 18; }
+      .source3 { fill: #fff7ed; stroke: #edbd72; stroke-width: 2; rx: 18; }
+      .core { fill: #fff; stroke: #365f86; stroke-width: 3; rx: 22; filter: url(#soft-shadow); }
+      .out { fill: #fef2f2; stroke: #efa5a5; stroke-width: 2; rx: 18; }
+      .metric { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 2; rx: 16; }
+      .title { font: 800 42px Arial, Helvetica, sans-serif; fill: #172233; letter-spacing: 0; }
+      .subtitle { font: 500 21px Arial, Helvetica, sans-serif; fill: #5f7081; letter-spacing: 0; }
+      .label { font: 800 28px Arial, Helvetica, sans-serif; fill: #172233; letter-spacing: 0; }
+      .small { font: 500 21px Arial, Helvetica, sans-serif; fill: #607284; letter-spacing: 0; }
+      .mono { font: 700 24px Arial, Helvetica, sans-serif; fill: #24527e; letter-spacing: 0; }
+      .tiny { font: 600 18px Arial, Helvetica, sans-serif; fill: #6b7c8e; letter-spacing: 0; }
+      .wire { stroke: #2b5d8f; stroke-width: 7; fill: none; marker-end: url(#arrow-blue); }
+      .wire2 { stroke: #0f766e; stroke-width: 6; fill: none; marker-end: url(#arrow-green); }
+      .dash { stroke: #94a3b8; stroke-width: 3; stroke-dasharray: 10 10; fill: none; }
+    </style>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1600" height="900"/>
+  <text class="title" x="70" y="78">DexGello: Arm-Hand-Finger Decoupled Teleoperation</text>
+  <text class="subtitle" x="72" y="116">Franka + Wuji dexterous hand data collection led by Yongxi Lai</text>
+
+  <rect class="panel" x="55" y="155" width="1490" height="610"/>
+  <text class="tiny" x="95" y="200">OPERATOR SIDE</text>
+  <text class="tiny" x="650" y="200">DEXGELLO CORE</text>
+  <text class="tiny" x="1175" y="200">ROBOT / DATA SIDE</text>
+
+  <rect class="source" x="95" y="250" width="330" height="120"/>
+  <text class="label" x="125" y="298">GELLO 7-DoF Leader</text>
+  <text class="small" x="125" y="334">robot-oriented arm kinematics</text>
+  <text class="mono" x="125" y="362">q_arm</text>
+
+  <rect class="source2" x="95" y="410" width="330" height="120"/>
+  <text class="label" x="125" y="458">VIVE hand tracker</text>
+  <text class="small" x="125" y="494">independent human hand pose</text>
+  <text class="mono" x="125" y="522">T_hand</text>
+
+  <rect class="source3" x="95" y="570" width="330" height="120"/>
+  <text class="label" x="125" y="618">MANUS glove</text>
+  <text class="small" x="125" y="654">finger articulation + retargeting</text>
+  <text class="mono" x="125" y="682">q_finger</text>
+
+  <path class="wire" d="M430 310 C505 310 525 318 590 355"/>
+  <path class="wire2" d="M430 470 C510 470 540 468 590 465"/>
+  <path class="wire" d="M430 630 C505 630 525 612 590 545"/>
+
+  <rect class="core" x="600" y="270" width="410" height="360"/>
+  <text class="label" x="647" y="330">Decoupled sync layer</text>
+  <text class="small" x="648" y="373">time sync, frame graph, calibration</text>
+  <text class="small" x="648" y="407">semantic overlap analysis</text>
+  <rect class="metric" x="650" y="450" width="310" height="92"/>
+  <text class="mono" x="682" y="505">(q_arm, T_hand, q_finger)</text>
+  <text class="tiny" x="675" y="536">one record, three meanings</text>
+
+  <path class="wire" d="M1018 450 C1085 450 1098 350 1155 330"/>
+  <path class="wire2" d="M1018 475 C1090 475 1102 475 1155 475"/>
+  <path class="wire" d="M1018 510 C1085 510 1098 600 1155 620"/>
+
+  <rect class="out" x="1165" y="250" width="320" height="120"/>
+  <text class="label" x="1194" y="298">Franka arm</text>
+  <text class="small" x="1194" y="334">low-latency arm execution</text>
+  <text class="mono" x="1194" y="362">GELLO control path</text>
+
+  <rect class="out" x="1165" y="410" width="320" height="120"/>
+  <text class="label" x="1194" y="458">Wuji hand</text>
+  <text class="small" x="1194" y="494">dexterous finger control/logs</text>
+  <text class="mono" x="1194" y="522">MANUS retargeting</text>
+
+  <rect class="out" x="1165" y="570" width="320" height="120"/>
+  <text class="label" x="1194" y="618">Dataset + policies</text>
+  <text class="small" x="1194" y="654">IL, diffusion policy, world models</text>
+  <text class="mono" x="1194" y="682">richer demos</text>
+
+  <path class="dash" d="M758 630 L758 700"/>
+  <rect class="metric" x="525" y="704" width="640" height="106"/>
+  <text class="label" x="565" y="750">Ablation ladder</text>
+  <text class="small" x="565" y="786">GELLO-only  |  GELLO + MANUS  |  GELLO + VIVE + MANUS</text>
+
+  <text class="tiny" x="92" y="838">Key decision: VIVE is not another robot-control channel. It is an independent human hand-pose measurement used for data richness, usability, and overlap analysis.</text>
+</svg>

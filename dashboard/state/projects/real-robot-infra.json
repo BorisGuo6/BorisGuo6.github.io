@@ -4,7 +4,7 @@
   "title": "Real-Robot Lab Infra",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-05-29T20:32:23+08:00",
+  "updated_at": "2026-06-11T23:10:37+08:00",
   "description": "Engineering stack for teleoperation, data collection, and robot-side validation",
   "summary": "This is the engineering base that keeps weekly research work grounded in real data collection, linked hardware assets/resources, and real-robot validation.",
   "asset": "dashboard/assets/real-robot-infra-collage.png",
@@ -21,18 +21,19 @@
     "Progress on 2026-05-18: dual Franka arms can now be controlled from the same computer.",
     "Progress on 2026-05-21: Gello-controlled dual Franka + Wuji Hand setup is complete. Current control treats the Wuji dexterous hand as a one-DoF gripper via Gello trigger open/close mapping.",
     "Demo waterproofing consumables purchased: disposable nitrile gloves and finger cots for short demo protection.",
-    "Next input stack: complete MANUS + VIVE as one task: glove streaming, VIVE tracker listing, external/time-sync record, retargeting replay verifier, and ACE Teleop wrist-ring fallback if VIVE is skipped.",
+    "DexGello now owns the MANUS + VIVE research input stack: infra keeps the completed Franka + Wuji + GELLO base and hardware availability, while DexGello tracks the decoupled q_arm / T_hand / q_finger verifier and dataset logger.",
     "Before Feibo uses the Franka dexterous-hand setup for egg-cracking tests, cable-manage the setup with organizers / zip ties, clear an empty work area, and waterproof the outside area.",
     "Teacher demo request is now concretized as a Wuji + Franka cutting demo: simulated meat should be slime clay, and the first knife should be a toy knife. Treat this as a safety-gated manipulation demo rather than a casual kitchen task; define fixture, blade boundary, low-speed rehearsal, emergency-stop coverage, and multi-person supervision before any live cutting.",
     "FACTR procurement route: purchase through Jingte Intelligent; keep the dashboard task focused on procurement path, gravity compensation, and force-feedback safety value.",
     "Wrist tracking fallback: if VIVE Tracker is not used for wrist pose, evaluate an ACE Teleop-style wrist ring to replace the Gello-end trigger as the wrist / intent input device.",
-    "MANUS + VIVE merge: hardware verifier requirements are folded into the single MANUS + VIVE task; do not track a separate verifier TODO.",
+    "MANUS + VIVE merge update: the canonical verifier task has moved into DexGello because it is now part of the arm-hand-finger decoupled research system, not a generic infra checklist.",
     "VIVE Tracker real-robot debugging needs a chest mount / strap so the CHEST tracker frame can be stable enough for calibration and replay.",
     "VR teleoperation direction: implement a SteamVR/OpenVR input path for controlling Franka end-effector pose with controller / tracker / headset input, gated by calibration, workspace limits, velocity / acceleration caps, deadman switch, and E-stop readiness.",
     "Canonical asset table linked: Real Robot Infra asset sheet gid 1134950065 contains 16 rows; key current assets include Franka Research 3, Wuji Hand, Wuji glove with D405 capture, YAM arms for ALOHA, D405 cameras, MANUS gloves, and VIVE trackers.",
     "Hardware Resource Center is the canonical Notion target for manuals, SOPs, calibration notes, vendor PDFs, and hardware resource links; current connector access needs to be fixed before automated Notion content sync can verify page internals.",
     "YAM ALOHA setup is grounded in asset LV-ROB-010: 数量:4；aloha系统, location E2-01-04, status 搭建中.",
-    "Wuji Glove is tracked as one canonical task: network smoke, timestamp logging, D405 capture wrapper, episode writer, and replay/loader verification are all acceptance items under task_real_robot_infra_wuji_glove."
+    "Wuji Glove is tracked as one canonical task: network smoke, timestamp logging, D405 capture wrapper, episode writer, and replay/loader verification are all acceptance items under task_real_robot_infra_wuji_glove.",
+    "ME Control Lab host expansion: only one host has been moved so far; the two-host TODO remains active until a second host is added and both hosts have clear roles for control, data capture, monitoring, cache/storage, GPU/USB/NIC needs, account/network setup, bound devices, and smoke validation."
   ],
   "task_ids": [
     "task_real_robot_infra_arx_setup",
@@ -40,7 +41,6 @@
     "task_real_robot_infra_linker_ta_ffg_wrapper",
     "task_real_robot_infra_franka_wuji",
     "task_real_robot_infra_wuji_glove",
-    "task_real_robot_infra_manus_vive_tracker",
     "task_real_robot_infra_vive_tracker_chest_mount",
     "task_real_robot_infra_vr_teleop_franka",
     "task_real_robot_infra_safety_workspace",
@@ -64,7 +64,9 @@
     "VR teleoperation of Franka must be hardware-gated: start in simulation or read-only pose preview, then low-speed Cartesian control with workspace bounds, deadman switch, rate limiting, collision checks, and an E-stop operator before any live robot motion.",
     "Every hardware TODO should cite its asset-table row and the corresponding Hardware Resource Center manual/SOP location before being marked done.",
     "YAM ALOHA and Wuji glove capture both need a shared timestamp/schema path so their data can flow into the same real-robot dataset and replay verifier infrastructure.",
-    "Do not reopen separate Wuji Glove TODOs for network smoke or data wrapper; keep status, blockers, and evidence on the canonical Wuji Glove task."
+    "Do not reopen separate Wuji Glove TODOs for network smoke or data wrapper; keep status, blockers, and evidence on the canonical Wuji Glove task.",
+    "DexGello boundary: Real Robot Infra should keep robot availability, safety, VR-control baseline, and purchase/setup work; DexGello should own research evidence for decoupled GELLO arm, VIVE hand pose, and MANUS finger data.",
+    "Do not mark the ME Control Lab two-host task done after only one host is moved; completion requires two host placements plus role assignment, access checklist, device binding, and上线 smoke evidence."
   ],
   "external_resources": [
     {

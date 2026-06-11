@@ -1,0 +1,142 @@
+{
+  "schema_version": "project.v1",
+  "project_id": "tactile-wam",
+  "title": "Tactile-WAM: Video-to-Touch World Action Model",
+  "bucket": "research",
+  "status": "ongoing",
+  "updated_at": "2026-06-11T23:05:06+08:00",
+  "description": "Wuji proposal track: use external-camera human retargeting to control a robot arm+hand video world model, infer tactile signals from the generated rollout, then extend the predictive model into a World Action Model that outputs executable actions.",
+  "summary": "Tactile-WAM turns the tactile proposal into a three-demo research path: first make a video world model where an external camera observes a human hand and retargets it into a generated robot arm+hand rollout; then estimate tactile contact/pressure/slip from that generated video; finally train the predictive world model to output action together with future video/tactile states, becoming a WAM rather than only a simulator.",
+  "subprojects": [
+    {
+      "label": "A",
+      "title": "Retargeted robot video",
+      "body": "External camera tracks human hand/arm motion and retargets it to control a video model of the robot arm plus dexterous hand.",
+      "output": "robot video rollout"
+    },
+    {
+      "label": "B",
+      "title": "Tactile world model",
+      "body": "From the generated or real robot video, infer tactile maps, contact state, pressure distribution, slip, and force-relevant contact transitions.",
+      "output": "future tactile"
+    },
+    {
+      "label": "C",
+      "title": "World Action Model",
+      "body": "Upgrade the predictive model so it jointly predicts future visual/tactile states and executable robot actions.",
+      "output": "action + state"
+    }
+  ],
+  "asset": "dashboard/assets/tactile-wam-pipeline.svg",
+  "asset_alt": "Tactile-WAM pipeline from human retargeted robot video to tactile prediction and world action model output",
+  "asset_caption": "Tactile-WAM: external-camera human retargeting drives robot arm+hand video, video predicts tactile signals, and the predictive model learns to emit actions.",
+  "visual": {
+    "layout": "standard"
+  },
+  "details": [
+    "Origin: this was discussed with the Wuji team on 2026-06-11 as a Tactile-WAM proposal. The key shift is to stop treating tactile as only another observation channel; tactile should become the contact-grounding signal that turns video imagination into action-capable prediction.",
+    "Demo 3 first: use an external camera to observe human hand / arm motion, retarget that motion into the video model, and generate a robot arm + dexterous hand performing the same interaction. This should be a video-model demo, not necessarily immediate real-robot control.",
+    "Demo 1 second: from the generated robot video in the previous step, estimate tactile output: contact timing, contact patch, pressure / force proxy, slip risk, and contact-state transitions. This is the tactile world model layer.",
+    "Final target: extend the predictive world model into WAM. Instead of only predicting future video or tactile maps under given actions, the model should produce the action needed to realize the imagined contact-rich future.",
+    "Why this is not just VTLA: VTLA / Tactile Intuition remains the broad survey for tactile representation and benchmark choice. Tactile-WAM is a concrete research proposal: generated robot video -> predicted tactile -> action-generating model.",
+    "Why this relates to Tri-View / Image-Layered IDM: the robot arm/hand video generator and layer decomposition provide the visual state backbone. Tactile-WAM adds a contact-state head and then an action head, especially for tasks where visual evidence alone cannot determine contact.",
+    "Why this relates to DexGello: DexGello can provide aligned real data for arm/hand/finger state, while Wuji tactile / glove streams can provide tactile supervision. Tactile-WAM can use that data to train video-to-touch and touch-to-action components.",
+    "Good first benchmark families: pressing, wiping, grasping, in-hand adjustment, cutting/peeling, and assembly/insertion. Choose tasks where tactile is genuinely necessary: occlusion, slip, force threshold, contact/no-contact ambiguity, or object deformation."
+  ],
+  "task_ids": [
+    "task_tactile_wam_proposal_spec",
+    "task_tactile_wam_external_camera_retarget_demo",
+    "task_tactile_wam_video_to_tactile_model",
+    "task_tactile_wam_action_head",
+    "task_tactile_wam_wuji_data_alignment",
+    "task_tactile_wam_eval_protocol"
+  ],
+  "references": [
+    {
+      "title": "User-shared XHS demo reference 1",
+      "url": "https://www.xiaohongshu.com/explore/6a2a2b7b000000003502e307?app_platform=android&ignoreEngage=true&app_version=9.33.4&share_from_user_hidden=true&xsec_source=app_share&type=video&xsec_token=CBGtIHEfFnDCB8AdYAqWQtyakL1vE58dmMilFf_tRM7Vk=&author_share=1&xhsshare=&shareRedId=ODc1QjU9PU42NzUyOTgwNjY1OTk3Skw5&apptime=1781172540&share_id=ab23f9e0c91b4f15ada1b005f49ac915&share_channel=wechat",
+      "notes": "User-provided visual demo reference from the Wuji proposal discussion. Use as the inspiration for estimating tactile signals from generated robot video; content may require Xiaohongshu app/login for full viewing."
+    },
+    {
+      "title": "User-shared XHS demo reference 2",
+      "url": "https://www.xiaohongshu.com/explore/6a2a25d80000000007011d97?secondshare=weixin&share_from_user_hidden=true&appuid=&apptime=1781157153&share_id=8ee438dccb9f4d6bbe2de314829e1d0d&xsec_source=h5_share&xsec_token=CBGtIHEfFnDCB8AdYAqWQtyYo2zFyNfna_YuFT9ZgqNGk=",
+      "notes": "User-provided supporting demo reference from the Wuji proposal discussion; keep as a pointer pending manual viewing in the app."
+    },
+    {
+      "title": "User-shared WeChat Channels demo reference",
+      "url": "https://weixin.qq.com/sph/ALCfh41X4M",
+      "notes": "User-provided demo reference for the external-camera human-hand retargeting idea: use human motion to control a video model of a robot arm plus dexterous hand."
+    },
+    {
+      "title": "Visuo-Tactile World Models",
+      "url": "https://carolinahiguera.github.io/vtml/",
+      "arxiv_id": "2602.06001",
+      "notes": "Closest world-model reference: vision and tactile latents are predicted autoregressively under action conditioning, and the model is used for planning in imagination."
+    },
+    {
+      "title": "OmniVTA: Visuo-Tactile World Modeling for Contact-Rich Robotic Manipulation",
+      "url": "https://arxiv.org/abs/2603.19201",
+      "arxiv_id": "2603.19201",
+      "notes": "Reference for large-scale visuo-tactile-action data, tactile prediction, contact-aware fusion, and high-frequency tactile correction in contact-rich manipulation."
+    },
+    {
+      "title": "TouchAnything: Bimanual Tactile Estimation from Egocentric Video",
+      "url": "https://arxiv.org/abs/2605.13083",
+      "arxiv_id": "2605.13083",
+      "notes": "Reference for video-to-touch prediction: synchronized egocentric/wrist videos, bimanual hand pose, and dense pressure maps; supports the Tactile-WAM tactile-from-video head."
+    },
+    {
+      "title": "World Action Models: The Next Frontier in Embodied AI",
+      "url": "https://arxiv.org/abs/2605.12090",
+      "arxiv_id": "2605.12090",
+      "notes": "Definition reference for WAMs: unify predictive state modeling with action generation, rather than learning only reactive observation-to-action mappings."
+    },
+    {
+      "title": "World Action Models are Zero-shot Policies",
+      "url": "https://arxiv.org/abs/2602.15922",
+      "arxiv_id": "2602.15922",
+      "notes": "Reference for joint video+action modeling as a policy route. Tactile-WAM extends this logic with tactile/contact prediction for dexterous manipulation."
+    },
+    {
+      "title": "1X World Model: From Video to Action",
+      "url": "https://www.1x.tech/discover/world-model-self-learning",
+      "notes": "Industry reference for deriving robot actions from text-conditioned video generation; useful framing for video-model-to-action conversion."
+    }
+  ],
+  "risks_decisions": [
+    "Do not pitch this as only tactile prediction. The project needs the full chain: human-retargeted robot video generation, tactile estimation, and action output.",
+    "Synthetic tactile risk: tactile predicted from generated video can become visually plausible but physically wrong. Ground it with real Wuji / tactile sensor streams whenever possible.",
+    "Action-decoding risk: a WAM head must be evaluated on executable actions, not only video fidelity. The acceptance metric should include action plausibility, robot limits, contact success, and rollout consistency.",
+    "Data-alignment risk: tactile is high-frequency and local, while video is lower-frequency and global. The logger must preserve timestamps, calibration, contact frames, and sensor metadata.",
+    "Novelty boundary: VT-WM and OmniVTA already cover visuo-tactile world models. The differentiator should be external-camera retargeted robot-video generation plus tactile-grounded WAM action output."
+  ],
+  "timeline": {
+    "badges": [
+      {
+        "label": "Partner",
+        "value": "Wuji"
+      },
+      {
+        "label": "Input",
+        "value": "external camera"
+      },
+      {
+        "label": "State",
+        "value": "video + tactile"
+      },
+      {
+        "label": "Output",
+        "value": "action"
+      },
+      {
+        "label": "Target",
+        "value": "WAM"
+      }
+    ],
+    "target_cycle": "proposal demo",
+    "target_note": "First produce a crisp 3-demo story for Wuji: external-camera retargeted robot video, tactile-from-video prediction, and WAM action output.",
+    "sprint_start": "2026-06-11",
+    "sprint_due": null,
+    "milestones": []
+  }
+}

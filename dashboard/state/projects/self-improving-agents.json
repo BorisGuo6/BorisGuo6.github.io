@@ -4,7 +4,7 @@
   "title": "Self-Improving Agents for Physical AI",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-06-09T21:18:31+08:00",
+  "updated_at": "2026-06-11T13:24:16+08:00",
   "description": "Simulation-first AgenticSim proposal: scene imagination plus test-time training",
   "summary": "Simulation-first AgenticSim: imagine executable scenes from references, run test-time training / workflow repair inside those scenes, evaluate/analyze rollouts, and turn evolving 3D world belief plus failures into the next curriculum.",
   "asset": "dashboard/assets/pearl-overview.png",
@@ -33,6 +33,7 @@
     "New reference triangulation: InternDataEngine supplies the scalable synthetic data/data-engine layer; MolmoAct 2 supplies an open 3D reasoning action model to adapt; RISE supplies the closed-loop imagination-policy-improvement template. Our differentiator should remain agentic environment generation, memory/governance, and executable task-pack feedback rather than just another VLA finetune.",
     "Skill-memory gate 2026-06-05: Skill World Model work is represented here as SkillCall-Bench v0: callable skill schemas, object/contact transition outputs, deterministic verifier evidence, and promotion/elimination criteria for MemoryStore.",
     "RLBench -> IsaacSim verifier gate 2026-06-05: run this inside AgenticSim. Start with ReachTarget smoke and PickAndLift formal verifier, then OpenDrawer, StackBlocks, and InsertOntoSquarePeg as increasing-risk conversion tests.",
+    "Dual-Sim / RoboTwin -> IsaacSim bridge 2026-06-11: use the user-provided chengaopro/Dual-Sim repository as a concrete adapter reference for migrating RoboTwin tasks into IsaacSim. The target is not to add another benchmark card, but to merge its task-porting pattern into AgenticSim's task registry, asset conversion, reset/step API, and verifier gate.",
     "Bridge update 2026-06-05: VTLA/UMI contact failures should become curriculum traces for AgenticSim. Articraft remains the asset-generation path folded from the paused 3D-printing direction; printer-cell / PoD hardware stays paused unless the user reactivates it."
   ],
   "task_ids": [
@@ -56,6 +57,7 @@
     "task_self_improving_test_genesis_world",
     "task_self_improving_skill_api_memory_gate",
     "task_self_improving_rlbench_isaacsim_pilot_gate",
+    "task_self_improving_dual_sim_robotwin_isaacsim_merge",
     "task_self_improving_contact_curriculum_bridge"
   ],
   "references": [
@@ -125,6 +127,12 @@
       "notes": "Candidate dual-arm manipulation benchmark/data-generator base to evaluate later; not yet implemented in AgenticSim."
     },
     {
+      "title": "Dual-Sim: RoboTwin tasks migrated to IsaacSim",
+      "url": "https://github.com/chengaopro/Dual-Sim",
+      "submitted_at": "2026-06-11",
+      "notes": "User-provided implementation reference for bringing RoboTwin-style tasks into IsaacSim. Public fetch returned 404 during this dashboard update, so the first TODO step is to confirm access/clone; if available, use its task conversion, asset, reset/step, and verifier structure as a concrete merge path into AgenticSim."
+    },
+    {
       "title": "SceneSmith: Agentic Generation of Simulation-Ready Indoor Scenes",
       "url": "https://scenesmith.github.io/",
       "arxiv_id": "2602.09153",
@@ -182,6 +190,7 @@
     "Scope decision: simulation-first MVP; external validation comes after the executable sim loop has gates and replayable reports.",
     "Benchmark decision: start from the completed 129-environment AgenticSim foundation.",
     "Candidate-base decision: mention Genesis World 1.0 and RoboTwin 2.0 as future simulator / benchmark bases, but keep them explicitly separate from the implemented LeHome / RoboLab foundation until adapters and verifier contracts are built.",
+    "Dual-Sim access note 2026-06-11: https://github.com/chengaopro/Dual-Sim was user-provided but publicly returned 404 during this update. Treat it as a high-value private/soon-to-open adapter reference; first acceptance step is access confirmation before claiming any code-level merge.",
     "Execution risk: generated scenes and ArtiCraft3D-style generated assets must be executable, reproducible, physically plausible, and gated by verifier / novelty / difficulty checks; TTT must improve held-out accepted scenes rather than overfit one generated scene.",
     "Video2Sim2Real adoption decision 2026-06-09: borrow its object-centric anchor and sim2real adaptation decomposition, but do not make the whole project depend on dexterous-hand demonstrations. AgenticSim should first implement the interface contract on one tabletop task: video/digital-twin manifest, object-keyframe anchors, robot-anchor optimization, recalibration dataset, residual adaptation hook, and real/sim verifier outputs.",
     "SceneSmith reference decision: borrow its staged designer/critic/orchestrator scene-construction contract and automatic policy-evaluation loop, but gate adoption on whether AgenticSim can export/query collision, inertia, manipuland affordances, and verifier-readable simulator state rather than only visual scene assets.",
