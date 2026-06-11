@@ -114,12 +114,16 @@ for (const legacyPath of legacyDeletedPaths) {
   );
 }
 
+const timelineSource = await readFile(new URL("../content/timeline.json", import.meta.url), "utf8");
+const homepageSource = await readFile(new URL("../index.html", import.meta.url), "utf8");
+const mainJsSource = await readFile(new URL("../assets/js/main.js", import.meta.url), "utf8");
+const latexSource = await readFile(new URL("../latex/main.tex", import.meta.url), "utf8");
 const legacyReferenceSources = [
   dashboardSource,
-  await readFile(new URL("../content/timeline.json", import.meta.url), "utf8"),
-  await readFile(new URL("../latex/main.tex", import.meta.url), "utf8"),
-  await readFile(new URL("../index.html", import.meta.url), "utf8"),
-  await readFile(new URL("../assets/js/main.js", import.meta.url), "utf8"),
+  timelineSource,
+  latexSource,
+  homepageSource,
+  mainJsSource,
   await readFile(new URL("../clock/index.html", import.meta.url), "utf8"),
 ].join("\n");
 assert.doesNotMatch(
@@ -127,10 +131,9 @@ assert.doesNotMatch(
   /Max Planck|Human Computer Interaction|HCI Lab|hci\.cs|assets\/img\/timeline\/(?:hci-lab|mpi)\.png|assets\/pdf\/education\/mpi-|main(?:-full)?\.pdf|dashboard\/weekly-briefs\/20\d{2}/,
   "legacy portfolio paths and removed MPI/HCI content must not be referenced",
 );
-const homepageSource = await readFile(new URL("../index.html", import.meta.url), "utf8");
 assert.match(
   homepageSource,
-  /assets\/js\/main\.js\?v=20260612-legacy-cleanup/,
+  /assets\/js\/main\.js\?v=20260612-timeline-fill/,
   "homepage must version main.js so removed timeline items are not revived by browser cache",
 );
 assert.doesNotMatch(
@@ -139,9 +142,22 @@ assert.doesNotMatch(
   "homepage must not load an unversioned main.js",
 );
 assert.match(
-  await readFile(new URL("../assets/js/main.js", import.meta.url), "utf8"),
-  /SITE_ASSET_VERSION = '20260612-legacy-cleanup'[\s\S]+fetch\(versionedUrl\)/,
+  mainJsSource,
+  /SITE_ASSET_VERSION = '20260612-timeline-fill'[\s\S]+fetch\(versionedUrl\)/,
   "main.js must version JSON content fetches so stale timeline data is not reused",
+);
+const timelineDoc = JSON.parse(timelineSource);
+const nusPhdItem = timelineDoc.edu.find((item) => item.id === "tl-nus-phd");
+const lvLabItem = timelineDoc.res.find((item) => item.id === "tl-lv-lab");
+assert.deepEqual(
+  { sy: nusPhdItem.sy, sm: nusPhdItem.sm, dates: timelineDoc.details["tl-nus-phd"].dates },
+  { sy: 2026, sm: 5, dates: "2026.05 - Present" },
+  "NUS PhD should fill the removed MPI timeline gap from 2026.05 onward",
+);
+assert.deepEqual(
+  { sy: lvLabItem.sy, sm: lvLabItem.sm, dates: timelineDoc.details["tl-lv-lab"].dates },
+  { sy: 2026, sm: 5, dates: "2026.05 - Present" },
+  "LV-Lab should fill the removed HCI Lab timeline gap from 2026.05 onward",
 );
 
 const fixedDate = new Date("2026-05-26T00:00:00.000Z");

@@ -1,7 +1,7 @@
 // Main JavaScript file for BorisGuo6.github.io
 // Contains all interactive functionality for the personal website
 
-var SITE_ASSET_VERSION = '20260612-legacy-cleanup';
+var SITE_ASSET_VERSION = '20260612-timeline-fill';
 
 // ============================================================================
 // Minimal / Full Mode
