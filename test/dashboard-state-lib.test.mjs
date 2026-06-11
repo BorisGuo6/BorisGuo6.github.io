@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import {
@@ -75,6 +75,73 @@ assert.doesNotMatch(
   dashboardSource,
   /project(?:Doc|Ref)?\.project_id\s*[!=]==?\s*["']/,
   "dashboard/index.html should not branch on literal project_id values",
+);
+
+let dashboardWeeklyBriefEntries = [];
+try {
+  dashboardWeeklyBriefEntries = await readdir(
+    new URL("../dashboard/weekly-briefs/", import.meta.url),
+    { withFileTypes: true },
+  );
+} catch (error) {
+  if (error.code !== "ENOENT") throw error;
+}
+assert.deepEqual(
+  dashboardWeeklyBriefEntries.filter((entry) => entry.isDirectory()).map((entry) => entry.name),
+  [],
+  "dashboard/weekly-briefs must not contain dated archive directories; overwrite weekly-briefs/index.html instead",
+);
+assert.match(
+  await readFile(new URL("../weekly-briefs/index.html", import.meta.url), "utf8"),
+  /Weekly Brief/i,
+  "weekly brief must have a single canonical root entry at weekly-briefs/index.html",
+);
+
+const legacyDeletedPaths = [
+  "assets/img/clock/embodied-clock-rail-train.png",
+  "assets/img/timeline/hci-lab.png",
+  "assets/img/timeline/mpi.png",
+  "assets/pdf/education/mpi-cert.pdf",
+  "assets/pdf/education/mpi-invitation.pdf",
+  "latex/main.pdf",
+  "latex/main-full.pdf",
+];
+for (const legacyPath of legacyDeletedPaths) {
+  await assert.rejects(
+    readFile(new URL(`../${legacyPath}`, import.meta.url)),
+    (error) => error.code === "ENOENT",
+    `${legacyPath} is a deleted legacy artifact and should not be restored`,
+  );
+}
+
+const legacyReferenceSources = [
+  dashboardSource,
+  await readFile(new URL("../content/timeline.json", import.meta.url), "utf8"),
+  await readFile(new URL("../latex/main.tex", import.meta.url), "utf8"),
+  await readFile(new URL("../index.html", import.meta.url), "utf8"),
+  await readFile(new URL("../assets/js/main.js", import.meta.url), "utf8"),
+  await readFile(new URL("../clock/index.html", import.meta.url), "utf8"),
+].join("\n");
+assert.doesNotMatch(
+  legacyReferenceSources,
+  /Max Planck|Human Computer Interaction|HCI Lab|hci\.cs|assets\/img\/timeline\/(?:hci-lab|mpi)\.png|assets\/pdf\/education\/mpi-|main(?:-full)?\.pdf|dashboard\/weekly-briefs\/20\d{2}/,
+  "legacy portfolio paths and removed MPI/HCI content must not be referenced",
+);
+const homepageSource = await readFile(new URL("../index.html", import.meta.url), "utf8");
+assert.match(
+  homepageSource,
+  /assets\/js\/main\.js\?v=20260612-legacy-cleanup/,
+  "homepage must version main.js so removed timeline items are not revived by browser cache",
+);
+assert.doesNotMatch(
+  homepageSource,
+  /<script src="assets\/js\/main\.js"><\/script>/,
+  "homepage must not load an unversioned main.js",
+);
+assert.match(
+  await readFile(new URL("../assets/js/main.js", import.meta.url), "utf8"),
+  /SITE_ASSET_VERSION = '20260612-legacy-cleanup'[\s\S]+fetch\(versionedUrl\)/,
+  "main.js must version JSON content fetches so stale timeline data is not reused",
 );
 
 const fixedDate = new Date("2026-05-26T00:00:00.000Z");

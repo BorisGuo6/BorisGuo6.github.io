@@ -1,6 +1,8 @@
 // Main JavaScript file for BorisGuo6.github.io
 // Contains all interactive functionality for the personal website
 
+var SITE_ASSET_VERSION = '20260612-legacy-cleanup';
+
 // ============================================================================
 // Minimal / Full Mode
 // ============================================================================
@@ -818,7 +820,8 @@ function syncOrgEntreDetails() {
 document.addEventListener('DOMContentLoaded', function () {
   syncOrgEntreDetails();
   function fetchJsonSafe(url) {
-    return fetch(url)
+    const versionedUrl = url + (url.indexOf('?') === -1 ? '?' : '&') + 'v=' + encodeURIComponent(SITE_ASSET_VERSION);
+    return fetch(versionedUrl)
       .then(function (r) { return r.json(); })
       .catch(function (e) {
         console.error('Failed to load ' + url + ':', e);
