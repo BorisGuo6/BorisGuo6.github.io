@@ -4,7 +4,7 @@
   "title": "VTLA / Tactile Intuition",
   "bucket": "survey",
   "status": "survey",
-  "updated_at": "2026-06-11T23:05:06+08:00",
+  "updated_at": "2026-06-12T15:34:42+08:00",
   "description": "Keep in Survey: tactile intuition remains actionable because external tactile papers solve pieces, while our unresolved decision is the first Wuji/Franka/HOI benchmark and representation.",
   "summary": "Survey-stage consolidation of the Notion tactile / VTLA ideas: use ego video, tactile patches, force signals, and object-centric contact representations to make tactile evidence reusable for manipulation policy, world-model prediction, and contact-rich task evaluation. The standalone proximity / FingerEye sensor sub-idea is archived because FingerEye now covers that route.",
   "asset": "dashboard/assets/survey-vtla-tactile-intuition.svg",
@@ -118,10 +118,15 @@
           "url": "dashboard/state/projects/tactile-wam.json"
         }
       ]
-    }
+    },
+    "Placement update 2026-06-12: low-DoF tactile gripper/platform work moved here. The PSA three-finger tactile gripper, MANUS-to-two-finger retargeting, two-finger FinRay/GelSight/PPTAC-style platform, and 6-DoF tactile calibration platform are tactile/VTLA benchmark ingredients."
   ],
   "task_ids": [
-    "task_vtla_tactile_intuition_survey_map"
+    "task_vtla_tactile_intuition_survey_map",
+    "task_hardware_psa_three_finger_gripper",
+    "task_hardware_manus_two_finger_retargeting",
+    "task_hardware_two_finger_tactile_gripper_platform",
+    "task_hardware_six_dof_tactile_calibration_platform"
   ],
   "risks_decisions": [
     "The project should not become a shopping list of sensors; the first output needs a contact-state representation and a benchmarkable manipulation question.",
@@ -134,7 +139,8 @@
     "Archive only sub-ideas that have no path to Wuji/Franka/HOI data collection; keep full-palm tactile and glove-wearable ideas here.",
     "Do not archive tactile glove or full-palm tactile notes just because a LEAP-hand subpage is archived; the live value is Wuji/Franka sensing, data schema, and the first tactile benchmark.",
     "Random Thought coverage decision 2026-06-05: keep human-robot perception alignment, tactile/force dynamics, and glove/hand data-collection hardware inside VTLA; archive only sub-ideas that are directly completed by specific papers or have no path to Wuji/Franka/HOI data.",
-    "Tactile-WAM boundary 2026-06-11: keep it out of the generic VTLA survey. VTLA can supply tactile benchmarks and references; Tactile-WAM owns the executable demo chain and WAM action-output claim."
+    "Tactile-WAM boundary 2026-06-11: keep it out of the generic VTLA survey. VTLA can supply tactile benchmarks and references; Tactile-WAM owns the executable demo chain and WAM action-output claim.",
+    "Hardware-platform boundary: Daimon/GelSight/PPTAC-like grippers and tactile calibration rigs should be evaluated as VTLA benchmark infrastructure; purchasing and lab availability details can reference Real-Robot Infra, but the representation/benchmark decision stays here."
   ],
   "asset_alt": "Visuo-tactile manipulation diagram connecting vision, tactile patches, contact fields, and policy/world-model evidence",
   "asset_caption": "Survey diagram: tactile as contact evidence for policy, world-model prediction, and failure/reward signals.",

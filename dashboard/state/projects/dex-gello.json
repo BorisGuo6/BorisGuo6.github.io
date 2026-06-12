@@ -4,7 +4,7 @@
   "title": "DexGello: Arm-Hand Decoupled Teleoperation",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-06-12T15:10:30+08:00",
+  "updated_at": "2026-06-12T15:34:42+08:00",
   "description": "Yongxi Lai-led Franka + Wuji dexterous-hand data-collection project using GELLO, MANUS, and VIVE as decoupled arm, hand-pose, and finger channels.",
   "summary": "DexGello separates robot-oriented arm control from human-oriented hand pose and finger articulation: GELLO controls/logs q_arm for Franka, VIVE logs independent T_hand on the operator hand, and MANUS logs/retargets q_finger for Wuji hand. The core question is whether this richer decoupled state improves dexterous teleoperation data quality and downstream policy learning.",
   "subprojects": [
@@ -44,7 +44,8 @@
     "Relation to VR teleoperation: the separate Real Robot Infra task for VR-controlling Franka remains a hardware/control baseline. DexGello's v0 should stay cleaner: Gello controls arm, MANUS controls/logs fingers, VIVE logs hand pose for data and analysis.",
     "Completed input-stack decision 2026-06-11: GELLO distal trigger path is now treated as ACE-style wrist ring + MANUS hand-pose input inside DexGello. GELLO remains arm joint-space teleop; MANUS supplies hand/finger pose; the wrist ring is wrist/intent hardware, not a separate hand-pose camera route.",
     "Demo suite update 2026-06-12: Wuji + Franka toy-knife slime-clay cutting and Jenga-style block extraction are DexGello demos. They should exercise the decoupled q_arm / T_hand / q_finger record rather than sit as generic Real-Robot Infra or General hardware tasks.",
-    "Control stack update 2026-06-12: Franka cuRobo migration is a DexGello planning/control TODO because it directly gates safe, collision-aware Franka + Wuji demo execution and replayable DexGello episodes."
+    "Control stack update 2026-06-12: Franka cuRobo migration is a DexGello planning/control TODO because it directly gates safe, collision-aware Franka + Wuji demo execution and replayable DexGello episodes.",
+    "Placement update 2026-06-12: the completed Wuji/Franka camera flange and DexCap-style MANUS/Wuji glove camera adapter records moved here because they directly support the DexGello Franka + Wuji + MANUS/VIVE data path."
   ],
   "task_ids": [
     "task_dex_gello_system_design",
@@ -56,7 +57,9 @@
     "task_real_robot_infra_wuji_franka_slime_cut_demo",
     "task_general_tactile_stacking_pilot",
     "task_dex_gello_ablation_protocol",
-    "task_dex_gello_policy_training_eval"
+    "task_dex_gello_policy_training_eval",
+    "task_hardware_wuji_franka_camera_flange",
+    "task_hardware_glove_camera_mount_dexcap"
   ],
   "references": [
     {
@@ -105,7 +108,8 @@
     "Policy risk: downstream gains may appear only after enough dexterous tasks involve wrist roll, hand approach posture, or human finger pre-shaping. Choose tasks where the extra human-hand channel has a plausible role.",
     "DexGello input boundary: do not reintroduce GELLO trigger as the hand/finger control source. Keep arm control on GELLO, wrist/intent on ACE-style ring, and hand/finger retargeting on MANUS.",
     "Demo safety boundary: slime-clay cutting and Jenga extraction are DexGello evaluation demos, but still inherit Real-Robot Infra safety gates: toy knife first, no sharp blade or real meat without separate approval, low-speed robot motion, E-stop coverage, and logged pass/fail evidence.",
-    "cuRobo boundary: planning wrapper, collision scene, joint limits, and demo-level planner integration belong in DexGello; Real-Robot Infra remains responsible for robot availability and safety gates."
+    "cuRobo boundary: planning wrapper, collision scene, joint limits, and demo-level planner integration belong in DexGello; Real-Robot Infra remains responsible for robot availability and safety gates.",
+    "Mounting dependency boundary: glove/camera adapters that affect MANUS, Wuji, VIVE, Franka, or DexGello episode replay belong in DexGello; shared robot availability and safety gates remain in Real-Robot Infra."
   ],
   "timeline": {
     "badges": [

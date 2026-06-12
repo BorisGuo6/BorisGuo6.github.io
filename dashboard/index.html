@@ -1219,6 +1219,8 @@
             existingFigure.replaceWith(figure);
           } else if (figure) {
             projectElement.querySelector(".project-body")?.prepend(figure);
+          } else if (existingFigure) {
+            existingFigure.remove();
           }
         }
 
@@ -1754,6 +1756,21 @@
           const summaryMeta = projectElement.querySelector(".project-summary-meta");
           if (summaryMeta) {
             summaryMeta.textContent = `${activeTasks.length} open · ${completedTasks.length} done`;
+          }
+
+          const workstream = projectElement.querySelector(".project-workstream");
+          if (projectDoc?.hide_workstream) {
+            if (summaryMeta) {
+              summaryMeta.textContent = "procurement table";
+            }
+            if (workstream) {
+              workstream.hidden = true;
+            }
+            projectElement.querySelector(".archive-panel")?.remove();
+            return;
+          }
+          if (workstream) {
+            workstream.hidden = false;
           }
 
           if (isArchivedProjectDoc(projectDoc)) {

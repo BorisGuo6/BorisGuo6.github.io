@@ -4,7 +4,7 @@
   "title": "Real-Robot Lab Infra",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-06-12T15:15:58+08:00",
+  "updated_at": "2026-06-12T15:34:42+08:00",
   "description": "Engineering stack for teleoperation, data collection, and robot-side validation",
   "summary": "This is the engineering base that keeps weekly research work grounded in real data collection, linked hardware assets/resources, and real-robot validation.",
   "asset": "dashboard/assets/real-robot-infra-collage.png",
@@ -33,7 +33,9 @@
     "Hardware Resource Center is the canonical Notion target for manuals, SOPs, calibration notes, vendor PDFs, and hardware resource links; current connector access needs to be fixed before automated Notion content sync can verify page internals.",
     "YAM ALOHA setup is grounded in asset LV-ROB-010: 数量:4；aloha系统, location E2-01-04, status 搭建中.",
     "Wuji Glove is tracked as one canonical task: network smoke, timestamp logging, D405 capture wrapper, episode writer, and replay/loader verification are all acceptance items under task_real_robot_infra_wuji_glove.",
-    "ME Control Lab host expansion is now marked complete: at least two hosts have been added for the lab, resolving the previous one-host blocker for real-time control, data capture, monitoring, cache/storage, GPU/USB/NIC needs, account/network setup, bound devices, and smoke validation."
+    "ME Control Lab host expansion is now marked complete: at least two hosts have been added for the lab, resolving the previous one-host blocker for real-time control, data capture, monitoring, cache/storage, GPU/USB/NIC needs, account/network setup, bound devices, and smoke validation.",
+    "Placement update 2026-06-12: shared NAS, USB/camera mounting consumables, Claude Code account separation, API gateway procurement query, and ME Control Lab anti-vibration table assembly live here as lab infrastructure/tooling work.",
+    "Shared storage update: the completed 10T HDD group NAS conversion is a Real-Robot Lab Infra shared-storage record. Future NAS permission, mount, backup, or maintenance changes should stay here as separate infra TODOs."
   ],
   "task_ids": [
     "task_real_robot_infra_arx_setup",
@@ -47,7 +49,13 @@
     "task_real_robot_infra_factr_force_feedback",
     "task_real_robot_infra_knife_meat_demo_plan",
     "task_real_robot_infra_me_control_two_hosts",
-    "task_real_robot_infra_yam_aloha_setup"
+    "task_real_robot_infra_yam_aloha_setup",
+    "task_general_10t_hdd_nas_shared_storage",
+    "task_general_usb3_extension_cables_shopee",
+    "task_general_camera_short_screws",
+    "task_general_claude_code_yuhang_account_recharge",
+    "task_general_api_gateway_procurement_query",
+    "task_general_me_control_lab_anti_vibration_table_assembly"
   ],
   "risks_decisions": [
     "不同设备的驱动、SDK、ROS topic 和日志格式需要尽早统一，否则后面每条数据都会带维护成本。",
@@ -64,7 +72,8 @@
     "YAM ALOHA and Wuji glove capture both need a shared timestamp/schema path so their data can flow into the same real-robot dataset and replay verifier infrastructure.",
     "Do not reopen separate Wuji Glove TODOs for network smoke or data wrapper; keep status, blockers, and evidence on the canonical Wuji Glove task.",
     "DexGello boundary: Real Robot Infra should keep robot availability, safety, VR-control baseline, and purchase/setup work; DexGello should own research evidence for decoupled GELLO arm, VIVE hand pose, MANUS finger data, and demo-specific planning/control such as cuRobo.",
-    "ME Control Lab two-host expansion was completed on 2026-06-12; keep future host changes as separate scaling or maintenance TODOs rather than reopening the original two-host blocker."
+    "ME Control Lab two-host expansion was completed on 2026-06-12; keep future host changes as separate scaling or maintenance TODOs rather than reopening the original two-host blocker.",
+    "Lab ops/tooling boundary: account procurement, API gateway purchasing, shared storage, cables, camera screws, and ME Control Lab installation support are infrastructure records; General should only show the live procurement table."
   ],
   "external_resources": [
     {

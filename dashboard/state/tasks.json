@@ -4359,9 +4359,9 @@
     },
     {
       "task_id": "task_general_10t_hdd_nas_shared_storage",
-      "project_id": "general",
+      "project_id": "real-robot-infra",
       "title": "改造 10T 硬盘为组内共享 NAS",
-      "description": "Move this from the UMI-specific storage lane into General engineering. Decision: buy the Taobao 7-day no-reason-return item \"企业团队云硬盘盒NAS局域网共享权限自动备份远程访问WIFI\" (short link: https://e.tb.cn/h.R4yF4iTokRMx0ei?tk=YJOJ5Dl6aXt, code HU006) and use the existing 10T hard drive as a group shared-file NAS for lab computers. Acceptance: confirm the purchased NAS enclosure supports the actual 10T HDD form factor/interface and power needs; install the disk; configure LAN/Wi-Fi access, shared folders, user/group permissions, automatic backup, and remote-access policy; record stable hostname/IP, SMB/NFS/WebDAV or vendor client path, filesystem/volume state, simple read/write throughput from at least one group computer, and any 7-day return decision if compatibility fails.",
+      "description": "Track this under Real-Robot Lab Infra shared storage. Decision: buy the Taobao 7-day no-reason-return item \"企业团队云硬盘盒NAS局域网共享权限自动备份远程访问WIFI\" (short link: https://e.tb.cn/h.R4yF4iTokRMx0ei?tk=YJOJ5Dl6aXt, code HU006) and use the existing 10T hard drive as a group shared-file NAS for lab computers. Acceptance: confirm the purchased NAS enclosure supports the actual 10T HDD form factor/interface and power needs; install the disk; configure LAN/Wi-Fi access, shared folders, user/group permissions, automatic backup, and remote-access policy; record stable hostname/IP, SMB/NFS/WebDAV or vendor client path, filesystem/volume state, simple read/write throughput from at least one group computer, and any 7-day return decision if compatibility fails.",
       "status": "done",
       "priority": "high",
       "assignee": null,
@@ -4438,7 +4438,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-11T23:12:02+08:00",
+      "updated_at": "2026-06-12T15:34:42+08:00",
       "due_at": "",
       "completed_at": "2026-06-11"
     },
@@ -4551,7 +4551,7 @@
     },
     {
       "task_id": "task_hardware_psa_three_finger_gripper",
-      "project_id": "general",
+      "project_id": "vtla-tactile-intuition-survey",
       "title": "PSA proposal 三指触觉夹爪设计",
       "description": "为 PSA proposal 准备一个三指夹爪末端方案：可选祝老板电机作为 actuator，三指末端集成触觉传感器，目标覆盖 Jenga-style 抽积木塔和拿刀切肉等低自由度触觉操作 demo。Deliverable: CAD/机构草图、actuator/sensor 布局、控制接口、BOM 和与 Franka/ARX 末端连接方式。",
       "status": "done",
@@ -4597,12 +4597,12 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-05-29T02:22:53+08:00",
+      "updated_at": "2026-06-12T15:34:42+08:00",
       "completed_at": "2026-05-27"
     },
     {
       "task_id": "task_hardware_wuji_franka_camera_flange",
-      "project_id": "general",
+      "project_id": "dex-gello",
       "title": "给 Wuji + Franka 做相机转接法兰",
       "description": "设计 Wuji Hand / Franka 组合使用的相机转接法兰，用于固定 wrist/hand-view camera，保留手部运动空间、线缆应力释放和可重复安装位置。Deliverable: CAD 草图/打印件方案、螺孔/夹持方式、相机视场说明和安装检查表。",
       "status": "done",
@@ -4669,12 +4669,12 @@
           "kind": "needs_user"
         }
       ],
-      "updated_at": "2026-05-29T21:53:34+08:00",
+      "updated_at": "2026-06-12T15:34:42+08:00",
       "completed_at": "2026-05-29"
     },
     {
       "task_id": "task_hardware_glove_camera_mount_dexcap",
-      "project_id": "general",
+      "project_id": "dex-gello",
       "title": "仿 DexCap 做 MANUS / Wuji 手套相机转接件",
       "description": "参考 DexCap 的 portable mocap camera mounting 思路，为 MANUS 或 Wuji 手套设计轻量相机转接件，用于采集手部第一视角 / HOI 数据。设计重点从旧的 DexWild-style back-of-hand mount 更新为 DexCap-style stable observation camera / hand mount / quick-release swap：相机位姿要能在 human collection 与 robot-side observation 之间尽量一致，保留手套运动空间和线缆应力释放。Deliverable: mount CAD、快拆/绑带几何、camera pose/FOV target、线缆路径、重量/佩戴干扰评估、fit-check 照片或记录。",
       "status": "done",
@@ -4727,12 +4727,12 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-05-29T20:48:46+08:00",
+      "updated_at": "2026-06-12T15:34:42+08:00",
       "completed_at": "2026-05-29"
     },
     {
       "task_id": "task_hardware_manus_two_finger_retargeting",
-      "project_id": "general",
+      "project_id": "vtla-tactile-intuition-survey",
       "title": "MANUS 数据手套到两指夹爪重定向与遥操作",
       "description": "把 MANUS 数据手套的手部姿态映射到两指夹爪的开合/接触状态，用于简单低自由度遥操作和数据采集。Deliverable: retargeting mapping、teleop interface、最小 verifier，以及与 tactile gripper 平台的输入/输出 schema 对齐。",
       "status": "done",
@@ -4764,12 +4764,12 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-05-29T02:22:53+08:00",
+      "updated_at": "2026-06-12T15:34:42+08:00",
       "completed_at": "2026-05-27"
     },
     {
       "task_id": "task_hardware_two_finger_tactile_gripper_platform",
-      "project_id": "general",
+      "project_id": "vtla-tactile-intuition-survey",
       "title": "复刻两指 FinRay / GelSight / PPTAC 触觉夹爪平台",
       "description": "做一个低成本两指夹爪操作平台：复刻/改造简单 FinRay fingers，预留 GelSight 或 Daimon/PPTAC-style 触觉传感器安装位，后续用于 VLA/VTLA 操作、抽积木塔、接触稳定性和触觉数据采集。Deliverable: CAD、传感器安装方案、夹爪开合接口、基础测试任务清单。",
       "status": "done",
@@ -4801,12 +4801,12 @@
           "kind": "needs_user"
         }
       ],
-      "updated_at": "2026-05-29T02:23:41+08:00",
+      "updated_at": "2026-06-12T15:34:42+08:00",
       "completed_at": "2026-05-27"
     },
     {
       "task_id": "task_hardware_six_dof_tactile_calibration_platform",
-      "project_id": "general",
+      "project_id": "vtla-tactile-intuition-survey",
       "title": "六自由度触觉传感器标定平台",
       "description": "设计一个 6-DoF tactile sensor calibration platform，用于标定力/力矩、接触位置和传感器输出一致性。Deliverable: 机械加载方案、标定流程、数据记录格式、校准曲线/验证指标。",
       "status": "done",
@@ -4838,12 +4838,12 @@
           "kind": "needs_user"
         }
       ],
-      "updated_at": "2026-05-29T02:23:41+08:00",
+      "updated_at": "2026-06-12T15:34:42+08:00",
       "completed_at": "2026-05-27"
     },
     {
       "task_id": "task_general_usb3_extension_cables_shopee",
-      "project_id": "general",
+      "project_id": "real-robot-infra",
       "title": "购买 6 根 2m USB 3.0 延长线",
       "description": "Buy 6x 2m USB 3.0 extension cables for lab hardware routing. Current candidate: UGREEN USB 3.0 male-to-female cable on Taobao https://e.tb.cn/h.RmR1dsrrhJvWkn9?tk=F3q3g3QaNAh. Context: lab previously bought four cables but they are all used up; user confirmed 6 pieces is the new target quantity. Before checkout, wait for Yan / lab-card confirmation; if direct card use is not allowed, use the approved reimbursement or procurement path. Acceptance: confirm USB 3.0 / 5Gbps rating, 2m length, shielding, and enough current stability for cameras/sensors; record purchase route and delivery ETA; after arrival, test with intended device and note any dropouts or bandwidth/power issues.",
       "status": "done",
@@ -4855,7 +4855,7 @@
         {
           "comment_id": "comment_general_usb3_extension_shopee_group_card_20260527",
           "author": "Boris / Codex",
-          "body": "User request: General needs two more USB 3.0 extension cables, likely to buy on Shopee. Procurement note: do not assume direct group-card payment is approved; ask the card holder / PI / lab admin before checkout. If direct card use is not allowed, use the normal reimbursement or procurement route and keep the receipt/invoice.",
+          "body": "User request: lab needs two more USB 3.0 extension cables, likely to buy on Shopee. Procurement note: do not assume direct group-card payment is approved; ask the card holder / PI / lab admin before checkout. If direct card use is not allowed, use the normal reimbursement or procurement route and keep the receipt/invoice.",
           "created_at": "2026-05-27T12:59:11+08:00",
           "kind": "needs_user"
         },
@@ -4881,7 +4881,7 @@
           "kind": "completion"
         }
       ],
-      "updated_at": "2026-06-12T15:30:45+08:00",
+      "updated_at": "2026-06-12T15:34:42+08:00",
       "completed_at": "2026-06-12"
     },
     {
@@ -5435,9 +5435,9 @@
     },
     {
       "task_id": "task_general_camera_short_screws",
-      "project_id": "general",
+      "project_id": "real-robot-infra",
       "title": "购买相机常用短螺丝",
-      "description": "Add a General procurement item for short screws commonly used with cameras / tripod mounts. User wording: 六英寸短螺丝（相机常用）. Before ordering, confirm the exact spec: likely 1/4-20 camera/tripod short screw rather than a literal 6-inch-long screw; also confirm whether 3/8-inch adapters are needed, desired shaft length, head style, quantity, and whether the screws fit the current camera mounts, flanges, quick-release plates, or glove camera adapters. Acceptance: record final spec, quantity, purchase link, price, receipt/procurement route, delivery ETA, and a fit check on at least one camera/mount.",
+      "description": "Track Real-Robot Lab Infra procurement for short screws commonly used with cameras / tripod mounts. User wording: 六英寸短螺丝（相机常用）. Before ordering, confirm the exact spec: likely 1/4-20 camera/tripod short screw rather than a literal 6-inch-long screw; also confirm whether 3/8-inch adapters are needed, desired shaft length, head style, quantity, and whether the screws fit the current camera mounts, flanges, quick-release plates, or glove camera adapters. Acceptance: record final spec, quantity, purchase link, price, receipt/procurement route, delivery ETA, and a fit check on at least one camera/mount.",
       "status": "done",
       "priority": "medium",
       "assignee": null,
@@ -5459,7 +5459,7 @@
           "kind": "completion"
         }
       ],
-      "updated_at": "2026-06-12T15:09:11+08:00",
+      "updated_at": "2026-06-12T15:34:42+08:00",
       "completed_at": "2026-06-12"
     },
     {
@@ -7082,7 +7082,7 @@
     },
     {
       "task_id": "task_general_claude_code_yuhang_account_recharge",
-      "project_id": "general",
+      "project_id": "real-robot-infra",
       "title": "Claude Code 让宇航重新开号充值",
       "description": "让宇航重新开 Claude Code / Claude 账号并充值，避免一个账号在 ME 和 SoC / 多个 robot base 之间频繁切换物理位置导致继续被封。背景：AGI Max 和 Team 账号也出现阵亡风险；当前判断是 ME 和 SoC 最好分开账号，一个 base 尽量对应独立账号。验收：确认宇航新账号开通、套餐/充值路径、绑定邮箱/手机号归属、可报销或个人垫付方案、ME/SoC 使用边界、账号共享规则；不要把密码、token、付款信息写入 dashboard。",
       "status": "todo",
@@ -7099,11 +7099,11 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-11T23:16:25+08:00"
+      "updated_at": "2026-06-12T15:34:42+08:00"
     },
     {
       "task_id": "task_general_api_gateway_procurement_query",
-      "project_id": "general",
+      "project_id": "real-robot-infra",
       "title": "API 中转站采购查询",
       "description": "查询 API 中转站采购方案，重点看能否走 NUS / 组内报销、稳定性、模型覆盖、企业用户支持、价格和风险。候选：DMXAPI https://www.dmxapi.com；文档 https://doc.dmxapi.cn/kaishi.html；报价页 https://www.dmxapi.cn/rmb。聊天记录信息：对方称企业用户，注册给用户名可送体验金；GPT / Claude / Gemini 基本按官方 6.8 折；开通 GPT 等模型需要给用户名。验收：Karen 确认是否可报销；列出官方 Max/Team vs 中转站的成本和稳定性对比；确认充值/发票/合同/账号归属；小额试用通过；明确不在 dashboard 保存 API key、账号密码、付款信息。",
       "status": "todo",
@@ -7120,11 +7120,11 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-11T23:16:25+08:00"
+      "updated_at": "2026-06-12T15:34:42+08:00"
     },
     {
       "task_id": "task_general_me_control_lab_anti_vibration_table_assembly",
-      "project_id": "general",
+      "project_id": "real-robot-infra",
       "title": "ME Control Lab 防振桌找本地人力公司组装",
       "description": "为 ME Control Lab 的防振桌 / 防震桌组装找当地人力公司或校内 approved vendor 派工人处理，减少机器人硬件搬运和人工组装压力。目标：确认桌子型号、重量、包装尺寸、安装说明、所需工具、现场可进入时间、ME building 搬运/施工限制、是否需要 lift / trolley / PPE / risk assessment，以及组装后是否影响真机摆放和线缆走线。验收：拿到至少 1-2 个本地人力/安装报价或校内 approved vendor 路径；确认付款/报销方式；约定时间；完成组装；记录安装照片、水平/稳定性检查、设备摆位和防振效果初步检查。",
       "status": "todo",
@@ -7141,7 +7141,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-11T23:16:25+08:00"
+      "updated_at": "2026-06-12T15:34:42+08:00"
     }
   ]
 }

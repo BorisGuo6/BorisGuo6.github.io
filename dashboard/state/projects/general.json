@@ -4,8 +4,8 @@
   "title": "General",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-06-12T15:30:45+08:00",
-  "description": "General engineering backlog for cross-project tasks",
+  "updated_at": "2026-06-12T15:34:42+08:00",
+  "description": "Procurement status table for cross-project lab purchases",
   "summary": "General hardware procurement live list: current purchase status, route, and non-sensitive logistics notes for lab support items.",
   "intro_table": {
     "kind": "procurement_table",
@@ -87,76 +87,9 @@
       }
     ]
   },
-  "details": [
-    "Purpose: keep small hardware design jobs out of paper-specific project cards while still making them visible and assignable. Most items can be progressed remotely through CAD, wiring/interface sketches, BOM choices, and print/manufacturing handoff.",
-    "Main platform gap: the lab lacks reusable low-DoF gripper and tactile-sensor test platforms. A simple two-finger FinRay/GelSight/PPTAC-style platform and a three-finger tactile gripper would cover many VLA/VTLA experiments better than relying only on dexterous hands.",
-    "Three-finger direction: the PSA proposal can use a three-finger gripper with fingertip tactile sensors; the Zhu-boss motor option refers to YinKeSi motors. Jenga-style block extraction and dexterous-hand cutting demos have moved to DexGello; General keeps reusable gripper/platform hardware work only.",
-    "Two-finger direction: build a simple repeatable platform around FinRay fingers, GelSight-style tactile sensing, and PPTAC two-finger gripper ideas, then connect it to MANUS/Wuji glove retargeting and VLA/VTLA training data.",
-    "Sensor sourcing: do not buy new tactile sensors unless necessary. First ask Zheng Yuhang to get three Daimon tactile sensors for the three-finger gripper / calibration platform path.",
-    "Mounting direction: the Wuji/Franka camera flange is done; the next MANUS/Wuji glove camera adapter should follow a DexCap-style camera-mount and quick-release logic, keeping the observation camera stable across human collection and robot-side use while preserving field of view and cable strain relief.",
-    "Teleop direction update 2026-06-11: the GELLO trigger -> ACE-style wrist ring + MANUS hand-pose item has moved to DexGello and is marked done; General no longer tracks it as an open cross-project hardware task.",
-    "Storage direction: repurpose the purchased 10T HDD as a small group NAS if the Taobao 7-day-return enclosure works; treat it as shared lab infrastructure rather than a UMI-only staging disk.",
-    "Procurement update 2026-06-12: USB extension request changed from Shopee 2-pack to Taobao 6x 2m UGREEN USB 3.0 extension cables and is now marked done by user confirmation.",
-    "Procurement update 2026-06-12: common short camera screws have been purchased. Keep future fit problems, missing 3/8-inch adapters, or mount-specific screw lengths as separate TODOs.",
-    "DexGello dependency boundary: the completed DexCap-style MANUS / Wuji glove camera adapter stays here as reusable hardware support, while the new DexGello card owns the research data path around GELLO q_arm, VIVE T_hand, and MANUS q_finger.",
-    "Storage update 2026-06-11: the 10T HDD group shared NAS conversion has been marked done by user confirmation; keep future NAS maintenance or permission changes as separate tasks if needed.",
-    "Ops / procurement update 2026-06-11: add three General TODOs for Claude Code account separation/recharge, API gateway procurement inquiry, and hiring local labor to assemble the ME Control Lab anti-vibration table."
-  ],
-  "task_ids": [
-    "task_general_10t_hdd_nas_shared_storage",
-    "task_hardware_psa_three_finger_gripper",
-    "task_hardware_wuji_franka_camera_flange",
-    "task_hardware_glove_camera_mount_dexcap",
-    "task_hardware_manus_two_finger_retargeting",
-    "task_hardware_two_finger_tactile_gripper_platform",
-    "task_hardware_six_dof_tactile_calibration_platform",
-    "task_general_usb3_extension_cables_shopee",
-    "task_general_camera_short_screws",
-    "task_general_claude_code_yuhang_account_recharge",
-    "task_general_api_gateway_procurement_query",
-    "task_general_me_control_lab_anti_vibration_table_assembly"
-  ],
-  "risks_decisions": [
-    "Ownership risk: several items need a remote CAD owner plus a local hardware owner for printing, sensor pickup, and test fitting.",
-    "Sourcing decision: use Daimon tactile sensors through Zheng Yuhang first; avoid purchasing GelSight/PPTAC-like components until the available sensor inventory is confirmed.",
-    "Scope decision: start with low-DoF gripper platforms because they are easier to instrument, calibrate, and use for VLA/VTLA datasets than full dexterous-hand hardware.",
-    "Integration risk: camera mounts and wrist rings must avoid blocking hand motion, tactile contact surfaces, glove cables, and emergency access.",
-    "NAS risk: the Taobao enclosure must physically support the actual 10T HDD form factor/interface and provide stable power, permissions, backup, and LAN sharing before the return window closes.",
-    "Procurement risk: do not store group-card details in dashboard state; confirm Taobao/Shopee direct-card purchase approval with Yan / card holder / lab admin before ordering, otherwise use the approved reimbursement or procurement path.",
-    "Camera-screw procurement is closed; still verify thread standard, usable shaft length, and adapter fit during each camera mount installation.",
-    "Do not move completed reusable hardware records into one paper card unless they become project-specific blockers; DexGello can reference the camera adapter and Franka/Wuji base as dependencies.",
-    "Credential and procurement risk: do not store Claude/API keys, account passwords, payment details, or reimbursement documents in dashboard state; track only purchase decisions, owners, and non-sensitive setup checklists."
-  ],
-  "timeline": {
-    "badges": [
-      {
-        "label": "Bucket",
-        "value": "Engineering"
-      },
-      {
-        "label": "Mode",
-        "value": "remote CAD + local fit"
-      },
-      {
-        "label": "Sensors",
-        "value": "Daimon tactile"
-      },
-      {
-        "label": "Targets",
-        "value": "Gripper fixtures"
-      },
-      {
-        "label": "Platforms",
-        "value": "2F + 3F grippers"
-      }
-    ],
-    "target_cycle": "Hardware design queue",
-    "target_note": "Collect small gripper, mount, and tactile-platform jobs that support multiple robot projects.",
-    "sprint_start": "2026-05-25",
-    "sprint_due": null,
-    "milestones": []
-  },
-  "asset": "dashboard/assets/general-engineering-backlog.png",
-  "asset_alt": "General engineering backlog diagram for grippers, camera mounts, and calibration fixtures",
-  "asset_caption": "General backlog: cross-project gripper, tactile, mount, wrist-ring, and calibration tasks."
+  "details": [],
+  "task_ids": [],
+  "risks_decisions": [],
+  "timeline": null,
+  "hide_workstream": true
 }
