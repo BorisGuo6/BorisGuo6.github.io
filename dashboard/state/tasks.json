@@ -5256,12 +5256,12 @@
       "task_id": "task_real_robot_infra_me_control_two_hosts",
       "project_id": "real-robot-infra",
       "title": "ME Control Lab 至少补两台主机",
-      "description": "为 ME Control Lab 真机实验至少补充两台主机，并明确各自主责。目标：盘点当前控制机/采集机/训练机缺口，提出至少 2 台新增主机的配置与放置方案，覆盖实时机器人控制、相机/手套/追踪器数据采集、远程监控、数据缓存和必要的 GPU/USB/NIC/存储需求。当前进展：只搬了一台主机，因此不能标记 done；还需要补齐第二台主机及两台机器的职责划分、网络/账号/设备绑定和上线验证。验收：列出两台主机的建议配置、预算/采购或调拨路径、网络与账号接入 checklist、预计绑定设备和上线验证步骤；两台主机都到位并完成 smoke 后才能 done。",
-      "status": "active",
+      "description": "为 ME Control Lab 真机实验至少补充两台主机，并明确各自主责。目标：盘点当前控制机/采集机/训练机缺口，提出至少 2 台新增主机的配置与放置方案，覆盖实时机器人控制、相机/手套/追踪器数据采集、远程监控、数据缓存和必要的 GPU/USB/NIC/存储需求。验收：列出两台主机的建议配置、预算/采购或调拨路径、网络与账号接入 checklist、预计绑定设备和上线验证步骤；两台主机都到位并完成 smoke 后才能 done。",
+      "status": "done",
       "priority": "high",
       "assignee": null,
       "due_at": "",
-      "result": null,
+      "result": "User reported the ME Control Lab two-host expansion is complete. Marked done: at least two hosts are now considered added for ME Control Lab real-robot control/data-capture coverage.",
       "comments": [
         {
           "comment_id": "comment_me_control_two_hosts_partial_20260611",
@@ -5269,11 +5269,18 @@
           "body": "User correction on 2026-06-11: this was incorrectly understood as done, but only one host has been moved. Keep task active until a second host is added and both hosts have explicit roles, network/account setup, bound devices, and上线 smoke evidence.",
           "created_at": "2026-06-11T23:10:37+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_me_control_two_hosts_done_20260612",
+          "author": "Boris",
+          "body": "Boris marked this done on 2026-06-12: ME Control Lab has now been supplemented with at least two hosts, so the previous one-host blocker is resolved.",
+          "created_at": "2026-06-12T14:57:07+08:00",
+          "kind": "completion"
         }
       ],
-      "updated_at": "2026-06-11T23:10:37+08:00",
+      "updated_at": "2026-06-12T14:57:07+08:00",
       "started_at": "2026-06-11",
-      "completed_at": null
+      "completed_at": "2026-06-12"
     },
     {
       "task_id": "task_real_robot_infra_yam_aloha_setup",

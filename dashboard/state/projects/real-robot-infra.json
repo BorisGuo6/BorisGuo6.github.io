@@ -4,7 +4,7 @@
   "title": "Real-Robot Lab Infra",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-06-11T23:10:37+08:00",
+  "updated_at": "2026-06-12T14:57:07+08:00",
   "description": "Engineering stack for teleoperation, data collection, and robot-side validation",
   "summary": "This is the engineering base that keeps weekly research work grounded in real data collection, linked hardware assets/resources, and real-robot validation.",
   "asset": "dashboard/assets/real-robot-infra-collage.png",
@@ -33,7 +33,7 @@
     "Hardware Resource Center is the canonical Notion target for manuals, SOPs, calibration notes, vendor PDFs, and hardware resource links; current connector access needs to be fixed before automated Notion content sync can verify page internals.",
     "YAM ALOHA setup is grounded in asset LV-ROB-010: 数量:4；aloha系统, location E2-01-04, status 搭建中.",
     "Wuji Glove is tracked as one canonical task: network smoke, timestamp logging, D405 capture wrapper, episode writer, and replay/loader verification are all acceptance items under task_real_robot_infra_wuji_glove.",
-    "ME Control Lab host expansion: only one host has been moved so far; the two-host TODO remains active until a second host is added and both hosts have clear roles for control, data capture, monitoring, cache/storage, GPU/USB/NIC needs, account/network setup, bound devices, and smoke validation."
+    "ME Control Lab host expansion is now marked complete: at least two hosts have been added for the lab, resolving the previous one-host blocker for real-time control, data capture, monitoring, cache/storage, GPU/USB/NIC needs, account/network setup, bound devices, and smoke validation."
   ],
   "task_ids": [
     "task_real_robot_infra_arx_setup",
@@ -66,7 +66,7 @@
     "YAM ALOHA and Wuji glove capture both need a shared timestamp/schema path so their data can flow into the same real-robot dataset and replay verifier infrastructure.",
     "Do not reopen separate Wuji Glove TODOs for network smoke or data wrapper; keep status, blockers, and evidence on the canonical Wuji Glove task.",
     "DexGello boundary: Real Robot Infra should keep robot availability, safety, VR-control baseline, and purchase/setup work; DexGello should own research evidence for decoupled GELLO arm, VIVE hand pose, and MANUS finger data.",
-    "Do not mark the ME Control Lab two-host task done after only one host is moved; completion requires two host placements plus role assignment, access checklist, device binding, and上线 smoke evidence."
+    "ME Control Lab two-host expansion was completed on 2026-06-12; keep future host changes as separate scaling or maintenance TODOs rather than reopening the original two-host blocker."
   ],
   "external_resources": [
     {
