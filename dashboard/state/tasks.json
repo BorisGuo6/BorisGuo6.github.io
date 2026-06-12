@@ -4857,9 +4857,9 @@
     },
     {
       "task_id": "task_general_tactile_stacking_pilot",
-      "project_id": "general",
-      "title": "启动 Jenga 抽积木塔 tactile pilot",
-      "description": "找一个 master 同学做小型 Jenga-style block extraction / 抽积木塔练手任务：机器人从木块塔里推出或抽出指定木块，同时尽量不让塔倒。用 VTA/VLA 模型学习触觉辅助的接触稳定、摩擦/滑移、侧向推力、塔体晃动和失败恢复；配一个可打印/定制的特殊 gripper，并接入戴盟触觉。目标是把 slip、contact stability、lateral force、tower wobble、tower collapse 等失败变成通用硬件平台的测试样例；后续需要时再被 AgenticSim 或 VLA/VTLA 项目引用。",
+      "project_id": "dex-gello",
+      "title": "DexGello Demo: Jenga 抽积木塔 tactile pilot",
+      "description": "把 Jenga-style block extraction / 抽积木塔作为 DexGello demo：机器人从木块塔里推出或抽出指定木块，同时尽量不让塔倒。用 DexGello 的 q_arm、T_hand、q_finger 记录链路和 tactile/VTA/VLA 分析接触稳定、摩擦/滑移、侧向推力、塔体晃动和失败恢复；配一个可打印/定制的特殊 gripper，并接入戴盟触觉。目标是把 slip、contact stability、lateral force、tower wobble、tower collapse 等失败变成 DexGello 的紧凑真机 demo 和评测样例。",
       "status": "needs_user",
       "priority": "medium",
       "assignee": "master student TBD / Zheng Yuhang for gripper timing",
@@ -4894,9 +4894,16 @@
           "body": "Mirrored strict audit decision from default state for task_general_tactile_stacking_pilot; remaining work requires human action/credential/hardware/decision, not more autonomous dependency installation.",
           "created_at": "2026-05-29T02:22:46+08:00",
           "kind": "needs_user"
+        },
+        {
+          "comment_id": "comment_dex_gello_jenga_demo_move_20260612",
+          "author": "Boris / Codex",
+          "body": "Moved from General to DexGello on 2026-06-12. Jenga block extraction should be tracked as a DexGello demo, not a generic tactile hardware pilot.",
+          "created_at": "2026-06-12T15:06:53+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-29T02:22:47+08:00",
+      "updated_at": "2026-06-12T15:06:53+08:00",
       "completed_at": null
     },
     {
@@ -5305,12 +5312,12 @@
     },
     {
       "task_id": "task_real_robot_infra_wuji_franka_slime_cut_demo",
-      "project_id": "real-robot-infra",
-      "title": "跑 Wuji + Franka 玩具刀切史莱姆泥 demo",
-      "description": "把 Wuji Hand + Franka 的切肉 demo 收敛到安全 Stage 0/1：仿真肉使用史莱姆泥，刀先使用玩具刀，不使用真刀或真实肉。验收：准备固定史莱姆泥的夹具/托盘和可清洁工作区；确认玩具刀不会割伤手指/线缆/相机；设置 Franka 低速/力矩/工作空间限制、急停看护和 abort 条件；完成至少一次 read-only 或仿真轨迹预演；完成一次真实低速玩具刀切史莱姆泥 run；记录视频、机器人状态、Wuji Hand command/state、相机视角、失败/成功判据和是否需要进入下一阶段。真实刀具、真实肉和高速切割必须另行审批。",
+      "project_id": "dex-gello",
+      "title": "DexGello Demo: Wuji + Franka 玩具刀切史莱姆泥",
+      "description": "把 Wuji Hand + Franka 的灵巧手切肉 demo 作为 DexGello demo，并收敛到安全 Stage 0/1：仿真肉使用史莱姆泥，刀先使用玩具刀，不使用真刀或真实肉。验收：准备固定史莱姆泥的夹具/托盘和可清洁工作区；确认玩具刀不会割伤手指/线缆/相机；设置 Franka 低速/力矩/工作空间限制、急停看护和 abort 条件；完成至少一次 read-only 或仿真轨迹预演；完成一次真实低速玩具刀切史莱姆泥 run；记录 DexGello episode 所需的视频、q_arm、T_hand、q_finger、Wuji Hand command/state、相机视角、失败/成功判据和是否需要进入下一阶段。真实刀具、真实肉和高速切割必须另行审批。",
       "status": "todo",
       "priority": "high",
-      "assignee": "Yuhang & Jingxiang / Boris / real-robot",
+      "assignee": "Yuhang & Jingxiang / Boris / DexGello",
       "due_at": "",
       "result": null,
       "comments": [
@@ -5320,9 +5327,16 @@
           "body": "User clarified demo scope: Wuji + Franka should demonstrate cutting meat, but use slime clay as simulated meat and a toy knife first. This is a new execution TODO after the already host-verified safety plan; it is not done until the physical toy-knife slime-clay run has logs/video and safety evidence.",
           "created_at": "2026-05-29T20:32:23+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_dex_gello_slime_cut_demo_move_20260612",
+          "author": "Boris / Codex",
+          "body": "Moved from Real-Robot Infra to DexGello on 2026-06-12. This is the DexGello dexterous-hand cutting demo; Real-Robot Infra only supplies the hardware/safety gate.",
+          "created_at": "2026-06-12T15:06:53+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-29T20:32:23+08:00"
+      "updated_at": "2026-06-12T15:06:53+08:00"
     },
     {
       "task_id": "task_drag_demo_on_policy_gravity_comp_survey",

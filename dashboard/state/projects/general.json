@@ -4,13 +4,13 @@
   "title": "General",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-06-11T23:16:25+08:00",
+  "updated_at": "2026-06-12T15:06:53+08:00",
   "description": "General engineering backlog for cross-project tasks",
   "summary": "General engineering queue for hardware fixtures, small CAD jobs, gripper platforms, camera adapters, glove-to-gripper teleoperation, and tactile calibration hardware. These items are intentionally separate from Real-Robot Lab Infra and can support multiple projects when needed.",
   "details": [
     "Purpose: keep small hardware design jobs out of paper-specific project cards while still making them visible and assignable. Most items can be progressed remotely through CAD, wiring/interface sketches, BOM choices, and print/manufacturing handoff.",
     "Main platform gap: the lab lacks reusable low-DoF gripper and tactile-sensor test platforms. A simple two-finger FinRay/GelSight/PPTAC-style platform and a three-finger tactile gripper would cover many VLA/VTLA experiments better than relying only on dexterous hands.",
-    "Three-finger direction: the PSA proposal can use a three-finger gripper with fingertip tactile sensors; the Zhu-boss motor option refers to YinKeSi motors. Target demos include Jenga-style block extraction and dexterous-hand / gripper knife-cutting meat studies.",
+    "Three-finger direction: the PSA proposal can use a three-finger gripper with fingertip tactile sensors; the Zhu-boss motor option refers to YinKeSi motors. Jenga-style block extraction and dexterous-hand cutting demos have moved to DexGello; General keeps reusable gripper/platform hardware work only.",
     "Two-finger direction: build a simple repeatable platform around FinRay fingers, GelSight-style tactile sensing, and PPTAC two-finger gripper ideas, then connect it to MANUS/Wuji glove retargeting and VLA/VTLA training data.",
     "Sensor sourcing: do not buy new tactile sensors unless necessary. First ask Zheng Yuhang to get three Daimon tactile sensors for the three-finger gripper / calibration platform path.",
     "Mounting direction: the Wuji/Franka camera flange is done; the next MANUS/Wuji glove camera adapter should follow a DexCap-style camera-mount and quick-release logic, keeping the observation camera stable across human collection and robot-side use while preserving field of view and cable strain relief.",
@@ -25,7 +25,6 @@
   "task_ids": [
     "task_general_10t_hdd_nas_shared_storage",
     "task_hardware_psa_three_finger_gripper",
-    "task_general_tactile_stacking_pilot",
     "task_hardware_wuji_franka_camera_flange",
     "task_hardware_glove_camera_mount_dexcap",
     "task_hardware_manus_two_finger_retargeting",
@@ -64,7 +63,7 @@
       },
       {
         "label": "Targets",
-        "value": "Jenga / knife meat"
+        "value": "Gripper fixtures"
       },
       {
         "label": "Platforms",
@@ -78,6 +77,6 @@
     "milestones": []
   },
   "asset": "dashboard/assets/general-engineering-backlog.png",
-  "asset_alt": "General engineering backlog diagram for grippers, Jenga tooling, camera mounts, and calibration fixtures",
+  "asset_alt": "General engineering backlog diagram for grippers, camera mounts, and calibration fixtures",
   "asset_caption": "General backlog: cross-project gripper, tactile, mount, wrist-ring, and calibration tasks."
 }
