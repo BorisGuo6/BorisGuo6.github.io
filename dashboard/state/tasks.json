@@ -61,9 +61,23 @@
           "body": "Franka/ROS workspace exists and builds are present under franka_wrapper, but full ARX/robot infra completion requires onsite robot hardware bring-up and safety validation. This is hardware access, not an install-only blocker.",
           "created_at": "2026-05-29T02:22:55+08:00",
           "kind": "needs_user"
+        },
+        {
+          "comment_id": "comment_task_real_robot_infra_arx_setup_intro_note_completed_today_arx_fangzhou_wuxian_real_robot_infra_set",
+          "author": "Boris / Codex",
+          "body": "Moved from previous Real-Robot Infra intro: Completed today: ARX / Fangzhou Wuxian real-robot infra setup.",
+          "created_at": "2026-06-12T15:39:17+08:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "comment_task_real_robot_infra_arx_setup_intro_note_arx_sop_received_operation_of_arx_robot_arm_for_drag_tea",
+          "author": "Boris / Codex",
+          "body": "Moved from previous Real-Robot Infra intro: ARX SOP received: Operation of ARX Robot Arm for Drag Teaching and Teleoperation Data Collection, JZ/SOP/ROB/001, issued 2026-05-23. It covers trained-operator responsibility, power-up, drag teaching, teleoperation, shutdown, and immediate stop conditions.",
+          "created_at": "2026-06-12T15:39:17+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-29T02:23:42+08:00",
+      "updated_at": "2026-06-12T15:39:17+08:00",
       "due_at": "",
       "completed_at": "2026-05-29"
     },
@@ -84,9 +98,30 @@
           "body": "Ready inventory baseline recorded.",
           "created_at": "2026-05-15",
           "kind": "result"
+        },
+        {
+          "comment_id": "comment_task_real_robot_infra_inventory_intro_note_ready_inventory_baseline_linker_ffg_udcap_data_glove_cob",
+          "author": "Boris / Codex",
+          "body": "Moved from previous Real-Robot Infra intro: Ready inventory baseline: Linker FFG, UDCAP data glove, Cobot Magic / Piper-X, Linker Hand L6, and Daimon UMI.",
+          "created_at": "2026-06-12T15:39:17+08:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "comment_task_real_robot_infra_inventory_intro_note_canonical_asset_table_linked_real_robot_infra_asset_shee",
+          "author": "Boris / Codex",
+          "body": "Moved from previous Real-Robot Infra intro: Canonical asset table linked: Real Robot Infra asset sheet gid 1134950065 contains 16 rows; key current assets include Franka Research 3, Wuji Hand, Wuji glove with D405 capture, YAM arms for ALOHA, D405 cameras, MANUS gloves, and VIVE trackers.",
+          "created_at": "2026-06-12T15:39:17+08:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "comment_task_real_robot_infra_inventory_intro_note_hardware_resource_center_is_the_canonical_notion_target_",
+          "author": "Boris / Codex",
+          "body": "Moved from previous Real-Robot Infra intro: Hardware Resource Center is the canonical Notion target for manuals, SOPs, calibration notes, vendor PDFs, and hardware resource links; current connector access needs to be fixed before automated Notion content sync can verify page internals.",
+          "created_at": "2026-06-12T15:39:17+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-17T01:27:36+08:00"
+      "updated_at": "2026-06-12T15:39:17+08:00"
     },
     {
       "task_id": "task_real_robot_infra_franka_wuji",
@@ -121,9 +156,23 @@
           "body": "Gello-controlled dual Franka + Wuji Hand is complete as of 2026-05-21. Current control is intentionally simple: Wuji Hand is used like a one-DoF gripper, with Gello trigger mapped to open/close.",
           "created_at": "2026-05-21T21:19:52+08:00",
           "kind": "result"
+        },
+        {
+          "comment_id": "comment_task_real_robot_infra_franka_wuji_intro_note_progress_on_2026_05_18_dual_franka_arms_can_now_be_contr",
+          "author": "Boris / Codex",
+          "body": "Moved from previous Real-Robot Infra intro: Progress on 2026-05-18: dual Franka arms can now be controlled from the same computer.",
+          "created_at": "2026-06-12T15:39:17+08:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "comment_task_real_robot_infra_franka_wuji_intro_note_progress_on_2026_05_21_gello_controlled_dual_franka_wuji",
+          "author": "Boris / Codex",
+          "body": "Moved from previous Real-Robot Infra intro: Progress on 2026-05-21: Gello-controlled dual Franka + Wuji Hand setup is complete. Current control treats the Wuji dexterous hand as a one-DoF gripper via Gello trigger open/close mapping.",
+          "created_at": "2026-06-12T15:39:17+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-21T21:19:52+08:00"
+      "updated_at": "2026-06-12T15:39:17+08:00"
     },
     {
       "task_id": "task_real_robot_infra_wuji_glove",
@@ -274,9 +323,16 @@
           "kind": "comment",
           "body": "Merged duplicate Wuji Glove TODOs into this canonical task: network smoke/timestamp logging and data-collection wrapper are now acceptance items here.",
           "created_at": "2026-05-29T20:05:27+08:00"
+        },
+        {
+          "comment_id": "comment_task_real_robot_infra_wuji_glove_intro_note_wuji_glove_is_tracked_as_one_canonical_task_network_smok",
+          "author": "Boris / Codex",
+          "body": "Moved from previous Real-Robot Infra intro: Wuji Glove is tracked as one canonical task: network smoke, timestamp logging, D405 capture wrapper, episode writer, and replay/loader verification are all acceptance items under task_real_robot_infra_wuji_glove.",
+          "created_at": "2026-06-12T15:39:17+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-09T02:20:37+08:00",
+      "updated_at": "2026-06-12T15:39:17+08:00",
       "due_at": "",
       "completed_at": "2026-05-29"
     },
@@ -382,9 +438,23 @@
           "body": "Moved from Real Robot Infra into DexGello because this MANUS + VIVE verifier is now the core of the decoupled arm-hand-finger research representation: q_arm from GELLO/Franka, T_hand from VIVE, and q_finger from MANUS/Wuji. Real Robot Infra keeps generic robot availability, safety, VR-control baseline, and purchase/setup tasks.",
           "created_at": "2026-06-11T22:51:58+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_task_real_robot_infra_manus_vive_tracker_intro_note_dexgello_now_owns_the_manus_vive_research_input_stack_in",
+          "author": "Boris / Codex",
+          "body": "Moved from previous Real-Robot Infra intro: DexGello now owns the MANUS + VIVE research input stack: infra keeps the completed Franka + Wuji + GELLO base and hardware availability, while DexGello tracks the decoupled q_arm / T_hand / q_finger verifier and dataset logger.",
+          "created_at": "2026-06-12T15:39:17+08:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "comment_task_real_robot_infra_manus_vive_tracker_intro_note_manus_vive_merge_update_the_canonical_verifier_task_has_",
+          "author": "Boris / Codex",
+          "body": "Moved from previous Real-Robot Infra intro: MANUS + VIVE merge update: the canonical verifier task has moved into DexGello because it is now part of the arm-hand-finger decoupled research system, not a generic infra checklist.",
+          "created_at": "2026-06-12T15:39:17+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-11T22:51:58+08:00"
+      "updated_at": "2026-06-12T15:39:17+08:00"
     },
     {
       "task_id": "task_real_robot_infra_vive_tracker_chest_mount",
@@ -424,9 +494,16 @@
           "body": "Shipping update: chest strap has shipped, ETA 2026-06-16 to 2026-06-19, currently at Hangzhou airport, destination COM2/NUS. Context: the stock VIVE Tracker strap does not tighten enough for stable chest mounting.",
           "created_at": "2026-06-12T15:15:58+08:00",
           "kind": "logistics"
+        },
+        {
+          "comment_id": "comment_task_real_robot_infra_vive_tracker_chest_mount_intro_note_vive_tracker_chest_mount_strap_purchase_is_complete_and_",
+          "author": "Boris / Codex",
+          "body": "Moved from previous Real-Robot Infra intro: VIVE Tracker chest mount / strap purchase is complete and shipped, ETA 2026-06-16 to 2026-06-19 to COM2/NUS; use it to keep the CHEST tracker frame stable enough for calibration and replay.",
+          "created_at": "2026-06-12T15:39:17+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-12T15:15:58+08:00",
+      "updated_at": "2026-06-12T15:39:17+08:00",
       "completed_at": "2026-06-12"
     },
     {
@@ -460,9 +537,16 @@
           "body": "Mirrored strict audit decision from default state for task_real_robot_infra_vr_teleop_franka; remaining work requires human action/credential/hardware/decision, not more autonomous dependency installation.",
           "created_at": "2026-05-29T02:22:38+08:00",
           "kind": "needs_user"
+        },
+        {
+          "comment_id": "comment_task_real_robot_infra_vr_teleop_franka_intro_note_vr_teleoperation_direction_implement_a_steamvr_openvr_in",
+          "author": "Boris / Codex",
+          "body": "Moved from previous Real-Robot Infra intro: VR teleoperation direction: implement a SteamVR/OpenVR input path for controlling Franka end-effector pose with controller / tracker / headset input, gated by calibration, workspace limits, velocity / acceleration caps, deadman switch, and E-stop readiness.",
+          "created_at": "2026-06-12T15:39:17+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-29T02:22:38+08:00"
+      "updated_at": "2026-06-12T15:39:17+08:00"
     },
     {
       "task_id": "task_real_robot_infra_safety_workspace",
@@ -503,9 +587,23 @@
           "body": "主机验收通过: verified run with passed verifier.",
           "created_at": "2026-05-22T10:13:05+08:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "comment_task_real_robot_infra_safety_workspace_intro_note_demo_waterproofing_consumables_purchased_disposable_nitr",
+          "author": "Boris / Codex",
+          "body": "Moved from previous Real-Robot Infra intro: Demo waterproofing consumables purchased: disposable nitrile gloves and finger cots for short demo protection.",
+          "created_at": "2026-06-12T15:39:17+08:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "comment_task_real_robot_infra_safety_workspace_intro_note_before_feibo_uses_the_franka_dexterous_hand_setup_for_eg",
+          "author": "Boris / Codex",
+          "body": "Moved from previous Real-Robot Infra intro: Before Feibo uses the Franka dexterous-hand setup for egg-cracking tests, cable-manage the setup with organizers / zip ties, clear an empty work area, and waterproof the outside area.",
+          "created_at": "2026-06-12T15:39:17+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-22T10:13:05+08:00",
+      "updated_at": "2026-06-12T15:39:17+08:00",
       "completed_at": "2026-05-22"
     },
     {
@@ -559,9 +657,16 @@
           "body": "Mirrored strict audit decision from default state for task_real_robot_infra_factr_force_feedback; remaining work requires human action/credential/hardware/decision, not more autonomous dependency installation.",
           "created_at": "2026-05-29T02:22:50+08:00",
           "kind": "needs_user"
+        },
+        {
+          "comment_id": "comment_task_real_robot_infra_factr_force_feedback_intro_note_factr_procurement_route_purchase_through_jingte_intellig",
+          "author": "Boris / Codex",
+          "body": "Moved from previous Real-Robot Infra intro: FACTR procurement route: purchase through Jingte Intelligent; keep the dashboard task focused on procurement path, gravity compensation, and force-feedback safety value.",
+          "created_at": "2026-06-12T15:39:17+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-29T02:22:50+08:00",
+      "updated_at": "2026-06-12T15:39:17+08:00",
       "due_at": ""
     },
     {
@@ -4314,9 +4419,16 @@
           "body": "User correction on 2026-06-11: this belongs to DexGello, not General. Marking done: GELLO distal trigger has been replaced conceptually by ACE-style wrist ring + MANUS hand-pose path for the DexGello input stack.",
           "created_at": "2026-06-11T23:12:57+08:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "comment_task_real_robot_infra_ace_wrist_ring_intro_note_wrist_tracking_fallback_if_vive_tracker_is_not_used_for_",
+          "author": "Boris / Codex",
+          "body": "Moved from previous Real-Robot Infra intro: Wrist tracking fallback: if VIVE Tracker is not used for wrist pose, evaluate an ACE Teleop-style wrist ring to replace the Gello-end trigger as the wrist / intent input device.",
+          "created_at": "2026-06-12T15:39:17+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-11T23:12:57+08:00",
+      "updated_at": "2026-06-12T15:39:17+08:00",
       "due_at": "",
       "started_at": "2026-05-25",
       "completed_at": "2026-06-11"
@@ -4436,9 +4548,16 @@
           "body": "User confirmation on 2026-06-11: mark 改造 10T 硬盘为组内共享 NAS as done.",
           "created_at": "2026-06-11T23:12:02+08:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "comment_task_general_10t_hdd_nas_shared_storage_intro_note_shared_storage_update_the_completed_10t_hdd_group_nas_co",
+          "author": "Boris / Codex",
+          "body": "Moved from previous Real-Robot Infra intro: Shared storage update: the completed 10T HDD group NAS conversion is a Real-Robot Lab Infra shared-storage record. Future NAS permission, mount, backup, or maintenance changes should stay here as separate infra TODOs.",
+          "created_at": "2026-06-12T15:39:17+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-12T15:34:42+08:00",
+      "updated_at": "2026-06-12T15:39:17+08:00",
       "due_at": "",
       "completed_at": "2026-06-11"
     },
@@ -4988,9 +5107,16 @@
           "body": "Wrapper smoke ran on boris@100.70.181.44 and found imports/tty access, but both /dev/ttyUSB devices timed out with zero frames. Completing needs Linker TA/FFG hardware powered/configured and real serial frames.",
           "created_at": "2026-05-29T02:22:56+08:00",
           "kind": "needs_user"
+        },
+        {
+          "comment_id": "comment_task_real_robot_infra_linker_ta_ffg_wrapper_intro_note_missing_wrapper_linker_ta_linker_ffg_still_needs_a_local",
+          "author": "Boris / Codex",
+          "body": "Moved from previous Real-Robot Infra intro: Missing wrapper: Linker TA + Linker FFG still needs a local control wrapper before it can be treated as ready infra. The wrapper should expose connection/config, state readback, command open/close or position/force targets, error handling, and a smoke verifier.",
+          "created_at": "2026-06-12T15:39:17+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-29T02:23:41+08:00",
+      "updated_at": "2026-06-12T15:39:17+08:00",
       "completed_at": "2026-05-29"
     },
     {
@@ -5300,9 +5426,16 @@
           "body": "Moved from Real-Robot Infra to DexGello on 2026-06-12. cuRobo planning should be tracked as a DexGello control/planning dependency for Franka + Wuji demos rather than generic lab infra.",
           "created_at": "2026-06-12T15:10:30+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_task_real_robot_infra_franka_curobo_motion_planning_intro_note_dexgello_now_owns_the_wuji_franka_toy_knife_slime_clay_c",
+          "author": "Boris / Codex",
+          "body": "Moved from previous Real-Robot Infra intro: DexGello now owns the Wuji + Franka toy-knife slime-clay cutting demo and the Franka cuRobo planning migration. Real-Robot Infra should keep only shared hardware readiness and safety-gate support for those demos.",
+          "created_at": "2026-06-12T15:39:17+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-12T15:10:30+08:00"
+      "updated_at": "2026-06-12T15:39:17+08:00"
     },
     {
       "task_id": "task_real_robot_infra_me_control_two_hosts",
@@ -5328,9 +5461,16 @@
           "body": "Boris marked this done on 2026-06-12: ME Control Lab has now been supplemented with at least two hosts, so the previous one-host blocker is resolved.",
           "created_at": "2026-06-12T14:57:07+08:00",
           "kind": "completion"
+        },
+        {
+          "comment_id": "comment_task_real_robot_infra_me_control_two_hosts_intro_note_me_control_lab_host_expansion_is_now_marked_complete_at_",
+          "author": "Boris / Codex",
+          "body": "Moved from previous Real-Robot Infra intro: ME Control Lab host expansion is now marked complete: at least two hosts have been added for the lab, resolving the previous one-host blocker for real-time control, data capture, monitoring, cache/storage, GPU/USB/NIC needs, account/network setup, bound devices, and smoke validation.",
+          "created_at": "2026-06-12T15:39:17+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-12T14:57:07+08:00",
+      "updated_at": "2026-06-12T15:39:17+08:00",
       "started_at": "2026-06-11",
       "completed_at": "2026-06-12"
     },
@@ -5344,8 +5484,16 @@
       "assignee": "Yuhang & Jingxiang",
       "due_at": "",
       "result": null,
-      "comments": [],
-      "updated_at": "2026-05-29T19:44:01+08:00"
+      "comments": [
+        {
+          "comment_id": "comment_task_real_robot_infra_yam_aloha_setup_intro_note_yam_aloha_setup_is_grounded_in_asset_lv_rob_010_4_aloha_",
+          "author": "Boris / Codex",
+          "body": "Moved from previous Real-Robot Infra intro: YAM ALOHA setup is grounded in asset LV-ROB-010: 数量:4；aloha系统, location E2-01-04, status 搭建中.",
+          "created_at": "2026-06-12T15:39:17+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-06-12T15:39:17+08:00"
     },
     {
       "task_id": "task_real_robot_infra_wuji_franka_slime_cut_demo",
@@ -5371,9 +5519,16 @@
           "body": "Moved from Real-Robot Infra to DexGello on 2026-06-12. This is the DexGello dexterous-hand cutting demo; Real-Robot Infra only supplies the hardware/safety gate.",
           "created_at": "2026-06-12T15:06:53+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_task_real_robot_infra_wuji_franka_slime_cut_demo_intro_note_dexgello_now_owns_the_wuji_franka_toy_knife_slime_clay_c",
+          "author": "Boris / Codex",
+          "body": "Moved from previous Real-Robot Infra intro: DexGello now owns the Wuji + Franka toy-knife slime-clay cutting demo and the Franka cuRobo planning migration. Real-Robot Infra should keep only shared hardware readiness and safety-gate support for those demos.",
+          "created_at": "2026-06-12T15:39:17+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-12T15:06:53+08:00"
+      "updated_at": "2026-06-12T15:39:17+08:00"
     },
     {
       "task_id": "task_drag_demo_on_policy_gravity_comp_survey",
@@ -7097,9 +7252,16 @@
           "body": "Seeded from chat on 2026-06-11: Claude / Claude Code accounts are being banned too often; ME and SoC usage should be separated instead of frequently switching one account across physical locations. User asked to add TODO for Yuhang to reopen and recharge an account.",
           "created_at": "2026-06-11T23:16:25+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_task_general_claude_code_yuhang_account_recharge_intro_note_placement_update_2026_06_12_shared_nas_usb_camera_mounti",
+          "author": "Boris / Codex",
+          "body": "Moved from previous Real-Robot Infra intro: Placement update 2026-06-12: shared NAS, USB/camera mounting consumables, Claude Code account separation, API gateway procurement query, and ME Control Lab anti-vibration table assembly live here as lab infrastructure/tooling work.",
+          "created_at": "2026-06-12T15:39:17+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-12T15:34:42+08:00"
+      "updated_at": "2026-06-12T15:39:17+08:00"
     },
     {
       "task_id": "task_general_api_gateway_procurement_query",
@@ -7118,9 +7280,16 @@
           "body": "Seeded from chat on 2026-06-11: boss direction is buy if purchase is feasible; Karen needs to confirm reimbursement; DMXAPI candidate says enterprise users, trial credit after username registration, and pricing around official 68%. Treat as procurement inquiry until reimbursement/stability are verified.",
           "created_at": "2026-06-11T23:16:25+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_task_general_api_gateway_procurement_query_intro_note_placement_update_2026_06_12_shared_nas_usb_camera_mounti",
+          "author": "Boris / Codex",
+          "body": "Moved from previous Real-Robot Infra intro: Placement update 2026-06-12: shared NAS, USB/camera mounting consumables, Claude Code account separation, API gateway procurement query, and ME Control Lab anti-vibration table assembly live here as lab infrastructure/tooling work.",
+          "created_at": "2026-06-12T15:39:17+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-12T15:34:42+08:00"
+      "updated_at": "2026-06-12T15:39:17+08:00"
     },
     {
       "task_id": "task_general_me_control_lab_anti_vibration_table_assembly",
@@ -7139,9 +7308,16 @@
           "body": "User request on 2026-06-11: add General TODO to find a local manpower company / workers to assemble the ME Control Lab anti-vibration table. Context: repeated ME/SoC equipment moves are exhausting and should be reduced by using local labor where possible.",
           "created_at": "2026-06-11T23:16:25+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_task_general_me_control_lab_anti_vibration_table_assembly_intro_note_placement_update_2026_06_12_shared_nas_usb_camera_mounti",
+          "author": "Boris / Codex",
+          "body": "Moved from previous Real-Robot Infra intro: Placement update 2026-06-12: shared NAS, USB/camera mounting consumables, Claude Code account separation, API gateway procurement query, and ME Control Lab anti-vibration table assembly live here as lab infrastructure/tooling work.",
+          "created_at": "2026-06-12T15:39:17+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-12T15:34:42+08:00"
+      "updated_at": "2026-06-12T15:39:17+08:00"
     }
   ]
 }

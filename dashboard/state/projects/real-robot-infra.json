@@ -4,39 +4,16 @@
   "title": "Real-Robot Lab Infra",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-06-12T15:34:42+08:00",
+  "updated_at": "2026-06-12T15:39:17+08:00",
   "description": "Engineering stack for teleoperation, data collection, and robot-side validation",
-  "summary": "This is the engineering base that keeps weekly research work grounded in real data collection, linked hardware assets/resources, and real-robot validation.",
+  "summary": "Real-Robot Infra asset table: canonical hardware inventory, location, owner, and current readiness state for lab robot/data-collection assets.",
   "asset": "dashboard/assets/real-robot-infra-collage.png",
   "asset_alt": "Real-robot lab infrastructure hardware collage",
   "asset_caption": "Hardware matrix: ready systems, dual-Franka same-computer control, and planned glove / tracker teleoperation stack.",
   "visual": {
     "layout": "single-column"
   },
-  "details": [
-    "Ready inventory baseline: Linker FFG, UDCAP data glove, Cobot Magic / Piper-X, Linker Hand L6, and Daimon UMI.",
-    "Missing wrapper: Linker TA + Linker FFG still needs a local control wrapper before it can be treated as ready infra. The wrapper should expose connection/config, state readback, command open/close or position/force targets, error handling, and a smoke verifier.",
-    "Completed today: ARX / Fangzhou Wuxian real-robot infra setup.",
-    "ARX SOP received: Operation of ARX Robot Arm for Drag Teaching and Teleoperation Data Collection, JZ/SOP/ROB/001, issued 2026-05-23. It covers trained-operator responsibility, power-up, drag teaching, teleoperation, shutdown, and immediate stop conditions.",
-    "Progress on 2026-05-18: dual Franka arms can now be controlled from the same computer.",
-    "Progress on 2026-05-21: Gello-controlled dual Franka + Wuji Hand setup is complete. Current control treats the Wuji dexterous hand as a one-DoF gripper via Gello trigger open/close mapping.",
-    "Demo waterproofing consumables purchased: disposable nitrile gloves and finger cots for short demo protection.",
-    "DexGello now owns the MANUS + VIVE research input stack: infra keeps the completed Franka + Wuji + GELLO base and hardware availability, while DexGello tracks the decoupled q_arm / T_hand / q_finger verifier and dataset logger.",
-    "Before Feibo uses the Franka dexterous-hand setup for egg-cracking tests, cable-manage the setup with organizers / zip ties, clear an empty work area, and waterproof the outside area.",
-    "DexGello now owns the Wuji + Franka toy-knife slime-clay cutting demo and the Franka cuRobo planning migration. Real-Robot Infra should keep only shared hardware readiness and safety-gate support for those demos.",
-    "FACTR procurement route: purchase through Jingte Intelligent; keep the dashboard task focused on procurement path, gravity compensation, and force-feedback safety value.",
-    "Wrist tracking fallback: if VIVE Tracker is not used for wrist pose, evaluate an ACE Teleop-style wrist ring to replace the Gello-end trigger as the wrist / intent input device.",
-    "MANUS + VIVE merge update: the canonical verifier task has moved into DexGello because it is now part of the arm-hand-finger decoupled research system, not a generic infra checklist.",
-    "VIVE Tracker chest mount / strap purchase is complete and shipped, ETA 2026-06-16 to 2026-06-19 to COM2/NUS; use it to keep the CHEST tracker frame stable enough for calibration and replay.",
-    "VR teleoperation direction: implement a SteamVR/OpenVR input path for controlling Franka end-effector pose with controller / tracker / headset input, gated by calibration, workspace limits, velocity / acceleration caps, deadman switch, and E-stop readiness.",
-    "Canonical asset table linked: Real Robot Infra asset sheet gid 1134950065 contains 16 rows; key current assets include Franka Research 3, Wuji Hand, Wuji glove with D405 capture, YAM arms for ALOHA, D405 cameras, MANUS gloves, and VIVE trackers.",
-    "Hardware Resource Center is the canonical Notion target for manuals, SOPs, calibration notes, vendor PDFs, and hardware resource links; current connector access needs to be fixed before automated Notion content sync can verify page internals.",
-    "YAM ALOHA setup is grounded in asset LV-ROB-010: 数量:4；aloha系统, location E2-01-04, status 搭建中.",
-    "Wuji Glove is tracked as one canonical task: network smoke, timestamp logging, D405 capture wrapper, episode writer, and replay/loader verification are all acceptance items under task_real_robot_infra_wuji_glove.",
-    "ME Control Lab host expansion is now marked complete: at least two hosts have been added for the lab, resolving the previous one-host blocker for real-time control, data capture, monitoring, cache/storage, GPU/USB/NIC needs, account/network setup, bound devices, and smoke validation.",
-    "Placement update 2026-06-12: shared NAS, USB/camera mounting consumables, Claude Code account separation, API gateway procurement query, and ME Control Lab anti-vibration table assembly live here as lab infrastructure/tooling work.",
-    "Shared storage update: the completed 10T HDD group NAS conversion is a Real-Robot Lab Infra shared-storage record. Future NAS permission, mount, backup, or maintenance changes should stay here as separate infra TODOs."
-  ],
+  "details": [],
   "task_ids": [
     "task_real_robot_infra_arx_setup",
     "task_real_robot_infra_inventory",
@@ -80,7 +57,7 @@
       "label": "Real Robot Infra asset sheet",
       "kind": "google_sheet",
       "url": "https://docs.google.com/spreadsheets/d/1zujQRhscAfwhXTTl_avQwI8eNeOctk0Hl_e8S-Ak_CY/edit?gid=1134950065#gid=1134950065",
-      "notes": "gid 1134950065; read 16 rows on 2026-05-29T19:44:01+08:00."
+      "notes": "gid 1134950065; 17 rows reflected in dashboard intro table on 2026-06-12T15:39:17+08:00."
     },
     {
       "label": "Hardware Resource Center",
@@ -92,14 +69,104 @@
   "asset_inventory_snapshot": {
     "source_url": "https://docs.google.com/spreadsheets/d/1zujQRhscAfwhXTTl_avQwI8eNeOctk0Hl_e8S-Ak_CY/edit?gid=1134950065#gid=1134950065",
     "gid": "1134950065",
-    "read_at": "2026-05-29T19:44:01+08:00",
-    "row_count": 16,
-    "key_assets": [
+    "read_at": "2026-06-12T15:39:17+08:00",
+    "row_count": 17,
+    "assets": [
+      {
+        "资产编号": "LV-ROB-001",
+        "资产名称": "灵足自制双臂",
+        "规格型号/描述": "lkrs73-i2：灵足V2版本机械臂",
+        "登记日期": "4/13/2026",
+        "存放地点": "COM2-01-06",
+        "负责人": "Yuhang & Jingxiang",
+        "使用状态": "N.A.",
+        "备注": ""
+      },
+      {
+        "资产编号": "LV-ROB-002",
+        "资产名称": "遥操作穿戴臂",
+        "规格型号/描述": "Linker TA (LTA1-02)",
+        "登记日期": "4/13/2026",
+        "存放地点": "E2-01-04",
+        "负责人": "Yuhang & Jingxiang",
+        "使用状态": "搭建中",
+        "备注": ""
+      },
+      {
+        "资产编号": "LV-ROB-003",
+        "资产名称": "力反馈手外骨骼",
+        "规格型号/描述": "Linker FFG(FFG1-01)",
+        "登记日期": "4/13/2026",
+        "存放地点": "E2-01-04",
+        "负责人": "Yuhang & Jingxiang",
+        "使用状态": "Ready",
+        "备注": ""
+      },
+      {
+        "资产编号": "LV-ROB-004",
+        "资产名称": "手宇叠数据手套",
+        "规格型号/描述": "UDCAP智能超感数据手套",
+        "登记日期": "4/13/2026",
+        "存放地点": "E4-08-22",
+        "负责人": "Yuhang & Jingxiang",
+        "使用状态": "Ready",
+        "备注": "出借给 zhao lin组"
+      },
+      {
+        "资产编号": "GM-ROB-001",
+        "资产名称": "松灵Aloha 遥操臂平台",
+        "规格型号/描述": "双臂遥控操作平台Cobot Magic（Piper-X版本）",
+        "登记日期": "4/13/2026",
+        "存放地点": "E2-01-04",
+        "负责人": "Yuhang & Jingxiang",
+        "使用状态": "Ready",
+        "备注": "共用 w 周建树"
+      },
+      {
+        "资产编号": "LV-ROB-005",
+        "资产名称": "灵巧 6 自由度手",
+        "规格型号/描述": "Linker Hand L6",
+        "登记日期": "4/13/2026",
+        "存放地点": "E4-08-22",
+        "负责人": "Yuhang & Jingxiang",
+        "使用状态": "Ready",
+        "备注": "出借给 zhao lin组"
+      },
+      {
+        "资产编号": "LV-ROB-006",
+        "资产名称": "戴盟UMI采集系统",
+        "规格型号/描述": "Daimon UMI System",
+        "登记日期": "4/19/2026",
+        "存放地点": "E2-01-04",
+        "负责人": "Yuhang & Jingxiang",
+        "使用状态": "Ready",
+        "备注": ""
+      },
+      {
+        "资产编号": "LV-ROB-007",
+        "资产名称": "L515相机",
+        "规格型号/描述": "数量:2",
+        "登记日期": "4/21/2026",
+        "存放地点": "E2-01-04",
+        "负责人": "Yuhang & Jingxiang",
+        "使用状态": "Ready",
+        "备注": ""
+      },
       {
         "资产编号": "LV-ROB-008",
         "资产名称": "D405相机",
-        "规格型号/描述": "数量:6",
+        "规格型号/描述": "数量:8",
         "登记日期": "4/21/2026",
+        "存放地点": "E2-01-04",
+        "负责人": "Yuhang & Jingxiang",
+        "使用状态": "Ready",
+        "备注": ""
+      },
+      {
+        "资产编号": "LV-ROB-009",
+        "资产名称": "D435相机",
+        "规格型号/描述": "数量:1",
+        "登记日期": "6/12/2026",
         "存放地点": "E2-01-04",
         "负责人": "Yuhang & Jingxiang",
         "使用状态": "Ready",
@@ -137,6 +204,16 @@
       },
       {
         "资产编号": "LV-ROB-010",
+        "资产名称": "方舟无限臂",
+        "规格型号/描述": "数量:4；拖拽示教",
+        "登记日期": "5/29/2026",
+        "存放地点": "E2-01-04",
+        "负责人": "Yuhang & Jingxiang",
+        "使用状态": "Ready",
+        "备注": ""
+      },
+      {
+        "资产编号": "LV-ROB-011",
         "资产名称": "YAM臂",
         "规格型号/描述": "数量:4；aloha系统",
         "登记日期": "5/29/2026",
@@ -144,6 +221,236 @@
         "负责人": "Yuhang & Jingxiang",
         "使用状态": "搭建中",
         "备注": ""
+      },
+      {
+        "资产编号": "GM-ROB-005",
+        "资产名称": "Manus数据手套",
+        "规格型号/描述": "一对Manus Gloves Pro",
+        "登记日期": "5/29/2026",
+        "存放地点": "E2-01-04",
+        "负责人": "Yuhang & Jingxiang",
+        "使用状态": "搭建中",
+        "备注": "共用 w 周建树"
+      },
+      {
+        "资产编号": "GM-ROB-006",
+        "资产名称": "Vive Tracker",
+        "规格型号/描述": "数量:3；搭配基站",
+        "登记日期": "5/29/2026",
+        "存放地点": "E2-01-04",
+        "负责人": "Yuhang & Jingxiang",
+        "使用状态": "搭建中",
+        "备注": "共用 w 周建树"
+      }
+    ]
+  },
+  "intro_table": {
+    "kind": "asset_inventory_table",
+    "caption": "Real-Robot Infra asset inventory · 2026-06-12",
+    "columns": [
+      {
+        "key": "asset_id",
+        "label": "资产编号"
+      },
+      {
+        "key": "asset_name",
+        "label": "资产名称"
+      },
+      {
+        "key": "spec",
+        "label": "规格型号/描述"
+      },
+      {
+        "key": "registered_at",
+        "label": "登记日期"
+      },
+      {
+        "key": "location",
+        "label": "存放地点"
+      },
+      {
+        "key": "owner",
+        "label": "负责人"
+      },
+      {
+        "key": "status",
+        "label": "使用状态"
+      },
+      {
+        "key": "notes",
+        "label": "备注"
+      }
+    ],
+    "rows": [
+      {
+        "asset_id": "LV-ROB-001",
+        "asset_name": "灵足自制双臂",
+        "spec": "lkrs73-i2：灵足V2版本机械臂",
+        "registered_at": "4/13/2026",
+        "location": "COM2-01-06",
+        "owner": "Yuhang & Jingxiang",
+        "status": "N.A.",
+        "notes": ""
+      },
+      {
+        "asset_id": "LV-ROB-002",
+        "asset_name": "遥操作穿戴臂",
+        "spec": "Linker TA (LTA1-02)",
+        "registered_at": "4/13/2026",
+        "location": "E2-01-04",
+        "owner": "Yuhang & Jingxiang",
+        "status": "搭建中",
+        "notes": ""
+      },
+      {
+        "asset_id": "LV-ROB-003",
+        "asset_name": "力反馈手外骨骼",
+        "spec": "Linker FFG(FFG1-01)",
+        "registered_at": "4/13/2026",
+        "location": "E2-01-04",
+        "owner": "Yuhang & Jingxiang",
+        "status": "Ready",
+        "notes": ""
+      },
+      {
+        "asset_id": "LV-ROB-004",
+        "asset_name": "手宇叠数据手套",
+        "spec": "UDCAP智能超感数据手套",
+        "registered_at": "4/13/2026",
+        "location": "E4-08-22",
+        "owner": "Yuhang & Jingxiang",
+        "status": "Ready",
+        "notes": "出借给 zhao lin组"
+      },
+      {
+        "asset_id": "GM-ROB-001",
+        "asset_name": "松灵Aloha 遥操臂平台",
+        "spec": "双臂遥控操作平台Cobot Magic（Piper-X版本）",
+        "registered_at": "4/13/2026",
+        "location": "E2-01-04",
+        "owner": "Yuhang & Jingxiang",
+        "status": "Ready",
+        "notes": "共用 w 周建树"
+      },
+      {
+        "asset_id": "LV-ROB-005",
+        "asset_name": "灵巧 6 自由度手",
+        "spec": "Linker Hand L6",
+        "registered_at": "4/13/2026",
+        "location": "E4-08-22",
+        "owner": "Yuhang & Jingxiang",
+        "status": "Ready",
+        "notes": "出借给 zhao lin组"
+      },
+      {
+        "asset_id": "LV-ROB-006",
+        "asset_name": "戴盟UMI采集系统",
+        "spec": "Daimon UMI System",
+        "registered_at": "4/19/2026",
+        "location": "E2-01-04",
+        "owner": "Yuhang & Jingxiang",
+        "status": "Ready",
+        "notes": ""
+      },
+      {
+        "asset_id": "LV-ROB-007",
+        "asset_name": "L515相机",
+        "spec": "数量:2",
+        "registered_at": "4/21/2026",
+        "location": "E2-01-04",
+        "owner": "Yuhang & Jingxiang",
+        "status": "Ready",
+        "notes": ""
+      },
+      {
+        "asset_id": "LV-ROB-008",
+        "asset_name": "D405相机",
+        "spec": "数量:8",
+        "registered_at": "4/21/2026",
+        "location": "E2-01-04",
+        "owner": "Yuhang & Jingxiang",
+        "status": "Ready",
+        "notes": ""
+      },
+      {
+        "asset_id": "LV-ROB-009",
+        "asset_name": "D435相机",
+        "spec": "数量:1",
+        "registered_at": "6/12/2026",
+        "location": "E2-01-04",
+        "owner": "Yuhang & Jingxiang",
+        "status": "Ready",
+        "notes": ""
+      },
+      {
+        "asset_id": "GM-ROB-002",
+        "asset_name": "Franka机械臂",
+        "spec": "Franka Research 3",
+        "registered_at": "5/29/2026",
+        "location": "E2-01-04",
+        "owner": "Yuhang & Jingxiang",
+        "status": "Ready",
+        "notes": "共用 w 周建树"
+      },
+      {
+        "asset_id": "GM-ROB-003",
+        "asset_name": "Wuji灵巧手",
+        "spec": "Wuji Hand 第一代",
+        "registered_at": "5/29/2026",
+        "location": "E2-01-04",
+        "owner": "Yuhang & Jingxiang",
+        "status": "Ready",
+        "notes": "共用 w 周建树"
+      },
+      {
+        "asset_id": "GM-ROB-004",
+        "asset_name": "Wuji手套",
+        "spec": "各装一个D405做数采",
+        "registered_at": "5/29/2026",
+        "location": "E2-01-04",
+        "owner": "Yuhang & Jingxiang",
+        "status": "Ready",
+        "notes": "共用 w 周建树"
+      },
+      {
+        "asset_id": "LV-ROB-010",
+        "asset_name": "方舟无限臂",
+        "spec": "数量:4；拖拽示教",
+        "registered_at": "5/29/2026",
+        "location": "E2-01-04",
+        "owner": "Yuhang & Jingxiang",
+        "status": "Ready",
+        "notes": ""
+      },
+      {
+        "asset_id": "LV-ROB-011",
+        "asset_name": "YAM臂",
+        "spec": "数量:4；aloha系统",
+        "registered_at": "5/29/2026",
+        "location": "E2-01-04",
+        "owner": "Yuhang & Jingxiang",
+        "status": "搭建中",
+        "notes": ""
+      },
+      {
+        "asset_id": "GM-ROB-005",
+        "asset_name": "Manus数据手套",
+        "spec": "一对Manus Gloves Pro",
+        "registered_at": "5/29/2026",
+        "location": "E2-01-04",
+        "owner": "Yuhang & Jingxiang",
+        "status": "搭建中",
+        "notes": "共用 w 周建树"
+      },
+      {
+        "asset_id": "GM-ROB-006",
+        "asset_name": "Vive Tracker",
+        "spec": "数量:3；搭配基站",
+        "registered_at": "5/29/2026",
+        "location": "E2-01-04",
+        "owner": "Yuhang & Jingxiang",
+        "status": "搭建中",
+        "notes": "共用 w 周建树"
       }
     ]
   }

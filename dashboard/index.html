@@ -655,7 +655,7 @@
         }
 
         function createProjectIntroTable(tableConfig) {
-          if (!tableConfig || tableConfig.kind !== "procurement_table" || !Array.isArray(tableConfig.rows)) {
+          if (!tableConfig || !Array.isArray(tableConfig.rows)) {
             return null;
           }
           const columns = Array.isArray(tableConfig.columns) && tableConfig.columns.length > 0
@@ -674,6 +674,9 @@
           wrapper.className = "project-intro-table-wrap";
           const table = document.createElement("table");
           table.className = "project-intro-table";
+          if (tableConfig.kind) {
+            table.dataset.kind = tableConfig.kind;
+          }
           if (tableConfig.caption) {
             const caption = document.createElement("caption");
             caption.textContent = tableConfig.caption;
@@ -1364,7 +1367,8 @@
           }
           const details = Array.isArray(projectDoc.details) ? projectDoc.details : [];
           const textLength = `${richTextPlainText(projectDoc.summary || "")} ${projectIntroTablePlainText(projectDoc.intro_table)} ${details.map(richTextPlainText).join(" ")}`.length;
-          const shouldCollapse = textLength > 620 || details.length > 4;
+          const tableOnlyIntro = Boolean(projectDoc.intro_table) && details.length === 0;
+          const shouldCollapse = !tableOnlyIntro && (textLength > 620 || details.length > 4);
           const stateKey = `project:${projectDoc.project_id}:intro`;
           intro.dataset.textCollapseKey = stateKey;
           let toggle = intro.parentElement?.querySelector(":scope > .project-intro-toggle");
