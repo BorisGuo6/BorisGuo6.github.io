@@ -2720,10 +2720,10 @@
       "project_id": "superhuman-rate-curve-teleop",
       "title": "Run DAgger -> SFT -> RL pilot",
       "description": "Use force / tactile signals to detect unsafe or unstable rollouts and request correction, train the SFT base, then RL-tune only smoother and faster execution; compare operation types to see which benefit from acceleration.",
-      "status": "needs_user",
+      "status": "done",
       "priority": "high",
       "assignee": "shaol@100.96.228.8",
-      "result": null,
+      "result": "Archived as inactive Survey TODO on 2026-06-12. This remains background/scoping material, but it is no longer an active dashboard TODO.",
       "started_at": "2026-05-16",
       "due_at": "2026-05-23",
       "comments": [
@@ -2810,10 +2810,17 @@
           "body": "New project framing: human demo data should be treated as path, phase, contact-event, and safety priors, not as the direct source of superhuman execution. The superhuman part likely requires RL finetune on top of SFT / retiming, with rewards for completion time, velocity profile, recovery behavior, smoothness, and strict force / tactile / event guardrails. Hardware is part of the claim: Wuji should be paired with a robot arm whose servo bandwidth, velocity, acceleration, and latency can approach human real-time execution; Flexiv / 非夕-style arms are a candidate to evaluate before claiming speed beyond replay.",
           "created_at": "2026-06-09T02:22:25+08:00",
           "kind": "framing_note"
+        },
+        {
+          "comment_id": "comment_task_rate_curve_rl_inactive_archive_20260612",
+          "author": "Boris / Codex",
+          "body": "Survey cleanup 2026-06-12: marked inactive/archived so Survey cards do not carry active TODOs. Reopen as a new Research/Engineering TODO only after a concrete owner and experiment are chosen.",
+          "created_at": "2026-06-12T15:13:20+08:00",
+          "kind": "archive"
         }
       ],
-      "updated_at": "2026-06-09T02:22:10+08:00",
-      "completed_at": "2026-05-29"
+      "updated_at": "2026-06-12T15:13:20+08:00",
+      "completed_at": "2026-06-12"
     },
     {
       "task_id": "task_hoi_pnp_calibration",
@@ -5617,11 +5624,11 @@
       "project_id": "model-assisted-teleop-survey",
       "title": "Build model-assisted teleop survey matrix",
       "description": "Compare TelePhantom, UMI2Render2Real, low-cost UMI, contact-annotated video models, and video-to-state routes. Acceptance: table with input signals, output prediction, demo task, data needs, evaluation metric, and first on/off preview experiment.",
-      "status": "needs_user",
+      "status": "done",
       "priority": "high",
       "assignee": "Boris / Codex",
       "due_at": "2026-06-08",
-      "result": null,
+      "result": "Archived inactive with the Model-Assisted Teleoperation survey on 2026-06-12. The ICRA 2026 Foundational World Models failure-detection paper covers the core runtime teleop risk-monitor direction closely enough that this is no longer an active dashboard TODO.",
       "comments": [
         {
           "comment_id": "comment_model_assisted_teleop_ideas_20260530",
@@ -5650,20 +5657,28 @@
           "body": "ICRA 2026 poster reference from user: Foundational World Models Accurately Detect Bimanual Manipulator Failures (arXiv:2603.06987), Stanford / Watney / TRI. Key relevance: the first assisted-teleop loop can be a runtime failure monitor rather than a full future-video preview. The paper trains a probabilistic, history-informed world model in NVIDIA Cosmos Tokenizer latent space using nominal bimanual manipulation trajectories; uses uncertainty and prediction error as nonconformity scores; calibrates thresholds with conformal prediction without failure data; and detects real bimanual cable-drop failures. Reported evidence: Bimanual Cable Manipulation dataset with synchronized camera views plus proprio/action, ~569.7k trainable parameters, ~92% weighted classification accuracy on the real dataset, and real-time inference around 11 Hz on H100 in the poster. Recommendation: update the matrix to add a Cosmos-latent failure-monitor route and treat it as the first operator-facing on/off experiment for warning lead time, false alarm rate, and correction success.",
           "created_at": "2026-06-05T00:03:53+02:00",
           "kind": "research"
+        },
+        {
+          "comment_id": "comment_task_model_assisted_teleop_survey_matrix_inactive_archive_20260612",
+          "author": "Boris / Codex",
+          "body": "Survey cleanup 2026-06-12: archived inactive together with the Model-Assisted Teleoperation project because the ICRA 2026 Foundational World Models failure-detection work already implements the main Cosmos-latent teleop failure-monitor direction.",
+          "created_at": "2026-06-12T15:13:20+08:00",
+          "kind": "archive"
         }
       ],
-      "updated_at": "2026-06-05T00:03:53+02:00"
+      "updated_at": "2026-06-12T15:13:20+08:00",
+      "completed_at": "2026-06-12"
     },
     {
       "task_id": "task_model_assisted_teleop_failure_monitor_prototype",
       "project_id": "model-assisted-teleop-survey",
       "title": "Prototype Cosmos-latent teleop failure monitor",
       "description": "Use the ICRA 2026 Foundational World Models failure-detection paper as the first concrete Model-Assisted Teleoperation loop. Build a minimal offline prototype that takes nominal teleop episodes, encodes multi-view video plus robot state/action history, trains a compact probabilistic world model or a documented Cosmos-tokenizer fallback, calibrates a conformal threshold on nominal validation clips, and overlays an uncertainty / nonconformity warning on held-out normal and induced-failure clips. Acceptance: source paper notes; exact data schema; at least one recorded or synthetic contact-rich task candidate such as cable/plug, slime-meat cutting, insertion, or handoff; command log; plots of uncertainty/error over time; false-positive estimate on nominal clips; warning lead-time estimate on failure/near-failure clips; and a dashboard recommendation on whether to promote this survey card into an engineering prototype.",
-      "status": "active",
+      "status": "done",
       "priority": "high",
       "assignee": "Boris / Codex",
       "due_at": "2026-06-12",
-      "result": null,
+      "result": "Archived inactive with the Model-Assisted Teleoperation survey on 2026-06-12. The ICRA 2026 Foundational World Models failure-detection paper covers the core runtime teleop risk-monitor direction closely enough that this is no longer an active dashboard TODO.",
       "comments": [
         {
           "comment_id": "comment_model_assisted_teleop_failure_monitor_seed_20260605",
@@ -5678,20 +5693,28 @@
           "body": "Mainline bridge: reuse this failure-monitor prototype as an input to Tri-View UMI failure attribution via task_umi_teleop_failure_monitor_bridge. Keep the Survey task active until it produces runnable warning lead-time / false-positive evidence.",
           "created_at": "2026-06-05T00:58:00+02:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_task_model_assisted_teleop_failure_monitor_prototype_inactive_archive_20260612",
+          "author": "Boris / Codex",
+          "body": "Survey cleanup 2026-06-12: archived inactive together with the Model-Assisted Teleoperation project because the ICRA 2026 Foundational World Models failure-detection work already implements the main Cosmos-latent teleop failure-monitor direction.",
+          "created_at": "2026-06-12T15:13:20+08:00",
+          "kind": "archive"
         }
       ],
-      "updated_at": "2026-06-05T00:58:00+02:00"
+      "updated_at": "2026-06-12T15:13:20+08:00",
+      "completed_at": "2026-06-12"
     },
     {
       "task_id": "task_vtla_tactile_intuition_survey_map",
       "project_id": "vtla-tactile-intuition-survey",
       "title": "Map VTLA tactile-intuition problem space",
       "description": "Turn EgoVTLA, Tactile-Bolt, tactile memory, RobotCooking, and tactile-as-oracle notes into a representation / dataset / benchmark map. Proximity sensing / FingerEye is now archived as externally covered. Acceptance: choose first benchmark family and list required sensors, labels, and success metrics.",
-      "status": "needs_user",
+      "status": "done",
       "priority": "high",
       "assignee": "Boris / Codex",
       "due_at": "2026-06-09",
-      "result": null,
+      "result": "Archived as inactive Survey TODO on 2026-06-12. This remains background/scoping material, but it is no longer an active dashboard TODO.",
       "comments": [
         {
           "comment_id": "comment_vtla_tactile_sources_20260530",
@@ -5727,20 +5750,28 @@
           "body": "Mainline bridge: contact-rich insertion / fine-alignment is now split into task_umi_vtla_contact_failure_eval_bridge and task_self_improving_contact_curriculum_bridge. This Survey task remains needs_user only for the sensor/hardware route decision.",
           "created_at": "2026-06-05T00:58:00+02:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_task_vtla_tactile_intuition_survey_map_inactive_archive_20260612",
+          "author": "Boris / Codex",
+          "body": "Survey cleanup 2026-06-12: marked inactive/archived so Survey cards do not carry active TODOs. Reopen as a new Research/Engineering TODO only after a concrete owner and experiment are chosen.",
+          "created_at": "2026-06-12T15:13:20+08:00",
+          "kind": "archive"
         }
       ],
-      "updated_at": "2026-06-05T00:58:00+02:00"
+      "updated_at": "2026-06-12T15:13:20+08:00",
+      "completed_at": "2026-06-12"
     },
     {
       "task_id": "task_human_intention_sensorium_xla_proposal",
       "project_id": "human-intention-sensorium-survey",
       "title": "Write XLA human-intention data-collection proposal",
       "description": "Turn Boris' ordered human-data-capture idea into a complete proposal for an XLA-style multimodal latent action / intention model. Preserve the priority order: eye tracking, EMG, EEG, wrist muscle ultrasound, wrist cameras, tactile, whole-body pose, proximity, temperature, vibration, multichannel audio / source localization, smell, and taste. Acceptance: proposal includes motivation, target robot-learning labels, ordered modality rationale, XLA input/output schema, sync/calibration/privacy requirements, v0 capture rig, ablation plan, task families where low-priority sensors become useful, and a partner discussion checklist for Zhiyuan / Mifeng Tech-style data-capture hardware.",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignee": "Boris / Codex",
       "due_at": "2026-06-16",
-      "result": null,
+      "result": "Archived as inactive Survey TODO on 2026-06-12. This remains background/scoping material, but it is no longer an active dashboard TODO.",
       "comments": [
         {
           "comment_id": "comment_human_intention_sensorium_seed_20260609",
@@ -5769,9 +5800,17 @@
           "body": "Saved user's philosophy note: robots are practical, so the proposal should not abandon any useful data source, including LLM/VLM/video-generation priors, human ego data, UMI, teleoperation, simulation, wearable capture, or YouTube-scale video. The explicit missing source is human-robot collaboration data: shared episodes with instruction, intent transfer, intervention, correction, handoff, and recovery.",
           "created_at": "2026-06-09T02:12:00+08:00",
           "kind": "framing_note"
+        },
+        {
+          "comment_id": "comment_task_human_intention_sensorium_xla_proposal_inactive_archive_20260612",
+          "author": "Boris / Codex",
+          "body": "Survey cleanup 2026-06-12: marked inactive/archived so Survey cards do not carry active TODOs. Reopen as a new Research/Engineering TODO only after a concrete owner and experiment are chosen.",
+          "created_at": "2026-06-12T15:13:20+08:00",
+          "kind": "archive"
         }
       ],
-      "updated_at": "2026-06-09T02:12:00+08:00"
+      "updated_at": "2026-06-12T15:13:20+08:00",
+      "completed_at": "2026-06-12"
     },
     {
       "task_id": "task_cross_embodiment_representation_table",
@@ -5864,11 +5903,11 @@
       "project_id": "open-hardware-mobile-collection-survey",
       "title": "Score open-hardware collection platforms",
       "description": "Compare OpenArm, AmazingHand, mobile dual-arm base concepts, dense dexterous hands, and low-cost humanoid/mobile platforms. Acceptance: decision table with cost, build risk, sensing, calibration, safety, and compatibility with UMI/HOI/VTLA schemas.",
-      "status": "todo",
+      "status": "done",
       "priority": "medium",
       "assignee": "Boris / Codex",
       "due_at": "2026-06-14",
-      "result": null,
+      "result": "Archived as inactive Survey TODO on 2026-06-12. This remains background/scoping material, but it is no longer an active dashboard TODO.",
       "comments": [
         {
           "comment_id": "comment_open_hardware_sources_20260530",
@@ -5876,9 +5915,17 @@
           "body": "References checked: OpenArm, AmazingHand, AhaRobot, Berkeley Humanoid Lite, and adjacent open-hand/humanoid hardware references. Build/no-build should be based on data value per setup hour.",
           "created_at": "2026-05-30T23:59:00+02:00",
           "kind": "research"
+        },
+        {
+          "comment_id": "comment_task_open_hardware_collection_decision_table_inactive_archive_20260612",
+          "author": "Boris / Codex",
+          "body": "Survey cleanup 2026-06-12: marked inactive/archived so Survey cards do not carry active TODOs. Reopen as a new Research/Engineering TODO only after a concrete owner and experiment are chosen.",
+          "created_at": "2026-06-12T15:13:20+08:00",
+          "kind": "archive"
         }
       ],
-      "updated_at": "2026-05-30T23:59:00+02:00"
+      "updated_at": "2026-06-12T15:13:20+08:00",
+      "completed_at": "2026-06-12"
     },
     {
       "task_id": "task_fracture_soft_wrist_benchmark_scope",
@@ -6741,10 +6788,10 @@
       "project_id": "online-sensor-calibration-survey",
       "title": "形成 sensor online calibration v0 spec / benchmark",
       "description": "把 online sensor calibration / drift adaptation 点子落成可执行 v0 spec。范围包括温度、磁场、光照、震动、warm-up、安装变化、老化导致的 camera/RGB-D/IMU/magnetometer/tactile/force/proximity 漂移。Acceptance: 1) 列出每类 sensor 的可学习 calibration state、可观测信号、不可观测/退回条件；2) 明确 classical offline calibration anchor + learning residual 的方法，而不是让神经网络静默改标定；3) 设计 D405/RGB-D + fiducial/robot-FK 的最小 benchmark，覆盖 warm-up、lighting、slight remount、magnetic/electrical interference；4) 指标包括 reprojection error、depth-RGB alignment、robot-frame pose error、VIO/SLAM residual、downstream policy/world-model sensitivity、false correction rate；5) 输出 episode manifest 字段：calib_state、confidence、observability、correction_delta、rollback/recapture flag；6) 给出接入 Real-Robot Infra、UMI/Tri-View、VTLA、Human Intention XLA 的边界。",
-      "status": "todo",
+      "status": "done",
       "priority": "medium",
       "assignee": "Boris / Codex",
-      "result": null,
+      "result": "Archived as inactive Survey TODO on 2026-06-12. This remains background/scoping material, but it is no longer an active dashboard TODO.",
       "comments": [
         {
           "comment_id": "comment_online_sensor_calibration_seed_20260609",
@@ -6759,11 +6806,18 @@
           "body": "Initial refs checked: learning-based camera calibration survey, online VINS self-calibration and degeneracy, CalibNet, DST-Calib, Deep-BrownConrady, calibration tokens, Basler thermal drift correction, online photometric calibration, dynamic magnetometer calibration, MAGYC, online MEMS calibration, tactile drift/error analysis, and F/T temperature compensation.",
           "created_at": "2026-06-09T02:12:13+08:00",
           "kind": "reference_update"
+        },
+        {
+          "comment_id": "comment_task_online_sensor_calibration_survey_spec_inactive_archive_20260612",
+          "author": "Boris / Codex",
+          "body": "Survey cleanup 2026-06-12: marked inactive/archived so Survey cards do not carry active TODOs. Reopen as a new Research/Engineering TODO only after a concrete owner and experiment are chosen.",
+          "created_at": "2026-06-12T15:13:20+08:00",
+          "kind": "archive"
         }
       ],
-      "updated_at": "2026-06-09T02:12:13+08:00",
+      "updated_at": "2026-06-12T15:13:20+08:00",
       "due_at": "",
-      "completed_at": null
+      "completed_at": "2026-06-12"
     },
     {
       "task_id": "task_dex_gello_system_design",
@@ -6864,10 +6918,10 @@
       "project_id": "tactile-wam",
       "title": "写清 Tactile-WAM 三段 demo proposal spec",
       "description": "把 Wuji proposal 讨论整理成可讲清的 3-demo spec：Demo 3 外部摄像头观测人手并 retarget 控制视频模型里的机械臂+机械手；Demo 1 从上一步生成视频里估计 tactile / contact / pressure / slip；最终把整体预测世界模型接 action head，输出可执行 action，成为 WAM。验收：1 页 proposal summary、系统图、输入/输出定义、三个 demo 的最小可行标准和数据需求。",
-      "status": "active",
+      "status": "done",
       "priority": "high",
       "assignee": "Boris / Wuji discussion",
-      "result": null,
+      "result": "Archived as inactive Survey TODO on 2026-06-12. This remains background/scoping material, but it is no longer an active dashboard TODO.",
       "started_at": "2026-06-11",
       "due_at": "",
       "comments": [
@@ -6877,79 +6931,132 @@
           "body": "Seeded from the 2026-06-11 Wuji proposal discussion. User-provided demo references are preserved in the Tactile-WAM project references; full viewing may require Xiaohongshu / WeChat app access.",
           "created_at": "2026-06-11T23:05:06+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_task_tactile_wam_proposal_spec_inactive_archive_20260612",
+          "author": "Boris / Codex",
+          "body": "Survey cleanup 2026-06-12: marked inactive/archived so Survey cards do not carry active TODOs. Reopen as a new Research/Engineering TODO only after a concrete owner and experiment are chosen.",
+          "created_at": "2026-06-12T15:13:20+08:00",
+          "kind": "archive"
         }
       ],
-      "updated_at": "2026-06-11T23:05:06+08:00"
+      "updated_at": "2026-06-12T15:13:20+08:00",
+      "completed_at": "2026-06-12"
     },
     {
       "task_id": "task_tactile_wam_external_camera_retarget_demo",
       "project_id": "tactile-wam",
       "title": "Demo 3: 外部摄像头人手 retarget 控制 robot video model",
       "description": "做一个 video-model demo：外部摄像头看人手/手臂动作，估计 hand/arm pose 或 motion tokens，retarget 成机械臂+机械手的控制条件，让视频世界模型生成机器人执行同一交互的 rollout。验收：输入视频、retarget tokens、robot arm+hand generated video、对齐可视化、失败案例；v0 可以先 mock video model，不要求立刻真机闭环。",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignee": "Boris / Wuji",
-      "result": null,
+      "result": "Archived as inactive Survey TODO on 2026-06-12. This remains background/scoping material, but it is no longer an active dashboard TODO.",
       "started_at": "",
       "due_at": "",
-      "comments": [],
-      "updated_at": "2026-06-11T23:05:06+08:00"
+      "comments": [
+        {
+          "comment_id": "comment_task_tactile_wam_external_camera_retarget_demo_inactive_archive_20260612",
+          "author": "Boris / Codex",
+          "body": "Survey cleanup 2026-06-12: marked inactive/archived so Survey cards do not carry active TODOs. Reopen as a new Research/Engineering TODO only after a concrete owner and experiment are chosen.",
+          "created_at": "2026-06-12T15:13:20+08:00",
+          "kind": "archive"
+        }
+      ],
+      "updated_at": "2026-06-12T15:13:20+08:00",
+      "completed_at": "2026-06-12"
     },
     {
       "task_id": "task_tactile_wam_video_to_tactile_model",
       "project_id": "tactile-wam",
       "title": "Demo 1: 从 robot video 估计 tactile world model",
       "description": "从真实或生成的机器人视频里估计 tactile 序列：contact/no-contact、contact patch、pressure/force proxy、slip risk、contact transition。优先用 Wuji glove/hand tactile 或现有 tactile dataset 做监督，先做离线 frame/clip-level predictor，再接到视频世界模型 rollout。验收：数据 schema、监督信号来源、baseline predictor、tactile map visualization、与真实 tactile 对齐指标。",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignee": "Boris / Wuji",
-      "result": null,
+      "result": "Archived as inactive Survey TODO on 2026-06-12. This remains background/scoping material, but it is no longer an active dashboard TODO.",
       "started_at": "",
       "due_at": "",
-      "comments": [],
-      "updated_at": "2026-06-11T23:05:06+08:00"
+      "comments": [
+        {
+          "comment_id": "comment_task_tactile_wam_video_to_tactile_model_inactive_archive_20260612",
+          "author": "Boris / Codex",
+          "body": "Survey cleanup 2026-06-12: marked inactive/archived so Survey cards do not carry active TODOs. Reopen as a new Research/Engineering TODO only after a concrete owner and experiment are chosen.",
+          "created_at": "2026-06-12T15:13:20+08:00",
+          "kind": "archive"
+        }
+      ],
+      "updated_at": "2026-06-12T15:13:20+08:00",
+      "completed_at": "2026-06-12"
     },
     {
       "task_id": "task_tactile_wam_action_head",
       "project_id": "tactile-wam",
       "title": "把预测世界模型扩展成输出 action 的 WAM",
       "description": "在 video+tactile predictive model 上加 action head，让模型不仅预测未来视频/触觉，也输出实现该未来的 robot action。先定义 action 空间：arm delta pose / joint delta、hand qpos、gripper/contact primitive 或 latent action；再比较 IDM decoding、behavior cloning head、planning-in-latent 三条路线。验收：action-space spec、offline action reconstruction、held-out action error、rollout consistency 和 go/no-go 结论。",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignee": "Boris / Wuji",
-      "result": null,
+      "result": "Archived as inactive Survey TODO on 2026-06-12. This remains background/scoping material, but it is no longer an active dashboard TODO.",
       "started_at": "",
       "due_at": "",
-      "comments": [],
-      "updated_at": "2026-06-11T23:05:06+08:00"
+      "comments": [
+        {
+          "comment_id": "comment_task_tactile_wam_action_head_inactive_archive_20260612",
+          "author": "Boris / Codex",
+          "body": "Survey cleanup 2026-06-12: marked inactive/archived so Survey cards do not carry active TODOs. Reopen as a new Research/Engineering TODO only after a concrete owner and experiment are chosen.",
+          "created_at": "2026-06-12T15:13:20+08:00",
+          "kind": "archive"
+        }
+      ],
+      "updated_at": "2026-06-12T15:13:20+08:00",
+      "completed_at": "2026-06-12"
     },
     {
       "task_id": "task_tactile_wam_wuji_data_alignment",
       "project_id": "tactile-wam",
       "title": "整理 Wuji tactile / video / action 对齐数据需求",
       "description": "确定 Tactile-WAM 需要的真实监督数据：外部 RGB/RGB-D、robot wrist/hand video、robot state/action、Wuji hand qpos、tactile frames、timestamps、calibration snapshot。复用 DexGello / Real Robot Infra 的 logger，但要额外保证 high-frequency tactile 与 video/action 对齐。验收：episode schema、最小采集脚本入口、同步 drift 指标、一个短 episode 的可视化报告。",
-      "status": "todo",
+      "status": "done",
       "priority": "medium",
       "assignee": "Boris / Wuji / DexGello",
-      "result": null,
+      "result": "Archived as inactive Survey TODO on 2026-06-12. This remains background/scoping material, but it is no longer an active dashboard TODO.",
       "started_at": "",
       "due_at": "",
-      "comments": [],
-      "updated_at": "2026-06-11T23:05:06+08:00"
+      "comments": [
+        {
+          "comment_id": "comment_task_tactile_wam_wuji_data_alignment_inactive_archive_20260612",
+          "author": "Boris / Codex",
+          "body": "Survey cleanup 2026-06-12: marked inactive/archived so Survey cards do not carry active TODOs. Reopen as a new Research/Engineering TODO only after a concrete owner and experiment are chosen.",
+          "created_at": "2026-06-12T15:13:20+08:00",
+          "kind": "archive"
+        }
+      ],
+      "updated_at": "2026-06-12T15:13:20+08:00",
+      "completed_at": "2026-06-12"
     },
     {
       "task_id": "task_tactile_wam_eval_protocol",
       "project_id": "tactile-wam",
       "title": "定义 Tactile-WAM 评估协议",
       "description": "定义 Tactile-WAM 不同阶段的验收指标：robot video controllability、tactile prediction accuracy/contact timing、action reconstruction/executability、closed-loop contact success。优先选择 tactile 真正有价值的任务：pressing、wiping、grasp adjustment、slip recovery、cutting/peeling、insertion/assembly。验收：任务表、指标表、baseline 列表、首个 benchmark family 决策。",
-      "status": "todo",
+      "status": "done",
       "priority": "medium",
       "assignee": "Boris / Wuji",
-      "result": null,
+      "result": "Archived as inactive Survey TODO on 2026-06-12. This remains background/scoping material, but it is no longer an active dashboard TODO.",
       "started_at": "",
       "due_at": "",
-      "comments": [],
-      "updated_at": "2026-06-11T23:05:06+08:00"
+      "comments": [
+        {
+          "comment_id": "comment_task_tactile_wam_eval_protocol_inactive_archive_20260612",
+          "author": "Boris / Codex",
+          "body": "Survey cleanup 2026-06-12: marked inactive/archived so Survey cards do not carry active TODOs. Reopen as a new Research/Engineering TODO only after a concrete owner and experiment are chosen.",
+          "created_at": "2026-06-12T15:13:20+08:00",
+          "kind": "archive"
+        }
+      ],
+      "updated_at": "2026-06-12T15:13:20+08:00",
+      "completed_at": "2026-06-12"
     },
     {
       "task_id": "task_general_claude_code_yuhang_account_recharge",
