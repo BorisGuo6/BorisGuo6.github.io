@@ -4,7 +4,7 @@
   "title": "General",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-06-12T15:19:41+08:00",
+  "updated_at": "2026-06-12T15:29:02+08:00",
   "description": "General engineering backlog for cross-project tasks",
   "summary": "General hardware procurement live list: current purchase status, route, and non-sensitive logistics notes for lab support items.",
   "intro_table": {
@@ -38,49 +38,49 @@
       },
       {
         "item": "Tracker quick-release / headset top fixed base",
-        "status": "Waiting Yan-laoshi confirmation",
+        "status": "Waiting Yan confirmation",
         "route": "Taobao · ship to NUS/COM2",
         "notes": "For Tracker / PICO4 / Quest 3 headset mounting in human-centric VR data collection.",
         "url": "https://e.tb.cn/h.Rl33zrrJA2MA00z?tk=FiDjg3jsslw"
       },
       {
         "item": "Cymple face-capture / eye-tracking device",
-        "status": "Waiting Yan-laoshi confirmation",
+        "status": "Waiting Yan confirmation",
         "route": "Taobao · ship to NUS/COM2",
         "notes": "VRChat-style face and eye capture candidate for human-centric data collection.",
         "url": "https://e.tb.cn/h.Rl342xxPRXd9dZh?tk=Shbhg3jtYXA"
       },
       {
         "item": "HIG gesture-recognition data glove",
-        "status": "Waiting Yan-laoshi confirmation",
+        "status": "Waiting Yan confirmation",
         "route": "Taobao · ship to NUS/COM2",
         "notes": "Large-space VR / dexterous-hand capture candidate.",
         "url": "https://e.tb.cn/h.RO1V2osyTl17mYm?tk=tJU2g3jHPcG"
       },
       {
         "item": "HIGVR haptic / vibration clothing module",
-        "status": "Waiting Yan-laoshi confirmation",
+        "status": "Waiting Yan confirmation",
         "route": "Taobao · ship to NUS/COM2",
         "notes": "Touch / vibration feedback accessory for VR capture experiments.",
         "url": "https://e.tb.cn/h.RmixRZE5uIuX49B?tk=h0OSg3jHtFY"
       },
       {
         "item": "6x 2m UGREEN USB 3.0 extension cables",
-        "status": "Waiting Yan-laoshi confirmation",
+        "status": "Waiting Yan confirmation",
         "route": "Taobao · ship to NUS/COM2",
         "notes": "Lab previously bought four; current note says all are used up, so buy six 2m cables.",
         "url": "https://e.tb.cn/h.RmR1dsrrhJvWkn9?tk=F3q3g3QaNAh"
       },
       {
         "item": "1/4-inch imperial camera screws",
-        "status": "Waiting Yan-laoshi confirmation",
+        "status": "Waiting Yan confirmation",
         "route": "Taobao · ship to NUS/COM2",
         "notes": "Needed for RealSense bottom mounting; D435 bottom thread is imperial 1/4-inch.",
         "url": "https://e.tb.cn/h.Rl3pkrtBaNCFJlE?tk=9xzCg3QV7Ms"
       },
       {
         "item": "1/4-inch camera tripod knurled nuts",
-        "status": "Waiting Yan-laoshi confirmation",
+        "status": "Waiting Yan confirmation",
         "route": "Taobao · ship to NUS/COM2",
         "notes": "Matching nuts for the 1/4-inch camera screw path. RealSense rear holes remain M3; keep both mounting routes.",
         "url": "https://e.tb.cn/h.RPRhAeaqUB4XEeo?tk=8TFeg3QfPwv"
@@ -96,7 +96,7 @@
     "Mounting direction: the Wuji/Franka camera flange is done; the next MANUS/Wuji glove camera adapter should follow a DexCap-style camera-mount and quick-release logic, keeping the observation camera stable across human collection and robot-side use while preserving field of view and cable strain relief.",
     "Teleop direction update 2026-06-11: the GELLO trigger -> ACE-style wrist ring + MANUS hand-pose item has moved to DexGello and is marked done; General no longer tracks it as an open cross-project hardware task.",
     "Storage direction: repurpose the purchased 10T HDD as a small group NAS if the Taobao 7-day-return enclosure works; treat it as shared lab infrastructure rather than a UMI-only staging disk.",
-    "Procurement update 2026-06-12: USB extension request changed from Shopee 2-pack to Taobao 6x 2m UGREEN USB 3.0 extension cables, waiting for Yan-laoshi confirmation.",
+    "Procurement update 2026-06-12: USB extension request changed from Shopee 2-pack to Taobao 6x 2m UGREEN USB 3.0 extension cables, waiting for Yan confirmation.",
     "Procurement update 2026-06-12: common short camera screws have been purchased. Keep future fit problems, missing 3/8-inch adapters, or mount-specific screw lengths as separate TODOs.",
     "DexGello dependency boundary: the completed DexCap-style MANUS / Wuji glove camera adapter stays here as reusable hardware support, while the new DexGello card owns the research data path around GELLO q_arm, VIVE T_hand, and MANUS q_finger.",
     "Storage update 2026-06-11: the 10T HDD group shared NAS conversion has been marked done by user confirmation; keep future NAS maintenance or permission changes as separate tasks if needed.",
@@ -122,7 +122,7 @@
     "Scope decision: start with low-DoF gripper platforms because they are easier to instrument, calibrate, and use for VLA/VTLA datasets than full dexterous-hand hardware.",
     "Integration risk: camera mounts and wrist rings must avoid blocking hand motion, tactile contact surfaces, glove cables, and emergency access.",
     "NAS risk: the Taobao enclosure must physically support the actual 10T HDD form factor/interface and provide stable power, permissions, backup, and LAN sharing before the return window closes.",
-    "Procurement risk: do not store group-card details in dashboard state; confirm Taobao/Shopee direct-card purchase approval with Yan-laoshi / card holder / lab admin before ordering, otherwise use the approved reimbursement or procurement path.",
+    "Procurement risk: do not store group-card details in dashboard state; confirm Taobao/Shopee direct-card purchase approval with Yan / card holder / lab admin before ordering, otherwise use the approved reimbursement or procurement path.",
     "Camera-screw procurement is closed; still verify thread standard, usable shaft length, and adapter fit during each camera mount installation.",
     "Do not move completed reusable hardware records into one paper card unless they become project-specific blockers; DexGello can reference the camera adapter and Franka/Wuji base as dependencies.",
     "Credential and procurement risk: do not store Claude/API keys, account passwords, payment details, or reimbursement documents in dashboard state; track only purchase decisions, owners, and non-sensitive setup checklists."
