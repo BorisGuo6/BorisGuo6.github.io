@@ -5256,16 +5256,24 @@
     },
     {
       "task_id": "task_real_robot_infra_franka_curobo_motion_planning",
-      "project_id": "real-robot-infra",
-      "title": "Franka 运动规划库切到 cuRobo",
-      "description": "把 Franka / Franka + 灵巧手真机栈的运动规划从当前规划库迁移到 NVIDIA cuRobo。目标：确认 CUDA/驱动/机器人控制机环境，封装 cuRobo planner wrapper，配置 Franka joint limits、collision scene、末端/手部几何和安全 workspace，先在仿真或 dry-run 轨迹上验证，再接入真机低速 smoke。验收：给出可复现安装与启动命令；至少通过一个 pick/place 或 reach target 规划样例；记录规划耗时、碰撞检查结果、失败回退策略和真机安全限制。",
+      "project_id": "dex-gello",
+      "title": "DexGello: Franka 运动规划库切到 cuRobo",
+      "description": "把 DexGello 的 Franka / Franka + Wuji 灵巧手运动规划从当前规划库迁移到 NVIDIA cuRobo。目标：确认 CUDA/驱动/机器人控制机环境，封装 cuRobo planner wrapper，配置 Franka joint limits、collision scene、末端/手部几何和安全 workspace，先在仿真或 dry-run 轨迹上验证，再接入真机低速 smoke。验收：给出可复现安装与启动命令；至少通过一个 pick/place 或 reach target 规划样例；记录规划耗时、碰撞检查结果、失败回退策略、DexGello demo 接入点和真机安全限制。",
       "status": "todo",
       "priority": "high",
       "assignee": null,
       "due_at": "",
       "result": null,
-      "comments": [],
-      "updated_at": "2026-05-29T19:31:55+08:00"
+      "comments": [
+        {
+          "comment_id": "comment_dex_gello_franka_curobo_move_20260612",
+          "author": "Boris / Codex",
+          "body": "Moved from Real-Robot Infra to DexGello on 2026-06-12. cuRobo planning should be tracked as a DexGello control/planning dependency for Franka + Wuji demos rather than generic lab infra.",
+          "created_at": "2026-06-12T15:10:30+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-06-12T15:10:30+08:00"
     },
     {
       "task_id": "task_real_robot_infra_me_control_two_hosts",

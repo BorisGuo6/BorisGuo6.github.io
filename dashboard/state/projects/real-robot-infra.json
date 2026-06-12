@@ -4,7 +4,7 @@
   "title": "Real-Robot Lab Infra",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-06-12T15:06:53+08:00",
+  "updated_at": "2026-06-12T15:10:30+08:00",
   "description": "Engineering stack for teleoperation, data collection, and robot-side validation",
   "summary": "This is the engineering base that keeps weekly research work grounded in real data collection, linked hardware assets/resources, and real-robot validation.",
   "asset": "dashboard/assets/real-robot-infra-collage.png",
@@ -23,7 +23,7 @@
     "Demo waterproofing consumables purchased: disposable nitrile gloves and finger cots for short demo protection.",
     "DexGello now owns the MANUS + VIVE research input stack: infra keeps the completed Franka + Wuji + GELLO base and hardware availability, while DexGello tracks the decoupled q_arm / T_hand / q_finger verifier and dataset logger.",
     "Before Feibo uses the Franka dexterous-hand setup for egg-cracking tests, cable-manage the setup with organizers / zip ties, clear an empty work area, and waterproof the outside area.",
-    "DexGello now owns the Wuji + Franka toy-knife slime-clay cutting demo. Real-Robot Infra should keep only the shared hardware readiness and safety-gate support for that demo.",
+    "DexGello now owns the Wuji + Franka toy-knife slime-clay cutting demo and the Franka cuRobo planning migration. Real-Robot Infra should keep only shared hardware readiness and safety-gate support for those demos.",
     "FACTR procurement route: purchase through Jingte Intelligent; keep the dashboard task focused on procurement path, gravity compensation, and force-feedback safety value.",
     "Wrist tracking fallback: if VIVE Tracker is not used for wrist pose, evaluate an ACE Teleop-style wrist ring to replace the Gello-end trigger as the wrist / intent input device.",
     "MANUS + VIVE merge update: the canonical verifier task has moved into DexGello because it is now part of the arm-hand-finger decoupled research system, not a generic infra checklist.",
@@ -46,7 +46,6 @@
     "task_real_robot_infra_safety_workspace",
     "task_real_robot_infra_factr_force_feedback",
     "task_real_robot_infra_knife_meat_demo_plan",
-    "task_real_robot_infra_franka_curobo_motion_planning",
     "task_real_robot_infra_me_control_two_hosts",
     "task_real_robot_infra_yam_aloha_setup"
   ],
@@ -64,7 +63,7 @@
     "Every hardware TODO should cite its asset-table row and the corresponding Hardware Resource Center manual/SOP location before being marked done.",
     "YAM ALOHA and Wuji glove capture both need a shared timestamp/schema path so their data can flow into the same real-robot dataset and replay verifier infrastructure.",
     "Do not reopen separate Wuji Glove TODOs for network smoke or data wrapper; keep status, blockers, and evidence on the canonical Wuji Glove task.",
-    "DexGello boundary: Real Robot Infra should keep robot availability, safety, VR-control baseline, and purchase/setup work; DexGello should own research evidence for decoupled GELLO arm, VIVE hand pose, and MANUS finger data.",
+    "DexGello boundary: Real Robot Infra should keep robot availability, safety, VR-control baseline, and purchase/setup work; DexGello should own research evidence for decoupled GELLO arm, VIVE hand pose, MANUS finger data, and demo-specific planning/control such as cuRobo.",
     "ME Control Lab two-host expansion was completed on 2026-06-12; keep future host changes as separate scaling or maintenance TODOs rather than reopening the original two-host blocker."
   ],
   "external_resources": [
