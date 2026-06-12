@@ -869,6 +869,11 @@ summary.bucket-title::-webkit-details-marker {
   font-size: 12px;
 }
 
+.project-intro-table[data-kind="real_robot_demo_table"] {
+  min-width: 1080px;
+  font-size: 12px;
+}
+
 .project-intro-table caption {
   padding: 10px 12px 7px;
   text-align: left;
@@ -916,7 +921,15 @@ summary.bucket-title::-webkit-details-marker {
   font-weight: 750;
 }
 
+.project-intro-table td[data-column="demo"],
+.project-intro-table td[data-column="owner"],
+.project-intro-table td[data-column="status"] {
+  font-weight: 750;
+}
+
 .project-intro-table td[data-column="spec"],
+.project-intro-table td[data-column="object_setup"],
+.project-intro-table td[data-column="todo"],
 .project-intro-table td[data-column="notes"] {
   color: var(--muted);
 }

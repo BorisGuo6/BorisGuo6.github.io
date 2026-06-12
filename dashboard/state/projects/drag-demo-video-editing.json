@@ -1,12 +1,12 @@
 {
   "schema_version": "project.v1",
   "project_id": "drag-demo-video-editing",
-  "title": "Drag-Demo Video Editing",
-  "bucket": "engineering",
-  "status": "done",
-  "updated_at": "2026-06-11T23:17:44+08:00",
-  "description": "Remove human hands from drag-teaching robot data",
-  "summary": "All Drag-Demo Video Editing TODOs are closed as of 2026-06-11 because this Feibo collaboration line is no longer a current focus. Keep the page as historical context for replay-cleaned data, hand-removal QA, and the four fine-tuning ablations.",
+  "title": "Archive: Drag-Demo Video Editing",
+  "bucket": "archive",
+  "status": "archived",
+  "updated_at": "2026-06-13T00:13:51+08:00",
+  "description": "Archived Feibo drag-demo video-editing line",
+  "summary": "Archived on 2026-06-13 so Engineering can use the third card for Real-Robot Demos. The historical drag-demo notes and completed TODOs remain here for replay-cleaned data, hand-removal QA, and fine-tuning ablation context.",
   "asset": "dashboard/assets/drag-demo-video-editing.png",
   "asset_alt": "Drag-teaching robot data video editing and hand removal",
   "asset_caption": "Closed status: drag-demo editing and follow-up TODOs are done / deprioritized; retained as historical context.",
@@ -113,6 +113,7 @@
     "Mask constraints may be needed before the pipeline can scale beyond the first spatula egg-transfer task.",
     "Before counting the 100-sequence batch, enforce SOP gates: green-sleeve gloves, 3-camera sync, 2-second stillness marker, y/n success label, f000x failure retention, and 9-file episode completeness.",
     "Collection logging decision: future episodes should include position-loop, velocity-loop, and current-loop traces; RGB/depth-only videos are not enough to diagnose drag dynamics or train reliable fine-tuning baselines.",
-    "Closure decision 2026-06-11: do not add new Drag-Demo / Feibo follow-up tasks unless the collaboration becomes active again with a clear next experiment."
+    "Closure decision 2026-06-11: do not add new Drag-Demo / Feibo follow-up tasks unless the collaboration becomes active again with a clear next experiment.",
+    "Archive relocation 2026-06-13: moved out of Engineering because the active third Engineering project is now the Real-Robot Demos table. Reopen only if the Feibo drag-demo collaboration resumes with a concrete owner and experiment."
   ]
 }

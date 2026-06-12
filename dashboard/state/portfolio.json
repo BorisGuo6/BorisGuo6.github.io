@@ -5,13 +5,13 @@
   "subtitle": "World models, self-improving simulators, teleop acceleration, and robotics + 3D printing",
   "week": "2026-W24",
   "date": "2026-06-12",
-  "updated_at": "2026-06-12T15:13:20+08:00",
+  "updated_at": "2026-06-13T00:13:51+08:00",
   "state_root": "dashboard/state",
   "summary": {
     "focus": "Research 主线保持 Tri-View/Image-Layered IDM、Self-Improving Agents 和 DexGello；Survey TODO 已统一 inactive/archived，不再显示为当前执行队列。",
     "progress": "Survey cleanup: 所有 Survey 下的未完成 TODO 已标记 inactive/archived；Model-Assisted Teleoperation 根据 ICRA 2026 Foundational World Models failure-detection poster移入 Archive。",
     "blockers": "关键风险从“能不能生成视频”升级为“分层数据是否稳定、可重组、可用于 IDM / reward / policy ablation”。",
-    "next": "当前执行重点回到 Research / Engineering：Tri-View layered-data utility、DexGello 硬件与 demo、Real-Robot Infra 的可用性和安全门控。"
+    "next": "当前执行重点回到 Research / Engineering：Tri-View layered-data utility、DexGello 数据采集/控制栈、Real-Robot Demos 的真机场景表、Real-Robot Infra 的可用性和安全门控。"
   },
   "storyline": {
     "summary": "How real-robot infra, human demonstrations, video world models, simulators, and physical outputs form one loop.",
@@ -195,11 +195,11 @@
       "state_path": "dashboard/state/projects/general.json"
     },
     {
-      "project_id": "drag-demo-video-editing",
-      "title": "Drag-Demo Video Editing",
+      "project_id": "real-robot-demos",
+      "title": "Real-Robot Demos",
       "bucket": "engineering",
-      "status": "done",
-      "state_path": "dashboard/state/projects/drag-demo-video-editing.json"
+      "status": "ongoing",
+      "state_path": "dashboard/state/projects/real-robot-demos.json"
     },
     {
       "project_id": "superhuman-rate-curve-teleop",
@@ -207,6 +207,13 @@
       "bucket": "survey",
       "status": "survey",
       "state_path": "dashboard/state/projects/superhuman-rate-curve-teleop.json"
+    },
+    {
+      "project_id": "drag-demo-video-editing",
+      "title": "Archive: Drag-Demo Video Editing",
+      "bucket": "archive",
+      "status": "archived",
+      "state_path": "dashboard/state/projects/drag-demo-video-editing.json"
     },
     {
       "project_id": "diverse-same-task-dataset",

@@ -1,0 +1,144 @@
+{
+  "schema_version": "project.v1",
+  "project_id": "real-robot-demos",
+  "title": "Real-Robot Demos",
+  "bucket": "engineering",
+  "status": "ongoing",
+  "updated_at": "2026-06-13T00:13:51+08:00",
+  "description": "真机 demo queue for Wuji / Franka / dexterous-hand experiments",
+  "summary": "This Engineering card owns the physical real-robot demo list. DexGello remains the data/control dependency layer for q_arm, T_hand, q_finger, MANUS/VIVE logging, and cuRobo where needed; demo scenarios, consumables, safety gates, owners, and acceptance evidence live here.",
+  "visual": {
+    "layout": "single-column"
+  },
+  "intro_table": {
+    "kind": "real_robot_demo_table",
+    "caption": "Real-robot demo queue",
+    "columns": [
+      {
+        "key": "demo",
+        "label": "Demo"
+      },
+      {
+        "key": "owner",
+        "label": "Owner / Collab"
+      },
+      {
+        "key": "hardware",
+        "label": "Hardware"
+      },
+      {
+        "key": "object_setup",
+        "label": "Object / Setup"
+      },
+      {
+        "key": "status",
+        "label": "Status"
+      },
+      {
+        "key": "todo",
+        "label": "Next TODO"
+      },
+      {
+        "key": "notes",
+        "label": "Notes / Acceptance"
+      }
+    ],
+    "rows": [
+      {
+        "demo": "Wuji + Franka toy-knife slime-clay cutting",
+        "owner": "Yuhang & Jingxiang / Boris / DexGello dependency support",
+        "hardware": "Franka Research 3 + Wuji Hand + toy knife; DexGello logger and cuRobo are dependencies",
+        "object_setup": "Slime clay as simulated meat; fixture or tray; washable work area",
+        "status": "todo",
+        "todo": "Run low-speed Stage 0/1 with toy knife, E-stop watcher, workspace limits, video, q_arm / T_hand / q_finger / Wuji state logging.",
+        "notes": "No real knife, real meat, or high-speed cutting without separate approval. The demo row lives here; DexGello supplies the data/control stack."
+      },
+      {
+        "demo": "Jenga-style block extraction tactile pilot",
+        "owner": "Master student TBD / Zheng Yuhang for Daimon gripper timing",
+        "hardware": "Robot arm + printable or custom block-extraction gripper + Daimon tactile sensors",
+        "object_setup": "Jenga-style tower; target block; tactile/VTA/VLA failure labels",
+        "status": "needs_user",
+        "todo": "Assign owner and confirm whether the Daimon-side gripper package is ready and when it can reach Singapore.",
+        "notes": "Track slip, contact stability, lateral force, tower wobble, collapse risk, and recovery; keep as a compact true-robot benchmark."
+      },
+      {
+        "demo": "Wuji hand + Aloha-style 3M anti-slip tape rubbing plastic bag",
+        "owner": "Zhou-teacher story / Yuhang & Jingxiang",
+        "hardware": "Wuji dexterous hand with Aloha-style 3M anti-slip tape on contact surfaces",
+        "object_setup": "Plastic bag rubbing task; camera view should show contact patch and bag deformation",
+        "status": "todo",
+        "todo": "Confirm tape spec and placement, protect fingertips/cables, then run low-speed rubbing demo with video and state logs.",
+        "notes": "Reference Xiaohongshu plastic-bag demo link is recorded in project references; goal is the cross-embodiment brain story from gripper to dexterous hand."
+      },
+      {
+        "demo": "Changliu dexterous-hand Lego tool manipulation",
+        "owner": "Changliu collaboration / Boris & Yuhang",
+        "hardware": "Wuji or dexterous hand + Lego disassembly tools + bulk Lego/MOC pieces",
+        "object_setup": "Assemble / disassemble small Lego structures using tool manipulation",
+        "status": "todo",
+        "todo": "Find Taobao options that can ship to Singapore with 199 free-shipping if possible, compare total price, then wait for purchase confirmation.",
+        "notes": "Track both procurement and the first pick-use-tool-assemble/disassemble video/log evidence; do not mark done at link collection only."
+      }
+    ]
+  },
+  "details": [
+    "Scope rule: this card owns demo scenarios, physical objects, consumables, safety gates, and acceptance evidence. DexGello owns reusable data/control dependencies such as GELLO arm state, MANUS/Wuji finger state, VIVE hand pose, cuRobo planning, and episode logging.",
+    "Procurement rule: Taobao/Lego candidate links are TODO evidence only. Do not mark procurement done until purchase route, delivery destination, receipt/procurement record, and arrival/fit check are recorded.",
+    "Safety rule: every demo starts with read-only or simulation/dry-run, then low-speed robot motion with workspace limits, cable checks, and a dedicated E-stop watcher before collecting publishable evidence."
+  ],
+  "task_ids": [
+    "task_real_robot_infra_wuji_franka_slime_cut_demo",
+    "task_general_tactile_stacking_pilot",
+    "task_real_robot_demo_wuji_plastic_bag_rubbing",
+    "task_real_robot_demo_changliu_lego_tool_manipulation"
+  ],
+  "references": [
+    {
+      "title": "Wuji plastic-bag rubbing reference from Xiaohongshu",
+      "url": "https://www.xiaohongshu.com/explore/6a2aa4fe000000002202377b?app_platform=android&ignoreEngage=true&app_version=9.33.4&share_from_user_hidden=true&xsec_source=app_share&type=video&xsec_token=CBGtIHEfFnDCB8AdYAqWQtyR-HYY9QGookcb6uDrgHePE=&author_share=1&xhsshare=&shareRedId=ODc1QjU9PU42NzUyOTgwNjY1OTk3Skw5&apptime=1781200406&share_id=baa76fc8bf684f8c8521fb923630cad4&share_channel=wechat",
+      "notes": "User-provided reference for Wuji dexterous-hand plastic-bag rubbing demo with Aloha-style 3M anti-slip tape."
+    },
+    {
+      "title": "Taobao Lego disassembly tools candidate",
+      "url": "https://e.tb.cn/h.RPMfOKPEYFHdGnp?tk=Dbcng3pXXX8",
+      "notes": "拆装标准乐板高小颗粒积木拆卸辅助工具拆件器锤子钳子起件器零件; compare Singapore shipping and total price before ordering."
+    },
+    {
+      "title": "Taobao bulk Lego / MOC pieces candidate",
+      "url": "https://e.tb.cn/h.Rl7HuejKX6tvL5d?tk=DPjeg3pWUqm",
+      "notes": "正品乐高 lego 小颗粒散件 / MOC 二手乐高积木论斤卖随机称散装积木; compare Singapore shipping and total price before ordering."
+    }
+  ],
+  "risks_decisions": [
+    "Do not let demo ownership drift back into DexGello. DexGello can provide dependencies and logs, but this Engineering card is the source of truth for scenario rows and open demo TODOs.",
+    "Plastic-bag rubbing depends on choosing a safe 3M anti-slip tape placement that improves grip without damaging Wuji fingertips, blocking sensors, or snagging cables.",
+    "Lego / tool-manipulation procurement needs human purchase confirmation. Link discovery and shipping comparison are progress, not completion.",
+    "All demos need explicit low-speed safety gates, workspace limits, cable routing, object fixture cleanup, and logged pass/fail evidence before being treated as done."
+  ],
+  "timeline": {
+    "badges": [
+      {
+        "label": "Bucket",
+        "value": "Engineering"
+      },
+      {
+        "label": "Mode",
+        "value": "real robot demos"
+      },
+      {
+        "label": "Hardware",
+        "value": "Franka + Wuji / dex hands"
+      },
+      {
+        "label": "Status",
+        "value": "open table"
+      }
+    ],
+    "target_cycle": "v0 true-robot demo queue",
+    "target_note": "Keep each demo row independently trackable; avoid hiding physical scenario work inside DexGello control-stack tasks.",
+    "sprint_start": "2026-06-13",
+    "sprint_due": null,
+    "milestones": []
+  }
+}

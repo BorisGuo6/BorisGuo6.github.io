@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-11T23:17:44+08:00",
+  "updated_at": "2026-06-13T00:23:02+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -5005,9 +5005,9 @@
     },
     {
       "task_id": "task_general_tactile_stacking_pilot",
-      "project_id": "dex-gello",
-      "title": "DexGello Demo: Jenga 抽积木塔 tactile pilot",
-      "description": "把 Jenga-style block extraction / 抽积木塔作为 DexGello demo：机器人从木块塔里推出或抽出指定木块，同时尽量不让塔倒。用 DexGello 的 q_arm、T_hand、q_finger 记录链路和 tactile/VTA/VLA 分析接触稳定、摩擦/滑移、侧向推力、塔体晃动和失败恢复；配一个可打印/定制的特殊 gripper，并接入戴盟触觉。目标是把 slip、contact stability、lateral force、tower wobble、tower collapse 等失败变成 DexGello 的紧凑真机 demo 和评测样例。",
+      "project_id": "real-robot-demos",
+      "title": "Real-Robot Demo: Jenga 抽积木塔 tactile pilot",
+      "description": "把 Jenga-style block extraction / 抽积木塔作为紧凑真机 demo：机器人从木块塔里推出或抽出指定木块，同时尽量不让塔倒。用 q_arm、T_hand、q_finger 记录链路和 tactile/VTA/VLA 分析接触稳定、摩擦/滑移、侧向推力、塔体晃动和失败恢复；配一个可打印/定制的特殊 gripper，并接入戴盟触觉。目标是把 slip、contact stability、lateral force、tower wobble、tower collapse 等失败变成真机 demo 和评测样例。DexGello 可提供数据/控制依赖，但 demo 场景归 Real-Robot Demos 表格管理。",
       "status": "needs_user",
       "priority": "medium",
       "assignee": "master student TBD / Zheng Yuhang for gripper timing",
@@ -5046,12 +5046,19 @@
         {
           "comment_id": "comment_dex_gello_jenga_demo_move_20260612",
           "author": "Boris / Codex",
-          "body": "Moved from General to DexGello on 2026-06-12. Jenga block extraction should be tracked as a DexGello demo, not a generic tactile hardware pilot.",
+          "body": "[superseded 2026-06-13] This task moved from General to DexGello on 2026-06-12, but user corrected the ownership on 2026-06-13. Current owner is Engineering / Real-Robot Demos; DexGello supplies reusable q_arm/T_hand/q_finger data/control dependencies only.",
           "created_at": "2026-06-12T15:06:53+08:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "comment_real_robot_demo_jenga_move_20260613",
+          "author": "Boris / Codex",
+          "body": "Moved from DexGello to Engineering / Real-Robot Demos on 2026-06-13 per user correction: all DexGello physical demo scenarios should be listed in the Real-Robot Demos table rather than under DexGello.",
+          "created_at": "2026-06-13T00:13:51+08:00",
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-12T15:06:53+08:00",
+      "updated_at": "2026-06-13T00:23:02+08:00",
       "completed_at": null
     },
     {
@@ -5430,12 +5437,12 @@
         {
           "comment_id": "comment_task_real_robot_infra_franka_curobo_motion_planning_intro_note_dexgello_now_owns_the_wuji_franka_toy_knife_slime_clay_c",
           "author": "Boris / Codex",
-          "body": "Moved from previous Real-Robot Infra intro: DexGello now owns the Wuji + Franka toy-knife slime-clay cutting demo and the Franka cuRobo planning migration. Real-Robot Infra should keep only shared hardware readiness and safety-gate support for those demos.",
+          "body": "[superseded 2026-06-13] Previous Infra intro bundled Wuji + Franka slime-clay cutting with the cuRobo migration under DexGello. Current boundary: cuRobo remains a DexGello reusable planning/control dependency, while the physical demo scenario lives in Engineering / Real-Robot Demos.",
           "created_at": "2026-06-12T15:39:17+08:00",
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-12T15:39:17+08:00"
+      "updated_at": "2026-06-13T00:23:02+08:00"
     },
     {
       "task_id": "task_real_robot_infra_me_control_two_hosts",
@@ -5497,9 +5504,9 @@
     },
     {
       "task_id": "task_real_robot_infra_wuji_franka_slime_cut_demo",
-      "project_id": "dex-gello",
-      "title": "DexGello Demo: Wuji + Franka 玩具刀切史莱姆泥",
-      "description": "把 Wuji Hand + Franka 的灵巧手切肉 demo 作为 DexGello demo，并收敛到安全 Stage 0/1：仿真肉使用史莱姆泥，刀先使用玩具刀，不使用真刀或真实肉。验收：准备固定史莱姆泥的夹具/托盘和可清洁工作区；确认玩具刀不会割伤手指/线缆/相机；设置 Franka 低速/力矩/工作空间限制、急停看护和 abort 条件；完成至少一次 read-only 或仿真轨迹预演；完成一次真实低速玩具刀切史莱姆泥 run；记录 DexGello episode 所需的视频、q_arm、T_hand、q_finger、Wuji Hand command/state、相机视角、失败/成功判据和是否需要进入下一阶段。真实刀具、真实肉和高速切割必须另行审批。",
+      "project_id": "real-robot-demos",
+      "title": "Real-Robot Demo: Wuji + Franka 玩具刀切史莱姆泥",
+      "description": "把 Wuji Hand + Franka 的灵巧手切肉 demo 收敛到安全 Stage 0/1：仿真肉使用史莱姆泥，刀先使用玩具刀，不使用真刀或真实肉。验收：准备固定史莱姆泥的夹具/托盘和可清洁工作区；确认玩具刀不会割伤手指/线缆/相机；设置 Franka 低速/力矩/工作空间限制、急停看护和 abort 条件；完成至少一次 read-only 或仿真轨迹预演；完成一次真实低速玩具刀切史莱姆泥 run；记录视频、q_arm、T_hand、q_finger、Wuji Hand command/state、相机视角、失败/成功判据和是否需要进入下一阶段。真实刀具、真实肉和高速切割必须另行审批。DexGello 提供数据/控制依赖，但 demo 场景归 Real-Robot Demos 表格管理。",
       "status": "todo",
       "priority": "high",
       "assignee": "Yuhang & Jingxiang / Boris / DexGello",
@@ -5516,19 +5523,26 @@
         {
           "comment_id": "comment_dex_gello_slime_cut_demo_move_20260612",
           "author": "Boris / Codex",
-          "body": "Moved from Real-Robot Infra to DexGello on 2026-06-12. This is the DexGello dexterous-hand cutting demo; Real-Robot Infra only supplies the hardware/safety gate.",
+          "body": "[superseded 2026-06-13] This task moved from Real-Robot Infra to DexGello on 2026-06-12, but user corrected the ownership on 2026-06-13. Current owner is Engineering / Real-Robot Demos; Real-Robot Infra supplies hardware/safety gates and DexGello supplies reusable data/control dependencies.",
           "created_at": "2026-06-12T15:06:53+08:00",
           "kind": "comment"
         },
         {
           "comment_id": "comment_task_real_robot_infra_wuji_franka_slime_cut_demo_intro_note_dexgello_now_owns_the_wuji_franka_toy_knife_slime_clay_c",
           "author": "Boris / Codex",
-          "body": "Moved from previous Real-Robot Infra intro: DexGello now owns the Wuji + Franka toy-knife slime-clay cutting demo and the Franka cuRobo planning migration. Real-Robot Infra should keep only shared hardware readiness and safety-gate support for those demos.",
+          "body": "[superseded 2026-06-13] Previous Infra intro said DexGello owned the Wuji + Franka toy-knife slime-clay cutting demo and Franka cuRobo migration. Current boundary: Real-Robot Demos owns the physical demo scenario and pass/fail evidence; DexGello keeps cuRobo and logging/control dependencies; Real-Robot Infra keeps shared hardware readiness and safety gates.",
           "created_at": "2026-06-12T15:39:17+08:00",
+          "kind": "comment"
+        },
+        {
+          "comment_id": "comment_real_robot_demo_slime_cut_move_20260613",
+          "author": "Boris / Codex",
+          "body": "Moved from DexGello to Engineering / Real-Robot Demos on 2026-06-13 per user correction: DexGello should not own the physical demo list; it only supplies q_arm/T_hand/q_finger logging, MANUS/VIVE, cuRobo, and related data/control dependencies.",
+          "created_at": "2026-06-13T00:13:51+08:00",
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-12T15:39:17+08:00"
+      "updated_at": "2026-06-13T00:23:02+08:00"
     },
     {
       "task_id": "task_drag_demo_on_policy_gravity_comp_survey",
@@ -7318,6 +7332,52 @@
         }
       ],
       "updated_at": "2026-06-12T15:39:17+08:00"
+    },
+    {
+      "task_id": "task_real_robot_demo_wuji_plastic_bag_rubbing",
+      "project_id": "real-robot-demos",
+      "title": "Wuji 灵巧手贴 3M 防滑胶带搓塑料袋 demo",
+      "description": "新增真机 demo：在 Wuji 灵巧手接触面贴 Aloha 同款或等效 3M 防滑胶带，做搓塑料袋 / rubbing plastic bag demo，讲从周老师之前夹爪结果迁移到灵巧手的跨本体大脑故事。验收：确认胶带型号、贴附位置、是否影响指尖/传感器/线缆和可清洁性；完成低速 read-only 或仿真预演；完成一次真实低速搓塑料袋 run；记录相机视频、Wuji command/state、接触区域、塑料袋形变、成功/失败判据和是否需要更换胶带或手指保护。参考 Xiaohongshu 链接写在 Real-Robot Demos project references。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Yuhang & Jingxiang / Boris",
+      "due_at": "",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_real_robot_demo_wuji_plastic_bag_seed_20260613",
+          "author": "Boris / Codex",
+          "body": "Seeded from user request and chat context on 2026-06-13: Wuji dexterous hand should use Aloha-style 3M anti-slip tape and perform a plastic-bag rubbing demo. Reference Xiaohongshu link is stored in the project references. This is open until physical demo video/log evidence exists.",
+          "created_at": "2026-06-13T00:13:51+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-06-13T00:13:51+08:00",
+      "started_at": "2026-06-13",
+      "completed_at": null
+    },
+    {
+      "task_id": "task_real_robot_demo_changliu_lego_tool_manipulation",
+      "project_id": "real-robot-demos",
+      "title": "Changliu 灵巧手 Lego tool manipulation demo",
+      "description": "新增 Changliu 合作真机 demo：用灵巧手做 tool manipulation 来拼拆乐高 / 小颗粒积木，目标是展示灵巧手使用拆件器、锤子、钳子或类似工具进行 assemble / disassemble。前置采购：比较 Taobao 乐高拆装工具和散装 Lego/MOC 积木，优先找能发新加坡且满足 199 包邮或综合价格更低的选项；付款/下单前需要用户或实验室确认。验收：记录候选链接、总价、运费、到货地和购买决定；到货后完成工具/积木清点；完成至少一次 pick-use-tool-assemble/disassemble 低速 demo，保留视频、机器人状态、失败/成功判据和下一步任务难度。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Changliu collaboration / Boris & Yuhang",
+      "due_at": "",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_real_robot_demo_changliu_lego_seed_20260613",
+          "author": "Boris / Codex",
+          "body": "Seeded from user-provided chat context on 2026-06-13: Changliu collaboration wants a dexterous-hand tool-manipulation Lego assembly/disassembly story. Candidate Taobao links: Lego disassembly tools https://e.tb.cn/h.RPMfOKPEYFHdGnp?tk=Dbcng3pXXX8 and bulk Lego/MOC pieces https://e.tb.cn/h.Rl7HuejKX6tvL5d?tk=DPjeg3pWUqm. Next step is shipping/price comparison for Singapore 199-free-shipping options, then human purchase confirmation.",
+          "created_at": "2026-06-13T00:13:51+08:00",
+          "kind": "procurement"
+        }
+      ],
+      "updated_at": "2026-06-13T00:13:51+08:00",
+      "started_at": "2026-06-13",
+      "completed_at": null
     }
   ]
 }
