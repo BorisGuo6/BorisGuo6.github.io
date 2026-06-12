@@ -6747,10 +6747,10 @@
       "project_id": "dex-gello",
       "title": "做 VIVE 手背 tracker 安装与外参标定",
       "description": "为操作员手背安装 VIVE Tracker，验证不挡 MANUS glove、线缆、相机视野和自然抓握；标定 T_world_vive、T_franka_base_vive、T_hand_tracker_manus_root，并记录一段同步日志来比较 VIVE T_hand 与 GELLO / Franka end-effector pose 的重叠和偏差。验收：安装照片/说明、tracker serial、SteamVR/OpenVR 设备列表、标定文件、10 秒同步日志、overlap plot 或统计。胸挂 tracker 可作为稳定 body/world reference 的可选辅助，但不要把它当成主任务。",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignee": "Yongxi Lai / lab",
-      "result": null,
+      "result": "User reported the VIVE hand-back tracker mount and extrinsic calibration are complete. DexGello can now treat the calibrated VIVE T_hand path as available for downstream logging and replay QA.",
       "started_at": "",
       "due_at": "",
       "comments": [
@@ -6760,9 +6760,17 @@
           "body": "This is separate from the existing chest-strap purchase task. DexGello needs the hand-back tracker mount and calibration first; the chest strap remains a Real Robot Infra helper if a stable CHEST frame is useful.",
           "created_at": "2026-06-11T22:51:58+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_dex_gello_vive_hand_mount_done_20260612",
+          "author": "Boris",
+          "body": "Boris marked this done on 2026-06-12: VIVE hand-back tracker installation and extrinsic calibration are considered complete for the DexGello setup.",
+          "created_at": "2026-06-12T14:54:11+08:00",
+          "kind": "completion"
         }
       ],
-      "updated_at": "2026-06-11T22:51:58+08:00"
+      "updated_at": "2026-06-12T14:54:11+08:00",
+      "completed_at": "2026-06-12"
     },
     {
       "task_id": "task_dex_gello_data_schema_logger",
