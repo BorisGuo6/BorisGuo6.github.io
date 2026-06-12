@@ -4,14 +4,14 @@
   "title": "Embodied AI Project Dashboard",
   "subtitle": "World models, self-improving simulators, teleop acceleration, and robotics + 3D printing",
   "week": "2026-W24",
-  "date": "2026-06-11",
-  "updated_at": "2026-06-11T23:17:44+08:00",
+  "date": "2026-06-12",
+  "updated_at": "2026-06-12T14:55:39+08:00",
   "state_root": "dashboard/state",
   "summary": {
-    "focus": "Research 主线扩展为 Tri-View/Image-Layered IDM、Self-Improving Agents、DexGello 和新 Tactile-WAM：从 robot video/layered data 走到 tactile grounding 和 action output。",
-    "progress": "新增 Tactile-WAM 研究卡，把 Wuji proposal 讨论中的三段 demo 组织成外部摄像头 human retarget -> robot arm+hand video world model -> tactile prediction -> WAM action head。",
+    "focus": "Research 主线保持 Tri-View/Image-Layered IDM、Self-Improving Agents 和 DexGello；Tactile-WAM 先放在 Survey 里做 Wuji proposal scoping。",
+    "progress": "Tactile-WAM 已改为 Survey 卡，把 Wuji proposal 讨论中的三段 demo 组织成外部摄像头 human retarget -> robot arm+hand video world model -> tactile prediction -> WAM action head。",
     "blockers": "关键风险从“能不能生成视频”升级为“分层数据是否稳定、可重组、可用于 IDM / reward / policy ablation”。",
-    "next": "Tri-View 继续做 layered-data utility ablation；DexGello 做硬件 verifier；Tactile-WAM 先完成 3-demo spec、外部摄像头 retarget video mock、video-to-tactile 监督数据定义和 action-head eval。"
+    "next": "Tri-View 继续做 layered-data utility ablation；DexGello 做硬件 verifier；Survey 里的 Tactile-WAM 先完成 3-demo spec、外部摄像头 retarget video mock、video-to-tactile 监督数据定义和 action-head eval。"
   },
   "storyline": {
     "summary": "How real-robot infra, human demonstrations, video world models, simulators, and physical outputs form one loop.",
@@ -181,13 +181,6 @@
       "state_path": "dashboard/state/projects/dex-gello.json"
     },
     {
-      "project_id": "tactile-wam",
-      "title": "Tactile-WAM: Video-to-Touch World Action Model",
-      "bucket": "research",
-      "status": "ongoing",
-      "state_path": "dashboard/state/projects/tactile-wam.json"
-    },
-    {
       "project_id": "real-robot-infra",
       "title": "Real-Robot Lab Infra",
       "bucket": "engineering",
@@ -256,6 +249,13 @@
       "bucket": "survey",
       "status": "survey",
       "state_path": "dashboard/state/projects/vtla-tactile-intuition-survey.json"
+    },
+    {
+      "project_id": "tactile-wam",
+      "title": "Tactile-WAM: Video-to-Touch World Action Model",
+      "bucket": "survey",
+      "status": "survey",
+      "state_path": "dashboard/state/projects/tactile-wam.json"
     },
     {
       "project_id": "human-intention-sensorium-survey",
