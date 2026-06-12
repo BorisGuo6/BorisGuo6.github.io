@@ -594,6 +594,7 @@
             updated_at: project.updated_at,
             description: project.description,
             summary: project.summary,
+            intro_table: project.intro_table || null,
             asset: project.asset,
             asset_alt: project.asset_alt,
             asset_caption: project.asset_caption,
@@ -651,6 +652,72 @@
           link.href = href;
           link.textContent = text;
           return link;
+        }
+
+        function createProjectIntroTable(tableConfig) {
+          if (!tableConfig || tableConfig.kind !== "procurement_table" || !Array.isArray(tableConfig.rows)) {
+            return null;
+          }
+          const columns = Array.isArray(tableConfig.columns) && tableConfig.columns.length > 0
+            ? tableConfig.columns.filter((column) => column?.key)
+            : [
+                { key: "item", label: "Item" },
+                { key: "status", label: "Status" },
+                { key: "route", label: "Route" },
+                { key: "notes", label: "Notes" },
+              ];
+          if (columns.length === 0) {
+            return null;
+          }
+
+          const wrapper = document.createElement("div");
+          wrapper.className = "project-intro-table-wrap";
+          const table = document.createElement("table");
+          table.className = "project-intro-table";
+          if (tableConfig.caption) {
+            const caption = document.createElement("caption");
+            caption.textContent = tableConfig.caption;
+            table.append(caption);
+          }
+
+          const head = document.createElement("thead");
+          const headRow = document.createElement("tr");
+          columns.forEach((column) => {
+            const header = document.createElement("th");
+            header.scope = "col";
+            header.textContent = column.label || column.key;
+            headRow.append(header);
+          });
+          head.append(headRow);
+
+          const body = document.createElement("tbody");
+          tableConfig.rows.forEach((row) => {
+            const tableRow = document.createElement("tr");
+            columns.forEach((column) => {
+              const cell = document.createElement("td");
+              cell.dataset.column = column.key;
+              const value = row?.[column.key] || "";
+              if (column.key === "item" && row?.url) {
+                cell.append(createExternalLink(row.url, String(value || row.url)));
+              } else {
+                cell.textContent = value;
+              }
+              tableRow.append(cell);
+            });
+            body.append(tableRow);
+          });
+          table.append(head, body);
+          wrapper.append(table);
+          return wrapper;
+        }
+
+        function projectIntroTablePlainText(tableConfig) {
+          if (!tableConfig || !Array.isArray(tableConfig.rows)) {
+            return "";
+          }
+          return tableConfig.rows
+            .map((row) => Object.values(row || {}).join(" "))
+            .join(" ");
         }
 
         function prepareZoomableImage(image) {
@@ -1248,6 +1315,24 @@
           grid.replaceChildren(...subprojects.map(createSubprojectCard));
         }
 
+        function renderProjectIntroTable(projectElement, tableConfig) {
+          const intro = projectElement.querySelector(".project-intro");
+          const summaryParagraph = intro?.querySelector(":scope > p");
+          if (!intro || !summaryParagraph) {
+            return;
+          }
+          const existing = intro.querySelector(":scope > .project-intro-table-wrap");
+          const table = createProjectIntroTable(tableConfig);
+          if (!table) {
+            existing?.remove();
+            return;
+          }
+          if (existing) {
+            existing.replaceWith(table);
+          }
+          summaryParagraph.after(table);
+        }
+
         function renderProjectDetails(projectElement, details) {
           const bodyColumn = projectElement.querySelector(".project-body > div");
           const intro = bodyColumn?.querySelector(".project-intro");
@@ -1276,7 +1361,7 @@
             return;
           }
           const details = Array.isArray(projectDoc.details) ? projectDoc.details : [];
-          const textLength = `${projectDoc.summary || ""} ${details.map(richTextPlainText).join(" ")}`.length;
+          const textLength = `${richTextPlainText(projectDoc.summary || "")} ${projectIntroTablePlainText(projectDoc.intro_table)} ${details.map(richTextPlainText).join(" ")}`.length;
           const shouldCollapse = textLength > 620 || details.length > 4;
           const stateKey = `project:${projectDoc.project_id}:intro`;
           intro.dataset.textCollapseKey = stateKey;
@@ -1366,10 +1451,12 @@
 
           const bodyParagraph = projectElement.querySelector(".project-intro > p");
           if (bodyParagraph) {
-            bodyParagraph.textContent = projectDoc.summary || "";
+            bodyParagraph.replaceChildren();
+            appendRichText(bodyParagraph, projectDoc.summary || "");
           }
           renderProjectFigure(projectElement, projectDoc);
           renderProjectTimeline(projectElement, projectDoc.timeline);
+          renderProjectIntroTable(projectElement, projectDoc.intro_table);
           renderProjectSubprojects(projectElement, projectDoc.subprojects);
           renderProjectDetails(projectElement, projectDoc.details);
           updateProjectIntroCollapse(projectElement, projectDoc);

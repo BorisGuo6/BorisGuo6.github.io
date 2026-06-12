@@ -848,6 +848,63 @@ summary.bucket-title::-webkit-details-marker {
   position: relative;
 }
 
+.project-intro-table-wrap {
+  margin: 10px 0 10px;
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.project-intro-table {
+  width: 100%;
+  min-width: 720px;
+  border-collapse: collapse;
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.project-intro-table caption {
+  padding: 10px 12px 7px;
+  text-align: left;
+  color: var(--ink);
+  font-weight: 800;
+}
+
+.project-intro-table th,
+.project-intro-table td {
+  padding: 8px 12px;
+  border-top: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+.project-intro-table th {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.project-intro-table td[data-column="item"] {
+  width: 24%;
+  font-weight: 750;
+}
+
+.project-intro-table td[data-column="status"] {
+  width: 19%;
+  color: var(--ink);
+  font-weight: 750;
+}
+
+.project-intro-table td[data-column="route"] {
+  width: 19%;
+}
+
+.project-intro-table td[data-column="notes"] {
+  color: var(--muted);
+}
+
 .project-intro.is-collapsible {
   max-height: 184px;
   overflow: hidden;

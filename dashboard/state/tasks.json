@@ -394,7 +394,7 @@
       "status": "done",
       "priority": "medium",
       "assignee": "Boris / lab",
-      "result": "User reported the VIVE Tracker chest mount / strap purchase is complete. The CHEST tracker frame mount is now considered available for real-robot calibration and replay debugging.",
+      "result": "User reported the VIVE Tracker chest mount / strap purchase is complete and shipped. Logistics update on 2026-06-12: ETA 2026-06-16 to 2026-06-19, currently at Hangzhou airport, destination COM2/NUS.",
       "due_at": "",
       "comments": [
         {
@@ -417,9 +417,16 @@
           "body": "Boris marked this done on 2026-06-12: VIVE Tracker chest mount / strap purchase is complete.",
           "created_at": "2026-06-12T14:58:20+08:00",
           "kind": "completion"
+        },
+        {
+          "comment_id": "comment_real_robot_vive_chest_mount_shipping_20260612",
+          "author": "Boris / Codex",
+          "body": "Shipping update: chest strap has shipped, ETA 2026-06-16 to 2026-06-19, currently at Hangzhou airport, destination COM2/NUS. Context: the stock VIVE Tracker strap does not tighten enough for stable chest mounting.",
+          "created_at": "2026-06-12T15:15:58+08:00",
+          "kind": "logistics"
         }
       ],
-      "updated_at": "2026-06-12T14:58:20+08:00",
+      "updated_at": "2026-06-12T15:15:58+08:00",
       "completed_at": "2026-06-12"
     },
     {
@@ -4837,8 +4844,8 @@
     {
       "task_id": "task_general_usb3_extension_cables_shopee",
       "project_id": "general",
-      "title": "购买两根 USB 3.0 延长线",
-      "description": "Buy two USB 3.0 extension cables from Shopee for lab hardware routing. Before checkout, confirm whether the lab/group card can be used directly for this Shopee purchase; if not, use the approved reimbursement or procurement path. Acceptance: choose cable length and connector type (likely USB-A male-to-female unless the target devices require otherwise); confirm USB 3.0 / 5Gbps rating, shielding, and enough current stability for cameras/sensors; record product link, price, receipt/invoice, payer path, and delivery ETA; after arrival, test both cables with the intended device, confirm the device enumerates as SuperSpeed/USB3 where applicable, and note any dropouts or bandwidth/power issues.",
+      "title": "购买 6 根 2m USB 3.0 延长线",
+      "description": "Buy 6x 2m USB 3.0 extension cables for lab hardware routing. Current candidate: UGREEN USB 3.0 male-to-female cable on Taobao https://e.tb.cn/h.RmR1dsrrhJvWkn9?tk=F3q3g3QaNAh. Context: lab previously bought four cables but they are all used up; user confirmed 6 pieces is the new target quantity. Before checkout, wait for Yan-laoshi / lab-card confirmation; if direct card use is not allowed, use the approved reimbursement or procurement path. Acceptance: confirm USB 3.0 / 5Gbps rating, 2m length, shielding, and enough current stability for cameras/sensors; record purchase route and delivery ETA; after arrival, test with intended device and note any dropouts or bandwidth/power issues.",
       "status": "needs_user",
       "priority": "medium",
       "assignee": "Boris / lab admin",
@@ -4858,9 +4865,16 @@
           "body": "Mirrored strict audit decision from default state for task_general_usb3_extension_cables_shopee; remaining work requires human action/credential/hardware/decision, not more autonomous dependency installation.",
           "created_at": "2026-05-29T02:22:47+08:00",
           "kind": "needs_user"
+        },
+        {
+          "comment_id": "comment_general_usb3_extension_taobao_6x2m_20260612",
+          "author": "Boris / Codex",
+          "body": "Procurement update: request changed to 6x 2m UGREEN USB 3.0 extension cables from Taobao, waiting for Yan-laoshi confirmation. Candidate link: https://e.tb.cn/h.RmR1dsrrhJvWkn9?tk=F3q3g3QaNAh.",
+          "created_at": "2026-06-12T15:15:58+08:00",
+          "kind": "procurement"
         }
       ],
-      "updated_at": "2026-05-29T02:22:47+08:00"
+      "updated_at": "2026-06-12T15:15:58+08:00"
     },
     {
       "task_id": "task_general_tactile_stacking_pilot",
