@@ -4,7 +4,7 @@
   "title": "General",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-06-12T15:06:53+08:00",
+  "updated_at": "2026-06-12T15:09:11+08:00",
   "description": "General engineering backlog for cross-project tasks",
   "summary": "General engineering queue for hardware fixtures, small CAD jobs, gripper platforms, camera adapters, glove-to-gripper teleoperation, and tactile calibration hardware. These items are intentionally separate from Real-Robot Lab Infra and can support multiple projects when needed.",
   "details": [
@@ -17,7 +17,7 @@
     "Teleop direction update 2026-06-11: the GELLO trigger -> ACE-style wrist ring + MANUS hand-pose item has moved to DexGello and is marked done; General no longer tracks it as an open cross-project hardware task.",
     "Storage direction: repurpose the purchased 10T HDD as a small group NAS if the Taobao 7-day-return enclosure works; treat it as shared lab infrastructure rather than a UMI-only staging disk.",
     "Procurement need: buy two USB 3.0 extension cables from Shopee for lab hardware routing; confirm whether direct group-card payment is allowed before checkout.",
-    "Procurement need: add a short camera screw item. User wording is six-inch short screw; before purchase, confirm whether this actually means the common camera/tripod 1/4-20 short screw rather than a 6-inch-long screw.",
+    "Procurement update 2026-06-12: common short camera screws have been purchased. Keep future fit problems, missing 3/8-inch adapters, or mount-specific screw lengths as separate TODOs.",
     "DexGello dependency boundary: the completed DexCap-style MANUS / Wuji glove camera adapter stays here as reusable hardware support, while the new DexGello card owns the research data path around GELLO q_arm, VIVE T_hand, and MANUS q_finger.",
     "Storage update 2026-06-11: the 10T HDD group shared NAS conversion has been marked done by user confirmation; keep future NAS maintenance or permission changes as separate tasks if needed.",
     "Ops / procurement update 2026-06-11: add three General TODOs for Claude Code account separation/recharge, API gateway procurement inquiry, and hiring local labor to assemble the ME Control Lab anti-vibration table."
@@ -43,7 +43,7 @@
     "Integration risk: camera mounts and wrist rings must avoid blocking hand motion, tactile contact surfaces, glove cables, and emergency access.",
     "NAS risk: the Taobao enclosure must physically support the actual 10T HDD form factor/interface and provide stable power, permissions, backup, and LAN sharing before the return window closes.",
     "Procurement risk: do not store group-card details in dashboard state; confirm Shopee direct-card purchase approval with the card holder / lab admin before ordering, otherwise use the approved reimbursement or procurement path.",
-    "Camera-screw procurement risk: camera mounts usually use 1/4-20 or 3/8-inch standards, while a literal six-inch screw would be unusually long. Confirm thread standard and usable shaft length before ordering.",
+    "Camera-screw procurement is closed; still verify thread standard, usable shaft length, and adapter fit during each camera mount installation.",
     "Do not move completed reusable hardware records into one paper card unless they become project-specific blockers; DexGello can reference the camera adapter and Franka/Wuji base as dependencies.",
     "Credential and procurement risk: do not store Claude/API keys, account passwords, payment details, or reimbursement documents in dashboard state; track only purchase decisions, owners, and non-sensitive setup checklists."
   ],
