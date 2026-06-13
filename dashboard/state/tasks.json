@@ -1535,10 +1535,10 @@
     {
       "task_id": "task_self_improving_vlm_loop",
       "project_id": "self-improving-agents",
-      "title": "Prototype VLM-guided simulator self-improvement",
-      "description": "Let a VLM inspect rollouts, label failure causes, propose task/environment mutations, and feed candidates through executability and governance checks.",
-      "status": "needs_user",
-      "priority": "medium",
+      "title": "Build RoboTwin2 Text2Env demo (SceneSmith-lite tabletop)",
+      "description": "Rewrite the old VLM-guided simulator self-improvement item as the near-term Text2Env demo. Scope: make a weakened tabletop version of SceneSmith inside RoboTwin2, not full indoor scene generation. Build natural-language tabletop task -> env description (objects, poses, support surface, cameras / observations, robot/action constraints, success verifier) -> code-agent-generated RoboTwin2 task program -> executable simulator smoke and data-collection dry run. Also document the RoboTwin2 API list, manual-program new-task path, and at least one Pi or OpenVLA-OFT training/evaluation hook or explicit blocker. Acceptance: 1) API list / task-program schema written; 2) 1-2 tabletop tasks selected; 3) prompt generates env JSON/description; 4) code agent generates or repairs an executable RoboTwin2 task program; 5) simulator smoke and data collection dry-run pass; 6) Pi / OpenVLA-OFT train/eval hook is exercised or blocked with evidence; 7) VLM designer/critic/orchestrator is limited to tabletop feasibility, collisions/stability, object poses, task API usage, and program repair.",
+      "status": "active",
+      "priority": "high",
       "assignee": null,
       "result": null,
       "comments": [
@@ -1583,11 +1583,18 @@
           "body": "Mirrored strict audit decision from default state for task_self_improving_vlm_loop; remaining work requires human action/credential/hardware/decision, not more autonomous dependency installation.",
           "created_at": "2026-05-29T02:22:41+08:00",
           "kind": "needs_user"
+        },
+        {
+          "comment_id": "comment_self_improving_text2env_scope_20260613",
+          "author": "Boris / Codex",
+          "body": "User clarified the current Self-Improving priority: first build the Text2Env demo. This supersedes the previous broad/mock VLM-loop interpretation. The intended demo is a RoboTwin2 tabletop SceneSmith-lite path: text prompt -> env description with objects/poses/cameras/constraints/verifier -> code-agent RoboTwin2 task program -> simulator smoke/data collection, then Pi or OpenVLA-OFT train/eval hook.",
+          "created_at": "2026-06-13T11:43:10+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-29T02:22:42+08:00",
+      "updated_at": "2026-06-13T11:43:10+08:00",
       "due_at": "",
-      "completed_at": "2026-05-29"
+      "completed_at": ""
     },
     {
       "task_id": "task_self_improving_molmoact2_reasoning_base",

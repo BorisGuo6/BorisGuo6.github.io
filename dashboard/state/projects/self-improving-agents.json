@@ -4,18 +4,18 @@
   "title": "Self-Improving Agents for Physical AI",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-06-12T15:25:06+08:00",
-  "description": "Simulation-first AgenticSim proposal: scene imagination plus test-time training",
-  "summary": "Simulation-first AgenticSim: imagine executable scenes from references, run test-time training / workflow repair inside those scenes, evaluate/analyze rollouts, and turn evolving 3D world belief plus failures into the next curriculum.",
+  "updated_at": "2026-06-13T11:43:10+08:00",
+  "description": "Simulation-first AgenticSim proposal: RoboTwin2 Text2Env demo plus self-improving loop",
+  "summary": "Near-term priority is a RoboTwin2 tabletop Text2Env demo: turn a text task into an executable environment description and task program, run data collection / evaluation, then use failures to expand the next curriculum.",
   "asset": "dashboard/assets/pearl-overview.png",
   "asset_alt": "PEARL self-improving physical AI framework",
   "asset_caption": "Proposal frame: real execution failure -> trace memory -> eval gate -> world-model screening -> promoted agent / workflow / strategy -> harder diagnostic VLA eval.",
   "details": [
     "Current foundation: 129 registered AgenticSim environments, 38/38 full-runner tests, 16 failure traces, demo CLI, and Isaac smoke gate.",
-    "Two-stage direction: Stage 1 imagine reference-conditioned executable 3D scenes; Stage 2 run test-time training / workflow repair in the scene, using interaction logs and observations to update a continuing 3D world belief.",
-    "Architecture implementation map: implemented simulation environment = LeHome / LeHome-challenge plus RoboLab; candidate simulator bases to evaluate later = Genesis World 1.0 for fast multi-physics / photorealistic / contact-rich rollout and RoboTwin 2.0 for dual-arm benchmark / data-generation tasks; Real2Sim2Real scene imagination = RoboGen/FATE-style scene generation and repair, SceneSmith-style agentic text-to-simulation-ready indoor scene construction, Video2Sim2Real-style single-video digital-twin reconstruction plus object-keyframe anchoring, plus PhysX-Anything, PhysX-Omni, ArtiCraft3D / Articraft, WorldComposer, and SceneMutator; analysis/memory = TraceLoader, SimRealGapDetector, RolloutDiagnoser, FailureTaxonomy, and MemoryStore; governance/reporting = GovernanceGate, Isaac smoke gate, demo CLI, and accepted task-pack export.",
-    "Environment creation reference 2026-06-03: use SceneSmith as the concrete reference for agentic scene construction: natural-language task/room prompt -> multi-stage VLM designer/critic/orchestrator -> layout, furniture, wall/ceiling objects, manipulands, physical properties, and simulator-ready scene export; then pair the generated scenes with automatic policy evaluation and simulator-state / visual success checking.",
-    "Next decision: pick the first task family for the mini-loop demo and generate accepted/rejected scenes with replayable verifier output, world-belief diff, TTT delta, and at least one ArtiCraft3D-style articulated asset smoke.",
+    "Near-term priority 2026-06-13: first build the Text2Env demo in RoboTwin2. Contract: natural-language tabletop task -> environment description (objects, poses, support surface, cameras / observations, robot/action constraints, and success verifier) -> code-agent-generated RoboTwin2 task program -> executable simulator smoke and data-collection dry run.",
+    "Architecture implementation map: implemented foundation = LeHome / LeHome-challenge plus RoboLab; active v0 demo base = RoboTwin2 for tabletop Text2Env, data collection, Pi / OpenVLA-OFT training hooks, and evaluation; candidate simulator base to evaluate later = Genesis World 1.0 for fast multi-physics / photorealistic / contact-rich rollout; Real2Sim2Real scene imagination references = RoboGen/FATE-style scene generation and repair, SceneSmith-style agentic text-to-simulation-ready scene construction, Video2Sim2Real-style single-video digital-twin reconstruction plus object-keyframe anchoring, plus PhysX-Anything, PhysX-Omni, ArtiCraft3D / Articraft, WorldComposer, and SceneMutator; analysis/memory = TraceLoader, SimRealGapDetector, RolloutDiagnoser, FailureTaxonomy, and MemoryStore; governance/reporting = GovernanceGate, Isaac smoke gate, demo CLI, and accepted task-pack export.",
+    "SceneSmith-lite scope update 2026-06-13: SceneSmith is the pattern, not the full target. v0 is a weakened tabletop version for RoboTwin2, not full room/house generation: borrow designer/critic/orchestrator and automatic policy evaluation, but limit the generator to table layout, manipulable objects, physical feasibility, object poses, task API usage, program repair, and verifier-readable simulator state.",
+    "Current week work plan from the 2026/06/04-06/08 notes: in RoboTwin2, connect the data collection pipeline, model training path for Pi / OpenVLA-OFT, evaluation, API list, manual-program new task creation, and Env Generator (Text -> Env) with env-description generation plus program coding by a code agent.",
     "Reference update 2026-06-04: add InternData-A1 / InternDataEngine as the large-scale synthetic-data engine reference. The useful pattern is not only more simulator tasks, but a decoupled production stack: compositional skill/task assembly, heterogeneous embodiments, rich simulator-state annotations, multi-dimensional randomization, and high-throughput scheduling for policy pretraining data.",
     "Policy-base direction 2026-06-04: consider MolmoAct 2 as an open reasoning VLA backbone for the self-improving loop, similar in spirit to LLM-based reasoning-model improvement. AgenticSim can provide generated/evaluated trajectories, RISE-style imaginary rollout advantages, trace memory, and governance gates; MolmoAct 2 / LeRobot can be the finetune/inference entry point once hardware and action-space adapters are checked.",
     "Real2Sim2Real reference update 2026-06-09: Video2Sim2Real should inform the concrete single-video path. For AgenticSim, split the contract into: 1) reconstruct a simulator-ready digital twin and object/robot motion priors from a human video; 2) detect object-centric keyframes instead of trusting full human-retargeted motion; 3) optimize robot configuration anchors inside the simulator; 4) learn real-world point-cloud recalibration via IL; 5) use residual RL for local finger/contact adaptation; 6) keep collision-aware planning for spatial generalization.",
@@ -115,7 +115,7 @@
       "title": "RoboTwin 2.0 official repository",
       "url": "https://github.com/RoboTwin-Platform/RoboTwin",
       "submitted_at": "2025-06-22",
-      "notes": "Candidate dual-arm manipulation benchmark/data-generator base to evaluate later; not yet implemented in AgenticSim."
+      "notes": "Active near-term demo base for Self-Improving Agents: build the tabletop Text2Env demo, API list, manual-program new-task path, data collection dry run, and Pi / OpenVLA-OFT training/evaluation hooks before treating it as a broader AgenticSim backend."
     },
     {
       "title": "Dual-Sim: RoboTwin tasks migrated to IsaacSim",
@@ -128,7 +128,7 @@
       "url": "https://scenesmith.github.io/",
       "arxiv_id": "2602.09153",
       "submitted_at": "2026",
-      "notes": "Environment-creation reference for Self-Improving Agents: hierarchical VLM-agent text-to-scene pipeline with designer/critic/orchestrator stages; constructs layout, furniture, mounted objects, lights, manipulands, physical properties, collision/inertia-ready assets, and simulation-ready indoor scenes that support teleoperation, zero-shot policy rollouts, and automatic robot policy evaluation."
+      "notes": "Reference pattern for the RoboTwin2 Text2Env demo, not the full implementation target. SceneSmith generates full indoor simulation-ready scenes with designer/critic/orchestrator VLM agents; our v0 borrows that staged loop but weakens it to tabletop manipulation: text -> table env description -> RoboTwin2 task program -> simulator smoke / data collection / policy evaluation."
     },
     {
       "title": "Video2Sim2Real: Full-Stack Autonomous Dexterous Skill Acquisition from a Single Human Video",
@@ -184,8 +184,8 @@
     "Dual-Sim access note 2026-06-11: https://github.com/chengaopro/Dual-Sim was user-provided but publicly returned 404 during this update. Treat it as a high-value private/soon-to-open adapter reference; first acceptance step is access confirmation before claiming any code-level merge.",
     "Execution risk: generated scenes and ArtiCraft3D-style generated assets must be executable, reproducible, physically plausible, and gated by verifier / novelty / difficulty checks; TTT must improve held-out accepted scenes rather than overfit one generated scene.",
     "Video2Sim2Real adoption decision 2026-06-09: borrow its object-centric anchor and sim2real adaptation decomposition, but do not make the whole project depend on dexterous-hand demonstrations. AgenticSim should first implement the interface contract on one tabletop task: video/digital-twin manifest, object-keyframe anchors, robot-anchor optimization, recalibration dataset, residual adaptation hook, and real/sim verifier outputs.",
-    "SceneSmith reference decision: borrow its staged designer/critic/orchestrator scene-construction contract and automatic policy-evaluation loop, but gate adoption on whether AgenticSim can export/query collision, inertia, manipuland affordances, and verifier-readable simulator state rather than only visual scene assets.",
-    "Next decision: choose the first demo task family and lock the report format: accepted scenes, rejected scenes, pass-rate chart, failure memory, world-belief diff, TTT delta, and next-task schedule.",
+    "SceneSmith-lite decision 2026-06-13: do not attempt full-room SceneSmith first. The current target is a RoboTwin2 tabletop Text2Env demo; done means executable task program, verifier-readable env description, simulator smoke, data-collection dry run, and Pi / OpenVLA-OFT train/eval hook, not a pretty scene-only asset.",
+    "Next decision: choose the first tabletop Text2Env demo task family and lock the report format: accepted env descriptions, rejected env descriptions, executable program diffs, pass-rate chart, failure memory, world-belief diff, TTT delta, and next-task schedule.",
     "MolmoAct 2 base decision: promising as an open reasoning/action backbone because weights, data, code, training recipe, and LeRobot integration are available, but it is not itself a self-improving loop. We need an adapter for our robot/action space and a closed-loop AgenticSim finetune/eval recipe before treating it as the main base.",
     "MolmoAct 2 limitation to verify: current public framing notes batch-style action planning and strongest support for SO-100, bimanual YAM, and Franka-like setups. Continuous replanning, hand-equipped robots, and our exact embodiments require additional data or adapters.",
     "Robot-brain architecture decision 2026-06-09: treat the robot controller as a modular agentic brain. Route short/simple jobs to specialized small policies or classical optimization; route long-horizon jobs through VLM task decomposition; let each subtask choose optimizer, VLA, skill API, simulator check, or human escalation.",
@@ -216,9 +216,9 @@
       },
       {
         "label": "MVP",
-        "value": "Scene imagination + TTT"
+        "value": "Text2Env demo"
       }
     ],
-    "target_note": "Meeting-ready proposal intro for simulation-first AgenticSim, grounded in completed environment coverage, pipeline tests, failure traces, demo CLI, smoke gate evidence, and a two-stage scene-imagination/test-time-training direction."
+    "target_note": "Meeting-ready proposal intro for simulation-first AgenticSim, now grounded in a concrete RoboTwin2 Text2Env demo target: text task -> tabletop env description -> generated task program -> simulator smoke / data collection -> Pi or OpenVLA-OFT training and evaluation hook."
   }
 }
