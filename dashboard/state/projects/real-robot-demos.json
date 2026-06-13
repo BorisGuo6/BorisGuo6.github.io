@@ -4,7 +4,7 @@
   "title": "Real-Robot Demos",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-06-13T00:13:51+08:00",
+  "updated_at": "2026-06-13T16:13:00+08:00",
   "description": "真机 demo queue for Wuji / Franka / dexterous-hand experiments",
   "summary": "This Engineering card owns the physical real-robot demo list. DexGello remains the data/control dependency layer for q_arm, T_hand, q_finger, MANUS/VIVE logging, and cuRobo where needed; demo scenarios, consumables, safety gates, owners, and acceptance evidence live here.",
   "visual": {
@@ -79,19 +79,40 @@
         "status": "todo",
         "todo": "Find Taobao options that can ship to Singapore with 199 free-shipping if possible, compare total price, then wait for purchase confirmation.",
         "notes": "Track both procurement and the first pick-use-tool-assemble/disassemble video/log evidence; do not mark done at link collection only."
+      },
+      {
+        "demo": "Long-horizon failure-data demo: sweep object into dustpan",
+        "owner": "DexGello / Learn-from-failure-data support; Yuhang & Jingxiang",
+        "hardware": "Franka + Wuji or simpler dexterous-hand/gripper tool-holding setup; small broom and dustpan",
+        "object_setup": "Light tabletop object or debris proxy; broom grasp; dustpan target zone; camera view of object progress and tool contact",
+        "status": "todo",
+        "todo": "Design safe tabletop broom/dustpan setup, then run dry-run and low-speed robot trial with phase labels: grasp broom, align object, sweep, enter dustpan, settle.",
+        "notes": "Primary value is long-horizon stage importance for failure-data learning: failed sweeps still contain learnable approach/grasp/alignment phases, while bad contact or missed dustpan stages should be low-weight failure evidence."
+      },
+      {
+        "demo": "Long-horizon failure-data demo: two 90-degree cube turns",
+        "owner": "DexGello / Learn-from-failure-data support; Yuhang & Jingxiang",
+        "hardware": "Wuji or dexterous hand; Rubik-style cube or low-friction cube fixture",
+        "object_setup": "Cube with visible face markers; stable table/fixture; camera view of finger contact and face orientation",
+        "status": "todo",
+        "todo": "Define two-step 90-degree turn task, safe force limits, orientation labels, and low-speed trial that records success/failure after each quarter-turn.",
+        "notes": "Use this as a compact long-horizon manipulation sequence: pregrasp, first 90-degree turn, regrasp/stabilize, second 90-degree turn. Good for testing whether the metric separates useful early phases from failed final rotation."
       }
     ]
   },
   "details": [
     "Scope rule: this card owns demo scenarios, physical objects, consumables, safety gates, and acceptance evidence. DexGello owns reusable data/control dependencies such as GELLO arm state, MANUS/Wuji finger state, VIVE hand pose, cuRobo planning, and episode logging.",
     "Procurement rule: Taobao/Lego candidate links are TODO evidence only. Do not mark procurement done until purchase route, delivery destination, receipt/procurement record, and arrival/fit check are recorded.",
-    "Safety rule: every demo starts with read-only or simulation/dry-run, then low-speed robot motion with workspace limits, cable checks, and a dedicated E-stop watcher before collecting publishable evidence."
+    "Safety rule: every demo starts with read-only or simulation/dry-run, then low-speed robot motion with workspace limits, cable checks, and a dedicated E-stop watcher before collecting publishable evidence.",
+    "Failure-data link 2026-06-13: broom-to-dustpan and two 90-degree cube-turn demos are added specifically as longer-horizon data sources for DexGello learn-from-failure metrics. They should log phase boundaries, intervention/takeover, object/contact progress, and which failed stages should not be imitated."
   ],
   "task_ids": [
     "task_real_robot_infra_wuji_franka_slime_cut_demo",
     "task_general_tactile_stacking_pilot",
     "task_real_robot_demo_wuji_plastic_bag_rubbing",
-    "task_real_robot_demo_changliu_lego_tool_manipulation"
+    "task_real_robot_demo_changliu_lego_tool_manipulation",
+    "task_real_robot_demo_broom_dustpan_long_horizon",
+    "task_real_robot_demo_two_90_cube_turns"
   ],
   "references": [
     {
@@ -114,6 +135,7 @@
     "Do not let demo ownership drift back into DexGello. DexGello can provide dependencies and logs, but this Engineering card is the source of truth for scenario rows and open demo TODOs.",
     "Plastic-bag rubbing depends on choosing a safe 3M anti-slip tape placement that improves grip without damaging Wuji fingertips, blocking sensors, or snagging cables.",
     "Lego / tool-manipulation procurement needs human purchase confirmation. Link discovery and shipping comparison are progress, not completion.",
+    "Long-horizon failure-data demos should not be judged only by final success. They need per-stage labels so DexGello can learn useful pre-failure segments without imitating the actual failed action.",
     "All demos need explicit low-speed safety gates, workspace limits, cable routing, object fixture cleanup, and logged pass/fail evidence before being treated as done."
   ],
   "timeline": {
