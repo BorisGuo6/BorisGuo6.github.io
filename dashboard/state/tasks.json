@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-13T00:23:02+08:00",
+  "updated_at": "2026-06-13T16:21:14+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -7460,6 +7460,75 @@
       ],
       "updated_at": "2026-06-13T16:13:00+08:00",
       "started_at": "2026-06-13",
+      "completed_at": null
+    },
+    {
+      "task_id": "task_self_improving_cosmos3_robolab_rollouts",
+      "project_id": "self-improving-agents",
+      "title": "Collect Cosmos3-policy RoboLab 3600 rollout corpus",
+      "description": "基于 Cosmos3-policy pretrained weights，收集 RoboLab 全任务 rollout 语料：120 tasks * 3 difficulties * 10 rollouts = 3600 rollouts。目标不是先做大规模 RL，而是先得到可审计的数据底座，用于单任务 fast self-improvement、memory-bank critic 和 lightweight adapter/head。验收：1) dataset manifest 包含 task_id、difficulty、seed、policy checkpoint / model version、action space、success/failure、episode length、observation/state retrieval key、log path、artifact path 和 checksum；2) 有 collection progress table，能看出 120*3*10 的覆盖和缺失项；3) 选出一个单任务 subset 用于快速自提升实验；4) 记录 GPU/RAM/运行时成本和失败原因；5) 不允许只靠计划或少量样例标记 done。",
+      "status": "active",
+      "priority": "high",
+      "assignee": "Xiaoyang / Gao Chen / Jingxiang",
+      "due_at": "",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_self_improving_cosmos3_robolab_rollouts_seed_20260613",
+          "author": "Boris / Codex",
+          "body": "Seeded from the 2026-06-13 Self-Improving group update: Xiaoyang is starting from Cosmos3-policy pretrained weights and collecting all RoboLab tasks across 120 tasks, 3 difficulties, and 10 rollouts each. This task tracks the actual corpus and metadata, not just the research direction.",
+          "created_at": "2026-06-13T16:21:14+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-06-13T16:21:14+08:00",
+      "started_at": "2026-06-13",
+      "completed_at": null
+    },
+    {
+      "task_id": "task_self_improving_wam_memory_critic",
+      "project_id": "self-improving-agents",
+      "title": "Design WAM test-time critic from rollout memory bank",
+      "description": "设计 WAM test-time critic 的 memory-bank 路线：从历史 rollout 中检索相似状态 / 相似 action context，用成功和失败轨迹估计当前 action/state 的质量、风险和不确定性，并把结果反馈给 Diagnosis/Analysis agent 与 test-time adaptation。验收：1) 定义 memory schema 和 retrieval key（视觉/state/action/语言/task context 哪些字段参与）；2) 实现或写出可运行 baseline 的 kNN/prototype retrieval；3) critic API 输出 score、uncertainty、nearest successes/failures、evidence window 和 data-requirement suggestion；4) 在 3600 rollout corpus 的一个 subset 上做离线评估，对比 no-memory / random retrieval；5) 记录失败案例，明确何时需要新数据而不是盲目更新 policy。",
+      "status": "active",
+      "priority": "high",
+      "assignee": "Xiaoyang / Jingxiang / Gao Chen",
+      "due_at": "",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_self_improving_wam_memory_critic_seed_20260613",
+          "author": "Boris / Codex",
+          "body": "Seeded from the 2026-06-13 group discussion: the critic is still under design. Candidate 1 is a database / memory bank that retrieves similar historical rollout states and uses success/failure trajectories for estimation. This is the first non-RL path to make WAM self-improvement auditable.",
+          "created_at": "2026-06-13T16:21:14+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-06-13T16:21:14+08:00",
+      "started_at": "2026-06-13",
+      "completed_at": null
+    },
+    {
+      "task_id": "task_self_improving_lightweight_ttt_adapter",
+      "project_id": "self-improving-agents",
+      "title": "Train lightweight Cosmos3-policy TTT adapter/head",
+      "description": "在不做完整 RL post-training 的前提下，为 Cosmos3-policy 训练轻量 head / adapter，使其先适配 RoboLab benchmark 的 action distribution；test time 只更新 adapter 或少量参数，并和 memory critic 联动。验收：1) 明确 adapter/head 结构、冻结参数范围和可更新参数量；2) 给出训练脚本/config、数据 split 和 4x L40S 内的显存/时间预算；3) 在 held-out rollout 或单任务 fast-improvement 实验上比较 base、adapter-only、memory-injected、adapter+memory；4) 写清 test-time update protocol、停止条件和回滚条件；5) 产出可复现日志/checkpoint/eval 表，不允许只写方案标记 done。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Xiaoyang / Jingxiang / Gao Chen",
+      "due_at": "",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_self_improving_lightweight_ttt_adapter_seed_20260613",
+          "author": "Boris / Codex",
+          "body": "Seeded from the 2026-06-13 group discussion: RL was considered but is expensive with the current four-L40S constraint. Candidate 2 is a lightweight module trained on the RoboLab rollout corpus so Cosmos3-policy can adapt to the benchmark action distribution, with test-time updates limited to an adapter or small parameter subset.",
+          "created_at": "2026-06-13T16:21:14+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-06-13T16:21:14+08:00",
+      "started_at": null,
       "completed_at": null
     }
   ]
