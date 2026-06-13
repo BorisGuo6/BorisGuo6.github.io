@@ -4,15 +4,18 @@
   "title": "Self-Improving Agents for Physical AI",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-06-13T11:43:10+08:00",
-  "description": "Simulation-first AgenticSim proposal: RoboTwin2 Text2Env demo plus self-improving loop",
-  "summary": "Near-term priority is a RoboTwin2 tabletop Text2Env demo: turn a text task into an executable environment description and task program, run data collection / evaluation, then use failures to expand the next curriculum.",
+  "updated_at": "2026-06-13T16:09:04+08:00",
+  "description": "Simulation-first AgenticSim proposal: orchestrated setup-collect-train-eval-diagnose loop",
+  "summary": "Self-Improving Agents is now framed as a closed loop coordinated by a central Orchestrator plus shared Blackboard/Memory: Env Setup -> Data Collect -> Policy Training -> Eval Agent -> Diagnosis/Analysis -> targeted Env Setup. The near-term RoboTwin2 Text2Env demo is the first Env Setup slice.",
   "asset": "dashboard/assets/pearl-overview.png",
   "asset_alt": "PEARL self-improving physical AI framework",
   "asset_caption": "Proposal frame: real execution failure -> trace memory -> eval gate -> world-model screening -> promoted agent / workflow / strategy -> harder diagnostic VLA eval.",
   "details": [
     "Current foundation: 129 registered AgenticSim environments, 38/38 full-runner tests, 16 failure traces, demo CLI, and Isaac smoke gate.",
-    "Near-term priority 2026-06-13: first build the Text2Env demo in RoboTwin2. Contract: natural-language tabletop task -> environment description (objects, poses, support surface, cameras / observations, robot/action constraints, and success verifier) -> code-agent-generated RoboTwin2 task program -> executable simulator smoke and data-collection dry run.",
+    "Slides-linked architecture update 2026-06-13: the proposal intro should center on a central Orchestrator plus shared Blackboard/Memory coordinating five specialized agents in a closed loop: Env Setup, Data Collect, Policy Training, Eval Agent, and Diagnosis/Analysis. The blackboard stores task specs, datasets, checkpoints, eval reports, diagnoses, competence map, and experiment history.",
+    "Closed-loop contract from the slides: Setup -> Collect -> Train -> Evaluate -> Diagnose -> targeted Setup. Diagnosis/Analysis is the novel core because it turns root-cause analysis and curriculum reasoning into a structured Data Requirement spec for the next environment/setup pass.",
+    "Message/interface rule from the slides: every inter-agent message should be a structured spec plus natural-language rationale, so the whole process stays auditable and steerable rather than becoming an opaque autonomous loop.",
+    "Near-term priority 2026-06-13: first build the Text2Env demo in RoboTwin2 as the Env Setup agent slice. Contract: natural-language tabletop task -> environment description (objects, poses, support surface, cameras / observations, robot/action constraints, and success verifier) -> code-agent-generated RoboTwin2 task program -> executable simulator smoke and data-collection dry run.",
     "Architecture implementation map: implemented foundation = LeHome / LeHome-challenge plus RoboLab; active v0 demo base = RoboTwin2 for tabletop Text2Env, data collection, Pi / OpenVLA-OFT training hooks, and evaluation; candidate simulator base to evaluate later = Genesis World 1.0 for fast multi-physics / photorealistic / contact-rich rollout; Real2Sim2Real scene imagination references = RoboGen/FATE-style scene generation and repair, SceneSmith-style agentic text-to-simulation-ready scene construction, Video2Sim2Real-style single-video digital-twin reconstruction plus object-keyframe anchoring, plus PhysX-Anything, PhysX-Omni, ArtiCraft3D / Articraft, WorldComposer, and SceneMutator; analysis/memory = TraceLoader, SimRealGapDetector, RolloutDiagnoser, FailureTaxonomy, and MemoryStore; governance/reporting = GovernanceGate, Isaac smoke gate, demo CLI, and accepted task-pack export.",
     "SceneSmith-lite scope update 2026-06-13: SceneSmith is the pattern, not the full target. v0 is a weakened tabletop version for RoboTwin2, not full room/house generation: borrow designer/critic/orchestrator and automatic policy evaluation, but limit the generator to table layout, manipulable objects, physical feasibility, object poses, task API usage, program repair, and verifier-readable simulator state.",
     "Current week work plan from the 2026/06/04-06/08 notes: in RoboTwin2, connect the data collection pipeline, model training path for Pi / OpenVLA-OFT, evaluation, API list, manual-program new task creation, and Env Generator (Text -> Env) with env-description generation plus program coding by a code agent.",
@@ -131,6 +134,12 @@
       "notes": "Reference pattern for the RoboTwin2 Text2Env demo, not the full implementation target. SceneSmith generates full indoor simulation-ready scenes with designer/critic/orchestrator VLM agents; our v0 borrows that staged loop but weakens it to tabletop manipulation: text -> table env description -> RoboTwin2 task program -> simulator smoke / data collection / policy evaluation."
     },
     {
+      "title": "Self-Improving Agents proposal slides: Orchestrator + shared Blackboard loop",
+      "url": "https://docs.google.com/presentation/d/1vf-El5cI5wq0i9XSxu_z10LiYj9MyT2ked3gjQWRSIM/edit",
+      "submitted_at": "2026-06-13",
+      "notes": "User-provided bound deck for the Self-Improving project. Current intro should follow the slide framing: a central Orchestrator plus shared Blackboard/Memory coordinates Env Setup, Data Collect, Policy Training, Eval Agent, and Diagnosis/Analysis; the loop is Setup -> Collect -> Train -> Evaluate -> Diagnose -> targeted Setup, with structured specs plus natural-language rationales as auditable inter-agent messages."
+    },
+    {
       "title": "Video2Sim2Real: Full-Stack Autonomous Dexterous Skill Acquisition from a Single Human Video",
       "url": "https://arxiv.org/abs/2606.08828",
       "arxiv_id": "2606.08828",
@@ -185,6 +194,7 @@
     "Execution risk: generated scenes and ArtiCraft3D-style generated assets must be executable, reproducible, physically plausible, and gated by verifier / novelty / difficulty checks; TTT must improve held-out accepted scenes rather than overfit one generated scene.",
     "Video2Sim2Real adoption decision 2026-06-09: borrow its object-centric anchor and sim2real adaptation decomposition, but do not make the whole project depend on dexterous-hand demonstrations. AgenticSim should first implement the interface contract on one tabletop task: video/digital-twin manifest, object-keyframe anchors, robot-anchor optimization, recalibration dataset, residual adaptation hook, and real/sim verifier outputs.",
     "SceneSmith-lite decision 2026-06-13: do not attempt full-room SceneSmith first. The current target is a RoboTwin2 tabletop Text2Env demo; done means executable task program, verifier-readable env description, simulator smoke, data-collection dry run, and Pi / OpenVLA-OFT train/eval hook, not a pretty scene-only asset.",
+    "Orchestrator/blackboard decision 2026-06-13: describe the project as a five-agent closed loop rather than a single Text2Env tool. Text2Env is the first Env Setup implementation, while Diagnosis/Analysis remains the novel core that writes targeted Data Requirement specs back into setup.",
     "Next decision: choose the first tabletop Text2Env demo task family and lock the report format: accepted env descriptions, rejected env descriptions, executable program diffs, pass-rate chart, failure memory, world-belief diff, TTT delta, and next-task schedule.",
     "MolmoAct 2 base decision: promising as an open reasoning/action backbone because weights, data, code, training recipe, and LeRobot integration are available, but it is not itself a self-improving loop. We need an adapter for our robot/action space and a closed-loop AgenticSim finetune/eval recipe before treating it as the main base.",
     "MolmoAct 2 limitation to verify: current public framing notes batch-style action planning and strongest support for SO-100, bimanual YAM, and Franka-like setups. Continuous replanning, hand-equipped robots, and our exact embodiments require additional data or adapters.",
@@ -219,6 +229,6 @@
         "value": "Text2Env demo"
       }
     ],
-    "target_note": "Meeting-ready proposal intro for simulation-first AgenticSim, now grounded in a concrete RoboTwin2 Text2Env demo target: text task -> tabletop env description -> generated task program -> simulator smoke / data collection -> Pi or OpenVLA-OFT training and evaluation hook."
+    "target_note": "Meeting-ready proposal intro for simulation-first AgenticSim, now grounded in a five-agent orchestrator/blackboard loop and a concrete RoboTwin2 Text2Env Env Setup slice."
   }
 }
