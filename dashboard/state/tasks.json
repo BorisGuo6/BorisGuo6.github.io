@@ -7385,6 +7385,29 @@
       "updated_at": "2026-06-13T00:13:51+08:00",
       "started_at": "2026-06-13",
       "completed_at": null
+    },
+    {
+      "task_id": "task_dex_gello_failure_data_phase_importance_metric",
+      "project_id": "dex-gello",
+      "title": "DexGello: learn from failure data with phase-importance metric",
+      "description": "探索一个用于灵巧手 long-horizon 任务的失败数据学习指标：不是把失败轨迹整段拿去学，而是从失败 rollout 中区分有意义的前序阶段和真正失败阶段。目标 metric 要能判断每个阶段的信息价值 / 重要性，例如 grasp 阶段 object/contact 相关指标升高，接触临界、滑移、预抓取姿态、目标物状态变化、operator hesitation 等信号升高；DAgger rollout 中人类介入接管的片段也应给出更高重要性。训练策略：失败轨迹里失败前的高重要阶段可以作为 imitation / replay / curriculum 样本，失败动作本身默认不学或低权重，只保留为 failure label / recovery trigger。验收：1) 定义至少 2-3 个 metric 候选（object-centric progress/contact score、human takeover/intervention score、policy uncertainty/nonconformity、phase transition score 等）；2) 在 DexGello episode schema 里标出 phase、success/failure、takeover、contact/object state 字段；3) 用 3-5 条成功/失败/接管样例做离线打分表；4) 给出如何切片成 learnable pre-failure segments 与 non-learn failure segments；5) 接到 DAgger / diffusion-policy / world-model training 的 sample-weight 或 curriculum 接口。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Boris / DexGello",
+      "due_at": "",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_dex_gello_failure_data_metric_seed_20260613",
+          "author": "Boris / Codex",
+          "body": "Seeded from user request on 2026-06-13: learn from failure data by extracting meaningful information from failed dexterous-hand trajectories. Long-horizon task phases should get an importance metric; high-value pre-failure phases can be learned, while the actual failed stage should not be imitated. Human takeover during DAgger rollout should raise the metric.",
+          "created_at": "2026-06-13T16:03:13+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-06-13T16:03:13+08:00",
+      "started_at": "2026-06-13",
+      "completed_at": null
     }
   ]
 }
