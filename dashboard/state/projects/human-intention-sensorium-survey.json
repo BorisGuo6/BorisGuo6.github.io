@@ -4,9 +4,9 @@
   "title": "Human Intention Data Collection Proposal",
   "bucket": "survey",
   "status": "survey",
-  "updated_at": "2026-06-09T02:12:00+08:00",
+  "updated_at": "2026-06-15T19:35:36+08:00",
   "description": "Keep in Survey as a full data-collection proposal: build an intention-first human-data stack whose ordered signals eventually feed an XLA model that can fuse all usable human, contact, embodiment, and environment channels.",
-  "summary": "Proposal-stage survey for collecting human demonstrations as intention-rich multimodal episodes. The priority order follows Boris' list: eye tracking, EMG, EEG, wrist muscle ultrasound, wrist cameras, tactile, whole-body pose, proximity, temperature, vibration, multichannel audio / source localization, and finally smell or taste when the task justifies it. The end goal is an XLA-style cross-modal latent action / intention model that consumes all aligned signals and predicts target, affordance, contact onset, force direction, hesitation, correction, and failure evidence for robot learning.",
+  "summary": "Proposal-stage survey for collecting human demonstrations as intention-rich multimodal episodes. The priority order follows Boris' list: eye tracking, EMG, EEG, wrist muscle ultrasound, wrist cameras, tactile, whole-body pose, proximity, temperature, vibration, multichannel audio / source localization, and finally smell or taste when the task justifies it. P2GI now anchors the proximity case: pre-contact hand-object relation can drive grasp-posture selection before touch, not merely annotate contact after the fact. The end goal is an XLA-style cross-modal latent action / intention model that consumes all aligned signals and predicts target, affordance, contact onset, force direction, hesitation, correction, and failure evidence for robot learning.",
   "asset": "dashboard/assets/survey-human-intention-sensorium.svg",
   "details": [
     {
@@ -70,6 +70,19 @@
       ]
     },
     {
+      "text": "Proximity update 2026-06-15: KAIST P2GI is the strongest concrete reference so far for proximity as an actionable pre-contact signal. Palmar proximity sensors on a dexterous prosthetic hand scan an object point cloud during approach, then infer grasp posture, object size, and object center before a simple EMG grasp command triggers the planned finger motion. For our Ray-Ban + FSR glove and robot-demo stack, the takeaway is to log pre-contact hand-object relation, not only pressure after touch; proximity can become an early target / affordance / contact-onset label for XLA and a stage-importance feature for dexterous failure learning.",
+      "links": [
+        {
+          "label": "KAIST publication page",
+          "url": "https://pure.kaist.ac.kr/en/publications/proximity-perception-based-grasping-intelligence-toward-the-seaml/"
+        },
+        {
+          "label": "KAIST MatriX highlight",
+          "url": "https://kmatrix.kaist.ac.kr/proximity-perception-based-grasping-intelligence-toward-the-seamless-control-of-a-dexterous-prosthetic-hand/"
+        }
+      ]
+    },
+    {
       "text": "XLA target: define a unified multimodal episode schema and model interface where every channel is time-aligned into latent intention/action tokens. XLA should be able to accept partial observations at train or test time: gaze+EMG for early intent, wrist+tactile for contact, whole-body pose for HOI context, audio/vibration/proximity for hidden events, and optional temperature/smell/taste for task-specific physical evidence."
     },
     {
@@ -99,7 +112,8 @@
     "Data-source decision 2026-06-09: do not rank data sources by aesthetic purity. Human ego, UMI, teleop, simulation, YouTube-scale video, LLM/VLM/video-model priors, and wearable signals are all admissible if they contribute usable labels or coverage. The explicit portfolio gap is human-robot collaboration data.",
     "Human-robot collaboration data should be treated as a distinct missing dataset type, not as a subset of human-only wearable data or robot-only teleop data. It needs labels for shared perception, instruction, intent transfer, intervention, correction, handoff, and recovery.",
     "Partner discussion decision 2026-06-09: after visiting Zhiyuan, talk to Mifeng Tech if possible. The ask is not generic hardware procurement; it is synchronized raw-stream access and expansion paths for gaze, EMG/EEG, wrist ultrasound, whole-body pose, audio arrays, and XLA-ready schema.",
-    "Survey decision 2026-06-09: keep as a new proposal-oriented Survey card, not archive and not VTLA-only. VTLA owns tactile/contact representation; this card owns the broader human-intention data-collection proposal and XLA signal-fusion target."
+    "Survey decision 2026-06-09: keep as a new proposal-oriented Survey card, not archive and not VTLA-only. VTLA owns tactile/contact representation; this card owns the broader human-intention data-collection proposal and XLA signal-fusion target.",
+    "Proximity decision 2026-06-15: P2GI shows proximity can drive shared-autonomy grasp selection, but this does not automatically become an immediate hardware purchase. First decide whether Ray-Ban video + FSR glove data can infer enough pre-contact relation, then consider a small fingertip/palmar proximity add-on only if the marginal label value is clear."
   ],
   "asset_alt": "Human intention data collection proposal diagram linking ordered sensing modalities to synchronized XLA training signals and robot-learning consumers",
   "asset_caption": "Proposal diagram: ordered human-intention signals become synchronized XLA inputs, not a generic sensor checklist.",
@@ -160,6 +174,13 @@
       "url": "https://www.nature.com/articles/s44387-026-00083-5",
       "submitted_at": "2026",
       "notes": "Survey framing for wearable multimodal human motion intent prediction, including physiological and motion signals plus limits from heterogeneity, redundancy, and computational complexity."
+    },
+    {
+      "title": "Proximity Perception-Based Grasping Intelligence: Toward the Seamless Control of a Dexterous Prosthetic Hand",
+      "url": "https://pure.kaist.ac.kr/en/publications/proximity-perception-based-grasping-intelligence-toward-the-seaml/",
+      "doi": "10.1109/TMECH.2023.3324051",
+      "submitted_at": "2024",
+      "notes": "KAIST P2GI reference: palmar proximity sensors scan object point clouds during approach, infer grasp posture / object size / center, and enable shared-autonomy prosthetic grasping with a single-channel EMG command. Key relevance: proximity is a pre-contact object-relation signal for intention, affordance, contact-onset, and DexGello failure-phase metrics."
     }
   ]
 }

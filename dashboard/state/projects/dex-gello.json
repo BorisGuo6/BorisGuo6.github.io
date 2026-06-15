@@ -4,7 +4,7 @@
   "title": "DexGello: Arm-Hand Decoupled Teleoperation",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-06-13T16:13:00+08:00",
+  "updated_at": "2026-06-15T19:35:36+08:00",
   "description": "Yongxi Lai-led Franka + Wuji dexterous-hand data-collection project using GELLO, MANUS, and VIVE as decoupled arm, hand-pose, and finger channels.",
   "summary": "DexGello separates robot-oriented arm control from human-oriented hand pose and finger articulation: GELLO controls/logs q_arm for Franka, VIVE logs independent T_hand on the operator hand, and MANUS logs/retargets q_finger for Wuji hand. The core question is whether this richer decoupled state improves dexterous teleoperation data quality and downstream policy learning.",
   "subprojects": [
@@ -42,6 +42,7 @@
     "Demo boundary update 2026-06-13: physical demo scenarios such as Wuji + Franka slime-clay cutting and Jenga-style block extraction moved to Engineering / Real-Robot Demos. DexGello keeps the reusable data/control stack: q_arm, T_hand, q_finger, MANUS/VIVE integration, episode logging, ablations, policy evaluation, and cuRobo planning dependency.",
     "Research comparison: evaluate Gello-only, Gello + MANUS, and Gello + VIVE + MANUS. The expected useful signals are operator comfort, trajectory smoothness, contact timing, finger-pose quality, hand-pose alignment, demo diversity, and downstream imitation-learning / diffusion-policy performance.",
     "Failure-data learning update 2026-06-13: DexGello should not treat all failed rollouts as negative examples to learn wholesale. The useful target is a phase-importance metric for long-horizon dexterous tasks: identify meaningful pre-failure stages worth imitating, downweight the actual failure stage, and use DAgger human-takeover segments as high-importance supervision. Example intuition: during grasp, object/contact metrics should spike; during rollout, human intervention/takeover marks that the current stage is important or risky.",
+    "P2GI proximity update 2026-06-15: KAIST's proximity-perception grasping system is a useful reference for the failure/phase metric. It suggests explicit pre-contact features such as hand-object distance, center offset, object-size estimate, grasp-posture confidence, and contact-onset expectation. DexGello should record or estimate these features when possible, but proximity sensors are not a v0 blocker.",
     "Long-horizon demo update 2026-06-13: candidate true-robot data sources for learn-from-failure are broom-to-dustpan sweeping and two 90-degree cube turns. They are deliberately longer than simple grasp demos and should expose phase boundaries such as tool grasp, alignment, sweep/rotation, stabilization, and final placement/orientation failure.",
     "Relation to DexUMI: DexUMI uses the human hand as a universal dexterous interface and bridges visual/kinematic gaps. DexGello keeps the efficient GELLO arm channel instead of replacing arm teleop with only hand tracking, and adds an explicit hand-pose channel so the dataset can study arm-hand information overlap.",
     "Relation to VR teleoperation: the separate Real Robot Infra task for VR-controlling Franka remains a hardware/control baseline. DexGello's v0 should stay cleaner: Gello controls arm, MANUS controls/logs fingers, VIVE logs hand pose for data and analysis.",
@@ -99,6 +100,12 @@
       "title": "dex-teleop: VR-based teleoperation for dexterous manipulation",
       "url": "https://github.com/GeneralTrajectory/dex-teleop",
       "notes": "Engineering reference for VIVE Tracker + hand tracking + synchronized HDF5 recording. Use as a comparison point, but DexGello keeps GELLO as the arm-control channel."
+    },
+    {
+      "title": "Proximity Perception-Based Grasping Intelligence",
+      "url": "https://pure.kaist.ac.kr/en/publications/proximity-perception-based-grasping-intelligence-toward-the-seaml/",
+      "doi": "10.1109/TMECH.2023.3324051",
+      "notes": "Reference for proximity-based shared-autonomy grasping. Use as a metric/design reference for pre-contact hand-object relation and stage importance; do not make additional proximity hardware mandatory for DexGello v0."
     }
   ],
   "risks_decisions": [
@@ -108,6 +115,7 @@
     "Information-overlap risk: VIVE hand pose may be redundant with GELLO end-effector pose for some tabletop tasks. The project needs explicit overlap metrics rather than assuming more sensors always help.",
     "Policy risk: downstream gains may appear only after enough dexterous tasks involve wrist roll, hand approach posture, or human finger pre-shaping. Choose tasks where the extra human-hand channel has a plausible role.",
     "Failure-data risk: failed trajectories are not automatically useful. The metric must separate high-value pre-failure phases from the actual wrong action, otherwise imitation learning may amplify bad recovery/contact behavior.",
+    "Proximity/P2GI boundary: use P2GI as a design reference for pre-contact object-relation metrics. Adding proximity sensors to Wuji is a possible v1 experiment, not a prerequisite for the current GELLO + MANUS + VIVE logger.",
     "DexGello input boundary: do not reintroduce GELLO trigger as the hand/finger control source. Keep arm control on GELLO, wrist/intent on ACE-style ring, and hand/finger retargeting on MANUS.",
     "Demo boundary: slime-clay cutting, Jenga extraction, broom-to-dustpan sweeping, cube-turning, plastic-bag rubbing, and Lego tool manipulation are owned by Engineering / Real-Robot Demos; DexGello contributes reusable logging, calibration, planning, and evaluation dependencies only. Safety gates still apply before any live run.",
     "cuRobo boundary: planning wrapper, collision scene, joint limits, and reusable planner integration belong in DexGello; concrete demo scenario ownership and pass/fail evidence live in Real-Robot Demos.",

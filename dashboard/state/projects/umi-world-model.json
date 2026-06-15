@@ -4,7 +4,7 @@
   "title": "Tri-View Ego World + Image-Layered IDM Foundation Model",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-06-10T21:18:00+08:00",
+  "updated_at": "2026-06-15T19:40:18+08:00",
   "description": "Three-track robot-data foundation model: generate robot videos, decompose them into layers, then prove layered robot data improves manipulation.",
   "summary": "The project is split into three linked sub-projects: generate robot video data, decompose it into robot / object-contact / background layers, then prove layered robot data improves manipulation.",
   "subprojects": [
@@ -27,9 +27,9 @@
       "output": "policy + eval gains"
     }
   ],
-  "asset": "dashboard/assets/layered-world-model.png",
-  "asset_alt": "Layered robot data hierarchy: background, object, and robot layers feed augmentation, reward, and inverse dynamics.",
-  "asset_caption": "Layered robot data hypothesis: background -> augmentation/adaptation, object/contact -> process reward, robot -> IDM and pose/VO supervision.",
+  "asset": "dashboard/assets/world-model-taxonomy-20260615.jpg",
+  "asset_alt": "World model taxonomy comparing reconstruction, next-step prediction, and runnable models across reconstruction, object/3D, and pixel/video levels.",
+  "asset_caption": "World-model taxonomy reference: reconstruction, next-step prediction, and runnable simulation are different claims; Tri-View should be explicit about which layer is being modeled and evaluated.",
   "visual": {
     "layout": "standard"
   },
@@ -42,6 +42,7 @@
     "Object-layer route: treat object state, contact, and task progress as the reward-bearing dynamics. LIV-style video/language reward models and object-centric trajectory methods become the reference for process reward, failure attribution, and RL fine-tuning signals.",
     "Background-layer route: keep object and robot evidence fixed while varying scene/background for robustness. RoboEngine-style semantic robot segmentation plus background generation is the immediate analogy; the layer model should make this cleaner than flat-image augmentation.",
     "Prior evidence: ARRO shows that SAM/open-vocabulary segmentation and task-specific visual masking can improve robot policies. Our stronger claim is that a full Image-Layered Robot Data representation, beyond masks alone, should improve manipulation by separating robot, object/contact, and scene factors.",
+    "Dashboard asset update 2026-06-15: the world-model taxonomy figure is now the project visual. Use it as a reminder that DINO/MAE/NeRF/scene-flow/video-diffusion/Dreamer/MuJoCo-style claims are not the same capability. Tri-View should state whether a component reconstructs state, predicts next observations, or supports executable rollouts.",
     "Main experiment framing: compare flat RGB robot data vs SAM/mask-only data vs Image-Layered Robot Data on the same manipulation policy/eval tasks. Success requires gains in policy robustness, IDM recoverability, reward/eval quality, or domain adaptation, not only visually clean layer images.",
     "Boundary after Gamma-World: Gamma-style multi-agent world modeling remains a baseline for synchronized interactive video generation. The project novelty should sit in robot-data utility: layer-aware manipulation state, IDM/control decoding, reward/eval heads, and policy ablations."
   ],
@@ -58,6 +59,12 @@
       "arxiv_id": "2605.28816",
       "submitted_at": "2026-05-27",
       "notes": "MAIN REFERENCE / collision baseline. Gamma-World defines the generic synchronized action-conditioned multi-agent world-model lane, with Simplex Rotary Agent Encoding, Sparse Hub Attention, and causal real-time rollout. Tri-View should reproduce or baseline against this direction, then pivot the claim toward view/layer/eval utility for manipulation rather than agent-count scaling."
+    },
+    {
+      "title": "Dashboard asset: world-model taxonomy",
+      "url": "dashboard/assets/world-model-taxonomy-20260615.jpg",
+      "submitted_at": "2026-06-15",
+      "notes": "User-provided taxonomy figure. Keep as a visual guardrail for Tri-View: reconstruction models, next-step predictive models, and runnable simulators are different world-model claims and need different evaluation evidence."
     },
     {
       "title": "Qwen-Image-Layered: Layered Decomposition for Inherent Editability",

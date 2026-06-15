@@ -4,9 +4,9 @@
   "title": "Real-Robot Lab Infra",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-06-13T00:13:51+08:00",
+  "updated_at": "2026-06-15T19:30:41+08:00",
   "description": "Engineering stack for teleoperation, data collection, and robot-side validation",
-  "summary": "Real-Robot Infra asset table: canonical hardware inventory, location, owner, and current readiness state for lab robot/data-collection assets.",
+  "summary": "Real-Robot Infra asset table: canonical hardware inventory, location, owner, and current readiness state for lab robot/data-collection assets, including the FSR tactile glove + Ray-Ban human-centric collection asset.",
   "asset": "dashboard/assets/real-robot-infra-collage.png",
   "asset_alt": "Real-robot lab infrastructure hardware collage",
   "asset_caption": "Hardware matrix: ready systems, dual-Franka same-computer control, and planned glove / tracker teleoperation stack.",
@@ -47,6 +47,7 @@
     "VR teleoperation of Franka must be hardware-gated: start in simulation or read-only pose preview, then low-speed Cartesian control with workspace bounds, deadman switch, rate limiting, collision checks, and an E-stop operator before any live robot motion.",
     "Every hardware TODO should cite its asset-table row and the corresponding Hardware Resource Center manual/SOP location before being marked done.",
     "YAM ALOHA and Wuji glove capture both need a shared timestamp/schema path so their data can flow into the same real-robot dataset and replay verifier infrastructure.",
+    "FSR tactile glove + Ray-Ban human-centric collection should be treated as a paired wearable sensing asset: align egocentric video, FSR channels, timestamps, calibration, privacy/consent handling, and dataset schema before using it as training data.",
     "Do not reopen separate Wuji Glove TODOs for network smoke or data wrapper; keep status, blockers, and evidence on the canonical Wuji Glove task.",
     "Project boundary: Real Robot Infra keeps robot availability, shared safety gates, VR-control baseline, and purchase/setup work; DexGello owns reusable data/control dependencies; Real-Robot Demos owns concrete physical scenario rows and demo pass/fail evidence.",
     "ME Control Lab two-host expansion was completed on 2026-06-12; keep future host changes as separate scaling or maintenance TODOs rather than reopening the original two-host blocker.",
@@ -57,7 +58,7 @@
       "label": "Real Robot Infra asset sheet",
       "kind": "google_sheet",
       "url": "https://docs.google.com/spreadsheets/d/1zujQRhscAfwhXTTl_avQwI8eNeOctk0Hl_e8S-Ak_CY/edit?gid=1134950065#gid=1134950065",
-      "notes": "gid 1134950065; 17 rows reflected in dashboard intro table on 2026-06-12T15:39:17+08:00."
+      "notes": "gid 1134950065; 17 sheet rows reflected on 2026-06-12; LV-ROB-012 FSR tactile glove added dashboard-locally on 2026-06-15 for Ray-Ban human-centric collection."
     },
     {
       "label": "Hardware Resource Center",
@@ -69,8 +70,8 @@
   "asset_inventory_snapshot": {
     "source_url": "https://docs.google.com/spreadsheets/d/1zujQRhscAfwhXTTl_avQwI8eNeOctk0Hl_e8S-Ak_CY/edit?gid=1134950065#gid=1134950065",
     "gid": "1134950065",
-    "read_at": "2026-06-12T15:39:17+08:00",
-    "row_count": 17,
+    "read_at": "2026-06-15T19:30:41+08:00",
+    "row_count": 18,
     "assets": [
       {
         "资产编号": "LV-ROB-001",
@@ -223,6 +224,16 @@
         "备注": ""
       },
       {
+        "资产编号": "LV-ROB-012",
+        "资产名称": "FSR触觉数据手套",
+        "规格型号/描述": "一对数据手套；手掌/手指 FSR tactile 阵列；配合 Ray-Ban 眼镜做 human-centric 数据采集",
+        "登记日期": "6/15/2026",
+        "存放地点": "E2-01-04（待确认）",
+        "负责人": "Yuhang & Jingxiang",
+        "使用状态": "搭建中",
+        "备注": "旧 FSR tactile glove 项目；需要补 Ray-Ban 视频、FSR 通道、时间戳、标定和数据 schema 对齐。"
+      },
+      {
         "资产编号": "GM-ROB-005",
         "资产名称": "Manus数据手套",
         "规格型号/描述": "一对Manus Gloves Pro",
@@ -246,7 +257,7 @@
   },
   "intro_table": {
     "kind": "asset_inventory_table",
-    "caption": "Real-Robot Infra asset inventory · 2026-06-12",
+    "caption": "Real-Robot Infra asset inventory · 2026-06-15",
     "columns": [
       {
         "key": "asset_id",
@@ -431,6 +442,16 @@
         "owner": "Yuhang & Jingxiang",
         "status": "搭建中",
         "notes": ""
+      },
+      {
+        "asset_id": "LV-ROB-012",
+        "asset_name": "FSR触觉数据手套",
+        "spec": "一对数据手套；手掌/手指 FSR tactile 阵列；配合 Ray-Ban 眼镜做 human-centric 数据采集",
+        "registered_at": "6/15/2026",
+        "location": "E2-01-04（待确认）",
+        "owner": "Yuhang & Jingxiang",
+        "status": "搭建中",
+        "notes": "旧 FSR tactile glove 项目；需要补 Ray-Ban 视频、FSR 通道、时间戳、标定和数据 schema 对齐。"
       },
       {
         "asset_id": "GM-ROB-005",

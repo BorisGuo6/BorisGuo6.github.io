@@ -7410,9 +7410,16 @@
           "body": "User clarified on 2026-06-13 that the Learn-from-failure-data metric likely needs more long-horizon true-robot demos. Added broom-to-dustpan sweeping and two consecutive 90-degree cube turns as candidate data sources in Real-Robot Demos.",
           "created_at": "2026-06-13T16:13:00+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_dex_gello_failure_data_p2gi_reference_20260615",
+          "author": "Boris / Codex",
+          "body": "Reference update from user-provided proximity-grasping screenshots and KAIST P2GI: add pre-contact hand-object relation to candidate phase-importance features. Useful signals include estimated object point cloud, hand-object distance, object center offset, object-size estimate, grasp-posture confidence, expected contact onset, and whether the controller is in approach / pre-shape / close / stabilize phase. Treat this as a metric/design reference, not a blocker requiring proximity hardware in DexGello v0.",
+          "created_at": "2026-06-15T19:35:36+08:00",
+          "kind": "reference_update"
         }
       ],
-      "updated_at": "2026-06-13T16:13:00+08:00",
+      "updated_at": "2026-06-15T19:35:36+08:00",
       "started_at": "2026-06-13",
       "completed_at": null
     },

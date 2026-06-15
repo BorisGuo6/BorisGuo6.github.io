@@ -4,12 +4,12 @@
   "title": "Self-Improving Agents for Physical AI",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-06-13T16:21:14+08:00",
+  "updated_at": "2026-06-15T19:40:18+08:00",
   "description": "Simulation-first AgenticSim proposal: orchestrated setup-collect-train-eval-diagnose loop",
   "summary": "Self-Improving Agents is now framed as a closed loop coordinated by a central Orchestrator plus shared Blackboard/Memory: Env Setup -> Data Collect -> Policy Training -> Eval Agent -> Diagnosis/Analysis -> targeted Env Setup. Near-term execution has two slices: RoboTwin2 Text2Env as the first Env Setup demo, and Cosmos3-policy / RoboLab WAM self-improvement via rollout memory plus test-time adapters for Policy Training and Diagnosis/Analysis.",
-  "asset": "dashboard/assets/pearl-overview.png",
-  "asset_alt": "PEARL self-improving physical AI framework",
-  "asset_caption": "Proposal frame: real execution failure -> trace memory -> eval gate -> world-model screening -> promoted agent / workflow / strategy -> harder diagnostic VLA eval.",
+  "asset": "dashboard/assets/simulator-taxonomy-20260615.png",
+  "asset_alt": "Robotics simulator taxonomy comparing task APIs, assets, simulation frameworks, renderers, and physics engines.",
+  "asset_caption": "Simulator taxonomy reference: separate task/API layer, asset layer, simulation framework, renderer, and physics engine when choosing the Text2Env / AgenticSim backend.",
   "details": [
     "Current foundation: 129 registered AgenticSim environments, 38/38 full-runner tests, 16 failure traces, demo CLI, and Isaac smoke gate.",
     "Slides-linked architecture update 2026-06-13: the proposal intro should center on a central Orchestrator plus shared Blackboard/Memory coordinating five specialized agents in a closed loop: Env Setup, Data Collect, Policy Training, Eval Agent, and Diagnosis/Analysis. The blackboard stores task specs, datasets, checkpoints, eval reports, diagnoses, competence map, and experiment history.",
@@ -17,6 +17,7 @@
     "Message/interface rule from the slides: every inter-agent message should be a structured spec plus natural-language rationale, so the whole process stays auditable and steerable rather than becoming an opaque autonomous loop.",
     "Near-term priority 2026-06-13: first build the Text2Env demo in RoboTwin2 as the Env Setup agent slice. Contract: natural-language tabletop task -> environment description (objects, poses, support surface, cameras / observations, robot/action constraints, and success verifier) -> code-agent-generated RoboTwin2 task program -> executable simulator smoke and data-collection dry run.",
     "Architecture implementation map: implemented foundation = LeHome / LeHome-challenge plus RoboLab; active v0 demo base = RoboTwin2 for tabletop Text2Env, data collection, Pi / OpenVLA-OFT training hooks, and evaluation; candidate simulator base to evaluate later = Genesis World 1.0 for fast multi-physics / photorealistic / contact-rich rollout; Real2Sim2Real scene imagination references = RoboGen/FATE-style scene generation and repair, SceneSmith-style agentic text-to-simulation-ready scene construction, Video2Sim2Real-style single-video digital-twin reconstruction plus object-keyframe anchoring, plus PhysX-Anything, PhysX-Omni, ArtiCraft3D / Articraft, WorldComposer, and SceneMutator; analysis/memory = TraceLoader, SimRealGapDetector, RolloutDiagnoser, FailureTaxonomy, and MemoryStore; governance/reporting = GovernanceGate, Isaac smoke gate, demo CLI, and accepted task-pack export.",
+    "Dashboard asset update 2026-06-15: the simulator taxonomy figure is now the project visual because Text2Env/AgenticSim backend selection should separate task/API datasets, assets, simulation framework, renderer, and physics engine rather than treating ManiSkill, SAPIEN, Isaac Sim, MuJoCo, Habitat, RLBench, and CoppeliaSim as interchangeable names.",
     "SceneSmith-lite scope update 2026-06-13: SceneSmith is the pattern, not the full target. v0 is a weakened tabletop version for RoboTwin2, not full room/house generation: borrow designer/critic/orchestrator and automatic policy evaluation, but limit the generator to table layout, manipulable objects, physical feasibility, object poses, task API usage, program repair, and verifier-readable simulator state.",
     "Current week work plan from the 2026/06/04-06/08 notes: in RoboTwin2, connect the data collection pipeline, model training path for Pi / OpenVLA-OFT, evaluation, API list, manual-program new task creation, and Env Generator (Text -> Env) with env-description generation plus program coding by a code agent.",
     "Collaboration update 2026-06-13: the Self-Improving working group now includes Xiaoyang from the US office plus Gao Chen, Jingxiang, Yuhang, and Li Zeyi supporting the physical-AI data / self-evolving direction. Keep the existing Tuesday 09:30-10:30 Beijing Alchedata cadence as background unless the group changes it.",
@@ -145,6 +146,12 @@
       "url": "https://docs.google.com/presentation/d/1vf-El5cI5wq0i9XSxu_z10LiYj9MyT2ked3gjQWRSIM/edit",
       "submitted_at": "2026-06-13",
       "notes": "User-provided bound deck for the Self-Improving project. Current intro should follow the slide framing: a central Orchestrator plus shared Blackboard/Memory coordinates Env Setup, Data Collect, Policy Training, Eval Agent, and Diagnosis/Analysis; the loop is Setup -> Collect -> Train -> Evaluate -> Diagnose -> targeted Setup, with structured specs plus natural-language rationales as auditable inter-agent messages."
+    },
+    {
+      "title": "Dashboard asset: robotics simulator taxonomy",
+      "url": "dashboard/assets/simulator-taxonomy-20260615.png",
+      "submitted_at": "2026-06-15",
+      "notes": "User-provided figure credited to Tongzhou Mu. Use as a backend-selection taxonomy for AgenticSim / Text2Env: distinguish task APIs, asset collections, simulator frameworks, renderers, and physics engines before choosing RoboTwin2, Isaac Sim, Genesis, ManiSkill/SAPIEN, MuJoCo, Habitat, RLBench, or CoppeliaSim."
     },
     {
       "title": "Video2Sim2Real: Full-Stack Autonomous Dexterous Skill Acquisition from a Single Human Video",
