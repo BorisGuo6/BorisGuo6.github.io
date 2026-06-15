@@ -4,12 +4,12 @@
   "title": "General",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-06-13T00:35:12+08:00",
+  "updated_at": "2026-06-15T12:02:27+08:00",
   "description": "Procurement status table for cross-project lab purchases",
   "summary": "General hardware procurement live list: current purchase status, route, and non-sensitive logistics notes for lab support items.",
   "intro_table": {
     "kind": "procurement_table",
-    "caption": "General procurement live list · 2026-06-13",
+    "caption": "General procurement live list · 2026-06-15",
     "columns": [
       {
         "key": "item",
@@ -90,6 +90,38 @@
         "status": "To source via supplier",
         "route": "Zheng Yuhang · supplier",
         "notes": "Chat request from Zheng Yuhang: see whether alchdata can be sourced, also procure one Claude Max, and route through a supplier. Keep account, payment, invoice, and credentials out of the public dashboard."
+      },
+      {
+        "item": "20x Singapore/UK-to-China plug adapters",
+        "status": "Requested",
+        "route": "Wuhao · supplier / Taobao",
+        "notes": "User request: buy 20 Singapore/UK BS1363 to China GB plug adapters. Needed because the lab needs many sockets and conversion plugs. Confirm safety rating, grounding, fuse, and whether high-power robot/PC loads are allowed before bulk use."
+      },
+      {
+        "item": "China-standard power strips / sockets",
+        "status": "Spec / quantity TBD",
+        "route": "Wuhao · supplier / Taobao",
+        "notes": "User request: buy some China-standard sockets / power strips. Need Wuhao to confirm quantity, socket count, cable length, grounding, surge protection, max current, and intended destination before checkout."
+      },
+      {
+        "item": "20x UK three-pin rice-cooker / IEC power cords",
+        "status": "Requested",
+        "route": "Wuhao · supplier / Taobao",
+        "notes": "User request: arrange 20 UK-standard three-pin power cords. Treat as UK plug to rice-cooker / IEC-style power cable until the exact appliance-side connector is confirmed; verify BS1363 plug, fuse rating, cable gauge, length, and whether the target connector is IEC C13/C15 or another rice-cooker style."
+      },
+      {
+        "item": "Lego disassembly / assembly tool set",
+        "status": "Needs shipping / price comparison",
+        "route": "Taobao · Changliu demo procurement",
+        "notes": "For Changliu dexterous-hand tool-manipulation demo:拆装标准乐板高小颗粒积木拆卸辅助工具拆件器锤子钳子起件器零件. Compare Singapore shipping and total price; prefer 199 free-shipping or lower total cost; purchase still needs human confirmation.",
+        "url": "https://e.tb.cn/h.RPMfOKPEYFHdGnp?tk=Dbcng3pXXX8"
+      },
+      {
+        "item": "Bulk Lego / MOC small-particle parts",
+        "status": "Needs shipping / price comparison",
+        "route": "Taobao · Changliu demo procurement",
+        "notes": "For Changliu dexterous-hand Lego assemble/disassemble demo:正品乐高 lego 小颗粒散件 / MOC 二手乐高积木论斤卖随机称散装积木. Compare Singapore shipping and total price; prefer 199 free-shipping or lower total cost; purchase still needs human confirmation.",
+        "url": "https://e.tb.cn/h.Rl7HuejKX6tvL5d?tk=DPjeg3pWUqm"
       }
     ]
   },
