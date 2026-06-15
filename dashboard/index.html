@@ -619,7 +619,8 @@
         }
 
         function projectBodyClassName(projectDoc) {
-          const layout = projectDoc.visual?.layout || "compact";
+          const layout = projectDoc.visual?.layout
+            || (projectDoc.hide_workstream && projectDoc.intro_table ? "single-column" : "compact");
           const layoutClasses = {
             compact: "compact",
             standard: "",
