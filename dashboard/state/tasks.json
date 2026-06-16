@@ -6821,10 +6821,10 @@
       "project_id": "umi-world-model",
       "title": "Cosmos3 测试",
       "description": "测试 Cosmos / Cosmos3 相关视频生成模型能否作为 action-conditioned Ego World baseline。重点包括：实时外部 action condition、双腕和机器人头部 ego views 的共享 context、纯视频生成模型对去掉前景 robot layer / 保留 object-interaction-scene 的 prompt 响应，以及与 Gamma-World / WAN2.2 / Cosmos2.5 的最小对照。Acceptance: 至少一组可复现输入、命令或调用记录、输出样例、失败模式记录，并给出是否值得进入 Ego World + IDM 训练链路。",
-      "status": "active",
+      "status": "done",
       "priority": "high",
       "assignee": "Boris",
-      "result": null,
+      "result": "Completed 2026-06-16. Cosmos3 and WAN2.2 Turbo were both run end-to-end on held-out UMI-style clips with reproducible prompts, logs, and galleries. Result: Cosmos3 prompt-long rerun changes outputs only slightly; WAN2.2 Turbo adds motion but is still unstable on dual-view consistency and object fidelity. Recommendation: treat this baseline-comparison task as closed, and do not promote either current checkpoint directly into the Ego World + IDM training chain without stronger UMI-specific fine-tuning or a better Stage-1 baseline.",
       "comments": [
         {
           "comment_id": "comment_task_umi_cosmos3_test_meeting_source_20260609",
@@ -6853,11 +6853,19 @@
           "body": "2026-06-10 route update: this remains an implementation dependency under the three-subproject Tri-View structure: A) UMI Ego World generates robot video data, B) Robot Video Image-Layered Model decomposes it, C) Layered Robot Data utility proves downstream manipulation gains.",
           "created_at": "2026-06-10T20:45:00+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_task_umi_cosmos3_test_done_20260616",
+          "task_id": "task_umi_cosmos3_test",
+          "author": "Boris / Codex",
+          "kind": "host_verified",
+          "body": "Done and verified on 2026-06-16. Ran Cosmos3 end-to-end on the H20 server with held-out UMI-style samples, including an old generic-prompt run and a prompt_long-derived rerun; then downloaded the outputs into /Users/boris/Downloads/cosmos3_umi_worldmodel_20260616 with logs, sample videos, frame-review grids, and a report page at /Users/boris/Downloads/cosmos3_umi_worldmodel_20260616/index.html. Also ran Wan2.2-TI2V-5B-Turbo-Diffusers as the minimal comparator on the same 4 samples at 1280x704, 49 frames, 4 steps, with logs under logs/wan22_turbo_fullres_4x.log and summary under logs/wan22_turbo_fullres_summary.json. Main finding: prompt improvement alone does not rescue Cosmos3; Wan2.2 Turbo produces stronger motion but still has heavy artifacts and weak dual-view consistency. This closes the baseline-testing TODO, but the next-stage open work remains tri-view dataset replacement, Gamma-World reproduction/build-upon, and layered dataset preparation before deciding a production Stage-1 backbone.",
+          "created_at": "2026-06-16T19:48:00+08:00"
         }
       ],
-      "updated_at": "2026-06-10T20:45:00+08:00",
+      "updated_at": "2026-06-16T19:48:00+08:00",
       "due_at": "",
-      "completed_at": null
+      "completed_at": "2026-06-16"
     },
     {
       "task_id": "task_umi_replace_dataset_with_tri_view",
