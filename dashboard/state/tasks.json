@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-16T23:24:41+08:00",
+  "updated_at": "2026-06-16T23:33:42+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -7311,7 +7311,7 @@
       "project_id": "real-robot-infra",
       "title": "Claude Code 让宇航重新开号充值",
       "description": "让宇航重新开 Claude Code / Claude 账号并充值，避免一个账号在 ME 和 SoC / 多个 robot base 之间频繁切换物理位置导致继续被封。背景：AGI Max 和 Team 账号也出现阵亡风险；当前判断是 ME 和 SoC 最好分开账号，一个 base 尽量对应独立账号。验收：确认宇航新账号开通、套餐/充值路径、绑定邮箱/手机号归属、可报销或个人垫付方案、ME/SoC 使用边界、账号共享规则；不要把密码、token、付款信息写入 dashboard。",
-      "status": "todo",
+      "status": "active",
       "priority": "high",
       "assignee": "Yuhang / Boris",
       "due_at": "",
@@ -7330,9 +7330,16 @@
           "body": "Moved from previous Real-Robot Infra intro: Placement update 2026-06-12: shared NAS, USB/camera mounting consumables, Claude Code account separation, API gateway procurement query, and ME Control Lab anti-vibration table assembly live here as lab infrastructure/tooling work.",
           "created_at": "2026-06-12T15:39:17+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_general_claude_code_account_progress_lv_robotic_lab_20260616",
+          "author": "Boris / Codex",
+          "body": "Progress sync from LV-Robotic Lab 创世工作群 on 2026-06-16: Boris asked whether the Romoya-side Claude Code subscription was moving, and the latest reply was that Xiaobai is already handling the procurement path and Yuhang will check the latest purchase status. Current working assumption is they may open several separate personal-use accounts instead of one shared account across ME and SoC; unrelated people likely will not be included. An alternative path under discussion is upgrading existing Team accounts to Max seats inside Teams, and Yuhang said he will ask about that route as well. Keep ME/SoC usage boundaries separate and do not store any password, token, or payment detail in the dashboard.",
+          "created_at": "2026-06-16T23:33:42+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-12T15:39:17+08:00"
+      "updated_at": "2026-06-16T23:33:42+08:00"
     },
     {
       "task_id": "task_general_api_gateway_procurement_query",
