@@ -6906,7 +6906,7 @@
       "task_id": "task_umi_gamma_world_reproduction",
       "project_id": "umi-world-model",
       "title": "Gamma-World 复现",
-      "description": "复现 Gamma-World / Gamar 相关工作的核心架构与最小实验，先确认它在现有数据或小规模 ego-view 替换数据上是否能跑通。重点不是再写 collision note，而是把 Gamma-World 作为 multi-agent interactive world-model baseline，明确它与 Ego World + IDM 的差别。Acceptance: 复现环境、依赖与代码路径；最小输入/输出；在现有或三视角候选数据上的 smoke run；与 Tri-View Ego World + IDM proposal 的 baseline 关系说明。",
+      "description": "复现 Gamma-World / Gamar 相关工作的核心架构与最小实验，先确认它在现有数据或小规模 ego-view 替换数据上是否能跑通。定位更新：Gamma-World 是 UMI World Model Stage 1 / Sub-project A 的 build-upon reference，用来定义 synchronized action-conditioned Ego World、shared-context multi-view rollout 和 causal real-time generation baseline；Stage 2 再接 RevealLayer-style layer decomposition。Acceptance: 复现环境、依赖与代码路径；最小输入/输出；在现有或三视角候选数据上的 smoke run；说明哪些 Gamma-World 组件可复用到 UMI Stage 1，以及 UMI 后续如何通过 view/layer/eval utility 区分贡献。",
       "status": "todo",
       "priority": "high",
       "assignee": "Boris",
@@ -6939,9 +6939,16 @@
           "body": "2026-06-10 route update: this remains an implementation dependency under the three-subproject Tri-View structure: A) UMI Ego World generates robot video data, B) Robot Video Image-Layered Model decomposes it, C) Layered Robot Data utility proves downstream manipulation gains.",
           "created_at": "2026-06-10T20:45:00+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_task_umi_gamma_world_reproduction_stage1_reference_20260616",
+          "author": "Boris / Codex",
+          "body": "User clarification 2026-06-16: Gamma-World should be treated as the Stage 1 reference for UMI World Model, not just as a collision/baseline. Reproduction should identify what to build upon for synchronized action-conditioned world modeling and shared-context multi-view rollout. Stage 2 is now the RevealLayer-style occlusion-aware RGBA layer decomposition route.",
+          "created_at": "2026-06-16T16:52:56+08:00",
+          "kind": "reference_update"
         }
       ],
-      "updated_at": "2026-06-10T20:45:00+08:00",
+      "updated_at": "2026-06-16T16:52:56+08:00",
       "due_at": "",
       "completed_at": null
     },
