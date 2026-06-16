@@ -6949,7 +6949,7 @@
       "task_id": "task_umi_layered_dataset_segment_inpaint_svg",
       "project_id": "umi-world-model",
       "title": "分图层（segment + inpaint）/ SVG 化的数据集准备",
-      "description": "为 Ego World + IDM 准备 Image-Layered 可训练数据。先小规模验证 robot / object-interaction / scene 三层 pipeline：语义分割或 mask tracking、segment + inpaint 去前景、Qwen Image-Layered / ChatGPT image-agent 拆图层、纯视频模型去 robot layer prompt、以及 SVG/结构化表示。robot layer 用于 IDM / pose / VO 辅助，object layer 用于过程奖励和 RL 自监督，scene layer 用于 RoboEngine-style 物理/任务感知背景替换。Acceptance: 少量 episode 的分层数据样例、每层命名与 mask/video/SVG 输出 schema、失败样例、QA 指标，以及是否扩成大规模自造数据集的判断。",
+      "description": "为 Ego World + IDM 准备 Image-Layered 可训练数据。先小规模验证 robot / object-interaction / scene 三层 pipeline：以 RevealLayer (arXiv:2605.11818) 作为 Stage 2 build-upon 主路线，结合语义分割或 mask tracking，把 bounding-box / region guidance 改造成 robot、object/contact、occluder、background 的 RGBA layer pseudo-label；Qwen Image-Layered / ChatGPT image-agent / segment+inpaint / 纯视频模型去 robot layer prompt 保留为对照。robot layer 用于 IDM / pose / VO 辅助，object layer 用于过程奖励和 RL 自监督，scene layer 用于 RoboEngine-style 物理/任务感知背景替换。Acceptance: 少量 episode 的分层数据样例、每层命名与 mask/video/SVG 输出 schema、失败样例、QA 指标、temporal consistency/recomposition 检查，以及是否扩成大规模自造数据集的判断。",
       "status": "active",
       "priority": "high",
       "assignee": "Boris / Haoyu / Xiaobin",
@@ -6996,9 +6996,16 @@
           "body": "2026-06-16 reviewed local video C:/Users/Boris/Downloads/37853007665-1-192.mp4 and replayed its exact PSD workflow: same-size white split PNGs -> edge-connected white-background removal -> transparent layer PNGs -> Photoshop PSD save. Replay outputs are under dashboard/experiments/video-psd-method-test/: contact_sheet.png, method-notes.md, and replay_from_white_split/umi_from_white_video_method.psd. Verification: Photoshop layer count 12, default blank layer removed, canvas 1200x675, alpha preview contains transparent pixels. Key caveat: do not remove all white pixels globally; remove only edge-connected white background or use a proper background selection to preserve white elements inside robot/text/assets.",
           "created_at": "2026-06-16T11:34:40+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_task_umi_layered_dataset_segment_inpaint_svg_reveallayer_stage2_20260616",
+          "author": "Boris / Codex",
+          "body": "User direction 2026-06-16: arXiv:2605.11818 RevealLayer fits UMI World Model Stage 2 almost exactly and should be treated as a build-upon foundation. Execution route: start from RevealLayer-style occlusion-aware RGB -> RGBA layer decomposition, replace generic object boxes with robot/object/contact/occluder guidance, run on representative UMI frames, then add temporal consistency and multi-view synchronization before scaling. Keep Qwen Image-Layered, ChatGPT/Photoshop PSD, and segment+inpaint as baselines/probes, not the main Stage 2 foundation.",
+          "created_at": "2026-06-16T16:48:40+08:00",
+          "kind": "reference_update"
         }
       ],
-      "updated_at": "2026-06-16T13:35:22+08:00",
+      "updated_at": "2026-06-16T16:48:40+08:00",
       "due_at": "",
       "completed_at": null
     },
