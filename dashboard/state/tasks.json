@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-15T23:59:00+08:00",
+  "updated_at": "2026-06-16T11:58:24+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -6752,10 +6752,10 @@
           "author": "Codex",
           "body": "Local implementation update: the prior Dual-Sim access blocker is resolved on this machine via ../Dual-Sim at commit f06038f. Added AgenticSim bridge artifacts: source/agenticsim/agenticsim/integrations/robotwin.py, source/agenticsim/agenticsim/tasks/robotwin/adapter_env.py, scripts/robotwin_dualsim_bridge_report.py, docs/robotwin_dualsim_merge.md, and docs/robotwin_dualsim_bridge_report.json. The field mapping covers RoboTwin env class, setup_demo, load_actors, play_once, check_success, task_config, HDF5 data, and policy hooks into AgenticSim TaskRegistry/config/verifier/TraceLoader/PolicyRegistry surfaces. Selected first Isaac smoke/verifier pilot: official RoboTwin 2.0 pick_dual_bottles, legacy closed RoboTwin dual_bottles_pick_easy, mapped to AgenticSim-RoboTwin2-PickDualBottles-v0. AgenticSim now exposes explicit build_robotwin_task_specs/register_robotwin_tasks plus the offline pick_dual_bottles success verifier. Verification: WSL agenticsim conda env passes tests/test_full_pipeline.py 39/39, including the new RoboTwin/Dual-Sim bridge contract and adapter registration test. Keep this in review, not done, until converted USD assets and a real Isaac headless smoke/verifier JSON are attached.",
           "created_at": "2026-06-15T23:59:00+08:00",
-          "kind": "review"
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-15T23:59:00+08:00",
+      "updated_at": "2026-06-16T11:56:26+08:00",
       "completed_at": null
     },
     {
