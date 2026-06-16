@@ -1116,7 +1116,8 @@
             projectElement.dataset.bucket = projectRef.bucket || bucketKey || "";
             projectCounts.set(bucketKey, (projectCounts.get(bucketKey) || 0) + 1);
             if (hasTaskStats) {
-              const tasks = taskDoc.tasks.filter((task) => task.project_id === projectRef.project_id);
+              const projectDoc = findProjectDoc(projectRef.project_id) || projectRef;
+              const tasks = projectTasksFor(projectDoc, taskDoc.tasks);
               const stats = bucketTaskStats.get(bucketKey) || { open: 0, done: 0 };
               tasks.forEach((task) => {
                 if (getEffectiveStatus(task) === "done") {
@@ -1435,6 +1436,16 @@
           return projectDocs.find((project) => project.project_id === projectId) || null;
         }
 
+        function projectTasksFor(projectDoc, tasks) {
+          const projectId = projectDoc?.project_id || "";
+          const explicitTaskIds = new Set(
+            (Array.isArray(projectDoc?.task_ids) ? projectDoc.task_ids : [])
+              .filter(Boolean)
+              .map(String),
+          );
+          return tasks.filter((task) => task.project_id === projectId || explicitTaskIds.has(task.task_id));
+        }
+
         function isArchivedProjectDoc(projectDoc) {
           const bucket = normalizeProjectBucket(projectDoc?.bucket, projectDoc?.status);
           const status = String(projectDoc?.status || "").trim().toLowerCase();
@@ -1749,7 +1760,7 @@
         function renderProject(projectElement, tasks) {
           const projectId = projectElement.dataset.projectId;
           const projectDoc = findProjectDoc(projectId);
-          const projectTasks = sortTasks(tasks.filter((task) => task.project_id === projectId));
+          const projectTasks = sortTasks(projectTasksFor(projectDoc || { project_id: projectId }, tasks));
           const activeTasks = projectTasks.filter((task) => getEffectiveStatus(task) !== "done");
           const completedTasks = projectTasks.filter((task) => getEffectiveStatus(task) === "done");
           const taskPanel = Array.from(projectElement.querySelectorAll(".project-workstream > .project-panel"))

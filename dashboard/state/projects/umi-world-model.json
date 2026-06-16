@@ -4,7 +4,7 @@
   "title": "Tri-View Ego World + Image-Layered IDM Foundation Model",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-06-15T19:40:18+08:00",
+  "updated_at": "2026-06-16T23:18:54+08:00",
   "description": "Three-track robot-data foundation model: generate robot videos, decompose them into layers, then prove layered robot data improves manipulation.",
   "summary": "The project is split into three linked sub-projects: generate robot video data, decompose it into robot / object-contact / background layers, then prove layered robot data improves manipulation.",
   "subprojects": [
@@ -35,7 +35,10 @@
   },
   "details": [
     "Sub-project A, UMI Ego World for robot-data generation: train or adapt an action-conditioned multi-view world model that generates synchronized robot videos from UMI-style wrist views plus a fixed or floating robot-head/main view. This track owns WAN/Cosmos/Gamma baselines, dataset manifests, cross-view synchronization, and generated robot-video galleries.",
+    "Stage 1 / Sub-project A update 2026-06-16: Gamma-World is the main Stage 1 reference for synchronized action-conditioned interactive world modeling. Use it to ground the UMI Ego World baseline, multi-view/shared-context rollout design, and causal real-time generation target; the UMI contribution should build on this by adding robot-data utility, view/layer contracts, IDM/control decoding, and reward/eval heads.",
     "Sub-project B, Robot Video Image-Layered Model: build a general layer decomposition model for robot videos, not just a one-off image editing tool. Inputs can be real UMI clips or generated world-model rollouts; outputs should be temporally consistent robot layer, object/contact layer, background/scene layer, occluder/human masks, recomposition QA, and optional SVG/structured layer metadata.",
+    "Stage 2 / Sub-project B update 2026-06-16: RevealLayer (arXiv:2605.11818) is a near-perfect external foundation to build upon because it turns RGB into controllable, bounding-box-guided RGBA layers while explicitly handling hidden/visible occlusion disentanglement, amodal completion, and alpha-boundary quality. For UMI, adapt its region guidance to robot/object/contact/occluder boxes or masks, add temporal consistency across wrist/main-view clips, and evaluate whether the resulting layers improve IDM, reward/eval, and failure attribution.",
+    "Layered Image Policy sync 2026-06-16: the team ran a real robot-bed still-image probe and a short video-segmentation replay. Current qualitative read: GPT-generated split layers plus PSD assembly are the strongest still-image baseline so far, but recomposition still shows visible alignment and missing-pixel issues; a SAM3-style video segmentation demo showed stable tracked robot masks across frames, suggesting the near-term practical route is mask tracking plus iterative segment+inpaint for video, while Qwen Image-Layered remains a comparator and RevealLayer stays the long-term Stage 2 build-upon foundation.",
     "Sub-project C, Layered Robot Data for low-level control: test how each layer is consumed by downstream robot learning. Robot layer -> IDM and pose estimation; wrist robot/camera layer -> visual odometry / SLAM; object/contact layer -> process reward or RL self-supervision; background layer -> domain randomization and scene adaptation.",
     "Robot-layer route: for whole-arm visible views, use Dr. Robot / differentiable robot rendering as a reference for reconstructing robot pose or joint state from visual appearance; for simpler gripper-only settings, estimate gripper pose directly and use the visual transition as inverse-dynamics supervision.",
     "Wrist-view geometry route: when the robot is not fully visible, use ORB-SLAM3-style visual or visual-inertial SLAM, feed-forward geometry, and camera egomotion to recover the wrist/head motion context, then let IDM infer actions from object and scene transitions rather than arm pixels alone.",
@@ -44,7 +47,7 @@
     "Prior evidence: ARRO shows that SAM/open-vocabulary segmentation and task-specific visual masking can improve robot policies. Our stronger claim is that a full Image-Layered Robot Data representation, beyond masks alone, should improve manipulation by separating robot, object/contact, and scene factors.",
     "Dashboard asset update 2026-06-15: the world-model taxonomy figure is now the project visual. Use it as a reminder that DINO/MAE/NeRF/scene-flow/video-diffusion/Dreamer/MuJoCo-style claims are not the same capability. Tri-View should state whether a component reconstructs state, predicts next observations, or supports executable rollouts.",
     "Main experiment framing: compare flat RGB robot data vs SAM/mask-only data vs Image-Layered Robot Data on the same manipulation policy/eval tasks. Success requires gains in policy robustness, IDM recoverability, reward/eval quality, or domain adaptation, not only visually clean layer images.",
-    "Boundary after Gamma-World: Gamma-style multi-agent world modeling remains a baseline for synchronized interactive video generation. The project novelty should sit in robot-data utility: layer-aware manipulation state, IDM/control decoding, reward/eval heads, and policy ablations."
+    "Stage separation: Stage 1 builds on Gamma-World-style synchronized action-conditioned world modeling; Stage 2 builds on RevealLayer-style occlusion-aware RGBA layer decomposition. The connecting claim is that generated or real UMI videos become more useful once they are decomposed into robot, object/contact, occluder, and background layers for IDM, reward/eval, and policy ablations."
   ],
   "task_ids": [
     "task_umi_cosmos3_test",
@@ -58,7 +61,7 @@
       "url": "https://arxiv.org/abs/2605.28816",
       "arxiv_id": "2605.28816",
       "submitted_at": "2026-05-27",
-      "notes": "MAIN REFERENCE / collision baseline. Gamma-World defines the generic synchronized action-conditioned multi-agent world-model lane, with Simplex Rotary Agent Encoding, Sparse Hub Attention, and causal real-time rollout. Tri-View should reproduce or baseline against this direction, then pivot the claim toward view/layer/eval utility for manipulation rather than agent-count scaling."
+      "notes": "MAIN REFERENCE / Stage 1 build-upon route. Gamma-World defines the synchronized action-conditioned interactive world-model lane, with Simplex Rotary Agent Encoding, Sparse Hub Attention, and causal real-time rollout. Use it as the Stage 1 reference for UMI Ego World generation and shared-context multi-view rollout; then make the UMI contribution about robot-data utility, view/layer/eval contracts, IDM/control decoding, and policy ablations rather than agent-count scaling."
     },
     {
       "title": "Dashboard asset: world-model taxonomy",
@@ -72,6 +75,13 @@
       "arxiv_id": "2512.15603",
       "submitted_at": "2025-12-17",
       "notes": "MAIN REFERENCE / layer-decomposition route. Qwen-Image-Layered decomposes a single image into multiple RGBA layers for independent editing and recomposition. Use it as the direct image-layer baseline and as evidence that robot manipulation needs stronger object/contact and robot/ego supervision than generic editable layers."
+    },
+    {
+      "title": "RevealLayer: Disentangling Hidden and Visible Layers via Occlusion-Aware Image Decomposition",
+      "url": "https://arxiv.org/abs/2605.11818",
+      "arxiv_id": "2605.11818",
+      "submitted_at": "2026-05-12",
+      "notes": "MAIN REFERENCE / Stage 2 build-upon route. RevealLayer decomposes a single RGB image into user-guided RGBA layers with occlusion-aware hidden/visible disentanglement, occluded-content completion, and sharper alpha boundaries. For UMI, use it as the closest foundation for robot/object/contact/background/occluder layer pseudo-labels; adapt region guidance from boxes to robot/contact masks and add temporal consistency, multi-view synchronization, recomposition QA, and downstream IDM/reward ablations."
     },
     {
       "title": "ObjectForesight: Predicting Future 3D Object Trajectories from Human Videos",
@@ -212,7 +222,8 @@
     "Object layer is the reward/process layer. It should preserve object identity, contact, 6-DoF motion, and task-progress information rather than only foreground pixels.",
     "Background layer is an adaptation handle. Randomizing or generating backgrounds must not corrupt robot/object interaction labels, and evaluation should separate visual robustness from dynamics hallucination.",
     "Dataset risk: pseudo-layers from SAM/Qwen/Image agents may be temporally unstable. The v0 needs recomposition error, temporal consistency, object-contact preservation, and IDM recoverability metrics before large-scale training.",
-    "Gamma-World boundary: use Gamma/WAN/Cosmos as world-video baselines, but do not let the project collapse into generic synchronized video generation; the defensible axis is layer-aware robot-data utility.",
+    "RevealLayer build-upon decision 2026-06-16: adopt RevealLayer as the preferred Stage 2 baseline/foundation for occlusion-aware RGBA layer generation, but do not claim sufficiency until robot-specific semantic guidance, temporal video consistency, and downstream manipulation gains are demonstrated.",
+    "Gamma-World Stage 1 decision 2026-06-16: treat Gamma-World as the Stage 1 reference/foundation for synchronized action-conditioned world modeling, not merely a collision. The project must still add UMI-specific view/layer/eval utility instead of claiming generic multi-agent video generation as the novelty.",
     "Ablation requirement: compare flat RGB, mask-only/SAM, and full layered data under the same policy and reward/eval setup. Without this ablation, the claim stays qualitative."
   ],
   "timeline": {

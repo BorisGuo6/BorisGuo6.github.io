@@ -61,8 +61,36 @@ for (const project of state.projects) {
   assert.ok(projectBucketNames.has(project.doc.bucket), `Unexpected project bucket ${project.doc.bucket}`);
   assert.notEqual(project.doc.bucket, "active", `Project bucket must not use TODO status name: ${project.doc.project_id}`);
 }
+const knownTaskIds = new Set(state.tasks.map((task) => task.task_id));
+for (const project of state.projects) {
+  for (const taskId of project.doc.task_ids || []) {
+    assert.ok(knownTaskIds.has(taskId), `Project ${project.doc.project_id} references missing task_id ${taskId}`);
+  }
+}
+assert.deepEqual(
+  state.projects
+    .filter((project) => (project.doc.task_ids || []).length > 0 && project.doc.hide_workstream)
+    .map((project) => project.doc.project_id),
+  [],
+  "projects with explicit task_ids must keep their task workstream visible",
+);
 
 const dashboardSource = await readFile(new URL("../dashboard/index.html", import.meta.url), "utf8");
+assert.match(
+  dashboardSource,
+  /function projectTasksFor\(/,
+  "dashboard should resolve project tasks through a helper that can include explicit task_ids",
+);
+assert.match(
+  dashboardSource,
+  /const tasks = projectTasksFor\(projectDoc, taskDoc\.tasks\)/,
+  "bucket task stats should include explicit project task_ids",
+);
+assert.match(
+  dashboardSource,
+  /sortTasks\(projectTasksFor\(projectDoc \|\| \{ project_id: projectId \}, tasks\)\)/,
+  "project rendering should include explicit project task_ids",
+);
 const projectIds = new Set(state.projects.map((project) => project.doc.project_id));
 for (const projectId of projectIds) {
   assert.equal(
