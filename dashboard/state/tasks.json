@@ -6950,7 +6950,7 @@
       "project_id": "umi-world-model",
       "title": "分图层（segment + inpaint）/ SVG 化的数据集准备",
       "description": "为 Ego World + IDM 准备 Image-Layered 可训练数据。先小规模验证 robot / object-interaction / scene 三层 pipeline：语义分割或 mask tracking、segment + inpaint 去前景、Qwen Image-Layered / ChatGPT image-agent 拆图层、纯视频模型去 robot layer prompt、以及 SVG/结构化表示。robot layer 用于 IDM / pose / VO 辅助，object layer 用于过程奖励和 RL 自监督，scene layer 用于 RoboEngine-style 物理/任务感知背景替换。Acceptance: 少量 episode 的分层数据样例、每层命名与 mask/video/SVG 输出 schema、失败样例、QA 指标，以及是否扩成大规模自造数据集的判断。",
-      "status": "todo",
+      "status": "active",
       "priority": "high",
       "assignee": "Boris / Haoyu / Xiaobin",
       "result": null,
@@ -6982,9 +6982,23 @@
           "body": "2026-06-10 route update: this remains an implementation dependency under the three-subproject Tri-View structure: A) UMI Ego World generates robot video data, B) Robot Video Image-Layered Model decomposes it, C) Layered Robot Data utility proves downstream manipulation gains.",
           "created_at": "2026-06-10T20:45:00+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_task_umi_layered_dataset_segment_inpaint_svg_photoshop_psd_probe_20260616",
+          "author": "Codex",
+          "body": "2026-06-16 Photoshop PSD probe for the UMI dashboard asset: used dashboard/assets/umi-overview.png and generated dashboard/experiments/umi-layered-psd/. Outputs include split_white_pngs/ with 12 full-canvas white-background PNGs, transparent_layers/ with matching transparent layer PNGs, manifest.json, and umi_world_model_layered.psd saved by Photoshop with 12 named layers and no default blank layer. This validates the ChatGPT + Photoshop assembly path as an inspection probe, but it is not yet enough for the dataset claim; next QA should score recomposition, duplicate/missing elements, robot/object/scene layer purity, and temporal consistency on real UMI clips.",
+          "created_at": "2026-06-16T11:22:15+08:00",
+          "kind": "artifact"
+        },
+        {
+          "comment_id": "comment_task_umi_layered_dataset_segment_inpaint_svg_video_method_replay_20260616",
+          "author": "Codex",
+          "body": "2026-06-16 reviewed local video C:/Users/Boris/Downloads/37853007665-1-192.mp4 and replayed its exact PSD workflow: same-size white split PNGs -> edge-connected white-background removal -> transparent layer PNGs -> Photoshop PSD save. Replay outputs are under dashboard/experiments/video-psd-method-test/: contact_sheet.png, method-notes.md, and replay_from_white_split/umi_from_white_video_method.psd. Verification: Photoshop layer count 12, default blank layer removed, canvas 1200x675, alpha preview contains transparent pixels. Key caveat: do not remove all white pixels globally; remove only edge-connected white background or use a proper background selection to preserve white elements inside robot/text/assets.",
+          "created_at": "2026-06-16T11:34:40+08:00",
+          "kind": "artifact"
         }
       ],
-      "updated_at": "2026-06-10T20:45:00+08:00",
+      "updated_at": "2026-06-16T11:34:40+08:00",
       "due_at": "",
       "completed_at": null
     },
