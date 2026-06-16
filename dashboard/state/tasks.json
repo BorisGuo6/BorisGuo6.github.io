@@ -6888,10 +6888,10 @@
       "project_id": "umi-world-model",
       "title": "数据集替换成三视角的",
       "description": "把当前训练/评测数据面替换成三视角/多 ego-view 数据：左右 wrist view 加固定或浮动 robot-head view，所有视角共享同一 scene/object/action context。允许先混用原有数据，但 manifest 必须显式记录 camera mount、ego_view_type、shared_context_id、POV overlap、timestamps、action/state、robot visibility、object interaction labels 和 task result。Acceptance: 三视角候选数据集清单、替换/混用策略、可跑 manifest 示例、以及第一批用于 Cosmos/Gamma/EgoWorld/layered pipeline 的 episode 列表。",
-      "status": "done",
+      "status": "active",
       "priority": "high",
       "assignee": "Boris",
-      "result": "Closed as the open tri-view dataset replacement bootstrap. Chose Hoi! as the public synchronized multi-view substrate because it exposes head-ego + wrist/gripper-ego + fixed exo bundles through a public manifest/API, while MV-UMI stays the open two-view backup and EgoMimic stays the open paired-ego backup. On the server at /root/autodl-tmp/workspace/das-data/datasets/hoi_tri_view_open, staged selection_summary.json, selection_manifest.json, episodes_first_batch.json, and download_plan.tsv for two first-batch episodes: hoi::umi::bathroom_1::bathroom_1_1-2_umi and hoi::wrist::bathroom_1::bathroom_1_1-2_wrist. The manifest examples explicitly carry camera_mount, ego_view_type, shared_context_id, pov_overlap, timestamp paths, action/state availability, robot_visibility, object_interaction_labels, and task_result. Mix strategy: keep original dual-wrist UMI as the arm-centric base, and use Hoi tri-view episodes as the open head/wrist/gripper schema anchor until a larger robot-native head-view set is collected or released. Bonn Dataverse raw RGB files remain resumable from the staged manifest, but the acceptance for this TODO is now met by the candidate audit, mix strategy, runnable manifest contract, and first-batch episode list already staged on the server.",
+      "result": "Dataset audit and manifest staging are complete, but the raw selected Hoi! files were not yet fully downloaded when Boris asked for verification. Current server path: /root/autodl-tmp/workspace/das-data/datasets/hoi_tri_view_open. Present artifacts: selection_summary.json, selection_manifest.json, episodes_first_batch.json, download_plan.tsv, aria2_input.txt. Selected pack: 22 files / 5.063 GB across hoi::umi::bathroom_1::bathroom_1_1-2_umi and hoi::wrist::bathroom_1::bathroom_1_1-2_wrist. Background aria2 download was started on 2026-06-17 with pid recorded in download.pid; mark done only after all 22 raw files match the expected byte sizes in selection_manifest.json.",
       "comments": [
         {
           "comment_id": "comment_task_umi_replace_dataset_with_tri_view_meeting_source_20260609",
@@ -6927,11 +6927,18 @@
           "body": "Open-data audit + server staging completed on 2026-06-17. Chosen dataset: Hoi! (https://timengelbracht.github.io/Hoi-Dataset-Website/), because its public manifest and Bonn Dataverse API expose synchronized `umi` and `wrist` capture bundles with head-ego, manipulator-centric ego, and fixed external views. Open backups kept in scope but not selected as the main replacement substrate: MV-UMI (https://huggingface.co/datasets/omarrayyann/mv-umi), which is public but only two-view ego+exo; EgoMimic (https://huggingface.co/datasets/gatech/EgoMimic), which is public but not synchronized tri-view; ActiveUMI remains a paper reference because no direct public dataset artifact was located. Server artifacts: /root/autodl-tmp/workspace/das-data/datasets/hoi_tri_view_open/selection_summary.json, selection_manifest.json, episodes_first_batch.json, download_plan.tsv. Current staged pack selects 22 files / 5.063 GB across `hoi::umi::bathroom_1::bathroom_1_1-2_umi` and `hoi::wrist::bathroom_1::bathroom_1_1-2_wrist`, with `wardrobe_2` queued as the next batch. Raw Bonn RGB pulls are publicly reachable but source-throttled; the authoritative resume point is the staged selection manifest rather than the partially mirrored raw directory.",
           "created_at": "2026-06-17T00:40:28+08:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "comment_task_umi_replace_dataset_with_tri_view_download_correction_20260617",
+          "author": "Codex",
+          "body": "Correction after direct server verification: raw Hoi! files are not fully downloaded yet. The server currently has the selection and episode manifests, but the 22 selected raw files were missing before the background retry was started. Started real download with `aria2c` on the server at /root/autodl-tmp/workspace/das-data/datasets/hoi_tri_view_open; pid is stored in download.pid and progress logs go to download_background.log. Keep this task active until a verifier reports complete=22, partial=0, missing=0 against selection_manifest.json.",
+          "created_at": "2026-06-17T00:52:58+08:00",
+          "kind": "correction"
         }
       ],
-      "updated_at": "2026-06-17T00:40:28+08:00",
+      "updated_at": "2026-06-17T00:52:58+08:00",
       "due_at": "",
-      "completed_at": "2026-06-17"
+      "completed_at": null
     },
     {
       "task_id": "task_umi_gamma_world_reproduction",
