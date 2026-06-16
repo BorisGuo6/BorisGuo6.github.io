@@ -4,9 +4,9 @@
   "title": "General",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-06-16T13:31:16+08:00",
+  "updated_at": "2026-06-16T15:44:02+08:00",
   "description": "Procurement status table for cross-project lab purchases",
-  "summary": "General hardware procurement live list: current purchase status, route, and non-sensitive logistics notes for lab support items. Current additions include only the v0 real-robot demo objects still needing purchase plus VIVE Tracker / MANUS charging cables; existing COM2-seat props are tracked on the demo card, not as procurement.",
+  "summary": "General hardware procurement live list: current purchase status, route, and non-sensitive logistics notes for lab support items. Current additions include item-level purchase links for v0 real-robot demo objects plus VIVE Tracker / MANUS charging cables; existing COM2-seat props should still be fit-checked before duplicate purchase.",
   "intro_table": {
     "kind": "procurement_table",
     "caption": "General procurement live list · 2026-06-16",
@@ -38,30 +38,30 @@
       },
       {
         "item": "Tracker quick-release / headset top fixed base",
-        "status": "Waiting Yan confirmation",
+        "status": "Shipped",
         "route": "Taobao · ship to NUS/COM2",
-        "notes": "For Tracker / PICO4 / Quest 3 headset mounting in human-centric VR data collection.",
+        "notes": "For Tracker / PICO4 / Quest 3 headset mounting in human-centric VR data collection. User reported shipped on 2026-06-16.",
         "url": "https://e.tb.cn/h.Rl33zrrJA2MA00z?tk=FiDjg3jsslw"
       },
       {
         "item": "Cymple face-capture / eye-tracking device",
-        "status": "Waiting Yan confirmation",
+        "status": "Shipped",
         "route": "Taobao · ship to NUS/COM2",
-        "notes": "VRChat-style face and eye capture candidate for human-centric data collection.",
+        "notes": "VRChat-style face and eye capture candidate for human-centric data collection. User reported shipped on 2026-06-16.",
         "url": "https://e.tb.cn/h.Rl342xxPRXd9dZh?tk=Shbhg3jtYXA"
       },
       {
         "item": "HIG gesture-recognition data glove",
-        "status": "Waiting Yan confirmation",
+        "status": "Shipped",
         "route": "Taobao · ship to NUS/COM2",
-        "notes": "Large-space VR / dexterous-hand capture candidate.",
+        "notes": "Large-space VR / dexterous-hand capture candidate. User reported shipped on 2026-06-16.",
         "url": "https://e.tb.cn/h.RO1V2osyTl17mYm?tk=tJU2g3jHPcG"
       },
       {
         "item": "HIGVR haptic / vibration clothing module",
-        "status": "Waiting Yan confirmation",
+        "status": "Shipped",
         "route": "Taobao · ship to NUS/COM2",
-        "notes": "Touch / vibration feedback accessory for VR capture experiments.",
+        "notes": "Touch / vibration feedback accessory for VR capture experiments. User reported shipped on 2026-06-16.",
         "url": "https://e.tb.cn/h.RmixRZE5uIuX49B?tk=h0OSg3jHtFY"
       },
       {
@@ -110,22 +110,38 @@
         "notes": "User request: arrange 20 UK-standard three-pin power cords. Treat as UK plug to rice-cooker / IEC-style power cable until the exact appliance-side connector is confirmed; verify BS1363 plug, fuse rating, cable gauge, length, and whether the target connector is IEC C13/C15 or another rice-cooker style."
       },
       {
-        "item": "Toy-knife slime-clay cutting demo kit",
+        "item": "Toy knife for slime-clay cutting / 儿童仿真切菜刀玩具",
         "status": "Requested",
         "route": "Real-Robot Demos · Taobao / supplier",
-        "notes": "For 01 toy-knife slime-clay cutting: blunt-edge toy knife, slime clay, cutting board, and washable desktop protection mat. Keep Stage 0/1 limited to toy knife, washable surface, low speed, and cleanable fixture."
+        "notes": "For 01 toy-knife slime-clay cutting: blunt-edge toy knife only. Keep Stage 0/1 limited to toy knife, washable surface, low speed, and cleanable fixture.",
+        "url": "https://e.tb.cn/h.RLYUYab9knO04Wh?tk=Y7AtgUbw6I1"
       },
       {
-        "item": "Jenga block-extraction demo kit",
+        "item": "M&G ultra-light clay / 晨光超轻粘土",
         "status": "Requested",
         "route": "Real-Robot Demos · Taobao / supplier",
-        "notes": "For 02 Jenga extraction: Jenga tower or custom block stack, target-block marking material such as stickers or colored tape, and a non-slip base / anti-slip mat. Still needs owner and gripper/tactile readiness confirmation before run."
+        "notes": "For 01 toy-knife slime-clay cutting: slime-clay cutting material; verify cleanability, deformation visibility, and whether it sticks to the toy knife or fixture.",
+        "url": "https://e.tb.cn/h.RnFtENjokI5AbE7?tk=3P1tgUbCqNq"
+      },
+      {
+        "item": "Jenga tower blocks / Jenga叠叠高积木",
+        "status": "Requested",
+        "route": "Real-Robot Demos · Taobao / supplier",
+        "notes": "For 02 Jenga extraction: tower or custom block stack; still needs target-block marking material, non-slip base / anti-slip mat, owner assignment, and gripper/tactile readiness confirmation before run.",
+        "url": "https://e.tb.cn/h.RMsR2emY3w3geUC?tk=e6KCgUbCw90"
+      },
+      {
+        "item": "Grey leather desktop mat / 灰色皮革办公桌垫",
+        "status": "Requested",
+        "route": "Real-Robot Demos · Taobao / supplier",
+        "notes": "Reusable tabletop protection / visibility mat for slime-clay cutting and plastic-bag rubbing; confirm washable surface, camera contrast, and whether it slips under robot contact.",
+        "url": "https://e.tb.cn/h.Rn03Dktke8iNsm0?tk=Q0acgUYZeu3"
       },
       {
         "item": "3M anti-slip tape plastic-bag rubbing setup",
         "status": "Requested",
         "route": "Real-Robot Demos · Taobao / supplier",
-        "notes": "For 03 Wuji plastic-bag rubbing: confirm Aloha-style or equivalent 3M anti-slip tape if not already available, plus a high-contrast tabletop mat or background mat so plastic-bag deformation is visible in camera."
+        "notes": "For 03 Wuji plastic-bag rubbing: confirm Aloha-style or equivalent 3M anti-slip tape if not already available. Use the grey desktop mat row as the current tabletop/background candidate."
       },
       {
         "item": "Lego tool-operation demo tool set",
@@ -135,17 +151,32 @@
         "url": "https://e.tb.cn/h.RPMfOKPEYFHdGnp?tk=Dbcng3pXXX8"
       },
       {
-        "item": "Lego / MOC large-particle first-round parts",
+        "item": "Large-particle building blocks / 大颗粒拼装积木",
         "status": "Requested",
         "route": "Taobao · Changliu demo procurement",
-        "notes": "For 04 Lego tool operation: buy Lego / MOC parts, with first round biased to large-particle bricks before moving to small-particle or random bulk pieces. Compare Singapore shipping and total price; purchase still needs human confirmation.",
-        "url": "https://e.tb.cn/h.Rl7HuejKX6tvL5d?tk=DPjeg3pWUqm"
+        "notes": "For 04 Lego tool operation: first round should use large-particle bricks before moving to small-particle or random bulk pieces. Compare Singapore shipping and total price; purchase still needs human confirmation.",
+        "url": "https://e.tb.cn/h.Rn0T3Gz3bVS2U8S?tk=kZtqgUY2ULq"
       },
       {
-        "item": "2x 1-to-3 data/charging cables, 1m, USB-C outputs",
+        "item": "Desktop broom + dustpan set / 桌面小扫把簸箕套装",
+        "status": "Candidate / fit-check first",
+        "route": "Real-Robot Demos · Taobao / supplier",
+        "notes": "For broom-to-dustpan long-horizon failure-data demo. Transfer and inspect Boris' existing COM2-seat broom/dustpan first; buy this candidate only if the existing prop is missing or unsuitable.",
+        "url": "https://e.tb.cn/h.RLYMyBWbwiTTaZH?tk=qfvFgUYeThD"
+      },
+      {
+        "item": "Math cube teaching blocks / 正方体数学教具积木",
+        "status": "Candidate / fit-check first",
+        "route": "Real-Robot Demos · Taobao / supplier",
+        "notes": "For the two 90-degree cube-turn long-horizon failure-data demo. Transfer and inspect Boris' existing COM2-seat cube first; buy this candidate only if the existing prop is missing or unsuitable.",
+        "url": "https://e.tb.cn/h.Rnv2hIaAgsJ2j2c?tk=ir3rgUYf5FU"
+      },
+      {
+        "item": "2x 1-to-3 USB-C data/charging cables / 数据线",
         "status": "Requested",
         "route": "Taobao / supplier · VIVE Tracker + MANUS charging",
-        "notes": "User request: buy two one-to-three charging/data cables with all three outputs as Type-C / USB-C; about 1m length should be enough. Intended for VIVE Tracker and MANUS charging; confirm charge-only vs data capability before checkout."
+        "notes": "User request: buy two one-to-three charging/data cables with all three outputs as Type-C / USB-C; about 1m length should be enough. Intended for VIVE Tracker and MANUS charging; confirm charge-only vs data capability before checkout. User-provided Taobao share code: CA381.",
+        "url": "https://e.tb.cn/h.RMHdoq6Zbd60muL?tk=LEA9gUYr3oZ"
       }
     ]
   },
