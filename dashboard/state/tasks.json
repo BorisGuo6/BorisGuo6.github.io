@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-16T13:35:42+08:00",
+  "updated_at": "2026-06-16T23:18:54+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -7018,9 +7018,16 @@
           "body": "User direction 2026-06-16: arXiv:2605.11818 RevealLayer fits UMI World Model Stage 2 almost exactly and should be treated as a build-upon foundation. Execution route: start from RevealLayer-style occlusion-aware RGB -> RGBA layer decomposition, replace generic object boxes with robot/object/contact/occluder guidance, run on representative UMI frames, then add temporal consistency and multi-view synchronization before scaling. Keep Qwen Image-Layered, ChatGPT/Photoshop PSD, and segment+inpaint as baselines/probes, not the main Stage 2 foundation.",
           "created_at": "2026-06-16T16:48:40+08:00",
           "kind": "reference_update"
+        },
+        {
+          "comment_id": "comment_task_umi_layered_dataset_segment_inpaint_svg_layered_image_policy_sync_20260616",
+          "author": "Boris / Codex",
+          "body": "Layered Image Policy sync 2026-06-16: group review converged on a concrete Stage 2 short-term route. Boris shared a 15.3 MB ChatGPT split-layer PSD plus still-image comparisons on a real robot-bed scene; the team judged the GPT still-image decomposition qualitatively strong, but recomposition still had visible alignment errors and missing/shifted content (for example the pillow / gripper layout did not perfectly reassemble). The same discussion judged the first RevealLayer / Qwen-style sample weaker than the GPT still-image result on this scene, so RevealLayer should remain the research build-upon foundation while practical data curation keeps GPT/PSD and segment+inpaint alive as stronger immediate probes. Meng Ziyang then shared a 6.7 s prior SAM3 video-segmentation demo; local frame review shows a stable tracked robot-arm mask/box across sampled frames, which supports using video mask tracking as the temporal backbone. Current execution direction from the group: iterate segment + inpaint to create video-ready layered outputs, keep SAM3-style tracking for stable masks, store today's artifacts/results, and let Yongxi run a Qwen-Image-Layered comparison next.",
+          "created_at": "2026-06-16T23:18:54+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-16T16:48:40+08:00",
+      "updated_at": "2026-06-16T23:18:54+08:00",
       "due_at": "",
       "completed_at": null
     },
