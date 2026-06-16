@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-16T13:24:37+08:00",
+  "updated_at": "2026-06-16T13:35:42+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -6988,17 +6988,17 @@
           "author": "Codex",
           "body": "2026-06-16 Photoshop PSD probe for the UMI dashboard asset: used dashboard/assets/umi-overview.png and generated dashboard/experiments/umi-layered-psd/. Outputs include split_white_pngs/ with 12 full-canvas white-background PNGs, transparent_layers/ with matching transparent layer PNGs, manifest.json, and umi_world_model_layered.psd saved by Photoshop with 12 named layers and no default blank layer. This validates the ChatGPT + Photoshop assembly path as an inspection probe, but it is not yet enough for the dataset claim; next QA should score recomposition, duplicate/missing elements, robot/object/scene layer purity, and temporal consistency on real UMI clips.",
           "created_at": "2026-06-16T11:22:15+08:00",
-          "kind": "artifact"
+          "kind": "comment"
         },
         {
           "comment_id": "comment_task_umi_layered_dataset_segment_inpaint_svg_video_method_replay_20260616",
           "author": "Codex",
           "body": "2026-06-16 reviewed local video C:/Users/Boris/Downloads/37853007665-1-192.mp4 and replayed its exact PSD workflow: same-size white split PNGs -> edge-connected white-background removal -> transparent layer PNGs -> Photoshop PSD save. Replay outputs are under dashboard/experiments/video-psd-method-test/: contact_sheet.png, method-notes.md, and replay_from_white_split/umi_from_white_video_method.psd. Verification: Photoshop layer count 12, default blank layer removed, canvas 1200x675, alpha preview contains transparent pixels. Key caveat: do not remove all white pixels globally; remove only edge-connected white background or use a proper background selection to preserve white elements inside robot/text/assets.",
           "created_at": "2026-06-16T11:34:40+08:00",
-          "kind": "artifact"
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-16T11:34:40+08:00",
+      "updated_at": "2026-06-16T13:35:22+08:00",
       "due_at": "",
       "completed_at": null
     },
