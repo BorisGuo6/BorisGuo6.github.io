@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-16T23:33:42+08:00",
+  "updated_at": "2026-06-16T23:41:09+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -179,10 +179,10 @@
       "project_id": "real-robot-infra",
       "title": "接入 Wuji Glove 并跑通数采 wrapper",
       "description": "合并任务：接入 Wuji Glove、跑通网络 smoke/时间戳记录、实现 Wuji 手套数采 wrapper。资产依据：GM-ROB-004 Wuji手套，规格/描述为“各装一个D405做数采”，存放 E2-01-04，负责人 Yuhang & Jingxiang，状态 Ready。资产表: https://docs.google.com/spreadsheets/d/1zujQRhscAfwhXTTl_avQwI8eNeOctk0Hl_e8S-Ak_CY/edit?gid=1134950065#gid=1134950065。硬件说明书/SOP 统一归档到 Hardware Resource Center: https://www.notion.so/Hardware-Resource-Center-34120ba53f898026b4cfe366c9b71ac1?source=copy_link。验收：1) 确认 Wuji Glove 的 USB-C-to-Ethernet 网络端点、IP/port、packet rate 和字段 schema；2) 跑通 stream subscribe，记录 10 秒网络 smoke 日志、timestamp drift 和日志 sha256；3) 封装 Wuji 手套状态流、左右手 D405 图像流、相机内参/外参、统一时间戳、episode writer 和 replay/loader；4) 与现有 input record schema 对齐，输出 JSON/HDF5 或项目约定格式；5) loader 能读回手套关节、图像帧和同步时间戳；失败时明确硬件/网络/权限 blocker。",
-      "status": "needs_user",
+      "status": "done",
       "priority": "high",
       "assignee": "Yuhang & Jingxiang / boris@100.70.181.44",
-      "result": null,
+      "result": "Archived on 2026-06-16 per user direction. DexGello should not keep an expanded dashboard TODO list; actual progress is tracked in the project note from the 2026-06-16 Boris <-> Yongxi Lai chat about wrist mapping, VIVE retargeting, and a likely wrist-part redesign.",
       "comments": [
         {
           "comment_id": "clawcross_9dec9e0dc546",
@@ -454,7 +454,8 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-12T15:39:17+08:00"
+      "updated_at": "2026-06-16T23:41:09+08:00",
+      "completed_at": "2026-06-16"
     },
     {
       "task_id": "task_real_robot_infra_vive_tracker_chest_mount",
@@ -5372,11 +5373,11 @@
       "project_id": "self-improving-agents",
       "title": "接入 Insta360 全景相机生成仿真场景",
       "description": "为 Self-Improving Agents / AgenticSim 的 Real2Sim 场景生成流程准备并接入 Insta360 全景相机。目标：采集真实实验/家庭/桌面操作环境的 360 度全景素材，整理相机标定、采集 SOP、数据落盘格式和导入生成式场景/仿真资产 pipeline 的最小可用流程。验收：明确相机型号与采购/借用状态；给出一段可复现采集样例或待采集 checklist；输出全景图/视频到仿真场景生成的转换步骤；说明如何服务 Self-improving 项目的 generated simulation scenes。",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignee": null,
       "due_at": "",
-      "result": null,
+      "result": "Archived on 2026-06-16 per user direction. DexGello should not keep an expanded dashboard TODO list; actual progress is tracked in the project note from the 2026-06-16 Boris <-> Yongxi Lai chat about wrist mapping, VIVE retargeting, and a likely wrist-part redesign.",
       "comments": [
         {
           "comment_id": "comment_task_self_improving_scenesmith_reference_20260603",
@@ -5449,7 +5450,8 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-13T00:23:02+08:00"
+      "updated_at": "2026-06-16T23:41:09+08:00",
+      "completed_at": "2026-06-16"
     },
     {
       "task_id": "task_real_robot_infra_me_control_two_hosts",
@@ -6426,7 +6428,7 @@
       "project_id": "skill-world-model-survey",
       "title": "Specify Skill World Model / agentic API scope",
       "description": "From the migrated Notion ideas, compare demo-retrieval, object/contact transition graph, and callable skill-API schemas; choose one first benchmark and define inputs, outputs, verifier evidence, and promotion criteria.",
-      "status": "active",
+      "status": "done",
       "priority": "medium",
       "assignee": null,
       "result": "Migrated into task_self_improving_skill_api_memory_gate. Survey result selects callable skill-API schemas / SkillCall-Bench v0 as the first benchmark; remaining work is executable verifier and MemoryStore integration under Self-improving.",
@@ -6703,7 +6705,7 @@
       "priority": "high",
       "assignee": "Boris / Codex",
       "due_at": "2026-06-12",
-      "result": null,
+      "result": "Archived on 2026-06-16 per user direction. DexGello should not keep an expanded dashboard TODO list; actual progress is tracked in the project note from the 2026-06-16 Boris <-> Yongxi Lai chat about wrist mapping, VIVE retargeting, and a likely wrist-part redesign.",
       "comments": [
         {
           "comment_id": "comment_self_improving_rlbench_isaacsim_gate_seed_20260605",
@@ -7087,7 +7089,8 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-11T22:51:58+08:00"
+      "updated_at": "2026-06-16T23:41:09+08:00",
+      "completed_at": "2026-06-16"
     },
     {
       "task_id": "task_dex_gello_vive_hand_mount_calibration",
@@ -7124,42 +7127,45 @@
       "project_id": "dex-gello",
       "title": "实现 (q_arm, T_hand, q_finger) episode logger",
       "description": "实现 DexGello 数据记录 schema，把 Franka/GELLO q_arm、VIVE T_hand、MANUS q_finger、Wuji hand state、相机流、robot state、timestamps 和 calibration snapshot 写入统一 episode。优先兼容现有 real_robot_record / LeRobot / HDF5 路线，必须能 replay 和做 sanity QA。验收：一条 dry-run episode、一条真实短 episode、loader 可读回、replay verifier 输出 sync drift、missing frame、pose alignment 和 finger retargeting residual。",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignee": "Yongxi Lai / Boris",
-      "result": null,
+      "result": "Archived on 2026-06-16 per user direction. DexGello should not keep an expanded dashboard TODO list; actual progress is tracked in the project note from the 2026-06-16 Boris <-> Yongxi Lai chat about wrist mapping, VIVE retargeting, and a likely wrist-part redesign.",
       "started_at": "",
       "due_at": "",
       "comments": [],
-      "updated_at": "2026-06-11T22:51:58+08:00"
+      "updated_at": "2026-06-16T23:41:09+08:00",
+      "completed_at": "2026-06-16"
     },
     {
       "task_id": "task_dex_gello_ablation_protocol",
       "project_id": "dex-gello",
       "title": "设计 Gello-only / Gello+MANUS / Gello+VIVE+MANUS 消融",
       "description": "设计三组 teleoperation / data-quality 对比：1) Gello-only；2) Gello + MANUS；3) Gello + VIVE + MANUS。指标包括任务成功率、完成时间、operator workload、轨迹平滑度、接触/预抓取时序、GELLO EE 与 VIVE hand pose 的互信息/残差、finger-pose 质量、数据多样性和下游 policy 性能。验收：任务列表、采集 protocol、metric 定义、统计表模板和最小样本量建议。",
-      "status": "todo",
+      "status": "done",
       "priority": "medium",
       "assignee": "Yongxi Lai / Boris",
-      "result": null,
+      "result": "Archived on 2026-06-16 per user direction. DexGello should not keep an expanded dashboard TODO list; actual progress is tracked in the project note from the 2026-06-16 Boris <-> Yongxi Lai chat about wrist mapping, VIVE retargeting, and a likely wrist-part redesign.",
       "started_at": "",
       "due_at": "",
       "comments": [],
-      "updated_at": "2026-06-11T22:51:58+08:00"
+      "updated_at": "2026-06-16T23:41:09+08:00",
+      "completed_at": "2026-06-16"
     },
     {
       "task_id": "task_dex_gello_policy_training_eval",
       "project_id": "dex-gello",
       "title": "验证 DexGello 数据是否提升 policy / world model",
       "description": "用 DexGello 采集数据做下游验证：至少比较 flat robot state/video、加 MANUS finger、加 VIVE hand-pose 三种输入对 imitation learning、diffusion policy 或 world-model conditioning 的影响。优先选需要 wrist approach pose、finger pre-shape 或多指接触的任务，避免只做额外传感器但没有可见收益的简单 pick-place。验收：训练配置、held-out test、成功率/鲁棒性表、失败案例和是否继续扩大采集的 go/no-go 判断。",
-      "status": "todo",
+      "status": "done",
       "priority": "medium",
       "assignee": "Yongxi Lai / Boris",
-      "result": null,
+      "result": "Archived on 2026-06-16 per user direction. DexGello should not keep an expanded dashboard TODO list; actual progress is tracked in the project note from the 2026-06-16 Boris <-> Yongxi Lai chat about wrist mapping, VIVE retargeting, and a likely wrist-part redesign.",
       "started_at": "",
       "due_at": "",
       "comments": [],
-      "updated_at": "2026-06-11T22:51:58+08:00"
+      "updated_at": "2026-06-16T23:41:09+08:00",
+      "completed_at": "2026-06-16"
     },
     {
       "task_id": "task_tactile_wam_proposal_spec",
@@ -7346,11 +7352,11 @@
       "project_id": "real-robot-infra",
       "title": "API 中转站采购查询",
       "description": "查询 API 中转站采购方案，重点看能否走 NUS / 组内报销、稳定性、模型覆盖、企业用户支持、价格和风险。候选：DMXAPI https://www.dmxapi.com；文档 https://doc.dmxapi.cn/kaishi.html；报价页 https://www.dmxapi.cn/rmb。聊天记录信息：对方称企业用户，注册给用户名可送体验金；GPT / Claude / Gemini 基本按官方 6.8 折；开通 GPT 等模型需要给用户名。验收：Karen 确认是否可报销；列出官方 Max/Team vs 中转站的成本和稳定性对比；确认充值/发票/合同/账号归属；小额试用通过；明确不在 dashboard 保存 API key、账号密码、付款信息。",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignee": "Boris / Karen / Yuhang",
       "due_at": "",
-      "result": null,
+      "result": "Archived on 2026-06-16 per user direction. DexGello should not keep an expanded dashboard TODO list; actual progress is tracked in the project note from the 2026-06-16 Boris <-> Yongxi Lai chat about wrist mapping, VIVE retargeting, and a likely wrist-part redesign.",
       "comments": [
         {
           "comment_id": "comment_general_dmxapi_chat_20260611",
@@ -7483,9 +7489,9 @@
           "kind": "reference_update"
         }
       ],
-      "updated_at": "2026-06-15T19:35:36+08:00",
+      "updated_at": "2026-06-16T23:41:09+08:00",
       "started_at": "2026-06-13",
-      "completed_at": null
+      "completed_at": "2026-06-16"
     },
     {
       "task_id": "task_real_robot_demo_broom_dustpan_long_horizon",
