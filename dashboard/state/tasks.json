@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-16T23:41:09+08:00",
+  "updated_at": "2026-06-16T23:46:44+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -341,10 +341,10 @@
       "project_id": "dex-gello",
       "title": "接入 MANUS + VIVE 作为 DexGello hand/finger verifier",
       "description": "把 MANUS glove 和 VIVE Tracker 接入 DexGello 的解耦输入栈：MANUS 提供 q_finger 并验证 Wuji hand retargeting，VIVE hand-back tracker 提供独立 T_hand，GELLO / Franka 侧提供 q_arm。验收：MANUS hand stream Hz、VIVE tracker serial、外参 / 时间同步最小记录、fused hand-frame log、retargeting replay verifier，以及一条可重放的 (q_arm, T_hand, q_finger) episode。若不走 VIVE Tracker，再评估 ACE Teleop-style wrist ring 作为 T_hand / intent fallback。",
-      "status": "needs_user",
+      "status": "done",
       "priority": "high",
       "assignee": "Yongxi Lai / boris@100.70.181.44",
-      "result": null,
+      "result": "Archived on 2026-06-16 per user direction. DexGello should not keep an expanded dashboard TODO list; actual progress is tracked in the project note from the 2026-06-16 Boris <-> Yongxi Lai chat about wrist mapping, VIVE retargeting, and a likely wrist-part redesign.",
       "started_at": "2026-05-20",
       "due_at": "2026-05-25",
       "comments": [
@@ -5398,7 +5398,7 @@
       "priority": "high",
       "assignee": null,
       "due_at": "",
-      "result": null,
+      "result": "Archived on 2026-06-16 per user direction. DexGello should not keep an expanded dashboard TODO list; actual progress is tracked in the project note from the 2026-06-16 Boris <-> Yongxi Lai chat about wrist mapping, VIVE retargeting, and a likely wrist-part redesign.",
       "comments": [
         {
           "comment_id": "comment_self_improving_articraft3d_trial_20260529",
@@ -5429,11 +5429,11 @@
       "project_id": "dex-gello",
       "title": "DexGello: Franka 运动规划库切到 cuRobo",
       "description": "把 DexGello 的 Franka / Franka + Wuji 灵巧手运动规划从当前规划库迁移到 NVIDIA cuRobo。目标：确认 CUDA/驱动/机器人控制机环境，封装 cuRobo planner wrapper，配置 Franka joint limits、collision scene、末端/手部几何和安全 workspace，先在仿真或 dry-run 轨迹上验证，再接入真机低速 smoke。验收：给出可复现安装与启动命令；至少通过一个 pick/place 或 reach target 规划样例；记录规划耗时、碰撞检查结果、失败回退策略、DexGello demo 接入点和真机安全限制。",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignee": null,
       "due_at": "",
-      "result": null,
+      "result": "Archived on 2026-06-16 per user direction. DexGello should not keep an expanded dashboard TODO list; actual progress is tracked in the project note from the 2026-06-16 Boris <-> Yongxi Lai chat about wrist mapping, VIVE retargeting, and a likely wrist-part redesign.",
       "comments": [
         {
           "comment_id": "comment_dex_gello_franka_curobo_move_20260612",
@@ -5495,11 +5495,11 @@
       "project_id": "real-robot-infra",
       "title": "搭建 YAM 臂 ALOHA 系统",
       "description": "基于真机资产表中的 LV-ROB-010 YAM臂（数量:4；aloha系统；存放 E2-01-04；状态: 搭建中）搭建 ALOHA 数据采集/遥操作栈。资产表: https://docs.google.com/spreadsheets/d/1zujQRhscAfwhXTTl_avQwI8eNeOctk0Hl_e8S-Ak_CY/edit?gid=1134950065#gid=1134950065。硬件说明书/SOP 统一归档到 Hardware Resource Center: https://www.notion.so/Hardware-Resource-Center-34120ba53f898026b4cfe366c9b71ac1?source=copy_link。验收：确认 4 台 YAM 臂硬件/控制盒/线缆/电源齐全；完成驱动、网络/串口、标定、限位和急停检查；跑通单臂和双臂 teleop smoke；输出 ALOHA episode 目录结构、时间戳、相机/机器人状态同步记录和 replay verifier。",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignee": "Yuhang & Jingxiang",
       "due_at": "",
-      "result": null,
+      "result": "Archived on 2026-06-16 per user direction. DexGello should not keep an expanded dashboard TODO list; actual progress is tracked in the project note from the 2026-06-16 Boris <-> Yongxi Lai chat about wrist mapping, VIVE retargeting, and a likely wrist-part redesign.",
       "comments": [
         {
           "comment_id": "comment_task_real_robot_infra_yam_aloha_setup_intro_note_yam_aloha_setup_is_grounded_in_asset_lv_rob_010_4_aloha_",
@@ -6468,9 +6468,16 @@
           "body": "Closed as standalone Survey work. The execution path is now task_self_improving_skill_api_memory_gate, which must produce a runnable SkillCall schema, deterministic verifier evidence, and MemoryStore promotion/elimination criteria.",
           "created_at": "2026-06-05T00:58:00+02:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_ccb4494eebfc",
+          "author": "Host verification",
+          "body": "主机验收通过: decision/result task has a non-empty result comment and does not require a machine verifier.",
+          "created_at": "2026-06-16T23:46:34+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-03T08:33:19+02:00",
+      "updated_at": "2026-06-16T23:46:34+08:00",
       "completed_at": "2026-06-05"
     },
     {
@@ -6705,7 +6712,7 @@
       "priority": "high",
       "assignee": "Boris / Codex",
       "due_at": "2026-06-12",
-      "result": "Archived on 2026-06-16 per user direction. DexGello should not keep an expanded dashboard TODO list; actual progress is tracked in the project note from the 2026-06-16 Boris <-> Yongxi Lai chat about wrist mapping, VIVE retargeting, and a likely wrist-part redesign.",
+      "result": null,
       "comments": [
         {
           "comment_id": "comment_self_improving_rlbench_isaacsim_gate_seed_20260605",
@@ -7074,10 +7081,10 @@
       "project_id": "dex-gello",
       "title": "DexGello v0 架构 / frame graph / safety spec",
       "description": "把 DexGello 写成可执行 v0 spec：GELLO->Franka arm command/logging，MANUS->Wuji finger retargeting/logging，VIVE hand-back tracker->T_hand logging；定义 frame graph、time-sync、deadman / E-stop、安全限速、数据字段、启动顺序和一条最小可复现实验流程。验收：spec 页面或 markdown、frame graph、设备 checklist、single-arm dry-run 命令、失败/急停条件。",
-      "status": "active",
+      "status": "done",
       "priority": "high",
       "assignee": "Yongxi Lai / Boris",
-      "result": null,
+      "result": "Archived on 2026-06-16 per user direction. DexGello should not keep an expanded dashboard TODO list; actual progress is tracked in the project note from the 2026-06-16 Boris <-> Yongxi Lai chat about wrist mapping, VIVE retargeting, and a likely wrist-part redesign.",
       "started_at": "2026-06-11",
       "due_at": "",
       "comments": [
@@ -7352,11 +7359,11 @@
       "project_id": "real-robot-infra",
       "title": "API 中转站采购查询",
       "description": "查询 API 中转站采购方案，重点看能否走 NUS / 组内报销、稳定性、模型覆盖、企业用户支持、价格和风险。候选：DMXAPI https://www.dmxapi.com；文档 https://doc.dmxapi.cn/kaishi.html；报价页 https://www.dmxapi.cn/rmb。聊天记录信息：对方称企业用户，注册给用户名可送体验金；GPT / Claude / Gemini 基本按官方 6.8 折；开通 GPT 等模型需要给用户名。验收：Karen 确认是否可报销；列出官方 Max/Team vs 中转站的成本和稳定性对比；确认充值/发票/合同/账号归属；小额试用通过；明确不在 dashboard 保存 API key、账号密码、付款信息。",
-      "status": "done",
+      "status": "todo",
       "priority": "high",
       "assignee": "Boris / Karen / Yuhang",
       "due_at": "",
-      "result": "Archived on 2026-06-16 per user direction. DexGello should not keep an expanded dashboard TODO list; actual progress is tracked in the project note from the 2026-06-16 Boris <-> Yongxi Lai chat about wrist mapping, VIVE retargeting, and a likely wrist-part redesign.",
+      "result": null,
       "comments": [
         {
           "comment_id": "comment_general_dmxapi_chat_20260611",
@@ -7461,11 +7468,11 @@
       "project_id": "dex-gello",
       "title": "DexGello: learn from failure data with phase-importance metric",
       "description": "探索一个用于灵巧手 long-horizon 任务的失败数据学习指标：不是把失败轨迹整段拿去学，而是从失败 rollout 中区分有意义的前序阶段和真正失败阶段。目标 metric 要能判断每个阶段的信息价值 / 重要性，例如 grasp 阶段 object/contact 相关指标升高，接触临界、滑移、预抓取姿态、目标物状态变化、operator hesitation 等信号升高；DAgger rollout 中人类介入接管的片段也应给出更高重要性。训练策略：失败轨迹里失败前的高重要阶段可以作为 imitation / replay / curriculum 样本，失败动作本身默认不学或低权重，只保留为 failure label / recovery trigger。候选真机 long-horizon demo：1) 用扫帚把物体扫进撮箕；2) 对魔方/方块连续拧两下 90 度。验收：1) 定义至少 2-3 个 metric 候选（object-centric progress/contact score、human takeover/intervention score、policy uncertainty/nonconformity、phase transition score 等）；2) 在 DexGello episode schema 里标出 phase、success/failure、takeover、contact/object state 字段；3) 用 3-5 条成功/失败/接管样例做离线打分表，其中至少包含一个 longer-horizon demo 的分阶段样例；4) 给出如何切片成 learnable pre-failure segments 与 non-learn failure segments；5) 接到 DAgger / diffusion-policy / world-model training 的 sample-weight 或 curriculum 接口。",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignee": "Boris / DexGello",
       "due_at": "",
-      "result": null,
+      "result": "Archived on 2026-06-16 per user direction. DexGello should not keep an expanded dashboard TODO list; actual progress is tracked in the project note from the 2026-06-16 Boris <-> Yongxi Lai chat about wrist mapping, VIVE retargeting, and a likely wrist-part redesign.",
       "comments": [
         {
           "comment_id": "comment_dex_gello_failure_data_metric_seed_20260613",
