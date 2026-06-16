@@ -4,12 +4,12 @@
   "title": "General",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-06-15T12:02:27+08:00",
+  "updated_at": "2026-06-16T13:31:16+08:00",
   "description": "Procurement status table for cross-project lab purchases",
-  "summary": "General hardware procurement live list: current purchase status, route, and non-sensitive logistics notes for lab support items.",
+  "summary": "General hardware procurement live list: current purchase status, route, and non-sensitive logistics notes for lab support items. Current additions include only the v0 real-robot demo objects still needing purchase plus VIVE Tracker / MANUS charging cables; existing COM2-seat props are tracked on the demo card, not as procurement.",
   "intro_table": {
     "kind": "procurement_table",
-    "caption": "General procurement live list · 2026-06-15",
+    "caption": "General procurement live list · 2026-06-16",
     "columns": [
       {
         "key": "item",
@@ -110,18 +110,42 @@
         "notes": "User request: arrange 20 UK-standard three-pin power cords. Treat as UK plug to rice-cooker / IEC-style power cable until the exact appliance-side connector is confirmed; verify BS1363 plug, fuse rating, cable gauge, length, and whether the target connector is IEC C13/C15 or another rice-cooker style."
       },
       {
-        "item": "Lego disassembly / assembly tool set",
-        "status": "Needs shipping / price comparison",
+        "item": "Toy-knife slime-clay cutting demo kit",
+        "status": "Requested",
+        "route": "Real-Robot Demos · Taobao / supplier",
+        "notes": "For 01 toy-knife slime-clay cutting: blunt-edge toy knife, slime clay, cutting board, and washable desktop protection mat. Keep Stage 0/1 limited to toy knife, washable surface, low speed, and cleanable fixture."
+      },
+      {
+        "item": "Jenga block-extraction demo kit",
+        "status": "Requested",
+        "route": "Real-Robot Demos · Taobao / supplier",
+        "notes": "For 02 Jenga extraction: Jenga tower or custom block stack, target-block marking material such as stickers or colored tape, and a non-slip base / anti-slip mat. Still needs owner and gripper/tactile readiness confirmation before run."
+      },
+      {
+        "item": "3M anti-slip tape plastic-bag rubbing setup",
+        "status": "Requested",
+        "route": "Real-Robot Demos · Taobao / supplier",
+        "notes": "For 03 Wuji plastic-bag rubbing: confirm Aloha-style or equivalent 3M anti-slip tape if not already available, plus a high-contrast tabletop mat or background mat so plastic-bag deformation is visible in camera."
+      },
+      {
+        "item": "Lego tool-operation demo tool set",
+        "status": "Requested",
         "route": "Taobao · Changliu demo procurement",
-        "notes": "For Changliu dexterous-hand tool-manipulation demo:拆装标准乐板高小颗粒积木拆卸辅助工具拆件器锤子钳子起件器零件. Compare Singapore shipping and total price; prefer 199 free-shipping or lower total cost; purchase still needs human confirmation.",
+        "notes": "For 04 Lego tool operation: Lego brick separator plus safe plastic small tools such as small hammer-style and plier-style tools. Existing candidate link is still useful, but first-round procurement should prioritize safe tool size and compatibility with large bricks.",
         "url": "https://e.tb.cn/h.RPMfOKPEYFHdGnp?tk=Dbcng3pXXX8"
       },
       {
-        "item": "Bulk Lego / MOC small-particle parts",
-        "status": "Needs shipping / price comparison",
+        "item": "Lego / MOC large-particle first-round parts",
+        "status": "Requested",
         "route": "Taobao · Changliu demo procurement",
-        "notes": "For Changliu dexterous-hand Lego assemble/disassemble demo:正品乐高 lego 小颗粒散件 / MOC 二手乐高积木论斤卖随机称散装积木. Compare Singapore shipping and total price; prefer 199 free-shipping or lower total cost; purchase still needs human confirmation.",
+        "notes": "For 04 Lego tool operation: buy Lego / MOC parts, with first round biased to large-particle bricks before moving to small-particle or random bulk pieces. Compare Singapore shipping and total price; purchase still needs human confirmation.",
         "url": "https://e.tb.cn/h.Rl7HuejKX6tvL5d?tk=DPjeg3pWUqm"
+      },
+      {
+        "item": "2x 1-to-3 data/charging cables, 1m, USB-C outputs",
+        "status": "Requested",
+        "route": "Taobao / supplier · VIVE Tracker + MANUS charging",
+        "notes": "User request: buy two one-to-three charging/data cables with all three outputs as Type-C / USB-C; about 1m length should be enough. Intended for VIVE Tracker and MANUS charging; confirm charge-only vs data capability before checkout."
       }
     ]
   },
