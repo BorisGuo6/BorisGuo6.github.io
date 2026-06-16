@@ -6934,9 +6934,16 @@
           "body": "Correction after direct server verification: raw Hoi! files are not fully downloaded yet. The server currently has the selection and episode manifests, but the 22 selected raw files were missing before the background retry was started. Started real download with `aria2c` on the server at /root/autodl-tmp/workspace/das-data/datasets/hoi_tri_view_open; pid is stored in download.pid and progress logs go to download_background.log. Keep this task active until a verifier reports complete=22, partial=0, missing=0 against selection_manifest.json.",
           "created_at": "2026-06-17T00:52:58+08:00",
           "kind": "correction"
+        },
+        {
+          "comment_id": "comment_task_umi_replace_dataset_with_tri_view_model_eval_pack_20260617",
+          "author": "Codex",
+          "body": "Prepared the remote Hoi tri-view model-eval pack at /root/autodl-tmp/workspace/das-data/eval_outputs/hoi_tri_view_model_eval_20260617. It includes readiness checking, Hoi zip -> 448x256 tri-view first-frame / 5s GT preparation, WAN2.2 Turbo runner, Cosmos3 runner, and a prepare-when-ready watcher. WAN2.2 dependency issue was fixed by reinstalling torchaudio as 2.7.0+cu128 in the RoboLab venv; the runner now imports cleanly and only blocks on CUDA availability. Current status remains active, not done: latest verifier showed complete=16, partial=6, missing=0 out of 22 selected files, and the current cloud instance has no visible GPU.",
+          "created_at": "2026-06-17T01:24:50+08:00",
+          "kind": "progress"
         }
       ],
-      "updated_at": "2026-06-17T00:52:58+08:00",
+      "updated_at": "2026-06-17T01:24:50+08:00",
       "due_at": "",
       "completed_at": null
     },
