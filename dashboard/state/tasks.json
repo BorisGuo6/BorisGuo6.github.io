@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-17T23:30:19+08:00",
+  "updated_at": "2026-06-18T00:11:21+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -7076,10 +7076,10 @@
       "project_id": "umi-world-model",
       "title": "Lai 测试更多 layer 数量与推理部署：10 张图批测",
       "description": "Lai 继续测试更多 layer count 和推理部署，挑选 10 张代表性 robot/manipulation 图片做 layer decomposition 批测，整理结果发群并同步 dashboard。Acceptance: 10 张输入图、每张不同 layer 数设置、推理部署命令或服务入口、输出 layer/manifest、重组预览、失败样例、速度/显存/稳定性记录、推荐 layer count 与是否可进入视频测试。",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignee": "Lai / Boris",
-      "result": null,
+      "result": "Closed by early method-selection decision on 2026-06-18 rather than by expanding to the full 10-image batch. Layered Image Policy evidence from 2026-06-17 shows Qwen Image-Layered can specify layer count, but cannot specify the semantic content of each layer; prompt constraints behave like a caption and do not force robot/object/background separation. The shared Qwen outputs show merged or missing semantic entities, residual/shadow/background-support layers, failed pure-background rendering, and weak pillow/background completion. Yongxi also reported the ICML/RevealLayer-style result as unusable for the current robot scene. Decision: pass/drop Qwen Image-Layered and RevealLayer/ICML-style direct layer generation as short-term practical routes; keep them only as background/comparison references. Do not spend more effort on the 10-image Qwen layer-count batch unless a new model/control API appears. Failure gallery saved under dashboard/assets/umi-qwen-layer-failure-20260618-{0,1,2,3}.jpg. Next route: SAM3/SAM mask tracking + GPT/inpaint or VACE video inpainting, plus SAMVG/LIVE/SAM-contour SVG sidecar probes and RoboTwin/MaskWAM mask audits.",
       "comments": [
         {
           "comment_id": "comment_task_umi_lai_layer_count_deploy_10_image_batch_seed_20260617",
@@ -7087,11 +7087,18 @@
           "body": "Seeded from 2026-06-17 meeting: Lai is testing more layer counts and inference deployment, will select ten images, run tests, and organize results into the group. This complements the Qwen/Image-agent layer-count failure analysis and should feed the method-selection gate.",
           "created_at": "2026-06-17T22:00:00+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_task_umi_lai_qwen_reveallayer_drop_20260618",
+          "author": "Boris / Codex",
+          "body": "ClawCross WeChat check of Layered Image Policy on 2026-06-18: Yongxi shared the current Qwen outputs and confirmed layer count is controllable, but each layer's semantic coverage is not. Official prompt behavior is effectively caption-like; attempts to force required layer contents did not work. Boris concluded it was not meaningful to continue, Yongxi agreed, and Yongxi also said the ICML/RevealLayer-style result was not worth posting. Marking the task done as a negative result / early stop: Qwen and RevealLayer are passed over for the practical robot-layer pipeline.",
+          "created_at": "2026-06-18T00:11:21+08:00",
+          "kind": "method_decision"
         }
       ],
-      "updated_at": "2026-06-17T22:00:00+08:00",
+      "updated_at": "2026-06-18T00:11:21+08:00",
       "due_at": "",
-      "completed_at": null
+      "completed_at": "2026-06-18"
     },
     {
       "task_id": "task_umi_cosmos3_wan22_realomni_eval_20260617",

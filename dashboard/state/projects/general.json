@@ -4,12 +4,12 @@
   "title": "General",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-06-16T15:58:17+08:00",
+  "updated_at": "2026-06-17T23:18:37+08:00",
   "description": "Procurement status table for cross-project lab purchases",
-  "summary": "General hardware procurement live list: current purchase status, route, and non-sensitive logistics notes for lab support items. Current additions include item-level purchase links for v0 real-robot demo objects plus VIVE Tracker / MANUS charging cables; existing COM2-seat props should still be fit-checked before duplicate purchase.",
+  "summary": "General hardware procurement live list: current purchase status, route, and non-sensitive logistics notes for lab support items. Current additions include item-level purchase links for v0 real-robot demo objects, VIVE Tracker / MANUS charging cables, and a head-mounted first-person phone holder; existing COM2-seat props should still be fit-checked before duplicate purchase.",
   "intro_table": {
     "kind": "procurement_table",
-    "caption": "General procurement live list · 2026-06-16",
+    "caption": "General procurement live list · 2026-06-17",
     "columns": [
       {
         "key": "item",
@@ -42,6 +42,13 @@
         "route": "Taobao · ship to NUS/COM2",
         "notes": "For Tracker / PICO4 / Quest 3 headset mounting in human-centric VR data collection. User reported shipped on 2026-06-16.",
         "url": "https://e.tb.cn/h.Rl33zrrJA2MA00z?tk=FiDjg3jsslw"
+      },
+      {
+        "item": "Head-mounted first-person phone holder / 头戴手机支架",
+        "status": "Requested",
+        "route": "Taobao · lab procurement",
+        "notes": "User-provided Taobao candidate marked 假一赔四. Use as a first-person hands-free operation / repair-view ego-video capture mount; before purchase confirm headband stability, phone clamp size/weight, anti-drop tether, FOV, comfort, and safe static or low-risk use. Do not treat active road-driving filming as an experiment requirement.",
+        "url": "https://e.tb.cn/h.RoTHt0FU9m2Dn1g?tk=gWEXg5lyoqA"
       },
       {
         "item": "Cymple face-capture / eye-tracking device",
@@ -193,7 +200,8 @@
     "task_general_camera_short_screws",
     "task_general_claude_code_yuhang_account_recharge",
     "task_general_api_gateway_procurement_query",
-    "task_general_me_control_lab_anti_vibration_table_assembly"
+    "task_general_me_control_lab_anti_vibration_table_assembly",
+    "task_general_head_mounted_phone_holder_procurement"
   ],
   "risks_decisions": [],
   "timeline": null,
