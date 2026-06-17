@@ -6888,10 +6888,10 @@
       "project_id": "umi-world-model",
       "title": "数据集替换成三视角的",
       "description": "把当前训练/评测数据面替换成三视角/多 ego-view 数据：左右 wrist view 加固定或浮动 robot-head view，所有视角共享同一 scene/object/action context。允许先混用原有数据，但 manifest 必须显式记录 camera mount、ego_view_type、shared_context_id、POV overlap、timestamps、action/state、robot visibility、object interaction labels 和 task result。Acceptance: 三视角候选数据集清单、替换/混用策略、可跑 manifest 示例、以及第一批用于 Cosmos/Gamma/EgoWorld/layered pipeline 的 episode 列表。",
-      "status": "active",
+      "status": "done",
       "priority": "high",
       "assignee": "Boris",
-      "result": "Dataset audit and manifest staging are complete, but the raw selected Hoi! files were not yet fully downloaded when Boris asked for verification. Current server path: /root/autodl-tmp/workspace/das-data/datasets/hoi_tri_view_open. Present artifacts: selection_summary.json, selection_manifest.json, episodes_first_batch.json, download_plan.tsv, aria2_input.txt. Selected pack: 22 files / 5.063 GB across hoi::umi::bathroom_1::bathroom_1_1-2_umi and hoi::wrist::bathroom_1::bathroom_1_1-2_wrist. Background aria2 download was started on 2026-06-17 with pid recorded in download.pid; mark done only after all 22 raw files match the expected byte sizes in selection_manifest.json.",
+      "result": "Done by scope decision on 2026-06-17: Hoi! is selected as the tri-view / multi ego-view replacement substrate. The original acceptance is satisfied: candidate audit compared Hoi!, MV-UMI, EgoMimic, and ActiveUMI; replacement strategy uses Hoi! as the main dataset while allowing current UMI-style data to remain mixed in; runnable staging artifacts are recorded at /root/autodl-tmp/workspace/das-data/datasets/hoi_tri_view_open/selection_summary.json, selection_manifest.json, episodes_first_batch.json, download_plan.tsv, and aria2_input.txt; the first batch selects 22 files / 5.063 GB across hoi::umi::bathroom_1::bathroom_1_1-2_umi and hoi::wrist::bathroom_1::bathroom_1_1-2_wrist, with wardrobe_2 queued next. Raw file mirroring, GPU availability, and model-eval smoke runs remain follow-up execution work for Gamma/EgoWorld/layered pipeline tasks rather than blockers for this dataset replacement decision.",
       "comments": [
         {
           "comment_id": "comment_task_umi_replace_dataset_with_tri_view_meeting_source_20260609",
@@ -6941,11 +6941,18 @@
           "body": "Prepared the remote Hoi tri-view model-eval pack at /root/autodl-tmp/workspace/das-data/eval_outputs/hoi_tri_view_model_eval_20260617. It includes readiness checking, Hoi zip -> 448x256 tri-view first-frame / 5s GT preparation, WAN2.2 Turbo runner, Cosmos3 runner, and a prepare-when-ready watcher. WAN2.2 dependency issue was fixed by reinstalling torchaudio as 2.7.0+cu128 in the RoboLab venv; the runner now imports cleanly and only blocks on CUDA availability. Current status remains active, not done: latest verifier showed complete=16, partial=6, missing=0 out of 22 selected files, and the current cloud instance has no visible GPU.",
           "created_at": "2026-06-17T01:24:50+08:00",
           "kind": "progress"
+        },
+        {
+          "comment_id": "comment_task_umi_replace_dataset_with_tri_view_done_scope_20260617",
+          "author": "Boris / Codex",
+          "body": "Marked done by scope clarification on 2026-06-17. The load-bearing decision is the dataset replacement choice and runnable manifest/episode staging, not full raw mirroring. Hoi! is now the selected substrate because it exposes synchronized `umi` and `wrist` capture bundles covering head-ego, manipulator-centric ego, and fixed external views; MV-UMI and EgoMimic remain backups/references, and ActiveUMI remains a paper reference. Keep raw download completion and model-eval smoke as downstream execution under Gamma/EgoWorld/layered pipeline work.",
+          "created_at": "2026-06-17T17:35:00+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-17T01:24:50+08:00",
+      "updated_at": "2026-06-17T17:35:00+08:00",
       "due_at": "",
-      "completed_at": null
+      "completed_at": "2026-06-17"
     },
     {
       "task_id": "task_umi_gamma_world_reproduction",
