@@ -70,7 +70,7 @@
         <div class="story-subsection" data-story-subsection></div>
       </details>
 
-      <details class="fold-section" data-section-id="image-context" data-details-key="section:image-context" open>
+      <details class="fold-section" data-section-id="image-context" data-details-key="section:image-context">
         <summary>
           <span>
             <strong>Image Context</strong>
@@ -996,16 +996,27 @@
           }
           const figures = references.map((reference, index) => {
             const figure = document.createElement("figure");
-            figure.className = "figure-card";
+            figure.className = "figure-card image-context-card";
+            const media = document.createElement("div");
+            media.className = "image-context-media";
             const image = document.createElement("img");
             image.src = assetFileUrl(reference.src);
             image.alt = reference.alt || reference.caption || "Dashboard image";
+            image.addEventListener("load", () => {
+              const ratio = image.naturalWidth && image.naturalHeight ? image.naturalWidth / image.naturalHeight : 1;
+              media.classList.toggle("is-wide", ratio >= 1.55);
+              media.classList.toggle("is-tall", ratio <= 0.72);
+            });
+            if (image.complete) {
+              window.setTimeout(() => image.dispatchEvent(new Event("load")), 0);
+            }
             prepareZoomableImage(image);
             const caption = document.createElement("figcaption");
             const label = reference.source ? `${reference.source}: ${reference.caption || ""}` : reference.caption || "";
             caption.textContent = label;
             makeTextCollapsible(caption, label, { maxLength: 150, maxLines: 3, stateKey: `image-context:${index}:${reference.src}` });
-            figure.append(image, caption);
+            media.append(image);
+            figure.append(media, caption);
             return figure;
           });
           grid.replaceChildren(...figures);
