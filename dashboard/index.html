@@ -70,6 +70,16 @@
         <div class="story-subsection" data-story-subsection></div>
       </details>
 
+      <details class="fold-section" data-section-id="image-context" data-details-key="section:image-context" open>
+        <summary>
+          <span>
+            <strong>Image Context</strong>
+            <em data-image-context-summary>Dashboard image references</em>
+          </span>
+        </summary>
+        <div class="visual-grid" data-image-context-grid></div>
+      </details>
+
       <section class="section dashboard-entry-links" aria-label="Dashboard entry links">
         <a class="dashboard-entry-link" href="../weekly-briefs/">
           <strong>Open Weekly Brief</strong>
@@ -875,6 +885,7 @@
             storylineSummary.textContent = portfolio.storyline.summary;
           }
           renderStoryline(portfolio.storyline);
+          renderImageContext(portfolio);
           renderProjectBuckets(portfolio);
         }
 
@@ -932,6 +943,73 @@
             subsection.append(subtitle, createStoryFlow(flows[1], "story-subflow"));
             subContainer.replaceWith(subsection);
           }
+        }
+
+        function addImageContextReference(references, seen, reference, fallbackSource = "") {
+          const src = reference?.src || reference?.asset || "";
+          if (!src || seen.has(src)) {
+            return;
+          }
+          seen.add(src);
+          references.push({
+            src,
+            alt: reference.alt || reference.asset_alt || reference.caption || reference.title || fallbackSource || "Dashboard image",
+            caption: reference.caption || reference.asset_caption || reference.title || fallbackSource || src,
+            source: reference.source || fallbackSource,
+          });
+        }
+
+        function collectImageContextReferences(portfolio) {
+          const references = [];
+          const seen = new Set();
+          (Array.isArray(portfolio?.visual_references) ? portfolio.visual_references : []).forEach((reference) => {
+            addImageContextReference(references, seen, reference, "Portfolio visual reference");
+          });
+          projectDocs.forEach((projectDoc) => {
+            addImageContextReference(
+              references,
+              seen,
+              {
+                src: projectDoc.asset,
+                alt: projectDoc.asset_alt || projectDoc.title,
+                caption: projectDoc.asset_caption || projectDoc.title,
+                source: projectDoc.title,
+              },
+              projectDoc.title,
+            );
+          });
+          return references;
+        }
+
+        function renderImageContext(portfolio) {
+          const section = document.querySelector('[data-section-id="image-context"]');
+          const grid = document.querySelector("[data-image-context-grid]");
+          const summary = document.querySelector("[data-image-context-summary]");
+          if (!section || !grid) {
+            return;
+          }
+          const references = collectImageContextReferences(portfolio);
+          if (summary) {
+            summary.textContent = references.length === 1
+              ? "1 dashboard image reference"
+              : `${references.length} dashboard image references`;
+          }
+          const figures = references.map((reference, index) => {
+            const figure = document.createElement("figure");
+            figure.className = "figure-card";
+            const image = document.createElement("img");
+            image.src = assetFileUrl(reference.src);
+            image.alt = reference.alt || reference.caption || "Dashboard image";
+            prepareZoomableImage(image);
+            const caption = document.createElement("figcaption");
+            const label = reference.source ? `${reference.source}: ${reference.caption || ""}` : reference.caption || "";
+            caption.textContent = label;
+            makeTextCollapsible(caption, label, { maxLength: 150, maxLines: 3, stateKey: `image-context:${index}:${reference.src}` });
+            figure.append(image, caption);
+            return figure;
+          });
+          grid.replaceChildren(...figures);
+          section.hidden = references.length === 0;
         }
 
         function createTaskCreatePanel(projectRef) {

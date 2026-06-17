@@ -4,9 +4,9 @@
   "title": "UMI Image Layered World Model",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-06-17T19:05:00+08:00",
+  "updated_at": "2026-06-17T22:12:00+08:00",
   "description": "UMI Image Layered World Model: build tri-view robot video world modeling, decompose videos into robot / object-contact / scene layers, and prove layered data improves manipulation.",
-  "summary": "UMI Image Layered World Model uses Hoi! as the selected tri-view / multi ego-view data substrate ([download](https://timengelbracht.github.io/Hoi-Dataset-Website/#download)), then links three tracks: generate synchronized UMI-style robot videos, decompose them into robot / object-contact / background layers, and prove those layers improve IDM, rewards, policy robustness, and evaluation.",
+  "summary": "UMI Image Layered World Model is now organized around three execution lanes: Stage 1 Wan2.1 dual-wrist world modeling, Stage 2 video layer decomposition/completion with masks, VACE, RoboTwin, MaskWAM, SAMVG/LIVE and inpaint baselines, and Stage 3 policy/pose utility tests proving that layered data helps IDM, FoundationPose, rewards, background replacement, and downstream policies.",
   "subprojects": [
     {
       "label": "A",
@@ -27,9 +27,9 @@
       "output": "policy + eval gains"
     }
   ],
-  "asset": "dashboard/assets/world-model-taxonomy-20260615.jpg",
-  "asset_alt": "World model taxonomy comparing reconstruction, next-step prediction, and runnable models across reconstruction, object/3D, and pixel/video levels.",
-  "asset_caption": "World-model taxonomy reference: reconstruction, next-step prediction, and runnable simulation are different claims; Tri-View should be explicit about which layer is being modeled and evaluated.",
+  "asset": "dashboard/assets/umi-shared-backbone-dual-branch-wan-20260617.jpg",
+  "asset_alt": "Shared-Backbone Dual-Branch Wan architecture diagram for UMI, showing left and right gripper camera histories, shared video VAE/tokenizer, condition encoder, view embeddings, shared Wan backbone, dual prediction heads, and training objectives.",
+  "asset_caption": "Shared-Backbone Dual-Branch Wan: UMI Stage 1 architecture for separate left/right wrist video latents, view embeddings, shared Wan2.1 backbone, dual decoded outputs, and cross-view / temporal / state-action consistency losses.",
   "visual": {
     "layout": "standard"
   },
@@ -47,15 +47,34 @@
     "Object-layer route: treat object state, contact, and task progress as the reward-bearing dynamics. LIV-style video/language reward models and object-centric trajectory methods become the reference for process reward, failure attribution, and RL fine-tuning signals.",
     "Background-layer route: keep object and robot evidence fixed while varying scene/background for robustness. RoboEngine-style semantic robot segmentation plus background generation is the immediate analogy; the layer model should make this cleaner than flat-image augmentation.",
     "Prior evidence: ARRO shows that SAM/open-vocabulary segmentation and task-specific visual masking can improve robot policies. Our stronger claim is that a full Image-Layered Robot Data representation, beyond masks alone, should improve manipulation by separating robot, object/contact, and scene factors.",
-    "Dashboard asset update 2026-06-15: the world-model taxonomy figure is now the project visual. Use it as a reminder that DINO/MAE/NeRF/scene-flow/video-diffusion/Dreamer/MuJoCo-style claims are not the same capability. Tri-View should state whether a component reconstructs state, predicts next observations, or supports executable rollouts.",
+    "Dashboard asset update 2026-06-15: the world-model taxonomy figure is retained as a reference asset rather than the current project visual. Use it as a reminder that DINO/MAE/NeRF/scene-flow/video-diffusion/Dreamer/MuJoCo-style claims are not the same capability. Tri-View should state whether a component reconstructs state, predicts next observations, or supports executable rollouts. Current visual was superseded on 2026-06-17 by the UMI Model Structure screenshot.",
     "Main experiment framing: compare flat RGB robot data vs SAM/mask-only data vs Image-Layered Robot Data on the same manipulation policy/eval tasks. Success requires gains in policy robustness, IDM recoverability, reward/eval quality, or domain adaptation, not only visually clean layer images.",
-    "Stage separation: Stage 1 builds on Gamma-World-style synchronized action-conditioned world modeling; Stage 2 builds on RevealLayer-style occlusion-aware RGBA layer decomposition. The connecting claim is that generated or real UMI videos become more useful once they are decomposed into robot, object/contact, occluder, and background layers for IDM, reward/eval, and policy ablations."
+    "Stage separation: Stage 1 builds on Gamma-World-style synchronized action-conditioned world modeling; Stage 2 builds on RevealLayer-style occlusion-aware RGBA layer decomposition. The connecting claim is that generated or real UMI videos become more useful once they are decomposed into robot, object/contact, occluder, and background layers for IDM, reward/eval, and policy ablations.",
+    "SVG/layer pilot closure 2026-06-17: a one-frame MolmoAct robot-couch pseudo-label package in ~/Downloads/molmoact_svg_layer_pilot_20260617 defines robot_visible, object_contact, and scene_background mask/RGBA/SVG outputs, layer_manifest.json, recomposition/overlay previews, QA metrics, and failure notes. WeChat review of UMI World Model and Layered Image Policy confirmed prior tests of GPT split PSD, RevealLayer, SAM3 + GPT inpaint, and Qwen Image-Layered, but no SAMVG/LIVE/DiffVG/SVG-vectorization test. Decision: SVG is useful as a structured contour/contact metadata sidecar, while raster RGBA/masks/video remain the training truth. The next active item is a SAMVG/LIVE SVG layer probe, not another generic segment+inpaint comparison.",
+    "UMI model structure update 2026-06-17: Stage 1 now has two explicit routes. Route A is direct left/right wrist-camera frame stitching followed by Wan2.1 finetuning; its data prep is text annotation plus video stitching, with 10Kh RealOmni-Open Dataset as the immediate external data source. Route B is the stronger shared-backbone dual-branch Wan: encode left and right wrist-camera histories into separate video latents, add view embeddings to distinguish cameras, fuse robot proprioception/state, future action sequence, camera pose/calibration, and optional task text, then train a shared Wan2.1 backbone with dual prediction heads / shared VAE decoder for left and right future videos.",
+    "Shared-backbone dual-branch Wan objective update 2026-06-17: training objectives should include diffusion/reconstruction loss for predicted latents, cross-view consistency loss between left/right predictions, temporal consistency loss, and optional state/action consistency loss that aligns predicted video dynamics with robot state and future actions. This is the Stage 1 model-architecture complement to the existing Gamma-World baseline, not a replacement for the later Image-Layered/SVG decomposition track.",
+    "Wan2.1 vs Wan2.2 training decision 2026-06-17: use Wan2.1 for the first UMI dual-wrist training route. Reason: Wan2.2-A14B is a two-expert MoE denoiser with high-noise and low-noise experts split by SNR/timestep; adapting it would require separate high/low expert LoRA or finetune runs, expert-boundary selection, paired inference composition, and extra failure analysis when one expert learns but the other does not. Wan2.1 keeps a single dense denoiser/backbone and has mature LoRA/full-finetune recipes in VideoX-Fun, DiffSynth-Studio, finetrainers, and diffusion-pipe. Keep Wan2.2 for later quality comparison or TI2V-5B exploration after the Wan2.1 concat baseline and dual-latent schema are verified.",
+    "AutoDL compute constraint 2026-06-17: AutoDL should be treated as single-machine training only for this project. It does not support cross-machine distributed training in our planned setup, so the practical ceiling is one 8-GPU node. Wan2.1 Route A/B configs must fit within single-node 8-card training: prefer LoRA or small full-finetune trials first, use gradient accumulation / checkpointing / offload as needed, and avoid plans that require multi-node DeepSpeed/FSDP. This further supports starting with Wan2.1 rather than Wan2.2 high/low expert finetuning.",
+    "VACE video inpainting probe 2026-06-17: add Wan2.1 VACE as the main video-inpainting / masked video-to-video candidate for Stage 2 layer completion. Placement: after SAM/SAM2/SAM3 mask tracking and before recomposition QA, use VACE to fill robot/object/occluder-removed regions or complete background clips. VACE should be compared against GPT/FLUX-style still/image-agent inpaint, RevealLayer single-image occlusion completion, and any existing segment+inpaint baseline. It is not the SVG route; SVG remains mask/contour/contact metadata sidecar, while VACE owns temporally coherent raster inpaint/background completion.",
+    "Project header image update 2026-06-17: replaced the earlier cropped UMI Model Structure screenshot with the clean Shared-Backbone Dual-Branch Wan diagram as the project head image. Use it as the visual anchor for the Wan2.1 dual-wrist route: left/right gripper histories -> shared VAE/tokenizer -> view/time/position-conditioned fusion -> shared Wan backbone -> dual left/right video outputs.",
+    "Layered Image Policy mask-data update 2026-06-17: group chat added two Stage 2 TODOs. First, audit RoboTwin/RoboTwin 2.0 data because its SAPIEN simulation can provide grayscale object masks with per-object separation; confirm whether those masks can seed robot/object/contact/occluder/background pseudo-layer labels. Second, compare MaskWAM's mask prompting + future mask prediction pipeline against our Image-Layered Robot Data route. MaskWAM is a mask-centric WAM; our route is layer decomposition: RGBA/video layers, inpainted background, SVG mask/contour sidecars, and downstream IDM/reward/recomposition QA.",
+    "MaskWAM differentiation note 2026-06-17: MaskWAM segments or consumes masks as spatial prompts and predicts future masks as object-centric supervision. That is adjacent but not identical to UMI Image-Layered data. Our proposed contribution should be framed as decomposing robot videos into named, editable, recomposable layers: robot, object/contact, occluder, scene/background, plus inpainted raster completion and SVG/contact metadata. The comparison should borrow MaskWAM's mask-as-prompt and future-mask-prediction ideas where useful, but emphasize that we evaluate layer purity, recomposition, temporal consistency, IDM/reward utility, and background replacement rather than mask prediction alone.",
+    "UMI meeting sync 2026-06-17: project framing was restated as three connected subprojects: (1) learn/share the overlap and correspondence between left/right wrist views, (2) turn robot videos into layer-decomposed data with robot/action, object/contact, occluder, and scene/background layers, and (3) test policy/pose/reward utility on those layers. Haoyu owns Wan2.1 dual-wrist data/training and the shared-backbone dual-branch architecture; Ziyang owns SAM3/video segmentation, video inpainting/completion, and FoundationPose utility probes; Lai owns multi-layer count and inference deployment tests; Boris owns dashboard synchronization, Cosmos3/Wan2.2/RealOmni follow-up, and GPU-resource escalation.",
+    "Layering method selection gate 2026-06-17: by next week or the week after, the team should choose the first practical layered-data pipeline and start preparing the global layered dataset build. The selection should compare GPT/SAM3 inpaint, VACE/VAC/VAS-style video inpainting, Qwen/Image-agent layer count behavior, RevealLayer-style occlusion completion, RoboTwin synthetic masks, MaskWAM-style mask prompting/prediction, and SAMVG/LIVE SVG sidecars. The gate is not only visual quality: it must check temporal consistency, masked-region completion, unmasked preservation, layer purity, recomposition QA, FoundationPose/IDM/reward utility, speed/cost, and whether human layer annotation is needed.",
+    "FoundationPose utility note 2026-06-17: Ziyang should test whether feeding layered outputs improves object pose extraction. Compare raw RGB, object-only layer, object+background layer, and recomposed layered clips; report success/failure cases, occlusion handling, and whether object/contact layers help downstream pose and reward/eval heads."
   ],
   "task_ids": [
-    "task_umi_cosmos3_test",
-    "task_umi_replace_dataset_with_tri_view",
+    "task_umi_wan21_dual_wrist_structure_20260617",
+    "task_umi_cosmos3_wan22_realomni_eval_20260617",
+    "task_umi_gpu_resource_single_node_plan_20260617",
+    "task_umi_vace_video_inpainting_probe_20260617",
+    "task_umi_foundationpose_layer_utility_probe_20260617",
+    "task_umi_lai_layer_count_deploy_10_image_batch_20260617",
+    "task_umi_robotwin_mask_dataset_audit_20260617",
+    "task_umi_maskwam_pipeline_comparison_20260617",
+    "task_umi_layering_method_selection_global_dataset_plan_20260617",
     "task_umi_gamma_world_reproduction",
-    "task_umi_layered_dataset_segment_inpaint_svg"
+    "task_umi_layered_dataset_molmoact_svg_qa_batch_20260617"
   ],
   "references": [
     {
@@ -221,6 +240,63 @@
       "url": "https://augmented-reality-for-robots.github.io/",
       "arxiv_id": "2505.08627",
       "notes": "Policy-utility evidence. ARRO shows that segmentation-driven augmented robot observations can improve Diffusion Policy and generalist robot policies; this supports the stronger ablation that full Image-Layered Robot Data should help manipulation."
+    },
+    {
+      "title": "10Kh RealOmni-Open DataSet",
+      "url": "https://www.genrobot.ai/data/open-dataset",
+      "submitted_at": "2026-06-17",
+      "notes": "New Stage 1 data source from the UMI model-structure update. GenRobot describes 10Kh RealOmni-Open as real-world, diverse-skill embodied data with 1M+ data clips and ongoing expansion; use it for the dual-wrist Wan2.1 baseline only after checking view/camera availability, download access, license, task coverage, and annotation fields."
+    },
+    {
+      "title": "Wan2.2 MoE high-noise / low-noise architecture",
+      "url": "https://github.com/Wan-Video/Wan2.2",
+      "submitted_at": "2026-06-17",
+      "notes": "Training-risk reference for UMI: Wan2.2-A14B uses a two-expert denoising MoE, with a high-noise expert for early/layout steps and a low-noise expert for later/detail steps. This improves quality but complicates custom finetuning because UMI adaptation must decide whether and how to train each expert and where to switch by SNR/timestep."
+    },
+    {
+      "title": "Wan2.1 LoRA fine-tuning training guide",
+      "url": "https://github.com/aigc-apps/VideoX-Fun/blob/main/scripts/wan2.1/README_TRAIN_LORA.md",
+      "submitted_at": "2026-06-17",
+      "notes": "Implementation reference for the first UMI training route: provides a complete Wan2.1 LoRA workflow covering dataset structure, metadata.json, model download, DeepSpeed/FSDP training, validation, and inference testing."
+    },
+    {
+      "title": "Finetrainers Wan training support",
+      "url": "https://github.com/huggingface/finetrainers/blob/main/docs/models/wan.md",
+      "submitted_at": "2026-06-17",
+      "notes": "Implementation reference: finetrainers documents LoRA and full-finetune support and lists tested Wan2.1 T2V/I2V/FLF2V checkpoints. Use as a cleaner baseline toolchain candidate before modifying dual-wrist inputs."
+    },
+    {
+      "title": "VACE: All-in-One Video Creation and Editing",
+      "url": "https://github.com/ali-vilab/VACE",
+      "arxiv_id": "2503.07598",
+      "submitted_at": "2026-06-17",
+      "notes": "Video inpainting / masked V2V candidate for Stage 2. Official VACE repo describes reference-to-video, video-to-video editing, masked video-to-video editing, and free composition, making it a direct fit for mask-tracking -> video inpaint -> recomposition QA."
+    },
+    {
+      "title": "Wan2.1 VACE model release",
+      "url": "https://github.com/Wan-Video/Wan2.1/",
+      "submitted_at": "2026-06-17",
+      "notes": "Wan2.1 VACE release reference. Use for inference/code/weights alignment when testing VACE on robot-mask clips; keep Wan2.1 compatibility with the Stage 1 training route."
+    },
+    {
+      "title": "RoboTwin 2.0: scalable dual-arm manipulation data generator and benchmark",
+      "url": "https://robotwin-platform.github.io/",
+      "arxiv_id": "2506.18088",
+      "submitted_at": "2026-06-17",
+      "notes": "Candidate mask-rich synthetic data source for Stage 2. RoboTwin 2.0 is built for bimanual manipulation data generation and benchmarking, with SAPIEN-based simulation, strong domain randomization, and a 50-task / 731-object benchmark surface. Group note: inspect whether provided grayscale masks expose per-object mask IDs directly usable for layer pseudo-labels."
+    },
+    {
+      "title": "RoboTwin 2.0 official repository",
+      "url": "https://github.com/robotwin-Platform/robotwin",
+      "submitted_at": "2026-06-17",
+      "notes": "Implementation/data-audit target for checking mask files, grayscale ID conventions, camera views, object metadata, and whether generated episodes can export robot/object/contact/occluder/background masks."
+    },
+    {
+      "title": "MaskWAM: Unifying Mask Prompting and Prediction for World-Action Models",
+      "url": "https://arxiv.org/abs/2606.13515",
+      "arxiv_id": "2606.13515",
+      "submitted_at": "2026-06-17",
+      "notes": "Comparison paper for the mask-centric WAM direction. MaskWAM integrates masks as explicit inputs and future predictions via a unified Mixture of Transformers, addressing spatial ambiguity and semantic grounding. Compare its mask pipeline to our layer-decomposition route."
     }
   ],
   "risks_decisions": [
@@ -232,7 +308,9 @@
     "Dataset risk: pseudo-layers from SAM/Qwen/Image agents may be temporally unstable. The v0 needs recomposition error, temporal consistency, object-contact preservation, and IDM recoverability metrics before large-scale training.",
     "RevealLayer build-upon decision 2026-06-16: adopt RevealLayer as the preferred Stage 2 baseline/foundation for occlusion-aware RGBA layer generation, but do not claim sufficiency until robot-specific semantic guidance, temporal video consistency, and downstream manipulation gains are demonstrated.",
     "Gamma-World Stage 1 decision 2026-06-16: treat Gamma-World as the Stage 1 reference/foundation for synchronized action-conditioned world modeling, not merely a collision. The project must still add UMI-specific view/layer/eval utility instead of claiming generic multi-agent video generation as the novelty.",
-    "Ablation requirement: compare flat RGB, mask-only/SAM, and full layered data under the same policy and reward/eval setup. Without this ablation, the claim stays qualitative."
+    "Ablation requirement: compare flat RGB, mask-only/SAM, and full layered data under the same policy and reward/eval setup. Without this ablation, the claim stays qualitative.",
+    "Compute decision 2026-06-17: AutoDL is capped at single-node 8-GPU training for this effort; no cross-machine distributed training. Scale plans, expected batch size, checkpointing/offload, and model-choice decisions must stay inside that envelope until a separate multi-node cluster is provisioned.",
+    "Coordination decision 2026-06-17: do not wait for a perfect end-to-end layer generator before proving utility. Use the best available manually assisted or semi-automatic layered clips to test FoundationPose, IDM, reward/eval, and recomposition first; only then scale toward a global layered dataset."
   ],
   "timeline": {
     "target_venue": "ICLR",
