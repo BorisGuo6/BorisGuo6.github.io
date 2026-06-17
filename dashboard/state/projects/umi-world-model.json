@@ -1,12 +1,12 @@
 {
   "schema_version": "project.v1",
   "project_id": "umi-world-model",
-  "title": "Tri-View Ego World + Image-Layered IDM Foundation Model",
+  "title": "UMI Image Layered World Model",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-06-17T16:56:00+08:00",
-  "description": "Three-track robot-data foundation model: generate robot videos, decompose them into layers, then prove layered robot data improves manipulation.",
-  "summary": "The project is split into three linked sub-projects: generate robot video data, decompose it into robot / object-contact / background layers, then prove layered robot data improves manipulation.",
+  "updated_at": "2026-06-17T19:05:00+08:00",
+  "description": "UMI Image Layered World Model: build tri-view robot video world modeling, decompose videos into robot / object-contact / scene layers, and prove layered data improves manipulation.",
+  "summary": "UMI Image Layered World Model uses Hoi! as the selected tri-view / multi ego-view data substrate ([download](https://timengelbracht.github.io/Hoi-Dataset-Website/#download)), then links three tracks: generate synchronized UMI-style robot videos, decompose them into robot / object-contact / background layers, and prove those layers improve IDM, rewards, policy robustness, and evaluation.",
   "subprojects": [
     {
       "label": "A",
@@ -36,7 +36,7 @@
   "details": [
     "Sub-project A, UMI Ego World for robot-data generation: train or adapt an action-conditioned multi-view world model that generates synchronized robot videos from UMI-style wrist views plus a fixed or floating robot-head/main view. This track owns WAN/Cosmos/Gamma baselines, dataset manifests, cross-view synchronization, and generated robot-video galleries.",
     "Stage 1 / Sub-project A update 2026-06-16: Gamma-World is the main Stage 1 reference for synchronized action-conditioned interactive world modeling. Use it to ground the UMI Ego World baseline, multi-view/shared-context rollout design, and causal real-time generation target; the UMI contribution should build on this by adding robot-data utility, view/layer contracts, IDM/control decoding, and reward/eval heads.",
-    "Dataset decision 2026-06-17: Hoi! is the selected tri-view / multi ego-view replacement substrate. It provides synchronized `umi` and `wrist` capture bundles with head-ego, manipulator-centric ego, and fixed external views; MV-UMI and EgoMimic stay as backup/reference datasets, while raw file mirroring and model-eval smoke runs are downstream execution items rather than blockers for the replacement decision.",
+    "Dataset decision 2026-06-17: Hoi! is the selected tri-view / multi ego-view replacement substrate; keep the public download page in the project intro: https://timengelbracht.github.io/Hoi-Dataset-Website/#download. It provides synchronized `umi` and `wrist` capture bundles with head-ego, manipulator-centric ego, and fixed external views; MV-UMI and EgoMimic stay as backup/reference datasets, while raw file mirroring and model-eval smoke runs are downstream execution items rather than blockers for the replacement decision.",
     "Sub-project B, Robot Video Image-Layered Model: build a general layer decomposition model for robot videos, not just a one-off image editing tool. Inputs can be real UMI clips or generated world-model rollouts; outputs should be temporally consistent robot layer, object/contact layer, background/scene layer, occluder/human masks, recomposition QA, and optional SVG/structured layer metadata.",
     "Stage 2 / Sub-project B update 2026-06-16: RevealLayer (arXiv:2605.11818) is a near-perfect external foundation to build upon because it turns RGB into controllable, bounding-box-guided RGBA layers while explicitly handling hidden/visible occlusion disentanglement, amodal completion, and alpha-boundary quality. For UMI, adapt its region guidance to robot/object/contact/occluder boxes or masks, add temporal consistency across wrist/main-view clips, and evaluate whether the resulting layers improve IDM, reward/eval, and failure attribution.",
     "Layered Image Policy sync 2026-06-16: the team ran a real robot-bed still-image probe and a short video-segmentation replay. Current qualitative read: GPT-generated split layers plus PSD assembly are the strongest still-image baseline so far, but recomposition still shows visible alignment and missing-pixel issues; a SAM3-style video segmentation demo showed stable tracked robot masks across frames, suggesting the near-term practical route is mask tracking plus iterative segment+inpaint for video, while Qwen Image-Layered remains a comparator and RevealLayer stays the long-term Stage 2 build-upon foundation.",
@@ -195,9 +195,9 @@
     },
     {
       "title": "Hoi!: A Multimodal Dataset for Force-Grounded, Cross-View Articulated Manipulation",
-      "url": "https://timengelbracht.github.io/Hoi-Dataset-Website/",
+      "url": "https://timengelbracht.github.io/Hoi-Dataset-Website/#download",
       "submitted_at": "2026-06-16",
-      "notes": "Selected dataset replacement substrate for Tri-View UMI World Model on 2026-06-17. Public Hoi! bundles cover synchronized head-ego, manipulator-centric ego / UMI-style, wrist, and fixed external views, making it the best available open data surface for shared-context multi ego-view manifests."
+      "notes": "Selected dataset replacement substrate for UMI Image Layered World Model on 2026-06-17. Public Hoi! bundles cover synchronized head-ego, manipulator-centric ego / UMI-style, wrist, and fixed external views, making it the best available open data surface for shared-context multi ego-view manifests."
     },
     {
       "title": "Dr. Robot: Differentiable Robot Rendering",
