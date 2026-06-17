@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-17T16:56:00+08:00",
+  "updated_at": "2026-06-17T19:48:30+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -7024,10 +7024,10 @@
       "project_id": "umi-world-model",
       "title": "分图层（segment + inpaint）/ SVG 化的数据集准备",
       "description": "为 Ego World + IDM 准备 Image-Layered 可训练数据。先小规模验证 robot / object-interaction / scene 三层 pipeline：以 RevealLayer (arXiv:2605.11818) 作为 Stage 2 build-upon 主路线，结合语义分割或 mask tracking，把 bounding-box / region guidance 改造成 robot、object/contact、occluder、background 的 RGBA layer pseudo-label；Qwen Image-Layered / ChatGPT image-agent / segment+inpaint / 纯视频模型去 robot layer prompt 保留为对照。robot layer 用于 IDM / pose / VO 辅助，object layer 用于过程奖励和 RL 自监督，scene layer 用于 RoboEngine-style 物理/任务感知背景替换。Acceptance: 少量 episode 的分层数据样例、每层命名与 mask/video/SVG 输出 schema、失败样例、QA 指标、temporal consistency/recomposition 检查，以及是否扩成大规模自造数据集的判断。",
-      "status": "active",
+      "status": "done",
       "priority": "high",
       "assignee": "Boris / Haoyu / Xiaobin",
-      "result": null,
+      "result": "Closed after the small SVG/layer-data feasibility pass. Decision: keep RevealLayer (https://github.com/360CVGroup/RevealLayer / arXiv:2605.11818) as the Stage 2 build-upon repo to try first; use SAM/SAM2/SAM3-style mask tracking plus GPT/FLUX/RevealLayer inpaint as the practical near-term video-data route; keep SVG as a structured mask/contour sidecar, not the photorealistic training target. A one-frame MolmoAct robot-couch pilot in ~/Downloads/molmoact_svg_layer_pilot_20260617 defines robot_visible, object_contact, and scene_background layers with mask/RGBA/SVG/manifest/QA outputs and failure notes. Next work is a multi-frame QA batch before any large-scale dataset build.",
       "comments": [
         {
           "comment_id": "comment_task_umi_layered_dataset_segment_inpaint_svg_meeting_source_20260609",
@@ -7098,9 +7098,38 @@
           "body": "SVG route decision 2026-06-17: SVG 化 is feasible, but only as the structured layer-mask / contour / contact-metadata representation, not as a replacement for full photorealistic robot video frames. Mainline output should keep raster truth (`mask.png`, `rgba.png`, `inpainted_background.png`, video clips) and add SVG paths or polygons for robot, object/contact, hand, occluder, and optional scene regions. Most reliable path: SAM/SAM2/SAM3 mask tracking -> contour tracing -> SVG `<path>` / polygon, with rasterize-back QA. LIVE and SAMVG are useful still-frame probes for layer-wise vectorization, but robot videos will suffer from frame-to-frame path-topology changes and excessive path fragmentation on natural textures. DiffVG is useful as a differentiable rasterizer / SVG optimization backend, while VectorFusion and SVGDreamer are text-to-SVG/icon/sketch generation references, not faithful robot-layer label generators. Minimal experiment: 3 episodes, 20-50 frames each; outputs include `robot_layer.svg`, `object_contact_layer.svg`, `occluder_layer.svg`, optional `scene_regions.svg`, paired raster masks/RGBA/inpaint outputs, and `layer_manifest.json`. QA gates: SVG rasterize-back mask IoU > 0.97, bounded path/vertex count, frame-to-frame bbox jitter and mask IoU, path topology-change report, recomposition SSIM/LPIPS or manual score, plus failure gallery for Qwen merged connected regions, fragmented SVG paths, thin gripper/cable/shadow mistrace, and texture-heavy background not suitable for SVG.",
           "created_at": "2026-06-17T18:15:00+08:00",
           "kind": "reference_update"
+        },
+        {
+          "comment_id": "comment_task_umi_layered_dataset_segment_inpaint_svg_done_20260617",
+          "author": "Codex",
+          "body": "Completion evidence 2026-06-17: local pilot package saved at /Users/boris/Downloads/molmoact_svg_layer_pilot_20260617. Generated outputs: raw/source.png; layers/{robot_visible,object_contact,scene_background}_{mask,rgba}.png; layers/{robot_visible,object_contact}.svg; layers/scene_background_inpaint_proxy.png; schema/layer_manifest.json; qa/metrics.json; qa/failure_examples.md; previews/recomposition.png and layer_overlay.png. Metrics: recomposition_l1_rgb=0.0 for the one-frame pseudo-label recomposition; SVG rasterize-back IoU=1.0 for robot_visible and object_contact polygons; area ratios robot_visible=0.14983, object_contact=0.17739, scene_background=0.67278. Explicit limitation: this is coarse polygon pseudo-label evidence, not a scalable training dataset; temporal consistency is not measured on the single frame. Recommendation: try https://github.com/360CVGroup/RevealLayer first for Stage 2 occlusion-aware RGBA decomposition, then combine it with mask tracking and real inpaint QA for video clips.",
+          "created_at": "2026-06-17T19:48:30+08:00",
+          "kind": "result"
         }
       ],
-      "updated_at": "2026-06-17T18:15:00+08:00",
+      "updated_at": "2026-06-17T19:48:30+08:00",
+      "due_at": "",
+      "completed_at": "2026-06-17"
+    },
+    {
+      "task_id": "task_umi_layered_dataset_molmoact_svg_qa_batch_20260617",
+      "project_id": "umi-world-model",
+      "title": "跑 MolmoAct 多帧 SVG layer QA batch",
+      "description": "把单帧 SVG 化预研扩成可验收的小 batch：从 MolmoAct/Hoi 选 3 episodes × 20-50 frames，输出 robot_visible、object_contact、occluder、scene_background 的 mask.png、rgba.png、inpainted_background.png、layer.svg、layer_manifest.json 和 failure gallery。Acceptance: SVG rasterize-back mask IoU > 0.97；每层 bbox/area jitter 和 frame-to-frame mask IoU；SVG path 数/拓扑变化报告；recomposition L1/SSIM 或人工分级；RevealLayer vs mask-tracking+inpaint vs Qwen/Image-agent 对照；明确是否可扩成大规模自造 Image-Layered robot 数据集。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Boris / Haoyu / Xiaobin",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_task_umi_layered_dataset_molmoact_svg_qa_batch_seed_20260617",
+          "author": "Codex",
+          "body": "Seeded from the one-frame SVG pilot at /Users/boris/Downloads/molmoact_svg_layer_pilot_20260617. Carry forward the schema and QA harness, but replace hand polygons with SAM/SAM2/SAM3 mask tracking plus RevealLayer-style region guidance/inpaint. SVG remains the vector sidecar for masks/contours; raster RGBA/masks/video remain the training truth. First repo to try: https://github.com/360CVGroup/RevealLayer; LayerD/SVG-export tools can be used only as vectorization baselines, not the main robot-video decomposition route.",
+          "created_at": "2026-06-17T19:48:30+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-06-17T19:48:30+08:00",
       "due_at": "",
       "completed_at": null
     },
