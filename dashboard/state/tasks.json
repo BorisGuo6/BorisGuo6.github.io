@@ -7076,9 +7076,16 @@
           "body": "Layered Image Policy sync 2026-06-17: Meng Ziyang shared a SAM3 segmentation + GPT inpaint batch, and Boris/Yongxi judged it very strong. This makes mask tracking plus GPT/inpaint background completion the current strongest practical path for short-term video layer data. Yongxi's Qwen Image-Layered comparison clarified Qwen's failure mode: it tends to group visually/physically connected regions instead of semantic entities; increasing layers can produce residual, occlusion, shadow, or background-support layers rather than separate objects; pure background output may fail; pillow/background completion is weak. Next step from the group is to test more robot frames from MolmoAct while keeping Qwen as a diagnostic baseline, SAM3+inpaint as the practical probe, and RevealLayer as the Stage 2 build-upon foundation. GPU access was discussed in chat, but credentials are intentionally not stored in the dashboard.",
           "created_at": "2026-06-17T16:56:00+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_task_umi_layered_dataset_segment_inpaint_svg_svg_feasibility_20260617",
+          "author": "Boris / Codex",
+          "body": "SVG route decision 2026-06-17: SVG 化 is feasible, but only as the structured layer-mask / contour / contact-metadata representation, not as a replacement for full photorealistic robot video frames. Mainline output should keep raster truth (`mask.png`, `rgba.png`, `inpainted_background.png`, video clips) and add SVG paths or polygons for robot, object/contact, hand, occluder, and optional scene regions. Most reliable path: SAM/SAM2/SAM3 mask tracking -> contour tracing -> SVG `<path>` / polygon, with rasterize-back QA. LIVE and SAMVG are useful still-frame probes for layer-wise vectorization, but robot videos will suffer from frame-to-frame path-topology changes and excessive path fragmentation on natural textures. DiffVG is useful as a differentiable rasterizer / SVG optimization backend, while VectorFusion and SVGDreamer are text-to-SVG/icon/sketch generation references, not faithful robot-layer label generators. Minimal experiment: 3 episodes, 20-50 frames each; outputs include `robot_layer.svg`, `object_contact_layer.svg`, `occluder_layer.svg`, optional `scene_regions.svg`, paired raster masks/RGBA/inpaint outputs, and `layer_manifest.json`. QA gates: SVG rasterize-back mask IoU > 0.97, bounded path/vertex count, frame-to-frame bbox jitter and mask IoU, path topology-change report, recomposition SSIM/LPIPS or manual score, plus failure gallery for Qwen merged connected regions, fragmented SVG paths, thin gripper/cable/shadow mistrace, and texture-heavy background not suitable for SVG.",
+          "created_at": "2026-06-17T18:15:00+08:00",
+          "kind": "reference_update"
         }
       ],
-      "updated_at": "2026-06-17T16:56:00+08:00",
+      "updated_at": "2026-06-17T18:15:00+08:00",
       "due_at": "",
       "completed_at": null
     },
