@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-16T23:50:48+08:00",
+  "updated_at": "2026-06-17T16:56:00+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -7062,9 +7062,16 @@
           "body": "Layered Image Policy sync 2026-06-16: group review converged on a concrete Stage 2 short-term route. Boris shared a 15.3 MB ChatGPT split-layer PSD plus still-image comparisons on a real robot-bed scene; the team judged the GPT still-image decomposition qualitatively strong, but recomposition still had visible alignment errors and missing/shifted content (for example the pillow / gripper layout did not perfectly reassemble). The same discussion judged the first RevealLayer / Qwen-style sample weaker than the GPT still-image result on this scene, so RevealLayer should remain the research build-upon foundation while practical data curation keeps GPT/PSD and segment+inpaint alive as stronger immediate probes. Meng Ziyang then shared a 6.7 s prior SAM3 video-segmentation demo; local frame review shows a stable tracked robot-arm mask/box across sampled frames, which supports using video mask tracking as the temporal backbone. Current execution direction from the group: iterate segment + inpaint to create video-ready layered outputs, keep SAM3-style tracking for stable masks, store today's artifacts/results, and let Yongxi run a Qwen-Image-Layered comparison next.",
           "created_at": "2026-06-16T23:18:54+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_task_umi_layered_dataset_segment_inpaint_svg_layered_image_policy_sync_20260617",
+          "author": "Boris / Codex",
+          "body": "Layered Image Policy sync 2026-06-17: Meng Ziyang shared a SAM3 segmentation + GPT inpaint batch, and Boris/Yongxi judged it very strong. This makes mask tracking plus GPT/inpaint background completion the current strongest practical path for short-term video layer data. Yongxi's Qwen Image-Layered comparison clarified Qwen's failure mode: it tends to group visually/physically connected regions instead of semantic entities; increasing layers can produce residual, occlusion, shadow, or background-support layers rather than separate objects; pure background output may fail; pillow/background completion is weak. Next step from the group is to test more robot frames from MolmoAct while keeping Qwen as a diagnostic baseline, SAM3+inpaint as the practical probe, and RevealLayer as the Stage 2 build-upon foundation. GPU access was discussed in chat, but credentials are intentionally not stored in the dashboard.",
+          "created_at": "2026-06-17T16:56:00+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-16T23:18:54+08:00",
+      "updated_at": "2026-06-17T16:56:00+08:00",
       "due_at": "",
       "completed_at": null
     },
