@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-17T21:17:00+08:00",
+  "updated_at": "2026-06-17T21:42:00+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -7024,6 +7024,50 @@
         }
       ],
       "updated_at": "2026-06-17T21:17:00+08:00",
+      "due_at": "",
+      "completed_at": null
+    },
+    {
+      "task_id": "task_umi_maskwam_pipeline_comparison_20260617",
+      "project_id": "umi-world-model",
+      "title": "对比 MaskWAM mask pipeline 与 UMI 分图层路线",
+      "description": "阅读 MaskWAM (arXiv:2606.13515) 的 mask processing pipeline，尤其是 mask prompt、future mask prediction、Mixture-of-Transformers / WAM integration、数据预处理和人机 interaction 设置；对比它与 UMI Image-Layered Robot Data 的差异。我们不是只 segment 出 mask，而是做 robot/object-contact/occluder/scene 的可重组 RGBA/video layer decomposition，配套 inpaint、SVG sidecar、recomposition QA、IDM/reward/background replacement。Acceptance: 一页对照 memo、pipeline 图解、可复用组件列表、差异化 contribution statement、评估指标对齐表、是否需要把 future-mask prediction 加入我们的 layer heads。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Boris / Haoyu / Xiaobin",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_task_umi_maskwam_pipeline_comparison_seed_20260617",
+          "author": "Boris / Layered Image Policy",
+          "body": "Seeded from Layered Image Policy WeChat 2026-06-17 local messages 105-107: Haoyu shared MaskWAM pipeline link https://arxiv.org/pdf/2606.13515#page=6.32; Ziyang noted the pipeline is more complex and includes human-robot interaction. Compare MaskWAM as mask-centric prompting/prediction against our layer decomposition idea: they segment/predict masks; we decompose videos into editable/recomposable semantic layers plus inpaint/SVG/IDM/reward hooks.",
+          "created_at": "2026-06-17T21:42:00+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-06-17T21:42:00+08:00",
+      "due_at": "",
+      "completed_at": null
+    },
+    {
+      "task_id": "task_umi_robotwin_mask_dataset_audit_20260617",
+      "project_id": "umi-world-model",
+      "title": "检查 RoboTwin 已提供 mask 的数据",
+      "description": "审计 RoboTwin/RoboTwin 2.0 里已提供或可导出的 mask 数据：确认灰度 mask 的 ID 编码、每个物体/机器人/背景的拆分方式、相机视角、episode 文件结构、object metadata、是否来自 SAPIEN segmentation，以及能否直接转成 robot、object/contact、occluder、scene/background 的 layer pseudo-label。Acceptance: 记录数据下载/生成入口、样例 episode 路径、mask -> object_id 映射、3-5 帧可视化、转换到 layer_manifest.json 的 schema、可用/不可用字段、sim-to-real 风险、是否值得作为 Image-Layered Robot Data 的 synthetic mask bootstrap。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Boris / Haoyu / Xiaobin",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_task_umi_robotwin_mask_dataset_audit_seed_20260617",
+          "author": "Boris / Layered Image Policy",
+          "body": "Seeded from Layered Image Policy WeChat 2026-06-17 local messages 99-102: Haoyu pointed to RoboTwin; Boris asked whether masks come directly from SAPIEN; Haoyu confirmed the grayscale image has strong/weak settings and can separately obtain each object mask. Follow-up is to audit RoboTwin data/files rather than assume it already matches our layer taxonomy.",
+          "created_at": "2026-06-17T21:42:00+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-06-17T21:42:00+08:00",
       "due_at": "",
       "completed_at": null
     },
