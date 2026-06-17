@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-17T20:32:00+08:00",
+  "updated_at": "2026-06-17T20:51:00+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -6973,7 +6973,7 @@
       "task_id": "task_umi_wan21_dual_wrist_structure_20260617",
       "project_id": "umi-world-model",
       "title": "实现 Wan2.1 双腕拼接 baseline 与 dual-latent 结构草案",
-      "description": "根据 2026-06-17 UMI Model Structure 更新，先做 Route A: 左右 wrist-camera 画面拼接后送入 Wan2.1 finetune，数据源先检查 10Kh RealOmni-Open Dataset，完成 text annotation 与 video stitching recipe；再产出 Route B shared-backbone dual-branch Wan 训练草案：left/right video latent、view embedding、robot proprio/state、future action、camera pose/calibration、task text tokens、cross-view fusion、shared Wan2.1 backbone、dual prediction heads / shared VAE decoder。Acceptance: 数据可用性与字段审计、拼接 baseline manifest、dual-latent token schema、训练目标列表、最小配置/伪代码、与 Gamma-World baseline 和后续 Image-Layered/SVG track 的边界说明。",
+      "description": "根据 2026-06-17 UMI Model Structure 更新，先用 Wan2.1 而不是 Wan2.2 做 Route A/B：Route A 为左右 wrist-camera 画面拼接后送入 Wan2.1 finetune，数据源先检查 10Kh RealOmni-Open Dataset，完成 text annotation 与 video stitching recipe；Route B 为 shared-backbone dual-branch Wan2.1 训练草案：left/right video latent、view embedding、robot proprio/state、future action、camera pose/calibration、task text tokens、cross-view fusion、shared Wan2.1 backbone、dual prediction heads / shared VAE decoder。Wan2.2-A14B 只作为后续对照，因为其 high-noise / low-noise MoE 需要分专家训练和组合验证。Acceptance: 数据可用性与字段审计、拼接 baseline manifest、dual-latent token schema、Wan2.1 训练配置/伪代码、Wan2.2 high/low 复杂度说明、与 Gamma-World baseline 和后续 Image-Layered/SVG track 的边界说明。",
       "status": "todo",
       "priority": "high",
       "assignee": "Boris / Haoyu / Xiaobin",
@@ -6985,9 +6985,16 @@
           "body": "Seeded from user-provided UMI Model Structure screenshot on 2026-06-17. Key points: (1) direct stitching + Wan2.1 finetune over left/right wrist-camera frames; data source candidate 10Kh RealOmni-Open Dataset; prep includes text annotation and video stitching. (2) shared-backbone dual-branch Wan: left wrist-camera -> left video latent, right wrist-camera -> right video latent, add view embeddings to latent tokens, train shared Wan2.1 backbone with dual outputs.",
           "created_at": "2026-06-17T20:32:00+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_task_umi_wan21_dual_wrist_structure_wan21_vs_wan22_20260617",
+          "author": "Codex",
+          "body": "Research update 2026-06-17: prefer Wan2.1 for first UMI dual-wrist training. Official Wan2.2 docs/model cards describe A14B as a two-expert MoE denoiser: high-noise expert handles early/high-noise/layout steps, low-noise expert handles later/detail steps, with an SNR/timestep switch. Community training reports in DiffSynth-Studio also show practical instability when separately fine-tuning high vs low noise experts; one report says the same task learned better on Wan2.1 than Wan2.2. Wan2.1 has simpler single-backbone training and mature LoRA/full-finetune recipes in VideoX-Fun, finetrainers, DiffSynth-Studio, and diffusion-pipe. Decision: implement Route A concat baseline and Route B dual-latent prototype on Wan2.1 first; keep Wan2.2-A14B for later quality comparison after the schema works, or evaluate Wan2.2-TI2V-5B only if we specifically need its dense 5B unified TI2V path.",
+          "created_at": "2026-06-17T20:51:00+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-17T20:32:00+08:00",
+      "updated_at": "2026-06-17T20:51:00+08:00",
       "due_at": "",
       "completed_at": null
     },
