@@ -6877,9 +6877,17 @@
           "kind": "host_verified",
           "body": "Done and verified on 2026-06-16. Ran Cosmos3 end-to-end on the H20 server with held-out UMI-style samples, including an old generic-prompt run and a prompt_long-derived rerun; then downloaded the outputs into /Users/boris/Downloads/cosmos3_umi_worldmodel_20260616 with logs, sample videos, frame-review grids, and a report page at /Users/boris/Downloads/cosmos3_umi_worldmodel_20260616/index.html. Also ran Wan2.2-TI2V-5B-Turbo-Diffusers as the minimal comparator on the same 4 samples at 1280x704, 49 frames, 4 steps, with logs under logs/wan22_turbo_fullres_4x.log and summary under logs/wan22_turbo_fullres_summary.json. Main finding: prompt improvement alone does not rescue Cosmos3; Wan2.2 Turbo produces stronger motion but still has heavy artifacts and weak dual-view consistency. This closes the baseline-testing TODO, but the next-stage open work remains tri-view dataset replacement, Gamma-World reproduction/build-upon, and layered dataset preparation before deciding a production Stage-1 backbone.",
           "created_at": "2026-06-16T19:48:00+08:00"
+        },
+        {
+          "comment_id": "comment_task_umi_cosmos3_test_hoi_twoview_batch_20260617",
+          "task_id": "task_umi_cosmos3_test",
+          "author": "Codex",
+          "kind": "host_verified",
+          "body": "Additional Hoi! two-view model eval completed on the H20 server on 2026-06-17. Ran the same 4 first-frame samples from `hoi::wrist::bathroom_1::bathroom_1_1-2_wrist` through WAN2.2-TI2V-5B-Turbo-Diffusers and Cosmos3-Nano-Policy-DROID at 49 frames / 12 steps / seed 20260617. Outputs and previews were downloaded to /Users/boris/Downloads/hoi_model_eval_20260617/index.html. Finding: WAN2.2 produces stronger apparent motion but breaks the Hoi fisheye two-view layout with severe color/block artifacts; Cosmos3 is conservative with weaker motion but preserves the two-view layout much better, so it is currently the safer multi-view-adherence baseline. This is still two-view (`aria_human` + `aria_wrist`) because the fixed external iPhone view has not finished integrity-validated download.",
+          "created_at": "2026-06-17T18:35:00+08:00"
         }
       ],
-      "updated_at": "2026-06-16T19:48:00+08:00",
+      "updated_at": "2026-06-17T18:35:00+08:00",
       "due_at": "",
       "completed_at": "2026-06-16"
     },
@@ -6948,9 +6956,16 @@
           "body": "Marked done by scope clarification on 2026-06-17. The load-bearing decision is the dataset replacement choice and runnable manifest/episode staging, not full raw mirroring. Hoi! is now the selected substrate because it exposes synchronized `umi` and `wrist` capture bundles covering head-ego, manipulator-centric ego, and fixed external views; MV-UMI and EgoMimic remain backups/references, and ActiveUMI remains a paper reference. Keep raw download completion and model-eval smoke as downstream execution under Gamma/EgoWorld/layered pipeline work.",
           "created_at": "2026-06-17T17:35:00+08:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "comment_task_umi_replace_dataset_with_tri_view_hoi_twoview_eval_20260617",
+          "author": "Codex",
+          "body": "Follow-up execution on 2026-06-17: the H20 server has complete `aria_human` and `aria_wrist` Hoi wrist RGB zips and these were used for a real two-view model-eval batch. WAN2.2 and Cosmos3 both ran on 4 shared-context samples; local report is /Users/boris/Downloads/hoi_model_eval_20260617/index.html. Do not read this as final tri-view completion: the fixed external `iphone_1` view is still being downloaded via resumable chunks, so the actual head/fixed/wrist tri-view preparation, integrity check, and three-panel model eval remain downstream work.",
+          "created_at": "2026-06-17T18:35:00+08:00",
+          "kind": "progress"
         }
       ],
-      "updated_at": "2026-06-17T17:35:00+08:00",
+      "updated_at": "2026-06-17T18:35:00+08:00",
       "due_at": "",
       "completed_at": "2026-06-17"
     },
