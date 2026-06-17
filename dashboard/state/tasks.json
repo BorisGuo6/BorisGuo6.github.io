@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-17T23:18:37+08:00",
+  "updated_at": "2026-06-17T23:30:19+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -7484,6 +7484,29 @@
       "comments": [],
       "updated_at": "2026-06-16T23:41:09+08:00",
       "completed_at": "2026-06-16"
+    },
+    {
+      "task_id": "task_dex_gello_gello_manus_vs_vive_comparison_20260617",
+      "project_id": "dex-gello",
+      "title": "实测对比纯 GELLO+MANUS 与 VIVE Tracker 手姿态路径",
+      "description": "基于 2026-06-17 Boris <-> Yongxi Lai 微信同步：纯 GELLO + MANUS 单手 setup 已跑通且视觉上还算符合预期，但 GELLO 臂关节仍会出现不符合预期的行为；当前只能稳定做单手，双手 setup 的校准流程暂时不可行。下一步把这条纯 GELLO+MANUS 单手 baseline 与 Yongxi 已重新调整的一版 VIVE Tracker 路线直接对比。验收：1) 保存两段同任务短视频 / log 证据（纯 GELLO+MANUS、GELLO+MANUS+VIVE 或 VIVE-T_hand 路线）；2) 对比 q_arm 关节异常、T_hand / wrist pose 可解释性、MANUS q_finger retargeting、延迟、operator workload、校准耗时和失败原因；3) 明确单手 v0 是否可以先用纯 GELLO+MANUS，还是必须保留 VIVE；4) 对双手任务给出 blocker：当前校准不可行、是否等待 Jingru / onsite support、安全 gate 与替代路线。",
+      "status": "active",
+      "priority": "high",
+      "assignee": "Yongxi Lai / Boris",
+      "result": null,
+      "started_at": "2026-06-17",
+      "due_at": "",
+      "comments": [
+        {
+          "comment_id": "comment_dex_gello_gello_manus_vs_vive_seed_20260617",
+          "author": "Boris / Codex",
+          "body": "Seeded from NUS-赖咏曦 WeChat on 2026-06-17 23:25-23:27 via ClawCross. Chat facts: Boris asked whether the video was pure GELLO + MANUS and requested comparison with VIVE Tracker; Yongxi confirmed the GELLO path ran today and was roughly as expected, but GELLO arm joints can still behave unexpectedly. Yongxi also noted the current setup is effectively single-hand only; dual-hand calibration is not workable. VIVE has been adjusted again and should be tested next. Boris noted safety / onsite staffing concerns and may wait for Jingru.",
+          "created_at": "2026-06-17T23:30:19+08:00",
+          "kind": "chat_sync"
+        }
+      ],
+      "updated_at": "2026-06-17T23:30:19+08:00",
+      "completed_at": null
     },
     {
       "task_id": "task_dex_gello_policy_training_eval",
