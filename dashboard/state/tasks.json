@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-17T20:13:00+08:00",
+  "updated_at": "2026-06-17T20:32:00+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -6968,6 +6968,28 @@
       "updated_at": "2026-06-17T18:35:00+08:00",
       "due_at": "",
       "completed_at": "2026-06-17"
+    },
+    {
+      "task_id": "task_umi_wan21_dual_wrist_structure_20260617",
+      "project_id": "umi-world-model",
+      "title": "实现 Wan2.1 双腕拼接 baseline 与 dual-latent 结构草案",
+      "description": "根据 2026-06-17 UMI Model Structure 更新，先做 Route A: 左右 wrist-camera 画面拼接后送入 Wan2.1 finetune，数据源先检查 10Kh RealOmni-Open Dataset，完成 text annotation 与 video stitching recipe；再产出 Route B shared-backbone dual-branch Wan 训练草案：left/right video latent、view embedding、robot proprio/state、future action、camera pose/calibration、task text tokens、cross-view fusion、shared Wan2.1 backbone、dual prediction heads / shared VAE decoder。Acceptance: 数据可用性与字段审计、拼接 baseline manifest、dual-latent token schema、训练目标列表、最小配置/伪代码、与 Gamma-World baseline 和后续 Image-Layered/SVG track 的边界说明。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Boris / Haoyu / Xiaobin",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_task_umi_wan21_dual_wrist_structure_seed_20260617",
+          "author": "Codex",
+          "body": "Seeded from user-provided UMI Model Structure screenshot on 2026-06-17. Key points: (1) direct stitching + Wan2.1 finetune over left/right wrist-camera frames; data source candidate 10Kh RealOmni-Open Dataset; prep includes text annotation and video stitching. (2) shared-backbone dual-branch Wan: left wrist-camera -> left video latent, right wrist-camera -> right video latent, add view embeddings to latent tokens, train shared Wan2.1 backbone with dual outputs.",
+          "created_at": "2026-06-17T20:32:00+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-06-17T20:32:00+08:00",
+      "due_at": "",
+      "completed_at": null
     },
     {
       "task_id": "task_umi_gamma_world_reproduction",
