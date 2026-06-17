@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-17T21:42:00+08:00",
+  "updated_at": "2026-06-17T22:00:00+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -7002,6 +7002,116 @@
         }
       ],
       "updated_at": "2026-06-17T21:03:00+08:00",
+      "due_at": "",
+      "completed_at": null
+    },
+    {
+      "task_id": "task_umi_layering_method_selection_global_dataset_plan_20260617",
+      "project_id": "umi-world-model",
+      "title": "收敛分层方案并启动 global layered dataset 计划",
+      "description": "全体在下一周/下下周前完成分层方法测试与选择，确定第一版 global Image-Layered robot dataset 构建路线。候选包括 SAM3+GPT inpaint、VACE/VAC/VAS video inpaint、RevealLayer、Qwen/Image-agent layer count、RoboTwin synthetic masks、MaskWAM mask pipeline、SAMVG/LIVE SVG sidecar。Acceptance: 方法矩阵、输入/输出 schema、速度/成本、人为标注需求、temporal consistency、recomposition QA、FoundationPose/IDM/reward utility、失败样例；给出 v0 dataset 构建决策和下一批 episode/image/video 清单。",
+      "status": "todo",
+      "priority": "urgent",
+      "assignee": "Boris / Haoyu / Lai / Ziyang",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_task_umi_layering_method_selection_global_dataset_plan_seed_20260617",
+          "author": "Meeting notes",
+          "body": "Seeded from 2026-06-17 meeting collaboration item: the whole team should finish testing and selecting the layering method by next week or the week after, then begin preparing the global layered dataset build. This task is the selection gate and should close only when the first scalable v0 route is chosen.",
+          "created_at": "2026-06-17T22:00:00+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-06-17T22:00:00+08:00",
+      "due_at": "",
+      "completed_at": null
+    },
+    {
+      "task_id": "task_umi_gpu_resource_single_node_plan_20260617",
+      "project_id": "umi-world-model",
+      "title": "敲定 6/8 卡单机迁移与公司 GPU 资源方案",
+      "description": "在 AutoDL 不能跨机分布式训练的约束下，跟进六卡/八卡机器迁移和公司更多 GPU 资源申请，确保 Wan2.1 dual-wrist 训练能在单机 4/6/8 卡内启动。Acceptance: 当前可用机器清单、6/8 卡迁移计划、训练存储/数据路径、预计显存与 batch/frames/resolution 配置、是否需要公司额外 GPU、无法获取更多卡时的降级训练配置。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Boris / Haoyu",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_task_umi_gpu_resource_single_node_plan_seed_20260617",
+          "author": "Meeting notes",
+          "body": "Seeded from 2026-06-17 meeting: Boris noted AutoDL caps the plan at one machine and at most eight GPUs; Haoyu will follow the six/eight-card migration and resource allocation. Boris will try to get more company GPU resources for larger-scale training.",
+          "created_at": "2026-06-17T22:00:00+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-06-17T22:00:00+08:00",
+      "due_at": "",
+      "completed_at": null
+    },
+    {
+      "task_id": "task_umi_foundationpose_layer_utility_probe_20260617",
+      "project_id": "umi-world-model",
+      "title": "验证分层结果对 FoundationPose 的帮助",
+      "description": "Ziyang 用分层结果喂给 FoundationPose 或同类 6D/object pose pipeline，比较 raw RGB、object-only layer、object+background layer、recomposed layered clip 的物体提取效果。Acceptance: 选 3-5 个对象/片段，输出每种输入的 pose/extraction 结果、成功率或人工评分、遮挡/背景干扰案例、是否 object/contact layer 比 flat RGB 或 mask-only 更有用、是否需要加入 flow/object optical-flow 后续。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Ziyang / Boris",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_task_umi_foundationpose_layer_utility_probe_seed_20260617",
+          "author": "Meeting notes",
+          "body": "Seeded from 2026-06-17 meeting: Boris suggested testing layered outputs in FoundationPose; Ziyang should try object layer versus object+background layer for object extraction. Optional later extension: object flow / optical flow methods after initial layering results exist.",
+          "created_at": "2026-06-17T22:00:00+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-06-17T22:00:00+08:00",
+      "due_at": "",
+      "completed_at": null
+    },
+    {
+      "task_id": "task_umi_lai_layer_count_deploy_10_image_batch_20260617",
+      "project_id": "umi-world-model",
+      "title": "Lai 测试更多 layer 数量与推理部署：10 张图批测",
+      "description": "Lai 继续测试更多 layer count 和推理部署，挑选 10 张代表性 robot/manipulation 图片做 layer decomposition 批测，整理结果发群并同步 dashboard。Acceptance: 10 张输入图、每张不同 layer 数设置、推理部署命令或服务入口、输出 layer/manifest、重组预览、失败样例、速度/显存/稳定性记录、推荐 layer count 与是否可进入视频测试。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Lai / Boris",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_task_umi_lai_layer_count_deploy_10_image_batch_seed_20260617",
+          "author": "Meeting notes",
+          "body": "Seeded from 2026-06-17 meeting: Lai is testing more layer counts and inference deployment, will select ten images, run tests, and organize results into the group. This complements the Qwen/Image-agent layer-count failure analysis and should feed the method-selection gate.",
+          "created_at": "2026-06-17T22:00:00+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-06-17T22:00:00+08:00",
+      "due_at": "",
+      "completed_at": null
+    },
+    {
+      "task_id": "task_umi_cosmos3_wan22_hawi_eval_20260617",
+      "project_id": "umi-world-model",
+      "title": "继续评测 Cosmos3 / Wan2.2 并推进 HAWI 数据集测试",
+      "description": "Boris 继续测试 Cosmos3 和 Wan2.2/One2.2 的效果，调优 prompt、sampling、view-split 和 RGB artifact 参数；研究 Cosmos3 是否可进入微调路线；推动 HAWI 数据集测试，避免只围绕 gov-world demo 类似数据做判断。Acceptance: 记录测试配置、输入数据、输出 gallery、主要失败模式（左右视角分离、RGB 尾色块、view consistency）、Cosmos3 finetune 可行性结论、HAWI 数据可用性与下一步。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Boris",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_task_umi_cosmos3_wan22_hawi_eval_seed_20260617",
+          "author": "Meeting notes",
+          "body": "Seeded from 2026-06-17 meeting: Boris will continue testing Cosmos3 and One/Wan2.2 effects, tune parameters, study whether Cosmos3 can be finetuned, and push HAWI dataset testing. Prior qualitative note: Cosmos3 has issues separating left/right views; One/Wan prompt results looked better but showed odd RGB tail/color blocks.",
+          "created_at": "2026-06-17T22:00:00+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-06-17T22:00:00+08:00",
       "due_at": "",
       "completed_at": null
     },
