@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-17T22:12:00+08:00",
+  "updated_at": "2026-06-17T23:14:00+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -6836,11 +6836,11 @@
       "task_id": "task_umi_cosmos3_test",
       "project_id": "umi-world-model",
       "title": "Cosmos3 测试",
-      "description": "测试 Cosmos / Cosmos3 相关视频生成模型能否作为 action-conditioned Ego World baseline。重点包括：实时外部 action condition、双腕和机器人头部 ego views 的共享 context、纯视频生成模型对去掉前景 robot layer / 保留 object-interaction-scene 的 prompt 响应，以及与 Gamma-World / WAN2.2 / Cosmos2.5 的最小对照。Acceptance: 至少一组可复现输入、命令或调用记录、输出样例、失败模式记录，并给出是否值得进入 Ego World + IDM 训练链路。",
+      "description": "测试 nvidia/Cosmos3-Nano-Policy-DROID 等 Cosmos / Cosmos3 相关视频生成模型能否作为 action-conditioned Ego World baseline。重点包括：实时外部 action condition、双腕和机器人头部 ego views 的共享 context、纯视频生成模型对去掉前景 robot layer / 保留 object-interaction-scene 的 prompt 响应，以及与 Gamma-World / Wan2.2-TI2V-5B-Diffusers / Cosmos2.5 的最小对照。Acceptance: 至少一组可复现输入、命令或调用记录、输出样例、失败模式记录，并给出是否值得进入 Ego World + IDM 训练链路。",
       "status": "done",
       "priority": "high",
       "assignee": "Boris",
-      "result": "Completed 2026-06-16. Cosmos3 and WAN2.2 Turbo were both run end-to-end on held-out UMI-style clips with reproducible prompts, logs, and galleries. Result: Cosmos3 prompt-long rerun changes outputs only slightly; WAN2.2 Turbo adds motion but is still unstable on dual-view consistency and object fidelity. Recommendation: treat this baseline-comparison task as closed, and do not promote either current checkpoint directly into the Ego World + IDM training chain without stronger UMI-specific fine-tuning or a better Stage-1 baseline.",
+      "result": "Completed 2026-06-16. nvidia/Cosmos3-Nano-Policy-DROID and Wan2.2-TI2V-5B-Diffusers (5B) were both run end-to-end on held-out UMI-style clips with reproducible prompts, logs, and galleries. Result: Cosmos3 prompt-long rerun changes outputs only slightly; Wan2.2-TI2V-5B-Diffusers adds motion but is still unstable on dual-view consistency and object fidelity. Recommendation: treat this baseline-comparison task as closed, and do not promote either current checkpoint directly into the Ego World + IDM training chain without stronger UMI-specific fine-tuning or a better Stage-1 baseline.",
       "comments": [
         {
           "comment_id": "comment_task_umi_cosmos3_test_meeting_source_20260609",
@@ -6875,7 +6875,7 @@
           "task_id": "task_umi_cosmos3_test",
           "author": "Boris / Codex",
           "kind": "host_verified",
-          "body": "Done and verified on 2026-06-16. Ran Cosmos3 end-to-end on the H20 server with held-out UMI-style samples, including an old generic-prompt run and a prompt_long-derived rerun; then downloaded the outputs into /Users/boris/Downloads/cosmos3_umi_worldmodel_20260616 with logs, sample videos, frame-review grids, and a report page at /Users/boris/Downloads/cosmos3_umi_worldmodel_20260616/index.html. Also ran Wan2.2-TI2V-5B-Turbo-Diffusers as the minimal comparator on the same 4 samples at 1280x704, 49 frames, 4 steps, with logs under logs/wan22_turbo_fullres_4x.log and summary under logs/wan22_turbo_fullres_summary.json. Main finding: prompt improvement alone does not rescue Cosmos3; Wan2.2 Turbo produces stronger motion but still has heavy artifacts and weak dual-view consistency. This closes the baseline-testing TODO, but the next-stage open work remains tri-view dataset replacement, Gamma-World reproduction/build-upon, and layered dataset preparation before deciding a production Stage-1 backbone.",
+          "body": "Done and verified on 2026-06-16. Ran nvidia/Cosmos3-Nano-Policy-DROID end-to-end on the H20 server with held-out UMI-style samples, including an old generic-prompt run and a prompt_long-derived rerun; then downloaded the outputs into /Users/boris/Downloads/cosmos3_umi_worldmodel_20260616 with logs, sample videos, frame-review grids, and a report page at /Users/boris/Downloads/cosmos3_umi_worldmodel_20260616/index.html. Also ran Wan2.2-TI2V-5B-Diffusers (5B; local artifact path: /root/autodl-tmp/models/Wan2.2-TI2V-5B-Turbo-Diffusers) as the minimal comparator on the same 4 samples at 1280x704, 49 frames, 4 steps, with logs under logs/wan22_turbo_fullres_4x.log and summary under logs/wan22_turbo_fullres_summary.json. Main finding: prompt improvement alone does not rescue nvidia/Cosmos3-Nano-Policy-DROID; Wan2.2-TI2V-5B-Diffusers produces stronger motion but still has heavy artifacts and weak dual-view consistency. This closes the baseline-testing TODO, but the next-stage open work remains tri-view dataset replacement, Gamma-World reproduction/build-upon, and layered dataset preparation before deciding a production Stage-1 backbone.",
           "created_at": "2026-06-16T19:48:00+08:00"
         },
         {
@@ -6883,11 +6883,11 @@
           "task_id": "task_umi_cosmos3_test",
           "author": "Codex",
           "kind": "host_verified",
-          "body": "Additional Hoi! two-view model eval completed on the H20 server on 2026-06-17. Ran the same 4 first-frame samples from `hoi::wrist::bathroom_1::bathroom_1_1-2_wrist` through WAN2.2-TI2V-5B-Turbo-Diffusers and Cosmos3-Nano-Policy-DROID at 49 frames / 12 steps / seed 20260617. Outputs and previews were downloaded to /Users/boris/Downloads/hoi_model_eval_20260617/index.html. Finding: WAN2.2 produces stronger apparent motion but breaks the Hoi fisheye two-view layout with severe color/block artifacts; Cosmos3 is conservative with weaker motion but preserves the two-view layout much better, so it is currently the safer multi-view-adherence baseline. This is still two-view (`aria_human` + `aria_wrist`) because the fixed external iPhone view has not finished integrity-validated download.",
+          "body": "Additional Hoi! two-view model eval completed on the H20 server on 2026-06-17. Ran the same 4 first-frame samples from `hoi::wrist::bathroom_1::bathroom_1_1-2_wrist` through Wan2.2-TI2V-5B-Diffusers (5B; local artifact path: /root/autodl-tmp/models/Wan2.2-TI2V-5B-Turbo-Diffusers) and nvidia/Cosmos3-Nano-Policy-DROID at 49 frames / 12 steps / seed 20260617. Outputs and previews were downloaded to /Users/boris/Downloads/hoi_model_eval_20260617/index.html. Finding: Wan2.2-TI2V-5B-Diffusers produces stronger apparent motion but breaks the Hoi fisheye two-view layout with severe color/block artifacts; nvidia/Cosmos3-Nano-Policy-DROID is conservative with weaker motion but preserves the two-view layout much better, so it is currently the safer multi-view-adherence baseline. This is still two-view (`aria_human` + `aria_wrist`) because the fixed external iPhone view has not finished integrity-validated download.",
           "created_at": "2026-06-17T18:35:00+08:00"
         }
       ],
-      "updated_at": "2026-06-17T18:35:00+08:00",
+      "updated_at": "2026-06-17T23:14:00+08:00",
       "due_at": "",
       "completed_at": "2026-06-16"
     },
@@ -6946,7 +6946,7 @@
         {
           "comment_id": "comment_task_umi_replace_dataset_with_tri_view_model_eval_pack_20260617",
           "author": "Codex",
-          "body": "Prepared the remote Hoi tri-view model-eval pack at /root/autodl-tmp/workspace/das-data/eval_outputs/hoi_tri_view_model_eval_20260617. It includes readiness checking, Hoi zip -> 448x256 tri-view first-frame / 5s GT preparation, WAN2.2 Turbo runner, Cosmos3 runner, and a prepare-when-ready watcher. WAN2.2 dependency issue was fixed by reinstalling torchaudio as 2.7.0+cu128 in the RoboLab venv; the runner now imports cleanly and only blocks on CUDA availability. Current status remains active, not done: latest verifier showed complete=16, partial=6, missing=0 out of 22 selected files, and the current cloud instance has no visible GPU.",
+          "body": "Prepared the remote Hoi tri-view model-eval pack at /root/autodl-tmp/workspace/das-data/eval_outputs/hoi_tri_view_model_eval_20260617. It includes readiness checking, Hoi zip -> 448x256 tri-view first-frame / 5s GT preparation, Wan2.2-TI2V-5B-Diffusers runner and nvidia/Cosmos3-Nano-Policy-DROID runner, and a prepare-when-ready watcher. Wan2.2-TI2V-5B-Diffusers dependency issue was fixed by reinstalling torchaudio as 2.7.0+cu128 in the RoboLab venv; the runner now imports cleanly and only blocks on CUDA availability. Current status remains active, not done: latest verifier showed complete=16, partial=6, missing=0 out of 22 selected files, and the current cloud instance has no visible GPU.",
           "created_at": "2026-06-17T01:24:50+08:00",
           "kind": "progress"
         },
@@ -6960,12 +6960,12 @@
         {
           "comment_id": "comment_task_umi_replace_dataset_with_tri_view_hoi_twoview_eval_20260617",
           "author": "Codex",
-          "body": "Follow-up execution on 2026-06-17: the H20 server has complete `aria_human` and `aria_wrist` Hoi wrist RGB zips and these were used for a real two-view model-eval batch. WAN2.2 and Cosmos3 both ran on 4 shared-context samples; local report is /Users/boris/Downloads/hoi_model_eval_20260617/index.html. Do not read this as final tri-view completion: the fixed external `iphone_1` view is still being downloaded via resumable chunks, so the actual head/fixed/wrist tri-view preparation, integrity check, and three-panel model eval remain downstream work.",
+          "body": "Follow-up execution on 2026-06-17: the H20 server has complete `aria_human` and `aria_wrist` Hoi wrist RGB zips and these were used for a real two-view model-eval batch. Wan2.2-TI2V-5B-Diffusers (5B) and nvidia/Cosmos3-Nano-Policy-DROID both ran on 4 shared-context samples; local report is /Users/boris/Downloads/hoi_model_eval_20260617/index.html. Do not read this as final tri-view completion: the fixed external `iphone_1` view is still being downloaded via resumable chunks, so the actual head/fixed/wrist tri-view preparation, integrity check, and three-panel model eval remain downstream work.",
           "created_at": "2026-06-17T18:35:00+08:00",
           "kind": "progress"
         }
       ],
-      "updated_at": "2026-06-17T18:35:00+08:00",
+      "updated_at": "2026-06-17T23:14:00+08:00",
       "due_at": "",
       "completed_at": "2026-06-17"
     },
@@ -7096,8 +7096,8 @@
     {
       "task_id": "task_umi_cosmos3_wan22_realomni_eval_20260617",
       "project_id": "umi-world-model",
-      "title": "继续评测 Cosmos3 / Wan2.2 并推进 RealOmni-Open 数据集测试",
-      "description": "Boris 继续测试 Cosmos3 和 Wan2.2/One2.2 的效果，调优 prompt、sampling、view-split 和 RGB artifact 参数；研究 Cosmos3 是否可进入微调路线；推动 GenRobot 10Kh RealOmni-Open Dataset（https://www.genrobot.ai/data/open-dataset）测试，避免只围绕 gov-world demo 类似数据做判断。Acceptance: 记录测试配置、输入数据、输出 gallery、主要失败模式（左右视角分离、RGB 尾色块、view consistency）、Cosmos3 finetune 可行性结论、RealOmni-Open 数据可用性与下一步。",
+      "title": "继续评测 nvidia/Cosmos3-Nano-Policy-DROID / Wan2.2-TI2V-5B-Diffusers 并推进 RealOmni-Open 数据集测试",
+      "description": "Boris 继续测试 nvidia/Cosmos3-Nano-Policy-DROID 和 Wan2.2-TI2V-5B-Diffusers / One2.2 的效果，调优 prompt、sampling、view-split 和 RGB artifact 参数；研究 Cosmos3 是否可进入微调路线；推动 GenRobot 10Kh RealOmni-Open Dataset（https://www.genrobot.ai/data/open-dataset）测试，避免只围绕 gov-world demo 类似数据做判断。Acceptance: 记录测试配置、输入数据、输出 gallery、主要失败模式（左右视角分离、RGB 尾色块、view consistency）、Cosmos3 finetune 可行性结论、RealOmni-Open 数据可用性与下一步。",
       "status": "todo",
       "priority": "high",
       "assignee": "Boris",
@@ -7106,7 +7106,7 @@
         {
           "comment_id": "comment_task_umi_cosmos3_wan22_realomni_eval_seed_20260617",
           "author": "Meeting notes",
-          "body": "Seeded from 2026-06-17 meeting and corrected by Boris: the dataset is GenRobot 10Kh RealOmni-Open Dataset (https://www.genrobot.ai/data/open-dataset). Boris will continue testing Cosmos3 and One/Wan2.2 effects, tune parameters, study whether Cosmos3 can be finetuned, and push RealOmni-Open testing. Prior qualitative note: Cosmos3 has issues separating left/right views; One/Wan prompt results looked better but showed odd RGB tail/color blocks.",
+          "body": "Seeded from 2026-06-17 meeting and corrected by Boris: the dataset is GenRobot 10Kh RealOmni-Open Dataset (https://www.genrobot.ai/data/open-dataset). Boris will continue testing nvidia/Cosmos3-Nano-Policy-DROID and One/Wan2.2 effects, including the prior Wan2.2-TI2V-5B-Diffusers 5B baseline, tune parameters, study whether Cosmos3 can be finetuned, and push RealOmni-Open testing. Prior qualitative note: Cosmos3 has issues separating left/right views; One/Wan prompt results looked better but showed odd RGB tail/color blocks.",
           "created_at": "2026-06-17T22:00:00+08:00",
           "kind": "comment"
         },
@@ -7118,7 +7118,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-17T22:12:00+08:00",
+      "updated_at": "2026-06-17T23:14:00+08:00",
       "due_at": "",
       "completed_at": null
     },
