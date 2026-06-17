@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-17T20:51:00+08:00",
+  "updated_at": "2026-06-17T21:17:00+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -6973,7 +6973,7 @@
       "task_id": "task_umi_wan21_dual_wrist_structure_20260617",
       "project_id": "umi-world-model",
       "title": "实现 Wan2.1 双腕拼接 baseline 与 dual-latent 结构草案",
-      "description": "根据 2026-06-17 UMI Model Structure 更新，先用 Wan2.1 而不是 Wan2.2 做 Route A/B：Route A 为左右 wrist-camera 画面拼接后送入 Wan2.1 finetune，数据源先检查 10Kh RealOmni-Open Dataset，完成 text annotation 与 video stitching recipe；Route B 为 shared-backbone dual-branch Wan2.1 训练草案：left/right video latent、view embedding、robot proprio/state、future action、camera pose/calibration、task text tokens、cross-view fusion、shared Wan2.1 backbone、dual prediction heads / shared VAE decoder。Wan2.2-A14B 只作为后续对照，因为其 high-noise / low-noise MoE 需要分专家训练和组合验证。Acceptance: 数据可用性与字段审计、拼接 baseline manifest、dual-latent token schema、Wan2.1 训练配置/伪代码、Wan2.2 high/low 复杂度说明、与 Gamma-World baseline 和后续 Image-Layered/SVG track 的边界说明。",
+      "description": "根据 2026-06-17 UMI Model Structure 更新，先用 Wan2.1 而不是 Wan2.2 做 Route A/B：Route A 为左右 wrist-camera 画面拼接后送入 Wan2.1 finetune，数据源先检查 10Kh RealOmni-Open Dataset，完成 text annotation 与 video stitching recipe；Route B 为 shared-backbone dual-branch Wan2.1 训练草案：left/right video latent、view embedding、robot proprio/state、future action、camera pose/calibration、task text tokens、cross-view fusion、shared Wan2.1 backbone、dual prediction heads / shared VAE decoder。Wan2.2-A14B 只作为后续对照，因为其 high-noise / low-noise MoE 需要分专家训练和组合验证。AutoDL 训练约束：按单机最多 8 卡设计，不依赖跨机分布式训练。Acceptance: 数据可用性与字段审计、拼接 baseline manifest、dual-latent token schema、Wan2.1 单机 8-GPU 内可跑的训练配置/伪代码、显存/批量/梯度累积或 checkpointing 方案、Wan2.2 high/low 复杂度说明、与 Gamma-World baseline 和后续 Image-Layered/SVG track 的边界说明。",
       "status": "todo",
       "priority": "high",
       "assignee": "Boris / Haoyu / Xiaobin",
@@ -6992,9 +6992,38 @@
           "body": "Research update 2026-06-17: prefer Wan2.1 for first UMI dual-wrist training. Official Wan2.2 docs/model cards describe A14B as a two-expert MoE denoiser: high-noise expert handles early/high-noise/layout steps, low-noise expert handles later/detail steps, with an SNR/timestep switch. Community training reports in DiffSynth-Studio also show practical instability when separately fine-tuning high vs low noise experts; one report says the same task learned better on Wan2.1 than Wan2.2. Wan2.1 has simpler single-backbone training and mature LoRA/full-finetune recipes in VideoX-Fun, finetrainers, DiffSynth-Studio, and diffusion-pipe. Decision: implement Route A concat baseline and Route B dual-latent prototype on Wan2.1 first; keep Wan2.2-A14B for later quality comparison after the schema works, or evaluate Wan2.2-TI2V-5B only if we specifically need its dense 5B unified TI2V path.",
           "created_at": "2026-06-17T20:51:00+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_task_umi_wan21_dual_wrist_structure_autodl_compute_20260617",
+          "author": "Boris / Codex",
+          "body": "Compute constraint note 2026-06-17: AutoDL cannot be used for cross-machine distributed training in this plan, so UMI Wan2.1 training should assume at most one 8-GPU machine. Do not design the first route around multi-node DeepSpeed/FSDP. Keep the initial training recipe inside single-node 8-card capacity with LoRA first, then optional small full-finetune, gradient accumulation, checkpointing/offload, and reduced resolution/frames if needed. This makes Wan2.1 even more attractive than Wan2.2-A14B high/low expert finetuning for v0.",
+          "created_at": "2026-06-17T21:03:00+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-17T20:51:00+08:00",
+      "updated_at": "2026-06-17T21:03:00+08:00",
+      "due_at": "",
+      "completed_at": null
+    },
+    {
+      "task_id": "task_umi_vace_video_inpainting_probe_20260617",
+      "project_id": "umi-world-model",
+      "title": "测试 VACE 做 robot-layer 视频 inpainting",
+      "description": "把 VACE 加入 Stage 2 video inpainting 路线：用 1-3 个 MolmoAct/Hoi/UMI-style clips 的 tracked masks 做 masked V2V，测试 robot/object/occluder removal 后的 background completion 和 object-contact region completion。Acceptance: VACE 输入准备说明（video、mask、reference/prompt）、运行命令/配置、输出视频与 layer_manifest 对齐、masked-region temporal consistency、unmasked-region preservation、recomposition QA、failure gallery；和 GPT/FLUX still inpaint、RevealLayer single-image completion、segment+inpaint baseline 做定性/定量对照。注意：VACE 负责 raster video inpaint，不替代 SAMVG/LIVE 的 SVG sidecar probe。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Boris / Haoyu / Xiaobin",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_task_umi_vace_video_inpainting_probe_seed_20260617",
+          "author": "Boris / Codex",
+          "body": "Seeded from Boris note: video inpainting 可以试 VACE. Public refs: ali-vilab/VACE describes all-in-one R2V/V2V/masked V2V editing; Wan2.1 release includes VACE inference/code/weights. Use after mask tracking to fill removed robot/object/occluder regions and evaluate temporal consistency plus unmasked-region preservation. Keep this separate from SVG vectorization: SVG is contour metadata; VACE is raster video completion.",
+          "created_at": "2026-06-17T21:17:00+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-06-17T21:17:00+08:00",
       "due_at": "",
       "completed_at": null
     },
