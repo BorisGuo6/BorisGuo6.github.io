@@ -9,6 +9,7 @@ import {
   deleteLocalTaskComment,
   makeTaskComment,
   optionalString,
+  updateLocalTask,
   updateLocalTaskStatus,
   validateDueDate,
   validateTaskPriority,
@@ -155,6 +156,38 @@ async function main() {
           },
         });
         return sendJson(response, 200, { ok: true, task, ...syncResult }, origin);
+      }
+
+      if (request.method === "POST" && url.pathname === "/task-update") {
+        const body = await readRequestJson(request);
+        const taskId = requireString(body.task_id, "task_id");
+        const patch = {};
+        for (const field of ["title", "description", "priority", "assignee", "due_at"]) {
+          if (Object.prototype.hasOwnProperty.call(body, field)) {
+            patch[field] = body[field];
+          }
+        }
+        if (!Object.keys(patch).length) {
+          throw new Error("Missing update fields");
+        }
+        const { task, update } = await updateLocalTask(taskId, patch);
+        const syncResult = await tryAgentEvent(agentEvent, {
+          action: "task_upsert",
+          project_id: task.project_id,
+          task_id: task.task_id,
+          title: task.title,
+          description: task.description,
+          status: task.status,
+          priority: task.priority,
+          payload: {
+            assignee: task.assignee,
+            due_at: task.due_at || null,
+            completed_at: task.completed_at || null,
+            source_updated_at: task.updated_at,
+            payload: { source: "dashboard/state/tasks.json", changed_fields: update.changed_fields },
+          },
+        });
+        return sendJson(response, 200, { ok: true, task, update, ...syncResult }, origin);
       }
 
       if (request.method === "POST" && url.pathname === "/task-comment") {

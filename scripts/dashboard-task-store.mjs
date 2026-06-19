@@ -89,6 +89,62 @@ export function applyTaskStatus(task, status, now = new Date()) {
   };
 }
 
+function hasOwn(value, key) {
+  return Object.prototype.hasOwnProperty.call(value || {}, key);
+}
+
+export function applyTaskPatch(task, patch, now = new Date()) {
+  const changedFields = [];
+  if (hasOwn(patch, "title")) {
+    const title = optionalString(patch.title);
+    if (!title) throw new Error("Missing title");
+    if (task.title !== title) {
+      task.title = title;
+      changedFields.push("title");
+    }
+  }
+  if (hasOwn(patch, "description")) {
+    const description = typeof patch.description === "string" ? patch.description.trim() : "";
+    if ((task.description || "") !== description) {
+      task.description = description;
+      changedFields.push("description");
+    }
+  }
+  if (hasOwn(patch, "priority")) {
+    const priority = validateTaskPriority(optionalString(patch.priority));
+    if (task.priority !== priority) {
+      task.priority = priority;
+      changedFields.push("priority");
+    }
+  }
+  if (hasOwn(patch, "assignee")) {
+    const assignee = optionalString(patch.assignee) || null;
+    if ((task.assignee || null) !== assignee) {
+      task.assignee = assignee;
+      changedFields.push("assignee");
+    }
+  }
+  if (hasOwn(patch, "due_at")) {
+    const dueAt = validateDueDate(optionalString(patch.due_at));
+    if ((task.due_at || "") !== dueAt) {
+      task.due_at = dueAt;
+      changedFields.push("due_at");
+    }
+  }
+  if (!changedFields.length) {
+    return {
+      updated_at: task.updated_at || now.toISOString(),
+      changed_fields: changedFields,
+    };
+  }
+  const updatedAt = now.toISOString();
+  task.updated_at = updatedAt;
+  return {
+    updated_at: updatedAt,
+    changed_fields: changedFields,
+  };
+}
+
 export function touchTaskDocument(doc, updatedAt) {
   doc.updated_at = updatedAt;
   return doc;
@@ -149,6 +205,22 @@ export async function updateLocalTaskStatus(taskId, status, options = {}) {
   touchTaskDocument(doc, update.updated_at);
   await writeJsonFile(filePath, doc);
   return update;
+}
+
+export async function updateLocalTask(taskId, patch, options = {}) {
+  const filePath = options.filePath || tasksPath;
+  const now = options.now || new Date();
+  const doc = await readTaskDocument(filePath);
+  const task = findTask(doc, taskId);
+  if (!task) {
+    throw new Error(`Task not found in local tasks.json: ${taskId}`);
+  }
+  const update = applyTaskPatch(task, patch, now);
+  if (update.changed_fields.length) {
+    touchTaskDocument(doc, update.updated_at);
+    await writeJsonFile(filePath, doc);
+  }
+  return { task, update };
 }
 
 export async function appendLocalTaskComment(taskId, comment, options = {}) {

@@ -452,6 +452,8 @@
             "Do not scrape the rendered dashboard page for task data; use taskDoc.tasks from the JSON state and locate the relevant task_id there.",
             "Allowed task statuses: todo, active, blocked, needs_user, review, done.",
             "If you have DASHBOARD_WRITE_TOKEN, mutate through the Vercel API with x-dashboard-token or Authorization: Bearer. Never print, commit, or paste the token.",
+            "Update title/description/priority/assignee/due date:",
+            `curl -fsS -X POST ${origin}/api/dashboard/task-update -H "content-type: application/json" -H "x-dashboard-token: $DASHBOARD_WRITE_TOKEN" --data '{"task_id":"TASK_ID","title":"Updated title","description":"Updated acceptance criteria."}'`,
             "Update status:",
             `curl -fsS -X POST ${origin}/api/dashboard/task-status -H "content-type: application/json" -H "x-dashboard-token: $DASHBOARD_WRITE_TOKEN" --data '{"task_id":"TASK_ID","status":"active"}'`,
             "Leave a progress comment:",

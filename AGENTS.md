@@ -23,6 +23,11 @@ Use these endpoints for dashboard interaction:
 ```bash
 curl -fsS https://jingxiangguo.com/api/dashboard/state
 
+curl -fsS -X POST https://jingxiangguo.com/api/dashboard/task-update \
+  -H "content-type: application/json" \
+  -H "x-dashboard-token: $DASHBOARD_WRITE_TOKEN" \
+  --data '{"task_id":"task_example","title":"Updated title","description":"Updated acceptance criteria."}'
+
 curl -fsS -X POST https://jingxiangguo.com/api/dashboard/task-status \
   -H "content-type: application/json" \
   -H "x-dashboard-token: $DASHBOARD_WRITE_TOKEN" \
@@ -34,7 +39,7 @@ curl -fsS -X POST https://jingxiangguo.com/api/dashboard/task-comment \
   --data '{"task_id":"task_example","body":"Progress note with concrete evidence and next step."}'
 ```
 
-For new work items use `POST /api/dashboard/task-create`; for cleanup use `POST /api/dashboard/task-comment-delete` with `task_id` and `comment_id`. After any write, re-read `/api/dashboard/state` and verify the mutation is visible. If no write token is available, leave the task unchanged and report the intended status/comment to the user.
+For existing work items use `POST /api/dashboard/task-update` for title, description, priority, assignee, or due-date edits; use `POST /api/dashboard/task-status` only for status transitions. For new work items use `POST /api/dashboard/task-create`; for cleanup use `POST /api/dashboard/task-comment-delete` with `task_id` and `comment_id`. After any write, re-read `/api/dashboard/state` and verify the mutation is visible. If no write token is available, leave the task unchanged and report the intended status/comment/update to the user.
 
 ### Triage labels
 

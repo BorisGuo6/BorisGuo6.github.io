@@ -29,6 +29,7 @@ import {
   applySnapshotTaskCommentDelete,
   applySnapshotTaskCreate,
   applySnapshotTaskStatus,
+  applySnapshotTaskUpdate,
   dashboardStateToSnapshot,
   normalizeDashboardSnapshot,
   toDashboardStateResponse,
@@ -80,6 +81,19 @@ assert.deepEqual(
   normalizeDashboardSnapshot({ data: bundledResponse }).taskDoc.tasks.length,
   state.tasks.length,
 );
+const patchedSnapshot = applySnapshotTaskUpdate(bundledSnapshot, state.tasks[0].task_id, {
+  title: "Updated dashboard task title",
+  description: "Updated dashboard task description",
+  priority: "high",
+}, {
+  now: new Date("2026-06-18T01:00:00.000Z"),
+  source: "test",
+});
+assert.deepEqual(patchedSnapshot.update.changed_fields, ["title", "description", "priority"]);
+assert.equal(patchedSnapshot.task.title, "Updated dashboard task title");
+assert.equal(patchedSnapshot.task.description, "Updated dashboard task description");
+assert.equal(patchedSnapshot.task.priority, "high");
+assert.equal(patchedSnapshot.snapshot.taskDoc.updated_at, "2026-06-18T01:00:00.000Z");
 assert.deepEqual(
   dashboardWriteAuth({ headers: {} }, {}),
   {
@@ -178,6 +192,11 @@ assert.match(
 );
 assert.match(
   dashboardSource,
+  /task-update/,
+  "dashboard should include task-update in the copied agent prompt",
+);
+assert.match(
+  dashboardSource,
   /task-comment-delete/,
   "dashboard should route comment deletion through a hosted/local API endpoint",
 );
@@ -203,8 +222,8 @@ assert.match(
 );
 assert.match(
   agentsSource,
-  /DASHBOARD_WRITE_TOKEN[\s\S]+task-status[\s\S]+task-comment/,
-  "AGENTS.md should document token-gated task status and comment writes",
+  /DASHBOARD_WRITE_TOKEN[\s\S]+task-update[\s\S]+task-status[\s\S]+task-comment/,
+  "AGENTS.md should document token-gated task update, status, and comment writes",
 );
 assert.match(
   JSON.parse(await readFile(new URL("../package.json", import.meta.url), "utf8")).scripts["vercel:seed-blob"],

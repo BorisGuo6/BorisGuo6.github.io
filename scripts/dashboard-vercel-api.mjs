@@ -3,6 +3,7 @@ import {
   applySnapshotTaskCommentDelete,
   applySnapshotTaskCreate,
   applySnapshotTaskStatus,
+  applySnapshotTaskUpdate,
   toDashboardStateResponse,
 } from "./dashboard-state-snapshot.mjs";
 import { makeTaskComment } from "./dashboard-task-store.mjs";
@@ -160,6 +161,33 @@ export async function handleDashboardTaskCreate(request, response) {
   return sendJson(response, 200, {
     ok: true,
     task: result.task,
+    meta: result.meta,
+  });
+}
+
+export async function handleDashboardTaskUpdate(request, response) {
+  if (request.method !== "POST") return methodNotAllowed(response, ["POST"]);
+  const auth = dashboardWriteAuth(request);
+  if (!auth.ok) return sendJson(response, auth.status, { ok: false, error: auth.error });
+  const body = await readJsonBody(request);
+  const taskId = requireString(body.task_id, "task_id");
+  const patch = {};
+  for (const field of ["title", "description", "priority", "assignee", "due_at"]) {
+    if (Object.prototype.hasOwnProperty.call(body, field)) {
+      patch[field] = body[field];
+    }
+  }
+  if (!Object.keys(patch).length) {
+    throw new Error("Missing update fields");
+  }
+  const result = await persistMutation((snapshot) => applySnapshotTaskUpdate(snapshot, taskId, patch, {
+    source: "vercel-blob",
+  }));
+  return sendJson(response, 200, {
+    ok: true,
+    task_id: taskId,
+    task: result.task,
+    update: result.update,
     meta: result.meta,
   });
 }

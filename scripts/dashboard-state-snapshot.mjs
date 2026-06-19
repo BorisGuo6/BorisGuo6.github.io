@@ -4,6 +4,7 @@ import {
   statePathToFile,
 } from "./dashboard-state-lib.mjs";
 import {
+  applyTaskPatch,
   applyTaskStatus,
   findTask,
   makeTask,
@@ -124,6 +125,21 @@ export function applySnapshotTaskStatus(snapshot, taskId, status, options = {}) 
   const update = applyTaskStatus(task, status, options.now || new Date());
   next.taskDoc.updated_at = update.updated_at;
   next.updated_at = update.updated_at;
+  next.source = options.source || next.source;
+  return { snapshot: next, task, update };
+}
+
+export function applySnapshotTaskUpdate(snapshot, taskId, patch, options = {}) {
+  const next = cloneMutableSnapshot(snapshot);
+  const task = findTask(next.taskDoc, taskId);
+  if (!task) {
+    throw new Error(`Task not found: ${taskId}`);
+  }
+  const update = applyTaskPatch(task, patch, options.now || new Date());
+  if (update.changed_fields.length) {
+    next.taskDoc.updated_at = update.updated_at;
+    next.updated_at = update.updated_at;
+  }
   next.source = options.source || next.source;
   return { snapshot: next, task, update };
 }
