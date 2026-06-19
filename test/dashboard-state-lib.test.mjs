@@ -158,6 +158,11 @@ assert.doesNotMatch(
 );
 assert.match(
   dashboardSource,
+  /<base href="\/dashboard\/">[\s\S]+<link rel="stylesheet" href="print\.css">/,
+  "dashboard must set a /dashboard/ base URL so Vercel clean URL /dashboard still resolves CSS, state, images, and legacy config under /dashboard/",
+);
+assert.match(
+  dashboardSource,
   /function loadLegacySupabaseConfig\(\)/,
   "legacy Supabase mode should dynamically load its config",
 );
