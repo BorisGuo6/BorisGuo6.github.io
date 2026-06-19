@@ -27,7 +27,14 @@
               <input type="email" name="email" placeholder="editor email" aria-label="Editor email" autocomplete="email">
               <button type="submit">Sign in</button>
             </form>
+            <form class="auth-form" data-vercel-token-form hidden>
+              <input type="password" name="token" placeholder="write token" aria-label="Dashboard write token" autocomplete="off">
+              <button type="submit">Unlock</button>
+            </form>
             <button class="auth-signout" type="button" data-auth-signout hidden>Sign out</button>
+            <button class="auth-signout" type="button" data-vercel-token-clear hidden>Lock</button>
+            <button class="agent-prompt-copy" type="button" data-agent-prompt-copy>Copy Agent Prompt</button>
+            <span class="agent-prompt-status" data-agent-prompt-status aria-live="polite"></span>
           </div>
         </div>
       </header>
@@ -109,13 +116,14 @@
       </figure>
     </div>
 
-    <script src="supabase-config.js"></script>
     <script>
       (() => {
         const stateRoot = document.querySelector('meta[name="dashboard-state-root"]')?.content || "state/";
         const storageKey = "dashboard.task-interactions.v1";
         const detailsStorageKey = "dashboard.details-open.v2";
         const textCollapseStorageKey = "dashboard.text-collapse.v1";
+        const vercelTokenStorageKey = "dashboard.vercel-write-token.v1";
+        const vercelApiBase = "/api/dashboard";
         const supabaseEsmUrl = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
         const statusCycle = ["todo", "active", "done"];
         const statusLabels = {
@@ -156,6 +164,9 @@
         let supabaseSession = null;
         let supabaseIsEditor = false;
         let dataMode = "json";
+        let vercelApiAvailable = false;
+        let vercelApiWritable = false;
+        let vercelWriteToken = readVercelWriteToken();
         let reloadTimer = null;
         let realtimeChannel = null;
         let localState = readLocalState();
@@ -181,6 +192,23 @@
           } catch (error) {
             console.warn("Ignoring invalid local dashboard task state", error);
             return { statuses: {}, comments: {} };
+          }
+        }
+
+        function readVercelWriteToken() {
+          try {
+            return localStorage.getItem(vercelTokenStorageKey) || "";
+          } catch (error) {
+            return "";
+          }
+        }
+
+        function writeVercelWriteToken(token) {
+          vercelWriteToken = String(token || "").trim();
+          if (vercelWriteToken) {
+            localStorage.setItem(vercelTokenStorageKey, vercelWriteToken);
+          } else {
+            localStorage.removeItem(vercelTokenStorageKey);
           }
         }
 
@@ -348,12 +376,24 @@
           pill.dataset.state = state;
         }
 
-        function setSupabaseSyncStatus() {
+        function setDashboardBackendSyncStatus() {
+          if (dataMode === "vercel") {
+            if (!vercelApiAvailable) {
+              setSyncStatus("Vercel API unavailable", "fallback");
+            } else if (vercelWriteToken) {
+              setSyncStatus("Vercel editable", "online");
+            } else if (vercelApiWritable) {
+              setSyncStatus("Vercel read-only (locked)", "readonly");
+            } else {
+              setSyncStatus("Vercel read-only", "readonly");
+            }
+            return;
+          }
           if (dataMode !== "supabase") {
             return;
           }
           if (localWriteApiAvailable) {
-            setSyncStatus("Local Supabase editable", "online");
+            setSyncStatus("Local dashboard editable", "online");
           } else if (!supabaseSession?.user) {
             setSyncStatus("Supabase read-only (signed out)", "readonly");
           } else if (supabaseIsEditor) {
@@ -366,20 +406,92 @@
         function renderAuthState() {
           const form = document.querySelector("[data-auth-form]");
           const signOut = document.querySelector("[data-auth-signout]");
-          if (!form || !signOut) {
+          const vercelForm = document.querySelector("[data-vercel-token-form]");
+          const vercelClear = document.querySelector("[data-vercel-token-clear]");
+          if (!form || !signOut || !vercelForm || !vercelClear) {
             return;
           }
+          const isVercel = dataMode === "vercel";
+          vercelForm.hidden = !isVercel || Boolean(vercelWriteToken);
+          vercelClear.hidden = !isVercel || !vercelWriteToken;
           const hasSupabase = Boolean(supabaseClient);
           const isSignedIn = Boolean(supabaseSession?.user);
-          form.hidden = !hasSupabase || isSignedIn || localWriteApiAvailable;
-          signOut.hidden = !hasSupabase || !isSignedIn;
+          form.hidden = isVercel || !hasSupabase || isSignedIn || localWriteApiAvailable;
+          signOut.hidden = isVercel || !hasSupabase || !isSignedIn;
           if (isSignedIn) {
             signOut.textContent = supabaseSession.user.email ? `Sign out ${supabaseSession.user.email}` : "Sign out";
           }
         }
 
-        function isSupabaseWritable() {
+        function isDashboardBackendWritable() {
+          if (dataMode === "vercel") {
+            return Boolean(vercelApiAvailable && vercelWriteToken);
+          }
           return dataMode === "supabase" && Boolean(localWriteApiAvailable || (supabaseClient && supabaseSession?.user && supabaseIsEditor));
+        }
+
+        function writeAccessMessage() {
+          if (dataMode === "vercel") {
+            return vercelApiAvailable ? "Set dashboard write token" : "Vercel API unavailable";
+          }
+          if (dataMode === "supabase") {
+            return supabaseSession?.user ? "No dashboard write access" : "Sign in to write";
+          }
+          return "JSON fallback is read-only";
+        }
+
+        function dashboardAgentPromptText() {
+          const origin = window.location.origin && window.location.origin !== "null"
+            ? window.location.origin
+            : "https://jingxiangguo.com";
+          return [
+            "You are updating Jingxiang Guo's project dashboard.",
+            `Human dashboard: ${origin}/dashboard/`,
+            `Read this machine-readable state first: ${origin}/api/dashboard/state`,
+            "Do not scrape the rendered dashboard page for task data; use taskDoc.tasks from the JSON state and locate the relevant task_id there.",
+            "Allowed task statuses: todo, active, blocked, needs_user, review, done.",
+            "If you have DASHBOARD_WRITE_TOKEN, mutate through the Vercel API with x-dashboard-token or Authorization: Bearer. Never print, commit, or paste the token.",
+            "Update status:",
+            `curl -fsS -X POST ${origin}/api/dashboard/task-status -H "content-type: application/json" -H "x-dashboard-token: $DASHBOARD_WRITE_TOKEN" --data '{"task_id":"TASK_ID","status":"active"}'`,
+            "Leave a progress comment:",
+            `curl -fsS -X POST ${origin}/api/dashboard/task-comment -H "content-type: application/json" -H "x-dashboard-token: $DASHBOARD_WRITE_TOKEN" --data '{"task_id":"TASK_ID","body":"Concrete progress, evidence, blocker, or next step."}'`,
+            "For new work use POST /api/dashboard/task-create. For cleanup use POST /api/dashboard/task-comment-delete with task_id and comment_id.",
+            `After any write, re-read ${origin}/api/dashboard/state and verify the mutation is visible. If you do not have the token, report the intended mutation to the user instead of claiming it was written.`,
+          ].join("\n");
+        }
+
+        function setAgentPromptStatus(label) {
+          const status = document.querySelector("[data-agent-prompt-status]");
+          if (!status) {
+            return;
+          }
+          status.textContent = label;
+          if (label) {
+            window.setTimeout(() => {
+              if (status.textContent === label) {
+                status.textContent = "";
+              }
+            }, 1800);
+          }
+        }
+
+        async function copyTextToClipboard(text) {
+          if (navigator.clipboard?.writeText && window.isSecureContext) {
+            await navigator.clipboard.writeText(text);
+            return;
+          }
+          const textarea = document.createElement("textarea");
+          textarea.value = text;
+          textarea.setAttribute("readonly", "");
+          textarea.style.position = "fixed";
+          textarea.style.left = "-9999px";
+          document.body.append(textarea);
+          textarea.select();
+          const copied = document.execCommand("copy");
+          textarea.remove();
+          if (!copied) {
+            throw new Error("Clipboard copy failed");
+          }
         }
 
         function getStatusOverride(taskId) {
@@ -436,6 +548,38 @@
           }
           comments.push(comment);
           task.comments = comments;
+        }
+
+        function removeTaskComment(taskId, commentId) {
+          const task = getTaskById(taskId);
+          const targetCommentId = String(commentId || "");
+          if (task && Array.isArray(task.comments)) {
+            task.comments = task.comments.filter((comment) => (
+              String(comment.comment_id || comment.id || "") !== targetCommentId
+            ));
+          }
+          localState.comments[taskId] = (localState.comments[taskId] || []).filter((comment) => (
+            String(comment.id || comment.comment_id || "") !== targetCommentId
+          ));
+          if (localState.comments[taskId].length === 0) {
+            delete localState.comments[taskId];
+          }
+        }
+
+        function restoreTaskComments(taskId, taskComments, localComments) {
+          const task = getTaskById(taskId);
+          if (task) {
+            if (taskComments) {
+              task.comments = taskComments;
+            } else {
+              delete task.comments;
+            }
+          }
+          if (localComments) {
+            localState.comments[taskId] = localComments;
+          } else {
+            delete localState.comments[taskId];
+          }
         }
 
         function addTask(task) {
@@ -1577,6 +1721,7 @@
                 body: task.result,
                 author: "Result",
                 created_at: task.completed_at || null,
+                protected: true,
               }]
             : [];
           const seedComments = [
@@ -1587,16 +1732,20 @@
           return [
             ...seedComments.map((comment, index) => ({
               id: comment.comment_id || `seed_${index}`,
+              comment_id: comment.comment_id || "",
               body: comment.body || "",
               author: comment.author || "Seed",
               created_at: comment.created_at || null,
+              protected: Boolean(comment.protected),
               local: false,
             })),
             ...localComments.map((comment) => ({
               id: comment.id,
+              comment_id: comment.id,
               body: comment.body,
               author: comment.author || "You",
               created_at: comment.created_at || null,
+              protected: false,
               local: true,
             })),
           ].filter((comment) => comment.body && !isNoisyComment(comment.body));
@@ -1652,6 +1801,10 @@
           recordTextCollapseState(body.dataset.textCollapseKey, expanded);
         }
 
+        function canDeleteComment(comment) {
+          return Boolean(comment.id && !comment.protected && (comment.local || isDashboardBackendWritable()));
+        }
+
         function createCommentPanel(task) {
           const comments = getTaskComments(task);
           const details = document.createElement("details");
@@ -1681,12 +1834,13 @@
               if (comment.created_at) {
                 meta.append(createChip(formatDateTime(comment.created_at)));
               }
-              if (comment.local) {
+              if (canDeleteComment(comment)) {
                 const deleteButton = document.createElement("button");
                 deleteButton.type = "button";
                 deleteButton.className = "comment-delete";
                 deleteButton.dataset.taskId = task.task_id;
                 deleteButton.dataset.commentId = comment.id;
+                deleteButton.dataset.local = comment.local ? "1" : "0";
                 deleteButton.textContent = "Delete";
                 meta.append(deleteButton);
               }
@@ -1973,8 +2127,23 @@
           }
         }
 
+        async function loadLegacySupabaseConfig() {
+          if (window.DASHBOARD_SUPABASE) {
+            return window.DASHBOARD_SUPABASE;
+          }
+          await new Promise((resolve, reject) => {
+            const script = document.createElement("script");
+            script.src = "supabase-config.js";
+            script.async = true;
+            script.onload = resolve;
+            script.onerror = () => reject(new Error("Failed to load legacy Supabase config"));
+            document.head.appendChild(script);
+          });
+          return window.DASHBOARD_SUPABASE;
+        }
+
         async function createSupabaseClient() {
-          const config = window.DASHBOARD_SUPABASE;
+          const config = await loadLegacySupabaseConfig();
           if (!config?.url || !config?.publishableKey) {
             throw new Error("Missing Supabase dashboard config");
           }
@@ -2050,6 +2219,56 @@
           return result;
         }
 
+        async function detectVercelApi() {
+          try {
+            const response = await fetch(`${vercelApiBase}/health`, { cache: "no-store" });
+            const result = response.ok ? await response.json() : null;
+            vercelApiAvailable = Boolean(result?.ok);
+            vercelApiWritable = Boolean(result?.writable);
+          } catch (error) {
+            vercelApiAvailable = false;
+            vercelApiWritable = false;
+          }
+          return vercelApiAvailable;
+        }
+
+        async function postVercelApi(path, payload) {
+          const response = await fetch(`${vercelApiBase}/${path}`, {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+              "x-dashboard-token": vercelWriteToken,
+            },
+            body: JSON.stringify(payload),
+          });
+          const text = await response.text();
+          const result = text ? JSON.parse(text) : {};
+          if (!response.ok || result.error) {
+            throw new Error(result.error || `Vercel API returned ${response.status}`);
+          }
+          return result;
+        }
+
+        async function loadVercelState() {
+          const response = await fetch(`${vercelApiBase}/state`, { cache: "no-store" });
+          const result = response.ok ? await response.json() : null;
+          if (!response.ok || !result?.ok) {
+            throw new Error(result?.error || `Vercel state returned ${response.status}`);
+          }
+          portfolioDoc = result.portfolio;
+          projectDocs = Array.isArray(result.projects) ? result.projects : [];
+          taskDoc = result.taskDoc;
+          dataMode = "vercel";
+          document.body.dataset.dataSource = "vercel";
+          vercelApiAvailable = true;
+          vercelApiWritable = Boolean(result.meta?.writable);
+          localState = { statuses: {}, comments: {} };
+          writeLocalState();
+          setDashboardBackendSyncStatus();
+          renderAuthState();
+          renderDashboardState();
+        }
+
         async function loadSupabaseState() {
           if (!supabaseClient) {
             supabaseClient = await createSupabaseClient();
@@ -2060,7 +2279,7 @@
               supabaseSession = session;
               refreshSupabaseEditorState().then(() => {
                 renderAuthState();
-                setSupabaseSyncStatus();
+                setDashboardBackendSyncStatus();
               });
             });
           }
@@ -2101,7 +2320,7 @@
           }
           dataMode = "supabase";
           document.body.dataset.dataSource = "supabase";
-          setSupabaseSyncStatus();
+          setDashboardBackendSyncStatus();
           renderAuthState();
           renderDashboardState();
           subscribeSupabaseRealtime();
@@ -2140,7 +2359,14 @@
             .subscribe();
         }
 
-        async function insertSupabaseTask(payload) {
+        async function insertDashboardBackendTask(payload) {
+          if (dataMode === "vercel") {
+            const result = await postVercelApi("task-create", payload);
+            if (result.task) {
+              return result.task;
+            }
+            throw new Error("Vercel API did not return task");
+          }
           if (localWriteApiAvailable) {
             const result = await postLocalWriteApi("task-create", payload);
             if (result.task) {
@@ -2171,10 +2397,14 @@
             }
             return mapSupabaseTask(data, new Map());
           }
-          throw new Error("Sign in as a dashboard editor or start the local write API to write Supabase state.");
+          throw new Error("Sign in as a dashboard editor or start the local write API to write dashboard state.");
         }
 
-        async function updateSupabaseTaskStatus(taskId, status) {
+        async function updateDashboardBackendTaskStatus(taskId, status) {
+          if (dataMode === "vercel") {
+            await postVercelApi("task-status", { task_id: taskId, status });
+            return;
+          }
           if (localWriteApiAvailable) {
             await postLocalWriteApi("task-status", { task_id: taskId, status });
             return;
@@ -2190,12 +2420,19 @@
             }
             return;
           }
-          throw new Error("Sign in as a dashboard editor or start the local write API to write Supabase state.");
+          throw new Error("Sign in as a dashboard editor or start the local write API to write dashboard state.");
         }
 
-        async function insertSupabaseComment(taskId, body) {
+        async function insertDashboardBackendComment(taskId, body) {
           if (body.length > maxCommentLength) {
             throw new Error(`Comment must be ${maxCommentLength} characters or fewer.`);
+          }
+          if (dataMode === "vercel") {
+            const result = await postVercelApi("task-comment", { task_id: taskId, body });
+            if (result.comment) {
+              return result.comment;
+            }
+            throw new Error("Vercel API did not return comment");
           }
           if (localWriteApiAvailable) {
             const result = await postLocalWriteApi("task-comment", { task_id: taskId, body });
@@ -2230,7 +2467,30 @@
             }
             return comment;
           }
-          throw new Error("Sign in as a dashboard editor or start the local write API to write Supabase state.");
+          throw new Error("Sign in as a dashboard editor or start the local write API to write dashboard state.");
+        }
+
+        async function deleteDashboardBackendComment(taskId, commentId) {
+          if (dataMode === "vercel") {
+            await postVercelApi("task-comment-delete", { task_id: taskId, comment_id: commentId });
+            return;
+          }
+          if (localWriteApiAvailable) {
+            await postLocalWriteApi("task-comment-delete", { task_id: taskId, comment_id: commentId });
+            return;
+          }
+          if (supabaseSession?.user && supabaseIsEditor) {
+            const { error } = await supabaseClient
+              .from("task_comments")
+              .delete()
+              .eq("task_id", taskId)
+              .eq("comment_id", commentId);
+            if (error) {
+              throw error;
+            }
+            return;
+          }
+          throw new Error("Sign in as a dashboard editor or start the local write API to write dashboard state.");
         }
 
         function closeStatusMenus(exceptMenu = null) {
@@ -2250,10 +2510,10 @@
             const status = statusOption.dataset.status;
             const previousStatus = getTaskById(taskId)?.status;
             closeStatusMenus();
-            if (isSupabaseWritable()) {
+            if (isDashboardBackendWritable()) {
               applyTaskStatus(taskId, status);
-              updateSupabaseTaskStatus(taskId, status).catch((error) => {
-                console.warn("Supabase status update failed; using local fallback", error);
+              updateDashboardBackendTaskStatus(taskId, status).catch((error) => {
+                console.warn("Dashboard status update failed; using local fallback", error);
                 setLocalStatus(taskId, status, previousStatus);
                 writeLocalState();
                 renderAllProjects();
@@ -2262,8 +2522,8 @@
             } else {
               setLocalStatus(taskId, status);
               writeLocalState();
-              if (dataMode === "supabase") {
-                setSyncStatus(supabaseSession?.user ? "No dashboard write access" : "Sign in to write", "readonly");
+              if (dataMode === "supabase" || dataMode === "vercel") {
+                setSyncStatus(writeAccessMessage(), "readonly");
               }
             }
             renderAllProjects();
@@ -2286,12 +2546,22 @@
           if (deleteButton) {
             const taskId = deleteButton.dataset.taskId;
             const commentId = deleteButton.dataset.commentId;
-            localState.comments[taskId] = (localState.comments[taskId] || []).filter((comment) => comment.id !== commentId);
-            if (localState.comments[taskId].length === 0) {
-              delete localState.comments[taskId];
-            }
+            const task = getTaskById(taskId);
+            const previousTaskComments = Array.isArray(task?.comments) ? [...task.comments] : null;
+            const previousLocalComments = Array.isArray(localState.comments[taskId]) ? [...localState.comments[taskId]] : null;
+            const shouldPersist = deleteButton.dataset.local !== "1" && isDashboardBackendWritable();
+            removeTaskComment(taskId, commentId);
             writeLocalState();
             renderAllProjects();
+            if (shouldPersist) {
+              deleteDashboardBackendComment(taskId, commentId).catch((error) => {
+                console.warn("Dashboard comment delete failed", error);
+                restoreTaskComments(taskId, previousTaskComments, previousLocalComments);
+                writeLocalState();
+                renderAllProjects();
+                setSyncStatus(`Comment delete failed: ${error.message || "unknown"}`, "fallback");
+              });
+            }
             return;
           }
 
@@ -2307,6 +2577,21 @@
         });
 
         document.addEventListener("submit", (event) => {
+          const vercelTokenForm = event.target.closest?.("[data-vercel-token-form]");
+          if (vercelTokenForm) {
+            event.preventDefault();
+            const token = vercelTokenForm.elements.token.value.trim();
+            if (!token) {
+              return;
+            }
+            writeVercelWriteToken(token);
+            vercelTokenForm.reset();
+            setDashboardBackendSyncStatus();
+            renderAuthState();
+            renderAllProjects();
+            return;
+          }
+
           const authForm = event.target.closest?.("[data-auth-form]");
           if (authForm) {
             event.preventDefault();
@@ -2342,8 +2627,8 @@
             if (!title || !projectId) {
               return;
             }
-            if (!isSupabaseWritable()) {
-              setSyncStatus(supabaseSession?.user ? "No dashboard write access" : "Sign in to write", "readonly");
+            if (!isDashboardBackendWritable()) {
+              setSyncStatus(writeAccessMessage(), "readonly");
               return;
             }
             const button = taskCreateForm.querySelector("button[type='submit']");
@@ -2357,13 +2642,13 @@
               priority,
               due_at: dueAt,
             };
-            insertSupabaseTask(payload).then((task) => {
+            insertDashboardBackendTask(payload).then((task) => {
               addTask(task);
               taskCreateForm.reset();
               renderAllProjects();
-              setSupabaseSyncStatus();
+              setDashboardBackendSyncStatus();
             }).catch((error) => {
-              console.warn("Supabase task insert failed", error);
+              console.warn("Dashboard task insert failed", error);
               setSyncStatus(`TODO add failed: ${error.message || "unknown"}`, "fallback");
             }).finally(() => {
               button.disabled = false;
@@ -2392,13 +2677,13 @@
             body,
             created_at: new Date().toISOString(),
           };
-          if (isSupabaseWritable()) {
-            insertSupabaseComment(taskId, body).then((comment) => {
+          if (isDashboardBackendWritable()) {
+            insertDashboardBackendComment(taskId, body).then((comment) => {
               addTaskComment(taskId, comment);
               form.reset();
               renderAllProjects();
             }).catch((error) => {
-              console.warn("Supabase comment insert failed; using local fallback", error);
+              console.warn("Dashboard comment insert failed; using local fallback", error);
               const comments = Array.isArray(localState.comments[taskId]) ? localState.comments[taskId] : [];
               comments.push(localComment);
               localState.comments[taskId] = comments;
@@ -2411,8 +2696,8 @@
             comments.push(localComment);
             localState.comments[taskId] = comments;
             writeLocalState();
-            if (dataMode === "supabase") {
-              setSyncStatus(supabaseSession?.user ? "No dashboard write access" : "Sign in to write", "readonly");
+            if (dataMode === "supabase" || dataMode === "vercel") {
+              setSyncStatus(writeAccessMessage(), "readonly");
             }
           }
           form.reset();
@@ -2420,6 +2705,26 @@
         });
 
         document.addEventListener("click", (event) => {
+          const agentPromptCopy = event.target.closest?.("[data-agent-prompt-copy]");
+          if (agentPromptCopy) {
+            copyTextToClipboard(dashboardAgentPromptText()).then(() => {
+              setAgentPromptStatus("Copied");
+            }).catch((error) => {
+              console.warn("Agent prompt copy failed", error);
+              setAgentPromptStatus("Copy failed");
+            });
+            return;
+          }
+
+          const vercelClear = event.target.closest?.("[data-vercel-token-clear]");
+          if (vercelClear) {
+            writeVercelWriteToken("");
+            setDashboardBackendSyncStatus();
+            renderAuthState();
+            renderAllProjects();
+            return;
+          }
+
           const signOut = event.target.closest?.("[data-auth-signout]");
           if (!signOut || !supabaseClient) {
             return;
@@ -2427,14 +2732,32 @@
           supabaseClient.auth.signOut().then(() => {
             supabaseSession = null;
             supabaseIsEditor = false;
-            setSupabaseSyncStatus();
+            setDashboardBackendSyncStatus();
             renderAuthState();
+            renderAllProjects();
           });
         });
 
         async function initDashboardState() {
           const params = new URLSearchParams(window.location.search);
-          const useSupabase = params.get("supabase") === "1" || window.DASHBOARD_SUPABASE_AUTO_LOAD === true;
+          const forceJson = params.get("json") === "1";
+          const useSupabase = params.get("supabase") === "1";
+          const useVercel = params.get("vercel") === "1" || window.DASHBOARD_VERCEL_AUTO_LOAD !== false;
+          if (forceJson) {
+            await loadJsonState();
+            return;
+          }
+          if (!useSupabase && useVercel) {
+            try {
+              setSyncStatus("Vercel loading", "loading");
+              if (await detectVercelApi()) {
+                await loadVercelState();
+                return;
+              }
+            } catch (error) {
+              console.warn("Vercel state loading failed; falling back to JSON state", error);
+            }
+          }
           if (!useSupabase) {
             await loadJsonState();
             return;

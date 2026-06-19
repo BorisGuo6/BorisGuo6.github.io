@@ -1,9 +1,15 @@
 {
   "name": "borisguo6-github-io",
   "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "dev": "live-server --port=8765 --host=127.0.0.1 --open=/ .",
     "dev:write-api": "node scripts/local-dashboard-write-api.mjs",
+    "vercel-build": "npm run test:dashboard",
+    "vercel:seed-blob": "node scripts/seed-vercel-dashboard-blob.mjs",
     "supabase:seed-sql": "node scripts/generate-dashboard-seed-sql.mjs",
     "supabase:import": "node scripts/import-dashboard-state.mjs",
     "supabase:sync": "node scripts/sync-dashboard-to-supabase.mjs",
@@ -12,5 +18,8 @@
   },
   "devDependencies": {
     "live-server": "^1.2.2"
+  },
+  "dependencies": {
+    "@vercel/blob": "^2.4.0"
   }
 }

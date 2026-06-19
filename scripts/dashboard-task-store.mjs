@@ -171,3 +171,29 @@ export async function appendLocalTaskComment(taskId, comment, options = {}) {
   await writeJsonFile(filePath, doc);
   return comment;
 }
+
+export async function deleteLocalTaskComment(taskId, commentId, options = {}) {
+  const filePath = options.filePath || tasksPath;
+  const doc = await readTaskDocument(filePath);
+  const task = findTask(doc, taskId);
+  if (!task) {
+    throw new Error(`Task not found in local tasks.json: ${taskId}`);
+  }
+  const targetCommentId = optionalString(commentId);
+  if (!targetCommentId) {
+    throw new Error("Missing comment_id");
+  }
+  task.comments = Array.isArray(task.comments) ? task.comments : [];
+  const index = task.comments.findIndex((comment) => (
+    String(comment.comment_id || comment.id || "") === targetCommentId
+  ));
+  if (index < 0) {
+    throw new Error(`Comment not found in local tasks.json: ${targetCommentId}`);
+  }
+  const [comment] = task.comments.splice(index, 1);
+  const updatedAt = (options.now || new Date()).toISOString();
+  task.updated_at = updatedAt;
+  touchTaskDocument(doc, updatedAt);
+  await writeJsonFile(filePath, doc);
+  return comment;
+}

@@ -6,6 +6,7 @@ import {
 import {
   appendLocalTaskComment,
   createLocalTask,
+  deleteLocalTaskComment,
   makeTaskComment,
   optionalString,
   updateLocalTaskStatus,
@@ -175,6 +176,22 @@ async function main() {
           },
         });
         return sendJson(response, 200, { ok: true, comment, ...syncResult }, origin);
+      }
+
+      if (request.method === "POST" && url.pathname === "/task-comment-delete") {
+        const body = await readRequestJson(request);
+        const taskId = requireString(body.task_id, "task_id");
+        const commentId = requireString(body.comment_id, "comment_id");
+        const comment = await deleteLocalTaskComment(taskId, commentId);
+        const syncResult = await tryAgentEvent(agentEvent, {
+          action: "task_comment_delete",
+          task_id: taskId,
+          comment_id: commentId,
+          payload: {
+            source: "local-dashboard",
+          },
+        });
+        return sendJson(response, 200, { ok: true, task_id: taskId, comment_id: commentId, deleted_comment: comment, ...syncResult }, origin);
       }
 
       return sendJson(response, 404, { error: "Not found" }, origin);

@@ -17,12 +17,25 @@ import {
   appendLocalTaskComment,
   applyTaskStatus,
   createLocalTask,
+  deleteLocalTaskComment,
   makeTask,
   makeTaskComment,
   makeTaskId,
   updateLocalTaskStatus,
   validateTaskPriority,
 } from "../scripts/dashboard-task-store.mjs";
+import {
+  applySnapshotTaskComment,
+  applySnapshotTaskCommentDelete,
+  applySnapshotTaskCreate,
+  applySnapshotTaskStatus,
+  dashboardStateToSnapshot,
+  normalizeDashboardSnapshot,
+  toDashboardStateResponse,
+} from "../scripts/dashboard-state-snapshot.mjs";
+import {
+  dashboardWriteAuth,
+} from "../scripts/dashboard-vercel-api.mjs";
 
 assert.equal(normalizeCommentKind("host_verified"), "verification");
 assert.equal(normalizeCommentKind("route"), "comment");
@@ -55,6 +68,39 @@ assert.ok(state.projects.length > 0);
 assert.ok(state.tasks.length > 0);
 assert.match(await dashboardHash(state), /^[a-f0-9]{64}$/);
 
+const bundledSnapshot = dashboardStateToSnapshot(state, {
+  now: new Date("2026-06-18T00:00:00.000Z"),
+});
+const bundledResponse = toDashboardStateResponse(bundledSnapshot);
+assert.equal(bundledResponse.ok, true);
+assert.equal(bundledResponse.portfolio.portfolio_id, state.portfolio.portfolio_id);
+assert.equal(bundledResponse.projects.length, state.projects.length);
+assert.equal(bundledResponse.taskDoc.tasks.length, state.tasks.length);
+assert.deepEqual(
+  normalizeDashboardSnapshot({ data: bundledResponse }).taskDoc.tasks.length,
+  state.tasks.length,
+);
+assert.deepEqual(
+  dashboardWriteAuth({ headers: {} }, {}),
+  {
+    ok: false,
+    status: 503,
+    error: "DASHBOARD_WRITE_TOKEN is not configured",
+  },
+);
+assert.deepEqual(
+  dashboardWriteAuth({ headers: { "x-dashboard-token": "wrong" } }, { DASHBOARD_WRITE_TOKEN: "right" }),
+  {
+    ok: false,
+    status: 401,
+    error: "Invalid dashboard write token",
+  },
+);
+assert.deepEqual(
+  dashboardWriteAuth({ headers: { authorization: "Bearer right" } }, { DASHBOARD_WRITE_TOKEN: "right" }),
+  { ok: true },
+);
+
 const projectBucketNames = new Set((state.portfolio.project_buckets || []).map((bucket) => bucket.bucket));
 assert.deepEqual(projectBucketNames, new Set(["research", "engineering", "survey", "archive"]));
 for (const project of state.projects) {
@@ -76,6 +122,7 @@ assert.deepEqual(
 );
 
 const dashboardSource = await readFile(new URL("../dashboard/index.html", import.meta.url), "utf8");
+const agentsSource = await readFile(new URL("../AGENTS.md", import.meta.url), "utf8");
 assert.match(
   dashboardSource,
   /function projectTasksFor\(/,
@@ -103,6 +150,61 @@ assert.doesNotMatch(
   dashboardSource,
   /project(?:Doc|Ref)?\.project_id\s*[!=]==?\s*["']/,
   "dashboard/index.html should not branch on literal project_id values",
+);
+assert.doesNotMatch(
+  dashboardSource,
+  /<script src="supabase-config\.js"><\/script>/,
+  "dashboard must not load legacy Supabase config unless ?supabase=1 is requested",
+);
+assert.match(
+  dashboardSource,
+  /function loadLegacySupabaseConfig\(\)/,
+  "legacy Supabase mode should dynamically load its config",
+);
+assert.doesNotMatch(
+  dashboardSource,
+  /function (?:setSupabaseSyncStatus|isSupabaseWritable|insertSupabaseTask|updateSupabaseTaskStatus|insertSupabaseComment)\b/,
+  "generic dashboard backend helpers should not keep Supabase-prefixed names",
+);
+assert.match(
+  dashboardSource,
+  /function setDashboardBackendSyncStatus\(\)/,
+  "dashboard should expose generic backend sync status naming",
+);
+assert.match(
+  dashboardSource,
+  /task-comment-delete/,
+  "dashboard should route comment deletion through a hosted/local API endpoint",
+);
+assert.match(
+  dashboardSource,
+  /data-agent-prompt-copy/,
+  "dashboard should expose a copy button for agent task-update prompts",
+);
+assert.match(
+  dashboardSource,
+  /function dashboardAgentPromptText\(\)/,
+  "dashboard should generate the agent task-update prompt client-side",
+);
+assert.match(
+  dashboardSource,
+  /api\/dashboard\/state/,
+  "dashboard agent prompt should point agents at the machine-readable state endpoint",
+);
+assert.match(
+  agentsSource,
+  /https:\/\/jingxiangguo\.com\/api\/dashboard\/state/,
+  "AGENTS.md should tell agents where to read dashboard task state",
+);
+assert.match(
+  agentsSource,
+  /DASHBOARD_WRITE_TOKEN[\s\S]+task-status[\s\S]+task-comment/,
+  "AGENTS.md should document token-gated task status and comment writes",
+);
+assert.match(
+  JSON.parse(await readFile(new URL("../package.json", import.meta.url), "utf8")).scripts["vercel:seed-blob"],
+  /seed-vercel-dashboard-blob\.mjs/,
+  "Vercel Blob seed script should be available",
 );
 
 let dashboardWeeklyBriefEntries = [];
@@ -260,6 +362,19 @@ try {
   assert.equal(duplicateDoc.updated_at, "2026-05-26T03:00:00.000Z");
   assert.equal(duplicateDoc.tasks[0].comments.length, 1);
 
+  const deletedLocalComment = await deleteLocalTaskComment(
+    "task_demo_existing",
+    commentDoc.tasks[0].comments[0].comment_id,
+    {
+      filePath: tempTasksPath,
+      now: new Date("2026-05-26T03:15:00.000Z"),
+    },
+  );
+  const deletedLocalDoc = JSON.parse(await readFile(tempTasksPath, "utf8"));
+  assert.equal(deletedLocalComment.body, "Comment");
+  assert.equal(deletedLocalDoc.updated_at, "2026-05-26T03:15:00.000Z");
+  assert.equal(deletedLocalDoc.tasks[0].comments.length, 0);
+
   await assert.rejects(
     appendLocalTaskComment(
       "task_demo_existing",
@@ -316,6 +431,53 @@ const syncFixture = {
     comments: [{ comment_id: "comment_demo", body: "Keep this", kind: "comment" }],
   }],
 };
+const syncSnapshot = normalizeDashboardSnapshot({
+  portfolio: syncFixture.portfolio,
+  projects: syncFixture.projects.map((project) => project.doc),
+  taskDoc: {
+    schema_version: "tasks.v1",
+    updated_at: "2026-05-25T00:00:00.000Z",
+    tasks: structuredClone(syncFixture.tasks),
+  },
+});
+const statusSnapshot = applySnapshotTaskStatus(
+  syncSnapshot,
+  "task_demo",
+  "done",
+  { now: new Date("2026-06-18T01:00:00.000Z") },
+).snapshot;
+assert.equal(statusSnapshot.taskDoc.tasks[0].status, "done");
+assert.equal(statusSnapshot.taskDoc.tasks[0].completed_at, "2026-06-18");
+assert.equal(statusSnapshot.taskDoc.updated_at, "2026-06-18T01:00:00.000Z");
+
+const comment = makeTaskComment("task_demo", "Vercel comment", "Vercel dashboard", new Date("2026-06-18T02:00:00.000Z"));
+const commentSnapshot = applySnapshotTaskComment(statusSnapshot, "task_demo", comment).snapshot;
+assert.equal(commentSnapshot.taskDoc.tasks[0].comments.length, 2);
+assert.equal(commentSnapshot.taskDoc.updated_at, "2026-06-18T02:00:00.000Z");
+
+const deletedCommentSnapshot = applySnapshotTaskCommentDelete(commentSnapshot, "task_demo", comment.comment_id, {
+  now: new Date("2026-06-18T02:30:00.000Z"),
+}).snapshot;
+assert.deepEqual(
+  deletedCommentSnapshot.taskDoc.tasks[0].comments.map((candidate) => candidate.comment_id),
+  ["comment_demo"],
+);
+assert.equal(deletedCommentSnapshot.taskDoc.updated_at, "2026-06-18T02:30:00.000Z");
+await assert.rejects(
+  async () => applySnapshotTaskCommentDelete(deletedCommentSnapshot, "task_demo", comment.comment_id),
+  /Comment not found/,
+);
+
+const createdSnapshot = applySnapshotTaskCreate(commentSnapshot, {
+  project_id: "demo",
+  title: "Vercel TODO",
+  priority: "urgent",
+}, {
+  now: new Date("2026-06-18T03:00:00.000Z"),
+}).snapshot;
+assert.equal(createdSnapshot.taskDoc.tasks.at(-1).task_id, "task_demo_vercel_todo_20260618");
+assert.equal(createdSnapshot.taskDoc.tasks.at(-1).priority, "urgent");
+
 const firstPlan = buildSyncPlan(syncFixture, {}, {});
 assert.equal(firstPlan.events.length, 4);
 assert.deepEqual(firstPlan.counts, {

@@ -1,0 +1,175 @@
+import {
+  loadDashboardState,
+  readJsonFile,
+  statePathToFile,
+} from "./dashboard-state-lib.mjs";
+import {
+  applyTaskStatus,
+  findTask,
+  makeTask,
+} from "./dashboard-task-store.mjs";
+
+export const dashboardSnapshotSchemaVersion = "dashboard-state.v1";
+
+function cloneJson(value) {
+  return JSON.parse(JSON.stringify(value));
+}
+
+export function dashboardStateToSnapshot(state, options = {}) {
+  const now = options.now || new Date();
+  const updatedAt = options.updatedAt || now.toISOString();
+  return {
+    schema_version: dashboardSnapshotSchemaVersion,
+    source: options.source || "dashboard/state",
+    updated_at: updatedAt,
+    portfolio: cloneJson(state.portfolio),
+    projects: cloneJson(state.projects.map((project) => project.doc)),
+    taskDoc: cloneJson(state.taskDoc),
+  };
+}
+
+export async function loadBundledDashboardSnapshot(options = {}) {
+  const state = await loadDashboardState();
+  return dashboardStateToSnapshot(state, {
+    ...options,
+    source: options.source || "bundled-json",
+  });
+}
+
+export async function loadDashboardSnapshotFromFiles(options = {}) {
+  const portfolio = await readJsonFile(options.portfolioPath || statePathToFile("dashboard/state/portfolio.json"));
+  const projectRefs = Array.isArray(portfolio.projects) ? portfolio.projects : [];
+  const projects = await Promise.all(projectRefs.map((projectRef) => readJsonFile(statePathToFile(projectRef.state_path))));
+  const taskDoc = await readJsonFile(options.tasksPath || statePathToFile("dashboard/state/tasks.json"));
+  return normalizeDashboardSnapshot({
+    schema_version: dashboardSnapshotSchemaVersion,
+    source: "dashboard/state",
+    updated_at: options.updatedAt || taskDoc.updated_at || new Date().toISOString(),
+    portfolio,
+    projects,
+    taskDoc,
+  });
+}
+
+export function normalizeDashboardSnapshot(raw) {
+  if (!raw || typeof raw !== "object") {
+    throw new Error("Dashboard snapshot must be an object");
+  }
+  const container = raw.data && typeof raw.data === "object" ? raw.data : raw;
+  const portfolio = container.portfolio;
+  const projects = container.projects || container.projectDocs;
+  const taskDoc = container.taskDoc || container.tasksDoc;
+  if (!portfolio || typeof portfolio !== "object") {
+    throw new Error("Dashboard snapshot is missing portfolio");
+  }
+  if (!Array.isArray(projects)) {
+    throw new Error("Dashboard snapshot is missing projects");
+  }
+  if (!taskDoc || !Array.isArray(taskDoc.tasks)) {
+    throw new Error("Dashboard snapshot is missing taskDoc.tasks");
+  }
+  return {
+    schema_version: raw.schema_version || dashboardSnapshotSchemaVersion,
+    source: raw.source || "unknown",
+    updated_at: raw.updated_at || taskDoc.updated_at || new Date().toISOString(),
+    portfolio: cloneJson(portfolio),
+    projects: cloneJson(projects),
+    taskDoc: cloneJson(taskDoc),
+  };
+}
+
+export function serializeDashboardSnapshot(snapshot) {
+  const normalized = normalizeDashboardSnapshot(snapshot);
+  return JSON.stringify(normalized, null, 2) + "\n";
+}
+
+export function toDashboardStateResponse(snapshot, meta = {}) {
+  const normalized = normalizeDashboardSnapshot(snapshot);
+  return {
+    ok: true,
+    schema_version: normalized.schema_version,
+    portfolio: normalized.portfolio,
+    projects: normalized.projects,
+    taskDoc: normalized.taskDoc,
+    meta: {
+      source: normalized.source,
+      updated_at: normalized.updated_at,
+      ...meta,
+    },
+  };
+}
+
+function cloneMutableSnapshot(snapshot) {
+  return normalizeDashboardSnapshot(snapshot);
+}
+
+export function applySnapshotTaskCreate(snapshot, input, options = {}) {
+  const next = cloneMutableSnapshot(snapshot);
+  const now = options.now || new Date();
+  const existingIds = new Set(next.taskDoc.tasks.map((task) => task?.task_id).filter(Boolean));
+  const task = makeTask(input, existingIds, now);
+  next.taskDoc.tasks.push(task);
+  next.taskDoc.updated_at = task.updated_at;
+  next.updated_at = task.updated_at;
+  next.source = options.source || next.source;
+  return { snapshot: next, task };
+}
+
+export function applySnapshotTaskStatus(snapshot, taskId, status, options = {}) {
+  const next = cloneMutableSnapshot(snapshot);
+  const task = findTask(next.taskDoc, taskId);
+  if (!task) {
+    throw new Error(`Task not found: ${taskId}`);
+  }
+  const update = applyTaskStatus(task, status, options.now || new Date());
+  next.taskDoc.updated_at = update.updated_at;
+  next.updated_at = update.updated_at;
+  next.source = options.source || next.source;
+  return { snapshot: next, task, update };
+}
+
+export function applySnapshotTaskComment(snapshot, taskId, comment, options = {}) {
+  const next = cloneMutableSnapshot(snapshot);
+  const task = findTask(next.taskDoc, taskId);
+  if (!task) {
+    throw new Error(`Task not found: ${taskId}`);
+  }
+  if (comment?.task_id && comment.task_id !== taskId) {
+    throw new Error(`Comment ${comment.comment_id || ""} belongs to ${comment.task_id}, not ${taskId}`);
+  }
+  task.comments = Array.isArray(task.comments) ? task.comments : [];
+  if (!task.comments.some((existing) => existing.comment_id === comment.comment_id)) {
+    task.comments.push(comment);
+    task.updated_at = comment.created_at || (options.now || new Date()).toISOString();
+    next.taskDoc.updated_at = task.updated_at;
+    next.updated_at = task.updated_at;
+  }
+  next.source = options.source || next.source;
+  return { snapshot: next, task, comment };
+}
+
+export function applySnapshotTaskCommentDelete(snapshot, taskId, commentId, options = {}) {
+  const next = cloneMutableSnapshot(snapshot);
+  const task = findTask(next.taskDoc, taskId);
+  if (!task) {
+    throw new Error(`Task not found: ${taskId}`);
+  }
+  const targetCommentId = String(commentId || "").trim();
+  if (!targetCommentId) {
+    throw new Error("Missing comment_id");
+  }
+  task.comments = Array.isArray(task.comments) ? task.comments : [];
+  const index = task.comments.findIndex((comment) => (
+    String(comment?.comment_id || comment?.id || "") === targetCommentId
+  ));
+  if (index < 0) {
+    throw new Error(`Comment not found: ${targetCommentId}`);
+  }
+  const [comment] = task.comments.splice(index, 1);
+  const updatedAt = (options.now || new Date()).toISOString();
+  task.updated_at = updatedAt;
+  next.taskDoc.updated_at = updatedAt;
+  next.updated_at = updatedAt;
+  next.source = options.source || next.source;
+  return { snapshot: next, task, comment };
+}

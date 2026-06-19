@@ -103,6 +103,7 @@ h1 {
 
 .dashboard-sync {
   display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 7px;
   margin-top: 10px;
   padding-top: 10px;
@@ -110,6 +111,7 @@ h1 {
 }
 
 .sync-pill {
+  grid-column: 1 / -1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -138,14 +140,27 @@ h1 {
   gap: 5px;
 }
 
+.auth-form:not([data-vercel-token-form]) {
+  grid-column: 1 / -1;
+}
+
+.auth-form[data-vercel-token-form] {
+  display: contents;
+}
+
 .auth-form[hidden],
 .auth-signout[hidden] {
   display: none;
 }
 
+.auth-form[data-vercel-token-form][hidden] {
+  display: none;
+}
+
 .auth-form input,
 .auth-form button,
-.auth-signout {
+.auth-signout,
+.agent-prompt-copy {
   min-height: 28px;
   border: 1px solid #c5d1dc;
   background: #ffffff;
@@ -160,12 +175,29 @@ h1 {
   padding: 4px 6px;
 }
 
+.auth-form[data-vercel-token-form] input {
+  grid-column: 1 / -1;
+}
+
 .auth-form button,
-.auth-signout {
+.auth-signout,
+.agent-prompt-copy {
   padding: 4px 7px;
   color: var(--accent);
   font-weight: 800;
   cursor: pointer;
+}
+
+.agent-prompt-copy {
+  width: 100%;
+}
+
+.agent-prompt-status {
+  grid-column: 1 / -1;
+  min-height: 14px;
+  color: var(--muted);
+  font-size: 11px;
+  text-align: center;
 }
 
 .summary-grid {
@@ -1971,7 +2003,8 @@ body.lightbox-open {
 
   .auth-form input,
   .auth-form button,
-  .auth-signout {
+  .auth-signout,
+  .agent-prompt-copy {
     border-radius: 5px;
   }
 
