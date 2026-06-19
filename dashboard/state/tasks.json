@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-18T00:11:21+08:00",
+  "updated_at": "2026-06-19T23:00:27+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -7009,7 +7009,7 @@
       "task_id": "task_umi_layering_method_selection_global_dataset_plan_20260617",
       "project_id": "umi-world-model",
       "title": "收敛分层方案并启动 global layered dataset 计划",
-      "description": "全体在下一周/下下周前完成分层方法测试与选择，确定第一版 global Image-Layered robot dataset 构建路线。候选包括 SAM3+GPT inpaint、VACE/VAC/VAS video inpaint、RevealLayer、Qwen/Image-agent layer count、RoboTwin synthetic masks、MaskWAM mask pipeline、SAMVG/LIVE SVG sidecar。Acceptance: 方法矩阵、输入/输出 schema、速度/成本、人为标注需求、temporal consistency、recomposition QA、FoundationPose/IDM/reward utility、失败样例；给出 v0 dataset 构建决策和下一批 episode/image/video 清单。",
+      "description": "全体在下一周/下下周前完成分层方法测试与选择，确定第一版 global Image-Layered robot dataset 构建路线。候选包括 SAM3+GPT inpaint、VACE/VAC/VAS video inpaint、RevealLayer/Qwen 负样例参考、RoboTwin synthetic masks、MaskWAM mask pipeline、SuperSVG/LIVE/SAM-contour SVG sidecar，StarVector/OmniSVG 作为可选 SVG probe。Acceptance: 方法矩阵、输入/输出 schema、速度/成本、人为标注需求、temporal consistency、recomposition QA、FoundationPose/IDM/reward utility、失败样例；给出 v0 dataset 构建决策和下一批 episode/image/video 清单。",
       "status": "todo",
       "priority": "urgent",
       "assignee": "Boris / Haoyu / Lai / Ziyang",
@@ -7023,7 +7023,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-17T22:00:00+08:00",
+      "updated_at": "2026-06-19T23:00:27+08:00",
       "due_at": "",
       "completed_at": null
     },
@@ -7133,7 +7133,7 @@
       "task_id": "task_umi_vace_video_inpainting_probe_20260617",
       "project_id": "umi-world-model",
       "title": "测试 VACE 做 robot-layer 视频 inpainting",
-      "description": "把 VACE 加入 Stage 2 video inpainting 路线：用 1-3 个 MolmoAct/Hoi/UMI-style clips 的 tracked masks 做 masked V2V，测试 robot/object/occluder removal 后的 background completion 和 object-contact region completion。Acceptance: VACE 输入准备说明（video、mask、reference/prompt）、运行命令/配置、输出视频与 layer_manifest 对齐、masked-region temporal consistency、unmasked-region preservation、recomposition QA、failure gallery；和 GPT/FLUX still inpaint、RevealLayer single-image completion、segment+inpaint baseline 做定性/定量对照。注意：VACE 负责 raster video inpaint，不替代 SAMVG/LIVE 的 SVG sidecar probe。",
+      "description": "把 VACE 加入 Stage 2 video inpainting 路线：用 1-3 个 MolmoAct/Hoi/UMI-style clips 的 tracked masks 做 masked V2V，测试 robot/object/occluder removal 后的 background completion 和 object-contact region completion。Acceptance: VACE 输入准备说明（video、mask、reference/prompt）、运行命令/配置、输出视频与 layer_manifest 对齐、masked-region temporal consistency、unmasked-region preservation、recomposition QA、failure gallery；和 GPT/FLUX still inpaint、RevealLayer single-image completion、segment+inpaint baseline 做定性/定量对照。注意：VACE 负责 raster video inpaint，不替代 SuperSVG/LIVE/SAM-contour 的 SVG sidecar probe。",
       "status": "todo",
       "priority": "high",
       "assignee": "Boris / Haoyu / Xiaobin",
@@ -7147,7 +7147,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-17T21:17:00+08:00",
+      "updated_at": "2026-06-19T23:00:27+08:00",
       "due_at": "",
       "completed_at": null
     },
@@ -7253,7 +7253,7 @@
       "status": "done",
       "priority": "high",
       "assignee": "Boris / Haoyu / Xiaobin",
-      "result": "Closed after the small SVG/layer-data feasibility pass and WeChat evidence review. Decision: RevealLayer remains the Stage 2 RGBA layer-decomposition build-upon route, while SVG 化 should be scoped to layer mask / contour / contact metadata sidecars. Raster truth stays as mask.png, rgba.png, inpainted_background.png, and video clips. A one-frame MolmoAct robot-couch pilot in ~/Downloads/molmoact_svg_layer_pilot_20260617 defines robot_visible, object_contact, and scene_background layer outputs plus manifest/QA/failure notes; it is a schema probe, not a SAMVG/LIVE run and not a scalable training dataset. The follow-up TODO is now the SVG-specific SAMVG/LIVE still-frame and short-clip probe.",
+      "result": "Closed after the small SVG/layer-data feasibility pass and WeChat evidence review. Decision: RevealLayer remains only a reference/negative route for the current robot scene, while SVG 化 should be scoped to layer mask / contour / contact metadata sidecars. Raster truth stays as mask.png, rgba.png, inpainted_background.png, and video clips. A one-frame MolmoAct robot-couch pilot in ~/Downloads/molmoact_svg_layer_pilot_20260617 defines robot_visible, object_contact, and scene_background layer outputs plus manifest/QA/failure notes; it is a schema probe, not a scalable training dataset. The follow-up TODO is now the SVG-specific SuperSVG/LIVE still-frame and short-clip probe, with StarVector/OmniSVG optional and SAMVG kept as paper/reference until code appears.",
       "comments": [
         {
           "comment_id": "comment_task_umi_layered_dataset_segment_inpaint_svg_meeting_source_20260609",
@@ -7340,15 +7340,15 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-17T20:13:00+08:00",
+      "updated_at": "2026-06-19T23:00:27+08:00",
       "due_at": "",
       "completed_at": "2026-06-17"
     },
     {
       "task_id": "task_umi_layered_dataset_molmoact_svg_qa_batch_20260617",
       "project_id": "umi-world-model",
-      "title": "跑 SAMVG / LIVE 的 MolmoAct SVG layer probe",
-      "description": "专门验证 SVG 化，而不是重复 segment+inpaint/Qwen/GPT：从 MolmoAct 或 Hoi 先选 3 个 episode，每个抽 20-50 帧，跑 SAMVG / LIVE / 简单 mask-contour tracing 对 robot、object/contact、hand/occluder、scene_regions 做 SVG sidecar。输出每层 layer.svg、mask.png、rgba.png、inpainted_background.png、layer_manifest.json 和 failure gallery。QA: SVG rasterize-back mask IoU > 0.97；path count / vertex count 不爆炸；frame-to-frame bbox jitter、mask IoU、path topology change；recomposition SSIM/LPIPS 或人工评分。失败记录：Qwen merged connected regions、SVG path too fragmented、thin gripper/cable/shadow mistrace、background texture unsuitable for SVG。结论要判断 SVG 是否适合作为结构层/annotation 层，而不是替代 RGBA video layer。",
+      "title": "跑 SuperSVG / LIVE 的 MolmoAct SVG layer probe",
+      "description": "专门验证 SVG 化，而不是重复 segment+inpaint/Qwen/GPT：根据 2026-06-18/19 yongxi 私聊更新，SAMVG 没有开源代码，短期把 SAMVG 替代物定为 SuperSVG；SuperSVG 和 LIVE 作为主 SVG 化验证，StarVector / OmniSVG 作为备选 probe，简单 mask-contour tracing 作为 practical baseline。从 MolmoAct 或 Hoi 先选 3 个 episode，每个抽 20-50 帧，对 robot、object/contact、hand/occluder、scene_regions 做 SVG sidecar。输出每层 layer.svg、mask.png、rgba.png、inpainted_background.png、layer_manifest.json 和 failure gallery。QA: SVG rasterize-back mask IoU > 0.97；path count / vertex count 不爆炸；frame-to-frame bbox jitter、mask IoU、path topology change；recomposition SSIM/LPIPS 或人工评分。失败记录：Qwen merged connected regions、SVG path too fragmented、thin gripper/cable/shadow mistrace、background texture unsuitable for SVG。结论要判断 SVG 是否适合作为结构层/annotation 层，而不是替代 RGBA video layer。",
       "status": "todo",
       "priority": "high",
       "assignee": "Boris / Haoyu / Xiaobin",
@@ -7357,19 +7357,19 @@
         {
           "comment_id": "comment_task_umi_layered_dataset_molmoact_svg_qa_batch_seed_20260617",
           "author": "Codex",
-          "body": "Seeded from the one-frame SVG pilot at /Users/boris/Downloads/molmoact_svg_layer_pilot_20260617 and the WeChat evidence check. Prior group work already covered ChatGPT split-layer PSD, RevealLayer, SAM3 + GPT inpaint, and Qwen Image-Layered; targeted group searches found no SAMVG/LIVE/DiffVG/SVG-vectorization experiment yet. This TODO is therefore SVG-specific: try SAMVG first, LIVE as layer-wise vectorization baseline, simple SAM/SAM2/SAM3 mask -> contour SVG as the practical baseline, and DiffVG only as an optimization/rasterization backend. Keep raster mask/RGBA/video truth alongside SVG sidecars.",
+          "body": "Seeded from the one-frame SVG pilot at /Users/boris/Downloads/molmoact_svg_layer_pilot_20260617 and the WeChat evidence check. Prior group work already covered ChatGPT split-layer PSD, RevealLayer, SAM3 + GPT inpaint, and Qwen Image-Layered. ClawCross/Yongxi update 2026-06-19: yongxi reported SAMVG has no open-source code; he selected SuperSVG as the SAMVG replacement, with SuperSVG + LIVE as active SVG-vectorization validation and StarVector / OmniSVG as additional candidates. Keep simple SAM/SAM2/SAM3 mask -> contour SVG as the practical baseline, DiffVG only as an optimization/rasterization backend, and raster mask/RGBA/video truth alongside SVG sidecars.",
           "created_at": "2026-06-17T20:09:30+08:00",
           "kind": "comment"
         },
         {
           "comment_id": "comment_task_umi_layered_dataset_molmoact_svg_qa_batch_route_20260617",
           "author": "Codex",
-          "body": "Route decision: SVG 化可行，但只作为分层 mask/contour/contact/trajectory 的结构化表示；RGB/alpha layer 仍保留 PNG/video。短期验收以 SAM mask -> SVG contour -> rasterize-back QA 为准；SAMVG is the closest named SVG repo to try because it uses SAM segmentation before SVG vectorization, while LIVE is a still-frame layer-wise SVG baseline. DiffVG is useful as differentiable rasterization/optimization support. VectorFusion/SVGDreamer are text-to-SVG/icon/sketch style references and should not be the faithful robot-layer label mainline.",
+          "body": "Route decision: SVG 化可行，但只作为分层 mask/contour/contact/trajectory 的结构化表示；RGB/alpha layer 仍保留 PNG/video。短期验收以 SAM mask -> SVG contour -> rasterize-back QA 为准；SAMVG is no longer an active implementation target unless code appears, so SuperSVG replaces it as the near-term SAMVG-like candidate. LIVE remains the layer-wise still-frame vectorization baseline; StarVector / OmniSVG are optional SVG probes; DiffVG is useful only as differentiable rasterization/optimization support. VectorFusion/SVGDreamer are text-to-SVG/icon/sketch style references and should not be the faithful robot-layer label mainline.",
           "created_at": "2026-06-17T20:09:30+08:00",
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-17T20:09:30+08:00",
+      "updated_at": "2026-06-19T23:00:27+08:00",
       "due_at": "",
       "completed_at": null
     },
