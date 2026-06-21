@@ -4,9 +4,9 @@
   "title": "General",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-06-17T23:18:37+08:00",
+  "updated_at": "2026-06-21T22:09:19+08:00",
   "description": "Procurement status table for cross-project lab purchases",
-  "summary": "General hardware procurement live list: current purchase status, route, and non-sensitive logistics notes for lab support items. Current additions include item-level purchase links for v0 real-robot demo objects, VIVE Tracker / MANUS charging cables, and a head-mounted first-person phone holder; existing COM2-seat props should still be fit-checked before duplicate purchase.",
+  "summary": "General hardware procurement live list: current purchase status, route, and non-sensitive logistics notes for lab support items. Current additions include item-level purchase links for v0 real-robot demo objects, VIVE Tracker / MANUS charging cables, a head-mounted first-person phone holder, and a PICO body-tracker kit for no-base-station tracking tests; existing COM2-seat props should still be fit-checked before duplicate purchase.",
   "intro_table": {
     "kind": "procurement_table",
     "caption": "General procurement live list · 2026-06-17",
@@ -49,6 +49,13 @@
         "route": "Taobao · lab procurement",
         "notes": "User-provided Taobao candidate marked 假一赔四. Use as a first-person hands-free operation / repair-view ego-video capture mount; before purchase confirm headband stability, phone clamp size/weight, anti-drop tether, FOV, comfort, and safe static or low-risk use. Do not treat active road-driving filming as an experiment requirement.",
         "url": "https://e.tb.cn/h.RoTHt0FU9m2Dn1g?tk=gWEXg5lyoqA"
+      },
+      {
+        "item": "PICO body-tracker kit / PICO 5-point full-body tracker",
+        "status": "Requested",
+        "route": "Zheng Yuhang · Taobao order",
+        "notes": "User-provided Taobao candidate marked 假一赔四: PICO high-precision body tracker accessory, supports PICO4 Ultra / Pro / Enterprise and PC connection. Requested from Yuhang on 2026-06-21 to test a no-base-station tracking route against VIVE Tracker-style setups. Screenshot shows the official 5-point tracker option at RMB 1109; confirm exact SKU, PICO headset compatibility, PC streaming path, SDK/export accessibility, return policy, and whether waist/leg tracking is enough for robot teleop / human-motion capture experiments.",
+        "url": "https://e.tb.cn/h.RJYrA1DxC3kLC24?tk=ojxKghScPGK"
       },
       {
         "item": "Cymple face-capture / eye-tracking device",
@@ -201,7 +208,8 @@
     "task_general_claude_code_yuhang_account_recharge",
     "task_general_api_gateway_procurement_query",
     "task_general_me_control_lab_anti_vibration_table_assembly",
-    "task_general_head_mounted_phone_holder_procurement"
+    "task_general_head_mounted_phone_holder_procurement",
+    "task_general_pico_body_tracker_procurement"
   ],
   "risks_decisions": [],
   "timeline": null,
