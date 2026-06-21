@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-21T22:09:19+08:00",
+  "updated_at": "2026-06-21T22:51:38+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -7006,9 +7006,16 @@
           "body": "Remote execution on /root/autodl-tmp/workspace/DiffSynth-Studio completed a Wan2.2-A14B paired output-residual + action/state consistency auxiliary-head grid. All 8 high/low step-64 checkpoints were produced for ac weights 0.05, 0.1, 0.2, 0.5. Strict action gate stamp 20260621_201427 evaluated rows 0,1,5,7,11 against zero, time_view_only, and wrong-row controls. Result: 2/20 pass overall: ac0.05 0/5, ac0.1 1/5, ac0.2 1/5, ac0.5 0/5. This is negative evidence: the current auxiliary-head route is trainable but not reliably action-conditioned. Local report: /Users/boris/Downloads/umi_paired_actcons_gate_20260621/index.html.",
           "created_at": "2026-06-21T21:25:00+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_umi_raw_sensitivity_xctx_control_20260621",
+          "author": "Codex",
+          "body": "Raw sensitivity probe added on the remote DiffSynth workspace: scripts_umi/probe_paired_condition_sensitivity.py. For paired_outres_actcons ac0.2 step-64 row0, actual-vs-zero/time_view_only/wrongrow noise prediction deltas were tiny in the high expert (~0.006 MAE, 0.58-0.68% relative) and larger but still insufficient in the low expert (~0.081-0.096 MAE, 6.6-7.8% relative). Interpretation: existing output-residual + auxiliary action/state head mostly leaves the high-noise stage uncontrolled, so video rollout can drift before low expert correction. Prepared next route: scripts_umi/launch_a14b_paired_xctx_control_grid8.sh, which enables UMI_BLOCK_CONTROL_USE_X_CONTEXT=1 plus paired dual branch and output residual. Launch is waiting because the 8 H20 GPUs are currently occupied by Gamma-World/Cosmos2.5 training.",
+          "created_at": "2026-06-21T22:51:38+08:00",
+          "kind": "progress"
         }
       ],
-      "updated_at": "2026-06-21T21:25:00+08:00",
+      "updated_at": "2026-06-21T22:51:38+08:00",
       "due_at": "",
       "completed_at": null
     },
