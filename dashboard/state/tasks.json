@@ -7009,7 +7009,7 @@
       "task_id": "task_umi_layering_method_selection_global_dataset_plan_20260617",
       "project_id": "umi-world-model",
       "title": "收敛分层方案并启动 global layered dataset 计划",
-      "description": "全体在下一周/下下周前完成分层方法测试与选择，确定第一版 global Image-Layered robot dataset 构建路线。候选包括 SAM3+GPT inpaint、VACE/VAC/VAS video inpaint、RevealLayer/Qwen 负样例参考、RoboTwin synthetic masks、MaskWAM mask pipeline、SuperSVG/LIVE/SAM-contour SVG sidecar，StarVector/OmniSVG 作为可选 SVG probe。Acceptance: 方法矩阵、输入/输出 schema、速度/成本、人为标注需求、temporal consistency、recomposition QA、FoundationPose/IDM/reward utility、失败样例；给出 v0 dataset 构建决策和下一批 episode/image/video 清单。",
+      "description": "全体在下一周/下下周前完成分层方法测试与选择，确定第一版 global Image-Layered robot dataset 构建路线。候选包括 SAM3+GPT inpaint、VACE/VAC/VAS video inpaint、RevealLayer/Qwen 负样例参考、RoboTwin synthetic masks、MaskWAM-style VLM->SAM3->human-verification mask propagation、SuperSVG/LIVE/SAM-contour SVG sidecar，StarVector/OmniSVG 作为可选 SVG probe。参考 MaskWAM 数据处理管线：language annotation / VLM 提取 task-relevant objects，用 SAM3 text/point condition 传播 mask sequence，多轮 human verification 只修正失败/歧义 round，最后写入 labeled episodes；UMI 需要把这个单 mask pipeline 扩展成 robot、object/contact、occluder、scene/background 的 layer pseudo-label，并保留 mask.png / rgba.png / video / SVG sidecar / layer_manifest.json。Acceptance: 方法矩阵、输入/输出 schema、速度/成本、人为标注需求、temporal consistency、recomposition QA、FoundationPose/IDM/reward utility、失败样例；给出 v0 dataset 构建决策和下一批 episode/image/video 清单。",
       "status": "todo",
       "priority": "urgent",
       "assignee": "Boris / Haoyu / Lai / Ziyang",
@@ -7021,9 +7021,16 @@
           "body": "Seeded from 2026-06-17 meeting collaboration item: the whole team should finish testing and selecting the layering method by next week or the week after, then begin preparing the global layered dataset build. This task is the selection gate and should close only when the first scalable v0 route is chosen.",
           "created_at": "2026-06-17T22:00:00+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_task_umi_layering_method_selection_maskwam_update_20260621",
+          "author": "Boris / Codex",
+          "body": "Updated 2026-06-21 with MaskWAM data-pipeline reference. Imported the annotation-pipeline figure to dashboard/assets/maskwam-annotation-pipeline-20260621.png and backed up the Downloads memo at weekly-briefs/memos/maskwam-vs-umi-image-layered-20260621.md. Practical takeaway for this TODO: use MaskWAM's VLM -> SAM3 -> human-verification loop as a mask acquisition scaffold, but choose the UMI v0 route by layer outputs and utility: named robot/object-contact/occluder/scene pseudo-labels, inpainted background, SVG/contact metadata, recomposition QA, temporal consistency, and FoundationPose/IDM/reward ablations.",
+          "created_at": "2026-06-21T17:36:23+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-19T23:00:27+08:00",
+      "updated_at": "2026-06-21T17:36:23+08:00",
       "due_at": "",
       "completed_at": null
     },
@@ -7155,7 +7162,7 @@
       "task_id": "task_umi_maskwam_pipeline_comparison_20260617",
       "project_id": "umi-world-model",
       "title": "对比 MaskWAM mask pipeline 与 UMI 分图层路线",
-      "description": "阅读 MaskWAM (arXiv:2606.13515) 的 mask processing pipeline，尤其是 mask prompt、future mask prediction、Mixture-of-Transformers / WAM integration、数据预处理和人机 interaction 设置；对比它与 UMI Image-Layered Robot Data 的差异。我们不是只 segment 出 mask，而是做 robot/object-contact/occluder/scene 的可重组 RGBA/video layer decomposition，配套 inpaint、SVG sidecar、recomposition QA、IDM/reward/background replacement。Acceptance: 一页对照 memo、pipeline 图解、可复用组件列表、差异化 contribution statement、评估指标对齐表、是否需要把 future-mask prediction 加入我们的 layer heads。",
+      "description": "阅读 MaskWAM (arXiv:2606.13515) 的 mask processing pipeline，尤其是 language annotation / VLM task-object extraction、SAM3 text/point-conditioned mask propagation、human verification、mask prompt、future mask prediction、Mixture-of-Transformers / WAM integration、数据预处理和人机 interaction 设置；对比它与 UMI Image-Layered Robot Data 的差异。我们不是只 segment 出 mask，而是做 robot/object-contact/occluder/scene 的可重组 RGBA/video layer decomposition，配套 inpaint、SVG sidecar、recomposition QA、IDM/reward/background replacement。Acceptance: 一页对照 memo、pipeline 图解、可复用组件列表、差异化 contribution statement、评估指标对齐表、是否需要把 future-mask prediction 加入我们的 layer heads。",
       "status": "todo",
       "priority": "high",
       "assignee": "Boris / Haoyu / Xiaobin",
@@ -7167,9 +7174,16 @@
           "body": "Seeded from Layered Image Policy WeChat 2026-06-17 local messages 105-107: Haoyu shared MaskWAM pipeline link https://arxiv.org/pdf/2606.13515#page=6.32; Ziyang noted the pipeline is more complex and includes human-robot interaction. Compare MaskWAM as mask-centric prompting/prediction against our layer decomposition idea: they segment/predict masks; we decompose videos into editable/recomposable semantic layers plus inpaint/SVG/IDM/reward hooks.",
           "created_at": "2026-06-17T21:42:00+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_task_umi_maskwam_pipeline_comparison_memo_backup_20260621",
+          "author": "Boris / Codex",
+          "body": "Memo and figure backed up in the dashboard repo: weekly-briefs/memos/maskwam-vs-umi-image-layered-20260621.md and dashboard/assets/maskwam-annotation-pipeline-20260621.png. Current conclusion: MaskWAM is mask-as-policy-supervision; UMI should be layers-as-data-infrastructure. Borrow the VLM/SAM3/human-verification mask loop and the future-mask-prediction lesson, but evaluate full layered data against flat RGB and mask-only baselines.",
+          "created_at": "2026-06-21T17:36:23+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-17T21:42:00+08:00",
+      "updated_at": "2026-06-21T17:36:23+08:00",
       "due_at": "",
       "completed_at": null
     },
