@@ -4,9 +4,9 @@
   "title": "Self-Improving Agents for Physical AI",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-06-15T19:40:18+08:00",
+  "updated_at": "2026-06-21T23:58:00+08:00",
   "description": "Simulation-first AgenticSim proposal: orchestrated setup-collect-train-eval-diagnose loop",
-  "summary": "Self-Improving Agents is now framed as a closed loop coordinated by a central Orchestrator plus shared Blackboard/Memory: Env Setup -> Data Collect -> Policy Training -> Eval Agent -> Diagnosis/Analysis -> targeted Env Setup. Near-term execution has two slices: RoboTwin2 Text2Env as the first Env Setup demo, and Cosmos3-policy / RoboLab WAM self-improvement via rollout memory plus test-time adapters for Policy Training and Diagnosis/Analysis.",
+  "summary": "Self-Improving Agents is framed as an AgenticSim-centered self-improvement loop coordinated by a central Orchestrator plus shared Blackboard/Memory: Env Setup -> Data Collect -> Policy Training -> Eval Agent -> Diagnosis/Analysis -> targeted Env Setup. Alchedata WhatsApp references now add three close neighbors: ENPIRE is the direct collision risk because it already closes a real-robot reset/rollout/evaluate/evolve loop with coding agents; RATs is the closest code-skill-memory analogue through autonomous play; PhyAgentOS is the closest transparent cross-embodiment runtime analogue. Our differentiation should be simulation-first AgenticSim task/environment generation, typed failure/data requirements, executable task packs, governance gates, and WAM/TTT memory adapters before expensive real-robot fleet scaling.",
   "asset": "dashboard/assets/simulator-taxonomy-20260615.png",
   "asset_alt": "Robotics simulator taxonomy comparing task APIs, assets, simulation frameworks, renderers, and physics engines.",
   "asset_caption": "Simulator taxonomy reference: separate task/API layer, asset layer, simulation framework, renderer, and physics engine when choosing the Text2Env / AgenticSim backend.",
@@ -22,6 +22,8 @@
     "Current week work plan from the 2026/06/04-06/08 notes: in RoboTwin2, connect the data collection pipeline, model training path for Pi / OpenVLA-OFT, evaluation, API list, manual-program new task creation, and Env Generator (Text -> Env) with env-description generation plus program coding by a code agent.",
     "Collaboration update 2026-06-13: the Self-Improving working group now includes Xiaoyang from the US office plus Gao Chen, Jingxiang, Yuhang, and Li Zeyi supporting the physical-AI data / self-evolving direction. Keep the existing Tuesday 09:30-10:30 Beijing Alchedata cadence as background unless the group changes it.",
     "WAM direction update 2026-06-13: the initial RL-based self-improving policy plan is no longer the first implementation path because full RL post-training looks compute-heavy and brittle for the current sim benchmarks. The near-term route is WAM self-improving: fuse test-time training / action adaptation with rollout memory instead of trying full RL post-training first.",
+    "Alchedata WhatsApp reference update 2026-06-21: the group shared ENPIRE, Playful RATs, and PhyAgentOS as closely related work. ENPIRE is the strongest collision because its loop is reset -> execute policy -> verify outcome -> refine next iteration in the real world, with Environment, Policy Improvement, Rollout, and Evolution modules managed by coding agents. RATs overlaps with our SkillCall/MemoryStore direction by turning self-directed play into reusable callable code skills. PhyAgentOS overlaps with our agentic robot-brain/runtime story through State-as-a-File, critic-verified actions, hardware watchdogs, and a LESSONS-style experience library.",
+    "Updated positioning 2026-06-21: do not compete with ENPIRE on immediate real-robot fleet automation as the first claim. Use ENPIRE as the real-world upper-bound reference, but make AgenticSim different by starting from simulation-first environment/task generation, source-of-truth task packs, typed failure traces, WAM/TTT memory critics, and governance gates that can later plug into a real reset/eval rig.",
     "Cosmos3-policy / RoboLab execution update 2026-06-13: start from Cosmos3-policy pretrained weights, collect RoboLab rollouts across 120 tasks * 3 difficulties * 10 rollouts = 3600 rollouts, then test whether a single task can self-improve quickly before expanding the loop.",
     "Test-time critic plan 2026-06-13: the critic is still under design. Two concrete candidates are: 1) a database / memory bank that retrieves similar states from historical rollouts and estimates quality from success/failure trajectories; 2) a lightweight head or adapter trained on the 3600 RoboLab rollouts so Cosmos3-policy adapts to benchmark action distribution while test-time updates only the adapter or a small parameter subset.",
     "Reference update 2026-06-04: add InternData-A1 / InternDataEngine as the large-scale synthetic-data engine reference. The useful pattern is not only more simulator tasks, but a decoupled production stack: compositional skill/task assembly, heterogeneous embodiments, rich simulator-state annotations, multi-dimensional randomization, and high-throughput scheduling for policy pretraining data.",
@@ -194,6 +196,25 @@
       "notes": "Direct self-improving robot-policy reference. Uses a compositional world model to predict controllable multi-view futures and a progress value model to estimate advantages, then continuously generates imagined rollouts and updates the policy in imaginary space before real-world deployment."
     },
     {
+      "title": "ENPIRE: Agentic Robot Policy Self-Improvement in the Real World",
+      "url": "https://research.nvidia.com/labs/gear/enpire/",
+      "submitted_at": "2026-06-19",
+      "notes": "Highest-priority collision reference from the Alchedata WhatsApp thread. ENPIRE frames the missing abstraction for robotics research as a repeatable real-world feedback loop: reset the scene, execute a policy, verify the outcome, and refine the next iteration. Its modules map closely to our loop: Environment for automatic reset/verification, Policy Improvement for refinement, Rollout for single/fleet evaluation, and Evolution for coding agents to analyze logs/literature and improve training or algorithm code. Treat it as direct prior art for real-robot agentic self-improvement; differentiate with AgenticSim's simulation-first task/environment generation, typed Data Requirement specs, governance gates, and WAM/TTT memory adapters."
+    },
+    {
+      "title": "Playful Agentic Robot Learning (RATs)",
+      "url": "https://playful-rats.github.io/",
+      "arxiv_id": "2606.19419",
+      "submitted_at": "2026-06-20",
+      "notes": "Closest reference for the skill-memory side: RATs uses self-directed play before downstream tasks arrive, proposes learnable manipulation tasks, executes Code-as-Policy programs, verifies progress, diagnoses failures, retries, and distills successful behavior into a persistent callable code-skill library. For AgenticSim, borrow the competence-frontier / persistent skill-library idea, but keep our stronger simulator task-pack, failure-trace, and policy-training integration."
+    },
+    {
+      "title": "PhyAgentOS: Physical Agent Operation System",
+      "url": "https://github.com/PhyAgentOS/PhyAgentOS",
+      "submitted_at": "2026-06-21",
+      "notes": "Runtime architecture analogue from the Alchedata WhatsApp thread. PhyAgentOS positions itself as a protocol-based self-evolving and cross-embodiment framework with Cognitive-Physical decoupling, State-as-a-File, Planner/Critic verification, hardware watchdog execution, dynamic HAL drivers, safety correction, and a LESSONS.md experience library. Relevant to our robot-brain/control-plane story; less directly focused on simulation-first task generation and policy-improvement datasets."
+    },
+    {
       "title": "Intern report: MolmoAct 2 / self-improving direction",
       "url": "https://docs.google.com/presentation/d/1FNFpXEQoJjUGaMekdncP0OHKxLN05BsgmqFqqzVAZ64/edit?slide=id.p9#slide=id.p9",
       "submitted_at": "2026-06-04",
@@ -219,6 +240,9 @@
     "Edge fallback decision 2026-06-09: the system should not go actionless when network/cloud VLM access fails. Keep a local small VLA/policy fallback such as SmolVLA-style LeRobot policy for safe stop, retry, retreat, and bounded primitive execution.",
     "InternDataEngine adoption risk: useful as a synthetic-data production reference, but license / Isaac Sim stack / cluster scheduling requirements mean it should start as a design reference until a small compatible generation job is tested inside AgenticSim.",
     "RISE collision/differentiation risk: it already covers self-improving robot policy via imagination. Our angle should be MolmoAct-style reasoning VLA plus agentic scene/task generation, trace memory, governance gates, and executable task-pack feedback rather than only imagined RL.",
+    "ENPIRE collision/differentiation risk 2026-06-21: ENPIRE directly overlaps with the agentic real-robot self-improvement loop and has stronger real-world evidence, including automatic reset/evaluation, rollout scaling, and coding-agent evolution. Do not pitch AgenticSim as simply the same reset-rollout-evolve loop. Pitch it as the simulation-first generator/evaluator/memory substrate that can produce typed tasks, failure traces, Data Requirement specs, WAM/TTT adaptation evidence, and governance-checked task packs before a real-robot ENPIRE-style harness is available.",
+    "RATs adoption decision 2026-06-21: use RATs as the reference for autonomous play and persistent callable code skills, but keep our acceptance stricter: skills must be linked to simulator state, failure taxonomy, verifier evidence, task-pack provenance, and downstream policy/eval deltas, not only reusable Code-as-Policy snippets.",
+    "PhyAgentOS boundary 2026-06-21: useful for transparent cognitive-physical decoupling and file/protocol-mediated hardware execution. It should inform our runtime/control-plane design, but it is not enough for the current proposal unless paired with AgenticSim environment generation, policy training/evaluation hooks, and failure-to-data-requirement loops.",
     "Execution routing 2026-06-05: Skill World Model work is the SkillCall memory gate; RLBench->IsaacSim work is the AgenticSim Isaac verifier pilot.",
     "Bridge boundary 2026-06-05: contact-rich VTLA/UMI traces can drive curriculum and failure-memory design, but Self-improving should not depend on tactile hardware until the sim-first oracle or available sensor path is verified."
   ],
@@ -249,6 +273,6 @@
         "value": "Cosmos3 + memory"
       }
     ],
-    "target_note": "Meeting-ready proposal intro for simulation-first AgenticSim, now grounded in a five-agent orchestrator/blackboard loop, a concrete RoboTwin2 Text2Env Env Setup slice, and a Cosmos3-policy / RoboLab WAM self-improvement path."
+    "target_note": "Meeting-ready proposal intro for simulation-first AgenticSim, now grounded in a five-agent orchestrator/blackboard loop, a concrete RoboTwin2 Text2Env Env Setup slice, a Cosmos3-policy / RoboLab WAM self-improvement path, and a clear ENPIRE/RATs/PhyAgentOS differentiation story."
   }
 }
