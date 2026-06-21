@@ -462,6 +462,7 @@
           <a href="#tri-view-proposal">Proposal</a>
           <a href="#main-references">References</a>
           <a href="#current-todos">TODOs</a>
+          <a href="#maskwam-layer-plan">MaskWAM</a>
           <a href="#story-rewrite">Story</a>
           <a href="#method">Method</a>
           <a href="#evaluation">Evaluation</a>
@@ -488,6 +489,8 @@
             <span>Position / velocity / current loops</span>
             <span>Gamma-World</span>
             <span>Qwen-Image-Layered</span>
+            <span>MaskWAM</span>
+            <span>SAM3 mask propagation</span>
             <span>ObjectForesight</span>
           </div>
         </div>
@@ -575,6 +578,10 @@
               <h3><a href="https://arxiv.org/abs/2603.17808">EVA</a> / <a href="https://roboengine.github.io/">RoboEngine</a> / <a href="https://arxiv.org/abs/2007.11898">ORB-SLAM3</a> / <a href="https://arxiv.org/abs/2503.11651">VGGT</a></h3>
               <p>EVA 支撑 IDM 和 executability reward；RoboEngine 支撑 robot/object mask 后的物理任务感知背景替换；ORB-SLAM3 / VGGT 支撑看不见臂时的 VO、SLAM 和 feed-forward visual geometry。</p>
             </article>
+            <article class="panel blue">
+              <h3><a href="https://arxiv.org/abs/2606.13515">MaskWAM</a></h3>
+              <p>mask-centric WAM reference。它的价值不在于替代 UMI layered data，而在于给出 VLM -> SAM3 -> human verification 的可复用 mask acquisition loop，并提示 future-mask prediction 可能应该变成我们的 future-layer / alpha head。</p>
+            </article>
           </div>
         </section>
 
@@ -601,8 +608,74 @@
             </article>
             <article class="panel ok">
               <h3>分图层 / SVG 化数据集准备</h3>
-              <p>小规模验证 robot / object-interaction / scene 三层 pipeline：segment + inpaint、Qwen Image-Layered、ChatGPT image-agent、纯视频模型去 robot layer prompt 和 SVG 结构化表示。</p>
+              <p>小规模验证 robot / object-interaction / scene 三层 pipeline：SAM3+GPT/inpaint、VACE/VAC/VAS、RoboTwin masks、MaskWAM-style VLM/SAM3/human verification、SuperSVG/LIVE/SAM-contour SVG sidecar；Qwen/RevealLayer 保留为负样例。</p>
             </article>
+          </div>
+        </section>
+
+        <section class="section" id="maskwam-layer-plan">
+          <div class="section-title">
+            <div>
+              <p class="eyebrow">2026-06-21 memo backup</p>
+              <h2>MaskWAM 提供 mask 获取管线；UMI 仍然做可重组分图层数据</h2>
+            </div>
+            <p>Downloads memo 已备份到 <a href="memos/maskwam-vs-umi-image-layered-20260621.md">weekly-briefs/memos/maskwam-vs-umi-image-layered-20260621.md</a>。这段是 dashboard 周报版摘要。</p>
+          </div>
+          <figure class="figure-card">
+            <img src="../dashboard/assets/maskwam-annotation-pipeline-20260621.png" alt="MaskWAM annotation pipeline using language annotation, VLM object extraction, SAM3 mask propagation, point prompts, and human verification to produce labeled episodes.">
+            <figcaption>MaskWAM annotation pipeline: language annotation and VLM object extraction initialize SAM3 mask sequences; human point prompts fix failed rounds; accepted masks become labeled episodes.</figcaption>
+          </figure>
+          <div class="grid-3" style="margin-top: 14px;">
+            <article class="panel decision">
+              <h3>Reusable part</h3>
+              <p>Borrow the VLM -> task-relevant objects -> SAM3 text/point-conditioned mask propagation -> human verification loop. It is a practical scaffold for acquiring robot/object/contact/occluder/background pseudo-labels with bounded human correction.</p>
+            </article>
+            <article class="panel warning">
+              <h3>Boundary</h3>
+              <p>MaskWAM is mask-as-policy-supervision: one binary task-object mask is used as prompt and future prediction target inside WAM. UMI should not reduce the dataset to a single transient mask channel.</p>
+            </article>
+            <article class="panel ok">
+              <h3>UMI route</h3>
+              <p>Persist raster mask/RGBA/video truth plus SVG/contact metadata. The v0 dataset decision should require recomposition QA, temporal consistency, FoundationPose/IDM/reward utility, and a flat RGB vs mask-only vs full-layered ablation.</p>
+            </article>
+          </div>
+          <div class="table-card" style="margin-top: 14px;">
+            <table class="evidence-table">
+              <thead>
+                <tr>
+                  <th>Candidate</th>
+                  <th>Use in v0 decision</th>
+                  <th>Gate</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>SAM3 + GPT/inpaint</td>
+                  <td>Immediate practical route for tracked masks and still/background completion.</td>
+                  <td>mask IoU, temporal flicker, inpaint realism, recomposition error.</td>
+                </tr>
+                <tr>
+                  <td>VACE / VAC / VAS</td>
+                  <td>Video inpainting route for robot/object/occluder removal and background recovery.</td>
+                  <td>masked-region temporal consistency and unmasked-region preservation.</td>
+                </tr>
+                <tr>
+                  <td>MaskWAM-style loop</td>
+                  <td>Annotation workflow: VLM object extraction, SAM3 propagation, human verification.</td>
+                  <td>human correction load, mask identity stability, future-mask/future-layer utility.</td>
+                </tr>
+                <tr>
+                  <td>RoboTwin masks</td>
+                  <td>Synthetic bootstrap for object IDs, robot/background masks, and schema validation.</td>
+                  <td>mask ID audit, camera metadata, sim-to-real risk, layer_manifest conversion.</td>
+                </tr>
+                <tr>
+                  <td>SuperSVG / LIVE / SAM-contour</td>
+                  <td>SVG sidecar only: contours, contact patches, scene regions, trajectories.</td>
+                  <td>rasterize-back IoU, path count, topology stability, no RGB replacement claim.</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </section>
 

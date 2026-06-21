@@ -5,7 +5,7 @@
   "subtitle": "World models, self-improving simulators, teleop acceleration, and robotics + 3D printing",
   "week": "2026-W24",
   "date": "2026-06-12",
-  "updated_at": "2026-06-17T23:02:00+08:00",
+  "updated_at": "2026-06-21T17:36:23+08:00",
   "state_root": "dashboard/state",
   "summary": {
     "focus": "Research 主线保持 Tri-View/Image-Layered IDM、Self-Improving Agents 和 DexGello；Survey TODO 已统一 inactive/archived，不再显示为当前执行队列。",
@@ -146,6 +146,11 @@
       "caption": "UMI dataset QA: synchronized wrist views, 3D pose, EEF traces, current segment, and action log after subtask splitting."
     },
     {
+      "src": "dashboard/assets/maskwam-annotation-pipeline-20260621.png",
+      "alt": "MaskWAM annotation pipeline using language annotation, VLM object extraction, SAM3 mask propagation, point prompts, and human verification to produce labeled episodes.",
+      "caption": "MaskWAM annotation pipeline reference: language labels -> task-relevant objects -> SAM3 mask propagation -> human verification -> labeled episodes."
+    },
+    {
       "src": "dashboard/assets/umi-demo.png",
       "alt": "GenRobot UMI monitor demo with dual wrist views, 3D viewer, and timestamped episode metadata",
       "caption": "UMI monitor demo: dual wrist camera views, 3D gripper visualization, playback timeline, and episode metadata."
@@ -157,9 +162,9 @@
       "title": "Tri-View Ego World + IDM overall proposal",
       "project_id": "umi-world-model",
       "href": "/weekly-briefs/#tri-view-proposal",
-      "summary": "Rewrote Tri-View as a two-stage Ego World + IDM foundation-model proposal: shared-context ego-view video generation first, then Image-Layered robot/object/scene decomposition for IDM, process reward, RL supervision, and control decoding.",
+      "summary": "Rewrote Tri-View as a two-stage Ego World + IDM foundation-model proposal; 2026-06-21 update backs up the MaskWAM vs UMI memo and folds the SAM3/VLM/human-verification mask pipeline into the global layered dataset selection gate.",
       "status": "draft",
-      "updated_at": "2026-06-09"
+      "updated_at": "2026-06-21"
     }
   ],
   "project_buckets": [
