@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-21T21:25:00+08:00",
+  "updated_at": "2026-06-21T22:09:19+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -8012,6 +8012,29 @@
         }
       ],
       "updated_at": "2026-06-13T16:21:14+08:00",
+      "started_at": null,
+      "completed_at": null
+    },
+    {
+      "task_id": "task_general_pico_body_tracker_procurement",
+      "project_id": "general",
+      "title": "采购 PICO 体感追踪器验证无基站 tracking 方案",
+      "description": "采购 / 评估用户提供的 Taobao 候选：PICO体感追踪器高精度全身动作捕捉 VRChat 游戏 PC 串连配件，支持 PICO4 Ultra / Pro / 企业版（https://e.tb.cn/h.RJYrA1DxC3kLC24?tk=ojxKghScPGK）。截图候选为官方原装 5 点追踪套装，页面价格 RMB 1109。用途是测试无基站 body tracking route，并与 VIVE Tracker / 基站方案做对照。验收：1) 宇航确认能下单、SKU 为 5 点追踪套装且可顺丰配送；2) 确认是否需要 PICO4 Ultra/Pro/企业版、是否支持 PC 串流 / SDK / 数据导出；3) 到货后记录 pairing、校准、漂移、遮挡、延迟、腰腿 tracking 稳定性；4) 和 VIVE Tracker 做至少一个相同动作序列的对比视频 / 日志；5) 给出是否继续扩展无基站 tracking 方案的结论。",
+      "status": "todo",
+      "priority": "medium",
+      "assignee": "Zheng Yuhang / Boris",
+      "due_at": "",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_general_pico_body_tracker_seed_20260621",
+          "author": "Boris / Codex",
+          "body": "Seeded from 2026-06-21 user request: ask Zheng Yuhang to order one PICO body tracker kit to test a no-base-station tracking route. Taobao candidate is marked 假一赔四 and the screenshot highlights the official 5-point tracker option at RMB 1109.",
+          "created_at": "2026-06-21T22:09:19+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-06-21T22:09:19+08:00",
       "started_at": null,
       "completed_at": null
     }
