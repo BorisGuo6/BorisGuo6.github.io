@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-22T13:00:24.331Z",
+  "updated_at": "2026-06-22T13:13:02.537Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -7058,9 +7058,18 @@
           "body": "Moved Stage 2 project-card logs into this TODO during intro cleanup. The card now keeps only the stable route: SAM3/MaskWAM-style VLM annotation loop -> per-entity matting -> VACE masked-V2V completion -> recomposition QA, with RoboTwin synthetic masks as GT spine and SuperSVG/LIVE/SAM-contour as SVG/contact sidecars. Historical notes now belong here: Qwen Image-Layered and RevealLayer failed current robot-scene semantics and stay negative references; MaskWAM contributes the language/VLM/SAM3/human-verification loop but UMI must extend it to robot/object-contact/occluder/background RGBA/video layers plus layer_manifest.json; selection gate should compare schema, speed/cost, human verification, temporal consistency, recomposition QA, and FoundationPose/IDM/reward utility.",
           "created_at": "2026-06-22T14:32:00+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_d74f49be-e36b-4a8a-a442-5f85720c9609",
+          "task_id": "task_umi_layering_method_selection_global_dataset_plan_20260617",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "更新当前结论：v0 采用 iterative segment + inpaint。顺序为 robot layer -> FLUX.fill/VACE/LaMa 抹除补全 -> task-relevant object/contact/occluder layers 逐个迭代 -> scene/background layer；第三人称/固定机位背景层预期时间变化小，ego/wrist view 需单独 QA temporal consistency。",
+          "created_at": "2026-06-22T12:26:55.819Z"
         }
       ],
-      "updated_at": "2026-06-22T12:26:54.580Z",
+      "updated_at": "2026-06-22T12:26:55.819Z",
       "due_at": "",
       "completed_at": null
     },
@@ -7148,7 +7157,7 @@
       "task_id": "task_umi_cosmos3_wan22_realomni_eval_20260617",
       "project_id": "umi-world-model",
       "title": "继续评测 nvidia/Cosmos3-Nano-Policy-DROID / Wan2.2-TI2V-5B-Diffusers 并推进 RealOmni-Open 数据集测试",
-      "description": "Boris 继续测试 nvidia/Cosmos3-Nano-Policy-DROID 和 Wan2.2-TI2V-5B-Diffusers 的效果，调优 prompt、sampling、view-split 和 RGB artifact 参数；研究 Cosmos3 是否可进入微调路线；推动 GenRobot 10Kh RealOmni-Open Dataset（https://www.genrobot.ai/data/open-dataset）测试，避免只围绕 gov-world demo 类似数据做判断。Acceptance: 记录测试配置、输入数据、输出 gallery、主要失败模式（左右视角分离、RGB 尾色块、view consistency）、Cosmos3 finetune 可行性结论、RealOmni-Open 数据可用性与下一步。",
+      "description": "Boris 继续测试 nvidia/Cosmos3-Nano-Policy-DROID 和 Wan2.2-TI2V-5B-Diffusers / WAN2.2 的效果，调优 prompt、sampling、view-split 和 RGB artifact 参数；研究 Cosmos3 是否可进入微调路线；推动 GenRobot 10Kh RealOmni-Open Dataset（https://www.genrobot.ai/data/open-dataset）测试，避免只围绕 gov-world demo 类似数据做判断。Acceptance: 记录测试配置、输入数据、输出 gallery、主要失败模式（左右视角分离、RGB 尾色块、view consistency）、Cosmos3 finetune 可行性结论、RealOmni-Open 数据可用性与下一步。",
       "status": "done",
       "priority": "high",
       "assignee": "Boris",
@@ -7157,7 +7166,7 @@
         {
           "comment_id": "comment_task_umi_cosmos3_wan22_realomni_eval_seed_20260617",
           "author": "Meeting notes",
-          "body": "Seeded from 2026-06-17 meeting and corrected by Boris: the dataset is GenRobot 10Kh RealOmni-Open Dataset (https://www.genrobot.ai/data/open-dataset). Boris will continue testing nvidia/Cosmos3-Nano-Policy-DROID and WAN2.2 effects, including the prior Wan2.2-TI2V-5B-Diffusers 5B baseline, tune parameters, study whether Cosmos3 can be finetuned, and push RealOmni-Open testing. Prior qualitative note: Cosmos3 has issues separating left/right views; One/Wan prompt results looked better but showed odd RGB tail/color blocks.",
+          "body": "Seeded from 2026-06-17 meeting and corrected by Boris: the dataset is GenRobot 10Kh RealOmni-Open Dataset (https://www.genrobot.ai/data/open-dataset). Boris will continue testing nvidia/Cosmos3-Nano-Policy-DROID and One/Wan2.2 effects, including the prior Wan2.2-TI2V-5B-Diffusers 5B baseline, tune parameters, study whether Cosmos3 can be finetuned, and push RealOmni-Open testing. Prior qualitative note: Cosmos3 has issues separating left/right views; One/Wan prompt results looked better but showed odd RGB tail/color blocks.",
           "created_at": "2026-06-17T22:00:00+08:00",
           "kind": "comment"
         },
@@ -7176,7 +7185,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-22T13:00:26.265Z",
+      "updated_at": "2026-06-22T13:01:47.022Z",
       "due_at": "",
       "completed_at": "2026-06-22"
     },
@@ -7185,7 +7194,7 @@
       "project_id": "umi-world-model",
       "title": "测试 VACE 做 robot-layer 视频 inpainting",
       "description": "把 VACE 加入 Stage 2 video inpainting 路线：用 1-3 个 MolmoAct/Hoi/UMI-style clips 的 tracked masks 做 masked V2V，测试 robot/object/occluder removal 后的 background completion 和 object-contact region completion。Acceptance: VACE 输入准备说明（video、mask、reference/prompt）、运行命令/配置、输出视频与 layer_manifest 对齐、masked-region temporal consistency、unmasked-region preservation、recomposition QA、failure gallery；和 GPT/FLUX still inpaint、RevealLayer single-image completion、segment+inpaint baseline 做定性/定量对照。注意：VACE 负责 raster video inpaint，不替代 SuperSVG/LIVE/SAM-contour 的 SVG sidecar probe。",
-      "status": "todo",
+      "status": "active",
       "priority": "high",
       "assignee": "Boris / Haoyu / Xiaobin",
       "result": null,
@@ -7205,7 +7214,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-22T14:32:00+08:00",
+      "updated_at": "2026-06-22T12:45:12.408Z",
       "due_at": "",
       "completed_at": null
     },
@@ -8088,6 +8097,18 @@
       "updated_at": "2026-06-21T22:09:19+08:00",
       "started_at": null,
       "completed_at": null
+    },
+    {
+      "task_id": "task_umi_layered_pipeline_sam_vace_flux_lama_automation_20260622",
+      "project_id": "umi-world-model",
+      "title": "搭建 SAM2.1/SAM3 + VACE/FLUX.fill/LaMa 分层自动化管线 smoke",
+      "description": "根据 Zoom 与 Layered Image Policy 微信同步，把分层处理从单图手工样例推进到可重复的自动化 smoke pipeline。当前群聊状态：VACE 已在测试；SAM3 Hugging Face access 曾 pending，短期可用 SAM2.1 先跑；Ziyang 尝试 LaMa，本地模型优先；FLUX.fill 作为 still inpaint 推荐候选；GPT image 仍是强 still-frame baseline 但不支持视频。Pipeline 顺序：robot mask/rgba -> inpaint robot removal -> object/contact/occluder mask/rgba -> inpaint removal -> scene/background layer，所有输出保持原始 canvas 尺寸，支持原地 overlay/recomposition。Acceptance: 1) 选 3 个 UMI/MolmoAct/Hoi-style clips，每个抽 20-50 帧或短视频；2) 输出 robot/object/contact/occluder/background 的 mask.png、rgba.png、inpainted_background.png/video、layer_manifest.json；3) 同一输入上比较 VACE、FLUX.fill、LaMa、GPT image baseline 的质量/速度/显存/是否改变画幅；4) SAM2.1 vs SAM3 access/边缘阈值/概率图控制记录；5) overlay/recomposition 与源图对齐检查；6) 失败样例记录，电线等小细节可降权，但 robot/object/background 主体必须正确分离。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Lai / Ziyang / Boris",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-06-22T13:13:02.537Z"
     }
   ]
 }
