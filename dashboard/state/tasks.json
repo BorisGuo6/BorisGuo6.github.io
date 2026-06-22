@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-22T12:35:01.675Z",
+  "updated_at": "2026-06-22T12:41:32.283Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -7109,18 +7109,9 @@
           "body": "Moved Stage 3 utility notes out of the project intro. The utility probe should compare raw RGB, object-only layer, object+background layer, mask-only/SAM, and recomposed layered clips. Report pose/extraction success, occlusion/background interference, whether object/contact layers improve FoundationPose or similar 6D pose pipelines, and whether this utility justifies scaling the global layered dataset.",
           "created_at": "2026-06-22T14:32:00+08:00",
           "kind": "comment"
-        },
-        {
-          "comment_id": "comment_9f22026e-49fb-4eba-838b-3e70ee1f63b3",
-          "task_id": "task_umi_foundationpose_layer_utility_probe_20260617",
-          "author": "Codex",
-          "author_type": "system",
-          "kind": "comment",
-          "body": "更新验证目标：Object Layer 用 Any6D 做 novel object 6D pose/size，用 AllTracker(+DepthAnything-Video) 或 D4RT 做 dense/3D point tracks 和点云 flow；Robot Layer 用 Dr. Robot / Differentiable Robot Rendering 做机械臂 pose estimation。FoundationPose 改为 baseline/备选，不再是唯一验证对象。",
-          "created_at": "2026-06-22T12:35:01.675Z"
         }
       ],
-      "updated_at": "2026-06-22T12:35:01.675Z",
+      "updated_at": "2026-06-22T12:41:32.283Z",
       "due_at": "",
       "completed_at": null
     },
