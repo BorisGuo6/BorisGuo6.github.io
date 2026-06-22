@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-22T12:41:32.283Z",
+  "updated_at": "2026-06-22T12:53:52.785Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -7148,7 +7148,7 @@
       "task_id": "task_umi_cosmos3_wan22_realomni_eval_20260617",
       "project_id": "umi-world-model",
       "title": "继续评测 nvidia/Cosmos3-Nano-Policy-DROID / Wan2.2-TI2V-5B-Diffusers 并推进 RealOmni-Open 数据集测试",
-      "description": "Boris 继续测试 nvidia/Cosmos3-Nano-Policy-DROID 和 Wan2.2-TI2V-5B-Diffusers / One2.2 的效果，调优 prompt、sampling、view-split 和 RGB artifact 参数；研究 Cosmos3 是否可进入微调路线；推动 GenRobot 10Kh RealOmni-Open Dataset（https://www.genrobot.ai/data/open-dataset）测试，避免只围绕 gov-world demo 类似数据做判断。Acceptance: 记录测试配置、输入数据、输出 gallery、主要失败模式（左右视角分离、RGB 尾色块、view consistency）、Cosmos3 finetune 可行性结论、RealOmni-Open 数据可用性与下一步。",
+      "description": "Boris 继续测试 nvidia/Cosmos3-Nano-Policy-DROID 和 Wan2.2-TI2V-5B-Diffusers 的效果，调优 prompt、sampling、view-split 和 RGB artifact 参数；研究 Cosmos3 是否可进入微调路线；推动 GenRobot 10Kh RealOmni-Open Dataset（https://www.genrobot.ai/data/open-dataset）测试，避免只围绕 gov-world demo 类似数据做判断。Acceptance: 记录测试配置、输入数据、输出 gallery、主要失败模式（左右视角分离、RGB 尾色块、view consistency）、Cosmos3 finetune 可行性结论、RealOmni-Open 数据可用性与下一步。",
       "status": "done",
       "priority": "high",
       "assignee": "Boris",
@@ -7157,7 +7157,7 @@
         {
           "comment_id": "comment_task_umi_cosmos3_wan22_realomni_eval_seed_20260617",
           "author": "Meeting notes",
-          "body": "Seeded from 2026-06-17 meeting and corrected by Boris: the dataset is GenRobot 10Kh RealOmni-Open Dataset (https://www.genrobot.ai/data/open-dataset). Boris will continue testing nvidia/Cosmos3-Nano-Policy-DROID and One/Wan2.2 effects, including the prior Wan2.2-TI2V-5B-Diffusers 5B baseline, tune parameters, study whether Cosmos3 can be finetuned, and push RealOmni-Open testing. Prior qualitative note: Cosmos3 has issues separating left/right views; One/Wan prompt results looked better but showed odd RGB tail/color blocks.",
+          "body": "Seeded from 2026-06-17 meeting and corrected by Boris: the dataset is GenRobot 10Kh RealOmni-Open Dataset (https://www.genrobot.ai/data/open-dataset). Boris will continue testing nvidia/Cosmos3-Nano-Policy-DROID and WAN2.2 effects, including the prior Wan2.2-TI2V-5B-Diffusers 5B baseline, tune parameters, study whether Cosmos3 can be finetuned, and push RealOmni-Open testing. Prior qualitative note: Cosmos3 has issues separating left/right views; One/Wan prompt results looked better but showed odd RGB tail/color blocks.",
           "created_at": "2026-06-17T22:00:00+08:00",
           "kind": "comment"
         },
