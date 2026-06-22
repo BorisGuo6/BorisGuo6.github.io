@@ -230,6 +230,22 @@ assert.match(
   /seed-vercel-dashboard-blob\.mjs/,
   "Vercel Blob seed script should be available",
 );
+const packageJson = JSON.parse(await readFile(new URL("../package.json", import.meta.url), "utf8"));
+assert.match(
+  packageJson.scripts["vercel:pull-blob"],
+  /pull-vercel-dashboard-blob\.mjs/,
+  "Vercel Blob pull script should be available so local state mirrors hosted state",
+);
+assert.match(
+  await readFile(new URL("../scripts/seed-vercel-dashboard-blob.mjs", import.meta.url), "utf8"),
+  /Refusing to overwrite Vercel Blob from local JSON without --force/,
+  "Vercel Blob seed script should refuse accidental local-to-remote overwrites",
+);
+assert.match(
+  agentsSource,
+  /Vercel Blob is the mutable source of truth[\s\S]+vercel:pull-blob[\s\S]+Do not use `npm run vercel:seed-blob`/,
+  "AGENTS.md should document remote-first dashboard sync",
+);
 
 let dashboardWeeklyBriefEntries = [];
 try {

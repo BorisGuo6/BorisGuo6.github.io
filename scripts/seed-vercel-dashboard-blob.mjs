@@ -14,6 +14,15 @@ function requireEnv(name) {
 }
 
 async function main() {
+  const force = process.argv.includes("--force") || process.env.DASHBOARD_ALLOW_BLOB_SEED === "1";
+  if (!force) {
+    throw new Error(
+      "Refusing to overwrite Vercel Blob from local JSON without --force. "
+      + "Daily workflow is remote-first: run `npm run vercel:pull-blob` to sync local state from Blob, "
+      + "or use hosted dashboard APIs for task edits. For explicit disaster recovery only, run "
+      + "`DASHBOARD_ALLOW_BLOB_SEED=1 npm run vercel:seed-blob` or `npm run vercel:seed-blob:force`.",
+    );
+  }
   requireEnv("BLOB_READ_WRITE_TOKEN");
   const pathname = process.env.DASHBOARD_BLOB_PATH || defaultDashboardBlobPath;
   const snapshot = await loadBundledDashboardSnapshot({

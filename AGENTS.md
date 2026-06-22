@@ -14,6 +14,15 @@ The hosted dashboard is the cross-agent task control plane.
 - Machine-readable state: `https://jingxiangguo.com/api/dashboard/state`
 - Health check: `https://jingxiangguo.com/api/dashboard/health`
 
+Vercel Blob is the mutable source of truth. Local `dashboard/state/*.json` files are a Git/static fallback mirror, not the primary write target. Before editing local dashboard state files, sync from the hosted Blob:
+
+```bash
+set -a; source .env.local; set +a
+HTTP_PROXY=http://127.0.0.1:7993 HTTPS_PROXY=http://127.0.0.1:7993 NODE_USE_ENV_PROXY=1 npm run vercel:pull-blob
+```
+
+Do not use `npm run vercel:seed-blob` for normal work. It overwrites the hosted Blob from local JSON and is guarded for disaster recovery only. Prefer hosted API writes, then run `npm run vercel:pull-blob` and commit the mirrored local state if a Git backup is needed.
+
 Before updating a task, read the machine-readable state and locate the relevant `task_id` under `taskDoc.tasks`. Use task statuses only from this set: `todo`, `active`, `blocked`, `needs_user`, `review`, `done`.
 
 Hosted writes require `DASHBOARD_WRITE_TOKEN`. Do not print, commit, or paste the token into comments. Send it as `x-dashboard-token: $DASHBOARD_WRITE_TOKEN` or `Authorization: Bearer $DASHBOARD_WRITE_TOKEN`.

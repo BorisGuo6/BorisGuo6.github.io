@@ -5,6 +5,7 @@ import {
 } from "./dashboard-state-snapshot.mjs";
 
 export const defaultDashboardBlobPath = "dashboard-state/embodied-ai-dashboard.json";
+export const defaultDashboardBlobBackupPrefix = "dashboard-state/backups";
 
 function dashboardBlobPath(env = process.env) {
   return env.DASHBOARD_BLOB_PATH || defaultDashboardBlobPath;
@@ -16,6 +17,17 @@ export function isVercelBlobConfigured(env = process.env) {
 
 async function blobClient() {
   return import("@vercel/blob");
+}
+
+function timestampForPath(now = new Date()) {
+  return now.toISOString().replace(/[:.]/g, "-");
+}
+
+function backupPathForBlob(pathname, now = new Date()) {
+  const leaf = pathname.split("/").pop() || "dashboard-state.json";
+  const baseName = leaf.replace(/\.json$/i, "");
+  const suffix = Math.random().toString(36).slice(2, 8);
+  return `${defaultDashboardBlobBackupPrefix}/${baseName}-${timestampForPath(now)}-${suffix}.json`;
 }
 
 export async function readVercelBlobSnapshot(options = {}) {
@@ -57,6 +69,26 @@ export async function writeVercelBlobSnapshot(snapshot, options = {}) {
   }
   const pathname = options.pathname || dashboardBlobPath(env);
   const { put } = await blobClient();
+  let backup = null;
+  const shouldBackup = options.backupBeforeWrite !== false
+    && env.DASHBOARD_DISABLE_BLOB_BACKUP !== "1"
+    && !pathname.includes("/backups/");
+  if (shouldBackup) {
+    const previous = await readVercelBlobSnapshot({ env, pathname });
+    if (previous?.snapshot) {
+      const backupPath = options.backupPath || backupPathForBlob(pathname, options.now || new Date());
+      backup = await put(backupPath, serializeDashboardSnapshot({
+        ...previous.snapshot,
+        source: "vercel-blob-backup",
+      }), {
+        access: "public",
+        addRandomSuffix: false,
+        allowOverwrite: false,
+        cacheControlMaxAge: 0,
+        token,
+      });
+    }
+  }
   const blob = await put(pathname, serializeDashboardSnapshot({
     ...snapshot,
     source: "vercel-blob",
@@ -67,7 +99,7 @@ export async function writeVercelBlobSnapshot(snapshot, options = {}) {
     cacheControlMaxAge: 0,
     token,
   });
-  return blob;
+  return backup ? { ...blob, backup } : blob;
 }
 
 export async function loadVercelDashboardSnapshot(options = {}) {

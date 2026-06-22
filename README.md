@@ -21,19 +21,31 @@ Initial setup order:
 1. Create or link the Vercel project.
 2. Add a Vercel Blob store and expose `BLOB_READ_WRITE_TOKEN` to production and preview.
 3. Add a private `DASHBOARD_WRITE_TOKEN` value to production and preview.
-4. Seed the hosted dashboard snapshot:
+4. Seed the hosted dashboard snapshot once, only if no Blob snapshot exists yet:
 
 ```bash
-BLOB_READ_WRITE_TOKEN=... npm run vercel:seed-blob
+BLOB_READ_WRITE_TOKEN=... npm run vercel:seed-blob:force
 ```
 
 5. Deploy the site. Open `/dashboard/`; use the `Unlock` field with `DASHBOARD_WRITE_TOKEN` for hosted edits.
+
+Daily dashboard workflow is remote-first. Vercel Blob is the mutable source of truth; local JSON is a mirror for Git
+history and static fallback. Before editing `dashboard/state/*.json`, pull the hosted snapshot:
+
+```bash
+npm run vercel:pull-blob
+```
+
+Do not run `npm run vercel:seed-blob` for normal task/status/comment work. That command intentionally refuses to run
+without `--force`/`DASHBOARD_ALLOW_BLOB_SEED=1` because it overwrites the hosted Blob from local JSON. Hosted task edits
+should go through `/api/dashboard/*` first, then pull Blob back into local files before committing.
 
 Useful checks:
 
 ```bash
 npm run test:dashboard
 node --check scripts/dashboard-vercel-api.mjs
+npm run vercel:pull-blob -- --dry-run
 ```
 
 Supported hosted mutations:
