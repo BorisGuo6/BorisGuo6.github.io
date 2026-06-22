@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-22T14:16:00+08:00",
+  "updated_at": "2026-06-22T14:32:00+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -7015,9 +7015,16 @@
           "body": "Raw sensitivity probe added on the remote DiffSynth workspace: scripts_umi/probe_paired_condition_sensitivity.py. For paired_outres_actcons ac0.2 step-64 row0, actual-vs-zero/time_view_only/wrongrow noise prediction deltas were tiny in the high expert (~0.006 MAE, 0.58-0.68% relative) and larger but still insufficient in the low expert (~0.081-0.096 MAE, 6.6-7.8% relative). Interpretation: existing output-residual + auxiliary action/state head mostly leaves the high-noise stage uncontrolled, so video rollout can drift before low expert correction. Prepared next route: scripts_umi/launch_a14b_paired_xctx_control_grid8.sh, which enables UMI_BLOCK_CONTROL_USE_X_CONTEXT=1 plus paired dual branch and output residual. Launch is waiting because the 8 H20 GPUs are currently occupied by Gamma-World/Cosmos2.5 training.",
           "created_at": "2026-06-21T22:51:38+08:00",
           "kind": "progress"
+        },
+        {
+          "comment_id": "comment_umi_intro_cleanup_stage1_20260622",
+          "author": "Codex dashboard cleanup",
+          "body": "Moved Stage 1 project-card logs into this task during the 2026-06-22 intro cleanup. Stable card text now only says: Wan2.1 dual-wrist / tri-view shared-context world modeling, with Gamma-World, COMBO, and Solaris as multi-agent / multi-view references and Wan2.2-TI2V-5B-Diffusers + nvidia/Cosmos3-Nano-Policy-DROID as exact baselines. Detailed Wan2.2-A14B experiment notes should stay here: output-residual/action-consistency/head-only/base-preservation sweeps showed intermittent condition sensitivity but failed reliable base-quality/action gates. Current guardrail: base visual preservation first, then zero/time/wrong-row action gates; no more project-intro accumulation for each adapter sweep.",
+          "created_at": "2026-06-22T14:32:00+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-21T22:51:38+08:00",
+      "updated_at": "2026-06-22T14:32:00+08:00",
       "due_at": "",
       "completed_at": "2026-06-22"
     },
@@ -7044,9 +7051,16 @@
           "body": "Updated 2026-06-21 with MaskWAM data-pipeline reference. Imported the annotation-pipeline figure to dashboard/assets/maskwam-annotation-pipeline-20260621.png and backed up the Downloads memo at weekly-briefs/memos/maskwam-vs-umi-image-layered-20260621.md. Practical takeaway for this TODO: use MaskWAM's VLM -> SAM3 -> human-verification loop as a mask acquisition scaffold, but choose the UMI v0 route by layer outputs and utility: named robot/object-contact/occluder/scene pseudo-labels, inpainted background, SVG/contact metadata, recomposition QA, temporal consistency, and FoundationPose/IDM/reward ablations.",
           "created_at": "2026-06-21T17:36:23+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_umi_intro_cleanup_stage2_20260622",
+          "author": "Codex dashboard cleanup",
+          "body": "Moved Stage 2 project-card logs into this TODO during intro cleanup. The card now keeps only the stable route: SAM3/MaskWAM-style VLM annotation loop -> per-entity matting -> VACE masked-V2V completion -> recomposition QA, with RoboTwin synthetic masks as GT spine and SuperSVG/LIVE/SAM-contour as SVG/contact sidecars. Historical notes now belong here: Qwen Image-Layered and RevealLayer failed current robot-scene semantics and stay negative references; MaskWAM contributes the language/VLM/SAM3/human-verification loop but UMI must extend it to robot/object-contact/occluder/background RGBA/video layers plus layer_manifest.json; selection gate should compare schema, speed/cost, human verification, temporal consistency, recomposition QA, and FoundationPose/IDM/reward utility.",
+          "created_at": "2026-06-22T14:32:00+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-21T17:36:23+08:00",
+      "updated_at": "2026-06-22T14:32:00+08:00",
       "due_at": "",
       "completed_at": null
     },
@@ -7088,9 +7102,16 @@
           "body": "Seeded from 2026-06-17 meeting: Boris suggested testing layered outputs in FoundationPose; Ziyang should try object layer versus object+background layer for object extraction. Optional later extension: object flow / optical flow methods after initial layering results exist.",
           "created_at": "2026-06-17T22:00:00+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_umi_intro_cleanup_stage3_20260622",
+          "author": "Codex dashboard cleanup",
+          "body": "Moved Stage 3 utility notes out of the project intro. The utility probe should compare raw RGB, object-only layer, object+background layer, mask-only/SAM, and recomposed layered clips. Report pose/extraction success, occlusion/background interference, whether object/contact layers improve FoundationPose or similar 6D pose pipelines, and whether this utility justifies scaling the global layered dataset.",
+          "created_at": "2026-06-22T14:32:00+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-17T22:00:00+08:00",
+      "updated_at": "2026-06-22T14:32:00+08:00",
       "due_at": "",
       "completed_at": null
     },
@@ -7146,9 +7167,16 @@
           "body": "Correction 2026-06-17: canonical dataset is GenRobot 10Kh RealOmni-Open Dataset. URL: https://www.genrobot.ai/data/open-dataset.",
           "created_at": "2026-06-17T22:12:00+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_umi_intro_cleanup_model_names_20260622",
+          "author": "Codex dashboard cleanup",
+          "body": "Moved model-name/baseline identity note out of the project intro. Dashboard-facing names should stay exact: Wan2.2-TI2V-5B-Diffusers for the 5B WAN prior baseline and nvidia/Cosmos3-Nano-Policy-DROID for Cosmos. Local artifact names may include Turbo/Diffusers path labels, but report text should preserve these exact public model identities.",
+          "created_at": "2026-06-22T14:32:00+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-17T23:14:00+08:00",
+      "updated_at": "2026-06-22T14:32:00+08:00",
       "due_at": "",
       "completed_at": "2026-06-22"
     },
@@ -7168,9 +7196,16 @@
           "body": "Seeded from Boris note: video inpainting 可以试 VACE. Public refs: ali-vilab/VACE describes all-in-one R2V/V2V/masked V2V editing; Wan2.1 release includes VACE inference/code/weights. Use after mask tracking to fill removed robot/object/occluder regions and evaluate temporal consistency plus unmasked-region preservation. Keep this separate from SVG vectorization: SVG is contour metadata; VACE is raster video completion.",
           "created_at": "2026-06-17T21:17:00+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_umi_intro_cleanup_vace_20260622",
+          "author": "Codex dashboard cleanup",
+          "body": "Moved VACE placement note out of the project intro. VACE owns temporally coherent raster video inpaint/background completion after masks are tracked: prepare video + mask + prompt/reference, test robot/object/occluder removal and completion, measure masked-region temporal consistency and unmasked-region preservation, then compare with still-image GPT/FLUX/inpaint and segment+inpaint baselines. SVG remains only a sidecar/metadata route, not a replacement for raster RGBA/video truth.",
+          "created_at": "2026-06-22T14:32:00+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-19T23:00:27+08:00",
+      "updated_at": "2026-06-22T14:32:00+08:00",
       "due_at": "",
       "completed_at": null
     },
@@ -7397,9 +7432,16 @@
           "body": "Route decision: SVG 化可行，但只作为分层 mask/contour/contact/trajectory 的结构化表示；RGB/alpha layer 仍保留 PNG/video。短期验收以 SAM mask -> SVG contour -> rasterize-back QA 为准；SAMVG is no longer an active implementation target unless code appears, so SuperSVG replaces it as the near-term SAMVG-like candidate. LIVE remains the layer-wise still-frame vectorization baseline; StarVector / OmniSVG are optional SVG probes; DiffVG is useful only as differentiable rasterization/optimization support. VectorFusion/SVGDreamer are text-to-SVG/icon/sketch style references and should not be the faithful robot-layer label mainline.",
           "created_at": "2026-06-17T20:09:30+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_umi_intro_cleanup_svg_20260622",
+          "author": "Codex dashboard cleanup",
+          "body": "Moved SVG-vectorization notes out of the project intro. Keep the implementation record here: SAMVG has no open code; SuperSVG + LIVE are the active SVG 化 probes, StarVector/OmniSVG are optional, and SAM/SAM3 mask-to-contour tracing remains the practical baseline. SVG is a structure/contact/contour sidecar; raster mask/RGBA/video remains training truth.",
+          "created_at": "2026-06-22T14:32:00+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-19T23:00:27+08:00",
+      "updated_at": "2026-06-22T14:32:00+08:00",
       "due_at": "",
       "completed_at": "2026-06-22"
     },
