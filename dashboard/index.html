@@ -177,6 +177,7 @@
         const persistedTextCollapseState = readTextCollapseState();
         const textCollapseState = new Map(Object.entries(persistedTextCollapseState.states));
         const userTextCollapseKeys = new Set(persistedTextCollapseState.userKeys);
+        const textTogglePointerState = new WeakMap();
         let detailsRenderDepth = 0;
         const maxCommentLength = 4000;
         const isLocalDashboard = ["127.0.0.1", "localhost", "::1"].includes(window.location.hostname);
@@ -278,6 +279,68 @@
           element.classList.toggle(expandedClass, Boolean(expanded));
           element.setAttribute("aria-expanded", String(Boolean(expanded)));
           element.title = expanded ? "Click to collapse text" : "Click to expand text";
+        }
+
+        function selectionIntersectsElement(element) {
+          const selection = window.getSelection?.();
+          if (!element || !selection || selection.isCollapsed || !selection.toString().trim()) {
+            return false;
+          }
+          for (let index = 0; index < selection.rangeCount; index += 1) {
+            const range = selection.getRangeAt(index);
+            if (element.contains(range.commonAncestorContainer)) {
+              return true;
+            }
+            try {
+              if (range.intersectsNode(element)) {
+                return true;
+              }
+            } catch (error) {
+              // Ignore detached/unsupported range checks.
+            }
+          }
+          return false;
+        }
+
+        function recordTextTogglePointerStart(event, element) {
+          if (!element || event.button > 0) {
+            return;
+          }
+          textTogglePointerState.set(element, {
+            x: event.clientX,
+            y: event.clientY,
+          });
+        }
+
+        function pointerMovedDuringTextToggle(event, element) {
+          const start = textTogglePointerState.get(element);
+          if (!start || typeof event.clientX !== "number" || typeof event.clientY !== "number") {
+            return false;
+          }
+          const dx = event.clientX - start.x;
+          const dy = event.clientY - start.y;
+          return Math.hypot(dx, dy) > 6;
+        }
+
+        function shouldIgnoreTextToggleClick(event, element) {
+          if (!event || event.defaultPrevented) {
+            return true;
+          }
+          if (event.button > 0 || event.metaKey || event.ctrlKey || event.altKey || event.shiftKey) {
+            return true;
+          }
+          if (event.target?.closest?.("a, button, input, textarea, select, summary, [contenteditable='true']")) {
+            return true;
+          }
+          return pointerMovedDuringTextToggle(event, element) || selectionIntersectsElement(element);
+        }
+
+        function toggleTextCollapseElement(element, expandedClass = "expanded", titleLabel = "text") {
+          const expanded = element.classList.toggle(expandedClass);
+          element.setAttribute("aria-expanded", String(expanded));
+          element.title = expanded ? `Click to collapse ${titleLabel}` : `Click to expand ${titleLabel}`;
+          recordTextCollapseState(element.dataset.textCollapseKey, expanded);
+          return expanded;
         }
 
         function writeLocalState() {
@@ -951,25 +1014,25 @@
             return;
           }
           element.dataset.autoCollapseBound = "true";
-          const toggle = (event) => {
+          const toggle = () => {
             if (!element.classList.contains("auto-text-collapsible")) {
               return;
             }
-            if (event?.target?.closest?.("a, button, input, textarea, summary")) {
+            toggleTextCollapseElement(element, expandedClass);
+          };
+          element.addEventListener("pointerdown", (event) => recordTextTogglePointerStart(event, element));
+          element.addEventListener("click", (event) => {
+            if (shouldIgnoreTextToggleClick(event, element)) {
               return;
             }
-            const expanded = element.classList.toggle(expandedClass);
-            element.setAttribute("aria-expanded", String(expanded));
-            element.title = expanded ? "Click to collapse text" : "Click to expand text";
-            recordTextCollapseState(element.dataset.textCollapseKey, expanded);
-          };
-          element.addEventListener("click", toggle);
+            toggle();
+          });
           element.addEventListener("keydown", (event) => {
             if (event.key !== "Enter" && event.key !== " ") {
               return;
             }
             event.preventDefault();
-            toggle(event);
+            toggle();
           });
         }
 
@@ -1631,12 +1694,15 @@
           if (!intro.dataset.collapseBound) {
             intro.dataset.collapseBound = "true";
             const toggleIntro = () => {
-              const expanded = intro.classList.toggle("is-expanded");
-              intro.setAttribute("aria-expanded", String(expanded));
-              intro.title = expanded ? "Click to collapse intro" : "Click to expand intro";
-              recordTextCollapseState(intro.dataset.textCollapseKey, expanded);
+              toggleTextCollapseElement(intro, "is-expanded", "intro");
             };
-            intro.addEventListener("click", toggleIntro);
+            intro.addEventListener("pointerdown", (event) => recordTextTogglePointerStart(event, intro));
+            intro.addEventListener("click", (event) => {
+              if (shouldIgnoreTextToggleClick(event, intro)) {
+                return;
+              }
+              toggleIntro();
+            });
             intro.addEventListener("keydown", (event) => {
               if (event.key === "Enter" || event.key === " ") {
                 event.preventDefault();
@@ -1786,7 +1852,13 @@
             body,
             textCollapseState.has(body.dataset.textCollapseKey) ? textCollapseState.get(body.dataset.textCollapseKey) : false,
           );
-          body.addEventListener("click", () => toggleCommentBody(body));
+          body.addEventListener("pointerdown", (event) => recordTextTogglePointerStart(event, body));
+          body.addEventListener("click", (event) => {
+            if (shouldIgnoreTextToggleClick(event, body)) {
+              return;
+            }
+            toggleCommentBody(body);
+          });
           body.addEventListener("keydown", (event) => {
             if (event.key !== "Enter" && event.key !== " ") {
               return;
@@ -1798,10 +1870,7 @@
         }
 
         function toggleCommentBody(body) {
-          const expanded = body.classList.toggle("expanded");
-          body.setAttribute("aria-expanded", expanded ? "true" : "false");
-          body.title = expanded ? "Click to collapse text" : "Click to expand text";
-          recordTextCollapseState(body.dataset.textCollapseKey, expanded);
+          toggleTextCollapseElement(body);
         }
 
         function canDeleteComment(comment) {

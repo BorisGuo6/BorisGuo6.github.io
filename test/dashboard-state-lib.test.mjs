@@ -212,6 +212,21 @@ assert.match(
 );
 assert.match(
   dashboardSource,
+  /function selectionIntersectsElement\(/,
+  "dashboard collapsible text should detect active text selection before toggling",
+);
+assert.match(
+  dashboardSource,
+  /function shouldIgnoreTextToggleClick\(/,
+  "dashboard collapsible text should ignore selection/drag clicks so copying expanded text does not collapse it",
+);
+assert.match(
+  dashboardSource,
+  /pointerMovedDuringTextToggle\(event, element\) \|\| selectionIntersectsElement\(element\)/,
+  "dashboard text collapse click guard should treat pointer drag and selected text as non-toggle interactions",
+);
+assert.match(
+  dashboardSource,
   /api\/dashboard\/state/,
   "dashboard agent prompt should point agents at the machine-readable state endpoint",
 );
