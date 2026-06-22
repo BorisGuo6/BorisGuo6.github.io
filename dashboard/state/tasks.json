@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-21T22:51:38+08:00",
+  "updated_at": "2026-06-22T10:05:00+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -6974,10 +6974,10 @@
       "project_id": "umi-world-model",
       "title": "实现 Wan2.1 双腕拼接 baseline 与 dual-latent 结构草案",
       "description": "根据 2026-06-17 UMI Model Structure 更新，先用 Wan2.1 而不是 Wan2.2 做 Route A/B：Route A 为左右 wrist-camera 画面拼接后送入 Wan2.1 finetune，数据源先检查 10Kh RealOmni-Open Dataset，完成 text annotation 与 video stitching recipe；Route B 为 shared-backbone dual-branch Wan2.1 训练草案：left/right video latent、view embedding、robot proprio/state、future action、camera pose/calibration、task text tokens、cross-view fusion、shared Wan2.1 backbone、dual prediction heads / shared VAE decoder。Wan2.2-A14B 只作为后续对照，因为其 high-noise / low-noise MoE 需要分专家训练和组合验证。AutoDL 训练约束：按单机最多 8 卡设计，不依赖跨机分布式训练。Acceptance: 数据可用性与字段审计、拼接 baseline manifest、dual-latent token schema、Wan2.1 单机 8-GPU 内可跑的训练配置/伪代码、显存/批量/梯度累积或 checkpointing 方案、Wan2.2 high/low 复杂度说明、与 Gamma-World baseline 和后续 Image-Layered/SVG track 的边界说明。",
-      "status": "active",
+      "status": "done",
       "priority": "high",
       "assignee": "Boris / Haoyu / Xiaobin",
-      "result": null,
+      "result": "Closed on 2026-06-22 per Boris: UMI should keep only three open TODOs now (VACE video inpainting, global layered dataset plan, and FoundationPose layer utility). This item is no longer an active UMI TODO; preserve its prior notes as background/context.",
       "comments": [
         {
           "comment_id": "comment_task_umi_wan21_dual_wrist_structure_seed_20260617",
@@ -7017,7 +7017,7 @@
       ],
       "updated_at": "2026-06-21T22:51:38+08:00",
       "due_at": "",
-      "completed_at": null
+      "completed_at": "2026-06-22"
     },
     {
       "task_id": "task_umi_layering_method_selection_global_dataset_plan_20260617",
@@ -7053,10 +7053,10 @@
       "project_id": "umi-world-model",
       "title": "敲定 6/8 卡单机迁移与公司 GPU 资源方案",
       "description": "在 AutoDL 不能跨机分布式训练的约束下，跟进六卡/八卡机器迁移和公司更多 GPU 资源申请，确保 Wan2.1 dual-wrist 训练能在单机 4/6/8 卡内启动。Acceptance: 当前可用机器清单、6/8 卡迁移计划、训练存储/数据路径、预计显存与 batch/frames/resolution 配置、是否需要公司额外 GPU、无法获取更多卡时的降级训练配置。",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignee": "Boris / Haoyu",
-      "result": null,
+      "result": "Closed on 2026-06-22 per Boris: UMI should keep only three open TODOs now (VACE video inpainting, global layered dataset plan, and FoundationPose layer utility). This item is no longer an active UMI TODO; preserve its prior notes as background/context.",
       "comments": [
         {
           "comment_id": "comment_task_umi_gpu_resource_single_node_plan_seed_20260617",
@@ -7068,7 +7068,7 @@
       ],
       "updated_at": "2026-06-17T22:00:00+08:00",
       "due_at": "",
-      "completed_at": null
+      "completed_at": "2026-06-22"
     },
     {
       "task_id": "task_umi_foundationpose_layer_utility_probe_20260617",
@@ -7126,10 +7126,10 @@
       "project_id": "umi-world-model",
       "title": "继续评测 nvidia/Cosmos3-Nano-Policy-DROID / Wan2.2-TI2V-5B-Diffusers 并推进 RealOmni-Open 数据集测试",
       "description": "Boris 继续测试 nvidia/Cosmos3-Nano-Policy-DROID 和 Wan2.2-TI2V-5B-Diffusers / One2.2 的效果，调优 prompt、sampling、view-split 和 RGB artifact 参数；研究 Cosmos3 是否可进入微调路线；推动 GenRobot 10Kh RealOmni-Open Dataset（https://www.genrobot.ai/data/open-dataset）测试，避免只围绕 gov-world demo 类似数据做判断。Acceptance: 记录测试配置、输入数据、输出 gallery、主要失败模式（左右视角分离、RGB 尾色块、view consistency）、Cosmos3 finetune 可行性结论、RealOmni-Open 数据可用性与下一步。",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignee": "Boris",
-      "result": null,
+      "result": "Closed on 2026-06-22 per Boris: UMI should keep only three open TODOs now (VACE video inpainting, global layered dataset plan, and FoundationPose layer utility). This item is no longer an active UMI TODO; preserve its prior notes as background/context.",
       "comments": [
         {
           "comment_id": "comment_task_umi_cosmos3_wan22_realomni_eval_seed_20260617",
@@ -7148,7 +7148,7 @@
       ],
       "updated_at": "2026-06-17T23:14:00+08:00",
       "due_at": "",
-      "completed_at": null
+      "completed_at": "2026-06-22"
     },
     {
       "task_id": "task_umi_vace_video_inpainting_probe_20260617",
@@ -7177,10 +7177,10 @@
       "project_id": "umi-world-model",
       "title": "对比 MaskWAM mask pipeline 与 UMI 分图层路线",
       "description": "阅读 MaskWAM (arXiv:2606.13515) 的 mask processing pipeline，尤其是 language annotation / VLM task-object extraction、SAM3 text/point-conditioned mask propagation、human verification、mask prompt、future mask prediction、Mixture-of-Transformers / WAM integration、数据预处理和人机 interaction 设置；对比它与 UMI Image-Layered Robot Data 的差异。我们不是只 segment 出 mask，而是做 robot/object-contact/occluder/scene 的可重组 RGBA/video layer decomposition，配套 inpaint、SVG sidecar、recomposition QA、IDM/reward/background replacement。Acceptance: 一页对照 memo、pipeline 图解、可复用组件列表、差异化 contribution statement、评估指标对齐表、是否需要把 future-mask prediction 加入我们的 layer heads。",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignee": "Boris / Haoyu / Xiaobin",
-      "result": null,
+      "result": "Closed on 2026-06-22 per Boris: UMI should keep only three open TODOs now (VACE video inpainting, global layered dataset plan, and FoundationPose layer utility). This item is no longer an active UMI TODO; preserve its prior notes as background/context.",
       "comments": [
         {
           "comment_id": "comment_task_umi_maskwam_pipeline_comparison_seed_20260617",
@@ -7199,17 +7199,17 @@
       ],
       "updated_at": "2026-06-21T17:36:23+08:00",
       "due_at": "",
-      "completed_at": null
+      "completed_at": "2026-06-22"
     },
     {
       "task_id": "task_umi_robotwin_mask_dataset_audit_20260617",
       "project_id": "umi-world-model",
       "title": "检查 RoboTwin 已提供 mask 的数据",
       "description": "审计 RoboTwin/RoboTwin 2.0 里已提供或可导出的 mask 数据：确认灰度 mask 的 ID 编码、每个物体/机器人/背景的拆分方式、相机视角、episode 文件结构、object metadata、是否来自 SAPIEN segmentation，以及能否直接转成 robot、object/contact、occluder、scene/background 的 layer pseudo-label。Acceptance: 记录数据下载/生成入口、样例 episode 路径、mask -> object_id 映射、3-5 帧可视化、转换到 layer_manifest.json 的 schema、可用/不可用字段、sim-to-real 风险、是否值得作为 Image-Layered Robot Data 的 synthetic mask bootstrap。",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignee": "Boris / Haoyu / Xiaobin",
-      "result": null,
+      "result": "Closed on 2026-06-22 per Boris: UMI should keep only three open TODOs now (VACE video inpainting, global layered dataset plan, and FoundationPose layer utility). This item is no longer an active UMI TODO; preserve its prior notes as background/context.",
       "comments": [
         {
           "comment_id": "comment_task_umi_robotwin_mask_dataset_audit_seed_20260617",
@@ -7221,17 +7221,17 @@
       ],
       "updated_at": "2026-06-17T21:42:00+08:00",
       "due_at": "",
-      "completed_at": null
+      "completed_at": "2026-06-22"
     },
     {
       "task_id": "task_umi_gamma_world_reproduction",
       "project_id": "umi-world-model",
       "title": "Gamma-World 复现",
       "description": "复现 Gamma-World / Gamar 相关工作的核心架构与最小实验，先确认它在现有数据或小规模 ego-view 替换数据上是否能跑通。定位更新：Gamma-World 是 UMI World Model Stage 1 / Sub-project A 的 build-upon reference，用来定义 synchronized action-conditioned Ego World、shared-context multi-view rollout 和 causal real-time generation baseline；Stage 2 再接 RevealLayer-style layer decomposition。Acceptance: 复现环境、依赖与代码路径；最小输入/输出；在现有或三视角候选数据上的 smoke run；说明哪些 Gamma-World 组件可复用到 UMI Stage 1，以及 UMI 后续如何通过 view/layer/eval utility 区分贡献。",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignee": "Boris",
-      "result": null,
+      "result": "Closed on 2026-06-22 per Boris: UMI should keep only three open TODOs now (VACE video inpainting, global layered dataset plan, and FoundationPose layer utility). This item is no longer an active UMI TODO; preserve its prior notes as background/context.",
       "comments": [
         {
           "comment_id": "comment_task_umi_gamma_world_reproduction_meeting_source_20260609",
@@ -7271,7 +7271,7 @@
       ],
       "updated_at": "2026-06-16T16:52:56+08:00",
       "due_at": "",
-      "completed_at": null
+      "completed_at": "2026-06-22"
     },
     {
       "task_id": "task_umi_layered_dataset_segment_inpaint_svg",
@@ -7377,10 +7377,10 @@
       "project_id": "umi-world-model",
       "title": "跑 SuperSVG / LIVE 的 MolmoAct SVG layer probe",
       "description": "专门验证 SVG 化，而不是重复 segment+inpaint/Qwen/GPT：根据 2026-06-18/19 yongxi 私聊更新，SAMVG 没有开源代码，短期把 SAMVG 替代物定为 SuperSVG；SuperSVG 和 LIVE 作为主 SVG 化验证，StarVector / OmniSVG 作为备选 probe，简单 mask-contour tracing 作为 practical baseline。从 MolmoAct 或 Hoi 先选 3 个 episode，每个抽 20-50 帧，对 robot、object/contact、hand/occluder、scene_regions 做 SVG sidecar。输出每层 layer.svg、mask.png、rgba.png、inpainted_background.png、layer_manifest.json 和 failure gallery。QA: SVG rasterize-back mask IoU > 0.97；path count / vertex count 不爆炸；frame-to-frame bbox jitter、mask IoU、path topology change；recomposition SSIM/LPIPS 或人工评分。失败记录：Qwen merged connected regions、SVG path too fragmented、thin gripper/cable/shadow mistrace、background texture unsuitable for SVG。结论要判断 SVG 是否适合作为结构层/annotation 层，而不是替代 RGBA video layer。",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignee": "Boris / Haoyu / Xiaobin",
-      "result": null,
+      "result": "Closed on 2026-06-22 per Boris: UMI should keep only three open TODOs now (VACE video inpainting, global layered dataset plan, and FoundationPose layer utility). This item is no longer an active UMI TODO; preserve its prior notes as background/context.",
       "comments": [
         {
           "comment_id": "comment_task_umi_layered_dataset_molmoact_svg_qa_batch_seed_20260617",
@@ -7399,7 +7399,7 @@
       ],
       "updated_at": "2026-06-19T23:00:27+08:00",
       "due_at": "",
-      "completed_at": null
+      "completed_at": "2026-06-22"
     },
     {
       "task_id": "task_online_sensor_calibration_survey_spec",

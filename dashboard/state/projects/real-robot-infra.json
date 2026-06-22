@@ -4,12 +4,12 @@
   "title": "Real-Robot Lab Infra",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-06-15T19:30:41+08:00",
+  "updated_at": "2026-06-22T09:57:56+08:00",
   "description": "Engineering stack for teleoperation, data collection, and robot-side validation",
-  "summary": "Real-Robot Infra asset table: canonical hardware inventory, location, owner, and current readiness state for lab robot/data-collection assets, including the FSR tactile glove + Ray-Ban human-centric collection asset.",
-  "asset": "dashboard/assets/real-robot-infra-collage.png",
-  "asset_alt": "Real-robot lab infrastructure hardware collage",
-  "asset_caption": "Hardware matrix: ready systems, dual-Franka same-computer control, and planned glove / tracker teleoperation stack.",
+  "summary": "Real-Robot Infra now tracks both the runnable architecture and the asset table: hardware config feeds tactile, camera, robot, and gripper lifecycle modules, then pedal-gated ROS2 publish/domain-isolation records synchronized MP4, pickle, and per-timestamp sensor data. The canonical hardware inventory still tracks location, owner, and readiness state for lab robot/data-collection assets, including the FSR tactile glove + Ray-Ban human-centric collection asset.",
+  "asset": "dashboard/assets/real-robot-infra-data-collection-architecture-20260622.png",
+  "asset_alt": "Real-robot infra system life cycle and data collection pipeline architecture",
+  "asset_caption": "Real-robot infra architecture: hardware config drives tactile, camera, robot, and gripper lifecycle modules; pedal-gated ROS2 publish/domain isolation records synchronized MP4, pickle, visualization, and per-timestamp sensor data.",
   "visual": {
     "layout": "single-column"
   },
