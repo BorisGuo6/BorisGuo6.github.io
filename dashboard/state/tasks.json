@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-22T10:05:00+08:00",
+  "updated_at": "2026-06-22T14:16:00+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1600,9 +1600,9 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-13T11:43:10+08:00",
+      "updated_at": "2026-06-22T14:16:00+08:00",
       "due_at": "",
-      "completed_at": ""
+      "completed_at": null
     },
     {
       "task_id": "task_self_improving_molmoact2_reasoning_base",
@@ -5400,12 +5400,12 @@
       "task_id": "task_self_improving_articraft3d_asset_expansion",
       "project_id": "self-improving-agents",
       "title": "试用 ArtiCraft3D 扩充 agentic 仿真资产",
-      "description": "把 ArtiCraft3D / Articraft 作为 Self-Improving Agents 的 agentic simulation asset expansion 候选路线来试。来源: https://articraft3d.github.io/ 和 arXiv:2605.15187。目标：评估其“LLM 写资产程序 + SDK 定义 parts/geometry/joints/tests + harness 验证”的方式是否能接到 AgenticSim 的 asset_graph。验收：找到可运行 repo / release / dataset 入口或明确缺失 blocker；生成或复现至少 1 个 articulated tabletop asset；导出 mesh/collision/joint graph/metadata 或等价 JSON；写一个最小 adapter stub `generate_asset(reference, task_hint) -> asset_graph`；用 GovernanceGate 检查 scale、joint limits、collision proxy、affordance tags 和 simulator export path；记录命令、日志、artifact 路径和 sha256。不要只做阅读调研后标 done。",
+      "description": "把 ArtiCraft3D / Articraft 作为 Self-Improving Agents 的 agentic simulation asset expansion 候选路线来试。来源: https://articraft3d.github.io/（Articraft3d.github.io）和 arXiv:2605.15187。目标：评估其“LLM 写资产程序 + SDK 定义 parts/geometry/joints/tests + harness 验证”的方式是否能接到 AgenticSim 的 asset_graph。扩展适配候选还包括 WorldComposer、PhysX-Anything / PhysX-anything、PhysX-Omni：比较它们的输入参考、生成资产格式、geometry/mesh、collision proxy、joint graph、physical metadata、affordance tags、simulator export path，并统一到同一个 `generate_asset(reference, task_hint) -> asset_graph` adapter contract。验收：找到可运行 repo / release / dataset 入口或明确缺失 blocker；生成或复现至少 1 个 articulated tabletop asset；导出 mesh/collision/joint graph/metadata 或等价 JSON；写一个最小 adapter stub `generate_asset(reference, task_hint) -> asset_graph`；用 GovernanceGate 检查 scale、joint limits、collision proxy、affordance tags 和 simulator export path；记录命令、日志、artifact 路径和 sha256；对 WorldComposer / PhysX-Anything / PhysX-Omni 给出能否接入同一 asset_graph 的 go/no-go 判断。不要只做阅读调研后标 done。",
       "status": "active",
       "priority": "high",
       "assignee": null,
       "due_at": "",
-      "result": "Archived on 2026-06-16 per user direction. DexGello should not keep an expanded dashboard TODO list; actual progress is tracked in the project note from the 2026-06-16 Boris <-> Yongxi Lai chat about wrist mapping, VIVE retargeting, and a likely wrist-part redesign.",
+      "result": null,
       "comments": [
         {
           "comment_id": "comment_self_improving_articraft3d_trial_20260529",
@@ -5429,7 +5429,8 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-05-31T23:33:59+02:00"
+      "updated_at": "2026-06-22T14:16:00+08:00",
+      "completed_at": null
     },
     {
       "task_id": "task_real_robot_infra_franka_curobo_motion_planning",
@@ -6715,11 +6716,11 @@
       "project_id": "self-improving-agents",
       "title": "Promote RLBench->IsaacSim 5-task pilot into AgenticSim verifier gate",
       "description": "Turn the RLBench->IsaacSim survey matrix into a concrete AgenticSim verifier pilot. Start with ReachTarget smoke and PickAndLift formal verifier; then document OpenDrawer, StackBlocks, and InsertOntoSquarePeg conversion requirements. Acceptance: synced prior RESULT content, Isaac-side smoke/verifier command evidence or exact environment blocker, and a dashboard-readable artifact.",
-      "status": "active",
+      "status": "done",
       "priority": "high",
       "assignee": "Boris / Codex",
       "due_at": "2026-06-12",
-      "result": null,
+      "result": "Closed on 2026-06-22 per Boris: Self-Improving Agents should keep only two active TODOs now, ArtiCraft3D / asset-graph expansion and RoboTwin2 Text2Env demo. This item is no longer an active TODO; preserve its previous notes as background/context.",
       "comments": [
         {
           "comment_id": "comment_self_improving_rlbench_isaacsim_gate_seed_20260605",
@@ -6736,14 +6737,15 @@
           "kind": "blocked"
         }
       ],
-      "updated_at": "2026-06-05T01:18:00+02:00"
+      "updated_at": "2026-06-22T14:16:00+08:00",
+      "completed_at": "2026-06-22"
     },
     {
       "task_id": "task_self_improving_dual_sim_robotwin_isaacsim_merge",
       "project_id": "self-improving-agents",
       "title": "参考 Dual-Sim 把 RoboTwin 任务迁移进 AgenticSim / IsaacSim",
       "description": "参考 chengaopro/Dual-Sim 中 RoboTwin tasks -> IsaacSim 的迁移实现，把可复用部分 merge 进 AgenticSim。第一步先确认仓库访问/clone，因为公开页面在本次更新时返回 404；拿到代码后重点抽取 task schema、asset/USD/URDF 转换、reset/step API、robot/action adapter、observation/reward/verifier 结构，并和现有 RLBench->IsaacSim verifier gate 对齐。Acceptance: 1) 记录 Dual-Sim 可访问 commit 或访问 blocker；2) 写出 RoboTwin task 到 AgenticSim task registry 的字段映射；3) 选 1 个 RoboTwin task 做 IsaacSim smoke/verifier plan；4) 给出 merge patch 或明确 blocker。",
-      "status": "review",
+      "status": "done",
       "priority": "high",
       "assignee": "Boris / Codex",
       "due_at": "",
@@ -6771,8 +6773,8 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-16T11:56:26+08:00",
-      "completed_at": null
+      "updated_at": "2026-06-22T14:16:00+08:00",
+      "completed_at": "2026-06-22"
     },
     {
       "task_id": "task_self_improving_contact_curriculum_bridge",
@@ -6815,10 +6817,10 @@
       "project_id": "self-improving-agents",
       "title": "Add Video2Sim2Real-style anchor contract to Real2Sim2Real",
       "description": "把 Video2Sim2Real (arXiv:2606.08828) 的单视频 Real2Sim2Real 机制整理成 AgenticSim 可执行 contract。核心不是直接全轨迹 retarget，而是从人类视频构建 simulator-ready digital twin 和 object/robot motion priors，抽 object-centric keyframes，优化 robot configuration anchors，再用 IL 做 real point-cloud recalibration、residual RL 做局部 finger/contact adaptation，并保留 collision-aware planning / verifier。Acceptance: 1) 写出 manifest schema：video source、digital twin assets、object tracks、object-centric keyframes、robot anchor configs、recalibration samples、residual adaptation hooks、planner/verifier outputs；2) 选一个 tabletop manipulation task 做最小样例；3) 说明哪些模块可先用现有 AgenticSim mock/Isaac/Genesis/LeHome 接口跑，哪些依赖真实视频/点云/hand hardware；4) 给出接入 R2S2RPipeline、TraceLoader、MemoryStore 和 GovernanceGate 的字段映射；5) 输出 RESULT.md 或 dashboard comment，明确是否下一步做 runnable implementation。",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignee": "Boris / Codex",
-      "result": null,
+      "result": "Closed on 2026-06-22 per Boris: Self-Improving Agents should keep only two active TODOs now, ArtiCraft3D / asset-graph expansion and RoboTwin2 Text2Env demo. This item is no longer an active TODO; preserve its previous notes as background/context.",
       "comments": [
         {
           "comment_id": "comment_self_improving_video2sim2real_ref_20260609",
@@ -6828,9 +6830,9 @@
           "kind": "reference_update"
         }
       ],
-      "updated_at": "2026-06-09T21:18:31+08:00",
+      "updated_at": "2026-06-22T14:16:00+08:00",
       "due_at": "",
-      "completed_at": null
+      "completed_at": "2026-06-22"
     },
     {
       "task_id": "task_umi_cosmos3_test",
@@ -7958,11 +7960,11 @@
       "project_id": "self-improving-agents",
       "title": "Collect Cosmos3-policy RoboLab 3600 rollout corpus",
       "description": "基于 Cosmos3-policy pretrained weights，收集 RoboLab 全任务 rollout 语料：120 tasks * 3 difficulties * 10 rollouts = 3600 rollouts。目标不是先做大规模 RL，而是先得到可审计的数据底座，用于单任务 fast self-improvement、memory-bank critic 和 lightweight adapter/head。验收：1) dataset manifest 包含 task_id、difficulty、seed、policy checkpoint / model version、action space、success/failure、episode length、observation/state retrieval key、log path、artifact path 和 checksum；2) 有 collection progress table，能看出 120*3*10 的覆盖和缺失项；3) 选出一个单任务 subset 用于快速自提升实验；4) 记录 GPU/RAM/运行时成本和失败原因；5) 不允许只靠计划或少量样例标记 done。",
-      "status": "active",
+      "status": "done",
       "priority": "high",
       "assignee": "Xiaoyang / Gao Chen / Jingxiang",
       "due_at": "",
-      "result": null,
+      "result": "Closed on 2026-06-22 per Boris: Self-Improving Agents should keep only two active TODOs now, ArtiCraft3D / asset-graph expansion and RoboTwin2 Text2Env demo. This item is no longer an active TODO; preserve its previous notes as background/context.",
       "comments": [
         {
           "comment_id": "comment_self_improving_cosmos3_robolab_rollouts_seed_20260613",
@@ -7972,20 +7974,20 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-13T16:21:14+08:00",
+      "updated_at": "2026-06-22T14:16:00+08:00",
       "started_at": "2026-06-13",
-      "completed_at": null
+      "completed_at": "2026-06-22"
     },
     {
       "task_id": "task_self_improving_wam_memory_critic",
       "project_id": "self-improving-agents",
       "title": "Design WAM test-time critic from rollout memory bank",
       "description": "设计 WAM test-time critic 的 memory-bank 路线：从历史 rollout 中检索相似状态 / 相似 action context，用成功和失败轨迹估计当前 action/state 的质量、风险和不确定性，并把结果反馈给 Diagnosis/Analysis agent 与 test-time adaptation。验收：1) 定义 memory schema 和 retrieval key（视觉/state/action/语言/task context 哪些字段参与）；2) 实现或写出可运行 baseline 的 kNN/prototype retrieval；3) critic API 输出 score、uncertainty、nearest successes/failures、evidence window 和 data-requirement suggestion；4) 在 3600 rollout corpus 的一个 subset 上做离线评估，对比 no-memory / random retrieval；5) 记录失败案例，明确何时需要新数据而不是盲目更新 policy。",
-      "status": "active",
+      "status": "done",
       "priority": "high",
       "assignee": "Xiaoyang / Jingxiang / Gao Chen",
       "due_at": "",
-      "result": null,
+      "result": "Closed on 2026-06-22 per Boris: Self-Improving Agents should keep only two active TODOs now, ArtiCraft3D / asset-graph expansion and RoboTwin2 Text2Env demo. This item is no longer an active TODO; preserve its previous notes as background/context.",
       "comments": [
         {
           "comment_id": "comment_self_improving_wam_memory_critic_seed_20260613",
@@ -7995,20 +7997,20 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-13T16:21:14+08:00",
+      "updated_at": "2026-06-22T14:16:00+08:00",
       "started_at": "2026-06-13",
-      "completed_at": null
+      "completed_at": "2026-06-22"
     },
     {
       "task_id": "task_self_improving_lightweight_ttt_adapter",
       "project_id": "self-improving-agents",
       "title": "Train lightweight Cosmos3-policy TTT adapter/head",
       "description": "在不做完整 RL post-training 的前提下，为 Cosmos3-policy 训练轻量 head / adapter，使其先适配 RoboLab benchmark 的 action distribution；test time 只更新 adapter 或少量参数，并和 memory critic 联动。验收：1) 明确 adapter/head 结构、冻结参数范围和可更新参数量；2) 给出训练脚本/config、数据 split 和 4x L40S 内的显存/时间预算；3) 在 held-out rollout 或单任务 fast-improvement 实验上比较 base、adapter-only、memory-injected、adapter+memory；4) 写清 test-time update protocol、停止条件和回滚条件；5) 产出可复现日志/checkpoint/eval 表，不允许只写方案标记 done。",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignee": "Xiaoyang / Jingxiang / Gao Chen",
       "due_at": "",
-      "result": null,
+      "result": "Closed on 2026-06-22 per Boris: Self-Improving Agents should keep only two active TODOs now, ArtiCraft3D / asset-graph expansion and RoboTwin2 Text2Env demo. This item is no longer an active TODO; preserve its previous notes as background/context.",
       "comments": [
         {
           "comment_id": "comment_self_improving_lightweight_ttt_adapter_seed_20260613",
@@ -8018,9 +8020,9 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-13T16:21:14+08:00",
+      "updated_at": "2026-06-22T14:16:00+08:00",
       "started_at": null,
-      "completed_at": null
+      "completed_at": "2026-06-22"
     },
     {
       "task_id": "task_general_pico_body_tracker_procurement",
