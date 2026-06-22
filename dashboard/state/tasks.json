@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-22T14:32:00+08:00",
+  "updated_at": "2026-06-22T12:35:01.675Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -7032,7 +7032,7 @@
       "task_id": "task_umi_layering_method_selection_global_dataset_plan_20260617",
       "project_id": "umi-world-model",
       "title": "收敛分层方案并启动 global layered dataset 计划",
-      "description": "全体在下一周/下下周前完成分层方法测试与选择，确定第一版 global Image-Layered robot dataset 构建路线。候选包括 SAM3+GPT inpaint、VACE/VAC/VAS video inpaint、RevealLayer/Qwen 负样例参考、RoboTwin synthetic masks、MaskWAM-style VLM->SAM3->human-verification mask propagation、SuperSVG/LIVE/SAM-contour SVG sidecar，StarVector/OmniSVG 作为可选 SVG probe。参考 MaskWAM 数据处理管线：language annotation / VLM 提取 task-relevant objects，用 SAM3 text/point condition 传播 mask sequence，多轮 human verification 只修正失败/歧义 round，最后写入 labeled episodes；UMI 需要把这个单 mask pipeline 扩展成 robot、object/contact、occluder、scene/background 的 layer pseudo-label，并保留 mask.png / rgba.png / video / SVG sidecar / layer_manifest.json。Acceptance: 方法矩阵、输入/输出 schema、速度/成本、人为标注需求、temporal consistency、recomposition QA、FoundationPose/IDM/reward utility、失败样例；给出 v0 dataset 构建决策和下一批 episode/image/video 清单。",
+      "description": "当前收敛结论：采用 iterative segment + inpaint 的 v0 global layered dataset 路线，而不是直接依赖端到端 layer decomposition。先用 SAM3/SAM2 或 mask tracking 分割 robot layer，生成 robot mask/rgba/video/SVG sidecar；再用 FLUX.fill、VACE、LaMa 或同类 inpaint 模型把 robot 从原视频中抹掉并补全被遮挡区域。随后按 task-relevant object/contact/occluder 逐个 object layer 迭代：每次 segment 一个对象/接触区域，导出该层 mask/rgba/video/SVG sidecar，再对剩余视频做 inpaint，直到得到 scene/background layer。背景层优先面向第三人称或固定机位视频，预期随时间变化很小；wrist/ego view 背景变化较大，需要单独标记 temporal consistency 风险。候选方法仍作为组件或对照保留：SAM3+GPT inpaint、VACE/VAC/VAS video inpaint、FLUX.fill/LaMa still or video-adapted inpaint、RevealLayer/Qwen 负样例参考、RoboTwin synthetic masks、MaskWAM-style VLM->SAM3->human-verification mask propagation、SuperSVG/LIVE/SAM-contour SVG sidecar，StarVector/OmniSVG 作为可选 SVG probe。参考 MaskWAM 数据处理管线：language annotation / VLM 提取 task-relevant objects，用 SAM3 text/point condition 传播 mask sequence，多轮 human verification 只修正失败/歧义 round，最后写入 labeled episodes；UMI 需要把这个单 mask pipeline 扩展成 robot、object/contact、occluder、scene/background 的多层 pseudo-label，并保留 mask.png / rgba.png / video / inpainted_background.png / SVG sidecar / layer_manifest.json。Acceptance: iterative pipeline 的方法矩阵、每轮输入/输出 schema、速度/成本、人为标注需求、temporal consistency、recomposition QA、FoundationPose/IDM/reward utility、失败样例；给出 v0 dataset 构建决策、robot-first/object-next/background-final 的处理顺序、下一批 episode/image/video 清单。",
       "status": "todo",
       "priority": "urgent",
       "assignee": "Boris / Haoyu / Lai / Ziyang",
@@ -7060,7 +7060,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-22T14:32:00+08:00",
+      "updated_at": "2026-06-22T12:26:54.580Z",
       "due_at": "",
       "completed_at": null
     },
@@ -7089,8 +7089,8 @@
     {
       "task_id": "task_umi_foundationpose_layer_utility_probe_20260617",
       "project_id": "umi-world-model",
-      "title": "验证分层结果对 FoundationPose 的帮助",
-      "description": "Ziyang 用分层结果喂给 FoundationPose 或同类 6D/object pose pipeline，比较 raw RGB、object-only layer、object+background layer、recomposed layered clip 的物体提取效果。Acceptance: 选 3-5 个对象/片段，输出每种输入的 pose/extraction 结果、成功率或人工评分、遮挡/背景干扰案例、是否 object/contact layer 比 flat RGB 或 mask-only 更有用、是否需要加入 flow/object optical-flow 后续。",
+      "title": "验证 object/robot layer 对 6D pose、3D flow 与 robot pose 的帮助",
+      "description": "Ziyang 用分层结果分别验证 Object Layer 与 Robot Layer 的下游 utility，不再只看 FoundationPose。Object Layer: 1) 用 Any6D (https://sites.google.com/view/taeyeop-lee/any6d) 检查 object/contact layer 是否更容易提取 novel object 6D pose / size；比较 raw RGB/RGB-D、mask-only、object-only layer、object+background layer、recomposed layered clip。2) 用 AllTracker (https://alltracker.github.io) 提取 dense point tracks / optical-flow-style correspondences；若要做三维物体点云 flow，优先配合 Video Depth Anything / DepthAnything-Video 生成 temporally consistent depth，再 lift 到 3D。3) 用 D4RT (https://d4rt-paper.github.io) 作为统一 4D scene reconstruction / 3D point tracking 对照，直接评估 object layer 是否提升 point cloud、3D tracks、camera/scene consistency。Robot Layer: 用 Dr. Robot / Differentiable Robot Rendering (https://drrobot.cs.columbia.edu) 在 robot-only layer、robot+background、recomposed clip 上做机械臂 pose estimation / joint or camera pose tracking，判断 robot layer 是否比 flat RGB 更利于机械臂姿态恢复。FoundationPose 保留为 baseline 或备选 6D pose pipeline。Acceptance: 选 3-5 个对象/片段和 1-2 个机械臂片段；输出 Any6D pose/size 结果、AllTracker(+DepthAnything-Video) 或 D4RT 的 2D/3D track/point-cloud flow、Dr. Robot pose overlay / joint trajectory；给出每种输入的成功率或人工评分、遮挡/背景干扰案例、depth/calibration 需求、失败样例；结论明确 object/contact layer、robot layer、object+background、recomposed clip 是否比 flat RGB、mask-only 或 FoundationPose-only baseline 更有用。",
       "status": "todo",
       "priority": "high",
       "assignee": "Ziyang / Boris",
@@ -7109,9 +7109,18 @@
           "body": "Moved Stage 3 utility notes out of the project intro. The utility probe should compare raw RGB, object-only layer, object+background layer, mask-only/SAM, and recomposed layered clips. Report pose/extraction success, occlusion/background interference, whether object/contact layers improve FoundationPose or similar 6D pose pipelines, and whether this utility justifies scaling the global layered dataset.",
           "created_at": "2026-06-22T14:32:00+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_9f22026e-49fb-4eba-838b-3e70ee1f63b3",
+          "task_id": "task_umi_foundationpose_layer_utility_probe_20260617",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "更新验证目标：Object Layer 用 Any6D 做 novel object 6D pose/size，用 AllTracker(+DepthAnything-Video) 或 D4RT 做 dense/3D point tracks 和点云 flow；Robot Layer 用 Dr. Robot / Differentiable Robot Rendering 做机械臂 pose estimation。FoundationPose 改为 baseline/备选，不再是唯一验证对象。",
+          "created_at": "2026-06-22T12:35:01.675Z"
         }
       ],
-      "updated_at": "2026-06-22T14:32:00+08:00",
+      "updated_at": "2026-06-22T12:35:01.675Z",
       "due_at": "",
       "completed_at": null
     },
