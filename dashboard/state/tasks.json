@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-22T13:13:02.537Z",
+  "updated_at": "2026-06-22T13:14:53.015Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -7166,7 +7166,7 @@
         {
           "comment_id": "comment_task_umi_cosmos3_wan22_realomni_eval_seed_20260617",
           "author": "Meeting notes",
-          "body": "Seeded from 2026-06-17 meeting and corrected by Boris: the dataset is GenRobot 10Kh RealOmni-Open Dataset (https://www.genrobot.ai/data/open-dataset). Boris will continue testing nvidia/Cosmos3-Nano-Policy-DROID and One/Wan2.2 effects, including the prior Wan2.2-TI2V-5B-Diffusers 5B baseline, tune parameters, study whether Cosmos3 can be finetuned, and push RealOmni-Open testing. Prior qualitative note: Cosmos3 has issues separating left/right views; One/Wan prompt results looked better but showed odd RGB tail/color blocks.",
+          "body": "Seeded from 2026-06-17 meeting and corrected by Boris: the dataset is GenRobot 10Kh RealOmni-Open Dataset (https://www.genrobot.ai/data/open-dataset). Boris will continue testing nvidia/Cosmos3-Nano-Policy-DROID and WAN2.2 effects, including the prior Wan2.2-TI2V-5B-Diffusers 5B baseline, tune parameters, study whether Cosmos3 can be finetuned, and push RealOmni-Open testing. Prior qualitative note: Cosmos3 has issues separating left/right views; prior WAN prompt results looked better but showed odd RGB tail/color blocks.",
           "created_at": "2026-06-17T22:00:00+08:00",
           "kind": "comment"
         },
@@ -8102,13 +8102,40 @@
       "task_id": "task_umi_layered_pipeline_sam_vace_flux_lama_automation_20260622",
       "project_id": "umi-world-model",
       "title": "搭建 SAM2.1/SAM3 + VACE/FLUX.fill/LaMa 分层自动化管线 smoke",
-      "description": "根据 Zoom 与 Layered Image Policy 微信同步，把分层处理从单图手工样例推进到可重复的自动化 smoke pipeline。当前群聊状态：VACE 已在测试；SAM3 Hugging Face access 曾 pending，短期可用 SAM2.1 先跑；Ziyang 尝试 LaMa，本地模型优先；FLUX.fill 作为 still inpaint 推荐候选；GPT image 仍是强 still-frame baseline 但不支持视频。Pipeline 顺序：robot mask/rgba -> inpaint robot removal -> object/contact/occluder mask/rgba -> inpaint removal -> scene/background layer，所有输出保持原始 canvas 尺寸，支持原地 overlay/recomposition。Acceptance: 1) 选 3 个 UMI/MolmoAct/Hoi-style clips，每个抽 20-50 帧或短视频；2) 输出 robot/object/contact/occluder/background 的 mask.png、rgba.png、inpainted_background.png/video、layer_manifest.json；3) 同一输入上比较 VACE、FLUX.fill、LaMa、GPT image baseline 的质量/速度/显存/是否改变画幅；4) SAM2.1 vs SAM3 access/边缘阈值/概率图控制记录；5) overlay/recomposition 与源图对齐检查；6) 失败样例记录，电线等小细节可降权，但 robot/object/background 主体必须正确分离。",
       "status": "todo",
       "priority": "high",
       "assignee": "Lai / Ziyang / Boris",
+      "description": "根据 Zoom 与 Layered Image Policy 微信同步，把分层处理从单图手工样例推进到可重复的自动化 smoke pipeline。当前群聊状态：VACE 已在测试；SAM3 Hugging Face access 曾 pending，短期可用 SAM2.1 先跑；Ziyang 尝试 LaMa，本地模型优先；FLUX.fill 作为 still inpaint 推荐候选；GPT image 仍是强 still-frame baseline 但不支持视频。Pipeline 顺序：robot mask/rgba -> inpaint robot removal -> object/contact/occluder mask/rgba -> inpaint removal -> scene/background layer，所有输出保持原始 canvas 尺寸，支持原地 overlay/recomposition。Acceptance: 1) 选 3 个 UMI/MolmoAct/Hoi-style clips，每个抽 20-50 帧或短视频；2) 输出 robot/object/contact/occluder/background 的 mask.png、rgba.png、inpainted_background.png/video、layer_manifest.json；3) 同一输入上比较 VACE、FLUX.fill、LaMa、GPT image baseline 的质量/速度/显存/是否改变画幅；4) SAM2.1 vs SAM3 access/边缘阈值/概率图控制记录；5) overlay/recomposition 与源图对齐检查；6) 失败样例记录，电线等小细节可降权，但 robot/object/background 主体必须正确分离。",
       "result": null,
       "comments": [],
-      "updated_at": "2026-06-22T13:13:02.537Z"
+      "completed_at": null,
+      "updated_at": "2026-06-22T13:14:53.015Z"
+    },
+    {
+      "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+      "project_id": "umi-world-model",
+      "title": "调研并重做 WAN2.2 action encoder / 注入路径",
+      "status": "todo",
+      "priority": "urgent",
+      "assignee": "Boris / Haoyu",
+      "description": "根据 2026-06-22 Zoom 同步，当前 WAN2.2 action 控制没有解决：直接在输出头添加条件分支后，高噪声专家对 action 变化响应不明显；custom action encoder 未充分训练；部分指标可能变好但 actual/zero/wrong-row 行为仍不分离。下一步需要系统调研 WAN2.2 已有开源 action/control 注入方法，并重新设计 action encoder 与注入位置。候选包括 extend/control layer、LayerNorm/AdaLN 调制、cross-attention/action tokens、ControlNet-style branch、high-noise expert early injection、低噪专家细节修正、以及独立 state/action decoding head。Action 编码必须明确 8-D compact form（pos3 + quat4 + gripper）与当前 10-D continuous form（pos3 + rot6d + gripper），并单独 ablate gripper scaling / normalization；会议结论是当前 Cosmos-Predict2.5 seed 中不要默认归一化 gripper。Acceptance: 1) 一页 WAN2.2 action-injection 方法表，含可复用 repo/API、注入层、是否覆盖 high/low expert、训练成本；2) 现有 UMI action tensor schema 和归一化/不归一化对照；3) 一个可跑的最小改造方案或伪代码；4) 用 base/actual/zero/wrong-row/action-guidance gate 定义验收，不只看 MAE/MA；5) 明确是否继续 WAN2.2-A14B adapter，还是转入 Wan2.1/Gamma-style shared-world teacher。",
+      "result": null,
+      "comments": [],
+      "completed_at": null,
+      "updated_at": "2026-06-22T13:14:53.015Z"
+    },
+    {
+      "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
+      "project_id": "umi-world-model",
+      "title": "跟进 Haoyu 2000 条数据 UMI 大规模微调结果",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Haoyu / Boris",
+      "description": "Haoyu 正在完成约 2000 条数据的标签标注，并计划几天内反馈第一版大规模微调结果。这个 TODO 跟踪从小规模 68 条 / 75 epoch overfit seed 到 2000 条数据的可泛化训练结果。需要确认数据字段、action 维度、action 编码、是否归一化、夹爪量纲、左右视角/主视角拼接或 dual-view 组织方式、train/val split、训练 backbone 与 trainable modules。Acceptance: 1) 2000 条数据 manifest 和标签完成状态；2) action schema 说明（8-D vs 10-D、quat vs rot6d、gripper 单位/范围、normalization 策略）；3) 训练配置、GPU/时长、checkpoint 路径；4) held-out gallery 与 GT/base/actual/zero/wrong-row 对照；5) 过拟合与泛化结论，尤其布料/电线/遮挡等失败场景；6) 是否进入下一轮 shared-world teacher / WAN2.2 action encoder 训练的决策。",
+      "result": null,
+      "comments": [],
+      "completed_at": null,
+      "updated_at": "2026-06-22T13:14:53.015Z"
     }
   ]
 }

@@ -4,7 +4,7 @@
   "title": "UMI Image Layered World Model",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-06-22T12:53:52.785Z",
+  "updated_at": "2026-06-22T13:14:53.015Z",
   "description": "UMI Image Layered World Model: build tri-view robot video world modeling, decompose videos into robot / object-contact / scene layers, and prove layered data improves manipulation.",
   "summary": "UMI now has three active lines after the 2026-06-22 sync: Stage 1 action-conditioned shared-world video modeling (Cosmos-Predict2.5 / WAN2.2 adapter probes plus a Wan2.1/Gamma-style teacher direction), Stage 2 iterative mask-segment + FLUX.fill/VACE/LaMa inpainting into robot/object/scene layers, and Stage 3 layer utility tests with Any6D/AllTracker/D4RT for objects and Dr. Robot for robot pose.",
   "subprojects": [
@@ -67,7 +67,10 @@
     "task_umi_maskwam_pipeline_comparison_20260617",
     "task_umi_layering_method_selection_global_dataset_plan_20260617",
     "task_umi_gamma_world_reproduction",
-    "task_umi_layered_dataset_molmoact_svg_qa_batch_20260617"
+    "task_umi_layered_dataset_molmoact_svg_qa_batch_20260617",
+    "task_umi_wan22_action_injection_encoder_plan_20260622",
+    "task_umi_haoyu_2000_clip_finetune_result_20260622",
+    "task_umi_layered_pipeline_sam_vace_flux_lama_automation_20260622"
   ],
   "references": [
     {
@@ -363,7 +366,7 @@
     "Action-guidance multi-row decision 2026-06-22: current row5 checkpoint plus AG x3 is positive but not sufficient. It passes rows 5 and 7 only; row0 is quality-preserving but lacks wrong-row separation, while rows 1 and 11 fail. Treat 2/5 as the new baseline, not success. The next checkpoint must be trained on multi-row metadata and evaluated with the same base/zero/wrong-row action-guided gate before claiming true action-conditioned dual-view UMI.",
     "Wan2.2 adapter-sweep decision 2026-06-22: the 8-card agdir scan did not improve beyond the 2/5 baseline, so do not spend the next cycle on another small scalar sweep of preserve weight, contrast weight, or action-guidance scale. For true action-conditioned dual-view UMI, the next meaningful implementation should change the interface: build a Wan2.1/Gamma-style bidirectional multi-view teacher with explicit view/action/camera tokens and shared scene hub, or add an independently verifiable state/action prediction head whose output must predict future object/contact state before it is allowed to steer video sampling.",
     "Shared-world teacher decision 2026-06-22: keep the low-res 8-card teacher as the positive architectural seed. It proves the desired interface can be made action-conditioned when action/state enters before shared-view communication and decoding. The next step is not more overfit proof; scale this teacher to more clips / held-out rows, add a head/fixed third view when available, and then distill or graft its shared hub/action representation into Wan2.1 or Gamma-style video generation.",
-    "Terminology guardrail: write WAN2.2, not One2.2. Keep exact model names where needed: Wan2.2-TI2V-5B-Diffusers, Wan2.2-A14B, Cosmos-Predict2.5, nvidia/Cosmos3-Nano-Policy-DROID.",
+    "Terminology guardrail: write WAN2.2 and do not use the old mistaken One spelling. Keep exact model names where needed: Wan2.2-TI2V-5B-Diffusers, Wan2.2-A14B, Cosmos-Predict2.5, nvidia/Cosmos3-Nano-Policy-DROID.",
     "WAN2.2 action-control risk: high-noise expert must receive action/control signal early enough; output-head-only conditioning is too late. Any future WAN2.2 run must report base preservation plus actual/zero/wrong-row action gates, not only reconstruction MAE/MA.",
     "Layering risk: SAM3/SAM2.1 masks and VACE/FLUX.fill/LaMa inpaint should preserve canvas size and coordinates so layers can be overlaid without manual alignment. If inpaint shifts geometry, the result is not acceptable even if the hole looks plausible.",
     "Stage 3 utility decision: object layer validation now targets Any6D, AllTracker(+DepthAnything-Video), and D4RT; robot layer validation targets Dr. Robot / differentiable robot rendering. FoundationPose remains a baseline, not the whole validation plan."
