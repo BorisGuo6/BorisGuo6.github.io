@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-22T13:14:53.015Z",
+  "updated_at": "2026-06-23T04:15:02.407Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -7033,7 +7033,7 @@
       "project_id": "umi-world-model",
       "title": "收敛分层方案并启动 global layered dataset 计划",
       "description": "当前收敛结论：采用 iterative segment + inpaint 的 v0 global layered dataset 路线，而不是直接依赖端到端 layer decomposition。先用 SAM3/SAM2 或 mask tracking 分割 robot layer，生成 robot mask/rgba/video/SVG sidecar；再用 FLUX.fill、VACE、LaMa 或同类 inpaint 模型把 robot 从原视频中抹掉并补全被遮挡区域。随后按 task-relevant object/contact/occluder 逐个 object layer 迭代：每次 segment 一个对象/接触区域，导出该层 mask/rgba/video/SVG sidecar，再对剩余视频做 inpaint，直到得到 scene/background layer。背景层优先面向第三人称或固定机位视频，预期随时间变化很小；wrist/ego view 背景变化较大，需要单独标记 temporal consistency 风险。候选方法仍作为组件或对照保留：SAM3+GPT inpaint、VACE/VAC/VAS video inpaint、FLUX.fill/LaMa still or video-adapted inpaint、RevealLayer/Qwen 负样例参考、RoboTwin synthetic masks、MaskWAM-style VLM->SAM3->human-verification mask propagation、SuperSVG/LIVE/SAM-contour SVG sidecar，StarVector/OmniSVG 作为可选 SVG probe。参考 MaskWAM 数据处理管线：language annotation / VLM 提取 task-relevant objects，用 SAM3 text/point condition 传播 mask sequence，多轮 human verification 只修正失败/歧义 round，最后写入 labeled episodes；UMI 需要把这个单 mask pipeline 扩展成 robot、object/contact、occluder、scene/background 的多层 pseudo-label，并保留 mask.png / rgba.png / video / inpainted_background.png / SVG sidecar / layer_manifest.json。Acceptance: iterative pipeline 的方法矩阵、每轮输入/输出 schema、速度/成本、人为标注需求、temporal consistency、recomposition QA、FoundationPose/IDM/reward utility、失败样例；给出 v0 dataset 构建决策、robot-first/object-next/background-final 的处理顺序、下一批 episode/image/video 清单。",
-      "status": "todo",
+      "status": "done",
       "priority": "urgent",
       "assignee": "Boris / Haoyu / Lai / Ziyang",
       "result": null,
@@ -7069,9 +7069,9 @@
           "created_at": "2026-06-22T12:26:55.819Z"
         }
       ],
-      "updated_at": "2026-06-22T12:26:55.819Z",
+      "updated_at": "2026-06-22T14:25:40.765Z",
       "due_at": "",
-      "completed_at": null
+      "completed_at": "2026-06-22"
     },
     {
       "task_id": "task_umi_gpu_resource_single_node_plan_20260617",
@@ -8115,14 +8115,537 @@
       "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
       "project_id": "umi-world-model",
       "title": "调研并重做 WAN2.2 action encoder / 注入路径",
-      "status": "todo",
+      "status": "active",
       "priority": "urgent",
       "assignee": "Boris / Haoyu",
       "description": "根据 2026-06-22 Zoom 同步，当前 WAN2.2 action 控制没有解决：直接在输出头添加条件分支后，高噪声专家对 action 变化响应不明显；custom action encoder 未充分训练；部分指标可能变好但 actual/zero/wrong-row 行为仍不分离。下一步需要系统调研 WAN2.2 已有开源 action/control 注入方法，并重新设计 action encoder 与注入位置。候选包括 extend/control layer、LayerNorm/AdaLN 调制、cross-attention/action tokens、ControlNet-style branch、high-noise expert early injection、低噪专家细节修正、以及独立 state/action decoding head。Action 编码必须明确 8-D compact form（pos3 + quat4 + gripper）与当前 10-D continuous form（pos3 + rot6d + gripper），并单独 ablate gripper scaling / normalization；会议结论是当前 Cosmos-Predict2.5 seed 中不要默认归一化 gripper。Acceptance: 1) 一页 WAN2.2 action-injection 方法表，含可复用 repo/API、注入层、是否覆盖 high/low expert、训练成本；2) 现有 UMI action tensor schema 和归一化/不归一化对照；3) 一个可跑的最小改造方案或伪代码；4) 用 base/actual/zero/wrong-row/action-guidance gate 定义验收，不只看 MAE/MA；5) 明确是否继续 WAN2.2-A14B adapter，还是转入 Wan2.1/Gamma-style shared-world teacher。",
       "result": null,
-      "comments": [],
+      "comments": [
+        {
+          "comment_id": "comment_18088d04-c557-42c0-bb4c-6b2d2917f01d",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-22 update: Motus-QKV 8卡 gate 已完成，4组 high/low Wan2.2-A14B 变体、rows 0/1/5/7/11、actual/zero/time_view_only/wrong-row 共80条推理，结果 0/20 gates passed，actual vs counterfactual MAE delta 全为0.0。结论：当前 QKV append 训练能生成视频，但 action/state 没有可测影响，不能继续只扩大同类 LoRA grid。Action encoder 下一版应从扁平99维向量改成结构化 encoder：per-dim dataset mean/std + modality-specific LayerNorm/RMSNorm（state/action/camera/gripper分开）+ action chunk temporal Transformer/TCN + view/camera token assembly，并并行测试 K/V-only cross-attn、AdaLN-zero block modulation、ControlNet-style residual branch。报告已更新：/Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html；gate 可视化：/Users/boris/Downloads/umi_motus_qkv_gate_20260622/index.html。",
+          "created_at": "2026-06-22T15:24:27.439Z"
+        },
+        {
+          "comment_id": "comment_fe4b3337-c1e8-4793-af51-4edd873e1afa",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-22 follow-up: 已在远端 DiffSynth-Studio 落地 Structured Motus-QKV ActionEncoderV2。UMI 99维条件按 make_condition_metadata.py 的真实布局分组：3(time/view)+16(state)+16(state_delta)+16(action_mean)+16(action_sum)+16(action_absmax)+16(action_last)。代码改动包括 UMIMotusActionQKV 的 group_dims/group_hidden_dim、训练参数、train_a14b_expert_overfit.sh 环境变量、validate_umi_a14b_pair.py checkpoint 自动重建、smoke_structured_action_encoder.py probe，以及 8卡 launcher scripts_umi/launch_a14b_motus_qkv_structured_grid8.sh。远端 smoke 通过：actual_vs_zero_qkv_mae=0.011469，actual_vs_wrong_qkv_mae=0.016007，restore_qkv_mae=0.0。下一步不应继续跑旧 flat encoder grid，而是在卡可用时运行 structured grid 后接 strict action gate。",
+          "created_at": "2026-06-22T15:49:18.681Z"
+        },
+        {
+          "comment_id": "comment_bb3f8eb8-a122-4b9d-83d2-385f5cfc048d",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-23 result: Structured Motus-QKV 8卡训练和 strict action gate 已跑完。4组 high/low Wan2.2-A14B checkpoint 全部到 step-128；gate 覆盖 rows 0/1/5/7/11，actual/zero/time_view_only/wrong-row 共80条推理。结果仍是 0/20 gates passed，所有 counterfactual MAE delta 仍为0.0。说明 structured LayerNorm/group encoder 解决了输入侧 QKV 敏感性，但 static action Q/K/V append 仍被 Wan sampled video path 忽略。下一步不要继续扩大 QKV append grid，应做 block hidden-state sensitivity probe，并改用更强注入：K/V-only cross-attention、AdaLN-zero modulation 或 ControlNet-style residual branch + wrong-action contrastive loss。报告：/Users/boris/Downloads/umi_motus_qkv_structured_gate_20260623/index.html；总笔记：/Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html。",
+          "created_at": "2026-06-22T17:13:03.259Z"
+        },
+        {
+          "comment_id": "comment_66a89ad7-cdc9-4040-9deb-3098aca6b4dc",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-23 hidden/output probe finished for structured Motus-QKV g64_s02_lr1e5_r8 step-128. Probe uses same synthetic latent/timestep/context and paired dual-view batch semantics ([left,right] as batch, each 99-dim condition). High expert: action QKV MAE vs actual is zero 0.02476 / time-view-only 0.03119 / wrong-row 0.03070; block hidden delta grows to ~0.1886-0.1894 by block39, but final noise/output delta is only ~0.0065. Low expert: QKV delta ~0.0245-0.0312, block39 hidden delta ~0.1266-0.1273, final output delta ~0.0069. Diagnosis: action signal enters Wan hidden state, but static QKV append does not translate into strong denoising output or decoded video sensitivity. Next architecture should keep grouped LayerNorm action encoder, but move injection to stronger action-to-video cross-attn residual / AdaLN-zero block modulation / output-space control residual, with zero/wrong-row/time-view-only gate retained.",
+          "created_at": "2026-06-22T17:39:48.646Z"
+        },
+        {
+          "comment_id": "comment_481bcdbf-8036-4e9a-9482-be6ee5b9eefd",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-23 engineering fix: UMIBlockModulationAdapter existed but WanModel.forward was not applying it. Patched diffsynth/models/wan_video_dit.py so each DiT block can receive UMI-conditioned AdaLN t_mod via umi_block_modulation_adapter.apply(...). Validation: remote py_compile passed; tiny WanModel smoke with nonzero AdaLN adapter gives actual-vs-zero output MAE 0.001438, proving the hook affects Wan output. Added scripts_umi/launch_a14b_paired_adaln_control_grid8.sh for the next 8-card run: paired_lr 99-dim condition, AdaLN block modulation, paired dual branch, wrong-condition + paired-branch contrastive, base preservation. Not launched yet because all 8 H20 GPUs are currently occupied by the Gamma/Cosmos2.5 training job.",
+          "created_at": "2026-06-22T17:49:21.787Z"
+        },
+        {
+          "comment_id": "comment_c5f0287e-8b6b-4a22-9c3c-d31cc76b167b",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-23 Action Encoder update for AdaLN route: upgraded UMIBlockModulationAdapter to support optional grouped action/state encoding. Default path remains old-checkpoint compatible; when group dims are set, the 99-dim UMI condition is split into 3,16,16,16,16,16,16 groups (time/view, state, state_delta, action_mean, action_sum, action_absmax, action_last), each with per-group LayerNorm + projection + fuse MLP before AdaLN block modulation. Patched examples/wanvideo/model_training/train.py, scripts_umi/train_a14b_expert_overfit.sh env passthrough, scripts_umi/validate_umi_a14b_pair.py checkpoint restore, and scripts_umi/launch_a14b_paired_adaln_control_grid8.sh defaults. Validations: local+remote py_compile, bash -n, train.py --help confirms new args, structured AdaLN smoke confirms group_dims_buffer round-trip with restore_apply_mae=0.0. 8-card training still not launched because Gamma/Cosmos2.5 is occupying all H20 GPUs.",
+          "created_at": "2026-06-22T18:00:09.975Z"
+        },
+        {
+          "comment_id": "comment_981945cf-00a5-419b-872e-cf68dfb3cf1f",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-23 Action Encoder 调研补充：LayerNorm 是必要但不充分。UMI action/state 应按常见连续控制编码器做 dataset-level mean/std + modality/group-level LayerNorm/RMSNorm + action chunk temporal encoder + zero-init gated modulation。具体下一版优先级：1) 在 manifest/cache 旁生成 umi_stats.json，记录每维 mean/std、group name、clamp range；2) grouped AdaLN 保留 3,16,16,16,16,16,16 分组，但每组显式命名并可 ablate RMSNorm；3) 增加 raw action chunk Transformer/TCN，不只喂 99维统计量；4) 为 frame_idx/horizon_idx/history_future 加 sin/cos Fourier time features；5) 并行测试 K,V-only action cross-attention residual 与 AdaLN-zero，高噪声 expert early blocks 必须过 actual/zero/wrong-row hidden probe 和 decoded video gate。报告已更新：/Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html。",
+          "created_at": "2026-06-22T18:11:11.872Z"
+        },
+        {
+          "comment_id": "comment_48029d48-a965-47b5-ab1d-3de239b4f39c",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-23 paired AdaLN automation update: 已在远端 DiffSynth-Studio 补齐 grouped AdaLN 路线的 8卡 wait-launch + strict gate。新增 scripts_umi/wait_launch_a14b_paired_adaln_control.sh（轮询 8 张 H20 全空闲后启动）、scripts_umi/wait_run_a14b_paired_adaln_gate.sh（等 step-64 high/low checkpoint 齐全后跑 rows 0/1/5/7/11 的 actual/zero/time_view_only/wrong-row gate）。同时修复 launch_a14b_paired_adaln_control_grid8.sh 训练完成后写 A14B_PAIRED_ADALN_CONTROL_GRID8_DONE；validate_umi_a14b_pair.py 的 --lora-view 增加 paired_lr；collect_dual_multitask_action_gate.py 支持 dual_lr_lora-paired_lr 输出目录。远端 bash -n / py_compile 已通过。当前 watcher PID=292165，不占 GPU；Gamma/Cosmos2.5 仍占满 8卡，watcher 正在等待显存低于 8000MiB 后自动铺满 8卡跑 paired AdaLN grid，再接 strict gate。报告已更新：/Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html。",
+          "created_at": "2026-06-22T18:22:22.323Z"
+        },
+        {
+          "comment_id": "comment_e42241d0-30d4-4d7a-b98e-987a8221f8a8",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-23 UMI Action Encoder stats/schema update: 远端 scripts_umi/make_condition_metadata.py 已改成 canonical workdir / env-configurable 路径，并重跑生成 data/umi_wan_overfit/umi_stats.json。stats schema=umi-condition-stats.v2，feature_dim=99，recommended_group_dims=3,16,16,16,16,16,16；groups 明确为 meta_time_view(0:3 kept unscaled)、state(3:19 zscore)、state_delta(19:35)、action_mean(35:51)、action_sum(51:67)、action_absmax(67:83)、action_last(83:99)。条件 payload 验证：condition/raw_condition 均为 (13,99)，保留 raw 和 normalized 两份。这个修复把“LayerNorm 不够”的问题落到数据统计层：后续 grouped AdaLN / RMSNorm / action chunk Transformer 都可以基于 umi_stats.json 做可复现 ablation，而不是继续扁平 MLP。远端 py_compile 通过；本地 stats 副本和报告已更新：/Users/boris/Downloads/umi_acwm_action_injection_20260622/stats/umi_stats.json 和 index.html。",
+          "created_at": "2026-06-22T18:29:43.311Z"
+        },
+        {
+          "comment_id": "comment_19c8331b-73d2-4692-b91b-d0387a2ddd2c",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-23 Action Encoder norm ablation update: grouped AdaLN/Motus action encoders now support per-group normalization choices layernorm/rmsnorm/identity. Implemented local UMIRMSNorm in diffsynth/models/umi_condition.py, saved norm type via group_norm_type_buffer (0=LN,1=RMS,2=Identity), added train arg --umi_block_modulation_group_norm_type, env UMI_BLOCK_MODULATION_GROUP_NORM_TYPE, and validator checkpoint reconstruction. Pending paired AdaLN 8-card grid was changed before launch to run true norm ablation: LN baseline, RMSNorm same hyperparams, Identity same hyperparams, plus stronger LN b512/scale0.08. Gate RUN_IDS updated accordingly. Validation: train.py --help shows new arg; group_norm_smoke_ok [0,1,2]; remote py_compile and bash -n pass. Watcher PID 292165 still waits for H20 GPUs to free, so this ablation will run automatically when Gamma/Cosmos2.5 releases the cards. Report updated: /Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html。",
+          "created_at": "2026-06-22T18:39:38.136Z"
+        },
+        {
+          "comment_id": "comment_1090cfe9-99be-4e0b-9a02-be80622d7c55",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-23 UMI Action Encoder implementation update: 根据 LayerNorm/RMSNorm/FiLM/AdaLN-zero 的调研，远端已把 paired AdaLN 8卡 grid 改成更直接的 encoder ablation：LN baseline、RMSNorm、Identity、LN+raw action chunk Transformer。metadata 已重新生成 raw temporal action chunks，当前 payload 验证 action_chunks=(13,4,16)、action_chunk_mask=(13,4)，同时保留 umi_stats.json 的 dataset-level mean/std 和 3,16,16,16,16,16,16 group schema。修复了 action-chunk helper 误挂到早期 context-token encoder 的问题，现在 UMIBlockModulationAdapter 可实际启用 chunk encoder；验证通过 py_compile、bash -n、metadata regeneration、LayerNorm/RMSNorm/Identity+chunk smoke。等待中的 watcher PID=292165 会在 8张 H20 空闲后自动运行更新后的 8卡 grid，并用 paired_adalnctrl_lnchunk_lr5e-05_b256_scale0p05_s1_r8_e4 作为第4组 strict gate。报告已更新：/Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html。",
+          "created_at": "2026-06-22T19:01:13.015Z"
+        },
+        {
+          "comment_id": "comment_9f868290-6262-42c3-a0a4-916dd6e8a4a9",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-23 prelaunch validation: paired AdaLN launcher 已加 DRY_RUN=1 模式并验证通过。dry run 生成 8 个 high/low job、4 个 unique run ids：LN baseline、RMSNorm、Identity、LN+raw action chunk Transformer；全部与 wait_run_a14b_paired_adaln_gate.sh 的 RUN_IDS 匹配，避免卡空后 gate 找不到 checkpoint。train.py --help 在 PYTHONPATH=$PWD 下确认 action_chunk 参数已暴露；bash -n / py_compile 仍通过。当前 Gamma/Cosmos2.5 仍占满 8 张 H20（约 28-30GB/卡，100% util），watcher PID=292165 继续每 5 分钟等待显存低于 8000MiB 后自动铺满 8 卡启动。报告已更新 dry-run 证据：/Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html。",
+          "created_at": "2026-06-22T19:08:04.926Z"
+        },
+        {
+          "comment_id": "comment_0e7099c6-feb1-42c3-81bb-d3e8be91175a",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-23 new action-injection route: 在 AdaLN 之外，远端已实现 UMIActionCrossAttentionAdapter，作为更接近 Motus/Ctrl-World 的 action-to-video strong injection。它把 UMI action/state tokens 编成 action memory，让 Wan visual hidden tokens 在每个 DiT block 前 cross-attend 这组 memory，再通过 zero-init output projection + per-block gate 加回 hidden stream。改动：diffsynth/models/umi_condition.py 新增 adapter；wan_video_dit.py 接入 umi_action_cross_attn_adapter.apply(...)；train.py 增加 --enable_umi_action_cross_attention 及 group/norm/head 参数；train_a14b_expert_overfit.sh 增加 USE_UMI_ACTION_CROSS_ATTENTION=1 env passthrough；validate_umi_a14b_pair.py 支持 checkpoint restore。验证：py_compile / bash -n 通过；train.py --help 参数可见；tiny WanModel CPU smoke 关闭 flash-attn 后显示 zero-init noop_mae=0.0，手动打开输出层后 actual_vs_zero_mae=0.0001658、actual_vs_base_mae=0.00757。该路线尚未占 GPU 训练，作为 paired AdaLN + action chunk 后的下一候选；报告已更新：/Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html。",
+          "created_at": "2026-06-22T19:19:41.146Z"
+        },
+        {
+          "comment_id": "comment_d574ae7d-06b8-4c81-95ff-9a26ecd35f75",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-23 action cross-attn queue prepared: 远端新增独立 8卡路线脚本，作为 AdaLN+action-chunk 若失败后的下一候选强注入方案。新增 scripts_umi/launch_a14b_paired_action_xattn_grid8.sh、scripts_umi/wait_run_a14b_paired_action_xattn_gate.sh、scripts_umi/wait_launch_a14b_paired_action_xattn.sh。该 launcher 使用 USE_UMI_ACTION_CROSS_ATTENTION=1，paired_lr high/low 各占一卡，4组 ablation：LN scale0.03、LN scale0.06、RMSNorm scale0.03、LN lr1e-5。dry-run 已验证：生成 8 个 high/low job、4 个 unique run ids，且全部匹配 gate RUN_IDS；bash -n 通过。当前没有启动这个 watcher，避免和已经等待中的 paired AdaLN watcher 抢卡。报告已更新 Action Cross-Attention 8-Card Queue 章节：/Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html。",
+          "created_at": "2026-06-22T19:27:23.836Z"
+        },
+        {
+          "comment_id": "comment_443fe087-98c0-436e-8868-7c33a0a0ed00",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-23 encoder follow-up: 针对 UMI Action Encoder 又补了一轮常用编码器调研和工程化判断。结论：LayerNorm 是必要但不充分；连续机器人 action/state 应按 dataset mean/std + 物理语义分组 + LayerNorm/RMSNorm/Identity ablation + raw action chunk temporal encoder 来做，不能再把 99维 condition 当扁平 prompt。远端新增 scripts_umi/summarize_action_gate_and_recommend.py，可读取 records/gates 格式的 action-gate JSON，汇总 pass count、每个 run 的 actual MAE、actual-vs-zero/time-view-only/wrong-row delta，并在 gate 失败时给出下一条路线。已用旧 paired-xctx-control gate 验证：0/20 gates passed，自动建议切到 bash scripts_umi/wait_launch_a14b_paired_action_xattn.sh。报告同步更新：/Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html。",
+          "created_at": "2026-06-22T19:40:19.404Z"
+        },
+        {
+          "comment_id": "comment_13e9d220-272a-4732-b3da-4569c528a108",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-23 follow-up: 为 action encoder / injection 路线补齐自动判定闭环。远端 scripts_umi/wait_run_a14b_paired_adaln_gate.sh 和 scripts_umi/wait_run_a14b_paired_action_xattn_gate.sh 现在都会在 collect_dual_multitask_action_gate.py 后自动调用 scripts_umi/summarize_action_gate_and_recommend.py。AdaLN gate 会输出 paired_adaln_recommendation_${STAMP}.json；若 strict gate 不过，推荐启动 action cross-attn watcher。Action cross-attn gate 会输出 paired_action_xattn_recommendation_${STAMP}.json；若仍不过，明确转入 ControlNet-style action/state branch，而不是继续在同类 encoder/norm 参数上循环。验证：远端 bash -n 两个 gate 脚本通过；summarizer 用旧 paired-xctx-control metrics 验证为 0/20 gates passed 并正确给出切换建议。报告已更新：/Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html。当前 AdaLN watcher 仍存活，8 张 H20 仍被 Gamma/Cosmos2.5 占用，尚未开始 AdaLN grid。",
+          "created_at": "2026-06-22T19:48:13.423Z"
+        },
+        {
+          "comment_id": "comment_2a96a739-a182-4aec-a801-4d089f097bf4",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-23 fallback implementation: 发现代码里已有 UMIBlockControlBranch / UMIPreBlockControlInjector 及 train/validate 参数，但 WanModel.forward 之前没有调用它们，因此 ControlNet-style fallback 实际未接入 denoising path。已修复 diffsynth/models/wan_video_dit.py：pre-block injector 在每个 DiT block 前注入 action/state residual，post-block block/gated control 在 block 后注入 residual；无 adapter 时路径不变，zero-init 时保持 exact no-op。新增 scripts_umi/smoke_block_control_injection.py，tiny CPU smoke 通过：pre-block/post-block zero-init actual_vs_base MAE=0.0，手动打开 projection 后 actual_vs_zero MAE 分别为 0.0007278 / 0.0007678。还新增 paired dual-view block-control fallback 队列：scripts_umi/launch_a14b_paired_block_control_grid8.sh、wait_run_a14b_paired_block_control_gate.sh、wait_launch_a14b_paired_block_control.sh；DRY_RUN=1 生成 8 个 high/low jobs，4 个 run ids 与 gate RUN_IDS 完全匹配。该路线暂不启动，作为 AdaLN 与 action-XAttn 都不过 strict gate 后的下一条 ControlNet-style action/state branch。报告已更新：/Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html。",
+          "created_at": "2026-06-22T20:02:14.667Z"
+        },
+        {
+          "comment_id": "comment_f9e5e0e5-3c8a-4be6-bcbf-02db3bef443c",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-23 route-chain fix: action-XAttn gate 的 fallback 已从旧的 manual note 改为可执行命令 bash scripts_umi/wait_launch_a14b_paired_block_control.sh。现在路线链条是：AdaLN strict gate 不过 -> 推荐 action-XAttn watcher；action-XAttn strict gate 不过 -> 推荐 block-control watcher；block-control 仍不过 -> 再考虑数据/action schema 或 Wan2.1/Gamma-style shared-world teacher。已验证：wait_run_a14b_paired_action_xattn_gate.sh bash -n 通过；summarizer 用旧 paired-xctx-control metrics 生成 recommendation JSON，fallback_command 正确为 block-control watcher。报告同步更新：/Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html。当前远端仍只有 AdaLN watcher 在等卡，未启动 XAttn 或 block-control。",
+          "created_at": "2026-06-22T20:07:38.927Z"
+        },
+        {
+          "comment_id": "comment_3458a3e3-b35e-42f4-9c47-148027a41395",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-23 fallback runner refactor: 为避免 gate 脚本内嵌长 shell/here-doc 导致维护风险，新增远端 scripts_umi/maybe_run_gate_fallback.py，并把 wait_run_a14b_paired_adaln_gate.sh / wait_run_a14b_paired_action_xattn_gate.sh 改为在写完 LATEST 与 recommendation JSON 后调用该 runner。runner 行为：recommendation=continue_best_run 时不启动；recommendation=switch_route 且 AUTO_FALLBACK=1 时执行 fallback_command；AUTO_FALLBACK=0 时只打印 disabled。验证：py_compile runner 通过；两个 gate 脚本 bash -n 通过；自测覆盖 dry-run、disabled、switch-route execution、continue-best-run 四种路径。报告已更新：/Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html。当前远端仍只有 AdaLN watcher 在等卡，未误启动后续 watcher。",
+          "created_at": "2026-06-22T20:23:51.620Z"
+        },
+        {
+          "comment_id": "comment_b2a96915-180d-4691-929f-319088906e6d",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Encoder 调研已补进本地报告：UMI Action Encoder 现在按 dataset mean/std + group-wise LayerNorm/RMSNorm/Identity ablation + raw action chunk Transformer + zero-init AdaLN/FiLM modulation 来组织。参考取舍：DiT/adaLN-Zero 支持 zero-init normalized modulation；ACT/Diffusion Policy 支持 action chunk/sequence encoder；RT-1/FAST 的离散 action tokenization 暂作为连续 encoder 全部 strict gate 失败后的备选，不作为当前第一路线。",
+          "created_at": "2026-06-22T20:40:47.357Z"
+        },
+        {
+          "comment_id": "comment_d348aa45-627b-40ab-aeff-889582a2b0da",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "补齐 strict gate 报告链路：`build_paired_action_gate_report.py` 现在能把旧 metrics 的 legacy DiffSynth 路径映射到当前 canonical workdir，并用 symlink materialize actual / zero / time-view-only / wrong-row 的左右视角视频。`wait_run_a14b_paired_adaln_gate.sh`、`wait_run_a14b_paired_action_xattn_gate.sh`、`wait_run_a14b_paired_block_control_gate.sh` 都已接入自动 HTML report 生成，report 失败不阻断 fallback。远端验证：`py_compile`、三个 `bash -n`、旧 paired metrics smoke report、`preflight_acwm_action_routes.py` 全通过。",
+          "created_at": "2026-06-22T20:47:44.796Z"
+        },
+        {
+          "comment_id": "comment_57d4b82a-ecb9-4ea5-89b9-4f41dba55131",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "新增无卡状态审计脚本 `scripts_umi/summarize_acwm_route_status.py`：汇总 `nvidia-smi`、AC-WM watcher/training 进程、AdaLN/XAttn/BlockControl 三条 route 的 step-64 high/low checkpoint readiness、latest metrics/recommendation/report，并写 `outputs_umi/action_gate/acwm_route_status_latest.json`。当前审计结果：8/8 H20 仍忙，只有 AdaLN launch watcher 存活；三条 route 均为 checkpoints 0/4、无 latest gate/report，说明 AdaLN 训练还未开始，不是 gate 跑失败。",
+          "created_at": "2026-06-22T20:53:15.277Z"
+        },
+        {
+          "comment_id": "comment_13c93ae9-57b8-4fb7-b02e-a32e77d69de6",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "修复 checkpoint 导出关键问题：DiffSynth 默认只保存 `requires_grad=True` 参数，会丢掉 UMI adapter 的结构 buffers（如 `group_dims_buffer`、`group_norm_type_buffer`、`use_action_chunk_encoder_buffer`、`action_chunk_*_buffer`、`block_stride`、`use_x_context`），导致训练和 validate 结构可能不一致。已在 `WanTrainingModule.export_trainable_state_dict()` 中额外保留 `umi_*` 模块的非 trainable state/buffers，并新增 `scripts_umi/smoke_acwm_checkpoint_export.py` 验证。远端 smoke 通过：13 个 required buffers 都被导出，UMI trainable+buffer keys 共 137 个。",
+          "created_at": "2026-06-22T21:08:57.047Z"
+        },
+        {
+          "comment_id": "comment_8cec853d-85f6-411b-9e66-63ab99703033",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-23 encoder follow-up: 针对 UMI Action Encoder 补充了 LayerNorm/RMSNorm/Identity 调研和实现检查。当前建议 LayerNorm 作为默认，因为 paired left/right 小 batch、连续 action/state token 和短 action chunk 更需要 per-token 稳定归一化；RMSNorm 保留为幅值/均值信息 ablation，Identity 只做 z-score 是否足够的负对照。新增并运行远端 scripts_umi/smoke_paired_umi_condition_merge.py，直接调用真实 WanTrainingModule.merge_umi_conditions()；它发现 action_chunk_mask 原本被错误拼成 (26,4)，已修为 (2,13,4)。通过验证：condition=(2,13,99), action_chunks=(2,13,4,16), action_chunk_mask=(2,13,4)，left/right payload preserved exactly。报告已更新：/Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html。",
+          "created_at": "2026-06-22T21:30:40.248Z"
+        },
+        {
+          "comment_id": "comment_90b829c6-d086-4bb7-8344-c37133c4a346",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-23 preflight hardening: 为保证后续训练不是只串行/半边专家，已扩展远端 scripts_umi/preflight_acwm_action_routes.py。现在会解析 AdaLN / Action-XAttn / BlockControl 三条 launcher 的 DRY_RUN=1 输出，断言每条 route 都 exactly 8 jobs、GPU ids 覆盖 0-7、每个 run_id 同时有 high/low 两个 expert，并继续检查 launcher run_ids 与 strict-gate RUN_IDS 一致。验证通过：AdaLN 8 jobs，Action-XAttn 8 jobs，BlockControl 8 jobs，均为 GPU 0-7 + high/low pairs。当前远端仍是 8/8 GPU 被 Gamma/Cosmos2.5 占用，AdaLN watcher 活着等待，尚无新 checkpoint/gate 结果。报告已更新：/Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html。",
+          "created_at": "2026-06-22T21:40:11.599Z"
+        },
+        {
+          "comment_id": "comment_16a390b1-c27b-406a-b216-fdf98bb0774a",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-23 gate hardening + AC-WM mapping: 进一步按 Motus / Dreamer / Ctrl-World / DreamDojo / PlayWorld 的 action-conditioned world model 要求约束当前 WAN2.2 路线：动作必须进入 dynamics path，双视角必须共享同一 scene/action context，评测必须用 counterfactual action gate。已修复远端 scripts_umi/collect_dual_multitask_action_gate.py 的 false-positive 风险：之前如果 zero/time_view_only/wrong-row 某个 summary 缺失，passed 可能仍保持 true；现在必须同时存在 zero、time_view_only、至少一个 wrongrow*，缺任一项都会 fail，并在 gate JSON 里记录 missing_modes。新增 scripts_umi/smoke_action_gate_required_modes.py，无卡验证通过：missing counterfactuals fail；complete counterfactuals can pass。preflight 仍通过，远端仍为 8/8 GPU 被现有 Gamma/Cosmos2.5 占用，AdaLN watcher 等待中，尚无新 checkpoint/gate 结果。报告已更新：/Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html。",
+          "created_at": "2026-06-22T21:48:46.804Z"
+        },
+        {
+          "comment_id": "comment_33bc0e8c-7578-400a-b153-1c429717e6ec",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-23 paired validation payload fix: 排查 strict gate 时发现 validate_umi_a14b_pair.py 在 --view dual_lr --lora-view paired_lr 下仍会按 packed dual_lr metadata 读取 umi_condition=(13,198)，而 paired_lr 训练 route 的 adapter 实际期望 left/right batch payload：condition=(2,13,99)、action_chunks=(2,13,4,16)、action_chunk_mask=(2,13,4)。已修复 validate：I2V/metrics 仍使用 dual_lr side-by-side GT video/prompt，但当 lora-view=paired_lr 时，UMI condition 改从 metadata_paired_lr_cond.csv 的 umi_condition_left/right 读取并合成 paired payload。同步修正 zero/time_view_only/left_zero/right_zero counterfactual，left/right 现在作用在 batch 0/1。新增 scripts_umi/smoke_validate_paired_condition_payload.py，无卡验证通过：actual preserves paired condition；zero/time_view_only 保持 paired shape；left/right branch counterfactuals operate on batch axis；wrong-row same shape but different payload。报告已更新：/Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html。",
+          "created_at": "2026-06-22T21:59:05.547Z"
+        },
+        {
+          "comment_id": "comment_395ea566-0ab2-4e62-bf6c-38a4c96051c2",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-23 training payload smoke: 为确认训练入口和 validate/gate 已经对齐，新增远端 scripts_umi/smoke_train_paired_lr_data_payload.py。该 smoke 直接用真实 UnifiedDataset 读取 data/umi_wan_overfit/metadata_paired_lr_cond.csv，再调用 WanTrainingModule.branch_data() 和 merge_umi_conditions()。验证通过：metadata row 包含 video_left/video_right/prompt_left/prompt_right/umi_condition_left/right；left/right branch 分别拿到对应视频和 prompt；merge 后 condition=(2,13,99)，action_chunks=(2,13,4,16)，action_chunk_mask=(2,13,4)，且左右 payload preserved exactly。结论：训练和刚修的 validate 现在都使用 left/right as batch items 的 paired action representation，不再是 packed 198-dim condition。报告已更新：/Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html。",
+          "created_at": "2026-06-22T22:09:24.479Z"
+        },
+        {
+          "comment_id": "comment_21c8bf43-52de-45de-866c-6a58f0d0c8ae",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-23 Motus source audit: 已直接 clone/read thu-ml/Motus 代码。核心结论：Motus 不是普通 action prompt/QKV append，而是独立 Action Expert：state/action MLP encoder + positional embeddings；action 也按 flow schedule 加噪并学习 action_noise-actions；每层 action AdaLN；action token 通过 wan_action_qkv 投到 WAN head space，WAN self-attn 接收 action_q/k/v 并回传 action/video outputs；最后有 action decoder 和 action loss。因此我们已失败的 Motus-QKV route 只近似了静态 QKV，缺 action denoising target、action decoder/loss、per-layer action-token dynamics。当前 AdaLN -> Action-XAttn -> BlockControl 作为低成本 graft 仍合理；若三条都过不了 strict gate，下一步不应继续 scale sweep，而应实现 Motus-like action-side denoising auxiliary head。远端设计 note: outputs_umi/action_gate/motus_to_umi_wan22_design_notes_20260623.md；报告已更新：/Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html。",
+          "created_at": "2026-06-22T22:16:23.353Z"
+        },
+        {
+          "comment_id": "comment_66393e4b-c7c2-4473-9049-e6740ce2f128",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-23 Motus-like fallback module: 现有 UMIActionStateConsistencyHead 只是从 video-flow prediction 解码 UMI summary token，不等价于 Motus 的 action-side denoising objective。因此新增远端 UMIActionDenoisingAuxHead（diffsynth/models/umi_condition.py）和 scripts_umi/smoke_action_denoising_aux_head.py，作为下一代 fallback 的最小可运行模块：输入 paired raw action_chunks=(2,13,4,16)、mask=(2,13,4)，对 action chunks 加噪并预测 noise-clean_action，输出 pred/target 同为 (2,13,4,16)。无卡 smoke 通过：loss finite=14.0844，output projection grad_norm=25.4831。当前不接入正在等待的 AdaLN/XAttn/BlockControl 8卡队列；如果三条 cheap graft route 都 strict gate fail，下一步应接这个 Motus-like action denoising aux head，而不是继续静态 QKV/scale sweep。报告已更新：/Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html。",
+          "created_at": "2026-06-22T22:24:23.597Z"
+        },
+        {
+          "comment_id": "comment_3e2c93d2-bb0f-4fe6-9fb3-510fd61adc3f",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-23 update: 按 UMI Action Encoder 调研结论，远端已把 Motus-style action denoising auxiliary head 真正接入训练 loss，而不只是单独 smoke。新增 _umi_action_denoising_aux_loss() 并接入 FlowMatchSFTLoss / FlowMatchSFTLossMemoryEfficient；train.py 新增 --enable_umi_action_denoising_aux_head、hidden/layers/heads/action_dim/max_chunk_len/loss_weight 参数；train_a14b_expert_overfit.sh 新增 USE_UMI_ACTION_DENOISING_AUX_HEAD 和 UMI_ACTION_DENOISING_LOSS_WEIGHT passthrough；preflight payload flag 也已覆盖。CPU smoke scripts_umi/smoke_action_denoising_loss_hook.py 通过：loss=39.9627, grad_norm=59.5423；route preflight 通过。Encoder 判断：LayerNorm 作为默认，RMSNorm/Identity 保留 ablation；真正路线是 dataset mean/std + semantic group norm + raw action chunk Transformer + zero-init AdaLN/cross-attn/control branch。当前任务仍保持 active，因为 strict action gate 尚未通过。Report: /Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html",
+          "created_at": "2026-06-22T22:39:30.815Z"
+        },
+        {
+          "comment_id": "comment_623c473b-bfd8-40ce-89f4-e75987e109bb",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-23 correction/update: 复查发现独立 UMIActionDenoisingAuxHead 如果不和 video injection path 共享 encoder，只会训练旁路 action objective，不足以保证 Wan video path 更听 action。已修复：_umi_action_denoising_aux_loss() 现在优先调用 UMIBlockModulationAdapter.action_chunk_denoising_loss()；当 AdaLN/block modulation 启用 raw action chunk Transformer 时，aux loss 的梯度会进入同一套 action_chunk_input/action_chunk_pos/action_chunk_encoder。只有没有 shared adapter 时才回退到独立 aux head。新增 smoke_shared_action_denoising_loss.py 通过：loss=37.0939, shared_action_chunk_grad_norm=66.8337, fallback_aux_grad_norm=0.0。同时 8卡 AdaLN launcher 的第四个变体已从普通 lnchunk 改成 paired_adalnctrl_lnchunk_auxw0p05_lr5e-05_b256_scale0p05_s1_r8_e4，并同步 gate RUN_IDS；DRY_RUN 和 preflight 均通过。这版更接近 Motus 的 action-side objective：action denoising 不再只是旁路诊断，而是正则共享 video-control chunk encoder。",
+          "created_at": "2026-06-22T22:50:13.301Z"
+        },
+        {
+          "comment_id": "comment_86a0d61f-89ac-4b7f-b933-6b39f816d10c",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-23 shared-scene update: 复查 paired dual-view 路线后发现 UMIPairedDualBranchAdapter 已有 frame-pooled cross-view attention 分支，但 AdaLN launcher 之前没有启用，默认 attention_dim=0，左右视角更多是同位置 residual 交换。已更新 scripts_umi/launch_a14b_paired_adaln_control_grid8.sh：默认 UMI_PAIRED_DUAL_BRANCH_ATTENTION_DIM=256, UMI_PAIRED_DUAL_BRANCH_ATTENTION_HEADS=4，并透传到训练脚本。新增 smoke_paired_scene_hub_adapter.py 通过：zero-init noop_mae=0.0；手动打开输出层后 active_mae=0.01448，替换右视角会让左视角 delta 变化 0.00324。Dry-run 现在 8 个 AdaLN jobs 都显示 scene_attn=256，route preflight 通过。下一轮 AdaLN grid 因此不只是 action encoder ablation，而是 action-conditioned + shared-scene paired dual-view ablation。",
+          "created_at": "2026-06-22T22:56:45.616Z"
+        },
+        {
+          "comment_id": "comment_03ebb831-5686-45d0-aa21-0576ff375835",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-23 gate hardening: 修复 paired-output action gate 的假阳性风险。旧的 collect_paired_multitask_action_gate.py 在缺少某些 counterfactual 输出时可能仍把 available comparisons 判为 pass。现在每个 paired gate 必须同时具备 zero、time_view_only、至少一个 wrongrow*；缺项会写入 missing_modes 并强制 passed_available_gate=False。新增真实文件级 smoke_paired_action_gate_required_modes.py：缺 wrongrow 时 missing_wrongrow_passed=False；补齐 zero/time_view_only/wrongrow 且 delta 合格时 complete_passed=True。AC-WM route preflight 继续通过，远端当前仍是 8/8 H20 busy，AdaLN watcher 等待卡空。",
+          "created_at": "2026-06-22T23:03:04.212Z"
+        },
+        {
+          "comment_id": "comment_f67c904c-213f-49f5-8c0c-e74f7f5f7a10",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-23 branch-level gate: A14B AdaLN / Action-XAttn / BlockControl 三条 wait-run gate 已增加 left_zero 和 right_zero 推理，并在 collect_dual_multitask_action_gate.py 增加 --require-branch-modes。后续 strict gate 不再只要求全局 zero/time_view_only/wrongrow，还必须证明单侧 left/right action 置零都比 actual 更差，避免左右腕只靠共享像素/历史帧生成而没有分支级动作控制。新增真实文件级 smoke_dual_action_gate_branch_modes.py：缺 left_zero/right_zero 时 missing_branch_passed=False；补齐全部 branch counterfactual 且 delta 合格时 complete_branch_passed=True。已验证三个 gate 脚本 mode loop 均为 actual zero time_view_only left_zero right_zero，并均传入 --require-branch-modes。远端仍 8/8 H20 busy，AdaLN watcher 等待卡空。",
+          "created_at": "2026-06-22T23:09:27.238Z"
+        },
+        {
+          "comment_id": "comment_699b52a6-1d89-4479-b5c0-5830598e2b28",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "UMI Action Encoder 调研补充：LayerNorm 仍作为默认 encoder norm，因为 paired UMI 是 small-batch 连续控制 token，能稳定每个语义组投影；RMSNorm 保留为幅值/均值保留 ablation；Identity 只做离线 z-score 是否足够的负对照。当前推荐路线是 dataset z-score -> semantic grouped norm/MLP -> raw action chunk Transformer -> zero-init AdaLN / action cross-attention / control branch。远端 preflight 已补硬检查：A14B gate 脚本必须包含 left_zero/right_zero 和 --require-branch-modes，否则不允许通过 route preflight。",
+          "created_at": "2026-06-22T23:17:55.684Z"
+        },
+        {
+          "comment_id": "comment_7eb7cf3d-16f5-4359-9b04-cd7adbfc3bbf",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "AC-WM route preflight 已进一步硬化：除了 8 卡 launcher/run-id/fallback 和 branch-level gate 外，现在还会实际运行 paired payload smoke，要求训练入口输出 condition=[2,13,99]、action_chunks=[2,13,4,16]、action_chunk_mask=[2,13,4]；同时静态检查 validate 路径必须读取 metadata_paired_lr_cond.csv，并支持 left_zero/right_zero 的 batch-axis action chunk zeroing。最新 preflight 已通过；当前远端 8/8 H20 仍满载，AdaLN watcher 还在等待空卡，三条 route 均尚无 checkpoint。",
+          "created_at": "2026-06-22T23:25:00.940Z"
+        },
+        {
+          "comment_id": "comment_c1f2c918-f616-4755-a292-ea8ff19d576b",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "新增 AC-WM 完成度审计脚本 scripts_umi/audit_acwm_completion.py：它会跑 preflight、paired payload smoke、route status，并要求至少一个 route 具备 high/low checkpoint、metrics、HTML report、strict action gate pass，且 recommendation=continue_best_run，才允许认为“真正 action-conditioned 双视角 UMI WM”完成。最新审计结果 complete=false；当前唯一失败项是 no route has passed strict action gate with recommendation continue_best_run，三条 route 都还没有 step-64 checkpoint/metrics/recommendation/report，8/8 H20 仍满载，AdaLN watcher 正常等待。",
+          "created_at": "2026-06-22T23:32:21.199Z"
+        },
+        {
+          "comment_id": "comment_85601f46-2380-4233-94b9-4e5ef6447710",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "发现并修复 AC-WM base-preservation 的一个真实覆盖漏洞：loss.py 的 _temporarily_disable_umi_modules 列表没有禁用 umi_action_cross_attn_adapter、umi_motus_action_qkv、umi_action_denoising_aux_head，部分 route 的 base-preservation target 可能不是纯 base Wan。已补齐列表并新增 smoke_base_preservation_disables_all_umi_modules.py；preflight 现在会跑这个 smoke。另把 shared action-denoising smoke 接入 preflight/audit，确认 Motus-like action denoising loss 训练共享 action chunk encoder，而不是 detached fallback head。最新 audit 两项均通过；目标仍未完成的唯一硬原因是还没有 route 通过 strict action gate。",
+          "created_at": "2026-06-22T23:40:10.852Z"
+        },
+        {
+          "comment_id": "comment_8e2e3a7a-a0b1-4001-af5b-f1cd291ed3f6",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "修复 strict branch gate 语义：collect_dual_multitask_action_gate.py 现在对 left_zero 使用 left_mae delta，对 right_zero 使用 right_mae delta，不再只用 whole-video MAE。新增/强化 smoke_dual_action_gate_branch_modes.py：缺 left/right branch modes 会 fail；whole-video MAE 变差但对应 branch MAE 没变差也会 fail；只有对应 branch MAE 真变差才 pass。preflight 和 completion audit 已把 branch_specific_delta 作为前置证据。最新 audit 仍 complete=false，唯一硬失败还是没有 route 通过 strict action gate。",
+          "created_at": "2026-06-22T23:46:51.919Z"
+        },
+        {
+          "comment_id": "comment_5ebbac9e-b57b-4470-9084-22d66348da89",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "确认 UMI watcher 没坏：当前 8/8 H20 被 Gamma-World/Cosmos2.5 训练正常占用，torchrun 进度约 467/4000，recent avg iter time 约 49.8s，粗略 ETA 约 48.8h。已更新 summarize_acwm_route_status.py：解析 nvidia-smi compute apps，并从 Gamma log 抽取 latest iteration/loss/ETA；audit_acwm_completion.py 现在把 blocking_jobs 写进 evidence。当前 UMI AdaLN watcher 仍 alive，三条 AC-WM route checkpoint 都是 0/4；不应叠加启动新的 8 卡 UMI 训练，除非明确决定停掉 Gamma。",
+          "created_at": "2026-06-22T23:54:31.500Z"
+        },
+        {
+          "comment_id": "comment_05db2809-ea81-45cc-8a85-2af8ad09ed76",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Action Encoder 调研已落地到远端 UMI route：新增 docs/umi_action_encoder_notes.md，明确默认为 dataset z-score + semantic group LayerNorm + raw action chunk Transformer + shared action-denoising aux loss；RMSNorm/Identity 保留为 ablation。新增 scripts_umi/smoke_action_encoder_norms.py 并接入 preflight_acwm_action_routes.py，验证 LayerNorm/RMSNorm/Identity 三路 grouped encoder、chunk Transformer 梯度、checkpoint buffer 与 ablation 顺序。远端 preflight 通过：action_encoder_norm_smoke status=passed，norm_types=[layernorm,rmsnorm,identity]，chunk action_dim=16 hidden_dim=64 layers=1 heads=4，chunk grad norm≈48.53；三条 route 仍保持 8-GPU matrix。当前仍不标 done：Gamma/Cosmos2.5 占满 8 卡，UMI AdaLN watcher 在等卡，strict action gate 尚未产生 checkpoint/metrics。",
+          "created_at": "2026-06-23T00:16:32.106Z"
+        },
+        {
+          "comment_id": "comment_baad405c-cdfe-42b8-bce5-6a4addee650b",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "encoder_norm_smoke_latest_20260623: 已补 UMI Action Encoder norm/chunk smoke。远端新增 scripts_umi/smoke_action_encoder_norms.py 与 docs/umi_action_encoder_notes.md，并接入 preflight_acwm_action_routes.py。验证通过：norm_types=[layernorm,rmsnorm,identity]，默认推荐 LayerNorm+raw action chunk Transformer+shared action denoising aux loss，chunk grad norm≈48.53。任务仍 active，等待 Gamma 释放 8 卡后跑 strict action gate。",
+          "created_at": "2026-06-23T00:19:01.307Z"
+        },
+        {
+          "comment_id": "comment_acca943b-0980-4397-ade5-a20493e22c2b",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "encoder_norm_smoke_launcher_aligned_20260623: 修正 UMI Action Encoder smoke/preflight 与真实 AdaLN 8卡 launcher 的配置漂移。smoke_action_encoder_norms.py 现在使用 launcher 默认 raw action chunk Transformer 参数：action_dim=16, hidden_dim=128, layers=2, heads=4, max_len=4；preflight 重新通过，chunk grad norm≈138.90，recommendation matches_launcher_defaults=true。报告 /Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html 已同步。任务仍 active，等待 Gamma/Cosmos2.5 释放 8卡后启动 strict gate。",
+          "created_at": "2026-06-23T00:25:57.696Z"
+        },
+        {
+          "comment_id": "comment_d90532dc-fd96-47b8-b8c1-929b19a47301",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "action_condition_sensitivity_smoke_20260623: 新增并接入 UMI action-condition sensitivity smoke。脚本 scripts_umi/smoke_action_condition_sensitivity.py 使用真实 paired left/right payload，检查 actual/zero/time_view_only/wrong-row 是否在 AdaLN、Action-XAttn、BlockControl 三条 route encoder 中产生非零差异，同时确认 zero-init residual 不破坏 base hidden。验证通过：payload condition=[2,13,99], action_chunks=[2,13,4,16]；min_delta≈0.00223；blockmod/xattn/blockctrl apply_delta 均为 0。preflight 和 audit 已接入该 requirement；audit 仍 complete=false，唯一硬失败仍是没有 route 通过 strict action gate。",
+          "created_at": "2026-06-23T00:39:53.230Z"
+        },
+        {
+          "comment_id": "comment_fa5c7685-ae08-4f07-b0fe-0d0790080e55",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[encoder_norm_research_checkpoint_health_20260623] UMI Action Encoder 调研补充：默认路线定为 dataset z-score -> semantic grouped MLP -> LayerNorm -> raw action chunk Transformer -> zero-init AdaLN/FiLM/control branch；RMSNorm 保留作高吞吐/不减均值 ablation，Identity 只作 sanity check。已把 LayerNorm/RMSNorm/Identity 三路 smoke 接入 preflight，并补充 action-condition sensitivity smoke：actual/zero/time_view_only/wrongrow 在 AdaLN、Action-XAttn、BlockControl 三条 route encoder 中都产生非零 delta，同时 zero-init application 仍保持 base-preservation。新增 checkpoint adapter health probe：AdaLN gate 要求 blockmod+paired_dual_branch，Action-XAttn gate 要求 action_xattn+paired_dual_branch，BlockControl gate 要求 block_control+paired_dual_branch；该 probe 只证明 checkpoint 内 adapter 存在并被训练动，不等于 strict video action gate 通过。当前任务仍未完成：8 张 H20 仍被 Gamma/Cosmos2.5 job 占用，UMI watcher 在等卡，三条 route checkpoint 都还是 0/4。",
+          "created_at": "2026-06-23T00:59:16.476Z"
+        },
+        {
+          "comment_id": "comment_f27aa2d4-c24f-49e3-b611-3a5e1f646c3d",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[acwm_action_injection_design_audit_20260623] 继续推进 UMI Action Encoder / AC-WM route：新增远端 scripts_umi/audit_acwm_action_injection_design.py，并接入 preflight_acwm_action_routes.py 与 audit_acwm_completion.py。该 audit 是静态结构检查，不替代视频 gate；它要求当前路线仍满足真正 action-conditioned WM 的最小工程定义：paired dual-view UMI payload、raw action_chunks/action_chunk_mask、Motus-like action-side denoising objective、zero-init/base preservation、branch-level actual/zero/time_view_only/left_zero/right_zero/wrongrow gate，以及 AdaLN -> Action-XAttn -> BlockControl escalation。验证结果：design audit passed，check_count=10；总 preflight 通过，paired_adaln/paired_action_xattn/paired_block_control 都是 8-job 覆盖 8 H20，高低噪声 expert 成对；completion audit 仍为 complete=false，因为目前没有 route 通过 strict action gate，且 Gamma/Cosmos2.5 仍占满 8 张 H20，UMI AdaLN watcher 正在等卡。",
+          "created_at": "2026-06-23T01:11:54.704Z"
+        },
+        {
+          "comment_id": "comment_f74f1203-a80e-40e3-82ec-f7286a52bd63",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[stateful_motus_action_tokens_20260623] 继续推进 UMI AC-WM action injection：旧 Motus-QKV 失败的一个核心差距是 action Q/K/V 每层都从同一个 condition 静态重算，Wan self-attention 后只保留 video tokens，action tokens 没有跨 block 更新。远端已补 stateful Motus fallback seam：UMIMotusActionQKV.init_action_tokens / qkv_from_tokens / update_action_tokens，并在 wan_video_dit 的 block loop 中保留 umi_motus_action_tokens；如果该 seam 存在，就用当前 action state 生成本层 Q/K/V，再用 block 后的 video hidden 更新 action state。新增 scripts_umi/smoke_motus_joint_action_tokens.py 并接入 preflight/completion audit。验证：zero_init_update_delta=0.0，enabled_update_delta=0.01333，video_conditioned_branch_delta=0.01780；action_injection_design_audit 现在 check_count=13。注意这仍只是结构和 smoke，不是完成证据；completion audit 仍 complete=false，原因是还没有任何 route 通过 strict action gate，Gamma/Cosmos2.5 仍占满 8 H20，UMI watcher 等卡。",
+          "created_at": "2026-06-23T01:27:03.467Z"
+        },
+        {
+          "comment_id": "comment_850f2eaf-8ad2-468e-8078-a7888504b720",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[encoder_norm_and_motus_joint_route_20260623] 关于 UMI Action Encoder：已把常用 norm/encoder 调研落到远端 preflight/completion audit。默认路线明确为 dataset stats -> semantic grouped encoder -> LayerNorm -> raw action chunk Transformer -> zero-init gated injection；RMSNorm 保留为不减均值/幅值 ablation，Identity 只作 sanity check。远端验证通过：action_encoder_norm_smoke norm_types=[layernorm,rmsnorm,identity]，default=LayerNorm+raw action chunk Transformer+shared action denoising aux loss，chunk config 与 launcher 对齐 dim=16 hidden=128 layers=2 heads=4，min action-condition delta≈0.0022259，zero-init apply delta 全为0。同时新增 paired_motus_joint 作为 AdaLN -> Action-XAttn -> BlockControl 后的 stateful Motus-style fallback route；preflight 现在检查四条 route，每条 8 job 覆盖 8 张 H20，design audit check_count=16。completion audit 仍 complete=false，唯一硬失败是尚无 route 通过 strict action gate；Gamma-World/Cosmos2.5 仍占满 8 卡，UMI watcher 正常等待。报告更新：/Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html。",
+          "created_at": "2026-06-23T01:50:10.375Z"
+        },
+        {
+          "comment_id": "comment_04984277-b7b7-47fc-8f6b-843faa222a0d",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[acwm_reference_alignment_audit_20260623] 继续推进 UMI Action Injection：已把 Motus、Dreamer/RSSM、Veo-Robotics、Ctrl-World、DreamDojo、PlayWorld 的 AC-WM 参考要求整理成可审计矩阵，并落地到远端 docs/umi_acwm_reference_alignment.md 与 scripts_umi/audit_acwm_reference_alignment.py。这个 audit 检查 8 项：reference doc、temporal action_chunks/action_chunk_mask、action 进入 Wan hidden dynamics、stateful Motus action tokens、zero-init/gated control routes、base-preservation loss、branch-level actual/zero/time_view_only/wrongrow/left_zero/right_zero gate、以及 paired_adaln -> paired_action_xattn -> paired_block_control -> paired_motus_joint route escalation。远端验证：reference_alignment_audit status=passed, check_count=8；full preflight 通过；completion audit 仍 complete=false，唯一硬失败仍是 no route has passed strict action gate with recommendation continue_best_run。当前 Gamma-World/Cosmos2.5 约 630/4000 iter，占满 8 张 H20，UMI watcher 正常等卡。报告已更新：/Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html。",
+          "created_at": "2026-06-23T02:09:55.586Z"
+        },
+        {
+          "comment_id": "comment_67ca45cb-0099-44f0-9d03-e47a1773e8d8",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[acwm_gate_execution_plan_20260623] 新增并接入 scripts_umi/build_acwm_gate_execution_plan.py：把卡空后每条 route 的 strict gate 执行计划做成机器可读 manifest。计划覆盖 paired_adaln / paired_action_xattn / paired_block_control / paired_motus_joint 四条路线，每条 4 个 run id，rows=0/1/5/7/11，required_modes=[actual, zero, time_view_only, left_zero, right_zero, wrongrow]，并记录 checkpoint health modules、report/metrics 输出和 fallback。远端验证：gate_execution_plan status=passed routes=4；full preflight 通过；completion audit 仍 complete=false，唯一失败仍是尚无 route 通过 strict action gate。当前 Gamma-World/Cosmos2.5 约 649/4000 iter，占满 8 张 H20，UMI watcher 正常等卡。报告已更新：/Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html。",
+          "created_at": "2026-06-23T02:26:05.828Z"
+        },
+        {
+          "comment_id": "comment_bc9287a2-5fd0-4215-933a-57605cdf36c6",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[local_acwm_evidence_sync_helper_20260623] 本地 Downloads 报告目录新增 sync_remote_evidence.py，可一键刷新远端 bundle_acwm_completion_evidence.py 并同步 evidence JSON/HTML 到 /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/index.html。已实际跑通：本地 evidence bundle 显示 complete=false，route_artifacts=4，gpu_busy_count=8，failure 仍是 no route has passed strict action gate with recommendation continue_best_run。这个脚本是后续卡空、strict gate 跑完后的本地审核入口，不需要手工找远端多个 JSON/report 路径。",
+          "created_at": "2026-06-23T02:45:41.890Z"
+        },
+        {
+          "comment_id": "comment_a3c72011-10f0-4c34-883c-8cca794dd5fb",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "acwm_reference_to_code_trace_20260623: 继续推进 Motus/Dreamer/Veo-Robotics/Ctrl-World/DreamDojo/PlayWorld -> Wan2.2 代码落地链路。新增远端 docs/umi_acwm_reference_to_code_trace.md 和 scripts_umi/audit_acwm_reference_to_code_trace.py，并接入 preflight_acwm_action_routes.py；completion audit 也把该 trace 纳入必要证据。trace audit 发现并修复真实 bug：examples/wanvideo/model_training/train.py 缺少 --enable_umi_action_cross_attention CLI 开关，action-cross-attn route 原本无法从 launcher 正常启用；已补上并 py_compile 通过。完整 CPU preflight 已通过：paired_adaln / paired_action_xattn / paired_block_control / paired_motus_joint 四条路线均 8 jobs、GPU 0-7、high/low pair；paired payload、branch gate、base preservation、shared action-denoising、Motus stateful token、encoder norm、condition sensitivity、design audit、reference audit、reference-to-code trace 和 gate execution plan 均通过。报告更新：/Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html；证据 JSON：evidence/acwm_reference_to_code_trace_latest.json 和 evidence/acwm_completion_audit_latest.json。当前仍未完成：Gamma/Cosmos2.5 占满 8 H20，UMI watcher 仍在等卡，四条 UMI route checkpoint 0/4，尚无 strict action gate pass。",
+          "created_at": "2026-06-23T03:20:51.028Z"
+        },
+        {
+          "comment_id": "comment_4c1e8dff-dce3-41d7-9c13-270828e1baa0",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "motus_qkv_structured_gate_latest_20260623: 处理旧 heartbeat monitor-motus-qkv-umi-grid。远端 MOTUS_QKV_LATEST=20260623_002645，已同步最新 structured Motus-QKV gate 到本机 /Users/boris/Downloads/umi_motus_qkv_gate_20260622/index.html，并复制真实视频文件。校验：HTML video refs=80，missing=0，ffprobe_bad=0。metrics: 20 gates total，0 passed；runs: motusqkv_struct_g48_s02_lr5e6_r4 0/5 mean_mae=57.701；motusqkv_struct_g48_s05_lr5e6_r4 0/5 mean_mae=57.045；motusqkv_struct_g64_s02_lr1e5_r8 0/5 mean_mae=56.850；motusqkv_struct_g64_s02_lr5e6_r4 0/5 mean_mae=57.297；max counterfactual delta=0.0。结论：structured Motus-QKV 仍然完全不听 action，且 qualitative 输出仍偏噪/弱结构；该旧 gate 已完成且失败，当前主线应继续等待 paired_adaln watcher / AdaLN->Action-XAttn->BlockControl->Stateful Motus-Joint 路线。",
+          "created_at": "2026-06-23T03:38:01.633Z"
+        },
+        {
+          "comment_id": "comment_c2ad78f2-19dc-4870-bef5-2cc208287fda",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "acwm_route_wait_status_20260623_iter750: 继续 UMI AC-WM action injection 主线检查。远端 8 张 H20 当前仍被 Gamma-World/Cosmos2.5 training 占满，latest iteration=750/4000，latest loss=0.1301，recent avg iter=49.93s，ETA≈45.1h；UMI paired AdaLN watcher 仍 alive，并每 5 分钟写 waiting log，没有重复启动 UMI 训练。CPU preflight 通过：paired payload、LayerNorm/RMSNorm/Identity ablation、raw action chunk encoder、Motus-style stateful tokens、zero-init/base-preserving injection、branch-level gates、AdaLN->Action-XAttn->BlockControl->Stateful Motus-Joint escalation 都通过。completion audit 仍未完成，hard blocker 是四条 route（paired_adaln / paired_action_xattn / paired_block_control / paired_motus_joint）均为 0/4 checkpoint，还没有 strict action gate metrics / recommendation=continue_best_run。本机报告已更新：/Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html；证据在 evidence/acwm_status_20260623/。",
+          "created_at": "2026-06-23T03:52:05.385Z"
+        },
+        {
+          "comment_id": "comment_7e47a912-f895-4888-8c56-2a68cf652f9c",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "acwm_watcher_duplicate_guard_20260623: 为 UMI paired AdaLN wait-launch 脚本补了单实例保护。远端 scripts_umi/wait_launch_a14b_paired_adaln_control.sh 现在会先检查是否已有同名 watcher 活跃，若存在则记录日志并退出，避免后续 manual/automation retry 在 GPU 空出来时重复 launch 8 卡训练。验证：本地 bash -n 通过，rsync 回远端后远端 bash -n 通过；当前正在运行的 watcher 未中断，仍继续等待 Gamma/Cosmos2.5 释放 8 张 H20。",
+          "created_at": "2026-06-23T03:55:38.673Z"
+        },
+        {
+          "comment_id": "comment_aef299a3-3fe5-4551-bc09-eb78cdd6f90c",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "acwm_fallback_escalation_guard_20260623: 检查并加固 UMI AC-WM route escalation。确认当前不是只等 AdaLN：paired_adaln gate 若 recommendation=switch_route 会经 maybe_run_gate_fallback.py 自动启动 wait_launch_a14b_paired_action_xattn.sh；action_xattn 失败切 block_control；block_control 失败切 paired_motus_joint；motus_joint 失败后才进入 manual data/teacher route。已给 fallback 三条 wait-launch 脚本补单实例 guard，并给 action_xattn / block_control 补 GPU 空闲后的 preflight before launch，防止重复 watcher 或坏配置直接吃 8 卡。验证：远端 bash -n 通过 action_xattn/block_control/motus_joint wait-launch scripts；maybe_run_gate_fallback.py --dry-run 能解析 switch_route；修改后 preflight_acwm_action_routes.py 通过，fallback_runner=passed，gate_execution_plan=passed。本机报告已更新：/Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html；证据：evidence/acwm_status_20260623/preflight_after_fallback_guard_latest.json。",
+          "created_at": "2026-06-23T04:03:22.720Z"
+        },
+        {
+          "comment_id": "comment_197859fb-4729-4d13-9b57-5d234f8f0486",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "acwm_fallback_escalation_audit_completion_20260623: 新增并接入 scripts_umi/audit_acwm_fallback_escalation.py。该 GPU-free audit 静态检查四条 route 的 guarded fallback：paired_adaln -> paired_action_xattn -> paired_block_control -> paired_motus_joint；每条 wait-launch 必须有 single-watcher guard、preflight before launch、8 卡 launcher 和 strict gate；前三条 gate 必须通过 maybe_run_gate_fallback.py 自动切下一条，最后 Motus-Joint 必须停在 manual data/teacher route。已接入 preflight_acwm_action_routes.py 和 audit_acwm_completion.py。验证：远端 py_compile 通过；audit_acwm_fallback_escalation.py 通过 check_count=4；完整 preflight 通过且 fallback_escalation_audit=passed、fallback_runner=passed、四条 route 都是 8 jobs/GPU0-7；completion audit 仍 exit=2，但唯一 failure 仍是 no route has passed strict action gate with recommendation continue_best_run。报告已更新：/Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html。",
+          "created_at": "2026-06-23T04:15:02.407Z"
+        }
+      ],
       "completed_at": null,
-      "updated_at": "2026-06-22T13:14:53.015Z"
+      "updated_at": "2026-06-23T04:15:02.407Z"
     },
     {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
