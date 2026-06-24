@@ -1,0 +1,21 @@
+# GitHub Pages still runs the repository through its default Jekyll build.
+# Keep that static fallback lean; Vercel remains the full deployment target for
+# API routes and the complete presentation media bundle.
+exclude:
+  - AGENTS.md
+  - CONTEXT.md
+  - README.md
+  - package.json
+  - package-lock.json
+  - api
+  - docs
+  - scripts
+  - supabase
+  - test
+  - tmp
+  - node_modules
+  - source-pptx
+  - source-videos
+  - present
+  - dashboard/schemas
+  - assets/img/publications/tele-preview.gif
