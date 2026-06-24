@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-24T11:56:30.188Z",
+  "updated_at": "2026-06-24T12:30:22.544Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -8696,10 +8696,19 @@
           "kind": "comment",
           "body": "2026-06-24 progress: added a CPU-only regression smoke for action-guidance denoise math. New remote script scripts_umi/smoke_action_guidance_denoise_math.py directly calls validate_umi_a14b_pair.run_pipe_with_action_guidance with fake pipe/scheduler and verifies output = null + scale*(actual-null). Observed actual_pred=3.0, null_pred=1.5, scale=3.0, expected_noise=6.0, observed_noise=6.0. Integrated into preflight_acwm_action_routes.py and audit_acwm_completion.py. Full preflight passed; completion audit remains false only because no UMI route has produced high/low checkpoints or strict-gate recommendation=continue_best_run yet. Current blocker: Gamma-World/Cosmos2.5 still occupies all 8 H20 GPUs, around iter 3054/4000 with ETA about 13.1h; paired AdaLN watcher is alive and waiting. Local evidence: /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/acwm_status_20260623/action_guidance_denoise_math_smoke_latest.json and acwm_completion_audit_after_guidance_math_latest.json.",
           "created_at": "2026-06-24T11:56:30.188Z"
+        },
+        {
+          "comment_id": "comment_5a28cbff-5ffe-40cd-9381-ca8f5850736c",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-24 progress: added a GT timing artifact guard for UMI AC-WM strict gates. The gate reports now require model-GT and source-GT realtime videos instead of allowing only compressed model-length GT, addressing the earlier fast-GT qualitative-report issue. Patched validator summary fields, collectors, HTML report builder, artifact validator, all four gate scripts, preflight, and completion audit. CPU smoke proves full model/source GT passes and missing source_gt_video fails. Evidence synced locally: /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/acwm_status_20260623/gt_timing_artifact_validation_smoke_latest.json, preflight_after_gt_timing_guard_stdout.json, acwm_completion_audit_after_gt_timing_guard_latest.json. Current status remains active/not done: Gamma-World/Cosmos2.5 still occupies all 8 H20 GPUs; UMI watcher is alive; all four UMI routes are 0/4 checkpoints and no strict action gate has passed.",
+          "created_at": "2026-06-24T12:30:22.544Z"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-24T11:56:30.188Z"
+      "updated_at": "2026-06-24T12:30:22.544Z"
     },
     {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
