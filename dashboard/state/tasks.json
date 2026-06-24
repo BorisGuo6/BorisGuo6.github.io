@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-24T23:04:35+08:00",
+  "updated_at": "2026-06-24T23:09:30+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1312,9 +1312,72 @@
           "body": "Alchedata collaboration discussion is now a recurring meeting every Tuesday 09:30-10:30 Beijing time. The proposal itself has already been covered, so remove it from the active weekly agenda and use it only as background material.",
           "created_at": "2026-05-24T23:47:00+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "intro_migration_20260624_d2ec68714572",
+          "task_id": "task_self_improving_prepare_proposal",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from Self-Improving intro to corresponding TODO during 2026-06-24 intro cleanup:\nSlides-linked architecture update 2026-06-13: the proposal intro should center on a central Orchestrator plus shared Blackboard/Memory coordinating five specialized agents in a closed loop: Env Setup, Data Collect, Policy Training, Eval Agent, and Diagnosis/Analysis. The blackboard stores task specs, datasets, checkpoints, eval reports, diagnoses, competence map, and experiment history.",
+          "created_at": "2026-06-24T23:09:30+08:00"
+        },
+        {
+          "comment_id": "intro_migration_20260624_1b840d6fb3c5",
+          "task_id": "task_self_improving_prepare_proposal",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from Self-Improving intro to corresponding TODO during 2026-06-24 intro cleanup:\nCollaboration update 2026-06-13: the Self-Improving working group now includes Xiaoyang from the US office plus Gao Chen, Jingxiang, Yuhang, and Li Zeyi supporting the physical-AI data / self-evolving direction. Keep the existing Tuesday 09:30-10:30 Beijing Alchedata cadence as background unless the group changes it.",
+          "created_at": "2026-06-24T23:09:30+08:00"
+        },
+        {
+          "comment_id": "intro_migration_20260624_bab3ff061583",
+          "task_id": "task_self_improving_prepare_proposal",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from Self-Improving intro to corresponding TODO during 2026-06-24 intro cleanup:\nAlchedata WhatsApp reference update 2026-06-21: the group shared ENPIRE, Playful RATs, and PhyAgentOS as closely related work. ENPIRE is the strongest collision because its loop is reset -> execute policy -> verify outcome -> refine next iteration in the real world, with Environment, Policy Improvement, Rollout, and Evolution modules managed by coding agents. RATs overlaps with our SkillCall/MemoryStore direction by turning self-directed play into reusable callable code skills. PhyAgentOS overlaps with our agentic robot-brain/runtime story through State-as-a-File, critic-verified actions, hardware watchdogs, and a LESSONS-style experience library.",
+          "created_at": "2026-06-24T23:09:30+08:00"
+        },
+        {
+          "comment_id": "intro_migration_20260624_821663ae2978",
+          "task_id": "task_self_improving_prepare_proposal",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from Self-Improving intro to corresponding TODO during 2026-06-24 intro cleanup:\nUpdated positioning 2026-06-21: do not compete with ENPIRE on immediate real-robot fleet automation as the first claim. Use ENPIRE as the real-world upper-bound reference, but make AgenticSim different by starting from simulation-first environment/task generation, source-of-truth task packs, typed failure traces, WAM/TTT memory critics, and governance gates that can later plug into a real reset/eval rig.",
+          "created_at": "2026-06-24T23:09:30+08:00"
+        },
+        {
+          "comment_id": "intro_migration_20260624_7072da17c59c",
+          "task_id": "task_self_improving_prepare_proposal",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from Self-Improving intro to corresponding TODO during 2026-06-24 intro cleanup:\nAgentic robot-brain architecture note 2026-06-09: if the robot brain is brain-like, it should be agentic and modular rather than one monolithic VLA. Simple bounded tasks can route to specialized small models or deterministic controllers; long-horizon tasks should let a VLM decompose goals and maintain context; each subtask then chooses between classical optimization, a VLA policy, a skill/API call, or a simulator/world-model check. The edge fallback must still output safe actions when cloud/VLM service is unavailable, so keep a compact LeRobot/SmolVLA-style local policy as the offline action fallback.",
+          "created_at": "2026-06-24T23:09:30+08:00"
+        },
+        {
+          "comment_id": "intro_migration_20260624_d8b7ff06e12c",
+          "task_id": "task_self_improving_prepare_proposal",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from Self-Improving intro to corresponding TODO during 2026-06-24 intro cleanup:\nSystem 0/1/2 robot-brain framing 2026-06-09: extend the fast/slow-brain story into three control layers. System 0 is reflexive proprioception-driven reaction using tactile, motor current, joint state, force, and other body signals, similar to spinal reflexes. System 1 is fast action selection for short-horizon behavior that does not need long history or heavy context. System 2 is memory/context-dependent reasoning, planning, decomposition, and recovery. The mediator between them should be a shared latent space rather than only natural-language prompts, so reflex state, short-horizon policy state, long-horizon intent, confidence, and safety constraints can be routed across layers.",
+          "created_at": "2026-06-24T23:09:30+08:00"
+        },
+        {
+          "comment_id": "intro_migration_20260624_606913f41059",
+          "task_id": "task_self_improving_prepare_proposal",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from Self-Improving intro to corresponding TODO during 2026-06-24 intro cleanup:\nNew reference triangulation: InternDataEngine supplies the scalable synthetic data/data-engine layer; MolmoAct 2 supplies an open 3D reasoning action model to adapt; RISE supplies the closed-loop imagination-policy-improvement template. Our differentiator should remain agentic environment generation, memory/governance, and executable task-pack feedback rather than just another VLA finetune.",
+          "created_at": "2026-06-24T23:09:30+08:00"
         }
       ],
-      "updated_at": "2026-05-29T01:04:36+08:00",
+      "updated_at": "2026-06-24T23:09:30+08:00",
       "completed_at": "2026-05-22"
     },
     {
@@ -1334,9 +1397,18 @@
           "body": "Implementation baseline to cite in the proposal: 9 household environments from LeHome / LeHome-challenge (garment v0, single-arm garment v0, garment v2, garment fling, cut, burger, fire, water, wipe) plus exact 120 formal RoboLab tasks. Excluded RoboLab test_tasks, randomize_initial_pose, and _wip because they are not formal benchmark tasks.",
           "created_at": "2026-05-21T10:20:00+08:00",
           "kind": "result"
+        },
+        {
+          "comment_id": "intro_migration_20260624_c3044535ad7c",
+          "task_id": "task_self_improving_environment_coverage",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from Self-Improving intro to corresponding TODO during 2026-06-24 intro cleanup:\nReference update 2026-06-04: add InternData-A1 / InternDataEngine as the large-scale synthetic-data engine reference. The useful pattern is not only more simulator tasks, but a decoupled production stack: compositional skill/task assembly, heterogeneous embodiments, rich simulator-state annotations, multi-dimensional randomization, and high-throughput scheduling for policy pretraining data.",
+          "created_at": "2026-06-24T23:09:30+08:00"
         }
       ],
-      "updated_at": "2026-05-21T10:20:00+08:00"
+      "updated_at": "2026-06-24T23:09:30+08:00"
     },
     {
       "task_id": "task_self_improving_sim2real_vla_eval",
@@ -1614,9 +1686,45 @@
           "body": "Local Codex host review reopened this TODO.\n请补交可复现验收材料：1) RoboTwin2 API list/task-program schema 文档路径；2) 1-2 个 tabletop task 的 env JSON/description 与生成 prompt；3) code-agent 生成或 repair 后的 RoboTwin2 task program 路径和 diff；4) simulator smoke 的具体命令、日志和 pass/fail 结果；5) data-collection dry run 的命令、输出数据路径和日志；6) Pi 或 OpenVLA-OFT train/eval hook 的实际运行证据，或带命令/日志的明确 blocker；7) 说明 designer/critic/orchestrator 已限制在 tabletop feasibility、collision/stability、object poses、task API usage、program repair 范围内。",
           "created_at": "2026-06-24T22:04:17+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "intro_migration_20260624_5157523beccd",
+          "task_id": "task_self_improving_vlm_loop",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from Self-Improving intro to corresponding TODO during 2026-06-24 intro cleanup:\nNear-term priority 2026-06-13: first build the Text2Env demo in RoboTwin2 as the Env Setup agent slice. Contract: natural-language tabletop task -> environment description (objects, poses, support surface, cameras / observations, robot/action constraints, and success verifier) -> code-agent-generated RoboTwin2 task program -> executable simulator smoke and data-collection dry run.",
+          "created_at": "2026-06-24T23:09:30+08:00"
+        },
+        {
+          "comment_id": "intro_migration_20260624_4ef7928ed0a1",
+          "task_id": "task_self_improving_vlm_loop",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from Self-Improving intro to corresponding TODO during 2026-06-24 intro cleanup:\nDashboard asset update 2026-06-15: the simulator taxonomy figure is now the project visual because Text2Env/AgenticSim backend selection should separate task/API datasets, assets, simulation framework, renderer, and physics engine rather than treating ManiSkill, SAPIEN, Isaac Sim, MuJoCo, Habitat, RLBench, and CoppeliaSim as interchangeable names.",
+          "created_at": "2026-06-24T23:09:30+08:00"
+        },
+        {
+          "comment_id": "intro_migration_20260624_b37f4b32e049",
+          "task_id": "task_self_improving_vlm_loop",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from Self-Improving intro to corresponding TODO during 2026-06-24 intro cleanup:\nSceneSmith-lite scope update 2026-06-13: SceneSmith is the pattern, not the full target. v0 is a weakened tabletop version for RoboTwin2, not full room/house generation: borrow designer/critic/orchestrator and automatic policy evaluation, but limit the generator to table layout, manipulable objects, physical feasibility, object poses, task API usage, program repair, and verifier-readable simulator state.",
+          "created_at": "2026-06-24T23:09:30+08:00"
+        },
+        {
+          "comment_id": "intro_migration_20260624_654d21ab2d92",
+          "task_id": "task_self_improving_vlm_loop",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from Self-Improving intro to corresponding TODO during 2026-06-24 intro cleanup:\nCurrent week work plan from the 2026/06/04-06/08 notes: in RoboTwin2, connect the data collection pipeline, model training path for Pi / OpenVLA-OFT, evaluation, API list, manual-program new task creation, and Env Generator (Text -> Env) with env-description generation plus program coding by a code agent.",
+          "created_at": "2026-06-24T23:09:30+08:00"
         }
       ],
-      "updated_at": "2026-06-24T23:04:29+08:00",
+      "updated_at": "2026-06-24T23:09:30+08:00",
       "due_at": "",
       "completed_at": null
     },
@@ -1651,9 +1759,18 @@
           "body": "Saved user's System 0/1/2 robot-brain story: System 0 is embodied reflex using proprioception, tactile, motor current, joint/force/body signals, similar to spinal control; System 1 is fast action selection for behavior that does not need long history or heavy context; System 2 is memory/context-dependent reasoning, planning, decomposition, and recovery. The mediator should be a latent space rather than only prompt text, so low-level reflex state, short-horizon policy state, high-level intent, uncertainty, and safety constraints can be exchanged across layers.",
           "created_at": "2026-06-09T02:25:28+08:00",
           "kind": "framing_note"
+        },
+        {
+          "comment_id": "intro_migration_20260624_255bdf0ddece",
+          "task_id": "task_self_improving_molmoact2_reasoning_base",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from Self-Improving intro to corresponding TODO during 2026-06-24 intro cleanup:\nPolicy-base direction 2026-06-04: consider MolmoAct 2 as an open reasoning VLA backbone for the self-improving loop, similar in spirit to LLM-based reasoning-model improvement. AgenticSim can provide generated/evaluated trajectories, RISE-style imaginary rollout advantages, trace memory, and governance gates; MolmoAct 2 / LeRobot can be the finetune/inference entry point once hardware and action-space adapters are checked.",
+          "created_at": "2026-06-24T23:09:30+08:00"
         }
       ],
-      "updated_at": "2026-06-09T02:25:28+08:00"
+      "updated_at": "2026-06-24T23:09:30+08:00"
     },
     {
       "task_id": "task_self_improving_r4r_format",
@@ -4457,9 +4574,18 @@
           "body": "Moved from previous Real-Robot Infra intro: Wrist tracking fallback: if VIVE Tracker is not used for wrist pose, evaluate an ACE Teleop-style wrist ring to replace the Gello-end trigger as the wrist / intent input device.",
           "created_at": "2026-06-12T15:39:17+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "intro_migration_20260624_d1589af7057f",
+          "task_id": "task_real_robot_infra_ace_wrist_ring",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from DexGello intro to corresponding TODO during 2026-06-24 intro cleanup:\nCompleted input-stack decision 2026-06-11: GELLO distal trigger path is now treated as ACE-style wrist ring + MANUS hand-pose input inside DexGello. GELLO remains arm joint-space teleop; MANUS supplies hand/finger pose; the wrist ring is wrist/intent hardware, not a separate hand-pose camera route.",
+          "created_at": "2026-06-24T23:09:30+08:00"
         }
       ],
-      "updated_at": "2026-06-12T15:39:17+08:00",
+      "updated_at": "2026-06-24T23:09:30+08:00",
       "due_at": "",
       "started_at": "2026-05-25",
       "completed_at": "2026-06-11"
@@ -4817,9 +4943,18 @@
           "body": "请现场用户或硬件负责人补充验收材料：CAD/STL/STEP 或 SCAD 可访问路径与 sha256、打印件/安装照片或视频、相机 FOV 判定、线缆应力释放做法、Wuji 手指全行程与 Franka wrist 运动不干涉检查表；若只要求按用户口头确认关闭，也请明确授权该确认可替代实物证据。",
           "created_at": "2026-05-29T21:52:39+08:00",
           "kind": "needs_user"
+        },
+        {
+          "comment_id": "intro_migration_20260624_33cab16bdb52",
+          "task_id": "task_hardware_wuji_franka_camera_flange",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from DexGello intro to corresponding TODO during 2026-06-24 intro cleanup:\nPlacement update 2026-06-12: the completed Wuji/Franka camera flange and DexCap-style MANUS/Wuji glove camera adapter records moved here because they directly support the DexGello Franka + Wuji + MANUS/VIVE data path.",
+          "created_at": "2026-06-24T23:09:30+08:00"
         }
       ],
-      "updated_at": "2026-06-12T15:34:42+08:00",
+      "updated_at": "2026-06-24T23:09:30+08:00",
       "completed_at": "2026-05-29"
     },
     {
@@ -5472,9 +5607,18 @@
           "body": "[superseded 2026-06-13] Previous Infra intro bundled Wuji + Franka slime-clay cutting with the cuRobo migration under DexGello. Current boundary: cuRobo remains a DexGello reusable planning/control dependency, while the physical demo scenario lives in Engineering / Real-Robot Demos.",
           "created_at": "2026-06-12T15:39:17+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "intro_migration_20260624_a3baf8951b8f",
+          "task_id": "task_real_robot_infra_franka_curobo_motion_planning",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from DexGello intro to corresponding TODO during 2026-06-24 intro cleanup:\nControl stack update 2026-06-12: Franka cuRobo migration is a DexGello planning/control TODO because it directly gates safe, collision-aware Franka + Wuji demo execution and replayable DexGello episodes.",
+          "created_at": "2026-06-24T23:09:30+08:00"
         }
       ],
-      "updated_at": "2026-06-16T23:41:09+08:00",
+      "updated_at": "2026-06-24T23:09:30+08:00",
       "completed_at": "2026-06-16"
     },
     {
@@ -6722,9 +6866,18 @@
           "body": "Local Codex host review accepted this TODO.\n可自动验收：本机已有 RESULT.md、实现文件、测试文件和可运行 SkillCall gate smoke，dashboard 当前 state 也已记录 host_verified/done。\nEvidence: /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json 中该 task 当前为 status=done，result 记录远端 pytest: 41 passed, 1 warning，并有 host_verified comment; /Users/boris/workspace/agenticsim_remote_patch/results/task_self_improving_skill_api_memory_gate/RESULT.md 记录 SkillCall schema/verifier/gate、MemoryStore adapter、promotion/failure handling 和验证结果; /Users/boris/workspace/agenticsim_remote_patch/source/agenticsim/agenticsim/memory/skill_call.py 定义 SkillCall、SkillTransition、SkillCallVerifier、SkillMemoryGate; /Users/boris/workspace/agenticsim_remote_patch/source/agenticsim/agenticsim/memory/trace_memory.py 定义 add_skill_memory/list_skill_memories 并持久化 skill_memories; /Users/boris/workspace/agenticsim_remote_patch/tests/test_skill_call_gate.py 覆盖 promotion、failure memory、persistence，并包含 InsertOntoSquarePeg 作为首个 SkillCall-Bench v0 smoke/task; 本机直接 smoke 输出: skill_call_gate_smoke passed; 完整 pytest 未能在本机重跑：.venv/bin/pytest 缺失，python3 环境缺 pytest/numpy；远端 ssh 被 sandbox 拒绝 Operation not permitted\nCommands: jq '.tasks[]? // empty | select(.task_id==\"task_self_improving_skill_api_memory_gate\")' /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json; rg -n \"task_self_improving_skill_api_memory_gate|SkillCall-Bench|SkillCall|MemoryStore adapter|state-transition verifier\" /Users/boris/workspace --glob '!**/.git/**' --glob '!**/node_modules/**' --glob '!**/.venv/**' --glob '!**/venv/**' --glob '!**/__pycache__/**'; sed -n '1,220p' /Users/boris/workspace/agenticsim_remote_patch/results/task_self_improving_skill_api_memory_gate/RESULT.md; sed -n '1,240p' source/agenticsim/agenticsim/memory/skill_call.py; sed -n '1,220p' tests/test_skill_call_gate.py; PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=source/agenticsim python3 -c \"import sys, types; sys.modules['numpy']=types.SimpleNamespace(ndarray=object); from agenticsim.memory import FailureType, MemoryStore, SkillCall, SkillMemoryGate, SkillTransition; store=MemoryStore(); gate=SkillMemoryGate(store,promotion_threshold=0.8); call=SkillCall(skill_name='insert_peg', preconditions={'peg_visible': True}, expected_outputs={'peg_pose':'seated'}, metadata={'requires_contact': True}); transition=SkillTransition(before={'peg_visible': True}, after={'peg_pose':'seated'}, contacts=[{'label':'peg_socket_contact'}], objects=['peg','socket'], success=True); result=gate.observe(call, transition, task_name='InsertOntoSquarePeg'); assert result.passed and result.promoted_memory_id == 'insert_peg'; assert store.list_skill_memories()[0].skill_name == 'insert_peg'; fail=gate.observe(call, SkillTransition(after={'peg_pose':'near_socket'}, contacts=[], success=False, failure_modes=['missed_contact']), task_name='InsertOntoSquarePeg'); assert not fail.passed; assert store.list_memories(FailureType.UNKNOWN)[0].metadata['skill_name'] == 'insert_peg'; print('skill_call_gate_smoke passed')\"\nReason: 验收所需的结果文件、实现、测试/verifier 和本机可复现 smoke 均存在；虽然本机缺少 pytest/numpy 且远端 ssh 被当前 sandbox 拦截，dashboard state 已有 host_verified 结果且本机 smoke 验证了核心 SkillCall promotion/failure gate 行为。",
           "created_at": "2026-06-09T11:09:32+08:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "intro_migration_20260624_bf6e40b3d8ff",
+          "task_id": "task_self_improving_skill_api_memory_gate",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from Self-Improving intro to corresponding TODO during 2026-06-24 intro cleanup:\nSkill-memory gate 2026-06-05: Skill World Model work is represented here as SkillCall-Bench v0: callable skill schemas, object/contact transition outputs, deterministic verifier evidence, and promotion/elimination criteria for MemoryStore.",
+          "created_at": "2026-06-24T23:09:30+08:00"
         }
       ],
-      "updated_at": "2026-06-09T11:09:32+08:00",
+      "updated_at": "2026-06-24T23:09:30+08:00",
       "completed_at": "2026-06-05"
     },
     {
@@ -6751,9 +6904,18 @@
           "body": "Remote environment probe on boris@100.101.68.35: AgenticSim pytest passes 41/41. `isaacsim` package is installed and `OMNI_KIT_ACCEPT_EULA=YES .venv/bin/isaacsim --version` reaches Isaac Sim Full Version 5.1.0-rc.19, but full app launch is not yet a usable headless verifier because it reports GLFW/default display/window errors; `isaaclab` Python module is missing; `.venv/bin/python` has no pip module; `uv` is not on PATH despite uv.lock. Artifact: /home/boris/workspace/clawcross-dispatch/task_self_improving_rlbench_isaacsim_pilot_gate/RESULT.md. Next step is to expose/install the original uv environment manager or controlled IsaacLab install, then run a headless ReachTarget smoke.",
           "created_at": "2026-06-05T01:18:00+02:00",
           "kind": "blocked"
+        },
+        {
+          "comment_id": "intro_migration_20260624_3a5b601426f5",
+          "task_id": "task_self_improving_rlbench_isaacsim_pilot_gate",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from Self-Improving intro to corresponding TODO during 2026-06-24 intro cleanup:\nRLBench -> IsaacSim verifier gate 2026-06-05: run this inside AgenticSim. Start with ReachTarget smoke and PickAndLift formal verifier, then OpenDrawer, StackBlocks, and InsertOntoSquarePeg as increasing-risk conversion tests.",
+          "created_at": "2026-06-24T23:09:30+08:00"
         }
       ],
-      "updated_at": "2026-06-22T14:16:00+08:00",
+      "updated_at": "2026-06-24T23:09:30+08:00",
       "completed_at": "2026-06-22"
     },
     {
@@ -6787,9 +6949,18 @@
           "body": "Local implementation update: the prior Dual-Sim access blocker is resolved on this machine via ../Dual-Sim at commit f06038f. Added AgenticSim bridge artifacts: source/agenticsim/agenticsim/integrations/robotwin.py, source/agenticsim/agenticsim/tasks/robotwin/adapter_env.py, scripts/robotwin_dualsim_bridge_report.py, docs/robotwin_dualsim_merge.md, and docs/robotwin_dualsim_bridge_report.json. The field mapping covers RoboTwin env class, setup_demo, load_actors, play_once, check_success, task_config, HDF5 data, and policy hooks into AgenticSim TaskRegistry/config/verifier/TraceLoader/PolicyRegistry surfaces. Selected first Isaac smoke/verifier pilot: official RoboTwin 2.0 pick_dual_bottles, legacy closed RoboTwin dual_bottles_pick_easy, mapped to AgenticSim-RoboTwin2-PickDualBottles-v0. AgenticSim now exposes explicit build_robotwin_task_specs/register_robotwin_tasks plus the offline pick_dual_bottles success verifier. Verification: WSL agenticsim conda env passes tests/test_full_pipeline.py 39/39, including the new RoboTwin/Dual-Sim bridge contract and adapter registration test. Keep this in review, not done, until converted USD assets and a real Isaac headless smoke/verifier JSON are attached.",
           "created_at": "2026-06-15T23:59:00+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "intro_migration_20260624_bdef086960aa",
+          "task_id": "task_self_improving_dual_sim_robotwin_isaacsim_merge",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from Self-Improving intro to corresponding TODO during 2026-06-24 intro cleanup:\nDual-Sim / RoboTwin -> IsaacSim bridge 2026-06-11: use the user-provided chengaopro/Dual-Sim repository as a concrete adapter reference for migrating RoboTwin tasks into IsaacSim. The target is not to add another benchmark card, but to merge its task-porting pattern into AgenticSim's task registry, asset conversion, reset/step API, and verifier gate.",
+          "created_at": "2026-06-24T23:09:30+08:00"
         }
       ],
-      "updated_at": "2026-06-22T14:16:00+08:00",
+      "updated_at": "2026-06-24T23:09:30+08:00",
       "completed_at": "2026-06-22"
     },
     {
@@ -6823,9 +6994,18 @@
           "body": "Local Codex host review accepted this TODO.\n可本机验收：该 TODO 的 schema、样例 trace、curriculum update 规则和 tactile hardware blocker 说明均有可核对产物。\nEvidence: /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json 中唯一 task_self_improving_contact_curriculum_bridge 已是 done，含 result 和 host_verified 评论，记录 .venv/bin/pytest -q => 41 passed, 1 warning; /Users/boris/workspace/agenticsim_remote_patch/results/task_self_improving_contact_curriculum_bridge/RESULT.md 说明 ContactFailureTrace、CurriculumUpdate、build_curriculum_update、UMI/VTLA contact failure mapping 和 tactile blocked/visual oracle available; /Users/boris/workspace/agenticsim_remote_patch/source/agenticsim/agenticsim/curriculum/contact_curriculum.py 定义 failure trace schema 与确定性 update rule; /Users/boris/workspace/agenticsim_remote_patch/tests/test_skill_call_gate.py 包含 InsertOntoSquarePeg 样例 trace，available_signals=[object_pose, visual_contact_oracle]，blocked_signals=[tactile]; 本机内联 Python 验证通过：jammed/excessive_force contact trace 生成 high priority 的 increase_contact_alignment_variants update，blockers 保留 tactile\nCommands: jq '.tasks[]? | select(.task_id==\"task_self_improving_contact_curriculum_bridge\")' /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json; rg -n \"task_self_improving_contact_curriculum_bridge|VTLA|UMI|contact failures|curriculum trace|failure trace schema|AgenticSim\" /Users/boris/workspace/BorisGuo6.github.io /Users/boris/workspace/ClawCross -S; ssh -o BatchMode=yes -o ConnectTimeout=8 boris@100.101.68.35 'set -e; ...'; sed -n '1,220p' results/task_self_improving_contact_curriculum_bridge/RESULT.md; sed -n '1,220p' source/agenticsim/agenticsim/curriculum/contact_curriculum.py; sed -n '1,140p' tests/test_skill_call_gate.py\nReason: 虽然远端 SSH 被沙箱拒绝且本机没有 pytest 无法复跑完整测试，但 dashboard state 已有 host_verified 结果，本机归档副本包含完整代码/测试/RESULT.md，且核心转换逻辑已用只读内联命令复核通过；acceptance 四项均满足。",
           "created_at": "2026-06-09T11:04:54+08:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "intro_migration_20260624_22978b454e0e",
+          "task_id": "task_self_improving_contact_curriculum_bridge",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from Self-Improving intro to corresponding TODO during 2026-06-24 intro cleanup:\nBridge update 2026-06-05: VTLA/UMI contact failures should become curriculum traces for AgenticSim. Articraft remains the asset-generation path folded from the paused 3D-printing direction; printer-cell / PoD hardware stays paused unless the user reactivates it.",
+          "created_at": "2026-06-24T23:09:30+08:00"
         }
       ],
-      "updated_at": "2026-06-09T11:04:54+08:00",
+      "updated_at": "2026-06-24T23:09:30+08:00",
       "completed_at": "2026-06-05"
     },
     {
@@ -6844,9 +7024,18 @@
           "body": "Reference added from user: Video2Sim2Real (https://arxiv.org/abs/2606.08828, project page https://video2sim2real.github.io/). Key update for our Real2Sim2Real section: treat human video as a source for digital twin + object-centric anchors, not as a reliable full robot-motion target. Candidate AgenticSim modules: perception/digital-twin import, object-keyframe anchor optimizer, IL recalibration from noisy point clouds, residual RL contact adaptation, and collision-aware planning/verifier for spatial generalization.",
           "created_at": "2026-06-09T21:18:31+08:00",
           "kind": "reference_update"
+        },
+        {
+          "comment_id": "intro_migration_20260624_45072f8efbf5",
+          "task_id": "task_self_improving_video2sim2real_anchor_contract",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from Self-Improving intro to corresponding TODO during 2026-06-24 intro cleanup:\nReal2Sim2Real reference update 2026-06-09: Video2Sim2Real should inform the concrete single-video path. For AgenticSim, split the contract into: 1) reconstruct a simulator-ready digital twin and object/robot motion priors from a human video; 2) detect object-centric keyframes instead of trusting full human-retargeted motion; 3) optimize robot configuration anchors inside the simulator; 4) learn real-world point-cloud recalibration via IL; 5) use residual RL for local finger/contact adaptation; 6) keep collision-aware planning for spatial generalization.",
+          "created_at": "2026-06-24T23:09:30+08:00"
         }
       ],
-      "updated_at": "2026-06-22T14:16:00+08:00",
+      "updated_at": "2026-06-24T23:09:30+08:00",
       "due_at": "",
       "completed_at": "2026-06-22"
     },
@@ -7491,9 +7680,18 @@
           "body": "Moved SVG-vectorization notes out of the project intro. Keep the implementation record here: SAMVG has no open code; SuperSVG + LIVE are the active SVG 化 probes, StarVector/OmniSVG are optional, and SAM/SAM3 mask-to-contour tracing remains the practical baseline. SVG is a structure/contact/contour sidecar; raster mask/RGBA/video remains training truth.",
           "created_at": "2026-06-22T14:32:00+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "intro_migration_20260624_9bcf94acd4ac",
+          "task_id": "task_umi_layered_dataset_molmoact_svg_qa_batch_20260617",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from UMI intro to SVG sidecar TODO during 2026-06-24 intro cleanup:\nSVG decision 2026-06-22: mask->SVG sidecars remain useful for mask contours/contact metadata, but direct image->SVG cannot understand semantic layers and makes complex robot scenes too fragmented with large precision loss. Treat SVG as an annotation/structure sidecar, not RGB/video truth or inpaint output.",
+          "created_at": "2026-06-24T23:09:30+08:00"
         }
       ],
-      "updated_at": "2026-06-22T14:32:00+08:00",
+      "updated_at": "2026-06-24T23:09:30+08:00",
       "due_at": "",
       "completed_at": "2026-06-22"
     },
@@ -7551,9 +7749,18 @@
           "body": "Seeded from Yongxi Lai-led proposal: Arm-Hand Decoupled Teleoperation Framework for Franka + Dexterous Hand Data Collection. The v0 representation is (q_arm, T_hand, q_finger).",
           "created_at": "2026-06-11T22:51:58+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "intro_migration_20260624_1e54a71f73c6",
+          "task_id": "task_dex_gello_system_design",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from DexGello intro to corresponding TODO during 2026-06-24 intro cleanup:\nDemo boundary update 2026-06-13: physical demo scenarios such as Wuji + Franka slime-clay cutting and Jenga-style block extraction moved to Engineering / Real-Robot Demos. DexGello keeps the reusable data/control stack: q_arm, T_hand, q_finger, MANUS/VIVE integration, episode logging, ablations, policy evaluation, and cuRobo planning dependency.",
+          "created_at": "2026-06-24T23:09:30+08:00"
         }
       ],
-      "updated_at": "2026-06-16T23:41:09+08:00",
+      "updated_at": "2026-06-24T23:09:30+08:00",
       "completed_at": "2026-06-16"
     },
     {
@@ -7634,9 +7841,27 @@
           "body": "Seeded from NUS-赖咏曦 WeChat on 2026-06-17 23:25-23:27 via ClawCross. Chat facts: Boris asked whether the video was pure GELLO + MANUS and requested comparison with VIVE Tracker; Yongxi confirmed the GELLO path ran today and was roughly as expected, but GELLO arm joints can still behave unexpectedly. Yongxi also noted the current setup is effectively single-hand only; dual-hand calibration is not workable. VIVE has been adjusted again and should be tested next. Boris noted safety / onsite staffing concerns and may wait for Jingru.",
           "created_at": "2026-06-17T23:30:19+08:00",
           "kind": "chat_sync"
+        },
+        {
+          "comment_id": "intro_migration_20260624_0745bfee9304",
+          "task_id": "task_dex_gello_gello_manus_vs_vive_comparison_20260617",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from DexGello intro to corresponding TODO during 2026-06-24 intro cleanup:\nFront-line update 2026-06-16 from the Boris <-> Yongxi Lai chat: the immediate blocker is wrist semantics rather than generic bring-up. GELLO wrist mapping to Franka is still off by about 90 degrees, and VIVE wrist retargeting is still hard to tune. The likely next step is a redesigned printed wrist part / linkage so the glove-to-gripper relation matches palm pose rather than fingertip pose, with Wuhao helping sketch the part. Current control split under discussion: keep GELLO for the direct joint-correspondence arm path, and evaluate whether wrist motion should instead come from VIVE despite the current retargeting difficulty.",
+          "created_at": "2026-06-24T23:09:30+08:00"
+        },
+        {
+          "comment_id": "intro_migration_20260624_0070214dfe0b",
+          "task_id": "task_dex_gello_gello_manus_vs_vive_comparison_20260617",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from DexGello intro to corresponding TODO during 2026-06-24 intro cleanup:\nFront-line update 2026-06-17 from the Boris <-> Yongxi Lai chat: Yongxi ran the pure GELLO + MANUS single-hand setup and it looked broadly as expected in the shared 15 s video evidence, but the GELLO arm joint behavior can still be unintuitive / off expectation. Current limitation: the setup is effectively single-hand only; for dual-hand operation, the calibration procedure is not workable right now. Boris asked for a direct comparison against the VIVE Tracker version; Yongxi said the VIVE path has been revised again and should be tested next. Safety note from the same chat: live testing may need to wait for Jingru / onsite support because Singapore staffing is thin.",
+          "created_at": "2026-06-24T23:09:30+08:00"
         }
       ],
-      "updated_at": "2026-06-17T23:30:19+08:00",
+      "updated_at": "2026-06-24T23:09:30+08:00",
       "completed_at": null
     },
     {
@@ -7997,9 +8222,36 @@
           "body": "Reference update from user-provided proximity-grasping screenshots and KAIST P2GI: add pre-contact hand-object relation to candidate phase-importance features. Useful signals include estimated object point cloud, hand-object distance, object center offset, object-size estimate, grasp-posture confidence, expected contact onset, and whether the controller is in approach / pre-shape / close / stabilize phase. Treat this as a metric/design reference, not a blocker requiring proximity hardware in DexGello v0.",
           "created_at": "2026-06-15T19:35:36+08:00",
           "kind": "reference_update"
+        },
+        {
+          "comment_id": "intro_migration_20260624_a88af87867c8",
+          "task_id": "task_dex_gello_failure_data_phase_importance_metric",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from DexGello intro to corresponding TODO during 2026-06-24 intro cleanup:\nFailure-data learning update 2026-06-13: DexGello should not treat all failed rollouts as negative examples to learn wholesale. The useful target is a phase-importance metric for long-horizon dexterous tasks: identify meaningful pre-failure stages worth imitating, downweight the actual failure stage, and use DAgger human-takeover segments as high-importance supervision. Example intuition: during grasp, object/contact metrics should spike; during rollout, human intervention/takeover marks that the current stage is important or risky.",
+          "created_at": "2026-06-24T23:09:30+08:00"
+        },
+        {
+          "comment_id": "intro_migration_20260624_3b9c3322bc7b",
+          "task_id": "task_dex_gello_failure_data_phase_importance_metric",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from DexGello intro to corresponding TODO during 2026-06-24 intro cleanup:\nP2GI proximity update 2026-06-15: KAIST's proximity-perception grasping system is a useful reference for the failure/phase metric. It suggests explicit pre-contact features such as hand-object distance, center offset, object-size estimate, grasp-posture confidence, and contact-onset expectation. DexGello should record or estimate these features when possible, but proximity sensors are not a v0 blocker.",
+          "created_at": "2026-06-24T23:09:30+08:00"
+        },
+        {
+          "comment_id": "intro_migration_20260624_b4aa421ba022",
+          "task_id": "task_dex_gello_failure_data_phase_importance_metric",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from DexGello intro to corresponding TODO during 2026-06-24 intro cleanup:\nLong-horizon demo update 2026-06-13: candidate true-robot data sources for learn-from-failure are broom-to-dustpan sweeping and two 90-degree cube turns. They are deliberately longer than simple grasp demos and should expose phase boundaries such as tool grasp, alignment, sweep/rotation, stabilization, and final placement/orientation failure.",
+          "created_at": "2026-06-24T23:09:30+08:00"
         }
       ],
-      "updated_at": "2026-06-16T23:41:09+08:00",
+      "updated_at": "2026-06-24T23:09:30+08:00",
       "started_at": "2026-06-13",
       "completed_at": "2026-06-16"
     },
@@ -8066,9 +8318,18 @@
           "body": "Seeded from the 2026-06-13 Self-Improving group update: Xiaoyang is starting from Cosmos3-policy pretrained weights and collecting all RoboLab tasks across 120 tasks, 3 difficulties, and 10 rollouts each. This task tracks the actual corpus and metadata, not just the research direction.",
           "created_at": "2026-06-13T16:21:14+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "intro_migration_20260624_d888f93931d4",
+          "task_id": "task_self_improving_cosmos3_robolab_rollouts",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from Self-Improving intro to corresponding TODO during 2026-06-24 intro cleanup:\nCosmos3-policy / RoboLab execution update 2026-06-13: start from Cosmos3-policy pretrained weights, collect RoboLab rollouts across 120 tasks * 3 difficulties * 10 rollouts = 3600 rollouts, then test whether a single task can self-improve quickly before expanding the loop.",
+          "created_at": "2026-06-24T23:09:30+08:00"
         }
       ],
-      "updated_at": "2026-06-22T14:16:00+08:00",
+      "updated_at": "2026-06-24T23:09:30+08:00",
       "started_at": "2026-06-13",
       "completed_at": "2026-06-22"
     },
@@ -8089,9 +8350,27 @@
           "body": "Seeded from the 2026-06-13 group discussion: the critic is still under design. Candidate 1 is a database / memory bank that retrieves similar historical rollout states and uses success/failure trajectories for estimation. This is the first non-RL path to make WAM self-improvement auditable.",
           "created_at": "2026-06-13T16:21:14+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "intro_migration_20260624_f4e9d3c83694",
+          "task_id": "task_self_improving_wam_memory_critic",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from Self-Improving intro to corresponding TODO during 2026-06-24 intro cleanup:\nWAM direction update 2026-06-13: the initial RL-based self-improving policy plan is no longer the first implementation path because full RL post-training looks compute-heavy and brittle for the current sim benchmarks. The near-term route is WAM self-improving: fuse test-time training / action adaptation with rollout memory instead of trying full RL post-training first.",
+          "created_at": "2026-06-24T23:09:30+08:00"
+        },
+        {
+          "comment_id": "intro_migration_20260624_155dbe2bfbfd",
+          "task_id": "task_self_improving_wam_memory_critic",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from Self-Improving intro to corresponding TODO during 2026-06-24 intro cleanup:\nTest-time critic plan 2026-06-13: the critic is still under design. Two concrete candidates are: 1) a database / memory bank that retrieves similar states from historical rollouts and estimates quality from success/failure trajectories; 2) a lightweight head or adapter trained on the 3600 RoboLab rollouts so Cosmos3-policy adapts to benchmark action distribution while test-time updates only the adapter or a small parameter subset.",
+          "created_at": "2026-06-24T23:09:30+08:00"
         }
       ],
-      "updated_at": "2026-06-22T14:16:00+08:00",
+      "updated_at": "2026-06-24T23:09:30+08:00",
       "started_at": "2026-06-13",
       "completed_at": "2026-06-22"
     },
@@ -8159,10 +8438,28 @@
           "kind": "comment",
           "body": "群聊证据：2026-06-24 上传/讨论了 `sam_hq_robot_mask_review_2026-06-23.zip`、`robot_bounded_sam2_vs_sam3_mask.mp4` 和视频对比；结论是 SAM-HQ 不如 SAM3，gripper edge/color mask 需要单独 prompt+threshold 调参。",
           "created_at": "2026-06-24T12:52:28.932Z"
+        },
+        {
+          "comment_id": "intro_migration_20260624_d69d30eaff94",
+          "task_id": "task_umi_layered_pipeline_sam_vace_flux_lama_automation_20260622",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from UMI intro to Stage 2 layered pipeline TODO during 2026-06-24 intro cleanup:\nLayered Image Policy / ClawCross wx sync 2026-06-22: the group converged on comparing VACE and GPT image for layer completion because GPT image is strong for still frames but not video. Lai reported VACE testing underway, initially with SAM3+VACE, then SAM2.1 while SAM3 Hugging Face access was pending. Ziyang will try LaMa locally; ChatGPT web/API access remains a constraint for mainland accounts; FLUX.fill remains the recommended still inpaint candidate.",
+          "created_at": "2026-06-24T23:09:30+08:00"
+        },
+        {
+          "comment_id": "intro_migration_20260624_20349ba5079d",
+          "task_id": "task_umi_layered_pipeline_sam_vace_flux_lama_automation_20260622",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from UMI intro to Stage 2 layered pipeline TODO during 2026-06-24 intro cleanup:\nStage 2 layering conclusion 2026-06-22: use iterative segment + inpaint, not direct image-to-SVG or direct layer generation. Robot layer first, remove/inpaint the robot with FLUX.fill/VACE/LaMa/GPT-image baselines, then process task-relevant object/contact/occluder layers one by one, leaving a scene/background layer that should be nearly static for third-person/fixed-camera videos. The overlay/recomposition of all layers should match the source frame/video; wires and tiny cables are lower priority than correct robot/object/background separation.",
+          "created_at": "2026-06-24T23:09:30+08:00"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-24T12:52:28.932Z"
+      "updated_at": "2026-06-24T23:09:30+08:00"
     },
     {
       "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
@@ -8767,10 +9064,118 @@
           "kind": "comment",
           "body": "2026-06-24 progress: materialized real source-GT timing videos for UMI AC-WM evaluation. Recovered original windows from das-data-legacy/test_sets/manifest_finetune_ready.json and source viz_video files, generated realtime dual_lr/left/right source-GT mp4s for 70 clips, and wrote source_gt_video/source_gt_video_left/source_gt_video_right/source_gt_fps fields back into UMI metadata. audit_source_gt_timing_metadata.py --ffprobe passed on 96 metadata rows: paired 16, dual 16, shared 32, left 16, right 16. Full preflight passed and completion audit remains complete=false only because no route has checkpoints or strict action-gate pass yet. Local evidence: /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/acwm_status_20260623/source_gt_manifest.json, source_gt_metadata_audit_latest.json, preflight_after_source_gt_materialization_stdout.json, acwm_completion_audit_after_source_gt_materialization_latest.json.",
           "created_at": "2026-06-24T13:00:39.246Z"
+        },
+        {
+          "comment_id": "intro_migration_20260624_d1933e2f2468",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from UMI intro to WAN2.2/action TODO during 2026-06-24 intro cleanup:\nWan2.2-A14B actprobe preservation sanity 2026-06-22: implemented and ran a cleaner frozen-backbone route with no LoRA and no output residual: no-x block-control + base-preservation weight 10.0 + action/state auxiliary decoder weight 0.2, while paired-dual branch scale was set to 0 so it only preserves paired left/right batching. Step-16 high/low checkpoints contain only umi_action_state_consistency_head, umi_block_control_branch, and umi_paired_dual_branch_adapter keys, with no LoRA or backbone weights. Row5 validation at steps=8/cfg=5/seed=1 is negative: base mean MAE 67.59 / PSNR 8.87; actual 70.30 / 8.61; zero 69.65 / 8.93; wrongrow0 71.46 / 8.45. Actual still fails the base-quality gate by +2.71 MAE and zero is better than actual. Single-step sensitivity probe confirms the action path is too weak: replacing actual condition with zero/wrong-row changes high expert predictions by only about 0.55-0.61% relative MAE and low expert by about 0.68-0.69%. Local report: ~/Downloads/umi_actprobe_preserve_20260622/index.html.",
+          "created_at": "2026-06-24T23:09:30+08:00"
+        },
+        {
+          "comment_id": "intro_migration_20260624_3d1b894bf309",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from UMI intro to WAN2.2/action TODO during 2026-06-24 intro cleanup:\nWan2.2-A14B inference-time action guidance breakthrough 2026-06-22: added `--action-guidance-scale` to `scripts_umi/validate_umi_a14b_paired.py`, using classifier-free-style UMI guidance `zero + scale * (actual - zero)` during denoising. On the preserve_ctrl_nox_row5_sanity16 checkpoint, normal actual inference was still weak (mean MAE 69.13), but action guidance scale 3.0 improved row5 to mean MAE 67.46 / PSNR 9.12, slightly better than base 67.59 and clearly better than zero 70.72 and wrongrow0 69.71. Scale 5.0 over-shot to MAE 68.22. This is the first row5 evidence that the learned actual-zero direction can be useful when amplified; the problem is not only wrong direction, but too-small action signal during standard sampling. Local report: ~/Downloads/umi_action_guidance_20260622/index.html.",
+          "created_at": "2026-06-24T23:09:30+08:00"
+        },
+        {
+          "comment_id": "intro_migration_20260624_c4ef4e78da16",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from UMI intro to WAN2.2/action TODO during 2026-06-24 intro cleanup:\nWan2.2-A14B action-guidance 5-row gate 2026-06-22: ran action-guidance scale 3 on rows 0/1/5/7/11 for the preserve_ctrl_nox_row5_sanity16 checkpoint, then completed same-row base / normal actual / zero / wrong-row controls. Gate definition: guided actual must be within +1 MAE of base, and zero plus wrong-row must each be at least +1 MAE worse than guided actual. Result is 2/5 pass. Row0: base 36.58, actual 38.94, ag3 37.06, zero 37.49, wrong 37.07, fail because wrong-row gap is only +0.01. Row1: 56.80 / 58.37 / 58.39 / 58.43 / 58.87, fail. Row5: 67.59 / 69.13 / 67.46 / 70.72 / 69.71, pass. Row7: 71.39 / 70.92 / 69.17 / 72.17 / 70.61, pass. Row11: 38.56 / 39.03 / 40.51 / 39.24 / 39.54, fail. Local report with videos: ~/Downloads/umi_action_guidance_multirrow_20260622/index.html.",
+          "created_at": "2026-06-24T23:09:30+08:00"
+        },
+        {
+          "comment_id": "intro_migration_20260624_9d5ee7114950",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from UMI intro to WAN2.2/action TODO during 2026-06-24 intro cleanup:\nWan2.2-A14B multi-row seed result 2026-06-22: `preserve_ctrl_nox_multiclip_e4_s005_w5` finished high/low step-64 with full paired metadata (`METADATA_SUFFIX=cond`), frozen Wan backbone / DISABLE_LORA=1, no output residual, block-control + paired-dual branch scale 0.005, base-preservation weight 5.0. The 5-row action-guidance gate regressed to 1/5 pass, so this is not yet a transferable action-conditioned model. Row0: base 36.58, actual 36.37, ag3 38.09, zero 37.96, wrong 37.03, fail. Row1: 56.80 / 58.15 / 60.32 / 58.14 / 59.32, fail. Row5: 67.59 / 67.27 / 67.04 / 69.32 / 72.55, pass. Row7: 71.39 / 72.14 / 72.18 / 70.15 / 72.32, fail. Row11: 38.56 / 39.02 / 41.15 / 37.62 / 39.49, fail. Conclusion: row5-overfit action direction exists, but naive multi-row preserve-control training does not generalize.",
+          "created_at": "2026-06-24T23:09:30+08:00"
+        },
+        {
+          "comment_id": "intro_migration_20260624_baa143779240",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from UMI intro to WAN2.2/action TODO during 2026-06-24 intro cleanup:\nStage 1 route correction 2026-06-22: do not treat this as ordinary Wan2.2 domain/style LoRA. The target is multi-view, action-conditioned, shared-world video modeling. The current Wan2.2-A14B line is only a local experiment on grafting action/state control into a frozen high/low expert backbone, mainly testing high-noise action-control adapters and action-guided sampling. It is not the full Shared-Backbone Dual-Branch Wan architecture yet. The stronger Stage 1 mainline should be Wan2.1 / Gamma-style multi-view teacher first: view axis or agent axis, view/camera/time/action tokens, shared scene hub tokens, cross-view communication, and bidirectional/full-context teacher before causal rollout. Wan2.2 should continue only as a controlled-adapter ablation with base-preservation and strict action gates.",
+          "created_at": "2026-06-24T23:09:30+08:00"
+        },
+        {
+          "comment_id": "intro_migration_20260624_b6a8ff9c72f7",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from UMI intro to WAN2.2/action TODO during 2026-06-24 intro cleanup:\nWan2.2-A14B 8-card grid launched 2026-06-22: started `scripts_umi/launch_a14b_paired_agdir_grid8.sh` on the H20 node to keep all 8 GPUs occupied. The grid runs four high/low expert pairs: `agdir_p5_s005_c02_m005_e2`, `agdir_p5_s005_c05_m005_e2`, `agdir_p10_s005_c02_m005_e2`, and `agdir_p5_s003_c02_bc02_m005_e2`. All use full paired metadata, frozen backbone, no output residual, 2 epochs, save step 32; they scan base-preservation, control scale, global action-contrastive weight, and branch-contrastive weight. Initial check showed all GPUs busy and no OOM/Traceback; evaluation gate should run once all eight step-32 checkpoints exist.",
+          "created_at": "2026-06-24T23:09:30+08:00"
+        },
+        {
+          "comment_id": "intro_migration_20260624_d80817fab997",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from UMI intro to WAN2.2/action TODO during 2026-06-24 intro cleanup:\nWan2.2-A14B 8-card agdir grid result 2026-06-22: completed four high/low expert pairs on the H20 node and evaluated each with the same 5-row strict action gate over rows 0/1/5/7/11. Results: `agdir_p5_s005_c02_m005_e2` = 1/5 pass; `agdir_p5_s005_c05_m005_e2` = 2/5 pass; `agdir_p10_s005_c02_m005_e2` = 1/5 pass; `agdir_p5_s003_c02_bc02_m005_e2` = 1/5 pass. None beats the previous 2/5 row5-overfit action-guidance baseline. Failure pattern: action guidance often improves isolated rows but is unstable across tasks; row5 can catastrophically overshoot (for example agdir_p5_s005_c02_m005_e2 row5 AG3 mean MAE 79.89 vs base 67.59), while several rows fail because zero or wrong-row is not reliably worse than guided actual. Local report with 100 summaries and 200 videos: ~/Downloads/umi_agdir_gate_20260622/index.html.",
+          "created_at": "2026-06-24T23:09:30+08:00"
+        },
+        {
+          "comment_id": "intro_migration_20260624_e4db96a82c9a",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from UMI intro to WAN2.2/action TODO during 2026-06-24 intro cleanup:\nAction-to-future probe 2026-06-22: implemented `scripts_umi/probe_action_to_future_delta.py` to bypass Wan sampling and test whether paired left/right `13 x 99` condition tensors predict future visual deltas. On rows 0/1/5/7/11, `fit_all` passes 5/5 against zero, time/view-only, and wrong-next controls, so the condition contains usable future-change information. `leave_one_out` passes 0/5, so with the current 16-row dataset the signal is mostly memorized rather than transferable. Interpretation: action/state is not empty, but Stage 1 needs a real shared-world teacher / more synchronized data / explicit view-action-camera tokens before another Wan2.2 adapter sweep. Local report: ~/Downloads/umi_action_to_future_probe_20260622/index.html.",
+          "created_at": "2026-06-24T23:09:30+08:00"
+        },
+        {
+          "comment_id": "intro_migration_20260624_2cd9df3c41ae",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from UMI intro to WAN2.2/action TODO during 2026-06-24 intro cleanup:\nShared-world low-res teacher 2026-06-22: implemented and trained `scripts_umi/train_shared_world_teacher.py`, an explicit dual-view Stage 1 teacher with left/right first-frame encoders, paired action/state condition token, trainable shared scene hub tokens, Transformer cross-view communication, and separate left/right future-video decoders. Training used 8 H20 GPUs via `torchrun --nproc_per_node=8` on the 16 paired UMI clips, 64x64 resolution, 13 sampled frames, 1200 epochs; loss reached near zero and `teacher.pt` was saved under `outputs_umi/shared_world_teacher_20260622`. The 5-row action gate passes 5/5: row0 actual MSE 0.000001 with zero/time/wrong deltas 0.063503/0.043268/0.119002; row1 0.000000 with 0.047765/0.064991/0.176078; row5 0.000000 with 0.087883/0.098173/0.146533; row7 0.000000 with 0.109535/0.077232/0.115436; row11 0.000000 with 0.023760/0.038490/0.095674. This is the first positive runnable shared-world dual-view teacher: actual action/state controls low-res future video better than zero, time/view-only, and wrong-next controls. Limitation: it is an overfit 16-clip teacher, not yet a generalizing Wan/Gamma-scale model. Local report with 50 mp4 and 50 jpg assets: ~/Downloads/umi_shared_world_teacher_20260622/index.html.",
+          "created_at": "2026-06-24T23:09:30+08:00"
+        },
+        {
+          "comment_id": "intro_migration_20260624_c867b2b9b60a",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from UMI intro to WAN2.2/action TODO during 2026-06-24 intro cleanup:\nZoom sync 2026-06-22 11:45-12:15: Stage 1 model work split into a Cosmos-Predict2.5 overfit seed and a WAN2.2 action-control line. The Cosmos-Predict2.5 run used 68 training clips and roughly overnight training with concatenated left/right image inputs; it looked useful but overfit after about 75 epochs and struggled on cloth-like scenes. The empirical action note from this run is to keep the 10-D continuous robot action unnormalized for now, especially gripper magnitude, because normalization degraded this pipeline.",
+          "created_at": "2026-06-24T23:09:30+08:00"
+        },
+        {
+          "comment_id": "intro_migration_20260624_b8de839e64f5",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from UMI intro to WAN2.2/action TODO during 2026-06-24 intro cleanup:\nAction encoding decision 2026-06-22: distinguish raw keyboard 10-D discrete controls from robot continuous action/state. The standard compact robot form is 8-D = position 3 + quaternion 4 + gripper 1, while the current UMI/Goword-style route uses 10-D = position 3 + 6D rotation representation + gripper 1. Haoyu should confirm the 2000-clip labels use the same convention before training; LayerNorm action injection is a candidate, but gripper scaling must be ablated instead of assumed.",
+          "created_at": "2026-06-24T23:09:30+08:00"
+        },
+        {
+          "comment_id": "intro_migration_20260624_9809568d3065",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from UMI intro to WAN2.2/action TODO during 2026-06-24 intro cleanup:\nWAN2.2 action-injection status 2026-06-22: the initial output-head condition branch did not make the high-noise expert respond strongly to action changes. The next WAN2.2 experiment should modify the extend/control layer or another earlier control path, inspect open-source WAN2.2 action-injection recipes, and avoid relying on an untrained custom action encoder. Current symptom: adding a condition branch can improve the raw MA/MAE-looking metric while still failing action-control separation, so the gate must compare actual, zero, wrong-row, and base visual preservation.",
+          "created_at": "2026-06-24T23:09:30+08:00"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-24T13:00:39.246Z"
+      "updated_at": "2026-06-24T23:09:30+08:00"
     },
     {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
