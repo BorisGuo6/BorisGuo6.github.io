@@ -227,6 +227,16 @@ assert.match(
 );
 assert.match(
   dashboardSource,
+  /function sortCompletedTasks\(tasks\)[\s\S]+completedTaskSortValue\(b\) - completedTaskSortValue\(a\)/,
+  "dashboard archive task list should sort completed tasks by latest completion time first",
+);
+assert.match(
+  dashboardSource,
+  /const completedTasks = sortCompletedTasks\(projectTasks\.filter\(\(task\) => getEffectiveStatus\(task\) === "done"\)\)/,
+  "project archive should render completed tasks through the completion-time sorter",
+);
+assert.match(
+  dashboardSource,
   /api\/dashboard\/state/,
   "dashboard agent prompt should point agents at the machine-readable state endpoint",
 );
@@ -358,11 +368,13 @@ const madeTask = makeTask({
   priority: "high",
 }, new Set(), fixedDate);
 assert.equal(madeTask.completed_at, "2026-05-26");
+assert.equal(madeTask.completed_at_time, "2026-05-26T00:00:00.000Z");
 assert.equal(madeTask.priority, "high");
 assert.equal(validateTaskPriority("urgent"), "urgent");
 const localUpdate = applyTaskStatus(madeTask, "active", new Date("2026-05-26T01:00:00.000Z"));
 assert.equal(madeTask.status, "active");
 assert.equal(localUpdate.completed_at, null);
+assert.equal(localUpdate.completed_at_time, null);
 
 const tempDir = await mkdtemp(path.join(tmpdir(), "dashboard-task-store-"));
 try {
@@ -391,6 +403,7 @@ try {
   const statusDoc = JSON.parse(await readFile(tempTasksPath, "utf8"));
   assert.equal(statusDoc.updated_at, "2026-05-26T02:00:00.000Z");
   assert.equal(statusDoc.tasks[0].completed_at, "2026-05-26");
+  assert.equal(statusDoc.tasks[0].completed_at_time, "2026-05-26T02:00:00.000Z");
 
   await appendLocalTaskComment(
     "task_demo_existing",
@@ -503,6 +516,7 @@ const statusSnapshot = applySnapshotTaskStatus(
 ).snapshot;
 assert.equal(statusSnapshot.taskDoc.tasks[0].status, "done");
 assert.equal(statusSnapshot.taskDoc.tasks[0].completed_at, "2026-06-18");
+assert.equal(statusSnapshot.taskDoc.tasks[0].completed_at_time, "2026-06-18T01:00:00.000Z");
 assert.equal(statusSnapshot.taskDoc.updated_at, "2026-06-18T01:00:00.000Z");
 
 const comment = makeTaskComment("task_demo", "Vercel comment", "Vercel dashboard", new Date("2026-06-18T02:00:00.000Z"));

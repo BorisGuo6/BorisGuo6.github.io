@@ -613,6 +613,7 @@
           task.status = status;
           task.updated_at = updatedAt;
           task.completed_at = status === "done" ? updatedAt.slice(0, 10) : null;
+          task.completed_at_time = status === "done" ? updatedAt : null;
           delete localState.statuses[taskId];
         }
 
@@ -747,6 +748,57 @@
             const dueB = b.due_at || "9999-99-99";
             if (dueA !== dueB) {
               return dueA.localeCompare(dueB);
+            }
+            return a.title.localeCompare(b.title);
+          });
+        }
+
+        function datePart(value) {
+          const match = String(value || "").match(/^\d{4}-\d{2}-\d{2}/);
+          return match ? match[0] : "";
+        }
+
+        function timestampValue(value) {
+          if (!value) {
+            return null;
+          }
+          const text = String(value);
+          const normalized = /^\d{4}-\d{2}-\d{2}$/.test(text) ? `${text}T00:00:00` : text;
+          const date = new Date(normalized);
+          return Number.isNaN(date.getTime()) ? null : date.getTime();
+        }
+
+        function completedTaskSortValue(task) {
+          const override = getStatusOverride(task.task_id);
+          if (override?.status === "done") {
+            return timestampValue(override.updated_at) ?? Number.MAX_SAFE_INTEGER;
+          }
+
+          const exactCompleted = timestampValue(task.completed_at_time || task.completed_at_timestamp);
+          if (exactCompleted !== null) {
+            return exactCompleted;
+          }
+
+          const completedDate = datePart(task.completed_at);
+          const updatedDate = datePart(task.updated_at);
+          if (completedDate && updatedDate === completedDate) {
+            return timestampValue(task.updated_at) ?? timestampValue(completedDate) ?? 0;
+          }
+          if (completedDate) {
+            return timestampValue(completedDate) ?? 0;
+          }
+          return timestampValue(task.updated_at) ?? 0;
+        }
+
+        function sortCompletedTasks(tasks) {
+          return [...tasks].sort((a, b) => {
+            const completionDelta = completedTaskSortValue(b) - completedTaskSortValue(a);
+            if (completionDelta !== 0) {
+              return completionDelta;
+            }
+            const updatedDelta = (timestampValue(b.updated_at) ?? 0) - (timestampValue(a.updated_at) ?? 0);
+            if (updatedDelta !== 0) {
+              return updatedDelta;
             }
             return a.title.localeCompare(b.title);
           });
@@ -2314,7 +2366,7 @@
           const projectDoc = findProjectDoc(projectId);
           const projectTasks = sortTasks(projectTasksFor(projectDoc || { project_id: projectId }, tasks));
           const activeTasks = projectTasks.filter((task) => getEffectiveStatus(task) !== "done");
-          const completedTasks = projectTasks.filter((task) => getEffectiveStatus(task) === "done");
+          const completedTasks = sortCompletedTasks(projectTasks.filter((task) => getEffectiveStatus(task) === "done"));
           const taskPanel = Array.from(projectElement.querySelectorAll(".project-workstream > .project-panel"))
             .find((panel) => panel.querySelector(".todo-list.project-list"));
 

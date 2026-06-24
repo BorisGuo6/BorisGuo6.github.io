@@ -73,7 +73,10 @@ export function makeTask(input, existingIds, now = new Date()) {
     updated_at: updatedAt,
   };
   if (dueAt) task.due_at = dueAt;
-  if (status === "done") task.completed_at = updatedAt.slice(0, 10);
+  if (status === "done") {
+    task.completed_at = updatedAt.slice(0, 10);
+    task.completed_at_time = updatedAt;
+  }
   return task;
 }
 
@@ -82,10 +85,12 @@ export function applyTaskStatus(task, status, now = new Date()) {
   const updatedAt = now.toISOString();
   task.status = status;
   task.completed_at = status === "done" ? updatedAt.slice(0, 10) : null;
+  task.completed_at_time = status === "done" ? updatedAt : null;
   task.updated_at = updatedAt;
   return {
     updated_at: updatedAt,
     completed_at: task.completed_at,
+    completed_at_time: task.completed_at_time,
   };
 }
 
