@@ -1747,8 +1747,8 @@
         }
 
         function renderProjectLayerUtility(projectElement, projectDoc) {
-          const body = projectElement.querySelector(".project-body");
-          if (!body) {
+          const figure = projectElement.querySelector(".project-body figure");
+          if (!figure) {
             return;
           }
           projectElement
@@ -1759,7 +1759,7 @@
             return;
           }
           layerUtility.dataset.introCollapseKey = `project:${projectDoc.project_id}:intro`;
-          body.append(layerUtility);
+          figure.append(layerUtility);
         }
 
         function createTimelineChip(label, value) {
