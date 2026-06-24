@@ -1729,7 +1729,6 @@
           prepareZoomableImage(image);
           const caption = document.createElement("figcaption");
           caption.textContent = projectDoc.asset_caption || "";
-          makeTextCollapsible(caption, projectDoc.asset_caption || "", { maxLength: 170, maxLines: 2, stateKey: `project:${projectDoc.project_id}:asset-caption` });
           figure.append(image, caption);
           return figure;
         }
@@ -1964,10 +1963,9 @@
           if (count) {
             count.textContent = `${decisions.length} items`;
           }
-          replaceChildrenPreservingDetails(list, ...decisions.map((decision, index) => {
+          replaceChildrenPreservingDetails(list, ...decisions.map((decision) => {
             const item = document.createElement("li");
             item.textContent = decision;
-            makeTextCollapsible(item, decision, { maxLength: 230, maxLines: 4, stateKey: `project:${projectElement.dataset.projectId}:decision:${index}` });
             return item;
           }));
         }
