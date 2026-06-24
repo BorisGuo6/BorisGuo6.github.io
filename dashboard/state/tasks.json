@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-24T12:52:28.932Z",
+  "updated_at": "2026-06-24T13:07:08.156Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1544,8 +1544,8 @@
       "task_id": "task_self_improving_vlm_loop",
       "project_id": "self-improving-agents",
       "title": "Build RoboTwin2 Text2Env demo (SceneSmith-lite tabletop)",
-      "description": "Rewrite the old VLM-guided simulator self-improvement item as the near-term Text2Env demo. Scope: make a weakened tabletop version of SceneSmith inside RoboTwin2, not full indoor scene generation. Build natural-language tabletop task -> env description (objects, poses, support surface, cameras / observations, robot/action constraints, success verifier) -> code-agent-generated RoboTwin2 task program -> executable simulator smoke and data-collection dry run. Also document the RoboTwin2 API list, manual-program new-task path, and at least one Pi or OpenVLA-OFT training/evaluation hook or explicit blocker. Acceptance: 1) API list / task-program schema written; 2) 1-2 tabletop tasks selected; 3) prompt generates env JSON/description; 4) code agent generates or repairs an executable RoboTwin2 task program; 5) simulator smoke and data collection dry-run pass; 6) Pi / OpenVLA-OFT train/eval hook is exercised or blocked with evidence; 7) VLM designer/critic/orchestrator is limited to tabletop feasibility, collisions/stability, object poses, task API usage, and program repair.",
-      "status": "active",
+      "description": "当前进展：RoboTwin2 Text2Env demo 已有实现仓库 https://github.com/yezheng04/robotwin-text2env-demo；等待 Boris 验证 demo、simulator smoke、generated env/task program 和 data-collection dry run 后即可标记 done。\n\nRewrite the old VLM-guided simulator self-improvement item as the near-term Text2Env demo. Scope: make a weakened tabletop version of SceneSmith inside RoboTwin2, not full indoor scene generation. Build natural-language tabletop task -> env description (objects, poses, support surface, cameras / observations, robot/action constraints, success verifier) -> code-agent-generated RoboTwin2 task program -> executable simulator smoke and data-collection dry run. Also document the RoboTwin2 API list, manual-program new-task path, and at least one Pi or OpenVLA-OFT training/evaluation hook or explicit blocker. Acceptance: 1) API list / task-program schema written; 2) 1-2 tabletop tasks selected; 3) prompt generates env JSON/description; 4) code agent generates or repairs an executable RoboTwin2 task program; 5) simulator smoke and data collection dry-run pass; 6) Pi / OpenVLA-OFT train/eval hook is exercised or blocked with evidence; 7) VLM designer/critic/orchestrator is limited to tabletop feasibility, collisions/stability, object poses, task API usage, and program repair.",
+      "status": "review",
       "priority": "high",
       "assignee": null,
       "result": null,
@@ -1598,9 +1598,18 @@
           "body": "User clarified the current Self-Improving priority: first build the Text2Env demo. This supersedes the previous broad/mock VLM-loop interpretation. The intended demo is a RoboTwin2 tabletop SceneSmith-lite path: text prompt -> env description with objects/poses/cameras/constraints/verifier -> code-agent RoboTwin2 task program -> simulator smoke/data collection, then Pi or OpenVLA-OFT train/eval hook.",
           "created_at": "2026-06-13T11:43:10+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_a843fbaa-38c6-487e-a874-ab8866eab698",
+          "task_id": "task_self_improving_vlm_loop",
+          "author": "Codex / dashboard sync",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Progress update 2026-06-24: RoboTwin2 Text2Env demo implementation is now tracked at https://github.com/yezheng04/robotwin-text2env-demo. Move this task to done after Boris validates the demo, smoke run, generated env/task program, and data-collection dry run artifacts.",
+          "created_at": "2026-06-24T13:04:59.082Z"
         }
       ],
-      "updated_at": "2026-06-22T14:16:00+08:00",
+      "updated_at": "2026-06-24T13:07:08.156Z",
       "due_at": "",
       "completed_at": null
     },
@@ -8742,10 +8751,19 @@
           "kind": "comment",
           "body": "2026-06-24 progress: added a GT timing artifact guard for UMI AC-WM strict gates. The gate reports now require model-GT and source-GT realtime videos instead of allowing only compressed model-length GT, addressing the earlier fast-GT qualitative-report issue. Patched validator summary fields, collectors, HTML report builder, artifact validator, all four gate scripts, preflight, and completion audit. CPU smoke proves full model/source GT passes and missing source_gt_video fails. Evidence synced locally: /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/acwm_status_20260623/gt_timing_artifact_validation_smoke_latest.json, preflight_after_gt_timing_guard_stdout.json, acwm_completion_audit_after_gt_timing_guard_latest.json. Current status remains active/not done: Gamma-World/Cosmos2.5 still occupies all 8 H20 GPUs; UMI watcher is alive; all four UMI routes are 0/4 checkpoints and no strict action gate has passed.",
           "created_at": "2026-06-24T12:30:22.544Z"
+        },
+        {
+          "comment_id": "comment_da78782f-5fc0-45a1-99bf-e0574402ae3d",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-24 progress: materialized real source-GT timing videos for UMI AC-WM evaluation. Recovered original windows from das-data-legacy/test_sets/manifest_finetune_ready.json and source viz_video files, generated realtime dual_lr/left/right source-GT mp4s for 70 clips, and wrote source_gt_video/source_gt_video_left/source_gt_video_right/source_gt_fps fields back into UMI metadata. audit_source_gt_timing_metadata.py --ffprobe passed on 96 metadata rows: paired 16, dual 16, shared 32, left 16, right 16. Full preflight passed and completion audit remains complete=false only because no route has checkpoints or strict action-gate pass yet. Local evidence: /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/acwm_status_20260623/source_gt_manifest.json, source_gt_metadata_audit_latest.json, preflight_after_source_gt_materialization_stdout.json, acwm_completion_audit_after_source_gt_materialization_latest.json.",
+          "created_at": "2026-06-24T13:00:39.246Z"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-24T12:30:22.544Z"
+      "updated_at": "2026-06-24T13:00:39.246Z"
     },
     {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
