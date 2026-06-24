@@ -281,6 +281,19 @@
           element.title = expanded ? "Click to collapse text" : "Click to expand text";
         }
 
+        function syncIntroLinkedContent(projectElement, stateKey, visible) {
+          if (!projectElement || !stateKey) {
+            return;
+          }
+          projectElement.querySelectorAll("[data-intro-collapse-key]").forEach((element) => {
+            if (element.dataset.introCollapseKey !== stateKey) {
+              return;
+            }
+            element.hidden = !visible;
+            element.setAttribute("aria-hidden", String(!visible));
+          });
+        }
+
         function selectionIntersectsElement(element) {
           const selection = window.getSelection?.();
           if (!element || !selection || selection.isCollapsed || !selection.toString().trim()) {
@@ -1538,34 +1551,112 @@
           return section;
         }
 
+        function layerDiagramName(layer) {
+          if (layer?.diagram_name) {
+            return layer.diagram_name;
+          }
+          const name = layer?.name || "";
+          if (/background/i.test(name)) return "Background";
+          if (/object/i.test(name)) return "Object(s)";
+          if (/robot/i.test(name)) return "Robot(s)";
+          return name;
+        }
+
         function createLayerUtilityDiagram(layers) {
-          const diagram = document.createElement("div");
-          diagram.className = "layer-utility-flow";
-          diagram.setAttribute("aria-hidden", "true");
-          layers.forEach((layer) => {
-            const row = document.createElement("div");
-            row.className = "layer-utility-row";
-
-            const source = document.createElement("div");
-            source.className = "layer-utility-node layer-utility-source";
-            const layerLabel = document.createElement("span");
-            layerLabel.className = "layer-utility-label";
-            layerLabel.textContent = layer.layer || "";
-            const layerName = document.createElement("strong");
-            layerName.textContent = layer.name || "";
-            source.append(layerLabel, layerName);
-
-            const arrow = document.createElement("span");
-            arrow.className = "layer-utility-arrow";
-
-            const target = document.createElement("div");
-            target.className = "layer-utility-node layer-utility-target";
-            target.textContent = layer.target || "";
-
-            row.append(source, arrow, target);
-            diagram.append(row);
+          const svg = createSvgElement("svg", {
+            class: "layer-utility-diagram-svg",
+            viewBox: "0 0 1820 1160",
+            role: "img",
+            "aria-label": layers.map((layer) => `${layer.layer || ""} ${layerDiagramName(layer)} to ${layer.target || ""}`).join("; "),
           });
-          return diagram;
+          const defs = createSvgElement("defs");
+          const marker = createSvgElement("marker", {
+            id: "layer-utility-arrowhead",
+            markerWidth: "18",
+            markerHeight: "14",
+            refX: "17",
+            refY: "7",
+            orient: "auto",
+            markerUnits: "userSpaceOnUse",
+          });
+          marker.append(createSvgElement("path", { d: "M0,0 L18,7 L0,14 Z", fill: "#5a9ad2" }));
+          defs.append(marker);
+          svg.append(defs);
+
+          const leftX = 6;
+          const rightX = 1055;
+          const boxW = 760;
+          const boxH = 270;
+          const layerYs = [6, 445, 884];
+          const leftCenterX = leftX + boxW / 2;
+          const ink = "#242852";
+          const arrow = "#5a9ad2";
+          const boxAttrs = {
+            width: String(boxW),
+            height: String(boxH),
+            fill: "#e5f3f6",
+            stroke: "#24464d",
+            "stroke-width": "6",
+          };
+
+          const addText = (text, attrs = {}) => {
+            const element = createSvgElement("text", {
+              fill: attrs.fill || ink,
+              "font-family": "Georgia, Times New Roman, serif",
+              "font-size": attrs["font-size"] || "64",
+              "font-weight": "900",
+              "dominant-baseline": attrs["dominant-baseline"] || "middle",
+              "text-anchor": attrs["text-anchor"] || "middle",
+              x: String(attrs.x),
+              y: String(attrs.y),
+            });
+            element.textContent = text;
+            svg.append(element);
+          };
+
+          layers.forEach((layer, index) => {
+            const y = layerYs[index] ?? (layerYs[layerYs.length - 1] + (index - layerYs.length + 1) * 360);
+            const centerY = y + boxH / 2;
+            svg.append(createSvgElement("rect", { ...boxAttrs, x: String(leftX), y: String(y) }));
+            svg.append(createSvgElement("rect", { ...boxAttrs, x: String(rightX), y: String(y) }));
+            svg.append(createSvgElement("line", {
+              x1: String(leftX + boxW),
+              y1: String(centerY),
+              x2: String(rightX - 14),
+              y2: String(centerY),
+              stroke: arrow,
+              "stroke-width": "8",
+              "marker-end": "url(#layer-utility-arrowhead)",
+            }));
+
+            addText(layer.layer || "", { x: leftX + 145, y: centerY, "font-size": "54" });
+            svg.append(createSvgElement("line", {
+              x1: String(leftX + 270),
+              y1: String(centerY),
+              x2: String(leftX + 390),
+              y2: String(centerY),
+              stroke: ink,
+              "stroke-width": "4",
+            }));
+            addText(layerDiagramName(layer), { x: leftX + 565, y: centerY, "font-size": "58" });
+            addText(layer.target || "", { x: rightX + boxW / 2, y: centerY, "font-size": index === 2 ? "58" : "64" });
+          });
+
+          [1, 2].forEach((index) => {
+            const lowerY = layerYs[index];
+            const upperBottomY = layerYs[index - 1] + boxH;
+            svg.append(createSvgElement("line", {
+              x1: String(leftCenterX),
+              y1: String(lowerY),
+              x2: String(leftCenterX),
+              y2: String(upperBottomY + 14),
+              stroke: arrow,
+              "stroke-width": "8",
+              "marker-end": "url(#layer-utility-arrowhead)",
+            }));
+            addText("Overlay", { x: leftCenterX + 150, y: (lowerY + upperBottomY) / 2 + 10, "font-size": "44", fill: "#111111" });
+          });
+          return svg;
         }
 
         function createLayerUtilityReferenceCard(layer) {
@@ -1640,10 +1731,6 @@
           caption.textContent = projectDoc.asset_caption || "";
           makeTextCollapsible(caption, projectDoc.asset_caption || "", { maxLength: 170, maxLines: 2, stateKey: `project:${projectDoc.project_id}:asset-caption` });
           figure.append(image, caption);
-          const layerUtility = createProjectLayerUtility(projectDoc.layer_utility);
-          if (layerUtility) {
-            figure.append(layerUtility);
-          }
           return figure;
         }
 
@@ -1657,6 +1744,22 @@
           } else if (existingFigure) {
             existingFigure.remove();
           }
+        }
+
+        function renderProjectLayerUtility(projectElement, projectDoc) {
+          const body = projectElement.querySelector(".project-body");
+          if (!body) {
+            return;
+          }
+          projectElement
+            .querySelectorAll(".project-body > .layer-utility-card, .project-body figure > .layer-utility-card")
+            .forEach((element) => element.remove());
+          const layerUtility = createProjectLayerUtility(projectDoc.layer_utility);
+          if (!layerUtility) {
+            return;
+          }
+          layerUtility.dataset.introCollapseKey = `project:${projectDoc.project_id}:intro`;
+          body.append(layerUtility);
         }
 
         function createTimelineChip(label, value) {
@@ -1811,21 +1914,25 @@
             intro.removeAttribute("aria-expanded");
             intro.removeAttribute("title");
             toggle?.remove();
+            syncIntroLinkedContent(projectElement, stateKey, true);
             return;
           }
           intro.classList.add("is-collapsible");
           intro.setAttribute("role", "button");
           intro.setAttribute("tabindex", "0");
+          const initialExpanded = textCollapseState.has(stateKey) ? textCollapseState.get(stateKey) : false;
           applyTextCollapseExpandedState(
             intro,
-            textCollapseState.has(stateKey) ? textCollapseState.get(stateKey) : false,
+            initialExpanded,
             "is-expanded",
           );
+          syncIntroLinkedContent(projectElement, stateKey, initialExpanded);
           toggle?.remove();
           if (!intro.dataset.collapseBound) {
             intro.dataset.collapseBound = "true";
             const toggleIntro = () => {
-              toggleTextCollapseElement(intro, "is-expanded", "intro");
+              const expanded = toggleTextCollapseElement(intro, "is-expanded", "intro");
+              syncIntroLinkedContent(projectElement, stateKey, expanded);
             };
             intro.addEventListener("pointerdown", (event) => recordTextTogglePointerStart(event, intro));
             intro.addEventListener("click", (event) => {
@@ -1906,6 +2013,7 @@
             appendRichText(bodyParagraph, projectDoc.summary || "");
           }
           renderProjectFigure(projectElement, projectDoc);
+          renderProjectLayerUtility(projectElement, projectDoc);
           renderProjectTimeline(projectElement, projectDoc.timeline);
           renderProjectIntroTable(projectElement, projectDoc.intro_table);
           renderProjectSubprojects(projectElement, projectDoc.subprojects);
