@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-23T04:15:02.407Z",
+  "updated_at": "2026-06-24T11:56:30.188Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -8642,10 +8642,64 @@
           "kind": "comment",
           "body": "acwm_fallback_escalation_audit_completion_20260623: 新增并接入 scripts_umi/audit_acwm_fallback_escalation.py。该 GPU-free audit 静态检查四条 route 的 guarded fallback：paired_adaln -> paired_action_xattn -> paired_block_control -> paired_motus_joint；每条 wait-launch 必须有 single-watcher guard、preflight before launch、8 卡 launcher 和 strict gate；前三条 gate 必须通过 maybe_run_gate_fallback.py 自动切下一条，最后 Motus-Joint 必须停在 manual data/teacher route。已接入 preflight_acwm_action_routes.py 和 audit_acwm_completion.py。验证：远端 py_compile 通过；audit_acwm_fallback_escalation.py 通过 check_count=4；完整 preflight 通过且 fallback_escalation_audit=passed、fallback_runner=passed、四条 route 都是 8 jobs/GPU0-7；completion audit 仍 exit=2，但唯一 failure 仍是 no route has passed strict action gate with recommendation continue_best_run。报告已更新：/Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html。",
           "created_at": "2026-06-23T04:15:02.407Z"
+        },
+        {
+          "comment_id": "comment_5dac6b48-0eba-4bdd-a48d-ffd36decda8c",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "wan22_action_encoder_redesign_paiworld_validator_20260623: 根据 2026-06-22 Zoom 反馈和 PAIWorld 技术路线，已把 WAN2.2 action encoder / injection redesign 写成远端 docs/wan22_action_injection_redesign.md，并接入 reference audits。结论：不再把 output-head 条件分支当主路线；继续四路线 AdaLN-zero -> K/V-only Action-XAttn -> ControlNet-style BlockControl -> Stateful Motus-Joint。新增明确 action schema 对照 compact8=pos3+quat4+gripper1、continuous10=pos3+rot6d+gripper1、legacy continuous16；gripper 默认 gripper_raw，不默认 z-score，单独 ablate gripper_scaled/gripper_zscore。PAIWorld 作为多视角几何一致性参考：当前 completion 仍是 left/right 双视角 UMI，Geo-RoPE / Geometry-aware Cross-view Attention / Latent 3D-REPA 作为后续 third-view/geometry probe extension。验证：reference_to_code_trace audit passed check_count=12；reference_alignment audit passed check_count=10；full preflight passed。另修复 build_paired_action_gate_report.py 支持 output_video，并新增 validate_paired_action_gate_artifacts.py；四条 strict gate 已接 validator --require-branch-modes，旧 Motus-QKV 回归验证 records=80/gates=20/video_refs=80。completion audit 当前唯一 blocker: no route has passed strict action gate with recommendation continue_best_run。报告：/Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html",
+          "created_at": "2026-06-23T05:17:05.801Z"
+        },
+        {
+          "comment_id": "comment_e79ab9eb-0a38-4d71-86d1-c915ff526c06",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "wan22_actual_action_schema_manifest_20260623: 为避免把文档里的 8D/10D 设计误认为实际训练已启用，已新增远端 scripts_umi/audit_umi_action_schema_manifest.py 并接入 preflight_acwm_action_routes.py。当前 AdaLN paired launcher dry-run 现在 8 个 jobs 都显式打印 action_schema=continuous16_legacy、gripper_norm=legacy_zscore；schema manifest 记录 condition_shape=[2,13,99]、action_chunks_shape=[2,13,4,16]、current_route_is_preferred_schema=false。结论：当前可跑路线仍是 opaque 16D legacy baseline / negative-control；compact8=pos3+quat4+gripper1 和 continuous10=pos3+rot6d+gripper1 需要上游提供 action_delta 字段映射或重新生成 manifest，默认 gripper_raw，再 ablate gripper_scaled/gripper_zscore。验证：audit_umi_action_schema_manifest.py passed；完整 preflight passed；本地报告已更新 /Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html，证据 /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/acwm_status_20260623/umi_action_schema_manifest_latest.json。",
+          "created_at": "2026-06-23T05:37:00.099Z"
+        },
+        {
+          "comment_id": "comment_0c811194-30de-44d4-8e5a-4f77a5f577d1",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "wan22_mapped_action_schema_builder_20260623: 已把 8D/10D action schema 从文档推进成可生成/可验证的数据路径。新增 scripts_umi/build_mapped_action_schema_conditions.py：给定权威 action_delta 字段映射后，可生成 compact8 或 continuous10 的 condition pickles、metadata CSV、stats JSON；compact8+gripper_raw 对应 UMI_CONDITION_DIM=67、GROUP_DIMS=3,16,16,8,8,8,8、ACTION_CHUNK_DIM=8；continuous10+gripper_raw 对应 UMI_CONDITION_DIM=75、GROUP_DIMS=3,16,16,10,10,10,10、ACTION_CHUNK_DIM=10。新增 smoke_mapped_action_schema_builder.py，用 mock mapping 只验证管线，不冒充真实语义映射；已 smoke compact8:gripper_raw、continuous10:gripper_raw、continuous10:gripper_scaled、continuous10:gripper_zscore。launch_a14b_paired_adaln_control_grid8.sh 现在支持 UMI_ACTION_SCHEMA / UMI_GRIPPER_NORMALIZATION 自动切换 metadata_suffix / condition_dim / group_dims / action_chunk_dim，legacy 默认保持不变。验证：schema smoke passed；完整 preflight passed；报告更新 /Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html，证据 mapped_action_schema_smoke_latest.json。",
+          "created_at": "2026-06-23T05:49:30.657Z"
+        },
+        {
+          "comment_id": "comment_48703e21-69ae-4f35-b5eb-c13385860de2",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "wan22_action_delta_mapping_profile_20260623: 新增 scripts_umi/profile_umi_action_delta_mapping.py，对当前 cached UMI samples 的 opaque action_delta[16] 做 GPU-free 统计分析。样本：16 clips / 784 frames；统计 action_delta 与 state[t+1]-state[t] 的逐维相关、稀疏度、分位数和 candidate list。结果仅作 heuristic，不作为权威 schema：pose/state-delta-like top dims 为 9,11,1,10,13,2,14,3；稀疏/gripper-like top candidates 为 0,8,7,3,15，其中 0/8 near-zero fraction 约 0.62/0.61。这个结果说明 action_delta 很可能是 16D joint/state delta 风格而不是已经拆好的 pos/rot/gripper；下一步仍需要数据 owner 给出 action_delta[16] 字段顺序，然后用 build_mapped_action_schema_conditions.py 生成真实 continuous10_gripper_raw。验证：profile script passed；已接入完整 preflight，preflight_after_mapping_profile passed；报告更新 /Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html。",
+          "created_at": "2026-06-23T06:01:24.835Z"
+        },
+        {
+          "comment_id": "comment_9e10d92f-26e7-4861-b168-bd8dbd3e3bdd",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-23 progress: strict gate now includes explicit action_guidance mode. Patched remote validate_umi_a14b_pair.py with CFG-style UMI guidance (null + scale*(actual-null)) and updated all four route gates: paired_adaln, paired_action_xattn, paired_block_control, paired_motus_joint. Required modes are now actual / zero / time_view_only / left_zero / right_zero / action_guidance / wrongrow. Remote validation passed: py_compile, bash -n, smoke_action_gate_required_modes.py, smoke_dual_action_gate_branch_modes.py, and full preflight_acwm_action_routes.py. Local evidence: /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/acwm_status_20260623/preflight_after_action_guidance_stdout.json. Still not done: Gamma/Cosmos2.5 occupies all 8 H20 GPUs; UMI watcher is waiting to launch the 8-card paired AdaLN route and then run the updated strict gate.",
+          "created_at": "2026-06-23T06:30:18.290Z"
+        },
+        {
+          "comment_id": "comment_4bb36b22-cfb5-44ba-83b9-69db74efb246",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-24 progress: added a CPU-only regression smoke for action-guidance denoise math. New remote script scripts_umi/smoke_action_guidance_denoise_math.py directly calls validate_umi_a14b_pair.run_pipe_with_action_guidance with fake pipe/scheduler and verifies output = null + scale*(actual-null). Observed actual_pred=3.0, null_pred=1.5, scale=3.0, expected_noise=6.0, observed_noise=6.0. Integrated into preflight_acwm_action_routes.py and audit_acwm_completion.py. Full preflight passed; completion audit remains false only because no UMI route has produced high/low checkpoints or strict-gate recommendation=continue_best_run yet. Current blocker: Gamma-World/Cosmos2.5 still occupies all 8 H20 GPUs, around iter 3054/4000 with ETA about 13.1h; paired AdaLN watcher is alive and waiting. Local evidence: /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/acwm_status_20260623/action_guidance_denoise_math_smoke_latest.json and acwm_completion_audit_after_guidance_math_latest.json.",
+          "created_at": "2026-06-24T11:56:30.188Z"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-23T04:15:02.407Z"
+      "updated_at": "2026-06-24T11:56:30.188Z"
     },
     {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
