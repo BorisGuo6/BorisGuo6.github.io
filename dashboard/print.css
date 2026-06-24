@@ -750,6 +750,10 @@ td small {
   display: none;
 }
 
+.project-body figure > .layer-utility-card {
+  margin-top: 0;
+}
+
 .layer-utility-card h4 {
   position: absolute;
   width: 1px;
@@ -1061,6 +1065,8 @@ summary.bucket-title::-webkit-details-marker {
 
 .project-body figure {
   display: grid;
+  align-self: start;
+  align-content: start;
   gap: 6px;
   margin: 0;
 }
