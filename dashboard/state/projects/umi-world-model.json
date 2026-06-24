@@ -4,9 +4,9 @@
   "title": "UMI Image Layered World Model",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-06-22T13:14:53.015Z",
+  "updated_at": "2026-06-24T12:27:12Z",
   "description": "UMI Image Layered World Model: build tri-view robot video world modeling, decompose videos into robot / object-contact / scene layers, and prove layered data improves manipulation.",
-  "summary": "UMI now has three active lines after the 2026-06-22 sync: Stage 1 action-conditioned shared-world video modeling (Cosmos-Predict2.5 / WAN2.2 adapter probes plus a Wan2.1/Gamma-style teacher direction), Stage 2 iterative mask-segment + FLUX.fill/VACE/LaMa inpainting into robot/object/scene layers, and Stage 3 layer utility tests with Any6D/AllTracker/D4RT for objects and Dr. Robot for robot pose.",
+  "summary": "UMI now has three active lines after the 2026-06-22 sync: Stage 1 action-conditioned shared-world video modeling (Cosmos-Predict2.5 / WAN2.2 adapter probes plus a Wan2.1/Gamma-style teacher direction), Stage 2 iterative mask-segment + FLUX.fill/VACE/LaMa inpainting into robot/object/scene layers, and Stage 3 layer utility tests: RoboEngine-style scene augmentation, FoundationPose/Fast-FoundationStereoPhysics/Orient-Anything/Any6D for rigid or articulated object pose, AllTracker/Video Depth Anything/D4RT/CoTracker/Any4D for cloth or fluid point flow, and Dr. Robot or wrist-view VO for robot pose/IDM.",
   "subprojects": [
     {
       "label": "A",
@@ -23,8 +23,8 @@
     {
       "label": "C",
       "title": "Layered Data Utility",
-      "body": "Stage 3: verify utility per layer. Object/contact layers feed Any6D 6D pose/size, AllTracker(+DepthAnything-Video) or D4RT point-cloud flow/3D tracks, and reward/process signals; robot layers feed Dr. Robot-style manipulator pose estimation, IDM, pose/VO, and kinematic consistency checks.",
-      "output": "Any6D / AllTracker / D4RT / Dr. Robot evidence against raw RGB, mask-only, and recomposed clips"
+      "body": "Stage 3: verify utility per layer. Scene/background feeds RoboEngine-style replacement and data augmentation; object/contact layers feed rigid/articulated pose pipelines (FoundationPose, Fast-FoundationStereoPhysics, Orient-Anything, Any6D) and cloth/fluid point-flow pipelines (AllTracker plus Video Depth Anything, D4RT, CoTracker, Any4D); robot layers feed Dr. Robot-style manipulator pose estimation, wrist-view VO/SLAM, IDM, and kinematic consistency checks.",
+      "output": "RoboEngine / FoundationPose-family / AllTracker-D4RT-CoTracker-Any4D / Dr. Robot-VO evidence against raw RGB, mask-only, and recomposed clips"
     }
   ],
   "asset": "dashboard/assets/umi-shared-backbone-dual-branch-wan-20260617.jpg",
@@ -32,6 +32,115 @@
   "asset_caption": "Shared-Backbone Dual-Branch Wan: UMI Stage 1 architecture for separate left/right wrist video latents, view embeddings, shared Wan2.1 backbone, dual decoded outputs, and cross-view / temporal / state-action consistency losses.",
   "visual": {
     "layout": "standard"
+  },
+  "layer_utility": {
+    "title": "Layer utility map",
+    "aria_label": "Image-layered robot data utility map linking scene, object, and robot layers to downstream model families.",
+    "caption": "Layer order follows recomposition: robot/object layers overlay upward onto the scene layer. Utility is evaluated per layer before claiming a full policy gain.",
+    "layers": [
+      {
+        "layer": "Layer 0",
+        "name": "Scene / Background",
+        "target": "Data Augmentation",
+        "summary": "Use the scene/background layer as the stable context for physical or task-aware background replacement and RoboEngine-style augmentation.",
+        "groups": [
+          {
+            "label": "Scene replacement / augmentation",
+            "repositories": [
+              {
+                "label": "RoboEngine",
+                "url": "https://roboengine.github.io"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "layer": "Layer 1",
+        "name": "Object(s)",
+        "target": "Reward Model",
+        "summary": "Use object/contact layers for pose, contact, progress, and process reward evidence. Split rigid/articulated pose from deformable cloth/fluid point flow.",
+        "groups": [
+          {
+            "label": "Rigid / articulated pose",
+            "repositories": [
+              {
+                "label": "FoundationPose",
+                "url": "https://github.com/NVlabs/FoundationPose.git"
+              },
+              {
+                "label": "Fast-FoundationStereoPhysics",
+                "url": "https://github.com/Vector-Wangel/Fast-FoundationStereoPhysics.git"
+              },
+              {
+                "label": "Orient-Anything",
+                "url": "https://github.com/SpatialVision/Orient-Anything"
+              },
+              {
+                "label": "Any6D",
+                "url": "https://github.com/taeyeopl/Any6D"
+              }
+            ]
+          },
+          {
+            "label": "Cloth / fluid point flow",
+            "repositories": [
+              {
+                "label": "AllTracker",
+                "url": "https://github.com/aharley/alltracker"
+              },
+              {
+                "label": "Video Depth Anything",
+                "url": "https://github.com/DepthAnything/Video-Depth-Anything"
+              },
+              {
+                "label": "D4RT",
+                "url": "https://github.com/MasahiroOgawa/D4RT_MasImpl.git"
+              },
+              {
+                "label": "CoTracker",
+                "url": "https://github.com/facebookresearch/co-tracker"
+              },
+              {
+                "label": "Any4D",
+                "url": "https://github.com/Any-4D/Any4D"
+              }
+            ],
+            "note": "AllTracker may need Video Depth Anything or another temporally consistent depth model before 2D tracks become 3D object point-cloud flow."
+          }
+        ]
+      },
+      {
+        "layer": "Layer 2",
+        "name": "Robot(s)",
+        "target": "Inverse Dynamic Model",
+        "summary": "Use robot layers for image-based robot pose, action/state recovery, wrist-view egomotion, and IDM supervision.",
+        "groups": [
+          {
+            "label": "Image robot pose",
+            "repositories": [
+              {
+                "label": "Dr. Robot",
+                "url": "https://github.com/cvlab-columbia/drrobot"
+              }
+            ]
+          },
+          {
+            "label": "Wrist-view VO / SLAM",
+            "repositories": [
+              {
+                "label": "ORB-SLAM3",
+                "url": "https://github.com/UZ-SLAMLab/ORB_SLAM3.git"
+              },
+              {
+                "label": "VGGT-SLAM",
+                "url": "https://github.com/MIT-SPARK/VGGT-SLAM.git"
+              }
+            ]
+          }
+        ]
+      }
+    ]
   },
   "details": [
     "Claim: Image-Layered Robot Data should improve manipulation only if it helps downstream robot learning, not merely because the decomposed images look clean.",
@@ -369,7 +478,7 @@
     "Terminology guardrail: write WAN2.2 and do not use the old mistaken One spelling. Keep exact model names where needed: Wan2.2-TI2V-5B-Diffusers, Wan2.2-A14B, Cosmos-Predict2.5, nvidia/Cosmos3-Nano-Policy-DROID.",
     "WAN2.2 action-control risk: high-noise expert must receive action/control signal early enough; output-head-only conditioning is too late. Any future WAN2.2 run must report base preservation plus actual/zero/wrong-row action gates, not only reconstruction MAE/MA.",
     "Layering risk: SAM3/SAM2.1 masks and VACE/FLUX.fill/LaMa inpaint should preserve canvas size and coordinates so layers can be overlaid without manual alignment. If inpaint shifts geometry, the result is not acceptable even if the hole looks plausible.",
-    "Stage 3 utility decision: object layer validation now targets Any6D, AllTracker(+DepthAnything-Video), and D4RT; robot layer validation targets Dr. Robot / differentiable robot rendering. FoundationPose remains a baseline, not the whole validation plan."
+    "Stage 3 utility decision: scene layer validation targets RoboEngine-style augmentation; rigid/articulated object validation targets FoundationPose, Fast-FoundationStereoPhysics, Orient-Anything, and Any6D; deformable object validation targets AllTracker plus Video Depth Anything, D4RT, CoTracker, and Any4D; robot layer validation targets Dr. Robot and wrist-view ORB-SLAM3 / VGGT-SLAM. FoundationPose remains a baseline, not the whole validation plan."
   ],
   "timeline": {
     "target_venue": "ICLR",

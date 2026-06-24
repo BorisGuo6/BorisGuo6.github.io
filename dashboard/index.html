@@ -819,6 +819,7 @@
             asset_alt: project.asset_alt,
             asset_caption: project.asset_caption,
             visual: project.visual,
+            layer_utility: project.layer_utility || null,
             subprojects: project.subprojects || [],
             details: project.details || [],
             timeline: project.timeline,
@@ -1496,6 +1497,132 @@
           return figure;
         }
 
+        function createLayerRepoChip(repo) {
+          const label = repo?.label || repo?.title || "";
+          const url = repo?.url || repo?.href || "";
+          if (!label) {
+            return null;
+          }
+          const chip = url ? createExternalLink(url, label) : document.createElement("span");
+          chip.className = "layer-repo-chip";
+          chip.textContent = label;
+          if (repo?.note) {
+            chip.title = repo.note;
+          }
+          return chip;
+        }
+
+        function createLayerRepoGroup(group) {
+          const repositories = Array.isArray(group?.repositories) ? group.repositories : [];
+          if (!group?.label && repositories.length === 0 && !group?.note) {
+            return null;
+          }
+          const section = document.createElement("div");
+          section.className = "layer-repo-group";
+          if (group?.label) {
+            const label = document.createElement("strong");
+            label.textContent = group.label;
+            section.append(label);
+          }
+          if (repositories.length > 0) {
+            const chips = document.createElement("div");
+            chips.className = "layer-repo-chips";
+            repositories.map(createLayerRepoChip).filter(Boolean).forEach((chip) => chips.append(chip));
+            section.append(chips);
+          }
+          if (group?.note) {
+            const note = document.createElement("p");
+            note.textContent = group.note;
+            section.append(note);
+          }
+          return section;
+        }
+
+        function createLayerUtilityDiagram(layers) {
+          const diagram = document.createElement("div");
+          diagram.className = "layer-utility-flow";
+          diagram.setAttribute("aria-hidden", "true");
+          layers.forEach((layer) => {
+            const row = document.createElement("div");
+            row.className = "layer-utility-row";
+
+            const source = document.createElement("div");
+            source.className = "layer-utility-node layer-utility-source";
+            const layerLabel = document.createElement("span");
+            layerLabel.className = "layer-utility-label";
+            layerLabel.textContent = layer.layer || "";
+            const layerName = document.createElement("strong");
+            layerName.textContent = layer.name || "";
+            source.append(layerLabel, layerName);
+
+            const arrow = document.createElement("span");
+            arrow.className = "layer-utility-arrow";
+
+            const target = document.createElement("div");
+            target.className = "layer-utility-node layer-utility-target";
+            target.textContent = layer.target || "";
+
+            row.append(source, arrow, target);
+            diagram.append(row);
+          });
+          return diagram;
+        }
+
+        function createLayerUtilityReferenceCard(layer) {
+          const card = document.createElement("article");
+          card.className = "layer-reference-card";
+
+          const header = document.createElement("div");
+          header.className = "layer-reference-header";
+          const badge = document.createElement("span");
+          badge.textContent = layer.layer || "";
+          const title = document.createElement("strong");
+          title.textContent = layer.name || "";
+          const target = document.createElement("em");
+          target.textContent = layer.target || "";
+          header.append(badge, title, target);
+          card.append(header);
+
+          if (layer.summary) {
+            const summary = document.createElement("p");
+            summary.textContent = layer.summary;
+            card.append(summary);
+          }
+
+          (Array.isArray(layer.groups) ? layer.groups : [])
+            .map(createLayerRepoGroup)
+            .filter(Boolean)
+            .forEach((group) => card.append(group));
+          return card;
+        }
+
+        function createProjectLayerUtility(config) {
+          const layers = Array.isArray(config?.layers) ? config.layers : [];
+          if (layers.length === 0) {
+            return null;
+          }
+          const section = document.createElement("section");
+          section.className = "layer-utility-card";
+          section.setAttribute("aria-label", config.aria_label || "Layer utility map");
+
+          const title = document.createElement("h4");
+          title.textContent = config.title || "Layer utility map";
+          section.append(title, createLayerUtilityDiagram(layers));
+
+          const references = document.createElement("div");
+          references.className = "layer-reference-grid";
+          layers.map(createLayerUtilityReferenceCard).forEach((card) => references.append(card));
+          section.append(references);
+
+          if (config.caption) {
+            const caption = document.createElement("p");
+            caption.className = "layer-utility-caption";
+            caption.textContent = config.caption;
+            section.append(caption);
+          }
+          return section;
+        }
+
         function createProjectFigure(projectDoc, existingFigure) {
           if (projectDoc.visual?.kind === "rate_curve") {
             return createRateCurveFigure(projectDoc.visual);
@@ -1513,6 +1640,10 @@
           caption.textContent = projectDoc.asset_caption || "";
           makeTextCollapsible(caption, projectDoc.asset_caption || "", { maxLength: 170, maxLines: 2, stateKey: `project:${projectDoc.project_id}:asset-caption` });
           figure.append(image, caption);
+          const layerUtility = createProjectLayerUtility(projectDoc.layer_utility);
+          if (layerUtility) {
+            figure.append(layerUtility);
+          }
           return figure;
         }
 

@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-24T12:30:22.544Z",
+  "updated_at": "2026-06-24T12:52:28.932Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -7032,8 +7032,8 @@
       "task_id": "task_umi_layering_method_selection_global_dataset_plan_20260617",
       "project_id": "umi-world-model",
       "title": "收敛分层方案并启动 global layered dataset 计划",
-      "description": "当前收敛结论：采用 iterative segment + inpaint 的 v0 global layered dataset 路线，而不是直接依赖端到端 layer decomposition。先用 SAM3/SAM2 或 mask tracking 分割 robot layer，生成 robot mask/rgba/video/SVG sidecar；再用 FLUX.fill、VACE、LaMa 或同类 inpaint 模型把 robot 从原视频中抹掉并补全被遮挡区域。随后按 task-relevant object/contact/occluder 逐个 object layer 迭代：每次 segment 一个对象/接触区域，导出该层 mask/rgba/video/SVG sidecar，再对剩余视频做 inpaint，直到得到 scene/background layer。背景层优先面向第三人称或固定机位视频，预期随时间变化很小；wrist/ego view 背景变化较大，需要单独标记 temporal consistency 风险。候选方法仍作为组件或对照保留：SAM3+GPT inpaint、VACE/VAC/VAS video inpaint、FLUX.fill/LaMa still or video-adapted inpaint、RevealLayer/Qwen 负样例参考、RoboTwin synthetic masks、MaskWAM-style VLM->SAM3->human-verification mask propagation、SuperSVG/LIVE/SAM-contour SVG sidecar，StarVector/OmniSVG 作为可选 SVG probe。参考 MaskWAM 数据处理管线：language annotation / VLM 提取 task-relevant objects，用 SAM3 text/point condition 传播 mask sequence，多轮 human verification 只修正失败/歧义 round，最后写入 labeled episodes；UMI 需要把这个单 mask pipeline 扩展成 robot、object/contact、occluder、scene/background 的多层 pseudo-label，并保留 mask.png / rgba.png / video / inpainted_background.png / SVG sidecar / layer_manifest.json。Acceptance: iterative pipeline 的方法矩阵、每轮输入/输出 schema、速度/成本、人为标注需求、temporal consistency、recomposition QA、FoundationPose/IDM/reward utility、失败样例；给出 v0 dataset 构建决策、robot-first/object-next/background-final 的处理顺序、下一批 episode/image/video 清单。",
-      "status": "done",
+      "description": "当前收敛结论：采用 iterative segment + inpaint 的 v0 global layered dataset 路线，而不是直接依赖端到端 layer decomposition。处理顺序先 robot-first，再 object/contact/occluder-next，最后 scene/background-final：先用 SAM3/SAM2 或 mask tracking 分割 robot layer，生成 robot mask/rgba/video/SVG sidecar；再用 FLUX.fill、VACE、LaMa 或同类 inpaint 模型把 robot 从原视频中抹掉并补全被遮挡区域。随后按 task-relevant object/contact/occluder 逐个 object layer 迭代：每次 segment 一个对象/接触区域，导出该层 mask/rgba/video/SVG sidecar，再对剩余视频做 inpaint，直到得到 scene/background layer。背景层优先面向第三人称或固定机位视频，预期随时间变化很小；wrist/ego view 背景变化较大，需要单独标记 temporal consistency 风险。2026-06-24 ClawCross 同步 Layered Image Policy 最新进度：SAM-HQ robot mask review 结果不如 SAM3，SAM-HQ 暂时排除；SAM3/SAM2 对 gripper mask 仍有问题，下一步测试 prompt `robot arm with black gripper` 与更低 probability-map threshold；LaMa 结果未出；RoboTwin2.0 dataset (https://huggingface.co/datasets/TianxingChen/RoboTwin2.0/tree/main/dataset) 可用于仿真 GT 分图层验证。候选方法仍作为组件或对照保留：SAM3+GPT inpaint、VACE/VAC/VAS video inpaint、FLUX.fill/LaMa still or video-adapted inpaint、RevealLayer/Qwen 负样例参考、RoboTwin synthetic masks、MaskWAM-style VLM->SAM3->human-verification mask propagation、SuperSVG/LIVE/SAM-contour SVG sidecar，StarVector/OmniSVG 作为可选 SVG probe。参考 MaskWAM 数据处理管线：language annotation / VLM 提取 task-relevant objects，用 SAM3 text/point condition 传播 mask sequence，多轮 human verification 只修正失败/歧义 round，最后写入 labeled episodes；UMI 需要把这个单 mask pipeline 扩展成 robot、object/contact、occluder、scene/background 的多层 pseudo-label，并保留 mask.png / rgba.png / video / inpainted_background.png / SVG sidecar / layer_manifest.json。Acceptance: iterative pipeline 的方法矩阵、每轮输入/输出 schema、速度/成本、人为标注需求、temporal consistency、recomposition QA、FoundationPose/IDM/reward utility、失败样例；给出 v0 dataset 构建决策、robot-first/object-next/background-final 的处理顺序、下一批 episode/image/video 清单。",
+      "status": "active",
       "priority": "urgent",
       "assignee": "Boris / Haoyu / Lai / Ziyang",
       "result": null,
@@ -7067,11 +7067,20 @@
           "kind": "comment",
           "body": "更新当前结论：v0 采用 iterative segment + inpaint。顺序为 robot layer -> FLUX.fill/VACE/LaMa 抹除补全 -> task-relevant object/contact/occluder layers 逐个迭代 -> scene/background layer；第三人称/固定机位背景层预期时间变化小，ego/wrist view 需单独 QA temporal consistency。",
           "created_at": "2026-06-22T12:26:55.819Z"
+        },
+        {
+          "comment_id": "comment_0683e314-444b-4e67-9f67-939ab6395f52",
+          "task_id": "task_umi_layering_method_selection_global_dataset_plan_20260617",
+          "author": "Codex / ClawCross wx sync",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-24 Layered Image Policy sync: SAM-HQ robot mask review 不如 SAM3，已排除；gripper mask 仍是当前问题，建议测 `robot arm with black gripper` prompt 和更低 probability threshold；LaMa 结果未出；RoboTwin2.0 dataset 可作为 synthetic GT layer validation 源。",
+          "created_at": "2026-06-24T12:52:28.932Z"
         }
       ],
-      "updated_at": "2026-06-22T14:25:40.765Z",
+      "updated_at": "2026-06-24T12:52:28.932Z",
       "due_at": "",
-      "completed_at": "2026-06-22"
+      "completed_at": null
     },
     {
       "task_id": "task_umi_gpu_resource_single_node_plan_20260617",
@@ -7098,8 +7107,8 @@
     {
       "task_id": "task_umi_foundationpose_layer_utility_probe_20260617",
       "project_id": "umi-world-model",
-      "title": "验证 object/robot layer 对 6D pose、3D flow 与 robot pose 的帮助",
-      "description": "Ziyang 用分层结果分别验证 Object Layer 与 Robot Layer 的下游 utility，不再只看 FoundationPose。Object Layer: 1) 用 Any6D (https://sites.google.com/view/taeyeop-lee/any6d) 检查 object/contact layer 是否更容易提取 novel object 6D pose / size；比较 raw RGB/RGB-D、mask-only、object-only layer、object+background layer、recomposed layered clip。2) 用 AllTracker (https://alltracker.github.io) 提取 dense point tracks / optical-flow-style correspondences；若要做三维物体点云 flow，优先配合 Video Depth Anything / DepthAnything-Video 生成 temporally consistent depth，再 lift 到 3D。3) 用 D4RT (https://d4rt-paper.github.io) 作为统一 4D scene reconstruction / 3D point tracking 对照，直接评估 object layer 是否提升 point cloud、3D tracks、camera/scene consistency。Robot Layer: 用 Dr. Robot / Differentiable Robot Rendering (https://drrobot.cs.columbia.edu) 在 robot-only layer、robot+background、recomposed clip 上做机械臂 pose estimation / joint or camera pose tracking，判断 robot layer 是否比 flat RGB 更利于机械臂姿态恢复。FoundationPose 保留为 baseline 或备选 6D pose pipeline。Acceptance: 选 3-5 个对象/片段和 1-2 个机械臂片段；输出 Any6D pose/size 结果、AllTracker(+DepthAnything-Video) 或 D4RT 的 2D/3D track/point-cloud flow、Dr. Robot pose overlay / joint trajectory；给出每种输入的成功率或人工评分、遮挡/背景干扰案例、depth/calibration 需求、失败样例；结论明确 object/contact layer、robot layer、object+background、recomposed clip 是否比 flat RGB、mask-only 或 FoundationPose-only baseline 更有用。",
+      "title": "验证 layer utility：object pose/flow、robot pose/VO、scene augmentation",
+      "description": "Ziyang 用分层结果验证三类下游 utility，不再只看 FoundationPose。Scene Layer: 用 RoboEngine (https://roboengine.github.io) 做物理/任务感知的背景替换与 data augmentation，对比 flat RGB 背景替换是否破坏接触语义。Object Layer: 刚体/铰接物体 pose 评估使用 FoundationPose (https://github.com/NVlabs/FoundationPose.git)、Fast-FoundationStereoPhysics (https://github.com/Vector-Wangel/Fast-FoundationStereoPhysics.git)、Orient-Anything (https://github.com/SpatialVision/Orient-Anything) 和 Any6D (https://github.com/taeyeopl/Any6D；project page https://sites.google.com/view/taeyeop-lee/any6d)，比较 raw RGB/RGB-D、mask-only、object-only layer、object+background layer、recomposed layered clip。布料/流体/非刚体 object point flow 评估使用 AllTracker (https://github.com/aharley/alltracker；https://alltracker.github.io)、CoTracker3 (https://github.com/facebookresearch/co-tracker)、Any4D (https://github.com/Any-4D/Any4D)，必要时配合 Video Depth Anything / DepthAnything-Video 生成 temporally consistent depth 并 lift 到 3D。D4RT (https://d4rt-paper.github.io / https://github.com/MasahiroOgawa/D4RT_MasImpl.git) 和 Lift4D 目前从 2026-06-24 Layered Image Policy 群聊看代码未开源，先作为 paper/reference 或 blocker 记录，不作为 v0 必跑依赖。Robot Layer: 用 Dr. Robot / Differentiable Robot Rendering (https://drrobot.cs.columbia.edu；https://github.com/cvlab-columbia/drrobot) 在 robot-only layer、robot+background、recomposed clip 上做机械臂 pose estimation / joint or camera pose tracking；从 wrist-view 做 VO 时对照 ORB-SLAM3 (https://github.com/UZ-SLAMLab/ORB_SLAM3.git) 与 VGGT-SLAM (https://github.com/MIT-SPARK/VGGT-SLAM.git)。Acceptance: 选 3-5 个对象/片段和 1-2 个机械臂片段；输出 pose/size、2D/3D track 或 point-cloud flow、robot pose overlay / joint trajectory、wrist VO 轨迹；给出每种输入的成功率或人工评分、遮挡/背景干扰案例、depth/calibration 需求、未开源 blocker、失败样例；结论明确 object/contact layer、robot layer、scene layer、object+background、recomposed clip 是否比 flat RGB、mask-only 或 FoundationPose-only baseline 更有用。",
       "status": "todo",
       "priority": "high",
       "assignee": "Ziyang / Boris",
@@ -7118,9 +7127,18 @@
           "body": "Moved Stage 3 utility notes out of the project intro. The utility probe should compare raw RGB, object-only layer, object+background layer, mask-only/SAM, and recomposed layered clips. Report pose/extraction success, occlusion/background interference, whether object/contact layers improve FoundationPose or similar 6D pose pipelines, and whether this utility justifies scaling the global layered dataset.",
           "created_at": "2026-06-22T14:32:00+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_0932e36d-10d6-46a6-9806-21dae01cca20",
+          "task_id": "task_umi_foundationpose_layer_utility_probe_20260617",
+          "author": "Codex / ClawCross wx sync",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-24 Layered Image Policy sync: object pose 新增 Orient-Anything；point-flow 新增 CoTracker3；Lift4D 与 D4RT 当前发现没有可用开源代码，v0 先记为 blocker/reference，优先跑 AllTracker(+DepthAnything-Video)、CoTracker3、Any4D。",
+          "created_at": "2026-06-24T12:52:28.932Z"
         }
       ],
-      "updated_at": "2026-06-22T12:41:32.283Z",
+      "updated_at": "2026-06-24T12:52:28.932Z",
       "due_at": "",
       "completed_at": null
     },
@@ -7193,7 +7211,7 @@
       "task_id": "task_umi_vace_video_inpainting_probe_20260617",
       "project_id": "umi-world-model",
       "title": "测试 VACE 做 robot-layer 视频 inpainting",
-      "description": "把 VACE 加入 Stage 2 video inpainting 路线：用 1-3 个 MolmoAct/Hoi/UMI-style clips 的 tracked masks 做 masked V2V，测试 robot/object/occluder removal 后的 background completion 和 object-contact region completion。Acceptance: VACE 输入准备说明（video、mask、reference/prompt）、运行命令/配置、输出视频与 layer_manifest 对齐、masked-region temporal consistency、unmasked-region preservation、recomposition QA、failure gallery；和 GPT/FLUX still inpaint、RevealLayer single-image completion、segment+inpaint baseline 做定性/定量对照。注意：VACE 负责 raster video inpaint，不替代 SuperSVG/LIVE/SAM-contour 的 SVG sidecar probe。",
+      "description": "把 VACE 加入 Stage 2 video inpainting 路线：用 1-3 个 MolmoAct/Hoi/UMI-style clips 的 tracked masks 做 masked V2V，测试 robot/object/occluder removal 后的 background completion 和 object-contact region completion。VACE 当前定位为 iterative segment + inpaint pipeline 的 raster video inpaint 组件：先 robot removal，再逐个 object/contact/occluder removal，最后生成 scene/background；仍需和 FLUX.fill、LaMa、GPT image still-frame baseline 对比。Acceptance: VACE 输入准备说明（video、mask、reference/prompt）、运行命令/配置、输出视频与 layer_manifest 对齐、masked-region temporal consistency、unmasked-region preservation、recomposition QA、failure gallery；和 GPT/FLUX still inpaint、LaMa、RevealLayer single-image completion、segment+inpaint baseline 做定性/定量对照。注意：VACE 负责 raster video inpaint，不替代 SuperSVG/LIVE/SAM-contour 的 SVG sidecar probe。",
       "status": "active",
       "priority": "high",
       "assignee": "Boris / Haoyu / Xiaobin",
@@ -7212,9 +7230,18 @@
           "body": "Moved VACE placement note out of the project intro. VACE owns temporally coherent raster video inpaint/background completion after masks are tracked: prepare video + mask + prompt/reference, test robot/object/occluder removal and completion, measure masked-region temporal consistency and unmasked-region preservation, then compare with still-image GPT/FLUX/inpaint and segment+inpaint baselines. SVG remains only a sidecar/metadata route, not a replacement for raster RGBA/video truth.",
           "created_at": "2026-06-22T14:32:00+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_08dac99b-b736-4cbe-9771-4a235d3562e9",
+          "task_id": "task_umi_vace_video_inpainting_probe_20260617",
+          "author": "Codex / ClawCross wx sync",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-24 sync: VACE 仍作为 video inpaint 主线组件；LaMa 结果未出，后续需要和 FLUX.fill/GPT image still baseline 对齐同一 mask/manifest 做比较。",
+          "created_at": "2026-06-24T12:52:28.932Z"
         }
       ],
-      "updated_at": "2026-06-22T12:45:12.408Z",
+      "updated_at": "2026-06-24T12:52:28.932Z",
       "due_at": "",
       "completed_at": null
     },
@@ -8102,14 +8129,24 @@
       "task_id": "task_umi_layered_pipeline_sam_vace_flux_lama_automation_20260622",
       "project_id": "umi-world-model",
       "title": "搭建 SAM2.1/SAM3 + VACE/FLUX.fill/LaMa 分层自动化管线 smoke",
-      "status": "todo",
+      "status": "active",
       "priority": "high",
       "assignee": "Lai / Ziyang / Boris",
-      "description": "根据 Zoom 与 Layered Image Policy 微信同步，把分层处理从单图手工样例推进到可重复的自动化 smoke pipeline。当前群聊状态：VACE 已在测试；SAM3 Hugging Face access 曾 pending，短期可用 SAM2.1 先跑；Ziyang 尝试 LaMa，本地模型优先；FLUX.fill 作为 still inpaint 推荐候选；GPT image 仍是强 still-frame baseline 但不支持视频。Pipeline 顺序：robot mask/rgba -> inpaint robot removal -> object/contact/occluder mask/rgba -> inpaint removal -> scene/background layer，所有输出保持原始 canvas 尺寸，支持原地 overlay/recomposition。Acceptance: 1) 选 3 个 UMI/MolmoAct/Hoi-style clips，每个抽 20-50 帧或短视频；2) 输出 robot/object/contact/occluder/background 的 mask.png、rgba.png、inpainted_background.png/video、layer_manifest.json；3) 同一输入上比较 VACE、FLUX.fill、LaMa、GPT image baseline 的质量/速度/显存/是否改变画幅；4) SAM2.1 vs SAM3 access/边缘阈值/概率图控制记录；5) overlay/recomposition 与源图对齐检查；6) 失败样例记录，电线等小细节可降权，但 robot/object/background 主体必须正确分离。",
+      "description": "根据 Zoom 与 Layered Image Policy 微信同步，把分层处理从单图手工样例推进到可重复的自动化 smoke pipeline。Pipeline 顺序：robot mask/rgba -> inpaint robot removal -> object/contact/occluder mask/rgba -> inpaint removal -> scene/background layer，所有输出保持原始 canvas 尺寸，支持原地 overlay/recomposition。2026-06-24 最新群聊状态：VACE 已在测试；SAM-HQ robot mask review 结果不如 SAM3，SAM-HQ 暂时排除；SAM3/SAM2 继续作为 segmentation/mask-tracking 主线，但 gripper mask 是当前 blocker，需要尝试 `robot arm with black gripper` prompt、降低 probability-map 转二值 mask 的 threshold，并记录 gripper color/edge 失败；Ziyang/子洋的 LaMa 结果未出，有结果后发群；FLUX.fill 仍作为 still-frame inpaint 推荐候选；GPT image 仍是强 still-frame baseline 但不支持视频；RoboTwin2.0 dataset 可作为 synthetic GT layer validation 源。Acceptance: 1) 选 3 个 UMI/MolmoAct/Hoi-style clips，每个抽 20-50 帧或短视频；2) 输出 robot/object/contact/occluder/background 的 mask.png、rgba.png、inpainted_background.png/video、SVG sidecar、layer_manifest.json；3) 同一输入上比较 VACE、FLUX.fill、LaMa、GPT image baseline 的质量/速度/显存/是否改变画幅；4) SAM2.1/SAM3 vs SAM-HQ 结论、边缘阈值、概率图控制、gripper prompt 记录；5) overlay/recomposition 与源图对齐检查；6) 失败样例记录，电线等小细节可降权，但 robot/object/background 主体必须正确分离。",
       "result": null,
-      "comments": [],
+      "comments": [
+        {
+          "comment_id": "comment_544960cf-93e0-49ce-bcd8-ad68b356ea34",
+          "task_id": "task_umi_layered_pipeline_sam_vace_flux_lama_automation_20260622",
+          "author": "Codex / ClawCross wx sync",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "群聊证据：2026-06-24 上传/讨论了 `sam_hq_robot_mask_review_2026-06-23.zip`、`robot_bounded_sam2_vs_sam3_mask.mp4` 和视频对比；结论是 SAM-HQ 不如 SAM3，gripper edge/color mask 需要单独 prompt+threshold 调参。",
+          "created_at": "2026-06-24T12:52:28.932Z"
+        }
+      ],
       "completed_at": null,
-      "updated_at": "2026-06-22T13:14:53.015Z"
+      "updated_at": "2026-06-24T12:52:28.932Z"
     },
     {
       "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
@@ -8719,9 +8756,19 @@
       "assignee": "Haoyu / Boris",
       "description": "Haoyu 正在完成约 2000 条数据的标签标注，并计划几天内反馈第一版大规模微调结果。这个 TODO 跟踪从小规模 68 条 / 75 epoch overfit seed 到 2000 条数据的可泛化训练结果。需要确认数据字段、action 维度、action 编码、是否归一化、夹爪量纲、左右视角/主视角拼接或 dual-view 组织方式、train/val split、训练 backbone 与 trainable modules。Acceptance: 1) 2000 条数据 manifest 和标签完成状态；2) action schema 说明（8-D vs 10-D、quat vs rot6d、gripper 单位/范围、normalization 策略）；3) 训练配置、GPU/时长、checkpoint 路径；4) held-out gallery 与 GT/base/actual/zero/wrong-row 对照；5) 过拟合与泛化结论，尤其布料/电线/遮挡等失败场景；6) 是否进入下一轮 shared-world teacher / WAN2.2 action encoder 训练的决策。",
       "result": null,
-      "comments": [],
+      "comments": [
+        {
+          "comment_id": "comment_89f7dcb8-189e-4461-808b-60ff0bdf2a2b",
+          "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
+          "author": "Codex / ClawCross wx sync",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-24 Layered Image Policy sync: Haoyu 提到 UMI 视频 prompt 也需要设计，这两天在调；2000-clip 结果跟进时需要同时记录 prompt template / caption strategy，而不只看 checkpoint 指标。",
+          "created_at": "2026-06-24T12:48:57.501Z"
+        }
+      ],
       "completed_at": null,
-      "updated_at": "2026-06-22T13:14:53.015Z"
+      "updated_at": "2026-06-24T12:52:28.932Z"
     }
   ]
 }
