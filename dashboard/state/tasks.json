@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-25T22:33:45+08:00",
+  "updated_at": "2026-06-25T23:13:39+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1855,9 +1855,16 @@
           "body": "Local Codex host review reopened this TODO.\n请补齐完整可复现验收包后再送审：repo commit SHA；RoboTwin2 API list/task-program schema/manual-program new-task path 文档；1-2 个 tabletop task 的 prompt 与 env JSON/description；code-agent 生成或 repair 后的 task program 路径和 diff/commit；simulator smoke 原始命令、完整日志和 pass/fail；data-collection dry run 原始命令、输出路径、可读取的 HDF5/summary/video/instruction/scene_info/seed artifacts 和 verifier/log；Pi/OpenVLA-OFT train/eval hook 的实际运行证据或带命令/日志的明确 blocker；designer/critic/orchestrator 范围限制说明。若 artifacts 只在远端，请提供可 SSH 复核的 host、绝对路径、读取命令、大小和 sha256。",
           "created_at": "2026-06-25T19:11:14+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_9c04e23a9884",
+          "author": "Review",
+          "body": "Local Codex host review reopened this TODO.\n请补齐后再送审：1) 在 repo 加 docs/policy_hook_note.md 或等价文件，包含 Pi/OpenVLA-OFT train/eval hook 的实际命令与输出；若不能跑，给出明确 blocker、失败命令和日志。2) 提交或在 dashboard comment 附上 smoke/data dry-run 原始日志、HDF5 verifier 输出、artifact 绝对路径、大小和 sha256。3) 若 HDF5/log 只在远端 5090，提供可 SSH 复核的 host、绝对路径和只读检查命令。4) 补 manual-program new-task path/API list 的明确文档路径或在现有 schema 文档中标注。",
+          "created_at": "2026-06-25T23:13:35+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-25T22:33:42+08:00",
+      "updated_at": "2026-06-25T23:13:37+08:00",
       "due_at": "",
       "completed_at": null
     },
