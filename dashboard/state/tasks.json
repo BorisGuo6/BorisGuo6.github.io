@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-25T23:53:48+08:00",
+  "updated_at": "2026-06-26T00:13:17+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1871,7 +1871,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-25T23:49:01+08:00",
+      "updated_at": "2026-06-26T00:08:42+08:00",
       "due_at": "",
       "completed_at": null
     },
@@ -5734,7 +5734,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-25T23:50:46+08:00",
+      "updated_at": "2026-06-26T00:10:23+08:00",
       "completed_at": "2026-06-24"
     },
     {
@@ -9362,10 +9362,19 @@
           "kind": "comment",
           "body": "2026-06-25 hard-negative follow-up: patched the Gamma/shared-world teacher to support category-aware training/eval negatives (wrong_next, wrong_same_category, wrong_other_category). Ran two new 8-card balanced398 experiments. Results: hardneg multi-gate 7/15; allneg multi-gate 7/15. Allneg improved many individual deltas versus the earlier balanced contrast run, but strict multi-negative pass count is still below the earlier old-gate 9/15. Evidence: /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/teacher_gamma_20260625/gamma_balanced398_allneg_holdout_eval/index.html and updated total report /Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html. Interpretation: explicit teacher route has real action signal, but current architecture still relies too much on first-frame/scene priors on small-category holdouts. Do not mark complete; next step is architecture-level action dominance, e.g. stronger condition injection into hub/decoder tokens or online hard-negative mining before distilling into Wan/Cosmos/Gamma generator.",
           "created_at": "2026-06-25T15:45:35.314Z"
+        },
+        {
+          "comment_id": "comment_779b36b9-1c16-4248-8128-8d9e4a8489a4",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-25 architecture ablation follow-up: patched explicit Gamma/shared-world teacher with stronger action injection variants. Added decoder FiLM and hub+decoder FiLM so action/state condition modulates video decoder hidden layers and optionally shared scene hub tokens. Ran 8-card balanced398 all-negative experiments. Results on strict multi-negative gate (zero + time-view + wrong_next + wrong_same_category + wrong_other_category): concat allneg 7/15; hub+decoder FiLM allneg 8/15; hub+decoder FiLM hardmax 6/15; decoder-only FiLM allneg 7/15. Best current route is hub+decoder FiLM allneg: Clutter 3/3, Cooking 2/3, Folding 1/3, Organize 1/3, Shoes 1/3. Evidence: /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/teacher_gamma_20260625/gamma_balanced398_filmhub_allneg_eval/index.html and updated total report /Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html. Interpretation: architecture-level condition injection helps, but this is still not complete; wrong-next failures remain in Folding/Organize/Shoes. Next should move from low-res teacher validation into stronger temporal/action tokenization or generator distillation, not more plain Wan2.2 adapter grid.",
+          "created_at": "2026-06-25T16:07:47.412Z"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-25T15:45:35.314Z"
+      "updated_at": "2026-06-25T16:07:47.412Z"
     },
     {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
