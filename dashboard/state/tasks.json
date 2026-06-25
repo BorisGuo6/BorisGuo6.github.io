@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-25T23:13:39+08:00",
+  "updated_at": "2026-06-25T23:28:45+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1862,9 +1862,16 @@
           "body": "Local Codex host review reopened this TODO.\n请补齐后再送审：1) 在 repo 加 docs/policy_hook_note.md 或等价文件，包含 Pi/OpenVLA-OFT train/eval hook 的实际命令与输出；若不能跑，给出明确 blocker、失败命令和日志。2) 提交或在 dashboard comment 附上 smoke/data dry-run 原始日志、HDF5 verifier 输出、artifact 绝对路径、大小和 sha256。3) 若 HDF5/log 只在远端 5090，提供可 SSH 复核的 host、绝对路径和只读检查命令。4) 补 manual-program new-task path/API list 的明确文档路径或在现有 schema 文档中标注。",
           "created_at": "2026-06-25T23:13:35+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_fa423d32227b",
+          "author": "Review",
+          "body": "Local Codex host review reopened this TODO.\n请补齐后再送审：提交 repo commit SHA；补 docs/policy_hook_note.md 或等价文件，包含 Pi/OpenVLA-OFT train/eval hook 的实际命令与输出，若不能跑则给出明确 blocker、失败命令和日志；提交或在 dashboard comment 附上 smoke/data dry-run 原始日志、HDF5 verifier 输出、artifact 绝对路径、大小和 sha256；若 HDF5/log 只在远端 5090，请提供可 SSH 复核的 host、绝对路径和只读检查命令；补 manual-program new-task path/API list 的明确文档路径或在现有 schema 文档中标注。",
+          "created_at": "2026-06-25T23:28:41+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-25T23:13:37+08:00",
+      "updated_at": "2026-06-25T23:28:43+08:00",
       "due_at": "",
       "completed_at": null
     },
@@ -5727,7 +5734,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-25T22:21:24+08:00",
+      "updated_at": "2026-06-25T23:16:58+08:00",
       "completed_at": "2026-06-24"
     },
     {
@@ -9328,10 +9335,28 @@
           "kind": "comment",
           "body": "2026-06-25 update: Wan2.2-A14B adapter routes are not sufficient (paired_adaln/block-control/Motus-Joint strict gates all 0/20; action-xattn rejected by checkpoint health). Pivoted to explicit shared-world teacher/data route. Built Gamma-World data_umi_robot189_v2 paired teacher datasets with left/right video + action npy + caption; patched teacher to infer condition_dim and added optional action-contrastive hinge. Results: gamma256 adjacent holdout 1/5, gamma256 spread holdout 3/5, gamma512 shuffle pure-MSE cross-task holdout 1/5, gamma512 shuffle + action-contrastive cross-task holdout 5/5 strict gate passed. Evidence: /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/teacher_gamma_20260625/gamma512_shuffle_contrast_holdout_eval/index.html. Next: use this explicit teacher as Stage-1 action-conditioned teacher target, then distill/transfer into Wan/Cosmos/Gamma-style dual-view video generation; do not keep blindly expanding Wan2.2 adapter grid.",
           "created_at": "2026-06-25T04:36:39.476Z"
+        },
+        {
+          "comment_id": "comment_50b130a8-74b5-4535-8bf6-f997772da737",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-25 scale-up update: explicit shared-world teacher route now also tested at 2048 Gamma paired samples. Dataset: data_umi_robot189_v2 converted to 2048 paired left/right video + action condition samples; still highly Clutter-heavy (2009/2048), but holdout covered Clutter spread plus Cooking/Folding/Organize/Shoes tail rows. Result: gamma2048 shuffle + action-contrastive teacher got 8/9 strict action gates passed. The only fail is Cooking wrong-row delta (-0.00265); zero/time-view deltas remain positive. Added materialize_teacher_video_cache.py and UMI_VIDEO_CACHE_ROOT support because 8-card run is I/O/OpenCV-decode bound. Evidence: /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/teacher_gamma_20260625/gamma2048_shuffle_contrast_holdout_eval/index.html. Next: category-balanced / hard-negative teacher training, then distill teacher into Wan/Cosmos/Gamma dual-view generation.",
+          "created_at": "2026-06-25T15:01:25.192Z"
+        },
+        {
+          "comment_id": "comment_d1da81ca-d88b-44b6-b9a7-36abbce9fc5d",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-25 balanced Gamma teacher route: built data/umi_gamma_teacher_balanced_398 from Gamma-World UMI robot data with balanced category distribution (Clutter 199, Cooking 61, Folding 39, Organize 79, Shoes 20), cached 796 left/right videos, trained 8-card contrast teacher excluding 15 holdout rows. Strict action gate result: 9/15 pass. Category breakdown: Clutter 3/3, Cooking 2/3, Folding 1/3, Organize 1/3, Shoes 2/3. Evidence synced locally: /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/teacher_gamma_20260625/gamma_balanced398_contrast_holdout_eval/index.html. Interpretation: explicit teacher route is viable but small-category wrong-row failures remain; next step should be hard-negative mining / category-aware wrong-row selection before distilling into Wan/Cosmos/Gamma-style generator.",
+          "created_at": "2026-06-25T15:21:30.885Z"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-25T04:36:39.476Z"
+      "updated_at": "2026-06-25T15:21:30.885Z"
     },
     {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
