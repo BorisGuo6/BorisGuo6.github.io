@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-26T00:53:53+08:00",
+  "updated_at": "2026-06-26T01:14:58+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1876,9 +1876,16 @@
           "body": "Local Codex host review reopened this TODO.\n请补齐完整可复现验收包后再送审：repo commit SHA；RoboTwin2 API list/task-program schema/manual-program new-task path 文档；1-2 个 tabletop task 的 prompt 与 env JSON/description；code-agent 生成或 repair 后的 task program 路径和 diff/commit；simulator smoke 原始命令、完整日志和 pass/fail；data-collection dry run 原始命令、输出路径、可读取的 HDF5/summary/video/instruction/scene_info/seed artifacts 和 verifier/log；Pi/OpenVLA-OFT train/eval hook 的实际运行证据，或带命令/日志的明确 blocker；designer/critic/orchestrator 范围限制说明。若 artifacts 只在远端，请提供可 SSH 复核的 host、绝对路径、读取命令、大小和 sha256。",
           "created_at": "2026-06-26T00:53:49+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_c00300481d13",
+          "author": "Review",
+          "body": "Local Codex host review reopened this TODO.\n请补交可复现验收材料：1) RoboTwin2 API list/task-program schema 文档路径；2) 1-2 个 tabletop task 的 env JSON/description 与生成 prompt；3) code-agent 生成或 repair 后的 RoboTwin2 task program 路径和 diff；4) simulator smoke 的具体命令、日志和 pass/fail 结果；5) data-collection dry run 的命令、输出数据路径和日志；6) Pi 或 OpenVLA-OFT train/eval hook 的实际运行证据，或带命令/日志的明确 blocker；7) designer/critic/orchestrator 范围限制说明。",
+          "created_at": "2026-06-26T01:14:54+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-26T00:53:51+08:00",
+      "updated_at": "2026-06-26T01:14:56+08:00",
       "due_at": "",
       "completed_at": null
     },
@@ -5741,7 +5748,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-26T00:45:21+08:00",
+      "updated_at": "2026-06-26T01:07:24+08:00",
       "completed_at": "2026-06-24"
     },
     {
@@ -9441,6 +9448,18 @@
       ],
       "completed_at": "2026-06-24",
       "updated_at": "2026-06-24T13:26:11.706Z"
+    },
+    {
+      "task_id": "task_self_improving_isaacsim_benchmark_intake",
+      "project_id": "self-improving-agents",
+      "title": "Build IsaacSim benchmark intake matrix",
+      "description": "Convert the Isaac Sim / Isaac Lab benchmark survey into a machine-readable AgenticSim intake matrix. Seed report: docs/research/isaacsim-benchmarks-for-self-improving.md. Initial P0/P1 sources: RoboLab-120, Isaac Lab core tasks, Isaac Lab-Arena, InternDataEngine, BEHAVIOR-1K/OmniGibson, InternUtopia/GRBench, ARNOLD, Kitchen-R, M3Bench, RoboMIND-Sim, RoboTwin2 IsaacLab-Arena branch. Acceptance: JSON catalog with isaac_stack/task_families/scale/robots/observations/actions/success_signal/data_outputs/self_improvement_hooks/run_status/license/source_urls; metadata-only verifier for each source; at least one smoke plan per P0 source; dashboard comment summarizing blockers.",
+      "status": "todo",
+      "priority": "high",
+      "assignee": null,
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-06-25T17:11:13.076Z"
     }
   ]
 }
