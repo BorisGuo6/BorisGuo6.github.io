@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-26T01:14:58+08:00",
+  "updated_at": "2026-06-26T01:23:01+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1885,7 +1885,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-26T01:14:56+08:00",
+      "updated_at": "2026-06-26T01:17:01+08:00",
       "due_at": "",
       "completed_at": null
     },
@@ -5748,7 +5748,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-26T01:07:24+08:00",
+      "updated_at": "2026-06-26T01:19:14+08:00",
       "completed_at": "2026-06-24"
     },
     {
@@ -9453,13 +9453,25 @@
       "task_id": "task_self_improving_isaacsim_benchmark_intake",
       "project_id": "self-improving-agents",
       "title": "Build IsaacSim benchmark intake matrix",
-      "description": "Convert the Isaac Sim / Isaac Lab benchmark survey into a machine-readable AgenticSim intake matrix. Seed report: docs/research/isaacsim-benchmarks-for-self-improving.md. Initial P0/P1 sources: RoboLab-120, Isaac Lab core tasks, Isaac Lab-Arena, InternDataEngine, BEHAVIOR-1K/OmniGibson, InternUtopia/GRBench, ARNOLD, Kitchen-R, M3Bench, RoboMIND-Sim, RoboTwin2 IsaacLab-Arena branch. Acceptance: JSON catalog with isaac_stack/task_families/scale/robots/observations/actions/success_signal/data_outputs/self_improvement_hooks/run_status/license/source_urls; metadata-only verifier for each source; at least one smoke plan per P0 source; dashboard comment summarizing blockers.",
-      "status": "todo",
+      "description": "Convert the Isaac Sim / Isaac Lab benchmark survey into a machine-readable AgenticSim intake matrix. Seed report: docs/research/isaacsim-benchmarks-for-self-improving.md. Seed JSON catalog: docs/research/isaacsim-benchmark-catalog.seed.json (35 entries: 4 P0, 22 P1, 9 P2). P0/P1 coverage now includes RoboLab-120, Isaac Lab core tasks, Isaac Lab-Arena, InternDataEngine, BEHAVIOR-1K/OmniGibson, InternUtopia/GRBench, ARNOLD, Kitchen-R, M3Bench, RoboMIND-Sim, RoboTwin2 IsaacLab-Arena, Lightwheel BenchHub, Isaac Lab Mimic/SkillGen, Isaac Sim Benchmark Services, Isaac Lab performance benchmarks, OmniDrones, SidewalkBench, NaVILA/VLN-CE-Isaac, VLNVerse, TacEx/UniVTAC, Re3Sim, and legacy IsaacGym/ORBIT families. Acceptance: strengthen every entry with verified code/data/license evidence; add metadata-only verifier for each source; at least one smoke plan per P0 source; dashboard comment summarizing blockers and next adapter order.",
+      "status": "active",
       "priority": "high",
       "assignee": null,
       "result": null,
-      "comments": [],
-      "updated_at": "2026-06-25T17:11:13.076Z"
+      "comments": [
+        {
+          "comment_id": "comment_d10d7ee5-86a3-41ab-92dc-8b07c71adf72",
+          "task_id": "task_self_improving_isaacsim_benchmark_intake",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Progress 2026-06-26: expanded docs/research/isaacsim-benchmark-catalog.seed.json from 19 to 35 entries. New coverage includes Lightwheel BenchHub, Isaac Lab Mimic/SkillGen, Isaac Sim Benchmark Services, Isaac Lab performance benchmarks, OmniDrones, SidewalkBench, NaVILA/VLN-CE-Isaac, VLNVerse, TacEx/UniVTAC, Re3Sim, AgentWorld, InfiniteWorld, RealMirror, RoboGate, AI-CPS industrial IsaacSim benchmark, and ORBIT legacy. Validation: json.tool passed; jq reports 35 entries (4 P0, 22 P1, 9 P2); npm run test:dashboard passed. Next: verify each source license/code/data, then build metadata-only verifier and P0 smoke plans.",
+          "created_at": "2026-06-25T17:22:41.087Z"
+        }
+      ],
+      "updated_at": "2026-06-25T17:22:41.087Z",
+      "completed_at": null,
+      "completed_at_time": null
     }
   ]
 }
