@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-26T01:23:01+08:00",
+  "updated_at": "2026-06-26T01:38:14+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1883,9 +1883,16 @@
           "body": "Local Codex host review reopened this TODO.\n请补交可复现验收材料：1) RoboTwin2 API list/task-program schema 文档路径；2) 1-2 个 tabletop task 的 env JSON/description 与生成 prompt；3) code-agent 生成或 repair 后的 RoboTwin2 task program 路径和 diff；4) simulator smoke 的具体命令、日志和 pass/fail 结果；5) data-collection dry run 的命令、输出数据路径和日志；6) Pi 或 OpenVLA-OFT train/eval hook 的实际运行证据，或带命令/日志的明确 blocker；7) designer/critic/orchestrator 范围限制说明。",
           "created_at": "2026-06-26T01:14:54+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_52457fb9e9d7",
+          "author": "Review",
+          "body": "Local Codex host review reopened this TODO.\n请补交可复现验收包：1) API list/task-program schema 文档路径；2) 1-2 个 tabletop task 的 env JSON/description 与生成 prompt；3) code-agent 生成或 repair 后的 RoboTwin2 task program 路径和 diff；4) simulator smoke 命令、日志和 pass/fail；5) data-collection dry run 命令、输出数据路径和日志；6) Pi 或 OpenVLA-OFT train/eval hook 的运行证据，或带命令/日志的明确 blocker；7) designer/critic/orchestrator 已限制在 tabletop feasibility、collision/stability、object poses、task API usage、program repair 范围内的说明。",
+          "created_at": "2026-06-26T01:38:09+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-26T01:17:01+08:00",
+      "updated_at": "2026-06-26T01:38:11+08:00",
       "due_at": "",
       "completed_at": null
     },
@@ -5748,7 +5755,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-26T01:19:14+08:00",
+      "updated_at": "2026-06-26T01:30:16+08:00",
       "completed_at": "2026-06-24"
     },
     {
@@ -9453,7 +9460,7 @@
       "task_id": "task_self_improving_isaacsim_benchmark_intake",
       "project_id": "self-improving-agents",
       "title": "Build IsaacSim benchmark intake matrix",
-      "description": "Convert the Isaac Sim / Isaac Lab benchmark survey into a machine-readable AgenticSim intake matrix. Seed report: docs/research/isaacsim-benchmarks-for-self-improving.md. Seed JSON catalog: docs/research/isaacsim-benchmark-catalog.seed.json (35 entries: 4 P0, 22 P1, 9 P2). P0/P1 coverage now includes RoboLab-120, Isaac Lab core tasks, Isaac Lab-Arena, InternDataEngine, BEHAVIOR-1K/OmniGibson, InternUtopia/GRBench, ARNOLD, Kitchen-R, M3Bench, RoboMIND-Sim, RoboTwin2 IsaacLab-Arena, Lightwheel BenchHub, Isaac Lab Mimic/SkillGen, Isaac Sim Benchmark Services, Isaac Lab performance benchmarks, OmniDrones, SidewalkBench, NaVILA/VLN-CE-Isaac, VLNVerse, TacEx/UniVTAC, Re3Sim, and legacy IsaacGym/ORBIT families. Acceptance: strengthen every entry with verified code/data/license evidence; add metadata-only verifier for each source; at least one smoke plan per P0 source; dashboard comment summarizing blockers and next adapter order.",
+      "description": "Convert the Isaac Sim / Isaac Lab benchmark survey into a machine-readable AgenticSim intake matrix. Seed report: docs/research/isaacsim-benchmarks-for-self-improving.md. Seed JSON catalog: docs/research/isaacsim-benchmark-catalog.seed.json (40 entries: 4 P0, 27 P1, 9 P2). Verification artifacts: docs/research/isaacsim-benchmark-catalog.verification.json and docs/research/isaacsim-benchmark-catalog.verification.md; rerun with npm run verify:isaacsim-catalog. Latest verifier result: 53 source URLs checked, 33 OK in current network run; GitHub metadata checks 17/17 rate-limited; 25 structural issues remain, mostly unknown licenses. Earlier run reached 50/53 URL OK and 16/17 GitHub OK, so rerun with stable network or GitHub token before treating transient fetch failures as dead sources. Acceptance: strengthen every entry with verified code/data/license evidence; add metadata-only verifier for each source; at least one smoke plan per P0 source; dashboard comment summarizing blockers and next adapter order.",
       "status": "active",
       "priority": "high",
       "assignee": null,
@@ -9467,9 +9474,27 @@
           "kind": "comment",
           "body": "Progress 2026-06-26: expanded docs/research/isaacsim-benchmark-catalog.seed.json from 19 to 35 entries. New coverage includes Lightwheel BenchHub, Isaac Lab Mimic/SkillGen, Isaac Sim Benchmark Services, Isaac Lab performance benchmarks, OmniDrones, SidewalkBench, NaVILA/VLN-CE-Isaac, VLNVerse, TacEx/UniVTAC, Re3Sim, AgentWorld, InfiniteWorld, RealMirror, RoboGate, AI-CPS industrial IsaacSim benchmark, and ORBIT legacy. Validation: json.tool passed; jq reports 35 entries (4 P0, 22 P1, 9 P2); npm run test:dashboard passed. Next: verify each source license/code/data, then build metadata-only verifier and P0 smoke plans.",
           "created_at": "2026-06-25T17:22:41.087Z"
+        },
+        {
+          "comment_id": "comment_0f344ad3-5562-4318-9e1a-1f16bbfcdcc2",
+          "task_id": "task_self_improving_isaacsim_benchmark_intake",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Progress 2026-06-26: added metadata verifier scripts/verify-isaacsim-benchmark-catalog.mjs and npm script verify:isaacsim-catalog. Catalog now has 40 entries (4 P0, 27 P1, 9 P2). Verifier output: 53 source URLs checked, 50 OK; 17 GitHub repos checked, 16 OK; 25 structural issues remain, mostly license unknown. Known weak links: public chengaopro/Dual-Sim 404, ResearchGate 403, HF Genie-Envisioner-Sim fetch failed. Next step: source-by-source license/code/data verification and P0 smoke-plan generation.",
+          "created_at": "2026-06-25T17:28:20.793Z"
+        },
+        {
+          "comment_id": "comment_894a4f5c-aaff-4786-b10f-3b6780a62c24",
+          "task_id": "task_self_improving_isaacsim_benchmark_intake",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Progress 2026-06-26: verifier hardened for GitHub rate limits and transient URL failures. Added npm script verify:isaacsim-catalog plus generated verification JSON/Markdown. Latest run: 40 entries, 53 URLs, 33 URL OK under current network, GitHub API 17/17 rate-limited, 25 license/metadata structural issues. Earlier run before rate limit saw 50/53 URL OK and 16/17 GitHub OK. Treat Dual-Sim public 404 and ResearchGate 403 as real weak links; rerun with GITHUB_TOKEN/stable network before pruning transient failures.",
+          "created_at": "2026-06-25T17:32:33.123Z"
         }
       ],
-      "updated_at": "2026-06-25T17:22:41.087Z",
+      "updated_at": "2026-06-25T17:33:16.951Z",
       "completed_at": null,
       "completed_at_time": null
     }
