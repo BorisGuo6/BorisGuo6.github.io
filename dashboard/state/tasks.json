@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-26T00:13:17+08:00",
+  "updated_at": "2026-06-26T00:36:07+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1871,7 +1871,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-26T00:08:42+08:00",
+      "updated_at": "2026-06-26T00:28:47+08:00",
       "due_at": "",
       "completed_at": null
     },
@@ -5734,7 +5734,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-26T00:10:23+08:00",
+      "updated_at": "2026-06-26T00:31:23+08:00",
       "completed_at": "2026-06-24"
     },
     {
@@ -9371,10 +9371,19 @@
           "kind": "comment",
           "body": "2026-06-25 architecture ablation follow-up: patched explicit Gamma/shared-world teacher with stronger action injection variants. Added decoder FiLM and hub+decoder FiLM so action/state condition modulates video decoder hidden layers and optionally shared scene hub tokens. Ran 8-card balanced398 all-negative experiments. Results on strict multi-negative gate (zero + time-view + wrong_next + wrong_same_category + wrong_other_category): concat allneg 7/15; hub+decoder FiLM allneg 8/15; hub+decoder FiLM hardmax 6/15; decoder-only FiLM allneg 7/15. Best current route is hub+decoder FiLM allneg: Clutter 3/3, Cooking 2/3, Folding 1/3, Organize 1/3, Shoes 1/3. Evidence: /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/teacher_gamma_20260625/gamma_balanced398_filmhub_allneg_eval/index.html and updated total report /Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html. Interpretation: architecture-level condition injection helps, but this is still not complete; wrong-next failures remain in Folding/Organize/Shoes. Next should move from low-res teacher validation into stronger temporal/action tokenization or generator distillation, not more plain Wan2.2 adapter grid.",
           "created_at": "2026-06-25T16:07:47.412Z"
+        },
+        {
+          "comment_id": "comment_2c5128fc-6a0f-4283-b773-9a7b70d9823e",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-26 update: 重新检查 Wan2.2 action-injection 线和 teacher 线。Wan2.2 paired block-control 与 Motus-Joint checkpoints 都健康，但 strict actual/zero/wrong-row/action-guidance gate 仍失败；Motus-Joint 结果为 0/20，输出对 zero/time-only/wrong-row 基本不分离，因此不再把它当作当前主路线。\n\n有效进展来自 explicit shared-world teacher：已加入 temporal_action_tokens 条件注入，把 action/state 从 flatten global vector 改成 per-frame token sequence，接到 cross-view transformer context 并由 temporal frame decoder 使用。balanced Gamma/UMI strict multi-negative gate 从 hub+decoder FiLM 的 8/15 提升到 temporal_allneg 9/15、temporal_hardmax_w0.7 10/15、temporal_hardmax_w0.5 11/15。当前 best = temporal_action_tokens + hardmax w0.5；仍失败的主要是 Cooking row199/229、Organize row299、Shoes row397。\n\nEvidence: /Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html and evidence/teacher_gamma_20260625/gamma_balanced398_temporal_hardmax_w05_eval/index.html. Next: either targeted hard-negative/token work on the failing rows, or distill this teacher signal into the actual video generator. Do not mark done yet: this is a stronger action-sensitive teacher, not a completed action-conditioned dual-view UMI world model.",
+          "created_at": "2026-06-25T16:31:22.300Z"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-25T16:07:47.412Z"
+      "updated_at": "2026-06-25T16:31:22.300Z"
     },
     {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
