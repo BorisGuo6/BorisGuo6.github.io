@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-25T12:47:11+08:00",
+  "updated_at": "2026-06-25T12:56:37+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1792,9 +1792,16 @@
           "body": "Local Codex host review reopened this TODO.\n请补齐完整验收包后再送审：提交 repo commit SHA；补 docs/policy_hook_note.md 或等价文件，包含 Pi/OpenVLA-OFT hook 的实际命令/输出，或明确 blocker 的命令和日志；把 smoke/data dry-run 的原始日志、HDF5 summary 校验脚本输出、instruction/video/scene_info/seed artifacts 路径提交到 repo 或 dashboard comment；若 artifact 只能在远端，请提供可复核的路径、sha256/大小和读取命令。",
           "created_at": "2026-06-25T12:47:08+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_b4473168397c",
+          "author": "Review",
+          "body": "Local Codex host review reopened this TODO.\n请补齐完整可复现验收包后再送审：repo commit SHA；RoboTwin2 API list/task-program schema 文档路径；1-2 个 tabletop task 的 prompt 与 env JSON/description；code-agent 生成或 repair 后的 RoboTwin2 task program 路径和 diff/commit；simulator smoke 原始命令、完整日志和 pass/fail；data-collection dry run 原始命令、输出数据路径、可读取的 HDF5/summary/video/instruction/scene_info/seed artifacts 和日志；Pi/OpenVLA-OFT train/eval hook 的实际运行证据，或带命令/日志的明确 blocker；designer/critic/orchestrator 范围限制说明。",
+          "created_at": "2026-06-25T12:56:34+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-25T12:47:09+08:00",
+      "updated_at": "2026-06-25T12:56:35+08:00",
       "due_at": "",
       "completed_at": null
     },
