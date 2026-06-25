@@ -16,6 +16,8 @@
     "supabase:import": "node scripts/import-dashboard-state.mjs",
     "supabase:sync": "node scripts/sync-dashboard-to-supabase.mjs",
     "supabase:sync:watch": "node scripts/sync-dashboard-to-supabase.mjs --watch --interval 3600",
+    "plan:isaacsim-intake": "node scripts/generate-isaacsim-benchmark-intake-plan.mjs",
+    "verify:isaacsim-catalog": "node scripts/verify-isaacsim-benchmark-catalog.mjs",
     "test:dashboard": "node test/dashboard-state-lib.test.mjs"
   },
   "devDependencies": {

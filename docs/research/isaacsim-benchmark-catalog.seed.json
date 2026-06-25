@@ -1,0 +1,1810 @@
+{
+  "schema_version": "isaacsim-benchmark-catalog.seed.v1",
+  "generated_at": "2026-06-26",
+  "project_id": "self-improving-agents",
+  "source_report": "docs/research/isaacsim-benchmarks-for-self-improving.md",
+  "evidence_summary": {
+    "reading_list_links_seen": 181,
+    "reading_list_unique_urls": 180,
+    "reading_list_keyword_relevant": 41,
+    "notion_read_path": "ntn CLI plus local Notion Mirror",
+    "notion_mcp_status": "token_expired"
+  },
+  "benchmarks": [
+    {
+      "benchmark_id": "robolab_120",
+      "name": "RoboLab-120",
+      "priority": "P0",
+      "verification_level": "confirmed_isaac_lab",
+      "isaac_stack": "Isaac Sim 5.0 + Isaac Lab 2.2.0",
+      "task_families": [
+        "manipulation",
+        "language_conditioned_tasks",
+        "predicate_verified_tasks"
+      ],
+      "scale": {
+        "tasks": 120
+      },
+      "robots": [
+        "IsaacLab-compatible robot assets"
+      ],
+      "observations": [
+        "rgb",
+        "depth",
+        "state",
+        "language"
+      ],
+      "actions": [
+        "policy_defined"
+      ],
+      "success_signal": "automated success and failure predicates",
+      "data_outputs": [
+        "episode_logs",
+        "videos",
+        "results_dashboard"
+      ],
+      "self_improvement_hooks": [
+        "failure_trace",
+        "curriculum_update",
+        "policy_eval",
+        "data_requirement"
+      ],
+      "run_status": "dashboard_existing_reference",
+      "license": "MIT",
+      "source_urls": [
+        "https://github.com/NVLabs/RoboLab"
+      ]
+    },
+    {
+      "benchmark_id": "isaac_lab_core_tasks",
+      "name": "Isaac Lab Core Tasks",
+      "priority": "P0",
+      "verification_level": "confirmed_isaac_lab",
+      "isaac_stack": "Isaac Sim + Isaac Lab",
+      "task_families": [
+        "classic_control",
+        "fixed_arm_manipulation",
+        "dexterous_manipulation",
+        "locomotion",
+        "navigation"
+      ],
+      "scale": {
+        "tasks": null
+      },
+      "robots": [
+        "Franka",
+        "ShadowHand",
+        "legged_robots",
+        "custom_assets"
+      ],
+      "observations": [
+        "state",
+        "rgb",
+        "depth",
+        "sensors"
+      ],
+      "actions": [
+        "joint",
+        "cartesian",
+        "policy_defined"
+      ],
+      "success_signal": "environment-specific reward and termination conditions",
+      "data_outputs": [
+        "rl_logs",
+        "simulation_rollouts"
+      ],
+      "self_improvement_hooks": [
+        "smoke_gate",
+        "adapter_contract",
+        "baseline_policy_eval"
+      ],
+      "run_status": "base_framework",
+      "license": "BSD-3-Clause",
+      "source_urls": [
+        "https://isaac-sim.github.io/IsaacLab/main/index.html"
+      ]
+    },
+    {
+      "benchmark_id": "isaac_lab_arena",
+      "name": "Isaac Lab-Arena",
+      "priority": "P0",
+      "verification_level": "confirmed_isaac_lab_extension",
+      "isaac_stack": "Isaac Lab extension",
+      "task_families": [
+        "generalist_policy_eval",
+        "object_blocks",
+        "scene_blocks",
+        "embodiment_blocks",
+        "task_blocks"
+      ],
+      "scale": {
+        "lightwheel_task_suites": 250
+      },
+      "robots": [
+        "GR1",
+        "planned_RoboTwin_extension",
+        "custom_embodiments"
+      ],
+      "observations": [
+        "rgb",
+        "state",
+        "language",
+        "task_specific"
+      ],
+      "actions": [
+        "policy_defined"
+      ],
+      "success_signal": "task-specific success criteria",
+      "data_outputs": [
+        "parallel_eval_results",
+        "evaluation_logs"
+      ],
+      "self_improvement_hooks": [
+        "benchmark_intake_schema",
+        "task_block_composition",
+        "policy_eval"
+      ],
+      "run_status": "candidate_framework",
+      "license": "Apache-2.0",
+      "source_urls": [
+        "https://github.com/isaac-sim/IsaacLab-Arena",
+        "https://developer.nvidia.com/blog/simplify-generalist-robot-policy-evaluation-in-simulation-with-nvidia-isaac-lab-arena/"
+      ]
+    },
+    {
+      "benchmark_id": "interndataengine",
+      "name": "InternDataEngine",
+      "priority": "P0",
+      "verification_level": "confirmed_isaac_sim",
+      "isaac_stack": "NVIDIA Isaac Sim",
+      "task_families": [
+        "synthetic_data_generation",
+        "physical_interaction",
+        "semantic_task_generation",
+        "scene_generation"
+      ],
+      "scale": {
+        "trajectories": null,
+        "tasks": null
+      },
+      "robots": [
+        "multiple_embodiments"
+      ],
+      "observations": [
+        "rgb",
+        "depth",
+        "segmentation",
+        "bounding_boxes",
+        "keypoints",
+        "simulator_state"
+      ],
+      "actions": [
+        "policy_defined",
+        "scripted"
+      ],
+      "success_signal": "data generation validity and downstream policy utility",
+      "data_outputs": [
+        "synthetic_trajectories",
+        "rich_annotations",
+        "randomized_scenes"
+      ],
+      "self_improvement_hooks": [
+        "data_requirement_fulfillment",
+        "curriculum_generation",
+        "sim_data_engine"
+      ],
+      "run_status": "candidate_data_engine",
+      "license": "unknown",
+      "source_urls": [
+        "https://github.com/InternRobotics/InternDataEngine"
+      ]
+    },
+    {
+      "benchmark_id": "behavior_1k_omnigibson",
+      "name": "BEHAVIOR-1K / OmniGibson",
+      "priority": "P1",
+      "verification_level": "confirmed_isaac_sim_underlay",
+      "isaac_stack": "OmniGibson with Isaac Sim under the hood",
+      "task_families": [
+        "household_activities",
+        "long_horizon_mobile_manipulation",
+        "object_state_transitions"
+      ],
+      "scale": {
+        "tasks": 1000,
+        "scenes": 50,
+        "objects": 10000
+      },
+      "robots": [
+        "mobile_manipulators",
+        "humanoid_candidates"
+      ],
+      "observations": [
+        "rgb",
+        "depth",
+        "segmentation",
+        "state"
+      ],
+      "actions": [
+        "navigation",
+        "manipulation"
+      ],
+      "success_signal": "object-state and activity success conditions",
+      "data_outputs": [
+        "activity_rollouts",
+        "scene_state",
+        "task_metadata"
+      ],
+      "self_improvement_hooks": [
+        "long_horizon_failure_trace",
+        "object_state_verifier",
+        "curriculum_update"
+      ],
+      "run_status": "watchlist_metadata_first",
+      "license": "unknown",
+      "source_urls": [
+        "https://behavior.stanford.edu/"
+      ]
+    },
+    {
+      "benchmark_id": "internutopia_grbench",
+      "name": "InternUtopia / GRUtopia / GRBench",
+      "priority": "P1",
+      "verification_level": "confirmed_isaac_sim",
+      "isaac_stack": "NVIDIA Omniverse Isaac Sim 4.5.0",
+      "task_families": [
+        "object_loco_navigation",
+        "social_loco_navigation",
+        "loco_manipulation"
+      ],
+      "scale": {
+        "scenes": 100000
+      },
+      "robots": [
+        "diverse_embodied_agents"
+      ],
+      "observations": [
+        "rgb",
+        "depth",
+        "state",
+        "language",
+        "social_context"
+      ],
+      "actions": [
+        "navigation",
+        "manipulation",
+        "social_interaction"
+      ],
+      "success_signal": "task-specific navigation/manipulation/social success",
+      "data_outputs": [
+        "benchmark_rollouts",
+        "scene_metadata"
+      ],
+      "self_improvement_hooks": [
+        "navigation_failure_trace",
+        "scene_curriculum",
+        "social_task_eval"
+      ],
+      "run_status": "watchlist_metadata_first",
+      "license": "MIT",
+      "source_urls": [
+        "https://github.com/InternRobotics/InternUtopia"
+      ]
+    },
+    {
+      "benchmark_id": "arnold",
+      "name": "ARNOLD",
+      "priority": "P1",
+      "verification_level": "confirmed_isaac_sim",
+      "isaac_stack": "NVIDIA Isaac Sim + PhysX 5.0",
+      "task_families": [
+        "language_grounded_manipulation",
+        "continuous_object_state_tasks"
+      ],
+      "scale": {
+        "tasks": 8,
+        "demonstrations": 10000,
+        "objects": 40,
+        "scenes": 20,
+        "evaluation_splits": 7
+      },
+      "robots": [
+        "manipulator"
+      ],
+      "observations": [
+        "rgb",
+        "depth",
+        "state",
+        "language"
+      ],
+      "actions": [
+        "manipulation"
+      ],
+      "success_signal": "task completion under split generalization",
+      "data_outputs": [
+        "expert_demonstrations",
+        "task_metadata"
+      ],
+      "self_improvement_hooks": [
+        "language_failure_trace",
+        "generalization_eval"
+      ],
+      "run_status": "candidate_metadata_first",
+      "license": "unknown",
+      "source_urls": [
+        "https://arnold-benchmark.github.io/"
+      ]
+    },
+    {
+      "benchmark_id": "kitchen_r",
+      "name": "Kitchen-R",
+      "priority": "P1",
+      "verification_level": "confirmed_from_title_abstract",
+      "isaac_stack": "IsaacSim benchmark",
+      "task_families": [
+        "mobile_manipulation",
+        "kitchen_digital_twin",
+        "planner_controller_integrated_eval"
+      ],
+      "scale": {
+        "language_instructions": 500,
+        "trajectories": 2700
+      },
+      "robots": [
+        "mobile_manipulator"
+      ],
+      "observations": [
+        "rgb",
+        "depth",
+        "state",
+        "language"
+      ],
+      "actions": [
+        "planner_actions",
+        "low_level_control",
+        "integrated_policy"
+      ],
+      "success_signal": "planning/control/integrated task completion",
+      "data_outputs": [
+        "trajectories",
+        "digital_twin_scenes"
+      ],
+      "self_improvement_hooks": [
+        "planner_failure",
+        "controller_failure",
+        "closed_loop_eval"
+      ],
+      "run_status": "paper_first",
+      "license": "unknown",
+      "source_urls": [
+        "https://arxiv.org/abs/2508.15663"
+      ]
+    },
+    {
+      "benchmark_id": "m3bench",
+      "name": "M3Bench",
+      "priority": "P1",
+      "verification_level": "search_confirmed_isaac_sim",
+      "isaac_stack": "Isaac Sim physical simulation",
+      "task_families": [
+        "whole_body_mobile_manipulation",
+        "object_rearrangement",
+        "motion_generation"
+      ],
+      "scale": {
+        "tasks": 30000,
+        "scenes": 119
+      },
+      "robots": [
+        "mobile_manipulator"
+      ],
+      "observations": [
+        "scene_state",
+        "object_state",
+        "robot_state"
+      ],
+      "actions": [
+        "whole_body_motion"
+      ],
+      "success_signal": "object rearrangement success and motion feasibility",
+      "data_outputs": [
+        "motion_generation_tasks",
+        "dataset"
+      ],
+      "self_improvement_hooks": [
+        "motion_feasibility_eval",
+        "base_arm_coordination_failure"
+      ],
+      "run_status": "paper_first",
+      "license": "unknown",
+      "source_urls": [
+        "https://arxiv.org/abs/2410.06678"
+      ]
+    },
+    {
+      "benchmark_id": "robomind_sim",
+      "name": "RoboMIND-Sim",
+      "priority": "P1",
+      "verification_level": "confirmed_isaac_sim",
+      "isaac_stack": "Isaac Sim 4.5 / 5.1",
+      "task_families": [
+        "digital_twin_robot_manipulation",
+        "real_data_to_sim_eval"
+      ],
+      "scale": {
+        "open_tasks_current": 4
+      },
+      "robots": [
+        "TienKung",
+        "future_multi_embodiment"
+      ],
+      "observations": [
+        "rgb",
+        "state",
+        "hdf5_episodes"
+      ],
+      "actions": [
+        "act_policy_actions",
+        "robot_actions"
+      ],
+      "success_signal": "benchmark scores and task completion",
+      "data_outputs": [
+        "HDF5_data",
+        "benchmark_code",
+        "policy_scores"
+      ],
+      "self_improvement_hooks": [
+        "real_to_sim_replay",
+        "failure_trace_from_hdf5",
+        "policy_eval"
+      ],
+      "run_status": "candidate_smoke",
+      "license": "unknown",
+      "source_urls": [
+        "https://github.com/Open-X-Humanoid/RoboMIND-Sim"
+      ]
+    },
+    {
+      "benchmark_id": "robotwin2_isaaclab_arena",
+      "name": "RoboTwin 2.0 IsaacLab-Arena Branch",
+      "priority": "P1",
+      "verification_level": "migration_candidate",
+      "isaac_stack": "RoboTwin main benchmark plus IsaacLab-Arena branch",
+      "task_families": [
+        "bimanual_manipulation",
+        "domain_randomized_tasks",
+        "text2env_candidate"
+      ],
+      "scale": {
+        "trajectories": 100000
+      },
+      "robots": [
+        "dual_arm",
+        "bimanual"
+      ],
+      "observations": [
+        "rgb",
+        "state",
+        "language"
+      ],
+      "actions": [
+        "bimanual_policy_actions"
+      ],
+      "success_signal": "task success and leaderboard metrics",
+      "data_outputs": [
+        "trajectories",
+        "dataset",
+        "task_programs"
+      ],
+      "self_improvement_hooks": [
+        "text2env_generation",
+        "program_repair",
+        "data_collection_dry_run"
+      ],
+      "run_status": "dashboard_existing_active_route",
+      "license": "MIT",
+      "source_urls": [
+        "https://github.com/RoboTwin-Platform/RoboTwin",
+        "https://github.com/yezheng04/robotwin-text2env-demo"
+      ]
+    },
+    {
+      "benchmark_id": "omniisaacgymenvs",
+      "name": "OmniIsaacGymEnvs",
+      "priority": "P1",
+      "verification_level": "confirmed_isaac_sim_legacy",
+      "isaac_stack": "Isaac Sim RL environments, archived and merging into Isaac Lab",
+      "task_families": [
+        "rl_examples",
+        "locomotion",
+        "manipulation"
+      ],
+      "scale": {
+        "tasks": null
+      },
+      "robots": [
+        "Cartpole",
+        "Ant",
+        "Anymal",
+        "Franka",
+        "others"
+      ],
+      "observations": [
+        "state",
+        "sensors"
+      ],
+      "actions": [
+        "rl_policy_actions"
+      ],
+      "success_signal": "RL rewards and termination",
+      "data_outputs": [
+        "training_logs",
+        "rollouts"
+      ],
+      "self_improvement_hooks": [
+        "legacy_regression",
+        "throughput_baseline"
+      ],
+      "run_status": "legacy_reference",
+      "license": "BSD-3-Clause",
+      "source_urls": [
+        "https://github.com/isaac-sim/OmniIsaacGymEnvs"
+      ]
+    },
+    {
+      "benchmark_id": "isaacgymenvs",
+      "name": "IsaacGymEnvs",
+      "priority": "P1",
+      "verification_level": "isaac_gym_legacy_not_isaac_sim",
+      "isaac_stack": "Isaac Gym",
+      "task_families": [
+        "vectorized_rl",
+        "factory",
+        "industreal",
+        "dexterous_manipulation"
+      ],
+      "scale": {
+        "tasks": null
+      },
+      "robots": [
+        "Franka",
+        "ShadowHand",
+        "AllegroHand",
+        "locomotion_agents"
+      ],
+      "observations": [
+        "state",
+        "sensors"
+      ],
+      "actions": [
+        "rl_policy_actions"
+      ],
+      "success_signal": "RL reward/task success",
+      "data_outputs": [
+        "training_logs",
+        "rollouts"
+      ],
+      "self_improvement_hooks": [
+        "migration_baseline",
+        "contact_rich_assembly_reference"
+      ],
+      "run_status": "legacy_reference",
+      "license": "BSD-3-Clause",
+      "source_urls": [
+        "https://github.com/isaac-sim/IsaacGymEnvs"
+      ]
+    },
+    {
+      "benchmark_id": "factory_industreal_forge",
+      "name": "Factory / IndustReal / FORGE-style assembly tasks",
+      "priority": "P1",
+      "verification_level": "isaac_gym_to_isaac_lab_lineage",
+      "isaac_stack": "Isaac Gym / Isaac Lab lineage",
+      "task_families": [
+        "contact_rich_assembly",
+        "nist_assembly_board",
+        "gear_insertion",
+        "nut_bolt",
+        "peg_socket"
+      ],
+      "scale": {
+        "tasks": null
+      },
+      "robots": [
+        "Franka",
+        "industrial_manipulators"
+      ],
+      "observations": [
+        "state",
+        "force_contact_possible",
+        "vision_optional"
+      ],
+      "actions": [
+        "manipulation",
+        "force_sensitive_control"
+      ],
+      "success_signal": "assembly completion and contact constraints",
+      "data_outputs": [
+        "assembly_rollouts",
+        "success_metrics"
+      ],
+      "self_improvement_hooks": [
+        "contact_failure_trace",
+        "force_threshold_failure",
+        "sim2real_gate"
+      ],
+      "run_status": "source_family_watchlist",
+      "license": "BSD-3-Clause",
+      "source_urls": [
+        "https://github.com/isaac-sim/IsaacGymEnvs/blob/main/docs/factory.md"
+      ]
+    },
+    {
+      "benchmark_id": "dual_sim_robotwin_isaacsim",
+      "name": "Dual-Sim RoboTwin-to-IsaacSim Migration",
+      "priority": "P1",
+      "verification_level": "local_dashboard_reference",
+      "isaac_stack": "RoboTwin tasks migrated into IsaacSim",
+      "task_families": [
+        "robotwin_task_conversion",
+        "asset_conversion",
+        "reset_step_verifier_contract"
+      ],
+      "scale": {
+        "tasks": null
+      },
+      "robots": [
+        "dual_arm"
+      ],
+      "observations": [
+        "rgb",
+        "state"
+      ],
+      "actions": [
+        "task_program_actions"
+      ],
+      "success_signal": "converted task smoke/verifier",
+      "data_outputs": [
+        "mapping_report",
+        "adapter_contract"
+      ],
+      "self_improvement_hooks": [
+        "adapter_pattern",
+        "task_registry_mapping",
+        "verifier_gate"
+      ],
+      "run_status": "dashboard_existing_reference",
+      "license": "unknown",
+      "source_urls": [
+        "https://github.com/chengaopro/Dual-Sim"
+      ]
+    },
+    {
+      "benchmark_id": "lehome_agenticsim_household",
+      "name": "LeHome / LeHome-Challenge AgenticSim Household Stack",
+      "priority": "P1",
+      "verification_level": "dashboard_existing_agenticsim_reference",
+      "isaac_stack": "not confirmed native IsaacSim; dashboard target is unification with Isaac Lab infrastructure",
+      "task_families": [
+        "household_manipulation",
+        "garment",
+        "deformable",
+        "cut",
+        "burger",
+        "fire",
+        "water",
+        "wipe"
+      ],
+      "scale": {
+        "tasks": 9
+      },
+      "robots": [
+        "single_arm",
+        "bimanual"
+      ],
+      "observations": [
+        "rgb",
+        "state",
+        "task_specific"
+      ],
+      "actions": [
+        "manipulation"
+      ],
+      "success_signal": "household task verifier",
+      "data_outputs": [
+        "task_registry_entries",
+        "tests"
+      ],
+      "self_improvement_hooks": [
+        "deformable_failure_trace",
+        "household_curriculum"
+      ],
+      "run_status": "dashboard_existing_environment",
+      "license": "unknown",
+      "source_urls": []
+    },
+    {
+      "benchmark_id": "lightwheel_benchhub",
+      "name": "LW-BenchHub / Lightwheel BenchHub",
+      "priority": "P1",
+      "verification_level": "confirmed_isaac_lab",
+      "isaac_stack": "NVIDIA Isaac Lab",
+      "task_families": [
+        "manipulation_benchmark_hub",
+        "libero_style_tasks",
+        "ycb_style_tasks",
+        "robocasa_style_tasks"
+      ],
+      "scale": {
+        "task_suites": 250
+      },
+      "robots": [
+        "single_arm",
+        "bimanual_candidates",
+        "custom_isaac_lab_embodiments"
+      ],
+      "observations": [
+        "rgb",
+        "state",
+        "language",
+        "task_specific"
+      ],
+      "actions": [
+        "policy_defined"
+      ],
+      "success_signal": "benchmark task success metrics",
+      "data_outputs": [
+        "benchmark_rollouts",
+        "evaluation_logs",
+        "task_metadata"
+      ],
+      "self_improvement_hooks": [
+        "benchmark_hub_import",
+        "policy_eval",
+        "task_family_coverage"
+      ],
+      "run_status": "candidate_metadata_first",
+      "license": "unknown",
+      "source_urls": [
+        "https://github.com/LightwheelAI/LW-BenchHub",
+        "https://lightwheel.ai/release/lwlab",
+        "https://lightwheel.ai/robofinals"
+      ]
+    },
+    {
+      "benchmark_id": "isaac_healthcare_rheo_workflows",
+      "name": "Isaac for Healthcare RHEO Workflows",
+      "priority": "P1",
+      "verification_level": "confirmed_isaac_sim_isaac_lab_arena",
+      "isaac_stack": "Isaac Sim + Isaac Lab + Isaac Lab-Arena",
+      "task_families": [
+        "healthcare_robotics",
+        "operating_room_digital_twin",
+        "loco_manipulation",
+        "bimanual_precision_manipulation",
+        "gr00t_policy_eval"
+      ],
+      "scale": {
+        "documented_tasks": 3
+      },
+      "robots": [
+        "Unitree G1",
+        "Dex3",
+        "healthcare robot candidates"
+      ],
+      "observations": [
+        "rgb",
+        "webrtc_camera",
+        "robot_state",
+        "task_state"
+      ],
+      "actions": [
+        "GR00T closed-loop actions",
+        "teleoperation demonstrations",
+        "RL post-training actions"
+      ],
+      "success_signal": "task-level evaluation runner success for surgical tray pick/place, case cart pushing, and trocar assembly",
+      "data_outputs": [
+        "simulation_eval_results",
+        "videos",
+        "demonstrations",
+        "policy_runner_logs"
+      ],
+      "self_improvement_hooks": [
+        "clinical_task_digital_twin",
+        "demonstration_capture",
+        "synthetic_data_generation",
+        "predeployment_validation"
+      ],
+      "run_status": "candidate_metadata_first",
+      "license": "Apache-2.0",
+      "source_urls": [
+        "https://github.com/isaac-for-healthcare/i4h-workflows/tree/main/workflows/rheo"
+      ]
+    },
+    {
+      "benchmark_id": "isaaclab_eval_tasks",
+      "name": "IsaacLabEvalTasks",
+      "priority": "P1",
+      "verification_level": "official_isaac_lab_eval_tasks",
+      "isaac_stack": "Isaac Lab",
+      "task_families": [
+        "gr00t_n1_policy_eval",
+        "industrial_manipulation",
+        "closed_loop_evaluation"
+      ],
+      "scale": {
+        "reported_tasks": 2
+      },
+      "robots": [
+        "GR1",
+        "IsaacLab industrial manipulation agents"
+      ],
+      "observations": [
+        "rgb",
+        "state",
+        "policy_inputs"
+      ],
+      "actions": [
+        "GR00T_N1_policy_actions"
+      ],
+      "success_signal": "closed-loop success rate over parallel evaluation trials",
+      "data_outputs": [
+        "eval_json",
+        "success_rate_table",
+        "policy_rollouts"
+      ],
+      "self_improvement_hooks": [
+        "vla_policy_eval",
+        "post_training_regression",
+        "industrial_failure_trace"
+      ],
+      "run_status": "candidate_metadata_first",
+      "license": "Apache-2.0",
+      "source_urls": [
+        "https://github.com/isaac-sim/IsaacLabEvalTasks",
+        "https://github.com/isaac-sim/IsaacLabEvalTasks/blob/main/doc/evaluation.md"
+      ]
+    },
+    {
+      "benchmark_id": "ego_humanoid_manipulation",
+      "name": "Ego Humanoid Manipulation Benchmark / EgoVLA",
+      "priority": "P1",
+      "verification_level": "confirmed_isaac_lab",
+      "isaac_stack": "NVIDIA Isaac Lab",
+      "task_families": [
+        "humanoid_manipulation",
+        "egocentric_vla_eval",
+        "short_and_long_horizon_skills"
+      ],
+      "scale": {
+        "tasks": 12
+      },
+      "robots": [
+        "Unitree H1",
+        "Inspire dexterous hands"
+      ],
+      "observations": [
+        "egocentric_video",
+        "robot_state",
+        "language"
+      ],
+      "actions": [
+        "humanoid_vla_actions"
+      ],
+      "success_signal": "simulated humanoid manipulation task success",
+      "data_outputs": [
+        "benchmark_rollouts",
+        "policy_comparison_scores"
+      ],
+      "self_improvement_hooks": [
+        "humanoid_vla_eval",
+        "egocentric_data_ablation",
+        "long_horizon_failure_trace"
+      ],
+      "run_status": "paper_first",
+      "license": "unknown",
+      "source_urls": [
+        "https://rchalyang.github.io/EgoVLA/",
+        "https://arxiv.org/html/2507.12440v3"
+      ]
+    },
+    {
+      "benchmark_id": "genmanip_bench",
+      "name": "GenManip-Bench",
+      "priority": "P1",
+      "verification_level": "confirmed_isaac_sim",
+      "isaac_stack": "NVIDIA Isaac Sim",
+      "task_families": [
+        "llm_generated_simulation",
+        "instruction_following_manipulation",
+        "tabletop_policy_generalization"
+      ],
+      "scale": {
+        "scenarios": 200,
+        "annotated_3d_assets": 10000
+      },
+      "robots": [
+        "manipulator"
+      ],
+      "observations": [
+        "rgb",
+        "state",
+        "language",
+        "scene_graph"
+      ],
+      "actions": [
+        "manipulation_policy_actions"
+      ],
+      "success_signal": "generalization across object appearance, commonsense, spatial relation, and long-horizon task criteria",
+      "data_outputs": [
+        "benchmark_scenarios",
+        "generated_scenes",
+        "baseline_results"
+      ],
+      "self_improvement_hooks": [
+        "task_generation",
+        "scene_graph_to_sim",
+        "generalization_failure_trace"
+      ],
+      "run_status": "candidate_metadata_first",
+      "license": "unknown",
+      "source_urls": [
+        "https://github.com/InternRobotics/GenManip",
+        "https://genmanip.com/",
+        "https://arxiv.org/html/2506.10966v1"
+      ]
+    },
+    {
+      "benchmark_id": "internmanip_eval",
+      "name": "InternManip / InternManip-Eval",
+      "priority": "P1",
+      "verification_level": "benchmark_runner_suite",
+      "isaac_stack": "Includes GenManip benchmark path; other benchmarks include CALVIN and SimplerEnv",
+      "task_families": [
+        "policy_model_evaluation",
+        "genmanip_eval",
+        "calvin_eval",
+        "simpler_env_eval"
+      ],
+      "scale": {
+        "benchmarks": 3
+      },
+      "robots": [
+        "benchmark_dependent"
+      ],
+      "observations": [
+        "benchmark_dependent"
+      ],
+      "actions": [
+        "policy_model_actions"
+      ],
+      "success_signal": "benchmark-specific success rate",
+      "data_outputs": [
+        "benchmark_scores",
+        "model_weight_links",
+        "eval_logs"
+      ],
+      "self_improvement_hooks": [
+        "unified_policy_eval_runner",
+        "cross_benchmark_comparison",
+        "adapter_regression"
+      ],
+      "run_status": "candidate_runner_reference",
+      "license": "MIT",
+      "source_urls": [
+        "https://github.com/InternRobotics/InternManip",
+        "https://github.com/JiantongChen/InternManip-Eval"
+      ]
+    },
+    {
+      "benchmark_id": "ebench_elemental_mobile_manipulation",
+      "name": "EBench / Elemental Mobile Manipulation Benchmark",
+      "priority": "P1",
+      "verification_level": "confirmed_isaac_sim",
+      "isaac_stack": "NVIDIA Isaac Sim",
+      "task_families": [
+        "indoor_vla_manipulation",
+        "long_horizon_mobile_manipulation",
+        "dexterous_manipulation"
+      ],
+      "scale": {
+        "tasks": null
+      },
+      "robots": [
+        "mobile_manipulator",
+        "dexterous_robot_candidates"
+      ],
+      "observations": [
+        "rgb",
+        "state",
+        "language"
+      ],
+      "actions": [
+        "mobile_manipulation_policy_actions"
+      ],
+      "success_signal": "VLA manipulation benchmark success",
+      "data_outputs": [
+        "benchmark_results",
+        "task_metadata"
+      ],
+      "self_improvement_hooks": [
+        "mobile_manipulation_eval",
+        "long_horizon_failure_trace",
+        "vla_comparison"
+      ],
+      "run_status": "candidate_metadata_first",
+      "license": "unknown",
+      "source_urls": [
+        "https://internrobotics.github.io/EBench-doc/"
+      ]
+    },
+    {
+      "benchmark_id": "isaac_lab_mimic_skillgen",
+      "name": "Isaac Lab Mimic / SkillGen",
+      "priority": "P1",
+      "verification_level": "confirmed_isaac_lab",
+      "isaac_stack": "Isaac Lab imitation-learning stack",
+      "task_families": [
+        "teleoperation",
+        "imitation_learning",
+        "skill_data_generation",
+        "locomanipulation_dataset_generation"
+      ],
+      "scale": {
+        "tasks": null
+      },
+      "robots": [
+        "IsaacLab_manipulators",
+        "locomotion_manipulation_agents"
+      ],
+      "observations": [
+        "state",
+        "rgb",
+        "demonstrations"
+      ],
+      "actions": [
+        "teleop_actions",
+        "imitation_policy_actions"
+      ],
+      "success_signal": "demonstration replay and policy training success",
+      "data_outputs": [
+        "demonstration_datasets",
+        "trajectory_results"
+      ],
+      "self_improvement_hooks": [
+        "data_collection",
+        "demonstration_relabeling",
+        "policy_finetune_seed"
+      ],
+      "run_status": "candidate_component",
+      "license": "BSD-3-Clause",
+      "source_urls": [
+        "https://isaac-sim.github.io/IsaacLab/main/source/overview/imitation-learning/teleop_imitation.html"
+      ]
+    },
+    {
+      "benchmark_id": "isaac_sim_benchmark_services",
+      "name": "Isaac Sim Benchmark Services",
+      "priority": "P1",
+      "verification_level": "official_performance_benchmark",
+      "isaac_stack": "Isaac Sim benchmark services extension",
+      "task_families": [
+        "simulator_performance",
+        "rendering_kpi",
+        "physics_kpi",
+        "sensor_kpi"
+      ],
+      "scale": {
+        "hardware_profiles": null
+      },
+      "robots": [
+        "not_task_specific"
+      ],
+      "observations": [
+        "performance_counters",
+        "kpis"
+      ],
+      "actions": [
+        "benchmark_workloads"
+      ],
+      "success_signal": "runtime KPI comparison against reference hardware",
+      "data_outputs": [
+        "benchmark_kpi_json",
+        "hardware_comparison"
+      ],
+      "self_improvement_hooks": [
+        "cluster_capacity_gate",
+        "sim_throughput_budget",
+        "regression_guard"
+      ],
+      "run_status": "system_benchmark_reference",
+      "license": "NVIDIA documentation",
+      "source_urls": [
+        "https://docs.isaacsim.omniverse.nvidia.com/6.0.0/reference_material/benchmarks.html"
+      ]
+    },
+    {
+      "benchmark_id": "isaac_lab_performance_benchmarks",
+      "name": "Isaac Lab RL Performance Benchmarks",
+      "priority": "P1",
+      "verification_level": "official_performance_benchmark",
+      "isaac_stack": "Isaac Lab",
+      "task_families": [
+        "rl_training_throughput",
+        "multi_gpu_training",
+        "multi_node_training"
+      ],
+      "scale": {
+        "example_environments": null
+      },
+      "robots": [
+        "IsaacLab_example_agents"
+      ],
+      "observations": [
+        "rl_training_metrics"
+      ],
+      "actions": [
+        "rl_policy_actions"
+      ],
+      "success_signal": "training throughput and scaling metrics",
+      "data_outputs": [
+        "performance_tables",
+        "training_logs"
+      ],
+      "self_improvement_hooks": [
+        "training_budget_gate",
+        "parallel_env_scaling",
+        "benchmark_runtime_regression"
+      ],
+      "run_status": "system_benchmark_reference",
+      "license": "BSD-3-Clause",
+      "source_urls": [
+        "https://isaac-sim.github.io/IsaacLab/main/source/overview/reinforcement-learning/performance_benchmarks.html"
+      ]
+    },
+    {
+      "benchmark_id": "omnidrones",
+      "name": "OmniDrones",
+      "priority": "P1",
+      "verification_level": "confirmed_isaac_sim",
+      "isaac_stack": "NVIDIA Isaac Sim",
+      "task_families": [
+        "multi_rotor_rl",
+        "aerial_control",
+        "drone_navigation",
+        "multi_agent_drone_tasks"
+      ],
+      "scale": {
+        "tasks": null
+      },
+      "robots": [
+        "quadrotor",
+        "multi_rotor_drones"
+      ],
+      "observations": [
+        "state",
+        "sensors",
+        "rgb_optional"
+      ],
+      "actions": [
+        "drone_control",
+        "rl_policy_actions"
+      ],
+      "success_signal": "task reward and benchmark baseline scores",
+      "data_outputs": [
+        "training_logs",
+        "baseline_results"
+      ],
+      "self_improvement_hooks": [
+        "non_manipulation_control_baseline",
+        "multi_agent_eval",
+        "sim_throughput_test"
+      ],
+      "run_status": "watchlist_metadata_first",
+      "license": "MIT",
+      "source_urls": [
+        "https://github.com/btx0424/OmniDrones",
+        "https://omnidrones.readthedocs.io/"
+      ]
+    },
+    {
+      "benchmark_id": "sidewalkbench",
+      "name": "SidewalkBench",
+      "priority": "P1",
+      "verification_level": "confirmed_isaac_sim",
+      "isaac_stack": "NVIDIA Isaac Sim",
+      "task_families": [
+        "urban_sidewalk_visual_navigation",
+        "dynamic_pedestrian_navigation",
+        "long_distance_navigation"
+      ],
+      "scale": {
+        "scenes": null
+      },
+      "robots": [
+        "navigation_agent",
+        "mobile_robot_candidates"
+      ],
+      "observations": [
+        "rgb",
+        "scene_state",
+        "pedestrian_events"
+      ],
+      "actions": [
+        "navigation"
+      ],
+      "success_signal": "visual navigation success under sidewalk layout and pedestrian dynamics",
+      "data_outputs": [
+        "navigation_eval_results",
+        "scene_metadata"
+      ],
+      "self_improvement_hooks": [
+        "navigation_failure_trace",
+        "dynamic_obstacle_curriculum",
+        "social_navigation_eval"
+      ],
+      "run_status": "paper_first",
+      "license": "unknown",
+      "source_urls": [
+        "https://arxiv.org/html/2606.16953"
+      ]
+    },
+    {
+      "benchmark_id": "navila_bench_vln_ce_isaac",
+      "name": "NaVILA-Bench / VLN-CE-Isaac",
+      "priority": "P1",
+      "verification_level": "confirmed_isaac_lab_or_isaac_sim",
+      "isaac_stack": "Isaac Lab / Isaac Sim",
+      "task_families": [
+        "vision_language_navigation",
+        "legged_robot_navigation",
+        "continuous_environment_navigation"
+      ],
+      "scale": {
+        "tasks": null
+      },
+      "robots": [
+        "Unitree Go2",
+        "H1",
+        "legged_robot_candidates"
+      ],
+      "observations": [
+        "rgb",
+        "language_instruction",
+        "robot_state"
+      ],
+      "actions": [
+        "mid_level_language_waypoints",
+        "locomotion_policy_actions"
+      ],
+      "success_signal": "navigation success and path efficiency",
+      "data_outputs": [
+        "navigation_eval_logs",
+        "benchmark_results"
+      ],
+      "self_improvement_hooks": [
+        "language_navigation_failure_trace",
+        "locomotion_policy_eval",
+        "scene_curriculum"
+      ],
+      "run_status": "candidate_metadata_first",
+      "license": "unknown",
+      "source_urls": [
+        "https://github.com/yang-zj1026/NaVILA-Bench",
+        "https://arxiv.org/html/2412.04453v1"
+      ]
+    },
+    {
+      "benchmark_id": "vlnverse",
+      "name": "VLNVerse",
+      "priority": "P1",
+      "verification_level": "confirmed_isaac_sim",
+      "isaac_stack": "NVIDIA Isaac Sim simulator layer",
+      "task_families": [
+        "vision_language_navigation",
+        "full_stack_embodied_navigation",
+        "multi_task_navigation"
+      ],
+      "scale": {
+        "scenes": null
+      },
+      "robots": [
+        "full_kinematics_navigation_agents"
+      ],
+      "observations": [
+        "rgb",
+        "language",
+        "robot_state",
+        "environment_state"
+      ],
+      "actions": [
+        "navigation",
+        "continuous_control"
+      ],
+      "success_signal": "VLN task success and generalization metrics",
+      "data_outputs": [
+        "navigation_benchmark_results",
+        "scene_task_metadata"
+      ],
+      "self_improvement_hooks": [
+        "navigation_curriculum",
+        "multi_task_eval",
+        "sim_to_real_navigation_gap"
+      ],
+      "run_status": "paper_first",
+      "license": "unknown",
+      "source_urls": [
+        "https://arxiv.org/abs/2512.19021",
+        "https://arxiv.org/html/2512.19021v1"
+      ]
+    },
+    {
+      "benchmark_id": "tacex_univtac",
+      "name": "TacEx / UniVTAC Benchmark",
+      "priority": "P1",
+      "verification_level": "confirmed_isaac_sim_lab",
+      "isaac_stack": "Isaac Sim / Isaac Lab with tactile extensions",
+      "task_families": [
+        "visuo_tactile_manipulation",
+        "gelsight_simulation",
+        "tactile_policy_eval"
+      ],
+      "scale": {
+        "univtac_tasks": 8
+      },
+      "robots": [
+        "manipulator_with_tactile_sensor"
+      ],
+      "observations": [
+        "rgb",
+        "tactile_rgb",
+        "gel_deformation",
+        "marker_flow",
+        "state"
+      ],
+      "actions": [
+        "contact_rich_manipulation"
+      ],
+      "success_signal": "tactile-driven policy success",
+      "data_outputs": [
+        "tactile_observations",
+        "rl_env_rollouts",
+        "benchmark_scores"
+      ],
+      "self_improvement_hooks": [
+        "contact_failure_trace",
+        "tactile_data_requirement",
+        "sensor_ablation_eval"
+      ],
+      "run_status": "watchlist_metadata_first",
+      "license": "unknown",
+      "source_urls": [
+        "https://github.com/DH-Ng/TacEx",
+        "https://arxiv.org/html/2602.10093v1",
+        "https://univtac.github.io/"
+      ]
+    },
+    {
+      "benchmark_id": "re3sim",
+      "name": "Re3Sim",
+      "priority": "P1",
+      "verification_level": "confirmed_isaac_sim_pipeline",
+      "isaac_stack": "Gaussian splatting + NVIDIA Isaac Sim PhysX",
+      "task_families": [
+        "real_to_sim_to_real",
+        "robotic_manipulation",
+        "scene_reconstruction"
+      ],
+      "scale": {
+        "tasks": null
+      },
+      "robots": [
+        "manipulators"
+      ],
+      "observations": [
+        "rgb",
+        "gaussian_splat_scene",
+        "sim_state",
+        "robot_state"
+      ],
+      "actions": [
+        "manipulation_policy_actions"
+      ],
+      "success_signal": "sim-to-real task performance",
+      "data_outputs": [
+        "reconstructed_scenes",
+        "simulation_rollouts",
+        "real_world_eval"
+      ],
+      "self_improvement_hooks": [
+        "digital_twin_import",
+        "sim2real_gap_trace",
+        "real_world_verification_loop"
+      ],
+      "run_status": "paper_first",
+      "license": "unknown",
+      "source_urls": [
+        "https://arxiv.org/html/2502.08645v3"
+      ]
+    },
+    {
+      "benchmark_id": "agentworld",
+      "name": "AgentWorld",
+      "priority": "P2",
+      "verification_level": "benchmark_confirmed_stack_needs_code_check",
+      "isaac_stack": "interactive simulation platform; Isaac dependency to verify in code",
+      "task_families": [
+        "scene_construction",
+        "robotic_manipulation",
+        "sim_to_real_dataset"
+      ],
+      "scale": {
+        "tasks": null
+      },
+      "robots": [
+        "manipulators",
+        "mobile_manipulation_candidates"
+      ],
+      "observations": [
+        "rgb",
+        "scene_state",
+        "language_optional"
+      ],
+      "actions": [
+        "manipulation"
+      ],
+      "success_signal": "imitation learning and sim-to-real benchmark performance",
+      "data_outputs": [
+        "AgentWorld_Dataset",
+        "manipulation_rollouts"
+      ],
+      "self_improvement_hooks": [
+        "scene_generation",
+        "manipulation_dataset_import",
+        "sim2real_eval"
+      ],
+      "run_status": "watchlist_verify_stack",
+      "license": "unknown",
+      "source_urls": [
+        "https://arxiv.org/html/2508.07770v2"
+      ]
+    },
+    {
+      "benchmark_id": "infiniteworld",
+      "name": "InfiniteWorld",
+      "priority": "P2",
+      "verification_level": "confirmed_isaac_sim",
+      "isaac_stack": "NVIDIA Isaac Sim",
+      "task_families": [
+        "vision_language_robot_interaction",
+        "scalable_simulator",
+        "embodied_ai_tasks"
+      ],
+      "scale": {
+        "tasks": null
+      },
+      "robots": [
+        "general_robot_interaction_agents"
+      ],
+      "observations": [
+        "rgb",
+        "language",
+        "state"
+      ],
+      "actions": [
+        "robot_interaction_actions"
+      ],
+      "success_signal": "vision-language robot interaction task success",
+      "data_outputs": [
+        "simulation_tasks",
+        "interaction_rollouts"
+      ],
+      "self_improvement_hooks": [
+        "open_world_task_generation",
+        "language_interaction_eval"
+      ],
+      "run_status": "paper_first",
+      "license": "unknown",
+      "source_urls": [
+        "https://arxiv.org/html/2412.05789v1"
+      ]
+    },
+    {
+      "benchmark_id": "realmirror",
+      "name": "RealMirror",
+      "priority": "P2",
+      "verification_level": "confirmed_isaac_sim_humanoid_vla",
+      "isaac_stack": "VR teleoperation + LeRobot + Isaac Sim",
+      "task_families": [
+        "humanoid_vla",
+        "simulated_vla_benchmark",
+        "zero_shot_sim2real"
+      ],
+      "scale": {
+        "scenarios": null
+      },
+      "robots": [
+        "humanoid_robot"
+      ],
+      "observations": [
+        "wrist_rgb",
+        "robot_state",
+        "language"
+      ],
+      "actions": [
+        "humanoid_vla_actions"
+      ],
+      "success_signal": "humanoid VLA task success and sim-to-real transfer",
+      "data_outputs": [
+        "simulated_trajectories",
+        "benchmark_scores",
+        "model_training_data"
+      ],
+      "self_improvement_hooks": [
+        "humanoid_policy_eval",
+        "vr_teleop_data_generation",
+        "vla_comparison"
+      ],
+      "run_status": "paper_first",
+      "license": "unknown",
+      "source_urls": [
+        "https://terminators2025.github.io/RealMirror.github.io/",
+        "https://arxiv.org/html/2509.14687v1"
+      ]
+    },
+    {
+      "benchmark_id": "robogate_safety",
+      "name": "RoboGate",
+      "priority": "P2",
+      "verification_level": "confirmed_isaac_sim_newton",
+      "isaac_stack": "NVIDIA Isaac Sim + Newton Physics",
+      "task_families": [
+        "adversarial_safety",
+        "failure_discovery",
+        "manipulation_policy_validation"
+      ],
+      "scale": {
+        "adversarial_scenarios": 68,
+        "episodes": 50000
+      },
+      "robots": [
+        "Franka Panda",
+        "UR5e"
+      ],
+      "observations": [
+        "state",
+        "scene_configuration",
+        "policy_trace"
+      ],
+      "actions": [
+        "manipulation_policy_actions"
+      ],
+      "success_signal": "unsafe failure discovery and policy robustness metrics",
+      "data_outputs": [
+        "adversarial_scenarios",
+        "failure_cases",
+        "safety_scores"
+      ],
+      "self_improvement_hooks": [
+        "governance_gate",
+        "safety_failure_trace",
+        "predeployment_policy_validation"
+      ],
+      "run_status": "paper_first",
+      "license": "unknown",
+      "source_urls": [
+        "https://arxiv.org/html/2603.22126v1"
+      ]
+    },
+    {
+      "benchmark_id": "ai_cps_industrial_isaacsim",
+      "name": "AI-CPS Industrial IsaacSim Benchmark",
+      "priority": "P2",
+      "verification_level": "confirmed_isaac_sim_industrial_benchmark",
+      "isaac_stack": "NVIDIA Omniverse Isaac Sim",
+      "task_families": [
+        "industrial_manipulation",
+        "ai_controller_evaluation",
+        "dynamic_environment_tasks"
+      ],
+      "scale": {
+        "tasks": 8
+      },
+      "robots": [
+        "industrial_manipulators"
+      ],
+      "observations": [
+        "vision",
+        "state"
+      ],
+      "actions": [
+        "controller_actions"
+      ],
+      "success_signal": "controller performance across industrial manipulation tasks",
+      "data_outputs": [
+        "task_results",
+        "controller_comparison"
+      ],
+      "self_improvement_hooks": [
+        "industrial_task_generation",
+        "controller_failure_trace",
+        "policy_regression_eval"
+      ],
+      "run_status": "paper_first",
+      "license": "unknown",
+      "source_urls": [
+        "https://www.researchgate.net/publication/372827353_Towards_Building_AI-CPS_with_NVIDIA_Isaac_Sim_An_Industrial_Benchmark_and_Case_Study_for_Robotics_Manipulation"
+      ]
+    },
+    {
+      "benchmark_id": "orbit_legacy",
+      "name": "ORBIT",
+      "priority": "P2",
+      "verification_level": "confirmed_isaac_sim_legacy",
+      "isaac_stack": "NVIDIA Isaac Sim",
+      "task_families": [
+        "robot_learning_framework",
+        "benchmark_suite",
+        "rigid_soft_body_simulation"
+      ],
+      "scale": {
+        "tasks": null
+      },
+      "robots": [
+        "manipulators",
+        "mobile_robots",
+        "custom_assets"
+      ],
+      "observations": [
+        "rgb",
+        "depth",
+        "state"
+      ],
+      "actions": [
+        "rl_policy_actions",
+        "imitation_actions"
+      ],
+      "success_signal": "benchmark task metrics",
+      "data_outputs": [
+        "rollouts",
+        "training_logs"
+      ],
+      "self_improvement_hooks": [
+        "legacy_to_isaac_lab_migration",
+        "task_design_reference"
+      ],
+      "run_status": "legacy_reference",
+      "license": "BSD-3-Clause",
+      "source_urls": [
+        "https://isaac-orbit.github.io/"
+      ]
+    },
+    {
+      "benchmark_id": "labutopia",
+      "name": "LabUtopia",
+      "priority": "P2",
+      "verification_level": "not_confirmed_isaac",
+      "isaac_stack": "high-fidelity simulator; Isaac dependency not confirmed",
+      "task_families": [
+        "laboratory_tasks",
+        "instrument_manipulation",
+        "long_horizon_planning"
+      ],
+      "scale": {
+        "tasks": 30,
+        "assets": 200
+      },
+      "robots": [
+        "lab_agent"
+      ],
+      "observations": [
+        "vision",
+        "state",
+        "language"
+      ],
+      "actions": [
+        "navigation",
+        "manipulation"
+      ],
+      "success_signal": "LabBench hierarchy",
+      "data_outputs": [
+        "benchmark_tasks",
+        "scene_assets"
+      ],
+      "self_improvement_hooks": [
+        "scientific_task_planning",
+        "instrument_failure_trace"
+      ],
+      "run_status": "watchlist_verify_stack",
+      "license": "unknown",
+      "source_urls": [
+        "https://openreview.net/forum?id=AIOq1vWSgK"
+      ]
+    },
+    {
+      "benchmark_id": "ge_sim_v2",
+      "name": "GE-Sim-V2 / Genie-Envisioner-Sim-v2.0",
+      "priority": "P2",
+      "verification_level": "adjacent_world_model_not_isaac_confirmed",
+      "isaac_stack": "not confirmed native IsaacSim",
+      "task_families": [
+        "world_model_simulation",
+        "generated_environment_video"
+      ],
+      "scale": {
+        "tasks": null
+      },
+      "robots": [
+        "unknown"
+      ],
+      "observations": [
+        "video",
+        "generated_scene"
+      ],
+      "actions": [
+        "model_defined"
+      ],
+      "success_signal": "world-model generation quality and downstream eval",
+      "data_outputs": [
+        "generated_simulation_assets_or_videos"
+      ],
+      "self_improvement_hooks": [
+        "rollout_imagination",
+        "scene_generation_prior"
+      ],
+      "run_status": "reading_list_watchlist",
+      "license": "Apache-2.0",
+      "source_urls": [
+        "https://github.com/AgibotTech/GE-Sim-V2",
+        "https://ge-sim-v2.github.io",
+        "https://huggingface.co/agibot-world/Genie-Envisioner-Sim-v2.0"
+      ]
+    },
+    {
+      "benchmark_id": "video2sim2real",
+      "name": "Video2Sim2Real",
+      "priority": "P2",
+      "verification_level": "adjacent_real2sim_reference",
+      "isaac_stack": "not treated as native IsaacSim benchmark",
+      "task_families": [
+        "single_video_real2sim2real",
+        "digital_twin",
+        "object_anchor_optimization",
+        "residual_contact_adaptation"
+      ],
+      "scale": {
+        "tasks": null
+      },
+      "robots": [
+        "dexterous_robot"
+      ],
+      "observations": [
+        "video",
+        "point_cloud",
+        "robot_state"
+      ],
+      "actions": [
+        "planned_motion",
+        "residual_rl_actions"
+      ],
+      "success_signal": "real-world skill success after sim optimization",
+      "data_outputs": [
+        "digital_twin_assets",
+        "object_keyframes",
+        "robot_anchor_configs"
+      ],
+      "self_improvement_hooks": [
+        "real2sim_contract",
+        "anchor_failure_trace",
+        "residual_adaptation"
+      ],
+      "run_status": "dashboard_existing_reference",
+      "license": "unknown",
+      "source_urls": [
+        "https://video2sim2real.github.io",
+        "https://arxiv.org/abs/2606.08828"
+      ]
+    }
+  ]
+}

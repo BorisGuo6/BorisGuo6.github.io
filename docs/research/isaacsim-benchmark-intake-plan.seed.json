@@ -1,0 +1,831 @@
+{
+  "generated_at": "2026-06-25T17:43:11.897Z",
+  "catalog_path": "docs/research/isaacsim-benchmark-catalog.seed.json",
+  "benchmark_count": 41,
+  "priority_counts": {
+    "P0": 4,
+    "P1": 28,
+    "P2": 9
+  },
+  "global_blockers": [
+    "Local macOS runs can verify metadata and source availability, but real Isaac Sim smoke gates usually require a supported Linux/GPU host.",
+    "Unauthenticated GitHub API checks can become rate-limited; rerun verification with a token before treating repo metadata failures as final.",
+    "The public Dual-Sim URL currently appears unavailable from the verifier path and should stay blocked until a reachable source is confirmed.",
+    "ResearchGate and some hosted paper/project pages may reject automated fetches; use browser/manual confirmation where needed.",
+    "Notion MCP auth was expired during this research pass; ntn CLI and the local Notion mirror were used for Reading List intake."
+  ],
+  "intake_contract": {
+    "benchmark_source_fields": [
+      "benchmark_id",
+      "name",
+      "priority",
+      "isaac_stack",
+      "task_families",
+      "robots",
+      "observations",
+      "actions",
+      "success_signal",
+      "data_outputs",
+      "self_improvement_hooks",
+      "license",
+      "source_urls"
+    ],
+    "required_runtime_artifacts": [
+      "metadata_report.md",
+      "source_manifest.json",
+      "smoke_result.json",
+      "failure_trace_sample.json"
+    ],
+    "dashboard_gate": "A benchmark can move from catalog to dashboard intake only after source metadata is verified and at least one smoke path is either passed or explicitly blocked with environment requirements."
+  },
+  "phases": [
+    {
+      "phase_id": "metadata_all",
+      "applies_to": "all benchmarks",
+      "objective": "Verify canonical sources, license, Isaac dependency, registry shape, and dashboard mapping.",
+      "output": "source_manifest.json per benchmark plus catalog verification report."
+    },
+    {
+      "phase_id": "p0_smoke",
+      "applies_to": "P0 benchmarks",
+      "objective": "Run one minimal reset/step/eval smoke path on a supported Isaac host.",
+      "output": "smoke_result.json and one normalized FailureTrace sample per benchmark."
+    },
+    {
+      "phase_id": "p1_adapter_triage",
+      "applies_to": "P1 confirmed Isaac sources",
+      "objective": "Decide whether the benchmark should become an adapter, data source, runtime benchmark, or watchlist item.",
+      "output": "adapter_triage.md with next implementation owner and blocker."
+    },
+    {
+      "phase_id": "p2_watchlist",
+      "applies_to": "P2 and unconfirmed sources",
+      "objective": "Keep discovery signals without spending runtime work until Isaac dependency and code/data access are confirmed.",
+      "output": "watchlist_verification.md."
+    }
+  ],
+  "p0_smoke_plan": [
+    {
+      "benchmark_id": "robolab_120",
+      "name": "RoboLab-120",
+      "objective": "Confirm RoboLab-120 task registry shape, then run one headless reset/step/eval on a Linux Isaac Sim GPU host.",
+      "metadata_outputs": [
+        "task_ids.json",
+        "predicate_schema.json",
+        "robot_and_asset_requirements.md"
+      ],
+      "smoke_outputs": [
+        "robolab_smoke_result.json",
+        "episode_log.jsonl",
+        "failure_trace_sample.json"
+      ],
+      "smoke_gate": "One documented RoboLab task can initialize, reset, step, and emit success/failure predicates in headless mode.",
+      "blockers": [
+        "Requires Isaac Sim 5.0 + Isaac Lab 2.2.0 on a supported Linux/GPU host.",
+        "Local macOS metadata work can inspect sources but should not be treated as runtime validation."
+      ]
+    },
+    {
+      "benchmark_id": "isaac_lab_core_tasks",
+      "name": "Isaac Lab Core Tasks",
+      "objective": "Use Isaac Lab as the reference smoke substrate for adapter contracts and runtime throughput baselines.",
+      "metadata_outputs": [
+        "isaac_lab_env_list.json",
+        "task_family_index.json",
+        "adapter_contract_notes.md"
+      ],
+      "smoke_outputs": [
+        "isaac_lab_reset_step_smoke.json",
+        "headless_runtime_log.txt",
+        "throughput_baseline.json"
+      ],
+      "smoke_gate": "A simple documented Isaac Lab task starts headless, reports observation/action spaces, resets, and steps without simulator errors.",
+      "blockers": [
+        "Requires matching Isaac Sim / Isaac Lab versions and GPU driver stack.",
+        "Exact smoke command should be taken from the installed Isaac Lab version, not copied across releases."
+      ]
+    },
+    {
+      "benchmark_id": "isaac_lab_arena",
+      "name": "Isaac Lab-Arena",
+      "objective": "Validate IsaacLab-Arena as the benchmark intake pattern for composable objects, scenes, embodiments, tasks, and policy eval.",
+      "metadata_outputs": [
+        "arena_block_schema.json",
+        "arena_task_registry.json",
+        "arena_eval_contract.md"
+      ],
+      "smoke_outputs": [
+        "arena_single_task_eval.json",
+        "arena_policy_runner_log.txt",
+        "arena_artifact_manifest.json"
+      ],
+      "smoke_gate": "One documented Arena task/eval path runs far enough to produce a structured task result and policy runner log.",
+      "blockers": [
+        "Some Arena-backed suites may require external assets or partner repos.",
+        "RoboTwin extension paths should remain adapter candidates until their branch-specific setup is verified."
+      ]
+    },
+    {
+      "benchmark_id": "interndataengine",
+      "name": "InternDataEngine",
+      "objective": "Treat InternDataEngine as the data/curriculum source for synthetic scenes, annotations, and task generation.",
+      "metadata_outputs": [
+        "interndataengine_config_index.json",
+        "scene_generation_schema.json",
+        "annotation_schema.json"
+      ],
+      "smoke_outputs": [
+        "small_generation_dry_run.json",
+        "annotation_manifest_sample.json",
+        "scheduler_log.txt"
+      ],
+      "smoke_gate": "A minimal documented generation or dry-run path emits a scene/task/annotation manifest without requiring a full dataset build.",
+      "blockers": [
+        "May require heavyweight assets and an Isaac Sim runtime.",
+        "If assets are gated, keep dashboard status at metadata-only and record access requirements."
+      ]
+    }
+  ],
+  "benchmark_queue": [
+    {
+      "benchmark_id": "robolab_120",
+      "name": "RoboLab-120",
+      "priority": "P0",
+      "recommended_next_step": "metadata_then_smoke",
+      "run_status": "dashboard_existing_reference",
+      "source_risks": [],
+      "metadata_checks": [
+        "Confirm source URL reachability and canonical repo/page.",
+        "Record license, archive status, default branch, and latest update where available.",
+        "Extract task/environment registry, robot assets, observation/action schema, and success signal.",
+        "Map outputs into AgenticSim BenchmarkSource, EvaluationRun, FailureTrace, and DataRequirement fields."
+      ],
+      "smoke_candidate": true
+    },
+    {
+      "benchmark_id": "isaac_lab_core_tasks",
+      "name": "Isaac Lab Core Tasks",
+      "priority": "P0",
+      "recommended_next_step": "metadata_then_smoke",
+      "run_status": "base_framework",
+      "source_risks": [],
+      "metadata_checks": [
+        "Confirm source URL reachability and canonical repo/page.",
+        "Record license, archive status, default branch, and latest update where available.",
+        "Extract task/environment registry, robot assets, observation/action schema, and success signal.",
+        "Map outputs into AgenticSim BenchmarkSource, EvaluationRun, FailureTrace, and DataRequirement fields."
+      ],
+      "smoke_candidate": true
+    },
+    {
+      "benchmark_id": "isaac_lab_arena",
+      "name": "Isaac Lab-Arena",
+      "priority": "P0",
+      "recommended_next_step": "metadata_then_smoke",
+      "run_status": "candidate_framework",
+      "source_risks": [],
+      "metadata_checks": [
+        "Confirm source URL reachability and canonical repo/page.",
+        "Record license, archive status, default branch, and latest update where available.",
+        "Extract task/environment registry, robot assets, observation/action schema, and success signal.",
+        "Map outputs into AgenticSim BenchmarkSource, EvaluationRun, FailureTrace, and DataRequirement fields."
+      ],
+      "smoke_candidate": true
+    },
+    {
+      "benchmark_id": "interndataengine",
+      "name": "InternDataEngine",
+      "priority": "P0",
+      "recommended_next_step": "metadata_then_smoke",
+      "run_status": "candidate_data_engine",
+      "source_risks": [
+        "unknown_license"
+      ],
+      "metadata_checks": [
+        "Confirm source URL reachability and canonical repo/page.",
+        "Record license, archive status, default branch, and latest update where available.",
+        "Extract task/environment registry, robot assets, observation/action schema, and success signal.",
+        "Map outputs into AgenticSim BenchmarkSource, EvaluationRun, FailureTrace, and DataRequirement fields."
+      ],
+      "smoke_candidate": true
+    },
+    {
+      "benchmark_id": "behavior_1k_omnigibson",
+      "name": "BEHAVIOR-1K / OmniGibson",
+      "priority": "P1",
+      "recommended_next_step": "metadata_then_adapter_triage",
+      "run_status": "watchlist_metadata_first",
+      "source_risks": [
+        "unknown_license",
+        "watchlist_only"
+      ],
+      "metadata_checks": [
+        "Confirm source URL reachability and canonical repo/page.",
+        "Record license, archive status, default branch, and latest update where available.",
+        "Extract task/environment registry, robot assets, observation/action schema, and success signal.",
+        "Map outputs into AgenticSim BenchmarkSource, EvaluationRun, FailureTrace, and DataRequirement fields."
+      ],
+      "smoke_candidate": true
+    },
+    {
+      "benchmark_id": "internutopia_grbench",
+      "name": "InternUtopia / GRUtopia / GRBench",
+      "priority": "P1",
+      "recommended_next_step": "metadata_then_adapter_triage",
+      "run_status": "watchlist_metadata_first",
+      "source_risks": [
+        "watchlist_only"
+      ],
+      "metadata_checks": [
+        "Confirm source URL reachability and canonical repo/page.",
+        "Record license, archive status, default branch, and latest update where available.",
+        "Extract task/environment registry, robot assets, observation/action schema, and success signal.",
+        "Map outputs into AgenticSim BenchmarkSource, EvaluationRun, FailureTrace, and DataRequirement fields."
+      ],
+      "smoke_candidate": true
+    },
+    {
+      "benchmark_id": "arnold",
+      "name": "ARNOLD",
+      "priority": "P1",
+      "recommended_next_step": "metadata_then_adapter_triage",
+      "run_status": "candidate_metadata_first",
+      "source_risks": [
+        "unknown_license"
+      ],
+      "metadata_checks": [
+        "Confirm source URL reachability and canonical repo/page.",
+        "Record license, archive status, default branch, and latest update where available.",
+        "Extract task/environment registry, robot assets, observation/action schema, and success signal.",
+        "Map outputs into AgenticSim BenchmarkSource, EvaluationRun, FailureTrace, and DataRequirement fields."
+      ],
+      "smoke_candidate": true
+    },
+    {
+      "benchmark_id": "kitchen_r",
+      "name": "Kitchen-R",
+      "priority": "P1",
+      "recommended_next_step": "metadata_then_adapter_triage",
+      "run_status": "paper_first",
+      "source_risks": [
+        "unknown_license"
+      ],
+      "metadata_checks": [
+        "Confirm source URL reachability and canonical repo/page.",
+        "Record license, archive status, default branch, and latest update where available.",
+        "Extract task/environment registry, robot assets, observation/action schema, and success signal.",
+        "Map outputs into AgenticSim BenchmarkSource, EvaluationRun, FailureTrace, and DataRequirement fields."
+      ],
+      "smoke_candidate": true
+    },
+    {
+      "benchmark_id": "m3bench",
+      "name": "M3Bench",
+      "priority": "P1",
+      "recommended_next_step": "metadata_then_adapter_triage",
+      "run_status": "paper_first",
+      "source_risks": [
+        "unknown_license"
+      ],
+      "metadata_checks": [
+        "Confirm source URL reachability and canonical repo/page.",
+        "Record license, archive status, default branch, and latest update where available.",
+        "Extract task/environment registry, robot assets, observation/action schema, and success signal.",
+        "Map outputs into AgenticSim BenchmarkSource, EvaluationRun, FailureTrace, and DataRequirement fields."
+      ],
+      "smoke_candidate": true
+    },
+    {
+      "benchmark_id": "robomind_sim",
+      "name": "RoboMIND-Sim",
+      "priority": "P1",
+      "recommended_next_step": "metadata_then_adapter_triage",
+      "run_status": "candidate_smoke",
+      "source_risks": [
+        "unknown_license"
+      ],
+      "metadata_checks": [
+        "Confirm source URL reachability and canonical repo/page.",
+        "Record license, archive status, default branch, and latest update where available.",
+        "Extract task/environment registry, robot assets, observation/action schema, and success signal.",
+        "Map outputs into AgenticSim BenchmarkSource, EvaluationRun, FailureTrace, and DataRequirement fields."
+      ],
+      "smoke_candidate": true
+    },
+    {
+      "benchmark_id": "robotwin2_isaaclab_arena",
+      "name": "RoboTwin 2.0 IsaacLab-Arena Branch",
+      "priority": "P1",
+      "recommended_next_step": "metadata_then_source_verification",
+      "run_status": "dashboard_existing_active_route",
+      "source_risks": [],
+      "metadata_checks": [
+        "Confirm source URL reachability and canonical repo/page.",
+        "Record license, archive status, default branch, and latest update where available.",
+        "Extract task/environment registry, robot assets, observation/action schema, and success signal.",
+        "Map outputs into AgenticSim BenchmarkSource, EvaluationRun, FailureTrace, and DataRequirement fields."
+      ],
+      "smoke_candidate": false
+    },
+    {
+      "benchmark_id": "omniisaacgymenvs",
+      "name": "OmniIsaacGymEnvs",
+      "priority": "P1",
+      "recommended_next_step": "metadata_then_adapter_triage",
+      "run_status": "legacy_reference",
+      "source_risks": [],
+      "metadata_checks": [
+        "Confirm source URL reachability and canonical repo/page.",
+        "Record license, archive status, default branch, and latest update where available.",
+        "Extract task/environment registry, robot assets, observation/action schema, and success signal.",
+        "Map outputs into AgenticSim BenchmarkSource, EvaluationRun, FailureTrace, and DataRequirement fields."
+      ],
+      "smoke_candidate": true
+    },
+    {
+      "benchmark_id": "isaacgymenvs",
+      "name": "IsaacGymEnvs",
+      "priority": "P1",
+      "recommended_next_step": "metadata_then_source_verification",
+      "run_status": "legacy_reference",
+      "source_risks": [],
+      "metadata_checks": [
+        "Confirm source URL reachability and canonical repo/page.",
+        "Record license, archive status, default branch, and latest update where available.",
+        "Extract task/environment registry, robot assets, observation/action schema, and success signal.",
+        "Map outputs into AgenticSim BenchmarkSource, EvaluationRun, FailureTrace, and DataRequirement fields."
+      ],
+      "smoke_candidate": false
+    },
+    {
+      "benchmark_id": "factory_industreal_forge",
+      "name": "Factory / IndustReal / FORGE-style assembly tasks",
+      "priority": "P1",
+      "recommended_next_step": "metadata_then_source_verification",
+      "run_status": "source_family_watchlist",
+      "source_risks": [
+        "watchlist_only"
+      ],
+      "metadata_checks": [
+        "Confirm source URL reachability and canonical repo/page.",
+        "Record license, archive status, default branch, and latest update where available.",
+        "Extract task/environment registry, robot assets, observation/action schema, and success signal.",
+        "Map outputs into AgenticSim BenchmarkSource, EvaluationRun, FailureTrace, and DataRequirement fields."
+      ],
+      "smoke_candidate": false
+    },
+    {
+      "benchmark_id": "dual_sim_robotwin_isaacsim",
+      "name": "Dual-Sim RoboTwin-to-IsaacSim Migration",
+      "priority": "P1",
+      "recommended_next_step": "metadata_then_source_verification",
+      "run_status": "dashboard_existing_reference",
+      "source_risks": [
+        "unknown_license"
+      ],
+      "metadata_checks": [
+        "Confirm source URL reachability and canonical repo/page.",
+        "Record license, archive status, default branch, and latest update where available.",
+        "Extract task/environment registry, robot assets, observation/action schema, and success signal.",
+        "Map outputs into AgenticSim BenchmarkSource, EvaluationRun, FailureTrace, and DataRequirement fields."
+      ],
+      "smoke_candidate": false
+    },
+    {
+      "benchmark_id": "lehome_agenticsim_household",
+      "name": "LeHome / LeHome-Challenge AgenticSim Household Stack",
+      "priority": "P1",
+      "recommended_next_step": "metadata_then_source_verification",
+      "run_status": "dashboard_existing_environment",
+      "source_risks": [
+        "missing_source_url",
+        "unknown_license",
+        "isaac_dependency_unconfirmed"
+      ],
+      "metadata_checks": [
+        "Confirm source URL reachability and canonical repo/page.",
+        "Record license, archive status, default branch, and latest update where available.",
+        "Extract task/environment registry, robot assets, observation/action schema, and success signal.",
+        "Map outputs into AgenticSim BenchmarkSource, EvaluationRun, FailureTrace, and DataRequirement fields."
+      ],
+      "smoke_candidate": false
+    },
+    {
+      "benchmark_id": "lightwheel_benchhub",
+      "name": "LW-BenchHub / Lightwheel BenchHub",
+      "priority": "P1",
+      "recommended_next_step": "metadata_then_adapter_triage",
+      "run_status": "candidate_metadata_first",
+      "source_risks": [
+        "unknown_license"
+      ],
+      "metadata_checks": [
+        "Confirm source URL reachability and canonical repo/page.",
+        "Record license, archive status, default branch, and latest update where available.",
+        "Extract task/environment registry, robot assets, observation/action schema, and success signal.",
+        "Map outputs into AgenticSim BenchmarkSource, EvaluationRun, FailureTrace, and DataRequirement fields."
+      ],
+      "smoke_candidate": true
+    },
+    {
+      "benchmark_id": "isaac_healthcare_rheo_workflows",
+      "name": "Isaac for Healthcare RHEO Workflows",
+      "priority": "P1",
+      "recommended_next_step": "metadata_then_adapter_triage",
+      "run_status": "candidate_metadata_first",
+      "source_risks": [],
+      "metadata_checks": [
+        "Confirm source URL reachability and canonical repo/page.",
+        "Record license, archive status, default branch, and latest update where available.",
+        "Extract task/environment registry, robot assets, observation/action schema, and success signal.",
+        "Map outputs into AgenticSim BenchmarkSource, EvaluationRun, FailureTrace, and DataRequirement fields."
+      ],
+      "smoke_candidate": true
+    },
+    {
+      "benchmark_id": "isaaclab_eval_tasks",
+      "name": "IsaacLabEvalTasks",
+      "priority": "P1",
+      "recommended_next_step": "metadata_then_source_verification",
+      "run_status": "candidate_metadata_first",
+      "source_risks": [],
+      "metadata_checks": [
+        "Confirm source URL reachability and canonical repo/page.",
+        "Record license, archive status, default branch, and latest update where available.",
+        "Extract task/environment registry, robot assets, observation/action schema, and success signal.",
+        "Map outputs into AgenticSim BenchmarkSource, EvaluationRun, FailureTrace, and DataRequirement fields."
+      ],
+      "smoke_candidate": false
+    },
+    {
+      "benchmark_id": "ego_humanoid_manipulation",
+      "name": "Ego Humanoid Manipulation Benchmark / EgoVLA",
+      "priority": "P1",
+      "recommended_next_step": "metadata_then_adapter_triage",
+      "run_status": "paper_first",
+      "source_risks": [
+        "unknown_license"
+      ],
+      "metadata_checks": [
+        "Confirm source URL reachability and canonical repo/page.",
+        "Record license, archive status, default branch, and latest update where available.",
+        "Extract task/environment registry, robot assets, observation/action schema, and success signal.",
+        "Map outputs into AgenticSim BenchmarkSource, EvaluationRun, FailureTrace, and DataRequirement fields."
+      ],
+      "smoke_candidate": true
+    },
+    {
+      "benchmark_id": "genmanip_bench",
+      "name": "GenManip-Bench",
+      "priority": "P1",
+      "recommended_next_step": "metadata_then_adapter_triage",
+      "run_status": "candidate_metadata_first",
+      "source_risks": [
+        "unknown_license"
+      ],
+      "metadata_checks": [
+        "Confirm source URL reachability and canonical repo/page.",
+        "Record license, archive status, default branch, and latest update where available.",
+        "Extract task/environment registry, robot assets, observation/action schema, and success signal.",
+        "Map outputs into AgenticSim BenchmarkSource, EvaluationRun, FailureTrace, and DataRequirement fields."
+      ],
+      "smoke_candidate": true
+    },
+    {
+      "benchmark_id": "internmanip_eval",
+      "name": "InternManip / InternManip-Eval",
+      "priority": "P1",
+      "recommended_next_step": "metadata_then_source_verification",
+      "run_status": "candidate_runner_reference",
+      "source_risks": [],
+      "metadata_checks": [
+        "Confirm source URL reachability and canonical repo/page.",
+        "Record license, archive status, default branch, and latest update where available.",
+        "Extract task/environment registry, robot assets, observation/action schema, and success signal.",
+        "Map outputs into AgenticSim BenchmarkSource, EvaluationRun, FailureTrace, and DataRequirement fields."
+      ],
+      "smoke_candidate": false
+    },
+    {
+      "benchmark_id": "ebench_elemental_mobile_manipulation",
+      "name": "EBench / Elemental Mobile Manipulation Benchmark",
+      "priority": "P1",
+      "recommended_next_step": "metadata_then_adapter_triage",
+      "run_status": "candidate_metadata_first",
+      "source_risks": [
+        "unknown_license"
+      ],
+      "metadata_checks": [
+        "Confirm source URL reachability and canonical repo/page.",
+        "Record license, archive status, default branch, and latest update where available.",
+        "Extract task/environment registry, robot assets, observation/action schema, and success signal.",
+        "Map outputs into AgenticSim BenchmarkSource, EvaluationRun, FailureTrace, and DataRequirement fields."
+      ],
+      "smoke_candidate": true
+    },
+    {
+      "benchmark_id": "isaac_lab_mimic_skillgen",
+      "name": "Isaac Lab Mimic / SkillGen",
+      "priority": "P1",
+      "recommended_next_step": "metadata_then_adapter_triage",
+      "run_status": "candidate_component",
+      "source_risks": [],
+      "metadata_checks": [
+        "Confirm source URL reachability and canonical repo/page.",
+        "Record license, archive status, default branch, and latest update where available.",
+        "Extract task/environment registry, robot assets, observation/action schema, and success signal.",
+        "Map outputs into AgenticSim BenchmarkSource, EvaluationRun, FailureTrace, and DataRequirement fields."
+      ],
+      "smoke_candidate": true
+    },
+    {
+      "benchmark_id": "isaac_sim_benchmark_services",
+      "name": "Isaac Sim Benchmark Services",
+      "priority": "P1",
+      "recommended_next_step": "metadata_then_source_verification",
+      "run_status": "system_benchmark_reference",
+      "source_risks": [],
+      "metadata_checks": [
+        "Confirm source URL reachability and canonical repo/page.",
+        "Record license, archive status, default branch, and latest update where available.",
+        "Extract task/environment registry, robot assets, observation/action schema, and success signal.",
+        "Map outputs into AgenticSim BenchmarkSource, EvaluationRun, FailureTrace, and DataRequirement fields."
+      ],
+      "smoke_candidate": false
+    },
+    {
+      "benchmark_id": "isaac_lab_performance_benchmarks",
+      "name": "Isaac Lab RL Performance Benchmarks",
+      "priority": "P1",
+      "recommended_next_step": "metadata_then_source_verification",
+      "run_status": "system_benchmark_reference",
+      "source_risks": [],
+      "metadata_checks": [
+        "Confirm source URL reachability and canonical repo/page.",
+        "Record license, archive status, default branch, and latest update where available.",
+        "Extract task/environment registry, robot assets, observation/action schema, and success signal.",
+        "Map outputs into AgenticSim BenchmarkSource, EvaluationRun, FailureTrace, and DataRequirement fields."
+      ],
+      "smoke_candidate": false
+    },
+    {
+      "benchmark_id": "omnidrones",
+      "name": "OmniDrones",
+      "priority": "P1",
+      "recommended_next_step": "metadata_then_adapter_triage",
+      "run_status": "watchlist_metadata_first",
+      "source_risks": [
+        "watchlist_only"
+      ],
+      "metadata_checks": [
+        "Confirm source URL reachability and canonical repo/page.",
+        "Record license, archive status, default branch, and latest update where available.",
+        "Extract task/environment registry, robot assets, observation/action schema, and success signal.",
+        "Map outputs into AgenticSim BenchmarkSource, EvaluationRun, FailureTrace, and DataRequirement fields."
+      ],
+      "smoke_candidate": true
+    },
+    {
+      "benchmark_id": "sidewalkbench",
+      "name": "SidewalkBench",
+      "priority": "P1",
+      "recommended_next_step": "metadata_then_adapter_triage",
+      "run_status": "paper_first",
+      "source_risks": [
+        "unknown_license"
+      ],
+      "metadata_checks": [
+        "Confirm source URL reachability and canonical repo/page.",
+        "Record license, archive status, default branch, and latest update where available.",
+        "Extract task/environment registry, robot assets, observation/action schema, and success signal.",
+        "Map outputs into AgenticSim BenchmarkSource, EvaluationRun, FailureTrace, and DataRequirement fields."
+      ],
+      "smoke_candidate": true
+    },
+    {
+      "benchmark_id": "navila_bench_vln_ce_isaac",
+      "name": "NaVILA-Bench / VLN-CE-Isaac",
+      "priority": "P1",
+      "recommended_next_step": "metadata_then_adapter_triage",
+      "run_status": "candidate_metadata_first",
+      "source_risks": [
+        "unknown_license"
+      ],
+      "metadata_checks": [
+        "Confirm source URL reachability and canonical repo/page.",
+        "Record license, archive status, default branch, and latest update where available.",
+        "Extract task/environment registry, robot assets, observation/action schema, and success signal.",
+        "Map outputs into AgenticSim BenchmarkSource, EvaluationRun, FailureTrace, and DataRequirement fields."
+      ],
+      "smoke_candidate": true
+    },
+    {
+      "benchmark_id": "vlnverse",
+      "name": "VLNVerse",
+      "priority": "P1",
+      "recommended_next_step": "metadata_then_adapter_triage",
+      "run_status": "paper_first",
+      "source_risks": [
+        "unknown_license"
+      ],
+      "metadata_checks": [
+        "Confirm source URL reachability and canonical repo/page.",
+        "Record license, archive status, default branch, and latest update where available.",
+        "Extract task/environment registry, robot assets, observation/action schema, and success signal.",
+        "Map outputs into AgenticSim BenchmarkSource, EvaluationRun, FailureTrace, and DataRequirement fields."
+      ],
+      "smoke_candidate": true
+    },
+    {
+      "benchmark_id": "tacex_univtac",
+      "name": "TacEx / UniVTAC Benchmark",
+      "priority": "P1",
+      "recommended_next_step": "metadata_then_adapter_triage",
+      "run_status": "watchlist_metadata_first",
+      "source_risks": [
+        "unknown_license",
+        "watchlist_only"
+      ],
+      "metadata_checks": [
+        "Confirm source URL reachability and canonical repo/page.",
+        "Record license, archive status, default branch, and latest update where available.",
+        "Extract task/environment registry, robot assets, observation/action schema, and success signal.",
+        "Map outputs into AgenticSim BenchmarkSource, EvaluationRun, FailureTrace, and DataRequirement fields."
+      ],
+      "smoke_candidate": true
+    },
+    {
+      "benchmark_id": "re3sim",
+      "name": "Re3Sim",
+      "priority": "P1",
+      "recommended_next_step": "metadata_then_adapter_triage",
+      "run_status": "paper_first",
+      "source_risks": [
+        "unknown_license"
+      ],
+      "metadata_checks": [
+        "Confirm source URL reachability and canonical repo/page.",
+        "Record license, archive status, default branch, and latest update where available.",
+        "Extract task/environment registry, robot assets, observation/action schema, and success signal.",
+        "Map outputs into AgenticSim BenchmarkSource, EvaluationRun, FailureTrace, and DataRequirement fields."
+      ],
+      "smoke_candidate": true
+    },
+    {
+      "benchmark_id": "agentworld",
+      "name": "AgentWorld",
+      "priority": "P2",
+      "recommended_next_step": "watchlist_verify_isaac_dependency",
+      "run_status": "watchlist_verify_stack",
+      "source_risks": [
+        "unknown_license",
+        "watchlist_only"
+      ],
+      "metadata_checks": [
+        "Confirm source URL reachability and canonical repo/page.",
+        "Record license, archive status, default branch, and latest update where available.",
+        "Extract task/environment registry, robot assets, observation/action schema, and success signal.",
+        "Map outputs into AgenticSim BenchmarkSource, EvaluationRun, FailureTrace, and DataRequirement fields."
+      ],
+      "smoke_candidate": true
+    },
+    {
+      "benchmark_id": "infiniteworld",
+      "name": "InfiniteWorld",
+      "priority": "P2",
+      "recommended_next_step": "watchlist_verify_isaac_dependency",
+      "run_status": "paper_first",
+      "source_risks": [
+        "unknown_license"
+      ],
+      "metadata_checks": [
+        "Confirm source URL reachability and canonical repo/page.",
+        "Record license, archive status, default branch, and latest update where available.",
+        "Extract task/environment registry, robot assets, observation/action schema, and success signal.",
+        "Map outputs into AgenticSim BenchmarkSource, EvaluationRun, FailureTrace, and DataRequirement fields."
+      ],
+      "smoke_candidate": true
+    },
+    {
+      "benchmark_id": "realmirror",
+      "name": "RealMirror",
+      "priority": "P2",
+      "recommended_next_step": "watchlist_verify_isaac_dependency",
+      "run_status": "paper_first",
+      "source_risks": [
+        "unknown_license"
+      ],
+      "metadata_checks": [
+        "Confirm source URL reachability and canonical repo/page.",
+        "Record license, archive status, default branch, and latest update where available.",
+        "Extract task/environment registry, robot assets, observation/action schema, and success signal.",
+        "Map outputs into AgenticSim BenchmarkSource, EvaluationRun, FailureTrace, and DataRequirement fields."
+      ],
+      "smoke_candidate": true
+    },
+    {
+      "benchmark_id": "robogate_safety",
+      "name": "RoboGate",
+      "priority": "P2",
+      "recommended_next_step": "watchlist_verify_isaac_dependency",
+      "run_status": "paper_first",
+      "source_risks": [
+        "unknown_license"
+      ],
+      "metadata_checks": [
+        "Confirm source URL reachability and canonical repo/page.",
+        "Record license, archive status, default branch, and latest update where available.",
+        "Extract task/environment registry, robot assets, observation/action schema, and success signal.",
+        "Map outputs into AgenticSim BenchmarkSource, EvaluationRun, FailureTrace, and DataRequirement fields."
+      ],
+      "smoke_candidate": true
+    },
+    {
+      "benchmark_id": "ai_cps_industrial_isaacsim",
+      "name": "AI-CPS Industrial IsaacSim Benchmark",
+      "priority": "P2",
+      "recommended_next_step": "watchlist_verify_isaac_dependency",
+      "run_status": "paper_first",
+      "source_risks": [
+        "unknown_license"
+      ],
+      "metadata_checks": [
+        "Confirm source URL reachability and canonical repo/page.",
+        "Record license, archive status, default branch, and latest update where available.",
+        "Extract task/environment registry, robot assets, observation/action schema, and success signal.",
+        "Map outputs into AgenticSim BenchmarkSource, EvaluationRun, FailureTrace, and DataRequirement fields."
+      ],
+      "smoke_candidate": true
+    },
+    {
+      "benchmark_id": "orbit_legacy",
+      "name": "ORBIT",
+      "priority": "P2",
+      "recommended_next_step": "watchlist_verify_isaac_dependency",
+      "run_status": "legacy_reference",
+      "source_risks": [],
+      "metadata_checks": [
+        "Confirm source URL reachability and canonical repo/page.",
+        "Record license, archive status, default branch, and latest update where available.",
+        "Extract task/environment registry, robot assets, observation/action schema, and success signal.",
+        "Map outputs into AgenticSim BenchmarkSource, EvaluationRun, FailureTrace, and DataRequirement fields."
+      ],
+      "smoke_candidate": true
+    },
+    {
+      "benchmark_id": "labutopia",
+      "name": "LabUtopia",
+      "priority": "P2",
+      "recommended_next_step": "watchlist_verify_isaac_dependency",
+      "run_status": "watchlist_verify_stack",
+      "source_risks": [
+        "unknown_license",
+        "isaac_dependency_unconfirmed",
+        "watchlist_only"
+      ],
+      "metadata_checks": [
+        "Confirm source URL reachability and canonical repo/page.",
+        "Record license, archive status, default branch, and latest update where available.",
+        "Extract task/environment registry, robot assets, observation/action schema, and success signal.",
+        "Map outputs into AgenticSim BenchmarkSource, EvaluationRun, FailureTrace, and DataRequirement fields."
+      ],
+      "smoke_candidate": true
+    },
+    {
+      "benchmark_id": "ge_sim_v2",
+      "name": "GE-Sim-V2 / Genie-Envisioner-Sim-v2.0",
+      "priority": "P2",
+      "recommended_next_step": "watchlist_verify_isaac_dependency",
+      "run_status": "reading_list_watchlist",
+      "source_risks": [
+        "isaac_dependency_unconfirmed",
+        "watchlist_only"
+      ],
+      "metadata_checks": [
+        "Confirm source URL reachability and canonical repo/page.",
+        "Record license, archive status, default branch, and latest update where available.",
+        "Extract task/environment registry, robot assets, observation/action schema, and success signal.",
+        "Map outputs into AgenticSim BenchmarkSource, EvaluationRun, FailureTrace, and DataRequirement fields."
+      ],
+      "smoke_candidate": true
+    },
+    {
+      "benchmark_id": "video2sim2real",
+      "name": "Video2Sim2Real",
+      "priority": "P2",
+      "recommended_next_step": "watchlist_verify_isaac_dependency",
+      "run_status": "dashboard_existing_reference",
+      "source_risks": [
+        "unknown_license",
+        "isaac_dependency_unconfirmed"
+      ],
+      "metadata_checks": [
+        "Confirm source URL reachability and canonical repo/page.",
+        "Record license, archive status, default branch, and latest update where available.",
+        "Extract task/environment registry, robot assets, observation/action schema, and success signal.",
+        "Map outputs into AgenticSim BenchmarkSource, EvaluationRun, FailureTrace, and DataRequirement fields."
+      ],
+      "smoke_candidate": false
+    }
+  ]
+}
