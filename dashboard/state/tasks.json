@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-26T01:38:14+08:00",
+  "updated_at": "2026-06-26T01:47:30+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1892,7 +1892,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-26T01:38:11+08:00",
+      "updated_at": "2026-06-26T01:40:28+08:00",
       "due_at": "",
       "completed_at": null
     },
@@ -5755,7 +5755,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-26T01:30:16+08:00",
+      "updated_at": "2026-06-26T01:42:36+08:00",
       "completed_at": "2026-06-24"
     },
     {
@@ -9460,7 +9460,7 @@
       "task_id": "task_self_improving_isaacsim_benchmark_intake",
       "project_id": "self-improving-agents",
       "title": "Build IsaacSim benchmark intake matrix",
-      "description": "Convert the Isaac Sim / Isaac Lab benchmark survey into a machine-readable AgenticSim intake matrix. Seed report: docs/research/isaacsim-benchmarks-for-self-improving.md. Seed JSON catalog: docs/research/isaacsim-benchmark-catalog.seed.json (40 entries: 4 P0, 27 P1, 9 P2). Verification artifacts: docs/research/isaacsim-benchmark-catalog.verification.json and docs/research/isaacsim-benchmark-catalog.verification.md; rerun with npm run verify:isaacsim-catalog. Latest verifier result: 53 source URLs checked, 33 OK in current network run; GitHub metadata checks 17/17 rate-limited; 25 structural issues remain, mostly unknown licenses. Earlier run reached 50/53 URL OK and 16/17 GitHub OK, so rerun with stable network or GitHub token before treating transient fetch failures as dead sources. Acceptance: strengthen every entry with verified code/data/license evidence; add metadata-only verifier for each source; at least one smoke plan per P0 source; dashboard comment summarizing blockers and next adapter order.",
+      "description": "Convert the Isaac Sim / Isaac Lab benchmark survey into a machine-readable AgenticSim intake matrix. Seed report: docs/research/isaacsim-benchmarks-for-self-improving.md. Seed JSON catalog: docs/research/isaacsim-benchmark-catalog.seed.json (41 entries: 4 P0, 28 P1, 9 P2). Intake/smoke plan: docs/research/isaacsim-benchmark-intake-plan.seed.json and docs/research/isaacsim-benchmark-intake-plan.md; regenerate with npm run plan:isaacsim-intake. Verification artifacts: docs/research/isaacsim-benchmark-catalog.verification.json and docs/research/isaacsim-benchmark-catalog.verification.md; rerun with npm run verify:isaacsim-catalog. Latest verifier result: 58 source URLs checked, 34 OK in current network run; GitHub metadata checks 20/20 rate-limited; 24 structural issues remain, mostly unknown licenses. Earlier unauthenticated runs reached better GitHub/source availability before catalog expansion, so rerun with stable network or GitHub token before treating transient fetch failures as dead sources. Acceptance: strengthen every entry with verified code/data/license evidence; add metadata-only verifier for each source; run or explicitly block one smoke plan per P0 source; dashboard comment summarizing blockers and next adapter order.",
       "status": "active",
       "priority": "high",
       "assignee": null,
@@ -9492,9 +9492,18 @@
           "kind": "comment",
           "body": "Progress 2026-06-26: verifier hardened for GitHub rate limits and transient URL failures. Added npm script verify:isaacsim-catalog plus generated verification JSON/Markdown. Latest run: 40 entries, 53 URLs, 33 URL OK under current network, GitHub API 17/17 rate-limited, 25 license/metadata structural issues. Earlier run before rate limit saw 50/53 URL OK and 16/17 GitHub OK. Treat Dual-Sim public 404 and ResearchGate 403 as real weak links; rerun with GITHUB_TOKEN/stable network before pruning transient failures.",
           "created_at": "2026-06-25T17:32:33.123Z"
+        },
+        {
+          "comment_id": "comment_bd5d3a35-26f7-4627-836e-ed21553c6f45",
+          "task_id": "task_self_improving_isaacsim_benchmark_intake",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Catalog expanded to 41 Isaac Sim / Isaac Lab benchmark sources (P0=4, P1=28, P2=9). Added RHEO healthcare workflow and a generated intake/smoke plan at docs/research/isaacsim-benchmark-intake-plan.seed.json. Latest verifier: 58 source URLs, 34 OK in current network run, 20/20 GitHub metadata checks rate-limited, 24 structural issues mostly unknown licenses. Next useful pass: run metadata-only source verification with a GitHub token, then execute P0 smoke gates on a Linux Isaac host.",
+          "created_at": "2026-06-25T17:46:45.648Z"
         }
       ],
-      "updated_at": "2026-06-25T17:33:16.951Z",
+      "updated_at": "2026-06-25T17:46:45.648Z",
       "completed_at": null,
       "completed_at_time": null
     }
