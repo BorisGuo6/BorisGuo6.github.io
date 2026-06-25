@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-26T01:47:30+08:00",
+  "updated_at": "2026-06-26T05:35:43+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1890,9 +1890,16 @@
           "body": "Local Codex host review reopened this TODO.\n请补交可复现验收包：1) API list/task-program schema 文档路径；2) 1-2 个 tabletop task 的 env JSON/description 与生成 prompt；3) code-agent 生成或 repair 后的 RoboTwin2 task program 路径和 diff；4) simulator smoke 命令、日志和 pass/fail；5) data-collection dry run 命令、输出数据路径和日志；6) Pi 或 OpenVLA-OFT train/eval hook 的运行证据，或带命令/日志的明确 blocker；7) designer/critic/orchestrator 已限制在 tabletop feasibility、collision/stability、object poses、task API usage、program repair 范围内的说明。",
           "created_at": "2026-06-26T01:38:09+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_e276ec5d203b",
+          "author": "Review",
+          "body": "Local Codex host review reopened this TODO.\n请补齐后再送审：提交 repo commit SHA；补 docs/policy_hook_note.md 或等价文件，包含 Pi/OpenVLA-OFT train/eval hook 的实际命令与输出，若不能跑则给出明确 blocker、失败命令和日志；提交或在 dashboard comment 附上 smoke/data dry-run 原始日志、HDF5 verifier 输出、artifact 绝对路径、大小和 sha256；若 HDF5/log/video 只在远端 5090，请提供可 SSH 复核的 host、绝对路径和只读检查命令；补 manual-program new-task path/API list 的明确文档路径或在现有 schema 文档中标注。",
+          "created_at": "2026-06-26T05:35:39+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-26T01:40:28+08:00",
+      "updated_at": "2026-06-26T05:35:41+08:00",
       "due_at": "",
       "completed_at": null
     },
