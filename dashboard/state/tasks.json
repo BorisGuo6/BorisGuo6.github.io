@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-25T19:11:17+08:00",
+  "updated_at": "2026-06-25T22:33:45+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1857,7 +1857,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-25T19:11:15+08:00",
+      "updated_at": "2026-06-25T22:33:42+08:00",
       "due_at": "",
       "completed_at": null
     },
@@ -5720,7 +5720,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-24T23:13:07+08:00",
+      "updated_at": "2026-06-25T22:21:24+08:00",
       "completed_at": "2026-06-24"
     },
     {
@@ -9312,10 +9312,19 @@
           "kind": "comment",
           "body": "Moved from UMI intro to WAN2.2/action TODO during 2026-06-24 intro cleanup:\nWAN2.2 action-injection status 2026-06-22: the initial output-head condition branch did not make the high-noise expert respond strongly to action changes. The next WAN2.2 experiment should modify the extend/control layer or another earlier control path, inspect open-source WAN2.2 action-injection recipes, and avoid relying on an untrained custom action encoder. Current symptom: adding a condition branch can improve the raw MA/MAE-looking metric while still failing action-control separation, so the gate must compare actual, zero, wrong-row, and base visual preservation.",
           "created_at": "2026-06-24T23:09:30+08:00"
+        },
+        {
+          "comment_id": "comment_2a25f6d4-a3a9-4d2e-931c-c63811251d0c",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-25 update: Wan2.2-A14B adapter routes are not sufficient (paired_adaln/block-control/Motus-Joint strict gates all 0/20; action-xattn rejected by checkpoint health). Pivoted to explicit shared-world teacher/data route. Built Gamma-World data_umi_robot189_v2 paired teacher datasets with left/right video + action npy + caption; patched teacher to infer condition_dim and added optional action-contrastive hinge. Results: gamma256 adjacent holdout 1/5, gamma256 spread holdout 3/5, gamma512 shuffle pure-MSE cross-task holdout 1/5, gamma512 shuffle + action-contrastive cross-task holdout 5/5 strict gate passed. Evidence: /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/teacher_gamma_20260625/gamma512_shuffle_contrast_holdout_eval/index.html. Next: use this explicit teacher as Stage-1 action-conditioned teacher target, then distill/transfer into Wan/Cosmos/Gamma-style dual-view video generation; do not keep blindly expanding Wan2.2 adapter grid.",
+          "created_at": "2026-06-25T04:36:39.476Z"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-24T23:09:30+08:00"
+      "updated_at": "2026-06-25T04:36:39.476Z"
     },
     {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
