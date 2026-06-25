@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-26T05:35:43+08:00",
+  "updated_at": "2026-06-26T06:35:15+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1899,7 +1899,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-26T05:35:41+08:00",
+      "updated_at": "2026-06-26T06:30:16+08:00",
       "due_at": "",
       "completed_at": null
     },
@@ -5762,7 +5762,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-26T01:42:36+08:00",
+      "updated_at": "2026-06-26T06:31:56+08:00",
       "completed_at": "2026-06-24"
     },
     {
@@ -9466,8 +9466,8 @@
     {
       "task_id": "task_self_improving_isaacsim_benchmark_intake",
       "project_id": "self-improving-agents",
-      "title": "Build IsaacSim benchmark intake matrix",
-      "description": "Convert the Isaac Sim / Isaac Lab benchmark survey into a machine-readable AgenticSim intake matrix. Seed report: docs/research/isaacsim-benchmarks-for-self-improving.md. Seed JSON catalog: docs/research/isaacsim-benchmark-catalog.seed.json (41 entries: 4 P0, 28 P1, 9 P2). Intake/smoke plan: docs/research/isaacsim-benchmark-intake-plan.seed.json and docs/research/isaacsim-benchmark-intake-plan.md; regenerate with npm run plan:isaacsim-intake. Verification artifacts: docs/research/isaacsim-benchmark-catalog.verification.json and docs/research/isaacsim-benchmark-catalog.verification.md; rerun with npm run verify:isaacsim-catalog. Latest verifier result: 58 source URLs checked, 34 OK in current network run; GitHub metadata checks 20/20 rate-limited; 24 structural issues remain, mostly unknown licenses. Earlier unauthenticated runs reached better GitHub/source availability before catalog expansion, so rerun with stable network or GitHub token before treating transient fetch failures as dead sources. Acceptance: strengthen every entry with verified code/data/license evidence; add metadata-only verifier for each source; run or explicitly block one smoke plan per P0 source; dashboard comment summarizing blockers and next adapter order.",
+      "title": "Build OSS-gated IsaacSim benchmark intake matrix",
+      "description": "Convert the Isaac Sim / Isaac Lab benchmark survey into a machine-readable AgenticSim intake matrix with an explicit open-source gate. Seed report: docs/research/isaacsim-benchmarks-for-self-improving.md. Broad catalog: docs/research/isaacsim-benchmark-catalog.seed.json (41 entries: 4 P0, 28 P1, 9 P2). Open-source gate: docs/research/isaacsim-benchmark-open-source-gate.seed.json and docs/research/isaacsim-benchmark-open-source-gate.md; regenerate with npm run gate:isaacsim-oss. Current gate admits 17 confirmed open-source sources (P0=3, P1=12, P2=2) and excludes 24 until license/source verification. Intake/smoke plan: docs/research/isaacsim-benchmark-intake-plan.seed.json and docs/research/isaacsim-benchmark-intake-plan.md; regenerate with npm run plan:isaacsim-intake. Latest verifier result: 58 source URLs checked, 34 OK in current network run; GitHub metadata checks 19/20 OK, 0 rate-limited; 23 structural issues remain, all unknown licenses; Dual-Sim public GitHub URL returns 404. Acceptance: only confirmed OSS entries may enter dashboard implementation or smoke work; unknown-license, documentation-only, paper-only, or missing-source entries remain discovery watchlist until proven open source.",
       "status": "active",
       "priority": "high",
       "assignee": null,
@@ -9508,9 +9508,18 @@
           "kind": "comment",
           "body": "Catalog expanded to 41 Isaac Sim / Isaac Lab benchmark sources (P0=4, P1=28, P2=9). Added RHEO healthcare workflow and a generated intake/smoke plan at docs/research/isaacsim-benchmark-intake-plan.seed.json. Latest verifier: 58 source URLs, 34 OK in current network run, 20/20 GitHub metadata checks rate-limited, 24 structural issues mostly unknown licenses. Next useful pass: run metadata-only source verification with a GitHub token, then execute P0 smoke gates on a Linux Isaac host.",
           "created_at": "2026-06-25T17:46:45.648Z"
+        },
+        {
+          "comment_id": "comment_01da71b2-f164-472d-9873-44defaf92ee3",
+          "task_id": "task_self_improving_isaacsim_benchmark_intake",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Open-source gate added. Broad catalog remains 41 benchmarks, but dashboard implementation/smoke admission is now limited to 17 confirmed OSS entries: P0=3, P1=12, P2=2. P0 smoke queue is RoboLab-120, Isaac Lab Core Tasks, and Isaac Lab-Arena; InternDataEngine stays discovery-only until its license is verified. Latest verifier: 58 URLs, 34 OK, GitHub metadata 19/20 OK, Dual-Sim 404, 23 unknown-license structural issues.",
+          "created_at": "2026-06-25T22:33:04.959Z"
         }
       ],
-      "updated_at": "2026-06-25T17:46:45.648Z",
+      "updated_at": "2026-06-25T22:33:04.959Z",
       "completed_at": null,
       "completed_at_time": null
     }
