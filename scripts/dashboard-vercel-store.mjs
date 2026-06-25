@@ -19,6 +19,10 @@ async function blobClient() {
   return import("@vercel/blob");
 }
 
+export function vercelBlobReadUrl(blob) {
+  return blob?.url || blob?.downloadUrl;
+}
+
 function timestampForPath(now = new Date()) {
   return now.toISOString().replace(/[:.]/g, "-");
 }
@@ -45,7 +49,10 @@ export async function readVercelBlobSnapshot(options = {}) {
     }
     throw error;
   }
-  const downloadUrl = blob.downloadUrl || blob.url;
+  const downloadUrl = vercelBlobReadUrl(blob);
+  if (!downloadUrl) {
+    throw new Error(`Dashboard blob ${pathname} does not expose a readable URL`);
+  }
   const cacheBustSeparator = downloadUrl.includes("?") ? "&" : "?";
   const response = await fetch(`${downloadUrl}${cacheBustSeparator}dashboardBust=${Date.now()}`, { cache: "no-store" });
   if (!response.ok) {

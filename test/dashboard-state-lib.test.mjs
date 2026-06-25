@@ -37,6 +37,9 @@ import {
 import {
   dashboardWriteAuth,
 } from "../scripts/dashboard-vercel-api.mjs";
+import {
+  vercelBlobReadUrl,
+} from "../scripts/dashboard-vercel-store.mjs";
 
 assert.equal(normalizeCommentKind("host_verified"), "verification");
 assert.equal(normalizeCommentKind("route"), "comment");
@@ -113,6 +116,21 @@ assert.deepEqual(
 assert.deepEqual(
   dashboardWriteAuth({ headers: { authorization: "Bearer right" } }, { DASHBOARD_WRITE_TOKEN: "right" }),
   { ok: true },
+);
+assert.equal(
+  vercelBlobReadUrl({
+    url: "https://example.com/current-dashboard.json",
+    downloadUrl: "https://example.com/stale-signed-dashboard.json",
+  }),
+  "https://example.com/current-dashboard.json",
+  "dashboard Blob reads should prefer the public pathname URL after overwrite writes",
+);
+assert.equal(
+  vercelBlobReadUrl({
+    downloadUrl: "https://example.com/private-dashboard.json",
+  }),
+  "https://example.com/private-dashboard.json",
+  "dashboard Blob reads should still fall back to downloadUrl when no public URL exists",
 );
 
 const projectBucketNames = new Set((state.portfolio.project_buckets || []).map((bucket) => bucket.bucket));
