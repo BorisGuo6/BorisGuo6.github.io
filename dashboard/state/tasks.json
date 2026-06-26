@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-26T12:11:51+08:00",
+  "updated_at": "2026-06-26T12:18:00+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -9442,10 +9442,19 @@
           "kind": "comment",
           "body": "2026-06-26 update: 重新检查 Wan2.2 action-injection 线和 teacher 线。Wan2.2 paired block-control 与 Motus-Joint checkpoints 都健康，但 strict actual/zero/wrong-row/action-guidance gate 仍失败；Motus-Joint 结果为 0/20，输出对 zero/time-only/wrong-row 基本不分离，因此不再把它当作当前主路线。\n\n有效进展来自 explicit shared-world teacher：已加入 temporal_action_tokens 条件注入，把 action/state 从 flatten global vector 改成 per-frame token sequence，接到 cross-view transformer context 并由 temporal frame decoder 使用。balanced Gamma/UMI strict multi-negative gate 从 hub+decoder FiLM 的 8/15 提升到 temporal_allneg 9/15、temporal_hardmax_w0.7 10/15、temporal_hardmax_w0.5 11/15。当前 best = temporal_action_tokens + hardmax w0.5；仍失败的主要是 Cooking row199/229、Organize row299、Shoes row397。\n\nEvidence: /Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html and evidence/teacher_gamma_20260625/gamma_balanced398_temporal_hardmax_w05_eval/index.html. Next: either targeted hard-negative/token work on the failing rows, or distill this teacher signal into the actual video generator. Do not mark done yet: this is a stronger action-sensitive teacher, not a completed action-conditioned dual-view UMI world model.",
           "created_at": "2026-06-25T16:31:22.300Z"
+        },
+        {
+          "comment_id": "comment_b07c9909-4995-49bc-a2b4-1ce7abc419da",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-26 vview fast follow-up: Gamma-World stage2 已恢复并保存 iter_000000400 evidence。随后启动 shared-world teacher 的 vview_fast grid；由于 8 条候选明显 CPU-bound，其中 6 条停在 epoch0 附近，只保留实际推进到 epoch100 的两条：vview_base_cw07_lr1e3 与 vview_failcat4_cw05_lr1e3。两条都训练到 epoch219 并保存 teacher.pt，也跑完 15-row balanced holdout strict gate。结果：vview_base_cw07_lr1e3 = 0/15, avg actual MSE 0.057048, max counterfactual delta 5.59e-09；vview_failcat4_cw05_lr1e3 = 0/15, avg actual MSE 0.056805, max counterfactual delta 7.45e-09。actual / zero / time-view-only / wrong-next / wrong-same-category / wrong-other-category 输出基本数值相同，说明这个 vview conditioning path 被模型忽略，是 regression，不应继续沿这条 fast recipe 扩网格。当前 best 仍是 temporal action tokens hardmax w0.5 = 11/15。Local report updated: /Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html；lightweight evidence: /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/vview_fast_20260626/。注意：本次尝试通过 Vercel Blob 写入后发现 pull 回的 Blob snapshot 比本地旧，因此本条先写入本地 dashboard state，避免旧 Blob 覆盖本地最新任务状态。",
+          "created_at": "2026-06-26T12:18:00+08:00"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-25T16:31:22.300Z"
+      "updated_at": "2026-06-26T12:18:00+08:00"
     },
     {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
