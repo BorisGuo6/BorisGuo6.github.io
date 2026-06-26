@@ -9478,6 +9478,24 @@
           "kind": "comment",
           "body": "2026-06-26 temporal_action_skip result: 在 train_shared_world_teacher.py 增加 condition_injection=temporal_action_skip，让 decoder 同时吃 transformer 后的 frame condition token 和 raw encoded per-frame action token。远端 8卡 DDP 跑完 outputs_umi/shared_world_teacher_gamma_balanced398_temporal_action_skip_20260626，epoch99 loss 0.034182，holdout strict gate = 7/15。failed rows = 199,229,260,299,338,378,388,397；avg actual MSE 0.064431；avg zero delta +0.015641，wrong_next +0.016940，wrong_same_category +0.035515，wrong_other_category +0.016534。它 recover 了 row0，但总体低于当前 best temporal_hardmax_w05 11/15，也低于 capacity 8/15。结论：raw action skip 不是主线；问题不只是 action token 到不了 decoder，还需要 online hard-negative mining 或 teacher-to-generator distill，把 action discrimination 放进真正视频生成目标。Local report/evidence updated: /Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html and evidence/temporal_action_skip_20260626/.",
           "created_at": "2026-06-26T05:42:27.060Z"
+        },
+        {
+          "comment_id": "comment_aa154315-4be9-463d-abbb-dc3cef0b204a",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Codex",
+          "author_type": "agent",
+          "kind": "comment",
+          "body": "2026-06-26 temporal_rollhard result: 保留当前 best temporal_action_tokens 配方，训练 contrast negatives 增加 batch 内 roll（zero,time_view_only,roll,wrong_next,wrong_same_category,wrong_other_category）。远端 8卡 DDP 跑完 outputs_umi/shared_world_teacher_gamma_balanced398_temporal_rollhard_20260626，epoch99 loss 0.036026，holdout strict gate = 9/15。failed rows = 199,229,260,299,378,397；avg actual MSE 0.064453；avg zero delta +0.017849，wrong_next +0.015592，wrong_same_category +0.033640，wrong_other_category +0.017984。它优于 action_skip 7/15 和 capacity 8/15，但仍低于 current best temporal_hardmax_w05 11/15。结论：online batch negative 有帮助但不够；下一步应检查多 teacher 的互补性，考虑 gated mixture / teacher signal distill，而不是继续单模型超参扫。Local report/evidence updated: /Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html and evidence/temporal_rollhard_20260626/.",
+          "created_at": "2026-06-26T06:06:14.067Z"
+        },
+        {
+          "comment_id": "comment_484b185a-5fe5-4813-bd7b-179a4f1b5210",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Codex",
+          "author_type": "agent",
+          "kind": "comment",
+          "body": "2026-06-26 teacher complementarity analysis: 对 temporal_hardmax_w05(11/15)、temporal_rollhard(9/15)、temporal_capacity(8/15)、temporal_action_skip(7/15) 做 per-row union 分析。四个 teacher 的 union 只有 12/15；共同无法通过的 stubborn rows 是 229,299,397。row229 主要被 wrong_next 打败，row299 常被 time_view/zero 打平或打败，row397 多个 route 都被 wrong_next/wrong_other 打败。结论：gated ensemble 也无法解决最后三条，直接把当前 teacher 蒸馏进 generator 会继承 action ambiguity。下一步应先诊断这些 stubborn rows 的源视频、action magnitude、gripper channel、negative pair selection，并做 row-aware/schema-aware hard negative，而不是继续全局超参 sweep。Report updated: /Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html.",
+          "created_at": "2026-06-26T06:08:01.451Z"
         }
       ],
       "completed_at": null,
