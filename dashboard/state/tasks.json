@@ -9526,6 +9526,13 @@
           "kind": "progress",
           "created_at": "2026-06-26T14:55:00+08:00",
           "body": "2026-06-26 schema audit after nearest-condition failure: checked Gamma paired teacher data for holdout/stubborn rows. All audited rows have matched video/action length: 189 video frames at 16fps and action shape [189,10], so the 229/299/397 failures are not an obvious fps/frame-count mismatch. Current condition is `gamma-paired-teacher.v1`: per-view time/view plus action_mean/action_sum/action_absmax/action_last over 10-D actions. For stubborn rows, nearest condition negatives cross task categories: row229 -> row118 Clutter, row299 -> row32 Clutter, row397 -> row32 Clutter. Conclusion: the condition is too compressed/globally normalized for semantic action discrimination; next route should rebuild manifest with explicit compact8/continuous10 fields, raw gripper ablation, and task/object-aware hard negatives before generator distillation. Audit JSON: `/Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/schema_audit_20260626/action_schema_audit.json`."
+        },
+        {
+          "id": "comment_umi_taskaware_negative_20260626",
+          "author": "Codex",
+          "kind": "progress",
+          "created_at": "2026-06-26T15:15:00+08:00",
+          "body": "2026-06-26 task-aware negative follow-up: implemented `wrong_nearest_same_category_condition` and `wrong_nearest_task_condition` in remote `scripts_umi/train_shared_world_teacher.py` with backup `train_shared_world_teacher.py.bak_task_aware_negative_20260626_1505`. Smoke verified the construction fixes the bad cross-category nearest negatives: row229 now maps to clean_container row235, row299 to desktop_object_sorting row312, and row397 to organize_scattered_shoes row396. 8-GPU `temporal_taskaware_20260626` training completed, but results are not a success: standard gate 7/15 and extended task-aware gate 1/15. Re-evaluating current best `temporal_hardmax_w05` on the same extended task-aware gate gives standard 8/15 and extended 2/15. Conclusion: task-aware nearest negatives are a useful diagnostic gate, but forcing them into the current 32px/13-frame teacher hardmax loss hurts standard performance and still does not separate same-task clips. Next step should move from teacher-only sweeps to explicit action schema/richer generator-facing supervision. Evidence: `/Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/temporal_taskaware_20260626/` and `/Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/temporal_hardmax_w05_taskaware_eval_20260626/`; report updated at `/Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html`."
         }
       ],
       "completed_at": null,
