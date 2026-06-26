@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-26T15:14:01+08:00",
+  "updated_at": "2026-06-26T15:21:32+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1913,7 +1913,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-26T15:13:59+08:00",
+      "updated_at": "2026-06-26T15:15:55+08:00",
       "due_at": "",
       "completed_at": null
     },
@@ -5776,7 +5776,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-26T15:07:30+08:00",
+      "updated_at": "2026-06-26T15:17:56+08:00",
       "completed_at": "2026-06-24"
     },
     {
@@ -9467,10 +9467,19 @@
           "kind": "comment",
           "body": "2026-06-26 explicit10 aux-condition follow-up: uploaded and ran `launch_shared_teacher_explicit10_aux_20260626.sh` on the H20 server as an 8-GPU DDP run. Route: 13D explicit `time/view + pos3 + rot6d + raw gripper` condition plus an auxiliary condition decoder (`--aux-condition-weight 0.1`) to force temporal action tokens to retain recoverable condition information. Training completed to epoch 99, loss 0.043099, and holdout eval finished on rows 0/99/198/199/229/259/260/279/298/299/338/377/378/388/397. Result: standard gate 9/15, extended task-aware nearest-condition gate 3/15 (passed rows 229, 298, 377), avg actual MSE 0.056195. This improves the extended gate by one row over explicit10_rawgripper but still does not beat current best `temporal_hardmax_w05` standard 11/15 and still fails most nearest same-task negatives. Conclusion: aux reconstruction is useful diagnostic pressure but not a complete solution; next route should use stronger task/state supervision or generator-facing action-control architecture, not more plain aux-loss sweeps. Evidence synced: `/Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/explicit10_auxw0p1_20260626/`; report updated: `/Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html`.",
           "created_at": "2026-06-26T07:12:40.519Z"
+        },
+        {
+          "comment_id": "comment_d31a932e-0aa4-45d2-b304-75555aacb157",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-26 explicit10 aux task-aware follow-up: after auxw0p1 reached standard 9/15 and extended 3/15, I ran a second 8-GPU DDP route `explicit10_aux_taskaware_20260626` that adds nearest task/category negatives directly into training (`zero,time_view_only,wrong_next,wrong_same_category,wrong_other_category,wrong_nearest_task_condition,wrong_nearest_same_category_condition`) while keeping the 13D explicit raw-gripper schema and aux condition decoder. Training completed to epoch 99, loss 0.043610, and eval finished on the same 15 holdout rows. Result: standard gate 9/15, extended task-aware gate 3/15, avg actual MSE 0.054096; extended pass set is still only rows 229, 298, 377. So nearest negatives in the same low-res teacher loss lower reconstruction MSE but do not improve action-conditioned separation. Current best remains `temporal_hardmax_w05` for standard gate (11/15), while explicit10+aux is only a diagnostic improvement for extended gate (3/15). Conclusion: stop plain aux/nearest-loss sweeps; next meaningful route should be richer trajectory/task-state supervision or generator-facing action-control architecture. Evidence synced: `/Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/explicit10_aux_taskaware_20260626/`; report updated: `/Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html`.",
+          "created_at": "2026-06-26T07:19:36.904Z"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-26T07:12:40.519Z"
+      "updated_at": "2026-06-26T07:19:36.904Z"
     },
     {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
