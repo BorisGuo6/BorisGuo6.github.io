@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-26T17:18:51+08:00",
+  "updated_at": "2026-06-26T17:29:34+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1962,9 +1962,16 @@
           "body": "Local Codex host review reopened this TODO.\n请补交可直接审查的材料：确保 robotwin-text2env-demo 仓库可访问或把关键文件/日志同步到 dashboard/本机；提供 simulator smoke 与 data-collection dry run 的精确命令、完整日志、退出码和输出目录清单；提供生成 task program 的 diff/commit；对 Pi 或 OpenVLA-OFT 必须二选一：实际运行 train/eval hook 并给命令日志，或给出可复现 blocker 命令与错误日志。ACT 可以作为额外 MVP 证据，但不能替代 Pi/OpenVLA-OFT 验收项，除非明确更新 TODO 范围。",
           "created_at": "2026-06-26T17:18:47+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_9533c3d9b213",
+          "author": "Review",
+          "body": "Local Codex host review reopened this TODO.\n请补交可直接审查的验收包后再送审：1) 可访问 repo commit SHA 或可 SSH 复核的工作区；2) generated RoboTwin2 task program 的路径和 diff/commit；3) simulator smoke 的精确命令、完整日志、退出码和 pass/fail；4) data-collection dry run 的命令、输出路径、完整日志、最小 verifier/HDF5 summary、artifact 大小和 sha256；5) Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，提交命令、完整日志、checkpoint/eval artifact；如果确实不能运行，提交失败命令、完整错误日志和明确 blocker。ACT 只能作为补充，不能替代 Pi/OpenVLA-OFT，除非 TODO 范围被明确更新。",
+          "created_at": "2026-06-26T17:29:30+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-26T17:18:48+08:00",
+      "updated_at": "2026-06-26T17:29:32+08:00",
       "due_at": "",
       "completed_at": null
     },
