@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-26T17:29:34+08:00",
+  "updated_at": "2026-06-26T17:40:02+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1969,9 +1969,16 @@
           "body": "Local Codex host review reopened this TODO.\n请补交可直接审查的验收包后再送审：1) 可访问 repo commit SHA 或可 SSH 复核的工作区；2) generated RoboTwin2 task program 的路径和 diff/commit；3) simulator smoke 的精确命令、完整日志、退出码和 pass/fail；4) data-collection dry run 的命令、输出路径、完整日志、最小 verifier/HDF5 summary、artifact 大小和 sha256；5) Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，提交命令、完整日志、checkpoint/eval artifact；如果确实不能运行，提交失败命令、完整错误日志和明确 blocker。ACT 只能作为补充，不能替代 Pi/OpenVLA-OFT，除非 TODO 范围被明确更新。",
           "created_at": "2026-06-26T17:29:30+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_11b2554f6243",
+          "author": "Review",
+          "body": "Local Codex host review reopened this TODO.\n请补齐后再送审：提供可访问 repo commit SHA 或可 SSH 复核的工作区；粘贴/提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、输出 artifact 路径/大小/sha256 和 HDF5 verifier 输出；对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，并提交命令、完整日志、checkpoint/eval artifact。若确实不能运行 Pi/OpenVLA-OFT，请提供失败命令、完整错误日志和明确 blocker。ACT 只能作为补充，不能替代 Pi/OpenVLA-OFT 验收项。",
+          "created_at": "2026-06-26T17:39:58+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-26T17:29:32+08:00",
+      "updated_at": "2026-06-26T17:40:00+08:00",
       "due_at": "",
       "completed_at": null
     },
@@ -5834,7 +5841,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-26T17:12:13+08:00",
+      "updated_at": "2026-06-26T17:33:33+08:00",
       "completed_at": "2026-06-24"
     },
     {
@@ -9615,10 +9622,19 @@
           "kind": "comment",
           "body": "2026-06-26 localized motion supervision test: added `motion_masked_dynamics_loss` and CLI flags `--motion-mask-weight/--motion-mask-floor` to `scripts_umi/train_shared_world_teacher.py`. This uses GT frame differences as a soft local motion/contact proxy and focuses dynamics loss on changing pixels. Remote smoke verified nonzero gradients. Trained `explicit10_viewtokens_motionmask_20260626` on 8x H20 with holdout excluded. Result: standard gate 7/15, extended gate 2/15, avg actual MSE 0.059468; oracle union unchanged. Interpretation: low-level motion-mask weighting alone does not solve same-task nearest-action generalization. Together with the global video-action contrast result, next step should use semantic/local structured supervision: object masks, robot/object/layer state, contact/motion labels, or a stronger generator-facing teacher rather than more global/vector losses. Evidence: `/Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/explicit10_viewtokens_motionmask_20260626/`.",
           "created_at": "2026-06-26T09:16:12.916Z"
+        },
+        {
+          "comment_id": "comment_9513760f-4998-466c-9092-9c61f20974e8",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-26 UMI action injection follow-up: added a motion-weighted local video/action contrast branch (`LocalMotionActionContrastHead`) on top of the explicit10 temporal-view-token teacher. Remote smoke tests passed, then trained `explicit10_viewtokens_localmotioncontrast_20260626` on 8x H20 with holdout rows excluded.\n\nStrict gate result: standard 8/15, extended same-task/nearest-action gate 2/15, avg actual MSE 0.053592. Extended pass rows are 260 and 388. In the complementarity oracle this only adds row388, moving the holdout-excluded extended union from 7/15 to 8/15, still below the required action-conditioned dual-view gate. Evidence: `/Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/explicit10_viewtokens_localmotioncontrast_20260626/` and `explicit10_route_complementarity_20260626.json`.\n\nInterpretation: local motion/action contrast is useful as a diagnostic, but it does not solve action grounding. Current low-level proxy variants are saturated; next useful route should add semantic/local structure such as robot/object/background layer masks, object/contact motion state, or a stronger generator-facing teacher rather than another scalar action encoder tweak.",
+          "created_at": "2026-06-26T09:30:25.701Z"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-26T09:16:12.916Z"
+      "updated_at": "2026-06-26T09:30:25.701Z"
     },
     {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
