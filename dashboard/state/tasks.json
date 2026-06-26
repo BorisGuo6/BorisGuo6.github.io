@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-26T16:36:49+08:00",
+  "updated_at": "2026-06-26T16:48:10+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1941,9 +1941,16 @@
           "body": "Local Codex host review reopened this TODO.\n请补齐后再送审：1) 提交可访问的 repo commit SHA；2) 提供 Pi 或 OpenVLA-OFT train/eval hook 的实际运行命令、完整日志、输出 artifact/checkpoint/eval 证据；如果不能运行，提供失败命令、完整错误日志和明确 blocker，ACT 不能替代；3) 提交或在 dashboard comment 附上 simulator smoke 与 data-collection dry run 的原始命令、完整日志、pass/fail、HDF5 verifier 输出、instruction/video/scene_info/seed artifact 路径、大小和 sha256；4) 若 artifacts 只在远端，请给出可 SSH 复核的 host、绝对路径和只读检查命令。",
           "created_at": "2026-06-26T16:36:46+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_5005459ad0eb",
+          "author": "Review",
+          "body": "Local Codex host review reopened this TODO.\n请补交可本机或远端复现的验收材料：1) 给出可访问的 repo/commit，或在可 SSH 的 worker 工作区保留代码；2) 粘贴/提交 simulator smoke 的具体命令、完整日志、pass/fail 结果；3) 粘贴/提交 data-collection dry run 的命令、输出数据路径、日志和最小 verifier；4) 对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，并提交命令、日志、产物路径；如果确实不能运行，则提供明确 blocker 的复现命令和错误日志。ACT 可以作为补充，但不能替代 TODO 中的 Pi/OpenVLA-OFT 验收项。",
+          "created_at": "2026-06-26T16:48:07+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-26T16:36:47+08:00",
+      "updated_at": "2026-06-26T16:48:08+08:00",
       "due_at": "",
       "completed_at": null
     },
@@ -5806,7 +5813,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-26T16:30:41+08:00",
+      "updated_at": "2026-06-26T16:40:42+08:00",
       "completed_at": "2026-06-24"
     },
     {
@@ -9551,10 +9558,28 @@
           "kind": "comment",
           "body": "2026-06-26 follow-up: fixed the DDP failure introduced by the optional video-condition readout by making that module registered only when video_condition_weight > 0; remote smoke verified readout-disabled and readout-enabled paths. Reran explicit10_viewtokens_hardfamily_weighted_20260626 on 8x H20. Result: standard gate 8/15, extended task-aware gate 1/15, avg actual MSE 0.051863; extended pass row only 298. Oracle route union remains standard 12/15 and extended 7/15, so hard-family oversampling did not solve same-task nearest negatives. Evidence: /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/explicit10_viewtokens_hardfamily_weighted_20260626/ and updated index.html.",
           "created_at": "2026-06-26T08:30:50.528Z"
+        },
+        {
+          "comment_id": "comment_a69ef7ef-87da-4a95-a8ca-8edce84d1347",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-26 capacity diagnostic: launched `explicit10_viewtokens_holdout_capacity_20260626` on 8x H20 with the 15 holdout rows intentionally included in training and extended nearest-task/category negatives included in contrast loss. This is not a generalization result, but it answers the capacity question: standard gate 15/15, extended task-aware gate 15/15, avg actual MSE 0.028490, min extended delta 0.005516. Interpretation: the current temporal_view_action_tokens shared-world teacher has enough capacity to separate the hard same-task rows when it has seen them; the failure mode is generalization to unseen near-neighbor actions, not an inability of the basic architecture to represent action-conditioned separation. Evidence synced under `/Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/explicit10_viewtokens_holdout_capacity_20260626/`; local index.html and complementarity JSON updated.",
+          "created_at": "2026-06-26T08:38:35.626Z"
+        },
+        {
+          "comment_id": "comment_712d856e-6a46-4a58-a992-b849938a4a89",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-26 follow-up: tested `explicit10_viewtokens_hardfamily_taskaware_20260626`, which excludes the 15 holdout rows but combines hard-family sample weighting with extended nearest-task/category negatives in training. Result: standard gate 7/15, extended gate 2/15, avg actual MSE 0.053642; extended passes only rows 298 and 377, and oracle union remains standard 12/15 / extended 7/15. This confirms the 15/15 holdout-capacity result does not transfer by simply adding task-aware negatives plus family weighting. Current diagnosis: the architecture has capacity, but same-task near-neighbor generalization needs richer supervision or a different generator-facing distillation mechanism, not more small variants of the same contrast loss. Evidence synced under `/Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/explicit10_viewtokens_hardfamily_taskaware_20260626/`.",
+          "created_at": "2026-06-26T08:44:15.682Z"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-26T08:30:50.528Z"
+      "updated_at": "2026-06-26T08:44:15.682Z"
     },
     {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
