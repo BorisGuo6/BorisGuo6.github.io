@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-26T18:32:49+08:00",
+  "updated_at": "2026-06-26T18:40:16+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2006,7 +2006,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-26T18:32:47+08:00",
+      "updated_at": "2026-06-26T18:34:44+08:00",
       "due_at": "",
       "completed_at": null
     },
@@ -5869,7 +5869,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-26T18:05:19+08:00",
+      "updated_at": "2026-06-26T18:36:44+08:00",
       "completed_at": "2026-06-24"
     },
     {
@@ -9686,10 +9686,28 @@
           "kind": "comment",
           "body": "2026-06-26 semantic-layer route: added explicit layer sidecars and SemanticLayerActionContrastHead. Generated 398 sidecars with foreground/contact/background channels; smoke and checkpoint health passed; 8x H20 run explicit10_viewtokens_semanticlayer_20260626 completed. Strict gate: standard 9/15, extended 4/15, avg MSE 0.052926; extended rows 229,260,298,377. This validates the mask/layer sidecar interface but does not beat the explicit10 baseline or improve oracle extended union, which remains 8/15. Evidence: /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/explicit10_viewtokens_semanticlayer_20260626/ and updated main report index.html. Next: stronger SAM/robot-object/contact labels or generator-facing teacher.",
           "created_at": "2026-06-26T10:02:05.250Z"
+        },
+        {
+          "comment_id": "comment_d7645a83-398c-4a03-bb0f-32dc896b38cd",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-26 semantic-layer task-aware rerun: trained explicit10_viewtokens_semanticlayer_taskaware_20260626 with the same foreground/contact/background sidecars plus nearest-task and nearest-category hard negatives in the training contrast loss. 8x H20 run completed. Strict gate regressed: standard 7/15, extended 3/15, avg MSE 0.057515; extended rows 298,377,388. Oracle extended union remains 8/15. Evidence: /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/explicit10_viewtokens_semanticlayer_taskaware_20260626/ and updated main report. Interpretation: hard negatives on weak OpenCV sidecars hurt reconstruction and do not fix action grounding; next step should use stronger SAM/robot-object/contact labels or generator-facing latent supervision.",
+          "created_at": "2026-06-26T10:11:06.531Z"
+        },
+        {
+          "comment_id": "comment_4594e022-42b2-4af4-9032-5853132ae7d5",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-26 18:30 update: vview_fast 两个候选已完成 holdout gate，但均为 0/15；actual/zero/time-view/wrong-row 输出几乎完全相同（delta ~1e-8），判定为 conditioning path ignored，不继续沿 vview recipe 扫参。已同步证据到 /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/vview_fast_20260626/，report 已写入失败章节。下一步已启动 SAM-layer route：SAM ViT-B sidecar smoke 8 条通过（foreground 10.6%, contact 6.3%, background 89.4%），训练 smoke 1 epoch 正常保存 teacher.pt；现在远端正在生成全量 398 条 SAM sidecar，完成后自动接 8 卡 DDP 训练 explicit10_viewtokens_samlayer_20260626 + 15-row holdout gate。",
+          "created_at": "2026-06-26T10:34:00.617Z"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-26T10:02:05.250Z"
+      "updated_at": "2026-06-26T10:34:00.617Z"
     },
     {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
