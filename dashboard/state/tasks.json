@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-26T14:42:11+08:00",
+  "updated_at": "2026-06-26T15:14:01+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1913,7 +1913,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-26T14:42:09+08:00",
+      "updated_at": "2026-06-26T15:13:59+08:00",
       "due_at": "",
       "completed_at": null
     },
@@ -5776,7 +5776,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-26T12:26:29+08:00",
+      "updated_at": "2026-06-26T15:07:30+08:00",
       "completed_at": "2026-06-24"
     },
     {
@@ -9460,90 +9460,17 @@
           "created_at": "2026-06-26T04:11:17.504Z"
         },
         {
-          "comment_id": "comment_ae6f5f46-06b2-4e44-bc71-78b525924de4",
+          "comment_id": "comment_20ee93b5-80b0-4daa-a179-9162738b5c7b",
           "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
-          "author": "Codex",
-          "author_type": "agent",
+          "author": "Vercel dashboard",
+          "author_type": "system",
           "kind": "comment",
-          "body": "2026-06-26 temporal targeted follow-up: 针对当前 best temporal action tokens hardmax w0.5 = 11/15 的失败类别（Cooking / Organize / Shoes）做了 fail-category upweight 的 8卡 DDP 训练。远端输出 outputs_umi/shared_world_teacher_gamma_balanced398_temporal_targeted_20260626，epoch159 保存 teacher.pt 并完成同一 15-row balanced holdout strict gate。结果 regression：0/15 rows passed，avg actual MSE 0.056802，zero/time-view/wrong-next/wrong-same-category/wrong-other-category 的最大 counterfactual delta 只有 1.49e-08，说明 action condition 基本被忽略。当前 best 仍是 temporal action tokens hardmax w0.5 = 11/15。结论：不要继续简单 sample-weight sweep；下一步应转向 architecture/mining change，比如 online hard-negative mining、action-dominant temporal hub、PAIWorld-style geometry/cross-view conditioning，或把 11/15 teacher 作为 teacher signal 再蒸馏进 generator。Local report/evidence updated: /Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html and evidence/temporal_targeted_20260626/.",
-          "created_at": "2026-06-26T04:48:16.831Z"
-        },
-        {
-          "comment_id": "comment_141c5649-5da2-42c5-b757-4fb43a19bcb6",
-          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
-          "author": "Codex",
-          "author_type": "agent",
-          "kind": "comment",
-          "body": "2026-06-26 temporal capacity follow-up: 保留当前 best temporal action tokens hardmax w0.5 的关键训练配方（lr=1e-4, contrast margin=0.003, hardmax, dynamic_weight=0.2），只把 teacher 容量从 dim=256,hubs=4,layers=4 增到 dim=384,hubs=8,layers=6，8卡 DDP 训练到 epoch119，loss 0.103121 -> 0.021367。Holdout strict gate 结果是 8/15，不如当前 best 11/15；failed rows = 0,229,299,338,377,388,397；avg actual MSE 0.065246；avg zero delta +0.013457，wrong_next +0.021286，wrong_same_category +0.042733，wrong_other_category +0.023868。结论：容量变大没有解决 action-conditioned gate，且泛化变差；但平均 counterfactual delta 为正，说明不是完全忽略 action。下一步不要再做 plain capacity/sample-weight sweep，应做 online hard-negative mining、action-dominant hub/decoder path、或把 11/15 teacher signal 蒸馏进真正的视频 generator。Local report/evidence updated: /Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html and evidence/temporal_capacity_20260626/.",
-          "created_at": "2026-06-26T05:16:31.834Z"
-        },
-        {
-          "comment_id": "comment_ea51695c-b00f-4b9a-95ee-3727076f51c7",
-          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
-          "author": "Codex",
-          "author_type": "agent",
-          "kind": "comment",
-          "body": "2026-06-26 temporal_action_skip result: 在 train_shared_world_teacher.py 增加 condition_injection=temporal_action_skip，让 decoder 同时吃 transformer 后的 frame condition token 和 raw encoded per-frame action token。远端 8卡 DDP 跑完 outputs_umi/shared_world_teacher_gamma_balanced398_temporal_action_skip_20260626，epoch99 loss 0.034182，holdout strict gate = 7/15。failed rows = 199,229,260,299,338,378,388,397；avg actual MSE 0.064431；avg zero delta +0.015641，wrong_next +0.016940，wrong_same_category +0.035515，wrong_other_category +0.016534。它 recover 了 row0，但总体低于当前 best temporal_hardmax_w05 11/15，也低于 capacity 8/15。结论：raw action skip 不是主线；问题不只是 action token 到不了 decoder，还需要 online hard-negative mining 或 teacher-to-generator distill，把 action discrimination 放进真正视频生成目标。Local report/evidence updated: /Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html and evidence/temporal_action_skip_20260626/.",
-          "created_at": "2026-06-26T05:42:27.060Z"
-        },
-        {
-          "comment_id": "comment_aa154315-4be9-463d-abbb-dc3cef0b204a",
-          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
-          "author": "Codex",
-          "author_type": "agent",
-          "kind": "comment",
-          "body": "2026-06-26 temporal_rollhard result: 保留当前 best temporal_action_tokens 配方，训练 contrast negatives 增加 batch 内 roll（zero,time_view_only,roll,wrong_next,wrong_same_category,wrong_other_category）。远端 8卡 DDP 跑完 outputs_umi/shared_world_teacher_gamma_balanced398_temporal_rollhard_20260626，epoch99 loss 0.036026，holdout strict gate = 9/15。failed rows = 199,229,260,299,378,397；avg actual MSE 0.064453；avg zero delta +0.017849，wrong_next +0.015592，wrong_same_category +0.033640，wrong_other_category +0.017984。它优于 action_skip 7/15 和 capacity 8/15，但仍低于 current best temporal_hardmax_w05 11/15。结论：online batch negative 有帮助但不够；下一步应检查多 teacher 的互补性，考虑 gated mixture / teacher signal distill，而不是继续单模型超参扫。Local report/evidence updated: /Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html and evidence/temporal_rollhard_20260626/.",
-          "created_at": "2026-06-26T06:06:14.067Z"
-        },
-        {
-          "comment_id": "comment_484b185a-5fe5-4813-bd7b-179a4f1b5210",
-          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
-          "author": "Codex",
-          "author_type": "agent",
-          "kind": "comment",
-          "body": "2026-06-26 teacher complementarity analysis: 对 temporal_hardmax_w05(11/15)、temporal_rollhard(9/15)、temporal_capacity(8/15)、temporal_action_skip(7/15) 做 per-row union 分析。四个 teacher 的 union 只有 12/15；共同无法通过的 stubborn rows 是 229,299,397。row229 主要被 wrong_next 打败，row299 常被 time_view/zero 打平或打败，row397 多个 route 都被 wrong_next/wrong_other 打败。结论：gated ensemble 也无法解决最后三条，直接把当前 teacher 蒸馏进 generator 会继承 action ambiguity。下一步应先诊断这些 stubborn rows 的源视频、action magnitude、gripper channel、negative pair selection，并做 row-aware/schema-aware hard negative，而不是继续全局超参 sweep。Report updated: /Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html.",
-          "created_at": "2026-06-26T06:08:01.451Z"
-        },
-        {
-          "comment_id": "comment_2c418127-2b81-4d67-880f-69efa77ee634",
-          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
-          "author": "Codex",
-          "author_type": "agent",
-          "kind": "comment",
-          "body": "2026-06-26 stubborn row diagnostics: 已检查所有 teacher 都失败的 rows 229/299/397。它们的 condition/action magnitude 并不小：row229 mean_abs 0.8505，row299 0.7459，row397 0.7790。row229 的 wrong_next 是同任务相邻 clean_container row230，video MSE 0.08046，且 checked subset 里 row259 更近 0.07283，说明视觉/任务邻近导致 wrong action 易胜出；row299 actual reconstruction 本身难，time_view/zero 常打平；row397 wrong_next wrap 到 row0，且非鞋类视觉近邻也很多。结论：现在不要直接 teacher-to-generator distill；应先加 condition-space hard negative，例如 wrong_nearest_condition，再测 strict gate。Local diagnostics: /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/stubborn_row_diagnostics_20260626/index.html.",
-          "created_at": "2026-06-26T06:16:36.432Z"
-        },
-        {
-          "id": "comment_umi_temporal_nearestcond_20260626",
-          "author": "Codex",
-          "kind": "progress",
-          "created_at": "2026-06-26T14:35:00+08:00",
-          "body": "2026-06-26 update: ran the 8-GPU temporal_nearestcond teacher after adding `wrong_nearest_condition` hard negatives to `scripts_umi/train_shared_world_teacher.py`. Result: strict action gate 8/15 on the same holdout, passed rows [0,99,198,259,279,298,338,388], failed [199,229,260,299,377,378,397]. This does not beat the current best `temporal_hardmax_w05` 11/15 and still fails stubborn rows 229/299/397. Evidence synced locally: `/Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/temporal_nearestcond_20260626/`; main report updated at `/Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html`. Conclusion: do not distill this teacher family into the generator yet; stop global teacher sweeps and move to data/schema repair for stubborn rows or a stronger generator-facing action-control architecture."
-        },
-        {
-          "id": "comment_umi_schema_audit_20260626",
-          "author": "Codex",
-          "kind": "progress",
-          "created_at": "2026-06-26T14:55:00+08:00",
-          "body": "2026-06-26 schema audit after nearest-condition failure: checked Gamma paired teacher data for holdout/stubborn rows. All audited rows have matched video/action length: 189 video frames at 16fps and action shape [189,10], so the 229/299/397 failures are not an obvious fps/frame-count mismatch. Current condition is `gamma-paired-teacher.v1`: per-view time/view plus action_mean/action_sum/action_absmax/action_last over 10-D actions. For stubborn rows, nearest condition negatives cross task categories: row229 -> row118 Clutter, row299 -> row32 Clutter, row397 -> row32 Clutter. Conclusion: the condition is too compressed/globally normalized for semantic action discrimination; next route should rebuild manifest with explicit compact8/continuous10 fields, raw gripper ablation, and task/object-aware hard negatives before generator distillation. Audit JSON: `/Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/schema_audit_20260626/action_schema_audit.json`."
-        },
-        {
-          "id": "comment_umi_taskaware_negative_20260626",
-          "author": "Codex",
-          "kind": "progress",
-          "created_at": "2026-06-26T15:15:00+08:00",
-          "body": "2026-06-26 task-aware negative follow-up: implemented `wrong_nearest_same_category_condition` and `wrong_nearest_task_condition` in remote `scripts_umi/train_shared_world_teacher.py` with backup `train_shared_world_teacher.py.bak_task_aware_negative_20260626_1505`. Smoke verified the construction fixes the bad cross-category nearest negatives: row229 now maps to clean_container row235, row299 to desktop_object_sorting row312, and row397 to organize_scattered_shoes row396. 8-GPU `temporal_taskaware_20260626` training completed, but results are not a success: standard gate 7/15 and extended task-aware gate 1/15. Re-evaluating current best `temporal_hardmax_w05` on the same extended task-aware gate gives standard 8/15 and extended 2/15. Conclusion: task-aware nearest negatives are a useful diagnostic gate, but forcing them into the current 32px/13-frame teacher hardmax loss hurts standard performance and still does not separate same-task clips. Next step should move from teacher-only sweeps to explicit action schema/richer generator-facing supervision. Evidence: `/Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/temporal_taskaware_20260626/` and `/Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/temporal_hardmax_w05_taskaware_eval_20260626/`; report updated at `/Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html`."
-        },
-        {
-          "id": "comment_umi_explicit10_rawgripper_20260626",
-          "author": "Codex",
-          "kind": "progress",
-          "created_at": "2026-06-26T15:35:00+08:00",
-          "body": "2026-06-26 explicit action-schema follow-up: patched remote `scripts_umi/make_gamma_paired_teacher_dataset.py` (backup `make_gamma_paired_teacher_dataset.py.bak_explicit10_20260626_1525`) to add `--condition-schema explicit10_raw_gripper`. Generated `data/umi_gamma_teacher_balanced_398_explicit10_rawgripper`: per-view condition is now 13D `time/view + pos3 + rot6d6 + gripper_raw`, with gripper kept raw in [0,0.103] instead of z-scored. 8-GPU teacher run `explicit10_rawgripper_20260626` completed. Result: standard gate 9/15, extended task-aware gate 2/15, avg actual MSE 0.060128. It recovers rows 260 and 377 under standard gate but still fails 199/229/299/378/397 and loses row0 compared with current best `temporal_hardmax_w05` 11/15. Conclusion: explicit continuous10/raw-gripper schema is directionally cleaner but insufficient alone; next step needs richer action traces or auxiliary action/state decoding/generator-facing supervision, not just smaller condition vectors. Evidence: `/Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/explicit10_rawgripper_20260626/` and schema `/Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/explicit10_rawgripper_dataset_20260626/condition_stats.json`."
+          "body": "2026-06-26 explicit10 aux-condition follow-up: uploaded and ran `launch_shared_teacher_explicit10_aux_20260626.sh` on the H20 server as an 8-GPU DDP run. Route: 13D explicit `time/view + pos3 + rot6d + raw gripper` condition plus an auxiliary condition decoder (`--aux-condition-weight 0.1`) to force temporal action tokens to retain recoverable condition information. Training completed to epoch 99, loss 0.043099, and holdout eval finished on rows 0/99/198/199/229/259/260/279/298/299/338/377/378/388/397. Result: standard gate 9/15, extended task-aware nearest-condition gate 3/15 (passed rows 229, 298, 377), avg actual MSE 0.056195. This improves the extended gate by one row over explicit10_rawgripper but still does not beat current best `temporal_hardmax_w05` standard 11/15 and still fails most nearest same-task negatives. Conclusion: aux reconstruction is useful diagnostic pressure but not a complete solution; next route should use stronger task/state supervision or generator-facing action-control architecture, not more plain aux-loss sweeps. Evidence synced: `/Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/explicit10_auxw0p1_20260626/`; report updated: `/Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html`.",
+          "created_at": "2026-06-26T07:12:40.519Z"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-26T04:11:17.504Z"
+      "updated_at": "2026-06-26T07:12:40.519Z"
     },
     {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
