@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-26T16:16:52+08:00",
+  "updated_at": "2026-06-26T16:26:47+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1927,9 +1927,16 @@
           "body": "Local Codex host review reopened this TODO.\n请补齐完整可复现验收包后再送审：repo commit SHA；RoboTwin2 API list/task-program schema/manual-program new-task path 文档；1-2 个 tabletop task 的 prompt 与 env JSON/description；code-agent 生成或 repair 后的 task program 路径和 diff/commit；simulator smoke 原始命令、完整日志和 pass/fail；data-collection dry run 原始命令、输出路径、可读取的 HDF5/summary/video/instruction/scene_info/seed artifacts 和 verifier/log，并给出大小和 sha256；Pi/OpenVLA-OFT train/eval hook 的实际运行证据，或带失败命令/日志的明确 blocker。若 artifacts 只在远端，请提供可 SSH 复核的 host、绝对路径和只读检查命令。",
           "created_at": "2026-06-26T16:16:48+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_d40d1f7eda10",
+          "author": "Review",
+          "body": "Local Codex host review reopened this TODO.\n请补齐完整可复现验收包后再送审：repo commit SHA；RoboTwin2 API list/task-program schema/manual-program new-task path 文档；1-2 个 tabletop task 的 prompt 与 env JSON/description；code-agent 生成或 repair 后的 task program 路径和 diff/commit；simulator smoke 原始命令、完整日志和 pass/fail；data-collection dry run 原始命令、输出路径、可读取的 HDF5/summary/video/instruction/scene_info/seed artifacts 和 verifier/log，并给出大小和 sha256；Pi 或 OpenVLA-OFT train/eval hook 必须实际运行，或提供失败命令、完整日志和明确 blocker。若 artifacts 只在远端，请提供可 SSH 复核的 host、绝对路径和只读检查命令。ACT hook 不能替代 Pi/OpenVLA-OFT，除非同时给出 Pi/OpenVLA-OFT 无法运行的证据化 blocker。",
+          "created_at": "2026-06-26T16:26:44+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-26T16:16:50+08:00",
+      "updated_at": "2026-06-26T16:26:45+08:00",
       "due_at": "",
       "completed_at": null
     },
