@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-26T22:42:46+08:00",
+  "updated_at": "2026-06-26T23:12:28+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2069,7 +2069,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-26T22:42:44+08:00",
+      "updated_at": "2026-06-26T23:06:29+08:00",
       "due_at": "",
       "completed_at": null
     },
@@ -5932,7 +5932,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-26T19:08:34+08:00",
+      "updated_at": "2026-06-26T23:08:36+08:00",
       "completed_at": "2026-06-24"
     },
     {
@@ -9776,10 +9776,19 @@
           "kind": "comment",
           "body": "2026-06-26 19:05 result: 新增 framewise action decoding supervision 并完整跑完。代码在远端 train_shared_world_teacher.py 新增 FramewiseActionDecodeHead：从生成的双视角视频逐帧解码 left/right action/state 序列；1-epoch smoke 通过，随后 8 卡 DDP 训练 explicit10_viewtokens_framewiseaction_20260626 完成。结果：loss 0.2232 -> 0.0702；standard gate 7/15（0,99,198,259,298,338,377）；extended nearest-task/category gate 1/15（298）；avg actual MSE 0.053913。结论：framewise video-to-action head 降低重建误差但进一步伤害 action gate，说明当前低分辨率 teacher 的视频读出辅助仍然不是正确的 action grounding 路径。证据与视频已同步到 /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/explicit10_viewtokens_framewiseaction_20260626/，主 report 已更新并通过 73 个本地链接校验。",
           "created_at": "2026-06-26T11:08:42.131Z"
+        },
+        {
+          "comment_id": "comment_7b4985ee-9ebd-4d73-b27e-37be473b679c",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-26 23:00 result: model_fnfix compact action-xattn 8-card grid 完整跑完 strict action gate。4 个 high/low Wan2.2-A14B compact action-xattn candidates，rows 0/1/5/7/11，actual / zero / time-view-only / left-zero / right-zero / action-guidance / wrong-row 共 140 条推理；checkpoint health 和 artifact validation 均通过，说明 action-xattn 权重确实训练并且报告媒体完整。但 gate 结果仍为 0/20 passed。平均 counterfactual delta 很弱且不稳定：action_guidance +0.1024、zero +0.0347、left_zero +0.0281、time_view_only +0.0072、wrongrow0 +0.0043、wrongrow5 -0.0153、right_zero 0.0。最佳 run paired_actionxattn_model_fnfix_compact_rms_lr5e-05_h512_scale0p03_s4_heads4_gh32_mb24_r4_e4 也只有 0/5。Evidence synced locally: /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/paired_action_xattn_20260626_212747/report/index.html. Conclusion: model_fnfix action-xattn proves the injection path is no longer dead, but still does not produce a true action-conditioned dual-view world model. Do not mark this TODO done; next route should pivot away from incremental Wan2.2 adapter tweaks toward shared-world teacher / Gamma-style or architecture-level dual-branch training with explicit action-conditioned dynamics.",
+          "created_at": "2026-06-26T15:04:10.854Z"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-26T11:08:42.131Z"
+      "updated_at": "2026-06-26T15:04:10.854Z"
     },
     {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
