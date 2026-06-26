@@ -7687,8 +7687,8 @@
     {
       "task_id": "task_umi_foundationpose_layer_utility_probe_20260617",
       "project_id": "umi-world-model",
-      "title": "验证 layer utility：object pose/flow、robot pose/VO、scene augmentation",
-      "description": "Ziyang 用分层结果验证三类下游 utility，不再只看 FoundationPose。Scene Layer: 用 RoboEngine (https://roboengine.github.io) 做物理/任务感知的背景替换与 data augmentation，对比 flat RGB 背景替换是否破坏接触语义。Object Layer: 刚体/铰接物体 pose 评估使用 FoundationPose (https://github.com/NVlabs/FoundationPose.git)、Fast-FoundationStereoPhysics (https://github.com/Vector-Wangel/Fast-FoundationStereoPhysics.git)、Orient-Anything (https://github.com/SpatialVision/Orient-Anything) 和 Any6D (https://github.com/taeyeopl/Any6D；project page https://sites.google.com/view/taeyeop-lee/any6d)，比较 raw RGB/RGB-D、mask-only、object-only layer、object+background layer、recomposed layered clip。布料/流体/非刚体 object point flow 评估使用 AllTracker (https://github.com/aharley/alltracker；https://alltracker.github.io)、CoTracker3 (https://github.com/facebookresearch/co-tracker)、Any4D (https://github.com/Any-4D/Any4D)，必要时配合 Video Depth Anything / DepthAnything-Video 生成 temporally consistent depth 并 lift 到 3D。D4RT (https://d4rt-paper.github.io / https://github.com/MasahiroOgawa/D4RT_MasImpl.git) 和 Lift4D 目前从 2026-06-24 Layered Image Policy 群聊看代码未开源，先作为 paper/reference 或 blocker 记录，不作为 v0 必跑依赖。Robot Layer: 用 Dr. Robot / Differentiable Robot Rendering (https://drrobot.cs.columbia.edu；https://github.com/cvlab-columbia/drrobot) 在 robot-only layer、robot+background、recomposed clip 上做机械臂 pose estimation / joint or camera pose tracking；从 wrist-view 做 VO 时对照 ORB-SLAM3 (https://github.com/UZ-SLAMLab/ORB_SLAM3.git) 与 VGGT-SLAM (https://github.com/MIT-SPARK/VGGT-SLAM.git)。Acceptance: 选 3-5 个对象/片段和 1-2 个机械臂片段；输出 pose/size、2D/3D track 或 point-cloud flow、robot pose overlay / joint trajectory、wrist VO 轨迹；给出每种输入的成功率或人工评分、遮挡/背景干扰案例、depth/calibration 需求、未开源 blocker、失败样例；结论明确 object/contact layer、robot layer、scene layer、object+background、recomposed clip 是否比 flat RGB、mask-only 或 FoundationPose-only baseline 更有用。",
+      "title": "验证 Stage 3 layer utility：scene geometry、object HOI/pose/flow、robot pose/retargeting",
+      "description": "Ziyang/Boris 用分层结果验证三类下游 utility，不再只看 FoundationPose。\n\nScene Layer: 用 RoboEngine (https://roboengine.github.io) 做物理/任务感知背景替换与 data augmentation；补 MoGe (https://github.com/microsoft/moge) 估计 depth / point map / normal / camera FOV，GeoCalib (https://github.com/cvg/GeoCalib) 估计 intrinsics / gravity direction，用于把 object flow/pose lift 到稳定场景坐标。\n\nObject / Contact Layer: 2D 分割/掩码追踪用 SAM3 (https://github.com/facebookresearch/sam3)；3D 形状和 6-DoF/pose 用 SAM 3D Objects (https://github.com/facebookresearch/sam-3d-objects)、Fast-SAM3D (https://github.com/wlfeng0509/Fast-SAM3D)、FoundationPose、Fast-FoundationStereoPhysics、Orient-Anything、Any6D；物体运动/形变辅助估计用 BootsTAPIR/TAPNet (https://github.com/google-deepmind/tapnet)、AllTracker、D4RT、CoTracker、Any4D，并在需要时结合 Video Depth Anything / MoGe 做 3D point flow。Do-As-I-Do (https://do-as-i-do.com/ ; https://github.com/malik-group/do-as-i-do) 作为 hand-object reconstruction + retargeting bridge：评价 object pose/velocity trajectory、contact intent、grasp/tool-use mode、task result 是否一致，而不是只比关节角。\n\nRobot / Hand Layer: 可见机器人用 Dr. Robot 做 image-based robot pose；腕部/头部 ego-view 用 ORB-SLAM3 / VGGT-SLAM 做 VO/SLAM；人手源视频用 HaWoR (https://hawor-project.github.io/ ; https://github.com/ThunderVVV/HaWoR) 做 world-space hand tracking，再用 Do-As-I-Do / dex-retargeting 连接到 robot layer / IDM。\n\nAcceptance: 选 3-5 个对象/片段，输出 raw RGB、mask-only、object-only、object+background、robot-only、recomposed clip 的 pose/flow/retarget/eval 结果；每层报告成功率或人工评分、遮挡/背景干扰案例、几何/标定误差、contact/flow 稳定性、是否 object/contact layer 比 flat RGB 或 mask-only 更有用；明确哪些工具进入 v0 pipeline，哪些只作为对照或失败样例。",
       "status": "todo",
       "priority": "high",
       "assignee": "Ziyang / Boris",
@@ -7716,9 +7716,18 @@
           "kind": "comment",
           "body": "2026-06-24 Layered Image Policy sync: object pose 新增 Orient-Anything；point-flow 新增 CoTracker3；Lift4D 与 D4RT 当前发现没有可用开源代码，v0 先记为 blocker/reference，优先跑 AllTracker(+DepthAnything-Video)、CoTracker3、Any4D。",
           "created_at": "2026-06-24T12:52:28.932Z"
+        },
+        {
+          "comment_id": "comment_umi_stage3_third_party_visual_stack_20260626",
+          "task_id": "task_umi_foundationpose_layer_utility_probe_20260617",
+          "author": "Codex / dashboard sync",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-26 update: Stage 3 layer utility now maps the screenshot/tool list into the three-layer plan. Scene/background adds MoGe + GeoCalib for depth/camera/gravity. Object/contact adds SAM3, SAM 3D Objects, Fast-SAM3D, BootsTAPIR/TAPNet, and Do-As-I-Do as HOI reconstruction/retargeting bridge. Robot/hand adds HaWoR and Do-As-I-Do/dex-retargeting next to Dr. Robot and wrist-view VO/SLAM. Do-As-I-Do should be evaluated as matched object/contact/task outcome retargeting, not joint-angle imitation.",
+          "created_at": "2026-06-26T15:52:47.549Z"
         }
       ],
-      "updated_at": "2026-06-24T12:52:28.932Z",
+      "updated_at": "2026-06-26T15:52:47.549Z",
       "due_at": "",
       "completed_at": null
     },

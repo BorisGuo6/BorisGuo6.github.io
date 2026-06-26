@@ -4,9 +4,9 @@
   "title": "UMI Image Layered World Model",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-06-24T12:27:12Z",
+  "updated_at": "2026-06-26T15:52:47.549Z",
   "description": "UMI Image Layered World Model: build tri-view robot video world modeling, decompose videos into robot / object-contact / scene layers, and prove layered data improves manipulation.",
-  "summary": "UMI tracks three lines: Stage 1 action-conditioned shared-world video modeling across wrist/head/fixed views, Stage 2 iterative mask-segment + FLUX.fill/VACE/LaMa inpainting into robot/object/scene layers, and Stage 3 layer-utility tests for scene augmentation, object pose/flow, robot pose/VO, IDM, rewards, and policy learning.",
+  "summary": "UMI tracks three lines: Stage 1 action-conditioned shared-world video modeling across wrist/head/fixed views, Stage 2 iterative mask-segment + FLUX.fill/VACE/LaMa inpainting into robot/object/scene layers, and Stage 3 layer-utility tests with a third-party vision stack for scene geometry/calibration, object masks/3D pose/flow/HOI reconstruction, and robot/hand pose/retargeting.",
   "subprojects": [
     {
       "label": "A",
@@ -23,8 +23,8 @@
     {
       "label": "C",
       "title": "Layered Data Utility",
-      "body": "Stage 3: verify utility per layer. Scene/background feeds RoboEngine-style replacement and data augmentation; object/contact layers feed rigid/articulated pose pipelines (FoundationPose, Fast-FoundationStereoPhysics, Orient-Anything, Any6D) and cloth/fluid point-flow pipelines (AllTracker plus Video Depth Anything, D4RT, CoTracker, Any4D); robot layers feed Dr. Robot-style manipulator pose estimation, wrist-view VO/SLAM, IDM, and kinematic consistency checks.",
-      "output": "RoboEngine / FoundationPose-family / AllTracker-D4RT-CoTracker-Any4D / Dr. Robot-VO evidence against raw RGB, mask-only, and recomposed clips"
+      "body": "Stage 3: verify utility per layer using third-party visual models/codebases. Scene/background uses RoboEngine plus geometry/calibration tools (MoGe, GeoCalib). Object/contact layers use SAM3 masks, SAM 3D Objects/Fast-SAM3D shape+pose probes, FoundationPose-family pose baselines, BootsTAPIR/TAPNet/AllTracker-style point flow, and Do-As-I-Do-style hand-object reconstruction. Robot/hand layers use Dr. Robot, wrist-view VO/SLAM, HaWoR world-space hand tracking, and Do-As-I-Do/dex-retargeting to test HOI-consistent retargeting rather than joint-angle imitation.",
+      "output": "layer-specific evidence from RoboEngine / MoGe-GeoCalib / SAM3-SAM3D-FastSAM3D / FoundationPose-Any6D / BootsTAPIR-TAPNet-AllTracker-D4RT-CoTracker-Any4D / HaWoR-Do-As-I-Do against raw RGB, mask-only, and recomposed clips"
     }
   ],
   "asset": "dashboard/assets/umi-shared-backbone-dual-branch-wan-20260617.jpg",
@@ -35,14 +35,14 @@
   },
   "layer_utility": {
     "title": "Layer utility map",
-    "aria_label": "Image-layered robot data utility map linking scene, object, and robot layers to downstream model families.",
-    "caption": "Layer order follows recomposition: robot/object layers overlay upward onto the scene layer. Utility is evaluated per layer before claiming a full policy gain.",
+    "aria_label": "Image-layered robot data utility map linking scene, object, and robot layers to downstream model families and third-party visual processing tools.",
+    "caption": "Layer order follows recomposition: robot/object layers overlay upward onto the scene layer. Stage 3 now treats each layer as an interface to external vision/geometry/retargeting tools, then checks whether the resulting signals improve IDM, reward, pose/flow, or augmentation beyond raw RGB and mask-only baselines.",
     "layers": [
       {
         "layer": "Layer 0",
         "name": "Scene / Background",
         "target": "Data Augmentation",
-        "summary": "Use the scene/background layer as the stable context for physical or task-aware background replacement and RoboEngine-style augmentation.",
+        "summary": "Use the scene/background layer as stable physical context: background replacement, camera/depth/gravity estimation, and task-aware augmentation.",
         "groups": [
           {
             "label": "Scene replacement / augmentation",
@@ -52,18 +52,55 @@
                 "url": "https://roboengine.github.io"
               }
             ]
+          },
+          {
+            "label": "Depth / camera / gravity calibration",
+            "repositories": [
+              {
+                "label": "MoGe",
+                "url": "https://github.com/microsoft/moge",
+                "note": "Monocular geometry for metric point maps, depth, normals, and camera FOV."
+              },
+              {
+                "label": "GeoCalib",
+                "url": "https://github.com/cvg/GeoCalib",
+                "note": "Single-image intrinsics and gravity-direction calibration."
+              }
+            ],
+            "note": "Scene layer should provide the metric/geometric frame for object 3D pose, point flow lifting, and wrist/head-view alignment; if MoGe/GeoCalib disagree with real calibration, use them only as priors."
           }
         ]
       },
       {
         "layer": "Layer 1",
-        "name": "Object(s)",
+        "name": "Object(s) / Contact",
         "target": "Reward Model",
-        "summary": "Use object/contact layers for pose, contact, progress, and process reward evidence. Split rigid/articulated pose from deformable cloth/fluid point flow.",
+        "summary": "Use object/contact layers for masks, 3D shape, 6-DoF/object pose, point flow, hand-object consistency, and process reward evidence.",
         "groups": [
           {
-            "label": "Rigid / articulated pose",
+            "label": "2D mask / region tracking",
             "repositories": [
+              {
+                "label": "SAM3",
+                "url": "https://github.com/facebookresearch/sam3",
+                "note": "Promptable image/video segmentation and tracking for task-relevant objects."
+              }
+            ],
+            "note": "Keep SAM3 here as a Stage 3 measurement input as well as a Stage 2 mask source: object IDs, contact patch masks, and failure cases should be checked against layer recomposition."
+          },
+          {
+            "label": "3D shape + 6-DoF / pose",
+            "repositories": [
+              {
+                "label": "SAM 3D Objects",
+                "url": "https://github.com/facebookresearch/sam-3d-objects",
+                "note": "Single-image masked object -> 3D model with pose, shape, texture, and layout."
+              },
+              {
+                "label": "Fast-SAM3D",
+                "url": "https://github.com/wlfeng0509/Fast-SAM3D",
+                "note": "Acceleration route for SAM3D-style single-view 3D reconstruction."
+              },
               {
                 "label": "FoundationPose",
                 "url": "https://github.com/NVlabs/FoundationPose.git"
@@ -80,11 +117,21 @@
                 "label": "Any6D",
                 "url": "https://github.com/taeyeopl/Any6D"
               }
-            ]
+            ],
+            "note": "Use FoundationPose-family methods when a CAD/template or RGB-D setup is available; use SAM 3D Objects/Fast-SAM3D as a single-image shape/layout probe for missing object geometry."
           },
           {
-            "label": "Cloth / fluid point flow",
+            "label": "Object point flow / motion",
             "repositories": [
+              {
+                "label": "BootsTAPIR / TAPNet",
+                "url": "https://github.com/google-deepmind/tapnet",
+                "note": "TAPIR/BootsTAPIR point tracking for object surface motion and contact-adjacent trajectories."
+              },
+              {
+                "label": "BootsTAP project",
+                "url": "https://bootstap.github.io/"
+              },
               {
                 "label": "AllTracker",
                 "url": "https://github.com/aharley/alltracker"
@@ -106,15 +153,30 @@
                 "url": "https://github.com/Any-4D/Any4D"
               }
             ],
-            "note": "AllTracker may need Video Depth Anything or another temporally consistent depth model before 2D tracks become 3D object point-cloud flow."
+            "note": "For cloth/fluid/deformable objects, report 2D tracks and lifted 3D point-cloud flow separately; depth/calibration uncertainty should be part of QA."
+          },
+          {
+            "label": "HOI reconstruction / retargeting bridge",
+            "repositories": [
+              {
+                "label": "Do-As-I-Do",
+                "url": "https://do-as-i-do.com/",
+                "note": "Human RGB video -> hand-object reconstruction -> robot retargeting reference."
+              },
+              {
+                "label": "Do-As-I-Do code",
+                "url": "https://github.com/malik-group/do-as-i-do"
+              }
+            ],
+            "note": "Use Do-As-I-Do as the Stage 3 bridge between object/contact evidence and robot action: matched object pose/velocity/contact intent is the target, not human-vs-robot joint-angle imitation."
           }
         ]
       },
       {
         "layer": "Layer 2",
-        "name": "Robot(s)",
+        "name": "Robot(s) / Hand",
         "target": "Inverse Dynamic Model",
-        "summary": "Use robot layers for image-based robot pose, action/state recovery, wrist-view egomotion, and IDM supervision.",
+        "summary": "Use robot/hand layers for robot pose, wrist/head ego-motion, human-hand source motion, HOI retargeting, and IDM supervision.",
         "groups": [
           {
             "label": "Image robot pose",
@@ -137,6 +199,29 @@
                 "url": "https://github.com/MIT-SPARK/VGGT-SLAM.git"
               }
             ]
+          },
+          {
+            "label": "Human hand tracking / retargeting source",
+            "repositories": [
+              {
+                "label": "HaWoR",
+                "url": "https://hawor-project.github.io/",
+                "note": "World-space hand motion reconstruction from egocentric videos."
+              },
+              {
+                "label": "HaWoR code",
+                "url": "https://github.com/ThunderVVV/HaWoR"
+              },
+              {
+                "label": "Do-As-I-Do",
+                "url": "https://do-as-i-do.com/"
+              },
+              {
+                "label": "Dex Retargeting",
+                "url": "https://github.com/dexsuite/dex-retargeting"
+              }
+            ],
+            "note": "Use this when the source is human video or no visible robot layer exists; the validation target is object-state/contact-consistent retargeting into Franka/Wuji or other robot hands."
           }
         ]
       }
@@ -443,6 +528,66 @@
       "url": "https://github.com/advimman/lama",
       "submitted_at": "2026-06-22",
       "notes": "Local inpainting fallback for Ziyang when ChatGPT image API access is blocked. Useful as a lightweight mask-inpaint baseline for robot/object removal before video-level VACE tests."
+    },
+    {
+      "title": "Do-As-I-Do: Dexterous Manipulation Data from Everyday Human Videos",
+      "url": "https://do-as-i-do.com/",
+      "submitted_at": "2026-06-26",
+      "notes": "Stage 3 HOI bridge. Reconstructs hand-object interactions from monocular RGB human videos and retargets them to multi-fingered robot hands; useful for object/contact + robot layer validation on matched object pose, contact intent, and task outcome."
+    },
+    {
+      "title": "Do-As-I-Do official code",
+      "url": "https://github.com/malik-group/do-as-i-do",
+      "submitted_at": "2026-06-26",
+      "notes": "Implementation target for testing human-video -> robot-complete manipulation data on Franka + Wuji / UMI-style tasks."
+    },
+    {
+      "title": "HaWoR: World-Space Hand Motion Reconstruction from Egocentric Videos",
+      "url": "https://hawor-project.github.io/",
+      "submitted_at": "2026-06-26",
+      "notes": "Robot/hand-layer source-motion reference. Reconstructs 3D hand motion in world coordinates from egocentric video and handles missing/out-of-view hands with motion infilling."
+    },
+    {
+      "title": "HaWoR official code",
+      "url": "https://github.com/ThunderVVV/HaWoR",
+      "submitted_at": "2026-06-26",
+      "notes": "Implementation target for human-hand tracking before retargeting to robot hand/arm layers."
+    },
+    {
+      "title": "SAM3: Segment Anything with Concepts",
+      "url": "https://github.com/facebookresearch/sam3",
+      "submitted_at": "2026-06-26",
+      "notes": "Object/contact mask and video tracking source for task-relevant regions; use as both Stage 2 mask input and Stage 3 object-mask QA."
+    },
+    {
+      "title": "SAM 3D Objects",
+      "url": "https://github.com/facebookresearch/sam-3d-objects",
+      "submitted_at": "2026-06-26",
+      "notes": "Object-layer 3D shape/layout candidate: masked single-image object -> 3D model with pose, shape, texture, and layout."
+    },
+    {
+      "title": "Fast-SAM3D",
+      "url": "https://github.com/wlfeng0509/Fast-SAM3D",
+      "submitted_at": "2026-06-26",
+      "notes": "Object-layer acceleration candidate for SAM3D-style 3D reconstruction; useful if single-image object reconstruction is too slow for batch layer QA."
+    },
+    {
+      "title": "TAPNet / TAPIR / BootsTAPIR",
+      "url": "https://github.com/google-deepmind/tapnet",
+      "submitted_at": "2026-06-26",
+      "notes": "Object point tracking reference; includes TAPIR, BootsTAPIR, TAPVid/TAPVid-3D, and RoboTAP tooling for surface tracks and robotics point-track imitation."
+    },
+    {
+      "title": "MoGe: Accurate Monocular Geometry Estimation",
+      "url": "https://github.com/microsoft/moge",
+      "submitted_at": "2026-06-26",
+      "notes": "Scene/object geometry support: predicts metric point maps, depth maps, normals, and camera FOV from monocular images."
+    },
+    {
+      "title": "GeoCalib: Single-image Calibration with Geometric Optimization",
+      "url": "https://github.com/cvg/GeoCalib",
+      "submitted_at": "2026-06-26",
+      "notes": "Scene calibration support: estimates camera intrinsics and gravity direction from a single image."
     }
   ],
   "risks_decisions": [
@@ -463,7 +608,8 @@
     "Terminology guardrail: write WAN2.2 and do not use the old mistaken One spelling. Keep exact model names where needed: Wan2.2-TI2V-5B-Diffusers, Wan2.2-A14B, Cosmos-Predict2.5, nvidia/Cosmos3-Nano-Policy-DROID.",
     "WAN2.2 action-control risk: high-noise expert must receive action/control signal early enough; output-head-only conditioning is too late. Any future WAN2.2 run must report base preservation plus actual/zero/wrong-row action gates, not only reconstruction MAE/MA.",
     "Layering risk: SAM3/SAM2.1 masks and VACE/FLUX.fill/LaMa inpaint should preserve canvas size and coordinates so layers can be overlaid without manual alignment. If inpaint shifts geometry, the result is not acceptable even if the hole looks plausible.",
-    "Stage 3 utility decision: scene layer validation targets RoboEngine-style augmentation; rigid/articulated object validation targets FoundationPose, Fast-FoundationStereoPhysics, Orient-Anything, and Any6D; deformable object validation targets AllTracker plus Video Depth Anything, D4RT, CoTracker, and Any4D; robot layer validation targets Dr. Robot and wrist-view ORB-SLAM3 / VGGT-SLAM. FoundationPose remains a baseline, not the whole validation plan."
+    "Stage 3 utility decision: scene layer validation targets RoboEngine-style augmentation; rigid/articulated object validation targets FoundationPose, Fast-FoundationStereoPhysics, Orient-Anything, and Any6D; deformable object validation targets AllTracker plus Video Depth Anything, D4RT, CoTracker, and Any4D; robot layer validation targets Dr. Robot and wrist-view ORB-SLAM3 / VGGT-SLAM. FoundationPose remains a baseline, not the whole validation plan.",
+    "Stage 3 third-party visual stack decision 2026-06-26: evaluate each layer through explicit external tools instead of calling “FoundationPose” the whole plan. Scene uses RoboEngine + MoGe/GeoCalib geometry; object/contact uses SAM3 masks, SAM 3D Objects/Fast-SAM3D, FoundationPose/Any6D-family pose, BootsTAPIR/TAPNet/AllTracker-style point flow, and Do-As-I-Do HOI reconstruction; robot/hand uses Dr. Robot, wrist-view VO/SLAM, HaWoR, and Do-As-I-Do/dex-retargeting. The metric target remains layer utility: better pose/flow/reward/IDM/action retargeting than raw RGB or mask-only."
   ],
   "timeline": {
     "target_venue": "ICLR",
