@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-26T16:02:43+08:00",
+  "updated_at": "2026-06-26T16:16:52+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1724,6 +1724,15 @@
           "created_at": "2026-06-24T23:09:30+08:00"
         },
         {
+          "comment_id": "comment_b554c6ef-b805-4b8d-bde3-65cb81242ce2",
+          "task_id": "task_self_improving_vlm_loop",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-26 follow-up: review evidence has been added for the RoboTwin2 Text2Env demo.\n\nEvidence repo: https://github.com/yezheng04/robotwin-text2env-demo\n\nChecklist coverage:\n1) RoboTwin2 API list / task-program schema:\n- robotwin2_task_api_notes.md\n- schemas/text2env.schema.json\n- schemas/text2env_schema_v0.md\n\n2) Tabletop task env JSON / prompts:\n- examples/tabletop_tasks/move_object_between_zones.json\n- examples/tabletop_tasks/move_red_block_to_blue_zone.json\n- examples/tabletop_tasks/put_cup_in_drawer.json\n- prompts/text2env_designer.md\n- prompts/text2env_critic.md\n- prompts/text2env_orchestrator.md\n\n3) Generated RoboTwin2 task program:\n- generated/robotwin_tasks/move_object_between_zones/envs/move_object_between_zones.py\n- generated/robotwin_tasks/move_object_between_zones/description/task_instruction/move_object_between_zones.json\n- generated/robotwin_tasks/move_object_between_zones/manifest.json\n\n4) Simulator smoke / data-collection dry run:\n- reports/smoke_tests/move_object_between_zones/notes.md\n- README.md reproduction section\n- verified outputs under ~/RoboTwin/data/move_object_between_zones/demo_smoke/\n\n5) Policy train/eval hook:\n- docs/policy_hook_note.md\n- scripts/run_policy_hook.sh\n- ACT hook was used as the lightweight verified policy path: two episodes collected, ACT preprocessing passed, one-epoch smoke train wrote checkpoints, and eval loaded policy_last.ckpt and entered RoboTwin rollout.\n- Pi/OpenVLA-OFT remain heavier follow-up policy routes; ACT is the MVP evidence hook and Pi/OpenVLA-OFT should be treated as deferred unless Boris requires that exact backend.\n\n6) SceneSmith-lite scope:\n- docs/scenesmith_lite_agent_flow.md\n- prompts limit Designer/Critic/Orchestrator to tabletop feasibility, collision/stability, object poses, task API usage, and program repair.\n\nLatest GitHub commit with Step 7 evidence:\n8158459 Add ACT policy hook notes",
+          "created_at": "2026-06-26T08:06:40.170Z"
+        },
+        {
           "comment_id": "clawcross_75860c4c1dd6",
           "author": "Review",
           "body": "Local Codex host review reopened this TODO.\n请补交可复现验收材料：1) RoboTwin2 API list/task-program schema 文档路径；2) 1-2 个 tabletop task 的 env JSON/description 与生成 prompt；3) code-agent 生成或 repair 后的 RoboTwin2 task program 路径和 diff/commit；4) simulator smoke 的具体命令、日志和 pass/fail 结果；5) data-collection dry run 的命令、输出数据路径和日志；6) Pi 或 OpenVLA-OFT train/eval hook 的实际运行证据，或带命令/日志的明确 blocker；7) designer/critic/orchestrator 已限制在 tabletop feasibility、collision/stability、object poses、task API usage、program repair 范围内的说明。",
@@ -1911,9 +1920,16 @@
           "body": "Local Codex host review reopened this TODO.\n请补齐完整可复现验收包后再送审：repo commit SHA；RoboTwin2 API list/task-program schema/manual-program new-task path 文档；1-2 个 tabletop task 的 prompt 与 env JSON/description；code-agent 生成或 repair 后的 task program 路径和 diff/commit；simulator smoke 原始命令、完整日志和 pass/fail；data-collection dry run 原始命令、输出路径、可读取的 HDF5/summary/video/instruction/scene_info/seed artifacts 和 verifier/log，并给出大小和 sha256；Pi/OpenVLA-OFT train/eval hook 的实际运行证据，或带失败命令/日志的明确 blocker；designer/critic/orchestrator 范围限制说明。若 artifacts 只在远端，请提供可 SSH 复核的 host、绝对路径和只读检查命令。",
           "created_at": "2026-06-26T14:42:08+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_3aaa68e8a18f",
+          "author": "Review",
+          "body": "Local Codex host review reopened this TODO.\n请补齐完整可复现验收包后再送审：repo commit SHA；RoboTwin2 API list/task-program schema/manual-program new-task path 文档；1-2 个 tabletop task 的 prompt 与 env JSON/description；code-agent 生成或 repair 后的 task program 路径和 diff/commit；simulator smoke 原始命令、完整日志和 pass/fail；data-collection dry run 原始命令、输出路径、可读取的 HDF5/summary/video/instruction/scene_info/seed artifacts 和 verifier/log，并给出大小和 sha256；Pi/OpenVLA-OFT train/eval hook 的实际运行证据，或带失败命令/日志的明确 blocker。若 artifacts 只在远端，请提供可 SSH 复核的 host、绝对路径和只读检查命令。",
+          "created_at": "2026-06-26T16:16:48+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-26T15:57:10+08:00",
+      "updated_at": "2026-06-26T16:16:50+08:00",
       "due_at": "",
       "completed_at": null
     },
@@ -5776,7 +5792,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-26T15:59:11+08:00",
+      "updated_at": "2026-06-26T16:09:18+08:00",
       "completed_at": "2026-06-24"
     },
     {
@@ -9503,10 +9519,19 @@
           "kind": "comment",
           "body": "2026-06-26 follow-up 2: 在 explicit10 viewtokens 当前最佳路线基础上，启动并完成 64px teacher rerun `explicit10_viewtokens_s64_20260626`。流程：materialize s64_f13 cache 796 videos -> 8-GPU DDP train to epoch99 -> same 15-row holdout gate。结果：standard gate 10/15，extended task-aware gate 2/15，avg actual MSE 0.060657；standard failures 198,229,299,378,397，extended 只过 260,298。结论：提高 teacher resolution 没有解决 nearest-task/category counterfactual separation；当前 best explicit10 仍是 32px `temporal_view_action_tokens`（standard 10/15, extended 4/15）。补充互补性分析：所有现有 teacher routes 的 oracle union 只有 standard 12/15、extended 7/15，说明下一步不该继续做单 route 小 sweep，而应转向 object/contact/per-frame richer supervision 或把互补 teacher 信号蒸馏回 generator-facing route。",
           "created_at": "2026-06-26T07:58:32.376Z"
+        },
+        {
+          "comment_id": "comment_00bd96a0-b62f-4008-a61b-fa94cb53f8d6",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-26 follow-up 3: 实现并完成一条更直接的 action-consistency 监督路线 `explicit10_viewtokens_videocond_20260626`。代码改动：在 `scripts_umi/train_shared_world_teacher.py` 加入 `VideoConditionReadout`，从 generated dual-view video 解码每帧 condition，并新增 `--video-condition-weight` / `--video-condition-gt-weight`。远端 smoke 已验证 readout 输出 `(B,13,26)`，readout 和 decoder 都有梯度；随后 8-GPU DDP 跑到 epoch99。结果：standard gate 8/15，extended task-aware gate 1/15，avg actual MSE 0.053282；extended 只过 row 298。结论：video-to-condition auxiliary 会改善重建/读出，但没有增强 actual vs zero/wrong-row/nearest-task 的分离，甚至比 32px viewtokens baseline 退化；因此下一步应上 object/contact/per-frame richer supervision 或 generator-facing distillation，而不是继续做 naive pixel-to-action auxiliary。报告已更新：/Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html。",
+          "created_at": "2026-06-26T08:12:32.364Z"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-26T07:58:32.376Z"
+      "updated_at": "2026-06-26T08:12:32.364Z"
     },
     {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
