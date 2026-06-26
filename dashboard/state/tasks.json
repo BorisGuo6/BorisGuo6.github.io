@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-26T17:40:02+08:00",
+  "updated_at": "2026-06-26T17:50:23+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1976,9 +1976,16 @@
           "body": "Local Codex host review reopened this TODO.\n请补齐后再送审：提供可访问 repo commit SHA 或可 SSH 复核的工作区；粘贴/提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、输出 artifact 路径/大小/sha256 和 HDF5 verifier 输出；对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，并提交命令、完整日志、checkpoint/eval artifact。若确实不能运行 Pi/OpenVLA-OFT，请提供失败命令、完整错误日志和明确 blocker。ACT 只能作为补充，不能替代 Pi/OpenVLA-OFT 验收项。",
           "created_at": "2026-06-26T17:39:58+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_377d93b37a7b",
+          "author": "Review",
+          "body": "Local Codex host review reopened this TODO.\n请补齐后再送审：提供可访问的 repo commit SHA 或可 SSH 复核的工作区；粘贴/提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、输出 artifact 路径/大小/sha256 和 HDF5 verifier 输出；对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，并提交命令、完整日志、checkpoint/eval artifact。若确实不能运行 Pi/OpenVLA-OFT，请提供失败命令、完整错误日志和明确 blocker。ACT 只能作为补充，不能替代 Pi/OpenVLA-OFT 验收项。",
+          "created_at": "2026-06-26T17:50:19+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-26T17:40:00+08:00",
+      "updated_at": "2026-06-26T17:50:21+08:00",
       "due_at": "",
       "completed_at": null
     },
@@ -5841,7 +5848,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-26T17:33:33+08:00",
+      "updated_at": "2026-06-26T17:43:57+08:00",
       "completed_at": "2026-06-24"
     },
     {
@@ -9631,10 +9638,19 @@
           "kind": "comment",
           "body": "2026-06-26 UMI action injection follow-up: added a motion-weighted local video/action contrast branch (`LocalMotionActionContrastHead`) on top of the explicit10 temporal-view-token teacher. Remote smoke tests passed, then trained `explicit10_viewtokens_localmotioncontrast_20260626` on 8x H20 with holdout rows excluded.\n\nStrict gate result: standard 8/15, extended same-task/nearest-action gate 2/15, avg actual MSE 0.053592. Extended pass rows are 260 and 388. In the complementarity oracle this only adds row388, moving the holdout-excluded extended union from 7/15 to 8/15, still below the required action-conditioned dual-view gate. Evidence: `/Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/explicit10_viewtokens_localmotioncontrast_20260626/` and `explicit10_route_complementarity_20260626.json`.\n\nInterpretation: local motion/action contrast is useful as a diagnostic, but it does not solve action grounding. Current low-level proxy variants are saturated; next useful route should add semantic/local structure such as robot/object/background layer masks, object/contact motion state, or a stronger generator-facing teacher rather than another scalar action encoder tweak.",
           "created_at": "2026-06-26T09:30:25.701Z"
+        },
+        {
+          "comment_id": "comment_57b6b8fd-5b2b-4535-875e-51e7bc0faf3b",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-26 follow-up: implemented and tested a pseudo layer-aware action grounding route for the explicit teacher. Added `ResidualLayerActionContrastHead` to `scripts_umi/train_shared_world_teacher.py`: it subtracts the first frame from each future frame to form a robot/object/contact residual layer, appends GT motion masks as layer channels, pools foreground residual features, and contrasts that layer embedding against the action/state condition. Remote smoke passed on real UMI teacher data and checkpoint health confirmed the new head parameters are saved/nonzero.\n\n8x H20 run `explicit10_viewtokens_residuallayer_20260626` completed. Strict holdout gate: standard 10/15, extended same-task/nearest-action 3/15, avg actual MSE 0.051503. Extended pass rows: 260, 298, 388. This improves over localmotioncontrast numerically, but it does not add a new row to the oracle union; holdout-excluded extended oracle remains 8/15. Evidence: `/Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/explicit10_viewtokens_residuallayer_20260626/`, updated main report `/Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html`, and updated complementarity JSON.\n\nConclusion: pseudo residual layer helps reconstruction and some standard gates, but still does not solve same-task hard action negatives. Next route should stop using only pixel/motion proxies and introduce real semantic object/contact/layer supervision or a stronger generator-facing teacher.",
+          "created_at": "2026-06-26T09:45:05.618Z"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-26T09:30:25.701Z"
+      "updated_at": "2026-06-26T09:45:05.618Z"
     },
     {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
