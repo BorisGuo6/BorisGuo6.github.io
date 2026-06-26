@@ -9460,6 +9460,15 @@
           "kind": "comment",
           "body": "2026-06-26 temporal targeted follow-up: 针对当前 best temporal action tokens hardmax w0.5 = 11/15 的失败类别（Cooking / Organize / Shoes）做了 fail-category upweight 的 8卡 DDP 训练。远端输出 outputs_umi/shared_world_teacher_gamma_balanced398_temporal_targeted_20260626，epoch159 保存 teacher.pt 并完成同一 15-row balanced holdout strict gate。结果 regression：0/15 rows passed，avg actual MSE 0.056802，zero/time-view/wrong-next/wrong-same-category/wrong-other-category 的最大 counterfactual delta 只有 1.49e-08，说明 action condition 基本被忽略。当前 best 仍是 temporal action tokens hardmax w0.5 = 11/15。结论：不要继续简单 sample-weight sweep；下一步应转向 architecture/mining change，比如 online hard-negative mining、action-dominant temporal hub、PAIWorld-style geometry/cross-view conditioning，或把 11/15 teacher 作为 teacher signal 再蒸馏进 generator。Local report/evidence updated: /Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html and evidence/temporal_targeted_20260626/.",
           "created_at": "2026-06-26T04:48:16.831Z"
+        },
+        {
+          "comment_id": "comment_141c5649-5da2-42c5-b757-4fb43a19bcb6",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Codex",
+          "author_type": "agent",
+          "kind": "comment",
+          "body": "2026-06-26 temporal capacity follow-up: 保留当前 best temporal action tokens hardmax w0.5 的关键训练配方（lr=1e-4, contrast margin=0.003, hardmax, dynamic_weight=0.2），只把 teacher 容量从 dim=256,hubs=4,layers=4 增到 dim=384,hubs=8,layers=6，8卡 DDP 训练到 epoch119，loss 0.103121 -> 0.021367。Holdout strict gate 结果是 8/15，不如当前 best 11/15；failed rows = 0,229,299,338,377,388,397；avg actual MSE 0.065246；avg zero delta +0.013457，wrong_next +0.021286，wrong_same_category +0.042733，wrong_other_category +0.023868。结论：容量变大没有解决 action-conditioned gate，且泛化变差；但平均 counterfactual delta 为正，说明不是完全忽略 action。下一步不要再做 plain capacity/sample-weight sweep，应做 online hard-negative mining、action-dominant hub/decoder path、或把 11/15 teacher signal 蒸馏进真正的视频 generator。Local report/evidence updated: /Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html and evidence/temporal_capacity_20260626/.",
+          "created_at": "2026-06-26T05:16:31.834Z"
         }
       ],
       "completed_at": null,
