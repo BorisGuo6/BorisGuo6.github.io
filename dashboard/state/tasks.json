@@ -9505,6 +9505,13 @@
           "kind": "comment",
           "body": "2026-06-26 stubborn row diagnostics: 已检查所有 teacher 都失败的 rows 229/299/397。它们的 condition/action magnitude 并不小：row229 mean_abs 0.8505，row299 0.7459，row397 0.7790。row229 的 wrong_next 是同任务相邻 clean_container row230，video MSE 0.08046，且 checked subset 里 row259 更近 0.07283，说明视觉/任务邻近导致 wrong action 易胜出；row299 actual reconstruction 本身难，time_view/zero 常打平；row397 wrong_next wrap 到 row0，且非鞋类视觉近邻也很多。结论：现在不要直接 teacher-to-generator distill；应先加 condition-space hard negative，例如 wrong_nearest_condition，再测 strict gate。Local diagnostics: /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/stubborn_row_diagnostics_20260626/index.html.",
           "created_at": "2026-06-26T06:16:36.432Z"
+        },
+        {
+          "id": "comment_umi_temporal_nearestcond_20260626",
+          "author": "Codex",
+          "kind": "progress",
+          "created_at": "2026-06-26T14:35:00+08:00",
+          "body": "2026-06-26 update: ran the 8-GPU temporal_nearestcond teacher after adding `wrong_nearest_condition` hard negatives to `scripts_umi/train_shared_world_teacher.py`. Result: strict action gate 8/15 on the same holdout, passed rows [0,99,198,259,279,298,338,388], failed [199,229,260,299,377,378,397]. This does not beat the current best `temporal_hardmax_w05` 11/15 and still fails stubborn rows 229/299/397. Evidence synced locally: `/Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/temporal_nearestcond_20260626/`; main report updated at `/Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html`. Conclusion: do not distill this teacher family into the generator yet; stop global teacher sweeps and move to data/schema repair for stubborn rows or a stronger generator-facing action-control architecture."
         }
       ],
       "completed_at": null,
