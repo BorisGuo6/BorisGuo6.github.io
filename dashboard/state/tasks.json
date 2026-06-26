@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-26T12:18:00+08:00",
+  "updated_at": "2026-06-26T12:29:42+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1906,7 +1906,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-26T12:11:49+08:00",
+      "updated_at": "2026-06-26T12:24:35+08:00",
       "due_at": "",
       "completed_at": null
     },
@@ -5769,7 +5769,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-26T12:04:02+08:00",
+      "updated_at": "2026-06-26T12:26:29+08:00",
       "completed_at": "2026-06-24"
     },
     {
@@ -9444,17 +9444,17 @@
           "created_at": "2026-06-25T16:31:22.300Z"
         },
         {
-          "comment_id": "comment_b07c9909-4995-49bc-a2b4-1ce7abc419da",
+          "comment_id": "comment_cf670ba3-a8fb-4c7b-bbb1-bca0e0910dba",
           "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
           "author": "Codex",
           "author_type": "system",
           "kind": "comment",
-          "body": "2026-06-26 vview fast follow-up: Gamma-World stage2 已恢复并保存 iter_000000400 evidence。随后启动 shared-world teacher 的 vview_fast grid；由于 8 条候选明显 CPU-bound，其中 6 条停在 epoch0 附近，只保留实际推进到 epoch100 的两条：vview_base_cw07_lr1e3 与 vview_failcat4_cw05_lr1e3。两条都训练到 epoch219 并保存 teacher.pt，也跑完 15-row balanced holdout strict gate。结果：vview_base_cw07_lr1e3 = 0/15, avg actual MSE 0.057048, max counterfactual delta 5.59e-09；vview_failcat4_cw05_lr1e3 = 0/15, avg actual MSE 0.056805, max counterfactual delta 7.45e-09。actual / zero / time-view-only / wrong-next / wrong-same-category / wrong-other-category 输出基本数值相同，说明这个 vview conditioning path 被模型忽略，是 regression，不应继续沿这条 fast recipe 扩网格。当前 best 仍是 temporal action tokens hardmax w0.5 = 11/15。Local report updated: /Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html；lightweight evidence: /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/vview_fast_20260626/。注意：本次尝试通过 Vercel Blob 写入后发现 pull 回的 Blob snapshot 比本地旧，因此本条先写入本地 dashboard state，避免旧 Blob 覆盖本地最新任务状态。",
-          "created_at": "2026-06-26T12:18:00+08:00"
+          "body": "2026-06-26 vview fast follow-up: Gamma-World stage2 已恢复并保存 iter_000000400 evidence。随后启动 shared-world teacher 的 vview_fast grid；由于 8 条候选明显 CPU-bound，其中 6 条停在 epoch0 附近，我只保留实际推进到 epoch100 的两条：vview_base_cw07_lr1e3 与 vview_failcat4_cw05_lr1e3。两条都训练到 epoch219 并保存 teacher.pt，也跑完 15-row balanced holdout strict gate。结果是 vview_base_cw07_lr1e3 = 0/15, avg actual MSE 0.057048, max counterfactual delta 5.59e-09；vview_failcat4_cw05_lr1e3 = 0/15, avg actual MSE 0.056805, max counterfactual delta 7.45e-09。actual / zero / time-view-only / wrong-next / wrong-same-category / wrong-other-category 输出基本数值相同，说明这个 vview conditioning path 被模型忽略，是 regression，不应继续沿这条 fast recipe 扩网格。当前 best 仍是 temporal action tokens hardmax w0.5 = 11/15。Local report updated: /Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html, lightweight evidence: evidence/vview_fast_20260626/.",
+          "created_at": "2026-06-26T04:11:17.504Z"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-26T12:18:00+08:00"
+      "updated_at": "2026-06-26T04:11:17.504Z"
     },
     {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
@@ -9483,7 +9483,7 @@
       "task_id": "task_self_improving_isaacsim_benchmark_intake",
       "project_id": "self-improving-agents",
       "title": "Build OSS-gated IsaacSim benchmark intake matrix",
-      "description": "Convert the Isaac Sim / Isaac Lab benchmark survey into a machine-readable AgenticSim intake matrix with an explicit open-source gate. Seed report: docs/research/isaacsim-benchmarks-for-self-improving.md. Broad catalog: docs/research/isaacsim-benchmark-catalog.seed.json (41 entries: 4 P0, 28 P1, 9 P2). Open-source gate: docs/research/isaacsim-benchmark-open-source-gate.seed.json and docs/research/isaacsim-benchmark-open-source-gate.md; regenerate with npm run gate:isaacsim-oss. Current gate admits 17 confirmed open-source sources (P0=3, P1=12, P2=2) and excludes 24 until license/source verification. Intake/smoke plan: docs/research/isaacsim-benchmark-intake-plan.seed.json and docs/research/isaacsim-benchmark-intake-plan.md; regenerate with npm run plan:isaacsim-intake. Latest verifier result: 58 source URLs checked, 34 OK in current network run; GitHub metadata checks 19/20 OK, 0 rate-limited; 23 structural issues remain, all unknown licenses; Dual-Sim public GitHub URL returns 404. Acceptance: only confirmed OSS entries may enter dashboard implementation or smoke work; unknown-license, documentation-only, paper-only, or missing-source entries remain discovery watchlist until proven open source.",
+      "description": "Convert the Isaac Sim / Isaac Lab benchmark survey into a machine-readable AgenticSim intake matrix with an explicit open-source gate and Notion Reading List coverage audit. Seed report: docs/research/isaacsim-benchmarks-for-self-improving.md. Live Notion audit: docs/research/notion-reading-list-coverage.audit.json and .md; 348 pages fetched from Reading List root, 1 Notion API fetch error, 4,325 markdown links, 1,008 unique robotics/simulation-relevant URLs, and 11 unique Isaac/Omniverse-specific URLs. Broad catalog: docs/research/isaacsim-benchmark-catalog.seed.json (44 entries: 4 P0, 29 P1, 11 P2). Open-source gate: docs/research/isaacsim-benchmark-open-source-gate.seed.json and .md; regenerate with npm run gate:isaacsim-oss. Current gate admits 20 confirmed open-source sources (P0=3, P1=13, P2=4) and excludes 24 until license/source verification. Newly added from full Reading List/web pass: RoboVerse Platform, ASAP Humanoid Sim-to-Real Skill Stack, and SO-ARM100/101 Isaac Lab External Project. Latest verifier result: 65 source URLs checked, 62 OK; GitHub metadata checks 24/25 OK, 0 rate-limited; 23 structural issues remain, all unknown licenses; Dual-Sim public GitHub URL returns 404. Acceptance: only confirmed OSS entries may enter dashboard implementation or smoke work; unknown-license, documentation-only, paper-only, or missing-source entries remain discovery watchlist until proven open source.",
       "status": "active",
       "priority": "high",
       "assignee": null,
@@ -9533,9 +9533,18 @@
           "kind": "comment",
           "body": "Open-source gate added. Broad catalog remains 41 benchmarks, but dashboard implementation/smoke admission is now limited to 17 confirmed OSS entries: P0=3, P1=12, P2=2. P0 smoke queue is RoboLab-120, Isaac Lab Core Tasks, and Isaac Lab-Arena; InternDataEngine stays discovery-only until its license is verified. Latest verifier: 58 URLs, 34 OK, GitHub metadata 19/20 OK, Dual-Sim 404, 23 unknown-license structural issues.",
           "created_at": "2026-06-25T22:33:04.959Z"
+        },
+        {
+          "comment_id": "comment_1ef7bda3-f4d9-437e-978f-49d59f1f9f77",
+          "task_id": "task_self_improving_isaacsim_benchmark_intake",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Full Reading List audit completed via live ntn recursion: 348 pages fetched, 1 Notion API failure page (4.14), 4,325 links, 1,008 unique robotics/simulation-relevant URLs, 11 unique Isaac/Omniverse-specific URLs. This exposed gaps in the earlier 2026.6-only scan. Added confirmed OSS misses: RoboVerse Platform, ASAP Humanoid Sim-to-Real Skill Stack, and SO-ARM100/101 Isaac Lab External Project. Catalog is now 44 entries; OSS gate admits 20 and excludes 24 until license/source verification.",
+          "created_at": "2026-06-26T04:26:41.717Z"
         }
       ],
-      "updated_at": "2026-06-25T22:33:04.959Z",
+      "updated_at": "2026-06-26T04:26:41.717Z",
       "completed_at": null,
       "completed_at_time": null
     }
