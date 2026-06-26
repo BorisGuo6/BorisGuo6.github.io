@@ -9469,6 +9469,15 @@
           "kind": "comment",
           "body": "2026-06-26 temporal capacity follow-up: 保留当前 best temporal action tokens hardmax w0.5 的关键训练配方（lr=1e-4, contrast margin=0.003, hardmax, dynamic_weight=0.2），只把 teacher 容量从 dim=256,hubs=4,layers=4 增到 dim=384,hubs=8,layers=6，8卡 DDP 训练到 epoch119，loss 0.103121 -> 0.021367。Holdout strict gate 结果是 8/15，不如当前 best 11/15；failed rows = 0,229,299,338,377,388,397；avg actual MSE 0.065246；avg zero delta +0.013457，wrong_next +0.021286，wrong_same_category +0.042733，wrong_other_category +0.023868。结论：容量变大没有解决 action-conditioned gate，且泛化变差；但平均 counterfactual delta 为正，说明不是完全忽略 action。下一步不要再做 plain capacity/sample-weight sweep，应做 online hard-negative mining、action-dominant hub/decoder path、或把 11/15 teacher signal 蒸馏进真正的视频 generator。Local report/evidence updated: /Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html and evidence/temporal_capacity_20260626/.",
           "created_at": "2026-06-26T05:16:31.834Z"
+        },
+        {
+          "comment_id": "comment_ea51695c-b00f-4b9a-95ee-3727076f51c7",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Codex",
+          "author_type": "agent",
+          "kind": "comment",
+          "body": "2026-06-26 temporal_action_skip result: 在 train_shared_world_teacher.py 增加 condition_injection=temporal_action_skip，让 decoder 同时吃 transformer 后的 frame condition token 和 raw encoded per-frame action token。远端 8卡 DDP 跑完 outputs_umi/shared_world_teacher_gamma_balanced398_temporal_action_skip_20260626，epoch99 loss 0.034182，holdout strict gate = 7/15。failed rows = 199,229,260,299,338,378,388,397；avg actual MSE 0.064431；avg zero delta +0.015641，wrong_next +0.016940，wrong_same_category +0.035515，wrong_other_category +0.016534。它 recover 了 row0，但总体低于当前 best temporal_hardmax_w05 11/15，也低于 capacity 8/15。结论：raw action skip 不是主线；问题不只是 action token 到不了 decoder，还需要 online hard-negative mining 或 teacher-to-generator distill，把 action discrimination 放进真正视频生成目标。Local report/evidence updated: /Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html and evidence/temporal_action_skip_20260626/.",
+          "created_at": "2026-06-26T05:42:27.060Z"
         }
       ],
       "completed_at": null,
