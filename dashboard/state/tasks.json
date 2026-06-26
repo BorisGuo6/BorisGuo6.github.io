@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-26T16:26:47+08:00",
+  "updated_at": "2026-06-26T16:36:49+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1934,9 +1934,16 @@
           "body": "Local Codex host review reopened this TODO.\n请补齐完整可复现验收包后再送审：repo commit SHA；RoboTwin2 API list/task-program schema/manual-program new-task path 文档；1-2 个 tabletop task 的 prompt 与 env JSON/description；code-agent 生成或 repair 后的 task program 路径和 diff/commit；simulator smoke 原始命令、完整日志和 pass/fail；data-collection dry run 原始命令、输出路径、可读取的 HDF5/summary/video/instruction/scene_info/seed artifacts 和 verifier/log，并给出大小和 sha256；Pi 或 OpenVLA-OFT train/eval hook 必须实际运行，或提供失败命令、完整日志和明确 blocker。若 artifacts 只在远端，请提供可 SSH 复核的 host、绝对路径和只读检查命令。ACT hook 不能替代 Pi/OpenVLA-OFT，除非同时给出 Pi/OpenVLA-OFT 无法运行的证据化 blocker。",
           "created_at": "2026-06-26T16:26:44+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_6de3709d0fb2",
+          "author": "Review",
+          "body": "Local Codex host review reopened this TODO.\n请补齐后再送审：1) 提交可访问的 repo commit SHA；2) 提供 Pi 或 OpenVLA-OFT train/eval hook 的实际运行命令、完整日志、输出 artifact/checkpoint/eval 证据；如果不能运行，提供失败命令、完整错误日志和明确 blocker，ACT 不能替代；3) 提交或在 dashboard comment 附上 simulator smoke 与 data-collection dry run 的原始命令、完整日志、pass/fail、HDF5 verifier 输出、instruction/video/scene_info/seed artifact 路径、大小和 sha256；4) 若 artifacts 只在远端，请给出可 SSH 复核的 host、绝对路径和只读检查命令。",
+          "created_at": "2026-06-26T16:36:46+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-26T16:26:45+08:00",
+      "updated_at": "2026-06-26T16:36:47+08:00",
       "due_at": "",
       "completed_at": null
     },
@@ -5799,7 +5806,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-26T16:09:18+08:00",
+      "updated_at": "2026-06-26T16:30:41+08:00",
       "completed_at": "2026-06-24"
     },
     {
@@ -9535,10 +9542,19 @@
           "kind": "comment",
           "body": "2026-06-26 follow-up 3: 实现并完成一条更直接的 action-consistency 监督路线 `explicit10_viewtokens_videocond_20260626`。代码改动：在 `scripts_umi/train_shared_world_teacher.py` 加入 `VideoConditionReadout`，从 generated dual-view video 解码每帧 condition，并新增 `--video-condition-weight` / `--video-condition-gt-weight`。远端 smoke 已验证 readout 输出 `(B,13,26)`，readout 和 decoder 都有梯度；随后 8-GPU DDP 跑到 epoch99。结果：standard gate 8/15，extended task-aware gate 1/15，avg actual MSE 0.053282；extended 只过 row 298。结论：video-to-condition auxiliary 会改善重建/读出，但没有增强 actual vs zero/wrong-row/nearest-task 的分离，甚至比 32px viewtokens baseline 退化；因此下一步应上 object/contact/per-frame richer supervision 或 generator-facing distillation，而不是继续做 naive pixel-to-action auxiliary。报告已更新：/Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html。",
           "created_at": "2026-06-26T08:12:32.364Z"
+        },
+        {
+          "comment_id": "comment_6675b5e5-2e4b-4145-b2fc-f31f90e642fd",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-26 follow-up: fixed the DDP failure introduced by the optional video-condition readout by making that module registered only when video_condition_weight > 0; remote smoke verified readout-disabled and readout-enabled paths. Reran explicit10_viewtokens_hardfamily_weighted_20260626 on 8x H20. Result: standard gate 8/15, extended task-aware gate 1/15, avg actual MSE 0.051863; extended pass row only 298. Oracle route union remains standard 12/15 and extended 7/15, so hard-family oversampling did not solve same-task nearest negatives. Evidence: /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/explicit10_viewtokens_hardfamily_weighted_20260626/ and updated index.html.",
+          "created_at": "2026-06-26T08:30:50.528Z"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-26T08:12:32.364Z"
+      "updated_at": "2026-06-26T08:30:50.528Z"
     },
     {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
