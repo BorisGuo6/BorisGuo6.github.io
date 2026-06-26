@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-26T15:35:03+08:00",
+  "updated_at": "2026-06-26T15:52:17+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1913,7 +1913,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-26T15:35:01+08:00",
+      "updated_at": "2026-06-26T15:46:42+08:00",
       "due_at": "",
       "completed_at": null
     },
@@ -5776,7 +5776,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-26T15:28:21+08:00",
+      "updated_at": "2026-06-26T15:48:43+08:00",
       "completed_at": "2026-06-24"
     },
     {
@@ -9485,10 +9485,19 @@
           "kind": "comment",
           "body": "2026-06-26 view-specific action-token follow-up: implemented and ran `explicit10_viewtokens_20260626`, switching the explicit10/raw-gripper teacher from shared temporal action tokens to left/right view-specific temporal action tokens (`condition_injection=temporal_view_action_tokens`). 8-GPU DDP completed to epoch 99, loss 0.044298. Result on the same 15-row holdout: standard gate 10/15, extended task-aware nearest-condition gate 4/15, avg actual MSE 0.053586. This is the best explicit10 extended result so far and supports the architecture direction that dual-view rollout needs view-specific action/state paths, not only a shared action prompt. It still does not beat the old `temporal_hardmax_w05` standard gate 11/15 and remains incomplete. I also ran `explicit10_viewtokens_taskaware_20260626` with nearest task/category negatives included in training; it regressed to standard 8/15 and extended 3/15. So the gain comes from view-specific conditioning, not from harder nearest-negative loss. Evidence synced: `/Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/explicit10_viewtokens_20260626/` and `/Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/explicit10_viewtokens_taskaware_20260626/`; main report updated: `/Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html`. Next route should build from view-specific action paths toward richer trajectory/task-state supervision or generator-facing action-control, not continue nearest-loss sweeps.",
           "created_at": "2026-06-26T07:33:56.822Z"
+        },
+        {
+          "comment_id": "comment_175d6e51-f6ee-4c36-b849-e71df26a5a4c",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-26 follow-up: explicit10 temporal_view_action_skip 已在 8 卡 H20 上跑完并同步 evidence。这版使用 13D explicit pos3+rot6d+raw gripper、left/right view-specific temporal tokens，并把每视角 raw action condition skip 到 decoder。结果：standard gate 9/15，extended task-aware gate 2/15，avg actual MSE 0.052826；extended 只过 rows 260、298。结论：decoder action skip 降低重建 MSE，但削弱 nearest-task/category counterfactual separation；当前最佳 explicit10 仍是 temporal_view_action_tokens（standard 10/15，extended 4/15），不是 viewskip。本机报告已更新：/Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html；evidence：/Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/explicit10_viewskip_20260626/。",
+          "created_at": "2026-06-26T07:47:09.671Z"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-26T07:33:56.822Z"
+      "updated_at": "2026-06-26T07:47:09.671Z"
     },
     {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
