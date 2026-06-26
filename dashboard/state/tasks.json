@@ -9496,6 +9496,15 @@
           "kind": "comment",
           "body": "2026-06-26 teacher complementarity analysis: 对 temporal_hardmax_w05(11/15)、temporal_rollhard(9/15)、temporal_capacity(8/15)、temporal_action_skip(7/15) 做 per-row union 分析。四个 teacher 的 union 只有 12/15；共同无法通过的 stubborn rows 是 229,299,397。row229 主要被 wrong_next 打败，row299 常被 time_view/zero 打平或打败，row397 多个 route 都被 wrong_next/wrong_other 打败。结论：gated ensemble 也无法解决最后三条，直接把当前 teacher 蒸馏进 generator 会继承 action ambiguity。下一步应先诊断这些 stubborn rows 的源视频、action magnitude、gripper channel、negative pair selection，并做 row-aware/schema-aware hard negative，而不是继续全局超参 sweep。Report updated: /Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html.",
           "created_at": "2026-06-26T06:08:01.451Z"
+        },
+        {
+          "comment_id": "comment_2c418127-2b81-4d67-880f-69efa77ee634",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Codex",
+          "author_type": "agent",
+          "kind": "comment",
+          "body": "2026-06-26 stubborn row diagnostics: 已检查所有 teacher 都失败的 rows 229/299/397。它们的 condition/action magnitude 并不小：row229 mean_abs 0.8505，row299 0.7459，row397 0.7790。row229 的 wrong_next 是同任务相邻 clean_container row230，video MSE 0.08046，且 checked subset 里 row259 更近 0.07283，说明视觉/任务邻近导致 wrong action 易胜出；row299 actual reconstruction 本身难，time_view/zero 常打平；row397 wrong_next wrap 到 row0，且非鞋类视觉近邻也很多。结论：现在不要直接 teacher-to-generator distill；应先加 condition-space hard negative，例如 wrong_nearest_condition，再测 strict gate。Local diagnostics: /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/stubborn_row_diagnostics_20260626/index.html.",
+          "created_at": "2026-06-26T06:16:36.432Z"
         }
       ],
       "completed_at": null,
