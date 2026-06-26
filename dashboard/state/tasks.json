@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-26T15:52:17+08:00",
+  "updated_at": "2026-06-26T16:02:43+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1913,7 +1913,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-26T15:46:42+08:00",
+      "updated_at": "2026-06-26T15:57:10+08:00",
       "due_at": "",
       "completed_at": null
     },
@@ -5776,7 +5776,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-26T15:48:43+08:00",
+      "updated_at": "2026-06-26T15:59:11+08:00",
       "completed_at": "2026-06-24"
     },
     {
@@ -9494,10 +9494,19 @@
           "kind": "comment",
           "body": "2026-06-26 follow-up: explicit10 temporal_view_action_skip 已在 8 卡 H20 上跑完并同步 evidence。这版使用 13D explicit pos3+rot6d+raw gripper、left/right view-specific temporal tokens，并把每视角 raw action condition skip 到 decoder。结果：standard gate 9/15，extended task-aware gate 2/15，avg actual MSE 0.052826；extended 只过 rows 260、298。结论：decoder action skip 降低重建 MSE，但削弱 nearest-task/category counterfactual separation；当前最佳 explicit10 仍是 temporal_view_action_tokens（standard 10/15，extended 4/15），不是 viewskip。本机报告已更新：/Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html；evidence：/Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/explicit10_viewskip_20260626/。",
           "created_at": "2026-06-26T07:47:09.671Z"
+        },
+        {
+          "comment_id": "comment_96c453a3-5317-4d3e-a9d6-e8bff5114cc4",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-26 follow-up 2: 在 explicit10 viewtokens 当前最佳路线基础上，启动并完成 64px teacher rerun `explicit10_viewtokens_s64_20260626`。流程：materialize s64_f13 cache 796 videos -> 8-GPU DDP train to epoch99 -> same 15-row holdout gate。结果：standard gate 10/15，extended task-aware gate 2/15，avg actual MSE 0.060657；standard failures 198,229,299,378,397，extended 只过 260,298。结论：提高 teacher resolution 没有解决 nearest-task/category counterfactual separation；当前 best explicit10 仍是 32px `temporal_view_action_tokens`（standard 10/15, extended 4/15）。补充互补性分析：所有现有 teacher routes 的 oracle union 只有 standard 12/15、extended 7/15，说明下一步不该继续做单 route 小 sweep，而应转向 object/contact/per-frame richer supervision 或把互补 teacher 信号蒸馏回 generator-facing route。",
+          "created_at": "2026-06-26T07:58:32.376Z"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-26T07:47:09.671Z"
+      "updated_at": "2026-06-26T07:58:32.376Z"
     },
     {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
