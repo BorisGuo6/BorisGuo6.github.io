@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-26T12:29:42+08:00",
+  "updated_at": "2026-06-26T14:42:11+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1904,9 +1904,16 @@
           "body": "Local Codex host review reopened this TODO.\n请补齐完整可复现验收包后再送审：repo commit SHA；RoboTwin2 API list/task-program schema/manual-program new-task path 文档；1-2 个 tabletop task 的 prompt 与 env JSON/description；code-agent 生成或 repair 后的 task program 路径和 diff/commit；simulator smoke 原始命令、完整日志和 pass/fail；data-collection dry run 原始命令、输出路径、可读取的 HDF5/summary/video/instruction/scene_info/seed artifacts 和 verifier/log，并给出大小和 sha256；Pi/OpenVLA-OFT train/eval hook 的实际运行证据，或带失败命令/日志的明确 blocker；designer/critic/orchestrator 范围限制说明。若 artifacts 只在远端，请提供可 SSH 复核的 host、绝对路径和只读读取命令。",
           "created_at": "2026-06-26T11:58:14+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_502d0ec555cd",
+          "author": "Review",
+          "body": "Local Codex host review reopened this TODO.\n请补齐完整可复现验收包后再送审：repo commit SHA；RoboTwin2 API list/task-program schema/manual-program new-task path 文档；1-2 个 tabletop task 的 prompt 与 env JSON/description；code-agent 生成或 repair 后的 task program 路径和 diff/commit；simulator smoke 原始命令、完整日志和 pass/fail；data-collection dry run 原始命令、输出路径、可读取的 HDF5/summary/video/instruction/scene_info/seed artifacts 和 verifier/log，并给出大小和 sha256；Pi/OpenVLA-OFT train/eval hook 的实际运行证据，或带失败命令/日志的明确 blocker；designer/critic/orchestrator 范围限制说明。若 artifacts 只在远端，请提供可 SSH 复核的 host、绝对路径和只读检查命令。",
+          "created_at": "2026-06-26T14:42:08+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-26T12:24:35+08:00",
+      "updated_at": "2026-06-26T14:42:09+08:00",
       "due_at": "",
       "completed_at": null
     },
@@ -9512,6 +9519,13 @@
           "kind": "progress",
           "created_at": "2026-06-26T14:35:00+08:00",
           "body": "2026-06-26 update: ran the 8-GPU temporal_nearestcond teacher after adding `wrong_nearest_condition` hard negatives to `scripts_umi/train_shared_world_teacher.py`. Result: strict action gate 8/15 on the same holdout, passed rows [0,99,198,259,279,298,338,388], failed [199,229,260,299,377,378,397]. This does not beat the current best `temporal_hardmax_w05` 11/15 and still fails stubborn rows 229/299/397. Evidence synced locally: `/Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/temporal_nearestcond_20260626/`; main report updated at `/Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html`. Conclusion: do not distill this teacher family into the generator yet; stop global teacher sweeps and move to data/schema repair for stubborn rows or a stronger generator-facing action-control architecture."
+        },
+        {
+          "id": "comment_umi_schema_audit_20260626",
+          "author": "Codex",
+          "kind": "progress",
+          "created_at": "2026-06-26T14:55:00+08:00",
+          "body": "2026-06-26 schema audit after nearest-condition failure: checked Gamma paired teacher data for holdout/stubborn rows. All audited rows have matched video/action length: 189 video frames at 16fps and action shape [189,10], so the 229/299/397 failures are not an obvious fps/frame-count mismatch. Current condition is `gamma-paired-teacher.v1`: per-view time/view plus action_mean/action_sum/action_absmax/action_last over 10-D actions. For stubborn rows, nearest condition negatives cross task categories: row229 -> row118 Clutter, row299 -> row32 Clutter, row397 -> row32 Clutter. Conclusion: the condition is too compressed/globally normalized for semantic action discrimination; next route should rebuild manifest with explicit compact8/continuous10 fields, raw gripper ablation, and task/object-aware hard negatives before generator distillation. Audit JSON: `/Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/schema_audit_20260626/action_schema_audit.json`."
         }
       ],
       "completed_at": null,
