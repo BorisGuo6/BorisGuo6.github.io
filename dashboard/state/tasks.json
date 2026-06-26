@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-26T18:01:24+08:00",
+  "updated_at": "2026-06-26T18:11:52+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1990,9 +1990,16 @@
           "body": "Local Codex host review reopened this TODO.\n请补齐后再送审：提供可访问的 repo commit SHA 或可 SSH 复核的工作区；提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、输出 artifact 路径/大小/sha256 和 HDF5/verifier 输出；对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，并提交命令、完整日志、checkpoint/eval artifact。若确实不能运行 Pi/OpenVLA-OFT，请提供失败命令、完整错误日志和明确 blocker。ACT 只能作为补充，不能替代 Pi/OpenVLA-OFT 验收项。",
           "created_at": "2026-06-26T18:01:20+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_f90727ce473d",
+          "author": "Review",
+          "body": "Local Codex host review reopened this TODO.\n请补齐后再送审：提供可访问的 repo commit SHA 或可 SSH/本机复核的工作区；提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、输出 artifact 路径/大小/sha256 和 HDF5/verifier 输出；对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，并提交命令、完整日志、checkpoint/eval artifact。若确实不能运行 Pi/OpenVLA-OFT，请提供失败命令、完整错误日志和明确 blocker。ACT 只能作为补充，不能替代 Pi/OpenVLA-OFT 验收项。",
+          "created_at": "2026-06-26T18:11:49+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-26T18:01:21+08:00",
+      "updated_at": "2026-06-26T18:11:50+08:00",
       "due_at": "",
       "completed_at": null
     },
@@ -5855,7 +5862,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-26T17:54:18+08:00",
+      "updated_at": "2026-06-26T18:05:19+08:00",
       "completed_at": "2026-06-24"
     },
     {
@@ -9654,10 +9661,28 @@
           "kind": "comment",
           "body": "2026-06-26 follow-up: implemented and tested a pseudo layer-aware action grounding route for the explicit teacher. Added `ResidualLayerActionContrastHead` to `scripts_umi/train_shared_world_teacher.py`: it subtracts the first frame from each future frame to form a robot/object/contact residual layer, appends GT motion masks as layer channels, pools foreground residual features, and contrasts that layer embedding against the action/state condition. Remote smoke passed on real UMI teacher data and checkpoint health confirmed the new head parameters are saved/nonzero.\n\n8x H20 run `explicit10_viewtokens_residuallayer_20260626` completed. Strict holdout gate: standard 10/15, extended same-task/nearest-action 3/15, avg actual MSE 0.051503. Extended pass rows: 260, 298, 388. This improves over localmotioncontrast numerically, but it does not add a new row to the oracle union; holdout-excluded extended oracle remains 8/15. Evidence: `/Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/explicit10_viewtokens_residuallayer_20260626/`, updated main report `/Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html`, and updated complementarity JSON.\n\nConclusion: pseudo residual layer helps reconstruction and some standard gates, but still does not solve same-task hard action negatives. Next route should stop using only pixel/motion proxies and introduce real semantic object/contact/layer supervision or a stronger generator-facing teacher.",
           "created_at": "2026-06-26T09:45:05.618Z"
+        },
+        {
+          "comment_id": "comment_439cafa3-9241-45a5-8696-be6d46b5534a",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-26 semantic-layer route update: implemented a real sidecar interface for layer-aware action grounding. Added `scripts_umi/make_semantic_layer_sidecars.py`, which generates per-clip `[2,T,3,H,W]` masks with foreground-change / contact-motion / background channels, and added `SemanticLayerActionContrastHead` to `scripts_umi/train_shared_world_teacher.py`. The training path now requires `--semantic-mask-root` when semantic-layer contrast is enabled, so it cannot silently fall back to pixel-only masks.\n\nGenerated 398 semantic layer sidecars at size32/frames13. Coverage mean: foreground-change 0.2005, contact-motion 0.1808, background 0.7423. Smoke train and checkpoint health passed, then 8x H20 run `explicit10_viewtokens_semanticlayer_20260626` completed.\n\nStrict holdout gate: standard 9/15, extended same-task/nearest-action 4/15, avg actual MSE 0.052926. Extended pass rows: 229, 260, 298, 377. This validates the mask/layer supervision interface but does not improve beyond the baseline explicit10 view-token route; holdout-excluded extended oracle remains 8/15. Evidence: `/Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/explicit10_viewtokens_semanticlayer_20260626/` and updated main report `/Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html`.\n\nConclusion: automatic OpenCV layer sidecars are not enough. The useful next step is stronger SAM/robot-object/contact labels or a generator-facing teacher, not more pixel-only proxy masks.",
+          "created_at": "2026-06-26T10:00:58.647Z"
+        },
+        {
+          "comment_id": "comment_72991e98-51b5-4f47-a639-bc5e499e8594",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-26 semantic-layer route: added explicit layer sidecars and SemanticLayerActionContrastHead. Generated 398 sidecars with foreground/contact/background channels; smoke and checkpoint health passed; 8x H20 run explicit10_viewtokens_semanticlayer_20260626 completed. Strict gate: standard 9/15, extended 4/15, avg MSE 0.052926; extended rows 229,260,298,377. This validates the mask/layer sidecar interface but does not beat the explicit10 baseline or improve oracle extended union, which remains 8/15. Evidence: /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/explicit10_viewtokens_semanticlayer_20260626/ and updated main report index.html. Next: stronger SAM/robot-object/contact labels or generator-facing teacher.",
+          "created_at": "2026-06-26T10:02:05.250Z"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-26T09:45:05.618Z"
+      "updated_at": "2026-06-26T10:02:05.250Z"
     },
     {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
