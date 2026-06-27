@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-27T15:38:58.141Z",
+  "updated_at": "2026-06-27T15:57:59.301Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -10323,10 +10323,19 @@
           "kind": "comment",
           "body": "2026-06-27 数据底座更新：远端已凑齐刚好 10,000 条 loader-visible UMI clips。严格口径不是 9,779；按 left/right video、left/right caption、left/right action 六类文件 intersection，原 data_umi_robot189_v2 是 9,777 条 complete clips。新数据根目录为 /root/autodl-tmp/umi-world-model-lab/external_repos/Gamma-World/data_umi_robot189_v3_10k，稳定 symlink 为 data_umi_robot189_10k。组成：9,777 条 v2 unique + 70 条 legacy unique + 153 条显式 __dup10k controlled duplicates；validation_10k.json 显示 complete_intersection=10000，action_stats.json 已按 20,000 个 left/right action files 重算。注意：这只是 Stage 1 训练数据底座准备；当前正在跑的 Gamma Stage3 仍指向 v2，后续新训练必须显式覆盖 dataloader_train.data_root=data_umi_robot189_10k。若保留 val_holdout_frac=0.06，10,000 是总 clips，不是 10,000 train split。",
           "created_at": "2026-06-27T15:38:58.141Z"
+        },
+        {
+          "comment_id": "comment_bb2db8b3-7fe7-45a4-bc9e-4137fa5e1175",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Codex dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-27 Gamma-UMI 数据层修正：检查 Gamma robot loader 后发现，只要数据根目录存在 action_stats.json，就会默认归一化 10-D action，包括 gripper。为避免 gripper 尺度被 action_stats 吃掉，远端已给 LocalMultiviewRobotDataset / get_local_multiview_robot_loader 增加 normalize_action 与 normalize_gripper 开关；robot bidirectional teacher 和 self-forcing CFS robot config 显式设置 normalize_action=True、normalize_gripper=False。10k early-teacher Stage2/Stage3 ablation 启动脚本也显式加入 dataloader_train.normalize_action=true 与 dataloader_train.normalize_gripper=false，并通过 bash -n / py_compile / config import。注意：当前正在跑的 Stage3 是改动前启动的，不受影响；后续 10k ablation 和新 Gamma-UMI route 应使用该修正。",
+          "created_at": "2026-06-27T15:57:59.301Z"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-27T15:38:58.141Z"
+      "updated_at": "2026-06-27T15:57:59.301Z"
     },
     {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
