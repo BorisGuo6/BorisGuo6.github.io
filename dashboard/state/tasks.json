@@ -10393,10 +10393,19 @@
           "kind": "comment",
           "body": "2026-06-28 10k prep status: s32/f13 video cache completed successfully for data/umi_gamma_teacher_10k_explicit10_rawgripper: 20,000/20,000 left/right videos written, 0 failures. The cache watcher then started full semantic foreground/contact mask generation at data/umi_gamma_teacher_10k_explicit10_rawgripper/semantic_layer_masks_s32_f13_v1; latest observed progress 1,600/10,000 masks written, 0 failures. Gamma Stage3 still occupies all 8 H20 GPUs at iter~505, so the 398-row actiondep strict gate remains queued and has not started.",
           "created_at": "2026-06-28T01:26:03+08:00"
+        },
+        {
+          "comment_id": "comment_umi_teacher_10k_ready_audit_20260628",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Codex dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-28 10k ready audit: full 10k shared-world teacher data root is now preflight-clean for the guarded 10k route. Video cache: 20,000/20,000 left/right videos. Semantic foreground/contact masks: 10,000/10,000. audit_teacher_data_root.py reports rows=10,000, train rows after excluding generated holdout=9,918, holdout=82, unique_shared_context_ids=10,000, condition_shapes={(13,13): 20,000}, missing_videos=0, missing_conditions=0, bad_conditions=0, missing_cache=0, missing_masks=0, ready_for_training_with_masks=true. Evidence synced locally: /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/teacher_10k_preflight_20260628/teacher_10k_preflight_ready_20260628.json. This means the scalable 10k teacher route is data-ready, but it is still intentionally gated behind ALLOW_10K_TEACHER=1 and should wait for the 398-row strict gate result.",
+          "created_at": "2026-06-28T01:40:04+08:00"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-28T01:26:03+08:00"
+      "updated_at": "2026-06-28T01:40:04+08:00"
     },
     {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
