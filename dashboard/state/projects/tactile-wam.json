@@ -1,12 +1,12 @@
 {
   "schema_version": "project.v1",
   "project_id": "tactile-wam",
-  "title": "Tactile-WAM: Video-to-Touch World Action Model",
-  "bucket": "survey",
-  "status": "survey",
-  "updated_at": "2026-06-12T14:55:39+08:00",
-  "description": "Survey-stage Wuji proposal track: use external-camera human retargeting to control a robot arm+hand video world model, infer tactile signals from the generated rollout, then evaluate whether this should become a World Action Model that outputs executable actions.",
-  "summary": "Tactile-WAM is currently a Survey card for a three-demo proposal path: first make a video world model where an external camera observes a human hand and retargets it into a generated robot arm+hand rollout; then estimate tactile contact/pressure/slip from that generated video; finally decide whether the predictive world model should output action together with future video/tactile states, becoming a WAM rather than only a simulator.",
+  "title": "VTAM / Tactile-WAM: Video-to-Touch Action Model",
+  "bucket": "research",
+  "status": "ongoing",
+  "updated_at": "2026-06-27T05:19:11.377Z",
+  "description": "Ongoing DaiMeng/Wuji VTAM proposal track: build a video-to-touch-action model where human/robot video, tactile/contact prediction, and executable action decoding are evaluated on contact-rich dexterous manipulation.",
+  "summary": "VTAM / Tactile-WAM is now promoted from survey to an ongoing DaiMeng/Wuji proposal project. The working chain is: external-camera or robot video produces a controllable robot arm+hand rollout; the rollout predicts contact timing, tactile/contact patches, pressure/slip/force proxies; the model then learns an action head so predicted visuo-tactile futures can become executable robot actions. The near-term target is a crisp proposal/demo path with aligned Wuji tactile, robot state/action, video, and contact labels.",
   "subprojects": [
     {
       "label": "A",
@@ -41,7 +41,9 @@
     "Why this is not just VTLA: VTLA / Tactile Intuition remains the broad survey for tactile representation and benchmark choice. Tactile-WAM is a separate Survey card for the concrete proposal chain: generated robot video -> predicted tactile -> action-generating model.",
     "Why this relates to Tri-View / Image-Layered IDM: the robot arm/hand video generator and layer decomposition provide the visual state backbone. Tactile-WAM adds a contact-state head and then an action head, especially for tasks where visual evidence alone cannot determine contact.",
     "Why this relates to DexGello: DexGello can provide aligned real data for arm/hand/finger state, while Wuji tactile / glove streams can provide tactile supervision. Tactile-WAM can use that data to train video-to-touch and touch-to-action components.",
-    "Good first benchmark families: pressing, wiping, grasping, in-hand adjustment, cutting/peeling, and assembly/insertion. Choose tasks where tactile is genuinely necessary: occlusion, slip, force threshold, contact/no-contact ambiguity, or object deformation."
+    "Good first benchmark families: pressing, wiping, grasping, in-hand adjustment, cutting/peeling, and assembly/insertion. Choose tasks where tactile is genuinely necessary: occlusion, slip, force threshold, contact/no-contact ambiguity, or object deformation.",
+    "DaiMeng proposal update 2026-06-27: promote this card from Survey to ongoing Research because VTAM is now a live proposal/project track. The dashboard framing should use VTAM as the proposal name and Tactile-WAM as the technical mechanism: video-to-touch prediction plus action decoding for contact-rich manipulation.",
+    "Ongoing execution scope: build data alignment first (external/RGB-D video, wrist/hand video, Wuji qpos/tactile streams, robot state/action, timestamps, calibration snapshot), then run the three-stage demo: retargeted robot video generation, video-to-tactile/contact prediction, and action-head / WAM decoding."
   ],
   "task_ids": [
     "task_tactile_wam_proposal_spec",
@@ -108,7 +110,8 @@
     "Synthetic tactile risk: tactile predicted from generated video can become visually plausible but physically wrong. Ground it with real Wuji / tactile sensor streams whenever possible.",
     "Action-decoding risk: a WAM head must be evaluated on executable actions, not only video fidelity. The acceptance metric should include action plausibility, robot limits, contact success, and rollout consistency.",
     "Data-alignment risk: tactile is high-frequency and local, while video is lower-frequency and global. The logger must preserve timestamps, calibration, contact frames, and sensor metadata.",
-    "Novelty boundary: VT-WM and OmniVTA already cover visuo-tactile world models. The differentiator should be external-camera retargeted robot-video generation plus tactile-grounded WAM action output."
+    "Novelty boundary: VT-WM and OmniVTA already cover visuo-tactile world models. The differentiator should be external-camera retargeted robot-video generation plus tactile-grounded WAM action output.",
+    "Status decision 2026-06-27: move VTAM / Tactile-WAM from Survey to ongoing Research. It should now be tracked as an active DaiMeng/Wuji proposal project rather than only a tactile representation idea."
   ],
   "timeline": {
     "badges": [
@@ -133,8 +136,8 @@
         "value": "WAM"
       }
     ],
-    "target_cycle": "proposal demo",
-    "target_note": "First produce a crisp 3-demo story for Wuji: external-camera retargeted robot video, tactile-from-video prediction, and WAM action output.",
+    "target_cycle": "ongoing DaiMeng/Wuji proposal demo",
+    "target_note": "Promoted to ongoing: deliver the VTAM proposal/demo chain, then refine exact milestones after extracting the DOCX when accessible.",
     "sprint_start": "2026-06-11",
     "sprint_due": null,
     "milestones": []
