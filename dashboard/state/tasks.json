@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-27T13:28:20+08:00",
+  "updated_at": "2026-06-27T05:42:22.606Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1740,541 +1740,9 @@
           "kind": "comment",
           "body": "2026-06-26 ClawCross WeChat update from the Boris/Zheng Ye thread: Zheng’s part should be a Placement Agent, not the upstream asset-generation system. The current implementation converts natural-language tabletop tasks into a simple Text2Env JSON and then into a RoboTwin2 task program; it has a green-block/blue-bowl smoke task and repo access at https://github.com/yezheng04/robotwin-text2env-demo. Scope for the next redesign: infer object placement and scene arrangement from task intention, use existing RoboTwin2 assets first, and route missing assets through an adapter/upstream asset generator. SceneSmith remains the reference pattern for Designer/Critic/Orchestrator, but v0 is tabletop RoboTwin2 placement rather than full indoor scene generation. Public reference: https://scenesmith.github.io/. Image Context now includes the RoboTwin2 Text2Env workflow diagram.",
           "created_at": "2026-06-26T15:24:22.115Z"
-        },
-        {
-          "comment_id": "clawcross_75860c4c1dd6",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补交可复现验收材料：1) RoboTwin2 API list/task-program schema 文档路径；2) 1-2 个 tabletop task 的 env JSON/description 与生成 prompt；3) code-agent 生成或 repair 后的 RoboTwin2 task program 路径和 diff/commit；4) simulator smoke 的具体命令、日志和 pass/fail 结果；5) data-collection dry run 的命令、输出数据路径和日志；6) Pi 或 OpenVLA-OFT train/eval hook 的实际运行证据，或带命令/日志的明确 blocker；7) designer/critic/orchestrator 已限制在 tabletop feasibility、collision/stability、object poses、task API usage、program repair 范围内的说明。",
-          "created_at": "2026-06-24T23:27:52+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_4e07623ad3da",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补交可复现验收包：1) RoboTwin2 API list/task-program schema 文档路径；2) 1-2 个 tabletop task 的 env JSON/description 与生成 prompt；3) code-agent 生成或 repair 后的 RoboTwin2 task program 路径和 diff/commit；4) simulator smoke 的具体命令、日志和 pass/fail；5) data-collection dry run 的命令、输出数据路径和日志；6) Pi 或 OpenVLA-OFT train/eval hook 的实际运行证据，或带命令/日志的明确 blocker；7) designer/critic/orchestrator 范围限制说明。",
-          "created_at": "2026-06-24T23:53:45+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_6971d046dc1d",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补交完整可复现验收包：1) RoboTwin2 API list/task-program schema 文档路径；2) 1-2 个 tabletop task 的 prompt、env JSON/description；3) code-agent 生成或 repair 后的 RoboTwin2 task program 路径和 diff/commit；4) simulator smoke 的具体命令、日志和 pass/fail；5) data-collection dry run 的命令、输出数据路径和日志；6) Pi 或 OpenVLA-OFT train/eval hook 的实际运行证据，或带命令/日志的明确 blocker；7) designer/critic/orchestrator 范围限制说明。",
-          "created_at": "2026-06-25T00:16:13+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_0afbda97c1c7",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补交完整可复现验收包后再送审：1) RoboTwin2 API list/task-program schema 文档路径；2) 1-2 个 tabletop task 的 prompt、env JSON/description；3) code-agent 生成或 repair 后的 RoboTwin2 task program 路径和 diff/commit；4) simulator smoke 的具体命令、日志和 pass/fail；5) data-collection dry run 的命令、输出数据路径和日志；6) Pi 或 OpenVLA-OFT train/eval hook 的实际运行证据，或带命令/日志的明确 blocker；7) designer/critic/orchestrator 已限制在 tabletop feasibility、collision/stability、object poses、task API usage、program repair 范围内的说明。",
-          "created_at": "2026-06-25T01:24:05+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_cfe5a6cf051c",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补交完整可复现验收包后再送审：1) RoboTwin2 API list/task-program schema 文档路径；2) 1-2 个 tabletop task 的 prompt 和 env JSON/description；3) code-agent 生成或 repair 后的 RoboTwin2 task program 路径和 diff/commit；4) simulator smoke 的具体命令、日志和 pass/fail；5) data-collection dry run 的命令、输出数据路径和日志；6) Pi 或 OpenVLA-OFT train/eval hook 的实际运行证据，或带命令/日志的明确 blocker；7) designer/critic/orchestrator 已限制在 tabletop feasibility、collision/stability、object poses、task API usage、program repair 范围内的说明。",
-          "created_at": "2026-06-25T02:11:33+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_874bc4278bc4",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补交完整可复现验收包后再送审：1) repo commit SHA；2) RoboTwin2 API list/task-program schema 文档路径；3) 1-2 个 tabletop task 的 prompt 和 env JSON/description；4) code-agent 生成或 repair 后的 RoboTwin2 task program 路径和 diff/commit；5) simulator smoke 的具体命令、日志和 pass/fail；6) data-collection dry run 的命令、输出数据路径和日志；7) Pi 或 OpenVLA-OFT train/eval hook 的实际运行证据，或带命令/日志的明确 blocker；8) designer/critic/orchestrator 已限制在 tabletop feasibility、collision/stability、object poses、task API usage、program repair 范围内的说明。",
-          "created_at": "2026-06-25T03:00:24+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_962b9a47c456",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补交完整可复现验收包后再送审：1) repo commit SHA；2) RoboTwin2 API list/task-program schema 文档路径；3) 1-2 个 tabletop task 的 prompt 和 env JSON/description；4) code-agent 生成或 repair 后的 RoboTwin2 task program 路径和 diff/commit；5) simulator smoke 的原始命令、完整日志和 pass/fail；6) data-collection dry run 的原始命令、输出数据路径、可读取的 HDF5/summary/video/instruction artifacts 和日志；7) Pi 或 OpenVLA-OFT train/eval hook 的实际运行证据，或带命令/日志的明确 blocker；8) designer/critic/orchestrator 已限制在 tabletop feasibility、collision/stability、object poses、task API usage、program repair 范围内的说明。",
-          "created_at": "2026-06-25T11:01:23+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_ee435a61ebc2",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补交完整可复现验收包后再送审：1) repo commit SHA；2) RoboTwin2 API list/task-program schema 文档路径；3) 1-2 个 tabletop task 的 prompt 与 env JSON/description；4) code-agent 生成或 repair 后的 RoboTwin2 task program 路径和 diff/commit；5) simulator smoke 的原始命令、完整日志和 pass/fail；6) data-collection dry run 的原始命令、输出数据路径、可读取的 HDF5/summary/video/instruction artifacts 和日志；7) Pi 或 OpenVLA-OFT train/eval hook 的实际运行证据，或带命令/日志的明确 blocker；8) designer/critic/orchestrator 范围限制说明。",
-          "created_at": "2026-06-25T11:20:19+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_a73d7ba05344",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补交完整可复现验收包后再送审：repo commit SHA；RoboTwin2 API list/task-program schema 文档路径；1-2 个 tabletop task 的 prompt 与 env JSON/description；code-agent 生成或 repair 后的 RoboTwin2 task program 路径和 diff/commit；simulator smoke 原始命令、完整日志和 pass/fail；data-collection dry run 原始命令、输出数据路径、可读取的 HDF5/summary/video/instruction artifacts 和日志；Pi 或 OpenVLA-OFT train/eval hook 的实际运行证据，或带命令/日志的明确 blocker；designer/critic/orchestrator 范围限制说明。",
-          "created_at": "2026-06-25T11:58:46+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_6193bbd8d6e3",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐完整验收包后再送审：提交 repo commit SHA；补 docs/policy_hook_note.md 或等价文件，包含 Pi/OpenVLA-OFT hook 的实际命令/输出，或明确 blocker 的命令和日志；把 smoke/data dry-run 的原始日志、HDF5 summary 校验脚本输出、instruction/video/scene_info/seed artifacts 路径提交到 repo 或 dashboard comment；若 artifact 只能在远端，请提供可复核的路径、sha256/大小和读取命令。",
-          "created_at": "2026-06-25T12:47:08+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_b4473168397c",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐完整可复现验收包后再送审：repo commit SHA；RoboTwin2 API list/task-program schema 文档路径；1-2 个 tabletop task 的 prompt 与 env JSON/description；code-agent 生成或 repair 后的 RoboTwin2 task program 路径和 diff/commit；simulator smoke 原始命令、完整日志和 pass/fail；data-collection dry run 原始命令、输出数据路径、可读取的 HDF5/summary/video/instruction/scene_info/seed artifacts 和日志；Pi/OpenVLA-OFT train/eval hook 的实际运行证据，或带命令/日志的明确 blocker；designer/critic/orchestrator 范围限制说明。",
-          "created_at": "2026-06-25T12:56:34+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_e8d03ac1a1c4",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐完整可复现验收包后再送审：repo commit SHA；RoboTwin2 API list/task-program schema 文档路径；1-2 个 tabletop task 的 prompt 与 env JSON/description；code-agent 生成或 repair 后的 RoboTwin2 task program 路径和 diff/commit；simulator smoke 原始命令、完整日志和 pass/fail；data-collection dry run 原始命令、输出数据路径、可读取的 HDF5/summary/video/instruction/scene_info/seed artifacts 和日志；Pi/OpenVLA-OFT train/eval hook 的实际运行证据，或带命令/日志的明确 blocker；designer/critic/orchestrator 范围限制说明。若 artifact 只在远端，请提供可 SSH 复核的路径、大小/sha256 和读取命令。",
-          "created_at": "2026-06-25T13:17:57+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_eeb7250f381f",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐完整可复现验收包后再送审：repo commit SHA；RoboTwin2 API list/task-program schema 文档路径；1-2 个 tabletop task 的 prompt 与 env JSON/description；code-agent 生成或 repair 后的 RoboTwin2 task program 路径和 diff/commit；simulator smoke 原始命令、完整日志和 pass/fail；data-collection dry run 原始命令、输出数据路径、可读取的 HDF5/summary/video/instruction/scene_info/seed artifacts 和日志；Pi/OpenVLA-OFT train/eval hook 的实际运行证据，或带命令/日志的明确 blocker；designer/critic/orchestrator 范围限制说明。若artifact只在远端，请提供可SSH复核的路径、大小/sha256和读取命令。",
-          "created_at": "2026-06-25T13:36:10+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_f44263a28eca",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐完整可复现验收包后再送审：repo commit SHA；RoboTwin2 API list/task-program schema 文档路径；1-2 个 tabletop task 的 prompt 与 env JSON/description；code-agent 生成或 repair 后的 RoboTwin2 task program 路径和 diff/commit；simulator smoke 原始命令、完整日志和 pass/fail；data-collection dry run 原始命令、输出数据路径、可读取的 HDF5/summary/video/instruction/scene_info/seed artifacts 和日志；Pi/OpenVLA-OFT train/eval hook 的实际运行证据，或带命令/日志的明确 blocker；designer/critic/orchestrator 范围限制说明。若 artifacts 只在远端，请提供可 SSH 复核的路径、大小/sha256 和读取命令。",
-          "created_at": "2026-06-25T14:15:28+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_9745a2f61cee",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐完整可复现验收包后再送审：repo commit SHA；RoboTwin2 API list/task-program schema/manual-program new-task path 文档；1-2 个 tabletop task 的 prompt 与 env JSON/description；code-agent 生成或 repair 后的 RoboTwin2 task program 路径和 diff/commit；simulator smoke 原始命令、完整日志和 pass/fail；data-collection dry run 原始命令、输出数据路径、可读取的 HDF5/summary/video/instruction/scene_info/seed artifacts 和日志/verifier；Pi/OpenVLA-OFT train/eval hook 的实际运行证据，或带命令/日志的明确 blocker；designer/critic/orchestrator 范围限制说明。若 artifacts 只在远端，请提供可 SSH 复核的路径、大小/sha256 和读取命令。",
-          "created_at": "2026-06-25T14:53:31+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_0c385a779f13",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐完整可复现验收包后再送审：repo commit SHA；RoboTwin2 API list/task-program schema/manual-program new-task path 文档；1-2 个 tabletop task 的 prompt 与 env JSON/description；code-agent 生成或 repair 后的 RoboTwin2 task program 路径和 diff/commit；simulator smoke 原始命令、完整日志和 pass/fail；data-collection dry run 原始命令、输出数据路径、可读取的 HDF5/summary/video/instruction/scene_info/seed artifacts 和 verifier/log；Pi/OpenVLA-OFT train/eval hook 的实际运行证据，或带命令/日志的明确 blocker；designer/critic/orchestrator 范围限制说明。若 artifacts 只在远端，请提供可 SSH 复核的路径、大小/sha256 和读取命令。",
-          "created_at": "2026-06-25T15:12:48+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_818a2b16fe42",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐完整可复现验收包后再送审：repo commit SHA；RoboTwin2 API list/task-program schema/manual-program new-task path 文档；1-2 个 tabletop task 的 prompt 与 env JSON/description；code-agent 生成或 repair 后的 task program 路径和 diff/commit；simulator smoke 原始命令、完整日志和 pass/fail；data-collection dry run 原始命令、输出路径、可读取的 HDF5/summary/video/instruction/scene_info/seed artifacts 和 verifier/log；Pi/OpenVLA-OFT train/eval hook 的实际运行证据或带命令/日志的明确 blocker；designer/critic/orchestrator 范围限制说明。若 artifacts 只在远端，请提供可 SSH 复核的路径、大小/sha256 和读取命令。",
-          "created_at": "2026-06-25T15:44:43+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_96e2a7937211",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐后再送审：1) 提交 repo commit SHA；2) 新增 docs/policy_hook_note.md 或等价文件，包含 Pi/OpenVLA-OFT train/eval hook 的实际命令与输出，若不能跑则给出带命令/日志的明确 blocker；3) 提交或在 dashboard comment 附上 smoke/data dry-run 原始日志、HDF5 verifier 输出、artifact 路径、大小和 sha256；4) 若 artifacts 只在远端，请提供可 SSH 复核的 host、绝对路径和读取命令。",
-          "created_at": "2026-06-25T18:59:27+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_57184d09d436",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐完整可复现验收包后再送审：repo commit SHA；RoboTwin2 API list/task-program schema/manual-program new-task path 文档；1-2 个 tabletop task 的 prompt 与 env JSON/description；code-agent 生成或 repair 后的 task program 路径和 diff/commit；simulator smoke 原始命令、完整日志和 pass/fail；data-collection dry run 原始命令、输出路径、可读取的 HDF5/summary/video/instruction/scene_info/seed artifacts 和 verifier/log；Pi/OpenVLA-OFT train/eval hook 的实际运行证据或带命令/日志的明确 blocker；designer/critic/orchestrator 范围限制说明。若 artifacts 只在远端，请提供可 SSH 复核的 host、绝对路径、读取命令、大小和 sha256。",
-          "created_at": "2026-06-25T19:11:14+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_9c04e23a9884",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐后再送审：1) 在 repo 加 docs/policy_hook_note.md 或等价文件，包含 Pi/OpenVLA-OFT train/eval hook 的实际命令与输出；若不能跑，给出明确 blocker、失败命令和日志。2) 提交或在 dashboard comment 附上 smoke/data dry-run 原始日志、HDF5 verifier 输出、artifact 绝对路径、大小和 sha256。3) 若 HDF5/log 只在远端 5090，提供可 SSH 复核的 host、绝对路径和只读检查命令。4) 补 manual-program new-task path/API list 的明确文档路径或在现有 schema 文档中标注。",
-          "created_at": "2026-06-25T23:13:35+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_fa423d32227b",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐后再送审：提交 repo commit SHA；补 docs/policy_hook_note.md 或等价文件，包含 Pi/OpenVLA-OFT train/eval hook 的实际命令与输出，若不能跑则给出明确 blocker、失败命令和日志；提交或在 dashboard comment 附上 smoke/data dry-run 原始日志、HDF5 verifier 输出、artifact 绝对路径、大小和 sha256；若 HDF5/log 只在远端 5090，请提供可 SSH 复核的 host、绝对路径和只读检查命令；补 manual-program new-task path/API list 的明确文档路径或在现有 schema 文档中标注。",
-          "created_at": "2026-06-25T23:28:41+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_e3787f5cb88c",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐完整可复现验收包后再送审：repo commit SHA；RoboTwin2 API list/task-program schema/manual-program new-task path 文档；1-2 个 tabletop task 的 prompt 与 env JSON/description；code-agent 生成或 repair 后的 task program 路径和 diff/commit；simulator smoke 原始命令、完整日志和 pass/fail；data-collection dry run 原始命令、输出路径、可读取的 HDF5/summary/video/instruction/scene_info/seed artifacts 和 verifier/log；Pi/OpenVLA-OFT train/eval hook 的实际运行证据，或带命令/日志的明确 blocker；designer/critic/orchestrator 范围限制说明。若 artifacts 只在远端，请提供可 SSH 复核的 host、绝对路径、读取命令、大小和 sha256。",
-          "created_at": "2026-06-26T00:53:49+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_c00300481d13",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补交可复现验收材料：1) RoboTwin2 API list/task-program schema 文档路径；2) 1-2 个 tabletop task 的 env JSON/description 与生成 prompt；3) code-agent 生成或 repair 后的 RoboTwin2 task program 路径和 diff；4) simulator smoke 的具体命令、日志和 pass/fail 结果；5) data-collection dry run 的命令、输出数据路径和日志；6) Pi 或 OpenVLA-OFT train/eval hook 的实际运行证据，或带命令/日志的明确 blocker；7) designer/critic/orchestrator 范围限制说明。",
-          "created_at": "2026-06-26T01:14:54+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_52457fb9e9d7",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补交可复现验收包：1) API list/task-program schema 文档路径；2) 1-2 个 tabletop task 的 env JSON/description 与生成 prompt；3) code-agent 生成或 repair 后的 RoboTwin2 task program 路径和 diff；4) simulator smoke 命令、日志和 pass/fail；5) data-collection dry run 命令、输出数据路径和日志；6) Pi 或 OpenVLA-OFT train/eval hook 的运行证据，或带命令/日志的明确 blocker；7) designer/critic/orchestrator 已限制在 tabletop feasibility、collision/stability、object poses、task API usage、program repair 范围内的说明。",
-          "created_at": "2026-06-26T01:38:09+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_e276ec5d203b",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐后再送审：提交 repo commit SHA；补 docs/policy_hook_note.md 或等价文件，包含 Pi/OpenVLA-OFT train/eval hook 的实际命令与输出，若不能跑则给出明确 blocker、失败命令和日志；提交或在 dashboard comment 附上 smoke/data dry-run 原始日志、HDF5 verifier 输出、artifact 绝对路径、大小和 sha256；若 HDF5/log/video 只在远端 5090，请提供可 SSH 复核的 host、绝对路径和只读检查命令；补 manual-program new-task path/API list 的明确文档路径或在现有 schema 文档中标注。",
-          "created_at": "2026-06-26T05:35:39+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_af858e9dc74b",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐完整可复现验收包后再送审：repo commit SHA；RoboTwin2 API list/task-program schema/manual-program new-task path 文档；1-2 个 tabletop task 的 prompt 与 env JSON/description；code-agent 生成或 repair 后的 task program 路径和 diff/commit；simulator smoke 原始命令、完整日志和 pass/fail；data-collection dry run 原始命令、输出路径、可读取的 HDF5/summary/video/instruction/scene_info/seed artifacts 和 verifier/log，并给出大小和 sha256；Pi/OpenVLA-OFT train/eval hook 的实际运行证据，或带失败命令/日志的明确 blocker；designer/critic/orchestrator 范围限制说明。若 artifacts 只在远端，请提供可 SSH 复核的 host、绝对路径和只读读取命令。",
-          "created_at": "2026-06-26T11:58:14+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_502d0ec555cd",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐完整可复现验收包后再送审：repo commit SHA；RoboTwin2 API list/task-program schema/manual-program new-task path 文档；1-2 个 tabletop task 的 prompt 与 env JSON/description；code-agent 生成或 repair 后的 task program 路径和 diff/commit；simulator smoke 原始命令、完整日志和 pass/fail；data-collection dry run 原始命令、输出路径、可读取的 HDF5/summary/video/instruction/scene_info/seed artifacts 和 verifier/log，并给出大小和 sha256；Pi/OpenVLA-OFT train/eval hook 的实际运行证据，或带失败命令/日志的明确 blocker；designer/critic/orchestrator 范围限制说明。若 artifacts 只在远端，请提供可 SSH 复核的 host、绝对路径和只读检查命令。",
-          "created_at": "2026-06-26T14:42:08+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_3aaa68e8a18f",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐完整可复现验收包后再送审：repo commit SHA；RoboTwin2 API list/task-program schema/manual-program new-task path 文档；1-2 个 tabletop task 的 prompt 与 env JSON/description；code-agent 生成或 repair 后的 task program 路径和 diff/commit；simulator smoke 原始命令、完整日志和 pass/fail；data-collection dry run 原始命令、输出路径、可读取的 HDF5/summary/video/instruction/scene_info/seed artifacts 和 verifier/log，并给出大小和 sha256；Pi/OpenVLA-OFT train/eval hook 的实际运行证据，或带失败命令/日志的明确 blocker。若 artifacts 只在远端，请提供可 SSH 复核的 host、绝对路径和只读检查命令。",
-          "created_at": "2026-06-26T16:16:48+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_d40d1f7eda10",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐完整可复现验收包后再送审：repo commit SHA；RoboTwin2 API list/task-program schema/manual-program new-task path 文档；1-2 个 tabletop task 的 prompt 与 env JSON/description；code-agent 生成或 repair 后的 task program 路径和 diff/commit；simulator smoke 原始命令、完整日志和 pass/fail；data-collection dry run 原始命令、输出路径、可读取的 HDF5/summary/video/instruction/scene_info/seed artifacts 和 verifier/log，并给出大小和 sha256；Pi 或 OpenVLA-OFT train/eval hook 必须实际运行，或提供失败命令、完整日志和明确 blocker。若 artifacts 只在远端，请提供可 SSH 复核的 host、绝对路径和只读检查命令。ACT hook 不能替代 Pi/OpenVLA-OFT，除非同时给出 Pi/OpenVLA-OFT 无法运行的证据化 blocker。",
-          "created_at": "2026-06-26T16:26:44+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_6de3709d0fb2",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐后再送审：1) 提交可访问的 repo commit SHA；2) 提供 Pi 或 OpenVLA-OFT train/eval hook 的实际运行命令、完整日志、输出 artifact/checkpoint/eval 证据；如果不能运行，提供失败命令、完整错误日志和明确 blocker，ACT 不能替代；3) 提交或在 dashboard comment 附上 simulator smoke 与 data-collection dry run 的原始命令、完整日志、pass/fail、HDF5 verifier 输出、instruction/video/scene_info/seed artifact 路径、大小和 sha256；4) 若 artifacts 只在远端，请给出可 SSH 复核的 host、绝对路径和只读检查命令。",
-          "created_at": "2026-06-26T16:36:46+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_5005459ad0eb",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补交可本机或远端复现的验收材料：1) 给出可访问的 repo/commit，或在可 SSH 的 worker 工作区保留代码；2) 粘贴/提交 simulator smoke 的具体命令、完整日志、pass/fail 结果；3) 粘贴/提交 data-collection dry run 的命令、输出数据路径、日志和最小 verifier；4) 对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，并提交命令、日志、产物路径；如果确实不能运行，则提供明确 blocker 的复现命令和错误日志。ACT 可以作为补充，但不能替代 TODO 中的 Pi/OpenVLA-OFT 验收项。",
-          "created_at": "2026-06-26T16:48:07+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_1a0ee17ae78b",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐后再送审：1) 提供可访问的 repo commit SHA 或可 SSH 复核的工作区；2) 粘贴/提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、pass/fail、输出 artifact 路径/大小/sha256、HDF5 verifier 输出；3) 对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，并提交命令、完整日志、checkpoint/eval artifact；如果确实不能运行，请提供失败命令、完整错误日志和明确 blocker。ACT 只能作为补充，不能替代 Pi/OpenVLA-OFT 验收项。",
-          "created_at": "2026-06-26T16:58:21+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_70067105d180",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补交可直接审查的材料：确保 robotwin-text2env-demo 仓库可访问或把关键文件/日志同步到 dashboard/本机；提供 simulator smoke 与 data-collection dry run 的精确命令、完整日志、退出码和输出目录清单；提供生成 task program 的 diff/commit；对 Pi 或 OpenVLA-OFT 必须二选一：实际运行 train/eval hook 并给命令日志，或给出可复现 blocker 命令与错误日志。ACT 可以作为额外 MVP 证据，但不能替代 Pi/OpenVLA-OFT 验收项，除非明确更新 TODO 范围。",
-          "created_at": "2026-06-26T17:18:47+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_9533c3d9b213",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补交可直接审查的验收包后再送审：1) 可访问 repo commit SHA 或可 SSH 复核的工作区；2) generated RoboTwin2 task program 的路径和 diff/commit；3) simulator smoke 的精确命令、完整日志、退出码和 pass/fail；4) data-collection dry run 的命令、输出路径、完整日志、最小 verifier/HDF5 summary、artifact 大小和 sha256；5) Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，提交命令、完整日志、checkpoint/eval artifact；如果确实不能运行，提交失败命令、完整错误日志和明确 blocker。ACT 只能作为补充，不能替代 Pi/OpenVLA-OFT，除非 TODO 范围被明确更新。",
-          "created_at": "2026-06-26T17:29:30+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_11b2554f6243",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐后再送审：提供可访问 repo commit SHA 或可 SSH 复核的工作区；粘贴/提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、输出 artifact 路径/大小/sha256 和 HDF5 verifier 输出；对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，并提交命令、完整日志、checkpoint/eval artifact。若确实不能运行 Pi/OpenVLA-OFT，请提供失败命令、完整错误日志和明确 blocker。ACT 只能作为补充，不能替代 Pi/OpenVLA-OFT 验收项。",
-          "created_at": "2026-06-26T17:39:58+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_377d93b37a7b",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐后再送审：提供可访问的 repo commit SHA 或可 SSH 复核的工作区；粘贴/提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、输出 artifact 路径/大小/sha256 和 HDF5 verifier 输出；对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，并提交命令、完整日志、checkpoint/eval artifact。若确实不能运行 Pi/OpenVLA-OFT，请提供失败命令、完整错误日志和明确 blocker。ACT 只能作为补充，不能替代 Pi/OpenVLA-OFT 验收项。",
-          "created_at": "2026-06-26T17:50:19+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_b43188f1f482",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐后再送审：提供可访问的 repo commit SHA 或可 SSH 复核的工作区；提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、输出 artifact 路径/大小/sha256 和 HDF5/verifier 输出；对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，并提交命令、完整日志、checkpoint/eval artifact。若确实不能运行 Pi/OpenVLA-OFT，请提供失败命令、完整错误日志和明确 blocker。ACT 只能作为补充，不能替代 Pi/OpenVLA-OFT 验收项。",
-          "created_at": "2026-06-26T18:01:20+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_f90727ce473d",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐后再送审：提供可访问的 repo commit SHA 或可 SSH/本机复核的工作区；提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、输出 artifact 路径/大小/sha256 和 HDF5/verifier 输出；对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，并提交命令、完整日志、checkpoint/eval artifact。若确实不能运行 Pi/OpenVLA-OFT，请提供失败命令、完整错误日志和明确 blocker。ACT 只能作为补充，不能替代 Pi/OpenVLA-OFT 验收项。",
-          "created_at": "2026-06-26T18:11:49+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_8ed67b66acae",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐可直接审查的验收包后再送审：提供可访问的 repo commit SHA 或可 SSH/本机复核的工作区；提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、输出 artifact 路径/大小/sha256 和 HDF5/verifier 输出；对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，并提交命令、完整日志、checkpoint/eval artifact。若确实不能运行 Pi/OpenVLA-OFT，请提供失败命令、完整错误日志和明确 blocker。ACT 只能作为补充，不能替代 Pi/OpenVLA-OFT 验收项。",
-          "created_at": "2026-06-26T18:32:46+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_263017c350e1",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐可直接审查的验收包后再送审：1) 提供可访问的 repo commit SHA 或可 SSH/本机复核的工作区；2) 提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、输出 artifact 路径/大小/sha256 和 HDF5/verifier 输出；3) 对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，并提交命令、完整日志、checkpoint/eval artifact；若确实不能运行 Pi/OpenVLA-OFT，请提供失败命令、完整错误日志和明确 blocker。ACT 只能作为补充，不能替代 Pi/OpenVLA-OFT 验收项。",
-          "created_at": "2026-06-26T19:04:35+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_2c874b755080",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐可直接复核的验收包后再送审：提供可访问 repo commit SHA 或可 SSH/本机读取的工作区；提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、输出 artifact 路径/大小/sha256 和 HDF5/verifier 输出；对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，并提交命令、完整日志、checkpoint/eval artifact。若确实不能运行 Pi/OpenVLA-OFT，请提供失败命令、完整错误日志和明确 blocker。ACT 只能作为补充，不能替代 Pi/OpenVLA-OFT 验收项，除非 TODO 范围被明确更新。",
-          "created_at": "2026-06-26T19:25:49+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_51d3314fa5e0",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐后再送审：提供可访问 repo commit SHA 或可 SSH/本机读取的工作区；提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、输出 artifact 路径/大小/sha256 和 HDF5/verifier 输出；对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，并提交命令、完整日志、checkpoint/eval artifact。若确实不能运行 Pi/OpenVLA-OFT，请提供失败命令、完整错误日志和明确 blocker。ACT 只能作为补充，不能替代 Pi/OpenVLA-OFT 验收项，除非 TODO 范围被明确更新。",
-          "created_at": "2026-06-26T19:47:04+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_4d9970707cf4",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐后再送审：提供可访问的 repo commit SHA 或可 SSH/本机读取的工作区；提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、输出 artifact 路径/大小/sha256 和 HDF5/verifier 输出；对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，并提交命令、完整日志、checkpoint/eval artifact。若确实不能运行 Pi/OpenVLA-OFT，请提供失败命令、完整错误日志和明确 blocker。ACT 只能作为补充，不能替代 Pi/OpenVLA-OFT 验收项，除非 TODO 范围被明确更新。",
-          "created_at": "2026-06-26T21:03:22+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_cc01a0512c05",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐可直接审查的验收包后再送审：提供可访问 repo commit SHA 或可 SSH/本机读取的工作区；提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、输出 artifact 路径/大小/sha256 和 HDF5/verifier 输出；对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，并提交命令、完整日志、checkpoint/eval artifact；若确实不能运行 Pi/OpenVLA-OFT，请提供失败命令、完整错误日志和明确 blocker。ACT 只能作为补充，不能替代 Pi/OpenVLA-OFT 验收项，除非 TODO 范围被明确更新。",
-          "created_at": "2026-06-26T21:38:29+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_5bee531e6700",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐可直接审查的验收包后再送审：提供可访问 repo commit SHA 或可 SSH/本机读取的工作区；提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、输出 artifact 路径/大小/sha256 和 HDF5/verifier 输出；对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，并提交命令、完整日志、checkpoint/eval artifact。若确实不能运行 Pi/OpenVLA-OFT，请提供失败命令、完整错误日志和明确 blocker。ACT 只能作为补充，不能替代 Pi/OpenVLA-OFT 验收项，除非 TODO 范围被明确更新。",
-          "created_at": "2026-06-26T22:00:46+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_5f29c895fd8b",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐可直接审查的验收包后再送审：提供可访问 repo commit SHA 或可 SSH/本机读取的工作区；提交 generated task program diff/commit；提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、输出 artifact 路径/大小/sha256 和 HDF5/verifier 输出；对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，并提交命令、完整日志、checkpoint/eval artifact。若确实不能运行 Pi/OpenVLA-OFT，请提供失败命令、完整错误日志和明确 blocker。ACT 只能作为补充，不能替代 Pi/OpenVLA-OFT 验收项，除非 TODO 范围被明确更新。",
-          "created_at": "2026-06-26T22:12:21+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_fdd639e98dac",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐后再送审：提供可访问 repo commit SHA 或可 SSH/本机读取的工作区；提交 generated task program diff/commit；提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、输出 artifact 路径/大小/sha256 和 HDF5/verifier 输出；对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，并提交命令、完整日志、checkpoint/eval artifact。若确实不能运行 Pi/OpenVLA-OFT，请提供失败命令、完整错误日志和明确 blocker。ACT 只能作为补充，不能替代 Pi/OpenVLA-OFT 验收项，除非 TODO 范围被明确更新。",
-          "created_at": "2026-06-26T22:24:42+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_92b11fce28b2",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐可直接审查的验收包后再送审：提供可访问 repo commit SHA 或可 SSH/本机读取的工作区；提交 generated RoboTwin2 task program 的 diff/commit；提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、pass/fail、输出 artifact 路径/大小/sha256 和 HDF5/verifier 输出；对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook 并提交命令、完整日志、checkpoint/eval artifact。若确实不能运行 Pi/OpenVLA-OFT，请提供失败命令、完整错误日志和明确 blocker；ACT 只能作为补充，不能替代该验收项，除非 TODO 范围被明确更新。",
-          "created_at": "2026-06-26T22:42:43+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_3d682e06a12c",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐后再送审：提供可访问的 repo commit SHA 或可 SSH/本机读取的工作区；提交 generated RoboTwin2 task program 的 diff/commit；提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、pass/fail、输出 artifact 路径/大小/sha256 和 HDF5/verifier 输出；对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook 并提交命令、完整日志、checkpoint/eval artifact。若确实不能运行 Pi/OpenVLA-OFT，请提供失败命令、完整错误日志和明确 blocker；ACT 只能作为补充，不能替代该验收项，除非 TODO 范围被明确更新。",
-          "created_at": "2026-06-26T23:38:22+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_a1d2483975e3",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐可直接审查的验收包后再送审：提供可访问的 repo commit SHA 或可 SSH/本机读取的工作区；提交 generated RoboTwin2 task program 的 diff/commit；提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、pass/fail、输出 artifact 路径/大小/sha256 和 HDF5/verifier 输出；对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook 并提交命令、完整日志、checkpoint/eval artifact。若确实不能运行 Pi/OpenVLA-OFT，请提供失败命令、完整错误日志和明确 blocker；ACT 只能作为补充，不能替代该验收项，除非 TODO 范围被明确更新。",
-          "created_at": "2026-06-26T23:49:46+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_0f510d4ad68c",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐可直接复核的验收包后再送审：提供可访问的 repo commit SHA 或可 SSH/本机读取的工作区；提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、输出 artifact 路径/大小/sha256 和 HDF5/verifier 输出；对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，并提交命令、完整日志、checkpoint/eval artifact。若确实不能运行 Pi/OpenVLA-OFT，请提供失败命令、完整错误日志和明确 blocker；ACT 只能作为补充，不能替代该验收项，除非 TODO 范围被明确更新。",
-          "created_at": "2026-06-27T00:33:23+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_7587ca0c7e8e",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐可直接复核的验收包后再送审：提供可访问的 repo commit SHA 或可 SSH/本机读取的工作区；提交 generated RoboTwin2 task program 的 diff/commit；提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、pass/fail、输出 artifact 路径/大小/sha256 和 HDF5/verifier 输出；对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，并提交命令、完整日志、checkpoint/eval artifact。若确实不能运行 Pi/OpenVLA-OFT，请提供失败命令、完整错误日志和明确 blocker。ACT 只能作为补充，不能替代该验收项，除非 TODO 范围被明确更新。",
-          "created_at": "2026-06-27T00:46:10+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_b1fddd7389b4",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐可直接复核的验收包后再送审：提供可访问 repo commit SHA 或可 SSH/本机读取的工作区；提交 generated RoboTwin2 task program 的 diff/commit；提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、pass/fail、输出 artifact 路径/大小/sha256 和 HDF5/verifier 输出；对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，并提交命令、完整日志、checkpoint/eval artifact。若确实不能运行 Pi/OpenVLA-OFT，请提供失败命令、完整错误日志和明确 blocker。ACT 只能作为补充，不能替代该验收项，除非 TODO 范围被明确更新。",
-          "created_at": "2026-06-27T00:58:05+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_41c160f25917",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐可直接复核的验收包后再送审：提供可访问 repo commit SHA 或可 SSH/本机读取的工作区；提交 generated RoboTwin2 task program 的 diff/commit；提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、pass/fail、输出 artifact 路径/大小/sha256 和 HDF5/verifier 输出；对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，并提交命令、完整日志、checkpoint/eval artifact。若确实不能运行 Pi/OpenVLA-OFT，请提供失败命令、完整错误日志和明确 blocker；ACT 只能作为补充，不能替代该验收项，除非 TODO 范围被明确更新。",
-          "created_at": "2026-06-27T01:08:57+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_053765380930",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐可直接复核的验收包后再送审：1) 提供可访问 repo commit SHA，或把关键文件/日志同步到 dashboard/本机可读路径；2) 提交 generated RoboTwin2 task program 的 diff/commit；3) 提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、pass/fail、输出 artifact 路径、大小、sha256 和 HDF5/verifier 输出；4) 对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，并提交命令、完整日志、checkpoint/eval artifact；若确实不能运行，请提交失败命令、完整错误日志和明确 blocker。ACT 只能作为补充，不能替代 Pi/OpenVLA-OFT 验收项，除非 TODO 范围被明确更新。",
-          "created_at": "2026-06-27T01:52:05+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_82a4da237145",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐可直接复核的验收包后再送审：提供可访问 repo commit SHA 或把关键文件/日志同步到 dashboard/本机可读路径；提交 generated RoboTwin2 task program 的 diff/commit；提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、pass/fail、输出 artifact 路径、大小、sha256 和 HDF5/verifier 输出；对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，并提交命令、完整日志、checkpoint/eval artifact。若确实不能运行，请提交失败命令、完整错误日志和明确 blocker。ACT 只能作为补充，不能替代 Pi/OpenVLA-OFT 验收项，除非 TODO 范围被明确更新。",
-          "created_at": "2026-06-27T02:12:20+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_ec396383299a",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐可直接复核的验收包后再送审：提供可访问 repo commit SHA 或把关键文件/日志同步到 dashboard/本机可读路径；提交 generated RoboTwin2 task program 的 diff/commit；提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、pass/fail、输出 artifact 路径/大小/sha256 和 HDF5/verifier 输出；对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，并提交命令、完整日志、checkpoint/eval artifact。若确实不能运行 Pi/OpenVLA-OFT，请提交失败命令、完整错误日志和明确 blocker。ACT 只能作为补充，不能替代该验收项，除非 TODO 范围被明确更新。",
-          "created_at": "2026-06-27T02:53:02+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_6915b029e4e5",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐可直接复核的验收包后再送审：提供可访问 repo commit SHA 或把关键文件/日志同步到 dashboard/本机可读路径；提交 generated RoboTwin2 task program 的 diff/commit；提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、pass/fail、输出 artifact 路径/大小/sha256 和 HDF5/verifier 输出；对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，并提交命令、完整日志、checkpoint/eval artifact。若确实不能运行 Pi/OpenVLA-OFT，请提交失败命令、完整错误日志和明确 blocker；ACT 只能作为补充，不能替代该验收项，除非 TODO 范围被明确更新。",
-          "created_at": "2026-06-27T03:14:54+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_3cdc485c5a4e",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐可直接复核的验收包后再送审：提供可访问 repo commit SHA 或把关键文件/日志同步到 dashboard/本机可读路径；提交 generated RoboTwin2 task program 的路径和 diff/commit；提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、pass/fail、输出 artifact 路径/大小/sha256 和 HDF5/verifier 输出；对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，并提交命令、完整日志、checkpoint/eval artifact。若确实不能运行 Pi/OpenVLA-OFT，请提交失败命令、完整错误日志和明确 blocker；ACT 只能作为补充，不能替代该验收项，除非 TODO 范围被明确更新。",
-          "created_at": "2026-06-27T03:48:57+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_f52162ab07cc",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐可直接审查的验收包后再送审：提供可访问的 repo commit SHA 或可 SSH/本机复核的工作区；提交 generated task program 的路径和 diff/commit；提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、输出 artifact 路径/大小/sha256 和 HDF5/verifier 输出；对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，并提交命令、完整日志、checkpoint/eval artifact；若确实不能运行 Pi/OpenVLA-OFT，请提供失败命令、完整错误日志和明确 blocker。ACT 只能作为补充，不能替代 Pi/OpenVLA-OFT 验收项，除非 TODO 范围被明确更新。",
-          "created_at": "2026-06-27T06:34:18+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_9ebf65e6036a",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐可直接审查的验收包后再送审：提供可访问 repo commit SHA 或可 SSH/本机复核的工作区；提交 generated RoboTwin2 task program 的路径和 diff/commit；提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、pass/fail、输出 artifact 路径/大小/sha256 和 HDF5/verifier 输出；对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，并提交命令、完整日志、checkpoint/eval artifact；若确实不能运行 Pi/OpenVLA-OFT，请提供失败命令、完整错误日志和明确 blocker。ACT 只能作为补充，不能替代 Pi/OpenVLA-OFT 验收项，除非 TODO 范围被明确更新。",
-          "created_at": "2026-06-27T06:46:12+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_f5723736ab1a",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐可直接复核的验收包后再送审：提供可访问 repo commit SHA 或把关键文件/日志同步到 dashboard/本机可读路径；提交 generated RoboTwin2 task program 的路径和 diff/commit；提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、pass/fail、输出 artifact 路径/大小/sha256 和 HDF5/verifier 输出；对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，并提交命令、完整日志、checkpoint/eval artifact。若确实不能运行 Pi/OpenVLA-OFT，请提供失败命令、完整错误日志和明确 blocker；ACT 只能作为补充，不能替代 Pi/OpenVLA-OFT 验收项，除非 TODO 范围被明确更新。",
-          "created_at": "2026-06-27T07:38:00+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_2f7c822ded46",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐可直接复核的验收包后再送审：提供可访问 repo commit SHA 或把关键文件/日志同步到 dashboard/本机可读路径；提交 generated RoboTwin2 task program 的路径和 diff/commit；提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、pass/fail、输出 artifact 路径/大小/sha256 和 HDF5/verifier 输出；对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，并提交命令、完整日志、checkpoint/eval artifact。若确实不能运行 Pi/OpenVLA-OFT，请提交失败命令、完整错误日志和明确 blocker。ACT 只能作为补充，不能替代该验收项，除非 TODO 范围被明确更新。",
-          "created_at": "2026-06-27T07:59:17+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_3592d9b4883d",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐可直接复核的验收包后再送审：提供可访问 repo commit SHA 或可 SSH/本机读取的工作区；提交 generated RoboTwin2 task program 的 diff/commit；提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、pass/fail、输出 artifact 路径/大小/sha256 和 HDF5/verifier 输出；对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook 并提交命令、完整日志、checkpoint/eval artifact。若确实不能运行 Pi/OpenVLA-OFT，请提交失败命令、完整错误日志和明确 blocker。ACT 只能作为补充，不能替代该验收项，除非 TODO 范围被明确更新。",
-          "created_at": "2026-06-27T08:34:55+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_5a3f94bd4d79",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐可直接复核的验收包后再送审：提供可访问 repo commit SHA 或可 SSH/本机读取的工作区；提交 generated RoboTwin2 task program 的路径和 diff/commit；提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、pass/fail、输出 artifact 路径/大小/sha256 和 HDF5/verifier 输出；对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook 并提交命令、完整日志、checkpoint/eval artifact。若确实不能运行 Pi/OpenVLA-OFT，请提交失败命令、完整错误日志和明确 blocker；ACT 只能作为补充，不能替代该验收项，除非 TODO 范围被明确更新。",
-          "created_at": "2026-06-27T08:45:46+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_312d3d8dcf01",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐可直接复核的验收包后再送审：提供可访问 repo commit SHA 或把关键文件/日志同步到 dashboard/本机可读路径；提交 generated RoboTwin2 task program 的路径和 diff/commit；提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、pass/fail、输出 artifact 路径/大小/sha256 和 HDF5/verifier 输出；对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook 并提交命令、完整日志、checkpoint/eval artifact。若确实不能运行 Pi/OpenVLA-OFT，请提交失败命令、完整错误日志和明确 blocker；ACT 只能作为补充，不能替代该验收项，除非 TODO 范围被明确更新。",
-          "created_at": "2026-06-27T09:07:40+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_834f470b0825",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐后再送审：1) 提供可访问 repo commit SHA，或把关键文件/日志同步到 dashboard/本机可读路径；2) 提交 generated RoboTwin2 task program 的路径和 diff/commit；3) 提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、pass/fail、输出 artifact 路径/大小/sha256 和 HDF5/verifier 输出；4) 对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，并提交命令、完整日志、checkpoint/eval artifact；若确实不能运行，请提交失败命令、完整错误日志和明确 blocker。ACT 只能作为补充，不能替代 Pi/OpenVLA-OFT 验收项，除非 TODO 范围被明确更新。",
-          "created_at": "2026-06-27T09:31:19+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_f07180a31d4f",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐可直接复核的验收包后再送审：提供可访问 repo commit SHA 或把关键代码/日志同步到 dashboard/本机可读路径；提交 generated RoboTwin2 task program 的路径和 diff/commit；提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、pass/fail、输出 artifact 路径/大小/sha256 和 HDF5/verifier 输出；对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，并提交命令、完整日志、checkpoint/eval artifact。若确实不能运行 Pi/OpenVLA-OFT，请提交失败命令、完整错误日志和明确 blocker；ACT 只能作为补充，不能替代 Pi/OpenVLA-OFT 验收项，除非 TODO 范围被明确更新。",
-          "created_at": "2026-06-27T09:53:40+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_3603de20c9c3",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐后再送审：1) 提供可访问 repo commit SHA，或把关键代码/日志同步到 dashboard/本机可读路径；2) 提交 generated RoboTwin2 task program 的路径和 diff/commit；3) 提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、pass/fail、输出 artifact 路径/大小/sha256 和 HDF5/verifier 输出；4) 对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，并提交命令、完整日志、checkpoint/eval artifact；若确实不能运行，请提交失败命令、完整错误日志和明确 blocker。ACT 只能作为补充，不能替代 Pi/OpenVLA-OFT 验收项，除非 TODO 范围被明确更新。",
-          "created_at": "2026-06-27T10:51:08+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_f837df124150",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐后再送审：1) 提供可访问 repo commit SHA，或把关键代码/日志同步到 dashboard/本机可读路径；2) 提交 generated RoboTwin2 task program 的路径和 diff/commit；3) 提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、pass/fail、输出 artifact 路径/大小/sha256 和 HDF5/verifier 输出；4) 对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，并提交命令、完整日志、checkpoint/eval artifact；若确实不能运行 Pi/OpenVLA-OFT，请提交失败命令、完整错误日志和明确 blocker。ACT 只能作为补充，不能替代 Pi/OpenVLA-OFT 验收项，除非 TODO 范围被明确更新。",
-          "created_at": "2026-06-27T11:06:44+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_8f5d7fb7bc02",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐可直接复核的验收包后再送审：1) 提供可访问 repo commit SHA，或把关键代码/日志同步到 dashboard/本机可读路径；2) 提交 generated RoboTwin2 task program 的路径和 diff/commit；3) 提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、pass/fail、输出 artifact 路径/大小/sha256 和 HDF5/verifier 输出；4) 对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，并提交命令、完整日志、checkpoint/eval artifact；若确实不能运行 Pi/OpenVLA-OFT，请提交失败命令、完整错误日志和明确 blocker。ACT 只能作为补充，不能替代 Pi/OpenVLA-OFT 验收项，除非 TODO 范围被明确更新。",
-          "created_at": "2026-06-27T11:20:34+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_4be880eaa5fd",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐可直接复核的验收包后再送审：1) 提供可访问 repo commit SHA 或把关键代码/日志同步到 dashboard/本机可读路径；2) 提交 generated RoboTwin2 task program 的路径和 diff/commit；3) 提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、pass/fail、输出 artifact 路径/大小/sha256 和 HDF5/verifier 输出；4) 对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，并提交命令、完整日志、checkpoint/eval artifact；若确实不能运行 Pi/OpenVLA-OFT，请提交失败命令、完整错误日志和明确 blocker。ACT 只能作为补充，不能替代 Pi/OpenVLA-OFT 验收项，除非 TODO 范围被明确更新。",
-          "created_at": "2026-06-27T11:33:44+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_4bf76673e77e",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐 acceptance item 5：要么实际跑 Pi 或 OpenVLA-OFT train/eval hook 并提交命令、日志、输出路径；要么提交明确 blocker 证据，例如在 RoboTwin2/本机环境中运行 Pi/OpenVLA-OFT 入口检查的命令与日志，说明缺少哪个模型权重、依赖、GPU/显存、数据格式适配或 API 支持。ACT hook 可以保留为 MVP 替代证据，但当前不能替代 TODO 里写明的 Pi/OpenVLA-OFT 要求，除非 Boris 明确改验收标准。",
-          "created_at": "2026-06-27T11:46:54+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_baad4d3e84c3",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐 acceptance item 5 后再送审：二选一实际运行 Pi 或 OpenVLA-OFT train/eval hook，提交原始命令、完整日志、退出码、checkpoint/eval artifact 路径；若确实不能运行，请在 RoboTwin2/本机环境中运行对应入口检查或启动命令并提交完整错误日志，明确缺少的模型权重、依赖、GPU/显存、数据格式适配或 API 支持。ACT hook 可作为补充，但当前不能替代 Pi/OpenVLA-OFT。",
-          "created_at": "2026-06-27T11:58:14+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_6b54d475ef57",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补交可本机核验的材料或让 repo/远端工作区可访问：提供可 clone/可读的 robotwin-text2env-demo commit、README 复现命令、smoke/data-collection/policy hook 的原始日志和输出路径；Pi 或 OpenVLA-OFT hook 必须实际运行并给出命令/日志，或给出带命令输出的明确 blocker。ACT hook 可以作为额外 MVP 证据，但不能替代当前 TODO acceptance 中的 Pi/OpenVLA-OFT 条款。",
-          "created_at": "2026-06-27T13:05:28+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_4ebe8a0c857a",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请补齐可直接复核的验收包后再送审：提供可 clone/可读的 robotwin-text2env-demo commit 或把关键代码/日志同步到 dashboard/本机可读路径；提交 generated RoboTwin2 task program 的路径和 diff/commit；提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、pass/fail、artifact 路径/大小/sha256 和 HDF5/verifier 输出；对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook 并提交命令、完整日志、checkpoint/eval artifact。若确实不能运行 Pi/OpenVLA-OFT，请提交在 RoboTwin2/本机环境中运行对应入口检查或启动命令的完整错误日志，并明确缺少的模型权重、依赖、GPU/显存、数据格式适配或 API 支持。ACT hook 只能作为补充，不能替代当前 TODO acceptance。",
-          "created_at": "2026-06-27T13:18:21+08:00",
-          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-27T13:20:43+08:00",
+      "updated_at": "2026-06-26T15:24:22.115Z",
       "due_at": "",
       "completed_at": null
     },
@@ -6128,16 +5596,9 @@
           "body": "Local Codex host review reopened this TODO.\n请继续推进到完整验收：生成或复现至少 1 个 articulated tabletop asset，导出 mesh/collision/joint graph/metadata 或等价 JSON，补最小 adapter stub `generate_asset(reference, task_hint) -> asset_graph`，用 GovernanceGate 检查 scale、joint limits、collision proxy、affordance tags、simulator export path，并在 RESULT.md 记录可复现命令、日志、artifact 路径、git sha 和 sha256；如果 upstream release/API/dataset 使生成不可行，请给出明确 blocker 和已验证的替代复现证据。",
           "created_at": "2026-05-31T23:33:59+02:00",
           "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_97925be52a60",
-          "author": "Host verification",
-          "body": "主机验收通过: decision/result task has a non-empty result comment and does not require a machine verifier.",
-          "created_at": "2026-06-24T23:13:07+08:00",
-          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-27T13:23:33+08:00",
+      "updated_at": "2026-06-24T15:00:57.574Z",
       "completed_at": "2026-06-24"
     },
     {
@@ -9021,7 +8482,7 @@
       "status": "active",
       "priority": "high",
       "assignee": "Lai / Ziyang / Boris",
-      "description": "根据 Zoom 与 2026-06-25/26 Layered Image Policy 微信同步，把分层处理从单图手工样例推进到可重复的自动化 smoke pipeline。Pipeline 顺序保持 iterative segment + inpaint：robot mask/rgba/video -> VACE robot removal -> object/contact/occluder mask/rgba/video -> VACE/FLUX.fill removal -> scene/background layer，所有输出保持原始 canvas 尺寸，支持原地 overlay/recomposition。\n\nSegmentation front-end 更新：1) RobotSeg (https://github.com/showlab/RobotSeg) 升为 MolmoAct/robot-layer segmentation 第一候选；群里 MolmoAct 测试反馈目前 RobotSeg 效果最好，且 RobotSeg 自带 image/video、arm/gripper/whole-robot fine-grained masks；2) SAM3/SAM2 继续作为 reference-mask propagation / mask tracking 备选：可先用干净 Franka reference 或第一帧 robot mask 初始化，再追踪整段视频；3) 参考 Cloak / arXiv:2606.22836 的 wrist-view end-effector mask 思路，单独评估 gripper-only、hand、arm+gripper 的 first-person/ego mask，尤其补上 gripper mask 当前 blocker；4) SAM-HQ robot mask review 不如 SAM3，暂时排除；Qwen/RevealLayer 只保留为负例或完成 baseline。\n\nInpainting 更新：LaMa 群里测试效果不好，降级为 failure / negative baseline，不作为主路线；如果 VACE 的 masked V2V/video inpainting 能稳定处理 robot/object removal，就直接用 VACE 做 raster video inpaint 主线；FLUX.fill 保留为 still-frame fallback，GPT image 保留为强 still-frame baseline 但不作为视频方案。背景若基本静态，可在移除 robot/object layer 后尝试单次 image inpainting 生成 background plate，避免逐帧漂移；wrist/ego view 背景变化较大，需要单独记录 temporal consistency 风险。\n\nAcceptance: 1) 选 3 个 UMI/MolmoAct/Hoi-style clips，每个抽 20-50 帧或短视频；2) 同一输入上比较 RobotSeg、SAM3/SAM2 reference tracking、Cloak-style ego mask 的 robot/gripper/hand/arm masks，记录 mask IoU/edge quality/gripper coverage/bbox jitter/topology jump；3) 输出 robot/object/contact/occluder/background 的 mask.png、rgba.png、layer video、inpainted_background.png/video、SVG sidecar、layer_manifest.json；4) 对同一 mask/manifest 比较 VACE、FLUX.fill、LaMa、GPT image baseline 的质量/速度/显存/是否改变画幅，其中 LaMa 作为失败样例记录；5) VACE 输出必须检查 masked-region temporal consistency、unmasked-region preservation、recomposition SSIM/LPIPS 或人工评分；6) 失败样例包括 gripper miss、thin cable/shadow mistrace、pillow/object drift、background texture hallucination、电线等小细节可降权但 robot/object/background 主体必须正确分离。",
+      "description": "根据 Zoom 与 2026-06-25/26 Layered Image Policy 微信同步，把分层处理从单图手工样例推进到可重复的自动化 smoke pipeline。Pipeline 顺序保持 iterative segment + inpaint：robot mask/rgba/video -> VACE robot removal -> object/contact/occluder mask/rgba/video -> VACE/FLUX.fill removal -> scene/background layer，所有输出保持原始 canvas 尺寸，支持原地 overlay/recomposition。\n\nSegmentation front-end 更新：1) RobotSeg (https://github.com/showlab/RobotSeg) 升为 MolmoAct/robot-layer segmentation 第一候选；群里 MolmoAct 测试反馈目前 RobotSeg 效果最好，且 RobotSeg 自带 image/video、arm/gripper/whole-robot fine-grained masks；2) SAM3/SAM2 继续作为 reference-mask propagation / mask tracking 备选：可先用干净 Franka reference 或第一帧 robot mask 初始化，再追踪整段视频；3) 参考 Cloak / arXiv:2606.22836 的 wrist-view end-effector mask 思路，单独评估 gripper-only、hand、arm+gripper 的 first-person/ego mask，尤其补上 gripper mask 当前 blocker；4) SAM-HQ robot mask review 不如 SAM3，暂时排除；Qwen/RevealLayer 只保留为负例或完成 baseline。\n\nInpainting 更新：LaMa 群里测试效果不好，降级为 failure / negative baseline，不作为主路线；如果 VACE 的 masked V2V/video inpainting 能稳定处理 robot/object removal，就直接用 VACE 做 raster video inpaint 主线；FLUX.fill 保留为 still-frame fallback，GPT image 保留为强 still-frame baseline 但不作为视频方案。背景若基本静态，可在移除 robot/object layer 后尝试单次 image inpainting 生成 background plate，避免逐帧漂移；wrist/ego view 背景变化较大，需要单独记录 temporal consistency 风险。\n\nAcceptance: 1) 选 3 个 UMI/MolmoAct/Hoi-style clips，每个抽 20-50 帧或短视频；2) 同一输入上比较 RobotSeg、SAM3/SAM2 reference tracking、Cloak-style ego mask 的 robot/gripper/hand/arm masks，记录 mask IoU/edge quality/gripper coverage/bbox jitter/topology jump；3) 输出 robot/object/contact/occluder/background 的 mask.png、rgba.png、layer video、inpainted_background.png/video、SVG sidecar、layer_manifest.json；4) 对同一 mask/manifest 比较 VACE、FLUX.fill、LaMa、GPT image baseline 的质量/速度/显存/是否改变画幅，其中 LaMa 作为失败样例记录；5) VACE 输出必须检查 masked-region temporal consistency、unmasked-region preservation、recomposition SSIM/LPIPS 或人工评分；6) 失败样例包括 gripper miss、thin cable/shadow mistrace、pillow/object drift、background texture hallucination、电线等小细节可降权但 robot/object/background 主体必须正确分离。\n\nStage 2 VDDM framing update 2026-06-27: 这条 smoke pipeline 现在是 VDDM 论文的最小工程切片，而不是单纯分割/补全脚本。除 robot/MolmoAct/UMI/RoboTwin clips 外，加入 egocentric human-hand manipulation clips 作为跨域 probe；统一输出 actor_layer(actor_type=robot|human_hand)、object_contact_layer、occluder_tool_layer、scene_background_layer，以及 mask.png / rgba.png / layer video / SVG sidecar / depth or pointmap / mesh when available / tracks / contact events / layer_manifest.json。评估下游时接 HaWoR 与 Do-As-I-Do-style reconstruction stack（SAM3 -> SAM3D mesh -> MoGe pointmaps -> HaWoR -> TAPIR/BootsTAPIR/guided diffusion tracking -> projection/retargeting），判断 VDDM 是否让 reconstruction / tracking / retargeting 比 raw RGB 或 mask-only 更稳。新增 acceptance: 至少 3 个 robot clips + 3 个 egocentric human-hand clips；每类输出 recomposition QA、temporal consistency、actor/object/contact failure gallery、以及是否扩成 Stage 2 dataset/model 训练的判断。",
       "result": null,
       "comments": [
         {
@@ -9062,7 +8523,7 @@
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-25T16:44:25.614Z"
+      "updated_at": "2026-06-27T05:42:22.606Z"
     },
     {
       "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
@@ -10126,10 +9587,19 @@
           "kind": "comment",
           "body": "2026-06-27 追加 independent action-video ranker 诊断：这次不生成视频，只用 GT 双视角 rollout 的 dynamics/residual 表征去匹配 actual UMI action/state，并直接训练 actual score 高于 zero / time-view-only / wrong-row / same-task nearest / same-category nearest。\n\n设置：balanced_398 数据，15 条 eval rows 完全从 train 排除，train/eval intersection=[]；size32，单卡预加载，200 epochs。训练 loss 从 2.3188 降到 0.0742，说明 train split 可拟合。\n\n结果：true unseen rank gate 只有 1/15，只通过 row 0。多数失败 worst negative 是 wrong_nearest_same_category_condition 或 wrong_next，很多 row 的 actual score 甚至为负。\n\n结论：问题不只是生成器或 reconstruction loss；当前 action schema + low-res video dynamics 本身没有学到可迁移的 actual-vs-nearest grounding。下一步不应直接把这个 ranker 当 reward head 蒸馏，也不建议继续堆同类 foreground loss。需要先增强 action/video grounding：object/contact/3D state、camera geometry、action-event labels，或 PAIWorld-style geometry-aware multi-view representation。ranker 脚本可以保留为后续新 schema 的快速验收器。",
           "created_at": "2026-06-27T05:22:44.386Z"
+        },
+        {
+          "comment_id": "comment_1daf5c13-6d96-4a52-83c7-5bf46b809bc8",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-27 temporal alignment ranker 结果：在 independent action-video ranker 上新增 per-frame temporal score mode，不再只做 global pooled video/action embedding，而是把每帧 dual-view video dynamics embedding 和对应帧 action token embedding 做时间对齐打分。\n\n设置仍是 balanced_398，15 条 eval rows 完全从 train 排除，train/eval intersection=[]；size32，200 epochs。训练 loss 降到 0.00051，说明 train ranking 极易拟合。\n\n结果：true unseen rank gate 从 global pooled 的 1/15 提升到 4/15，通过 rows 229、299、338、388。这个改善说明 temporal alignment 比全局视频摘要更接近 action-conditioned dynamics；但 4/15 仍不足以作为 generator-facing reward/head。\n\n结论：保留 temporal action-video alignment 作为后续组件，但当前 action schema + low-res video dynamics 仍没有解决 same-task / nearest-condition 泛化。下一步需要在 temporal alignment 上加入更强 grounding：object/contact/3D state、camera geometry、action-event labels，或 PAIWorld-style geometry-aware multi-view representation，然后再重跑 ranker gate。",
+          "created_at": "2026-06-27T05:39:06.455Z"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-27T05:22:44.386Z"
+      "updated_at": "2026-06-27T05:39:06.455Z"
     },
     {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
@@ -10294,6 +9764,28 @@
       "result": null,
       "comments": [],
       "updated_at": "2026-06-27T05:26:11.737Z"
+    },
+    {
+      "schema_version": "task.v1",
+      "status": "todo",
+      "priority": "high",
+      "comments": [
+        {
+          "comment_id": "comment_umi_stage2_vddm_human_ego_20260627",
+          "author": "Codex",
+          "kind": "comment",
+          "body": "2026-06-27 framing update: Stage 2 should be written as Video Dynamics Decomposition Model, not only a segment+inpaint data-cleaning pipeline. Egocentric human-hand manipulation videos are useful because HaWoR / Do-As-I-Do-style reconstruction can test whether layer outputs improve hand-object geometry, tracking, projection, and retargeting.",
+          "created_at": "2026-06-27T05:42:22.606Z"
+        }
+      ],
+      "created_at": "2026-06-27T05:42:22.606Z",
+      "updated_at": "2026-06-27T05:42:22.606Z",
+      "task_id": "task_umi_stage2_vddm_human_ego_probe_20260627",
+      "project_id": "umi-world-model",
+      "title": "Stage 2 VDDM: 加入 egocentric human-hand manipulation decomposition probe",
+      "assignee": "Boris / Ziyang / Lai",
+      "due_at": "2026-07-10",
+      "description": "把 Stage 2 从 robot-only 分层扩展成 Video Dynamics Decomposition Model (VDDM) 的跨域验证：在 MolmoAct/UMI/RoboTwin robot clips 之外，加入 egocentric human-hand manipulation videos。统一 schema: actor_layer(actor_type=robot|human_hand)、object_contact_layer、occluder_tool_layer、scene_background_layer；sidecars 包括 mask.png、rgba.png、layer video、SVG contour、depth/pointmap、mesh/pose if available、2D/3D tracks、contact events、layer_manifest.json。实验路线：robot 侧用 RobotSeg/SAM3/SAM2 tracking + VACE/FLUX.fill/LaMa baseline；human-ego 侧参考 HaWoR 与 Do-As-I-Do pipeline，用 SAM3 -> SAM3D mesh -> MoGe pointmaps -> HaWoR -> TAPIR/BootsTAPIR or guided-diffusion tracking -> projection/retargeting 检查分层是否改善 reconstruction。Acceptance: 1) 3 个 robot clips + 3 个 egocentric human-hand clips；2) 每个 clip 输出四层 layer package 与 manifest；3) raw RGB vs mask-only vs VDDM layers 的 recomposition、temporal consistency、track/pose/reconstruction/retargeting 对比；4) failure gallery 覆盖手指/夹爪细节、透明/反光/布料/液体、遮挡接触、背景漂移；5) 判断 VDDM 是否足以支撑 Stage 2 独立论文与 v0 dataset/model 训练。"
     }
   ]
 }
