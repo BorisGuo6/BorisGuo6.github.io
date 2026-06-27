@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-27T06:34:42.143Z",
+  "updated_at": "2026-06-27T14:49:13+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2293,9 +2293,16 @@
           "body": "Local Codex host review reopened this TODO.\n请补交可由本机 reviewer 直接读取/复现的验收材料：提供可访问的 repo/commit 或打包 artifact，并在 dashboard 中贴出实际命令和关键日志摘要，包括 README reproduction、Text2Env schema、1-2 个 env JSON、generated RoboTwin2 task program、simulator smoke 命令与 pass 日志、data-collection dry run 命令与输出路径、ACT/Pi/OpenVLA-OFT hook 的实际命令/日志或明确 blocker。当前 GitHub URL 在本机不可访问，不能仅凭路径清单验收。",
           "created_at": "2026-06-27T14:34:43+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_85e6c72a0ec2",
+          "author": "Review",
+          "body": "Local Codex host review reopened this TODO.\n请补交可由本机 reviewer 直接读取/复现的验收包：把 robotwin-text2env-demo checkout 或打包 artifact 同步到本机/dashboard 可读路径，或修复可访问 repo/SSH；提供 commit SHA、README reproduction 实际输出、Text2Env schema、1-2 个 env JSON、generated RoboTwin2 task program 路径与 diff/commit；提供 simulator smoke 和 data-collection dry run 的原始命令、完整日志、退出码、pass/fail、artifact 路径/大小/sha256 及 HDF5/verifier 输出；Pi/OpenVLA-OFT 必须二选一实跑 train/eval hook 并给命令/日志/checkpoint/eval 输出，或提交在 RoboTwin2 环境中运行对应入口检查/启动命令的完整失败日志并明确 blocker。ACT hook 只能作为补充，不能替代该验收项。",
+          "created_at": "2026-06-27T14:49:07+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-27T14:34:47+08:00",
+      "updated_at": "2026-06-27T14:49:10+08:00",
       "due_at": "",
       "completed_at": null
     },
@@ -6158,7 +6165,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-27T14:24:12+08:00",
+      "updated_at": "2026-06-27T14:40:21+08:00",
       "completed_at": "2026-06-24"
     },
     {
@@ -10174,10 +10181,19 @@
           "kind": "comment",
           "body": "2026-06-27 继续推进：已把 structured temporal action contrast 从诊断 ranker 接入 generator-facing shared-world teacher。实现位置：远端 DiffSynth-Studio/scripts_umi/train_shared_world_teacher.py，新增 auxiliary head 将 generated dual-view video dynamics 与 paired UMI condition 的 left/right + mean/sum/absmax/last action-stat tokens 做 per-frame InfoNCE，并带 GT-video calibration；新增启动脚本 scripts_umi/launch_shared_teacher_structured_temporal_action_20260627.sh。已完成 CPU smoke：rows 0,1、size 8、1 epoch，成功训练并保存 checkpoint。当前 8 卡仍被 Gamma Stage3 占用；自动化已更新为等待 Gamma Stage3 checkpoint/结束后启动 structured-temporal teacher 并跑 holdout gate。注意：这仍不是目标完成，必须等 strict action-conditioned dual-view generation gate 通过后才算。",
           "created_at": "2026-06-27T06:31:19.523Z"
+        },
+        {
+          "comment_id": "comment_5f8984c4-066b-49c6-b832-200fd6210242",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-27 full run 结果：structured temporal action contrast 已接入 generator-facing shared-world teacher 并完成 8 卡训练/eval。训练正常收敛，loss 约 0.57 -> 0.098；但 holdout strict action generation gate 只有 2/15，通过 rows 0,279。证据已同步到 /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/shared_world_teacher_structured_temporal_action_20260627，并更新总报告 index.html。判断：诊断 ranker 的 8/15 没有直接转化为生成器控制；把 structured temporal encoder 作为旁路 auxiliary loss 不够，生成主干仍可走 reconstruction/task-appearance shortcut。下一步应把 structured action encoder 变成 latent bottleneck / decoder condition 主路径，或加入 object/contact/3D/camera-geometry grounding 后再做 generation gate。目标仍未完成。",
+          "created_at": "2026-06-27T06:42:29.497Z"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-27T06:31:19.523Z"
+      "updated_at": "2026-06-27T06:42:29.497Z"
     },
     {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
@@ -10385,6 +10401,27 @@
         }
       ],
       "updated_at": "2026-06-27T06:34:42.143Z"
+    },
+    {
+      "task_id": "task_umi_gemini_omni_video_edit_object_inpaint_probe_20260627",
+      "project_id": "umi-world-model",
+      "title": "测试 Gemini-Omni 视频编辑做 object inpaint / removal",
+      "description": "把 Gemini-Omni video editing 加入 UMI Stage 2 分层补全对照，专门测试“物品层移除 / object inpaint / contact-region completion”的效果。输入：3-5 个 MolmoAct / HOI / UMI-style clips，带 RobotSeg/SAM3/SAM2 tracked masks 和 layer_manifest。实验：对 object/contact layer 做 masked video editing，分别测试 object removal、object background completion、robot-object contact region completion；同一输入与 VACE、FLUX.fill still inpaint、LaMa、GPT/ChatGPT still edit baseline 对比。Acceptance: 记录模型入口/API或网页流程、prompt/mask/reference 设置、输入视频+mask、输出视频、与 layer_manifest 对齐方式、masked-region temporal consistency、unmasked-region preservation、recomposition QA、物体边界/contact patch 失败样例、速度/成本/人工操作量，并判断 Gemini-Omni 是否只适合作为 quick qualitative probe 还是可进入 global layered dataset pipeline。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Boris / Ziyang / Lai",
+      "due_at": "2026-06-30",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_umi_gemini_omni_video_edit_seed_20260627",
+          "author": "Boris / Codex",
+          "body": "Seeded from user request: add a UMI World Model TODO to test Gemini-Omni video editing for object inpaint. Treat it as a Stage 2 raster video-editing baseline, not a replacement for VACE or mask/SVG sidecars.",
+          "created_at": "2026-06-27T06:48:35.610Z",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-06-27T06:48:35.610Z"
     }
   ]
 }
