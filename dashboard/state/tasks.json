@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-27T06:19:59.484Z",
+  "updated_at": "2026-06-27T14:34:50+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2286,9 +2286,16 @@
           "body": "Local Codex host review reopened this TODO.\n请补交可由本机 reviewer 直接读取和复现的验收包：把 robotwin-text2env-demo checkout/artifact 同步到本机/dashboard 可读路径，或修复可访问 repo/SSH；提供 commit SHA、generated RoboTwin2 task program 路径与 diff/commit；提供 simulator smoke 和 data-collection dry run 的原始命令、完整日志、退出码、pass/fail、artifact 路径/大小/sha256 及 HDF5/verifier 输出；Pi/OpenVLA-OFT 必须二选一实跑 train/eval hook 并给命令/日志/checkpoint/eval 输出，或提交在 RoboTwin2 环境中运行对应入口检查/启动命令的完整失败日志，明确缺少的模型权重、依赖、GPU/显存、数据格式适配或 API 支持。ACT hook 可作为补充，但不能替代该验收项。",
           "created_at": "2026-06-27T14:02:08+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_7f9a27967761",
+          "author": "Review",
+          "body": "Local Codex host review reopened this TODO.\n请补交可由本机 reviewer 直接读取/复现的验收材料：提供可访问的 repo/commit 或打包 artifact，并在 dashboard 中贴出实际命令和关键日志摘要，包括 README reproduction、Text2Env schema、1-2 个 env JSON、generated RoboTwin2 task program、simulator smoke 命令与 pass 日志、data-collection dry run 命令与输出路径、ACT/Pi/OpenVLA-OFT hook 的实际命令/日志或明确 blocker。当前 GitHub URL 在本机不可访问，不能仅凭路径清单验收。",
+          "created_at": "2026-06-27T14:34:43+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-27T14:02:10+08:00",
+      "updated_at": "2026-06-27T14:34:47+08:00",
       "due_at": "",
       "completed_at": null
     },
@@ -6151,7 +6158,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-27T13:50:42+08:00",
+      "updated_at": "2026-06-27T14:24:12+08:00",
       "completed_at": "2026-06-24"
     },
     {
@@ -10149,10 +10156,28 @@
           "kind": "comment",
           "body": "2026-06-27 temporal alignment ranker 结果：在 independent action-video ranker 上新增 per-frame temporal score mode，不再只做 global pooled video/action embedding，而是把每帧 dual-view video dynamics embedding 和对应帧 action token embedding 做时间对齐打分。\n\n设置仍是 balanced_398，15 条 eval rows 完全从 train 排除，train/eval intersection=[]；size32，200 epochs。训练 loss 降到 0.00051，说明 train ranking 极易拟合。\n\n结果：true unseen rank gate 从 global pooled 的 1/15 提升到 4/15，通过 rows 229、299、338、388。这个改善说明 temporal alignment 比全局视频摘要更接近 action-conditioned dynamics；但 4/15 仍不足以作为 generator-facing reward/head。\n\n结论：保留 temporal action-video alignment 作为后续组件，但当前 action schema + low-res video dynamics 仍没有解决 same-task / nearest-condition 泛化。下一步需要在 temporal alignment 上加入更强 grounding：object/contact/3D state、camera geometry、action-event labels，或 PAIWorld-style geometry-aware multi-view representation，然后再重跑 ranker gate。",
           "created_at": "2026-06-27T05:39:06.455Z"
+        },
+        {
+          "comment_id": "comment_ebc70c1e-59d4-4fea-93e0-3b2244800d40",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-27 进展：structured temporal action-video ranker 已跑完。把 paired UMI condition 显式按真实 schema 拆成 left/right view + mean/sum/absmax/last action-stat tokens 后，held-out strict rank gate 从 global 1/15、flat temporal 4/15 提升到 8/15，通过 rows 0,99,198,229,259,260,299,338。证据已同步到本机 /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/action_video_ranker_structured_temporal_s32_20260627，并更新总报告 /Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html。判断：显式 action schema + temporal alignment 有效，但仍不是 generator 过关；失败行仍被 wrong_next / wrong_same_category / wrong_other_category / nearest condition 击穿。下一步应把 structured temporal encoder 作为 generator-facing auxiliary head / teacher loss 候选，同时补 object/contact/3D/camera-geometry grounding。",
+          "created_at": "2026-06-27T06:11:34.984Z"
+        },
+        {
+          "comment_id": "comment_79c9bb0d-af7f-4d6e-89a0-3e57c8ba558d",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-27 继续推进：已把 structured temporal action contrast 从诊断 ranker 接入 generator-facing shared-world teacher。实现位置：远端 DiffSynth-Studio/scripts_umi/train_shared_world_teacher.py，新增 auxiliary head 将 generated dual-view video dynamics 与 paired UMI condition 的 left/right + mean/sum/absmax/last action-stat tokens 做 per-frame InfoNCE，并带 GT-video calibration；新增启动脚本 scripts_umi/launch_shared_teacher_structured_temporal_action_20260627.sh。已完成 CPU smoke：rows 0,1、size 8、1 epoch，成功训练并保存 checkpoint。当前 8 卡仍被 Gamma Stage3 占用；自动化已更新为等待 Gamma Stage3 checkpoint/结束后启动 structured-temporal teacher 并跑 holdout gate。注意：这仍不是目标完成，必须等 strict action-conditioned dual-view generation gate 通过后才算。",
+          "created_at": "2026-06-27T06:31:19.523Z"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-27T05:39:06.455Z"
+      "updated_at": "2026-06-27T06:31:19.523Z"
     },
     {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
