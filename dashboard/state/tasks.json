@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-27T12:06:55+08:00",
+  "updated_at": "2026-06-27T12:17:46+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2260,7 +2260,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-27T12:00:25+08:00",
+      "updated_at": "2026-06-27T12:11:33+08:00",
       "due_at": "",
       "completed_at": null
     },
@@ -6123,7 +6123,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-27T12:02:38+08:00",
+      "updated_at": "2026-06-27T12:13:47+08:00",
       "completed_at": "2026-06-24"
     },
     {
@@ -10075,10 +10075,19 @@
           "kind": "comment",
           "body": "2026-06-27 layer-channel ablation follow-up: for the best viewtokens_strongcontrast teacher on the same true-unseen 15-row holdout, foreground-only scoring reaches 8/15 passed (rows 0,198,260,279,298,299,338,377), foreground/contact reaches 7/15, contact-only 6/15, and background-only 3/15. Interpretation: the action signal is concentrated in robot/object foreground regions rather than background shortcut, but same-task nearest-condition failures remain, so this is still not completion. Next concrete direction: make foreground/object/contact weighting part of the generator-facing training/eval objective or use a geometry/action-aware teacher target. Evidence: /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/layer_gate_20260627/.",
           "created_at": "2026-06-27T04:03:37.309Z"
+        },
+        {
+          "comment_id": "comment_491d8f40-e1b1-4ef9-aa8a-a9b7426d605a",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-27 next run queued: implemented semantic-layer weighted reconstruction in train_shared_world_teacher.py (defaults off, backward-compatible): --semantic-layer-recon-weight, --semantic-layer-recon-channels, --semantic-layer-recon-floor. Added and launched watcher scripts_umi/wait_launch_shared_teacher_unseen_foreground_recon_20260627.sh. It waits until all 8 H20 GPUs are below 2GB, then starts 8-card DDP training for view-specific temporal action tokens + strongcontrast + foreground-weighted reconstruction, followed by standard gate and layer gates (foreground/foreground_contact/contact/background). Current status: watcher alive; GPU0 is still occupied by Gamma iter2000 inference, so training has not started yet.",
+          "created_at": "2026-06-27T04:15:49.261Z"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-27T04:03:37.309Z"
+      "updated_at": "2026-06-27T04:15:49.261Z"
     },
     {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
