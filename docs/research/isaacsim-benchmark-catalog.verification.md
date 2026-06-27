@@ -1,24 +1,25 @@
 # Isaac Sim Benchmark Catalog Verification
 
-Generated at: 2026-06-25T17:45:27.775Z
+Generated at: 2026-06-27T01:50:16.396Z
 
 ## Summary
 
-- Benchmarks: 41
-- Priority counts: P0=4, P1=28, P2=9
-- Source URLs: 58
-- URL checks OK: 34/58
-- GitHub repos OK: 0/20
-- GitHub API rate-limited: 20
-- Structural issues: 24
+- Benchmarks: 44
+- Priority counts: P0=4, P1=29, P2=11
+- Source URLs: 65
+- URL checks OK: 62/65
+- GitHub repos OK: 24/25
+- GitHub API rate-limited: 0
+- Structural issues: 23
 
 ## URL Status
 
 | Status | Count |
 |---|---:|
-| fetch failed | 23 |
-| ok | 34 |
+| ok | 62 |
+| http_404 | 1 |
 | http_403 | 1 |
+| fetch failed | 1 |
 
 ## Structural Issues
 
@@ -35,7 +36,6 @@ Generated at: 2026-06-25T17:45:27.775Z
 - genmanip_bench license is unknown
 - ebench_elemental_mobile_manipulation license is unknown
 - sidewalkbench license is unknown
-- navila_bench_vln_ce_isaac license is unknown
 - vlnverse license is unknown
 - tacex_univtac license is unknown
 - re3sim license is unknown
@@ -51,51 +51,35 @@ Generated at: 2026-06-25T17:45:27.775Z
 
 | Repo | OK | License | Archived | Default Branch |
 |---|---:|---|---:|---|
-| NVLabs/RoboLab | rate_limited | unknown | unknown |  |
-| isaac-sim/IsaacLab-Arena | rate_limited | unknown | unknown |  |
-| InternRobotics/InternDataEngine | rate_limited | unknown | unknown |  |
-| InternRobotics/InternUtopia | rate_limited | unknown | unknown |  |
-| Open-X-Humanoid/RoboMIND-Sim | rate_limited | unknown | unknown |  |
-| RoboTwin-Platform/RoboTwin | rate_limited | unknown | unknown |  |
-| yezheng04/robotwin-text2env-demo | rate_limited | unknown | unknown |  |
-| isaac-sim/OmniIsaacGymEnvs | rate_limited | unknown | unknown |  |
-| isaac-sim/IsaacGymEnvs | rate_limited | unknown | unknown |  |
-| chengaopro/Dual-Sim | rate_limited | unknown | unknown |  |
-| LightwheelAI/LW-BenchHub | rate_limited | unknown | unknown |  |
-| isaac-for-healthcare/i4h-workflows | rate_limited | unknown | unknown |  |
-| isaac-sim/IsaacLabEvalTasks | rate_limited | unknown | unknown |  |
-| InternRobotics/GenManip | rate_limited | unknown | unknown |  |
-| InternRobotics/InternManip | rate_limited | unknown | unknown |  |
-| JiantongChen/InternManip-Eval | rate_limited | unknown | unknown |  |
-| btx0424/OmniDrones | rate_limited | unknown | unknown |  |
-| yang-zj1026/NaVILA-Bench | rate_limited | unknown | unknown |  |
-| DH-Ng/TacEx | rate_limited | unknown | unknown |  |
-| AgibotTech/GE-Sim-V2 | rate_limited | unknown | unknown |  |
+| NVLabs/RoboLab | yes | Apache-2.0 | false | main |
+| isaac-sim/IsaacLab-Arena | yes | NOASSERTION | false | main |
+| InternRobotics/InternDataEngine | yes | unknown | false | master |
+| InternRobotics/InternUtopia | yes | MIT | false | main |
+| Open-X-Humanoid/RoboMIND-Sim | yes | unknown | false | main |
+| RoboTwin-Platform/RoboTwin | yes | MIT | false | main |
+| yezheng04/robotwin-text2env-demo | yes | unknown | false | main |
+| isaac-sim/OmniIsaacGymEnvs | yes | NOASSERTION | true | main |
+| isaac-sim/IsaacGymEnvs | yes | NOASSERTION | true | main |
+| chengaopro/Dual-Sim | no | unknown | unknown |  |
+| LightwheelAI/LW-BenchHub | yes | unknown | false | main |
+| isaac-for-healthcare/i4h-workflows | yes | Apache-2.0 | false | main |
+| isaac-sim/IsaacLabEvalTasks | yes | Apache-2.0 | false | main |
+| InternRobotics/GenManip | yes | unknown | false | main |
+| InternRobotics/InternManip | yes | MIT | false | master |
+| JiantongChen/InternManip-Eval | yes | MIT | false | main |
+| btx0424/OmniDrones | yes | MIT | false | main |
+| yang-zj1026/NaVILA-Bench | yes | NOASSERTION | false | main |
+| RoboVerseOrg/RoboVerse | yes | Apache-2.0 | false | main |
+| RoboVerseOrg/MetaSim | yes | Apache-2.0 | false | main |
+| DH-Ng/TacEx | yes | unknown | false | main |
+| LeCAR-Lab/ASAP | yes | MIT | false | main |
+| MuammerBay/IsaacLab-SO_100 | yes | BSD-3-Clause | false | main |
+| MuammerBay/isaac_so_arm101 | yes | BSD-3-Clause | false | main |
+| AgibotTech/GE-Sim-V2 | yes | Apache-2.0 | false | main |
 
 ## Failed Or Weak URL Checks
 
-- https://github.com/NVLabs/RoboLab: fetch failed
-- https://github.com/isaac-sim/IsaacLab-Arena: fetch failed
-- https://github.com/InternRobotics/InternDataEngine: fetch failed
-- https://github.com/InternRobotics/InternUtopia: fetch failed
-- https://github.com/Open-X-Humanoid/RoboMIND-Sim: fetch failed
-- https://github.com/RoboTwin-Platform/RoboTwin: fetch failed
-- https://github.com/yezheng04/robotwin-text2env-demo: fetch failed
-- https://github.com/isaac-sim/OmniIsaacGymEnvs: fetch failed
-- https://github.com/isaac-sim/IsaacGymEnvs: fetch failed
-- https://github.com/isaac-sim/IsaacGymEnvs/blob/main/docs/factory.md: fetch failed
-- https://github.com/chengaopro/Dual-Sim: fetch failed
-- https://github.com/LightwheelAI/LW-BenchHub: fetch failed
-- https://github.com/isaac-for-healthcare/i4h-workflows/tree/main/workflows/rheo: fetch failed
-- https://github.com/isaac-sim/IsaacLabEvalTasks: fetch failed
-- https://github.com/isaac-sim/IsaacLabEvalTasks/blob/main/doc/evaluation.md: fetch failed
-- https://github.com/InternRobotics/GenManip: fetch failed
-- https://github.com/InternRobotics/InternManip: fetch failed
-- https://github.com/JiantongChen/InternManip-Eval: fetch failed
-- https://github.com/btx0424/OmniDrones: fetch failed
-- https://github.com/yang-zj1026/NaVILA-Bench: fetch failed
-- https://github.com/DH-Ng/TacEx: fetch failed
+- https://github.com/chengaopro/Dual-Sim: 404
 - https://www.researchgate.net/publication/372827353_Towards_Building_AI-CPS_with_NVIDIA_Isaac_Sim_An_Industrial_Benchmark_and_Case_Study_for_Robotics_Manipulation: 403
-- https://github.com/AgibotTech/GE-Sim-V2: fetch failed
 - https://huggingface.co/agibot-world/Genie-Envisioner-Sim-v2.0: fetch failed
 

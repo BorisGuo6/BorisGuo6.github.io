@@ -50,7 +50,7 @@
         "data_requirement"
       ],
       "run_status": "dashboard_existing_reference",
-      "license": "MIT",
+      "license": "Apache-2.0",
       "source_urls": [
         "https://github.com/NVLabs/RoboLab"
       ]
@@ -1289,10 +1289,60 @@
         "scene_curriculum"
       ],
       "run_status": "candidate_metadata_first",
-      "license": "unknown",
+      "license": "MIT",
       "source_urls": [
         "https://github.com/yang-zj1026/NaVILA-Bench",
         "https://arxiv.org/html/2412.04453v1"
+      ]
+    },
+    {
+      "benchmark_id": "roboverse_platform",
+      "name": "RoboVerse Platform",
+      "priority": "P1",
+      "verification_level": "confirmed_open_source_multi_backend_isaac_lab",
+      "isaac_stack": "RoboVerse + MetaSim with Isaac Lab / Isaac Gym backend support",
+      "task_families": [
+        "unified_robot_learning_platform",
+        "dataset_and_benchmark",
+        "task_pack_generation",
+        "multi_backend_simulation"
+      ],
+      "scale": {
+        "tasks": null,
+        "datasets": null
+      },
+      "robots": [
+        "multi_embodiment",
+        "IsaacLab_compatible_robots"
+      ],
+      "observations": [
+        "rgb",
+        "state",
+        "language",
+        "simulator_state"
+      ],
+      "actions": [
+        "policy_defined",
+        "robot_control"
+      ],
+      "success_signal": "benchmark task success and dataset/evaluation runner outputs",
+      "data_outputs": [
+        "task_metadata",
+        "dataset_manifests",
+        "evaluation_results"
+      ],
+      "self_improvement_hooks": [
+        "benchmark_hub_import",
+        "task_pack_generation",
+        "multi_backend_adapter",
+        "policy_eval"
+      ],
+      "run_status": "reading_list_new_oss_candidate",
+      "license": "Apache-2.0",
+      "source_urls": [
+        "https://github.com/RoboVerseOrg/RoboVerse",
+        "https://github.com/RoboVerseOrg/MetaSim",
+        "https://roboverseorg.github.io/"
       ]
     },
     {
@@ -1468,6 +1518,93 @@
       "license": "unknown",
       "source_urls": [
         "https://arxiv.org/html/2508.07770v2"
+      ]
+    },
+    {
+      "benchmark_id": "asap_humanoid_sim2real",
+      "name": "ASAP Humanoid Sim-to-Real Skill Stack",
+      "priority": "P2",
+      "verification_level": "confirmed_open_source_isaacgym_lineage",
+      "isaac_stack": "IsaacGymEnvs / Isaac Sim / Isaac Lab humanoid training lineage",
+      "task_families": [
+        "humanoid_whole_body_skills",
+        "agile_locomotion",
+        "sim_to_real_policy_alignment"
+      ],
+      "scale": {
+        "skills": null
+      },
+      "robots": [
+        "humanoid"
+      ],
+      "observations": [
+        "state",
+        "robot_proprioception"
+      ],
+      "actions": [
+        "whole_body_control",
+        "rl_policy_actions"
+      ],
+      "success_signal": "skill tracking and real-world transfer metrics",
+      "data_outputs": [
+        "training_logs",
+        "policy_checkpoints",
+        "sim_to_real_eval_results"
+      ],
+      "self_improvement_hooks": [
+        "humanoid_failure_trace",
+        "sim_to_real_alignment",
+        "policy_post_training_baseline"
+      ],
+      "run_status": "reading_list_new_oss_environment_source",
+      "license": "MIT",
+      "source_urls": [
+        "https://github.com/LeCAR-Lab/ASAP",
+        "https://agile.human2humanoid.com/"
+      ]
+    },
+    {
+      "benchmark_id": "so_arm101_isaaclab",
+      "name": "SO-ARM100/101 Isaac Lab External Project",
+      "priority": "P2",
+      "verification_level": "confirmed_open_source_isaac_lab_external_project",
+      "isaac_stack": "Isaac Lab external project",
+      "task_families": [
+        "low_cost_arm_manipulation",
+        "external_task_template",
+        "list_test_train_play_workflow"
+      ],
+      "scale": {
+        "tasks": null
+      },
+      "robots": [
+        "SO-ARM100",
+        "SO-ARM101"
+      ],
+      "observations": [
+        "state",
+        "rgb_optional"
+      ],
+      "actions": [
+        "arm_control",
+        "rl_policy_actions"
+      ],
+      "success_signal": "Isaac Lab external project can list, test, train, and play registered tasks",
+      "data_outputs": [
+        "task_registry",
+        "training_logs",
+        "playback_results"
+      ],
+      "self_improvement_hooks": [
+        "low_cost_arm_smoke_gate",
+        "external_project_template",
+        "adapter_scaffold"
+      ],
+      "run_status": "reading_list_new_oss_environment_source",
+      "license": "BSD-3-Clause",
+      "source_urls": [
+        "https://github.com/MuammerBay/IsaacLab-SO_100",
+        "https://github.com/MuammerBay/isaac_so_arm101"
       ]
     },
     {

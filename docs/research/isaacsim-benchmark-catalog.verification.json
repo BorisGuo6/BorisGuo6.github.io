@@ -1,26 +1,27 @@
 {
   "schema_version": "isaacsim-benchmark-catalog.verification.v1",
-  "generated_at": "2026-06-25T17:45:27.775Z",
+  "generated_at": "2026-06-27T01:50:16.396Z",
   "catalog_path": "docs/research/isaacsim-benchmark-catalog.seed.json",
   "summary": {
-    "benchmarks": 41,
+    "benchmarks": 44,
     "priority_counts": {
       "P0": 4,
-      "P1": 28,
-      "P2": 9
+      "P1": 29,
+      "P2": 11
     },
-    "source_urls": 58,
-    "url_checks": 58,
-    "url_ok": 34,
+    "source_urls": 65,
+    "url_checks": 65,
+    "url_ok": 62,
     "url_status_counts": {
-      "fetch failed": 23,
-      "ok": 34,
-      "http_403": 1
+      "ok": 62,
+      "http_404": 1,
+      "http_403": 1,
+      "fetch failed": 1
     },
-    "github_checks": 20,
-    "github_ok": 0,
-    "github_rate_limited": 20,
-    "structural_issues": 24
+    "github_checks": 25,
+    "github_ok": 24,
+    "github_rate_limited": 0,
+    "structural_issues": 23
   },
   "structural_issues": [
     "interndataengine license is unknown",
@@ -36,7 +37,6 @@
     "genmanip_bench license is unknown",
     "ebench_elemental_mobile_manipulation license is unknown",
     "sidewalkbench license is unknown",
-    "navila_bench_vln_ce_isaac license is unknown",
     "vlnverse license is unknown",
     "tacex_univtac license is unknown",
     "re3sim license is unknown",
@@ -51,12 +51,12 @@
   "url_checks": [
     {
       "url": "https://github.com/NVLabs/RoboLab",
-      "ok": false,
-      "status": null,
+      "ok": true,
+      "status": 200,
       "final_url": "https://github.com/NVLabs/RoboLab",
-      "content_type": "",
-      "check_method": "retry",
-      "error": "fetch failed"
+      "content_type": "text/html; charset=utf-8",
+      "check_method": "HEAD",
+      "error": ""
     },
     {
       "url": "https://isaac-sim.github.io/IsaacLab/main/index.html",
@@ -69,12 +69,12 @@
     },
     {
       "url": "https://github.com/isaac-sim/IsaacLab-Arena",
-      "ok": false,
-      "status": null,
+      "ok": true,
+      "status": 200,
       "final_url": "https://github.com/isaac-sim/IsaacLab-Arena",
-      "content_type": "",
-      "check_method": "retry",
-      "error": "fetch failed"
+      "content_type": "text/html; charset=utf-8",
+      "check_method": "HEAD",
+      "error": ""
     },
     {
       "url": "https://developer.nvidia.com/blog/simplify-generalist-robot-policy-evaluation-in-simulation-with-nvidia-isaac-lab-arena/",
@@ -87,12 +87,12 @@
     },
     {
       "url": "https://github.com/InternRobotics/InternDataEngine",
-      "ok": false,
-      "status": null,
+      "ok": true,
+      "status": 200,
       "final_url": "https://github.com/InternRobotics/InternDataEngine",
-      "content_type": "",
-      "check_method": "retry",
-      "error": "fetch failed"
+      "content_type": "text/html; charset=utf-8",
+      "check_method": "HEAD",
+      "error": ""
     },
     {
       "url": "https://behavior.stanford.edu/",
@@ -105,12 +105,12 @@
     },
     {
       "url": "https://github.com/InternRobotics/InternUtopia",
-      "ok": false,
-      "status": null,
+      "ok": true,
+      "status": 200,
       "final_url": "https://github.com/InternRobotics/InternUtopia",
-      "content_type": "",
-      "check_method": "retry",
-      "error": "fetch failed"
+      "content_type": "text/html; charset=utf-8",
+      "check_method": "HEAD",
+      "error": ""
     },
     {
       "url": "https://arnold-benchmark.github.io/",
@@ -141,75 +141,75 @@
     },
     {
       "url": "https://github.com/Open-X-Humanoid/RoboMIND-Sim",
-      "ok": false,
-      "status": null,
+      "ok": true,
+      "status": 200,
       "final_url": "https://github.com/Open-X-Humanoid/RoboMIND-Sim",
-      "content_type": "",
-      "check_method": "retry",
-      "error": "fetch failed"
+      "content_type": "text/html; charset=utf-8",
+      "check_method": "HEAD",
+      "error": ""
     },
     {
       "url": "https://github.com/RoboTwin-Platform/RoboTwin",
-      "ok": false,
-      "status": null,
+      "ok": true,
+      "status": 200,
       "final_url": "https://github.com/RoboTwin-Platform/RoboTwin",
-      "content_type": "",
-      "check_method": "retry",
-      "error": "fetch failed"
+      "content_type": "text/html; charset=utf-8",
+      "check_method": "HEAD",
+      "error": ""
     },
     {
       "url": "https://github.com/yezheng04/robotwin-text2env-demo",
-      "ok": false,
-      "status": null,
+      "ok": true,
+      "status": 200,
       "final_url": "https://github.com/yezheng04/robotwin-text2env-demo",
-      "content_type": "",
-      "check_method": "retry",
-      "error": "fetch failed"
+      "content_type": "text/html; charset=utf-8",
+      "check_method": "HEAD",
+      "error": ""
     },
     {
       "url": "https://github.com/isaac-sim/OmniIsaacGymEnvs",
-      "ok": false,
-      "status": null,
+      "ok": true,
+      "status": 200,
       "final_url": "https://github.com/isaac-sim/OmniIsaacGymEnvs",
-      "content_type": "",
-      "check_method": "retry",
-      "error": "fetch failed"
+      "content_type": "text/html; charset=utf-8",
+      "check_method": "HEAD",
+      "error": ""
     },
     {
       "url": "https://github.com/isaac-sim/IsaacGymEnvs",
-      "ok": false,
-      "status": null,
+      "ok": true,
+      "status": 200,
       "final_url": "https://github.com/isaac-sim/IsaacGymEnvs",
-      "content_type": "",
-      "check_method": "retry",
-      "error": "fetch failed"
+      "content_type": "text/html; charset=utf-8",
+      "check_method": "HEAD",
+      "error": ""
     },
     {
       "url": "https://github.com/isaac-sim/IsaacGymEnvs/blob/main/docs/factory.md",
-      "ok": false,
-      "status": null,
+      "ok": true,
+      "status": 200,
       "final_url": "https://github.com/isaac-sim/IsaacGymEnvs/blob/main/docs/factory.md",
-      "content_type": "",
-      "check_method": "retry",
-      "error": "fetch failed"
+      "content_type": "text/html; charset=utf-8",
+      "check_method": "HEAD",
+      "error": ""
     },
     {
       "url": "https://github.com/chengaopro/Dual-Sim",
       "ok": false,
-      "status": null,
+      "status": 404,
       "final_url": "https://github.com/chengaopro/Dual-Sim",
-      "content_type": "",
-      "check_method": "retry",
-      "error": "fetch failed"
+      "content_type": "text/html; charset=utf-8",
+      "check_method": "HEAD",
+      "error": ""
     },
     {
       "url": "https://github.com/LightwheelAI/LW-BenchHub",
-      "ok": false,
-      "status": null,
+      "ok": true,
+      "status": 200,
       "final_url": "https://github.com/LightwheelAI/LW-BenchHub",
-      "content_type": "",
-      "check_method": "retry",
-      "error": "fetch failed"
+      "content_type": "text/html; charset=utf-8",
+      "check_method": "HEAD",
+      "error": ""
     },
     {
       "url": "https://lightwheel.ai/release/lwlab",
@@ -231,30 +231,30 @@
     },
     {
       "url": "https://github.com/isaac-for-healthcare/i4h-workflows/tree/main/workflows/rheo",
-      "ok": false,
-      "status": null,
+      "ok": true,
+      "status": 200,
       "final_url": "https://github.com/isaac-for-healthcare/i4h-workflows/tree/main/workflows/rheo",
-      "content_type": "",
-      "check_method": "retry",
-      "error": "fetch failed"
+      "content_type": "text/html; charset=utf-8",
+      "check_method": "HEAD",
+      "error": ""
     },
     {
       "url": "https://github.com/isaac-sim/IsaacLabEvalTasks",
-      "ok": false,
-      "status": null,
+      "ok": true,
+      "status": 200,
       "final_url": "https://github.com/isaac-sim/IsaacLabEvalTasks",
-      "content_type": "",
-      "check_method": "retry",
-      "error": "fetch failed"
+      "content_type": "text/html; charset=utf-8",
+      "check_method": "HEAD",
+      "error": ""
     },
     {
       "url": "https://github.com/isaac-sim/IsaacLabEvalTasks/blob/main/doc/evaluation.md",
-      "ok": false,
-      "status": null,
+      "ok": true,
+      "status": 200,
       "final_url": "https://github.com/isaac-sim/IsaacLabEvalTasks/blob/main/doc/evaluation.md",
-      "content_type": "",
-      "check_method": "retry",
-      "error": "fetch failed"
+      "content_type": "text/html; charset=utf-8",
+      "check_method": "HEAD",
+      "error": ""
     },
     {
       "url": "https://rchalyang.github.io/EgoVLA/",
@@ -276,12 +276,12 @@
     },
     {
       "url": "https://github.com/InternRobotics/GenManip",
-      "ok": false,
-      "status": null,
+      "ok": true,
+      "status": 200,
       "final_url": "https://github.com/InternRobotics/GenManip",
-      "content_type": "",
-      "check_method": "retry",
-      "error": "fetch failed"
+      "content_type": "text/html; charset=utf-8",
+      "check_method": "HEAD",
+      "error": ""
     },
     {
       "url": "https://genmanip.com/",
@@ -303,21 +303,21 @@
     },
     {
       "url": "https://github.com/InternRobotics/InternManip",
-      "ok": false,
-      "status": null,
+      "ok": true,
+      "status": 200,
       "final_url": "https://github.com/InternRobotics/InternManip",
-      "content_type": "",
-      "check_method": "retry",
-      "error": "fetch failed"
+      "content_type": "text/html; charset=utf-8",
+      "check_method": "HEAD",
+      "error": ""
     },
     {
       "url": "https://github.com/JiantongChen/InternManip-Eval",
-      "ok": false,
-      "status": null,
+      "ok": true,
+      "status": 200,
       "final_url": "https://github.com/JiantongChen/InternManip-Eval",
-      "content_type": "",
-      "check_method": "retry",
-      "error": "fetch failed"
+      "content_type": "text/html; charset=utf-8",
+      "check_method": "HEAD",
+      "error": ""
     },
     {
       "url": "https://internrobotics.github.io/EBench-doc/",
@@ -357,12 +357,12 @@
     },
     {
       "url": "https://github.com/btx0424/OmniDrones",
-      "ok": false,
-      "status": null,
+      "ok": true,
+      "status": 200,
       "final_url": "https://github.com/btx0424/OmniDrones",
-      "content_type": "",
-      "check_method": "retry",
-      "error": "fetch failed"
+      "content_type": "text/html; charset=utf-8",
+      "check_method": "HEAD",
+      "error": ""
     },
     {
       "url": "https://omnidrones.readthedocs.io/",
@@ -384,18 +384,45 @@
     },
     {
       "url": "https://github.com/yang-zj1026/NaVILA-Bench",
-      "ok": false,
-      "status": null,
+      "ok": true,
+      "status": 200,
       "final_url": "https://github.com/yang-zj1026/NaVILA-Bench",
-      "content_type": "",
-      "check_method": "retry",
-      "error": "fetch failed"
+      "content_type": "text/html; charset=utf-8",
+      "check_method": "HEAD",
+      "error": ""
     },
     {
       "url": "https://arxiv.org/html/2412.04453v1",
       "ok": true,
       "status": 200,
       "final_url": "https://arxiv.org/html/2412.04453v1",
+      "content_type": "text/html; charset=utf-8",
+      "check_method": "HEAD",
+      "error": ""
+    },
+    {
+      "url": "https://github.com/RoboVerseOrg/RoboVerse",
+      "ok": true,
+      "status": 200,
+      "final_url": "https://github.com/RoboVerseOrg/RoboVerse",
+      "content_type": "text/html; charset=utf-8",
+      "check_method": "HEAD",
+      "error": ""
+    },
+    {
+      "url": "https://github.com/RoboVerseOrg/MetaSim",
+      "ok": true,
+      "status": 200,
+      "final_url": "https://github.com/RoboVerseOrg/MetaSim",
+      "content_type": "text/html; charset=utf-8",
+      "check_method": "HEAD",
+      "error": ""
+    },
+    {
+      "url": "https://roboverseorg.github.io/",
+      "ok": true,
+      "status": 200,
+      "final_url": "https://roboverseorg.github.io/",
       "content_type": "text/html; charset=utf-8",
       "check_method": "HEAD",
       "error": ""
@@ -420,12 +447,12 @@
     },
     {
       "url": "https://github.com/DH-Ng/TacEx",
-      "ok": false,
-      "status": null,
+      "ok": true,
+      "status": 200,
       "final_url": "https://github.com/DH-Ng/TacEx",
-      "content_type": "",
-      "check_method": "retry",
-      "error": "fetch failed"
+      "content_type": "text/html; charset=utf-8",
+      "check_method": "HEAD",
+      "error": ""
     },
     {
       "url": "https://arxiv.org/html/2602.10093v1",
@@ -459,6 +486,42 @@
       "ok": true,
       "status": 200,
       "final_url": "https://arxiv.org/html/2508.07770v2",
+      "content_type": "text/html; charset=utf-8",
+      "check_method": "HEAD",
+      "error": ""
+    },
+    {
+      "url": "https://github.com/LeCAR-Lab/ASAP",
+      "ok": true,
+      "status": 200,
+      "final_url": "https://github.com/LeCAR-Lab/ASAP",
+      "content_type": "text/html; charset=utf-8",
+      "check_method": "HEAD",
+      "error": ""
+    },
+    {
+      "url": "https://agile.human2humanoid.com/",
+      "ok": true,
+      "status": 200,
+      "final_url": "https://agile.human2humanoid.com/",
+      "content_type": "text/html; charset=utf-8",
+      "check_method": "HEAD",
+      "error": ""
+    },
+    {
+      "url": "https://github.com/MuammerBay/IsaacLab-SO_100",
+      "ok": true,
+      "status": 200,
+      "final_url": "https://github.com/MuammerBay/isaac_so_arm101",
+      "content_type": "text/html; charset=utf-8",
+      "check_method": "HEAD",
+      "error": ""
+    },
+    {
+      "url": "https://github.com/MuammerBay/isaac_so_arm101",
+      "ok": true,
+      "status": 200,
+      "final_url": "https://github.com/MuammerBay/isaac_so_arm101",
       "content_type": "text/html; charset=utf-8",
       "check_method": "HEAD",
       "error": ""
@@ -528,12 +591,12 @@
     },
     {
       "url": "https://github.com/AgibotTech/GE-Sim-V2",
-      "ok": false,
-      "status": null,
+      "ok": true,
+      "status": 200,
       "final_url": "https://github.com/AgibotTech/GE-Sim-V2",
-      "content_type": "",
-      "check_method": "retry",
-      "error": "fetch failed"
+      "content_type": "text/html; charset=utf-8",
+      "check_method": "HEAD",
+      "error": ""
     },
     {
       "url": "https://ge-sim-v2.github.io",
@@ -576,262 +639,327 @@
     {
       "url": "https://github.com/NVLabs/RoboLab",
       "repo": "NVLabs/RoboLab",
-      "ok": false,
-      "status": 403,
-      "archived": null,
-      "disabled": null,
-      "default_branch": "",
-      "license": "",
-      "pushed_at": "",
-      "rate_limited": true,
-      "error": "rate_limited"
+      "ok": true,
+      "status": 200,
+      "archived": false,
+      "disabled": false,
+      "default_branch": "main",
+      "license": "Apache-2.0",
+      "pushed_at": "2026-06-01T01:21:55Z",
+      "rate_limited": false,
+      "error": ""
     },
     {
       "url": "https://github.com/isaac-sim/IsaacLab-Arena",
       "repo": "isaac-sim/IsaacLab-Arena",
-      "ok": false,
-      "status": 403,
-      "archived": null,
-      "disabled": null,
-      "default_branch": "",
-      "license": "",
-      "pushed_at": "",
-      "rate_limited": true,
-      "error": "rate_limited"
+      "ok": true,
+      "status": 200,
+      "archived": false,
+      "disabled": false,
+      "default_branch": "main",
+      "license": "NOASSERTION",
+      "pushed_at": "2026-06-26T17:05:47Z",
+      "rate_limited": false,
+      "error": ""
     },
     {
       "url": "https://github.com/InternRobotics/InternDataEngine",
       "repo": "InternRobotics/InternDataEngine",
-      "ok": false,
-      "status": 403,
-      "archived": null,
-      "disabled": null,
-      "default_branch": "",
+      "ok": true,
+      "status": 200,
+      "archived": false,
+      "disabled": false,
+      "default_branch": "master",
       "license": "",
-      "pushed_at": "",
-      "rate_limited": true,
-      "error": "rate_limited"
+      "pushed_at": "2026-03-20T13:24:04Z",
+      "rate_limited": false,
+      "error": ""
     },
     {
       "url": "https://github.com/InternRobotics/InternUtopia",
       "repo": "InternRobotics/InternUtopia",
-      "ok": false,
-      "status": 403,
-      "archived": null,
-      "disabled": null,
-      "default_branch": "",
-      "license": "",
-      "pushed_at": "",
-      "rate_limited": true,
-      "error": "rate_limited"
+      "ok": true,
+      "status": 200,
+      "archived": false,
+      "disabled": false,
+      "default_branch": "main",
+      "license": "MIT",
+      "pushed_at": "2025-09-04T06:38:50Z",
+      "rate_limited": false,
+      "error": ""
     },
     {
       "url": "https://github.com/Open-X-Humanoid/RoboMIND-Sim",
       "repo": "Open-X-Humanoid/RoboMIND-Sim",
-      "ok": false,
-      "status": 403,
-      "archived": null,
-      "disabled": null,
-      "default_branch": "",
+      "ok": true,
+      "status": 200,
+      "archived": false,
+      "disabled": false,
+      "default_branch": "main",
       "license": "",
-      "pushed_at": "",
-      "rate_limited": true,
-      "error": "rate_limited"
+      "pushed_at": "2026-03-26T07:53:48Z",
+      "rate_limited": false,
+      "error": ""
     },
     {
       "url": "https://github.com/RoboTwin-Platform/RoboTwin",
       "repo": "RoboTwin-Platform/RoboTwin",
-      "ok": false,
-      "status": 403,
-      "archived": null,
-      "disabled": null,
-      "default_branch": "",
-      "license": "",
-      "pushed_at": "",
-      "rate_limited": true,
-      "error": "rate_limited"
+      "ok": true,
+      "status": 200,
+      "archived": false,
+      "disabled": false,
+      "default_branch": "main",
+      "license": "MIT",
+      "pushed_at": "2026-05-23T03:16:41Z",
+      "rate_limited": false,
+      "error": ""
     },
     {
       "url": "https://github.com/yezheng04/robotwin-text2env-demo",
       "repo": "yezheng04/robotwin-text2env-demo",
-      "ok": false,
-      "status": 403,
-      "archived": null,
-      "disabled": null,
-      "default_branch": "",
+      "ok": true,
+      "status": 200,
+      "archived": false,
+      "disabled": false,
+      "default_branch": "main",
       "license": "",
-      "pushed_at": "",
-      "rate_limited": true,
-      "error": "rate_limited"
+      "pushed_at": "2026-06-26T09:42:03Z",
+      "rate_limited": false,
+      "error": ""
     },
     {
       "url": "https://github.com/isaac-sim/OmniIsaacGymEnvs",
       "repo": "isaac-sim/OmniIsaacGymEnvs",
-      "ok": false,
-      "status": 403,
-      "archived": null,
-      "disabled": null,
-      "default_branch": "",
-      "license": "",
-      "pushed_at": "",
-      "rate_limited": true,
-      "error": "rate_limited"
+      "ok": true,
+      "status": 200,
+      "archived": true,
+      "disabled": false,
+      "default_branch": "main",
+      "license": "NOASSERTION",
+      "pushed_at": "2024-06-06T20:11:32Z",
+      "rate_limited": false,
+      "error": ""
     },
     {
       "url": "https://github.com/isaac-sim/IsaacGymEnvs",
       "repo": "isaac-sim/IsaacGymEnvs",
-      "ok": false,
-      "status": 403,
-      "archived": null,
-      "disabled": null,
-      "default_branch": "",
-      "license": "",
-      "pushed_at": "",
-      "rate_limited": true,
-      "error": "rate_limited"
+      "ok": true,
+      "status": 200,
+      "archived": true,
+      "disabled": false,
+      "default_branch": "main",
+      "license": "NOASSERTION",
+      "pushed_at": "2024-10-26T15:43:53Z",
+      "rate_limited": false,
+      "error": ""
     },
     {
       "url": "https://github.com/chengaopro/Dual-Sim",
       "repo": "chengaopro/Dual-Sim",
       "ok": false,
-      "status": 403,
+      "status": 404,
       "archived": null,
       "disabled": null,
       "default_branch": "",
       "license": "",
       "pushed_at": "",
-      "rate_limited": true,
-      "error": "rate_limited"
+      "rate_limited": false,
+      "error": "http_404"
     },
     {
       "url": "https://github.com/LightwheelAI/LW-BenchHub",
       "repo": "LightwheelAI/LW-BenchHub",
-      "ok": false,
-      "status": 403,
-      "archived": null,
-      "disabled": null,
-      "default_branch": "",
+      "ok": true,
+      "status": 200,
+      "archived": false,
+      "disabled": false,
+      "default_branch": "main",
       "license": "",
-      "pushed_at": "",
-      "rate_limited": true,
-      "error": "rate_limited"
+      "pushed_at": "2026-06-22T07:16:20Z",
+      "rate_limited": false,
+      "error": ""
     },
     {
       "url": "https://github.com/isaac-for-healthcare/i4h-workflows",
       "repo": "isaac-for-healthcare/i4h-workflows",
-      "ok": false,
-      "status": 403,
-      "archived": null,
-      "disabled": null,
-      "default_branch": "",
-      "license": "",
-      "pushed_at": "",
-      "rate_limited": true,
-      "error": "rate_limited"
+      "ok": true,
+      "status": 200,
+      "archived": false,
+      "disabled": false,
+      "default_branch": "main",
+      "license": "Apache-2.0",
+      "pushed_at": "2026-06-23T16:49:47Z",
+      "rate_limited": false,
+      "error": ""
     },
     {
       "url": "https://github.com/isaac-sim/IsaacLabEvalTasks",
       "repo": "isaac-sim/IsaacLabEvalTasks",
-      "ok": false,
-      "status": 403,
-      "archived": null,
-      "disabled": null,
-      "default_branch": "",
-      "license": "",
-      "pushed_at": "",
-      "rate_limited": true,
-      "error": "rate_limited"
+      "ok": true,
+      "status": 200,
+      "archived": false,
+      "disabled": false,
+      "default_branch": "main",
+      "license": "Apache-2.0",
+      "pushed_at": "2025-10-22T17:39:42Z",
+      "rate_limited": false,
+      "error": ""
     },
     {
       "url": "https://github.com/InternRobotics/GenManip",
       "repo": "InternRobotics/GenManip",
-      "ok": false,
-      "status": 403,
-      "archived": null,
-      "disabled": null,
-      "default_branch": "",
+      "ok": true,
+      "status": 200,
+      "archived": false,
+      "disabled": false,
+      "default_branch": "main",
       "license": "",
-      "pushed_at": "",
-      "rate_limited": true,
-      "error": "rate_limited"
+      "pushed_at": "2026-06-01T10:47:15Z",
+      "rate_limited": false,
+      "error": ""
     },
     {
       "url": "https://github.com/InternRobotics/InternManip",
       "repo": "InternRobotics/InternManip",
-      "ok": false,
-      "status": 403,
-      "archived": null,
-      "disabled": null,
-      "default_branch": "",
-      "license": "",
-      "pushed_at": "",
-      "rate_limited": true,
-      "error": "rate_limited"
+      "ok": true,
+      "status": 200,
+      "archived": false,
+      "disabled": false,
+      "default_branch": "master",
+      "license": "MIT",
+      "pushed_at": "2025-10-15T02:19:59Z",
+      "rate_limited": false,
+      "error": ""
     },
     {
       "url": "https://github.com/JiantongChen/InternManip-Eval",
       "repo": "JiantongChen/InternManip-Eval",
-      "ok": false,
-      "status": 403,
-      "archived": null,
-      "disabled": null,
-      "default_branch": "",
-      "license": "",
-      "pushed_at": "",
-      "rate_limited": true,
-      "error": "rate_limited"
+      "ok": true,
+      "status": 200,
+      "archived": false,
+      "disabled": false,
+      "default_branch": "main",
+      "license": "MIT",
+      "pushed_at": "2025-12-01T01:01:39Z",
+      "rate_limited": false,
+      "error": ""
     },
     {
       "url": "https://github.com/btx0424/OmniDrones",
       "repo": "btx0424/OmniDrones",
-      "ok": false,
-      "status": 403,
-      "archived": null,
-      "disabled": null,
-      "default_branch": "",
-      "license": "",
-      "pushed_at": "",
-      "rate_limited": true,
-      "error": "rate_limited"
+      "ok": true,
+      "status": 200,
+      "archived": false,
+      "disabled": false,
+      "default_branch": "main",
+      "license": "MIT",
+      "pushed_at": "2026-01-20T18:06:18Z",
+      "rate_limited": false,
+      "error": ""
     },
     {
       "url": "https://github.com/yang-zj1026/NaVILA-Bench",
       "repo": "yang-zj1026/NaVILA-Bench",
-      "ok": false,
-      "status": 403,
-      "archived": null,
-      "disabled": null,
-      "default_branch": "",
-      "license": "",
-      "pushed_at": "",
-      "rate_limited": true,
-      "error": "rate_limited"
+      "ok": true,
+      "status": 200,
+      "archived": false,
+      "disabled": false,
+      "default_branch": "main",
+      "license": "NOASSERTION",
+      "pushed_at": "2025-08-28T06:19:50Z",
+      "rate_limited": false,
+      "error": ""
+    },
+    {
+      "url": "https://github.com/RoboVerseOrg/RoboVerse",
+      "repo": "RoboVerseOrg/RoboVerse",
+      "ok": true,
+      "status": 200,
+      "archived": false,
+      "disabled": false,
+      "default_branch": "main",
+      "license": "Apache-2.0",
+      "pushed_at": "2026-06-25T21:41:13Z",
+      "rate_limited": false,
+      "error": ""
+    },
+    {
+      "url": "https://github.com/RoboVerseOrg/MetaSim",
+      "repo": "RoboVerseOrg/MetaSim",
+      "ok": true,
+      "status": 200,
+      "archived": false,
+      "disabled": false,
+      "default_branch": "main",
+      "license": "Apache-2.0",
+      "pushed_at": "2026-06-25T19:45:53Z",
+      "rate_limited": false,
+      "error": ""
     },
     {
       "url": "https://github.com/DH-Ng/TacEx",
       "repo": "DH-Ng/TacEx",
-      "ok": false,
-      "status": 403,
-      "archived": null,
-      "disabled": null,
-      "default_branch": "",
+      "ok": true,
+      "status": 200,
+      "archived": false,
+      "disabled": false,
+      "default_branch": "main",
       "license": "",
-      "pushed_at": "",
-      "rate_limited": true,
-      "error": "rate_limited"
+      "pushed_at": "2026-06-19T14:23:15Z",
+      "rate_limited": false,
+      "error": ""
+    },
+    {
+      "url": "https://github.com/LeCAR-Lab/ASAP",
+      "repo": "LeCAR-Lab/ASAP",
+      "ok": true,
+      "status": 200,
+      "archived": false,
+      "disabled": false,
+      "default_branch": "main",
+      "license": "MIT",
+      "pushed_at": "2026-01-06T04:58:36Z",
+      "rate_limited": false,
+      "error": ""
+    },
+    {
+      "url": "https://github.com/MuammerBay/IsaacLab-SO_100",
+      "repo": "MuammerBay/IsaacLab-SO_100",
+      "ok": true,
+      "status": 200,
+      "archived": false,
+      "disabled": false,
+      "default_branch": "main",
+      "license": "BSD-3-Clause",
+      "pushed_at": "2026-02-18T11:48:17Z",
+      "rate_limited": false,
+      "error": ""
+    },
+    {
+      "url": "https://github.com/MuammerBay/isaac_so_arm101",
+      "repo": "MuammerBay/isaac_so_arm101",
+      "ok": true,
+      "status": 200,
+      "archived": false,
+      "disabled": false,
+      "default_branch": "main",
+      "license": "BSD-3-Clause",
+      "pushed_at": "2026-02-18T11:48:17Z",
+      "rate_limited": false,
+      "error": ""
     },
     {
       "url": "https://github.com/AgibotTech/GE-Sim-V2",
       "repo": "AgibotTech/GE-Sim-V2",
-      "ok": false,
-      "status": 403,
-      "archived": null,
-      "disabled": null,
-      "default_branch": "",
-      "license": "",
-      "pushed_at": "",
-      "rate_limited": true,
-      "error": "rate_limited"
+      "ok": true,
+      "status": 200,
+      "archived": false,
+      "disabled": false,
+      "default_branch": "main",
+      "license": "Apache-2.0",
+      "pushed_at": "2026-06-25T03:34:53Z",
+      "rate_limited": false,
+      "error": ""
     }
   ]
 }

@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-06-25T17:43:11.897Z",
+  "generated_at": "2026-06-27T01:49:41.490Z",
   "catalog_path": "docs/research/isaacsim-benchmark-catalog.seed.json",
-  "benchmark_count": 41,
+  "benchmark_count": 44,
   "priority_counts": {
     "P0": 4,
-    "P1": 28,
-    "P2": 9
+    "P1": 29,
+    "P2": 11
   },
   "global_blockers": [
     "Local macOS runs can verify metadata and source availability, but real Isaac Sim smoke gates usually require a supported Linux/GPU host.",
@@ -36,7 +36,8 @@
       "smoke_result.json",
       "failure_trace_sample.json"
     ],
-    "dashboard_gate": "A benchmark can move from catalog to dashboard intake only after source metadata is verified and at least one smoke path is either passed or explicitly blocked with environment requirements."
+    "open_source_gate_path": "docs/research/isaacsim-benchmark-open-source-gate.seed.json",
+    "dashboard_gate": "A benchmark can move from catalog to dashboard implementation or smoke work only after it passes the open-source gate, source metadata is verified, and at least one smoke path is either passed or explicitly blocked with environment requirements."
   },
   "phases": [
     {
@@ -124,26 +125,14 @@
         "Some Arena-backed suites may require external assets or partner repos.",
         "RoboTwin extension paths should remain adapter candidates until their branch-specific setup is verified."
       ]
-    },
+    }
+  ],
+  "p0_excluded_by_open_source_gate": [
     {
       "benchmark_id": "interndataengine",
       "name": "InternDataEngine",
-      "objective": "Treat InternDataEngine as the data/curriculum source for synthetic scenes, annotations, and task generation.",
-      "metadata_outputs": [
-        "interndataengine_config_index.json",
-        "scene_generation_schema.json",
-        "annotation_schema.json"
-      ],
-      "smoke_outputs": [
-        "small_generation_dry_run.json",
-        "annotation_manifest_sample.json",
-        "scheduler_log.txt"
-      ],
-      "smoke_gate": "A minimal documented generation or dry-run path emits a scene/task/annotation manifest without requiring a full dataset build.",
-      "blockers": [
-        "May require heavyweight assets and an Isaac Sim runtime.",
-        "If assets are gated, keep dashboard status at metadata-only and record access requirements."
-      ]
+      "license": "unknown",
+      "reason": "excluded_from_smoke_until_open_source_license_is_verified"
     }
   ],
   "benchmark_queue": [
@@ -199,7 +188,8 @@
       "recommended_next_step": "metadata_then_smoke",
       "run_status": "candidate_data_engine",
       "source_risks": [
-        "unknown_license"
+        "unknown_license",
+        "open_source_unverified"
       ],
       "metadata_checks": [
         "Confirm source URL reachability and canonical repo/page.",
@@ -217,6 +207,7 @@
       "run_status": "watchlist_metadata_first",
       "source_risks": [
         "unknown_license",
+        "open_source_unverified",
         "watchlist_only"
       ],
       "metadata_checks": [
@@ -251,7 +242,8 @@
       "recommended_next_step": "metadata_then_adapter_triage",
       "run_status": "candidate_metadata_first",
       "source_risks": [
-        "unknown_license"
+        "unknown_license",
+        "open_source_unverified"
       ],
       "metadata_checks": [
         "Confirm source URL reachability and canonical repo/page.",
@@ -268,7 +260,8 @@
       "recommended_next_step": "metadata_then_adapter_triage",
       "run_status": "paper_first",
       "source_risks": [
-        "unknown_license"
+        "unknown_license",
+        "open_source_unverified"
       ],
       "metadata_checks": [
         "Confirm source URL reachability and canonical repo/page.",
@@ -285,7 +278,8 @@
       "recommended_next_step": "metadata_then_adapter_triage",
       "run_status": "paper_first",
       "source_risks": [
-        "unknown_license"
+        "unknown_license",
+        "open_source_unverified"
       ],
       "metadata_checks": [
         "Confirm source URL reachability and canonical repo/page.",
@@ -302,7 +296,8 @@
       "recommended_next_step": "metadata_then_adapter_triage",
       "run_status": "candidate_smoke",
       "source_risks": [
-        "unknown_license"
+        "unknown_license",
+        "open_source_unverified"
       ],
       "metadata_checks": [
         "Confirm source URL reachability and canonical repo/page.",
@@ -381,7 +376,8 @@
       "recommended_next_step": "metadata_then_source_verification",
       "run_status": "dashboard_existing_reference",
       "source_risks": [
-        "unknown_license"
+        "unknown_license",
+        "open_source_unverified"
       ],
       "metadata_checks": [
         "Confirm source URL reachability and canonical repo/page.",
@@ -400,6 +396,7 @@
       "source_risks": [
         "missing_source_url",
         "unknown_license",
+        "open_source_unverified",
         "isaac_dependency_unconfirmed"
       ],
       "metadata_checks": [
@@ -417,7 +414,8 @@
       "recommended_next_step": "metadata_then_adapter_triage",
       "run_status": "candidate_metadata_first",
       "source_risks": [
-        "unknown_license"
+        "unknown_license",
+        "open_source_unverified"
       ],
       "metadata_checks": [
         "Confirm source URL reachability and canonical repo/page.",
@@ -464,7 +462,8 @@
       "recommended_next_step": "metadata_then_adapter_triage",
       "run_status": "paper_first",
       "source_risks": [
-        "unknown_license"
+        "unknown_license",
+        "open_source_unverified"
       ],
       "metadata_checks": [
         "Confirm source URL reachability and canonical repo/page.",
@@ -481,7 +480,8 @@
       "recommended_next_step": "metadata_then_adapter_triage",
       "run_status": "candidate_metadata_first",
       "source_risks": [
-        "unknown_license"
+        "unknown_license",
+        "open_source_unverified"
       ],
       "metadata_checks": [
         "Confirm source URL reachability and canonical repo/page.",
@@ -513,7 +513,8 @@
       "recommended_next_step": "metadata_then_adapter_triage",
       "run_status": "candidate_metadata_first",
       "source_risks": [
-        "unknown_license"
+        "unknown_license",
+        "open_source_unverified"
       ],
       "metadata_checks": [
         "Confirm source URL reachability and canonical repo/page.",
@@ -544,7 +545,9 @@
       "priority": "P1",
       "recommended_next_step": "metadata_then_source_verification",
       "run_status": "system_benchmark_reference",
-      "source_risks": [],
+      "source_risks": [
+        "open_source_unverified"
+      ],
       "metadata_checks": [
         "Confirm source URL reachability and canonical repo/page.",
         "Record license, archive status, default branch, and latest update where available.",
@@ -592,7 +595,8 @@
       "recommended_next_step": "metadata_then_adapter_triage",
       "run_status": "paper_first",
       "source_risks": [
-        "unknown_license"
+        "unknown_license",
+        "open_source_unverified"
       ],
       "metadata_checks": [
         "Confirm source URL reachability and canonical repo/page.",
@@ -608,9 +612,22 @@
       "priority": "P1",
       "recommended_next_step": "metadata_then_adapter_triage",
       "run_status": "candidate_metadata_first",
-      "source_risks": [
-        "unknown_license"
+      "source_risks": [],
+      "metadata_checks": [
+        "Confirm source URL reachability and canonical repo/page.",
+        "Record license, archive status, default branch, and latest update where available.",
+        "Extract task/environment registry, robot assets, observation/action schema, and success signal.",
+        "Map outputs into AgenticSim BenchmarkSource, EvaluationRun, FailureTrace, and DataRequirement fields."
       ],
+      "smoke_candidate": true
+    },
+    {
+      "benchmark_id": "roboverse_platform",
+      "name": "RoboVerse Platform",
+      "priority": "P1",
+      "recommended_next_step": "metadata_then_adapter_triage",
+      "run_status": "reading_list_new_oss_candidate",
+      "source_risks": [],
       "metadata_checks": [
         "Confirm source URL reachability and canonical repo/page.",
         "Record license, archive status, default branch, and latest update where available.",
@@ -626,7 +643,8 @@
       "recommended_next_step": "metadata_then_adapter_triage",
       "run_status": "paper_first",
       "source_risks": [
-        "unknown_license"
+        "unknown_license",
+        "open_source_unverified"
       ],
       "metadata_checks": [
         "Confirm source URL reachability and canonical repo/page.",
@@ -644,6 +662,7 @@
       "run_status": "watchlist_metadata_first",
       "source_risks": [
         "unknown_license",
+        "open_source_unverified",
         "watchlist_only"
       ],
       "metadata_checks": [
@@ -661,7 +680,8 @@
       "recommended_next_step": "metadata_then_adapter_triage",
       "run_status": "paper_first",
       "source_risks": [
-        "unknown_license"
+        "unknown_license",
+        "open_source_unverified"
       ],
       "metadata_checks": [
         "Confirm source URL reachability and canonical repo/page.",
@@ -679,8 +699,39 @@
       "run_status": "watchlist_verify_stack",
       "source_risks": [
         "unknown_license",
+        "open_source_unverified",
         "watchlist_only"
       ],
+      "metadata_checks": [
+        "Confirm source URL reachability and canonical repo/page.",
+        "Record license, archive status, default branch, and latest update where available.",
+        "Extract task/environment registry, robot assets, observation/action schema, and success signal.",
+        "Map outputs into AgenticSim BenchmarkSource, EvaluationRun, FailureTrace, and DataRequirement fields."
+      ],
+      "smoke_candidate": true
+    },
+    {
+      "benchmark_id": "asap_humanoid_sim2real",
+      "name": "ASAP Humanoid Sim-to-Real Skill Stack",
+      "priority": "P2",
+      "recommended_next_step": "watchlist_verify_isaac_dependency",
+      "run_status": "reading_list_new_oss_environment_source",
+      "source_risks": [],
+      "metadata_checks": [
+        "Confirm source URL reachability and canonical repo/page.",
+        "Record license, archive status, default branch, and latest update where available.",
+        "Extract task/environment registry, robot assets, observation/action schema, and success signal.",
+        "Map outputs into AgenticSim BenchmarkSource, EvaluationRun, FailureTrace, and DataRequirement fields."
+      ],
+      "smoke_candidate": true
+    },
+    {
+      "benchmark_id": "so_arm101_isaaclab",
+      "name": "SO-ARM100/101 Isaac Lab External Project",
+      "priority": "P2",
+      "recommended_next_step": "watchlist_verify_isaac_dependency",
+      "run_status": "reading_list_new_oss_environment_source",
+      "source_risks": [],
       "metadata_checks": [
         "Confirm source URL reachability and canonical repo/page.",
         "Record license, archive status, default branch, and latest update where available.",
@@ -696,7 +747,8 @@
       "recommended_next_step": "watchlist_verify_isaac_dependency",
       "run_status": "paper_first",
       "source_risks": [
-        "unknown_license"
+        "unknown_license",
+        "open_source_unverified"
       ],
       "metadata_checks": [
         "Confirm source URL reachability and canonical repo/page.",
@@ -713,7 +765,8 @@
       "recommended_next_step": "watchlist_verify_isaac_dependency",
       "run_status": "paper_first",
       "source_risks": [
-        "unknown_license"
+        "unknown_license",
+        "open_source_unverified"
       ],
       "metadata_checks": [
         "Confirm source URL reachability and canonical repo/page.",
@@ -730,7 +783,8 @@
       "recommended_next_step": "watchlist_verify_isaac_dependency",
       "run_status": "paper_first",
       "source_risks": [
-        "unknown_license"
+        "unknown_license",
+        "open_source_unverified"
       ],
       "metadata_checks": [
         "Confirm source URL reachability and canonical repo/page.",
@@ -747,7 +801,8 @@
       "recommended_next_step": "watchlist_verify_isaac_dependency",
       "run_status": "paper_first",
       "source_risks": [
-        "unknown_license"
+        "unknown_license",
+        "open_source_unverified"
       ],
       "metadata_checks": [
         "Confirm source URL reachability and canonical repo/page.",
@@ -780,6 +835,7 @@
       "run_status": "watchlist_verify_stack",
       "source_risks": [
         "unknown_license",
+        "open_source_unverified",
         "isaac_dependency_unconfirmed",
         "watchlist_only"
       ],
@@ -817,6 +873,7 @@
       "run_status": "dashboard_existing_reference",
       "source_risks": [
         "unknown_license",
+        "open_source_unverified",
         "isaac_dependency_unconfirmed"
       ],
       "metadata_checks": [

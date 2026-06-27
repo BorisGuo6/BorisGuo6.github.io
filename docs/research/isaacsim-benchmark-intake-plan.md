@@ -1,12 +1,12 @@
 # Isaac Sim Benchmark Intake Plan
 
-Generated at: 2026-06-25T17:43:11.897Z
+Generated at: 2026-06-27T01:49:41.490Z
 
 ## Summary
 
 - Catalog: docs/research/isaacsim-benchmark-catalog.seed.json
-- Benchmarks: 41
-- Priority counts: P0=4, P1=28, P2=9
+- Benchmarks: 44
+- Priority counts: P0=4, P1=29, P2=11
 
 ## Global Blockers
 
@@ -18,7 +18,7 @@ Generated at: 2026-06-25T17:43:11.897Z
 
 ## Intake Contract
 
-Dashboard gate: A benchmark can move from catalog to dashboard intake only after source metadata is verified and at least one smoke path is either passed or explicitly blocked with environment requirements.
+Dashboard gate: A benchmark can move from catalog to dashboard implementation or smoke work only after it passes the open-source gate, source metadata is verified, and at least one smoke path is either passed or explicitly blocked with environment requirements.
 
 Required runtime artifacts:
 
@@ -62,6 +62,10 @@ Keep discovery signals without spending runtime work until Isaac dependency and 
 Output: watchlist_verification.md.
 
 ## P0 Smoke Plan
+
+Excluded P0 entries until open-source license verification:
+
+- InternDataEngine: excluded_from_smoke_until_open_source_license_is_verified (unknown)
 
 ### RoboLab-120
 
@@ -132,28 +136,9 @@ Blockers:
 - Some Arena-backed suites may require external assets or partner repos.
 - RoboTwin extension paths should remain adapter candidates until their branch-specific setup is verified.
 
-### InternDataEngine
+Open-source gate:
 
-Treat InternDataEngine as the data/curriculum source for synthetic scenes, annotations, and task generation.
-
-Smoke gate: A minimal documented generation or dry-run path emits a scene/task/annotation manifest without requiring a full dataset build.
-
-Metadata outputs:
-
-- interndataengine_config_index.json
-- scene_generation_schema.json
-- annotation_schema.json
-
-Smoke outputs:
-
-- small_generation_dry_run.json
-- annotation_manifest_sample.json
-- scheduler_log.txt
-
-Blockers:
-
-- May require heavyweight assets and an Isaac Sim runtime.
-- If assets are gated, keep dashboard status at metadata-only and record access requirements.
+- docs/research/isaacsim-benchmark-open-source-gate.seed.json
 
 ## Benchmark Queue
 
@@ -162,42 +147,45 @@ Blockers:
 | RoboLab-120 | P0 | metadata_then_smoke | none |
 | Isaac Lab Core Tasks | P0 | metadata_then_smoke | none |
 | Isaac Lab-Arena | P0 | metadata_then_smoke | none |
-| InternDataEngine | P0 | metadata_then_smoke | unknown_license |
-| BEHAVIOR-1K / OmniGibson | P1 | metadata_then_adapter_triage | unknown_license, watchlist_only |
+| InternDataEngine | P0 | metadata_then_smoke | unknown_license, open_source_unverified |
+| BEHAVIOR-1K / OmniGibson | P1 | metadata_then_adapter_triage | unknown_license, open_source_unverified, watchlist_only |
 | InternUtopia / GRUtopia / GRBench | P1 | metadata_then_adapter_triage | watchlist_only |
-| ARNOLD | P1 | metadata_then_adapter_triage | unknown_license |
-| Kitchen-R | P1 | metadata_then_adapter_triage | unknown_license |
-| M3Bench | P1 | metadata_then_adapter_triage | unknown_license |
-| RoboMIND-Sim | P1 | metadata_then_adapter_triage | unknown_license |
+| ARNOLD | P1 | metadata_then_adapter_triage | unknown_license, open_source_unverified |
+| Kitchen-R | P1 | metadata_then_adapter_triage | unknown_license, open_source_unverified |
+| M3Bench | P1 | metadata_then_adapter_triage | unknown_license, open_source_unverified |
+| RoboMIND-Sim | P1 | metadata_then_adapter_triage | unknown_license, open_source_unverified |
 | RoboTwin 2.0 IsaacLab-Arena Branch | P1 | metadata_then_source_verification | none |
 | OmniIsaacGymEnvs | P1 | metadata_then_adapter_triage | none |
 | IsaacGymEnvs | P1 | metadata_then_source_verification | none |
 | Factory / IndustReal / FORGE-style assembly tasks | P1 | metadata_then_source_verification | watchlist_only |
-| Dual-Sim RoboTwin-to-IsaacSim Migration | P1 | metadata_then_source_verification | unknown_license |
-| LeHome / LeHome-Challenge AgenticSim Household Stack | P1 | metadata_then_source_verification | missing_source_url, unknown_license, isaac_dependency_unconfirmed |
-| LW-BenchHub / Lightwheel BenchHub | P1 | metadata_then_adapter_triage | unknown_license |
+| Dual-Sim RoboTwin-to-IsaacSim Migration | P1 | metadata_then_source_verification | unknown_license, open_source_unverified |
+| LeHome / LeHome-Challenge AgenticSim Household Stack | P1 | metadata_then_source_verification | missing_source_url, unknown_license, open_source_unverified, isaac_dependency_unconfirmed |
+| LW-BenchHub / Lightwheel BenchHub | P1 | metadata_then_adapter_triage | unknown_license, open_source_unverified |
 | Isaac for Healthcare RHEO Workflows | P1 | metadata_then_adapter_triage | none |
 | IsaacLabEvalTasks | P1 | metadata_then_source_verification | none |
-| Ego Humanoid Manipulation Benchmark / EgoVLA | P1 | metadata_then_adapter_triage | unknown_license |
-| GenManip-Bench | P1 | metadata_then_adapter_triage | unknown_license |
+| Ego Humanoid Manipulation Benchmark / EgoVLA | P1 | metadata_then_adapter_triage | unknown_license, open_source_unverified |
+| GenManip-Bench | P1 | metadata_then_adapter_triage | unknown_license, open_source_unverified |
 | InternManip / InternManip-Eval | P1 | metadata_then_source_verification | none |
-| EBench / Elemental Mobile Manipulation Benchmark | P1 | metadata_then_adapter_triage | unknown_license |
+| EBench / Elemental Mobile Manipulation Benchmark | P1 | metadata_then_adapter_triage | unknown_license, open_source_unverified |
 | Isaac Lab Mimic / SkillGen | P1 | metadata_then_adapter_triage | none |
-| Isaac Sim Benchmark Services | P1 | metadata_then_source_verification | none |
+| Isaac Sim Benchmark Services | P1 | metadata_then_source_verification | open_source_unverified |
 | Isaac Lab RL Performance Benchmarks | P1 | metadata_then_source_verification | none |
 | OmniDrones | P1 | metadata_then_adapter_triage | watchlist_only |
-| SidewalkBench | P1 | metadata_then_adapter_triage | unknown_license |
-| NaVILA-Bench / VLN-CE-Isaac | P1 | metadata_then_adapter_triage | unknown_license |
-| VLNVerse | P1 | metadata_then_adapter_triage | unknown_license |
-| TacEx / UniVTAC Benchmark | P1 | metadata_then_adapter_triage | unknown_license, watchlist_only |
-| Re3Sim | P1 | metadata_then_adapter_triage | unknown_license |
-| AgentWorld | P2 | watchlist_verify_isaac_dependency | unknown_license, watchlist_only |
-| InfiniteWorld | P2 | watchlist_verify_isaac_dependency | unknown_license |
-| RealMirror | P2 | watchlist_verify_isaac_dependency | unknown_license |
-| RoboGate | P2 | watchlist_verify_isaac_dependency | unknown_license |
-| AI-CPS Industrial IsaacSim Benchmark | P2 | watchlist_verify_isaac_dependency | unknown_license |
+| SidewalkBench | P1 | metadata_then_adapter_triage | unknown_license, open_source_unverified |
+| NaVILA-Bench / VLN-CE-Isaac | P1 | metadata_then_adapter_triage | none |
+| RoboVerse Platform | P1 | metadata_then_adapter_triage | none |
+| VLNVerse | P1 | metadata_then_adapter_triage | unknown_license, open_source_unverified |
+| TacEx / UniVTAC Benchmark | P1 | metadata_then_adapter_triage | unknown_license, open_source_unverified, watchlist_only |
+| Re3Sim | P1 | metadata_then_adapter_triage | unknown_license, open_source_unverified |
+| AgentWorld | P2 | watchlist_verify_isaac_dependency | unknown_license, open_source_unverified, watchlist_only |
+| ASAP Humanoid Sim-to-Real Skill Stack | P2 | watchlist_verify_isaac_dependency | none |
+| SO-ARM100/101 Isaac Lab External Project | P2 | watchlist_verify_isaac_dependency | none |
+| InfiniteWorld | P2 | watchlist_verify_isaac_dependency | unknown_license, open_source_unverified |
+| RealMirror | P2 | watchlist_verify_isaac_dependency | unknown_license, open_source_unverified |
+| RoboGate | P2 | watchlist_verify_isaac_dependency | unknown_license, open_source_unverified |
+| AI-CPS Industrial IsaacSim Benchmark | P2 | watchlist_verify_isaac_dependency | unknown_license, open_source_unverified |
 | ORBIT | P2 | watchlist_verify_isaac_dependency | none |
-| LabUtopia | P2 | watchlist_verify_isaac_dependency | unknown_license, isaac_dependency_unconfirmed, watchlist_only |
+| LabUtopia | P2 | watchlist_verify_isaac_dependency | unknown_license, open_source_unverified, isaac_dependency_unconfirmed, watchlist_only |
 | GE-Sim-V2 / Genie-Envisioner-Sim-v2.0 | P2 | watchlist_verify_isaac_dependency | isaac_dependency_unconfirmed, watchlist_only |
-| Video2Sim2Real | P2 | watchlist_verify_isaac_dependency | unknown_license, isaac_dependency_unconfirmed |
+| Video2Sim2Real | P2 | watchlist_verify_isaac_dependency | unknown_license, open_source_unverified, isaac_dependency_unconfirmed |
 

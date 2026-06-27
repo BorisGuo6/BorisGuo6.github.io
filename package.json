@@ -16,6 +16,8 @@
     "supabase:import": "node scripts/import-dashboard-state.mjs",
     "supabase:sync": "node scripts/sync-dashboard-to-supabase.mjs",
     "supabase:sync:watch": "node scripts/sync-dashboard-to-supabase.mjs --watch --interval 3600",
+    "audit:notion-reading-list": "node scripts/audit-notion-reading-list.mjs",
+    "gate:isaacsim-oss": "node scripts/generate-isaacsim-open-source-gate.mjs",
     "plan:isaacsim-intake": "node scripts/generate-isaacsim-benchmark-intake-plan.mjs",
     "verify:isaacsim-catalog": "node scripts/verify-isaacsim-benchmark-catalog.mjs",
     "test:dashboard": "node test/dashboard-state-lib.test.mjs"

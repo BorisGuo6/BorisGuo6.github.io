@@ -88,6 +88,11 @@ const globalBlockers = [
   "ResearchGate and some hosted paper/project pages may reject automated fetches; use browser/manual confirmation where needed.",
   "Notion MCP auth was expired during this research pass; ntn CLI and the local Notion mirror were used for Reading List intake.",
 ];
+const osiApprovedLicenses = new Set(["Apache-2.0", "BSD-3-Clause", "MIT"]);
+
+function passesOpenSourceGate(benchmark) {
+  return osiApprovedLicenses.has(benchmark.license) && Array.isArray(benchmark.source_urls) && benchmark.source_urls.length > 0;
+}
 
 function priorityCounts(benchmarks) {
   return benchmarks.reduce((counts, benchmark) => {
@@ -107,6 +112,7 @@ function sourceRisk(benchmark) {
   const risks = [];
   if (!benchmark.source_urls?.length) risks.push("missing_source_url");
   if (benchmark.license === "unknown") risks.push("unknown_license");
+  if (!passesOpenSourceGate(benchmark)) risks.push("open_source_unverified");
   if (benchmark.verification_level.includes("adjacent") || benchmark.isaac_stack.includes("not confirmed")) {
     risks.push("isaac_dependency_unconfirmed");
   }
@@ -135,11 +141,19 @@ function queueEntry(benchmark) {
 function buildPlan(catalog) {
   const benchmarks = catalog.benchmarks;
   const p0Entries = benchmarks
-    .filter((benchmark) => benchmark.priority === "P0")
+    .filter((benchmark) => benchmark.priority === "P0" && passesOpenSourceGate(benchmark))
     .map((benchmark) => ({
       benchmark_id: benchmark.benchmark_id,
       name: benchmark.name,
       ...p0SmokeTemplates[benchmark.benchmark_id],
+    }));
+  const p0ExcludedByOssGate = benchmarks
+    .filter((benchmark) => benchmark.priority === "P0" && !passesOpenSourceGate(benchmark))
+    .map((benchmark) => ({
+      benchmark_id: benchmark.benchmark_id,
+      name: benchmark.name,
+      license: benchmark.license,
+      reason: "excluded_from_smoke_until_open_source_license_is_verified",
     }));
 
   return {
@@ -170,7 +184,8 @@ function buildPlan(catalog) {
         "smoke_result.json",
         "failure_trace_sample.json",
       ],
-      dashboard_gate: "A benchmark can move from catalog to dashboard intake only after source metadata is verified and at least one smoke path is either passed or explicitly blocked with environment requirements.",
+      open_source_gate_path: "docs/research/isaacsim-benchmark-open-source-gate.seed.json",
+      dashboard_gate: "A benchmark can move from catalog to dashboard implementation or smoke work only after it passes the open-source gate, source metadata is verified, and at least one smoke path is either passed or explicitly blocked with environment requirements.",
     },
     phases: [
       {
@@ -199,6 +214,7 @@ function buildPlan(catalog) {
       },
     ],
     p0_smoke_plan: p0Entries,
+    p0_excluded_by_open_source_gate: p0ExcludedByOssGate,
     benchmark_queue: benchmarks.map(queueEntry),
   };
 }
@@ -248,11 +264,18 @@ function buildMarkdown(plan) {
   }
 
   lines.push("## P0 Smoke Plan", "");
+  if (plan.p0_excluded_by_open_source_gate.length) {
+    lines.push("Excluded P0 entries until open-source license verification:", "");
+    for (const entry of plan.p0_excluded_by_open_source_gate) {
+      lines.push(`- ${entry.name}: ${entry.reason} (${entry.license})`);
+    }
+    lines.push("");
+  }
   for (const entry of plan.p0_smoke_plan) {
     lines.push(`### ${entry.name}`, "", entry.objective, "", `Smoke gate: ${entry.smoke_gate}`, "", "Metadata outputs:", "", markdownList(entry.metadata_outputs), "", "Smoke outputs:", "", markdownList(entry.smoke_outputs), "", "Blockers:", "", markdownList(entry.blockers), "");
   }
 
-  lines.push("## Benchmark Queue", "", markdownTable(plan.benchmark_queue), "");
+  lines.push("Open-source gate:", "", `- ${plan.intake_contract.open_source_gate_path}`, "", "## Benchmark Queue", "", markdownTable(plan.benchmark_queue), "");
   return `${lines.join("\n")}\n`;
 }
 

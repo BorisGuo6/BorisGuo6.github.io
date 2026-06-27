@@ -8,12 +8,12 @@ Purpose: support the `self-improving-agents` dashboard project with a broad, sou
 
 - Dashboard project state: `dashboard/state/projects/self-improving-agents.json` and all `self-improving-agents` tasks in `dashboard/state/tasks.json`.
 - Notion Reading List root via `ntn pages get 1aa95c72-020b-807a-8444-f6ef3ec4b361`.
-- Notion Reading List month page `2026.6` via `ntn pages get 37495c72-020b-8183-956f-feded5042a21`.
-- Local Notion mirror: 26 `Reading List*.md` files under `OpenHuman-Memory-Vault/Notion Mirror`.
-- Live Notion daily pages not yet mirrored locally: 2026-06-19, 2026-06-20, 2026-06-21, 2026-06-22, 2026-06-24, 2026-06-25.
-- Combined Reading List scan: 181 links seen, 180 unique URLs, 41 keyword-relevant to robotics / simulation / world model / VLA / benchmark.
+- Live recursive Notion Reading List audit via `npm run audit:notion-reading-list`.
+- Audit artifacts: `docs/research/notion-reading-list-coverage.audit.json` and `docs/research/notion-reading-list-coverage.audit.md`.
+- Live audit coverage: 348 pages fetched from the Reading List root, 1 Notion API fetch error, 4,325 markdown links, 1,008 unique robotics/simulation-relevant URLs, and 11 unique Isaac/Omniverse-specific URLs.
+- Local Notion mirror remains useful as a cache, but many 2025/2026 month pages were `index_only`; it is not sufficient proof of full coverage by itself.
 
-Note: the bundled Notion MCP connector returned `token_expired`, so direct MCP fetch is currently blocked. `ntn` CLI is authenticated and was used as the authoritative Notion read path for current daily pages.
+Note: the bundled Notion MCP connector returned `token_expired`, so direct MCP fetch is currently blocked. `ntn` CLI is authenticated and was used as the authoritative Notion read path. The earlier 2026.6-only scan was not full historical coverage; the recursive audit is the stronger coverage evidence.
 
 ## Dashboard Context
 
@@ -26,7 +26,7 @@ Current self-improving project already has:
 This means the next useful dashboard move is not another generic simulator survey. It is a benchmark intake matrix that tells AgenticSim which suites to run, adapt, or mine for task/verifier/data schemas.
 
 Machine-readable seed catalog: `docs/research/isaacsim-benchmark-catalog.seed.json`.
-Current catalog size: 41 entries, with 4 P0, 28 P1, and 9 P2 sources.
+Current catalog size: 44 entries, with 4 P0, 29 P1, and 11 P2 sources.
 
 Machine-readable intake/smoke plan:
 
@@ -34,12 +34,19 @@ Machine-readable intake/smoke plan:
 - Markdown: `docs/research/isaacsim-benchmark-intake-plan.md`
 - Command: `npm run plan:isaacsim-intake`
 
+Machine-readable open-source gate:
+
+- JSON: `docs/research/isaacsim-benchmark-open-source-gate.seed.json`
+- Markdown: `docs/research/isaacsim-benchmark-open-source-gate.md`
+- Command: `npm run gate:isaacsim-oss`
+- Current gate: 20 confirmed open-source admitted, 24 excluded until license/source verification. Admitted counts: P0=3, P1=13, P2=4. Unknown-license and documentation-only entries must not enter dashboard implementation or smoke work.
+
 Machine verification artifacts:
 
 - JSON: `docs/research/isaacsim-benchmark-catalog.verification.json`
 - Markdown: `docs/research/isaacsim-benchmark-catalog.verification.md`
 - Command: `npm run verify:isaacsim-catalog`
-- Latest verifier result: 58 source URLs checked, 34 OK under the current network run; 20 GitHub repo metadata checks were all API rate-limited; 24 remaining structural issues, mostly unknown licenses. Earlier unauthenticated GitHub/API runs reached 50/53 URL OK and 16/17 GitHub repo OK before the catalog expansion, so treat the current weak links as a mix of real blockers and transient network/API limits until rerun with a GitHub token.
+- Latest verifier result: 65 source URLs checked, 62 OK under the current network run; 24/25 GitHub repo metadata checks OK; 0 GitHub API checks rate-limited; 23 remaining structural issues, all unknown licenses. The remaining failed GitHub metadata check is the public Dual-Sim URL returning 404.
 
 ## Priority Catalog
 
@@ -84,6 +91,9 @@ The JSON catalog now also tracks these source families that were not in the firs
 - [Ego Humanoid Manipulation Benchmark / EgoVLA](https://rchalyang.github.io/EgoVLA/): Isaac Lab humanoid manipulation benchmark with egocentric VLA framing.
 - [GenManip-Bench](https://github.com/InternRobotics/GenManip), [InternManip-Eval](https://github.com/JiantongChen/InternManip-Eval), and [EBench](https://internrobotics.github.io/EBench-doc/): InternRobotics manipulation evaluation sources around generated Isaac Sim tasks, model eval runners, and mobile manipulation.
 - [Isaac for Healthcare RHEO Workflows](https://github.com/isaac-for-healthcare/i4h-workflows/tree/main/workflows/rheo): Isaac for Healthcare workflow source using Isaac Sim / Isaac Lab / IsaacLab-Arena patterns for operating-room digital twins, Unitree G1 + Dex3 tasks, GR00T policy evaluation, teleoperation, and synthetic data.
+- [RoboVerse](https://github.com/RoboVerseOrg/RoboVerse) and [MetaSim](https://github.com/RoboVerseOrg/MetaSim): newly found from full Reading List audit; Apache-2.0 benchmark/platform source with Isaac Lab / Isaac Gym backend relevance.
+- [ASAP](https://github.com/LeCAR-Lab/ASAP): newly found from full Reading List audit; MIT IsaacGym/IsaacLab-lineage humanoid sim-to-real environment source.
+- [SO-ARM100/101 Isaac Lab](https://github.com/MuammerBay/IsaacLab-SO_100): newly found open-source Isaac Lab external project / low-cost arm task environment source.
 
 ## Reading List Signals
 
@@ -130,48 +140,43 @@ For each benchmark or task source, store these fields in the dashboard/task arti
 ## Dashboard Action Items
 
 1. Create a benchmark intake task for `self-improving-agents`: "Build IsaacSim benchmark intake matrix".
-2. Promote these P0/P1 sources into a machine-readable JSON artifact:
+2. Keep the broad discovery catalog, but use `docs/research/isaacsim-benchmark-open-source-gate.seed.json` as the implementation/smoke allowlist. Current admitted open-source sources are:
    - RoboLab-120
    - Isaac Lab core tasks
    - Isaac Lab-Arena
-   - InternDataEngine
-   - BEHAVIOR-1K / OmniGibson
    - InternUtopia / GRBench
-   - ARNOLD
-   - Kitchen-R
-   - M3Bench
-   - RoboMIND-Sim
    - RoboTwin2 IsaacLab-Arena branch
-   - LW-BenchHub / Lightwheel BenchHub
+   - OmniIsaacGymEnvs
+   - IsaacGymEnvs
+   - Factory / IndustReal / FORGE-style assembly tasks
+   - Isaac for Healthcare RHEO Workflows
+   - IsaacLabEvalTasks
+   - InternManip-Eval
    - Isaac Lab Mimic / SkillGen
-   - Isaac Sim Benchmark Services
    - Isaac Lab performance benchmarks
    - OmniDrones
-   - SidewalkBench
    - NaVILA-Bench / VLN-CE-Isaac
-   - VLNVerse
-   - TacEx / UniVTAC
-   - Re3Sim
-   - IsaacLabEvalTasks
-   - Ego Humanoid Manipulation Benchmark / EgoVLA
-   - GenManip-Bench
-   - InternManip-Eval
-   - EBench
+   - RoboVerse Platform
+   - ORBIT
+   - ASAP Humanoid Sim-to-Real Skill Stack
+   - SO-ARM100/101 Isaac Lab External Project
+   - GE-Sim-V2 / Genie-Envisioner-Sim-v2.0
 3. Add a verifier plan:
    - `metadata_only`: parse task lists / manifests without launching Isaac.
    - `smoke`: import package, list envs, run reset/step headless.
    - `policy_eval`: run one baseline policy or no-op/random policy and produce standardized result JSON.
    - `failure_trace`: convert failed episode into AgenticSim `FailureTrace` and `DataRequirement`.
 4. Use `docs/research/isaacsim-benchmark-intake-plan.seed.json` as the dashboard-facing implementation queue:
-   - P0: RoboLab-120, Isaac Lab core tasks, Isaac Lab-Arena, InternDataEngine metadata plus smoke gates.
-   - P1: confirmed Isaac sources move through adapter/data/runtime triage.
-   - P2: watchlist entries require source and Isaac-dependency verification before runtime work.
-5. Keep P2 sources in a watchlist until code/data and Isaac dependency are verified.
+   - P0 smoke queue is limited to open-source admitted sources: RoboLab-120, Isaac Lab core tasks, Isaac Lab-Arena.
+   - InternDataEngine remains P0 discovery but is excluded from smoke until its open-source license is verified.
+   - P1 confirmed open-source sources move through adapter/data/runtime triage.
+   - P2 watchlist entries require open-source, source, and Isaac-dependency verification before runtime work.
+5. Keep excluded sources in a watchlist until code/data/license and Isaac dependency are verified.
 
 ## Open Gaps
 
 - Notion MCP auth expired; use `ntn` until connector is refreshed.
-- Reading List 2026.6 has no 6.18 or 6.23 pages under the month page; this appears to be actual Notion structure, not a fetch failure.
+- Full live Reading List audit has one blocker: page `4.14` (`1d495c72020b8037bfbfc31234d9029b`) returned a Notion public API request failure. Everything else discovered from the root was fetched.
 - Some Reading List entries are WeChat/XHS/Bilibili summaries; they were used only as discovery signals, not as authoritative benchmark facts.
 - Several fresh 2025/2026 benchmark names are visible only via papers/search snippets right now; before implementing adapters, fetch project repos and licenses.
 - Dashboard state file is currently dirty, so this report intentionally does not edit `dashboard/state/*.json`.
