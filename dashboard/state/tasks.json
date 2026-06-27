@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-27T22:57:15+08:00",
+  "updated_at": "2026-06-27T15:38:58.141Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -10314,10 +10314,19 @@
           "kind": "comment",
           "body": "2026-06-27 launcher hardening：已更新远端 scripts_umi/launch_shared_teacher_temporal_hardmax_layercontrast_20260627.sh，full 8-card run 训练/eval 完成后会自动调用 summarize_action_gate_metrics.py，生成 OUT_DIR/action_gate_summary.json，并和 strict-nearest baseline temporal_hardmax_w05=2/15、structured_mainpath=2/15、structured_aux=2/15 同表比较。bash -n 通过；启动保护再次验证 GPU 忙时退出 75，不会抢 Gamma。报告 /Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html 已更新。",
           "created_at": "2026-06-27T08:07:01.872Z"
+        },
+        {
+          "comment_id": "comment_2196b725-0f32-438e-b648-8b43b55e99f8",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Codex dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-27 数据底座更新：远端已凑齐刚好 10,000 条 loader-visible UMI clips。严格口径不是 9,779；按 left/right video、left/right caption、left/right action 六类文件 intersection，原 data_umi_robot189_v2 是 9,777 条 complete clips。新数据根目录为 /root/autodl-tmp/umi-world-model-lab/external_repos/Gamma-World/data_umi_robot189_v3_10k，稳定 symlink 为 data_umi_robot189_10k。组成：9,777 条 v2 unique + 70 条 legacy unique + 153 条显式 __dup10k controlled duplicates；validation_10k.json 显示 complete_intersection=10000，action_stats.json 已按 20,000 个 left/right action files 重算。注意：这只是 Stage 1 训练数据底座准备；当前正在跑的 Gamma Stage3 仍指向 v2，后续新训练必须显式覆盖 dataloader_train.data_root=data_umi_robot189_10k。若保留 val_holdout_frac=0.06，10,000 是总 clips，不是 10,000 train split。",
+          "created_at": "2026-06-27T15:38:58.141Z"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-27T08:07:01.872Z"
+      "updated_at": "2026-06-27T15:38:58.141Z"
     },
     {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
