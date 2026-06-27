@@ -4,16 +4,20 @@
   "title": "Idea: URDF Embodiment-Prior World Model",
   "bucket": "survey",
   "status": "survey",
-  "updated_at": "2026-06-11T00:44:02+08:00",
-  "description": "Idea-stage world-model direction: import URDF as an embodiment prior for controllable video generation across robot bodies and action dimensions.",
-  "summary": "URDF is treated as a structured articulated-object / embodiment prior, not a robot-name token. Given a URDF and per-timestep joint/action controls, the model should generate controllable robot video across different embodiments.",
+  "updated_at": "2026-06-27T05:03:20.178Z",
+  "description": "Idea-stage world-model direction: import URDF as an embodiment prior and compile URDF/sim replay into projected control videos, masks, and joint-token sidecars for controllable sim-to-real robot video generation.",
+  "summary": "URDF should act as a structured articulated-object / embodiment prior. OSCAR suggests the most practical interface: use URDF + joint trajectory + camera metadata to produce FK-projected 2D skeleton/control videos and sidecars, then condition a video world model rather than asking the model to understand raw URDF text alone.",
   "details": [
     "Core idea: build a video world model that can import a URDF, treat the robot as an articulated object, and generate action-conditioned rollouts from joint-angle or joint-action controls.",
     "Embodiment prior: URDF should expose link geometry, joint graph, joint type, limits, kinematic chains, FK geometry, action/state dimensionality, and joint semantics. This is the prior that tells the model what kind of body can move and how it can move.",
     "Difference from standard AC-WM: many action-conditioned world models assume a fixed robot body, fixed action semantics, or one dataset-specific action dimension. The URDF route separates embodiment prior from object/scene dynamics, so different robots can inject different-dimensional actions into a shared video-generation backbone.",
     "Interface sketch: scene/context video + URDF-conditioned articulated subject + per-timestep action vector -> controllable video rollout. The conditioning interface likely needs variable-length joint tokens, masks, joint-name/type embeddings, action adapters, and FK/limit-aware positional priors rather than one fixed action head.",
     "Evaluation sketch: compare fixed-embodiment AC-WM against URDF-conditioned generation on seen URDFs, held-out URDFs, and variable-action-dimension masking. Metrics should include joint-limit consistency, FK-projected silhouette/pose error, contact plausibility, and IDM recoverability.",
-    "Placement decision 2026-06-11: keep this as Idea/Survey material, not part of the current Tri-View execution scope. Tri-View should remain scoped to UMI Ego World, Robot Video Layers, and Layered Data Utility."
+    "Placement decision 2026-06-11: keep this as Idea/Survey material, not part of the current Tri-View execution scope. Tri-View should remain scoped to UMI Ego World, Robot Video Layers, and Layered Data Utility.",
+    "OSCAR update 2026-06-27: this idea now has a concrete nearby reference. OSCAR fine-tunes a video world foundation model for physical AI by using robot-control conditions derived from simulator traces; the key lesson is to turn URDF and joint replay into aligned visual controls instead of treating URDF as a prompt token.",
+    "Updated interface sketch: URDF + simulator replay / per-timestep joint state + camera intrinsics/extrinsics -> FK-projected 2D skeleton or link-line control video, optional segmentation/depth/contact sidecars, variable-length joint tokens, and masks -> controlled robot video rollout. Raw URDF remains metadata for provenance and validation; the learned model sees compact spatial controls plus action tokens.",
+    "X/status observation 2026-06-27: a sim replay can be converted into 2D skeleton control videos for OSCAR-style generation. That is the right bridge for this card: URDF import becomes a control-video compiler and verifier, not necessarily a new generative backbone.",
+    "First probe to promote the idea: choose one small manipulator URDF, run a short simulator replay, export skeleton/control video plus joint/action manifest, feed it to an OSCAR-style or Cosmos/WAN control branch, and evaluate whether generated video obeys link pose, joint limits, contact timing, and scene appearance better than raw sim RGB or text-only conditioning."
   ],
   "task_ids": [],
   "references": [
@@ -35,13 +39,35 @@
       "arxiv_id": "2602.16712",
       "submitted_at": "2026",
       "notes": "Relevant boundary reference for morphology priors and cross-embodiment action representations, especially canonical URDF-style hand unification."
+    },
+    {
+      "title": "OSCAR: Scaling 'Sim-to-Real' Video Generation for Physical AI",
+      "url": "https://wuzy2115.github.io/oscar-project-page/",
+      "arxiv_id": "2606.04463",
+      "submitted_at": "2026-06",
+      "notes": "Closest build-upon reference for this idea: URDF/simulator-derived robot control conditions are converted into visual control signals for sim-to-real robot video generation."
+    },
+    {
+      "title": "arXiv: Scaling 'Sim-to-Real' Video Generation for Physical AI",
+      "url": "https://arxiv.org/abs/2606.04463",
+      "arxiv_id": "2606.04463",
+      "submitted_at": "2026-06",
+      "notes": "Use for method and evaluation details around action-conditioned robot video generation and sim-to-real visual transfer."
+    },
+    {
+      "title": "X post: sim replay to 2D skeleton control videos for OSCAR video generation",
+      "url": "https://x.com/i/status/2069067201085395012",
+      "notes": "Design clue from the shared status: simulator replay can be compiled into 2D skeleton control videos, matching the proposed URDF-to-control-sidecar interface."
     }
   ],
   "risks_decisions": [
     "Feasibility risk: any-embodiment generation needs data or simulation coverage across multiple URDFs; without that, it becomes a fixed-embodiment AC-WM with extra metadata.",
     "Architecture risk: variable action dimensions require tokenized/adapted action interfaces, not a single fixed MLP action head.",
-    "Promotion condition: move out of Idea only if there is a concrete dataset, model interface, and evaluation that cannot be handled by the current Tri-View three-subproject scope."
+    "Promotion condition: move out of Idea only if there is a concrete dataset, model interface, and evaluation that cannot be handled by the current Tri-View three-subproject scope.",
+    "Decision 2026-06-27: reframe URDF import as a control-sidecar compiler: URDF/FK/sim replay should produce skeleton videos, masks, depth/contact sidecars, and joint-token manifests for a video generator. Do not rely on raw URDF text conditioning as the primary interface.",
+    "OSCAR overlap risk: if OSCAR already covers URDF/sim-replay-to-real-video for fixed robots, this card must differentiate on cross-embodiment generalization, variable joint/action dimensions, and URDF-level validation across held-out morphologies.",
+    "Data risk: the idea needs paired sim replay/control sidecars and real videos across multiple embodiments; otherwise it stays an OSCAR-style fixed-embodiment sim-to-real finetune."
   ],
   "asset_alt": "URDF embodiment prior world model idea",
-  "asset_caption": "Idea sketch: URDF morphology prior plus action tokens condition a shared video world model across embodiments."
+  "asset_caption": "Updated idea sketch: URDF morphology plus sim replay compiles into FK-projected 2D skeleton/control videos and sidecars for controlled sim-to-real video generation."
 }
