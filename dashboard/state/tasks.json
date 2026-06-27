@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-27T15:36:52+08:00",
+  "updated_at": "2026-06-27T16:25:24+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2309,7 +2309,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-27T15:36:50+08:00",
+      "updated_at": "2026-06-27T15:39:13+08:00",
       "due_at": "",
       "completed_at": null
     },
@@ -6172,7 +6172,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-27T15:26:14+08:00",
+      "updated_at": "2026-06-27T16:18:43+08:00",
       "completed_at": "2026-06-24"
     },
     {
@@ -10224,10 +10224,37 @@
           "kind": "comment",
           "body": "2026-06-27 strict-nearest 复评：旧 temporal_hardmax_w05 的 11/15 是弱 gate（只含 zero/time/wrong_next/same/other），不是最终 strict gate。我用同一个 checkpoint 重新跑 CPU-only eval，加入 wrong_nearest_task_condition 和 wrong_nearest_same_category_condition 后，结果只有 2/15，pass rows=0,279；证据已同步到 /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/temporal_hardmax_w05_strict_nearest_cpu_20260627/，总报告 index.html 已修正。结论：目前没有任何 generator route 证明真正 action-conditioned；下一条排队脚本 launch_shared_teacher_temporal_hardmax_layercontrast_20260627.sh 已修正为训练和评估都包含 nearest negatives，并使用 foreground_contact semantic layer masks 做 hardmax contrast。当前 Gamma-World Stage3 仍占满 8 卡，脚本启动保护正常，等空卡后运行。",
           "created_at": "2026-06-27T07:24:15.542Z"
+        },
+        {
+          "comment_id": "comment_f68a37bc-4855-44a0-b2f4-af86f1356f18",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-27 CPU smoke：已用 corrected layer-contrast route 做无 GPU 验证，确认 next route 的数据/参数链路可跑。设置：train rows 0,1,2,3，1 epoch，temporal_action_tokens，nearest negatives=zero/time/wrong_next/wrong_same_category/wrong_other_category/wrong_nearest_task_condition/wrong_nearest_same_category_condition，contrast-layer=foreground_contact，semantic masks=semantic_layer_masks_s32_f13_v1。结果：NEAREST_CONDITION_CACHE_READY same_task/same_category，loss=0.201043，checkpoint saved；证据同步到 /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/smoke_temporal_hardmax_layercontrast_nearest_20260627/，报告已更新。当前 Gamma-World Stage3 仍占满 8 张 H20，full 8-card run 继续排队。",
+          "created_at": "2026-06-27T07:49:37.905Z"
+        },
+        {
+          "comment_id": "comment_a25de1d0-5a3c-4d94-9fc4-3f59adfb4396",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-27 gate audit：新增 scripts_umi/summarize_action_gate_metrics.py，用于自动区分 strict-nearest gate 和 weak non-nearest gate，并已对现有主要结果生成 outputs_umi/action_gate_summary_20260627.json。本地证据：/Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/action_gate_summary_20260627.json。审计结论：当前所有包含 nearest negatives 的 generator-facing route 最高只有 2/15；旧 temporal_hardmax_w05=11/15、contrast=9/15、temporal_allneg=9/15 都是 weak non-nearest gate，不能作为真正 action-conditioned 完成证据。报告 index.html 已加入 Strict Gate Audit。",
+          "created_at": "2026-06-27T07:59:27.512Z"
+        },
+        {
+          "comment_id": "comment_45e1325c-ba86-4d6d-a49f-ff310c02c1fd",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-27 launcher hardening：已更新远端 scripts_umi/launch_shared_teacher_temporal_hardmax_layercontrast_20260627.sh，full 8-card run 训练/eval 完成后会自动调用 summarize_action_gate_metrics.py，生成 OUT_DIR/action_gate_summary.json，并和 strict-nearest baseline temporal_hardmax_w05=2/15、structured_mainpath=2/15、structured_aux=2/15 同表比较。bash -n 通过；启动保护再次验证 GPU 忙时退出 75，不会抢 Gamma。报告 /Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html 已更新。",
+          "created_at": "2026-06-27T08:07:01.872Z"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-27T07:24:15.542Z"
+      "updated_at": "2026-06-27T08:07:01.872Z"
     },
     {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
