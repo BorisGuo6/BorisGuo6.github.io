@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-28T00:19:21+08:00",
+  "updated_at": "2026-06-28T01:05:48+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2370,9 +2370,16 @@
           "body": "Local Codex host review reopened this TODO.\n请补交可由本机 reviewer 直接读取和复现的验收包：把 robotwin-text2env-demo checkout 或打包 artifact 同步到本机/dashboard 可读路径，或提供当前可访问的 repo commit；提交 generated RoboTwin2 task program 路径与 diff/commit；提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、pass/fail、artifact 路径/大小/sha256 和 HDF5/verifier 输出；Pi/OpenVLA-OFT 必须二选一实跑 train/eval hook 并给命令、完整日志、checkpoint/eval artifact，若不能运行则提交在 RoboTwin2 环境中运行对应入口检查或启动命令的完整失败日志并明确 blocker。ACT hook 只能作为补充，不能替代当前验收项。",
           "created_at": "2026-06-27T22:57:09+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_c389577824a4",
+          "author": "Review",
+          "body": "Local Codex host review reopened this TODO.\n请补交可由本机 reviewer 直接读取和复现的验收包：把 robotwin-text2env-demo checkout 或打包 artifact 同步到本机/dashboard 可读路径，或提供当前可访问的 repo commit；提交 generated RoboTwin2 task program 路径与 diff/commit；提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、pass/fail、artifact 路径/大小/sha256 和 HDF5/verifier 输出；Pi/OpenVLA-OFT 必须二选一实跑 train/eval hook 并给命令、完整日志、checkpoint/eval artifact，若不能运行则提交在 RoboTwin2 环境中运行对应入口检查或启动命令的完整失败日志并明确缺少模型权重、依赖、GPU/显存、数据格式适配或 API 支持。ACT hook 只能作为补充，不能替代当前验收项。",
+          "created_at": "2026-06-28T01:05:42+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-27T22:57:11+08:00",
+      "updated_at": "2026-06-28T01:05:44+08:00",
       "due_at": "",
       "completed_at": null
     },
@@ -10350,10 +10357,19 @@
           "kind": "comment",
           "body": "2026-06-28 follow-up: upgraded the queued shared-world route from plain structured_bottleneck + foreground_contact contrast to structured_temporal_view_action_bottleneck + action-dependent foreground_contact layer contrast/reconstruction. The new loss scales foreground_contact supervision by per-view pose/rot action activity while keeping gripper raw by default (gripper_weight=0.0), matching the current action-schema guardrail. Remote implementation added action-dependent semantic layer MSE/contrast args to scripts_umi/train_shared_world_teacher.py and updated scripts_umi/launch_shared_teacher_structured_bottleneck_layercontrast_20260628.sh to write outputs_umi/shared_world_teacher_gamma_balanced398_structured_bottleneck_actiondep_${STAMP}. CPU smoke at size 32 passed: nearest-condition cache ready, loss=0.193041, checkpoint outputs_umi/smoke_structured_bottleneck_actiondep_20260628/teacher.pt saved; eval smoke produced a valid report but gate=0/1, so this remains plumbing evidence only. Live monitor 2026-06-28T00:42+08 shows Gamma Stage3 still owns all 8 H20 GPUs, latest watcher observation iter=468, so the full 8-card strict-nearest gate has not started.",
           "created_at": "2026-06-28T00:42:12+08:00"
+        },
+        {
+          "comment_id": "comment_umi_actiondep_launcher_fix_20260628",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Codex dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-28 queue fix: audited the remote post-Stage3 launcher before the full run starts. Found and fixed two operational issues: the action-dependent launcher was still using old LAYERCONTRAST DONE/FAILED marker names, and summarize_action_gate_metrics.py referenced a missing temporal_hardmax_layercontrast_20260627 metrics file. Patched remote scripts so the queued route now uses ACTION_TEACHER_STRUCTURED_BOTTLENECK_ACTIONDEP_20260628 markers and summarizes only existing strict-nearest baseline / structured_mainpath / structured_temporal_action metrics. Restarted patched watcher as PID 34171; it observed Gamma Stage3 latest_iter=479 and will launch the actiondep structured bottleneck route after GPUs free. This is queue hardening only; no new quality claim.",
+          "created_at": "2026-06-28T00:54:21+08:00"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-28T00:42:12+08:00"
+      "updated_at": "2026-06-28T00:54:21+08:00"
     },
     {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
