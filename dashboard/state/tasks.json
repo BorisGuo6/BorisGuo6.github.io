@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-27T10:51:12+08:00",
+  "updated_at": "2026-06-27T11:06:56+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1615,8 +1615,8 @@
     {
       "task_id": "task_self_improving_vlm_loop",
       "project_id": "self-improving-agents",
-      "title": "Build RoboTwin2 Text2Env demo (SceneSmith-lite tabletop)",
-      "description": "当前进展：RoboTwin2 Text2Env demo 已有实现仓库 https://github.com/yezheng04/robotwin-text2env-demo；等待 Boris 验证 demo、simulator smoke、generated env/task program 和 data-collection dry run 后即可标记 done。\n\nRewrite the old VLM-guided simulator self-improvement item as the near-term Text2Env demo. Scope: make a weakened tabletop version of SceneSmith inside RoboTwin2, not full indoor scene generation. Build natural-language tabletop task -> env description (objects, poses, support surface, cameras / observations, robot/action constraints, success verifier) -> code-agent-generated RoboTwin2 task program -> executable simulator smoke and data-collection dry run. Also document the RoboTwin2 API list, manual-program new-task path, and at least one Pi or OpenVLA-OFT training/evaluation hook or explicit blocker. Acceptance: 1) API list / task-program schema written; 2) 1-2 tabletop tasks selected; 3) prompt generates env JSON/description; 4) code agent generates or repairs an executable RoboTwin2 task program; 5) simulator smoke and data collection dry-run pass; 6) Pi / OpenVLA-OFT train/eval hook is exercised or blocked with evidence; 7) VLM designer/critic/orchestrator is limited to tabletop feasibility, collisions/stability, object poses, task API usage, and program repair.",
+      "title": "Build RoboTwin2 Placement/Text2Env demo (SceneSmith-lite tabletop)",
+      "description": "当前进展 2026-06-26：RoboTwin2 Text2Env demo 已有实现仓库 https://github.com/yezheng04/robotwin-text2env-demo；Zheng 已摸清 RoboTwin2 新任务接口，定义 Text2Env JSON schema，搭了 SceneSmith-lite Designer / Critic / Orchestrator 流程，写了 Env JSON -> RoboTwin2 task program 的生成脚本，并用 “Move the green block from the left zone to the right zone without moving the blue bowl.” 做了 smoke test。等待 Boris 验证 README、demo、simulator smoke、generated env/task program 和 data-collection dry run 后再标 done。\n\nScope correction: this TODO is now the Placement Agent / scene-arrangement slice, not upstream 3D asset generation. Asset generation can come from SceneSmith/SAM-3D/other upstream systems; v0 should infer task-intent-driven placements from natural language, choose objects/regions/support surfaces/cameras/observations/robot constraints/success verifier, then generate or repair a RoboTwin2 task program. Start with existing RoboTwin2 assets; if an asset is missing, record a blocker or route through an asset adapter, but do not make asset synthesis the main deliverable.\n\nAcceptance: 1) RoboTwin2 API list / manual-program new-task path / task-program schema documented; 2) 1-2 tabletop prompts with Text2Env JSON and generated task program; 3) Designer/Critic/Orchestrator limited to placement feasibility, collision/stability, object poses, task API usage, and program repair; 4) simulator smoke and data-collection dry run pass with commands/logs/artifact paths; 5) Pi/OpenVLA-OFT hook is exercised or blocked with evidence; 6) failure cases recorded for tasks blocked by missing RoboTwin assets/API support, e.g. drawer-like tasks; 7) Boris validates before final done.",
       "status": "review",
       "priority": "high",
       "assignee": null,
@@ -1731,6 +1731,15 @@
           "kind": "comment",
           "body": "2026-06-26 follow-up: review evidence has been added for the RoboTwin2 Text2Env demo.\n\nEvidence repo: https://github.com/yezheng04/robotwin-text2env-demo\n\nChecklist coverage:\n1) RoboTwin2 API list / task-program schema:\n- robotwin2_task_api_notes.md\n- schemas/text2env.schema.json\n- schemas/text2env_schema_v0.md\n\n2) Tabletop task env JSON / prompts:\n- examples/tabletop_tasks/move_object_between_zones.json\n- examples/tabletop_tasks/move_red_block_to_blue_zone.json\n- examples/tabletop_tasks/put_cup_in_drawer.json\n- prompts/text2env_designer.md\n- prompts/text2env_critic.md\n- prompts/text2env_orchestrator.md\n\n3) Generated RoboTwin2 task program:\n- generated/robotwin_tasks/move_object_between_zones/envs/move_object_between_zones.py\n- generated/robotwin_tasks/move_object_between_zones/description/task_instruction/move_object_between_zones.json\n- generated/robotwin_tasks/move_object_between_zones/manifest.json\n\n4) Simulator smoke / data-collection dry run:\n- reports/smoke_tests/move_object_between_zones/notes.md\n- README.md reproduction section\n- verified outputs under ~/RoboTwin/data/move_object_between_zones/demo_smoke/\n\n5) Policy train/eval hook:\n- docs/policy_hook_note.md\n- scripts/run_policy_hook.sh\n- ACT hook was used as the lightweight verified policy path: two episodes collected, ACT preprocessing passed, one-epoch smoke train wrote checkpoints, and eval loaded policy_last.ckpt and entered RoboTwin rollout.\n- Pi/OpenVLA-OFT remain heavier follow-up policy routes; ACT is the MVP evidence hook and Pi/OpenVLA-OFT should be treated as deferred unless Boris requires that exact backend.\n\n6) SceneSmith-lite scope:\n- docs/scenesmith_lite_agent_flow.md\n- prompts limit Designer/Critic/Orchestrator to tabletop feasibility, collision/stability, object poses, task API usage, and program repair.\n\nLatest GitHub commit with Step 7 evidence:\n8158459 Add ACT policy hook notes",
           "created_at": "2026-06-26T08:06:40.170Z"
+        },
+        {
+          "comment_id": "comment_self_improving_text2env_placement_scope_20260626",
+          "task_id": "task_self_improving_vlm_loop",
+          "author": "Codex / ClawCross WeChat sync",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-26 ClawCross WeChat update from the Boris/Zheng Ye thread: Zheng’s part should be a Placement Agent, not the upstream asset-generation system. The current implementation converts natural-language tabletop tasks into a simple Text2Env JSON and then into a RoboTwin2 task program; it has a green-block/blue-bowl smoke task and repo access at https://github.com/yezheng04/robotwin-text2env-demo. Scope for the next redesign: infer object placement and scene arrangement from task intention, use existing RoboTwin2 assets first, and route missing assets through an adapter/upstream asset generator. SceneSmith remains the reference pattern for Designer/Critic/Orchestrator, but v0 is tabletop RoboTwin2 placement rather than full indoor scene generation. Public reference: https://scenesmith.github.io/. Image Context now includes the RoboTwin2 Text2Env workflow diagram.",
+          "created_at": "2026-06-26T15:24:22.115Z"
         },
         {
           "comment_id": "clawcross_75860c4c1dd6",
@@ -2214,9 +2223,16 @@
           "body": "Local Codex host review reopened this TODO.\n请补齐后再送审：1) 提供可访问 repo commit SHA，或把关键代码/日志同步到 dashboard/本机可读路径；2) 提交 generated RoboTwin2 task program 的路径和 diff/commit；3) 提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、pass/fail、输出 artifact 路径/大小/sha256 和 HDF5/verifier 输出；4) 对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，并提交命令、完整日志、checkpoint/eval artifact；若确实不能运行，请提交失败命令、完整错误日志和明确 blocker。ACT 只能作为补充，不能替代 Pi/OpenVLA-OFT 验收项，除非 TODO 范围被明确更新。",
           "created_at": "2026-06-27T10:51:08+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_f837df124150",
+          "author": "Review",
+          "body": "Local Codex host review reopened this TODO.\n请补齐后再送审：1) 提供可访问 repo commit SHA，或把关键代码/日志同步到 dashboard/本机可读路径；2) 提交 generated RoboTwin2 task program 的路径和 diff/commit；3) 提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、pass/fail、输出 artifact 路径/大小/sha256 和 HDF5/verifier 输出；4) 对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，并提交命令、完整日志、checkpoint/eval artifact；若确实不能运行 Pi/OpenVLA-OFT，请提交失败命令、完整错误日志和明确 blocker。ACT 只能作为补充，不能替代 Pi/OpenVLA-OFT 验收项，除非 TODO 范围被明确更新。",
+          "created_at": "2026-06-27T11:06:44+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-27T10:51:10+08:00",
+      "updated_at": "2026-06-27T11:06:49+08:00",
       "due_at": "",
       "completed_at": null
     },
@@ -6079,7 +6095,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-26T23:20:16+08:00",
+      "updated_at": "2026-06-27T10:55:32+08:00",
       "completed_at": "2026-06-24"
     },
     {
@@ -9941,10 +9957,64 @@
           "kind": "comment",
           "body": "2026-06-26 23:00 result: model_fnfix compact action-xattn 8-card grid 完整跑完 strict action gate。4 个 high/low Wan2.2-A14B compact action-xattn candidates，rows 0/1/5/7/11，actual / zero / time-view-only / left-zero / right-zero / action-guidance / wrong-row 共 140 条推理；checkpoint health 和 artifact validation 均通过，说明 action-xattn 权重确实训练并且报告媒体完整。但 gate 结果仍为 0/20 passed。平均 counterfactual delta 很弱且不稳定：action_guidance +0.1024、zero +0.0347、left_zero +0.0281、time_view_only +0.0072、wrongrow0 +0.0043、wrongrow5 -0.0153、right_zero 0.0。最佳 run paired_actionxattn_model_fnfix_compact_rms_lr5e-05_h512_scale0p03_s4_heads4_gh32_mb24_r4_e4 也只有 0/5。Evidence synced locally: /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/paired_action_xattn_20260626_212747/report/index.html. Conclusion: model_fnfix action-xattn proves the injection path is no longer dead, but still does not produce a true action-conditioned dual-view world model. Do not mark this TODO done; next route should pivot away from incremental Wan2.2 adapter tweaks toward shared-world teacher / Gamma-style or architecture-level dual-branch training with explicit action-conditioned dynamics.",
           "created_at": "2026-06-26T15:04:10.854Z"
+        },
+        {
+          "comment_id": "comment_c1b1a684-f0a4-4291-bf71-124ba354df13",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-26 23:15 result: shared-world teacher / explicit10_viewtokens 系列指标已补充解析。当前最强候选 shared_world_teacher_gamma_balanced398_explicit10_viewtokens_holdout_capacity_20260626 在 15 条 holdout rows 上 action gate = 15/15 passed，gate margin 0.005；平均 counterfactual delta: zero +0.0625, time-view +0.0454, wrong-next +0.0439, wrong-same-category +0.0527, wrong-other-category +0.0476, wrong-nearest-task +0.0264, wrong-nearest-same-category +0.0238。结论：Wan2.2 adapter routes 仍失败，但 shared-world teacher/ranking 路线已经能强分离 actual 与 counterfactual action，是下一步 teacher-to-generator / Gamma-style causal student 的主候选；不要把 15/15 误判为生成式 dual-view video model 已完成。Local evidence: /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/shared_teacher_explicit10_20260626/summary.json",
+          "created_at": "2026-06-26T15:16:20.910Z"
+        },
+        {
+          "comment_id": "comment_76e328dd-d600-4b9c-b6ce-f920f725226e",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-26 23:25 correction: 上一条 shared-world teacher 结果需要按 capacity probe 解读。对应 launcher 明确写了 “holdout rows are included in training, not a generalization result”。因此 15/15 passed 证明的是小型 shared-world teacher 在容量足够、见过这些 eval rows 时可以学到 actual vs counterfactual action separation；它不是泛化验证，也不是生成式 dual-view video model 已完成。下一步应把它作为 architecture sanity check / teacher-to-generator 训练信号候选，同时需要另设真正未见 held-out rows 和 causal student/generator gate。",
+          "created_at": "2026-06-26T15:21:18.655Z"
+        },
+        {
+          "comment_id": "comment_736d9255-064a-4493-bf8c-a60920bae034",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-26 23:30 progress: 已准备真正 unseen held-out teacher gate launcher。远端脚本 scripts_umi/launch_shared_teacher_explicit10_viewtokens_unseen_holdout_20260626.sh 会复用 capacity probe 的 15 条 rows，但训练时通过 --exclude-rows 0,99,198,199,229,259,260,279,298,299,338,377,378,388,397 明确排除这些 eval rows，eval 输出到 eval_unseen_holdout。预检结果：bash -n passed；DRY_RUN=1 打印正确 TRAIN_EXCLUDES；当前 Gamma-World 占满 8 卡时真实启动返回 75 并拒绝启动，guard 生效。下一步：等 Gamma stage2 释放 8 卡后先跑这个 unseen gate；只有 unseen gate 成立后再进入 teacher-to-generator / Gamma-style causal student。",
+          "created_at": "2026-06-26T15:27:51.616Z"
+        },
+        {
+          "comment_id": "comment_fa9c1c2f-5263-48e2-a1cb-8a24680178ad",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-26 23:35 progress: unseen held-out split 已用远端 train_shared_world_teacher.py 的 parse_indices/complement_indices 做硬验证。数据集 metadata_paired_lr_cond.csv 共 398 条；holdout rows = 15；训练排除后 train rows = 383；train/eval intersection = []。本地证据已同步到 /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/shared_teacher_unseen_holdout_20260626/split_audit.json。Gamma stage2 仍占满 8 卡，最新约 iter 467，unseen launcher 暂不启动。",
+          "created_at": "2026-06-26T15:32:36.866Z"
+        },
+        {
+          "comment_id": "comment_f07aeec8-ae89-4bf5-90be-57c821665e46",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-26 23:35 monitor: Gamma stage2 仍在 8 卡 H20 上健康运行，最新 observed iter 476/2000，每步约 26s；目前只有 iter_000000400 checkpoint，没有 error/OOM/nan tail。DiffSynth unseen-holdout teacher gate 未启动，预计还需约 11 小时等 Gamma 到 2000 或释放 GPU。",
+          "created_at": "2026-06-26T15:35:55.410Z"
+        },
+        {
+          "comment_id": "comment_1a6b2e32-3ebc-43a8-9335-b54957f4aa42",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-27 update: Gamma-World stage2 reached iter_000002000 (checkpoint time 10:40:33 CST) and final evidence was saved locally. Then ran shared-world teacher explicit10/viewtokens truly unseen holdout gate with rows 0,99,198,199,229,259,260,279,298,299,338,377,378,388,397 excluded from training (383 train rows, train/eval intersection empty). Result: 2/15 rows passed strict action gate (pass rows 229 and 377). This invalidates the earlier 15/15 capacity probe as generalization evidence. Failure mode: actual separates from zero/time/wrong-next on many rows, but nearest-task / nearest-same-category wrong conditions are often indistinguishable or better than actual. Recommendation: do not start teacher-to-generator / causal student yet; first improve teacher objective/split/capacity with hard nearest-condition negatives and rerun strict unseen gate.",
+          "created_at": "2026-06-27T02:50:42.633Z"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-26T15:04:10.854Z"
+      "updated_at": "2026-06-27T02:50:42.633Z"
     },
     {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
@@ -10037,6 +10107,18 @@
       "updated_at": "2026-06-27T02:04:30.167Z",
       "completed_at": "2026-06-27",
       "completed_at_time": "2026-06-27T02:04:30.167Z"
+    },
+    {
+      "task_id": "task_real_robot_demo_do_as_i_do_franka_wuji_tactile",
+      "project_id": "real-robot-demos",
+      "title": "Reproduce Do-As-I-Do on Franka + Wuji and test tactile value",
+      "description": "把 Do-As-I-Do 作为真机 Engineering 复现实验，而不是只放 Survey：在 Franka + Wuji Hand 上复现“monocular human video -> hand-object reconstruction -> robot retargeting -> executable manipulation data”的链路，并专门做 tactile ablation，回答触觉在整条数据生成/retarget/执行链路中到底提供什么增益。\n\nReference: https://do-as-i-do.com/ ; arXiv 2606.19333 ; code: https://github.com/malik-group/do-as-i-do 。项目页面描述的核心步骤是从日常单目 RGB 人类视频重建 hand-object interaction，再用 sampling-based optimization retarget 到多指机器人手；我们的复现目标是把它落到 Franka + Wuji，而不是只停留在网页调研。\n\nAcceptance: 1) 选 3-5 个可在 Wuji 上完成的短任务，至少包含一种刚体 grasp/manipulation 和一种接触敏感任务；2) 跑通 Do-As-I-Do 或等价 pipeline 的视频输入、3D object/hand reconstruction、retarget action、sim/real playback；3) 记录 Franka arm pose、Wuji joint/action、Wuji tactile、RGB/Depth/外参和对象状态的统一 schema；4) 做 no-tactile / tactile-observed / tactile-feedback 三组对照，比较成功率、接触时序、滑移/掉落、过大接触力、regrasp 次数、trajectory deviation；5) 明确触觉只作为 logging/evaluation、policy input、online correction、还是 retarget optimization constraint 时分别有什么价值；6) 输出失败样例和结论，回流到 Tactile-WAM / VTLA：触觉是否值得进入 video-to-touch / WAM 训练目标。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Boris / Ziyang / Lai",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-06-26T15:40:59.765Z"
     }
   ]
 }
