@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-27T11:58:17+08:00",
+  "updated_at": "2026-06-27T12:06:55+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2260,7 +2260,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-27T11:58:15+08:00",
+      "updated_at": "2026-06-27T12:00:25+08:00",
       "due_at": "",
       "completed_at": null
     },
@@ -6123,7 +6123,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-27T11:38:12+08:00",
+      "updated_at": "2026-06-27T12:02:38+08:00",
       "completed_at": "2026-06-24"
     },
     {
@@ -10057,10 +10057,28 @@
           "kind": "comment",
           "body": "2026-06-27 follow-up v2: controlled shared-temporal strongcontrast ablation completed. Same true unseen split and stronger capacity/contrast as viewtoken route; result also 4/15 strict gates, pass rows 279,298,299,338. Viewtoken strongcontrast was 4/15 with pass rows 279,298,338,377. These are complementary but both fail nearest-condition generalization, so current low-res pixel teacher family should not be used to launch teacher-to-generator/causal-student yet. Evidence: /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/shared_teacher_unseen_temporal_strongcontrast_20260627/.",
           "created_at": "2026-06-27T03:41:05.120Z"
+        },
+        {
+          "comment_id": "comment_e41458ed-4393-4230-8f9e-d8204afb8643",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-27 layer-aware gate update: after the true-unseen strongcontrast teacher routes capped at 4/15, I added a foreground/contact weighted layer gate on the same 15 held-out rows. Best diagnostic result is viewtokens_strongcontrast + layer gate = 7/15 passed (rows 0,260,279,298,299,338,377). shared-temporal strongcontrast = 5/15; semantic-layer = 6/15; semantic-layer task-aware = 4/15; SAM-layer = 2/15; residual-layer = 4/15. Readout: action signal is not zero and is more visible in foreground/contact regions, but nearest-condition counterfactuals still break many rows, so this is diagnostic progress, not completion. Evidence synced locally under /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/layer_gate_20260627/ and report updated at /Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html. Next should move object/contact/layer weighting into generator-facing training objective or a geometry/action-aware teacher target, not another low-res RGB-only teacher sweep.",
+          "created_at": "2026-06-27T03:58:20.998Z"
+        },
+        {
+          "comment_id": "comment_a4d0a0ae-6079-4521-8798-ffd81032529b",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-27 layer-channel ablation follow-up: for the best viewtokens_strongcontrast teacher on the same true-unseen 15-row holdout, foreground-only scoring reaches 8/15 passed (rows 0,198,260,279,298,299,338,377), foreground/contact reaches 7/15, contact-only 6/15, and background-only 3/15. Interpretation: the action signal is concentrated in robot/object foreground regions rather than background shortcut, but same-task nearest-condition failures remain, so this is still not completion. Next concrete direction: make foreground/object/contact weighting part of the generator-facing training/eval objective or use a geometry/action-aware teacher target. Evidence: /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/layer_gate_20260627/.",
+          "created_at": "2026-06-27T04:03:37.309Z"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-27T03:41:05.120Z"
+      "updated_at": "2026-06-27T04:03:37.309Z"
     },
     {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
