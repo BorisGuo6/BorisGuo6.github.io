@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-27T15:04:04+08:00",
+  "updated_at": "2026-06-27T15:16:23+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2302,7 +2302,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-27T15:04:01+08:00",
+      "updated_at": "2026-06-27T15:06:58+08:00",
       "due_at": "",
       "completed_at": null
     },
@@ -6165,7 +6165,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-27T14:55:01+08:00",
+      "updated_at": "2026-06-27T15:10:42+08:00",
       "completed_at": "2026-06-24"
     },
     {
@@ -10199,10 +10199,19 @@
           "kind": "comment",
           "body": "2026-06-27 继续：structured main-path teacher 已完成 8 卡训练/eval。路线是把 structured action-stat tokens 放到 decoder condition 主路径（structured_temporal_view_action_skip），训练 loss 从 0.246 收敛到 0.0718，但 strict generation gate 仍只有 2/15，pass rows=0,198；证据已同步到 /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/shared_world_teacher_structured_mainpath_20260627/，本地报告 /Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html 已更新。结论：action encoder 结构化本身不是瓶颈，auxiliary 和 main-path 两条 generator-facing structured route 都是 2/15；下一步应转向 object/contact/3D/camera geometry、semantic layer 约束或 latent bottleneck/gated decoder，避免 reconstruction/task appearance shortcut 绕开 action。目标未完成，不能标 done。",
           "created_at": "2026-06-27T07:00:06.488Z"
+        },
+        {
+          "comment_id": "comment_44e3d70b-1895-4f02-9f13-39b88cbc050c",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Codex dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-27 follow-up：structured auxiliary/main-path 两条 generator-facing route 都是 2/15 后，已准备下一条更强约束路线：scripts_umi/launch_shared_teacher_temporal_hardmax_layercontrast_20260627.sh。它保留当前最佳可信 temporal_hardmax_w05 主配置（历史 11/15），但把 hardmax counterfactual contrast 的训练 MSE 限到 foreground_contact semantic layer masks，目标是减少背景/外观 shortcut。脚本已同步远端并 bash -n 通过；当前 Gamma-World Stage3 占满 8 卡，脚本启动保护已验证会拒绝抢卡。已新建 heartbeat monitor，等 GPU 空出来后自动启动并把 metrics/evidence 同步回 Downloads 和 dashboard。",
+          "created_at": "2026-06-27T07:13:34.782Z"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-27T07:00:06.488Z"
+      "updated_at": "2026-06-27T07:13:34.782Z"
     },
     {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
