@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-27T11:46:59+08:00",
+  "updated_at": "2026-06-27T11:58:17+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2251,9 +2251,16 @@
           "body": "Local Codex host review reopened this TODO.\n请补齐 acceptance item 5：要么实际跑 Pi 或 OpenVLA-OFT train/eval hook 并提交命令、日志、输出路径；要么提交明确 blocker 证据，例如在 RoboTwin2/本机环境中运行 Pi/OpenVLA-OFT 入口检查的命令与日志，说明缺少哪个模型权重、依赖、GPU/显存、数据格式适配或 API 支持。ACT hook 可以保留为 MVP 替代证据，但当前不能替代 TODO 里写明的 Pi/OpenVLA-OFT 要求，除非 Boris 明确改验收标准。",
           "created_at": "2026-06-27T11:46:54+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_baad4d3e84c3",
+          "author": "Review",
+          "body": "Local Codex host review reopened this TODO.\n请补齐 acceptance item 5 后再送审：二选一实际运行 Pi 或 OpenVLA-OFT train/eval hook，提交原始命令、完整日志、退出码、checkpoint/eval artifact 路径；若确实不能运行，请在 RoboTwin2/本机环境中运行对应入口检查或启动命令并提交完整错误日志，明确缺少的模型权重、依赖、GPU/显存、数据格式适配或 API 支持。ACT hook 可作为补充，但当前不能替代 Pi/OpenVLA-OFT。",
+          "created_at": "2026-06-27T11:58:14+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-27T11:46:56+08:00",
+      "updated_at": "2026-06-27T11:58:15+08:00",
       "due_at": "",
       "completed_at": null
     },
