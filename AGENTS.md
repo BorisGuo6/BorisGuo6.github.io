@@ -48,6 +48,21 @@ curl -fsS -X POST https://jingxiangguo.com/api/dashboard/task-comment \
   --data '{"task_id":"task_example","body":"Progress note with concrete evidence and next step."}'
 ```
 
+For routine hosted dashboard mutations, prefer the local wrapper instead of
+hand-writing curl and mirror-pull commands:
+
+```bash
+npm run dashboard:mutate -- status --task-id task_example --status done --pull
+npm run dashboard:mutate -- comment --task-id task_example --body "Progress note with concrete evidence and next step." --pull
+npm run dashboard:mutate -- update --task-id task_example --title "Updated title" --description "Updated acceptance criteria." --pull
+```
+
+The wrapper reads Vercel Blob, applies the mutation, writes Vercel Blob,
+re-reads and verifies the mutation, and only mirrors local JSON when `--pull`
+is present. Use `--force-pull` only when the dashboard mirror has known
+uncommitted generated drift and the hosted Blob has been verified as the source
+of truth.
+
 For existing work items use `POST /api/dashboard/task-update` for title, description, priority, assignee, or due-date edits; use `POST /api/dashboard/task-status` only for status transitions. For new work items use `POST /api/dashboard/task-create`; for cleanup use `POST /api/dashboard/task-comment-delete` with `task_id` and `comment_id`. After any write, re-read `/api/dashboard/state` and verify the mutation is visible. If no write token is available, leave the task unchanged and report the intended status/comment/update to the user.
 
 ### Triage labels

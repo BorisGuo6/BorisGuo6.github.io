@@ -9,6 +9,8 @@
     "dev": "live-server --port=8765 --host=127.0.0.1 --open=/ .",
     "dev:write-api": "node scripts/local-dashboard-write-api.mjs",
     "vercel-build": "npm run test:dashboard",
+    "agent:check": "npm run test:dashboard",
+    "dashboard:mutate": "node scripts/dashboard-mutate.mjs",
     "vercel:pull-blob": "node scripts/pull-vercel-dashboard-blob.mjs",
     "vercel:seed-blob": "node scripts/seed-vercel-dashboard-blob.mjs",
     "vercel:seed-blob:force": "node scripts/seed-vercel-dashboard-blob.mjs --force",
@@ -20,7 +22,7 @@
     "gate:isaacsim-oss": "node scripts/generate-isaacsim-open-source-gate.mjs",
     "plan:isaacsim-intake": "node scripts/generate-isaacsim-benchmark-intake-plan.mjs",
     "verify:isaacsim-catalog": "node scripts/verify-isaacsim-benchmark-catalog.mjs",
-    "test:dashboard": "node test/dashboard-state-lib.test.mjs"
+    "test:dashboard": "node test/dashboard-state-lib.test.mjs && node test/dashboard-mutate.test.mjs"
   },
   "devDependencies": {
     "live-server": "^1.2.2"
