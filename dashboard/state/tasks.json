@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-27T11:20:50+08:00",
+  "updated_at": "2026-06-27T11:33:49+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2237,9 +2237,16 @@
           "body": "Local Codex host review reopened this TODO.\n请补齐可直接复核的验收包后再送审：1) 提供可访问 repo commit SHA，或把关键代码/日志同步到 dashboard/本机可读路径；2) 提交 generated RoboTwin2 task program 的路径和 diff/commit；3) 提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、pass/fail、输出 artifact 路径/大小/sha256 和 HDF5/verifier 输出；4) 对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，并提交命令、完整日志、checkpoint/eval artifact；若确实不能运行 Pi/OpenVLA-OFT，请提交失败命令、完整错误日志和明确 blocker。ACT 只能作为补充，不能替代 Pi/OpenVLA-OFT 验收项，除非 TODO 范围被明确更新。",
           "created_at": "2026-06-27T11:20:34+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_4be880eaa5fd",
+          "author": "Review",
+          "body": "Local Codex host review reopened this TODO.\n请补齐可直接复核的验收包后再送审：1) 提供可访问 repo commit SHA 或把关键代码/日志同步到 dashboard/本机可读路径；2) 提交 generated RoboTwin2 task program 的路径和 diff/commit；3) 提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、pass/fail、输出 artifact 路径/大小/sha256 和 HDF5/verifier 输出；4) 对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，并提交命令、完整日志、checkpoint/eval artifact；若确实不能运行 Pi/OpenVLA-OFT，请提交失败命令、完整错误日志和明确 blocker。ACT 只能作为补充，不能替代 Pi/OpenVLA-OFT 验收项，除非 TODO 范围被明确更新。",
+          "created_at": "2026-06-27T11:33:44+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-27T11:20:41+08:00",
+      "updated_at": "2026-06-27T11:33:46+08:00",
       "due_at": "",
       "completed_at": null
     },
@@ -6102,7 +6109,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-27T10:55:32+08:00",
+      "updated_at": "2026-06-27T11:27:12+08:00",
       "completed_at": "2026-06-24"
     },
     {
@@ -10018,10 +10025,19 @@
           "kind": "comment",
           "body": "2026-06-27 update: Gamma-World stage2 reached iter_000002000 (checkpoint time 10:40:33 CST) and final evidence was saved locally. Then ran shared-world teacher explicit10/viewtokens truly unseen holdout gate with rows 0,99,198,199,229,259,260,279,298,299,338,377,378,388,397 excluded from training (383 train rows, train/eval intersection empty). Result: 2/15 rows passed strict action gate (pass rows 229 and 377). This invalidates the earlier 15/15 capacity probe as generalization evidence. Failure mode: actual separates from zero/time/wrong-next on many rows, but nearest-task / nearest-same-category wrong conditions are often indistinguishable or better than actual. Recommendation: do not start teacher-to-generator / causal student yet; first improve teacher objective/split/capacity with hard nearest-condition negatives and rerun strict unseen gate.",
           "created_at": "2026-06-27T02:50:42.633Z"
+        },
+        {
+          "comment_id": "comment_06f4f536-9da3-48a7-959d-559101d91c60",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-27 update: after Gamma stage2 reached iter_000002000, the true unseen shared-world teacher gate was re-tested with a stronger 8-GPU DDP ablation. Route: scripts_umi/launch_shared_teacher_unseen_strongcontrast_20260627.sh, same 15 held-out rows excluded from training, dim/layers/hubs increased from 256/4/4 to 512/6/8, contrast weight/margin increased from 0.5/0.003 to 3.0/0.01. Result improved from 2/15 to 4/15 strict action gates, pass rows 279, 298, 338, 377. Still not enough: nearest-task/category counterfactuals remain the dominant failure, and rows 229/259/397 still have wrong or zero controls beating actual. Evidence synced locally under /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/shared_teacher_unseen_strongcontrast_20260627/. Recommendation: do not start teacher-to-generator / causal-student from this teacher family yet; next route needs geometry/action-aware teacher target or explicit generator-facing action supervision.",
+          "created_at": "2026-06-27T03:26:14.013Z"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-27T02:50:42.633Z"
+      "updated_at": "2026-06-27T03:26:14.013Z"
     },
     {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
