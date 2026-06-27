@@ -10366,10 +10366,19 @@
           "kind": "comment",
           "body": "2026-06-28 queue fix: audited the remote post-Stage3 launcher before the full run starts. Found and fixed two operational issues: the action-dependent launcher was still using old LAYERCONTRAST DONE/FAILED marker names, and summarize_action_gate_metrics.py referenced a missing temporal_hardmax_layercontrast_20260627 metrics file. Patched remote scripts so the queued route now uses ACTION_TEACHER_STRUCTURED_BOTTLENECK_ACTIONDEP_20260628 markers and summarizes only existing strict-nearest baseline / structured_mainpath / structured_temporal_action metrics. Restarted patched watcher as PID 34171; it observed Gamma Stage3 latest_iter=479 and will launch the actiondep structured bottleneck route after GPUs free. This is queue hardening only; no new quality claim.",
           "created_at": "2026-06-28T00:54:21+08:00"
+        },
+        {
+          "comment_id": "comment_umi_teacher_10k_prep_20260628",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Codex dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-28 no-GPU progress while Stage3 occupies the H20s: built the 10k DiffSynth shared-world teacher root from Gamma data at data/umi_gamma_teacher_10k_explicit10_rawgripper. make_gamma_paired_teacher_dataset.py reports 10,000 pairs, 13 latent tokens, per-view 13-D explicit10 raw-gripper condition, paired dim 338. Started low-priority s32/f13 video-cache materialization to data/umi_gamma_teacher_10k/video_cache_s32_f13 with workers=4; latest observed progress 7,500/20,000 left/right videos written and 0 failures. Patched make_semantic_layer_sidecars.py to support workers/limit/skip-existing, smoke-tested it on 10k rows 0,1, and started wait_cache_then_10k_semantic_masks_20260628.sh so full 10k foreground/contact masks begin only after cache finishes. This prepares the scalable 10k teacher route; it does not replace the current 398-row strict-nearest full gate or prove action-conditioned generation.",
+          "created_at": "2026-06-28T01:13:27+08:00"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-28T00:54:21+08:00"
+      "updated_at": "2026-06-28T01:13:27+08:00"
     },
     {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
