@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-27T14:34:50+08:00",
+  "updated_at": "2026-06-27T06:34:42.143Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -10364,6 +10364,27 @@
       "assignee": "Boris / Ziyang / Lai",
       "due_at": "2026-07-10",
       "description": "把 Stage 2 从 robot-only 分层扩展成 Video Dynamics Decomposition Model (VDDM) 的跨域验证：在 MolmoAct/UMI/RoboTwin robot clips 之外，加入 egocentric human-hand manipulation videos。统一 schema: actor_layer(actor_type=robot|human_hand)、object_contact_layer、occluder_tool_layer、scene_background_layer；sidecars 包括 mask.png、rgba.png、layer video、SVG contour、depth/pointmap、mesh/pose if available、2D/3D tracks、contact events、layer_manifest.json。实验路线：robot 侧用 RobotSeg/SAM3/SAM2 tracking + VACE/FLUX.fill/LaMa baseline；human-ego 侧参考 HaWoR 与 Do-As-I-Do pipeline，用 SAM3 -> SAM3D mesh -> MoGe pointmaps -> HaWoR -> TAPIR/BootsTAPIR or guided-diffusion tracking -> projection/retargeting 检查分层是否改善 reconstruction。Acceptance: 1) 3 个 robot clips + 3 个 egocentric human-hand clips；2) 每个 clip 输出四层 layer package 与 manifest；3) raw RGB vs mask-only vs VDDM layers 的 recomposition、temporal consistency、track/pose/reconstruction/retargeting 对比；4) failure gallery 覆盖手指/夹爪细节、透明/反光/布料/液体、遮挡接触、背景漂移；5) 判断 VDDM 是否足以支撑 Stage 2 独立论文与 v0 dataset/model 训练。"
+    },
+    {
+      "task_id": "task_tactile_wam_reproduce_gesim2_tactile_wam_20260627",
+      "project_id": "tactile-wam",
+      "title": "复现 GE-Sim 2.0，并设计触觉生成 / Tactile-WAM 化路径",
+      "description": "GE-Sim 2.0 已开源，先作为 DaiMeng VTAM / Tactile-WAM 的第一条复现任务。Step 1: 跑通官方 GE-Sim-V2 repo、HuggingFace agibot-world/Genie-Envisioner-Sim-v2.0 checkpoint 和至少 1 个 G01 / OmniPicker-style action-conditioned multi-view rollout；记录环境、权重、显存、速度、输入动作格式、proprioceptive state expert、world judge 和 closed-loop rollout 是否可复现。Step 2: 思考并做最小 tactile extension：在 GE-Sim 的视觉/动作/本体状态 token 上增加 contact/tactile latent head，用 contact mask、gripper opening、force/torque、object pose/slip 或仿真 contact event 生成 pseudo tactile labels，预测 future tactile/contact latent、contact timing、slip/contact risk。Step 3: WAM 化：把输出从 video-only rollout 扩展成 <multi-view RGB/video latent, action tokens, proprio state, contact/tactile latent, world tokens> 的 state-action-contact rollout，并接 actual/zero/wrong-action gate 与 action head。Acceptance: 复现命令/配置、可运行 demo 或明确 blocker、1 页架构改造图、触觉 label schema、tactile/contact head loss、WAM state/action schema、actual/zero/wrong-action + contact timing + slip risk QA，以及和原 GE-Sim video-only baseline 的对照。",
+      "status": "todo",
+      "priority": "urgent",
+      "assignee": "Boris / DaiMeng VTAM",
+      "result": null,
+      "due_at": "2026-06-27",
+      "comments": [
+        {
+          "comment_id": "comment_tactile_wam_gesim2_seed_20260627",
+          "author": "Boris / Codex",
+          "body": "Seeded from GE-Sim 2.0 release: GitHub https://github.com/AgibotTech/GE-Sim-V2, HuggingFace https://huggingface.co/agibot-world/Genie-Envisioner-Sim-v2.0, project page https://ge-sim-v2.github.io/, arXiv https://arxiv.org/abs/2605.27491. The key VTAM angle is not just reproduction; add tactile/contact latent prediction and convert GE-Sim-style action-conditioned video simulation into a WAM state/action/contact rollout.",
+          "created_at": "2026-06-27T06:34:42.143Z",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-06-27T06:34:42.143Z"
     }
   ]
 }

@@ -4,7 +4,7 @@
   "title": "DaiMeng VTAM / Tactile-WAM: Predictive Contact Intelligence",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-06-27T06:25:36.904Z",
+  "updated_at": "2026-06-27T06:34:42.143Z",
   "description": "DaiMeng internship research project: merge VTLA tactile-intuition survey and VTAM/Tactile-WAM proposal into one active Predictive Contact Intelligence track for dexterous manipulation.",
   "summary": "DaiMeng VTAM turns the VTLA tactile-intuition survey into an active internship project: From Reactive Manipulation to Proactive Manipulation. The merged track treats future tactile/contact latents as an Internal Contact Model and builds a Vision-Tactile-Action World Model with a Temporal Action-Token Shared-World architecture rather than simple vision/tactile feature concatenation. Fast contact/action rollout, visual/layer latent cache, contact-triggered sparse compute, and System-0/System-1 control are the execution path; validation is contact timing, slip/contact risk, actual/zero/wrong-action separation, latency/Hz/VRAM, and contact-rich task success.",
   "subprojects": [
@@ -46,6 +46,7 @@
     "layout": "standard"
   },
   "details": [
+    "GE-Sim 2.0 reproduction path 2026-06-27: use the released GE-Sim-V2 repo and Genie-Envisioner-Sim v2.0 checkpoint as the first reproducible base for VTAM. Baseline goal is action-conditioned multi-view robot video rollout; VTAM extension adds contact/tactile latent prediction, pseudo tactile labels from contact/mask/proprio/object-slip signals, and a WAM state/action/contact rollout with actual/zero/wrong-action and contact-timing gates.",
     "Origin: this was discussed with the Wuji team on 2026-06-11 as a Tactile-WAM proposal. The key shift is to stop treating tactile as only another observation channel; tactile should become the contact-grounding signal that turns video imagination into action-capable prediction.",
     "Demo 3 first: use an external camera to observe human hand / arm motion, retarget that motion into the video model, and generate a robot arm + dexterous hand performing the same interaction. This should be a video-model demo, not necessarily immediate real-robot control.",
     "Demo 1 second: from the generated robot video in the previous step, estimate tactile output: contact timing, contact patch, pressure / force proxy, slip risk, and contact-state transitions. This is the tactile world model layer.",
@@ -68,6 +69,7 @@
     "System-0 / System-1 loop: System-1 runs predictive VTAM at planning frequency, while System-0 runs high-frequency tactile servo control by comparing predicted tactile latent with current tactile latent and emitting residual corrections for slip, overload, misalignment, or impending contact failure."
   ],
   "task_ids": [
+    "task_tactile_wam_reproduce_gesim2_tactile_wam_20260627",
     "task_tactile_wam_proposal_spec",
     "task_tactile_wam_external_camera_retarget_demo",
     "task_tactile_wam_video_to_tactile_model",
@@ -86,6 +88,27 @@
     "task_hardware_six_dof_tactile_calibration_platform"
   ],
   "references": [
+    {
+      "title": "GE-Sim 2.0 arXiv",
+      "url": "https://arxiv.org/abs/2605.27491",
+      "arxiv_id": "2605.27491",
+      "notes": "Paper reference for architecture, evaluation, and closed-loop rollout design."
+    },
+    {
+      "title": "Genie-Envisioner-Sim v2.0 checkpoint",
+      "url": "https://huggingface.co/agibot-world/Genie-Envisioner-Sim-v2.0",
+      "notes": "Released model checkpoint for reproduction and possible fine-tuning or tactile-head probing."
+    },
+    {
+      "title": "AgibotTech/GE-Sim-V2",
+      "url": "https://github.com/AgibotTech/GE-Sim-V2",
+      "notes": "Open-source repo to reproduce before VTAM extension work."
+    },
+    {
+      "title": "GE-Sim 2.0 Project Page",
+      "url": "https://ge-sim-v2.github.io/",
+      "notes": "Reference baseline for action-conditioned robot video simulation and closed-loop evaluation before adding tactile/contact prediction."
+    },
     {
       "title": "User-shared XHS demo reference 1",
       "url": "https://www.xiaohongshu.com/explore/6a2a2b7b000000003502e307?app_platform=android&ignoreEngage=true&app_version=9.33.4&share_from_user_hidden=true&xsec_source=app_share&type=video&xsec_token=CBGtIHEfFnDCB8AdYAqWQtyakL1vE58dmMilFf_tRM7Vk=&author_share=1&xhsshare=&shareRedId=ODc1QjU9PU42NzUyOTgwNjY1OTk3Skw5&apptime=1781172540&share_id=ab23f9e0c91b4f15ada1b005f49ac915&share_channel=wechat",
