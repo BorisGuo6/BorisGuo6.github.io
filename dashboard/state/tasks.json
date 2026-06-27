@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-27T15:57:59.301Z",
+  "updated_at": "2026-06-28T00:19:21+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -10332,10 +10332,19 @@
           "kind": "comment",
           "body": "2026-06-27 Gamma-UMI 数据层修正：检查 Gamma robot loader 后发现，只要数据根目录存在 action_stats.json，就会默认归一化 10-D action，包括 gripper。为避免 gripper 尺度被 action_stats 吃掉，远端已给 LocalMultiviewRobotDataset / get_local_multiview_robot_loader 增加 normalize_action 与 normalize_gripper 开关；robot bidirectional teacher 和 self-forcing CFS robot config 显式设置 normalize_action=True、normalize_gripper=False。10k early-teacher Stage2/Stage3 ablation 启动脚本也显式加入 dataloader_train.normalize_action=true 与 dataloader_train.normalize_gripper=false，并通过 bash -n / py_compile / config import。注意：当前正在跑的 Stage3 是改动前启动的，不受影响；后续 10k ablation 和新 Gamma-UMI route 应使用该修正。",
           "created_at": "2026-06-27T15:57:59.301Z"
+        },
+        {
+          "comment_id": "comment_umi_structured_bottleneck_smoke_queue_20260628",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Codex dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-28 progress: implemented and smoke-tested a stronger shared-world teacher route, structured_temporal_view_action_bottleneck. This route supports the explicit10 raw-gripper condition files (per-view 13-D: time + view one-hot + 10-D action) as well as 43-D action-stat conditions, and forces decoder global state through the shared hub while per-view structured action tokens become the frame condition path. CPU train smoke passed on rows 0,1 with loss=0.195244 and saved outputs_umi/smoke_structured_bottleneck_20260628/teacher.pt. CPU eval smoke on row 0 with wrong_next and wrong_nearest_task_condition also ran and produced a valid report, but gate was 0/1; this is plumbing evidence only, not quality evidence. Because Gamma Stage3 is still occupying all 8 H20 GPUs, I killed the old watcher that would have launched the weaker temporal_hardmax_layercontrast route and replaced it with runbooks/wait_stage3_then_structured_bottleneck_20260628.sh. New watcher PID 10965 observed Stage3 latest_iter=450 and will launch scripts_umi/launch_shared_teacher_structured_bottleneck_layercontrast_20260628.sh once Stage3 exits and all GPUs are free. Goal remains open: full strict-nearest actual/zero/time/wrong-row/nearest generation gate has not passed.",
+          "created_at": "2026-06-28T00:19:21+08:00"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-27T15:57:59.301Z"
+      "updated_at": "2026-06-28T00:19:21+08:00"
     },
     {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
