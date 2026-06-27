@@ -10341,10 +10341,19 @@
           "kind": "comment",
           "body": "2026-06-28 progress: implemented and smoke-tested a stronger shared-world teacher route, structured_temporal_view_action_bottleneck. This route supports the explicit10 raw-gripper condition files (per-view 13-D: time + view one-hot + 10-D action) as well as 43-D action-stat conditions, and forces decoder global state through the shared hub while per-view structured action tokens become the frame condition path. CPU train smoke passed on rows 0,1 with loss=0.195244 and saved outputs_umi/smoke_structured_bottleneck_20260628/teacher.pt. CPU eval smoke on row 0 with wrong_next and wrong_nearest_task_condition also ran and produced a valid report, but gate was 0/1; this is plumbing evidence only, not quality evidence. Because Gamma Stage3 is still occupying all 8 H20 GPUs, I killed the old watcher that would have launched the weaker temporal_hardmax_layercontrast route and replaced it with runbooks/wait_stage3_then_structured_bottleneck_20260628.sh. New watcher PID 10965 observed Stage3 latest_iter=450 and will launch scripts_umi/launch_shared_teacher_structured_bottleneck_layercontrast_20260628.sh once Stage3 exits and all GPUs are free. Goal remains open: full strict-nearest actual/zero/time/wrong-row/nearest generation gate has not passed.",
           "created_at": "2026-06-28T00:19:21+08:00"
+        },
+        {
+          "comment_id": "comment_umi_actiondep_bottleneck_smoke_20260628",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Codex dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-28 follow-up: upgraded the queued shared-world route from plain structured_bottleneck + foreground_contact contrast to structured_temporal_view_action_bottleneck + action-dependent foreground_contact layer contrast/reconstruction. The new loss scales foreground_contact supervision by per-view pose/rot action activity while keeping gripper raw by default (gripper_weight=0.0), matching the current action-schema guardrail. Remote implementation added action-dependent semantic layer MSE/contrast args to scripts_umi/train_shared_world_teacher.py and updated scripts_umi/launch_shared_teacher_structured_bottleneck_layercontrast_20260628.sh to write outputs_umi/shared_world_teacher_gamma_balanced398_structured_bottleneck_actiondep_${STAMP}. CPU smoke at size 32 passed: nearest-condition cache ready, loss=0.193041, checkpoint outputs_umi/smoke_structured_bottleneck_actiondep_20260628/teacher.pt saved; eval smoke produced a valid report but gate=0/1, so this remains plumbing evidence only. Live monitor 2026-06-28T00:42+08 shows Gamma Stage3 still owns all 8 H20 GPUs, latest watcher observation iter=468, so the full 8-card strict-nearest gate has not started.",
+          "created_at": "2026-06-28T00:42:12+08:00"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-28T00:19:21+08:00"
+      "updated_at": "2026-06-28T00:42:12+08:00"
     },
     {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
