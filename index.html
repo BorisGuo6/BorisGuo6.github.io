@@ -10,18 +10,15 @@
 
     <link rel="shortcut icon" href="assets/img/site/favicon.png" type="image/x-icon">
     <link rel="stylesheet" type="text/css" href="assets/css/stylesheet.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"></noscript>
 
-    <!-- MathJax -->
-    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>        
+    <!-- MathJax is loaded after the page is interactive in assets/js/main.js. -->
     <script type="text/x-mathjax-config">
       MathJax.Hub.Config({
         tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
       });
     </script>
-
-    <!-- visitor statistics -->
-    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
     <style>
       p {
@@ -139,7 +136,13 @@
                     <img 
                     style="width:100%; max-width:100%; object-fit: cover; border-radius: 0%; box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.3);" 
                     alt="profile photo" 
-                    src="assets/img/profile/jingxiang-guo.jpg" 
+                    src="assets/img/profile/jingxiang-guo-480.jpg"
+                    srcset="assets/img/profile/jingxiang-guo-480.jpg 480w, assets/img/profile/jingxiang-guo.jpg 832w"
+                    sizes="(max-width: 900px) 28vw, 180px"
+                    width="480"
+                    height="720"
+                    decoding="async"
+                    fetchpriority="high"
                     class="hoverZoomLink"
                     onclick="handleProfileClick()"
                     title="Click to enlarge">
@@ -310,17 +313,8 @@
 
             <div style="margin-bottom: 30px;"></div>
 
-            <!-- Pretext: fast text measurement, no DOM reflow (github.com/chenglou/pretext) -->
-            <script type="module">
-              import { prepare, layout } from 'https://cdn.jsdelivr.net/npm/@chenglou/pretext@0.0.4/dist/layout.js';
-              window._pt = { prepare, layout };
-              document.dispatchEvent(new CustomEvent('pretextReady'));
-            </script>
-
             <!-- Main JavaScript file -->
-            <script src="assets/js/main.js?v=20260612-timeline-fill"></script>
-            
-            <script type="text/javascript" id="clustrmaps" src="//clustrmaps.com/map_v2.js?d=GgviwSm_ICUFU9G8Aqqxy1gGzImeAwMwS4JaFgIXMQQ&cl=ffffff&w=a"></script>
+            <script src="assets/js/main.js?v=20260627-home-perf"></script>
 
             <!-- Footnote -->
             <table style="width:100%; border:0px; border-spacing:0px; border-collapse:separate; margin-left:auto; margin-right:auto;">

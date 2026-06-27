@@ -220,6 +220,21 @@ assert.match(
 );
 assert.match(
   dashboardSource,
+  /page-agent@1\.10\.0\/dist\/iife\/page-agent\.demo\.js\?autoInit=false[\s\S]+new window\.PageAgent/,
+  "dashboard should lazily load the official Alibaba Page Agent demo bundle before initialization",
+);
+assert.match(
+  dashboardSource,
+  /milestone\.title, milestone\.label, milestone\.name, milestone\.summary, milestone\.note/,
+  "dashboard timeline chips should support current milestone label/name/summary/note fields, not only legacy title fields",
+);
+assert.match(
+  dashboardSource,
+  /subproject\.title, subproject\.name, subproject\.id[\s\S]+subproject\.body, subproject\.summary, subproject\.note[\s\S]+subproject\.output, subproject\.deliverable, subproject\.status/,
+  "dashboard subproject cards should support current name/summary/status fields, not only legacy title/body/output fields",
+);
+assert.match(
+  dashboardSource,
   /data-agent-prompt-copy/,
   "dashboard should expose a copy button for agent task-update prompts",
 );
@@ -311,7 +326,9 @@ assert.match(
 );
 
 const legacyDeletedPaths = [
+  "clock/index.html",
   "assets/img/clock/embodied-clock-rail-train.png",
+  "assets/img/clock/embodied-clock-rail-train-v2.png",
   "assets/img/timeline/hci-lab.png",
   "assets/img/timeline/mpi.png",
   "assets/pdf/education/mpi-cert.pdf",
@@ -337,16 +354,15 @@ const legacyReferenceSources = [
   latexSource,
   homepageSource,
   mainJsSource,
-  await readFile(new URL("../clock/index.html", import.meta.url), "utf8"),
 ].join("\n");
 assert.doesNotMatch(
   legacyReferenceSources,
-  /Max Planck|Human Computer Interaction|HCI Lab|hci\.cs|assets\/img\/timeline\/(?:hci-lab|mpi)\.png|assets\/pdf\/education\/mpi-|main(?:-full)?\.pdf|dashboard\/weekly-briefs\/20\d{2}/,
+  /Max Planck|Human Computer Interaction|HCI Lab|hci\.cs|clock\/|assets\/img\/clock\/|assets\/img\/timeline\/(?:hci-lab|mpi)\.png|assets\/pdf\/education\/mpi-|main(?:-full)?\.pdf|dashboard\/weekly-briefs\/20\d{2}/,
   "legacy portfolio paths and removed MPI/HCI content must not be referenced",
 );
 assert.match(
   homepageSource,
-  /assets\/js\/main\.js\?v=20260612-timeline-fill/,
+  /assets\/js\/main\.js\?v=20260627-home-perf/,
   "homepage must version main.js so removed timeline items are not revived by browser cache",
 );
 assert.doesNotMatch(
@@ -356,8 +372,18 @@ assert.doesNotMatch(
 );
 assert.match(
   mainJsSource,
-  /SITE_ASSET_VERSION = '20260612-timeline-fill'[\s\S]+fetch\(versionedUrl\)/,
+  /SITE_ASSET_VERSION = '20260627-home-perf'[\s\S]+fetch\(versionedUrl\)/,
   "main.js must version JSON content fetches so stale timeline data is not reused",
+);
+assert.doesNotMatch(
+  mainJsSource,
+  /page-agent|PageAgent|pageAgent/i,
+  "homepage main.js must not load Page Agent; Page Agent belongs on the dashboard only",
+);
+assert.doesNotMatch(
+  homepageSource,
+  /Page Agent|page-agent/i,
+  "homepage must not expose Page Agent controls",
 );
 const timelineDoc = JSON.parse(timelineSource);
 const nusPhdItem = timelineDoc.edu.find((item) => item.id === "tl-nus-phd");

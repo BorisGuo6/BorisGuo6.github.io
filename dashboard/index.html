@@ -24,17 +24,18 @@
           <time></time>
           <div class="dashboard-sync" data-dashboard-sync>
             <span class="sync-pill" data-sync-status>Loading</span>
-            <form class="auth-form" data-auth-form hidden>
+            <form class="auth-form" data-auth-form hidden data-page-agent-ignore data-page-agent-not-interactive>
               <input type="email" name="email" placeholder="editor email" aria-label="Editor email" autocomplete="email">
               <button type="submit">Sign in</button>
             </form>
-            <form class="auth-form" data-vercel-token-form hidden>
+            <form class="auth-form" data-vercel-token-form hidden data-page-agent-ignore data-page-agent-not-interactive>
               <input type="password" name="token" placeholder="write token" aria-label="Dashboard write token" autocomplete="off">
               <button type="submit">Unlock</button>
             </form>
-            <button class="auth-signout" type="button" data-auth-signout hidden>Sign out</button>
-            <button class="auth-signout" type="button" data-vercel-token-clear hidden>Lock</button>
+            <button class="auth-signout" type="button" data-auth-signout hidden data-page-agent-ignore data-page-agent-not-interactive>Sign out</button>
+            <button class="auth-signout" type="button" data-vercel-token-clear hidden data-page-agent-ignore data-page-agent-not-interactive>Lock</button>
             <button class="agent-prompt-copy" type="button" data-agent-prompt-copy>Copy Agent Prompt</button>
+            <button class="dashboard-page-agent-button" type="button" data-page-agent-open>Page Agent</button>
             <span class="agent-prompt-status" data-agent-prompt-status aria-live="polite"></span>
           </div>
         </div>
@@ -117,6 +118,24 @@
       </figure>
     </div>
 
+    <div class="dashboard-page-agent-modal" data-page-agent-modal hidden data-page-agent-ignore data-page-agent-not-interactive role="dialog" aria-modal="true" aria-labelledby="dashboardPageAgentTitle">
+      <div class="dashboard-page-agent-dialog">
+        <button class="dashboard-page-agent-close" type="button" data-page-agent-close aria-label="Close Page Agent panel">x</button>
+        <h2 id="dashboardPageAgentTitle">Dashboard Page Agent</h2>
+        <p>
+          Enable Alibaba Page Agent for this dashboard. It loads the official demo bundle only after you click below and uses the public testing LLM API.
+          Do not enter private tokens or sensitive information into Page Agent.
+        </p>
+        <button class="dashboard-page-agent-start" type="button" data-page-agent-start>Enable Page Agent</button>
+        <p class="dashboard-page-agent-status" data-page-agent-status aria-live="polite"></p>
+        <p class="dashboard-page-agent-links">
+          <a href="https://github.com/alibaba/page-agent" target="_blank" rel="noopener">GitHub</a>
+          <span>/</span>
+          <a href="https://alibaba.github.io/page-agent/docs/introduction/overview" target="_blank" rel="noopener">Docs</a>
+        </p>
+      </div>
+    </div>
+
     <script>
       (() => {
         const stateRoot = document.querySelector('meta[name="dashboard-state-root"]')?.content || "state/";
@@ -126,6 +145,16 @@
         const vercelTokenStorageKey = "dashboard.vercel-write-token.v1";
         const vercelApiBase = "/api/dashboard";
         const supabaseEsmUrl = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+        const pageAgentDemoScriptUrl = "https://cdn.jsdelivr.net/npm/page-agent@1.10.0/dist/iife/page-agent.demo.js?autoInit=false";
+        const pageAgentDemoConfig = {
+          model: "qwen3.5-plus",
+          baseURL: "https://page-ag-testing-ohftxirgbn.cn-shanghai.fcapp.run",
+          apiKey: "NA",
+          language: "en-US",
+          promptForNextTask: true,
+          enableMask: true,
+          viewportExpansion: 0,
+        };
         const statusCycle = ["todo", "active", "done"];
         const statusLabels = {
           todo: "undone",
@@ -170,6 +199,7 @@
         let vercelWriteToken = readVercelWriteToken();
         let reloadTimer = null;
         let realtimeChannel = null;
+        let pageAgentScriptPromise = null;
         let localState = readLocalState();
         const persistedDetailsState = readDetailsState();
         const detailOpenState = new Map(Object.entries(persistedDetailsState.states));
@@ -552,6 +582,77 @@
               }
             }, 1800);
           }
+        }
+
+        function pageAgentModal() {
+          return document.querySelector("[data-page-agent-modal]");
+        }
+
+        function setPageAgentStatus(label, isError = false) {
+          const status = document.querySelector("[data-page-agent-status]");
+          if (!status) {
+            return;
+          }
+          status.textContent = label || "";
+          status.dataset.state = isError ? "error" : "";
+        }
+
+        function openPageAgentModal() {
+          const modal = pageAgentModal();
+          if (!modal) {
+            return;
+          }
+          setPageAgentStatus("");
+          modal.hidden = false;
+          modal.setAttribute("aria-hidden", "false");
+        }
+
+        function closePageAgentModal() {
+          const modal = pageAgentModal();
+          if (!modal) {
+            return;
+          }
+          modal.hidden = true;
+          modal.setAttribute("aria-hidden", "true");
+        }
+
+        function loadPageAgentScript() {
+          if (window.PageAgent) {
+            return Promise.resolve();
+          }
+          if (pageAgentScriptPromise) {
+            return pageAgentScriptPromise;
+          }
+          pageAgentScriptPromise = new Promise((resolve, reject) => {
+            const script = document.createElement("script");
+            script.src = pageAgentDemoScriptUrl;
+            script.crossOrigin = "anonymous";
+            script.async = true;
+            script.onload = () => resolve();
+            script.onerror = () => {
+              pageAgentScriptPromise = null;
+              reject(new Error("Failed to load Page Agent demo bundle"));
+            };
+            document.head.appendChild(script);
+          });
+          return pageAgentScriptPromise;
+        }
+
+        function startDashboardPageAgent() {
+          setPageAgentStatus("Loading Page Agent...");
+          loadPageAgentScript().then(() => {
+            if (!window.PageAgent) {
+              throw new Error("Page Agent loaded without exposing window.PageAgent");
+            }
+            if (window.pageAgent && typeof window.pageAgent.dispose === "function") {
+              window.pageAgent.dispose();
+            }
+            window.pageAgent = new window.PageAgent(pageAgentDemoConfig);
+            closePageAgentModal();
+            window.pageAgent.panel.show();
+          }).catch((error) => {
+            setPageAgentStatus(error?.message || "Failed to start Page Agent", true);
+          });
         }
 
         async function copyTextToClipboard(text) {
@@ -1821,6 +1922,18 @@
           return chip;
         }
 
+        function firstText(...values) {
+          for (const value of values) {
+            if (typeof value === "string" && value.trim()) {
+              return value.trim();
+            }
+            if (typeof value === "number" && Number.isFinite(value)) {
+              return String(value);
+            }
+          }
+          return "";
+        }
+
         function renderProjectTimeline(projectElement, timeline) {
           const bodyColumn = projectElement.querySelector(".project-body > div");
           const intro = bodyColumn?.querySelector(".project-intro");
@@ -1857,29 +1970,34 @@
           (timeline.milestones || [])
             .filter((milestone) => milestone.status === "done")
             .forEach((milestone) => {
-              chips.push(createTimelineChip("Completed", `${milestone.title}${milestone.date ? `, ${formatDate(milestone.date)}` : ""}`));
+              const milestoneTitle = firstText(milestone.title, milestone.label, milestone.name, milestone.summary, milestone.note);
+              const milestoneDate = milestone.date ? formatDate(milestone.date) : "";
+              if (milestoneTitle) {
+                chips.push(createTimelineChip("Completed", [milestoneTitle, milestoneDate].filter(Boolean).join(", ")));
+              }
             });
           strip.replaceChildren(...chips);
         }
 
-        function createSubprojectCard(subproject) {
+        function createSubprojectCard(subproject, index) {
           const card = document.createElement("article");
           card.className = "subproject-card";
 
           const label = document.createElement("span");
           label.className = "subproject-label";
-          label.textContent = subproject.label || "";
+          label.textContent = firstText(subproject.label, index + 1);
 
           const title = document.createElement("strong");
-          title.textContent = subproject.title || "";
+          title.textContent = firstText(subproject.title, subproject.name, subproject.id);
 
           const body = document.createElement("p");
-          body.textContent = subproject.body || "";
+          body.textContent = firstText(subproject.body, subproject.summary, subproject.note);
 
           card.append(label, title, body);
-          if (subproject.output) {
+          const outputText = firstText(subproject.output, subproject.deliverable, subproject.status);
+          if (outputText) {
             const output = document.createElement("em");
-            output.textContent = subproject.output;
+            output.textContent = outputText;
             card.append(output);
           }
           return card;
@@ -3066,6 +3184,24 @@
         });
 
         document.addEventListener("click", (event) => {
+          const pageAgentOpen = event.target.closest?.("[data-page-agent-open]");
+          if (pageAgentOpen) {
+            openPageAgentModal();
+            return;
+          }
+
+          const pageAgentStart = event.target.closest?.("[data-page-agent-start]");
+          if (pageAgentStart) {
+            startDashboardPageAgent();
+            return;
+          }
+
+          const pageAgentClose = event.target.closest?.("[data-page-agent-close]");
+          if (pageAgentClose || event.target === pageAgentModal()) {
+            closePageAgentModal();
+            return;
+          }
+
           const agentPromptCopy = event.target.closest?.("[data-agent-prompt-copy]");
           if (agentPromptCopy) {
             copyTextToClipboard(dashboardAgentPromptText()).then(() => {

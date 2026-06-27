@@ -1,7 +1,8 @@
 // Main JavaScript file for BorisGuo6.github.io
 // Contains all interactive functionality for the personal website
 
-var SITE_ASSET_VERSION = '20260612-timeline-fill';
+var SITE_ASSET_VERSION = '20260627-home-perf';
+var _deferredThirdPartyLoaded = false;
 
 // ============================================================================
 // Minimal / Full Mode
@@ -67,8 +68,8 @@ ${rolePart}
 applyMode(false);
 
 // ============================================================================
-// Pretext helpers — fast text measurement without DOM reflow
-// (window._pt is set by the ES-module loader in index.html)
+// Optional Pretext helpers. If window._pt is not present, layout falls back to
+// fixed estimates so the homepage does not need to block on a remote module.
 // ============================================================================
 function ptMeasure(text, font, maxW, lineH) {
   if (!text || !window._pt) return null;
@@ -670,10 +671,7 @@ function renderPublications(papers) {
   const tbody = document.getElementById('publications-tbody');
   if (!tbody) return;
   tbody.innerHTML = papers.map(buildPaperRow).join('\n');
-  // Re-run MathJax typesetting on the new content
-  if (window.MathJax && MathJax.Hub) {
-    MathJax.Hub.Queue(['Typeset', MathJax.Hub, tbody]);
-  }
+  typesetMathIfReady(tbody);
 }
 
 // ============================================================================
@@ -786,10 +784,7 @@ function renderNews(papers) {
   }
   const liHtml = items.map(item => `<li>${buildNewsItemHtml(item, minimal)}</li>`).join('\n');
   ul.insertAdjacentHTML('beforeend', liHtml);
-  // Re-run MathJax for any math in paper titles
-  if (window.MathJax && MathJax.Hub) {
-    MathJax.Hub.Queue(['Typeset', MathJax.Hub, ul]);
-  }
+  typesetMathIfReady(ul);
 }
 
 // ============================================================================
@@ -811,6 +806,50 @@ function syncOrgEntreDetails() {
     lock = true;
     org.open = ent.open;
     lock = false;
+  });
+}
+
+// ============================================================================
+// Deferred third-party scripts
+// ============================================================================
+function runWhenIdle(callback) {
+  if ('requestIdleCallback' in window) {
+    window.requestIdleCallback(callback, { timeout: 2500 });
+  } else {
+    window.setTimeout(callback, 1200);
+  }
+}
+
+function loadDeferredScript(src, options) {
+  return new Promise(function (resolve, reject) {
+    var script = document.createElement('script');
+    script.src = src;
+    script.async = true;
+    if (options && options.id) script.id = options.id;
+    if (options && options.crossOrigin) script.crossOrigin = options.crossOrigin;
+    script.onload = function () { resolve(script); };
+    script.onerror = function () { reject(new Error('Failed to load ' + src)); };
+    document.head.appendChild(script);
+  });
+}
+
+function typesetMathIfReady(root) {
+  if (window.MathJax && MathJax.Hub) {
+    MathJax.Hub.Queue(['Typeset', MathJax.Hub, root || document.body]);
+  }
+}
+
+function loadDeferredThirdPartyScripts() {
+  if (_deferredThirdPartyLoaded) return;
+  _deferredThirdPartyLoaded = true;
+
+  runWhenIdle(function () {
+    loadDeferredScript('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML')
+      .then(function () { typesetMathIfReady(document.body); })
+      .catch(function (error) { console.warn('Deferred MathJax load failed', error); });
+
+    loadDeferredScript('https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js')
+      .catch(function (error) { console.warn('Deferred visitor statistics load failed', error); });
   });
 }
 
@@ -846,12 +885,6 @@ document.addEventListener('DOMContentLoaded', function () {
       if (results[2]) renderSiteSections(results[2]);
       applyMode(false);
     });
-
-  // When pretext loads (ES module may resolve after JSON), re-render timeline
-  // bars so their text-fit decisions use measured widths instead of h>30.
-  document.addEventListener('pretextReady', function () {
-    if (window._cachedTimeline) renderTimelineChart(window._cachedTimeline);
-  });
 });
 
 // ============================================================================
@@ -862,6 +895,7 @@ window.onload = function () {
   var awardModal = document.getElementById("AwardModal");
   if (wechatModal) wechatModal.style.display = "none";
   if (awardModal) awardModal.style.display = "none";
+  loadDeferredThirdPartyScripts();
 
   var lastUpdateElement = document.getElementById("lastUpdateDate");
   if (lastUpdateElement) {

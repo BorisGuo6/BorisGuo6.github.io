@@ -192,12 +192,92 @@ h1 {
   width: 100%;
 }
 
+.dashboard-page-agent-button {
+  width: 100%;
+  min-height: 28px;
+  border: 1px solid #c5d1dc;
+  background: #ffffff;
+  color: var(--accent);
+  font: inherit;
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
 .agent-prompt-status {
   grid-column: 1 / -1;
   min-height: 14px;
   color: var(--muted);
   font-size: 11px;
   text-align: center;
+}
+
+.dashboard-page-agent-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(23, 32, 42, 0.42);
+}
+
+.dashboard-page-agent-modal[hidden] {
+  display: none;
+}
+
+.dashboard-page-agent-dialog {
+  width: min(520px, calc(100vw - 32px));
+  padding: 22px;
+  border: 1px solid var(--line);
+  background: #ffffff;
+  box-shadow: 0 18px 48px rgba(23, 32, 42, 0.22);
+}
+
+.dashboard-page-agent-dialog h2 {
+  font-size: 24px;
+}
+
+.dashboard-page-agent-dialog p {
+  margin-top: 12px;
+  color: var(--muted);
+}
+
+.dashboard-page-agent-close {
+  float: right;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 800;
+}
+
+.dashboard-page-agent-start {
+  margin-top: 16px;
+  min-height: 34px;
+  padding: 6px 12px;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: #ffffff;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 800;
+}
+
+.dashboard-page-agent-status {
+  min-height: 18px;
+  font-size: 12px;
+}
+
+.dashboard-page-agent-status[data-state="error"] {
+  color: #9c2f2f;
+}
+
+.dashboard-page-agent-links {
+  display: flex;
+  gap: 8px;
+  font-size: 12px;
 }
 
 .summary-grid {
