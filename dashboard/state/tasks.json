@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-27T12:17:46+08:00",
+  "updated_at": "2026-06-27T12:50:17+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2260,7 +2260,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-27T12:11:33+08:00",
+      "updated_at": "2026-06-27T12:43:59+08:00",
       "due_at": "",
       "completed_at": null
     },
@@ -6123,7 +6123,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-27T12:13:47+08:00",
+      "updated_at": "2026-06-27T12:46:16+08:00",
       "completed_at": "2026-06-24"
     },
     {
@@ -10084,10 +10084,19 @@
           "kind": "comment",
           "body": "2026-06-27 next run queued: implemented semantic-layer weighted reconstruction in train_shared_world_teacher.py (defaults off, backward-compatible): --semantic-layer-recon-weight, --semantic-layer-recon-channels, --semantic-layer-recon-floor. Added and launched watcher scripts_umi/wait_launch_shared_teacher_unseen_foreground_recon_20260627.sh. It waits until all 8 H20 GPUs are below 2GB, then starts 8-card DDP training for view-specific temporal action tokens + strongcontrast + foreground-weighted reconstruction, followed by standard gate and layer gates (foreground/foreground_contact/contact/background). Current status: watcher alive; GPU0 is still occupied by Gamma iter2000 inference, so training has not started yet.",
           "created_at": "2026-06-27T04:15:49.261Z"
+        },
+        {
+          "comment_id": "comment_5e860f49-52e2-4e14-84e8-9d86b540ba8d",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-27 foreground-weighted teacher training 结果已收口：把 foreground/contact mask 直接放进 low-res teacher training objective 没有解决 action-conditioned generalization。\n\n- foreground_recon：standard unseen gate 2/15；foreground 3/15；foreground/contact 3/15；contact 2/15；background 0/15。\n- foreground_contrast：standard unseen gate 2/15；foreground 5/15；foreground/contact 3/15；contact 4/15；background 1/15。\n- 对比此前 posthoc layer diagnostic：viewtokens_strongcontrast foreground-only 是 8/15，仍然是当前最好 foreground evidence。\n\n结论：foreground weighting 会降低训练 loss，但没有超过后验 layer gate，也没有解决 same-task / nearest-condition counterfactual。下一步不建议继续堆同类 foreground loss；应转向更强的 action/geometry target，例如 3D/contact state、PAIWorld-style cross-view geometric communication，或先训练独立 action/ranker head 来处理 actual-vs-nearest counterfactual，再作为 generator-facing supervision。",
+          "created_at": "2026-06-27T04:48:07.649Z"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-27T04:15:49.261Z"
+      "updated_at": "2026-06-27T04:48:07.649Z"
     },
     {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
