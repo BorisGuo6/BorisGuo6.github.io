@@ -10375,10 +10375,28 @@
           "kind": "comment",
           "body": "2026-06-28 no-GPU progress while Stage3 occupies the H20s: built the 10k DiffSynth shared-world teacher root from Gamma data at data/umi_gamma_teacher_10k_explicit10_rawgripper. make_gamma_paired_teacher_dataset.py reports 10,000 pairs, 13 latent tokens, per-view 13-D explicit10 raw-gripper condition, paired dim 338. Started low-priority s32/f13 video-cache materialization to data/umi_gamma_teacher_10k/video_cache_s32_f13 with workers=4; latest observed progress 7,500/20,000 left/right videos written and 0 failures. Patched make_semantic_layer_sidecars.py to support workers/limit/skip-existing, smoke-tested it on 10k rows 0,1, and started wait_cache_then_10k_semantic_masks_20260628.sh so full 10k foreground/contact masks begin only after cache finishes. This prepares the scalable 10k teacher route; it does not replace the current 398-row strict-nearest full gate or prove action-conditioned generation.",
           "created_at": "2026-06-28T01:13:27+08:00"
+        },
+        {
+          "comment_id": "comment_umi_teacher_10k_launcher_20260628",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Codex dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-28 10k route prep: added remote scripts_umi/launch_shared_teacher_10k_structured_bottleneck_actiondep_20260628.sh as the next scalable strict-gate candidate, but intentionally guarded it with ALLOW_10K_TEACHER=1 so it cannot jump ahead of the current 398-row full gate. Preflight requires 10,000 metadata rows, at least 20,000 cached left/right videos, at least 10,000 semantic layer masks, and free GPUs. Default guard test returned exit 76 with the expected refusal message. The 10k holdout generator yields 82 held-out rows, combining prior anchor rows with uniform coverage up to row 9999. Current live state: Gamma Stage3 still occupies all 8 H20 GPUs at iter~499; 10k cache progress reached 14,900/20,000 videos with 0 failures; mask watcher is waiting for cache completion.",
+          "created_at": "2026-06-28T01:18:33+08:00"
+        },
+        {
+          "comment_id": "comment_umi_teacher_10k_cache_complete_masks_running_20260628",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Codex dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-28 10k prep status: s32/f13 video cache completed successfully for data/umi_gamma_teacher_10k_explicit10_rawgripper: 20,000/20,000 left/right videos written, 0 failures. The cache watcher then started full semantic foreground/contact mask generation at data/umi_gamma_teacher_10k_explicit10_rawgripper/semantic_layer_masks_s32_f13_v1; latest observed progress 1,600/10,000 masks written, 0 failures. Gamma Stage3 still occupies all 8 H20 GPUs at iter~505, so the 398-row actiondep strict gate remains queued and has not started.",
+          "created_at": "2026-06-28T01:26:03+08:00"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-28T01:13:27+08:00"
+      "updated_at": "2026-06-28T01:26:03+08:00"
     },
     {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
