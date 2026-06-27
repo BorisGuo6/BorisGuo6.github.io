@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-27T15:16:23+08:00",
+  "updated_at": "2026-06-27T15:36:52+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2300,9 +2300,16 @@
           "body": "Local Codex host review reopened this TODO.\n请补交可由本机 reviewer 直接读取/复现的验收包：把 robotwin-text2env-demo checkout 或打包 artifact 同步到本机/dashboard 可读路径，或修复可访问 repo/SSH；提供 commit SHA、README reproduction 实际输出、Text2Env schema、1-2 个 env JSON、generated RoboTwin2 task program 路径与 diff/commit；提供 simulator smoke 和 data-collection dry run 的原始命令、完整日志、退出码、pass/fail、artifact 路径/大小/sha256 及 HDF5/verifier 输出；Pi/OpenVLA-OFT 必须二选一实跑 train/eval hook 并给命令/日志/checkpoint/eval 输出，或提交在 RoboTwin2 环境中运行对应入口检查/启动命令的完整失败日志并明确 blocker。ACT hook 只能作为补充，不能替代该验收项。",
           "created_at": "2026-06-27T14:49:07+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_00b0721ef01d",
+          "author": "Review",
+          "body": "Local Codex host review reopened this TODO.\n请补交可由本机 reviewer 直接读取和复现的验收包：把 robotwin-text2env-demo checkout 或打包 artifact 同步到本机/dashboard 可读路径，或提供可访问 repo/commit；提交 README reproduction 实际输出、generated RoboTwin2 task program 路径与 diff/commit、simulator smoke 和 data-collection dry run 的原始命令/完整日志/退出码/pass-fail/artifact 路径大小 sha256/HDF5 或 verifier 输出；Pi/OpenVLA-OFT 必须二选一实跑 train/eval hook 并给命令、完整日志、checkpoint/eval artifact，若不能运行则提交在 RoboTwin2 环境中运行对应入口检查或启动命令的完整失败日志并明确 blocker。ACT hook 只能作为补充，不能替代该验收项。",
+          "created_at": "2026-06-27T15:36:42+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-27T15:06:58+08:00",
+      "updated_at": "2026-06-27T15:36:50+08:00",
       "due_at": "",
       "completed_at": null
     },
@@ -6165,7 +6172,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-27T15:10:42+08:00",
+      "updated_at": "2026-06-27T15:26:14+08:00",
       "completed_at": "2026-06-24"
     },
     {
@@ -10208,10 +10215,19 @@
           "kind": "comment",
           "body": "2026-06-27 follow-up：structured auxiliary/main-path 两条 generator-facing route 都是 2/15 后，已准备下一条更强约束路线：scripts_umi/launch_shared_teacher_temporal_hardmax_layercontrast_20260627.sh。它保留当前最佳可信 temporal_hardmax_w05 主配置（历史 11/15），但把 hardmax counterfactual contrast 的训练 MSE 限到 foreground_contact semantic layer masks，目标是减少背景/外观 shortcut。脚本已同步远端并 bash -n 通过；当前 Gamma-World Stage3 占满 8 卡，脚本启动保护已验证会拒绝抢卡。已新建 heartbeat monitor，等 GPU 空出来后自动启动并把 metrics/evidence 同步回 Downloads 和 dashboard。",
           "created_at": "2026-06-27T07:13:34.782Z"
+        },
+        {
+          "comment_id": "comment_dafd4574-57c9-4b25-999e-d92c6243dd50",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-27 strict-nearest 复评：旧 temporal_hardmax_w05 的 11/15 是弱 gate（只含 zero/time/wrong_next/same/other），不是最终 strict gate。我用同一个 checkpoint 重新跑 CPU-only eval，加入 wrong_nearest_task_condition 和 wrong_nearest_same_category_condition 后，结果只有 2/15，pass rows=0,279；证据已同步到 /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/temporal_hardmax_w05_strict_nearest_cpu_20260627/，总报告 index.html 已修正。结论：目前没有任何 generator route 证明真正 action-conditioned；下一条排队脚本 launch_shared_teacher_temporal_hardmax_layercontrast_20260627.sh 已修正为训练和评估都包含 nearest negatives，并使用 foreground_contact semantic layer masks 做 hardmax contrast。当前 Gamma-World Stage3 仍占满 8 卡，脚本启动保护正常，等空卡后运行。",
+          "created_at": "2026-06-27T07:24:15.542Z"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-27T07:13:34.782Z"
+      "updated_at": "2026-06-27T07:24:15.542Z"
     },
     {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
