@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-27T09:53:44+08:00",
+  "updated_at": "2026-06-27T02:04:30.167Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -9967,7 +9967,7 @@
       "project_id": "self-improving-agents",
       "title": "Build OSS-gated IsaacSim benchmark intake matrix",
       "description": "Convert the Isaac Sim / Isaac Lab benchmark survey into a machine-readable AgenticSim intake matrix with an explicit open-source gate and Notion Reading List coverage audit. Seed report: docs/research/isaacsim-benchmarks-for-self-improving.md. Live Notion audit: docs/research/notion-reading-list-coverage.audit.json and .md; 348 pages fetched from Reading List root, 1 Notion API fetch error, 4,325 markdown links, 1,008 unique robotics/simulation-relevant URLs, and 11 unique Isaac/Omniverse-specific URLs. Broad catalog: docs/research/isaacsim-benchmark-catalog.seed.json (44 entries: 4 P0, 29 P1, 11 P2). Open-source gate: docs/research/isaacsim-benchmark-open-source-gate.seed.json and .md; regenerate with npm run gate:isaacsim-oss. Current gate admits 20 confirmed open-source sources (P0=3, P1=13, P2=4) and excludes 24 until license/source verification. Newly added from full Reading List/web pass: RoboVerse Platform, ASAP Humanoid Sim-to-Real Skill Stack, and SO-ARM100/101 Isaac Lab External Project. Latest verifier result: 65 source URLs checked, 62 OK; GitHub metadata checks 24/25 OK, 0 rate-limited; 23 structural issues remain, all unknown licenses; Dual-Sim public GitHub URL returns 404. Acceptance: only confirmed OSS entries may enter dashboard implementation or smoke work; unknown-license, documentation-only, paper-only, or missing-source entries remain discovery watchlist until proven open source.",
-      "status": "active",
+      "status": "done",
       "priority": "high",
       "assignee": null,
       "result": null,
@@ -10027,9 +10027,9 @@
           "created_at": "2026-06-26T04:26:41.717Z"
         }
       ],
-      "updated_at": "2026-06-26T04:26:41.717Z",
-      "completed_at": null,
-      "completed_at_time": null
+      "updated_at": "2026-06-27T02:04:30.167Z",
+      "completed_at": "2026-06-27",
+      "completed_at_time": "2026-06-27T02:04:30.167Z"
     }
   ]
 }
