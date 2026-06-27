@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-27T11:33:49+08:00",
+  "updated_at": "2026-06-27T11:46:59+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2244,9 +2244,16 @@
           "body": "Local Codex host review reopened this TODO.\n请补齐可直接复核的验收包后再送审：1) 提供可访问 repo commit SHA 或把关键代码/日志同步到 dashboard/本机可读路径；2) 提交 generated RoboTwin2 task program 的路径和 diff/commit；3) 提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、pass/fail、输出 artifact 路径/大小/sha256 和 HDF5/verifier 输出；4) 对 Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，并提交命令、完整日志、checkpoint/eval artifact；若确实不能运行 Pi/OpenVLA-OFT，请提交失败命令、完整错误日志和明确 blocker。ACT 只能作为补充，不能替代 Pi/OpenVLA-OFT 验收项，除非 TODO 范围被明确更新。",
           "created_at": "2026-06-27T11:33:44+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_4bf76673e77e",
+          "author": "Review",
+          "body": "Local Codex host review reopened this TODO.\n请补齐 acceptance item 5：要么实际跑 Pi 或 OpenVLA-OFT train/eval hook 并提交命令、日志、输出路径；要么提交明确 blocker 证据，例如在 RoboTwin2/本机环境中运行 Pi/OpenVLA-OFT 入口检查的命令与日志，说明缺少哪个模型权重、依赖、GPU/显存、数据格式适配或 API 支持。ACT hook 可以保留为 MVP 替代证据，但当前不能替代 TODO 里写明的 Pi/OpenVLA-OFT 要求，除非 Boris 明确改验收标准。",
+          "created_at": "2026-06-27T11:46:54+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-27T11:33:46+08:00",
+      "updated_at": "2026-06-27T11:46:56+08:00",
       "due_at": "",
       "completed_at": null
     },
@@ -6109,7 +6116,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-27T11:27:12+08:00",
+      "updated_at": "2026-06-27T11:38:12+08:00",
       "completed_at": "2026-06-24"
     },
     {
@@ -10034,10 +10041,19 @@
           "kind": "comment",
           "body": "2026-06-27 update: after Gamma stage2 reached iter_000002000, the true unseen shared-world teacher gate was re-tested with a stronger 8-GPU DDP ablation. Route: scripts_umi/launch_shared_teacher_unseen_strongcontrast_20260627.sh, same 15 held-out rows excluded from training, dim/layers/hubs increased from 256/4/4 to 512/6/8, contrast weight/margin increased from 0.5/0.003 to 3.0/0.01. Result improved from 2/15 to 4/15 strict action gates, pass rows 279, 298, 338, 377. Still not enough: nearest-task/category counterfactuals remain the dominant failure, and rows 229/259/397 still have wrong or zero controls beating actual. Evidence synced locally under /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/shared_teacher_unseen_strongcontrast_20260627/. Recommendation: do not start teacher-to-generator / causal-student from this teacher family yet; next route needs geometry/action-aware teacher target or explicit generator-facing action supervision.",
           "created_at": "2026-06-27T03:26:14.013Z"
+        },
+        {
+          "comment_id": "comment_f8e6800a-80d4-4ef9-8c82-5d915e4b5d54",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-27 follow-up v2: controlled shared-temporal strongcontrast ablation completed. Same true unseen split and stronger capacity/contrast as viewtoken route; result also 4/15 strict gates, pass rows 279,298,299,338. Viewtoken strongcontrast was 4/15 with pass rows 279,298,338,377. These are complementary but both fail nearest-condition generalization, so current low-res pixel teacher family should not be used to launch teacher-to-generator/causal-student yet. Evidence: /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/shared_teacher_unseen_temporal_strongcontrast_20260627/.",
+          "created_at": "2026-06-27T03:41:05.120Z"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-27T03:26:14.013Z"
+      "updated_at": "2026-06-27T03:41:05.120Z"
     },
     {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
