@@ -1,35 +1,41 @@
 {
   "schema_version": "project.v1",
   "project_id": "tactile-wam",
-  "title": "VTAM / Tactile-WAM: Video-to-Touch Action Model",
+  "title": "VTAM / Tactile-WAM: Predictive Contact Intelligence",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-06-27T05:19:11.377Z",
-  "description": "Ongoing DaiMeng/Wuji VTAM proposal track: build a video-to-touch-action model where human/robot video, tactile/contact prediction, and executable action decoding are evaluated on contact-rich dexterous manipulation.",
-  "summary": "VTAM / Tactile-WAM is now promoted from survey to an ongoing DaiMeng/Wuji proposal project. The working chain is: external-camera or robot video produces a controllable robot arm+hand rollout; the rollout predicts contact timing, tactile/contact patches, pressure/slip/force proxies; the model then learns an action head so predicted visuo-tactile futures can become executable robot actions. The near-term target is a crisp proposal/demo path with aligned Wuji tactile, robot state/action, video, and contact labels.",
+  "updated_at": "2026-06-27T05:26:11.737Z",
+  "description": "Ongoing DaiMeng VTAM proposal: build predictive contact intelligence for dexterous manipulation, moving from reactive tactile feedback to proactive manipulation with future tactile/contact latent prediction and action decoding.",
+  "summary": "VTAM is now an ongoing DaiMeng robot research proposal: “From Reactive Manipulation to Proactive Manipulation.” The technical core is a Vision-Tactile-Action World Model where future tactile/contact latents act as an Internal Contact Model. The updated proposal positions high-efficiency VTAM as a Temporal Action-Token Shared-World Model: visual context is cached at low frequency, tactile/contact latents and action tokens roll out quickly, and heavy video/tactile decoders are called only for supervision, visualization, or key planning branches. The project should be evaluated by contact timing, slip/contact risk, latency/Hz/VRAM, actual-vs-zero/wrong-action gates, task success, disturbance recovery, and safety force limits.",
   "subprojects": [
     {
       "label": "A",
-      "title": "Retargeted robot video",
-      "body": "External camera tracks human hand/arm motion and retargets it to control a video model of the robot arm plus dexterous hand.",
-      "output": "robot video rollout"
+      "title": "Universal tactile encoder",
+      "body": "Learn a transferable tactile latent over marker flow, tactile images, and multi-finger contact sequences, preserving contact geometry, force/slip cues, and task-relevant dynamics.",
+      "output": "z_tac"
     },
     {
       "label": "B",
-      "title": "Tactile world model",
-      "body": "From the generated or real robot video, infer tactile maps, contact state, pressure distribution, slip, and force-relevant contact transitions.",
-      "output": "future tactile"
+      "title": "Temporal Action-Token VTAM",
+      "body": "Use visual tokens, tactile/contact tokens, temporal action tokens, and shared-world tokens to predict future contact/tactile latent trajectories and action latents.",
+      "output": "future contact + action latent"
     },
     {
       "label": "C",
-      "title": "World Action Model",
-      "body": "Upgrade the predictive model so it jointly predicts future visual/tactile states and executable robot actions.",
-      "output": "action + state"
+      "title": "Fast contact/action rollout",
+      "body": "Avoid full video generation at every step; cache visual/layer latents, run sparse compute around contact events, and distill a fast student from a heavy teacher.",
+      "output": "low-latency rollout"
+    },
+    {
+      "label": "D",
+      "title": "System-0 / System-1 control",
+      "body": "Run System-1 at low frequency for future contact prediction and action chunks, and System-0 at high frequency for tactile-latent residual corrections.",
+      "output": "proactive contact control"
     }
   ],
   "asset": "dashboard/assets/tactile-wam-pipeline.svg",
   "asset_alt": "Tactile-WAM pipeline from human retargeted robot video to tactile prediction and world action model output",
-  "asset_caption": "Tactile-WAM: external-camera human retargeting drives robot arm+hand video, video predicts tactile signals, and the predictive model learns to emit actions.",
+  "asset_caption": "VTAM proposal: universal tactile encoding feeds a Temporal Action-Token Shared-World Model; fast contact/action rollout and System-0 tactile servo turn predicted future contact into executable manipulation.",
   "visual": {
     "layout": "standard"
   },
@@ -43,7 +49,13 @@
     "Why this relates to DexGello: DexGello can provide aligned real data for arm/hand/finger state, while Wuji tactile / glove streams can provide tactile supervision. Tactile-WAM can use that data to train video-to-touch and touch-to-action components.",
     "Good first benchmark families: pressing, wiping, grasping, in-hand adjustment, cutting/peeling, and assembly/insertion. Choose tasks where tactile is genuinely necessary: occlusion, slip, force threshold, contact/no-contact ambiguity, or object deformation.",
     "DaiMeng proposal update 2026-06-27: promote this card from Survey to ongoing Research because VTAM is now a live proposal/project track. The dashboard framing should use VTAM as the proposal name and Tactile-WAM as the technical mechanism: video-to-touch prediction plus action decoding for contact-rich manipulation.",
-    "Ongoing execution scope: build data alignment first (external/RGB-D video, wrist/hand video, Wuji qpos/tactile streams, robot state/action, timestamps, calibration snapshot), then run the three-stage demo: retargeted robot video generation, video-to-tactile/contact prediction, and action-head / WAM decoding."
+    "Ongoing execution scope: build data alignment first (external/RGB-D video, wrist/hand video, Wuji qpos/tactile streams, robot state/action, timestamps, calibration snapshot), then run the three-stage demo: retargeted robot video generation, video-to-tactile/contact prediction, and action-head / WAM decoding.",
+    "DaiMeng proposal extraction 2026-06-27: the updated 2026-06-26 proposal is titled “面向灵巧操作的预测式接触智能研究 / From Reactive Manipulation to Proactive Manipulation / 基于 Vision-Tactile-Action World Model 的主动接触操作框架.” It reframes VTAM as predictive contact intelligence: future tactile latent is the Internal Contact Model, not an auxiliary sensor feature.",
+    "Proposal technical core 2026-06-27: high-efficiency VTAM should be a Temporal Action-Token Shared-World Model, not generic vision/tactile feature concatenation or a plain video-model finetune. Token streams: visual tokens, tactile/contact tokens, temporal action tokens, and shared-world tokens. The model predicts future tactile/contact latent trajectories, contact risk, action latent/action chunks, and optional video rollout.",
+    "Proposal acceleration path 2026-06-27: use a fast contact/action path. Visual features or robot/object/background layer latents are cached at low frequency; tactile/contact latents and temporal action tokens roll out at higher frequency; heavy video/high-dimensional tactile decoders are used only for training supervision, visualization, or key planning branches. Add contact-triggered sparse compute and teacher-student distillation.",
+    "Proposal control architecture 2026-06-27: System-1 is the low-frequency contact world model, planned at roughly 5-20 Hz, predicting future tactile/contact state, risk, and action chunks. System-0 is a high-frequency tactile servo, roughly 50-100 Hz or higher, comparing observed tactile latent with predicted target tactile latent and outputting residual corrections such as finger micro-motion, normal-force adjustment, tangential slip compensation, or insertion alignment.",
+    "Proposal prior-work chain 2026-06-27: OmniViTac establishes large-scale vision-tactile-action data and tactile locality/contact-triggered value; OmniVTA shows future touch as predictive contact representation with TactileVAE and visuo-tactile world modeling; TacForeSight shows future touch as action guidance through force-conditioned tactile latent prediction and predictive tactile-conditioned policy. VTAM is the next step: an internal contact model plus active control loop.",
+    "Proposal evaluation update 2026-06-27: evaluation must go beyond task success and visual plausibility. Required metrics include tactile prediction error, contact timing error, slip/contact risk error, actual/zero/wrong-action gate, latency per step, control Hz, VRAM, teacher-student error, disturbance recovery time, slip count, safe force thresholds, action smoothness, and cross-object/position/tool generalization."
   ],
   "task_ids": [
     "task_tactile_wam_proposal_spec",
@@ -51,7 +63,12 @@
     "task_tactile_wam_video_to_tactile_model",
     "task_tactile_wam_action_head",
     "task_tactile_wam_wuji_data_alignment",
-    "task_tactile_wam_eval_protocol"
+    "task_tactile_wam_eval_protocol",
+    "task_vtam_universal_tactile_encoder_20260627",
+    "task_vtam_temporal_action_token_shared_world_model_20260627",
+    "task_vtam_fast_contact_action_rollout_20260627",
+    "task_vtam_system0_system1_contact_control_20260627",
+    "task_vtam_contact_rich_eval_suite_20260627"
   ],
   "references": [
     {
@@ -103,6 +120,10 @@
       "title": "1X World Model: From Video to Action",
       "url": "https://www.1x.tech/discover/world-model-self-learning",
       "notes": "Industry reference for deriving robot actions from text-conditioned video generation; useful framing for video-model-to-action conversion."
+    },
+    {
+      "title": "DaiMeng VTAM proposal update, 2026-06-26",
+      "notes": "Local DOCX extracted on 2026-06-27. Key additions: Temporal Action-Token Shared-World Model, fast contact/action path, System-0/System-1 active contact control, and explicit latency/action-gate/contact-risk evaluation."
     }
   ],
   "risks_decisions": [
@@ -111,7 +132,10 @@
     "Action-decoding risk: a WAM head must be evaluated on executable actions, not only video fidelity. The acceptance metric should include action plausibility, robot limits, contact success, and rollout consistency.",
     "Data-alignment risk: tactile is high-frequency and local, while video is lower-frequency and global. The logger must preserve timestamps, calibration, contact frames, and sensor metadata.",
     "Novelty boundary: VT-WM and OmniVTA already cover visuo-tactile world models. The differentiator should be external-camera retargeted robot-video generation plus tactile-grounded WAM action output.",
-    "Status decision 2026-06-27: move VTAM / Tactile-WAM from Survey to ongoing Research. It should now be tracked as an active DaiMeng/Wuji proposal project rather than only a tactile representation idea."
+    "Status decision 2026-06-27: move VTAM / Tactile-WAM from Survey to ongoing Research. It should now be tracked as an active DaiMeng/Wuji proposal project rather than only a tactile representation idea.",
+    "Proposal decision 2026-06-27: dashboard should track this as VTAM / Predictive Contact Intelligence, with Tactile-WAM as the video-to-touch-to-action path. The contribution claim is proactive contact manipulation through future tactile/contact latent prediction and fast action rollout, not only tactile sensing or multimodal fusion.",
+    "Architecture boundary 2026-06-27: avoid a video-first architecture where every control step decodes full future frames. Online control should use low-dimensional contact/action latents; video rollout is optional for training, visualization, and audit.",
+    "Acceptance boundary 2026-06-27: do not accept demos based only on pretty video or qualitative tactile maps. A passing VTAM demo must separate actual actions from zero/wrong actions, predict contact timing/slip risk, show latency/Hz/VRAM numbers, and improve at least one contact-rich manipulation task under perturbation."
   ],
   "timeline": {
     "badges": [
@@ -136,10 +160,31 @@
         "value": "WAM"
       }
     ],
-    "target_cycle": "ongoing DaiMeng/Wuji proposal demo",
-    "target_note": "Promoted to ongoing: deliver the VTAM proposal/demo chain, then refine exact milestones after extracting the DOCX when accessible.",
+    "target_cycle": "ongoing DaiMeng VTAM proposal demo",
+    "target_note": "Execute the proposal roadmap: tactile encoder -> Temporal Action-Token VTAM -> fast contact/action rollout -> System-0/System-1 control -> contact-rich evaluation.",
     "sprint_start": "2026-06-11",
     "sprint_due": null,
-    "milestones": []
+    "milestones": [
+      {
+        "label": "Phase 0",
+        "date": "data chain",
+        "text": "Offline VTAM / Tactile-WAM data path: external or robot video, tactile/contact labels, action schema, synchronization error, contact timing, baseline predictor."
+      },
+      {
+        "label": "Phase 1",
+        "date": "model v0",
+        "text": "Temporal Action-Token Shared-World Model with action/contact/tactile tokenization and held-out actual/zero/wrong-action gates."
+      },
+      {
+        "label": "Phase 2",
+        "date": "fast rollout",
+        "text": "Fast student versus heavy teacher; report latency, VRAM, speedup, and precision loss."
+      },
+      {
+        "label": "Phase 3",
+        "date": "control",
+        "text": "System-0 high-frequency tactile servo driven by predicted-vs-observed tactile latent error; evaluate task success, slip count, disturbance recovery, and safety force thresholds."
+      }
+    ]
   }
 }

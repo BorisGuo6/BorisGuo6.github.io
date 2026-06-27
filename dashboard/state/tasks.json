@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-27T05:19:11.377Z",
+  "updated_at": "2026-06-27T05:26:11.737Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -9578,10 +9578,19 @@
           "kind": "comment",
           "body": "2026-06-27 foreground-weighted teacher training 结果已收口：把 foreground/contact mask 直接放进 low-res teacher training objective 没有解决 action-conditioned generalization。\n\n- foreground_recon：standard unseen gate 2/15；foreground 3/15；foreground/contact 3/15；contact 2/15；background 0/15。\n- foreground_contrast：standard unseen gate 2/15；foreground 5/15；foreground/contact 3/15；contact 4/15；background 1/15。\n- 对比此前 posthoc layer diagnostic：viewtokens_strongcontrast foreground-only 是 8/15，仍然是当前最好 foreground evidence。\n\n结论：foreground weighting 会降低训练 loss，但没有超过后验 layer gate，也没有解决 same-task / nearest-condition counterfactual。下一步不建议继续堆同类 foreground loss；应转向更强的 action/geometry target，例如 3D/contact state、PAIWorld-style cross-view geometric communication，或先训练独立 action/ranker head 来处理 actual-vs-nearest counterfactual，再作为 generator-facing supervision。",
           "created_at": "2026-06-27T04:48:07.649Z"
+        },
+        {
+          "comment_id": "comment_57e7af8a-10d8-4543-b80c-332e29f92d39",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Vercel dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-27 追加 independent action-video ranker 诊断：这次不生成视频，只用 GT 双视角 rollout 的 dynamics/residual 表征去匹配 actual UMI action/state，并直接训练 actual score 高于 zero / time-view-only / wrong-row / same-task nearest / same-category nearest。\n\n设置：balanced_398 数据，15 条 eval rows 完全从 train 排除，train/eval intersection=[]；size32，单卡预加载，200 epochs。训练 loss 从 2.3188 降到 0.0742，说明 train split 可拟合。\n\n结果：true unseen rank gate 只有 1/15，只通过 row 0。多数失败 worst negative 是 wrong_nearest_same_category_condition 或 wrong_next，很多 row 的 actual score 甚至为负。\n\n结论：问题不只是生成器或 reconstruction loss；当前 action schema + low-res video dynamics 本身没有学到可迁移的 actual-vs-nearest grounding。下一步不应直接把这个 ranker 当 reward head 蒸馏，也不建议继续堆同类 foreground loss。需要先增强 action/video grounding：object/contact/3D state、camera geometry、action-event labels，或 PAIWorld-style geometry-aware multi-view representation。ranker 脚本可以保留为后续新 schema 的快速验收器。",
+          "created_at": "2026-06-27T05:22:44.386Z"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-27T04:48:07.649Z"
+      "updated_at": "2026-06-27T05:22:44.386Z"
     },
     {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
@@ -9686,6 +9695,66 @@
       "result": null,
       "comments": [],
       "updated_at": "2026-06-26T15:40:59.765Z"
+    },
+    {
+      "task_id": "task_vtam_universal_tactile_encoder_20260627",
+      "project_id": "tactile-wam",
+      "title": "实现 Universal Tactile Encoder v0",
+      "description": "基于 2026-06-26 戴盟 VTAM proposal，先实现可插拔 Universal Tactile Encoder：输入 Marker Flow / tactile image / 多指触觉序列，输出统一 z_tac latent。Acceptance: 数据 schema、训练配置、模型权重或最小 checkpoint、finger identity/contact-region positional encoding、future latent prediction/reconstruction 指标、slip/contact stability 相关性、可接入 VTAM/System-0 的推理接口。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Boris / DaiMeng VTAM / Wuji",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-06-27T05:26:11.737Z"
+    },
+    {
+      "task_id": "task_vtam_temporal_action_token_shared_world_model_20260627",
+      "project_id": "tactile-wam",
+      "title": "实现 Temporal Action-Token Shared-World Model v0",
+      "description": "把高效 VTAM 明确做成 Temporal Action-Token Shared-World Model，而不是普通视觉/触觉拼接。Token streams: visual tokens、tactile/contact tokens、temporal action tokens、shared-world tokens；预测 future tactile/contact latent、contact risk、action latent/chunk 和可选 video rollout。Acceptance: 架构图、输入/输出 schema、training objective、held-out actual/zero/wrong-action gate、tactile prediction error、contact timing error，以及和普通 cross-modal attention / video-first baseline 的 ablation。",
+      "status": "todo",
+      "priority": "urgent",
+      "assignee": "Boris / DaiMeng VTAM",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-06-27T05:26:11.737Z"
+    },
+    {
+      "task_id": "task_vtam_fast_contact_action_rollout_20260627",
+      "project_id": "tactile-wam",
+      "title": "验证 fast contact/action rollout 推理加速",
+      "description": "按照 proposal 的 fast contact/action path：在线阶段不在每个 planning/control step 生成完整视频，优先预测 tactile/contact latent 与 action latent；复用 visual/layer latent cache，在 contact event / slip risk / force jump 附近触发 sparse compute，并尝试 teacher-student distillation。Acceptance: ms/step、Hz、VRAM、cache hit/encoder time、compute per contact event、teacher-student error、actual/zero/wrong-action gate、任务成功率或 contact-risk 精度损失表。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Boris / DaiMeng VTAM",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-06-27T05:26:11.737Z"
+    },
+    {
+      "task_id": "task_vtam_system0_system1_contact_control_20260627",
+      "project_id": "tactile-wam",
+      "title": "接入 System-0 / System-1 主动接触控制 demo",
+      "description": "构建 proposal 里的双系统主动接触控制：System-1 以约 5-20 Hz 预测未来触觉/contact state、risk 和 action chunk；System-0 以 50-100 Hz 或更高频读取当前 tactile latent，对比目标 tactile latent 并输出 residual action，例如手指微位移、法向压力调节、切向滑移补偿、插接对准修正。Acceptance: 控制接口、latency/Hz 记录、安全力阈值、扰动恢复实验、滑移次数、恢复时间、任务成功率、失败案例。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Boris / DaiMeng VTAM / real robot owner",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-06-27T05:26:11.737Z"
+    },
+    {
+      "task_id": "task_vtam_contact_rich_eval_suite_20260627",
+      "project_id": "tactile-wam",
+      "title": "建立戴盟 VTAM contact-rich 评估套件",
+      "description": "按 proposal 建立多层次评估：稳定抓握与滑移抑制、在手姿态调整、插头/销钉插接、卡片滑动、表面擦拭、工具使用、扰动后的接触恢复。Acceptance: 任务列表、数据采集/标注 schema、动态扰动设置、contact timing/slip/contact-risk 指标、跨物体/位置/工具泛化、actual/zero/wrong-action gate、最终 go/no-go 表。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Boris / DaiMeng VTAM",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-06-27T05:26:11.737Z"
     }
   ]
 }
