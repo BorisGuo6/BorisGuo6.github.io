@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-27T14:02:12+08:00",
+  "updated_at": "2026-06-27T06:19:59.484Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -5391,7 +5391,7 @@
     },
     {
       "task_id": "task_hardware_psa_three_finger_gripper",
-      "project_id": "vtla-tactile-intuition-survey",
+      "project_id": "tactile-wam",
       "title": "PSA proposal 三指触觉夹爪设计",
       "description": "为 PSA proposal 准备一个三指夹爪末端方案：可选祝老板电机作为 actuator，三指末端集成触觉传感器，目标覆盖 Jenga-style 抽积木塔和拿刀切肉等低自由度触觉操作 demo。Deliverable: CAD/机构草图、actuator/sensor 布局、控制接口、BOM 和与 Franka/ARX 末端连接方式。",
       "status": "done",
@@ -5437,7 +5437,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-12T15:34:42+08:00",
+      "updated_at": "2026-06-27T06:19:59.484Z",
       "completed_at": "2026-05-27"
     },
     {
@@ -5581,7 +5581,7 @@
     },
     {
       "task_id": "task_hardware_manus_two_finger_retargeting",
-      "project_id": "vtla-tactile-intuition-survey",
+      "project_id": "tactile-wam",
       "title": "MANUS 数据手套到两指夹爪重定向与遥操作",
       "description": "把 MANUS 数据手套的手部姿态映射到两指夹爪的开合/接触状态，用于简单低自由度遥操作和数据采集。Deliverable: retargeting mapping、teleop interface、最小 verifier，以及与 tactile gripper 平台的输入/输出 schema 对齐。",
       "status": "done",
@@ -5613,12 +5613,12 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-12T15:34:42+08:00",
+      "updated_at": "2026-06-27T06:19:59.484Z",
       "completed_at": "2026-05-27"
     },
     {
       "task_id": "task_hardware_two_finger_tactile_gripper_platform",
-      "project_id": "vtla-tactile-intuition-survey",
+      "project_id": "tactile-wam",
       "title": "复刻两指 FinRay / GelSight / PPTAC 触觉夹爪平台",
       "description": "做一个低成本两指夹爪操作平台：复刻/改造简单 FinRay fingers，预留 GelSight 或 Daimon/PPTAC-style 触觉传感器安装位，后续用于 VLA/VTLA 操作、抽积木塔、接触稳定性和触觉数据采集。Deliverable: CAD、传感器安装方案、夹爪开合接口、基础测试任务清单。",
       "status": "done",
@@ -5650,12 +5650,12 @@
           "kind": "needs_user"
         }
       ],
-      "updated_at": "2026-06-12T15:34:42+08:00",
+      "updated_at": "2026-06-27T06:19:59.484Z",
       "completed_at": "2026-05-27"
     },
     {
       "task_id": "task_hardware_six_dof_tactile_calibration_platform",
-      "project_id": "vtla-tactile-intuition-survey",
+      "project_id": "tactile-wam",
       "title": "六自由度触觉传感器标定平台",
       "description": "设计一个 6-DoF tactile sensor calibration platform，用于标定力/力矩、接触位置和传感器输出一致性。Deliverable: 机械加载方案、标定流程、数据记录格式、校准曲线/验证指标。",
       "status": "done",
@@ -5687,7 +5687,7 @@
           "kind": "needs_user"
         }
       ],
-      "updated_at": "2026-06-12T15:34:42+08:00",
+      "updated_at": "2026-06-27T06:19:59.484Z",
       "completed_at": "2026-05-27"
     },
     {
@@ -6646,7 +6646,7 @@
     },
     {
       "task_id": "task_vtla_tactile_intuition_survey_map",
-      "project_id": "vtla-tactile-intuition-survey",
+      "project_id": "tactile-wam",
       "title": "Map VTLA tactile-intuition problem space",
       "description": "Turn EgoVTLA, Tactile-Bolt, tactile memory, RobotCooking, and tactile-as-oracle notes into a representation / dataset / benchmark map. Proximity sensing / FingerEye is now archived as externally covered. Acceptance: choose first benchmark family and list required sensors, labels, and success metrics.",
       "status": "done",
@@ -6698,7 +6698,7 @@
           "kind": "archive"
         }
       ],
-      "updated_at": "2026-06-12T15:13:20+08:00",
+      "updated_at": "2026-06-27T06:19:59.484Z",
       "completed_at": "2026-06-12"
     },
     {

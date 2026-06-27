@@ -1,12 +1,12 @@
 {
   "schema_version": "project.v1",
   "project_id": "vtla-tactile-intuition-survey",
-  "title": "VTLA / Tactile Intuition",
-  "bucket": "survey",
-  "status": "survey",
-  "updated_at": "2026-06-12T15:34:42+08:00",
-  "description": "Keep in Survey: tactile intuition remains actionable because external tactile papers solve pieces, while our unresolved decision is the first Wuji/Franka/HOI benchmark and representation.",
-  "summary": "Survey-stage consolidation of the Notion tactile / VTLA ideas: use ego video, tactile patches, force signals, and object-centric contact representations to make tactile evidence reusable for manipulation policy, world-model prediction, and contact-rich task evaluation. The standalone proximity / FingerEye sensor sub-idea is archived because FingerEye now covers that route.",
+  "title": "Archive: VTLA / Tactile Intuition (merged into DaiMeng VTAM)",
+  "bucket": "archive",
+  "status": "archived",
+  "updated_at": "2026-06-27T06:25:36.904Z",
+  "description": "Archived as a standalone Survey card after merging its tactile-intuition benchmark and representation scope into the DaiMeng VTAM/Tactile-WAM Research project.",
+  "summary": "Standalone VTLA survey is no longer tracked as a separate live card. Its completed tactile intuition survey tasks now belong to the merged DaiMeng VTAM / Tactile-WAM Research project.",
   "asset": "dashboard/assets/survey-vtla-tactile-intuition.svg",
   "details": [
     {
@@ -119,15 +119,10 @@
         }
       ]
     },
-    "Placement update 2026-06-12: low-DoF tactile gripper/platform work moved here. The PSA three-finger tactile gripper, MANUS-to-two-finger retargeting, two-finger FinRay/GelSight/PPTAC-style platform, and 6-DoF tactile calibration platform are tactile/VTLA benchmark ingredients."
+    "Placement update 2026-06-12: low-DoF tactile gripper/platform work moved here. The PSA three-finger tactile gripper, MANUS-to-two-finger retargeting, two-finger FinRay/GelSight/PPTAC-style platform, and 6-DoF tactile calibration platform are tactile/VTLA benchmark ingredients.",
+    "Merged into DaiMeng VTAM (2026-06-27): This survey card was folded into DaiMeng VTAM / Tactile-WAM: Predictive Contact Intelligence. Keep this archive only as historical context; all active work and completed VTLA tasks should appear under the merged Research card."
   ],
-  "task_ids": [
-    "task_vtla_tactile_intuition_survey_map",
-    "task_hardware_psa_three_finger_gripper",
-    "task_hardware_manus_two_finger_retargeting",
-    "task_hardware_two_finger_tactile_gripper_platform",
-    "task_hardware_six_dof_tactile_calibration_platform"
-  ],
+  "task_ids": [],
   "risks_decisions": [
     "The project should not become a shopping list of sensors; the first output needs a contact-state representation and a benchmarkable manipulation question.",
     "Tactile data is expensive. Prioritize tasks where vision is genuinely occluded or ambiguous: insertion, cap/screw, opaque-bag search, cutting/peeling, and in-hand pose/contact estimation.",
