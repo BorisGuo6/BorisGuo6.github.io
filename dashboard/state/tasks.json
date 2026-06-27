@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-27T14:49:13+08:00",
+  "updated_at": "2026-06-27T15:04:04+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2302,7 +2302,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-27T14:49:10+08:00",
+      "updated_at": "2026-06-27T15:04:01+08:00",
       "due_at": "",
       "completed_at": null
     },
@@ -6165,7 +6165,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-27T14:40:21+08:00",
+      "updated_at": "2026-06-27T14:55:01+08:00",
       "completed_at": "2026-06-24"
     },
     {
@@ -10190,10 +10190,19 @@
           "kind": "comment",
           "body": "2026-06-27 full run 结果：structured temporal action contrast 已接入 generator-facing shared-world teacher 并完成 8 卡训练/eval。训练正常收敛，loss 约 0.57 -> 0.098；但 holdout strict action generation gate 只有 2/15，通过 rows 0,279。证据已同步到 /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/shared_world_teacher_structured_temporal_action_20260627，并更新总报告 index.html。判断：诊断 ranker 的 8/15 没有直接转化为生成器控制；把 structured temporal encoder 作为旁路 auxiliary loss 不够，生成主干仍可走 reconstruction/task-appearance shortcut。下一步应把 structured action encoder 变成 latent bottleneck / decoder condition 主路径，或加入 object/contact/3D/camera-geometry grounding 后再做 generation gate。目标仍未完成。",
           "created_at": "2026-06-27T06:42:29.497Z"
+        },
+        {
+          "comment_id": "comment_a8b3c264-302c-46a9-8182-29b6bbc296f1",
+          "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
+          "author": "Codex dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-27 继续：structured main-path teacher 已完成 8 卡训练/eval。路线是把 structured action-stat tokens 放到 decoder condition 主路径（structured_temporal_view_action_skip），训练 loss 从 0.246 收敛到 0.0718，但 strict generation gate 仍只有 2/15，pass rows=0,198；证据已同步到 /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/shared_world_teacher_structured_mainpath_20260627/，本地报告 /Users/boris/Downloads/umi_acwm_action_injection_20260622/index.html 已更新。结论：action encoder 结构化本身不是瓶颈，auxiliary 和 main-path 两条 generator-facing structured route 都是 2/15；下一步应转向 object/contact/3D/camera geometry、semantic layer 约束或 latent bottleneck/gated decoder，避免 reconstruction/task appearance shortcut 绕开 action。目标未完成，不能标 done。",
+          "created_at": "2026-06-27T07:00:06.488Z"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-27T06:42:29.497Z"
+      "updated_at": "2026-06-27T07:00:06.488Z"
     },
     {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
