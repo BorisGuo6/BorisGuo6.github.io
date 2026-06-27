@@ -1,10 +1,10 @@
 {
   "schema_version": "project.v1",
   "project_id": "urdf-embodiment-prior-world-model-idea",
-  "title": "Idea: URDF Embodiment-Prior World Model",
+  "title": "URDF Embodiment-Prior World Model",
   "bucket": "survey",
   "status": "survey",
-  "updated_at": "2026-06-27T05:03:20.178Z",
+  "updated_at": "2026-06-27T06:10:37.078Z",
   "description": "Idea-stage world-model direction: import URDF as an embodiment prior and compile URDF/sim replay into projected control videos, masks, and joint-token sidecars for controllable sim-to-real robot video generation.",
   "summary": "URDF should act as a structured articulated-object / embodiment prior. OSCAR suggests the most practical interface: use URDF + joint trajectory + camera metadata to produce FK-projected 2D skeleton/control videos and sidecars, then condition a video world model rather than asking the model to understand raw URDF text alone.",
   "details": [
@@ -68,6 +68,7 @@
     "OSCAR overlap risk: if OSCAR already covers URDF/sim-replay-to-real-video for fixed robots, this card must differentiate on cross-embodiment generalization, variable joint/action dimensions, and URDF-level validation across held-out morphologies.",
     "Data risk: the idea needs paired sim replay/control sidecars and real videos across multiple embodiments; otherwise it stays an OSCAR-style fixed-embodiment sim-to-real finetune."
   ],
-  "asset_alt": "URDF embodiment prior world model idea",
-  "asset_caption": "Updated idea sketch: URDF morphology plus sim replay compiles into FK-projected 2D skeleton/control videos and sidecars for controlled sim-to-real video generation."
+  "asset_alt": "URDF embodiment-prior world model pipeline from URDF and sim replay into FK-projected control videos, sidecars, joint tokens, and a video world model.",
+  "asset_caption": "URDF embodiment-prior sketch: compile URDF morphology and simulator replay into FK-projected skeleton/control video, masks/depth/contact sidecars, and variable-length joint tokens for OSCAR-style sim-to-real video generation.",
+  "asset": "dashboard/assets/survey-urdf-embodiment-prior-world-model.svg"
 }
