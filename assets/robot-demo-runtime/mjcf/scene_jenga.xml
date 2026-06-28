@@ -1,0 +1,47 @@
+<mujoco model="scene_jenga">
+  <!-- SO-101 arm (6 position actuators, force-limited → compliant grasp). -->
+  <include file="so101_new_calib.xml"/>
+
+  <!-- Stiff, well-converged contacts: elliptic cone + high impratio so grasps don't
+       slip, extra Newton/line-search iterations + a noslip pass so contacts actually
+       resolve instead of letting the position servos squish through. -->
+  <option timestep="0.002" iterations="100" ls_iterations="50" noslip_iterations="5"
+          integrator="implicitfast" cone="elliptic" impratio="10"/>
+
+  <default>
+    <!-- Alphabet cubes (5 cm). NORMAL sliding friction (~1) so they sit, slide, and
+         tumble on the desk like real cubes, with near-zero torsional/rolling friction
+         so they topple off corners instead of balancing. The grippy friction needed for
+         the GRASP lives on the FINGER geoms (≈6/10); MuJoCo combines contact friction as
+         the elementwise MAX, so the cube↔finger contact is grippy while cube↔desk stays
+         normal. -->
+    <default class="cube">
+      <geom type="box" size="0.025 0.025 0.025" rgba="0.86 0.78 0.63 1"
+            friction="1 0.02 0.0001" condim="6" solref="0.006 1" solimp="0.95 0.99 0.001"
+            density="400"/>
+    </default>
+  </default>
+
+  <worldbody>
+    <!-- Work surface at z=0 (maps to the Three desk top at y=0). Normal friction so
+         cubes rest/slide/topple naturally; the grasp grip comes from the fingers. -->
+    <geom name="desk" type="plane" size="0 0 0.05" pos="0 0 0" friction="1 0.02 0.0001"
+          condim="6" rgba="0 0 0 0" contype="1" conaffinity="1"
+          solref="-30000 -300" solimp="0.98 0.999 0.0001"/>
+
+    <!-- Three colourful cubes in the arm's reach zone (+x). Free joints = full DOF.
+         Spawn z just above the 2.5 cm half-extent so they settle, not interpenetrate. -->
+    <body name="cube_A" pos="0.31 0.0 0.026">
+      <freejoint name="cube_A_free"/>
+      <geom class="cube" name="cube_A_g" rgba="0.85 0.45 0.2 1"/>
+    </body>
+    <body name="cube_B" pos="0.27 -0.12 0.026">
+      <freejoint name="cube_B_free"/>
+      <geom class="cube" name="cube_B_g" rgba="0.3 0.55 0.75 1"/>
+    </body>
+    <body name="cube_C" pos="0.27 0.12 0.026">
+      <freejoint name="cube_C_free"/>
+      <geom class="cube" name="cube_C_g" rgba="0.5 0.65 0.35 1"/>
+    </body>
+  </worldbody>
+</mujoco>

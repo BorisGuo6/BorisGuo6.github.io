@@ -1,0 +1,75 @@
+{
+  "model": "act.fp16.onnx",
+  "variants": {
+    "fp16": "act.fp16.onnx"
+  },
+  "bytes": {
+    "fp16": 34277423
+  },
+  "fps": 30,
+  "joints": [
+    "shoulder_pan",
+    "shoulder_lift",
+    "elbow_flex",
+    "wrist_flex",
+    "wrist_roll",
+    "gripper"
+  ],
+  "chunk_size": 100,
+  "n_action_steps": 100,
+  "temporal_ensemble_coeff": null,
+  "cameras": [
+    "wrist",
+    "side"
+  ],
+  "image": {
+    "height": 240,
+    "width": 320,
+    "channels": 3,
+    "layout": "CHW",
+    "range": [
+      0,
+      1
+    ]
+  },
+  "inputs": [
+    {
+      "name": "state",
+      "shape": [
+        1,
+        6
+      ],
+      "dtype": "float32"
+    },
+    {
+      "name": "wrist",
+      "shape": [
+        1,
+        3,
+        240,
+        320
+      ],
+      "dtype": "float32"
+    },
+    {
+      "name": "side",
+      "shape": [
+        1,
+        3,
+        240,
+        320
+      ],
+      "dtype": "float32"
+    }
+  ],
+  "output": {
+    "name": "action",
+    "shape": [
+      1,
+      100,
+      6
+    ],
+    "dtype": "float32",
+    "units": "radians"
+  }
+}
