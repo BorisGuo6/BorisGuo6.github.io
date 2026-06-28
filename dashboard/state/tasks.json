@@ -10443,6 +10443,30 @@
       "updated_at": "2026-06-28T01:40:04+08:00"
     },
     {
+      "task_id": "task_umi_stage1_closed_loop_eval_split_20260628",
+      "project_id": "umi-world-model",
+      "title": "定义 Stage 1 闭环验证与 DaiMeng / AGI-World 混合 split",
+      "status": "todo",
+      "priority": "urgent",
+      "assignee": "Boris / Gaochen / Haoyu",
+      "description": "根据 2026-06-28 与高晨的讨论，Stage 1 不能继续只按“再训练一个更大 shared-world / WAN / Gamma route”推进；算力和数据选择成本很高，下一步先把可反驳的闭环验证协议定义清楚。数据面：混合 DaiMeng UMI-style 数据、AGI-World，以及之前选用的 JianZhi / UMI 类数据，显式按 task、object、scene、embodiment、camera setup 拆 train / val / test，避免同任务近邻泄漏。验证面：明确在哪里比、和谁比、怎样算赢。Baseline 至少包括 copy-last-frame / first-frame hold、nearest-neighbor retrieval、wrist-only 或 D435-only predictive baseline、当前 best shared-world teacher / ranker、action-swapped counterfactual、generic interactive world model 直接喂 UMI 首帧的 negative baseline；不能只用“公开 interactive robot wrist world model 不存在”当成功证据。闭环指标：same-episode rollout fidelity、cross-view consistency、object/contact state prediction、action actual-vs-zero/wrong/nearest separation、planner/reward/IDM utility、以及跨 DaiMeng / AGI-World / JianZhi split 的 generalization。UMI 的跨本体优势假设要单独记录：视觉差距主要是夹爪 jaw / end-effector gap，且 wrist view 下 jaw 位置相对固定，所以可做 embodiment-gap ablation。",
+      "result": null,
+      "due_at": "2026-06-30",
+      "comments": [
+        {
+          "comment_id": "comment_umi_stage1_gaochen_closed_loop_sync_20260628",
+          "task_id": "task_umi_stage1_closed_loop_eval_split_20260628",
+          "author": "Codex / ClawCross wx sync",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "ClawCross 读取到 2026-06-28 高晨私聊更新：高晨提醒这个方向 cost 很高；如果目标只是提高 cross view，也可以在真机上先做；Boris 当前想先验证可行性，并计划混合 DaiMeng 数据集、AGI-World 和此前 JianZhi 数据，重新划分测试集和训练集。高晨指出闭环验证麻烦，核心是“怎么对比效果，在哪里比，baseline 是啥”。Boris 的假设是 UMI 跨本体相对容易，因为主要差异是夹爪 jaw 的 visual gap，且 jaw 在画面中位置固定；公开 interactive world model 直接喂 UMI 首帧会崩，但这应作为 negative baseline，而不是唯一成功标准。",
+          "created_at": "2026-06-28T10:18:18+08:00"
+        }
+      ],
+      "completed_at": null,
+      "updated_at": "2026-06-28T10:18:18+08:00"
+    },
+    {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
       "project_id": "umi-world-model",
       "title": "跟进 Haoyu 2000 条数据 UMI 大规模微调结果",
