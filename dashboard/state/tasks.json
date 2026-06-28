@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-28T03:03:38+08:00",
+  "updated_at": "2026-06-28T10:33:31+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -4361,6 +4361,27 @@
       "updated_at": "2026-05-29T01:09:21+08:00",
       "due_at": "2026-05-30",
       "completed_at": "2026-05-23"
+    },
+    {
+      "task_id": "task_pod_printer_head_farm_reframe_20260628",
+      "project_id": "robotics-3d-printing",
+      "title": "重构 Robotics + 3D Printing 为 printer-head / farm automation 路线",
+      "description": "围绕 ACM UIST 2019 A 3D Printer Head as a Robotic Manipulator、用户给的 YouTube/Bilibili 视频参考，重新定义项目路线：3D 生成不再是终点，而是进入自动化 3D 打印农场。Scope 包括 editable CAD / part metadata、slicer / printer queue、自动换 nozzle / tool / head、打印机 gantry/head 作为 manipulation resource、robot takeout、part sorting、post-processing、fixture/tool printing、从打印到装配的自动化。Acceptance: 1) 写一页路线图，区分 printer-head manipulation、robot takeout、tool/head-change、assembly 四条子线；2) 给出 first demo cell 的硬件候选（printer、toolchanger/headchanger、robot、camera、bed/fixture）；3) 复用旧 PoD artifacts，说明哪些 schema/manifest/assembly_plan 字段要扩展；4) 给出 first demo（例如自动打印工具/夹具后由机器人取出并装配）的最小验收；5) 明确哪些只做 survey，哪些可以转 Engineering。",
+      "status": "open",
+      "priority": "high",
+      "assignee": null,
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_task_pod_printer_head_farm_reframe_20260628_user_direction",
+          "author": "Boris / Codex",
+          "body": "2026-06-28 direction update: project focus shifts from generic PoD / text-to-3D toward a robotic 3D-printing farm and automated manufacturing loop. Core references are DOI 10.1145/3332165.3347885, the user-provided YouTube paper video, and the user-provided Bilibili automation video. The story should cover printer-head manipulation, automated tool/head changes, printer-farm takeout, and from generated 3D assets to assembly.",
+          "created_at": "2026-06-28T10:33:31+08:00",
+          "kind": "comment"
+        }
+      ],
+      "updated_at": "2026-06-28T10:33:31+08:00",
+      "due_at": ""
     },
     {
       "task_id": "task_layered_wm_contact_object_head",
