@@ -1,7 +1,7 @@
 // Main JavaScript file for BorisGuo6.github.io
 // Contains all interactive functionality for the personal website
 
-var SITE_ASSET_VERSION = '20260627-home-perf';
+var SITE_ASSET_VERSION = '20260628-home-robot-direct';
 var _deferredThirdPartyLoaded = false;
 
 // ============================================================================

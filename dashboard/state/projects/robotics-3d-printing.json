@@ -1,21 +1,22 @@
 {
   "schema_version": "project.v1",
   "project_id": "robotics-3d-printing",
-  "title": "Archive: Robotics + 3D Printing",
-  "bucket": "archive",
-  "status": "archived",
-  "updated_at": "2026-06-09T02:39:11+08:00",
-  "description": "Archived on the dashboard: the PoD / robotics + 3D-printing line is paused, with useful references retained but no current owner bandwidth.",
-  "summary": "Survey-stage Product-on-Demand robotics + 3D printing track; paused as an active track, with shaol released for other work as of 2026-05-29.",
+  "title": "Robotic 3D Printing Farm",
+  "bucket": "survey",
+  "status": "survey",
+  "updated_at": "2026-06-28T10:33:31+08:00",
+  "description": "Refocus the old PoD / robotics + 3D-printing line around automated manufacturing cells: 3D printers as robot-operable tools, printer-head manipulation, automated tool / head changes, robot takeout, and assembly from generated 3D assets.",
+  "summary": "The project is no longer mainly generic photo/text-to-3D. The useful direction is a robotic 3D-printing farm: AI generates editable CAD and assembly metadata, printers fabricate parts plus fixtures/tools, printer heads can act as manipulators or swap tools, and robots handle bed takeout, sorting, post-processing, and assembly.",
   "asset": "dashboard/assets/robotics-3d-printing-platform.png",
   "asset_alt": "Allo-style generated product design exported to a 3D printing workflow",
   "asset_caption": "Reference video: generated structure moves toward an STL / 3D-printing handoff.",
   "details": [
-    "Survey status for summer: Romeo is too busy during the summer, so keep this as the last survey / scoping item until collaboration bandwidth returns.",
-    "Target is existing-object modification plus robot-operable fabrication, not generic decorative text-to-3D.",
-    "Pipeline: VLM object analysis -> design spec -> concept / asset generation -> code-controlled CAD cleanup -> printability checks -> same-plate jigs / tools -> slicer / printer queue -> robot takeout and assembly plan.",
+    "Survey status: reactivate as a scoping card, not a staffed build yet. The old PoD retrofit work remains useful, but the new question is whether the manufacturing cell itself can become more robotic.",
+    "Target: automated 3D-printing farm for robotics, not standalone decorative text-to-3D. The system should cover generation, manufacturable CAD, slicing / queueing, printer-head or tool-head actions, bed takeout, part sorting, and robot / printer assisted assembly.",
+    "Reference pivot 2026-06-28: use the UIST 2019 paper A 3D Printer Head as a Robotic Manipulator as the conceptual anchor. The relevant lesson is that the printer head / gantry can be more than a material deposition endpoint; it can become a programmable manipulation resource inside the fabrication loop.",
+    "Pipeline: demand / 3D generation -> editable CAD / part metadata -> printability and toolpath checks -> slicer / printer-farm queue -> automated nozzle / tool / head-change plan -> printed helper tools and fixtures -> printer-head manipulation where useful -> robot takeout -> sorting / post-processing -> assembly plan.",
     {
-      "text": "Articraft suggests a useful direction for the asset layer: a constrained agent harness that writes object-construction code, defines parts / joints, exports URDF-style structure, and validates geometry with tests. Treat it as inspiration for editable CAD and robot assembly metadata, not as a direct 3D-printing solution.",
+      "text": "Articraft remains useful for the asset layer: a constrained agent harness that writes object-construction code, defines parts / joints, exports URDF-style structure, and validates geometry with tests. Treat it as the editable CAD / robot assembly metadata side, then connect it to printer-farm and tool-change automation.",
       "links": [
         {
           "label": "Articraft",
@@ -24,7 +25,7 @@
       ]
     },
     {
-      "text": "Allo suggests the interaction pattern for AI-assisted creation; Blueprint suggests prompt-to-hardware planning with generated diagrams, BOM, and assembly guides.",
+      "text": "Allo suggests the interaction pattern for AI-assisted creation; Blueprint suggests prompt-to-hardware planning with generated diagrams, BOM, and assembly guides. The updated focus is to make those outputs executable by a robot + printer farm rather than stopping at human instructions.",
       "links": [
         {
           "label": "Allo",
@@ -44,7 +45,29 @@
     "task_pod_input_schema",
     "task_pod_agent_pipeline",
     "task_pod_printer_farm_cell",
-    "task_pod_retrofit_demo"
+    "task_pod_retrofit_demo",
+    "task_pod_printer_head_farm_reframe_20260628"
+  ],
+  "references": [
+    {
+      "title": "A 3D Printer Head as a Robotic Manipulator",
+      "url": "https://dl.acm.org/doi/10.1145/3332165.3347885",
+      "doi": "10.1145/3332165.3347885",
+      "submitted_at": "2026-06-28",
+      "notes": "Core conceptual reference for treating the 3D printer head / gantry as an active manipulation endpoint, not only as a passive extrusion tool."
+    },
+    {
+      "title": "Reference video: A 3D Printer Head as a Robotic Manipulator",
+      "url": "https://www.youtube.com/watch?v=FZnTdPuAecs",
+      "submitted_at": "2026-06-28",
+      "notes": "User-provided video reference for the ACM paper."
+    },
+    {
+      "title": "Bilibili reference: 3D-printing automation farm / tool-change direction",
+      "url": "https://www.bilibili.com/video/BV1S5FKeoEXT",
+      "submitted_at": "2026-06-28",
+      "notes": "User-provided video reference for the target automation style: 3D-printing farm operations and automated tool / head-change ideas."
+    }
   ],
   "risks_decisions": [
     "Text/image-to-3D often returns meshes, but the product needs editable, manufacturable CAD and print-ready geometry.",
@@ -53,11 +76,11 @@
     "Direct printer handoff needs checks for watertight meshes, wall thickness, overhang/support, material constraints, queueing, and safety.",
     "Robot takeout is a separate automation problem: bed adhesion, failed prints, hot surfaces, collision recovery, and printer reset need explicit sensing and safety states.",
     "Same-plate printed tools are promising, but they need tolerance, stiffness, material, and contamination checks before relying on them for assembly.",
-    "The core value should be retrofit + printer-farm assembly for real objects, not another standalone text-to-3D model generator.",
-    "Status decision: pause Robotics + 3D Printing as an active track because Romeo is overloaded this summer; keep only survey-level references and revisit when collaboration bandwidth returns.",
+    "The core value should be robotic manufacturing automation: printer-head / tool-head actions, printer-farm queueing, robot takeout, fixtures, and assembly, not another standalone text-to-3D model generator.",
+    "Status decision 2026-06-28: move back to Survey because the user supplied a new focus. Do not treat this as an active build until a concrete hardware cell and owner are assigned.",
     "2026-05-29 routing update: shaol@100.96.228.8 is no longer assigned to this paused 3D printing track; keep the project as survey/reference only.",
-    "Survey disposition 2026-05-31: keep in Survey rather than Archive, because the product-on-demand loop is paused for bandwidth, not externally completed or disproven.",
-    "No worker should stay bound to this paused card. Reopen only when Romeo/collaboration bandwidth returns or when a concrete retrofit-product demo needs CAD/print/robot-takeout work.",
-    "Archive threshold: move to Archive only if we decide printer-farm takeout/retrofit CAD is no longer part of the embodied-AI portfolio."
+    "Survey disposition 2026-05-31 remains valid: the product-on-demand loop was paused for bandwidth, not externally completed or disproven.",
+    "No worker should stay bound to this survey card. Reopen as Engineering only when a specific printer, tool-head mechanism, robot cell, and first demo object are selected.",
+    "Archive threshold: move to Archive only if we decide robotic printer-farm takeout, tool-changing, and generated-part assembly are no longer part of the embodied-AI portfolio."
   ]
 }

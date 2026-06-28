@@ -706,3 +706,338 @@ a:active {
 .strong-venue i {
   color: #77BBDD !important; /* Blue star */
 }
+
+/* Homepage robot demo + visitor map */
+.lab-window-grid {
+  display: grid;
+  grid-template-columns: minmax(300px, 0.85fr) minmax(360px, 1.15fr);
+  gap: 14px;
+  align-items: stretch;
+  margin: 0 0 18px;
+}
+
+.lab-widget {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #d9e5ee;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(22, 45, 61, 0.08);
+  overflow: hidden;
+}
+
+.robot-demo-direct {
+  display: grid;
+  grid-template-rows: minmax(170px, 1fr) auto minmax(82px, 0.42fr);
+  gap: 10px;
+  height: 100%;
+  min-height: 320px;
+  padding: 16px;
+  background: linear-gradient(180deg, #fff9ec 0%, #f5ead7 100%);
+}
+
+.robot-demo-stage,
+.demo-view {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 50% 68%, rgba(208, 170, 104, 0.28), transparent 42%),
+    linear-gradient(180deg, #fff7df 0%, #f7ecd5 100%);
+}
+
+.robot-demo-stage {
+  min-height: 172px;
+}
+
+.robot-demo-stage::before,
+.demo-view::before {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 34%;
+  background: linear-gradient(180deg, transparent, rgba(191, 151, 86, 0.16));
+  transform: skewY(-7deg);
+  transform-origin: right bottom;
+}
+
+.demo-robot-base,
+.demo-robot-column,
+.demo-robot-shoulder,
+.demo-robot-arm,
+.demo-gripper,
+.view-gripper,
+.side-arm {
+  position: absolute;
+  background: #ee9a23;
+  box-shadow: inset -8px -8px 0 rgba(92, 64, 26, 0.13);
+}
+
+.demo-robot-base {
+  right: 23%;
+  bottom: 18%;
+  width: 82px;
+  height: 54px;
+  border-radius: 12px;
+}
+
+.demo-robot-column {
+  right: 30%;
+  bottom: 38%;
+  width: 44px;
+  height: 76px;
+  border-radius: 16px 16px 10px 10px;
+}
+
+.demo-robot-shoulder {
+  right: 24%;
+  top: 16%;
+  width: 84px;
+  height: 50px;
+  border-radius: 14px;
+}
+
+.demo-robot-arm {
+  border-radius: 18px;
+  height: 32px;
+  transform-origin: left center;
+}
+
+.arm-one {
+  right: 34%;
+  top: 30%;
+  width: 116px;
+  transform: rotate(-18deg);
+}
+
+.arm-two {
+  left: 22%;
+  top: 41%;
+  width: 132px;
+  transform: rotate(-48deg);
+}
+
+.arm-three {
+  left: 16%;
+  top: 53%;
+  width: 98px;
+  transform: rotate(25deg);
+}
+
+.demo-gripper {
+  left: 18%;
+  top: 57%;
+  width: 56px;
+  height: 18px;
+  border-radius: 12px;
+  transform: rotate(-22deg);
+}
+
+.demo-gripper::before,
+.demo-gripper::after {
+  content: "";
+  position: absolute;
+  right: -16px;
+  width: 24px;
+  height: 7px;
+  background: #171717;
+  border-radius: 6px;
+}
+
+.demo-gripper::before {
+  top: -8px;
+  transform: rotate(24deg);
+}
+
+.demo-gripper::after {
+  bottom: -8px;
+  transform: rotate(-24deg);
+}
+
+.demo-cube {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border: 2px solid rgba(199, 143, 45, 0.52);
+  color: #d97616;
+  background: rgba(255, 247, 218, 0.88);
+  font-family: "Courier New", Courier, monospace;
+  font-size: 1.65rem;
+  font-weight: 700;
+  line-height: 1;
+  box-shadow: 14px 16px 0 rgba(133, 98, 40, 0.18);
+}
+
+.cube-back-left {
+  left: 12%;
+  bottom: 25%;
+  transform: rotate(-8deg);
+}
+
+.cube-back-right {
+  left: 18%;
+  bottom: 34%;
+  transform: rotate(3deg);
+}
+
+.cube-center {
+  left: 39%;
+  bottom: 16%;
+  transform: rotate(-14deg);
+}
+
+.cube-front {
+  right: 20%;
+  bottom: 10%;
+  transform: rotate(11deg);
+}
+
+.robot-demo-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  align-items: center;
+  justify-content: center;
+  color: #7b766f;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.86rem;
+  line-height: 1.2;
+}
+
+.robot-demo-meta b {
+  color: #26211e;
+}
+
+.robot-demo-meta a {
+  color: #d97706;
+  text-decoration: none;
+}
+
+.robot-demo-views {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.demo-view {
+  min-height: 82px;
+  border: 1px solid rgba(214, 192, 151, 0.86);
+}
+
+.view-cube {
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  border: 2px solid rgba(199, 143, 45, 0.38);
+  color: #d97616;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 1.45rem;
+  font-weight: 700;
+  text-align: center;
+  line-height: 44px;
+  background: rgba(255, 247, 218, 0.78);
+}
+
+.view-cube-left {
+  left: 24%;
+  top: 24%;
+  transform: rotate(-16deg);
+}
+
+.view-cube-right {
+  right: 26%;
+  top: 22%;
+  transform: rotate(14deg);
+}
+
+.view-gripper {
+  left: 6%;
+  bottom: 15%;
+  width: 56%;
+  height: 34px;
+  border-radius: 18px;
+  transform: rotate(23deg);
+}
+
+.side-arm {
+  height: 20px;
+  border-radius: 12px;
+}
+
+.side-arm-one {
+  left: 20%;
+  top: 32%;
+  width: 112px;
+  transform: rotate(-18deg);
+}
+
+.side-arm-two {
+  right: 16%;
+  top: 47%;
+  width: 92px;
+  transform: rotate(74deg);
+}
+
+.side-cube-stack {
+  position: absolute;
+  left: 43%;
+  bottom: 14%;
+  width: 36px;
+  height: 54px;
+  background:
+    linear-gradient(#fff4cd 0 0) top / 100% 32% no-repeat,
+    linear-gradient(#f8e7b3 0 0) center / 100% 32% no-repeat,
+    linear-gradient(#fff4cd 0 0) bottom / 100% 32% no-repeat;
+  border: 1px solid rgba(199, 143, 45, 0.45);
+}
+
+.visitor-map-slot {
+  display: grid;
+  flex: 1 1 auto;
+  min-height: 320px;
+  place-items: center;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 35% 35%, rgba(119, 187, 221, 0.18), transparent 35%),
+    linear-gradient(135deg, #f5fafc 0%, #e8f2f8 100%);
+}
+
+.visitor-map-slot script {
+  display: none;
+}
+
+.visitor-map-slot a,
+.visitor-map-slot img,
+.visitor-map-slot canvas,
+.visitor-map-slot svg,
+.visitor-map-slot iframe {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.visitor-stat-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: space-between;
+  padding: 9px 11px;
+  color: #405b6b;
+  border-top: 1px solid #e7eef4;
+  background: #ffffff;
+  font-size: 0.88rem;
+}
+
+.visitor-stat-row span {
+  min-width: 112px;
+}
+
+.visitor-stat-row b {
+  color: #153449;
+}
+
+@media (max-width: 760px) {
+  .lab-window-grid {
+    grid-template-columns: 1fr;
+  }
+}
