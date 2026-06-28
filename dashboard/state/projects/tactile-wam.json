@@ -4,7 +4,7 @@
   "title": "DaiMeng VTAM / Tactile-WAM: Predictive Contact Intelligence",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-06-27T06:34:42.143Z",
+  "updated_at": "2026-06-28T15:20:00.000Z",
   "description": "DaiMeng internship research project: merge VTLA tactile-intuition survey and VTAM/Tactile-WAM proposal into one active Predictive Contact Intelligence track for dexterous manipulation.",
   "summary": "DaiMeng VTAM turns the VTLA tactile-intuition survey into an active internship project: From Reactive Manipulation to Proactive Manipulation. The merged track treats future tactile/contact latents as an Internal Contact Model and builds a Vision-Tactile-Action World Model with a Temporal Action-Token Shared-World architecture rather than simple vision/tactile feature concatenation. Fast contact/action rollout, visual/layer latent cache, contact-triggered sparse compute, and System-0/System-1 control are the execution path; validation is contact timing, slip/contact risk, actual/zero/wrong-action separation, latency/Hz/VRAM, and contact-rich task success.",
   "subprojects": [
@@ -141,6 +141,113 @@
       "url": "https://arxiv.org/abs/2605.13083",
       "arxiv_id": "2605.13083",
       "notes": "Reference for video-to-touch prediction: synchronized egocentric/wrist videos, bimanual hand pose, and dense pressure maps; supports the Tactile-WAM tactile-from-video head."
+    },
+    {
+      "title": "Dream-Tac: A Unified Tactile World Action Model for Contact-Rich Robot Manipulation",
+      "url": "https://arxiv.org/abs/2606.08737",
+      "arxiv_id": "2606.08737",
+      "category": "tactile-wam",
+      "kb_path": "papers/paper-dream-tac-a-unified-tactile-world-action-model-for-contact-rich-robot-manipulation-85d7f92c.md",
+      "notes": "Closest direct prior for VTAM: joint action, future visual observation, and tactile dynamics; use it as the first negative/positive baseline for the Temporal Action-Token Shared-World design."
+    },
+    {
+      "title": "Dream-Tac code",
+      "url": "https://github.com/LYFCLOUDFAN/Dream-Tac",
+      "category": "tactile-wam",
+      "kb_path": "projects/project-code-23da9092.md",
+      "notes": "Implementation reference for contact-gated visuotactile fusion, contact-aware attention bias, and cache-style diffusion acceleration."
+    },
+    {
+      "title": "TacForeSight: Force-Guided Tactile World Model for Contact-Rich Manipulation",
+      "url": "https://tacforesight.github.io/ProjectPage/",
+      "category": "future-touch",
+      "kb_path": "articles/notion-note-notion-reading-list-2026-05-20-eec828ae.md",
+      "notes": "Useful for force-conditioned tactile latent prediction and predictive tactile-conditioned policy; maps directly to VTAM contact-risk and slip-risk heads."
+    },
+    {
+      "title": "VibeAct: Vibration to Actions for Contact-Rich Reactive Robot Dexterity",
+      "url": "https://vibeact.github.io/",
+      "category": "contact-servo",
+      "kb_path": "projects/project-vibeact-0ab18099.md",
+      "notes": "Connects real vibrotactile sensing to contact/slip estimates and action learning; useful for System-0 tactile servo and contact-rich eval tasks."
+    },
+    {
+      "title": "FingerEye: Learning Dexterous Manipulation with Continuous Vision-Tactile Sensing",
+      "url": "https://nus-lins-lab.github.io/FingerEyeWeb",
+      "arxiv_id": "2604.20689",
+      "category": "vision-tactile-sensor",
+      "kb_path": "papers/paper-102_2604.20689_fingereye-project-e7b892c5.md",
+      "notes": "Continuous vision-tactile sensing baseline; useful for deciding whether VTAM needs dense tactile tokens or only contact-event/tactile-latent tokens."
+    },
+    {
+      "title": "T-Rex: Tactile-Reactive Dexterous Manipulation",
+      "url": "https://arxiv.org/abs/2606.17055",
+      "arxiv_id": "2606.17055",
+      "category": "contact-servo",
+      "kb_path": "papers/paper-155_2606.17055_t-rex_-tactile-reactive-dexterous-manipulation-c70ce403.md",
+      "notes": "Reactive tactile dexterity baseline; use for separating proactive VTAM prediction from purely reactive tactile control."
+    },
+    {
+      "title": "ART-Glove: Articulated Tactile Glove for Contact-Grounded Dexterous Interaction Capture",
+      "url": "https://arxiv.org/abs/2606.16370",
+      "arxiv_id": "2606.16370",
+      "category": "data-capture",
+      "kb_path": "papers/paper-art-glove-articulated-tactile-glove-for-contact-grounded-dexterous-interaction-capture-bddc933c.md",
+      "notes": "Relevant for human-side tactile/dexterous interaction capture and for designing DaiMeng/Wuji dataset synchronization fields."
+    },
+    {
+      "title": "TacVerse: A Multi-Sensor Dataset and Benchmark for Cross-Sensor Vision-Based Tactile Perception",
+      "url": "https://arxiv.org/abs/2606.25877",
+      "arxiv_id": "2606.25877",
+      "category": "tactile-representation",
+      "kb_path": "articles/notion-note-notion-reading-list-2026-06-28-wechat-filehelper-7d2a51f0.md",
+      "notes": "Cross-sensor tactile benchmark; use to stress-test whether Universal Tactile Encoder generalizes across sensor geometry and marker/image modalities."
+    },
+    {
+      "title": "Cross-Sensor Touch Generation",
+      "url": "https://arxiv.org/abs/2510.09817",
+      "arxiv_id": "2510.09817",
+      "category": "tactile-representation",
+      "kb_path": "papers/paper-url-cross-sensor-touch-generation-7257567d.md",
+      "notes": "Directly useful for universal tactile latent design: translate between tactile sensor appearances instead of overfitting VTAM to one sensor."
+    },
+    {
+      "title": "Sparsh-X: Tactile Beyond Pixels: Multisensory Touch Representations for Robot Manipulation",
+      "url": "https://openreview.net/attachment?id=sMs4pJYhWi&name=pdf",
+      "category": "tactile-representation",
+      "kb_path": "papers/paper-url-tactile-beyond-pixels-multisensory-touch-d8967298.md",
+      "notes": "Representation baseline for multisensory tactile encoders; useful for Universal Tactile Encoder pretraining and ablations."
+    },
+    {
+      "title": "Im2Contact: Vision-Based Contact Localization Without Touch or Force Sensing",
+      "url": "https://proceedings.mlr.press/v229/kim23b.html",
+      "category": "pseudo-contact-labels",
+      "kb_path": "papers/paper-zotero-im2contact-vision-based-contact-localization-without-touch-or-force-sensing-0b214b49.md",
+      "notes": "Supports pseudo-labeling contact from video when tactile supervision is missing; useful for GE-Sim-to-VTAM tactile/contact head bootstrapping."
+    },
+    {
+      "title": "AnySkin: Plug-and-play Skin Sensing for Robotic Touch",
+      "url": "https://arxiv.org/abs/2409.08276",
+      "arxiv_id": "2409.08276",
+      "category": "sensor",
+      "kb_path": "papers/paper-zotero-anyskin-plug-and-play-skin-sensing-for-robotic-touch-8647220f.md",
+      "notes": "Sensor-side reference for practical tactile streams and cross-device deployment constraints."
+    },
+    {
+      "title": "DIFFTACTILE: A Physics-based Differentiable Tactile Simulator for Contact-rich Robotic Manipulation",
+      "url": "https://arxiv.org/abs/2403.08716",
+      "arxiv_id": "2403.08716",
+      "category": "simulation",
+      "kb_path": "papers/paper-zotero-difftactile-a-physics-based-differentiable-tactile-simulator-for-contact-rich-robotic-manipulati-022e1c4a.md",
+      "notes": "Simulation candidate for generating tactile/contact labels and for sanity-checking tactile prediction losses before real robot data is enough."
+    },
+    {
+      "title": "FACTR 2: Learning External Force Sensing for Commodity Robot Arms Improves Policy Learning",
+      "url": "https://jasonjzliu.com/factr2/",
+      "arxiv_id": "2606.12406",
+      "category": "force-proxy",
+      "kb_path": "tools/tool-factr-2-learning-external-force-sensing-for-commodity-robot-arms-improves-policy-learning-7296c95c.md",
+      "notes": "Force-proxy reference for contact-rich manipulation when dense tactile is unavailable; useful as a baseline or auxiliary signal for VTAM contact-risk prediction."
     },
     {
       "title": "World Action Models: The Next Frontier in Embodied AI",

@@ -1493,6 +1493,20 @@
           taskList.className = "todo-list project-list";
           taskPanel.append(taskHeading, taskCreate, taskList);
 
+          const referencePanel = document.createElement("details");
+          referencePanel.className = "project-panel reference-panel";
+          referencePanel.hidden = true;
+          preserveDetailsOpenState(referencePanel, `project:${projectRef.project_id}:references`, false);
+          const referenceSummary = document.createElement("summary");
+          const referenceHeading = document.createElement("h3");
+          referenceHeading.textContent = "References";
+          const referenceCount = document.createElement("small");
+          referenceCount.textContent = "0 links";
+          referenceSummary.append(referenceHeading, referenceCount);
+          const referenceList = document.createElement("ol");
+          referenceList.className = "reference-list project-list";
+          referencePanel.append(referenceSummary, referenceList);
+
           const decisionPanel = document.createElement("details");
           decisionPanel.className = "project-panel decision-panel";
           preserveDetailsOpenState(decisionPanel, `project:${projectRef.project_id}:decisions`, false);
@@ -1505,7 +1519,7 @@
           const decisionList = document.createElement("ol");
           decisionList.className = "decision-list project-list";
           decisionPanel.append(decisionSummary, decisionList);
-          workstream.append(taskPanel, decisionPanel);
+          workstream.append(taskPanel, referencePanel, decisionPanel);
 
           details.append(summary, body, workstream);
           return details;
@@ -2140,6 +2154,65 @@
           }));
         }
 
+        function createReferenceItem(reference, index) {
+          const item = document.createElement("li");
+          item.className = "reference-item";
+
+          const header = document.createElement("div");
+          header.className = "reference-item-header";
+          const title = firstText(reference.title, reference.label, reference.url, `Reference ${index + 1}`);
+          if (reference.url) {
+            header.append(createExternalLink(reference.url, title));
+          } else {
+            const strong = document.createElement("strong");
+            strong.textContent = title;
+            header.append(strong);
+          }
+          const badges = [
+            firstText(reference.category, reference.kind),
+            reference.arxiv_id ? `arXiv ${reference.arxiv_id}` : "",
+            reference.kb_path ? "KB" : "",
+          ].filter(Boolean);
+          badges.forEach((badge) => {
+            const chip = document.createElement("span");
+            chip.textContent = badge;
+            header.append(chip);
+          });
+          item.append(header);
+
+          const noteText = firstText(reference.notes, reference.summary, reference.reason);
+          if (noteText || reference.kb_path) {
+            const note = document.createElement("p");
+            note.textContent = [noteText, reference.kb_path ? `KB: ${reference.kb_path}` : ""]
+              .filter(Boolean)
+              .join(" ");
+            makeTextCollapsible(note, note.textContent, {
+              maxLength: 220,
+              maxLines: 3,
+              stateKey: `reference:${title}:${reference.url || index}`,
+            });
+            item.append(note);
+          }
+          return item;
+        }
+
+        function renderProjectReferences(projectElement, references) {
+          const panel = projectElement.querySelector(".reference-panel");
+          const list = panel?.querySelector(".reference-list");
+          if (!panel || !list) {
+            return;
+          }
+          const usableReferences = Array.isArray(references)
+            ? references.filter((reference) => firstText(reference?.title, reference?.label, reference?.url, reference?.notes))
+            : [];
+          panel.hidden = usableReferences.length === 0;
+          const count = panel.querySelector("summary small");
+          if (count) {
+            count.textContent = usableReferences.length === 1 ? "1 link" : `${usableReferences.length} links`;
+          }
+          replaceChildrenPreservingDetails(list, ...usableReferences.map(createReferenceItem));
+        }
+
         function findProjectDoc(projectId) {
           return projectDocs.find((project) => project.project_id === projectId) || null;
         }
@@ -2187,6 +2260,7 @@
           renderProjectSubprojects(projectElement, projectDoc.subprojects);
           renderProjectDetails(projectElement, projectDoc.details);
           updateProjectIntroCollapse(projectElement, projectDoc);
+          renderProjectReferences(projectElement, projectDoc.references);
           renderProjectDecisions(projectElement, projectDoc.risks_decisions);
         }
 

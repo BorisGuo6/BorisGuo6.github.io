@@ -235,6 +235,26 @@ assert.match(
 );
 assert.match(
   dashboardSource,
+  /function createReferenceItem\(reference, index\)/,
+  "dashboard should render project-level knowledge-base reference links",
+);
+assert.match(
+  dashboardSource,
+  /function renderProjectReferences\(projectElement, references\)/,
+  "dashboard should expose a project reference panel renderer",
+);
+assert.match(
+  dashboardSource,
+  /renderProjectReferences\(projectElement, projectDoc\.references\)/,
+  "project rendering should bind projectDoc.references into the reference panel",
+);
+assert.match(
+  dashboardSource,
+  /reference\.title, reference\.label, reference\.url[\s\S]+reference\.notes, reference\.summary, reference\.reason/,
+  "reference links should support title/label/url and notes/summary/reason fields",
+);
+assert.match(
+  dashboardSource,
   /data-agent-prompt-copy/,
   "dashboard should expose a copy button for agent task-update prompts",
 );
