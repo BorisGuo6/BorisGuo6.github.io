@@ -5836,9 +5836,9 @@
       "project_id": "real-robot-demos",
       "title": "Real-Robot Demo: Jenga 抽积木塔 tactile pilot",
       "description": "把 Jenga-style block extraction / 抽积木塔作为紧凑真机 demo：机器人从木块塔里推出或抽出指定木块，同时尽量不让塔倒。前置采购 / 确认：Jenga 积木塔或自定义积木块堆、目标块标记材料（贴纸 / 彩色胶带）、防滑底座或防滑垫。用 q_arm、T_hand、q_finger 记录链路和 tactile/VTA/VLA 分析接触稳定、摩擦/滑移、侧向推力、塔体晃动和失败恢复；配一个可打印/定制的特殊 gripper，并接入戴盟触觉。目标是把 slip、contact stability、lateral force、tower wobble、tower collapse 等失败变成真机 demo 和评测样例。DexGello 可提供数据/控制依赖，但 demo 场景归 Real-Robot Demos 表格管理。",
-      "status": "needs_user",
+      "status": "active",
       "priority": "medium",
-      "assignee": "master student TBD / Zheng Yuhang for gripper timing",
+      "assignee": "Gaochen / Zheng Yuhang for gripper timing",
       "result": null,
       "started_at": "2026-05-25",
       "due_at": "",
@@ -5884,9 +5884,16 @@
           "body": "Moved from DexGello to Engineering / Real-Robot Demos on 2026-06-13 per user correction: all DexGello physical demo scenarios should be listed in the Real-Robot Demos table rather than under DexGello.",
           "created_at": "2026-06-13T00:13:51+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_real_robot_demo_jenga_gaochen_owner_20260628",
+          "author": "Boris / Codex",
+          "body": "Scope update from Boris: the robot Jenga / 抽积木 demo has been handed to Gaochen. Keep it in the Real-Robot Demos queue, but it is no longer part of Boris/Jingxiang's current main execution focus. Boris/Jingxiang current focus is only toy-knife slime-clay cutting, Rubik/cube two-step turning, and broom-sweeping blocks/objects.",
+          "created_at": "2026-06-28T09:52:38+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-16T13:24:37+08:00",
+      "updated_at": "2026-06-28T09:52:38+08:00",
       "completed_at": null
     },
     {
@@ -6386,9 +6393,16 @@
           "body": "Moved from DexGello to Engineering / Real-Robot Demos on 2026-06-13 per user correction: DexGello should not own the physical demo list; it only supplies q_arm/T_hand/q_finger logging, MANUS/VIVE, cuRobo, and related data/control dependencies.",
           "created_at": "2026-06-13T00:13:51+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_real_robot_slime_cut_current_focus_20260628",
+          "author": "Boris / Codex",
+          "body": "Scope update from Boris: this remains one of the three current main demos, alongside Rubik/cube two-step turning and broom-sweeping blocks/objects. Jenga / 抽积木 is now Gaochen's demo.",
+          "created_at": "2026-06-28T09:52:38+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-16T13:24:37+08:00"
+      "updated_at": "2026-06-28T09:52:38+08:00"
     },
     {
       "task_id": "task_drag_demo_on_policy_gravity_comp_survey",
@@ -8964,8 +8978,8 @@
     {
       "task_id": "task_real_robot_demo_broom_dustpan_long_horizon",
       "project_id": "real-robot-demos",
-      "title": "Long-horizon demo: 用扫帚把物体扫进撮箕",
-      "description": "为 DexGello / Learn-from-failure-data 准备一个较长 horizon 的真机 demo：机器人抓住小扫帚，把桌面上的轻物体 / debris proxy 扫进撮箕。前置采购 / 确认：桌面使用的小扫帚（软毛）和桌面使用的小撮箕。目标不是只看最终成功，而是产生可分阶段标注的成功/失败/接管轨迹，用来验证 phase-importance metric。建议阶段：approach broom、grasp broom、align with object、make contact、sweep toward dustpan、enter dustpan、settle / finish。验收：完成安全 tabletop setup 和物体/撮箕固定方案；完成 read-only 或仿真/dry-run；完成一次低速真机试验或明确硬件 blocker；记录视频、q_arm、T_hand、q_finger/Wuji state、object progress、contact/failure labels、human takeover/intervention；产出至少 1 条可用于 failure metric 离线打分的 episode。",
+      "title": "Long-horizon demo: 用扫帚扫积木/物体",
+      "description": "为 DexGello / Learn-from-failure-data 准备一个较长 horizon 的真机 demo：机器人抓住小扫帚，把桌面上的积木、轻物体或 debris proxy 扫进撮箕 / 目标区域。前置采购 / 确认：桌面使用的小扫帚（软毛）和桌面使用的小撮箕。目标不是只看最终成功，而是产生可分阶段标注的成功/失败/接管轨迹，用来验证 phase-importance metric。建议阶段：approach broom、grasp broom、align with block/object、make contact、sweep toward dustpan/target zone、enter target、settle / finish。验收：完成安全 tabletop setup 和物体/撮箕固定方案；完成 read-only 或仿真/dry-run；完成一次低速真机试验或明确硬件 blocker；记录视频、q_arm、T_hand、q_finger/Wuji state、object progress、contact/failure labels、human takeover/intervention；产出至少 1 条可用于 failure metric 离线打分的 episode。",
       "status": "todo",
       "priority": "high",
       "assignee": "Yuhang & Jingxiang / DexGello",
@@ -8978,9 +8992,16 @@
           "body": "Seeded from user request on 2026-06-13: Learn-from-failure-data needs longer-horizon real-robot demos, such as using a broom to sweep an object into a dustpan. Use this mainly to expose phase importance and learnable pre-failure segments.",
           "created_at": "2026-06-13T16:13:00+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_real_robot_broom_current_focus_20260628",
+          "author": "Boris / Codex",
+          "body": "Scope update from Boris: this is one of the three current main demos. Phrase it as broom-sweeping blocks/objects, not only generic debris. Jenga / 抽积木 is now Gaochen's demo.",
+          "created_at": "2026-06-28T09:52:38+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-16T13:24:37+08:00",
+      "updated_at": "2026-06-28T09:52:38+08:00",
       "started_at": "2026-06-13",
       "completed_at": null
     },
@@ -9001,9 +9022,16 @@
           "body": "Seeded from user request on 2026-06-13: Learn-from-failure-data needs longer-horizon real-robot demos, such as turning a Rubik-style cube 90 degrees twice. Keep the goal as staged dexterous manipulation data, not cube solving.",
           "created_at": "2026-06-13T16:13:00+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_real_robot_cube_turn_current_focus_20260628",
+          "author": "Boris / Codex",
+          "body": "Scope update from Boris: this is one of the three current main demos, alongside toy-knife slime-clay cutting and broom-sweeping blocks/objects. Jenga / 抽积木 is now Gaochen's demo.",
+          "created_at": "2026-06-28T09:52:38+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-16T13:24:37+08:00",
+      "updated_at": "2026-06-28T09:52:38+08:00",
       "started_at": "2026-06-13",
       "completed_at": null
     },
