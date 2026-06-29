@@ -8,9 +8,17 @@
     html, body, #root { width: 100%; height: 100%; margin: 0; overflow: hidden; background: #fffbf0; }
     body { font-family: Inter, Arial, sans-serif; }
     .scroll-cue { display: none !important; }
-    .pip-container { bottom: 90px !important; }
+    .hero canvas {
+      transform: translateY(-30px) scale(1.15);
+      transform-origin: 50% 38%;
+    }
+    .hero .pip canvas,
+    .hero .joint-chart {
+      transform: none;
+    }
+    .pip-container { bottom: 64px !important; }
     .act-info {
-      bottom: 34px !important;
+      bottom: 22px !important;
       width: min(92%, 560px);
       max-width: none !important;
       flex-wrap: wrap !important;
@@ -19,9 +27,13 @@
       pointer-events: auto;
     }
     @media (width <= 640px) {
-      .pip-container { bottom: 76px !important; }
+      .hero canvas {
+        transform: translateY(-34px) scale(1.18);
+        transform-origin: 50% 36%;
+      }
+      .pip-container { bottom: 50px !important; }
       .act-info {
-        bottom: 18px !important;
+        bottom: 12px !important;
         width: min(94%, 520px);
       }
     }
