@@ -1,7 +1,7 @@
 // Main JavaScript file for BorisGuo6.github.io
 // Contains all interactive functionality for the personal website
 
-var SITE_ASSET_VERSION = '20260628-home-robot-direct';
+var SITE_ASSET_VERSION = '20260629-home-robot-map';
 var _deferredThirdPartyLoaded = false;
 
 // ============================================================================
@@ -853,6 +853,32 @@ function loadDeferredThirdPartyScripts() {
   });
 }
 
+function initVisitorMapFallback() {
+  var slot = document.getElementById('visitor-map-slot');
+  var fallback = document.getElementById('visitor-map-fallback');
+  if (!slot || !fallback) return;
+
+  function hasInjectedMap() {
+    return Array.prototype.some.call(slot.children, function (el) {
+      if (el === fallback || el.id === 'clustrmaps' || el.tagName === 'SCRIPT') return false;
+      if (el.matches && el.matches('a, img, iframe, canvas, svg')) return true;
+      return !!(el.querySelector && el.querySelector('a, img, iframe, canvas, svg'));
+    });
+  }
+
+  function refreshFallbackState() {
+    if (hasInjectedMap()) {
+      slot.classList.add('visitor-map-ready');
+    } else {
+      slot.classList.remove('visitor-map-ready');
+    }
+  }
+
+  refreshFallbackState();
+  window.setTimeout(refreshFallbackState, 3000);
+  window.setTimeout(refreshFallbackState, 8000);
+}
+
 // ============================================================================
 // Initialize from JSON data
 // ============================================================================
@@ -895,6 +921,7 @@ window.onload = function () {
   var awardModal = document.getElementById("AwardModal");
   if (wechatModal) wechatModal.style.display = "none";
   if (awardModal) awardModal.style.display = "none";
+  initVisitorMapFallback();
   loadDeferredThirdPartyScripts();
 
   var lastUpdateElement = document.getElementById("lastUpdateDate");

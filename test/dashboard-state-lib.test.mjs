@@ -382,7 +382,7 @@ assert.doesNotMatch(
 );
 assert.match(
   homepageSource,
-  /assets\/js\/main\.js\?v=20260628-home-robot-direct/,
+  /assets\/js\/main\.js\?v=20260629-home-robot-map/,
   "homepage must version main.js so removed timeline items are not revived by browser cache",
 );
 assert.doesNotMatch(
@@ -392,7 +392,7 @@ assert.doesNotMatch(
 );
 assert.match(
   mainJsSource,
-  /SITE_ASSET_VERSION = '20260628-home-robot-direct'[\s\S]+fetch\(versionedUrl\)/,
+  /SITE_ASSET_VERSION = '20260629-home-robot-map'[\s\S]+fetch\(versionedUrl\)/,
   "main.js must version JSON content fetches so stale timeline data is not reused",
 );
 assert.doesNotMatch(
