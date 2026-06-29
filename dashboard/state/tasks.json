@@ -8085,9 +8085,18 @@
           "kind": "comment",
           "body": "2026-06-26 route update: v0 global layered dataset 的 segmentation front-end 从 SAM3-only 调整为 RobotSeg-first + SAM3/SAM2 reference tracking fallback。Cloak/arXiv:2606.22836 提供 ego/wrist gripper-only/hand/arm+gripper mask 参考；LaMa 降级为负样例；VACE 若通过 masked V2V 稳定性检查，则作为 robot/object removal 的主 video inpaint 组件。",
           "created_at": "2026-06-25T16:44:25.623Z"
+        },
+        {
+          "comment_id": "comment_umi_global_layer_route_confirm_20260629",
+          "task_id": "task_umi_layering_method_selection_global_dataset_plan_20260617",
+          "author": "Codex / ClawCross wx sync",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-29 route confirmation: global layered dataset v0 不再新增一个抽象方案选择 TODO；执行层面进入 RobotSeg-first + SAM3 fallback segmentation、Gemini-Omni/VACE inpaint QA、LaMa failure baseline。VACE 不稳定是 QA 需求而不是路线否定：需要自动判断 hallucinated fill、unmasked drift、canvas shift，再决定 retry / morphology / fallback。",
+          "created_at": "2026-06-29T23:20:00+08:00"
         }
       ],
-      "updated_at": "2026-06-25T16:44:25.623Z",
+      "updated_at": "2026-06-29T23:20:00+08:00",
       "due_at": "",
       "completed_at": "2026-06-24"
     },
@@ -9273,7 +9282,7 @@
       "status": "active",
       "priority": "high",
       "assignee": "Lai / Ziyang / Boris",
-      "description": "根据 Zoom 与 2026-06-25/26 Layered Image Policy 微信同步，把分层处理从单图手工样例推进到可重复的自动化 smoke pipeline。Pipeline 顺序保持 iterative segment + inpaint：robot mask/rgba/video -> VACE robot removal -> object/contact/occluder mask/rgba/video -> VACE/FLUX.fill removal -> scene/background layer，所有输出保持原始 canvas 尺寸，支持原地 overlay/recomposition。\n\nSegmentation front-end 更新：1) RobotSeg (https://github.com/showlab/RobotSeg) 升为 MolmoAct/robot-layer segmentation 第一候选；群里 MolmoAct 测试反馈目前 RobotSeg 效果最好，且 RobotSeg 自带 image/video、arm/gripper/whole-robot fine-grained masks；2) SAM3/SAM2 继续作为 reference-mask propagation / mask tracking 备选：可先用干净 Franka reference 或第一帧 robot mask 初始化，再追踪整段视频；3) 参考 Cloak / arXiv:2606.22836 的 wrist-view end-effector mask 思路，单独评估 gripper-only、hand、arm+gripper 的 first-person/ego mask，尤其补上 gripper mask 当前 blocker；4) SAM-HQ robot mask review 不如 SAM3，暂时排除；Qwen/RevealLayer 只保留为负例或完成 baseline。\n\nInpainting 更新：LaMa 群里测试效果不好，降级为 failure / negative baseline，不作为主路线；如果 VACE 的 masked V2V/video inpainting 能稳定处理 robot/object removal，就直接用 VACE 做 raster video inpaint 主线；FLUX.fill 保留为 still-frame fallback，GPT image 保留为强 still-frame baseline 但不作为视频方案。背景若基本静态，可在移除 robot/object layer 后尝试单次 image inpainting 生成 background plate，避免逐帧漂移；wrist/ego view 背景变化较大，需要单独记录 temporal consistency 风险。\n\nAcceptance: 1) 选 3 个 UMI/MolmoAct/Hoi-style clips，每个抽 20-50 帧或短视频；2) 同一输入上比较 RobotSeg、SAM3/SAM2 reference tracking、Cloak-style ego mask 的 robot/gripper/hand/arm masks，记录 mask IoU/edge quality/gripper coverage/bbox jitter/topology jump；3) 输出 robot/object/contact/occluder/background 的 mask.png、rgba.png、layer video、inpainted_background.png/video、SVG sidecar、layer_manifest.json；4) 对同一 mask/manifest 比较 VACE、FLUX.fill、LaMa、GPT image baseline 的质量/速度/显存/是否改变画幅，其中 LaMa 作为失败样例记录；5) VACE 输出必须检查 masked-region temporal consistency、unmasked-region preservation、recomposition SSIM/LPIPS 或人工评分；6) 失败样例包括 gripper miss、thin cable/shadow mistrace、pillow/object drift、background texture hallucination、电线等小细节可降权但 robot/object/background 主体必须正确分离。\n\nStage 2 VDDM framing update 2026-06-27: 这条 smoke pipeline 现在是 VDDM 论文的最小工程切片，而不是单纯分割/补全脚本。除 robot/MolmoAct/UMI/RoboTwin clips 外，加入 egocentric human-hand manipulation clips 作为跨域 probe；统一输出 actor_layer(actor_type=robot|human_hand)、object_contact_layer、occluder_tool_layer、scene_background_layer，以及 mask.png / rgba.png / layer video / SVG sidecar / depth or pointmap / mesh when available / tracks / contact events / layer_manifest.json。评估下游时接 HaWoR 与 Do-As-I-Do-style reconstruction stack（SAM3 -> SAM3D mesh -> MoGe pointmaps -> HaWoR -> TAPIR/BootsTAPIR/guided diffusion tracking -> projection/retargeting），判断 VDDM 是否让 reconstruction / tracking / retargeting 比 raw RGB 或 mask-only 更稳。新增 acceptance: 至少 3 个 robot clips + 3 个 egocentric human-hand clips；每类输出 recomposition QA、temporal consistency、actor/object/contact failure gallery、以及是否扩成 Stage 2 dataset/model 训练的判断。",
+      "description": "根据 Zoom 与 2026-06-25/26/29 Layered Image Policy 微信同步，把分层处理从单图手工样例推进到可重复的自动化 smoke pipeline。Pipeline 顺序保持 iterative segment + inpaint：robot mask/rgba/video -> robot removal -> object/contact/occluder mask/rgba/video -> object/contact removal -> scene/background layer，所有输出保持原始 canvas 尺寸，支持原地 overlay/recomposition。\n\nSegmentation front-end 更新：1) RobotSeg / RoboSeg (https://github.com/showlab/RobotSeg) 升为 MolmoAct/robot-layer segmentation 第一候选；群里 MolmoAct 测试反馈目前 RobotSeg 效果最好，且 RobotSeg 自带 image/video、arm/gripper/whole-robot fine-grained masks；2) 短期不要回到 SAM-only：先跑 RobotSeg，然后尝试把 RobotSeg 内部 SAM2.1 组件替换/对齐到 SAM3，评估是否改善 gripper / wrist-view masks；3) SAM3/SAM2 继续作为 reference-mask propagation / mask tracking 备选：可先用干净 Franka reference 或第一帧 robot mask 初始化，再追踪整段视频；4) 参考 Cloak / arXiv:2606.22836 的 wrist-view end-effector mask 思路，单独评估 gripper-only、hand、arm+gripper 的 first-person/ego mask，尤其补上 gripper mask 当前 blocker；5) SAM-HQ robot mask review 不如 SAM3，暂时排除；Qwen/RevealLayer 只保留为负例或完成 baseline。\n\nInpainting 更新：LaMa 群里测试效果不好，降级为 failure / negative baseline，不作为主路线；VACE 仍是 raster video inpaint 候选，但 2026-06-29 最新反馈是目前 inpaint 不稳定，因此必须加 judgement / retry / morphology QA 管线，不能直接批量信任输出；Gemini-Omni 明天先给 object/video edit 结果，作为 object removal / contact completion 的强 qualitative probe；FLUX.fill 保留为 still-frame fallback，GPT image 保留为强 still-frame baseline 但不作为视频方案。背景若基本静态，可在移除 robot/object layer 后尝试单次 image inpainting 生成 background plate，避免逐帧漂移；wrist/ego view 背景变化较大，需要单独记录 temporal consistency 风险。\n\nAcceptance: 1) 选 3 个 UMI/MolmoAct/Hoi-style clips，每个抽 20-50 帧或短视频；2) 同一输入上比较 RobotSeg、RobotSeg+SAM3 modification、SAM3/SAM2 reference tracking、Cloak-style ego mask 的 robot/gripper/hand/arm masks，记录 mask IoU/edge quality/gripper coverage/bbox jitter/topology jump；3) 输出 robot/object/contact/occluder/background 的 mask.png、rgba.png、layer video、inpainted_background.png/video、SVG sidecar、layer_manifest.json；4) 对同一 mask/manifest 比较 VACE、Gemini-Omni、FLUX.fill、LaMa、GPT image baseline 的质量/速度/显存/是否改变画幅，其中 LaMa 和失败 VACE 输出作为 failure gallery；5) VACE/Gemini-Omni 输出必须检查 masked-region temporal consistency、unmasked-region preservation、recomposition SSIM/LPIPS 或人工评分，并记录是否需要自动重试或 mask morphology 修正；6) 失败样例包括 gripper miss、thin cable/shadow mistrace、pillow/object drift、background texture hallucination、电线等小细节可降权但 robot/object/background 主体必须正确分离。\n\nStage 2 VDDM framing update 2026-06-27: 这条 smoke pipeline 现在是 VDDM 论文的最小工程切片，而不是单纯分割/补全脚本。除 robot/MolmoAct/UMI/RoboTwin clips 外，加入 egocentric human-hand manipulation clips 作为跨域 probe；统一输出 actor_layer(actor_type=robot|human_hand)、object_contact_layer、occluder_tool_layer、scene_background_layer，以及 mask.png / rgba.png / layer video / SVG sidecar / depth or pointmap / mesh when available / tracks / contact events / layer_manifest.json。评估下游时接 HaWoR 与 Do-As-I-Do-style reconstruction stack（SAM3 -> SAM3D mesh -> MoGe pointmaps -> HaWoR -> TAPIR/BootsTAPIR/guided diffusion tracking -> projection/retargeting），判断 VDDM 是否让 reconstruction / tracking / retargeting 比 raw RGB 或 mask-only 更稳。新增 acceptance: 至少 3 个 robot clips + 3 个 egocentric human-hand clips；每类输出 recomposition QA、temporal consistency、actor/object/contact failure gallery、以及是否扩成 Stage 2 dataset/model 训练的判断。",
       "result": null,
       "comments": [
         {
@@ -9311,10 +9320,19 @@
           "kind": "comment",
           "body": "2026-06-26 Layered Image Policy sync: arXiv:2606.22836 / Cloak 的 wrist-view end-effector mask 很适合借鉴为 first-person gripper/hand/arm mask probe；LaMa inpainting 已被反馈效果不好，降为 failure baseline；如果 VACE masked V2V 能稳定做 video inpainting，则 VACE 直接作为 raster video inpaint 主线；RobotSeg 在 MolmoAct 测试反馈目前最好，升为 robot-layer segmentation 第一候选。",
           "created_at": "2026-06-25T16:44:25.614Z"
+        },
+        {
+          "comment_id": "comment_umi_layered_pipeline_wx_sync_20260629",
+          "task_id": "task_umi_layered_pipeline_sam_vace_flux_lama_automation_20260622",
+          "author": "Codex / ClawCross wx sync",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-29 refreshed Layered Image Policy sync: 当前分割路线收敛到 RobotSeg/RoboSeg-first；下一步尝试把 RobotSeg 里的 SAM2.1 替换或对齐到 SAM3，专门看 gripper 和 ego/wrist masks。Inpaint 侧：VACE 当前测下来不稳定，必须加 judgement/retry/mask morphology QA 后才能批处理；Gemini-Omni 明天先给 object/video edit 结果；LaMa 保持负样例。",
+          "created_at": "2026-06-29T23:20:00+08:00"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-27T05:42:22.606Z"
+      "updated_at": "2026-06-29T23:20:00+08:00"
     },
     {
       "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
@@ -10789,7 +10807,7 @@
       "task_id": "task_umi_gemini_omni_video_edit_object_inpaint_probe_20260627",
       "project_id": "umi-world-model",
       "title": "测试 Gemini-Omni 视频编辑做 object inpaint / removal",
-      "description": "把 Gemini-Omni video editing 加入 UMI Stage 2 分层补全对照，专门测试“物品层移除 / object inpaint / contact-region completion”的效果。输入：3-5 个 MolmoAct / HOI / UMI-style clips，带 RobotSeg/SAM3/SAM2 tracked masks 和 layer_manifest。实验：对 object/contact layer 做 masked video editing，分别测试 object removal、object background completion、robot-object contact region completion；同一输入与 VACE、FLUX.fill still inpaint、LaMa、GPT/ChatGPT still edit baseline 对比。Acceptance: 记录模型入口/API或网页流程、prompt/mask/reference 设置、输入视频+mask、输出视频、与 layer_manifest 对齐方式、masked-region temporal consistency、unmasked-region preservation、recomposition QA、物体边界/contact patch 失败样例、速度/成本/人工操作量，并判断 Gemini-Omni 是否只适合作为 quick qualitative probe 还是可进入 global layered dataset pipeline。",
+      "description": "把 Gemini-Omni video editing 加入 UMI Stage 2 分层补全对照，专门测试“物品层移除 / object inpaint / contact-region completion”的效果。输入：3-5 个 MolmoAct / HOI / UMI-style clips，优先使用 RobotSeg/RoboSeg-first masks，并附带 SAM3/SAM2 tracked masks 与 layer_manifest。实验：对 object/contact layer 做 masked video editing，分别测试 object removal、object background completion、robot-object contact region completion；同一输入与 VACE、FLUX.fill still inpaint、LaMa、GPT/ChatGPT still edit baseline 对比。2026-06-29 最新同步：VACE 当前测下来 inpaint 不稳定，Gemini-Omni 结果要作为是否能替代或补充 VACE 的关键 qualitative probe，而不是另一个孤立 demo。Acceptance: 记录模型入口/API或网页流程、prompt/mask/reference 设置、输入视频+mask、输出视频、与 layer_manifest 对齐方式、masked-region temporal consistency、unmasked-region preservation、recomposition QA、物体边界/contact patch 失败样例、速度/成本/人工操作量；明确 Gemini-Omni 是否只适合作为 quick qualitative probe、是否能作为 VACE fallback、以及是否可进入 global layered dataset pipeline。",
       "status": "todo",
       "priority": "high",
       "assignee": "Boris / Ziyang / Lai",
@@ -10802,9 +10820,18 @@
           "body": "Seeded from user request: add a UMI World Model TODO to test Gemini-Omni video editing for object inpaint. Treat it as a Stage 2 raster video-editing baseline, not a replacement for VACE or mask/SVG sidecars.",
           "created_at": "2026-06-27T06:48:35.610Z",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_umi_gemini_omni_wx_sync_20260629",
+          "task_id": "task_umi_gemini_omni_video_edit_object_inpaint_probe_20260627",
+          "author": "Codex / ClawCross wx sync",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-06-29 Layered Image Policy sync: Lai will produce an Omni result next; compare it directly against unstable VACE outputs on the same RobotSeg/SAM masks. The decision is whether Gemini-Omni can be a fallback or qualitative probe for object removal/contact completion, not whether it replaces the segmentation layer pipeline.",
+          "created_at": "2026-06-29T23:20:00+08:00"
         }
       ],
-      "updated_at": "2026-06-27T06:48:35.610Z"
+      "updated_at": "2026-06-29T23:20:00+08:00"
     }
   ]
 }
