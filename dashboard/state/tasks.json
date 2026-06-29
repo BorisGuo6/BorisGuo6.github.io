@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-30T00:43:11+08:00",
+  "updated_at": "2026-06-30T00:54:39+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2510,9 +2510,16 @@
           "body": "Local Codex host review reopened this TODO.\n请补齐后再送审：1) 同步或提供可 SSH 复核的 smoke/data-collection 原始完整日志、退出码、pass/fail、episode0.hdf5 verifier/读取输出、artifact 大小和 sha256；若大文件留在远端，给出 host、路径和只读复核命令。2) Pi/OpenVLA-OFT 二选一实际运行 train/eval hook，提交命令、完整日志、退出码、checkpoint/eval artifact；若不能运行，请在 RoboTwin2 环境中运行对应入口检查或启动命令并提交完整失败日志，明确缺少模型权重、依赖、GPU/显存、数据格式适配或 API 支持。ACT hook 可作为补充，但不能替代该验收项。",
           "created_at": "2026-06-30T00:43:07+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_d07eacd37ce1",
+          "author": "Review",
+          "body": "Local Codex host review reopened this TODO.\n请补齐后再送审：1) 同步 smoke/data-collection 原始完整日志、退出码、pass/fail、episode0.hdf5 的 verifier/读取输出、artifact 大小和 sha256；若大文件留在远端，提供可 SSH 复核的 host、路径和只读命令。2) Pi/OpenVLA-OFT 二选一实际运行 train/eval hook，提交命令、完整日志、退出码、checkpoint/eval artifact；若不能运行，请在 RoboTwin2 环境中运行对应入口检查或启动命令并提交完整失败日志，明确缺少模型权重、依赖、GPU/显存、数据格式适配或 API 支持。ACT hook 可作为补充，但不能替代该验收项。",
+          "created_at": "2026-06-30T00:54:35+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-30T00:43:09+08:00",
+      "updated_at": "2026-06-30T00:54:37+08:00",
       "due_at": "",
       "completed_at": null
     },
