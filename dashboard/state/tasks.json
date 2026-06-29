@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-29T12:48:43+08:00",
+  "updated_at": "2026-06-29T13:02:23+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2405,9 +2405,16 @@
           "body": "Local Codex host review reopened this TODO.\n请补交可由本机 reviewer 直接读取和复现的完整验收包：同步 robotwin-text2env-demo checkout 或打包 artifact 到本机/dashboard 可读路径，或提供当前可访问的 repo commit；提交 generated RoboTwin2 task program 路径与 diff/commit；提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、pass/fail、artifact 路径/大小/sha256 和 HDF5/verifier 输出；Pi/OpenVLA-OFT 必须二选一实跑 train/eval hook 并给命令、完整日志、checkpoint/eval artifact，若不能运行则提交在 RoboTwin2 环境中运行对应入口检查或启动命令的完整失败日志并明确缺少模型权重、依赖、GPU/显存、数据格式适配或 API 支持。ACT hook 只能作为补充。",
           "created_at": "2026-06-29T12:48:36+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_08c9e3e91833",
+          "author": "Review",
+          "body": "Local Codex host review reopened this TODO.\n请补交完整可直接复核的验收包后再送审：同步 robotwin-text2env-demo checkout 或打包 artifact 到本机/dashboard 可读路径，或提供当前可访问的 repo commit；提交 generated RoboTwin2 task program 路径与 diff/commit；提交 simulator smoke 与 data-collection dry run 的原始命令、完整日志、退出码、pass/fail、artifact 路径/大小/sha256 和 HDF5/verifier 输出；Pi/OpenVLA-OFT 必须二选一实跑 train/eval hook 并给命令、完整日志、checkpoint/eval artifact，若不能运行则提交在 RoboTwin2 环境中运行对应入口检查或启动命令的完整失败日志并明确缺少模型权重、依赖、GPU/显存、数据格式适配或 API 支持。ACT hook 只能作为补充。",
+          "created_at": "2026-06-29T13:02:19+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-29T12:48:39+08:00",
+      "updated_at": "2026-06-29T13:02:20+08:00",
       "due_at": "",
       "completed_at": null
     },
