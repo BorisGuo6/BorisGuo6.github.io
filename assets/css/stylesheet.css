@@ -764,29 +764,20 @@ a:active {
 
 .visitor-map-fallback {
   box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  justify-content: center;
+  display: grid;
+  place-items: center;
   width: 100%;
   min-height: 320px;
-  padding: 28px;
+  padding: 14px;
   color: #2f5368;
   text-align: center;
   text-decoration: none;
 }
 
-.visitor-map-fallback strong {
-  color: #153449;
-  font-size: 1rem;
-}
-
-.visitor-map-fallback span {
-  max-width: 420px;
-  margin: 0 auto;
-  color: #5b7180;
-  font-size: 0.84rem;
-  line-height: 1.45;
+.visitor-map-fallback img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
 }
 
 .visitor-map-ready .visitor-map-fallback {

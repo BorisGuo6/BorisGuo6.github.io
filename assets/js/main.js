@@ -1,7 +1,7 @@
 // Main JavaScript file for BorisGuo6.github.io
 // Contains all interactive functionality for the personal website
 
-var SITE_ASSET_VERSION = '20260629-home-robot-map';
+var SITE_ASSET_VERSION = '20260629-home-mapmyvisitors';
 var _deferredThirdPartyLoaded = false;
 
 // ============================================================================
@@ -860,7 +860,7 @@ function initVisitorMapFallback() {
 
   function hasInjectedMap() {
     return Array.prototype.some.call(slot.children, function (el) {
-      if (el === fallback || el.id === 'clustrmaps' || el.tagName === 'SCRIPT') return false;
+      if (el === fallback || el.id === 'mapmyvisitors' || el.tagName === 'SCRIPT') return false;
       if (el.matches && el.matches('a, img, iframe, canvas, svg')) return true;
       return !!(el.querySelector && el.querySelector('a, img, iframe, canvas, svg'));
     });
