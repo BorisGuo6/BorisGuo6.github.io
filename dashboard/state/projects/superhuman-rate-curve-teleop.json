@@ -4,7 +4,7 @@
   "title": "Superhuman Robot Execution",
   "bucket": "survey",
   "status": "survey",
-  "updated_at": "2026-06-09T02:22:25+08:00",
+  "updated_at": "2026-06-29T08:15:33.000Z",
   "description": "Keep in Survey: the action-rate acceleration idea is still executable, but it needs a bounded DAgger/SFT/RL pilot plus hardware-safe rate and force guardrails before becoming Research.",
   "summary": "This project treats human demos as task-path, phase, contact-event, and safety priors rather than the final source of superhuman speed. DAgger + SFT should first stabilize the demonstrated behavior, SFT action-frequency ablations measure speed / continuity tradeoffs, and RL finetune likely has to discover the genuinely faster rate curve under force, tactile, event, and hardware guardrails.",
   "asset": "dashboard/assets/survey-superhuman-rate-curve.svg",
@@ -34,7 +34,8 @@
     "Stage 2: run RL on top of the SFT policy; add velocity / completion-time rewards for speed and acceleration / jerk rewards for smoothness.",
     "New judgment: human demo data gives the robot a path, phase structure, contact timing, and correction distribution, but it does not directly contain superhuman behavior. Any capability beyond human 1x should be claimed as RL-finetuned retiming / recovery / smoothness, not pure imitation.",
     "Hardware judgment: Wuji should be mounted on a robot arm whose servo bandwidth, velocity, acceleration, payload margin, and control latency can approach human real-time execution. A slow or conservative arm will cap the project at replay / retiming even if the learned rate curve is good; Flexiv / 非夕-style arms are a candidate direction to evaluate.",
-    "Force and tactile signals should mainly define safety scores, DAgger correction triggers, evaluation, and real-robot guardrails rather than being the only RL objective."
+    "Force and tactile signals should mainly define safety scores, DAgger correction triggers, evaluation, and real-robot guardrails rather than being the only RL objective.",
+    "World-model-guided VLA refinement update 2026-06-29: the BAAI seminar slide is a useful adjacent formulation for this Survey card. A pretrained VLA handles semantic planning and coarse motion; a reward/contact model detects the transition into the contact-rich phase; candidate trajectories are evaluated through imagined world-model rollouts; the selected contact-rich segment is stitched back into the prior VLA trajectory and used as post-training data. For Superhuman Robot Execution, this is the safer version of acceleration: first choose a physically plausible contact segment in imagination, then retime or finetune under force/tactile guardrails."
   ],
   "task_ids": [
     "task_rate_curve_skill_representations",
@@ -55,6 +56,7 @@
     "Force / tactile can provide the safer reward, but real-robot deployment still needs guardrails for force spikes, collision, and hardware stress.",
     "SFT action sampling frequency may change apparent speed and continuity even before RL, so it needs a separate ablation.",
     "Evaluation should report SFT stability/safety first, SFT action-frequency effects second, then RL improvement in speed, acceleration profile, jerk, success rate, and force / tactile overshoot.",
+    "World-model refinement boundary 2026-06-29: imagined rollout selection is not enough by itself. Treat it as a candidate generator and post-training-data source; still require real or high-fidelity-sim guardrails for force spikes, object wear, robot damage, and contact-phase false positives.",
     "The most important research question is which operation types can be accelerated without losing physical reliability.",
     "2026-05-29 routing update: shaol@100.96.228.8 (RTX 4090 24GB, ~35G free disk) is assigned to task_rate_curve_rl; avoid heavyweight simulator/model downloads until disk is cleaned.",
     "Survey disposition 2026-05-31: keep, because the topic is not completed by EKA-style fast execution demos; our unresolved contribution is learning when a human teleop trajectory can be safely retimed on our robot stack.",

@@ -4,7 +4,7 @@
   "title": "DaiMeng VTAM / Tactile-WAM: Predictive Contact Intelligence",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-06-28T15:20:00.000Z",
+  "updated_at": "2026-06-29T08:15:33.000Z",
   "description": "DaiMeng internship research project: merge VTLA tactile-intuition survey and VTAM/Tactile-WAM proposal into one active Predictive Contact Intelligence track for dexterous manipulation.",
   "summary": "DaiMeng VTAM turns the VTLA tactile-intuition survey into an active internship project: From Reactive Manipulation to Proactive Manipulation. The merged track treats future tactile/contact latents as an Internal Contact Model and builds a Vision-Tactile-Action World Model with a Temporal Action-Token Shared-World architecture rather than simple vision/tactile feature concatenation. Fast contact/action rollout, visual/layer latent cache, contact-triggered sparse compute, and System-0/System-1 control are the execution path; validation is contact timing, slip/contact risk, actual/zero/wrong-action separation, latency/Hz/VRAM, and contact-rich task success.",
   "subprojects": [
@@ -66,7 +66,8 @@
     "Merge decision (2026-06-27): Merge the old VTLA / Tactile Intuition survey card into DaiMeng VTAM/Tactile-WAM. VTLA remains the representation and benchmark substrate; the active Research card is the DaiMeng internship project focused on predictive contact intelligence.",
     "Proposal core: The proposal goal is a Vision-Tactile-Action World Model that predicts future tactile/contact latents and action chunks before contact failure happens. The important design choice is a Temporal Action-Token Shared-World Model, not just concatenating vision and touch features or finetuning a video generator.",
     "Deployment contract: The fast path should roll out low-dimensional contact/action/tactile latents; heavyweight video generation stays as supervision, visualization, or selected planning branches. A pass requires latency/memory reporting, actual-vs-zero-vs-wrong-action gates, contact timing, slip/contact risk, and task-level manipulation success.",
-    "System-0 / System-1 loop: System-1 runs predictive VTAM at planning frequency, while System-0 runs high-frequency tactile servo control by comparing predicted tactile latent with current tactile latent and emitting residual corrections for slip, overload, misalignment, or impending contact failure."
+    "System-0 / System-1 loop: System-1 runs predictive VTAM at planning frequency, while System-0 runs high-frequency tactile servo control by comparing predicted tactile latent with current tactile latent and emitting residual corrections for slip, overload, misalignment, or impending contact failure.",
+    "World-model-guided VLA refinement update 2026-06-29: the BAAI seminar slide is effectively the policy-improvement loop version of VTAM. For contact-rich insertion, pressing, screwing, and assembly, let the pretrained VLA provide semantic/coarse motion, use a reward/contact model to detect the contact-rich phase, sample multiple candidate contact trajectories, score them through imagined VTAM/world-model rollouts, then stitch the selected segment back into the trajectory as post-training data. This should be tracked as an evaluation and refinement protocol, not just as a visual rollout demo."
   ],
   "task_ids": [
     "task_tactile_wam_reproduce_gesim2_tactile_wam_20260627",
@@ -269,6 +270,11 @@
     {
       "title": "DaiMeng VTAM proposal update, 2026-06-26",
       "notes": "Local DOCX extracted on 2026-06-27. Key additions: Temporal Action-Token Shared-World Model, fast contact/action path, System-0/System-1 active contact control, and explicit latency/action-gate/contact-risk evaluation."
+    },
+    {
+      "title": "BAAI seminar note: world-model-guided VLA refinement",
+      "submitted_at": "2026-06-29",
+      "notes": "User-provided seminar screenshot. Core loop: pretrained VLA handles semantic/coarse motion; reward model detects contact-rich phase; candidate trajectories are evaluated in imagined world-model rollouts; selected contact-rich trajectory is stitched into the VLA trajectory and used as post-training data."
     }
   ],
   "risks_decisions": [
@@ -282,7 +288,8 @@
     "Architecture boundary 2026-06-27: avoid a video-first architecture where every control step decodes full future frames. Online control should use low-dimensional contact/action latents; video rollout is optional for training, visualization, and audit.",
     "Acceptance boundary 2026-06-27: do not accept demos based only on pretty video or qualitative tactile maps. A passing VTAM demo must separate actual actions from zero/wrong actions, predict contact timing/slip risk, show latency/Hz/VRAM numbers, and improve at least one contact-rich manipulation task under perturbation.",
     "Decision: retire separate VTLA Survey card: Keep one live card under Research. The merged card owns VTLA representation work, Wuji/Franka/HOI benchmark selection, VTAM architecture, and DaiMeng internship deliverables.",
-    "Risk: visual quality alone is the wrong success metric: The proposal should not pass because generated video looks plausible. It must pass contact prediction, action separation, latency, memory, servo stability, and contact-rich task success metrics."
+    "Risk: visual quality alone is the wrong success metric: The proposal should not pass because generated video looks plausible. It must pass contact prediction, action separation, latency, memory, servo stability, and contact-rich task success metrics.",
+    "Refinement decision 2026-06-29: BAAI-style imagined trajectory scoring belongs inside VTAM as a contact-rich policy refinement protocol. The reward/contact model must explicitly identify contact phase entry; otherwise the loop degenerates into generic video rollout ranking."
   ],
   "timeline": {
     "target_cycle": "DaiMeng VTAM internship project",
