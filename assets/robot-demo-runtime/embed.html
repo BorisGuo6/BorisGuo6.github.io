@@ -8,9 +8,22 @@
     html, body, #root { width: 100%; height: 100%; margin: 0; overflow: hidden; background: #fffbf0; }
     body { font-family: Inter, Arial, sans-serif; }
     .scroll-cue { display: none !important; }
-    .pip-container { bottom: 70px !important; }
+    .pip-container { bottom: 90px !important; }
+    .act-info {
+      bottom: 34px !important;
+      width: min(92%, 560px);
+      max-width: none !important;
+      flex-wrap: wrap !important;
+      white-space: normal !important;
+      row-gap: 2px;
+      pointer-events: auto;
+    }
     @media (width <= 640px) {
-      .pip-container { bottom: 58px !important; }
+      .pip-container { bottom: 76px !important; }
+      .act-info {
+        bottom: 18px !important;
+        width: min(94%, 520px);
+      }
     }
   </style>
 </head>
