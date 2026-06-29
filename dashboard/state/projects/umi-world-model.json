@@ -286,7 +286,24 @@
     "Stage 1 visual quality audit 2026-06-28 10:45 CST: built /Users/boris/Downloads/umi_quality_comparison_20260628/index.html comparing current ActionDep dual-view outputs against earlier GammaWorld iter600/iter3200 and Stage3 teacher outputs. The user concern is valid: ActionDep actual videos collapse into low-frequency haze and lose robot/table/object structure, while Gamma teacher/iter600/iter3200 preserve scene structure much better. Simple sampled metrics agree: ActionDep actual temporal-diff mean is about 0.0248 versus GT 0.1402; Gamma iter600/iter3200 are about 0.0836/0.0891. Added verify_sharedmotion_media_sanity.py and wired it into the sync helper; it flags all 15 old ActionDep rows for low motion or low texture relative to GT. Decision: do not interpret the bad ActionDep visuals as Gamma teacher visual incapacity. The next accepted route must preserve Gamma teacher-like structure first, then show action separation.",
     "Stage 1 route correction 2026-06-28 10:55 CST: because the visual audit shows the low-resolution action-conditioned proxy route destroys scene structure, the remote low-res shared-motion auto-launch was paused with /root/autodl-tmp/umi-world-model-lab/runbooks/HOLD_SHARED_MOTION_LOWRES_20260628. Latest successful remote inspection found Gamma teacher continuation at iter 2957, all 8 H20 GPUs at 100%, no shared-motion process, and no shared-motion DONE/FAILED marker. Next direction: use Gamma teacher outputs as the visual-quality anchor, then add action/state separation through a quality-preserving Gamma-based route rather than scaling another hazy low-res decoder proxy.",
     "Stage 1 Gamma quality-anchor counterfactual eval 2026-06-28 11:32 CST: prepared /root/autodl-tmp/umi-world-model-lab/external_repos/Gamma-World/eval_umi_counterfactual_15rows_20260628 with 45 samples: 15 held-out rows times actual/zero/wrong_next actions. Each sample keeps the same dual-view first frame and prompt, converts left/right 49x10 UMI actions to 189x10 action JSON, and saves side-by-side GT. Installed 8-GPU launcher scripts_umi/run_gamma_quality_anchor_counterfactual_20260628.sh using bidirectional_robot + ckpt_pt/s1_iter3200_norm.pt; it shards the 45 samples across 8 GPUs and refuses to start while GPUs are busy. Installed watcher scripts_umi/wait_teacher_then_gamma_counterfactual_20260628.sh, pid 232429; latest status teacher_alive=1 busy_gpus=8 latest_iter=3001, so inference is queued but not running. Local sync/report helper /Users/boris/workspace/.tmp_umi/gamma_counterfactual/sync_gamma_quality_anchor_report_20260628.sh returns 76/NOT_READY until remote DONE, then will sync to /Users/boris/Downloads/umi_gamma_quality_anchor_counterfactual_20260628 and compute actual-vs-zero/wrong_next L1-to-GT plus visual sanity. This is now the next evidence step: fixed Gamma visual path, actual vs zero/wrong-next action counterfactuals.",
-    "Stage 1 Gamma action-dim audit 2026-06-28 11:50 CST: verified bidirectional_robot uses the UMI robot action path, not the original 23-D game keyboard path. Remote exp_robot.py describes 10-D robot action (pos3+rot6d+gripper) through keyboard slot and sets action_keyboard_dim=10/action_camera_dim=2. Prepared counterfactual action_0/action_1 JSONs contain keyboard 189x10 and camera 189x2 zeros. Latest live status: teacher_cont iter 3023, all 8 H20 GPUs busy, counterfactual watcher pid 232429 alive, no DONE/FAILED marker yet."
+    "Stage 1 Gamma action-dim audit 2026-06-28 11:50 CST: verified bidirectional_robot uses the UMI robot action path, not the original 23-D game keyboard path. Remote exp_robot.py describes 10-D robot action (pos3+rot6d+gripper) through keyboard slot and sets action_keyboard_dim=10/action_camera_dim=2. Prepared counterfactual action_0/action_1 JSONs contain keyboard 189x10 and camera 189x2 zeros. Latest live status: teacher_cont iter 3023, all 8 H20 GPUs busy, counterfactual watcher pid 232429 alive, no DONE/FAILED marker yet.",
+    "Stage 1 Gamma counterfactual wait status 2026-06-28 12:00 CST: teacher continuation is still the only active 8-card job and advanced to iter 3034, with roughly 49-50s/iter. Counterfactual watcher pid 232429 is alive and waiting for teacher_alive=0 plus free GPUs; no UMI_COUNTERFACTUAL_QUALITY_ANCHOR_20260628 DONE/FAILED marker exists yet. Local sync helper /Users/boris/workspace/.tmp_umi/gamma_counterfactual/sync_gamma_quality_anchor_report_20260628.sh was hardened: bash -n passed, embedded Python compile passed, NOT_READY returned 76, and missing generated videos no longer break the metrics table row. Current state remains queued-validation, not action-conditioned success evidence.",
+    "Stage 1 Gamma counterfactual preflight 2026-06-28 12:14 CST: remote teacher_cont advanced to iter 3044 and still occupies all 8 H20 GPUs, so counterfactual inference remains queued. The watcher pid 232429 is alive, no DONE/FAILED marker exists, and the launcher path has been preflighted before GPU release: 45 eval samples exist with actual/zero/wrong_next = 15/15/15, action JSON schema is keyboard 189x10 plus camera 189x2, watcher/launcher bash -n passes, and scripts/inference.py exposes the required bidirectional_robot/eval-dir/n-players/shift/guidance arguments under the launcher PYTHONPATH. Local sync helper now also builds 8-frame visual strips and records missing/readable generated counts, so the post-run report can directly expose haze/noise/static failures instead of relying only on scalar L1.",
+    "Stage 1 Gamma counterfactual report guard 2026-06-28 12:23 CST: local sync helper now writes decision.json in addition to metrics.json/index.html. Verdict classes are STRICT_COUNTERFACTUAL_CANDIDATE, DIRECTIONAL_COUNTERFACTUAL_SIGNAL, INCOMPLETE_OUTPUTS, VISUAL_QUALITY_FAIL, and ACTION_SEPARATION_FAIL. Candidate threshold is action pass >=8/15 plus visual quality >=12/15; strict counterfactual candidate requires 15/15 for both, and goal_complete is forced false because this eval only promotes the Gamma visual-quality anchor route, not the full final UMI world-model objective. The helper still returns 76/NOT_READY because remote teacher_cont is running and counterfactual inference has not started.",
+    "Stage 1 Gamma counterfactual sync reliability 2026-06-28 12:31 CST: remote teacher_cont is still running at iter 3069 with all 8 H20 GPUs busy, counterfactual watcher pid 232429 alive, and the local helper still returns 76/NOT_READY. The sync helper was hardened against transient SSH/rsync failures with 3 retries for status and rsync. If the remote FAILED marker appears, it now pulls the remote log tail into failure_tail.txt and writes failed_status.json, so a failed inference run will still leave local evidence instead of only a nonzero exit code.",
+    "Stage 1 Gamma counterfactual dual-view gate 2026-06-28 12:38 CST: local Gamma quality-anchor sync helper now splits each side-by-side generated video at the horizontal midpoint and computes left/right half gates in addition to global video gates. The final decision.json will require global_action>=8/15, global_quality>=12/15, dual_action>=8/15, and dual_quality>=12/15 for a metric candidate; strict counterfactual candidate requires 15/15 on all four. This prevents a route from passing only because one view or the stitched whole-video average improves while the other wrist view fails. Current remote state remains waiting: teacher_cont still occupies all 8 H20 GPUs, and counterfactual inference has not started.",
+    "Stage 1 Gamma counterfactual heartbeat contract 2026-06-28 12:41 CST: updated automation monitor-umi-ac-wm-layer-contrast-route so future wakeups call the Gamma sync helper after DONE, inspect decision.json, and require global_action/global_quality/dual_action/dual_quality thresholds instead of only scalar L1. It also preserves the low-res HOLD marker policy and keeps goal_complete=false for counterfactual candidates; media strips/videos still require non-noise and left/right shared-scene sanity review before any route promotion.",
+    "Stage 1 Gamma regression smoke 2026-06-28 23:40 CST: after UMI code changes, checked original Gamma core entrypoints and current result artifacts. Core files scripts/train.py, scripts/inference.py, causal_cosmos2/config.py, inference_bidirectional.py, and causal_cosmos.py were clean at remote git head 0725ad8. Non-GPU checks passed: inference --help, train --help, default config dryrun, and bidirectional_robot dryrun with explicit 10/2 robot action dims. Existing result media check passed for 13/13 videos, all readable with 189 frames, 16fps, 960x320 and nonzero visual/temporal stats. Robot-mode files exp_robot.py, exp_causal_robot.py, exp_cfs_robot.py, and model_specs.py are intentionally modified for UMI action/data wiring, so do not claim byte-for-byte unchanged Gamma behavior. Full GPU re-run is deferred because teacher_cont was still active at iter 3875/4000 and occupied all 8 H20 GPUs. Local report: /Users/boris/Downloads/gamma_world_regression_20260628/index.html.",
+    "Stage 1 Gamma counterfactual wait update 2026-06-28 23:46 CST: remote teacher_cont is still running and occupying all 8 H20 GPUs, latest observed iter 3882/4000 at about 49.75s/iter, so the Gamma quality-anchor counterfactual inference remains queued and has not produced DONE/FAILED markers. Watcher wait_teacher_then_gamma_counterfactual_20260628.sh is alive. Estimated remaining teacher time is about 98 minutes, after which the watcher should launch the 45-sample actual/zero/wrong_next 8-GPU inference and the local sync helper will pull /Users/boris/Downloads/umi_gamma_quality_anchor_counterfactual_20260628.",
+    "Stage 1 Gamma counterfactual preflight update 2026-06-28 23:58 CST: teacher_cont still occupies all 8 H20 GPUs at iter 3897/4000; counterfactual DONE/FAILED markers absent and output dir absent. Watcher pid 232429 is alive. Rechecked eval package schema: 45 samples exist, conditions actual/zero/wrong_next are 15 each, required files are present, action_0/action_1 JSONs have keyboard 189x10 and camera 189x2 with no bad-shape samples. The launcher shards samples by directories containing first_frame.png, so the absence of metadata.json is not a blocker because the actual per-sample file is meta.json.",
+    "Stage 1 Gamma counterfactual wait update 2026-06-29 01:00 CST: teacher_cont is still the active 8-H20 job at iter 3971/4000 with about 49.74s/iter, so the 45-sample Gamma quality-anchor counterfactual inference has not started. Watcher pid 232429 remains alive, DONE/FAILED markers are absent, and local sync helper still returns 76/NOT_READY. Launcher/watcher and eval package were already preflighted; estimated remaining teacher time is about 24 minutes from this check.",
+    "Stage 1 Gamma quality-anchor counterfactual result 2026-06-29: no-retraining Gamma teacher eval completed on 45/45 generated videos (15 held-out rows x actual/zero/wrong_next), all readable. Global action gate passed 14/15 and global quality passed 15/15; dual-view split action gate passed 10/15 and dual-view quality passed 15/15. Verdict is DIRECTIONAL_COUNTERFACTUAL_SIGNAL / metric candidate, not completion: wrong_next is still a weak negative compared with strict-nearest/hard negatives, and dual-view action separation is not strict 15/15. Full report: /Users/boris/Downloads/umi_gamma_quality_anchor_counterfactual_20260628/index.html; compact evidence: /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/gamma_quality_anchor_20260629.",
+    "Stage 1 Gamma strict-nearest counterfactual result 2026-06-29: completed 75/75 generated videos across 15 held-out rows x actual/zero/wrong_next/wrong_nearest_action/wrong_nearest_same_category. All videos are readable and visual-quality sanity remains strong (15/15 global, 15/15 dual-view), but action separation fails under hard negatives: global action gate 8/15 and dual-view split action gate 6/15 with margin 0.002. Verdict ACTION_SEPARATION_FAIL: Gamma teacher is still a visual-quality anchor, not a completed action-conditioned dual-view world model.",
+    "Stage 1 explicit10 ranker grid result 2026-06-29: completed 8/8 structured action-video ranker candidates on explicit10/raw-gripper data. Best run explicit10_st_s64_d256_lr1e4_e240_m005 passed 6/15 strict GT rank gates, below the old structured temporal ranker reference of 8/15, so verdict is NO_STRICT_RANKER_GAIN. Applying the same best ranker to Gamma strict generated actual videos passed only 4/15 rows. Evidence: /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/action_video_ranker_explicit10_structured_grid8_20260629/index.html.",
+    "Stage 1 Gamma original regression rerun 2026-06-29: after UMI-side code edits, original Gamma scripts/train.py 8-card 1-step smoke passed with iteration-1 loss 0.1592 and checkpoint_written=true; original scripts/inference.py --mode bidirectional_robot produced a readable 960x320, 189-frame, 16fps generated video. Evidence: /Users/boris/Downloads/gamma_world_regression_rerun_20260629_085555/index.html. This validates current original entrypoints, not clean-upstream byte equivalence.",
+    "Stage 1 shared-motion strict-nearest result 2026-06-29: completed 8-H20 training for structured_temporal_view_action_bottleneck + pre-decoder SharedMotionStateHead + foreground_contact semantic layer contrast on the 398-row explicit10/raw-gripper split. Final train loss reached 0.070700 at epoch 39 and teacher.pt was saved, but holdout strict-nearest evaluation failed: RGB action gate 0/15 and shared motion-state gate 0/15 on rows 0,99,198,199,229,259,260,279,298,299,338,377,378,388,397. Verdict: NEGATIVE_ROUTE; the auxiliary shared-motion head trains numerically but does not make actual/zero/wrong/nearest-condition rollouts action-separable. Evidence: /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/acwm_sharedmotion_20260629/eval_holdout/index.html.",
+    "Stage 1 iter800 strict-nearest ablation 2026-06-29: converted the local-DCP Gamma checkpoint iter_000000800 to a PT checkpoint and reran the same 15-row x 5-condition strict counterfactual eval. The full report completed on 75/75 readable generated videos. Pixel strict result remains ACTION_SEPARATION_FAIL: global action gate 8/15, dual-view split action gate 4/15, visual quality 15/15, dual-view visual quality 15/15. The explicit10 structured ranker scores iter800 generated actual videos at only 2/15 pass rows (198,229), worse than iter3200 generated actual at 4/15. Conclusion: early-checkpoint visual preference on a single clip is not enough; checkpoint age alone does not solve action conditioning.",
+    "Stage 1 rebal4500 live status 2026-06-29 17:41 CST: Gamma-derived rebalanced continuation is still running on all 8 H20 GPUs at iter 4089/4500, with recent iteration time about 49.8s and latest checkpoint still iter_000004000. The remote watcher wait_rebal4500_convert_eval_score_20260629.sh is alive and will convert iter_000004500, run the same 15-row x 5-condition strict-nearest counterfactual eval, then score generated actual videos with the explicit10 structured ranker. This is pending evidence only, not action-conditioned completion."
   ],
   "task_ids": [
     "task_umi_wan21_dual_wrist_structure_20260617",
@@ -684,7 +701,63 @@
     "Scaling guardrail 2026-06-28: the 10k teacher root/cache/masks are data infrastructure, not success evidence. A route only becomes a candidate teacher after strict-nearest action gates separate actual from zero/time/wrong-next/wrong-nearest on held-out rows.",
     "10k launch guardrail 2026-06-28: the scalable 10k structured-bottleneck/action-dependent launcher exists but is deliberately opt-in via ALLOW_10K_TEACHER=1. It must not run before the current 398-row strict gate is reviewed; otherwise it would consume GPUs without first learning whether the route direction works.",
     "Queue guardrail 2026-06-28 live check: do not interrupt the current Gamma Stage3 job just to start the 398-row actiondep route. The useful next evidence is the automatic post-Stage3 strict-nearest + layer-gate report; until that exists, the project remains in queued-validation state, not success state.",
-    "Iter-600 ablation guardrail 2026-06-28: the iter-600 teacher -> student/DMD wrapper is prepared but must remain secondary. Run it only after the current 398-row actiondep route has produced strict-nearest evidence, or if we explicitly choose to compare teacher checkpoints before scaling 10k training."
+    "Iter-600 ablation guardrail 2026-06-28: the iter-600 teacher -> student/DMD wrapper is prepared but must remain secondary. Run it only after the current 398-row actiondep route has produced strict-nearest evidence, or if we explicitly choose to compare teacher checkpoints before scaling 10k training.",
+    {
+      "type": "decision",
+      "date": "2026-06-29",
+      "title": "Promote Gamma teacher as visual-quality anchor candidate, not final action-conditioned completion",
+      "body": "Gamma quality-anchor counterfactual eval produced 14/15 global action and 10/15 dual-view action passes with 45/45 readable videos. Continue with strict-nearest/hard-negative and per-view action separation before claiming a true action-conditioned dual-view UMI world model.",
+      "evidence": "/Users/boris/Downloads/umi_gamma_quality_anchor_counterfactual_20260628/index.html"
+    },
+    {
+      "type": "decision",
+      "date": "2026-06-29",
+      "title": "Strict-nearest hard negatives reject Gamma teacher as completed action-conditioned model",
+      "body": "The earlier weak wrong_next-only Gamma eval looked promising, but strict-nearest evaluation drops to 8/15 global action and 6/15 dual-view action while visual quality stays 15/15. Treat Gamma as a visual-quality teacher/anchor; next work should add an explicit action/state bottleneck or contrastive state head before claiming action-conditioned dual-view control.",
+      "evidence": "/Users/boris/Downloads/umi_gamma_strict_quality_anchor_counterfactual_20260629/index.html"
+    },
+    {
+      "type": "decision",
+      "date": "2026-06-29",
+      "title": "Do not continue ranker-only scaling from explicit10 grid",
+      "body": "The explicit10/raw-gripper structured action-video ranker grid completed 8 candidates and topped out at 6/15 strict GT rank gates, below the previous 8/15 reference; the best ranker also scored Gamma strict generated actual videos at only 4/15. Treat this as negative evidence for ranker-only progress. A useful next route must change the generator-side action/state bottleneck or use the ranker as a training/guidance signal, not just tune discriminator hyperparameters.",
+      "evidence": "/Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/action_video_ranker_explicit10_structured_grid8_20260629/index.html"
+    },
+    {
+      "type": "decision",
+      "date": "2026-06-29",
+      "title": "Iter800 is not a better strict action-conditioned teacher",
+      "body": "The iter800 Gamma teacher rerun kept visual quality readable, but did not improve strict-nearest action separation. Pixel global action stayed at 8/15 while dual-view action dropped from iter3200's 6/15 to 4/15; the explicit10 structured ranker dropped from 4/15 on iter3200 generated actual videos to 2/15 on iter800. Do not start student/DMD from iter800 just because one held-out clip looks nicer; first fix generator-side action/state conditioning.",
+      "evidence": "/Users/boris/Downloads/umi_gamma_strict_quality_anchor_counterfactual_iter800_20260629/index.html"
+    },
+    {
+      "type": "decision",
+      "date": "2026-06-29",
+      "title": "Gamma original entrypoints still pass regression smoke after UMI edits",
+      "body": "The rerun of original Gamma scripts/train.py and scripts/inference.py passed in the current source tree: 8-card 1-step train smoke wrote a checkpoint and bidirectional_robot inference generated a readable 189-frame dual-view video. This keeps Gamma viable as a visual-quality anchor while action separation remains unsolved under strict negatives.",
+      "evidence": "/Users/boris/Downloads/gamma_world_regression_rerun_20260629_085555/index.html"
+    },
+    {
+      "type": "finding",
+      "date": "2026-06-29",
+      "title": "Gamma action encoder responds, but full-resolution generator sensitivity remains unproven",
+      "body": "Bias-only quick3 probe on s1_iter3200_norm shows the Gamma-style 10-D UMI action path is numerically responsive: 3 rows, 9 action-bias comparisons, mean relative L1 0.5106; zero-action relative L1 is 0.6742-1.1840 and nearest wrong-action relative L1 is 0.1377-0.3333. Tiny velocity smoke on row0/t900 at 80x240 also changes denoising velocity: zero 0.3763, nearest wrong action 0.2435, nearest same-category 0.2388 relative L1. This supports keeping Gamma-style action encoder/bias as a candidate component, but it does not prove full-resolution action-conditioned generation because strict-nearest generation still fails and full-resolution velocity probe is blocked by CUDA runtime/OOM issues.",
+      "evidence": "/Users/boris/Downloads/umi_gamma_action_sensitivity_20260629/index.html"
+    },
+    {
+      "type": "finding",
+      "date": "2026-06-29",
+      "title": "Shared-motion auxiliary head does not pass strict-nearest action gate",
+      "body": "The 8-H20 structured bottleneck + pre-decoder SharedMotionStateHead route completed and saved a teacher checkpoint, but scored 0/15 on both RGB strict-nearest action gate and shared motion-state gate. Treat this as negative evidence for auxiliary-head-only progress; next route must change generator-side conditioning more directly or use Gamma-style action bias/control inside the denoising path rather than relying on an auxiliary state head.",
+      "evidence": "/Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/acwm_sharedmotion_20260629/eval_holdout/index.html"
+    },
+    {
+      "type": "status",
+      "date": "2026-06-29",
+      "title": "Rebalanced Gamma continuation is queued for strict-nearest eval",
+      "body": "The rebal4500 run is still training at iter 4089/4500 on 8 H20 GPUs. The follow-up watcher will only promote evidence after iter_000004500 exists, the checkpoint is converted, the 75-video strict-nearest counterfactual eval finishes, and the explicit10 ranker scores generated actual videos. Until then this route remains pending, not a candidate solution.",
+      "evidence": "/Users/boris/Downloads/umi_gamma_strict_quality_anchor_counterfactual_rebal4500_20260629/index.html"
+    }
   ],
   "timeline": {
     "target_venue": "ICLR",
@@ -728,6 +801,30 @@
         "title": "Tri-view data schema and layer/eval ablation spec ready",
         "status": "active",
         "date": "2026-06-05"
+      },
+      {
+        "milestone_id": "umi_explicit10_ranker_grid_result",
+        "title": "Explicit10 structured ranker grid reviewed",
+        "status": "done",
+        "date": "2026-06-29"
+      },
+      {
+        "milestone_id": "umi_gamma_original_regression_rerun",
+        "title": "Gamma original train/inference regression rerun",
+        "status": "done",
+        "date": "2026-06-29"
+      },
+      {
+        "milestone_id": "umi_gamma_action_encoder_sensitivity_probe",
+        "title": "Gamma action encoder and tiny velocity sensitivity probe",
+        "status": "done",
+        "date": "2026-06-29"
+      },
+      {
+        "milestone_id": "umi_shared_motion_strict_gate_result",
+        "title": "Shared-motion strict-nearest route reviewed",
+        "status": "done",
+        "date": "2026-06-29"
       }
     ]
   }
