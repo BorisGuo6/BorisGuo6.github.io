@@ -4,9 +4,9 @@
   "title": "UMI Image Layered World Model",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-06-29T23:39:59+08:00",
+  "updated_at": "2026-06-30T12:00:00.000+08:00",
   "description": "UMI Image Layered World Model: three linked papers covering multi-view robot video world modeling, manipulation-video dynamics decomposition into reusable layers, and layered data as a downstream VLA/IDM/reward training interface.",
-  "summary": "UMI is now split into three publishable stages: Stage 1 a streaming multi-view pose/action-conditioned UMI World Model for wrist/head/fixed views, with near-term focus on a falsifiable closed-loop validation protocol before costly scale-up; Stage 2 a Video Dynamics Decomposition Model (VDDM) that decomposes robot and egocentric human-hand manipulation videos into actor/object-contact/occluder/scene layers plus geometry/tracking/state sidecars; Stage 3 a layered-robot-data VLA training paradigm that proves IDM, reward, pose/flow, augmentation, PhysisForcing-style video-model supervision, and policy utility beyond raw RGB or mask-only baselines.",
+  "summary": "UMI is split into three publishable stages: Stage 1 a streaming multi-view pose/action-conditioned UMI World Model for wrist/head/fixed views; Stage 2 a Video Dynamics Decomposition Model (VDDM) that decomposes robot and egocentric human-hand manipulation videos into actor/object-contact/occluder/scene layers plus geometry/tracking/state sidecars; Stage 3 a layered-robot-data VLA/video-model training paradigm that tests IDM, reward, pose/flow, augmentation, and PhysisForcing-style physics alignment beyond raw RGB or mask-only baselines.",
   "subprojects": [
     {
       "label": "A",
@@ -36,7 +36,7 @@
   "layer_utility": {
     "title": "Layer utility map",
     "aria_label": "Image-layered robot data utility map linking scene, object, and robot layers to downstream model families and third-party visual processing tools.",
-    "caption": "Layer order follows recomposition: robot/object layers overlay upward onto the scene layer. Stage 3 now treats each layer as an interface to external vision/geometry/retargeting tools, then checks whether the resulting signals improve IDM, reward, pose/flow, or augmentation beyond raw RGB and mask-only baselines.",
+    "caption": "Layer order follows recomposition: robot/object layers overlay upward onto the scene layer. Stage 3 treats each layer as an interface to external vision/geometry/retargeting tools, then checks whether the resulting signals improve IDM, reward, pose/flow, augmentation, and PhysisForcing-style video-model physics alignment beyond raw RGB and mask-only baselines.",
     "layers": [
       {
         "layer": "Layer 0",
@@ -75,7 +75,7 @@
         "layer": "Layer 1",
         "name": "Object(s) / Contact",
         "target": "Reward Model",
-        "summary": "Use object/contact layers for masks, 3D shape, 6-DoF/object pose, point flow, hand-object consistency, and process reward evidence.",
+        "summary": "Use object/contact layers for masks, 3D shape, 6-DoF/object pose, point flow, hand-object consistency, process reward evidence, and physics-forcing supervision for video world models.",
         "groups": [
           {
             "label": "2D mask / region tracking",
@@ -169,6 +169,25 @@
               }
             ],
             "note": "Use Do-As-I-Do as the Stage 3 bridge between object/contact evidence and robot action: matched object pose/velocity/contact intent is the target, not human-vs-robot joint-angle imitation."
+          },
+          {
+            "label": "Video-model physics forcing",
+            "repositories": [
+              {
+                "label": "PhysisForcing project",
+                "url": "https://dagroup-pku.github.io/PhysisForcing.github.io/",
+                "note": "Region-focused hierarchical physics alignment for manipulation video generation."
+              },
+              {
+                "label": "PhysisForcing arXiv",
+                "url": "https://arxiv.org/abs/2606.28128"
+              },
+              {
+                "label": "PhysisForcing code",
+                "url": "https://github.com/dagroup-pku/PhysisForcing"
+              }
+            ],
+            "note": "Map VDDM sidecars to PhysisForcing-style training signals: physics-informative masks, point trajectories, object/robot state, contact patches, and inter-layer relation targets. Treat as a same-backbone ablation against whole-frame finetuning, mask-only weighting, and raw tracker/depth forcing."
           }
         ]
       },
@@ -240,7 +259,7 @@
     "Stage 2 VDDM boundary 2026-06-27: treat segmentation, mask tracking, VACE/FLUX/LaMa/GPT inpainting, SVG contour sidecars, and geometry/track extraction as modules inside a model/data interface. The claim is temporally consistent manipulation dynamics decomposition with actor/object-contact/occluder/scene semantics; it should accept robot data and egocentric human-hand manipulation videos via actor_type=robot|human_hand.",
     "Stage 2 reconstruction bridge 2026-06-27: use HaWoR and Do-As-I-Do-style reconstruction as downstream probes. A useful VDDM layer output should make SAM3/SAM3D mesh, MoGe pointmaps, HaWoR hand motion, TAPIR/BootsTAPIR or guided-diffusion tracking, projection, and retargeting cleaner than raw RGB or mask-only inputs.",
     "Stage 3 VLA utility boundary 2026-06-27: the paper should measure whether scene/object-contact/robot-hand layers improve policy learning signals: object pose/velocity/contact outcome, IDM action inference, reward/progress models, background augmentation, and HOI-consistent retargeting.",
-    "PhysisForcing connection 2026-06-29: layered post-processing data may help train video world models if it becomes physics-informative supervision, not just prettier labels. The candidate experiment is to estimate object state, robot state, point trajectories, contact patches, and inter-layer relations from VDDM outputs, then use them as PhysisForcing-style region/trajectory/relation losses or conditioning signals. Required ablation: whole-frame finetune vs mask-only vs VDDM layer+state forcing on the same robot-video backbone.",
+    "PhysisForcing integration 2026-06-30: use VDDM outputs as physics-informative supervision for video world models, not as another cosmetic layer label. Export a physics_forcing sidecar with scene mask/depth/camera priors, robot mask/state/keypoints, object/contact mask/pose/point-flow/contact events, and inter-layer relation targets such as gripper-object coupling, pushed-object motion, and contact onset. Training ablation: same backbone with (1) whole-frame finetune, (2) mask-only weighted loss, (3) raw tracker/depth forcing without layers, and (4) VDDM layer+state forcing. Success requires better physical plausibility and action/object outcome prediction under the same rollout/test split; noisy pose or flow estimates must be confidence-gated rather than forced blindly.",
     "Stage 1 data substrate 2026-06-27: prepared an exact 10,000 loader-visible UMI clip root on the H20 server at data_umi_robot189_10k. Strict complete count is based on left/right video, caption, and action intersection: 9,777 v2 unique + 70 legacy unique + 153 explicitly suffixed controlled duplicates. This is only a data substrate; action-conditioned completion still requires strict actual/zero/wrong-row/nearest gates.",
     "Stage 1 route update 2026-06-28: moved the next queued run from weak temporal_hardmax_layercontrast to structured_temporal_view_action_bottleneck + foreground_contact layer contrast + strict nearest negatives. CPU train/eval smoke proves the code/data path runs, but quality remains unproven until the full 8-card strict gate completes.",
     "Stage 1 action-dependent update 2026-06-28: upgraded the queued structured bottleneck route to action-dependent foreground_contact layer contrast/reconstruction. The supervision now scales semantic foreground/contact loss by per-view pose/rot action activity while keeping gripper raw by default. CPU smoke passed at size 32 with loss=0.193041 and valid eval output, but gate remained 0/1; treat this as route plumbing only until the full strict-nearest gate runs after Gamma Stage3 releases the 8 H20 GPUs.",
@@ -402,10 +421,11 @@
     },
     {
       "title": "PhysisForcing: Physics Reinforced World Simulator for Robotic Manipulation",
-      "url": "https://arxiv.org/abs/2606.28128",
+      "url": "https://dagroup-pku.github.io/PhysisForcing.github.io/",
       "arxiv_id": "2606.28128",
       "submitted_at": "2026-06-26",
-      "notes": "Stage 3 video-model training reference. PhysisForcing focuses supervision on physics-informative regions using pixel-level point-trajectory alignment and semantic inter-region relation alignment. For UMI, test whether VDDM layer packages provide cleaner forcing signals: object state, robot state, contact patches, point trajectories, and actor-object-scene relations. Treat it as an ablation candidate, not an assumed win."
+      "notes": "Stage 3 video-model training reference. PhysisForcing focuses supervision on physics-informative regions using pixel-level point-trajectory alignment and semantic inter-region relation alignment. For UMI, test whether VDDM layer packages provide cleaner forcing signals: scene geometry, object state, robot state, contact patches, point trajectories, and actor-object-scene relations. Treat it as an ablation candidate; do not claim layer data helps until same-backbone whole-frame, mask-only, raw-tracker, and VDDM layer+state comparisons pass.",
+      "type": "method reference"
     },
     {
       "title": "RoboEngine: Plug-and-Play Robot Data Augmentation",
@@ -766,7 +786,8 @@
       "title": "Rebalanced Gamma continuation is queued for strict-nearest eval",
       "body": "The rebal4500 run is still training at iter 4089/4500 on 8 H20 GPUs. The follow-up watcher will only promote evidence after iter_000004500 exists, the checkpoint is converted, the 75-video strict-nearest counterfactual eval finishes, and the explicit10 ranker scores generated actual videos. Until then this route remains pending, not a candidate solution.",
       "evidence": "/Users/boris/Downloads/umi_gamma_strict_quality_anchor_counterfactual_rebal4500_20260629/index.html"
-    }
+    },
+    "PhysisForcing guardrail 2026-06-30: layer-derived object/robot/scene state is useful for video-model training only if confidence-gated sidecars improve same-backbone physical plausibility and action/object outcome metrics over whole-frame finetuning, mask-only weighting, and raw tracker/depth forcing. Do not treat estimated pose/flow/contact labels as ground truth without QA."
   ],
   "timeline": {
     "target_venue": "ICLR",
