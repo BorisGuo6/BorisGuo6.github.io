@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-30T11:07:51+08:00",
+  "updated_at": "2026-06-30T11:24:52+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2706,9 +2706,16 @@
           "body": "Local Codex host review reopened this TODO.\n请补交完整可核验验收包后再送审：1) 提供最新 commit hash，并确保 dashboard 评论中的 commit 与 repo 一致；2) 上传或提交 runs/e2e/<run>/e2e_summary.json、logs/04_simulator_smoke.log、logs/05_policy_hook.log 或对应原始日志；3) 对 data-collection dry run 提供可核验的 episode0.hdf5 文件元数据/校验命令输出，或把日志和 hdf5/视频所在远端路径保持可 SSH 读取；4) 对 Pi/OpenVLA-OFT 二选一：实际跑 train/eval hook 并给命令、日志、输出路径，或写清楚为什么当前 RoboTwin2/Pi/OpenVLA-OFT 环境阻塞，并附检查命令和失败日志；ACT hook 可作为额外 MVP 证据，但不能替代 TODO 第 5 条的 Pi/OpenVLA-OFT hook/blocker。",
           "created_at": "2026-06-30T11:07:46+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_89115ec9564c",
+          "author": "Review",
+          "body": "Local Codex host review reopened this TODO.\n请补齐后再送审：1) 确认最终可复核 commit hash，并确保 dashboard 评论、repo HEAD 一致且不依赖未提交本地改动；2) 上传/提交 runs/e2e/<run>/e2e_summary.json、logs/04_simulator_smoke.log、logs/05_policy_hook.log 或对应原始完整日志；3) 对 data-collection dry run 提供 episode0.hdf5 的 verifier/HDF5 读取输出、文件大小、sha256、视频/instruction/scene_info/seed 路径，或提供当前可 SSH 只读复核的 host、端口、绝对路径和命令；4) Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，提交命令、完整日志、退出码、checkpoint/eval artifact 路径；若不能运行，请在 RoboTwin/RoboTwin2 环境中实际调用对应 finetune/eval/entry 命令，提交完整失败日志并明确 blocker。ACT hook 可作为补充但不能替代该项。",
+          "created_at": "2026-06-30T11:24:47+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-30T11:07:48+08:00",
+      "updated_at": "2026-06-30T11:24:50+08:00",
       "due_at": "",
       "completed_at": null
     },
@@ -6571,7 +6578,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-30T09:45:35+08:00",
+      "updated_at": "2026-06-30T11:14:03+08:00",
       "completed_at": "2026-06-24"
     },
     {
