@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-30T01:01:25.960Z",
+  "updated_at": "2026-06-30T01:46:09.602Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -9929,24 +9929,48 @@
       "project_id": "tactile-wam",
       "title": "验证 fast contact/action rollout 推理加速",
       "description": "按照 proposal 的 fast contact/action path：在线阶段不在每个 planning/control step 生成完整视频，优先预测 tactile/contact latent 与 action latent；复用 visual/layer latent cache，在 contact event / slip risk / force jump 附近触发 sparse compute，并尝试 teacher-student distillation。Acceptance: ms/step、Hz、VRAM、cache hit/encoder time、compute per contact event、teacher-student error、actual/zero/wrong-action gate、任务成功率或 contact-risk 精度损失表。",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignee": "Boris / DaiMeng VTAM",
       "result": null,
-      "comments": [],
-      "updated_at": "2026-06-27T05:26:11.737Z"
+      "comments": [
+        {
+          "comment_id": "comment_0e16fedb-f9b0-4f83-9156-97d581b66813",
+          "task_id": "task_vtam_fast_contact_action_rollout_20260627",
+          "author": "Codex dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Marked done on 2026-06-30 per Boris direction: close all current DaiMeng VTAM / Tactile-WAM TODOs for now; Boris will manually add the next active TODOs after deciding the new work breakdown.",
+          "created_at": "2026-06-30T01:46:09.602Z"
+        }
+      ],
+      "updated_at": "2026-06-30T01:46:09.602Z",
+      "completed_at": "2026-06-30",
+      "completed_at_time": "2026-06-30T01:46:09.602Z"
     },
     {
       "task_id": "task_vtam_system0_system1_contact_control_20260627",
       "project_id": "tactile-wam",
       "title": "接入 System-0 / System-1 主动接触控制 demo",
       "description": "构建 proposal 里的双系统主动接触控制：System-1 以约 5-20 Hz 预测未来触觉/contact state、risk 和 action chunk；System-0 以 50-100 Hz 或更高频读取当前 tactile latent，对比目标 tactile latent 并输出 residual action，例如手指微位移、法向压力调节、切向滑移补偿、插接对准修正。Acceptance: 控制接口、latency/Hz 记录、安全力阈值、扰动恢复实验、滑移次数、恢复时间、任务成功率、失败案例。",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignee": "Boris / DaiMeng VTAM / real robot owner",
       "result": null,
-      "comments": [],
-      "updated_at": "2026-06-27T05:26:11.737Z"
+      "comments": [
+        {
+          "comment_id": "comment_20db67b5-6c34-4615-a3fd-19aded59e7ef",
+          "task_id": "task_vtam_system0_system1_contact_control_20260627",
+          "author": "Codex dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Marked done on 2026-06-30 per Boris direction: close all current DaiMeng VTAM / Tactile-WAM TODOs for now; Boris will manually add the next active TODOs after deciding the new work breakdown.",
+          "created_at": "2026-06-30T01:46:09.602Z"
+        }
+      ],
+      "updated_at": "2026-06-30T01:46:09.602Z",
+      "completed_at": "2026-06-30",
+      "completed_at_time": "2026-06-30T01:46:09.602Z"
     },
     {
       "task_id": "task_vtam_contact_rich_eval_suite_20260627",
@@ -9991,7 +10015,7 @@
       "project_id": "tactile-wam",
       "title": "复现 GE-Sim 2.0，并设计触觉生成 / Tactile-WAM 化路径",
       "description": "GE-Sim 2.0 已开源，先作为 DaiMeng VTAM / Tactile-WAM 的第一条复现任务。Step 1: 跑通官方 GE-Sim-V2 repo、HuggingFace agibot-world/Genie-Envisioner-Sim-v2.0 checkpoint 和至少 1 个 G01 / OmniPicker-style action-conditioned multi-view rollout；记录环境、权重、显存、速度、输入动作格式、proprioceptive state expert、world judge 和 closed-loop rollout 是否可复现。Step 2: 思考并做最小 tactile extension：在 GE-Sim 的视觉/动作/本体状态 token 上增加 contact/tactile latent head，用 contact mask、gripper opening、force/torque、object pose/slip 或仿真 contact event 生成 pseudo tactile labels，预测 future tactile/contact latent、contact timing、slip/contact risk。Step 3: WAM 化：把输出从 video-only rollout 扩展成 <multi-view RGB/video latent, action tokens, proprio state, contact/tactile latent, world tokens> 的 state-action-contact rollout，并接 actual/zero/wrong-action gate 与 action head。Acceptance: 复现命令/配置、可运行 demo 或明确 blocker、1 页架构改造图、触觉 label schema、tactile/contact head loss、WAM state/action schema、actual/zero/wrong-action + contact timing + slip risk QA，以及和原 GE-Sim video-only baseline 的对照。",
-      "status": "review",
+      "status": "done",
       "priority": "urgent",
       "assignee": "Boris / DaiMeng VTAM",
       "result": null,
@@ -10012,11 +10036,20 @@
           "kind": "comment",
           "body": "[COMPUTED] Repro/design pass completed on dm-26zj-020 under /home/lenovo/workspace. Artifact: /home/lenovo/workspace/gesim-vtam-repro-20260630/RESULT.md plus architecture.mmd, schemas.json, commands.sh. Official GE-Sim-V2 cloned at /home/lenovo/workspace/GE-Sim-V2 HEAD 4a34498e326dfa88d6300b2e476e8a67795c430a with openpi submodule. Environment: Ubuntu 22.04, Python 3.10.12, RTX 5060 8151MiB, driver 580.159.03, CUDA torch 2.7.0+cu128. Validation: pytest -q => 37 passed in 45.75s. Runnable demo: official synthetic example server + G01 assets/demo_000 action-conditioned smoke, 50 frames, action_shape [50,16], per-chunk frames (25,3,3,384,512), avg_chunk_time_s 0.953, output /home/lenovo/workspace/GE-Sim-V2/outputs/action_conditioned_example_smoke/video.mp4. [COMPUTED] Real gesim_v2 rollout blocker: direct HF timed out; HF via Tailscale proxy 100.111.237.115:7993 worked for metadata/small files but large safetensors stalled at 0-byte incomplete locks. HF sizes: world model.safetensors 4.265GB + VAE 0.508GB, pi05 policy model.safetensors 7.473GB, checkpoint total 11.409GiB. [INFERRED] Full closed-loop world+pi05 is not realistic on a single 8GB GPU; needs stable checkpoint transfer and likely split world/policy servers across GPUs/hosts. [INFERRED] Artifact includes tactile label schema, contact/tactile head loss, WAM state/action/contact schema, actual/zero/wrong-action + contact timing + slip risk QA, and baseline comparison.",
           "created_at": "2026-06-29T16:35:12.252Z"
+        },
+        {
+          "comment_id": "comment_5cb707d7-4f30-4d4f-a13a-0688e6a91630",
+          "task_id": "task_tactile_wam_reproduce_gesim2_tactile_wam_20260627",
+          "author": "Codex dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Marked done on 2026-06-30 per Boris direction: close all current DaiMeng VTAM / Tactile-WAM TODOs for now; Boris will manually add the next active TODOs after deciding the new work breakdown.",
+          "created_at": "2026-06-30T01:46:09.602Z"
         }
       ],
-      "updated_at": "2026-06-29T16:35:59.694Z",
-      "completed_at": null,
-      "completed_at_time": null
+      "updated_at": "2026-06-30T01:46:09.602Z",
+      "completed_at": "2026-06-30",
+      "completed_at_time": "2026-06-30T01:46:09.602Z"
     },
     {
       "task_id": "task_umi_gemini_omni_video_edit_object_inpaint_probe_20260627",
