@@ -4,7 +4,7 @@
   "title": "DaiMeng VTAM / Tactile-WAM: Predictive Contact Intelligence",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-06-29T08:15:33.000Z",
+  "updated_at": "2026-06-30T04:11:09.350Z",
   "description": "DaiMeng internship research project: merge VTLA tactile-intuition survey and VTAM/Tactile-WAM proposal into one active Predictive Contact Intelligence track for dexterous manipulation.",
   "summary": "DaiMeng VTAM turns the VTLA tactile-intuition survey into an active internship project: From Reactive Manipulation to Proactive Manipulation. The merged track treats future tactile/contact latents as an Internal Contact Model and builds a Vision-Tactile-Action World Model with a Temporal Action-Token Shared-World architecture rather than simple vision/tactile feature concatenation. Fast contact/action rollout, visual/layer latent cache, contact-triggered sparse compute, and System-0/System-1 control are the execution path; validation is contact timing, slip/contact risk, actual/zero/wrong-action separation, latency/Hz/VRAM, and contact-rich task success.",
   "subprojects": [
@@ -37,6 +37,12 @@
       "name": "DaiMeng contact-rich benchmark",
       "status": "planned",
       "summary": "Evaluate stable grasp/slip suppression, in-hand adjustment, plug/pin insertion, card sliding, wiping, tool use, disturbance recovery, safety force, smoothness, and cross-object generalization."
+    },
+    {
+      "id": "umi2render2real-workstation",
+      "name": "UMI2Render2Real workstation loop",
+      "status": "planned",
+      "summary": "Use the local workstation to turn UMI-device demonstrations into rendered robot data: scan object, scan scene, retarget UMI trajectories, render robot data, then measure the Render2Real gap and convert successful rollouts into semi-teleop data for VTAM/contact-intelligence training."
     }
   ],
   "asset": "dashboard/assets/umi-three-system-vtam-architecture-20260629.png",
@@ -67,7 +73,8 @@
     "Proposal core: The proposal goal is a Vision-Tactile-Action World Model that predicts future tactile/contact latents and action chunks before contact failure happens. The important design choice is a Temporal Action-Token Shared-World Model, not just concatenating vision and touch features or finetuning a video generator.",
     "Deployment contract: The fast path should roll out low-dimensional contact/action/tactile latents; heavyweight video generation stays as supervision, visualization, or selected planning branches. A pass requires latency/memory reporting, actual-vs-zero-vs-wrong-action gates, contact timing, slip/contact risk, and task-level manipulation success.",
     "System-0 / System-1 loop: System-1 runs predictive VTAM at planning frequency, while System-0 runs high-frequency tactile servo control by comparing predicted tactile latent with current tactile latent and emitting residual corrections for slip, overload, misalignment, or impending contact failure.",
-    "World-model-guided VLA refinement update 2026-06-29: the BAAI seminar slide is effectively the policy-improvement loop version of VTAM. For contact-rich insertion, pressing, screwing, and assembly, let the pretrained VLA provide semantic/coarse motion, use a reward/contact model to detect the contact-rich phase, sample multiple candidate contact trajectories, score them through imagined VTAM/world-model rollouts, then stitch the selected segment back into the trajectory as post-training data. This should be tracked as an evaluation and refinement protocol, not just as a visual rollout demo."
+    "World-model-guided VLA refinement update 2026-06-29: the BAAI seminar slide is effectively the policy-improvement loop version of VTAM. For contact-rich insertion, pressing, screwing, and assembly, let the pretrained VLA provide semantic/coarse motion, use a reward/contact model to detect the contact-rich phase, sample multiple candidate contact trajectories, score them through imagined VTAM/world-model rollouts, then stitch the selected segment back into the trajectory as post-training data. This should be tracked as an evaluation and refinement protocol, not just as a visual rollout demo.",
+    "UMI2Render2Real subproject 2026-06-30: from the personal presentation UMI2Render2Real pages, the intended loop is: large UMI-device datasets -> scan object -> scan scene -> retarget UMI trajectory -> render robot data with LeHome-style household/cooking scenes -> apply to the real robot while explicitly modeling the Render2Real gap. In DaiMeng VTAM this becomes the sixth subproject: a local-workstation pipeline for producing semi-teleop robot data and testing whether rendered trajectories plus tactile/contact supervision improve predictive contact intelligence."
   ],
   "task_ids": [
     "task_tactile_wam_reproduce_gesim2_tactile_wam_20260627",
@@ -275,6 +282,11 @@
       "title": "BAAI seminar note: world-model-guided VLA refinement",
       "submitted_at": "2026-06-29",
       "notes": "User-provided seminar screenshot. Core loop: pretrained VLA handles semantic/coarse motion; reward model detects contact-rich phase; candidate trajectories are evaluated in imagined world-model rollouts; selected contact-rich trajectory is stitched into the VLA trajectory and used as post-training data."
+    },
+    {
+      "title": "Personal presentation: UMI2Render2Real pages",
+      "url": "source-pptx/romoya_present.pptx",
+      "notes": "Local source deck section: Project 2 UMI2Render2Real, scan object/scene, retarget UMI trajectory, render robot data, handle Render2Real gap, convert UMI data to semi-teleop data."
     }
   ],
   "risks_decisions": [
