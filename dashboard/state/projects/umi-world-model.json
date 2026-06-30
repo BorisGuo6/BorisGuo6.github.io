@@ -27,9 +27,9 @@
       "output": "scene/object/robot utility ablations + PhysisForcing-style state-conditioned video supervision + v0 pipeline/tool selection"
     }
   ],
-  "asset": "dashboard/assets/umi-three-system-vtam-architecture-20260629.png",
-  "asset_alt": "Three-system UMI World Model and VTAM architecture: System 2 UMI World Simulator, System 1 layered world action model, and System 0 DaiMeng VTLA contact servo.",
-  "asset_caption": "Three-system architecture: System 2 is the UMI World Simulator for slow multi-view imagined rollouts; System 1 turns real/generated clips into scene, object-contact, and robot layer videos for VLA/IDM/reward utility; System 0 is DaiMeng's high-frequency VTLA contact servo that consumes position commands plus desired tactile latents.",
+  "asset": "dashboard/assets/umi-shared-backbone-dual-branch-wan-20260617.jpg",
+  "asset_alt": "Shared-Backbone Dual-Branch Wan architecture diagram for UMI, showing left and right gripper camera histories, shared video VAE/tokenizer, condition encoder, view embeddings, shared Wan backbone, dual prediction heads, and training objectives.",
+  "asset_caption": "Shared-Backbone Dual-Branch Wan: UMI Stage 1 architecture for separate left/right wrist video latents, view embeddings, shared Wan backbone, dual decoded outputs, and cross-view / temporal / state-action consistency losses.",
   "visual": {
     "layout": "standard"
   },
