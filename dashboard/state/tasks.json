@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-30T11:58:00+08:00",
+  "updated_at": "2026-06-30T12:18:36+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -11050,9 +11050,16 @@
           "kind": "comment",
           "body": "Marked done on 2026-06-30 per Boris direction: close all current DaiMeng VTAM / Tactile-WAM TODOs for now; Boris will manually add the next active TODOs after deciding the new work breakdown.",
           "created_at": "2026-06-30T01:46:09.602Z"
+        },
+        {
+          "comment_id": "clawcross_677d2459946e",
+          "author": "Host verification",
+          "body": "Local Codex host review accepted this TODO.\n可自动验收：本机 dashboard 源状态已按 Boris direction 关闭，且已有可复现命令、测试结果、demo 产物、明确 checkpoint/GPU blocker 和 Tactile-WAM 设计交付物证据。\nEvidence: /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json 中该 task 当前 status=done，含 2026-06-29 computed result comment 与 2026-06-30 Boris direction done comment; /Users/boris/.clawcross/data/harness_state.json 中该 task 仍为 review，说明 harness 导入状态落后于 dashboard 源状态; /Users/boris/.codex/archived_sessions/rollout-2026-06-29T23-41-09-019f140a-a3ff-72d0-a2f9-140262f893e4.jsonl:684 记录远端 artifact 文件存在：RESULT.md、architecture.mmd、schemas.json、commands.sh，并列出 action_conditioned_example_smoke/video.mp4、metrics.json、state.npy; /Users/boris/.codex/archived_sessions/rollout-2026-06-29T23-41-09-019f140a-a3ff-72d0-a2f9-140262f893e4.jsonl:695-698 记录最终交付：GE-Sim-V2 HEAD 4a34498e、pytest 37 passed、50 帧 action-conditioned demo、HF 大权重下载 blocker、8GB GPU 闭环 blocker; /Users/boris/.codex/sessions/2026/06/30/rollout-2026-06-30T09-57-00-019f163e-7994-7741-81de-35c6108a0eff.jsonl:355 记录 pytest -q => 37 passed；:1282 记录 schemas.json 和 commands.sh 内容，覆盖 tactile label schema、loss、WAM schema 与复现命令; 当前直接 SSH 复查远端失败：ssh 到 100.77.85.105 port 22 返回 Operation not permitted；但本机 transcript 已保留远端验证输出和 artifact 内容\nCommands: test -f /Users/boris/.claude/AGENTS.md && sed -n '1,220p' /Users/boris/.claude/AGENTS.md || true; sed -n '1,240p' docs/repo-index.md; jq '.tasks[]? // empty | select(.task_id == \"task_tactile_wam_reproduce_gesim2_tactile_wam_20260627\")' /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json; test -f /Users/boris/.clawcross/data/harness_state.json && jq '.users.boris.tasks.task_tactile_wam_reproduce_gesim2_tactile_wam_20260627, .users.boris.agents' /Users/boris/.clawcross/data/harness_state.json || true; ssh -o BatchMode=yes -o ConnectTimeout=8 dm-26zj-020 'cd /home/lenovo/workspace/gesim-vtam-repro-20260630 && pwd && ls -l && sed -n \"1,220p\" RESULT.md && printf \"\\n--- schemas ---\\n\" && sed -n \"1,220p\" schemas.json && printf \"\\n--- commands ---\\n\" && sed -n \"1,220p\" commands.sh'; ssh -o BatchMode=yes -o ConnectTimeout=8 lenovo@100.77.85.105 'cd /home/lenovo/workspace/gesim-vtam-repro-20260630 && pwd && ls -l && sha256sum RESULT.md architecture.mmd schemas.json commands.sh 2>/dev/null && sed -n \"1,220p\" RESULT.md'\nReason: Acceptance 要求的是复现命令/配置、可运行 demo 或明确 blocker、架构图、label/loss/WAM schema、QA 与 video-only baseline 对照；已记录的 RESULT.md、architecture.mmd、schemas.json、commands.sh 和远端验证 transcript 覆盖这些项。完整 checkpoint/closed-loop 未完成，但有具体可复现 blocker：HF 大 safetensors 传输失败且单 8GB GPU 不适合 world+pi05 闭环，因此满足“demo 或明确 blocker”的验收口径。",
+          "created_at": "2026-06-30T12:18:18+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-30T01:46:09.602Z",
+      "updated_at": "2026-06-30T12:18:28+08:00",
       "completed_at": "2026-06-30",
       "completed_at_time": "2026-06-30T01:46:09.602Z"
     },
