@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-30T09:53:01+08:00",
+  "updated_at": "2026-06-30T10:21:29+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2678,9 +2678,16 @@
           "body": "Local Codex host review reopened this TODO.\n请补齐后再送审：1) 针对 Pi 或 OpenVLA-OFT 给出实际 train/eval hook 命令、输出日志和产物路径；如果不能跑，给出失败/探测命令、完整日志和明确 blocker，不要只用 ACT 替代。2) 提交或在 dashboard comment 附上 RoboTwin smoke/data dry-run 原始日志、HDF5 verifier 输出、artifact 绝对路径、大小和 sha256；若只在远端 5090，请提供可 SSH 只读复核的 host、路径和读取命令。3) 确认 repo commit SHA，以当前可复核 commit 为准。",
           "created_at": "2026-06-30T09:52:57+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_d4a398e01bb7",
+          "author": "Review",
+          "body": "Local Codex host review reopened this TODO.\n请补齐后再送审：1) 针对 Pi 或 OpenVLA-OFT 二选一，实际运行 train/eval hook 并提交原始命令、完整日志、退出码、checkpoint/eval artifact 路径；如果不能运行，请在 RoboTwin/RoboTwin2 环境中实际调用对应 finetune/eval/entry 命令，提交完整失败日志并明确缺少模型权重、依赖、GPU/显存、数据格式适配或 API 支持。2) 将 smoke/data-collection 原始完整日志、退出码、pass/fail、episode0.hdf5 的 HDF5/verifier 读取输出、artifact 大小和 sha256 同步到本机/dashboard 可读路径；若只在远端，请给出当前可 SSH 复核的 host、绝对路径和只读命令。3) 确认最终可复核 repo commit SHA，并避免用未提交本地改动作为验收依据。",
+          "created_at": "2026-06-30T10:21:24+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-30T09:52:58+08:00",
+      "updated_at": "2026-06-30T10:21:26+08:00",
       "due_at": "",
       "completed_at": null
     },
