@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-30T11:42:24+08:00",
+  "updated_at": "2026-06-30T11:58:00+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -11114,10 +11114,17 @@
           "kind": "comment",
           "body": "Marked done on 2026-06-30 per Boris direction: Stage 1 will mainly use DaiMeng's own dataset as the core data substrate, so the DaiMeng / AGI-World / JianZhi mixed-split TODO is no longer an open execution gate. Keep the closed-loop validation and baseline list as intro-level framing; future dataset work should be spawned around DaiMeng-specific splits and eval.",
           "created_at": "2026-06-30T01:01:25.960Z"
+        },
+        {
+          "comment_id": "clawcross_25818251efc8",
+          "author": "Host verification",
+          "body": "Local Codex host review accepted this TODO.\n本机 dashboard 已有 Boris direction 的完成记录，说明该 TODO 已被范围变更关闭，不应退回远端 worker。\nEvidence: /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json 中 task_umi_stage1_closed_loop_eval_split_20260628 当前 status=done，completed_at=2026-06-30; tasks.json 评论 comment_b3314eef-305b-4628-801d-8f9c60b0af8a：Marked done on 2026-06-30 per Boris direction，说明 DaiMeng/AGI-World/JianZhi mixed-split 不再是 open execution gate，后续应另开 DaiMeng-specific splits and eval; /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/projects/umi-world-model.json 已保留 closed-loop validation guardrail、baseline list、mixed split framing 与后续 DaiMeng-specific 方向; 远端 SSH 验证尝试失败：ssh: connect to host 100.112.245.1 port 22: Operation not permitted；但该 TODO 的关闭依据来自本机 dashboard 的 Boris direction，而非远端 worker 产物\nCommands: test -f /Users/boris/.claude/AGENTS.md && sed -n '1,220p' /Users/boris/.claude/AGENTS.md || true; sed -n '1,220p' /Users/boris/.shared-agent-memory/skills/clawcross/SKILL.md; sed -n '1,220p' docs/repo-index.md; jq '.tasks[]? // empty | select(.task_id==\"task_umi_stage1_closed_loop_eval_split_20260628\")' /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json; rg -n \"task_umi_stage1_closed_loop_eval_split_20260628|Stage 1 闭环|closed_loop_eval|DaiMeng|AGI-World\" /Users/boris/workspace/BorisGuo6.github.io /Users/boris/workspace/ClawCross -S; ssh -o BatchMode=yes -o ConnectTimeout=8 jingxiang@100.112.245.1 'pwd; test -d /home/jingxiang/workspace/das-data/.claude/worktrees/umi-vbench-eval && find /home/jingxiang/workspace/das-data/.claude/worktrees/umi-vbench-eval -maxdepth 4 -type f \\( -iname \"*stage*\" -o -iname \"*split*\" -o -iname \"*eval*\" -o -iname \"*closed*\" -o -iname \"*.md\" -o -iname \"*.json\" \\) | sed -n \"1,200p\"'\nReason: 虽然当前 review payload 里没有 worker run_id 或 verifier，但本机 dashboard 源文件显示该 TODO 已按 Boris 明确方向关闭：原 mixed-split 执行门槛被取消，只保留为 intro framing，后续工作应拆成新的 DaiMeng-specific eval TODO；因此无需退回离线远端 worker 补实验产物。",
+          "created_at": "2026-06-30T11:57:53+08:00",
+          "kind": "host_verified"
         }
       ],
       "completed_at": "2026-06-30",
-      "updated_at": "2026-06-30T01:01:25.960Z",
+      "updated_at": "2026-06-30T11:57:55+08:00",
       "completed_at_time": "2026-06-30T00:59:36.734Z"
     }
   ]
