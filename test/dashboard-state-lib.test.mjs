@@ -218,10 +218,10 @@ assert.match(
   /task-comment-delete/,
   "dashboard should route comment deletion through a hosted/local API endpoint",
 );
-assert.match(
+assert.doesNotMatch(
   dashboardSource,
-  /page-agent@1\.10\.0\/dist\/iife\/page-agent\.demo\.js\?autoInit=false[\s\S]+new window\.PageAgent/,
-  "dashboard should lazily load the official Alibaba Page Agent demo bundle before initialization",
+  /page-agent|PageAgent|pageAgent|data-page-agent/i,
+  "dashboard should not expose Page Agent controls or load the Page Agent bundle",
 );
 assert.match(
   dashboardSource,
@@ -382,8 +382,23 @@ assert.doesNotMatch(
 );
 assert.match(
   homepageSource,
-  /assets\/js\/main\.js\?v=20260629-home-mapmyvisitors/,
+  /assets\/js\/main\.js\?v=20260630-news-map-flash/,
   "homepage must version main.js so removed timeline items are not revived by browser cache",
+);
+assert.match(
+  homepageSource,
+  /<li id="news-phd-offer" style="display:none;">/,
+  "PhD offer news must be hidden in initial minimal-mode HTML, not only after JavaScript runs",
+);
+assert.match(
+  homepageSource,
+  /id="visitor-map-fallback"[\s\S]*?hidden/,
+  "visitor map fallback must start hidden so it does not flash beside the injected map",
+);
+assert.doesNotMatch(
+  homepageSource,
+  /clustrmaps|clustrmap/i,
+  "homepage must not keep old ClustrMaps embeds after switching visitor map providers",
 );
 assert.doesNotMatch(
   homepageSource,
@@ -392,13 +407,13 @@ assert.doesNotMatch(
 );
 assert.match(
   mainJsSource,
-  /SITE_ASSET_VERSION = '20260629-home-mapmyvisitors'[\s\S]+fetch\(versionedUrl\)/,
+  /SITE_ASSET_VERSION = '20260630-news-map-flash'[\s\S]+fetch\(versionedUrl\)/,
   "main.js must version JSON content fetches so stale timeline data is not reused",
 );
 assert.doesNotMatch(
   mainJsSource,
   /page-agent|PageAgent|pageAgent/i,
-  "homepage main.js must not load Page Agent; Page Agent belongs on the dashboard only",
+  "homepage main.js must not load Page Agent",
 );
 assert.doesNotMatch(
   homepageSource,

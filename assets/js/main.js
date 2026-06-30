@@ -1,7 +1,7 @@
 // Main JavaScript file for BorisGuo6.github.io
 // Contains all interactive functionality for the personal website
 
-var SITE_ASSET_VERSION = '20260629-home-mapmyvisitors';
+var SITE_ASSET_VERSION = '20260630-news-map-flash';
 var _deferredThirdPartyLoaded = false;
 
 // ============================================================================
@@ -857,25 +857,42 @@ function initVisitorMapFallback() {
   var slot = document.getElementById('visitor-map-slot');
   var fallback = document.getElementById('visitor-map-fallback');
   if (!slot || !fallback) return;
+  var fallbackAllowed = false;
 
-  function hasInjectedMap() {
-    return Array.prototype.some.call(slot.children, function (el) {
+  function injectedMapRoots() {
+    return Array.prototype.filter.call(slot.children, function (el) {
       if (el === fallback || el.id === 'mapmyvisitors' || el.tagName === 'SCRIPT') return false;
+      if (el.tagName === 'STYLE') return false;
       if (el.matches && el.matches('a, img, iframe, canvas, svg')) return true;
       return !!(el.querySelector && el.querySelector('a, img, iframe, canvas, svg'));
     });
   }
 
+  function normalizeInjectedMaps() {
+    var roots = injectedMapRoots();
+    roots.slice(1).forEach(function (el) {
+      el.remove();
+    });
+    return roots.length > 0;
+  }
+
   function refreshFallbackState() {
-    if (hasInjectedMap()) {
+    if (normalizeInjectedMaps()) {
       slot.classList.add('visitor-map-ready');
+      fallback.hidden = true;
     } else {
       slot.classList.remove('visitor-map-ready');
+      fallback.hidden = !fallbackAllowed;
     }
   }
 
+  var observer = new MutationObserver(refreshFallbackState);
+  observer.observe(slot, { childList: true });
   refreshFallbackState();
-  window.setTimeout(refreshFallbackState, 3000);
+  window.setTimeout(function () {
+    fallbackAllowed = true;
+    refreshFallbackState();
+  }, 3000);
   window.setTimeout(refreshFallbackState, 8000);
 }
 
