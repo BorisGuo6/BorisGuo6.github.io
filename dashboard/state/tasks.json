@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-30T21:03:23+08:00",
+  "updated_at": "2026-06-30T21:58:26+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -11157,9 +11157,16 @@
           "kind": "comment",
           "body": "2026-06-29 Layered Image Policy sync: Lai will produce an Omni result next; compare it directly against unstable VACE outputs on the same RobotSeg/SAM masks. The decision is whether Gemini-Omni can be a fallback or qualitative probe for object removal/contact completion, not whether it replaces the segmentation layer pipeline.",
           "created_at": "2026-06-29T23:20:00+08:00"
+        },
+        {
+          "comment_id": "clawcross_1aa1125519ea",
+          "author": "Review",
+          "body": "Local Codex host review reopened this TODO.\n请补交 Gemini-Omni object inpaint/removal probe 的可验收包：3-5 个输入 clip 与 mask/layer_manifest 路径，Gemini-Omni 入口/API或网页流程、prompt/reference/mask 设置，输出视频或截图/视频路径，与 VACE/FLUX.fill/LaMa/GPT still baseline 的同输入对照，temporal consistency/unmasked preservation/recomposition QA，失败样例，速度/成本/人工操作量，以及明确结论：只适合 quick qualitative probe、可否作为 VACE fallback、能否进入 global layered dataset pipeline。若无法运行，请给出具体 blocker 和已完成的准备产物路径。",
+          "created_at": "2026-06-30T21:58:16+08:00",
+          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-30T12:02:58.036Z",
+      "updated_at": "2026-06-30T21:58:21+08:00",
       "completed_at": "2026-06-30",
       "completed_at_time": "2026-06-30T12:02:58.036Z"
     },
