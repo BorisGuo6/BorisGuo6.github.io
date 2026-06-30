@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-30T08:13:48+08:00",
+  "updated_at": "2026-06-30T09:02:35+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2673,7 +2673,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-30T08:13:46+08:00",
+      "updated_at": "2026-06-30T09:02:32+08:00",
       "due_at": "",
       "completed_at": null
     },
@@ -4650,27 +4650,6 @@
       "completed_at": "2026-05-23"
     },
     {
-      "task_id": "task_pod_printer_head_farm_reframe_20260628",
-      "project_id": "robotics-3d-printing",
-      "title": "重构 Robotics + 3D Printing 为 printer-head / farm automation 路线",
-      "description": "围绕 ACM UIST 2019 A 3D Printer Head as a Robotic Manipulator、用户给的 YouTube/Bilibili 视频参考，重新定义项目路线：3D 生成不再是终点，而是进入自动化 3D 打印农场。Scope 包括 editable CAD / part metadata、slicer / printer queue、自动换 nozzle / tool / head、打印机 gantry/head 作为 manipulation resource、robot takeout、part sorting、post-processing、fixture/tool printing、从打印到装配的自动化。Acceptance: 1) 写一页路线图，区分 printer-head manipulation、robot takeout、tool/head-change、assembly 四条子线；2) 给出 first demo cell 的硬件候选（printer、toolchanger/headchanger、robot、camera、bed/fixture）；3) 复用旧 PoD artifacts，说明哪些 schema/manifest/assembly_plan 字段要扩展；4) 给出 first demo（例如自动打印工具/夹具后由机器人取出并装配）的最小验收；5) 明确哪些只做 survey，哪些可以转 Engineering。",
-      "status": "open",
-      "priority": "high",
-      "assignee": null,
-      "result": null,
-      "comments": [
-        {
-          "comment_id": "comment_task_pod_printer_head_farm_reframe_20260628_user_direction",
-          "author": "Boris / Codex",
-          "body": "2026-06-28 direction update: project focus shifts from generic PoD / text-to-3D toward a robotic 3D-printing farm and automated manufacturing loop. Core references are DOI 10.1145/3332165.3347885, the user-provided YouTube paper video, and the user-provided Bilibili automation video. The story should cover printer-head manipulation, automated tool/head changes, printer-farm takeout, and from generated 3D assets to assembly.",
-          "created_at": "2026-06-28T10:33:31+08:00",
-          "kind": "comment"
-        }
-      ],
-      "updated_at": "2026-06-28T10:33:31+08:00",
-      "due_at": ""
-    },
-    {
       "task_id": "task_layered_wm_contact_object_head",
       "project_id": "image-layered-world-model",
       "title": "补 object/contact supervision probe",
@@ -6144,9 +6123,9 @@
       "project_id": "real-robot-demos",
       "title": "Real-Robot Demo: Jenga 抽积木塔 tactile pilot",
       "description": "把 Jenga-style block extraction / 抽积木塔作为紧凑真机 demo：机器人从木块塔里推出或抽出指定木块，同时尽量不让塔倒。前置采购 / 确认：Jenga 积木塔或自定义积木块堆、目标块标记材料（贴纸 / 彩色胶带）、防滑底座或防滑垫。用 q_arm、T_hand、q_finger 记录链路和 tactile/VTA/VLA 分析接触稳定、摩擦/滑移、侧向推力、塔体晃动和失败恢复；配一个可打印/定制的特殊 gripper，并接入戴盟触觉。目标是把 slip、contact stability、lateral force、tower wobble、tower collapse 等失败变成真机 demo 和评测样例。DexGello 可提供数据/控制依赖，但 demo 场景归 Real-Robot Demos 表格管理。",
-      "status": "active",
+      "status": "needs_user",
       "priority": "medium",
-      "assignee": "Gaochen / Zheng Yuhang for gripper timing",
+      "assignee": "master student TBD / Zheng Yuhang for gripper timing",
       "result": null,
       "started_at": "2026-05-25",
       "due_at": "",
@@ -6192,16 +6171,9 @@
           "body": "Moved from DexGello to Engineering / Real-Robot Demos on 2026-06-13 per user correction: all DexGello physical demo scenarios should be listed in the Real-Robot Demos table rather than under DexGello.",
           "created_at": "2026-06-13T00:13:51+08:00",
           "kind": "comment"
-        },
-        {
-          "comment_id": "comment_real_robot_demo_jenga_gaochen_owner_20260628",
-          "author": "Boris / Codex",
-          "body": "Scope update from Boris: the robot Jenga / 抽积木 demo has been handed to Gaochen. Keep it in the Real-Robot Demos queue, but it is no longer part of Boris/Jingxiang's current main execution focus. Boris/Jingxiang current focus is only toy-knife slime-clay cutting, Rubik/cube two-step turning, and broom-sweeping blocks/objects.",
-          "created_at": "2026-06-28T09:52:38+08:00",
-          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-28T09:52:38+08:00",
+      "updated_at": "2026-06-16T13:24:37+08:00",
       "completed_at": null
     },
     {
@@ -6564,7 +6536,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-27T16:18:43+08:00",
+      "updated_at": "2026-06-30T08:53:56+08:00",
       "completed_at": "2026-06-24"
     },
     {
@@ -6701,16 +6673,9 @@
           "body": "Moved from DexGello to Engineering / Real-Robot Demos on 2026-06-13 per user correction: DexGello should not own the physical demo list; it only supplies q_arm/T_hand/q_finger logging, MANUS/VIVE, cuRobo, and related data/control dependencies.",
           "created_at": "2026-06-13T00:13:51+08:00",
           "kind": "comment"
-        },
-        {
-          "comment_id": "comment_real_robot_slime_cut_current_focus_20260628",
-          "author": "Boris / Codex",
-          "body": "Scope update from Boris: this remains one of the three current main demos, alongside Rubik/cube two-step turning and broom-sweeping blocks/objects. Jenga / 抽积木 is now Gaochen's demo.",
-          "created_at": "2026-06-28T09:52:38+08:00",
-          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-28T09:52:38+08:00"
+      "updated_at": "2026-06-16T13:24:37+08:00"
     },
     {
       "task_id": "task_drag_demo_on_policy_gravity_comp_survey",
@@ -8323,7 +8288,7 @@
       "project_id": "umi-world-model",
       "title": "验证 Stage 3 layer utility：scene geometry、object HOI/pose/flow、robot pose/retargeting",
       "description": "Ziyang/Boris 用分层结果验证三类下游 utility，不再只看 FoundationPose。\n\nScene Layer: 用 RoboEngine (https://roboengine.github.io) 做物理/任务感知背景替换与 data augmentation；补 MoGe (https://github.com/microsoft/moge) 估计 depth / point map / normal / camera FOV，GeoCalib (https://github.com/cvg/GeoCalib) 估计 intrinsics / gravity direction，用于把 object flow/pose lift 到稳定场景坐标。\n\nObject / Contact Layer: 2D 分割/掩码追踪用 SAM3 (https://github.com/facebookresearch/sam3)；3D 形状和 6-DoF/pose 用 SAM 3D Objects (https://github.com/facebookresearch/sam-3d-objects)、Fast-SAM3D (https://github.com/wlfeng0509/Fast-SAM3D)、FoundationPose、Fast-FoundationStereoPhysics、Orient-Anything、Any6D；物体运动/形变辅助估计用 BootsTAPIR/TAPNet (https://github.com/google-deepmind/tapnet)、AllTracker、D4RT、CoTracker、Any4D，并在需要时结合 Video Depth Anything / MoGe 做 3D point flow。Do-As-I-Do (https://do-as-i-do.com/ ; https://github.com/malik-group/do-as-i-do) 作为 hand-object reconstruction + retargeting bridge：评价 object pose/velocity trajectory、contact intent、grasp/tool-use mode、task result 是否一致，而不是只比关节角。\n\nRobot / Hand Layer: 可见机器人用 Dr. Robot 做 image-based robot pose；腕部/头部 ego-view 用 ORB-SLAM3 / VGGT-SLAM 做 VO/SLAM；人手源视频用 HaWoR (https://hawor-project.github.io/ ; https://github.com/ThunderVVV/HaWoR) 做 world-space hand tracking，再用 Do-As-I-Do / dex-retargeting 连接到 robot layer / IDM。\n\nAcceptance: 选 3-5 个对象/片段，输出 raw RGB、mask-only、object-only、object+background、robot-only、recomposed clip 的 pose/flow/retarget/eval 结果；每层报告成功率或人工评分、遮挡/背景干扰案例、几何/标定误差、contact/flow 稳定性、是否 object/contact layer 比 flat RGB 或 mask-only 更有用；明确哪些工具进入 v0 pipeline，哪些只作为对照或失败样例。",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignee": "Ziyang / Boris",
       "result": null,
@@ -8361,9 +8326,10 @@
           "created_at": "2026-06-26T15:52:47.549Z"
         }
       ],
-      "updated_at": "2026-06-26T15:52:47.549Z",
+      "updated_at": "2026-06-29T15:37:16.558Z",
       "due_at": "",
-      "completed_at": null
+      "completed_at": "2026-06-29",
+      "completed_at_time": "2026-06-29T15:37:16.558Z"
     },
     {
       "task_id": "task_umi_lai_layer_count_deploy_10_image_batch_20260617",
@@ -9295,8 +9261,8 @@
     {
       "task_id": "task_real_robot_demo_broom_dustpan_long_horizon",
       "project_id": "real-robot-demos",
-      "title": "Long-horizon demo: 用扫帚扫积木/物体",
-      "description": "为 DexGello / Learn-from-failure-data 准备一个较长 horizon 的真机 demo：机器人抓住小扫帚，把桌面上的积木、轻物体或 debris proxy 扫进撮箕 / 目标区域。前置采购 / 确认：桌面使用的小扫帚（软毛）和桌面使用的小撮箕。目标不是只看最终成功，而是产生可分阶段标注的成功/失败/接管轨迹，用来验证 phase-importance metric。建议阶段：approach broom、grasp broom、align with block/object、make contact、sweep toward dustpan/target zone、enter target、settle / finish。验收：完成安全 tabletop setup 和物体/撮箕固定方案；完成 read-only 或仿真/dry-run；完成一次低速真机试验或明确硬件 blocker；记录视频、q_arm、T_hand、q_finger/Wuji state、object progress、contact/failure labels、human takeover/intervention；产出至少 1 条可用于 failure metric 离线打分的 episode。",
+      "title": "Long-horizon demo: 用扫帚把物体扫进撮箕",
+      "description": "为 DexGello / Learn-from-failure-data 准备一个较长 horizon 的真机 demo：机器人抓住小扫帚，把桌面上的轻物体 / debris proxy 扫进撮箕。前置采购 / 确认：桌面使用的小扫帚（软毛）和桌面使用的小撮箕。目标不是只看最终成功，而是产生可分阶段标注的成功/失败/接管轨迹，用来验证 phase-importance metric。建议阶段：approach broom、grasp broom、align with object、make contact、sweep toward dustpan、enter dustpan、settle / finish。验收：完成安全 tabletop setup 和物体/撮箕固定方案；完成 read-only 或仿真/dry-run；完成一次低速真机试验或明确硬件 blocker；记录视频、q_arm、T_hand、q_finger/Wuji state、object progress、contact/failure labels、human takeover/intervention；产出至少 1 条可用于 failure metric 离线打分的 episode。",
       "status": "todo",
       "priority": "high",
       "assignee": "Yuhang & Jingxiang / DexGello",
@@ -9309,16 +9275,9 @@
           "body": "Seeded from user request on 2026-06-13: Learn-from-failure-data needs longer-horizon real-robot demos, such as using a broom to sweep an object into a dustpan. Use this mainly to expose phase importance and learnable pre-failure segments.",
           "created_at": "2026-06-13T16:13:00+08:00",
           "kind": "comment"
-        },
-        {
-          "comment_id": "comment_real_robot_broom_current_focus_20260628",
-          "author": "Boris / Codex",
-          "body": "Scope update from Boris: this is one of the three current main demos. Phrase it as broom-sweeping blocks/objects, not only generic debris. Jenga / 抽积木 is now Gaochen's demo.",
-          "created_at": "2026-06-28T09:52:38+08:00",
-          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-28T09:52:38+08:00",
+      "updated_at": "2026-06-16T13:24:37+08:00",
       "started_at": "2026-06-13",
       "completed_at": null
     },
@@ -9339,16 +9298,9 @@
           "body": "Seeded from user request on 2026-06-13: Learn-from-failure-data needs longer-horizon real-robot demos, such as turning a Rubik-style cube 90 degrees twice. Keep the goal as staged dexterous manipulation data, not cube solving.",
           "created_at": "2026-06-13T16:13:00+08:00",
           "kind": "comment"
-        },
-        {
-          "comment_id": "comment_real_robot_cube_turn_current_focus_20260628",
-          "author": "Boris / Codex",
-          "body": "Scope update from Boris: this is one of the three current main demos, alongside toy-knife slime-clay cutting and broom-sweeping blocks/objects. Jenga / 抽积木 is now Gaochen's demo.",
-          "created_at": "2026-06-28T09:52:38+08:00",
-          "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-28T09:52:38+08:00",
+      "updated_at": "2026-06-16T13:24:37+08:00",
       "started_at": "2026-06-13",
       "completed_at": null
     },
@@ -9534,7 +9486,7 @@
       "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
       "project_id": "umi-world-model",
       "title": "调研并重做 WAN2.2 action encoder / 注入路径",
-      "status": "active",
+      "status": "done",
       "priority": "urgent",
       "assignee": "Boris / Haoyu",
       "description": "根据 2026-06-22 Zoom 同步，当前 WAN2.2 action 控制没有解决：直接在输出头添加条件分支后，高噪声专家对 action 变化响应不明显；custom action encoder 未充分训练；部分指标可能变好但 actual/zero/wrong-row 行为仍不分离。下一步需要系统调研 WAN2.2 已有开源 action/control 注入方法，并重新设计 action encoder 与注入位置。候选包括 extend/control layer、LayerNorm/AdaLN 调制、cross-attention/action tokens、ControlNet-style branch、high-noise expert early injection、低噪专家细节修正、以及独立 state/action decoding head。Action 编码必须明确 8-D compact form（pos3 + quat4 + gripper）与当前 10-D continuous form（pos3 + rot6d + gripper），并单独 ablate gripper scaling / normalization；会议结论是当前 Cosmos-Predict2.5 seed 中不要默认归一化 gripper。Acceptance: 1) 一页 WAN2.2 action-injection 方法表，含可复用 repo/API、注入层、是否覆盖 high/low expert、训练成本；2) 现有 UMI action tensor schema 和归一化/不归一化对照；3) 一个可跑的最小改造方案或伪代码；4) 用 base/actual/zero/wrong-row/action-guidance gate 定义验收，不只看 MAE/MA；5) 明确是否继续 WAN2.2-A14B adapter，还是转入 Wan2.1/Gamma-style shared-world teacher。",
@@ -10765,32 +10717,9 @@
           "created_at": "2026-06-28T01:40:04+08:00"
         }
       ],
-      "completed_at": null,
-      "updated_at": "2026-06-28T01:40:04+08:00"
-    },
-    {
-      "task_id": "task_umi_stage1_closed_loop_eval_split_20260628",
-      "project_id": "umi-world-model",
-      "title": "定义 Stage 1 闭环验证与 DaiMeng / AGI-World 混合 split",
-      "status": "todo",
-      "priority": "urgent",
-      "assignee": "Boris / Gaochen / Haoyu",
-      "description": "根据 2026-06-28 与高晨的讨论，Stage 1 不能继续只按“再训练一个更大 shared-world / WAN / Gamma route”推进；算力和数据选择成本很高，下一步先把可反驳的闭环验证协议定义清楚。数据面：混合 DaiMeng UMI-style 数据、AGI-World，以及之前选用的 JianZhi / UMI 类数据，显式按 task、object、scene、embodiment、camera setup 拆 train / val / test，避免同任务近邻泄漏。验证面：明确在哪里比、和谁比、怎样算赢。Baseline 至少包括 copy-last-frame / first-frame hold、nearest-neighbor retrieval、wrist-only 或 D435-only predictive baseline、当前 best shared-world teacher / ranker、action-swapped counterfactual、generic interactive world model 直接喂 UMI 首帧的 negative baseline；不能只用“公开 interactive robot wrist world model 不存在”当成功证据。闭环指标：same-episode rollout fidelity、cross-view consistency、object/contact state prediction、action actual-vs-zero/wrong/nearest separation、planner/reward/IDM utility、以及跨 DaiMeng / AGI-World / JianZhi split 的 generalization。UMI 的跨本体优势假设要单独记录：视觉差距主要是夹爪 jaw / end-effector gap，且 wrist view 下 jaw 位置相对固定，所以可做 embodiment-gap ablation。",
-      "result": null,
-      "due_at": "2026-06-30",
-      "comments": [
-        {
-          "comment_id": "comment_umi_stage1_gaochen_closed_loop_sync_20260628",
-          "task_id": "task_umi_stage1_closed_loop_eval_split_20260628",
-          "author": "Codex / ClawCross wx sync",
-          "author_type": "system",
-          "kind": "comment",
-          "body": "ClawCross 读取到 2026-06-28 高晨私聊更新：高晨提醒这个方向 cost 很高；如果目标只是提高 cross view，也可以在真机上先做；Boris 当前想先验证可行性，并计划混合 DaiMeng 数据集、AGI-World 和此前 JianZhi 数据，重新划分测试集和训练集。高晨指出闭环验证麻烦，核心是“怎么对比效果，在哪里比，baseline 是啥”。Boris 的假设是 UMI 跨本体相对容易，因为主要差异是夹爪 jaw 的 visual gap，且 jaw 在画面中位置固定；公开 interactive world model 直接喂 UMI 首帧会崩，但这应作为 negative baseline，而不是唯一成功标准。",
-          "created_at": "2026-06-28T10:18:18+08:00"
-        }
-      ],
-      "completed_at": null,
-      "updated_at": "2026-06-28T10:18:18+08:00"
+      "completed_at": "2026-06-29",
+      "updated_at": "2026-06-29T15:35:32.379Z",
+      "completed_at_time": "2026-06-29T15:35:32.379Z"
     },
     {
       "task_id": "task_umi_haoyu_2000_clip_finetune_result_20260622",
@@ -10901,24 +10830,28 @@
       "project_id": "tactile-wam",
       "title": "实现 Universal Tactile Encoder v0",
       "description": "基于 2026-06-26 戴盟 VTAM proposal，先实现可插拔 Universal Tactile Encoder：输入 Marker Flow / tactile image / 多指触觉序列，输出统一 z_tac latent。Acceptance: 数据 schema、训练配置、模型权重或最小 checkpoint、finger identity/contact-region positional encoding、future latent prediction/reconstruction 指标、slip/contact stability 相关性、可接入 VTAM/System-0 的推理接口。",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignee": "Boris / DaiMeng VTAM / Wuji",
       "result": null,
       "comments": [],
-      "updated_at": "2026-06-27T05:26:11.737Z"
+      "updated_at": "2026-06-29T15:51:17.975Z",
+      "completed_at": "2026-06-29",
+      "completed_at_time": "2026-06-29T15:51:17.975Z"
     },
     {
       "task_id": "task_vtam_temporal_action_token_shared_world_model_20260627",
       "project_id": "tactile-wam",
       "title": "实现 Temporal Action-Token Shared-World Model v0",
       "description": "把高效 VTAM 明确做成 Temporal Action-Token Shared-World Model，而不是普通视觉/触觉拼接。Token streams: visual tokens、tactile/contact tokens、temporal action tokens、shared-world tokens；预测 future tactile/contact latent、contact risk、action latent/chunk 和可选 video rollout。Acceptance: 架构图、输入/输出 schema、training objective、held-out actual/zero/wrong-action gate、tactile prediction error、contact timing error，以及和普通 cross-modal attention / video-first baseline 的 ablation。",
-      "status": "todo",
+      "status": "done",
       "priority": "urgent",
       "assignee": "Boris / DaiMeng VTAM",
       "result": null,
       "comments": [],
-      "updated_at": "2026-06-27T05:26:11.737Z"
+      "updated_at": "2026-06-29T15:50:52.550Z",
+      "completed_at": "2026-06-29",
+      "completed_at_time": "2026-06-29T15:50:52.550Z"
     },
     {
       "task_id": "task_vtam_fast_contact_action_rollout_20260627",
@@ -10949,16 +10882,18 @@
       "project_id": "tactile-wam",
       "title": "建立戴盟 VTAM contact-rich 评估套件",
       "description": "按 proposal 建立多层次评估：稳定抓握与滑移抑制、在手姿态调整、插头/销钉插接、卡片滑动、表面擦拭、工具使用、扰动后的接触恢复。Acceptance: 任务列表、数据采集/标注 schema、动态扰动设置、contact timing/slip/contact-risk 指标、跨物体/位置/工具泛化、actual/zero/wrong-action gate、最终 go/no-go 表。",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignee": "Boris / DaiMeng VTAM",
       "result": null,
       "comments": [],
-      "updated_at": "2026-06-27T05:26:11.737Z"
+      "updated_at": "2026-06-29T15:51:38.214Z",
+      "completed_at": "2026-06-29",
+      "completed_at_time": "2026-06-29T15:51:38.214Z"
     },
     {
       "schema_version": "task.v1",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "comments": [
         {
@@ -10970,20 +10905,22 @@
         }
       ],
       "created_at": "2026-06-27T05:42:22.606Z",
-      "updated_at": "2026-06-27T05:42:22.606Z",
+      "updated_at": "2026-06-29T15:35:23.462Z",
       "task_id": "task_umi_stage2_vddm_human_ego_probe_20260627",
       "project_id": "umi-world-model",
       "title": "Stage 2 VDDM: 加入 egocentric human-hand manipulation decomposition probe",
       "assignee": "Boris / Ziyang / Lai",
       "due_at": "2026-07-10",
-      "description": "把 Stage 2 从 robot-only 分层扩展成 Video Dynamics Decomposition Model (VDDM) 的跨域验证：在 MolmoAct/UMI/RoboTwin robot clips 之外，加入 egocentric human-hand manipulation videos。统一 schema: actor_layer(actor_type=robot|human_hand)、object_contact_layer、occluder_tool_layer、scene_background_layer；sidecars 包括 mask.png、rgba.png、layer video、SVG contour、depth/pointmap、mesh/pose if available、2D/3D tracks、contact events、layer_manifest.json。实验路线：robot 侧用 RobotSeg/SAM3/SAM2 tracking + VACE/FLUX.fill/LaMa baseline；human-ego 侧参考 HaWoR 与 Do-As-I-Do pipeline，用 SAM3 -> SAM3D mesh -> MoGe pointmaps -> HaWoR -> TAPIR/BootsTAPIR or guided-diffusion tracking -> projection/retargeting 检查分层是否改善 reconstruction。Acceptance: 1) 3 个 robot clips + 3 个 egocentric human-hand clips；2) 每个 clip 输出四层 layer package 与 manifest；3) raw RGB vs mask-only vs VDDM layers 的 recomposition、temporal consistency、track/pose/reconstruction/retargeting 对比；4) failure gallery 覆盖手指/夹爪细节、透明/反光/布料/液体、遮挡接触、背景漂移；5) 判断 VDDM 是否足以支撑 Stage 2 独立论文与 v0 dataset/model 训练。"
+      "description": "把 Stage 2 从 robot-only 分层扩展成 Video Dynamics Decomposition Model (VDDM) 的跨域验证：在 MolmoAct/UMI/RoboTwin robot clips 之外，加入 egocentric human-hand manipulation videos。统一 schema: actor_layer(actor_type=robot|human_hand)、object_contact_layer、occluder_tool_layer、scene_background_layer；sidecars 包括 mask.png、rgba.png、layer video、SVG contour、depth/pointmap、mesh/pose if available、2D/3D tracks、contact events、layer_manifest.json。实验路线：robot 侧用 RobotSeg/SAM3/SAM2 tracking + VACE/FLUX.fill/LaMa baseline；human-ego 侧参考 HaWoR 与 Do-As-I-Do pipeline，用 SAM3 -> SAM3D mesh -> MoGe pointmaps -> HaWoR -> TAPIR/BootsTAPIR or guided-diffusion tracking -> projection/retargeting 检查分层是否改善 reconstruction。Acceptance: 1) 3 个 robot clips + 3 个 egocentric human-hand clips；2) 每个 clip 输出四层 layer package 与 manifest；3) raw RGB vs mask-only vs VDDM layers 的 recomposition、temporal consistency、track/pose/reconstruction/retargeting 对比；4) failure gallery 覆盖手指/夹爪细节、透明/反光/布料/液体、遮挡接触、背景漂移；5) 判断 VDDM 是否足以支撑 Stage 2 独立论文与 v0 dataset/model 训练。",
+      "completed_at": "2026-06-29",
+      "completed_at_time": "2026-06-29T15:35:23.462Z"
     },
     {
       "task_id": "task_tactile_wam_reproduce_gesim2_tactile_wam_20260627",
       "project_id": "tactile-wam",
       "title": "复现 GE-Sim 2.0，并设计触觉生成 / Tactile-WAM 化路径",
       "description": "GE-Sim 2.0 已开源，先作为 DaiMeng VTAM / Tactile-WAM 的第一条复现任务。Step 1: 跑通官方 GE-Sim-V2 repo、HuggingFace agibot-world/Genie-Envisioner-Sim-v2.0 checkpoint 和至少 1 个 G01 / OmniPicker-style action-conditioned multi-view rollout；记录环境、权重、显存、速度、输入动作格式、proprioceptive state expert、world judge 和 closed-loop rollout 是否可复现。Step 2: 思考并做最小 tactile extension：在 GE-Sim 的视觉/动作/本体状态 token 上增加 contact/tactile latent head，用 contact mask、gripper opening、force/torque、object pose/slip 或仿真 contact event 生成 pseudo tactile labels，预测 future tactile/contact latent、contact timing、slip/contact risk。Step 3: WAM 化：把输出从 video-only rollout 扩展成 <multi-view RGB/video latent, action tokens, proprio state, contact/tactile latent, world tokens> 的 state-action-contact rollout，并接 actual/zero/wrong-action gate 与 action head。Acceptance: 复现命令/配置、可运行 demo 或明确 blocker、1 页架构改造图、触觉 label schema、tactile/contact head loss、WAM state/action schema、actual/zero/wrong-action + contact timing + slip risk QA，以及和原 GE-Sim video-only baseline 的对照。",
-      "status": "todo",
+      "status": "review",
       "priority": "urgent",
       "assignee": "Boris / DaiMeng VTAM",
       "result": null,
@@ -10995,9 +10932,20 @@
           "body": "Seeded from GE-Sim 2.0 release: GitHub https://github.com/AgibotTech/GE-Sim-V2, HuggingFace https://huggingface.co/agibot-world/Genie-Envisioner-Sim-v2.0, project page https://ge-sim-v2.github.io/, arXiv https://arxiv.org/abs/2605.27491. The key VTAM angle is not just reproduction; add tactile/contact latent prediction and convert GE-Sim-style action-conditioned video simulation into a WAM state/action/contact rollout.",
           "created_at": "2026-06-27T06:34:42.143Z",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_f5bea9d4-bb28-4764-b0e9-75b85e246011",
+          "task_id": "task_tactile_wam_reproduce_gesim2_tactile_wam_20260627",
+          "author": "Codex dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[COMPUTED] Repro/design pass completed on dm-26zj-020 under /home/lenovo/workspace. Artifact: /home/lenovo/workspace/gesim-vtam-repro-20260630/RESULT.md plus architecture.mmd, schemas.json, commands.sh. Official GE-Sim-V2 cloned at /home/lenovo/workspace/GE-Sim-V2 HEAD 4a34498e326dfa88d6300b2e476e8a67795c430a with openpi submodule. Environment: Ubuntu 22.04, Python 3.10.12, RTX 5060 8151MiB, driver 580.159.03, CUDA torch 2.7.0+cu128. Validation: pytest -q => 37 passed in 45.75s. Runnable demo: official synthetic example server + G01 assets/demo_000 action-conditioned smoke, 50 frames, action_shape [50,16], per-chunk frames (25,3,3,384,512), avg_chunk_time_s 0.953, output /home/lenovo/workspace/GE-Sim-V2/outputs/action_conditioned_example_smoke/video.mp4. [COMPUTED] Real gesim_v2 rollout blocker: direct HF timed out; HF via Tailscale proxy 100.111.237.115:7993 worked for metadata/small files but large safetensors stalled at 0-byte incomplete locks. HF sizes: world model.safetensors 4.265GB + VAE 0.508GB, pi05 policy model.safetensors 7.473GB, checkpoint total 11.409GiB. [INFERRED] Full closed-loop world+pi05 is not realistic on a single 8GB GPU; needs stable checkpoint transfer and likely split world/policy servers across GPUs/hosts. [INFERRED] Artifact includes tactile label schema, contact/tactile head loss, WAM state/action/contact schema, actual/zero/wrong-action + contact timing + slip risk QA, and baseline comparison.",
+          "created_at": "2026-06-29T16:35:12.252Z"
         }
       ],
-      "updated_at": "2026-06-27T06:34:42.143Z"
+      "updated_at": "2026-06-29T16:35:59.694Z",
+      "completed_at": null,
+      "completed_at_time": null
     },
     {
       "task_id": "task_umi_gemini_omni_video_edit_object_inpaint_probe_20260627",
@@ -11028,6 +10976,31 @@
         }
       ],
       "updated_at": "2026-06-29T23:20:00+08:00"
+    },
+    {
+      "task_id": "task_umi_stage1_closed_loop_eval_split_20260628",
+      "project_id": "umi-world-model",
+      "title": "定义 Stage 1 闭环验证与 DaiMeng / AGI-World 混合 split",
+      "status": "done",
+      "priority": "urgent",
+      "assignee": "Boris / Gaochen / Haoyu",
+      "description": "根据 2026-06-28 与高晨的讨论，Stage 1 不能继续只按“再训练一个更大 shared-world / WAN / Gamma route”推进；算力和数据选择成本很高，下一步先把可反驳的闭环验证协议定义清楚。数据面：混合 DaiMeng UMI-style 数据、AGI-World，以及之前选用的 JianZhi / UMI 类数据，显式按 task、object、scene、embodiment、camera setup 拆 train / val / test，避免同任务近邻泄漏。验证面：明确在哪里比、和谁比、怎样算赢。Baseline 至少包括 copy-last-frame / first-frame hold、nearest-neighbor retrieval、wrist-only 或 D435-only predictive baseline、当前 best shared-world teacher / ranker、action-swapped counterfactual、generic interactive world model 直接喂 UMI 首帧的 negative baseline；不能只用“公开 interactive robot wrist world model 不存在”当成功证据。闭环指标：same-episode rollout fidelity、cross-view consistency、object/contact state prediction、action actual-vs-zero/wrong/nearest separation、planner/reward/IDM utility、以及跨 DaiMeng / AGI-World / JianZhi split 的 generalization。UMI 的跨本体优势假设要单独记录：视觉差距主要是夹爪 jaw / end-effector gap，且 wrist view 下 jaw 位置相对固定，所以可做 embodiment-gap ablation。",
+      "result": null,
+      "due_at": "2026-06-30",
+      "comments": [
+        {
+          "comment_id": "comment_umi_stage1_gaochen_closed_loop_sync_20260628",
+          "task_id": "task_umi_stage1_closed_loop_eval_split_20260628",
+          "author": "Codex / ClawCross wx sync",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "ClawCross 读取到 2026-06-28 高晨私聊更新：高晨提醒这个方向 cost 很高；如果目标只是提高 cross view，也可以在真机上先做；Boris 当前想先验证可行性，并计划混合 DaiMeng 数据集、AGI-World 和此前 JianZhi 数据，重新划分测试集和训练集。高晨指出闭环验证麻烦，核心是“怎么对比效果，在哪里比，baseline 是啥”。Boris 的假设是 UMI 跨本体相对容易，因为主要差异是夹爪 jaw 的 visual gap，且 jaw 在画面中位置固定；公开 interactive world model 直接喂 UMI 首帧会崩，但这应作为 negative baseline，而不是唯一成功标准。",
+          "created_at": "2026-06-28T10:18:18+08:00"
+        }
+      ],
+      "completed_at": "2026-06-30",
+      "updated_at": "2026-06-30T00:59:36.734Z",
+      "completed_at_time": "2026-06-30T00:59:36.734Z"
     }
   ]
 }
