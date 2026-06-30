@@ -4,9 +4,9 @@
   "title": "Real-Robot Demos",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-06-28T09:52:38+08:00",
+  "updated_at": "2026-06-16T13:31:16+08:00",
   "description": "真机 demo queue for Wuji / Franka / dexterous-hand experiments",
-  "summary": "This Engineering card owns the physical real-robot demo list. Current Boris/Jingxiang focus is only three demos: toy-knife slime-clay cutting, Rubik/cube two-step turning, and broom-sweeping blocks/objects. The Jenga-style block-extraction demo is handed to Gaochen. DexGello remains the data/control dependency layer for q_arm, T_hand, q_finger, MANUS/VIVE logging, and cuRobo where needed.",
+  "summary": "This Engineering card owns the physical real-robot demo list. DexGello remains the data/control dependency layer for q_arm, T_hand, q_finger, MANUS/VIVE logging, and cuRobo where needed; demo scenarios, consumables, safety gates, owners, and acceptance evidence live here.",
   "visual": {
     "layout": "single-column"
   },
@@ -55,12 +55,12 @@
       },
       {
         "demo": "Jenga-style block extraction tactile pilot",
-        "owner": "Gaochen / Zheng Yuhang for Daimon gripper timing",
+        "owner": "Master student TBD / Zheng Yuhang for Daimon gripper timing",
         "hardware": "Robot arm + printable or custom block-extraction gripper + Daimon tactile sensors",
         "object_setup": "Jenga tower or custom block stack; target-block stickers / colored tape; non-slip base or anti-slip mat; tactile/VTA/VLA failure labels",
-        "status": "active",
-        "todo": "Gaochen owns this demo now: confirm the Jenga/custom block setup, target markers, non-slip base, and Daimon-side gripper timing; keep Boris/Jingxiang out of this as a current main-line execution item.",
-        "notes": "Track slip, contact stability, lateral force, tower wobble, collapse risk, and recovery; keep as a compact true-robot benchmark. Not in Boris/Jingxiang's current three-demo focus."
+        "status": "needs_user",
+        "todo": "Procure or confirm Jenga/custom blocks, target markers, and non-slip base; assign owner and confirm whether the Daimon-side gripper package is ready and when it can reach Singapore.",
+        "notes": "Track slip, contact stability, lateral force, tower wobble, collapse risk, and recovery; keep as a compact true-robot benchmark."
       },
       {
         "demo": "Wuji hand + Aloha-style 3M anti-slip tape rubbing plastic bag",
@@ -81,12 +81,12 @@
         "notes": "Track both procurement and the first pick-use-tool-assemble/disassemble video/log evidence; do not mark done at link collection only."
       },
       {
-        "demo": "Long-horizon failure-data demo: sweep blocks/objects with broom",
+        "demo": "Long-horizon failure-data demo: sweep object into dustpan",
         "owner": "DexGello / Learn-from-failure-data support; Yuhang & Jingxiang",
         "hardware": "Franka + Wuji or simpler dexterous-hand/gripper tool-holding setup; existing tabletop broom/dustpan toy from Boris' COM2 seat",
-        "object_setup": "Light tabletop blocks / debris proxy; existing small broom/dustpan toy to transfer from COM2 seat to ME; camera view of block/object progress and tool contact",
+        "object_setup": "Light tabletop object or debris proxy; existing small broom/dustpan toy to transfer from COM2 seat to ME; camera view of object progress and tool contact",
         "status": "todo",
-        "todo": "Current Boris/Jingxiang focus: transfer the existing small broom/dustpan toy from Boris' COM2 seat to ME; design safe setup around sweeping blocks/objects, then run dry-run and low-speed robot trial with phase labels: grasp broom, align block, sweep, enter dustpan/target zone, settle.",
+        "todo": "Have a human transfer the existing small broom/dustpan toy from Boris' COM2 seat to ME; design safe setup, then run dry-run and low-speed robot trial with phase labels: grasp broom, align object, sweep, enter dustpan, settle.",
         "notes": "Primary value is long-horizon stage importance for failure-data learning: failed sweeps still contain learnable approach/grasp/alignment phases, while bad contact or missed dustpan stages should be low-weight failure evidence."
       },
       {
@@ -101,7 +101,6 @@
     ]
   },
   "details": [
-    "Scope update 2026-06-28: the robot Jenga / 抽积木 demo is delegated to Gaochen. Boris/Jingxiang's current main execution scope is only cutting slime-clay with toy knife, Rubik/cube two-step turning, and broom-sweeping blocks/objects.",
     "Scope rule: this card owns demo scenarios, physical objects, consumables, safety gates, and acceptance evidence. DexGello owns reusable data/control dependencies such as GELLO arm state, MANUS/Wuji finger state, VIVE hand pose, cuRobo planning, and episode logging.",
     "Procurement rule: Taobao/Lego/demo-kit candidate links are TODO evidence only. Do not mark procurement done until purchase route, delivery destination, receipt/procurement record, and arrival/fit check are recorded.",
     "Safety rule: every demo starts with read-only or simulation/dry-run, then low-speed robot motion with workspace limits, cable checks, and a dedicated E-stop watcher before collecting publishable evidence.",

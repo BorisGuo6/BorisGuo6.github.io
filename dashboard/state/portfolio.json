@@ -96,31 +96,6 @@
       "caption": "UMI World Model project framing."
     },
     {
-      "src": "dashboard/assets/umi-shared-backbone-dual-branch-wan-20260617.jpg",
-      "alt": "Shared-Backbone Dual-Branch Wan architecture diagram for UMI Stage 1",
-      "caption": "Former UMI head image kept as Image Context: Shared-Backbone Dual-Branch Wan for Stage 1 dual-wrist video latents, view embeddings, shared Wan2.1 backbone, dual decoded outputs, and cross-view / temporal / state-action consistency losses."
-    },
-    {
-      "src": "dashboard/assets/umi-qwen-layer-failure-20260618-0.jpg",
-      "alt": "Qwen Image-Layered UMI failure sample 0",
-      "caption": "UMI layer failure context: Qwen/Image-agent decomposition merges robot, object, and scene regions and does not produce clean robot/object/background layers."
-    },
-    {
-      "src": "dashboard/assets/umi-qwen-layer-failure-20260618-1.jpg",
-      "alt": "Qwen Image-Layered UMI failure sample 1",
-      "caption": "UMI layer failure context: increasing layer count still leaves duplicated objects, missing robot structure, and fragmented scene/background regions."
-    },
-    {
-      "src": "dashboard/assets/umi-qwen-layer-failure-20260618-2.jpg",
-      "alt": "Qwen Image-Layered UMI failure sample 2",
-      "caption": "UMI layer failure context: Qwen/Image-agent layer decomposition remains useful as a negative still-frame baseline, not as the main video-layer route."
-    },
-    {
-      "src": "dashboard/assets/umi-qwen-layer-failure-20260618-3.jpg",
-      "alt": "Qwen Image-Layered UMI failure sample 3",
-      "caption": "UMI layer failure context: reduced layer-count output loses important robot/object regions and confirms the need for explicit segmentation plus inpainting."
-    },
-    {
       "src": "dashboard/assets/layered-world-model.png",
       "alt": "Layered robot data hierarchy: background, object, and robot layers feed augmentation, reward, and inverse dynamics.",
       "caption": "Layered robot data hypothesis: background -> augmentation/adaptation, object/contact -> process reward, robot -> IDM and pose/VO supervision."
@@ -190,6 +165,31 @@
       "src": "dashboard/assets/umi-demo.png",
       "alt": "GenRobot UMI monitor demo with dual wrist views, 3D viewer, and timestamped episode metadata",
       "caption": "UMI monitor demo: dual wrist camera views, 3D gripper visualization, playback timeline, and episode metadata."
+    },
+    {
+      "src": "dashboard/assets/umi-shared-backbone-dual-branch-wan-20260617.jpg",
+      "alt": "Shared-Backbone Dual-Branch Wan architecture diagram for UMI Stage 1",
+      "caption": "Former UMI head image kept as Image Context: Shared-Backbone Dual-Branch Wan for Stage 1 dual-wrist video latents, view embeddings, shared Wan2.1 backbone, dual decoded outputs, and cross-view / temporal / state-action consistency losses."
+    },
+    {
+      "src": "dashboard/assets/umi-qwen-layer-failure-20260618-0.jpg",
+      "alt": "Qwen Image-Layered UMI failure sample 0",
+      "caption": "UMI layer failure context: Qwen/Image-agent decomposition merges robot, object, and scene regions and does not produce clean robot/object/background layers."
+    },
+    {
+      "src": "dashboard/assets/umi-qwen-layer-failure-20260618-1.jpg",
+      "alt": "Qwen Image-Layered UMI failure sample 1",
+      "caption": "UMI layer failure context: increasing layer count still leaves duplicated objects, missing robot structure, and fragmented scene/background regions."
+    },
+    {
+      "src": "dashboard/assets/umi-qwen-layer-failure-20260618-2.jpg",
+      "alt": "Qwen Image-Layered UMI failure sample 2",
+      "caption": "UMI layer failure context: Qwen/Image-agent layer decomposition remains useful as a negative still-frame baseline, not as the main video-layer route."
+    },
+    {
+      "src": "dashboard/assets/umi-qwen-layer-failure-20260618-3.jpg",
+      "alt": "Qwen Image-Layered UMI failure sample 3",
+      "caption": "UMI layer failure context: reduced layer-count output loses important robot/object regions and confirms the need for explicit segmentation plus inpainting."
     }
   ],
   "weekly_briefs": [
@@ -302,9 +302,9 @@
     },
     {
       "project_id": "robotics-3d-printing",
-      "title": "Robotic 3D Printing Farm",
-      "bucket": "survey",
-      "status": "survey",
+      "title": "Archive: Robotics + 3D Printing",
+      "bucket": "archive",
+      "status": "archived",
       "state_path": "dashboard/state/projects/robotics-3d-printing.json"
     },
     {
