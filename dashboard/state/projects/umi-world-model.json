@@ -4,15 +4,15 @@
   "title": "UMI Image Layered World Model",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-06-30T12:00:00.000+08:00",
+  "updated_at": "2026-06-30T14:10:00.000+08:00",
   "description": "UMI Image Layered World Model: three linked papers covering multi-view robot video world modeling, manipulation-video dynamics decomposition into reusable layers, and layered data as a downstream VLA/IDM/reward training interface.",
   "summary": "UMI is split into three publishable stages: Stage 1 a streaming multi-view pose/action-conditioned UMI World Model for wrist/head/fixed views; Stage 2 a Video Dynamics Decomposition Model (VDDM) that decomposes robot and egocentric human-hand manipulation videos into actor/object-contact/occluder/scene layers plus geometry/tracking/state sidecars; Stage 3 a layered-robot-data VLA/video-model training paradigm that tests IDM, reward, pose/flow, augmentation, and PhysisForcing-style physics alignment beyond raw RGB or mask-only baselines.",
   "subprojects": [
     {
       "label": "A",
       "title": "Stage 1: Streaming Multi-View UMI World Model",
-      "body": "Paper 1 story: learn a streaming pose/action-conditioned UMI world model from left/right wrist plus head/fixed views, but the next gate is falsifiable closed-loop validation before another expensive WAN/Gamma/shared-world scale-up. Data split must mix DaiMeng UMI-style data, AGI-World, and previous JianZhi/UMI-like data while separating train/val/test by task, object, scene, embodiment, and camera setup. Baselines must include copy-last-frame / first-frame hold, nearest-neighbor retrieval, wrist-only or D435-only prediction, current best shared-world teacher/ranker, action-swapped counterfactuals, and generic interactive world models fed UMI first frames as negative baselines. Win metrics: same-episode rollout fidelity, cross-view consistency, object/contact state prediction, actual-vs-zero/wrong/nearest action separation, planner/reward/IDM utility, and cross-split generalization. The UMI cross-embodiment hypothesis should be tested separately: most visual gap is jaw/end-effector appearance, and wrist-view jaw position is relatively fixed.",
-      "output": "closed-loop eval protocol + DaiMeng/AGI-World/JianZhi split + multi-view rollout + action/counterfactual gates + embodiment-gap ablation"
+      "body": "Paper 1 story: learn a streaming pose/action-conditioned UMI world model from left/right wrist plus head/fixed views, but the next gate is falsifiable closed-loop validation before another expensive WAN/Gamma/shared-world scale-up. Data split must mix DaiMeng UMI-style data, AGI-World, and previous JianZhi/UMI-like data while separating train/val/test by task, object, scene, embodiment, and camera setup. Baselines must include copy-last-frame / first-frame hold, nearest-neighbor retrieval, wrist-only or D435-only prediction, current best shared-world teacher/ranker, action-swapped counterfactuals, and generic interactive world models fed UMI first frames as negative baselines. Win metrics: same-episode rollout fidelity, cross-view consistency, object/contact state prediction, actual-vs-zero/wrong/nearest action separation, latent-action separability, planner/reward/IDM utility, and cross-split generalization. The UMI cross-embodiment hypothesis should be tested separately: most visual gap is jaw/end-effector appearance, and wrist-view jaw position is relatively fixed. Add a UniLACT/UniLARN-style RGB-D latent-action probe: learn unified latent action pseudo-labels from current plus sparse-future RGB/depth features, then test whether they improve Stage 1 action-conditioned rollout or only duplicate the explicit pos3+rot6d+gripper signal.",
+      "output": "closed-loop eval protocol + DaiMeng/AGI-World/JianZhi split + multi-view rollout + action/counterfactual + latent-action gates + embodiment-gap ablation"
     },
     {
       "label": "B",
@@ -23,8 +23,8 @@
     {
       "label": "C",
       "title": "Stage 3: Layered Data Utility for VLA",
-      "body": "Paper 3 story: prove that layered robot data changes downstream training, not just visualization. Scene layer should feed RoboEngine-style augmentation plus MoGe/GeoCalib geometry and calibration. Object/contact layer should feed SAM3/SAM3D/Fast-SAM3D/FoundationPose/Fast-FoundationStereoPhysics/Orient-Anything/Any6D for pose and shape, plus BootsTAPIR/TAPNet/AllTracker/D4RT/CoTracker/Any4D with Video Depth Anything or MoGe for 3D point flow. Robot/hand layer should feed Dr. Robot, ORB-SLAM3/VGGT-SLAM, HaWoR, and dex-retargeting. Add a PhysisForcing-style video-model training probe: use estimated object state, robot state, point trajectories, contact patches, and inter-layer relations as physics-informative supervision instead of whole-frame-only finetuning. Compare raw RGB, mask-only, object-only, object+background, robot-only, recomposed clips, and layer+state sidecars; the target is matched object outcome, contact intent, grasp/tool-use mode, and task result, not joint-angle imitation.",
-      "output": "scene/object/robot utility ablations + PhysisForcing-style state-conditioned video supervision + v0 pipeline/tool selection"
+      "body": "Paper 3 story: prove that layered robot data changes downstream training, not just visualization. Scene layer should feed RoboEngine-style augmentation plus MoGe/GeoCalib geometry and calibration. Object/contact layer should feed SAM3/SAM3D/Fast-SAM3D/FoundationPose/Fast-FoundationStereoPhysics/Orient-Anything/Any6D for pose and shape, plus BootsTAPIR/TAPNet/AllTracker/D4RT/CoTracker/Any4D with Video Depth Anything or MoGe for 3D point flow. Robot/hand layer should feed Dr. Robot, ORB-SLAM3/VGGT-SLAM, HaWoR, and dex-retargeting. Add a PhysisForcing-style video-model training probe: use estimated object state, robot state, RGB-D/geometry-aware latent actions, point trajectories, contact patches, and inter-layer relations as physics-informative supervision instead of whole-frame-only finetuning. Compare raw RGB, mask-only, object-only, object+background, robot-only, recomposed clips, and layer+state sidecars; the target is matched object outcome, contact intent, grasp/tool-use mode, and task result, not joint-angle imitation.",
+      "output": "scene/object/robot utility ablations + PhysisForcing-style state/latent-action-conditioned video supervision + v0 pipeline/tool selection"
     }
   ],
   "asset": "dashboard/assets/umi-shared-backbone-dual-branch-wan-20260617.jpg",
@@ -323,7 +323,8 @@
     "Stage 1 Gamma original regression rerun 2026-06-29: after UMI-side code edits, original Gamma scripts/train.py 8-card 1-step smoke passed with iteration-1 loss 0.1592 and checkpoint_written=true; original scripts/inference.py --mode bidirectional_robot produced a readable 960x320, 189-frame, 16fps generated video. Evidence: /Users/boris/Downloads/gamma_world_regression_rerun_20260629_085555/index.html. This validates current original entrypoints, not clean-upstream byte equivalence.",
     "Stage 1 shared-motion strict-nearest result 2026-06-29: completed 8-H20 training for structured_temporal_view_action_bottleneck + pre-decoder SharedMotionStateHead + foreground_contact semantic layer contrast on the 398-row explicit10/raw-gripper split. Final train loss reached 0.070700 at epoch 39 and teacher.pt was saved, but holdout strict-nearest evaluation failed: RGB action gate 0/15 and shared motion-state gate 0/15 on rows 0,99,198,199,229,259,260,279,298,299,338,377,378,388,397. Verdict: NEGATIVE_ROUTE; the auxiliary shared-motion head trains numerically but does not make actual/zero/wrong/nearest-condition rollouts action-separable. Evidence: /Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/acwm_sharedmotion_20260629/eval_holdout/index.html.",
     "Stage 1 iter800 strict-nearest ablation 2026-06-29: converted the local-DCP Gamma checkpoint iter_000000800 to a PT checkpoint and reran the same 15-row x 5-condition strict counterfactual eval. The full report completed on 75/75 readable generated videos. Pixel strict result remains ACTION_SEPARATION_FAIL: global action gate 8/15, dual-view split action gate 4/15, visual quality 15/15, dual-view visual quality 15/15. The explicit10 structured ranker scores iter800 generated actual videos at only 2/15 pass rows (198,229), worse than iter3200 generated actual at 4/15. Conclusion: early-checkpoint visual preference on a single clip is not enough; checkpoint age alone does not solve action conditioning.",
-    "Stage 1 rebal4500 live status 2026-06-29 17:41 CST: Gamma-derived rebalanced continuation is still running on all 8 H20 GPUs at iter 4089/4500, with recent iteration time about 49.8s and latest checkpoint still iter_000004000. The remote watcher wait_rebal4500_convert_eval_score_20260629.sh is alive and will convert iter_000004500, run the same 15-row x 5-condition strict-nearest counterfactual eval, then score generated actual videos with the explicit10 structured ranker. This is pending evidence only, not action-conditioned completion."
+    "Stage 1 rebal4500 live status 2026-06-29 17:41 CST: Gamma-derived rebalanced continuation is still running on all 8 H20 GPUs at iter 4089/4500, with recent iteration time about 49.8s and latest checkpoint still iter_000004000. The remote watcher wait_rebal4500_convert_eval_score_20260629.sh is alive and will convert iter_000004500, run the same 15-row x 5-condition strict-nearest counterfactual eval, then score generated actual videos with the explicit10 structured ranker. This is pending evidence only, not action-conditioned completion.",
+    "UniLACT / UniLARN reference 2026-06-30: the uploaded RGB-D latent-action diagram is relevant to UMI Stage 1 and Stage 3. It learns modality-specific and unified latent action representations from current plus sparse future RGB/depth using DINO/depth encoders, Q-Former latent action queries, a fusion module, and RGB/depth decoder losses. For UMI, treat this as a latent-action/state sidecar and pretraining ablation, not a replacement for explicit robot actions: compare against pos3+rot6d+gripper conditioning, wrong/zero/nearest action gates, and layer-derived object/robot state supervision."
   ],
   "task_ids": [
     "task_umi_wan21_dual_wrist_structure_20260617",
@@ -695,6 +696,31 @@
       "url": "https://github.com/cvg/GeoCalib",
       "submitted_at": "2026-06-26",
       "notes": "Scene calibration support: estimates camera intrinsics and gravity direction from a single image."
+    },
+    {
+      "title": "UniLACT: Unlocking the Power of Latent Action Pretraining from Videos",
+      "url": "https://arxiv.org/abs/2602.20231",
+      "arxiv_id": "2602.20231",
+      "category": "latent-action-rgbd",
+      "notes": "Reference for RGB-D unified latent action learning: UniLARN learns modality-specific and unified latent action pseudo-labels from RGB/depth inverse+forward dynamics; useful as a UMI Stage 1 latent-action sidecar and Stage 3 geometry/state-conditioned VLA ablation."
+    },
+    {
+      "title": "UniLACT project page",
+      "url": "https://manishgovind.github.io/unilact-vla/",
+      "category": "latent-action-rgbd",
+      "notes": "Project page for the RGB-D latent-action architecture shown in the Image Context figure."
+    },
+    {
+      "title": "UniLACT RGB-D latent-action architecture image context",
+      "url": "dashboard/assets/unilact-rgbd-latent-action-20260630.png",
+      "category": "image-context",
+      "notes": "Dashboard image context: RGB-D latent action encoder/decoder with DINO/depth branches and unified latent action fusion."
+    },
+    {
+      "title": "ManishGovind/UniLACT code",
+      "url": "https://github.com/ManishGovind/UniLACT",
+      "category": "latent-action-rgbd",
+      "notes": "Official code for UniLARN/UniLACT training stages; use as a reference for RGB-D latent-action pretraining and action-finetuning ablations against explicit robot-action labels."
     }
   ],
   "risks_decisions": [

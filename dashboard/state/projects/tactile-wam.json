@@ -4,7 +4,7 @@
   "title": "DaiMeng VTAM / Tactile-WAM: Predictive Contact Intelligence",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-06-30T04:47:37.274Z",
+  "updated_at": "2026-06-30T14:10:00.000+08:00",
   "description": "DaiMeng internship research project: merge VTLA tactile-intuition survey and VTAM/Tactile-WAM proposal into one active Predictive Contact Intelligence track for dexterous manipulation.",
   "summary": "DaiMeng VTAM turns the VTLA tactile-intuition survey into an active internship project: From Reactive Manipulation to Proactive Manipulation. The merged track treats future tactile/contact latents as an Internal Contact Model and builds a Vision-Tactile-Action World Model with a Temporal Action-Token Shared-World architecture rather than simple vision/tactile feature concatenation. Fast contact/action rollout, visual/layer latent cache, contact-triggered sparse compute, and System-0/System-1 control are the execution path; validation is contact timing, slip/contact risk, actual/zero/wrong-action separation, latency/Hz/VRAM, and contact-rich task success.",
   "subprojects": [
@@ -12,13 +12,13 @@
       "id": "universal-tactile-encoder",
       "name": "Universal Tactile Encoder",
       "status": "active",
-      "summary": "Learn a cross-device tactile latent from Marker Flow, tactile images, multi-finger timing, and contact events so VTAM can reason over touch without hard-coding one sensor."
+      "summary": "Learn a cross-device tactile latent from Marker Flow, tactile images, multi-finger timing, contact events, and optional RGB-D geometric sidecars so VTAM can reason over touch without hard-coding one sensor."
     },
     {
       "id": "temporal-action-token-vtam",
       "name": "Temporal Action-Token Shared-World Model",
       "status": "active",
-      "summary": "Use visual tokens, tactile/contact tokens, temporal action tokens, and shared-world tokens to predict future tactile latents, contact risk, and executable action chunks."
+      "summary": "Use visual tokens, RGB-D/geometry-aware latent action tokens, tactile/contact tokens, temporal action tokens, and shared-world tokens to predict future tactile latents, contact risk, and executable action chunks."
     },
     {
       "id": "fast-contact-action-rollout",
@@ -75,7 +75,8 @@
     "System-0 / System-1 loop: System-1 runs predictive VTAM at planning frequency, while System-0 runs high-frequency tactile servo control by comparing predicted tactile latent with current tactile latent and emitting residual corrections for slip, overload, misalignment, or impending contact failure.",
     "World-model-guided VLA refinement update 2026-06-29: the BAAI seminar slide is effectively the policy-improvement loop version of VTAM. For contact-rich insertion, pressing, screwing, and assembly, let the pretrained VLA provide semantic/coarse motion, use a reward/contact model to detect the contact-rich phase, sample multiple candidate contact trajectories, score them through imagined VTAM/world-model rollouts, then stitch the selected segment back into the trajectory as post-training data. This should be tracked as an evaluation and refinement protocol, not just as a visual rollout demo.",
     "UMI2Render2Real subproject 2026-06-30: from the personal presentation UMI2Render2Real pages, the intended loop is: large UMI-device datasets -> scan object -> scan scene -> retarget UMI trajectory -> render robot data with LeHome-style household/cooking scenes -> apply to the real robot while explicitly modeling the Render2Real gap. In DaiMeng VTAM this becomes the sixth subproject: a local-workstation pipeline for producing semi-teleop robot data and testing whether rendered trajectories plus tactile/contact supervision improve predictive contact intelligence.",
-    "Event-camera visuo-tactile note 2026-06-30: keep the detailed evidence in Archive: Event-Camera Visuo-Tactile Sensing. VTAM should only reopen this direction if an ablation beats 120fps RGB, frame-difference pseudo-events, and existing Wuji/GelSight-style tactile streams on contact/slip/transient timing."
+    "Event-camera visuo-tactile note 2026-06-30: keep the detailed evidence in Archive: Event-Camera Visuo-Tactile Sensing. VTAM should only reopen this direction if an ablation beats 120fps RGB, frame-difference pseudo-events, and existing Wuji/GelSight-style tactile streams on contact/slip/transient timing.",
+    "UniLACT / UniLARN RGB-D latent-action reference 2026-06-30: this is not a tactile model, but it is directly useful for VTAM architecture. It shows how to learn unified latent actions from RGB and depth via inverse/forward dynamics and use them as pseudo-action labels. VTAM can extend the same pattern by adding tactile/contact branches: RGB/depth/action latents provide spatial dynamics, tactile/contact latents provide contact-state dynamics, and the temporal action-token shared-world model fuses them before System-1 planning or System-0 tactile servo control."
   ],
   "task_ids": [
     "task_tactile_wam_reproduce_gesim2_tactile_wam_20260627",
@@ -288,6 +289,25 @@
       "title": "Personal presentation: UMI2Render2Real pages",
       "url": "source-pptx/romoya_present.pptx",
       "notes": "Local source deck section: Project 2 UMI2Render2Real, scan object/scene, retarget UMI trajectory, render robot data, handle Render2Real gap, convert UMI data to semi-teleop data."
+    },
+    {
+      "title": "UniLACT: Unlocking the Power of Latent Action Pretraining from Videos",
+      "url": "https://arxiv.org/abs/2602.20231",
+      "arxiv_id": "2602.20231",
+      "category": "latent-action-rgbd",
+      "notes": "Architecture reference for adding RGB-D/geometric latent-action supervision into the VTAM Temporal Action-Token Shared-World Model; tactile/contact branches should be added rather than replacing tactile data."
+    },
+    {
+      "title": "UniLACT RGB-D latent-action architecture image context",
+      "url": "dashboard/assets/unilact-rgbd-latent-action-20260630.png",
+      "category": "image-context",
+      "notes": "Uploaded figure added to dashboard Image Context; maps RGB/depth latent-action learning to VTAM visual-depth-tactile action-token fusion."
+    },
+    {
+      "title": "ManishGovind/UniLACT code",
+      "url": "https://github.com/ManishGovind/UniLACT",
+      "category": "latent-action-rgbd",
+      "notes": "Official code for UniLARN/UniLACT; useful implementation reference if VTAM tests an RGB-D/tactile latent-action pretraining branch."
     }
   ],
   "risks_decisions": [
@@ -302,7 +322,8 @@
     "Acceptance boundary 2026-06-27: do not accept demos based only on pretty video or qualitative tactile maps. A passing VTAM demo must separate actual actions from zero/wrong actions, predict contact timing/slip risk, show latency/Hz/VRAM numbers, and improve at least one contact-rich manipulation task under perturbation.",
     "Decision: retire separate VTLA Survey card: Keep one live card under Research. The merged card owns VTLA representation work, Wuji/Franka/HOI benchmark selection, VTAM architecture, and DaiMeng internship deliverables.",
     "Risk: visual quality alone is the wrong success metric: The proposal should not pass because generated video looks plausible. It must pass contact prediction, action separation, latency, memory, servo stability, and contact-rich task success metrics.",
-    "Refinement decision 2026-06-29: BAAI-style imagined trajectory scoring belongs inside VTAM as a contact-rich policy refinement protocol. The reward/contact model must explicitly identify contact phase entry; otherwise the loop degenerates into generic video rollout ranking."
+    "Refinement decision 2026-06-29: BAAI-style imagined trajectory scoring belongs inside VTAM as a contact-rich policy refinement protocol. The reward/contact model must explicitly identify contact phase entry; otherwise the loop degenerates into generic video rollout ranking.",
+    "UniLACT boundary 2026-06-30: do not claim RGB-D latent action alone solves VTAM. It is a representation/pretraining reference; VTAM still needs real tactile/contact supervision, contact timing, slip risk, and executable residual-control validation."
   ],
   "timeline": {
     "target_cycle": "DaiMeng VTAM internship project",
