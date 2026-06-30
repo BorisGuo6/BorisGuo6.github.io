@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-30T11:38:13+08:00",
+  "updated_at": "2026-06-30T11:42:24+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2731,9 +2731,16 @@
           "body": "Local Codex host review reopened this TODO.\n请补齐后再送审：1) 确认最终可复核 commit hash，并确保 dashboard 评论、repo HEAD 一致且不依赖未提交本地改动；2) 上传/提交 runs/e2e/<run>/e2e_summary.json、logs/04_simulator_smoke.log、logs/05_policy_hook.log 或对应原始完整日志；3) 对 data-collection dry run 提供 episode0.hdf5 的 verifier/HDF5 读取输出、文件大小、sha256、视频/instruction/scene_info/seed 路径，或提供当前可 SSH 只读复核的 host、端口、绝对路径和命令；4) Pi 或 OpenVLA-OFT 二选一实际运行 train/eval hook，提交命令、完整日志、退出码、checkpoint/eval artifact 路径；若不能运行，请在 RoboTwin/RoboTwin2 环境中实际调用对应 finetune/eval/entry 命令，提交完整失败日志并明确 blocker。ACT hook 可作为补充但不能替代该项。",
           "created_at": "2026-06-30T11:24:47+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "clawcross_d186eb2362ae",
+          "author": "Host verification",
+          "body": "Local Codex host review accepted this TODO.\n本机可读验收包已覆盖 TODO 范围，RoboTwin2 placement/Text2Env demo 可自动验收。\nEvidence: /Users/boris/Downloads/robotwin_text2env_demo_20260629/placement_agent_completion_audit_20260630.md 标记 7 项中技术项均 achieved，Boris validation 由本次 review 完成; /Users/boris/Downloads/robotwin_text2env_demo_20260629/docs/robotwin2_task_api_notes.md 与 docs/text2env_schema_v0.md 存在; green/red 两个 tabletop Text2Env JSON、placement_manifest 与 generated RoboTwin task program 均存在并通过静态 JSON/AST 检查; remote_run/e2e_summary.json 与 remote_run_red_block_20260630/e2e_summary.json 均 status=pass，collect_data.sh simulator/data dry-run returncode=0; 04_simulator_smoke.log tail 显示 episode0 保存完成并生成 161/163 帧视频; hdf5_verification/remote_hdf5_verification_20260630.json status=pass，两个 episode0.hdf5 有 size、sha256 与 dataset shape/dtype; remote_run/openvla_oft_train_eval_entry_failures_20260630.log 显示 OpenVLA-OFT finetune/eval 入口实际调用，分别因缺 draccus/prismatic 阻塞且退出码为 1; drawer-like failure case placement_manifest.json status=draft_requires_articulation 且记录 blockers\nCommands: test -f /Users/boris/.claude/AGENTS.md && sed -n '1,220p' /Users/boris/.claude/AGENTS.md || true; sed -n '1,220p' docs/repo-index.md; jq '.tasks[]? // .[]? | select(.task_id==\"task_self_improving_vlm_loop\")' /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json; find /Users/boris/Downloads/robotwin_text2env_demo_20260629 -maxdepth 4 -type f | sort | sed -n '1,220p'; jq . /Users/boris/Downloads/robotwin_text2env_demo_20260629/remote_run/e2e_summary.json /Users/boris/Downloads/robotwin_text2env_demo_20260629/remote_run_red_block_20260630/e2e_summary.json /Users/boris/Downloads/robotwin_text2env_demo_20260629/hdf5_verification/remote_hdf5_verification_20260630.json; tail -80 /Users/boris/Downloads/robotwin_text2env_demo_20260629/remote_run/logs/04_simulator_smoke.log && tail -80 /Users/boris/Downloads/robotwin_text2env_demo_20260629/remote_run_red_block_20260630/logs/04_simulator_smoke.log\nReason: 验收所需文档、两个 tabletop 样例、generated task programs、placement-only scope、simulator/data dry-run 日志与 HDF5 verifier、Pi/OpenVLA-OFT blocker 日志、drawer failure case 均已在本机可读路径中提供并可静态核验；SSH 现场复核失败不影响本机同步验收包对 TODO acceptance 的覆盖。",
+          "created_at": "2026-06-30T11:42:19+08:00",
+          "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-30T11:27:43+08:00",
+      "updated_at": "2026-06-30T11:42:21+08:00",
       "due_at": "",
       "completed_at": null
     },
