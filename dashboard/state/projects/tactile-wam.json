@@ -4,7 +4,7 @@
   "title": "DaiMeng VTAM / Tactile-WAM: Predictive Contact Intelligence",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-06-30T04:11:09.350Z",
+  "updated_at": "2026-06-30T04:47:37.274Z",
   "description": "DaiMeng internship research project: merge VTLA tactile-intuition survey and VTAM/Tactile-WAM proposal into one active Predictive Contact Intelligence track for dexterous manipulation.",
   "summary": "DaiMeng VTAM turns the VTLA tactile-intuition survey into an active internship project: From Reactive Manipulation to Proactive Manipulation. The merged track treats future tactile/contact latents as an Internal Contact Model and builds a Vision-Tactile-Action World Model with a Temporal Action-Token Shared-World architecture rather than simple vision/tactile feature concatenation. Fast contact/action rollout, visual/layer latent cache, contact-triggered sparse compute, and System-0/System-1 control are the execution path; validation is contact timing, slip/contact risk, actual/zero/wrong-action separation, latency/Hz/VRAM, and contact-rich task success.",
   "subprojects": [
@@ -74,7 +74,8 @@
     "Deployment contract: The fast path should roll out low-dimensional contact/action/tactile latents; heavyweight video generation stays as supervision, visualization, or selected planning branches. A pass requires latency/memory reporting, actual-vs-zero-vs-wrong-action gates, contact timing, slip/contact risk, and task-level manipulation success.",
     "System-0 / System-1 loop: System-1 runs predictive VTAM at planning frequency, while System-0 runs high-frequency tactile servo control by comparing predicted tactile latent with current tactile latent and emitting residual corrections for slip, overload, misalignment, or impending contact failure.",
     "World-model-guided VLA refinement update 2026-06-29: the BAAI seminar slide is effectively the policy-improvement loop version of VTAM. For contact-rich insertion, pressing, screwing, and assembly, let the pretrained VLA provide semantic/coarse motion, use a reward/contact model to detect the contact-rich phase, sample multiple candidate contact trajectories, score them through imagined VTAM/world-model rollouts, then stitch the selected segment back into the trajectory as post-training data. This should be tracked as an evaluation and refinement protocol, not just as a visual rollout demo.",
-    "UMI2Render2Real subproject 2026-06-30: from the personal presentation UMI2Render2Real pages, the intended loop is: large UMI-device datasets -> scan object -> scan scene -> retarget UMI trajectory -> render robot data with LeHome-style household/cooking scenes -> apply to the real robot while explicitly modeling the Render2Real gap. In DaiMeng VTAM this becomes the sixth subproject: a local-workstation pipeline for producing semi-teleop robot data and testing whether rendered trajectories plus tactile/contact supervision improve predictive contact intelligence."
+    "UMI2Render2Real subproject 2026-06-30: from the personal presentation UMI2Render2Real pages, the intended loop is: large UMI-device datasets -> scan object -> scan scene -> retarget UMI trajectory -> render robot data with LeHome-style household/cooking scenes -> apply to the real robot while explicitly modeling the Render2Real gap. In DaiMeng VTAM this becomes the sixth subproject: a local-workstation pipeline for producing semi-teleop robot data and testing whether rendered trajectories plus tactile/contact supervision improve predictive contact intelligence.",
+    "Event-driven visuo-tactile update 2026-06-30: the archived VTLA card already contained “event-camera VLA as an additional modality”; the G&M Lab seminar discussion turns this into a concrete optional VTAM front-end. Use event cameras for high-frequency visual-tactile contact transients, slip onset, roller/large-surface inspection, and fast ego/wrist data capture where normal RGB suffers motion blur. Keep it as an ablation, not a procurement default: compare 120fps industrial RGB, frame-difference pseudo-events from ordinary cameras, GelEvent-style tactile sensors, and T-RO event-roller tactile sensing before buying hardware. Current blockers: event cameras are expensive/bulky, deployment data is sparse, and there is no ready event-camera tactile foundation model; polarization-camera tactile sensing is a speculative side probe because photoelastic/contact patterns may benefit from polarization, but it needs a paper/hardware check before becoming a TODO."
   ],
   "task_ids": [
     "task_tactile_wam_reproduce_gesim2_tactile_wam_20260627",
@@ -287,6 +288,23 @@
       "title": "Personal presentation: UMI2Render2Real pages",
       "url": "source-pptx/romoya_present.pptx",
       "notes": "Local source deck section: Project 2 UMI2Render2Real, scan object/scene, retarget UMI trajectory, render robot data, handle Render2Real gap, convert UMI data to semi-teleop data."
+    },
+    {
+      "title": "GelEvent: A Novel High-Speed Tactile Sensor With Event Camera",
+      "url": "https://ieeexplore.ieee.org/abstract/document/10926508",
+      "notes": "Event-camera tactile sensor reference from the G&M Lab seminar discussion; use as the primary high-frequency visual-tactile baseline before treating event cameras as a VTAM sensor front-end."
+    },
+    {
+      "title": "They See Me Rolling: High-Speed Event Vision-Based Tactile Roller Sensor for Large Surface Inspection",
+      "url": "https://doi.org/10.1109/TRO.2026.3672333",
+      "doi": "10.1109/TRO.2026.3672333",
+      "notes": "T-RO 2026 event-vision tactile roller sensor: continuous rolling tactile 3D reconstruction, 0.5 m/s scanning, MAE below 100 um, and event-based motion-blur robustness. Relevant to large-surface tactile inspection and high-frequency contact transients, not directly a dexterous policy model."
+    },
+    {
+      "title": "Thin-film event-based vision sensors for enhanced multispectral perception beyond human vision",
+      "url": "https://doi.org/10.1002/inf2.70007",
+      "doi": "10.1002/inf2.70007",
+      "notes": "InfoMat 2025 event-based thin-film sensor reference: sparse spiking dynamic perception, UV-to-NIR multispectral response, low-light fingerprint edge extraction, and reduced data processing. Use as a sensor-principle reference for event-driven perception and possible future polarization/multispectral tactile sensing."
     }
   ],
   "risks_decisions": [
@@ -301,7 +319,8 @@
     "Acceptance boundary 2026-06-27: do not accept demos based only on pretty video or qualitative tactile maps. A passing VTAM demo must separate actual actions from zero/wrong actions, predict contact timing/slip risk, show latency/Hz/VRAM numbers, and improve at least one contact-rich manipulation task under perturbation.",
     "Decision: retire separate VTLA Survey card: Keep one live card under Research. The merged card owns VTLA representation work, Wuji/Franka/HOI benchmark selection, VTAM architecture, and DaiMeng internship deliverables.",
     "Risk: visual quality alone is the wrong success metric: The proposal should not pass because generated video looks plausible. It must pass contact prediction, action separation, latency, memory, servo stability, and contact-rich task success metrics.",
-    "Refinement decision 2026-06-29: BAAI-style imagined trajectory scoring belongs inside VTAM as a contact-rich policy refinement protocol. The reward/contact model must explicitly identify contact phase entry; otherwise the loop degenerates into generic video rollout ranking."
+    "Refinement decision 2026-06-29: BAAI-style imagined trajectory scoring belongs inside VTAM as a contact-rich policy refinement protocol. The reward/contact model must explicitly identify contact phase entry; otherwise the loop degenerates into generic video rollout ranking.",
+    "Event-camera decision 2026-06-30: do not buy or build around event-camera tactile hardware until a small ablation shows marginal value over 120fps RGB, ordinary-frame difference pseudo-events, and existing Wuji/GelSight-style tactile streams. The target metric is contact/slip/transient timing and low-latency System-0 utility, not visual novelty."
   ],
   "timeline": {
     "target_cycle": "DaiMeng VTAM internship project",
