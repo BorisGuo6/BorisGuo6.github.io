@@ -1,0 +1,48 @@
+{
+  "schema_version": "project.v1",
+  "project_id": "archive-event-camera-visuotactile",
+  "title": "Archive: Event-Camera Visuo-Tactile Sensing",
+  "bucket": "archive",
+  "status": "archived",
+  "updated_at": "2026-06-30T05:20:00.000Z",
+  "asset": "dashboard/assets/survey-vtla-tactile-intuition.svg",
+  "asset_alt": "Archived event-camera visual-tactile sensing direction",
+  "asset_caption": "Archive note: event cameras are useful evidence for high-frequency tactile/contact transients, but current VTAM should benchmark them before treating them as core hardware.",
+  "visual": {
+    "layout": "single_column"
+  },
+  "timeline": null,
+  "description": "Archive reason: event cameras and event-driven sensors are relevant to high-frequency visual-tactile sensing, but the current DaiMeng VTAM path should not make them a mainline hardware dependency until they beat 120fps RGB, pseudo-event frame differencing, and existing Wuji/GelSight-style tactile streams on contact/slip timing.",
+  "summary": "The event-camera visuo-tactile idea is archived as an evidence card. It remains useful for System-0/System-1 contact transients, slip onset, roller/large-surface inspection, and ego/wrist data capture under motion blur, but it is not a live TODO. Reopen only if a small ablation shows marginal value over high-FPS RGB and frame-difference pseudo-events, or if a concrete event-tactile sensor is available for Wuji/Franka/DaiMeng experiments.",
+  "details": [
+    "Old dashboard source: VTLA / Tactile Intuition already had “event-camera VLA as an additional modality.” The new G&M Lab seminar discussion narrows it to high-frequency tactile/contact transients rather than a general VLA modality.",
+    "Evidence interpretation: GelEvent and the T-RO event-roller sensor show that event cameras can capture fast tactile changes with low motion blur and sparse event streams. That supports the hypothesis that event sensing may help contact onset, slip, vibration, and large-surface inspection.",
+    "Why archived: event cameras are expensive/bulky, deployed tactile-event data is sparse, and there is no ready event-camera tactile foundation model. The next real step should be an ablation, not an open-ended hardware purchase.",
+    "Pragmatic baseline: first compare 120fps industrial RGB, ordinary-camera frame-difference pseudo-events, Wuji/GelSight-style tactile streams, and any available GelEvent/event-roller-style sensor. Target metric is contact/slip/transient timing and low-latency System-0 utility, not visual novelty.",
+    "Polarization-camera tactile sensing remains a side probe. It may matter for photoelastic/contact patterns, but it needs a separate paper/hardware check before becoming a dashboard TODO."
+  ],
+  "risks_decisions": [
+    "Archived 2026-06-30 as a standalone evidence card rather than a VTAM implementation TODO.",
+    "Reopen condition: a local ablation shows event streams improve contact-onset, slip/vibration, or high-speed tactile reconstruction over 120fps RGB and pseudo-events.",
+    "Do not buy or build around event-camera tactile hardware until the marginal-value table is positive on a DaiMeng/Wuji/Franka task."
+  ],
+  "references": [
+    {
+      "title": "GelEvent: A Novel High-Speed Tactile Sensor With Event Camera",
+      "url": "https://ieeexplore.ieee.org/abstract/document/10926508",
+      "notes": "IEEE reference from the G&M Lab discussion. Use it as the primary event-camera tactile sensor evidence before treating event cameras as a VTAM front-end."
+    },
+    {
+      "title": "They See Me Rolling: High-Speed Event Vision-Based Tactile Roller Sensor for Large Surface Inspection",
+      "url": "https://doi.org/10.1109/TRO.2026.3672333",
+      "doi": "10.1109/TRO.2026.3672333",
+      "notes": "T-RO 2026 event-vision tactile roller sensor evidence: continuous rolling tactile 3D reconstruction, 0.5 m/s scanning, MAE below 100 um, and event-based motion-blur robustness."
+    },
+    {
+      "title": "Thin-film event-based vision sensors for enhanced multispectral perception beyond human vision",
+      "url": "https://doi.org/10.1002/inf2.70007",
+      "doi": "10.1002/inf2.70007",
+      "notes": "InfoMat 2025 event-based thin-film sensor evidence: sparse spiking dynamic perception, UV-to-NIR multispectral response, low-light fingerprint edge extraction, and reduced data processing."
+    }
+  ]
+}

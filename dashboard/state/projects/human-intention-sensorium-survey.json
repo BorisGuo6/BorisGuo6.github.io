@@ -100,7 +100,7 @@
     {
       "text": "Dashboard placement: keep this as a proposal-oriented Survey card feeding UMI / Tri-View, VTLA, Self-Improving Agents, and Real-Robot Infra. UMI gets intention and cross-view labels; VTLA gets contact/force/tactile supervision; Self-Improving gets failure and curriculum traces; Real-Robot Infra only receives engineering tasks after the proposal chooses a concrete v0 rig and partner discussion checklist."
     },
-    "Event-driven ego-data update 2026-06-30: event cameras may be useful for egocentric or wrist data collection when fast contact, vibration, tool impact, or motion blur hides the useful signal in normal RGB. Store them as optional event streams with timestamp, polarity, sensor pose, synchronization quality, and paired RGB/depth/tactile context. First experiment should simulate events from 120fps industrial cameras or frame differences, then compare against a real event camera only if the pseudo-event stream improves contact-onset or slip/vibration labels."
+    "Event-camera ego-data note 2026-06-30: detailed evidence moved to Archive: Event-Camera Visuo-Tactile Sensing. Human-intention data collection should only include event streams after a marginal-value test against high-FPS RGB and pseudo-event frame differencing."
   ],
   "task_ids": [
     "task_human_intention_sensorium_xla_proposal"
@@ -182,17 +182,6 @@
       "doi": "10.1109/TMECH.2023.3324051",
       "submitted_at": "2024",
       "notes": "KAIST P2GI reference: palmar proximity sensors scan object point clouds during approach, infer grasp posture / object size / center, and enable shared-autonomy prosthetic grasping with a single-channel EMG command. Key relevance: proximity is a pre-contact object-relation signal for intention, affordance, contact-onset, and DexGello failure-phase metrics."
-    },
-    {
-      "title": "Thin-film event-based vision sensors for enhanced multispectral perception beyond human vision",
-      "url": "https://doi.org/10.1002/inf2.70007",
-      "doi": "10.1002/inf2.70007",
-      "notes": "InfoMat 2025 event-based thin-film sensor reference: sparse spiking dynamic perception, UV-to-NIR multispectral response, low-light fingerprint edge extraction, and reduced data processing. Use as a sensor-principle reference for event-driven perception and possible future polarization/multispectral tactile sensing."
-    },
-    {
-      "title": "GelEvent: A Novel High-Speed Tactile Sensor With Event Camera",
-      "url": "https://ieeexplore.ieee.org/abstract/document/10926508",
-      "notes": "Event-camera tactile sensor reference from the G&M Lab seminar discussion; use as the primary high-frequency visual-tactile baseline before treating event cameras as a VTAM sensor front-end."
     }
   ]
 }

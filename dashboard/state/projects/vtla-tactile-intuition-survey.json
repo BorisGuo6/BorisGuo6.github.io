@@ -121,7 +121,7 @@
     },
     "Placement update 2026-06-12: low-DoF tactile gripper/platform work moved here. The PSA three-finger tactile gripper, MANUS-to-two-finger retargeting, two-finger FinRay/GelSight/PPTAC-style platform, and 6-DoF tactile calibration platform are tactile/VTLA benchmark ingredients.",
     "Merged into DaiMeng VTAM (2026-06-27): This survey card was folded into DaiMeng VTAM / Tactile-WAM: Predictive Contact Intelligence. Keep this archive only as historical context; all active work and completed VTLA tasks should appear under the merged Research card.",
-    "Archive cross-reference 2026-06-30: the old “event-camera VLA as an additional modality” note now maps to DaiMeng VTAM/Tactile-WAM rather than a standalone VTLA survey item. New references are GelEvent, the T-RO event-vision tactile roller sensor, and thin-film multispectral event sensors. Active decision: event-driven sensing is a high-frequency tactile/ego side channel to benchmark against 120fps RGB and pseudo-event frame differencing, not the main VTAM representation until marginal value and hardware cost are proven."
+    "Archive cross-reference 2026-06-30: the old “event-camera VLA as an additional modality” note is now split into its own Archive: Event-Camera Visuo-Tactile Sensing evidence card."
   ],
   "task_ids": [],
   "risks_decisions": [
@@ -146,23 +146,6 @@
       "url": "https://www.notion.so/Random-Thought-1b395c72020b8017b612d2a7d0743f15",
       "submitted_at": "2025-06-07",
       "notes": "Original Notion source for human-robot perception alignment, glove/hand data-collection hardware, interaction-centric object/affordance/force representation, tactile/force dynamics model, hand graph/tree/chains, eigengrasp/PCA, active vision, RGB+XYZ, point-cloud resampling, and quantitative pouring/manipulation ideas."
-    },
-    {
-      "title": "GelEvent: A Novel High-Speed Tactile Sensor With Event Camera",
-      "url": "https://ieeexplore.ieee.org/abstract/document/10926508",
-      "notes": "Event-camera tactile sensor reference from the G&M Lab seminar discussion; use as the primary high-frequency visual-tactile baseline before treating event cameras as a VTAM sensor front-end."
-    },
-    {
-      "title": "They See Me Rolling: High-Speed Event Vision-Based Tactile Roller Sensor for Large Surface Inspection",
-      "url": "https://doi.org/10.1109/TRO.2026.3672333",
-      "doi": "10.1109/TRO.2026.3672333",
-      "notes": "T-RO 2026 event-vision tactile roller sensor: continuous rolling tactile 3D reconstruction, 0.5 m/s scanning, MAE below 100 um, and event-based motion-blur robustness. Relevant to large-surface tactile inspection and high-frequency contact transients, not directly a dexterous policy model."
-    },
-    {
-      "title": "Thin-film event-based vision sensors for enhanced multispectral perception beyond human vision",
-      "url": "https://doi.org/10.1002/inf2.70007",
-      "doi": "10.1002/inf2.70007",
-      "notes": "InfoMat 2025 event-based thin-film sensor reference: sparse spiking dynamic perception, UV-to-NIR multispectral response, low-light fingerprint edge extraction, and reduced data processing. Use as a sensor-principle reference for event-driven perception and possible future polarization/multispectral tactile sensing."
     }
   ]
 }
