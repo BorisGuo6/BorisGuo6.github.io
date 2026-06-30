@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-06-30T19:08:36+08:00",
+  "updated_at": "2026-06-30T21:03:23+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1617,7 +1617,7 @@
       "project_id": "self-improving-agents",
       "title": "Build RoboTwin2 Placement/Text2Env demo (SceneSmith-lite tabletop)",
       "description": "当前进展 2026-06-26：RoboTwin2 Text2Env demo 已有实现仓库 https://github.com/yezheng04/robotwin-text2env-demo；Zheng 已摸清 RoboTwin2 新任务接口，定义 Text2Env JSON schema，搭了 SceneSmith-lite Designer / Critic / Orchestrator 流程，写了 Env JSON -> RoboTwin2 task program 的生成脚本，并用 “Move the green block from the left zone to the right zone without moving the blue bowl.” 做了 smoke test。等待 Boris 验证 README、demo、simulator smoke、generated env/task program 和 data-collection dry run 后再标 done。\n\nScope correction: this TODO is now the Placement Agent / scene-arrangement slice, not upstream 3D asset generation. Asset generation can come from SceneSmith/SAM-3D/other upstream systems; v0 should infer task-intent-driven placements from natural language, choose objects/regions/support surfaces/cameras/observations/robot constraints/success verifier, then generate or repair a RoboTwin2 task program. Start with existing RoboTwin2 assets; if an asset is missing, record a blocker or route through an asset adapter, but do not make asset synthesis the main deliverable.\n\nAcceptance: 1) RoboTwin2 API list / manual-program new-task path / task-program schema documented; 2) 1-2 tabletop prompts with Text2Env JSON and generated task program; 3) Designer/Critic/Orchestrator limited to placement feasibility, collision/stability, object poses, task API usage, and program repair; 4) simulator smoke and data-collection dry run pass with commands/logs/artifact paths; 5) Pi/OpenVLA-OFT hook is exercised or blocked with evidence; 6) failure cases recorded for tasks blocked by missing RoboTwin assets/API support, e.g. drawer-like tasks; 7) Boris validates before final done.",
-      "status": "review",
+      "status": "done",
       "priority": "high",
       "assignee": null,
       "result": null,
@@ -1767,6 +1767,15 @@
           "kind": "comment",
           "body": "[COMPUTED][HIGH] Added existing-asset task generation and data collection for `Place the cola can into the basket.`\n\n[COMPUTED][HIGH] Existing assets selected by placement agent:\n\n- `071_can/base0`\n- `110_basket/base1`\n\n[COMPUTED][HIGH] Remote commits:\n\n- AgenticSim: `f34d56a` (`Add existing asset basket placement task support`)\n- `third_party/robotwin-text2env-demo`: `3d642b6` (`Add basket recovery scaffold generation`)\n\n[COMPUTED][HIGH] RoboTwin `demo_smoke` data generation passed:\n\n- Remote HDF5: `/home/boris/workspace/AgenticSim/third_party/RoboTwin/data/place_cola_can_in_basket/demo_smoke/data/episode0.hdf5`\n- Remote video: `/home/boris/workspace/AgenticSim/third_party/RoboTwin/data/place_cola_can_in_basket/demo_smoke/video/episode0.mp4`\n- HDF5 size: `41635324` bytes\n- Frame count: `247`\n\n[COMPUTED][HIGH] Local evidence directory:\n\n- `/Users/boris/Downloads/robotwin_text2env_demo_20260629/asset_existing_cola_can_basket_20260630`\n\n[COMPUTED][HIGH] Local evidence includes MP4, extracted frames, Text2Env spec, placement manifest, generated task file, collection log, scene info, instruction JSON, and remote HDF5 verification summary.",
           "created_at": "2026-06-30T04:19:54.795Z"
+        },
+        {
+          "comment_id": "comment_f78ee9b9-e096-4ac3-ae14-b81fe56a80cf",
+          "task_id": "task_self_improving_vlm_loop",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[COMPUTED][HIGH] Existing-asset can/basket task generated and collected: place_cola_can_in_basket uses 071_can/base0 + 110_basket/base1; remote commits f34d56a and 3d642b6; local evidence /Users/boris/Downloads/robotwin_text2env_demo_20260629/asset_existing_cola_can_basket_20260630; remote HDF5 41635324 bytes, 247 frames.",
+          "created_at": "2026-06-30T04:21:14.639Z"
         },
         {
           "comment_id": "clawcross_75860c4c1dd6",
@@ -2749,9 +2758,10 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-30T12:32:36+08:00",
+      "updated_at": "2026-06-30T21:02:55+08:00",
       "due_at": "",
-      "completed_at": null
+      "completed_at": "2026-06-30",
+      "completed_at_time": "2026-06-30T12:50:07.269Z"
     },
     {
       "task_id": "task_self_improving_molmoact2_reasoning_base",
@@ -6612,7 +6622,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-30T12:26:56+08:00",
+      "updated_at": "2026-06-30T20:51:07+08:00",
       "completed_at": "2026-06-24"
     },
     {
@@ -11063,7 +11073,7 @@
         }
       ],
       "created_at": "2026-06-27T05:42:22.606Z",
-      "updated_at": "2026-06-30T19:08:32+08:00",
+      "updated_at": "2026-06-30T20:59:04+08:00",
       "task_id": "task_umi_stage2_vddm_human_ego_probe_20260627",
       "project_id": "umi-world-model",
       "title": "Stage 2 VDDM: 加入 egocentric human-hand manipulation decomposition probe",
@@ -11117,7 +11127,7 @@
           "kind": "host_verified"
         }
       ],
-      "updated_at": "2026-06-30T12:29:52+08:00",
+      "updated_at": "2026-06-30T20:58:29+08:00",
       "completed_at": "2026-06-30",
       "completed_at_time": "2026-06-30T01:46:09.602Z"
     },
@@ -11126,7 +11136,7 @@
       "project_id": "umi-world-model",
       "title": "测试 Gemini-Omni 视频编辑做 object inpaint / removal",
       "description": "把 Gemini-Omni video editing 加入 UMI Stage 2 分层补全对照，专门测试“物品层移除 / object inpaint / contact-region completion”的效果。输入：3-5 个 MolmoAct / HOI / UMI-style clips，优先使用 RobotSeg/RoboSeg-first masks，并附带 SAM3/SAM2 tracked masks 与 layer_manifest。实验：对 object/contact layer 做 masked video editing，分别测试 object removal、object background completion、robot-object contact region completion；同一输入与 VACE、FLUX.fill still inpaint、LaMa、GPT/ChatGPT still edit baseline 对比。2026-06-29 最新同步：VACE 当前测下来 inpaint 不稳定，Gemini-Omni 结果要作为是否能替代或补充 VACE 的关键 qualitative probe，而不是另一个孤立 demo。Acceptance: 记录模型入口/API或网页流程、prompt/mask/reference 设置、输入视频+mask、输出视频、与 layer_manifest 对齐方式、masked-region temporal consistency、unmasked-region preservation、recomposition QA、物体边界/contact patch 失败样例、速度/成本/人工操作量；明确 Gemini-Omni 是否只适合作为 quick qualitative probe、是否能作为 VACE fallback、以及是否可进入 global layered dataset pipeline。",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignee": "Boris / Ziyang / Lai",
       "due_at": "2026-06-30",
@@ -11149,7 +11159,9 @@
           "created_at": "2026-06-29T23:20:00+08:00"
         }
       ],
-      "updated_at": "2026-06-29T23:20:00+08:00"
+      "updated_at": "2026-06-30T12:02:58.036Z",
+      "completed_at": "2026-06-30",
+      "completed_at_time": "2026-06-30T12:02:58.036Z"
     },
     {
       "task_id": "task_umi_stage1_closed_loop_eval_split_20260628",
@@ -11189,7 +11201,7 @@
         }
       ],
       "completed_at": "2026-06-30",
-      "updated_at": "2026-06-30T12:29:57+08:00",
+      "updated_at": "2026-06-30T20:58:45+08:00",
       "completed_at_time": "2026-06-30T00:59:36.734Z"
     }
   ]
