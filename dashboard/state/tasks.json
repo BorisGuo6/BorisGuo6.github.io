@@ -2764,6 +2764,30 @@
       "completed_at_time": "2026-06-30T12:50:07.269Z"
     },
     {
+      "task_id": "task_self_improving_sceneagent_selection2env_20260701",
+      "project_id": "self-improving-agents",
+      "title": "SceneAgent / selection2env：接入 RoboTwin 现有资产的场景布置管线",
+      "description": "根据 2026-07-01 ClawCross 读取的 Boris / Zheng Ye 与 Boris / Gaochen 微信对话，RoboTwin2 Placement/Text2Env demo 已完成，下一步不要重开整套闭环 analysis，也不要先做 generation2env。Zheng Ye 先负责 SceneAgent 的 selection2env：从自然语言任务意图出发，在现有 RoboTwin / AgenticSim / Articraft-10K 资产库里选择可执行资产、支撑面、区域、初始 pose、相机/观测、机器人约束和 success verifier，并输出 Text2Env JSON / RoboTwin task-program 输入。Gaochen 已确认这块能和大项目后续 pipeline 接上。\n\nScope: 先用 existing assets 做场景布置和任务接口，保持和 ye zheng04/robotwin-text2env-demo 以及 AgenticSim placement_agent 的接口兼容；Articraft-10K 先作为 asset catalog / manifest 来源接入，目标是让 AI agent 自动读取、分析、选择、调取资产生成 env。generation2env 只做 blocker 调研，因为 SAPIEN 导入 Gaussian scene、资产转换、collision proxy、physics validation 仍然不稳。\n\nAcceptance: 1) 写出 selection2env 的输入/输出 schema，包括 task_text、asset_candidates、selected_assets、placement_regions、support_surface、pose constraints、camera/observation、robot constraints、success verifier、blockers；2) 接入 RoboTwin/AgenticSim 现有资产清单，并尝试解析 Articraft-10K metadata 到 searchable manifest；3) 至少 3 个任务样例，其中 2 个必须能生成 Text2Env JSON + RoboTwin task-program 输入并通过 simulator smoke / data collection dry run，1 个记录为 unsupported/blocker；4) VLM/agent critique 不只检查刚体碰撞，还要检查视觉上摆放是否合理、任务意图是否满足、遮挡/可达性/稳定性；5) 输出 accepted/rejected asset candidates、placement manifest、生成代码 diff/commit、运行命令、日志、artifact path、失败截图或视频；6) 写 generation2env blocker memo：SAM3/SAM3D/Hunyuan-3D/SceneSmith-style asset generation 可参考，但暂不作为本 TODO 的完成条件；7) 明确与 Gaochen pipeline 的 handoff API 和下一位 owner。",
+      "status": "active",
+      "priority": "urgent",
+      "assignee": "Zheng Ye / Gaochen / Boris",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_self_improving_sceneagent_selection2env_seed_20260701",
+          "task_id": "task_self_improving_sceneagent_selection2env_20260701",
+          "author": "Codex / ClawCross WeChat sync",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "ClawCross sync 2026-07-01: Zheng Ye asked whether to join Gaochen’s closed-loop analysis. Boris redirected him to SceneAgent and said the shared project should connect to Gaochen’s side, but the near-term work is completing SceneAgent/Text2Env in RoboTwin. Gaochen confirmed this can connect and asked what Zheng should do. Boris set the immediate scope: first finish selection2env; connect Articraft-10K (https://huggingface.co/datasets/camvsl/Articraft-10K/tree/main) as an asset library; let the AI agent automatically read/analyze/select/call assets to generate env. generation2env is deferred because SAPIEN/Gaussian scene import and generated-asset physics remain problematic. Zheng’s repo has been refocused toward scene generation/placement with a reserved RoboTwin task-generation interface, and the system may become an MCP + skill harness later.",
+          "created_at": "2026-07-01T11:10:00+08:00"
+        }
+      ],
+      "updated_at": "2026-07-01T11:10:00+08:00",
+      "created_at": "2026-07-01T11:10:00+08:00",
+      "due_at": "2026-07-07"
+    },
+    {
       "task_id": "task_self_improving_molmoact2_reasoning_base",
       "project_id": "self-improving-agents",
       "title": "Evaluate MolmoAct 2 as self-improving reasoning VLA base",
@@ -11115,6 +11139,30 @@
       "description": "把 Stage 2 从 robot-only 分层扩展成 Video Dynamics Decomposition Model (VDDM) 的跨域验证：在 MolmoAct/UMI/RoboTwin robot clips 之外，加入 egocentric human-hand manipulation videos。统一 schema: actor_layer(actor_type=robot|human_hand)、object_contact_layer、occluder_tool_layer、scene_background_layer；sidecars 包括 mask.png、rgba.png、layer video、SVG contour、depth/pointmap、mesh/pose if available、2D/3D tracks、contact events、layer_manifest.json。实验路线：robot 侧用 RobotSeg/SAM3/SAM2 tracking + VACE/FLUX.fill/LaMa baseline；human-ego 侧参考 HaWoR 与 Do-As-I-Do pipeline，用 SAM3 -> SAM3D mesh -> MoGe pointmaps -> HaWoR -> TAPIR/BootsTAPIR or guided-diffusion tracking -> projection/retargeting 检查分层是否改善 reconstruction。Acceptance: 1) 3 个 robot clips + 3 个 egocentric human-hand clips；2) 每个 clip 输出四层 layer package 与 manifest；3) raw RGB vs mask-only vs VDDM layers 的 recomposition、temporal consistency、track/pose/reconstruction/retargeting 对比；4) failure gallery 覆盖手指/夹爪细节、透明/反光/布料/液体、遮挡接触、背景漂移；5) 判断 VDDM 是否足以支撑 Stage 2 独立论文与 v0 dataset/model 训练。",
       "completed_at": "2026-06-29",
       "completed_at_time": "2026-06-29T15:35:23.462Z"
+    },
+    {
+      "task_id": "task_umi_physisforcing_layer_state_video_probe_20260701",
+      "project_id": "umi-world-model",
+      "title": "Stage 3 PhysisForcing：把 VDDM 分层结果变成物理约束视频生成监督",
+      "description": "把 PhysisForcing (https://dagroup-pku.github.io/PhysisForcing.github.io/) 明确接到 UMI Stage 3：不是把分层结果只当可视化标签，而是把 Stage 2/VDDM 输出的 scene/object-contact/robot layers 转成训练时的 physics_forcing sidecar，用来让 Wan/Cosmos/Gamma-style 视频 world model 生成更符合物理实际的机器人操作视频。\n\n核心想法：PhysisForcing 通过 physics-informative regions 上的 pixel-level point trajectory alignment 和 semantic-level inter-region relation alignment 来减少物体变形、轨迹跳变、robot-object interaction 不一致。UMI 的优势是 VDDM 分层已经显式给出 robot mask/state/keypoints、object/contact mask/pose/point-flow/contact events、scene depth/camera/gravity priors 和 inter-layer relations，因此比整帧 RGB 或 mask-only 更适合构造 PhysisForcing 的监督区域与关系目标。\n\nphysics_forcing sidecar schema: 每个 clip/frame 输出 physics_mask(robot/object/contact/moved-object/static-scene)、point_tracks_2d/3d、object_state(pose/velocity/point_flow/confidence)、robot_state(keypoints/eef/gripper/pose/confidence)、contact_events(onset/maintain/release/confidence)、scene_priors(depth/pointmap/camera/gravity)、relation_graph(gripper-object coupling, pushed-object motion, object-scene support, occluder relation)、loss_weights 和 confidence_gate。低置信度 pose/flow/contact 不得强行作为 ground truth，只能降权或进入 failure gallery。\n\nTraining probe: 在同一视频 backbone / 同一 train-test split 下比较 4 条路线：1) whole-frame finetune；2) mask-only weighted loss；3) raw tracker/depth forcing without layers；4) VDDM layer+state forcing。PhysisForcing-style loss 先以离线特征/小规模 adapter 形式验证：pixel trajectory alignment 监督 DiT / video-token 局部运动连续性；semantic relation alignment 对齐 robot-object/contact/scene token relation，鼓励 grasped object 跟 gripper 保持耦合、pushed object 沿接触方向移动、scene/background 不漂移。\n\nAcceptance: 1) 选 3-5 个 UMI/MolmoAct/RoboTwin/DaiMeng clips，复用 Stage 2 layer_manifest 并导出 physics_forcing sidecar；2) 写清 sidecar JSON schema、坐标系、confidence gate、loss weight 与失败条件；3) 跑一个最小同 backbone 消融或给出可运行训练配置，至少包含 whole-frame、mask-only、raw-tracker、VDDM layer+state 四组；4) 指标包含 object deformation / discontinuous trajectory、contact consistency、object pose/velocity outcome、robot-object coupling、background stability、action actual-vs-wrong separation、IDM/planner/reward utility；5) 输出对比视频、metric table、failure gallery、训练/评估命令、显存/速度/成本；6) 结论必须回答分层 sidecar 是否比 raw tracker/depth 或 mask-only 更适合作为 physics forcing，不允许只凭定性样例宣传。",
+      "status": "active",
+      "priority": "high",
+      "assignee": "Boris / Haoyu / Ziyang",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_umi_physisforcing_layer_state_seed_20260701",
+          "task_id": "task_umi_physisforcing_layer_state_video_probe_20260701",
+          "author": "Codex / dashboard sync",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Seeded from Boris 2026-07-01 direction: use layered results to make video generation more physically realistic via PhysisForcing. Project page notes PhysisForcing is a training-time framework with physics-informative regions, pixel-level point-trajectory alignment, and semantic inter-region relation alignment; UMI should map VDDM layers into cleaner object/robot/contact/scene sidecars and compare same-backbone ablations instead of claiming an automatic gain.",
+          "created_at": "2026-07-01T11:32:00+08:00"
+        }
+      ],
+      "updated_at": "2026-07-01T11:32:00+08:00",
+      "created_at": "2026-07-01T11:32:00+08:00",
+      "due_at": "2026-07-14"
     },
     {
       "task_id": "task_tactile_wam_reproduce_gesim2_tactile_wam_20260627",
