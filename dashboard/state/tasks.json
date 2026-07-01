@@ -2764,6 +2764,30 @@
       "completed_at_time": "2026-06-30T12:50:07.269Z"
     },
     {
+      "task_id": "task_self_improving_text2env_lit_review_20260701",
+      "project_id": "self-improving-agents",
+      "title": "Text2Env literature review：梳理文本到仿真环境/任务生成工作",
+      "description": "根据 2026-07-01 Self-Improving 会议更新，先把 Text2Env / SceneAgent 相关工作做成 literature review，避免 implementation 直接陷入“做场景生成还是做任务生成”的混乱。Review 要服务两个问题：1) 我们的 selection2env 到底和已有 text-to-scene / task generation / simulation-ready asset generation / sim-in-loop code repair 工作有什么区别；2) 哪些工作应该作为 SceneAgent implementation reference，哪些只作为 positioning/reference。\n\nScope: 系统梳理 Text2Env 相关方向，至少覆盖 SceneSmith、RoboTwin 2.0、RoboGen、FATE、VLMbench/AMSolver、RoboTwin / generative digital twins、REALM 或同类 real-to-sim validated benchmark、以及当前 robotwin-text2env-demo / AgenticSim placement_agent。按功能拆成 text2task、text2scene、text2asset、selection2env、generation2env、simulation-in-the-loop repair、domain randomization / data generation、policy eval / data-collection hook。重点不是泛泛读论文，而是判断哪些能力能直接进入我们这周的 SceneAgent selection2env。\n\nAcceptance: 1) 输出一份本地 HTML/Markdown literature review 报告到 Downloads，并在 dashboard comment 里放路径；2) 至少 8 个 primary sources，每个给 project/paper/code 链接、年份、输入输出、环境/资产来源、是否开源、是否能复现、和 AgenticSim/RoboTwin 的接口关系；3) 做一张 method matrix：task generation、asset retrieval/generation、placement planning、physics/collision validation、code generation/repair、simulator smoke、data collection、policy eval；4) 明确 taxonomy：selection2env 只负责从任务意图选择/布置现有资产并生成 env/task spec，generation2env 才负责新资产/新场景生成；5) 给出 P0/P1/P2 shortlist，标出本周该接入的实现参考和暂缓项；6) 写清和 Zheng Ye 当前 repo / Gaochen pipeline 的 handoff：哪些字段、哪些 artifact、哪些 open blockers；7) 不允许只贴摘要，必须落到我们 pipeline 的 schema、acceptance gate 和下一步实验。",
+      "status": "active",
+      "priority": "high",
+      "assignee": "Boris / Zheng Ye",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_self_improving_text2env_lit_review_seed_20260701",
+          "task_id": "task_self_improving_text2env_lit_review_20260701",
+          "author": "Codex / dashboard sync",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Seeded from 2026-07-01 meeting note: add a TODO to investigate Text2Env prior work and prepare a literature review. Initial source anchors: SceneSmith (agentic simulation-ready indoor scenes), RoboTwin 2.0 (MLLM task/data generation and domain randomization), RoboGen (generative robotic task/environment loop), FATE (feasibility-aware task generation and active repair), VLMbench/AMSolver (language-conditioned manipulation benchmark/task composition), RoboTwin generative digital twins, REALM or similar real-to-sim validated benchmarks, plus local robotwin-text2env-demo / AgenticSim placement_agent. The review should decide implementation references for selection2env rather than reopening full generation2env.",
+          "created_at": "2026-07-01T12:05:00+08:00"
+        }
+      ],
+      "updated_at": "2026-07-01T12:05:00+08:00",
+      "created_at": "2026-07-01T12:05:00+08:00",
+      "due_at": "2026-07-08"
+    },
+    {
       "task_id": "task_self_improving_sceneagent_selection2env_20260701",
       "project_id": "self-improving-agents",
       "title": "SceneAgent / selection2env：接入 RoboTwin 现有资产的场景布置管线",
