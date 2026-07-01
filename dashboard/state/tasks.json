@@ -9525,7 +9525,7 @@
       "status": "active",
       "priority": "high",
       "assignee": "Lai / Ziyang / Boris",
-      "description": "根据 Zoom 与 2026-06-25/26/29 Layered Image Policy 微信同步，把分层处理从单图手工样例推进到可重复的自动化 smoke pipeline。Pipeline 顺序保持 iterative segment + inpaint：robot mask/rgba/video -> robot removal -> object/contact/occluder mask/rgba/video -> object/contact removal -> scene/background layer，所有输出保持原始 canvas 尺寸，支持原地 overlay/recomposition。\n\nSegmentation front-end 更新：1) RobotSeg / RoboSeg (https://github.com/showlab/RobotSeg) 升为 MolmoAct/robot-layer segmentation 第一候选；群里 MolmoAct 测试反馈目前 RobotSeg 效果最好，且 RobotSeg 自带 image/video、arm/gripper/whole-robot fine-grained masks；2) 短期不要回到 SAM-only：先跑 RobotSeg，然后尝试把 RobotSeg 内部 SAM2.1 组件替换/对齐到 SAM3，评估是否改善 gripper / wrist-view masks；3) SAM3/SAM2 继续作为 reference-mask propagation / mask tracking 备选：可先用干净 Franka reference 或第一帧 robot mask 初始化，再追踪整段视频；4) 参考 Cloak / arXiv:2606.22836 的 wrist-view end-effector mask 思路，单独评估 gripper-only、hand、arm+gripper 的 first-person/ego mask，尤其补上 gripper mask 当前 blocker；5) SAM-HQ robot mask review 不如 SAM3，暂时排除；Qwen/RevealLayer 只保留为负例或完成 baseline。\n\nInpainting 更新：LaMa 群里测试效果不好，降级为 failure / negative baseline，不作为主路线；VACE 仍是 raster video inpaint 候选，但 2026-06-29 最新反馈是目前 inpaint 不稳定，因此必须加 judgement / retry / morphology QA 管线，不能直接批量信任输出；Gemini-Omni 明天先给 object/video edit 结果，作为 object removal / contact completion 的强 qualitative probe；FLUX.fill 保留为 still-frame fallback，GPT image 保留为强 still-frame baseline 但不作为视频方案。背景若基本静态，可在移除 robot/object layer 后尝试单次 image inpainting 生成 background plate，避免逐帧漂移；wrist/ego view 背景变化较大，需要单独记录 temporal consistency 风险。\n\nAcceptance: 1) 选 3 个 UMI/MolmoAct/Hoi-style clips，每个抽 20-50 帧或短视频；2) 同一输入上比较 RobotSeg、RobotSeg+SAM3 modification、SAM3/SAM2 reference tracking、Cloak-style ego mask 的 robot/gripper/hand/arm masks，记录 mask IoU/edge quality/gripper coverage/bbox jitter/topology jump；3) 输出 robot/object/contact/occluder/background 的 mask.png、rgba.png、layer video、inpainted_background.png/video、SVG sidecar、layer_manifest.json；4) 对同一 mask/manifest 比较 VACE、Gemini-Omni、FLUX.fill、LaMa、GPT image baseline 的质量/速度/显存/是否改变画幅，其中 LaMa 和失败 VACE 输出作为 failure gallery；5) VACE/Gemini-Omni 输出必须检查 masked-region temporal consistency、unmasked-region preservation、recomposition SSIM/LPIPS 或人工评分，并记录是否需要自动重试或 mask morphology 修正；6) 失败样例包括 gripper miss、thin cable/shadow mistrace、pillow/object drift、background texture hallucination、电线等小细节可降权但 robot/object/background 主体必须正确分离。\n\nStage 2 VDDM framing update 2026-06-27: 这条 smoke pipeline 现在是 VDDM 论文的最小工程切片，而不是单纯分割/补全脚本。除 robot/MolmoAct/UMI/RoboTwin clips 外，加入 egocentric human-hand manipulation clips 作为跨域 probe；统一输出 actor_layer(actor_type=robot|human_hand)、object_contact_layer、occluder_tool_layer、scene_background_layer，以及 mask.png / rgba.png / layer video / SVG sidecar / depth or pointmap / mesh when available / tracks / contact events / layer_manifest.json。评估下游时接 HaWoR 与 Do-As-I-Do-style reconstruction stack（SAM3 -> SAM3D mesh -> MoGe pointmaps -> HaWoR -> TAPIR/BootsTAPIR/guided diffusion tracking -> projection/retargeting），判断 VDDM 是否让 reconstruction / tracking / retargeting 比 raw RGB 或 mask-only 更稳。新增 acceptance: 至少 3 个 robot clips + 3 个 egocentric human-hand clips；每类输出 recomposition QA、temporal consistency、actor/object/contact failure gallery、以及是否扩成 Stage 2 dataset/model 训练的判断。",
+      "description": "根据 Zoom 与 2026-06-25/26/29/30 Layered Image Policy 微信同步，把分层处理从单图手工样例推进到可重复的自动化 smoke pipeline。Pipeline 顺序保持 iterative segment + inpaint：robot mask/rgba/video -> robot removal -> object/contact/occluder mask/rgba/video -> object/contact removal -> scene/background layer，所有输出保持原始 canvas 尺寸，支持原地 overlay/recomposition。\n\nSegmentation front-end 更新：1) RobotSeg / RoboSeg (https://github.com/showlab/RobotSeg) 升为 MolmoAct/robot-layer segmentation 第一候选；群里 MolmoAct 测试反馈目前 RobotSeg 效果最好，且 RobotSeg 自带 image/video、arm/gripper/whole-robot fine-grained masks；2) P3 路线从这条总 smoke 中拆成单独 TODO：保持 SAM3 backbone，不回退到 SAM2.1，并把 RobotSeg 的 RobotPromptGenerator、MaskDecoder_Robot_RPG、arm/gripper/robot class token、memory foreground region prompt、part-aware mask decoder token path 迁移到 SAM3；3) gripper-first，arm 次之：SAM3 对 robot 整体已经更强，当前短板是 gripper / wrist-view part prior；4) SAM3/SAM2 继续作为 reference-mask propagation / mask tracking 备选：可先用干净 Franka reference 或第一帧 robot mask 初始化，再追踪整段视频；5) 参考 Cloak / arXiv:2606.22836 的 wrist-view end-effector mask 思路，单独评估 gripper-only、hand、arm+gripper 的 first-person/ego mask；6) SAM-HQ robot mask review 不如 SAM3，暂时排除；Qwen/RevealLayer 只保留为负例或完成 baseline。\n\nInpainting 更新：LaMa 群里测试效果不好，降级为 failure / negative baseline，不作为主路线；VACE 仍是 raster video inpaint 候选，但 2026-06-29 最新反馈是目前 inpaint 不稳定，因此必须加 judgement / retry / morphology QA 管线，不能直接批量信任输出；Gemini-Omni 明天先给 object/video edit 结果，作为 object removal / contact completion 的强 qualitative probe；FLUX.fill 保留为 still-frame fallback，GPT image 保留为强 still-frame baseline 但不作为视频方案。背景若基本静态，可在移除 robot/object layer 后尝试单次 image inpainting 生成 background plate，避免逐帧漂移；wrist/ego view 背景变化较大，需要单独记录 temporal consistency 风险。\n\nAcceptance: 1) 选 3 个 UMI/MolmoAct/Hoi-style clips，每个抽 20-50 帧或短视频；2) 同一输入上比较 RobotSeg、RobotSeg+SAM3 modification、SAM3/SAM2 reference tracking、Cloak-style ego mask 的 robot/gripper/hand/arm masks，记录 mask IoU/edge quality/gripper coverage/bbox jitter/topology jump；3) 输出 robot/object/contact/occluder/background 的 mask.png、rgba.png、layer video、inpainted_background.png/video、SVG sidecar、layer_manifest.json；4) 对同一 mask/manifest 比较 VACE、Gemini-Omni、FLUX.fill、LaMa、GPT image baseline 的质量/速度/显存/是否改变画幅，其中 LaMa 和失败 VACE 输出作为 failure gallery；5) VACE/Gemini-Omni 输出必须检查 masked-region temporal consistency、unmasked-region preservation、recomposition SSIM/LPIPS 或人工评分，并记录是否需要自动重试或 mask morphology 修正；6) 失败样例包括 gripper miss、thin cable/shadow mistrace、pillow/object drift、background texture hallucination、电线等小细节可降权但 robot/object/background 主体必须正确分离。\n\nStage 2 VDDM framing update 2026-06-27: 这条 smoke pipeline 现在是 VDDM 论文的最小工程切片，而不是单纯分割/补全脚本。除 robot/MolmoAct/UMI/RoboTwin clips 外，加入 egocentric human-hand manipulation clips 作为跨域 probe；统一输出 actor_layer(actor_type=robot|human_hand)、object_contact_layer、occluder_tool_layer、scene_background_layer，以及 mask.png / rgba.png / layer video / SVG sidecar / depth or pointmap / mesh when available / tracks / contact events / layer_manifest.json。评估下游时接 HaWoR 与 Do-As-I-Do-style reconstruction stack（SAM3 -> SAM3D mesh -> MoGe pointmaps -> HaWoR -> TAPIR/BootsTAPIR/guided diffusion tracking -> projection/retargeting），判断 VDDM 是否让 reconstruction / tracking / retargeting 比 raw RGB 或 mask-only 更稳。新增 acceptance: 至少 3 个 robot clips + 3 个 egocentric human-hand clips；每类输出 recomposition QA、temporal consistency、actor/object/contact failure gallery、以及是否扩成 Stage 2 dataset/model 训练的判断。",
       "result": null,
       "comments": [
         {
@@ -9572,10 +9572,43 @@
           "kind": "comment",
           "body": "2026-06-29 refreshed Layered Image Policy sync: 当前分割路线收敛到 RobotSeg/RoboSeg-first；下一步尝试把 RobotSeg 里的 SAM2.1 替换或对齐到 SAM3，专门看 gripper 和 ego/wrist masks。Inpaint 侧：VACE 当前测下来不稳定，必须加 judgement/retry/mask morphology QA 后才能批处理；Gemini-Omni 明天先给 object/video edit 结果；LaMa 保持负样例。",
           "created_at": "2026-06-29T23:20:00+08:00"
+        },
+        {
+          "comment_id": "comment_umi_layered_pipeline_wx_sync_20260701_p3",
+          "task_id": "task_umi_layered_pipeline_sam_vace_flux_lama_automation_20260622",
+          "author": "Codex / ClawCross wx sync",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-07-01 Layered Image Policy sync: P3 segmentation route should not fall back from SAM3 to SAM2.1. Keep SAM3 as the backbone because whole-robot recognition is stronger, and port RobotSeg/RoboSeg innovations onto it: RobotPromptGenerator, MaskDecoder_Robot_RPG, arm/gripper/robot class tokens, memory foreground region prompt, and part-aware mask-decoder token path. Initial target is gripper-specific part prior in propagation/decoder; arm comes second. Training should freeze SAM3 first and train only added RPG/robot-token/decoder-adapter modules, with optional low-LR mask-decoder or LoRA follow-up.",
+          "created_at": "2026-07-01T00:00:00+08:00"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-06-29T23:20:00+08:00"
+      "updated_at": "2026-07-01T00:00:00+08:00"
+    },
+    {
+      "task_id": "task_umi_roboseg_sam3_backend_migration_p3_20260701",
+      "project_id": "umi-world-model",
+      "title": "P3：把 RoboSeg 后端从 SAM2.1 迁移到 SAM3 backbone",
+      "status": "active",
+      "priority": "urgent",
+      "assignee": "Lai / Ziyang / Boris",
+      "due_at": "2026-07-07",
+      "description": "把 RobotSeg/RoboSeg 的 robot-specific 创新模块迁移到 SAM3，而不是退回 SAM2.1 或只做 SAM3 prompt 调参。路线：1) 保持 SAM3 backbone，冻结 backbone 作为第一版；2) 迁移 RobotPromptGenerator、MaskDecoder_Robot_RPG、arm / gripper / robot class token、memory foreground region prompt、part-aware mask decoder token path；3) 先做 gripper，arm 次之，因为 SAM3 对 robot 整体已经更强，当前主要短板是 gripper / wrist-view part prior；4) 先训练新增 RPG / robot-token / decoder adapter，必要时再用小学习率微调 mask decoder 或 LoRA；5) 明确和原始 RobotSeg(SAM2/SAM2.1)、原始 SAM3 tracking、SAM2.1 fallback 做同输入对比。Acceptance: 1) 写清 backend swap / adapter 的代码入口、配置、git SHA 或 patch diff；2) 在 3-5 个 MolmoAct / UMI / DaiMeng-style clips 上跑 20-50 帧或短视频，覆盖 third-person robot、wrist/ego gripper、arm+gripper；3) 输出 robot / gripper / arm masks、layer_manifest、recomposition preview、failure gallery；4) 记录 gripper coverage、edge quality、人审 IoU 或人工评分、frame-to-frame mask IoU/bbox jitter/topology jump、missing-gripper rate、false foreground rate、propagation drift；5) 给出是否把 SAM3+RobotSeg modules 作为 v0 segmentation mainline 的判断，以及不能进入主线时的 blocker。",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_umi_roboseg_sam3_p3_seed_20260701",
+          "task_id": "task_umi_roboseg_sam3_backend_migration_p3_20260701",
+          "author": "Codex / ClawCross wx sync",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Seeded from 2026-07-01 Layered Image Policy sync and P3 route screenshot: keep SAM3 backbone, port RobotSeg-specific modules instead of reverting to SAM2.1, focus first on gripper-specific prior, then arm, and train added modules before any low-LR mask-decoder/LoRA tuning.",
+          "created_at": "2026-07-01T00:00:00+08:00"
+        }
+      ],
+      "completed_at": null,
+      "updated_at": "2026-07-01T00:00:00+08:00"
     },
     {
       "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
