@@ -4,7 +4,7 @@
   "title": "Self-Improving Agents for Physical AI",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-07-01T11:10:00+08:00",
+  "updated_at": "2026-07-01T12:05:00+08:00",
   "description": "Simulation-first AgenticSim proposal: orchestrated setup-collect-train-eval-diagnose loop",
   "summary": "Self-Improving Agents is an AgenticSim-centered loop: an Orchestrator plus shared Blackboard/Memory coordinates Env Setup, Data Collect, Policy Training, Eval, Diagnosis, and targeted environment updates. The differentiator is simulation-first task/environment generation, executable task packs, typed failure traces, memory/governance gates, and WAM/TTT adapters before real-robot fleet scaling.",
   "asset": "dashboard/assets/simulator-taxonomy-20260615.png",
@@ -14,7 +14,7 @@
     "Current foundation: 129 registered AgenticSim environments, 38/38 full-runner tests, 16 failure traces, demo CLI, and Isaac smoke gate.",
     "Core loop: Env Setup -> Data Collect -> Policy Training -> Eval Agent -> Diagnosis/Analysis -> targeted Env Setup, coordinated by an Orchestrator plus shared Blackboard/Memory. Diagnosis turns root causes and curriculum reasoning into typed Data Requirement specs for the next setup pass.",
     "Interface rule: every inter-agent message should be a structured spec plus natural-language rationale so the loop stays auditable and steerable.",
-    "Implementation map: RoboTwin2 Placement/Text2Env demo is completed; the next Self-Improving slice is SceneAgent selection2env, which turns task intent plus an existing asset catalog into feasible RoboTwin/AgenticSim scene placement, verifier, and task-program inputs before any generation2env work. Cosmos3/RoboLab plus WAM/TTT memory critics remains the policy-improvement path; Real2Sim2Real, Articraft-10K/ArtiCraft3D/WorldComposer/PhysX-style asset generation, and governance gates are adapter candidates rather than intro logs.",
+    "Implementation map: RoboTwin2 Placement/Text2Env demo is completed; the next Self-Improving slice is split into two tracks: a Text2Env literature review to define the research map, and SceneAgent selection2env to implement existing-asset scene placement. Cosmos3/RoboLab plus WAM/TTT memory critics remains the policy-improvement path; Real2Sim2Real, Articraft-10K/ArtiCraft3D/WorldComposer/PhysX-style asset generation, and governance gates are adapter candidates rather than intro logs.",
     "Positioning: ENPIRE is the direct real-robot loop collision risk; RATs overlaps code-skill memory; PhyAgentOS overlaps transparent robot runtime. AgenticSim should differentiate through simulation-first task/environment generation, executable task packs, typed failure traces, governance gates, and WAM/TTT memory adapters."
   ],
   "task_ids": [
@@ -30,6 +30,7 @@
     "task_self_improving_articraft3d_asset_expansion",
     "task_self_improving_insta360_scene_capture",
     "task_self_improving_vlm_loop",
+    "task_self_improving_text2env_lit_review_20260701",
     "task_self_improving_sceneagent_selection2env_20260701",
     "task_self_improving_cosmos3_robolab_rollouts",
     "task_self_improving_wam_memory_critic",
@@ -216,6 +217,7 @@
     "Execution risk: generated scenes and ArtiCraft3D-style generated assets must be executable, reproducible, physically plausible, and gated by verifier / novelty / difficulty checks; TTT must improve held-out accepted scenes rather than overfit one generated scene.",
     "Video2Sim2Real adoption decision 2026-06-09: borrow its object-centric anchor and sim2real adaptation decomposition, but do not make the whole project depend on dexterous-hand demonstrations. AgenticSim should first implement the interface contract on one tabletop task: video/digital-twin manifest, object-keyframe anchors, robot-anchor optimization, recalibration dataset, residual adaptation hook, and real/sim verifier outputs.",
     "SceneSmith-lite decision 2026-06-13: do not attempt full-room SceneSmith first. The current target is a RoboTwin2 tabletop Text2Env demo; done means executable task program, verifier-readable env description, simulator smoke, data-collection dry run, and Pi / OpenVLA-OFT train/eval hook, not a pretty scene-only asset.",
+    "Text2Env review decision 2026-07-01: before overbuilding SceneAgent, write a literature review that separates text-to-task, text-to-scene, text-to-asset, selection2env, generation2env, simulation-in-the-loop repair, and policy-data generation. The review should decide which prior systems are implementation references versus only positioning references.",
     "SceneAgent decision 2026-07-01: after the RoboTwin2 Placement/Text2Env demo, the next TODO is selection2env, not generation2env. Zheng Ye should make the agent choose feasible existing RoboTwin/AgenticSim/Articraft-10K assets and placements from task intent, then emit Text2Env JSON / task-program inputs; full asset generation and SAPIEN/Gaussian scene import stay as research blockers.",
     "Orchestrator/blackboard decision 2026-06-13: describe the project as a five-agent closed loop rather than a single Text2Env tool. Text2Env is the first Env Setup implementation, while Diagnosis/Analysis remains the novel core that writes targeted Data Requirement specs back into setup.",
     "WAM / TTT decision 2026-06-13: do not frame the near-term work as full RL post-training. With only a four-L40S budget on the current collaborator side, first test memory-bank critic plus lightweight adapter/head updates; keep RL as a later baseline after single-task fast-improvement evidence exists.",
