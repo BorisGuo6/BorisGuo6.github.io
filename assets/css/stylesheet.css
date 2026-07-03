@@ -808,8 +808,26 @@ a:active {
   color: #153449;
 }
 
+/* Hidden full-mode Organization + Entrepreneurship columns */
+.org-entre-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.org-entre-grid details {
+  min-width: 0;
+}
+
 @media (max-width: 760px) {
   .lab-window-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .org-entre-grid {
     grid-template-columns: 1fr;
   }
 }

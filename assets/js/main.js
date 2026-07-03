@@ -1,7 +1,7 @@
 // Main JavaScript file for BorisGuo6.github.io
 // Contains all interactive functionality for the personal website
 
-var SITE_ASSET_VERSION = '20260630-news-map-flash';
+var SITE_ASSET_VERSION = 'org-entre-grid-20260702';
 var _deferredThirdPartyLoaded = false;
 
 // ============================================================================
@@ -33,7 +33,12 @@ function applyMode(full) {
   var showInMinimal = ['scholar-link-note'];
   hideInMinimal.forEach(function (id) {
     var el = document.getElementById(id);
-    if (el) el.style.display = full ? '' : 'none';
+    if (!el) return;
+    if (id === 'section-org-entre') {
+      el.style.display = full ? 'grid' : 'none';
+    } else {
+      el.style.display = full ? '' : 'none';
+    }
   });
   showInMinimal.forEach(function (id) {
     var el = document.getElementById(id);
