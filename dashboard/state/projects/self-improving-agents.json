@@ -4,18 +4,18 @@
   "title": "Self-Improving Agents for Physical AI",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-07-01T12:05:00+08:00",
+  "updated_at": "2026-07-03T15:45:00+08:00",
   "description": "Simulation-first AgenticSim proposal: orchestrated setup-collect-train-eval-diagnose loop",
-  "summary": "Self-Improving Agents is an AgenticSim-centered loop: an Orchestrator plus shared Blackboard/Memory coordinates Env Setup, Data Collect, Policy Training, Eval, Diagnosis, and targeted environment updates. The differentiator is simulation-first task/environment generation, executable task packs, typed failure traces, memory/governance gates, and WAM/TTT adapters before real-robot fleet scaling.",
+  "summary": "Self-Improving Agents / PEARL is now framed as an MCP-driven AgenticSim + Open X Sim loop: /gen-env builds reusable scenes and task specs, /collect records simulator/robot rollouts, /train and /evaluate are owned by the policy pipeline, /diagnose writes dense failure traces, and /transfer adapts existing simulators instead of rebuilding every environment. ENPIRE is the real-robot self-improvement harness prior; ASPIRE is the code-as-policy skill-discovery prior. Our differentiator should be scene/task decoupling, Any Sim Transfer across RoboTwin/SAPIEN and other backends, typed failure-to-data requirements, and a reusable simulator/task library before real-robot fleet scaling.",
   "asset": "dashboard/assets/simulator-taxonomy-20260615.png",
   "asset_alt": "Robotics simulator taxonomy comparing task APIs, assets, simulation frameworks, renderers, and physics engines.",
   "asset_caption": "Simulator taxonomy reference: separate task/API layer, asset layer, simulation framework, renderer, and physics engine when choosing the Text2Env / AgenticSim backend.",
   "details": [
-    "Current foundation: 129 registered AgenticSim environments, 38/38 full-runner tests, 16 failure traces, demo CLI, and Isaac smoke gate.",
-    "Core loop: Env Setup -> Data Collect -> Policy Training -> Eval Agent -> Diagnosis/Analysis -> targeted Env Setup, coordinated by an Orchestrator plus shared Blackboard/Memory. Diagnosis turns root causes and curriculum reasoning into typed Data Requirement specs for the next setup pass.",
-    "Interface rule: every inter-agent message should be a structured spec plus natural-language rationale so the loop stays auditable and steerable.",
-    "Implementation map: RoboTwin2 Placement/Text2Env demo is completed; the next Self-Improving slice is split into two tracks: a Text2Env literature review to define the research map, and SceneAgent selection2env to implement existing-asset scene placement. Cosmos3/RoboLab plus WAM/TTT memory critics remains the policy-improvement path; Real2Sim2Real, Articraft-10K/ArtiCraft3D/WorldComposer/PhysX-style asset generation, and governance gates are adapter candidates rather than intro logs.",
-    "Positioning: ENPIRE is the direct real-robot loop collision risk; RATs overlaps code-skill memory; PhyAgentOS overlaps transparent robot runtime. AgenticSim should differentiate through simulation-first task/environment generation, executable task packs, typed failure traces, governance gates, and WAM/TTT memory adapters."
+    "Current foundation: 129 registered AgenticSim environments, 38/38 full-runner tests, 16 failure traces, demo CLI, Isaac smoke gate, and a RoboTwin2 Placement/Text2Env demo that can become the first /gen-env backend.",
+    "PEARL architecture from the project deck: run_state.json + events.jsonl record state; tools are skillized; MCP servers expose scene/code/execute/verify/diagnose; memory is layered into short-term run state, event logs, and long-term experience; an Orchestrator decides the next action instead of a static pipeline.",
+    "Command-level loop: /gen-env accepts text, reference image, or video and outputs reusable scene + task specs; /collect turns accepted scenes/tasks into rollouts and data; /train and /evaluate connect to Gaochen’s policy/eval side; /diagnose explains failures with simulator state, object pose/state, arm motion, and gripper behavior; /transfer is the Any Sim Transfer skill for adapting existing external simulator environments.",
+    "Research positioning: ENPIRE proves the real-world reset/rollout/evolve loop; ASPIRE proves rollout-trace debugging, code-as-policy repair, and persistent skill libraries. AgenticSim should not compete by merely skillizing tasks. The stronger angle is Open X Sim: aggregate existing simulator tasks/assets, decouple scene generation from task definition, map one scene to multiple tasks, and reuse/transfer environments across SAPIEN/RoboTwin/Isaac/MuJoCo-style stacks.",
+    "Near-term implementation map: keep RoboTwin / SAPIEN as the trusted v0 backend, because the current discussion explicitly prefers staying with RoboTwin rather than forcing Isaac Sim/USD. SceneAgent selection2env remains P0; full generation2env and Gaussian/SAPIEN scene import stay behind a blocker memo."
   ],
   "task_ids": [
     "task_self_improving_prepare_proposal",
@@ -32,6 +32,7 @@
     "task_self_improving_vlm_loop",
     "task_self_improving_text2env_lit_review_20260701",
     "task_self_improving_sceneagent_selection2env_20260701",
+    "task_self_improving_openxsim_command_loop_20260703",
     "task_self_improving_cosmos3_robolab_rollouts",
     "task_self_improving_wam_memory_critic",
     "task_self_improving_lightweight_ttt_adapter",
@@ -207,9 +208,30 @@
       "url": "https://docs.google.com/presentation/d/1FNFpXEQoJjUGaMekdncP0OHKxLN05BsgmqFqqzVAZ64/edit?slide=id.p9#slide=id.p9",
       "submitted_at": "2026-06-04",
       "notes": "Internal discussion/report link provided by the user. Use as the local slide reference for the MolmoAct-based self-improving direction; public page content was not fetched in this run."
+    },
+    {
+      "title": "ASPIRE: Agentic /Skills Discovery for Robotics",
+      "url": "https://research.nvidia.com/labs/gear/aspire/",
+      "submitted_at": "2026-07-03",
+      "notes": "NVIDIA GEAR reference for code-as-policy robotic skill discovery. ASPIRE records multimodal rollout traces, diagnoses primitive-level failures, rewrites control programs, re-executes them for validation, and saves reusable fixes into a growing skill library. Use it as the direct prior for PEARL skill/memory/debugging, and differentiate through Open X Sim / Any Sim Transfer, scene-task decoupling, simulator task aggregation, and policy-data feedback rather than only task-to-skill conversion."
+    },
+    {
+      "title": "PEARL: Self-Improving Agents for Physical AI proposal deck",
+      "url": "https://docs.google.com/presentation/d/1vf-El5cI5wq0i9XSxu_z10LiYj9MyT2ked3gjQWRSIM/edit?usp=sharing",
+      "submitted_at": "2026-07-03",
+      "notes": "Canonical internal deck for the current PEARL framing. Key architecture points: a closed-loop self-improving physical-AI flywheel, run_state.json/events.jsonl, skillized operations, MCP scene/code/execute/verify/diagnose tools, layered memory, and an Orchestrator that selects the next action. The next weekly goal is not a static Text2Env demo; it is a 2-3 benchmark self-evolving loop with dense failure analysis and evaluation-set extension."
+    },
+    {
+      "title": "ASPIRE Robot Execution Engine screenshot",
+      "url": "dashboard/assets/aspire-robot-execution-engine-20260703.jpg",
+      "submitted_at": "2026-07-03",
+      "notes": "User-provided chat screenshot showing ASPIRE Robot Execution Engine / physical-engine framing across LIBERO, RoboSuite, BEHAVIOR, and real-robot execution. Added as image context to keep the benchmark/backend comparison visible."
     }
   ],
   "risks_decisions": [
+    "Backend decision 2026-07-03: keep RoboTwin / SAPIEN as the v0 implementation backend rather than forcing Isaac Sim/USD. Isaac/Omniverse remains an adapter target through /transfer, but the near-term system should trust the current RoboTwin stack and avoid turning simulator compatibility into the main blocker.",
+    "Scene/task decoupling decision 2026-07-03: user chat argues current ASPIRE/RoboTwin-style systems often generate task and scene together. PEARL should explicitly separate scene generation/selection from task specification so a scene can be reused for multiple operations and task prompts do not force duplicated environment construction.",
+    "ASPIRE differentiation decision 2026-07-03: ASPIRE already covers rollout-trace debugging, code-as-policy program repair, evolutionary search, and persistent robot skill libraries. Do not position PEARL as just another task-to-skill system. Position PEARL as Open X Sim / Any Sim Transfer plus MCP-governed simulator aggregation: one reusable scene can support multiple tasks, existing environments can be imported instead of rebuilt, and failure traces become data requirements for /gen-env, /collect, /train, and /evaluate.",
     "Scope decision: simulation-first MVP; external validation comes after the executable sim loop has gates and replayable reports.",
     "Benchmark decision: start from the completed 129-environment AgenticSim foundation.",
     "Candidate-base decision: mention Genesis World 1.0 and RoboTwin 2.0 as future simulator / benchmark bases, but keep them explicitly separate from the implemented LeHome / RoboLab foundation until adapters and verifier contracts are built.",
@@ -261,8 +283,20 @@
       {
         "label": "WAM path",
         "value": "Cosmos3 + memory"
+      },
+      {
+        "label": "NVIDIA refs",
+        "value": "ENPIRE + ASPIRE"
+      },
+      {
+        "label": "Architecture",
+        "value": "MCP + Open X Sim"
+      },
+      {
+        "label": "Commands",
+        "value": "/gen-env /collect /transfer"
       }
     ],
-    "target_note": "Meeting-ready proposal intro for simulation-first AgenticSim, now grounded in a five-agent orchestrator/blackboard loop, a concrete RoboTwin2 Text2Env Env Setup slice, a Cosmos3-policy / RoboLab WAM self-improvement path, and a clear ENPIRE/RATs/PhyAgentOS differentiation story."
+    "target_note": "Next target: upgrade PEARL from a Text2Env demo into a command-level AgenticSim/Open X Sim loop: /gen-env reusable scene-task specs, /collect rollout data, Gaochen-owned /train and /evaluate hooks, dense /diagnose failure traces, and /transfer adapters for existing simulator environments."
   }
 }
