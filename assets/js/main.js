@@ -1,7 +1,7 @@
 // Main JavaScript file for BorisGuo6.github.io
 // Contains all interactive functionality for the personal website
 
-var SITE_ASSET_VERSION = 'org-entre-grid-20260702';
+var SITE_ASSET_VERSION = 'robot-link-removed-20260703';
 var _deferredThirdPartyLoaded = false;
 
 // ============================================================================

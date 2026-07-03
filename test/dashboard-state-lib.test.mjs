@@ -382,7 +382,7 @@ assert.doesNotMatch(
 );
 assert.match(
   homepageSource,
-  /assets\/js\/main\.js\?v=org-entre-grid-20260702/,
+  /assets\/js\/main\.js\?v=robot-link-removed-20260703/,
   "homepage must version main.js so removed timeline items are not revived by browser cache",
 );
 assert.match(
@@ -407,7 +407,7 @@ assert.doesNotMatch(
 );
 assert.match(
   mainJsSource,
-  /SITE_ASSET_VERSION = 'org-entre-grid-20260702'[\s\S]+fetch\(versionedUrl\)/,
+  /SITE_ASSET_VERSION = 'robot-link-removed-20260703'[\s\S]+fetch\(versionedUrl\)/,
   "main.js must version JSON content fetches so stale timeline data is not reused",
 );
 assert.doesNotMatch(
