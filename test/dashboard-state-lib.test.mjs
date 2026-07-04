@@ -176,6 +176,7 @@ assert.deepEqual(
 
 const dashboardSource = await readFile(new URL("../dashboard/index.html", import.meta.url), "utf8");
 const agentsSource = await readFile(new URL("../AGENTS.md", import.meta.url), "utf8");
+const vercelApiSource = await readFile(new URL("../scripts/dashboard-vercel-api.mjs", import.meta.url), "utf8");
 assert.match(
   dashboardSource,
   /function projectTasksFor\(/,
@@ -238,6 +239,31 @@ assert.match(
   dashboardSource,
   /task-comment-delete/,
   "dashboard should route comment deletion through a hosted/local API endpoint",
+);
+assert.match(
+  dashboardSource,
+  /let vercelMutationQueue = Promise\.resolve\(\);/,
+  "dashboard should keep hosted writes in a client-side queue so rapid TODO updates do not race the Blob snapshot",
+);
+assert.match(
+  dashboardSource,
+  /function enqueueVercelMutation\(operation\)/,
+  "dashboard should expose a helper for serializing hosted write operations",
+);
+assert.match(
+  dashboardSource,
+  /return enqueueVercelMutation\(async \(\) => \{/,
+  "dashboard hosted POSTs should be queued instead of sent in parallel",
+);
+assert.match(
+  vercelApiSource,
+  /let mutationQueue = Promise\.resolve\(\);/,
+  "Vercel dashboard API should serialize same-instance Blob mutations",
+);
+assert.match(
+  vercelApiSource,
+  /mutationQueue = run\.catch\(\(\) => undefined\);/,
+  "Vercel dashboard API mutation queue should continue after failed writes",
 );
 assert.doesNotMatch(
   dashboardSource,

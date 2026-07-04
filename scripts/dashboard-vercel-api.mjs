@@ -13,6 +13,8 @@ import {
   writeVercelBlobSnapshot,
 } from "./dashboard-vercel-store.mjs";
 
+let mutationQueue = Promise.resolve();
+
 function methodNotAllowed(response, allowed) {
   response.setHeader("allow", allowed.join(", "));
   return sendJson(response, 405, { ok: false, error: "Method not allowed" });
@@ -117,19 +119,23 @@ async function loadWritableSnapshot() {
 }
 
 async function persistMutation(mutation) {
-  const { snapshot, meta } = await loadWritableSnapshot();
-  const result = mutation(snapshot);
-  const blob = await writeVercelBlobSnapshot(result.snapshot);
-  return {
-    ...result,
-    meta: {
-      ...meta,
-      storage: "vercel-blob",
-      blob_path: blob.pathname,
-      blob_url: blob.url,
-      updated_at: result.snapshot.updated_at,
-    },
-  };
+  const run = mutationQueue.catch(() => undefined).then(async () => {
+    const { snapshot, meta } = await loadWritableSnapshot();
+    const result = mutation(snapshot);
+    const blob = await writeVercelBlobSnapshot(result.snapshot);
+    return {
+      ...result,
+      meta: {
+        ...meta,
+        storage: "vercel-blob",
+        blob_path: blob.pathname,
+        blob_url: blob.url,
+        updated_at: result.snapshot.updated_at,
+      },
+    };
+  });
+  mutationQueue = run.catch(() => undefined);
+  return run;
 }
 
 export async function handleDashboardHealth(request, response) {
