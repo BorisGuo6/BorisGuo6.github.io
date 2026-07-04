@@ -4,7 +4,7 @@
   "title": "UMI Image Layered World Model",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-07-02T09:45:09.090Z",
+  "updated_at": "2026-07-04T03:54:00.000Z",
   "description": "UMI Image Layered World Model: three linked papers covering multi-view robot video world modeling, manipulation-video dynamics decomposition into reusable layers, and layered data as a downstream VLA/IDM/reward training interface.",
   "summary": "UMI is split into three publishable stages: Stage 1 a streaming multi-view pose/action-conditioned UMI World Model for wrist/head/fixed views; Stage 2 a Video Dynamics Decomposition Model (VDDM) that decomposes robot and egocentric human-hand manipulation videos into actor/object-contact/occluder/scene layers plus geometry/tracking/state sidecars; Stage 3 a layered-robot-data VLA/video-model training paradigm that tests IDM, reward, pose/flow, augmentation, and PhysisForcing-style physics alignment beyond raw RGB or mask-only baselines. Dataset discovery for Stage 2/3 starts from Datasets Bot (https://datasets.bot/) and still requires license, schema, overlap, and leakage audits before any training use.",
   "subprojects": [
@@ -259,7 +259,10 @@
     "Stage 2 VDDM boundary 2026-06-27: treat segmentation, mask tracking, VACE/FLUX/LaMa/GPT inpainting, SVG contour sidecars, and geometry/track extraction as modules inside a model/data interface. The claim is temporally consistent manipulation dynamics decomposition with actor/object-contact/occluder/scene semantics; it should accept robot data and egocentric human-hand manipulation videos via actor_type=robot|human_hand.",
     "Stage 2 reconstruction bridge 2026-06-27: use HaWoR and Do-As-I-Do-style reconstruction as downstream probes. A useful VDDM layer output should make SAM3/SAM3D mesh, MoGe pointmaps, HaWoR hand motion, TAPIR/BootsTAPIR or guided-diffusion tracking, projection, and retargeting cleaner than raw RGB or mask-only inputs.",
     "Stage 3 VLA utility boundary 2026-06-27: the paper should measure whether scene/object-contact/robot-hand layers improve policy learning signals: object pose/velocity/contact outcome, IDM action inference, reward/progress models, background augmentation, and HOI-consistent retargeting.",
-    "PhysisForcing integration 2026-06-30: use VDDM outputs as physics-informative supervision for video world models, not as another cosmetic layer label. Export a physics_forcing sidecar with scene mask/depth/camera priors, robot mask/state/keypoints, object/contact mask/pose/point-flow/contact events, and inter-layer relation targets such as gripper-object coupling, pushed-object motion, and contact onset. Training ablation: same backbone with (1) whole-frame finetune, (2) mask-only weighted loss, (3) raw tracker/depth forcing without layers, and (4) VDDM layer+state forcing. Success requires better physical plausibility and action/object outcome prediction under the same rollout/test split; noisy pose or flow estimates must be confidence-gated rather than forced blindly."
+    "PhysisForcing integration 2026-06-30: use VDDM outputs as physics-informative supervision for video world models, not as another cosmetic layer label. Export a physics_forcing sidecar with scene mask/depth/camera priors, robot mask/state/keypoints, object/contact mask/pose/point-flow/contact events, and inter-layer relation targets such as gripper-object coupling, pushed-object motion, and contact onset. Training ablation: same backbone with (1) whole-frame finetune, (2) mask-only weighted loss, (3) raw tracker/depth forcing without layers, and (4) VDDM layer+state forcing. Success requires better physical plausibility and action/object outcome prediction under the same rollout/test split; noisy pose or flow estimates must be confidence-gated rather than forced blindly.",
+    "Dataset download audit 2026-07-04: remote queue state is now the source of truth at /mnt/data/datasets/dual_wrist_serial_queue/. Keep genrobot2025/10Kh-RealOmin-OpenData as the sole active external downloader; queue XRZero first after it, then Mobile ALOHA, LeRobot Shirt-Folding, ManipArena, MolmoAct2 Bimanual YAM, Galaxea, AgiBotWorld2026, ABC-130k, and RoboTwin2.0. Do not start these in parallel with 10Kh unless the single-download policy is explicitly changed.",
+    "Dataset format bridge 2026-07-04: the remote Gamma/UMI loader expects robot189-style paired streams under video/{left,right}, caption/{left,right}, and action/{left,right}; actions are 10-D pos3 + rot6d + gripper arrays. New datasets must be converted into that contract before being treated as Stage 1/2 training substrate.",
+    "Serial scheduler 2026-07-04: /mnt/data/datasets/dual_wrist_serial_queue/serial_dataset_scheduler.py is armed in waiting mode. It only polls 10Kh completion; while 10Kh is active it leaves XRZero scheduler_hold in place. After 10Kh is complete and no non-10Kh process is active, it starts only XRZero with WORKERS=2. Mobile ALOHA, LeRobot Folding, ManipArena, Galaxea, AgiBot, ABC, RoboTwin, and local materialization remain manual/adapter-gated."
   ],
   "task_ids": [
     "task_umi_wan21_dual_wrist_structure_20260617",
@@ -450,6 +453,48 @@
       "url": "https://datasets.bot/",
       "submitted_at": "2026-06-28",
       "notes": "Stage 2/3 dataset discovery surface. Datasets Bot indexes open robotics datasets and exposes machine-readable entries with metadata such as source, license, modality, camera count, action space, schema summary, paper/code/download URLs, and usage snippets. Use it to find additional physical robot/manipulation clips for VDDM decomposition, layer QA, and VLA/IDM/reward utility ablations; do not ingest a candidate until license, camera/action schema, dataset overlap, and train/test leakage checks pass."
+    },
+    {
+      "title": "Dual-wrist serial download queue audit",
+      "url": "remote:/mnt/data/datasets/dual_wrist_serial_queue/candidate_audit.json",
+      "submitted_at": "2026-07-04",
+      "notes": "Current remote audit and queue generated from Datasets Bot, Open-X-Tactile, Hugging Face metadata, and live Aliyun process state. The enforced policy is one external dataset download at a time: 10Kh stays active, while XRZero, Mobile ALOHA, LeRobot Shirt-Folding, ManipArena, MolmoAct2 Bimanual YAM, Galaxea, AgiBotWorld2026, ABC-130k, and RoboTwin2.0 remain queued or held."
+    },
+    {
+      "title": "Open-X-Tactile",
+      "url": "https://open-x-tactile.github.io/",
+      "submitted_at": "2026-07-04",
+      "notes": "Tactile ecosystem index inspected on 2026-07-04. The static site-data snapshot has 15 datasets and 12 sensors, with bimanual/dual entries such as RDP_Bimanual and Unit_Bimanual. Treat it as a tactile sidecar/source index for Stage 2/3, not as the primary dual-wrist RGB+action download queue."
+    },
+    {
+      "title": "Mobile ALOHA dataset",
+      "url": "https://www.tensorflow.org/datasets/catalog/aloha_mobile",
+      "submitted_at": "2026-07-04",
+      "notes": "High-priority queued candidate from Datasets Bot: physical bimanual mobile manipulation with overhead plus left/right wrist RGB, 14-D state, 16-D action, language instructions, and about 50.9GB TFDS/RLDS size. Queue after XRZero once 10Kh is done or paused by explicit decision."
+    },
+    {
+      "title": "LeRobot Shirt-Folding Dataset",
+      "url": "https://huggingface.co/datasets/lerobot/full_folding",
+      "submitted_at": "2026-07-04",
+      "notes": "High-priority queued candidate from Datasets Bot: real bimanual shirt-folding data in LeRobot v3 with base plus two wrist cameras and 16-D joint+gripper state/action. Hugging Face API reports public ungated storage around 485.6GB."
+    },
+    {
+      "title": "ManipArena dataset",
+      "url": "https://huggingface.co/datasets/ManipArena/maniparena-dataset",
+      "submitted_at": "2026-07-04",
+      "notes": "Strong but gated queued candidate: real/sim bimanual and mobile manipulation with overhead plus two wrist cameras, 56-D proprioception, language annotations, and LeRobot v2.1 format. Download requires access check before it can outrank ungated candidates."
+    },
+    {
+      "title": "Galaxea Open-World Dataset",
+      "url": "https://huggingface.co/datasets/OpenGalaxea/Galaxea-Open-World-Dataset",
+      "submitted_at": "2026-07-04",
+      "notes": "Large gated queued candidate: dual-arm mobile manipulator data with head/head-right plus left/right wrist cameras and whole-body actions. Keep later in the queue because Hugging Face API reports roughly 13TB used storage."
+    },
+    {
+      "title": "ABC-130k",
+      "url": "https://huggingface.co/datasets/XDOF/ABC-130k",
+      "submitted_at": "2026-07-04",
+      "notes": "Massive gated bimanual candidate with top plus two wrist views and 14-D state/action. Keep behind smaller exact-wrist candidates because Hugging Face API reports roughly 22TB used storage."
     },
     {
       "title": "Dr. Robot: Differentiable Robot Rendering",
@@ -725,7 +770,10 @@
       "evidence": "/Users/boris/Downloads/umi_gamma_strict_quality_anchor_counterfactual_rebal4500_20260629/index.html"
     },
     "PhysisForcing guardrail 2026-06-30: layer-derived object/robot/scene state is useful for video-model training only if confidence-gated sidecars improve same-backbone physical plausibility and action/object outcome metrics over whole-frame finetuning, mask-only weighting, and raw tracker/depth forcing. Do not treat estimated pose/flow/contact labels as ground truth without QA.",
-    "PhysisForcing execution decision 2026-07-01: use VDDM layers as a cleaner source of physics-informative regions and relation labels for video-model training. The concrete artifact is a confidence-gated physics_forcing sidecar, not a claim that estimated pose/flow is ground truth. Train/evaluate the same backbone against whole-frame finetune, mask-only weighting, raw tracker/depth forcing, and VDDM layer+state forcing before claiming improved physical plausibility."
+    "PhysisForcing execution decision 2026-07-01: use VDDM layers as a cleaner source of physics-informative regions and relation labels for video-model training. The concrete artifact is a confidence-gated physics_forcing sidecar, not a claim that estimated pose/flow is ground truth. Train/evaluate the same backbone against whole-frame finetune, mask-only weighting, raw tracker/depth forcing, and VDDM layer+state forcing before claiming improved physical plausibility.",
+    "Dataset scheduling decision 2026-07-04: do not run Datasets Bot candidates in parallel with the active 10Kh/JianZhi download. The observed single-download throughput beat multi-way contention, so the dashboard queue must preserve XRZero/Mobile ALOHA/LeRobot Folding/etc. as pending entries until 10Kh is complete or explicitly paused.",
+    "Daimon status decision 2026-07-04: LeRobot conversion is complete, but symlink materialization is only partial. Do not confuse conversion completion with a fully self-contained materialized copy; postpone heavy local/NAS materialization while 10Kh download is active.",
+    "Serial scheduler guardrail 2026-07-04: the only automatic follow-on action is XRZero after verified 10Kh completion. Every other queued dataset still needs a dataset-specific adapter and a fresh access/schema check before download starts."
   ],
   "timeline": {
     "target_venue": "ICLR",
