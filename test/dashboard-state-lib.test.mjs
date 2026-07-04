@@ -35,6 +35,7 @@ import {
   toDashboardStateResponse,
 } from "../scripts/dashboard-state-snapshot.mjs";
 import {
+  dashboardProvidedWriteToken,
   dashboardWriteAuth,
 } from "../scripts/dashboard-vercel-api.mjs";
 import {
@@ -116,6 +117,14 @@ assert.deepEqual(
 assert.deepEqual(
   dashboardWriteAuth({ headers: { authorization: "Bearer right" } }, { DASHBOARD_WRITE_TOKEN: "right" }),
   { ok: true },
+);
+assert.equal(
+  dashboardProvidedWriteToken({ headers: { "x-dashboard-token": "abc" } }),
+  "abc",
+);
+assert.equal(
+  dashboardProvidedWriteToken({ headers: { authorization: "Bearer abc" } }),
+  "abc",
 );
 assert.equal(
   vercelBlobReadUrl({
@@ -262,6 +271,41 @@ assert.match(
   dashboardSource,
   /function dashboardAgentPromptText\(\)/,
   "dashboard should generate the agent task-update prompt client-side",
+);
+assert.match(
+  dashboardSource,
+  /class="dashboard-locked"/,
+  "dashboard should start behind a locked pre-read access gate",
+);
+assert.match(
+  dashboardSource,
+  /data-dashboard-access-form[\s\S]+DASHBOARD_WRITE_TOKEN[\s\S]+validateDashboardAccess/,
+  "dashboard should validate a user-entered token before loading readable state",
+);
+assert.match(
+  dashboardSource,
+  /data-dashboard-watermark[\s\S]+function updateDashboardWatermark\(\)/,
+  "dashboard should render a user-specific full-screen watermark after unlock",
+);
+assert.match(
+  dashboardSource,
+  /# Dashboard Backend Write Token[\s\S]+更新时间：2026-06-18 20:30 Asia\/Shanghai[\s\S]+删除评论 endpoint/,
+  "dashboard copied agent prompt should use the requested Chinese write-token prompt",
+);
+assert.match(
+  dashboardSource,
+  /writeVercelWriteToken\(token\)[\s\S]+vercelWriteToken = String\(token \|\| ""\)\.trim\(\);[\s\S]+}\n/,
+  "dashboard should keep the Vercel write token in memory rather than localStorage",
+);
+assert.doesNotMatch(
+  dashboardSource,
+  /dashboard\.vercel-write-token|localStorage\.setItem\(vercelTokenStorageKey|localStorage\.getItem\(vercelTokenStorageKey/,
+  "dashboard must not persist the write token in localStorage",
+);
+assert.doesNotMatch(
+  dashboardSource,
+  /\b[a-f0-9]{64}\b/i,
+  "dashboard source must not hardcode a long write-token-like secret",
 );
 assert.match(
   dashboardSource,

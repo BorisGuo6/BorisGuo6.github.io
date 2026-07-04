@@ -10,7 +10,7 @@
     <link rel="shortcut icon" href="../assets/img/site/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="print.css">
   </head>
-  <body>
+  <body class="dashboard-locked">
     <main class="page">
       <header class="report-header">
         <div>
@@ -117,13 +117,33 @@
       </figure>
     </div>
 
+    <div class="dashboard-access-gate" data-dashboard-access-gate role="dialog" aria-modal="true" aria-labelledby="dashboard-access-title">
+      <form class="dashboard-access-card" data-dashboard-access-form>
+        <p class="dashboard-access-kicker">Vercel Dashboard Access</p>
+        <h2 id="dashboard-access-title">输入写入 Token 后读取 Dashboard</h2>
+        <p class="dashboard-access-copy">验证通过后才加载项目状态。用户标识会作为全屏水印显示，用于截图溯源。</p>
+        <label>
+          <span>User / viewer</span>
+          <input type="text" name="viewer" placeholder="your name or team handle" autocomplete="name" required>
+        </label>
+        <label>
+          <span>DASHBOARD_WRITE_TOKEN</span>
+          <input type="password" name="token" placeholder="write token" autocomplete="off" required>
+        </label>
+        <button type="submit">Unlock Dashboard</button>
+        <p class="dashboard-access-status" data-dashboard-access-status aria-live="polite"></p>
+      </form>
+    </div>
+
+    <div class="dashboard-watermark" data-dashboard-watermark hidden aria-hidden="true"></div>
+
     <script>
       (() => {
         const stateRoot = document.querySelector('meta[name="dashboard-state-root"]')?.content || "state/";
         const storageKey = "dashboard.task-interactions.v1";
         const detailsStorageKey = "dashboard.details-open.v2";
         const textCollapseStorageKey = "dashboard.text-collapse.v1";
-        const vercelTokenStorageKey = "dashboard.vercel-write-token.v1";
+        const dashboardAccessTokenName = "DASHBOARD_WRITE_TOKEN";
         const vercelApiBase = "/api/dashboard";
         const supabaseEsmUrl = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
         const statusCycle = ["todo", "active", "done"];
@@ -167,7 +187,8 @@
         let dataMode = "json";
         let vercelApiAvailable = false;
         let vercelApiWritable = false;
-        let vercelWriteToken = readVercelWriteToken();
+        let vercelWriteToken = "";
+        let dashboardViewer = "";
         let reloadTimer = null;
         let realtimeChannel = null;
         let localState = readLocalState();
@@ -197,21 +218,8 @@
           }
         }
 
-        function readVercelWriteToken() {
-          try {
-            return localStorage.getItem(vercelTokenStorageKey) || "";
-          } catch (error) {
-            return "";
-          }
-        }
-
         function writeVercelWriteToken(token) {
           vercelWriteToken = String(token || "").trim();
-          if (vercelWriteToken) {
-            localStorage.setItem(vercelTokenStorageKey, vercelWriteToken);
-          } else {
-            localStorage.removeItem(vercelTokenStorageKey);
-          }
         }
 
         function readDetailsState() {
@@ -489,7 +497,7 @@
             return;
           }
           const isVercel = dataMode === "vercel";
-          vercelForm.hidden = !isVercel || Boolean(vercelWriteToken);
+          vercelForm.hidden = true;
           vercelClear.hidden = !isVercel || !vercelWriteToken;
           const hasSupabase = Boolean(supabaseClient);
           const isSignedIn = Boolean(supabaseSession?.user);
@@ -518,25 +526,95 @@
         }
 
         function dashboardAgentPromptText() {
-          const origin = window.location.origin && window.location.origin !== "null"
-            ? window.location.origin
-            : "https://jingxiangguo.com";
+          const origin = "https://jingxiangguo.com";
+          const token = vercelWriteToken || "TOKEN";
           return [
-            "You are updating Jingxiang Guo's project dashboard.",
-            `Human dashboard: ${origin}/dashboard/`,
-            `Read this machine-readable state first: ${origin}/api/dashboard/state`,
-            "Do not scrape the rendered dashboard page for task data; use taskDoc.tasks from the JSON state and locate the relevant task_id there.",
-            "Allowed task statuses: todo, active, blocked, needs_user, review, done.",
-            "If you have DASHBOARD_WRITE_TOKEN, mutate through the Vercel API with x-dashboard-token or Authorization: Bearer. Never print, commit, or paste the token.",
-            "Update title/description/priority/assignee/due date:",
-            `curl -fsS -X POST ${origin}/api/dashboard/task-update -H "content-type: application/json" -H "x-dashboard-token: $DASHBOARD_WRITE_TOKEN" --data '{"task_id":"TASK_ID","title":"Updated title","description":"Updated acceptance criteria."}'`,
-            "Update status:",
-            `curl -fsS -X POST ${origin}/api/dashboard/task-status -H "content-type: application/json" -H "x-dashboard-token: $DASHBOARD_WRITE_TOKEN" --data '{"task_id":"TASK_ID","status":"active"}'`,
-            "Leave a progress comment:",
-            `curl -fsS -X POST ${origin}/api/dashboard/task-comment -H "content-type: application/json" -H "x-dashboard-token: $DASHBOARD_WRITE_TOKEN" --data '{"task_id":"TASK_ID","body":"Concrete progress, evidence, blocker, or next step."}'`,
-            "For new work use POST /api/dashboard/task-create. For cleanup use POST /api/dashboard/task-comment-delete with task_id and comment_id.",
-            `After any write, re-read ${origin}/api/dashboard/state and verify the mutation is visible. If you do not have the token, report the intended mutation to the user instead of claiming it was written.`,
+            "# Dashboard Backend Write Token",
+            "- 更新时间：2026-06-18 20:30 Asia/Shanghai",
+            `- 用途：\`${origin}/dashboard\` 的 Vercel API 写入权限，用于 agent 更新 TODO 状态、留言、创建任务、删除评论。`,
+            `- \`${dashboardAccessTokenName}\`：\`${token}\``,
+            `- 读状态：\`${origin}/api/dashboard/state\``,
+            `- 健康检查：\`${origin}/api/dashboard/health\``,
+            `- 更新任务字段 endpoint：\`POST ${origin}/api/dashboard/task-update\``,
+            `- 更新状态 endpoint：\`POST ${origin}/api/dashboard/task-status\``,
+            `- 留评论 endpoint：\`POST ${origin}/api/dashboard/task-comment\``,
+            `- 新建任务 endpoint：\`POST ${origin}/api/dashboard/task-create\``,
+            `- 删除评论 endpoint：\`POST ${origin}/api/dashboard/task-comment-delete\``,
+            "- Header：`x-dashboard-token: $DASHBOARD_WRITE_TOKEN`",
+            "- 允许的任务状态：`todo`、`active`、`blocked`、`needs_user`、`review`、`done`。",
+            "- 注意：不要把 token 写进 dashboard 评论、git commit、公开网页或聊天记录；agent 写完后必须重新读取 `/api/dashboard/state` 验证。",
+            "",
+            "示例：",
+            "```bash",
+            `export DASHBOARD_WRITE_TOKEN='${token.replaceAll("'", "'\\''")}'`,
+            `curl -fsS ${origin}/api/dashboard/state`,
+            `curl -fsS -X POST ${origin}/api/dashboard/task-status \\`,
+            "  -H \"content-type: application/json\" \\",
+            "  -H \"x-dashboard-token: $DASHBOARD_WRITE_TOKEN\" \\",
+            "  --data '{\"task_id\":\"TASK_ID\",\"status\":\"active\"}'",
+            `curl -fsS -X POST ${origin}/api/dashboard/task-comment \\`,
+            "  -H \"content-type: application/json\" \\",
+            "  -H \"x-dashboard-token: $DASHBOARD_WRITE_TOKEN\" \\",
+            "  --data '{\"task_id\":\"TASK_ID\",\"body\":\"具体进展、证据、阻塞或下一步。\"}'",
+            "```",
           ].join("\n");
+        }
+
+        function setDashboardAccessStatus(label, state = "") {
+          const status = document.querySelector("[data-dashboard-access-status]");
+          if (!status) {
+            return;
+          }
+          status.textContent = label;
+          status.dataset.state = state;
+        }
+
+        function updateDashboardWatermark() {
+          const watermark = document.querySelector("[data-dashboard-watermark]");
+          if (!watermark) {
+            return;
+          }
+          const label = `${dashboardViewer || "unknown viewer"} · jingxiangguo.com/dashboard`;
+          watermark.replaceChildren(...Array.from({ length: 72 }, () => {
+            const span = document.createElement("span");
+            span.textContent = label;
+            return span;
+          }));
+          watermark.hidden = !dashboardViewer;
+        }
+
+        function unlockDashboardView() {
+          document.body.classList.remove("dashboard-locked");
+          const gate = document.querySelector("[data-dashboard-access-gate]");
+          if (gate) {
+            gate.hidden = true;
+          }
+          updateDashboardWatermark();
+        }
+
+        function lockDashboardView() {
+          writeVercelWriteToken("");
+          dashboardViewer = "";
+          window.location.reload();
+        }
+
+        async function validateDashboardAccess(token, viewer) {
+          const response = await fetch(`${vercelApiBase}/health`, {
+            cache: "no-store",
+            headers: {
+              "x-dashboard-token": token,
+            },
+          });
+          const result = response.ok ? await response.json() : null;
+          const auth = result?.write_auth;
+          if (!response.ok || !result?.ok || !auth?.ok) {
+            throw new Error(auth?.error || result?.error || `Dashboard health returned ${response.status}`);
+          }
+          writeVercelWriteToken(token);
+          dashboardViewer = viewer;
+          unlockDashboardView();
+          setSyncStatus("Vercel loading", "loading");
+          await initDashboardState();
         }
 
         function setAgentPromptStatus(label) {
@@ -3029,6 +3107,32 @@
         });
 
         document.addEventListener("submit", (event) => {
+          const accessForm = event.target.closest?.("[data-dashboard-access-form]");
+          if (accessForm) {
+            event.preventDefault();
+            const viewer = accessForm.elements.viewer.value.trim();
+            const token = accessForm.elements.token.value.trim();
+            if (!viewer || !token) {
+              setDashboardAccessStatus("请输入 user 和 token。", "error");
+              return;
+            }
+            const button = accessForm.querySelector("button[type='submit']");
+            button.disabled = true;
+            setDashboardAccessStatus("正在验证 token...", "loading");
+            validateDashboardAccess(token, viewer).then(() => {
+              accessForm.reset();
+              setDashboardAccessStatus("", "");
+            }).catch((error) => {
+              console.warn("Dashboard access validation failed", error);
+              writeVercelWriteToken("");
+              dashboardViewer = "";
+              setDashboardAccessStatus(error.message || "Token 验证失败。", "error");
+            }).finally(() => {
+              button.disabled = false;
+            });
+            return;
+          }
+
           const vercelTokenForm = event.target.closest?.("[data-vercel-token-form]");
           if (vercelTokenForm) {
             event.preventDefault();
@@ -3170,10 +3274,7 @@
 
           const vercelClear = event.target.closest?.("[data-vercel-token-clear]");
           if (vercelClear) {
-            writeVercelWriteToken("");
-            setDashboardBackendSyncStatus();
-            renderAuthState();
-            renderAllProjects();
+            lockDashboardView();
             return;
           }
 
@@ -3225,7 +3326,7 @@
         }
 
         hydrateStaticDetailsOpenState();
-        initDashboardState();
+        document.querySelector("[data-dashboard-access-form] input[name='viewer']")?.focus();
       })();
     </script>
 

@@ -110,6 +110,138 @@ h1 {
   border-top: 1px solid #cbd5df;
 }
 
+body.dashboard-locked {
+  overflow: hidden;
+}
+
+body.dashboard-locked .page {
+  filter: blur(10px);
+  transform: scale(0.995);
+  pointer-events: none;
+  user-select: none;
+}
+
+.dashboard-access-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background:
+    linear-gradient(135deg, rgba(9, 30, 44, 0.46), rgba(245, 247, 244, 0.58)),
+    rgba(246, 249, 248, 0.58);
+  backdrop-filter: blur(18px) saturate(1.15);
+}
+
+.dashboard-access-gate[hidden] {
+  display: none;
+}
+
+.dashboard-access-card {
+  width: min(460px, 100%);
+  display: grid;
+  gap: 14px;
+  padding: 28px;
+  border: 1px solid rgba(177, 205, 222, 0.78);
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: 0 24px 70px rgba(20, 54, 74, 0.24);
+}
+
+.dashboard-access-kicker {
+  margin: 0;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.dashboard-access-card h2 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 26px;
+  line-height: 1.14;
+}
+
+.dashboard-access-copy {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.dashboard-access-card label {
+  display: grid;
+  gap: 6px;
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.dashboard-access-card input {
+  width: 100%;
+  min-height: 40px;
+  padding: 8px 10px;
+  border: 1px solid #b7c8d4;
+  background: rgba(255, 255, 255, 0.96);
+  color: var(--ink);
+  font: inherit;
+  font-size: 14px;
+}
+
+.dashboard-access-card button {
+  min-height: 42px;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: #fff;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.dashboard-access-card button:disabled {
+  opacity: 0.68;
+  cursor: wait;
+}
+
+.dashboard-access-status {
+  min-height: 18px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.dashboard-access-status[data-state="error"] {
+  color: var(--warning);
+}
+
+.dashboard-watermark {
+  position: fixed;
+  inset: -6vh -6vw;
+  z-index: 50;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(180px, 1fr));
+  gap: 48px 28px;
+  align-content: start;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.13;
+  transform: rotate(-24deg);
+}
+
+.dashboard-watermark[hidden] {
+  display: none;
+}
+
+.dashboard-watermark span {
+  color: #0e4a62;
+  font-size: 12px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
 .sync-pill {
   grid-column: 1 / -1;
   display: inline-flex;

@@ -24,6 +24,13 @@ export function sendJson(response, status, body) {
   return response.status(status).json(body);
 }
 
+export function dashboardProvidedWriteToken(request) {
+  const authorization = request.headers.authorization || "";
+  const bearerToken = authorization.startsWith("Bearer ") ? authorization.slice("Bearer ".length).trim() : "";
+  const headerToken = request.headers["x-dashboard-token"];
+  return Array.isArray(headerToken) ? headerToken[0] : (headerToken || bearerToken);
+}
+
 export function dashboardWriteAuth(request, env = process.env) {
   const expectedToken = env.DASHBOARD_WRITE_TOKEN;
   if (!expectedToken) {
@@ -33,10 +40,7 @@ export function dashboardWriteAuth(request, env = process.env) {
       error: "DASHBOARD_WRITE_TOKEN is not configured",
     };
   }
-  const authorization = request.headers.authorization || "";
-  const bearerToken = authorization.startsWith("Bearer ") ? authorization.slice("Bearer ".length).trim() : "";
-  const headerToken = request.headers["x-dashboard-token"];
-  const providedToken = Array.isArray(headerToken) ? headerToken[0] : (headerToken || bearerToken);
+  const providedToken = dashboardProvidedWriteToken(request);
   if (providedToken !== expectedToken) {
     return {
       ok: false,
@@ -104,11 +108,18 @@ async function persistMutation(mutation) {
 
 export async function handleDashboardHealth(request, response) {
   if (request.method !== "GET") return methodNotAllowed(response, ["GET"]);
+  const providedToken = dashboardProvidedWriteToken(request);
+  const writeAuth = providedToken
+    ? dashboardWriteAuth(request)
+    : null;
   return sendJson(response, 200, {
     ok: true,
     mode: "vercel-dashboard-api",
     storage: isVercelBlobConfigured() ? "vercel-blob" : "bundled-json",
     writable: Boolean(process.env.DASHBOARD_WRITE_TOKEN && process.env.BLOB_READ_WRITE_TOKEN),
+    write_auth: writeAuth
+      ? { ok: Boolean(writeAuth.ok), status: writeAuth.status || 200, error: writeAuth.error || null }
+      : null,
   });
 }
 
