@@ -36,6 +36,7 @@ import {
 } from "../scripts/dashboard-state-snapshot.mjs";
 import {
   dashboardProvidedWriteToken,
+  dashboardViewerForWriteToken,
   dashboardWriteAuth,
 } from "../scripts/dashboard-vercel-api.mjs";
 import {
@@ -116,7 +117,18 @@ assert.deepEqual(
 );
 assert.deepEqual(
   dashboardWriteAuth({ headers: { authorization: "Bearer right" } }, { DASHBOARD_WRITE_TOKEN: "right" }),
-  { ok: true },
+  { ok: true, viewer: "boris" },
+);
+assert.equal(
+  dashboardViewerForWriteToken("mapped-token", {
+    DASHBOARD_WRITE_TOKEN_USERS: JSON.stringify({ "mapped-token": "agent-a" }),
+    DASHBOARD_WRITE_TOKEN: "right",
+  }),
+  "agent-a",
+);
+assert.equal(
+  dashboardViewerForWriteToken("right", { DASHBOARD_WRITE_TOKEN: "right", DASHBOARD_WRITE_USER: "boris" }),
+  "boris",
 );
 assert.equal(
   dashboardProvidedWriteToken({ headers: { "x-dashboard-token": "abc" } }),
@@ -279,8 +291,13 @@ assert.match(
 );
 assert.match(
   dashboardSource,
-  /data-dashboard-access-form[\s\S]+DASHBOARD_WRITE_TOKEN[\s\S]+validateDashboardAccess/,
-  "dashboard should validate a user-entered token before loading readable state",
+  /data-dashboard-access-form[\s\S]+DASHBOARD_WRITE_TOKEN[\s\S]+auth\.viewer[\s\S]+validateDashboardAccess/,
+  "dashboard should validate the token and use the token-bound viewer before loading readable state",
+);
+assert.doesNotMatch(
+  dashboardSource,
+  /name="viewer"|elements\.viewer/,
+  "dashboard viewer identity must be bound to the token, not entered by the visitor",
 );
 assert.match(
   dashboardSource,

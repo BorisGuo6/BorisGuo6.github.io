@@ -121,11 +121,7 @@
       <form class="dashboard-access-card" data-dashboard-access-form>
         <p class="dashboard-access-kicker">Vercel Dashboard Access</p>
         <h2 id="dashboard-access-title">输入写入 Token 后读取 Dashboard</h2>
-        <p class="dashboard-access-copy">验证通过后才加载项目状态。用户标识会作为全屏水印显示，用于截图溯源。</p>
-        <label>
-          <span>User / viewer</span>
-          <input type="text" name="viewer" placeholder="your name or team handle" autocomplete="name" required>
-        </label>
+        <p class="dashboard-access-copy">验证通过后才加载项目状态。用户标识由 token 绑定返回，并作为全屏水印显示，用于截图溯源。</p>
         <label>
           <span>DASHBOARD_WRITE_TOKEN</span>
           <input type="password" name="token" placeholder="write token" autocomplete="off" required>
@@ -598,7 +594,7 @@
           window.location.reload();
         }
 
-        async function validateDashboardAccess(token, viewer) {
+        async function validateDashboardAccess(token) {
           const response = await fetch(`${vercelApiBase}/health`, {
             cache: "no-store",
             headers: {
@@ -611,7 +607,7 @@
             throw new Error(auth?.error || result?.error || `Dashboard health returned ${response.status}`);
           }
           writeVercelWriteToken(token);
-          dashboardViewer = viewer;
+          dashboardViewer = auth.viewer || "unknown";
           unlockDashboardView();
           setSyncStatus("Vercel loading", "loading");
           await initDashboardState();
@@ -3110,16 +3106,15 @@
           const accessForm = event.target.closest?.("[data-dashboard-access-form]");
           if (accessForm) {
             event.preventDefault();
-            const viewer = accessForm.elements.viewer.value.trim();
             const token = accessForm.elements.token.value.trim();
-            if (!viewer || !token) {
-              setDashboardAccessStatus("请输入 user 和 token。", "error");
+            if (!token) {
+              setDashboardAccessStatus("请输入 token。", "error");
               return;
             }
             const button = accessForm.querySelector("button[type='submit']");
             button.disabled = true;
             setDashboardAccessStatus("正在验证 token...", "loading");
-            validateDashboardAccess(token, viewer).then(() => {
+            validateDashboardAccess(token).then(() => {
               accessForm.reset();
               setDashboardAccessStatus("", "");
             }).catch((error) => {
@@ -3326,7 +3321,7 @@
         }
 
         hydrateStaticDetailsOpenState();
-        document.querySelector("[data-dashboard-access-form] input[name='viewer']")?.focus();
+        document.querySelector("[data-dashboard-access-form] input[name='token']")?.focus();
       })();
     </script>
 

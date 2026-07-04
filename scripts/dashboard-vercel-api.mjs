@@ -31,6 +31,29 @@ export function dashboardProvidedWriteToken(request) {
   return Array.isArray(headerToken) ? headerToken[0] : (headerToken || bearerToken);
 }
 
+export function dashboardViewerForWriteToken(providedToken, env = process.env) {
+  if (!providedToken) {
+    return "";
+  }
+  const userMap = optionalString(env.DASHBOARD_WRITE_TOKEN_USERS || env.DASHBOARD_USER_TOKENS);
+  if (userMap) {
+    try {
+      const parsed = JSON.parse(userMap);
+      const mappedViewer = optionalString(parsed?.[providedToken]);
+      if (mappedViewer) {
+        return mappedViewer;
+      }
+    } catch (error) {
+      // Fall back to the single-token viewer below; health checks should not
+      // expose token-map parse details to clients.
+    }
+  }
+  if (providedToken === env.DASHBOARD_WRITE_TOKEN) {
+    return optionalString(env.DASHBOARD_WRITE_USER) || "boris";
+  }
+  return "";
+}
+
 export function dashboardWriteAuth(request, env = process.env) {
   const expectedToken = env.DASHBOARD_WRITE_TOKEN;
   if (!expectedToken) {
@@ -48,7 +71,10 @@ export function dashboardWriteAuth(request, env = process.env) {
       error: "Invalid dashboard write token",
     };
   }
-  return { ok: true };
+  return {
+    ok: true,
+    viewer: dashboardViewerForWriteToken(providedToken, env),
+  };
 }
 
 export async function readJsonBody(request) {
@@ -118,7 +144,7 @@ export async function handleDashboardHealth(request, response) {
     storage: isVercelBlobConfigured() ? "vercel-blob" : "bundled-json",
     writable: Boolean(process.env.DASHBOARD_WRITE_TOKEN && process.env.BLOB_READ_WRITE_TOKEN),
     write_auth: writeAuth
-      ? { ok: Boolean(writeAuth.ok), status: writeAuth.status || 200, error: writeAuth.error || null }
+      ? { ok: Boolean(writeAuth.ok), status: writeAuth.status || 200, error: writeAuth.error || null, viewer: writeAuth.viewer || null }
       : null,
   });
 }
