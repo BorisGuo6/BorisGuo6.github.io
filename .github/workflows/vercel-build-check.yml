@@ -1,0 +1,31 @@
+name: Vercel build check
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+concurrency:
+  group: vercel-build-check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  vercel-build-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Vercel build command
+        run: npm run vercel-build
