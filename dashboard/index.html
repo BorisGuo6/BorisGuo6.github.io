@@ -597,11 +597,14 @@
             return;
           }
           const label = `${dashboardViewer || "unknown viewer"} · jingxiangguo.com/dashboard`;
-          watermark.replaceChildren(...Array.from({ length: 72 }, () => {
+          const field = document.createElement("div");
+          field.className = "dashboard-watermark-field";
+          field.replaceChildren(...Array.from({ length: 600 }, () => {
             const span = document.createElement("span");
             span.textContent = label;
             return span;
           }));
+          watermark.replaceChildren(field);
           watermark.hidden = !dashboardViewer;
         }
 

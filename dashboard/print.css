@@ -274,20 +274,30 @@ body.dashboard-locked .page {
 
 .dashboard-watermark {
   position: fixed;
-  inset: -6vh -6vw;
+  inset: 0;
   z-index: 50;
-  display: grid;
-  grid-template-columns: repeat(6, minmax(180px, 1fr));
-  gap: 48px 28px;
-  align-content: start;
   pointer-events: none;
   user-select: none;
-  opacity: 0.13;
-  transform: rotate(-24deg);
+  overflow: hidden;
 }
 
 .dashboard-watermark[hidden] {
   display: none;
+}
+
+.dashboard-watermark-field {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 220vmax;
+  min-height: 220vmax;
+  display: grid;
+  grid-template-columns: repeat(10, minmax(170px, 1fr));
+  gap: 48px 28px;
+  align-content: start;
+  opacity: 0.13;
+  transform: translate(-50%, -50%) rotate(-24deg);
+  transform-origin: center;
 }
 
 .dashboard-watermark span {
