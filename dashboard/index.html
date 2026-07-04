@@ -138,6 +138,7 @@
         const detailsStorageKey = "dashboard.details-open.v2";
         const textCollapseStorageKey = "dashboard.text-collapse.v1";
         const dashboardAccessTokenName = "DASHBOARD_WRITE_TOKEN";
+        const vercelTokenStorageKey = "dashboard.vercel-write-token.v2";
         const vercelApiBase = "/api/dashboard";
         const supabaseEsmUrl = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
         const statusCycle = ["todo", "active", "done"];
@@ -212,8 +213,30 @@
           }
         }
 
-        function writeVercelWriteToken(token) {
+        function readVercelWriteToken() {
+          try {
+            return localStorage.getItem(vercelTokenStorageKey) || "";
+          } catch (error) {
+            console.warn("Unable to read persisted dashboard token", error);
+            return "";
+          }
+        }
+
+        function writeVercelWriteToken(token, options = {}) {
+          const { persist = true } = options;
           vercelWriteToken = String(token || "").trim();
+          if (!persist) {
+            return;
+          }
+          try {
+            if (vercelWriteToken) {
+              localStorage.setItem(vercelTokenStorageKey, vercelWriteToken);
+            } else {
+              localStorage.removeItem(vercelTokenStorageKey);
+            }
+          } catch (error) {
+            console.warn("Unable to persist dashboard token", error);
+          }
         }
 
         function readDetailsState() {
@@ -536,6 +559,8 @@
             `- 删除评论 endpoint：\`POST ${origin}/api/dashboard/task-comment-delete\``,
             "- Header：`x-dashboard-token: $DASHBOARD_WRITE_TOKEN`",
             "- 允许的任务状态：`todo`、`active`、`blocked`、`needs_user`、`review`、`done`。",
+            "- 访问者身份由后端根据 token 绑定返回；不要在请求体、评论或提交说明里伪造/声明 viewer。",
+            "- 每个 agent/user 使用自己的 token；不要复用 boris token，除非 Boris 明确授权。",
             "- 注意：不要把 token 写进 dashboard 评论、git commit、公开网页或聊天记录；agent 写完后必须重新读取 `/api/dashboard/state` 验证。",
             "",
             "示例：",
@@ -613,6 +638,29 @@
           unlockDashboardView();
           setSyncStatus("Vercel loading", "loading");
           await initDashboardState();
+        }
+
+        async function initDashboardAccessGate() {
+          const tokenInput = document.querySelector("[data-dashboard-access-form] input[name='token']");
+          const storedToken = readVercelWriteToken();
+          if (!storedToken) {
+            tokenInput?.focus();
+            return;
+          }
+          if (tokenInput) {
+            tokenInput.value = storedToken;
+          }
+          setDashboardAccessStatus("正在验证已保存 token...", "loading");
+          try {
+            await validateDashboardAccess(storedToken);
+            setDashboardAccessStatus("", "");
+          } catch (error) {
+            console.warn("Persisted dashboard token validation failed", error);
+            writeVercelWriteToken("");
+            dashboardViewer = "";
+            setDashboardAccessStatus("保存的 token 已失效，请重新输入。", "error");
+            tokenInput?.focus();
+          }
         }
 
         function setAgentPromptStatus(label) {
@@ -3323,7 +3371,7 @@
         }
 
         hydrateStaticDetailsOpenState();
-        document.querySelector("[data-dashboard-access-form] input[name='token']")?.focus();
+        initDashboardAccessGate();
       })();
     </script>
 

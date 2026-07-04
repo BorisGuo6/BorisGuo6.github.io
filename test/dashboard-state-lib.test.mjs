@@ -294,6 +294,11 @@ assert.match(
   /data-dashboard-access-form[\s\S]+DASHBOARD_WRITE_TOKEN[\s\S]+auth\.viewer[\s\S]+validateDashboardAccess/,
   "dashboard should validate the token and use the token-bound viewer before loading readable state",
 );
+assert.match(
+  dashboardSource,
+  /vercelTokenStorageKey = "dashboard\.vercel-write-token\.v2"[\s\S]+function readVercelWriteToken\(\)[\s\S]+initDashboardAccessGate\(\)/,
+  "dashboard should persist successful token login and retry it on the next visit",
+);
 assert.doesNotMatch(
   dashboardSource,
   /name="viewer"|elements\.viewer/,
@@ -316,18 +321,13 @@ assert.match(
 );
 assert.match(
   dashboardSource,
-  /# Dashboard Backend Write Token[\s\S]+更新时间：2026-06-18 20:30 Asia\/Shanghai[\s\S]+删除评论 endpoint/,
-  "dashboard copied agent prompt should use the requested Chinese write-token prompt",
+  /# Dashboard Backend Write Token[\s\S]+更新时间：2026-06-18 20:30 Asia\/Shanghai[\s\S]+删除评论 endpoint[\s\S]+访问者身份由后端根据 token 绑定返回/,
+  "dashboard copied agent prompt should use the requested Chinese write-token prompt and token-bound viewer rule",
 );
 assert.match(
   dashboardSource,
-  /writeVercelWriteToken\(token\)[\s\S]+vercelWriteToken = String\(token \|\| ""\)\.trim\(\);[\s\S]+}\n/,
-  "dashboard should keep the Vercel write token in memory rather than localStorage",
-);
-assert.doesNotMatch(
-  dashboardSource,
-  /dashboard\.vercel-write-token|localStorage\.setItem\(vercelTokenStorageKey|localStorage\.getItem\(vercelTokenStorageKey/,
-  "dashboard must not persist the write token in localStorage",
+  /localStorage\.setItem\(vercelTokenStorageKey, vercelWriteToken\)[\s\S]+localStorage\.removeItem\(vercelTokenStorageKey\)/,
+  "dashboard should persist the token locally and clear it on lock or invalidation",
 );
 assert.doesNotMatch(
   dashboardSource,
