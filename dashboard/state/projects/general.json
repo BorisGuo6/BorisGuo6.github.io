@@ -4,12 +4,12 @@
   "title": "General",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-07-04T00:00:00+08:00",
+  "updated_at": "2026-07-05T00:45:00+08:00",
   "description": "Procurement status table for cross-project lab purchases",
-  "summary": "General hardware procurement live list: current purchase status, route, and non-sensitive logistics notes for lab support items. Current additions include item-level purchase links for v0 real-robot demo objects, VIVE Tracker / MANUS charging cables, a head-mounted first-person phone holder, a PICO body-tracker kit for no-base-station tracking tests, a Unitree SV1-25 mini stereo global-shutter USB camera candidate, and a back-to-school Mac replacement configuration note; existing COM2-seat props should still be fit-checked before duplicate purchase.",
+  "summary": "General hardware procurement live list: active cross-project purchase status plus a small received archive. Removed stale no-demand entries for camera screws/nuts, alchdata + Claude Max, plug adapters, power strips, UK power cords, and the 3M anti-slip tape setup. Received archive now includes the VIVE Tracker chest/thigh strap, PICO 5-point body tracker, HIG data glove, and HIGVR haptic clothing module.",
   "intro_table": {
     "kind": "procurement_table",
-    "caption": "General procurement live list · 2026-06-17",
+    "caption": "General procurement live list + received archive · 2026-07-05",
     "columns": [
       {
         "key": "item",
@@ -30,13 +30,6 @@
     ],
     "rows": [
       {
-        "item": "VIVE Tracker chest / thigh strap",
-        "status": "Shipped",
-        "route": "Zheng Yuhang · COM2/NUS",
-        "notes": "ETA 2026-06-16 to 2026-06-19; currently at Hangzhou airport. Needed because the stock VIVE Tracker strap cannot tighten enough on the chest.",
-        "url": "https://e.tb.cn/h.R4r5VmcWb0zN2ko?tk=2jtb5x1Zn8J"
-      },
-      {
         "item": "Tracker quick-release / headset top fixed base",
         "status": "Shipped",
         "route": "Taobao · ship to NUS/COM2",
@@ -49,13 +42,6 @@
         "route": "Taobao · lab procurement",
         "notes": "User-provided Taobao candidate marked 假一赔四. Use as a first-person hands-free operation / repair-view ego-video capture mount; before purchase confirm headband stability, phone clamp size/weight, anti-drop tether, FOV, comfort, and safe static or low-risk use. Do not treat active road-driving filming as an experiment requirement.",
         "url": "https://e.tb.cn/h.RoTHt0FU9m2Dn1g?tk=gWEXg5lyoqA"
-      },
-      {
-        "item": "PICO body-tracker kit / PICO 5-point full-body tracker",
-        "status": "Requested",
-        "route": "Zheng Yuhang · Taobao order",
-        "notes": "User-provided Taobao candidate marked 假一赔四: PICO high-precision body tracker accessory, supports PICO4 Ultra / Pro / Enterprise and PC connection. Requested from Yuhang on 2026-06-21 to test a no-base-station tracking route against VIVE Tracker-style setups. Selected purchase option from screenshot: 全身体感追踪器【官方原装5点追踪】, platform-after-subsidy RMB 1109, original RMB 1499; page shows in stock, expected ship tomorrow, 30-day price guarantee, 7-day no-reason return, and return insurance. Confirm PICO headset compatibility, PC streaming path, SDK/export accessibility, and whether waist/leg tracking is enough for robot teleop / human-motion capture experiments.",
-        "url": "https://e.tb.cn/h.RJYrA1DxC3kLC24?tk=ojxKghScPGK"
       },
       {
         "item": "Cymple face-capture / eye-tracking device",
@@ -78,63 +64,11 @@
         "notes": "Preferred configuration to choose at school-start replacement time: 14-inch MacBook Pro, M5 Max, 128GB unified memory, 2TB storage. Treat this as a configuration target, not an availability or purchase confirmation."
       },
       {
-        "item": "HIG gesture-recognition data glove",
-        "status": "Shipped",
-        "route": "Taobao · ship to NUS/COM2",
-        "notes": "Large-space VR / dexterous-hand capture candidate. User reported shipped on 2026-06-16.",
-        "url": "https://e.tb.cn/h.RO1V2osyTl17mYm?tk=tJU2g3jHPcG"
-      },
-      {
-        "item": "HIGVR haptic / vibration clothing module",
-        "status": "Shipped",
-        "route": "Taobao · ship to NUS/COM2",
-        "notes": "Touch / vibration feedback accessory for VR capture experiments. User reported shipped on 2026-06-16.",
-        "url": "https://e.tb.cn/h.RmixRZE5uIuX49B?tk=h0OSg3jHtFY"
-      },
-      {
         "item": "6x 2m UGREEN USB 3.0 extension cables",
         "status": "Done",
         "route": "Taobao · ship to NUS/COM2",
         "notes": "Marked done by user on 2026-06-12. Lab previously bought four; current request was six 2m cables.",
         "url": "https://e.tb.cn/h.RmR1dsrrhJvWkn9?tk=F3q3g3QaNAh"
-      },
-      {
-        "item": "1/4-inch imperial camera screws",
-        "status": "Waiting Yan confirmation",
-        "route": "Taobao · ship to NUS/COM2",
-        "notes": "Needed for RealSense bottom mounting; D435 bottom thread is imperial 1/4-inch.",
-        "url": "https://e.tb.cn/h.Rl3pkrtBaNCFJlE?tk=9xzCg3QV7Ms"
-      },
-      {
-        "item": "1/4-inch camera tripod knurled nuts",
-        "status": "Waiting Yan confirmation",
-        "route": "Taobao · ship to NUS/COM2",
-        "notes": "Matching nuts for the 1/4-inch camera screw path. RealSense rear holes remain M3; keep both mounting routes.",
-        "url": "https://e.tb.cn/h.RPRhAeaqUB4XEeo?tk=8TFeg3QfPwv"
-      },
-      {
-        "item": "alchdata access + Claude Max",
-        "status": "To source via supplier",
-        "route": "Zheng Yuhang · supplier",
-        "notes": "Chat request from Zheng Yuhang: see whether alchdata can be sourced, also procure one Claude Max, and route through a supplier. Keep account, payment, invoice, and credentials out of the public dashboard."
-      },
-      {
-        "item": "20x Singapore/UK-to-China plug adapters",
-        "status": "Requested",
-        "route": "Wuhao · supplier / Taobao",
-        "notes": "User request: buy 20 Singapore/UK BS1363 to China GB plug adapters. Needed because the lab needs many sockets and conversion plugs. Confirm safety rating, grounding, fuse, and whether high-power robot/PC loads are allowed before bulk use."
-      },
-      {
-        "item": "China-standard power strips / sockets",
-        "status": "Spec / quantity TBD",
-        "route": "Wuhao · supplier / Taobao",
-        "notes": "User request: buy some China-standard sockets / power strips. Need Wuhao to confirm quantity, socket count, cable length, grounding, surge protection, max current, and intended destination before checkout."
-      },
-      {
-        "item": "20x UK three-pin rice-cooker / IEC power cords",
-        "status": "Requested",
-        "route": "Wuhao · supplier / Taobao",
-        "notes": "User request: arrange 20 UK-standard three-pin power cords. Treat as UK plug to rice-cooker / IEC-style power cable until the exact appliance-side connector is confirmed; verify BS1363 plug, fuse rating, cable gauge, length, and whether the target connector is IEC C13/C15 or another rice-cooker style."
       },
       {
         "item": "Toy knife for slime-clay cutting / 儿童仿真切菜刀玩具",
@@ -163,12 +97,6 @@
         "route": "Real-Robot Demos · Taobao / supplier",
         "notes": "Reusable tabletop protection / visibility mat for slime-clay cutting and plastic-bag rubbing; confirm washable surface, camera contrast, and whether it slips under robot contact.",
         "url": "https://e.tb.cn/h.Rn03Dktke8iNsm0?tk=Q0acgUYZeu3"
-      },
-      {
-        "item": "3M anti-slip tape plastic-bag rubbing setup",
-        "status": "Requested",
-        "route": "Real-Robot Demos · Taobao / supplier",
-        "notes": "For 03 Wuji plastic-bag rubbing: confirm Aloha-style or equivalent 3M anti-slip tape if not already available. Use the grey desktop mat row as the current tabletop/background candidate."
       },
       {
         "item": "Lego tool-operation demo tool set",
@@ -204,6 +132,34 @@
         "route": "Taobao / supplier · VIVE Tracker + MANUS charging",
         "notes": "User request: buy two one-to-three charging/data cables with all three outputs as Type-C / USB-C; about 1m length should be enough. Intended for VIVE Tracker and MANUS charging; confirm charge-only vs data capability before checkout. User-provided Taobao share code: CA381.",
         "url": "https://e.tb.cn/h.RMHdoq6Zbd60muL?tk=LEA9gUYr3oZ"
+      },
+      {
+        "item": "VIVE Tracker chest / thigh strap",
+        "status": "Archive · arrived",
+        "route": "Zheng Yuhang · COM2/NUS",
+        "notes": "Archived as arrived per Boris update on 2026-07-05. Chest / thigh strap is now available for VIVE Tracker calibration, replay, and fit checks; keep as received hardware rather than an open procurement item.",
+        "url": "https://e.tb.cn/h.R4r5VmcWb0zN2ko?tk=2jtb5x1Zn8J"
+      },
+      {
+        "item": "PICO body-tracker kit / PICO 5-point full-body tracker",
+        "status": "Archive · arrived",
+        "route": "Zheng Yuhang · Taobao order",
+        "notes": "Archived as arrived per Boris update on 2026-07-05. Selected option remains 全身体感追踪器【官方原装5点追踪】, platform-after-subsidy RMB 1109; use for no-base-station body-tracking tests against VIVE Tracker-style setups.",
+        "url": "https://e.tb.cn/h.RJYrA1DxC3kLC24?tk=ojxKghScPGK"
+      },
+      {
+        "item": "HIG gesture-recognition data glove",
+        "status": "Archive · arrived",
+        "route": "Taobao · ship to NUS/COM2",
+        "notes": "Archived as arrived per Boris update on 2026-07-05. Large-space VR / dexterous-hand capture candidate; original logistics note said shipped on 2026-06-16.",
+        "url": "https://e.tb.cn/h.RO1V2osyTl17mYm?tk=tJU2g3jHPcG"
+      },
+      {
+        "item": "HIGVR haptic / vibration clothing module",
+        "status": "Archive · arrived",
+        "route": "Taobao · ship to NUS/COM2",
+        "notes": "Archived as arrived per Boris update on 2026-07-05. Touch / vibration feedback accessory for VR capture experiments; original logistics note said shipped on 2026-06-16.",
+        "url": "https://e.tb.cn/h.RmixRZE5uIuX49B?tk=h0OSg3jHtFY"
       }
     ]
   },

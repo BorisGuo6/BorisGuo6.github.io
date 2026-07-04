@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-07-03T15:45:00+08:00",
+  "updated_at": "2026-07-05T00:45:00+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -472,7 +472,7 @@
       "status": "done",
       "priority": "medium",
       "assignee": "Boris / lab",
-      "result": "User reported the VIVE Tracker chest mount / strap purchase is complete and shipped. Logistics update on 2026-06-12: ETA 2026-06-16 to 2026-06-19, currently at Hangzhou airport, destination COM2/NUS.",
+      "result": "User reported the VIVE Tracker chest / thigh strap has arrived by 2026-07-05. Keep the task done and treat the item as received hardware for calibration/replay fit checks rather than open procurement.",
       "due_at": "",
       "comments": [
         {
@@ -509,9 +509,16 @@
           "body": "Moved from previous Real-Robot Infra intro: VIVE Tracker chest mount / strap purchase is complete and shipped, ETA 2026-06-16 to 2026-06-19 to COM2/NUS; use it to keep the CHEST tracker frame stable enough for calibration and replay.",
           "created_at": "2026-06-12T15:39:17+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_real_robot_vive_chest_mount_arrived_20260705",
+          "author": "Boris / Codex",
+          "body": "Boris reported on 2026-07-05 that the VIVE Tracker chest / thigh strap has arrived. Move it into the procurement received archive.",
+          "created_at": "2026-07-05T00:45:00+08:00",
+          "kind": "completion"
         }
       ],
-      "updated_at": "2026-06-12T15:39:17+08:00",
+      "updated_at": "2026-07-05T00:45:00+08:00",
       "completed_at": "2026-06-12"
     },
     {
@@ -9566,11 +9573,11 @@
       "project_id": "general",
       "title": "采购 PICO 体感追踪器验证无基站 tracking 方案",
       "description": "采购 / 评估用户提供的 Taobao 候选：PICO体感追踪器高精度全身动作捕捉 VRChat 游戏 PC 串连配件，支持 PICO4 Ultra / Pro / 企业版（https://e.tb.cn/h.RJYrA1DxC3kLC24?tk=ojxKghScPGK）。截图候选为官方原装 5 点追踪套装，页面价格 RMB 1109。用途是测试无基站 body tracking route，并与 VIVE Tracker / 基站方案做对照。验收：1) 宇航确认能下单、SKU 为 5 点追踪套装且可顺丰配送；2) 确认是否需要 PICO4 Ultra/Pro/企业版、是否支持 PC 串流 / SDK / 数据导出；3) 到货后记录 pairing、校准、漂移、遮挡、延迟、腰腿 tracking 稳定性；4) 和 VIVE Tracker 做至少一个相同动作序列的对比视频 / 日志；5) 给出是否继续扩展无基站 tracking 方案的结论。",
-      "status": "todo",
+      "status": "done",
       "priority": "medium",
       "assignee": "Zheng Yuhang / Boris",
       "due_at": "",
-      "result": null,
+      "result": "Archived as arrived on 2026-07-05 per Boris. The PICO 5-point body-tracker kit is no longer an open procurement item; next work is optional pairing/calibration comparison against VIVE Tracker-style setups.",
       "comments": [
         {
           "comment_id": "comment_general_pico_body_tracker_seed_20260621",
@@ -9578,11 +9585,19 @@
           "body": "Seeded from 2026-06-21 user request: ask Zheng Yuhang to order one PICO body tracker kit to test a no-base-station tracking route. Taobao candidate is marked 假一赔四 and the screenshot highlights the official 5-point tracker option at RMB 1109.",
           "created_at": "2026-06-21T22:09:19+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_general_pico_body_tracker_arrived_20260705",
+          "author": "Boris / Codex",
+          "body": "Boris reported on 2026-07-05 that the PICO body-tracker kit / PICO 5-point full-body tracker has arrived. Move it out of the active procurement list into the received archive.",
+          "created_at": "2026-07-05T00:45:00+08:00",
+          "kind": "completion"
         }
       ],
-      "updated_at": "2026-06-21T22:09:19+08:00",
+      "updated_at": "2026-07-05T00:45:00+08:00",
       "started_at": null,
-      "completed_at": null
+      "completed_at": "2026-07-05",
+      "completed_at_time": "2026-07-05T00:45:00+08:00"
     },
     {
       "task_id": "task_umi_layered_pipeline_sam_vace_flux_lama_automation_20260622",
