@@ -324,6 +324,11 @@ assert.match(
   /# Dashboard Backend Write Token[\s\S]+更新时间：2026-06-18 20:30 Asia\/Shanghai[\s\S]+删除评论 endpoint[\s\S]+访问者身份由后端根据 token 绑定返回/,
   "dashboard copied agent prompt should use the requested Chinese write-token prompt and token-bound viewer rule",
 );
+assert.doesNotMatch(
+  dashboardSource,
+  /每个 agent\/user 使用自己的 token|不要复用 boris token/,
+  "dashboard copied agent prompt should not include multi-user token language for a private single-user token",
+);
 assert.match(
   dashboardSource,
   /localStorage\.setItem\(vercelTokenStorageKey, vercelWriteToken\)[\s\S]+localStorage\.removeItem\(vercelTokenStorageKey\)/,
