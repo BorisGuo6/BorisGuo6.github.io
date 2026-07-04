@@ -6,10 +6,10 @@
   "status": "ongoing",
   "updated_at": "2026-07-05T01:05:00+08:00",
   "description": "Procurement status table for cross-project lab purchases",
-  "summary": "General hardware procurement live list: active cross-project purchase status plus a small received archive. Removed stale no-demand rows for broom/dustpan and small math-cube teaching blocks; add a large Rubik-style cube purchase candidate for the two-90-degree cube-turn real-robot demo. Received archive still includes the VIVE Tracker chest/thigh strap, PICO 5-point body tracker, HIG data glove, and HIGVR haptic clothing module.",
+  "summary": "General hardware procurement live list: active cross-project purchase status plus a small received archive. ClawCross WeChat procurement pass updated Cymple as ordered but presale shipping on 2026-07-12, Unitree SV1-25 as ordered by Zheng Yuhang on 2026-07-04, and RealMan bimanual arms as a Romoya-route follow-up. Received archive still includes the VIVE Tracker chest/thigh strap, PICO 5-point body tracker, HIG data glove, and HIGVR haptic clothing module.",
   "intro_table": {
     "kind": "procurement_table",
-    "caption": "General procurement live list + received archive · 2026-07-05",
+    "caption": "General procurement live list + received archive · ClawCross WeChat pass 2026-07-05",
     "columns": [
       {
         "key": "item",
@@ -45,17 +45,23 @@
       },
       {
         "item": "Cymple face-capture / eye-tracking device",
-        "status": "Shipped",
-        "route": "Taobao · ship to NUS/COM2",
-        "notes": "VRChat-style face and eye capture candidate for human-centric data collection. Selected purchase option from screenshot: headset/category Quest3S, SKU 面捕眼追套装（包含HUB）, page price RMB 900; page shows 7-day no-reason return / fast refund, in stock, presale, and ship within 30 days. Verify Quest3S fit, face-capture plus eye-tracking support, HUB inclusion, PC/VRChat data path, and whether the stream can be exported for human-intention / teleop experiments.",
+        "status": "Ordered · presale ships Jul 12",
+        "route": "Taobao · ship to Singapore/NUS",
+        "notes": "VRChat-style face and eye capture candidate for human-centric data collection. Selected purchase option from screenshot: headset/category Quest3S, SKU 面捕眼追套装（包含HUB）, page price RMB 900. ClawCross WeChat evidence from 2026-06-23 LV-Robotic Lab 创世工作群: the item was bought, had not shipped yet, the store was presale, expected ship date was 2026-07-12, and destination was Singapore. Verify Quest3S fit, face-capture plus eye-tracking support, HUB inclusion, PC/VRChat data path, and whether the stream can be exported for human-intention / teleop experiments.",
         "url": "https://e.tb.cn/h.RIByZL0pypHF8K0?tk=tbzFgSE7ipS"
       },
       {
         "item": "Unitree SV1-25 mini stereo global-shutter USB camera / 宇树 SV1-25 具身立体双目相机",
-        "status": "Requested",
-        "route": "Taobao · lab procurement",
-        "notes": "User-provided Taobao candidate marked 假一赔四: Unitree SV1-25 small / mini embodied stereo binocular camera, RGB global-shutter USB camera. Before purchase confirm SDK/driver availability, resolution/FPS, stereo calibration support, ROS/ROS2 or Python access, USB bandwidth, mount compatibility, cable length, and whether it fits wrist/head/fixed-view robot data collection.",
+        "status": "Ordered by Zheng · 2026-07-04",
+        "route": "Zheng Yuhang · Taobao",
+        "notes": "User-provided Taobao candidate marked 假一赔四: Unitree SV1-25 small / mini embodied stereo binocular camera, RGB global-shutter USB camera. ClawCross WeChat evidence from Zheng Yuhang private chat: Boris asked Zheng to place the Taobao order on 2026-07-04, and Zheng replied that the camera would be ordered that day. Next verify tracking, arrival, SDK/driver availability, resolution/FPS, stereo calibration support, ROS/ROS2 or Python access, USB bandwidth, mount compatibility, cable length, and whether it fits wrist/head/fixed-view robot data collection.",
         "url": "https://e.tb.cn/h.RDPhRlxsna7j6Kg?tk=9lHzglSbASl"
+      },
+      {
+        "item": "RealMan bimanual arm pair / 睿尔曼双臂",
+        "status": "Romoya route · pending follow-up",
+        "route": "Romoya purchase path · Zheng Yuhang / Clement",
+        "notes": "ClawCross WeChat evidence: 2026-07-03 Boris asked about ordering a pair of 睿尔曼 arms; 2026-07-04 Zheng chat records that Prof. Yan wants the purchase routed through Romoya, and Zheng will raise it with Clement while temporary-office logistics are pending. Next confirm exact model, pair quantity, payload, vertical mounting feasibility, DaiMeng gripper adapter, quote, delivery destination, and acceptance owner."
       },
       {
         "item": "Back-to-school Mac replacement / 开学 Mac 换机配置",
