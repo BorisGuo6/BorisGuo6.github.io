@@ -117,16 +117,14 @@
       </figure>
     </div>
 
-    <div class="dashboard-access-gate" data-dashboard-access-gate role="dialog" aria-modal="true" aria-labelledby="dashboard-access-title">
+    <div class="dashboard-access-gate" data-dashboard-access-gate role="dialog" aria-modal="true" aria-label="Dashboard token login">
       <form class="dashboard-access-card" data-dashboard-access-form>
-        <p class="dashboard-access-kicker">Vercel Dashboard Access</p>
-        <h2 id="dashboard-access-title">输入写入 Token 后读取 Dashboard</h2>
-        <p class="dashboard-access-copy">验证通过后才加载项目状态。用户标识由 token 绑定返回，并作为全屏水印显示，用于截图溯源。</p>
+        <div class="dashboard-access-icon" aria-hidden="true"></div>
         <label>
-          <span>DASHBOARD_WRITE_TOKEN</span>
-          <input type="password" name="token" placeholder="write token" autocomplete="off" required>
+          <span>Dashboard Token</span>
+          <input type="password" name="token" placeholder="Paste token" autocomplete="off" required>
         </label>
-        <button type="submit">Unlock Dashboard</button>
+        <button type="submit">Unlock</button>
         <p class="dashboard-access-status" data-dashboard-access-status aria-live="polite"></p>
       </form>
     </div>
@@ -560,6 +558,10 @@
           const status = document.querySelector("[data-dashboard-access-status]");
           if (!status) {
             return;
+          }
+          const form = status.closest("[data-dashboard-access-form]");
+          if (form) {
+            form.dataset.state = state;
           }
           status.textContent = label;
           status.dataset.state = state;

@@ -129,9 +129,11 @@ body.dashboard-locked .page {
   place-items: center;
   padding: 24px;
   background:
-    linear-gradient(135deg, rgba(9, 30, 44, 0.46), rgba(245, 247, 244, 0.58)),
-    rgba(246, 249, 248, 0.58);
-  backdrop-filter: blur(18px) saturate(1.15);
+    radial-gradient(circle at 28% 22%, rgba(15, 130, 119, 0.22), transparent 34%),
+    radial-gradient(circle at 72% 74%, rgba(112, 177, 216, 0.24), transparent 36%),
+    rgba(246, 249, 248, 0.62);
+  backdrop-filter: blur(20px) saturate(1.12);
+  animation: dashboard-gate-fade 0.28s ease-out both;
 }
 
 .dashboard-access-gate[hidden] {
@@ -139,66 +141,84 @@ body.dashboard-locked .page {
 }
 
 .dashboard-access-card {
-  width: min(460px, 100%);
+  width: min(340px, 100%);
   display: grid;
-  gap: 14px;
-  padding: 28px;
-  border: 1px solid rgba(177, 205, 222, 0.78);
-  background: rgba(255, 255, 255, 0.86);
-  box-shadow: 0 24px 70px rgba(20, 54, 74, 0.24);
+  gap: 12px;
+  padding: 22px;
+  border: 1px solid rgba(177, 205, 222, 0.74);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 22px 70px rgba(20, 54, 74, 0.22);
+  animation: dashboard-card-rise 0.36s cubic-bezier(0.2, 0.72, 0.2, 1) both;
 }
 
-.dashboard-access-kicker {
-  margin: 0;
-  color: var(--accent);
-  font-size: 12px;
-  font-weight: 900;
-  letter-spacing: 0;
-  text-transform: uppercase;
+.dashboard-access-card[data-state="error"] {
+  animation:
+    dashboard-card-rise 0.36s cubic-bezier(0.2, 0.72, 0.2, 1) both,
+    dashboard-card-shake 0.26s ease-out;
 }
 
-.dashboard-access-card h2 {
-  margin: 0;
-  color: var(--ink);
-  font-size: 26px;
-  line-height: 1.14;
-}
-
-.dashboard-access-copy {
-  margin: 0;
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 1.55;
+.dashboard-access-icon {
+  width: 34px;
+  height: 34px;
+  margin: 0 auto 2px;
+  border-radius: 50%;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0)),
+    conic-gradient(from 180deg, #0f8277, #70b1d8, #0f8277);
+  box-shadow: 0 0 0 7px rgba(15, 130, 119, 0.08);
+  animation: dashboard-access-pulse 2.4s ease-in-out infinite;
 }
 
 .dashboard-access-card label {
   display: grid;
-  gap: 6px;
+  gap: 8px;
   color: var(--ink);
   font-size: 12px;
   font-weight: 800;
+  text-transform: uppercase;
 }
 
 .dashboard-access-card input {
   width: 100%;
-  min-height: 40px;
-  padding: 8px 10px;
+  min-height: 44px;
+  padding: 9px 12px;
   border: 1px solid #b7c8d4;
+  border-radius: 10px;
   background: rgba(255, 255, 255, 0.96);
   color: var(--ink);
   font: inherit;
   font-size: 14px;
+  outline: none;
+  transition: border-color 0.16s ease, box-shadow 0.16s ease, transform 0.16s ease;
+}
+
+.dashboard-access-card input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(15, 130, 119, 0.12);
+  transform: translateY(-1px);
 }
 
 .dashboard-access-card button {
   min-height: 42px;
   border: 1px solid var(--accent);
+  border-radius: 999px;
   background: var(--accent);
   color: #fff;
   font: inherit;
   font-size: 14px;
   font-weight: 900;
   cursor: pointer;
+  transition: transform 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
+}
+
+.dashboard-access-card button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 28px rgba(15, 130, 119, 0.24);
+}
+
+.dashboard-access-card button:active:not(:disabled) {
+  transform: translateY(0);
 }
 
 .dashboard-access-card button:disabled {
@@ -211,10 +231,45 @@ body.dashboard-locked .page {
   margin: 0;
   color: var(--muted);
   font-size: 12px;
+  text-align: center;
 }
 
 .dashboard-access-status[data-state="error"] {
   color: var(--warning);
+}
+
+@keyframes dashboard-gate-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes dashboard-card-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+}
+
+@keyframes dashboard-card-shake {
+  25% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(4px);
+  }
+  75% {
+    transform: translateX(-2px);
+  }
+}
+
+@keyframes dashboard-access-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.06);
+  }
 }
 
 .dashboard-watermark {

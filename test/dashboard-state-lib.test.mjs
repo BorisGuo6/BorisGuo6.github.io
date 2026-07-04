@@ -301,6 +301,16 @@ assert.doesNotMatch(
 );
 assert.match(
   dashboardSource,
+  /dashboard-access-icon[\s\S]+Dashboard Token[\s\S]+Paste token[\s\S]+Unlock/,
+  "dashboard access gate should be a compact token login form",
+);
+assert.doesNotMatch(
+  dashboardSource,
+  /Vercel Dashboard Access|输入写入 Token 后读取 Dashboard|验证通过后才加载项目状态|Unlock Dashboard/,
+  "dashboard access gate should not include long explanatory login copy",
+);
+assert.match(
+  dashboardSource,
   /data-dashboard-watermark[\s\S]+function updateDashboardWatermark\(\)/,
   "dashboard should render a user-specific full-screen watermark after unlock",
 );
