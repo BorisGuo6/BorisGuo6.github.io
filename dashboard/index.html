@@ -1074,6 +1074,11 @@
           return link;
         }
 
+        function isProcurementArchiveRow(row) {
+          const status = String(row?.status || "").trim().toLowerCase();
+          return status.startsWith("archive");
+        }
+
         function createProjectIntroTable(tableConfig) {
           if (!tableConfig || !Array.isArray(tableConfig.rows)) {
             return null;
@@ -1094,6 +1099,7 @@
           wrapper.className = "project-intro-table-wrap";
           const table = document.createElement("table");
           table.className = "project-intro-table";
+          const isProcurementTable = tableConfig.kind === "procurement_table";
           if (tableConfig.kind) {
             table.dataset.kind = tableConfig.kind;
           }
@@ -1114,8 +1120,14 @@
           head.append(headRow);
 
           const body = document.createElement("tbody");
+          const archiveRows = [];
           tableConfig.rows.forEach((row) => {
             const tableRow = document.createElement("tr");
+            if (isProcurementTable && isProcurementArchiveRow(row)) {
+              tableRow.className = "project-intro-table-archive-row";
+              tableRow.hidden = true;
+              archiveRows.push(tableRow);
+            }
             columns.forEach((column) => {
               const cell = document.createElement("td");
               cell.dataset.column = column.key;
@@ -1130,6 +1142,33 @@
             body.append(tableRow);
           });
           table.append(head, body);
+          if (isProcurementTable && archiveRows.length > 0) {
+            const foot = document.createElement("tfoot");
+            foot.className = "project-intro-table-archive-footer";
+            const footRow = document.createElement("tr");
+            const footCell = document.createElement("td");
+            footCell.colSpan = columns.length;
+            const toggle = document.createElement("button");
+            toggle.className = "project-intro-table-archive-toggle";
+            toggle.type = "button";
+            toggle.setAttribute("aria-expanded", "false");
+            toggle.textContent = `Show received archive (${archiveRows.length})`;
+            toggle.addEventListener("click", () => {
+              const expanded = toggle.getAttribute("aria-expanded") !== "true";
+              archiveRows.forEach((row) => {
+                row.hidden = !expanded;
+              });
+              table.classList.toggle("archive-expanded", expanded);
+              toggle.setAttribute("aria-expanded", String(expanded));
+              toggle.textContent = expanded
+                ? `Hide received archive (${archiveRows.length})`
+                : `Show received archive (${archiveRows.length})`;
+            });
+            footCell.append(toggle);
+            footRow.append(footCell);
+            foot.append(footRow);
+            table.append(foot);
+          }
           wrapper.append(table);
           return wrapper;
         }

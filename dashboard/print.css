@@ -1362,6 +1362,59 @@ summary.bucket-title::-webkit-details-marker {
   color: var(--muted);
 }
 
+.project-intro-table-archive-row td {
+  background: rgba(245, 247, 242, 0.72);
+}
+
+.project-intro-table-archive-footer td {
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+
+.project-intro-table-archive-toggle {
+  width: 100%;
+  min-height: 42px;
+  border: 0;
+  border-radius: 0 0 8px 8px;
+  background: linear-gradient(180deg, rgba(251, 253, 250, 0.96), rgba(235, 244, 241, 0.96));
+  color: var(--accent);
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 850;
+  letter-spacing: 0;
+  text-align: center;
+}
+
+.project-intro-table-archive-toggle::before {
+  content: "+";
+  display: inline-grid;
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+  place-items: center;
+  border: 1px solid rgba(24, 128, 120, 0.28);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--accent);
+  font-weight: 900;
+  line-height: 1;
+}
+
+.project-intro-table-archive-toggle[aria-expanded="true"]::before {
+  content: "-";
+}
+
+.project-intro-table-archive-toggle:hover,
+.project-intro-table-archive-toggle:focus-visible {
+  background: linear-gradient(180deg, rgba(242, 250, 247, 1), rgba(223, 240, 235, 1));
+  outline: none;
+}
+
+.project-intro-table-archive-toggle:focus-visible {
+  box-shadow: inset 0 0 0 2px rgba(24, 128, 120, 0.42);
+}
+
 .project-intro-table td[data-column="asset_id"],
 .project-intro-table td[data-column="asset_name"],
 .project-intro-table td[data-column="status"] {
