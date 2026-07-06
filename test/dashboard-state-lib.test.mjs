@@ -37,6 +37,7 @@ import {
 import {
   dashboardProvidedWriteToken,
   dashboardViewerForWriteToken,
+  dashboardWriteTokenIsAllowed,
   dashboardWriteAuth,
 } from "../scripts/dashboard-vercel-api.mjs";
 import {
@@ -119,12 +120,26 @@ assert.deepEqual(
   dashboardWriteAuth({ headers: { authorization: "Bearer right" } }, { DASHBOARD_WRITE_TOKEN: "right" }),
   { ok: true, viewer: "boris" },
 );
+assert.deepEqual(
+  dashboardWriteAuth(
+    { headers: { "x-dashboard-token": "mapped-token" } },
+    { DASHBOARD_WRITE_TOKEN_USERS: JSON.stringify({ "mapped-token": "jiahao chen" }) },
+  ),
+  { ok: true, viewer: "jiahao chen" },
+);
 assert.equal(
   dashboardViewerForWriteToken("mapped-token", {
     DASHBOARD_WRITE_TOKEN_USERS: JSON.stringify({ "mapped-token": "agent-a" }),
     DASHBOARD_WRITE_TOKEN: "right",
   }),
   "agent-a",
+);
+assert.equal(
+  dashboardWriteTokenIsAllowed("mapped-token", {
+    DASHBOARD_WRITE_TOKEN_USERS: JSON.stringify({ "mapped-token": "jiahao chen" }),
+    DASHBOARD_WRITE_TOKEN: "right",
+  }),
+  true,
 );
 assert.equal(
   dashboardViewerForWriteToken("right", { DASHBOARD_WRITE_TOKEN: "right", DASHBOARD_WRITE_USER: "boris" }),

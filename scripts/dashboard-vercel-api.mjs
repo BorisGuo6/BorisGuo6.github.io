@@ -56,9 +56,20 @@ export function dashboardViewerForWriteToken(providedToken, env = process.env) {
   return "";
 }
 
+export function dashboardWriteTokenIsAllowed(providedToken, env = process.env) {
+  if (!providedToken) {
+    return false;
+  }
+  if (providedToken === env.DASHBOARD_WRITE_TOKEN) {
+    return true;
+  }
+  return Boolean(dashboardViewerForWriteToken(providedToken, env));
+}
+
 export function dashboardWriteAuth(request, env = process.env) {
   const expectedToken = env.DASHBOARD_WRITE_TOKEN;
-  if (!expectedToken) {
+  const userMap = optionalString(env.DASHBOARD_WRITE_TOKEN_USERS || env.DASHBOARD_USER_TOKENS);
+  if (!expectedToken && !userMap) {
     return {
       ok: false,
       status: 503,
@@ -66,7 +77,7 @@ export function dashboardWriteAuth(request, env = process.env) {
     };
   }
   const providedToken = dashboardProvidedWriteToken(request);
-  if (providedToken !== expectedToken) {
+  if (!dashboardWriteTokenIsAllowed(providedToken, env)) {
     return {
       ok: false,
       status: 401,
