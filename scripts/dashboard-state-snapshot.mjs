@@ -11,6 +11,7 @@ import {
 } from "./dashboard-task-store.mjs";
 
 export const dashboardSnapshotSchemaVersion = "dashboard-state.v1";
+export const maxDashboardAuditEvents = 1000;
 
 function cloneJson(value) {
   return JSON.parse(JSON.stringify(value));
@@ -26,6 +27,7 @@ export function dashboardStateToSnapshot(state, options = {}) {
     portfolio: cloneJson(state.portfolio),
     projects: cloneJson(state.projects.map((project) => project.doc)),
     taskDoc: cloneJson(state.taskDoc),
+    audit_log: Array.isArray(options.auditLog) ? cloneJson(options.auditLog) : [],
   };
 }
 
@@ -76,6 +78,7 @@ export function normalizeDashboardSnapshot(raw) {
     portfolio: cloneJson(portfolio),
     projects: cloneJson(projects),
     taskDoc: cloneJson(taskDoc),
+    audit_log: Array.isArray(container.audit_log) ? cloneJson(container.audit_log) : [],
   };
 }
 
@@ -102,6 +105,18 @@ export function toDashboardStateResponse(snapshot, meta = {}) {
 
 function cloneMutableSnapshot(snapshot) {
   return normalizeDashboardSnapshot(snapshot);
+}
+
+export function appendSnapshotAuditEvent(snapshot, event, options = {}) {
+  const next = cloneMutableSnapshot(snapshot);
+  const limit = Number.isFinite(options.limit) && options.limit > 0
+    ? Math.floor(options.limit)
+    : maxDashboardAuditEvents;
+  next.audit_log = [
+    ...(Array.isArray(next.audit_log) ? next.audit_log : []),
+    cloneJson(event),
+  ].slice(-limit);
+  return next;
 }
 
 export function applySnapshotTaskCreate(snapshot, input, options = {}) {

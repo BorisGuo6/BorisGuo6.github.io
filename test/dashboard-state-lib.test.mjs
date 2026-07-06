@@ -25,6 +25,7 @@ import {
   validateTaskPriority,
 } from "../scripts/dashboard-task-store.mjs";
 import {
+  appendSnapshotAuditEvent,
   applySnapshotTaskComment,
   applySnapshotTaskCommentDelete,
   applySnapshotTaskCreate,
@@ -32,13 +33,17 @@ import {
   applySnapshotTaskUpdate,
   dashboardStateToSnapshot,
   normalizeDashboardSnapshot,
+  serializeDashboardSnapshot,
   toDashboardStateResponse,
 } from "../scripts/dashboard-state-snapshot.mjs";
 import {
+  dashboardCanWrite,
   dashboardProvidedWriteToken,
+  dashboardTokenFingerprint,
   dashboardViewerForWriteToken,
   dashboardWriteTokenIsAllowed,
   dashboardWriteAuth,
+  makeDashboardAuditEvent,
 } from "../scripts/dashboard-vercel-api.mjs";
 import {
   vercelBlobReadUrl,
@@ -83,9 +88,39 @@ assert.equal(bundledResponse.ok, true);
 assert.equal(bundledResponse.portfolio.portfolio_id, state.portfolio.portfolio_id);
 assert.equal(bundledResponse.projects.length, state.projects.length);
 assert.equal(bundledResponse.taskDoc.tasks.length, state.tasks.length);
+assert.equal(
+  Object.prototype.hasOwnProperty.call(bundledResponse, "audit_log"),
+  false,
+  "normal dashboard state responses should not expose the write audit log",
+);
 assert.deepEqual(
   normalizeDashboardSnapshot({ data: bundledResponse }).taskDoc.tasks.length,
   state.tasks.length,
+);
+const auditEvent = makeDashboardAuditEvent({
+  request: {
+    method: "POST",
+    url: "https://jingxiangguo.com/api/dashboard/task-status",
+    headers: { "user-agent": "dashboard-test-agent" },
+  },
+  auth: { viewer: "Ziyang Meng" },
+  token: "secret-dashboard-token",
+  action: "task-status",
+  payload: { task_id: "task_demo", status: "done" },
+  now: new Date("2026-06-18T00:30:00.000Z"),
+});
+assert.equal(auditEvent.viewer, "Ziyang Meng");
+assert.equal(auditEvent.action, "task-status");
+assert.match(auditEvent.token_fingerprint, /^sha256:[a-f0-9]{16}$/);
+assert.equal(JSON.stringify(auditEvent).includes("secret-dashboard-token"), false);
+const auditedSnapshot = appendSnapshotAuditEvent(bundledSnapshot, auditEvent, { limit: 2 });
+assert.equal(auditedSnapshot.audit_log.length, 1);
+const serializedAuditSnapshot = normalizeDashboardSnapshot(JSON.parse(serializeDashboardSnapshot(auditedSnapshot)));
+assert.equal(serializedAuditSnapshot.audit_log[0].audit_id, auditEvent.audit_id);
+assert.equal(
+  toDashboardStateResponse(serializedAuditSnapshot).audit_log,
+  undefined,
+  "audit_log should survive snapshot storage without leaking through public state",
 );
 const patchedSnapshot = applySnapshotTaskUpdate(bundledSnapshot, state.tasks[0].task_id, {
   title: "Updated dashboard task title",
@@ -141,6 +176,17 @@ assert.equal(
   }),
   true,
 );
+assert.equal(
+  dashboardCanWrite({
+    DASHBOARD_WRITE_TOKEN_USERS: JSON.stringify({ "mapped-token": "jiahao chen" }),
+    BLOB_READ_WRITE_TOKEN: "blob",
+  }),
+  true,
+  "mapped dashboard write tokens should make the hosted dashboard writable without the legacy single-token env",
+);
+assert.equal(dashboardCanWrite({ DASHBOARD_WRITE_TOKEN_USERS: "{}", BLOB_READ_WRITE_TOKEN: "blob" }), false);
+assert.match(dashboardTokenFingerprint("mapped-token"), /^sha256:[a-f0-9]{16}$/);
+assert.notEqual(dashboardTokenFingerprint("mapped-token"), dashboardTokenFingerprint("other-token"));
 assert.equal(
   dashboardViewerForWriteToken("right", { DASHBOARD_WRITE_TOKEN: "right", DASHBOARD_WRITE_USER: "boris" }),
   "boris",
@@ -254,6 +300,21 @@ assert.match(
   dashboardSource,
   /task-comment-delete/,
   "dashboard should route comment deletion through a hosted/local API endpoint",
+);
+assert.match(
+  vercelApiSource,
+  /handleDashboardAuditLog/,
+  "Vercel dashboard API should expose a token-protected audit log endpoint",
+);
+assert.match(
+  vercelApiSource,
+  /appendSnapshotAuditEvent\(result\.snapshot, auditEvent\)/,
+  "Vercel dashboard writes should append an audit event before writing the Blob snapshot",
+);
+assert.match(
+  vercelApiSource,
+  /const author = optionalString\(auth\.viewer\) \|\| "Vercel dashboard"/,
+  "dashboard comment authors should come from the token-bound viewer, not a client-provided author field",
 );
 assert.match(
   dashboardSource,

@@ -1,4 +1,6 @@
+import { createHash } from "node:crypto";
 import {
+  appendSnapshotAuditEvent,
   applySnapshotTaskComment,
   applySnapshotTaskCommentDelete,
   applySnapshotTaskCreate,
@@ -90,6 +92,67 @@ export function dashboardWriteAuth(request, env = process.env) {
   };
 }
 
+export function dashboardCanWrite(env = process.env) {
+  const userMap = optionalString(env.DASHBOARD_WRITE_TOKEN_USERS || env.DASHBOARD_USER_TOKENS);
+  let hasMappedToken = false;
+  if (userMap) {
+    try {
+      const parsed = JSON.parse(userMap);
+      hasMappedToken = Boolean(Object.entries(parsed || {}).some(([token, viewer]) => (
+        optionalString(token) && optionalString(viewer)
+      )));
+    } catch (error) {
+      hasMappedToken = false;
+    }
+  }
+  const hasWriteToken = Boolean(optionalString(env.DASHBOARD_WRITE_TOKEN) || hasMappedToken);
+  return Boolean(hasWriteToken && optionalString(env.BLOB_READ_WRITE_TOKEN));
+}
+
+export function dashboardTokenFingerprint(token) {
+  const tokenText = optionalString(token);
+  if (!tokenText) {
+    return "sha256:unknown";
+  }
+  return `sha256:${createHash("sha256").update(tokenText).digest("hex").slice(0, 16)}`;
+}
+
+function shortHash(value) {
+  const text = typeof value === "string" ? value : JSON.stringify(value ?? "");
+  return createHash("sha256").update(text).digest("hex").slice(0, 16);
+}
+
+function requestHeader(request, name) {
+  const value = request.headers?.[name] || request.headers?.[name.toLowerCase()];
+  return Array.isArray(value) ? value[0] : value;
+}
+
+function requestPath(request) {
+  try {
+    return new URL(request.url || "/", "https://jingxiangguo.com").pathname;
+  } catch (error) {
+    return "/";
+  }
+}
+
+export function makeDashboardAuditEvent({ request, auth, token, action, payload = {}, now = new Date() }) {
+  const createdAt = now.toISOString();
+  const safeAction = optionalString(action) || "unknown";
+  return {
+    audit_id: `audit_${createdAt.replace(/[^0-9]/g, "").slice(0, 14)}_${safeAction.replace(/[^a-z0-9_-]/gi, "_")}_${shortHash(`${createdAt}:${token}:${safeAction}`).slice(0, 8)}`,
+    created_at: createdAt,
+    viewer: optionalString(auth?.viewer) || "unknown",
+    token_fingerprint: dashboardTokenFingerprint(token),
+    action: safeAction,
+    payload,
+    request: {
+      method: optionalString(request?.method) || "UNKNOWN",
+      path: requestPath(request || {}),
+      user_agent_fingerprint: dashboardTokenFingerprint(requestHeader(request || {}, "user-agent") || ""),
+    },
+  };
+}
+
 export async function readJsonBody(request) {
   if (request.body && typeof request.body === "object" && !Buffer.isBuffer(request.body)) {
     return request.body;
@@ -129,19 +192,33 @@ async function loadWritableSnapshot() {
   return loadVercelDashboardSnapshot();
 }
 
-async function persistMutation(mutation) {
+async function persistMutation(mutation, auditOptions = {}) {
   const run = mutationQueue.catch(() => undefined).then(async () => {
     const { snapshot, meta } = await loadWritableSnapshot();
     const result = mutation(snapshot);
-    const blob = await writeVercelBlobSnapshot(result.snapshot);
+    const payload = typeof auditOptions.payload === "function"
+      ? auditOptions.payload(result)
+      : (auditOptions.payload || {});
+    const auditEvent = makeDashboardAuditEvent({
+      request: auditOptions.request,
+      auth: auditOptions.auth,
+      token: auditOptions.token,
+      action: auditOptions.action,
+      payload,
+    });
+    const auditedSnapshot = appendSnapshotAuditEvent(result.snapshot, auditEvent);
+    const blob = await writeVercelBlobSnapshot(auditedSnapshot);
     return {
       ...result,
+      audit: auditEvent,
       meta: {
         ...meta,
         storage: "vercel-blob",
         blob_path: blob.pathname,
         blob_url: blob.url,
-        updated_at: result.snapshot.updated_at,
+        updated_at: auditedSnapshot.updated_at,
+        audit_id: auditEvent.audit_id,
+        audit_viewer: auditEvent.viewer,
       },
     };
   });
@@ -159,7 +236,7 @@ export async function handleDashboardHealth(request, response) {
     ok: true,
     mode: "vercel-dashboard-api",
     storage: isVercelBlobConfigured() ? "vercel-blob" : "bundled-json",
-    writable: Boolean(process.env.DASHBOARD_WRITE_TOKEN && process.env.BLOB_READ_WRITE_TOKEN),
+    writable: dashboardCanWrite(),
     write_auth: writeAuth
       ? { ok: Boolean(writeAuth.ok), status: writeAuth.status || 200, error: writeAuth.error || null, viewer: writeAuth.viewer || null }
       : null,
@@ -171,12 +248,13 @@ export async function handleDashboardState(request, response) {
   const { snapshot, meta } = await loadVercelDashboardSnapshot();
   return sendJson(response, 200, toDashboardStateResponse(snapshot, {
     ...meta,
-    writable: Boolean(process.env.DASHBOARD_WRITE_TOKEN && process.env.BLOB_READ_WRITE_TOKEN),
+    writable: dashboardCanWrite(),
   }));
 }
 
 export async function handleDashboardTaskStatus(request, response) {
   if (request.method !== "POST") return methodNotAllowed(response, ["POST"]);
+  const providedToken = dashboardProvidedWriteToken(request);
   const auth = dashboardWriteAuth(request);
   if (!auth.ok) return sendJson(response, auth.status, { ok: false, error: auth.error });
   const body = await readJsonBody(request);
@@ -184,7 +262,13 @@ export async function handleDashboardTaskStatus(request, response) {
   const status = requireString(body.status, "status");
   const result = await persistMutation((snapshot) => applySnapshotTaskStatus(snapshot, taskId, status, {
     source: "vercel-blob",
-  }));
+  }), {
+    request,
+    auth,
+    token: providedToken,
+    action: "task-status",
+    payload: { task_id: taskId, status },
+  });
   return sendJson(response, 200, {
     ok: true,
     task_id: taskId,
@@ -196,6 +280,7 @@ export async function handleDashboardTaskStatus(request, response) {
 
 export async function handleDashboardTaskCreate(request, response) {
   if (request.method !== "POST") return methodNotAllowed(response, ["POST"]);
+  const providedToken = dashboardProvidedWriteToken(request);
   const auth = dashboardWriteAuth(request);
   if (!auth.ok) return sendJson(response, auth.status, { ok: false, error: auth.error });
   const body = await readJsonBody(request);
@@ -211,7 +296,21 @@ export async function handleDashboardTaskCreate(request, response) {
   };
   const result = await persistMutation((snapshot) => applySnapshotTaskCreate(snapshot, payload, {
     source: "vercel-blob",
-  }));
+  }), {
+    request,
+    auth,
+    token: providedToken,
+    action: "task-create",
+    payload: (mutationResult) => ({
+      task_id: mutationResult.task?.task_id || payload.task_id || null,
+      project_id: payload.project_id,
+      status: payload.status,
+      priority: payload.priority,
+      assignee: payload.assignee,
+      title_hash: shortHash(payload.title),
+      title_length: payload.title.length,
+    }),
+  });
   return sendJson(response, 200, {
     ok: true,
     task: result.task,
@@ -221,6 +320,7 @@ export async function handleDashboardTaskCreate(request, response) {
 
 export async function handleDashboardTaskUpdate(request, response) {
   if (request.method !== "POST") return methodNotAllowed(response, ["POST"]);
+  const providedToken = dashboardProvidedWriteToken(request);
   const auth = dashboardWriteAuth(request);
   if (!auth.ok) return sendJson(response, auth.status, { ok: false, error: auth.error });
   const body = await readJsonBody(request);
@@ -236,7 +336,16 @@ export async function handleDashboardTaskUpdate(request, response) {
   }
   const result = await persistMutation((snapshot) => applySnapshotTaskUpdate(snapshot, taskId, patch, {
     source: "vercel-blob",
-  }));
+  }), {
+    request,
+    auth,
+    token: providedToken,
+    action: "task-update",
+    payload: (mutationResult) => ({
+      task_id: taskId,
+      changed_fields: mutationResult.update?.changed_fields || Object.keys(patch),
+    }),
+  });
   return sendJson(response, 200, {
     ok: true,
     task_id: taskId,
@@ -248,15 +357,28 @@ export async function handleDashboardTaskUpdate(request, response) {
 
 export async function handleDashboardTaskComment(request, response) {
   if (request.method !== "POST") return methodNotAllowed(response, ["POST"]);
+  const providedToken = dashboardProvidedWriteToken(request);
   const auth = dashboardWriteAuth(request);
   if (!auth.ok) return sendJson(response, auth.status, { ok: false, error: auth.error });
   const body = await readJsonBody(request);
   const taskId = requireString(body.task_id, "task_id");
-  const author = optionalString(body.author) || "Vercel dashboard";
-  const comment = makeTaskComment(taskId, requireString(body.body, "body"), author);
+  const commentBody = requireString(body.body, "body");
+  const author = optionalString(auth.viewer) || "Vercel dashboard";
+  const comment = makeTaskComment(taskId, commentBody, author);
   const result = await persistMutation((snapshot) => applySnapshotTaskComment(snapshot, taskId, comment, {
     source: "vercel-blob",
-  }));
+  }), {
+    request,
+    auth,
+    token: providedToken,
+    action: "task-comment",
+    payload: {
+      task_id: taskId,
+      comment_id: comment.comment_id,
+      body_hash: shortHash(commentBody),
+      body_length: commentBody.length,
+    },
+  });
   return sendJson(response, 200, {
     ok: true,
     comment,
@@ -266,6 +388,7 @@ export async function handleDashboardTaskComment(request, response) {
 
 export async function handleDashboardTaskCommentDelete(request, response) {
   if (request.method !== "POST") return methodNotAllowed(response, ["POST"]);
+  const providedToken = dashboardProvidedWriteToken(request);
   const auth = dashboardWriteAuth(request);
   if (!auth.ok) return sendJson(response, auth.status, { ok: false, error: auth.error });
   const body = await readJsonBody(request);
@@ -273,12 +396,41 @@ export async function handleDashboardTaskCommentDelete(request, response) {
   const commentId = requireString(body.comment_id, "comment_id");
   const result = await persistMutation((snapshot) => applySnapshotTaskCommentDelete(snapshot, taskId, commentId, {
     source: "vercel-blob",
-  }));
+  }), {
+    request,
+    auth,
+    token: providedToken,
+    action: "task-comment-delete",
+    payload: { task_id: taskId, comment_id: commentId },
+  });
   return sendJson(response, 200, {
     ok: true,
     task_id: taskId,
     comment_id: commentId,
     deleted_comment: result.comment,
     meta: result.meta,
+  });
+}
+
+export async function handleDashboardAuditLog(request, response) {
+  if (request.method !== "GET") return methodNotAllowed(response, ["GET"]);
+  const auth = dashboardWriteAuth(request);
+  if (!auth.ok) return sendJson(response, auth.status, { ok: false, error: auth.error });
+  const url = new URL(request.url || "/", "https://jingxiangguo.com");
+  const requestedLimit = Number.parseInt(url.searchParams.get("limit") || "100", 10);
+  const limit = Number.isFinite(requestedLimit)
+    ? Math.min(Math.max(requestedLimit, 1), 200)
+    : 100;
+  const { snapshot, meta } = await loadVercelDashboardSnapshot();
+  const auditLog = Array.isArray(snapshot.audit_log) ? snapshot.audit_log : [];
+  return sendJson(response, 200, {
+    ok: true,
+    audit_log: auditLog.slice(-limit).reverse(),
+    meta: {
+      ...meta,
+      viewer: auth.viewer || null,
+      returned: Math.min(limit, auditLog.length),
+      total: auditLog.length,
+    },
   });
 }
