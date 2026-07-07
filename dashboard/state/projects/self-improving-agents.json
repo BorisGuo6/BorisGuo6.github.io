@@ -4,9 +4,9 @@
   "title": "Self-Improving Agents for Physical AI",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-07-06T10:35:00+08:00",
+  "updated_at": "2026-07-07T23:30:00+08:00",
   "description": "Simulation-first AgenticSim proposal: orchestrated setup-collect-train-eval-diagnose loop",
-  "summary": "Self-Improving Agents / PEARL is an MCP-driven AgenticSim + Open X Sim research program, not another monolithic Text2Env demo. The core loop is command-level: /gen-env builds reusable scene and task specs, /collect records simulator/robot rollouts, /train and /evaluate connect to Gaochen's policy pipeline, /diagnose turns dense rollout failures into data requirements, and /transfer adapts existing simulators instead of rebuilding every environment. ENPIRE is the real-robot reset/rollout/evolve prior; ASPIRE is the rollout-debugging and code-as-policy skill-library prior. The current differentiator is scene-task decoupling plus Open X Sim aggregation: select existing RoboTwin/SAPIEN assets first, use video2sim-forge (https://github.com/Marvelousp4/video2sim-forge) style RGB-D/video-to-sim asset forging only when the catalog is insufficient, add NeuMaTeX (https://nvlabs.github.io/neumatex/) as the neural-material / texture extraction reference for visually faithful asset sidecars, and keep every generated scene/task behind typed manifests, verifier gates, and reusable failure memory.",
+  "summary": "Self-Improving Agents / PEARL should be positioned as an embodied harness system, not as another Text2Env demo or monolithic VLA finetune. The paper thesis: keep the embodied model or policy under test fixed enough to measure it, then iteratively improve the surrounding harness of prompts, tools, simulator adapters, reset/eval rules, validation gates, memory, and data requirements. The loop mirrors the provided harness sketch: run the current harness on embodied tasks, mine and cluster failure traces, propose harness edits, regression-test candidates, and promote only edits that improve robot robustness without regressing prior tasks. The implementation substrate remains AgenticSim + Open X Sim: /gen-env, /collect, /train, /evaluate, /diagnose, and /transfer, with scene-task decoupling and verifier-backed promotion as the defensible route to the first real embodied harness claim.",
   "asset": "dashboard/assets/simulator-taxonomy-20260615.png",
   "asset_alt": "Robotics simulator taxonomy comparing task APIs, assets, simulation frameworks, renderers, and physics engines.",
   "asset_caption": "Simulator taxonomy reference: separate task/API layer, asset layer, simulation framework, renderer, and physics engine when choosing the Text2Env / AgenticSim backend.",
@@ -33,6 +33,7 @@
     "task_self_improving_text2env_lit_review_20260701",
     "task_self_improving_sceneagent_selection2env_20260701",
     "task_self_improving_openxsim_command_loop_20260703",
+    "task_self_improving_embodied_harness_positioning_20260707",
     "task_self_improving_cosmos3_robolab_rollouts",
     "task_self_improving_wam_memory_critic",
     "task_self_improving_lightweight_ttt_adapter",
@@ -242,6 +243,7 @@
     }
   ],
   "risks_decisions": [
+    "Embodied-harness paper-positioning decision 2026-07-07: frame PEARL as the first real embodied harness target, not merely a self-improving simulator, Text2Env tool, code-repair loop, or VLA training recipe. The defendable claim requires a harness-level abstraction around a fixed embodied model/policy: weakness mining from robot/simulator execution traces, clustered failure patterns, harness proposal edits over prompts/tools/memory/policies/validators, regression tests, and promotion gates that update the harness only when embodied task behavior improves without regression.",
     "NeuMaTeX material-sidecar decision 2026-07-06: texture/material realism should become an explicit /gen-env branch instead of being hidden inside geometry generation. Reference: https://nvlabs.github.io/neumatex/. Use NeuMaTeX-style multi-view neural-material extraction for relightable texture/material sidecars when assets are forged from RGB-D/video, but keep it gated separately from simulator validity: scale, mesh, collision proxy, URDF/joints, physical material parameters, renderer import, and verifier smoke must still pass before /collect uses the scene.",
     "Backend decision 2026-07-03: keep RoboTwin / SAPIEN as the v0 implementation backend rather than forcing Isaac Sim/USD. Isaac/Omniverse remains an adapter target through /transfer, but the near-term system should trust the current RoboTwin stack and avoid turning simulator compatibility into the main blocker.",
     "Scene/task decoupling decision 2026-07-03: user chat argues current ASPIRE/RoboTwin-style systems often generate task and scene together. PEARL should explicitly separate scene generation/selection from task specification so a scene can be reused for multiple operations and task prompts do not force duplicated environment construction.",
@@ -288,6 +290,10 @@
         "value": "AgenticSim"
       },
       {
+        "label": "Paper claim",
+        "value": "Embodied harness"
+      },
+      {
         "label": "Foundation",
         "value": "129 envs"
       },
@@ -312,6 +318,6 @@
         "value": "/gen-env /collect /transfer"
       }
     ],
-    "target_note": "Next target: upgrade PEARL from a Text2Env demo into a command-level AgenticSim/Open X Sim loop: /gen-env reusable scene-task specs, /collect rollout data, Gaochen-owned /train and /evaluate hooks, dense /diagnose failure traces, and /transfer adapters for existing simulator environments."
+    "target_note": "Next target: turn PEARL into a defensible embodied harness paper and system demo: current harness h_t runs embodied tasks, weakness mining clusters trace failures, the harness proposes edits, regression tests accept/reject candidates, and promoted edits update h_{t+1} across /gen-env, /collect, /evaluate, /diagnose, and /transfer."
   }
 }

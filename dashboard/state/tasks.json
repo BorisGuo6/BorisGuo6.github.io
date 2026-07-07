@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-07-07T22:36:38+08:00",
+  "updated_at": "2026-07-07T23:30:00+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -11774,6 +11774,31 @@
       ],
       "created_at": "2026-07-07T16:22:15+08:00",
       "updated_at": "2026-07-07T16:22:15+08:00"
+    },
+    {
+      "task_id": "task_self_improving_embodied_harness_positioning_20260707",
+      "project_id": "self-improving-agents",
+      "title": "Frame the Self-Improving paper as an embodied harness system",
+      "description": "User positioning update 2026-07-07: use the harness sketch as the paper frame. The central claim should be that PEARL is a real embodied harness: it keeps an embodied model/policy under test while the harness evolves prompts, tools, simulator adapters, reset/eval protocols, validators, memory, and data requirements around it. This is not just Text2Env, ASPIRE-style code repair, ENPIRE-style real rollout evolution, or another VLA finetune.\n\nAcceptance: 1) Write a one-page thesis for the paper claim \"first real embodied harness system\" with precise scope and no unsupported priority overclaim; 2) map the figure loop into PEARL terms: current harness h_t, embodied task execution, weakness mining, clustered failure patterns, harness proposal, proposed edits, regression test, promotion decision, updated harness h_{t+1}; 3) define embodied-specific harness surfaces: robot/sim reset, observations/actions, tool calls, safety limits, real/sim traces, validation rules, data requirements, memory, and rollback; 4) produce a novelty table versus LLM coding harnesses, ASPIRE, ENPIRE, RoboTwin/Text2Env, and standard VLA evaluation; 5) draft a figure caption or diagram brief for the embodied harness architecture; 6) route implementation requirements into existing /gen-env, /collect, /evaluate, /diagnose, and /transfer TODOs instead of expanding the project intro.",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Boris / Codex",
+      "due_at": "",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_self_improving_embodied_harness_seed_20260707",
+          "task_id": "task_self_improving_embodied_harness_positioning_20260707",
+          "author": "Boris / Codex",
+          "author_type": "system",
+          "kind": "source_note",
+          "body": "Seeded from Boris 2026-07-07: the Self-Improving article should reference the provided harness concept and position the work as the first truly embodied harness system. Key diagram structure: current harness h_t -> weakness mining over task execution traces -> clustered failure patterns -> harness proposal edits -> regression validation -> accept/reject -> updated harness h_{t+1}.",
+          "created_at": "2026-07-07T23:30:00+08:00"
+        }
+      ],
+      "updated_at": "2026-07-07T23:30:00+08:00",
+      "started_at": null,
+      "completed_at": null
     }
   ]
 }
