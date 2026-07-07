@@ -142,10 +142,16 @@
         const vercelApiBase = "/api/dashboard";
         const supabaseEsmUrl = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
         const statusCycle = ["todo", "active", "done"];
+        const procurementStatusCycle = ["", "Ordered", "Arrived"];
         const statusLabels = {
           todo: "undone",
           active: "doing",
           done: "done",
+        };
+        const procurementStatusLabels = {
+          "": "未下单",
+          Ordered: "已下单",
+          Arrived: "已到货",
         };
         const statusOrder = {
           active: 0,
@@ -1137,15 +1143,18 @@
           return status.startsWith("archive");
         }
 
-        function procurementStatusOptions(tableConfig, currentStatus) {
-          const options = Array.isArray(tableConfig.status_options)
-            ? tableConfig.status_options.filter((option) => typeof option === "string" && option.trim())
-            : [];
-          const current = String(currentStatus || "").trim();
-          if (current && !options.includes(current)) {
-            options.unshift(current);
+        function normalizeProcurementStatus(status) {
+          const value = String(status || "").trim().toLowerCase();
+          if (!value || value === "requested" || value.includes("pending") || value.includes("romoya") || value.includes("canceled")) {
+            return "";
           }
-          return options.length ? options : [current || "Requested", "Ordered", "Shipped", "Arrived", "Done"];
+          if (value.startsWith("archive") || value.includes("arrived") || value.includes("received") || value === "done" || value.includes("交易成功")) {
+            return "Arrived";
+          }
+          if (value.includes("ordered") || value.includes("shipped") || value.includes("buyer paid") || value.includes("presale")) {
+            return "Ordered";
+          }
+          return "Ordered";
         }
 
         function compareIntroTableRows(a, b, key, direction) {
@@ -1178,22 +1187,61 @@
           return [...mergedRows].sort((a, b) => compareIntroTableRows(a, b, sortKey, direction));
         }
 
-        function createProcurementStatusSelect(row, projectId, tableConfig) {
-          const select = document.createElement("select");
-          select.className = "procurement-status-select";
-          select.dataset.projectId = projectId;
-          select.dataset.rowId = row.row_id || "";
-          select.dataset.tableKind = tableConfig.kind || "procurement_table";
-          select.setAttribute("aria-label", `Update status for ${row.item || "procurement row"}`);
-          procurementStatusOptions(tableConfig, row.status).forEach((status) => {
-            const option = document.createElement("option");
-            option.value = status;
-            option.textContent = status;
-            option.selected = status === row.status;
-            select.append(option);
+        function createProcurementStatusControl(row, projectId, tableConfig) {
+          const normalizedStatus = normalizeProcurementStatus(row.status);
+          const rowId = row.row_id || "";
+          const menuId = `procurement-status-${projectId}-${rowId}`;
+          const statusControl = document.createElement("div");
+          statusControl.className = "procurement-status-control";
+
+          const statusButton = document.createElement("button");
+          statusButton.type = "button";
+          statusButton.className = "procurement-status-button";
+          statusButton.dataset.projectId = projectId;
+          statusButton.dataset.rowId = rowId;
+          statusButton.setAttribute("aria-controls", menuId);
+          statusButton.setAttribute("aria-expanded", "false");
+          statusButton.setAttribute("aria-haspopup", "menu");
+          statusButton.setAttribute("aria-label", `${row.item || "Procurement row"}: ${procurementStatusLabels[normalizedStatus]}.`);
+          statusButton.title = row.status ? `${procurementStatusLabels[normalizedStatus]} · ${row.status}` : procurementStatusLabels[normalizedStatus];
+          statusButton.disabled = !rowId;
+
+          const box = document.createElement("span");
+          box.className = ["box", normalizedStatus === "Arrived" ? "checked" : normalizedStatus === "Ordered" ? "ongoing" : ""].filter(Boolean).join(" ");
+          box.setAttribute("aria-hidden", "true");
+          statusButton.append(box);
+
+          const statusMenu = document.createElement("div");
+          statusMenu.id = menuId;
+          statusMenu.className = "procurement-status-menu";
+          statusMenu.role = "menu";
+          statusMenu.hidden = true;
+
+          procurementStatusCycle.forEach((optionStatus) => {
+            const optionButton = document.createElement("button");
+            optionButton.type = "button";
+            optionButton.className = "procurement-status-option";
+            optionButton.dataset.projectId = projectId;
+            optionButton.dataset.rowId = rowId;
+            optionButton.dataset.tableKind = tableConfig.kind || "procurement_table";
+            optionButton.dataset.status = optionStatus;
+            optionButton.role = "menuitemradio";
+            optionButton.setAttribute("aria-checked", String(optionStatus === normalizedStatus));
+            optionButton.setAttribute("aria-label", `${row.item || "Procurement row"}: ${procurementStatusLabels[optionStatus]}`);
+            optionButton.title = procurementStatusLabels[optionStatus];
+            if (optionStatus === normalizedStatus) {
+              optionButton.classList.add("selected");
+            }
+
+            const optionBox = document.createElement("span");
+            optionBox.className = ["box", optionStatus === "Arrived" ? "checked" : optionStatus === "Ordered" ? "ongoing" : ""].filter(Boolean).join(" ");
+            optionBox.setAttribute("aria-hidden", "true");
+            optionButton.append(optionBox);
+            statusMenu.append(optionButton);
           });
-          select.disabled = !row.row_id;
-          return select;
+
+          statusControl.append(statusButton, statusMenu);
+          return statusControl;
         }
 
         function createProcurementEditForm(row, projectId, tableKind) {
@@ -1319,7 +1367,7 @@
               cell.dataset.column = column.key;
               const value = row?.[column.key] || "";
               if (isProcurementTable && column.key === "status" && isEditableProcurementTable) {
-                cell.append(createProcurementStatusSelect(row, projectId, tableConfig));
+                cell.append(createProcurementStatusControl(row, projectId, tableConfig));
               } else if (column.key === "updated_at") {
                 const time = document.createElement("time");
                 time.dateTime = value;
@@ -3457,6 +3505,16 @@
           });
         }
 
+        function closeProcurementStatusMenus(exceptMenu = null) {
+          document.querySelectorAll(".procurement-status-menu:not([hidden])").forEach((menu) => {
+            if (menu === exceptMenu) {
+              return;
+            }
+            menu.hidden = true;
+            document.querySelector(`[aria-controls="${menu.id}"]`)?.setAttribute("aria-expanded", "false");
+          });
+        }
+
         document.addEventListener("click", (event) => {
           const procurementEditButton = event.target.closest?.(".procurement-edit-button");
           if (procurementEditButton) {
@@ -3477,12 +3535,43 @@
             return;
           }
 
+          const procurementStatusOption = event.target.closest?.(".procurement-status-option");
+          if (procurementStatusOption) {
+            const projectId = procurementStatusOption.dataset.projectId || "";
+            const rowId = procurementStatusOption.dataset.rowId || "";
+            const tableKind = procurementStatusOption.dataset.tableKind || "procurement_table";
+            const status = procurementStatusOption.dataset.status || "";
+            closeProcurementStatusMenus();
+            if (projectId && rowId) {
+              applyAndPersistProjectTableRowPatch(projectId, tableKind, rowId, { status }).catch((error) => {
+                console.warn("Procurement status update failed", error);
+                setSyncStatus(`Procurement status failed: ${error.message || "unknown"}`, "fallback");
+                renderDashboardState();
+              });
+            }
+            return;
+          }
+
+          const procurementStatusButton = event.target.closest?.(".procurement-status-button");
+          if (procurementStatusButton) {
+            const menu = document.getElementById(procurementStatusButton.getAttribute("aria-controls"));
+            const shouldOpen = Boolean(menu?.hidden);
+            closeProcurementStatusMenus(menu);
+            closeStatusMenus();
+            if (menu) {
+              menu.hidden = !shouldOpen;
+              procurementStatusButton.setAttribute("aria-expanded", String(shouldOpen));
+            }
+            return;
+          }
+
           const statusOption = event.target.closest?.(".task-status-option");
           if (statusOption) {
             const taskId = statusOption.dataset.taskId;
             const status = statusOption.dataset.status;
             const previousStatus = getTaskById(taskId)?.status;
             closeStatusMenus();
+            closeProcurementStatusMenus();
             if (isDashboardBackendWritable()) {
               applyTaskStatus(taskId, status);
               updateDashboardBackendTaskStatus(taskId, status).catch((error) => {
@@ -3508,6 +3597,7 @@
             const menu = document.getElementById(statusButton.getAttribute("aria-controls"));
             const shouldOpen = Boolean(menu?.hidden);
             closeStatusMenus(menu);
+            closeProcurementStatusMenus();
             if (menu) {
               menu.hidden = !shouldOpen;
               statusButton.setAttribute("aria-expanded", String(shouldOpen));
@@ -3541,32 +3631,16 @@
           if (!event.target.closest?.(".task-status-control")) {
             closeStatusMenus();
           }
+          if (!event.target.closest?.(".procurement-status-control")) {
+            closeProcurementStatusMenus();
+          }
         });
 
         document.addEventListener("keydown", (event) => {
           if (event.key === "Escape") {
             closeStatusMenus();
+            closeProcurementStatusMenus();
           }
-        });
-
-        document.addEventListener("change", (event) => {
-          const statusSelect = event.target.closest?.(".procurement-status-select");
-          if (!statusSelect) {
-            return;
-          }
-          const projectId = statusSelect.dataset.projectId || "";
-          const rowId = statusSelect.dataset.rowId || "";
-          const tableKind = statusSelect.dataset.tableKind || "procurement_table";
-          const status = statusSelect.value;
-          if (!projectId || !rowId || !status) {
-            return;
-          }
-          statusSelect.disabled = true;
-          applyAndPersistProjectTableRowPatch(projectId, tableKind, rowId, { status }).catch((error) => {
-            console.warn("Procurement status update failed", error);
-            setSyncStatus(`Procurement status failed: ${error.message || "unknown"}`, "fallback");
-            renderDashboardState();
-          });
         });
 
         document.addEventListener("submit", (event) => {

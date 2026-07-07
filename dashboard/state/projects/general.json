@@ -4,12 +4,12 @@
   "title": "Procurement Table",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-07-07T20:59:00+08:00",
+  "updated_at": "2026-07-07T23:10:00+08:00",
   "description": "Editable lab procurement register for cross-project purchases",
   "summary": "Editable procurement register for lab purchases. Rows are sorted by last update, status changes update the timestamp, and old TODO/archive work has been moved to Real-Robot Lab Infra so this card stays focused on live purchasing records.",
   "intro_table": {
     "kind": "procurement_table",
-    "caption": "Editable procurement register · sorted by last update",
+    "caption": "Editable procurement register · blank not ordered, dash ordered, check arrived",
     "editable": true,
     "sortable": true,
     "default_sort": {
@@ -17,17 +17,9 @@
       "direction": "desc"
     },
     "status_options": [
-      "Requested",
+      "",
       "Ordered",
-      "Ordered · 2026-07-07",
-      "Ordered · buyer paid 2026-07-07",
-      "Ordered · presale ships Jul 12",
-      "Ordered by Zheng · 2026-07-04",
-      "Shipped · ETA 2026-07-20 to 2026-07-23",
-      "Done",
-      "Arrived",
-      "Canceled",
-      "Romoya route · pending follow-up"
+      "Arrived"
     ],
     "columns": [
       {

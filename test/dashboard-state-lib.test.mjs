@@ -265,6 +265,16 @@ const umiProject = state.projects.find((project) => project.doc.project_id === "
 assert.ok(umiProject, "UMI World Model project must stay mounted in dashboard state");
 const tactileWamProject = state.projects.find((project) => project.doc.project_id === "tactile-wam")?.doc;
 assert.ok(tactileWamProject, "DaiMeng VTAM / Tactile-WAM project must stay mounted in dashboard state");
+const realRobotInfraProject = state.projects.find((project) => project.doc.project_id === "real-robot-infra")?.doc;
+assert.ok(realRobotInfraProject, "Real-Robot Lab Infra project must stay mounted in dashboard state");
+assert.equal(realRobotInfraProject.summary || "", "", "Real-Robot Lab Infra intro summary should stay empty");
+assert.deepEqual(realRobotInfraProject.details || [], [], "Real-Robot Lab Infra intro details should stay empty");
+assert.equal(realRobotInfraProject.intro_table || null, null, "Real-Robot Lab Infra intro table should stay empty");
+assert.equal(realRobotInfraProject.hide_intro, true, "Real-Robot Lab Infra should hide its empty intro surface");
+assert.ok(
+  (realRobotInfraProject.risks_decisions || []).some((decision) => String(decision).includes("Intro asset inventory moved 2026-07-07")),
+  "Real-Robot Lab Infra asset inventory context should live in Risks / Decisions",
+);
 assert.ok(
   (umiProject.summary || "").length <= 700,
   "UMI intro summary must stay under 700 characters; move meeting notes into TODOs or task comments",
@@ -599,6 +609,27 @@ assert.match(
   dashboardSource,
   /api\/dashboard\/project-table-row/,
   "dashboard agent prompt should document the procurement table row update endpoint",
+);
+const procurementProject = state.projects.find((project) => project.doc.project_id === "general")?.doc;
+assert.deepEqual(
+  procurementProject?.intro_table?.status_options,
+  ["", "Ordered", "Arrived"],
+  "Procurement status options should stay a three-state control: blank, ordered, arrived",
+);
+assert.match(
+  dashboardSource,
+  /function createProcurementStatusControl\(/,
+  "procurement status should render through the same icon-menu pattern as TODO status",
+);
+assert.doesNotMatch(
+  dashboardSource,
+  /createProcurementStatusSelect|procurement-status-select/,
+  "procurement status should not use the old wide native select",
+);
+assert.match(
+  await readFile(new URL("../dashboard/print.css", import.meta.url), "utf8"),
+  /project-intro-table\[data-kind="procurement_table"\][\s\S]+min-width: 0;[\s\S]+table-layout: fixed;/,
+  "procurement table should fit inside its card instead of enforcing a wide minimum width",
 );
 assert.match(
   agentsSource,

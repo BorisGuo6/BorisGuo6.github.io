@@ -1363,7 +1363,36 @@ summary.bucket-title::-webkit-details-marker {
 }
 
 .project-intro-table[data-kind="procurement_table"] {
-  min-width: 1180px;
+  min-width: 0;
+  table-layout: fixed;
+  font-size: 12px;
+}
+
+.project-intro-table[data-kind="procurement_table"] th,
+.project-intro-table[data-kind="procurement_table"] td {
+  padding: 7px 8px;
+  overflow-wrap: anywhere;
+}
+
+.project-intro-table[data-kind="procurement_table"] td[data-column="item"] {
+  width: 23%;
+}
+
+.project-intro-table[data-kind="procurement_table"] td[data-column="status"] {
+  width: 44px;
+}
+
+.project-intro-table[data-kind="procurement_table"] td[data-column="route"] {
+  width: 20%;
+}
+
+.project-intro-table[data-kind="procurement_table"] td[data-column="notes"] {
+  width: auto;
+}
+
+.project-intro-table[data-kind="procurement_table"] th.procurement-actions-heading,
+.project-intro-table[data-kind="procurement_table"] td.procurement-actions {
+  width: 52px;
 }
 
 .project-intro-table th.sorted-column::after {
@@ -1382,7 +1411,6 @@ summary.bucket-title::-webkit-details-marker {
   white-space: nowrap;
 }
 
-.procurement-status-select,
 .procurement-edit-form input,
 .procurement-edit-form textarea {
   width: 100%;
@@ -1394,14 +1422,72 @@ summary.bucket-title::-webkit-details-marker {
   font: inherit;
 }
 
-.procurement-status-select {
-  padding: 5px 24px 5px 8px;
-  font-size: 12px;
-  font-weight: 750;
+.procurement-status-control {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+}
+
+.procurement-status-button {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.procurement-status-button .box,
+.procurement-status-option .box {
+  margin-top: 0;
+}
+
+.procurement-status-button:hover .box {
+  box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.12);
+}
+
+.procurement-status-menu[hidden] {
+  display: none;
+}
+
+.procurement-status-menu {
+  position: absolute;
+  top: 27px;
+  left: -4px;
+  z-index: 24;
+  display: grid;
+  grid-template-columns: repeat(3, 26px);
+  gap: 4px;
+  padding: 5px;
+  border: 1px solid var(--line);
+  background: #ffffff;
+  box-shadow: 0 12px 28px rgba(23, 32, 42, 0.16);
+}
+
+.procurement-status-option {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 1px solid transparent;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+.procurement-status-option.selected {
+  border-color: #cbdbe0;
+  background: #eef6f5;
+}
+
+.procurement-status-option:hover {
+  border-color: var(--accent);
 }
 
 .procurement-actions {
-  width: 72px;
+  width: 52px;
   text-align: right;
 }
 
@@ -2209,6 +2295,8 @@ summary.bucket-title::-webkit-details-marker {
 
 .task-status-button:focus-visible,
 .task-status-option:focus-visible,
+.procurement-status-button:focus-visible,
+.procurement-status-option:focus-visible,
 .task-create-detail > summary:focus-visible,
 .task-create-form input:focus-visible,
 .task-create-form textarea:focus-visible,
@@ -2780,20 +2868,24 @@ body.lightbox-open {
     color: #495651;
   }
 
-  .task-status-button {
+  .task-status-button,
+  .procurement-status-button {
     border-radius: 6px;
   }
 
-  .task-status-button:hover {
+  .task-status-button:hover,
+  .procurement-status-button:hover {
     background: #edf6f4;
   }
 
-  .task-status-menu {
+  .task-status-menu,
+  .procurement-status-menu {
     border-radius: 8px;
     box-shadow: 0 14px 34px rgba(31, 42, 37, 0.18);
   }
 
-  .task-status-option {
+  .task-status-option,
+  .procurement-status-option {
     border-radius: 6px;
   }
 
@@ -3129,7 +3221,8 @@ body.lightbox-open {
 
   .comment-form,
   .comment-delete,
-  .task-status-menu {
+  .task-status-menu,
+  .procurement-status-menu {
     display: none;
   }
 
