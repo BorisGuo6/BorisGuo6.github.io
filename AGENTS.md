@@ -33,6 +33,11 @@ decision that changes execution, put it in a new TODO or in a comment on the
 existing relevant TODO. Keep project intros short enough to scan before the task
 list; for UMI-style project cards, prefer a short stage summary plus durable
 acceptance guardrails, and route all meeting action items into `tasks.json`.
+For the UMI card specifically, `npm run test:dashboard` enforces the guardrail:
+summary <= 700 characters, details <= 12 entries, intro table <= 8 rows, and no
+`next`, `due`, `command`, `result`, `verification`, or telemetry-style columns in
+the intro table. If a meeting note does not fit that budget, create or update a
+TODO instead of expanding the intro.
 
 Hosted writes require `DASHBOARD_WRITE_TOKEN`. Do not print, commit, or paste the token into comments. Send it as `x-dashboard-token: $DASHBOARD_WRITE_TOKEN` or `Authorization: Bearer $DASHBOARD_WRITE_TOKEN`.
 

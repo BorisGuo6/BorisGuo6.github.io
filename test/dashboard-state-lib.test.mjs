@@ -261,6 +261,28 @@ for (const project of state.projects) {
     assert.ok(knownTaskIds.has(taskId), `Project ${project.doc.project_id} references missing task_id ${taskId}`);
   }
 }
+const umiProject = state.projects.find((project) => project.doc.project_id === "umi-world-model")?.doc;
+assert.ok(umiProject, "UMI World Model project must stay mounted in dashboard state");
+assert.ok(
+  (umiProject.summary || "").length <= 700,
+  "UMI intro summary must stay under 700 characters; move meeting notes into TODOs or task comments",
+);
+assert.ok(
+  (umiProject.details || []).length <= 12,
+  "UMI details must stay under 12 durable guardrail entries; move execution logs into TODOs or task comments",
+);
+assert.ok(
+  (umiProject.intro_table?.rows || []).length <= 8,
+  "UMI intro table must stay compact; move per-owner execution tracking into TODOs or task comments",
+);
+const umiIntroTableExecutionColumns = new Set(["next", "due", "due_at", "command", "result", "verification", "telemetry"]);
+for (const column of umiProject.intro_table?.columns || []) {
+  assert.equal(
+    umiIntroTableExecutionColumns.has(column.key),
+    false,
+    `UMI intro table column ${column.key} belongs in TODOs or task comments, not the project intro`,
+  );
+}
 assert.deepEqual(
   state.projects
     .filter((project) => (project.doc.task_ids || []).length > 0 && project.doc.hide_workstream)
