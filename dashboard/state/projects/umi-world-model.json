@@ -6,18 +6,18 @@
   "status": "ongoing",
   "updated_at": "2026-07-07T20:45:00+08:00",
   "description": "UMI Image Layered World Model: three linked papers covering multi-view robot video world modeling, manipulation-video dynamics decomposition into reusable layers, and layered data as a downstream VLA/IDM/reward training interface.",
-  "summary": "UMI World Model is a three-paper program with one shared data substrate: Stage 1 trains a streaming multi-view pose/action-conditioned robot world model; Stage 2 turns manipulation videos into reusable scene, object/contact, occluder/tool, and robot/actor layers; Stage 3 tests whether those layers improve manipulation and video-model training. This intro is intentionally only an architecture brief; current gates, owner follow-ups, and operational logs live in TODOs and task comments.",
+  "summary": "UMI World Model is a three-paper program with one shared data substrate: Stage 1 trains a streaming multi-view pose/action-conditioned robot world model; Stage 2 turns manipulation videos into reusable scene, object/contact, occluder/tool, and robot/actor layers; Stage 3 tests whether those layers improve manipulation and video-model training. This intro is only architecture/status framing; task-level execution state lives in TODOs and task comments.",
   "subprojects": [
     {
       "label": "A",
       "title": "Stage 1: Streaming Multi-View UMI World Model",
-      "body": "Paper 1 learns a shared-scene, multi-view robot world model from synchronized wrist/head/fixed views and pose/action sidecars. Durable context: DaiMeng/Jingdu-style data has roughly 943 usable dual-arm hours after filtering single-arm episodes; AutoDL is for <=8-GPU architecture checks, while large training belongs on the dev-team 32-A100 setup.",
+      "body": "Paper 1 learns a shared-scene, multi-view robot world model from synchronized wrist/head/fixed views and pose/action sidecars. Durable data context: DaiMeng/Jingdu-style material has roughly 943 usable dual-arm hours after filtering single-arm episodes.",
       "output": "Durable output: multi-view robot-video rollout metrics and stage-1 evaluation protocol."
     },
     {
       "label": "B",
       "title": "Stage 2: Video Dynamics Decomposition Model",
-      "body": "Paper 2 is VDDM: a model/data interface for decomposing robot or egocentric manipulation video into scene/background, object/contact, occluder/tool, and robot/actor layers with manifests and QA. The live SAM3/RobotSeg, inpainting, retry, and one-week smoke gates are tracked in TODOs.",
+      "body": "Paper 2 is VDDM: a model/data interface for decomposing robot or egocentric manipulation video into scene/background, object/contact, occluder/tool, and robot/actor layers with manifests and QA. Implementation variants share a single layer_manifest-compatible output contract.",
       "output": "Durable output: layer_manifest-compatible VDDM layer packages and QA criteria."
     },
     {
@@ -34,47 +34,42 @@
     "layout": "standard"
   },
   "intro_table": {
-    "kind": "meeting_owner_table",
-    "caption": "2026-07-07 UMI owner matrix (execution lives in TODOs)",
+    "kind": "architecture_status_table",
+    "caption": "UMI architecture and status framing",
     "columns": [
       {
-        "key": "owner",
-        "label": "Owner"
+        "key": "stage",
+        "label": "Stage"
       },
       {
-        "key": "lane",
-        "label": "Project lane"
+        "key": "interface",
+        "label": "Interface"
       },
       {
-        "key": "state",
-        "label": "Current state"
+        "key": "status_frame",
+        "label": "Status frame"
       }
     ],
     "rows": [
       {
-        "owner": "Lai / Yongxi",
-        "lane": "Any-data -> layer conversion; RobotSeg/SAM3 segmentation",
-        "state": "SAM3 fine-tune still needs A100 debugging and a baseline-vs-SAM2.5 comparison before it becomes the default segmentation lane."
+        "stage": "Stage 1",
+        "interface": "Streaming multi-view robot world model",
+        "status_frame": "Synchronized wrist/head/fixed views are treated as one shared scene with pose/action sidecars, not as independent video clips."
       },
       {
-        "owner": "Ziyang",
-        "lane": "Object-layer utility for manipulation",
-        "state": "Doctor Robert-style pose estimation is unreliable in FRANK-style environments; Object3D is treated as a sparse value/process-reward probe rather than a dense realtime renderer."
+        "stage": "Stage 2",
+        "interface": "Video Dynamics Decomposition Model",
+        "status_frame": "Manipulation video is decomposed into scene/background, object/contact, occluder/tool, and robot/actor layers with one manifest schema."
       },
       {
-        "owner": "Davide",
-        "lane": "Direct multi-layer video model",
-        "state": "New lane for generating videos with explicit object, scene/background, and robot/actor or other layer outputs."
+        "stage": "Stage 3",
+        "interface": "Layered data utility",
+        "status_frame": "The research claim is downstream utility: compare layer packages against raw RGB and mask-only baselines for pose, reward, IDM, policy, and physics-forcing signals."
       },
       {
-        "owner": "Boris / Lai",
-        "lane": "Access and resource governance",
-        "state": "Dashboard identity should be user-token based; AutoDL remains <=8 GPU; larger compute or storage requests need coordinated cloud/dev-team allocation."
-      },
-      {
-        "owner": "All",
-        "lane": "Shared preprocessing infrastructure",
-        "state": "The three lanes consume one single-video -> multi-layer video substrate instead of maintaining separate preprocessing stacks."
+        "stage": "Shared substrate",
+        "interface": "Single video -> multi-layer package",
+        "status_frame": "All three stages consume the same scene, object/contact, robot/actor, pose-sidecar, and QA/retry outputs instead of separate preprocessing stacks."
       }
     ]
   },
@@ -292,13 +287,13 @@
     ]
   },
   "details": [
-    "Dashboard hygiene rule 2026-07-07: the UMI intro is an architecture brief, not an execution log. New gates, owner follow-ups, live training/download telemetry, and meeting action items must be written as TODOs or comments on existing TODOs.",
+    "Dashboard hygiene rule 2026-07-07: the UMI intro carries architecture and durable status framing only; task-level execution evidence belongs in TODOs or task comments.",
     "Three-paper split: Stage 1 is the streaming multi-view pose/action-conditioned UMI World Model; Stage 2 is VDDM for reusable manipulation layers; Stage 3 is the downstream VLA/IDM/reward paper proving layered data changes learning and evaluation.",
     "Stage 1 acceptance: generated robot-camera videos must share scene, object, contact, and action consequences across views instead of drifting as independent clips. Evaluation must include copy/hold, retrieval, wrist-only/main-view-only, action-swapped, shared-world teacher/ranker, and generic interactive-world-model negative baselines.",
     "Stage 2 acceptance: every layer batch must preserve raster truth and structure through masks, RGBA/video, inpainted background, optional SVG/contact metadata, layer_manifest.json, temporal consistency, motion-residue checks, and recomposition QA.",
     "Stage 3 acceptance: compare flat RGB, mask-only/SAM, and full layered data on the same tasks before claiming gains in IDM, FoundationPose/pose extraction, sparse value/process reward, background augmentation, policy training, or PhysisForcing-style supervision.",
-    "Shared preprocessing decision 2026-07-07: Lai, Ziyang, and Davide share one pipeline from robot video to multi-layer video plus object/robot pose sidecars and QA/retry signals; the executable milestone is tracked in the layered-pipeline TODO due 2026-07-14.",
-    "Data/resource context: raw Jingdu/DaiMeng-style material is 3000+ hours, but effective dual-arm usable data is about 943 hours after single-arm filtering; AutoDL is for single-node architecture tests, and >8GPU or large-storage work must be routed through Boris for Huawei Cloud, Alibaba Cloud, or dev-team resources."
+    "Shared preprocessing architecture decision 2026-07-07: use one layer_manifest-compatible pipeline from robot video to scene/background, object/contact, robot/actor, pose-sidecar, and QA/retry outputs so the three paper lanes do not fork their data interface.",
+    "Data substrate status: raw Jingdu/DaiMeng-style material remains much larger than the filtered dual-arm training subset; operational counters are task-level state."
   ],
   "task_ids": [
     "task_umi_wan21_dual_wrist_structure_20260617",
@@ -938,9 +933,8 @@
   "timeline": {
     "target_venue": "ICLR",
     "target_cycle": "ICLR submission",
-    "target_note": "Paper target for the tri-view layered manipulation world model; the active July sprint is the shared single-video-to-multilayer preprocessing gate from the 2026-07-07 UMI meeting.",
+    "target_note": "Paper target for the tri-view layered manipulation world model; current status centers on the shared single-video-to-multilayer preprocessing interface from the 2026-07-07 UMI meeting.",
     "sprint_start": "2026-07-07",
-    "sprint_due": "2026-07-14",
     "milestones": [
       {
         "milestone_id": "umi_iclr_submission_target",
@@ -955,12 +949,6 @@
         "date": "2026-05-16"
       },
       {
-        "milestone_id": "umi_week21_sprint_due",
-        "title": "Finish active UMI sprint items",
-        "status": "superseded",
-        "date": "2026-05-23"
-      },
-      {
         "milestone_id": "umi_gamma_world_pivot_decision",
         "title": "Finalize Gamma-aware tri-view/layered project positioning",
         "status": "superseded",
@@ -971,12 +959,6 @@
         "title": "Merge Image-Layered WM into UMI tri-view layered world-model card",
         "status": "done",
         "date": "2026-05-31"
-      },
-      {
-        "milestone_id": "umi_tri_view_layer_spec_due",
-        "title": "Tri-view data schema and layer/eval ablation spec ready",
-        "status": "superseded",
-        "date": "2026-06-05"
       },
       {
         "milestone_id": "umi_explicit10_ranker_grid_result",
@@ -1001,12 +983,6 @@
         "title": "Shared-motion strict-nearest route reviewed",
         "status": "done",
         "date": "2026-06-29"
-      },
-      {
-        "milestone_id": "umi_shared_preprocessing_one_week_gate_20260707",
-        "title": "Single robot video -> multi-layer video shared preprocessing smoke",
-        "status": "active",
-        "date": "2026-07-14"
       }
     ]
   }

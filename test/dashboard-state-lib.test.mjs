@@ -275,12 +275,48 @@ assert.ok(
   (umiProject.intro_table?.rows || []).length <= 8,
   "UMI intro table must stay compact; move per-owner execution tracking into TODOs or task comments",
 );
-const umiIntroTableExecutionColumns = new Set(["next", "due", "due_at", "command", "result", "verification", "telemetry"]);
+const umiIntroTableExecutionFields = new Set([
+  "owner",
+  "assignee",
+  "due",
+  "due_at",
+  "due_date",
+  "next",
+  "next_step",
+  "next_steps",
+  "command",
+  "result",
+  "verification",
+  "resource",
+  "resources",
+  "telemetry",
+]);
 for (const column of umiProject.intro_table?.columns || []) {
   assert.equal(
-    umiIntroTableExecutionColumns.has(column.key),
+    umiIntroTableExecutionFields.has(column.key),
     false,
     `UMI intro table column ${column.key} belongs in TODOs or task comments, not the project intro`,
+  );
+}
+for (const row of umiProject.intro_table?.rows || []) {
+  for (const key of Object.keys(row || {})) {
+    assert.equal(
+      umiIntroTableExecutionFields.has(key),
+      false,
+      `UMI intro table row field ${key} belongs in TODOs or task comments, not the project intro`,
+    );
+  }
+}
+assert.equal(
+  Boolean(umiProject.timeline?.sprint_due),
+  false,
+  "UMI intro timeline sprint due dates belong in TODO due_at, not the project intro",
+);
+for (const milestone of umiProject.timeline?.milestones || []) {
+  assert.equal(
+    milestone.status === "active" && Boolean(milestone.date),
+    false,
+    `UMI active milestone ${milestone.milestone_id || milestone.title} has a date that belongs in TODO due_at`,
   );
 }
 assert.deepEqual(
