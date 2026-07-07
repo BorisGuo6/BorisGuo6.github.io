@@ -25,6 +25,15 @@ Do not use `npm run vercel:seed-blob` for normal work. It overwrites the hosted 
 
 Before updating a task, read the machine-readable state and locate the relevant `task_id` under `taskDoc.tasks`. Use task statuses only from this set: `todo`, `active`, `blocked`, `needs_user`, `review`, `done`.
 
+Dashboard project intros are for durable architecture and status framing only.
+Do not use a project intro, `intro_table`, timeline, or `details` array as an
+execution log. If a note has an owner, due date, next gate, command to run,
+verification result, resource request, live training/download telemetry, or
+decision that changes execution, put it in a new TODO or in a comment on the
+existing relevant TODO. Keep project intros short enough to scan before the task
+list; for UMI-style project cards, prefer a short stage summary plus durable
+acceptance guardrails, and route all meeting action items into `tasks.json`.
+
 Hosted writes require `DASHBOARD_WRITE_TOKEN`. Do not print, commit, or paste the token into comments. Send it as `x-dashboard-token: $DASHBOARD_WRITE_TOKEN` or `Authorization: Bearer $DASHBOARD_WRITE_TOKEN`.
 
 Use these endpoints for dashboard interaction:

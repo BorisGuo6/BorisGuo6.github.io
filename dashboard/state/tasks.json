@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-07-07T18:45:00+08:00",
+  "updated_at": "2026-07-07T20:45:00+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -9671,10 +9671,19 @@
           "kind": "comment",
           "body": "2026-07-07 meeting: three parallel UMI projects need the same preprocessing substrate. Update acceptance to require a one-week single-video -> multi-layer video pipeline with motion-pixel residual QA, retry/discard logic, object pose, robot pose, and deformable point-flow sidecars when needed.",
           "created_at": "2026-07-07T12:00:00+08:00"
+        },
+        {
+          "comment_id": "comment_umi_intro_cleanup_shared_pipeline_20260707",
+          "task_id": "task_umi_layered_pipeline_sam_vace_flux_lama_automation_20260622",
+          "author": "Codex / dashboard intro cleanup",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from the UMI intro on 2026-07-07: the one-week shared preprocessing gate is not intro prose. Track it here: one real robot video must become multi-layer video with segmentation, foreground/object inpainting, motion-residue QA, retry/drop policy, layer_manifest, object pose, robot pose, and deformable/fluid point-flow sidecars where needed. Keep Lai, Ziyang, and Davide on the same manifest/schema.",
+          "created_at": "2026-07-07T20:45:00+08:00"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-07-07T12:00:00+08:00",
+      "updated_at": "2026-07-07T20:45:00+08:00",
       "due_at": "2026-07-14"
     },
     {
@@ -9705,10 +9714,19 @@
           "kind": "comment",
           "body": "2026-07-07 meeting: keep the SAM3 upgrade path, but run the next debugging pass on A100. Current SAM3 fine-tune has not yet beaten the SAM2.5/SAM2.1 baseline; likely causes are rough module implementation and insufficient training. Acceptance now needs A100 logs and baseline comparison.",
           "created_at": "2026-07-07T12:00:00+08:00"
+        },
+        {
+          "comment_id": "comment_umi_intro_cleanup_lai_sam3_gate_20260707",
+          "task_id": "task_umi_roboseg_sam3_backend_migration_p3_20260701",
+          "author": "Codex / dashboard intro cleanup",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from the UMI owner matrix on 2026-07-07: Lai/Yongxi should debug the SAM3/RobotSeg path on A100, compare against the SAM2.5 baseline, and avoid treating the rough 5090 run as final evidence. AutoDL account management and idle-shutdown coordination stay under the resource-governance TODO.",
+          "created_at": "2026-07-07T20:45:00+08:00"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-07-07T12:00:00+08:00"
+      "updated_at": "2026-07-07T20:45:00+08:00"
     },
     {
       "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
@@ -11577,6 +11595,31 @@
       "completed_at_time": "2026-06-30T00:59:36.734Z"
     },
     {
+      "task_id": "task_umi_stage1_daimon_post2000_smoke_20260707",
+      "project_id": "umi-world-model",
+      "title": "Stage 1：DaiMeng causal_robot iter-2000 后 smoke / eval gate",
+      "description": "把 UMI intro 里反复出现的 live training / post-2000 smoke / 10Kh queue telemetry 移到任务系统。等 causal_robot_daimon 出现 iter_000002000 或更新 checkpoint 后，按 post2000 smoke command plan 跑最小 loader/inference/eval；确认训练实际使用的是 DaiMeng materialized robot189/Gamma root，而不是 10Kh/AgiBot queued datasets；记录 latest checkpoint、launcher/GPU 形态、action dims、report path/SHA、smoke 命令、生成视频可读性、failure/blocker，以及 10Kh 下载 gate 是否仍阻止后续队列。不要把每 30-60 分钟的下载/训练 telemetry 继续塞进项目 intro。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Boris / Haoyu",
+      "due_at": "2026-07-10",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_umi_stage1_post2000_seed_20260707",
+          "task_id": "task_umi_stage1_daimon_post2000_smoke_20260707",
+          "author": "Codex / dashboard intro cleanup",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Seeded from UMI intro cleanup: latest intro logs said the post-2000 smoke plan/precheck were ready but waiting for checkpoint, causal_robot_daimon was a single-process torch.distributed.run job on DaiMeng materialized robot189/Gamma data, and 10Kh queue/download state should remain telemetry evidence rather than project intro prose.",
+          "created_at": "2026-07-07T20:45:00+08:00"
+        }
+      ],
+      "created_at": "2026-07-07T20:45:00+08:00",
+      "updated_at": "2026-07-07T20:45:00+08:00",
+      "completed_at": null
+    },
+    {
       "task_id": "task_self_improving_openxsim_command_loop_20260703",
       "project_id": "self-improving-agents",
       "title": "PEARL Open X Sim command loop：定义 /gen-env /collect /train /evaluate /transfer",
@@ -11619,10 +11662,19 @@
           "kind": "comment",
           "body": "Seeded from 2026-07-07 UMI meeting: Davide owns the direct multi-layer video generation lane; Lai owns any-data-to-layer preprocessing; Ziyang owns layer utility. The shared infrastructure must let these three lanes consume the same manifest/schema.",
           "created_at": "2026-07-07T12:00:00+08:00"
+        },
+        {
+          "comment_id": "comment_umi_intro_cleanup_davide_next_gate_20260707",
+          "task_id": "task_umi_davide_multilayer_video_model_architecture_20260707",
+          "author": "Codex / dashboard intro cleanup",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from the UMI owner matrix on 2026-07-07: Davide should contact Lai for AutoDL access, define the layer-token or layer-embedding model interface, and run a toy layered-video dataloader/reconstruction smoke that consumes the shared layer_manifest instead of inventing a separate output format.",
+          "created_at": "2026-07-07T20:45:00+08:00"
         }
       ],
       "created_at": "2026-07-07T12:00:00+08:00",
-      "updated_at": "2026-07-07T12:00:00+08:00"
+      "updated_at": "2026-07-07T20:45:00+08:00"
     },
     {
       "task_id": "task_umi_ziyang_object_layer_pose_value_benchmark_20260707",
@@ -11643,10 +11695,19 @@
           "kind": "comment",
           "body": "Seeded from 2026-07-07 UMI meeting: Doctor Robert route is currently unreliable in FRANK-style environments, Object3D is too slow/heavy for dense realtime assumptions, and mask policy needs benchmark-scale validation beyond local human-machine tests.",
           "created_at": "2026-07-07T12:00:00+08:00"
+        },
+        {
+          "comment_id": "comment_umi_intro_cleanup_ziyang_next_gate_20260707",
+          "task_id": "task_umi_ziyang_object_layer_pose_value_benchmark_20260707",
+          "author": "Codex / dashboard intro cleanup",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from the UMI owner matrix on 2026-07-07: Ziyang should report the replacement pose-estimation repo result, decide whether Object3D can serve as a sparse value/process-reward signal, select a benchmark or cloud dataset smoke beyond the local human-machine setup, and settle headless local visualization before asking Boris for AnyDesk.",
+          "created_at": "2026-07-07T20:45:00+08:00"
         }
       ],
       "created_at": "2026-07-07T12:00:00+08:00",
-      "updated_at": "2026-07-07T12:00:00+08:00"
+      "updated_at": "2026-07-07T20:45:00+08:00"
     },
     {
       "task_id": "task_umi_user_tokens_autodl_resource_governance_20260707",
@@ -11667,10 +11728,19 @@
           "kind": "comment",
           "body": "Seeded from 2026-07-07 UMI meeting: Boris opens user-specific dashboard access; Lai manages AutoDL and shuts down idle instances; >8GPU or large-storage work must be reported to Boris for Huawei/Alibaba/dev-team coordination.",
           "created_at": "2026-07-07T12:00:00+08:00"
+        },
+        {
+          "comment_id": "comment_umi_intro_cleanup_resource_next_gate_20260707",
+          "task_id": "task_umi_user_tokens_autodl_resource_governance_20260707",
+          "author": "Codex / dashboard intro cleanup",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from the UMI owner matrix on 2026-07-07: open user-specific dashboard tokens without publishing secrets; derive viewer identity from token binding and watermarking; keep AutoDL to <=8-GPU architecture tests; route >8GPU or large-storage work through Boris for Huawei Cloud, Alibaba Cloud, or dev-team coordination.",
+          "created_at": "2026-07-07T20:45:00+08:00"
         }
       ],
       "created_at": "2026-07-07T12:00:00+08:00",
-      "updated_at": "2026-07-07T12:00:00+08:00"
+      "updated_at": "2026-07-07T20:45:00+08:00"
     },
     {
       "task_id": "task_general_back_to_school_mac_replacement_config",
