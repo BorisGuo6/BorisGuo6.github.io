@@ -2364,14 +2364,19 @@
             return;
           }
           const details = Array.isArray(projectDoc.details) ? projectDoc.details : [];
-          const textLength = `${richTextPlainText(projectDoc.summary || "")} ${projectIntroTablePlainText(projectDoc.intro_table)} ${details.map(richTextPlainText).join(" ")}`.length;
-          const tableOnlyIntro = Boolean(projectDoc.intro_table) && details.length === 0;
-          const shouldCollapse = !tableOnlyIntro && (textLength > 620 || details.length > 4);
           const stateKey = `project:${projectDoc.project_id}:intro`;
           intro.dataset.textCollapseKey = stateKey;
           let toggle = intro.parentElement?.querySelector(":scope > .project-intro-toggle");
+          const collapseConfig = projectDoc.intro_collapse && typeof projectDoc.intro_collapse === "object"
+            ? projectDoc.intro_collapse
+            : {};
+          intro.hidden = false;
+          const textLength = `${richTextPlainText(projectDoc.summary || "")} ${projectIntroTablePlainText(projectDoc.intro_table)} ${details.map(richTextPlainText).join(" ")}`.length;
+          const tableOnlyIntro = Boolean(projectDoc.intro_table) && details.length === 0;
+          const shouldCollapse = !tableOnlyIntro && (textLength > 620 || details.length > 4);
           if (!shouldCollapse) {
-            intro.classList.remove("is-collapsible", "is-expanded");
+            intro.classList.remove("is-collapsible", "is-expanded", "is-collapse-hidden");
+            delete intro.dataset.collapsedLabel;
             intro.removeAttribute("role");
             intro.removeAttribute("tabindex");
             intro.removeAttribute("aria-expanded");
@@ -2381,9 +2386,17 @@
             return;
           }
           intro.classList.add("is-collapsible");
+          intro.classList.toggle("is-collapse-hidden", Boolean(collapseConfig.hide_collapsed_content));
+          if (collapseConfig.hide_collapsed_content) {
+            intro.dataset.collapsedLabel = collapseConfig.collapsed_label || "Show intro";
+          } else {
+            delete intro.dataset.collapsedLabel;
+          }
           intro.setAttribute("role", "button");
           intro.setAttribute("tabindex", "0");
-          const initialExpanded = textCollapseState.has(stateKey) ? textCollapseState.get(stateKey) : false;
+          const initialExpanded = textCollapseState.has(stateKey)
+            ? textCollapseState.get(stateKey)
+            : Boolean(collapseConfig.default_expanded);
           applyTextCollapseExpandedState(
             intro,
             initialExpanded,

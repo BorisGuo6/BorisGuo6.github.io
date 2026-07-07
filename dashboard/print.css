@@ -1557,6 +1557,18 @@ summary.bucket-title::-webkit-details-marker {
   cursor: pointer;
 }
 
+.project-intro.is-collapsible.is-collapse-hidden:not(.is-expanded) {
+  min-height: 42px;
+  max-height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.project-intro.is-collapsible.is-collapse-hidden:not(.is-expanded) > * {
+  visibility: hidden;
+}
+
 .project-intro.is-collapsible::after {
   content: "...";
   position: absolute;
@@ -1574,6 +1586,20 @@ summary.bucket-title::-webkit-details-marker {
   font-weight: 900;
   letter-spacing: 0.16em;
   pointer-events: none;
+}
+
+.project-intro.is-collapsible.is-collapse-hidden:not(.is-expanded)::after {
+  content: attr(data-collapsed-label);
+  inset: 0;
+  height: auto;
+  padding: 0 12px;
+  align-items: center;
+  justify-content: flex-start;
+  background: #ffffff;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0;
 }
 
 .project-intro.is-expanded {
