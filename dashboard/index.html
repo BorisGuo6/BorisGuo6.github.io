@@ -1077,6 +1077,7 @@
             layer_utility: project.layer_utility || null,
             subprojects: project.subprojects || [],
             details: project.details || [],
+            hide_intro: Boolean(project.hide_intro),
             timeline: project.timeline,
             risks_decisions: project.risks_decisions || [],
             references: referencesByProject.get(project.project_id) || [],
@@ -2531,6 +2532,11 @@
           if (projectBody) {
             projectBody.className = projectBodyClassName(projectDoc);
           }
+          const intro = projectElement.querySelector(".project-intro");
+          const hideIntro = Boolean(projectDoc.hide_intro);
+          if (intro) {
+            intro.hidden = hideIntro;
+          }
           const summaryTitle = projectElement.querySelector("summary strong");
           const summaryDescription = projectElement.querySelector("summary em");
           if (summaryTitle) {
@@ -2542,17 +2548,19 @@
           renderStatusMark(projectElement.querySelector("summary .status"), projectDoc.status);
 
           const bodyParagraph = projectElement.querySelector(".project-intro > p");
-          if (bodyParagraph) {
+          if (!hideIntro && bodyParagraph) {
             bodyParagraph.replaceChildren();
             appendRichText(bodyParagraph, projectDoc.summary || "");
           }
           renderProjectFigure(projectElement, projectDoc);
           renderProjectLayerUtility(projectElement, projectDoc);
-          renderProjectTimeline(projectElement, projectDoc.timeline);
-          renderProjectIntroTable(projectElement, projectDoc.intro_table, projectDoc.project_id);
-          renderProjectSubprojects(projectElement, projectDoc.subprojects);
-          renderProjectDetails(projectElement, projectDoc.details);
-          updateProjectIntroCollapse(projectElement, projectDoc);
+          if (!hideIntro) {
+            renderProjectTimeline(projectElement, projectDoc.timeline);
+            renderProjectIntroTable(projectElement, projectDoc.intro_table, projectDoc.project_id);
+            renderProjectSubprojects(projectElement, projectDoc.subprojects);
+            renderProjectDetails(projectElement, projectDoc.details);
+            updateProjectIntroCollapse(projectElement, projectDoc);
+          }
           renderProjectReferences(projectElement, projectDoc.references);
           renderProjectDecisions(projectElement, projectDoc.risks_decisions);
         }
