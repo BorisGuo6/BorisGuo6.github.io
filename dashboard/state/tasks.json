@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-07-06T10:35:00+08:00",
+  "updated_at": "2026-07-07T12:00:00+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -9604,9 +9604,9 @@
       "project_id": "umi-world-model",
       "title": "搭建 RobotSeg/SAM3 + VACE 分层自动化管线 smoke",
       "status": "active",
-      "priority": "high",
-      "assignee": "Lai / Ziyang / Boris",
-      "description": "根据 Zoom 与 2026-06-25/26/29/30 Layered Image Policy 微信同步，把分层处理从单图手工样例推进到可重复的自动化 smoke pipeline。Pipeline 顺序保持 iterative segment + inpaint：robot mask/rgba/video -> robot removal -> object/contact/occluder mask/rgba/video -> object/contact removal -> scene/background layer，所有输出保持原始 canvas 尺寸，支持原地 overlay/recomposition。\n\nSegmentation front-end 更新：1) RobotSeg / RoboSeg (https://github.com/showlab/RobotSeg) 升为 MolmoAct/robot-layer segmentation 第一候选；群里 MolmoAct 测试反馈目前 RobotSeg 效果最好，且 RobotSeg 自带 image/video、arm/gripper/whole-robot fine-grained masks；2) P3 路线从这条总 smoke 中拆成单独 TODO：保持 SAM3 backbone，不回退到 SAM2.1，并把 RobotSeg 的 RobotPromptGenerator、MaskDecoder_Robot_RPG、arm/gripper/robot class token、memory foreground region prompt、part-aware mask decoder token path 迁移到 SAM3；3) gripper-first，arm 次之：SAM3 对 robot 整体已经更强，当前短板是 gripper / wrist-view part prior；4) SAM3/SAM2 继续作为 reference-mask propagation / mask tracking 备选：可先用干净 Franka reference 或第一帧 robot mask 初始化，再追踪整段视频；5) 参考 Cloak / arXiv:2606.22836 的 wrist-view end-effector mask 思路，单独评估 gripper-only、hand、arm+gripper 的 first-person/ego mask；6) SAM-HQ robot mask review 不如 SAM3，暂时排除；Qwen/RevealLayer 只保留为负例或完成 baseline。\n\nInpainting 更新：LaMa 群里测试效果不好，降级为 failure / negative baseline，不作为主路线；VACE 仍是 raster video inpaint 候选，但 2026-06-29 最新反馈是目前 inpaint 不稳定，因此必须加 judgement / retry / morphology QA 管线，不能直接批量信任输出；Gemini-Omni 明天先给 object/video edit 结果，作为 object removal / contact completion 的强 qualitative probe；FLUX.fill 保留为 still-frame fallback，GPT image 保留为强 still-frame baseline 但不作为视频方案。背景若基本静态，可在移除 robot/object layer 后尝试单次 image inpainting 生成 background plate，避免逐帧漂移；wrist/ego view 背景变化较大，需要单独记录 temporal consistency 风险。\n\nAcceptance: 1) 选 3 个 UMI/MolmoAct/Hoi-style clips，每个抽 20-50 帧或短视频；2) 同一输入上比较 RobotSeg、RobotSeg+SAM3 modification、SAM3/SAM2 reference tracking、Cloak-style ego mask 的 robot/gripper/hand/arm masks，记录 mask IoU/edge quality/gripper coverage/bbox jitter/topology jump；3) 输出 robot/object/contact/occluder/background 的 mask.png、rgba.png、layer video、inpainted_background.png/video、SVG sidecar、layer_manifest.json；4) 对同一 mask/manifest 比较 VACE、Gemini-Omni、FLUX.fill、LaMa、GPT image baseline 的质量/速度/显存/是否改变画幅，其中 LaMa 和失败 VACE 输出作为 failure gallery；5) VACE/Gemini-Omni 输出必须检查 masked-region temporal consistency、unmasked-region preservation、recomposition SSIM/LPIPS 或人工评分，并记录是否需要自动重试或 mask morphology 修正；6) 失败样例包括 gripper miss、thin cable/shadow mistrace、pillow/object drift、background texture hallucination、电线等小细节可降权但 robot/object/background 主体必须正确分离。\n\nStage 2 VDDM framing update 2026-06-27: 这条 smoke pipeline 现在是 VDDM 论文的最小工程切片，而不是单纯分割/补全脚本。除 robot/MolmoAct/UMI/RoboTwin clips 外，加入 egocentric human-hand manipulation clips 作为跨域 probe；统一输出 actor_layer(actor_type=robot|human_hand)、object_contact_layer、occluder_tool_layer、scene_background_layer，以及 mask.png / rgba.png / layer video / SVG sidecar / depth or pointmap / mesh when available / tracks / contact events / layer_manifest.json。评估下游时接 HaWoR 与 Do-As-I-Do-style reconstruction stack（SAM3 -> SAM3D mesh -> MoGe pointmaps -> HaWoR -> TAPIR/BootsTAPIR/guided diffusion tracking -> projection/retargeting），判断 VDDM 是否让 reconstruction / tracking / retargeting 比 raw RGB 或 mask-only 更稳。新增 acceptance: 至少 3 个 robot clips + 3 个 egocentric human-hand clips；每类输出 recomposition QA、temporal consistency、actor/object/contact failure gallery、以及是否扩成 Stage 2 dataset/model 训练的判断。",
+      "priority": "urgent",
+      "assignee": "Lai / Ziyang / Davide / Boris",
+      "description": "根据 Zoom 与 2026-06-25/26/29/30 Layered Image Policy 微信同步，把分层处理从单图手工样例推进到可重复的自动化 smoke pipeline。Pipeline 顺序保持 iterative segment + inpaint：robot mask/rgba/video -> robot removal -> object/contact/occluder mask/rgba/video -> object/contact removal -> scene/background layer，所有输出保持原始 canvas 尺寸，支持原地 overlay/recomposition。\n\nSegmentation front-end 更新：1) RobotSeg / RoboSeg (https://github.com/showlab/RobotSeg) 升为 MolmoAct/robot-layer segmentation 第一候选；群里 MolmoAct 测试反馈目前 RobotSeg 效果最好，且 RobotSeg 自带 image/video、arm/gripper/whole-robot fine-grained masks；2) P3 路线从这条总 smoke 中拆成单独 TODO：保持 SAM3 backbone，不回退到 SAM2.1，并把 RobotSeg 的 RobotPromptGenerator、MaskDecoder_Robot_RPG、arm/gripper/robot class token、memory foreground region prompt、part-aware mask decoder token path 迁移到 SAM3；3) gripper-first，arm 次之：SAM3 对 robot 整体已经更强，当前短板是 gripper / wrist-view part prior；4) SAM3/SAM2 继续作为 reference-mask propagation / mask tracking 备选：可先用干净 Franka reference 或第一帧 robot mask 初始化，再追踪整段视频；5) 参考 Cloak / arXiv:2606.22836 的 wrist-view end-effector mask 思路，单独评估 gripper-only、hand、arm+gripper 的 first-person/ego mask；6) SAM-HQ robot mask review 不如 SAM3，暂时排除；Qwen/RevealLayer 只保留为负例或完成 baseline。\n\nInpainting 更新：LaMa 群里测试效果不好，降级为 failure / negative baseline，不作为主路线；VACE 仍是 raster video inpaint 候选，但 2026-06-29 最新反馈是目前 inpaint 不稳定，因此必须加 judgement / retry / morphology QA 管线，不能直接批量信任输出；Gemini-Omni 明天先给 object/video edit 结果，作为 object removal / contact completion 的强 qualitative probe；FLUX.fill 保留为 still-frame fallback，GPT image 保留为强 still-frame baseline 但不作为视频方案。背景若基本静态，可在移除 robot/object layer 后尝试单次 image inpainting 生成 background plate，避免逐帧漂移；wrist/ego view 背景变化较大，需要单独记录 temporal consistency 风险。\n\nAcceptance: 1) 选 3 个 UMI/MolmoAct/Hoi-style clips，每个抽 20-50 帧或短视频；2) 同一输入上比较 RobotSeg、RobotSeg+SAM3 modification、SAM3/SAM2 reference tracking、Cloak-style ego mask 的 robot/gripper/hand/arm masks，记录 mask IoU/edge quality/gripper coverage/bbox jitter/topology jump；3) 输出 robot/object/contact/occluder/background 的 mask.png、rgba.png、layer video、inpainted_background.png/video、SVG sidecar、layer_manifest.json；4) 对同一 mask/manifest 比较 VACE、Gemini-Omni、FLUX.fill、LaMa、GPT image baseline 的质量/速度/显存/是否改变画幅，其中 LaMa 和失败 VACE 输出作为 failure gallery；5) VACE/Gemini-Omni 输出必须检查 masked-region temporal consistency、unmasked-region preservation、recomposition SSIM/LPIPS 或人工评分，并记录是否需要自动重试或 mask morphology 修正；6) 失败样例包括 gripper miss、thin cable/shadow mistrace、pillow/object drift、background texture hallucination、电线等小细节可降权但 robot/object/background 主体必须正确分离。\n\nStage 2 VDDM framing update 2026-06-27: 这条 smoke pipeline 现在是 VDDM 论文的最小工程切片，而不是单纯分割/补全脚本。除 robot/MolmoAct/UMI/RoboTwin clips 外，加入 egocentric human-hand manipulation clips 作为跨域 probe；统一输出 actor_layer(actor_type=robot|human_hand)、object_contact_layer、occluder_tool_layer、scene_background_layer，以及 mask.png / rgba.png / layer video / SVG sidecar / depth or pointmap / mesh when available / tracks / contact events / layer_manifest.json。评估下游时接 HaWoR 与 Do-As-I-Do-style reconstruction stack（SAM3 -> SAM3D mesh -> MoGe pointmaps -> HaWoR -> TAPIR/BootsTAPIR/guided diffusion tracking -> projection/retargeting），判断 VDDM 是否让 reconstruction / tracking / retargeting 比 raw RGB 或 mask-only 更稳。新增 acceptance: 至少 3 个 robot clips + 3 个 egocentric human-hand clips；每类输出 recomposition QA、temporal consistency、actor/object/contact failure gallery、以及是否扩成 Stage 2 dataset/model 训练的判断。\n\n2026-07-07 meeting update: this smoke pipeline is now shared infrastructure for three papers/projects. Lai owns any-data-to-layer conversion and SAM3/RobotSeg segmentation; Ziyang owns object-layer utility and pose/value/benchmark checks; Davide owns direct multi-layer video generation. The one-week target is a single-real-robot-video pipeline: raw video -> segmentation -> foreground inpainting (WHATS/VACE candidate, backend to confirm) -> object segmentation -> object inpainting -> pure-scene verification by remaining moving pixels -> retry segmentation/inpainting when motion remains -> export layer package. Outputs must include scene/background, object/contact, occluder/tool, robot/actor layers, layer_manifest, motion-residue QA, recomposition QA, object pose, robot pose, and point-flow for cloth/fluid or deformable cases when available. Bad clips/frames may be discarded with evidence rather than forced into the dataset.",
       "result": null,
       "comments": [
         {
@@ -9662,10 +9662,20 @@
           "kind": "comment",
           "body": "2026-07-01 Layered Image Policy sync: P3 segmentation route should not fall back from SAM3 to SAM2.1. Keep SAM3 as the backbone because whole-robot recognition is stronger, and port RobotSeg/RoboSeg innovations onto it: RobotPromptGenerator, MaskDecoder_Robot_RPG, arm/gripper/robot class tokens, memory foreground region prompt, and part-aware mask-decoder token path. Initial target is gripper-specific part prior in propagation/decoder; arm comes second. Training should freeze SAM3 first and train only added RPG/robot-token/decoder-adapter modules, with optional low-LR mask-decoder or LoRA follow-up.",
           "created_at": "2026-07-01T00:00:00+08:00"
+        },
+        {
+          "comment_id": "comment_umi_shared_pipeline_meeting_20260707",
+          "task_id": "task_umi_layered_pipeline_sam_vace_flux_lama_automation_20260622",
+          "author": "Codex / meeting sync",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-07-07 meeting: three parallel UMI projects need the same preprocessing substrate. Update acceptance to require a one-week single-video -> multi-layer video pipeline with motion-pixel residual QA, retry/discard logic, object pose, robot pose, and deformable point-flow sidecars when needed.",
+          "created_at": "2026-07-07T12:00:00+08:00"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-07-01T00:00:00+08:00"
+      "updated_at": "2026-07-07T12:00:00+08:00",
+      "due_at": "2026-07-14"
     },
     {
       "task_id": "task_umi_roboseg_sam3_backend_migration_p3_20260701",
@@ -9673,9 +9683,9 @@
       "title": "P3：把 RoboSeg 后端从 SAM2.1 迁移到 SAM3 backbone",
       "status": "active",
       "priority": "urgent",
-      "assignee": "Lai / Ziyang / Boris",
-      "due_at": "2026-07-07",
-      "description": "把 RobotSeg/RoboSeg 的 robot-specific 创新模块迁移到 SAM3，而不是退回 SAM2.1 或只做 SAM3 prompt 调参。路线：1) 保持 SAM3 backbone，冻结 backbone 作为第一版；2) 迁移 RobotPromptGenerator、MaskDecoder_Robot_RPG、arm / gripper / robot class token、memory foreground region prompt、part-aware mask decoder token path；3) 先做 gripper，arm 次之，因为 SAM3 对 robot 整体已经更强，当前主要短板是 gripper / wrist-view part prior；4) 先训练新增 RPG / robot-token / decoder adapter，必要时再用小学习率微调 mask decoder 或 LoRA；5) 明确和原始 RobotSeg(SAM2/SAM2.1)、原始 SAM3 tracking、SAM2.1 fallback 做同输入对比。Acceptance: 1) 写清 backend swap / adapter 的代码入口、配置、git SHA 或 patch diff；2) 在 3-5 个 MolmoAct / UMI / DaiMeng-style clips 上跑 20-50 帧或短视频，覆盖 third-person robot、wrist/ego gripper、arm+gripper；3) 输出 robot / gripper / arm masks、layer_manifest、recomposition preview、failure gallery；4) 记录 gripper coverage、edge quality、人审 IoU 或人工评分、frame-to-frame mask IoU/bbox jitter/topology jump、missing-gripper rate、false foreground rate、propagation drift；5) 给出是否把 SAM3+RobotSeg modules 作为 v0 segmentation mainline 的判断，以及不能进入主线时的 blocker。",
+      "assignee": "Lai / Boris",
+      "due_at": "2026-07-14",
+      "description": "把 RobotSeg/RoboSeg 的 robot-specific 创新模块迁移到 SAM3，而不是退回 SAM2.1 或只做 SAM3 prompt 调参。路线：1) 保持 SAM3 backbone，冻结 backbone 作为第一版；2) 迁移 RobotPromptGenerator、MaskDecoder_Robot_RPG、arm / gripper / robot class token、memory foreground region prompt、part-aware mask decoder token path；3) 先做 gripper，arm 次之，因为 SAM3 对 robot 整体已经更强，当前主要短板是 gripper / wrist-view part prior；4) 先训练新增 RPG / robot-token / decoder adapter，必要时再用小学习率微调 mask decoder 或 LoRA；5) 明确和原始 RobotSeg(SAM2/SAM2.1)、原始 SAM3 tracking、SAM2.1 fallback 做同输入对比。Acceptance: 1) 写清 backend swap / adapter 的代码入口、配置、git SHA 或 patch diff；2) 在 3-5 个 MolmoAct / UMI / DaiMeng-style clips 上跑 20-50 帧或短视频，覆盖 third-person robot、wrist/ego gripper、arm+gripper；3) 输出 robot / gripper / arm masks、layer_manifest、recomposition preview、failure gallery；4) 记录 gripper coverage、edge quality、人审 IoU 或人工评分、frame-to-frame mask IoU/bbox jitter/topology jump、missing-gripper rate、false foreground rate、propagation drift；5) 给出是否把 SAM3+RobotSeg modules 作为 v0 segmentation mainline 的判断，以及不能进入主线时的 blocker。\n\n2026-07-07 meeting update: current SAM3 fine-tuning has not beaten the SAM2.5/SAM2.1 baseline because some modules are rough and training may be insufficient. Move debugging from the 5090 workstation to the A100 server, fix first-step localization/precision issues, and report baseline-vs-SAM3+adapter results within one week. Keep SAM3 as the target backbone unless A100 evidence shows a hard blocker.",
       "result": null,
       "comments": [
         {
@@ -9686,10 +9696,19 @@
           "kind": "comment",
           "body": "Seeded from 2026-07-01 Layered Image Policy sync and P3 route screenshot: keep SAM3 backbone, port RobotSeg-specific modules instead of reverting to SAM2.1, focus first on gripper-specific prior, then arm, and train added modules before any low-LR mask-decoder/LoRA tuning.",
           "created_at": "2026-07-01T00:00:00+08:00"
+        },
+        {
+          "comment_id": "comment_umi_roboseg_a100_meeting_20260707",
+          "task_id": "task_umi_roboseg_sam3_backend_migration_p3_20260701",
+          "author": "Codex / meeting sync",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-07-07 meeting: keep the SAM3 upgrade path, but run the next debugging pass on A100. Current SAM3 fine-tune has not yet beaten the SAM2.5/SAM2.1 baseline; likely causes are rough module implementation and insufficient training. Acceptance now needs A100 logs and baseline comparison.",
+          "created_at": "2026-07-07T12:00:00+08:00"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-07-01T00:00:00+08:00"
+      "updated_at": "2026-07-07T12:00:00+08:00"
     },
     {
       "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
@@ -11580,6 +11599,78 @@
       "updated_at": "2026-07-06T10:35:00+08:00",
       "created_at": "2026-07-03T15:45:00+08:00",
       "due_at": "2026-07-10"
+    },
+    {
+      "task_id": "task_umi_davide_multilayer_video_model_architecture_20260707",
+      "project_id": "umi-world-model",
+      "title": "Davide：设计直接生成多图层视频的模型架构",
+      "status": "active",
+      "priority": "high",
+      "assignee": "Davide / Boris / Lai",
+      "due_at": "2026-07-21",
+      "description": "Davide 新加入 UMI 多图层视频模型线：目标不是只对现有视频做后处理，而是实现可以直接生成带分层信息的视频模型。输出至少包含 object layer、background/scene layer、robot/actor 或其他必要 layer；可先探索 3 个 layer token 或 3 个 layer embedding，把 layer identity 注入 video generation backbone / decoder。必须复用 Lai/Ziyang/Davide 共用的 layer_manifest 和 preprocessing output，保证端到端生成路线与 Stage 2 数据管线兼容。\n\nImmediate gate from 2026-07-07 meeting: Davide 先联系 Lai 获取 AutoDL 账号/开通流程，再开始模型训练或 dataloader smoke；不要绕过共享 manifest/schema 单独造一套分层输出格式。\n\nAcceptance: 1) 写出模型接口 spec：输入视频/动作/文本/层 token，输出 RGB/layer/video/mask/manifest；2) 给出 layer token/embedding 设计与训练 loss 草案；3) 用 1-3 个真实 robot clips 或 synthetic layered samples 做 dataloader smoke；4) 输出至少一个 toy layered-video generation 或 reconstruction demo；5) 记录显存、速度、训练数据需求、和 Stage 2 后处理路线的关系；6) 明确是否作为独立第三篇/并行论文路线，还是先作为 Stage 2/3 对照。",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_umi_davide_layered_video_seed_20260707",
+          "task_id": "task_umi_davide_multilayer_video_model_architecture_20260707",
+          "author": "Codex / meeting sync",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Seeded from 2026-07-07 UMI meeting: Davide owns the direct multi-layer video generation lane; Lai owns any-data-to-layer preprocessing; Ziyang owns layer utility. The shared infrastructure must let these three lanes consume the same manifest/schema.",
+          "created_at": "2026-07-07T12:00:00+08:00"
+        }
+      ],
+      "created_at": "2026-07-07T12:00:00+08:00",
+      "updated_at": "2026-07-07T12:00:00+08:00"
+    },
+    {
+      "task_id": "task_umi_ziyang_object_layer_pose_value_benchmark_20260707",
+      "project_id": "umi-world-model",
+      "title": "Ziyang：Object Layer pose / value / benchmark utility 验证",
+      "status": "active",
+      "priority": "high",
+      "assignee": "Ziyang / Boris",
+      "due_at": "2026-07-14",
+      "description": "Ziyang 的目标从“只测试 FoundationPose/Doctor Robert”收敛为证明 object layer 对 manipulation 有实际价值。当前 Doctor Robert/Dr. Robot-style 系统在 FRANK 环境中兼容性差，先测试新的 pose-estimation 代码库并在 2026-07-08 给出首轮结果；Object3D 渲染约 1 分钟/batch、需要约 32GB、输出偏高斯/离线文件，因此暂时不要把 object layer 做成密集实时 renderer，而应作为稀疏 value/process-reward 信号。Mask policy 也不能只在本地人机环境测，需要扩到 RoboMimic 或更大 robotic-learning benchmark。\n\nVisualization/resource gate from 2026-07-07 meeting: 优先研究 headless 但可本地查看的方案；如果需要 GPU 可先用 Ziyang 本地 4060，不够再联系 Boris 开 AnyDesk，不要默认把交互可视化放到远端无头训练机上。\n\nAcceptance: 1) 新 pose-estimation repo 跑通或明确 blocker，输出命令、日志、输入/输出样例；2) Object3D 渲染性能表：batch 时间、显存、输出格式、能否用于 process reward/value model；3) 选择至少一个 benchmark 或大数据集 smoke（如 RoboMimic/阿里云数据），说明数据规模、下载/处理位置、评价任务；4) 用 raw RGB、mask-only、object layer、object+background、recomposed clip 对比 object pose/extraction/value signal；5) 给出 headless 本地可视化方案，若失败则列出 AnyDesk/GPU requirements；6) 输出 failure gallery：遮挡、背景干扰、pose漂移、渲染慢、稀疏 value 不足。",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_umi_ziyang_object_utility_seed_20260707",
+          "task_id": "task_umi_ziyang_object_layer_pose_value_benchmark_20260707",
+          "author": "Codex / meeting sync",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Seeded from 2026-07-07 UMI meeting: Doctor Robert route is currently unreliable in FRANK-style environments, Object3D is too slow/heavy for dense realtime assumptions, and mask policy needs benchmark-scale validation beyond local human-machine tests.",
+          "created_at": "2026-07-07T12:00:00+08:00"
+        }
+      ],
+      "created_at": "2026-07-07T12:00:00+08:00",
+      "updated_at": "2026-07-07T12:00:00+08:00"
+    },
+    {
+      "task_id": "task_umi_user_tokens_autodl_resource_governance_20260707",
+      "project_id": "umi-world-model",
+      "title": "UMI 共享资源治理：user-specific dashboard token / AutoDL / >8GPU 报备",
+      "status": "active",
+      "priority": "medium",
+      "assignee": "Boris / Lai",
+      "due_at": "2026-07-10",
+      "description": "把 2026-07-07 会议里的资源和权限流程固化到 dashboard 操作规则。Dashboard 写权限从公共 token 改成 user-specific token；token 应使用随机字节再 Base64url/等价编码生成，前端水印根据后端 token->viewer 绑定显示，禁止把真实 token 写入公开 state。AutoDL 账号由 Lai 管理，Davide 和 Ziyang 需要训练时联系 Lai 开通；使用后 Lai 检查 GPU 使用率，空闲后通知并关闭实例。AutoDL 只能做 <=8 GPU / 单节点架构测试；8 卡以上或大存储需求必须提前向 Boris 报备，由 Boris 协调华为云/阿里云/dev-team 资源。Acceptance: 1) 为 Lai、Ziyang、Davide 开通个人 dashboard token（仅记录 viewer 名称和已开通状态，不公开 token）；2) 在 dashboard/AGENTS 或项目说明里写明 viewer 由 token 绑定返回，不由请求体伪造；3) 写 AutoDL 使用流程：申请、启动、训练、GPU 利用率检查、关闭；4) 写 >8GPU/大存储报备规则；5) 不泄露账号、密码、token、账单或供应商敏感信息。",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_umi_resource_governance_seed_20260707",
+          "task_id": "task_umi_user_tokens_autodl_resource_governance_20260707",
+          "author": "Codex / meeting sync",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Seeded from 2026-07-07 UMI meeting: Boris opens user-specific dashboard access; Lai manages AutoDL and shuts down idle instances; >8GPU or large-storage work must be reported to Boris for Huawei/Alibaba/dev-team coordination.",
+          "created_at": "2026-07-07T12:00:00+08:00"
+        }
+      ],
+      "created_at": "2026-07-07T12:00:00+08:00",
+      "updated_at": "2026-07-07T12:00:00+08:00"
     }
   ]
 }
