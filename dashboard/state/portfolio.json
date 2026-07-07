@@ -5,7 +5,7 @@
   "subtitle": "World models, self-improving simulators, teleop acceleration, and robotics + 3D printing",
   "week": "2026-W24",
   "date": "2026-06-12",
-  "updated_at": "2026-07-03T15:45:00+08:00",
+  "updated_at": "2026-07-07T23:40:00+08:00",
   "state_root": "dashboard/state",
   "summary": {
     "focus": "Research 主线保持 Tri-View/Image-Layered IDM、Self-Improving Agents 和 DexGello；Survey TODO 已统一 inactive/archived，不再显示为当前执行队列。",
@@ -125,6 +125,12 @@
       "src": "dashboard/assets/aspire-robot-execution-engine-20260703.jpg",
       "alt": "ASPIRE Robot Execution Engine screenshot showing a physical-engine layer with LIBERO, RoboSuite, BEHAVIOR, and real-robot examples.",
       "caption": "ASPIRE context: robot execution engine and physical-engine view, useful as the direct prior for rollout-trace debugging and skill-library self-improvement; PEARL should differentiate with Open X Sim / Any Sim Transfer and scene-task decoupling.",
+      "source": "Self-Improving Agents"
+    },
+    {
+      "src": "dashboard/assets/self-improving-embodied-harness-loop-20260707.png",
+      "alt": "Embodied harness loop diagram showing weakness mining, harness proposal, proposal validation, and accepted harness updates around a fixed model.",
+      "caption": "Self-Improving / PEARL harness framing: run current harness on embodied tasks, mine failure traces, propose harness edits, regression-test candidates, and promote accepted edits into the next harness iteration.",
       "source": "Self-Improving Agents"
     },
     {

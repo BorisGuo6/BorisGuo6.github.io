@@ -4,7 +4,7 @@
   "title": "Self-Improving Agents for Physical AI",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-07-07T23:30:00+08:00",
+  "updated_at": "2026-07-07T23:40:00+08:00",
   "description": "Simulation-first AgenticSim proposal: orchestrated setup-collect-train-eval-diagnose loop",
   "summary": "Self-Improving Agents / PEARL should be positioned as an embodied harness system, not as another Text2Env demo or monolithic VLA finetune. The paper thesis: keep the embodied model or policy under test fixed enough to measure it, then iteratively improve the surrounding harness of prompts, tools, simulator adapters, reset/eval rules, validation gates, memory, and data requirements. The loop mirrors the provided harness sketch: run the current harness on embodied tasks, mine and cluster failure traces, propose harness edits, regression-test candidates, and promote only edits that improve robot robustness without regressing prior tasks. The implementation substrate remains AgenticSim + Open X Sim: /gen-env, /collect, /train, /evaluate, /diagnose, and /transfer, with scene-task decoupling and verifier-backed promotion as the defensible route to the first real embodied harness claim.",
   "asset": "dashboard/assets/simulator-taxonomy-20260615.png",
@@ -240,6 +240,12 @@
       "url": "dashboard/assets/aspire-robot-execution-engine-20260703.jpg",
       "submitted_at": "2026-07-03",
       "notes": "User-provided chat screenshot showing ASPIRE Robot Execution Engine / physical-engine framing across LIBERO, RoboSuite, BEHAVIOR, and real-robot execution. Added as image context to keep the benchmark/backend comparison visible."
+    },
+    {
+      "title": "Embodied harness loop diagram",
+      "url": "dashboard/assets/self-improving-embodied-harness-loop-20260707.png",
+      "submitted_at": "2026-07-07",
+      "notes": "User-provided harness concept figure. Use it as image context for the Self-Improving / PEARL article positioning: current harness h_t runs embodied tasks; weakness mining clusters execution failures; the harness proposes edits over prompts/tools/memory/policies/validators; proposal validation accepts only regression-tested candidates; accepted edits update h_{t+1} while the embodied model/policy remains the measured object."
     }
   ],
   "risks_decisions": [
