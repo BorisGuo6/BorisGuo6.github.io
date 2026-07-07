@@ -4,7 +4,7 @@
   "title": "DaiMeng VTAM / Tactile-WAM: Predictive Contact Intelligence",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-06-30T04:47:37.274Z",
+  "updated_at": "2026-07-07T22:36:38+08:00",
   "description": "DaiMeng internship research project: merge VTLA tactile-intuition survey and VTAM/Tactile-WAM proposal into one active Predictive Contact Intelligence track for dexterous manipulation.",
   "summary": "DaiMeng VTAM turns the VTLA tactile-intuition survey into an active internship project: From Reactive Manipulation to Proactive Manipulation. The merged track treats future tactile/contact latents as an Internal Contact Model and builds a Vision-Tactile-Action World Model with a Temporal Action-Token Shared-World architecture rather than simple vision/tactile feature concatenation. Fast contact/action rollout, visual/layer latent cache, contact-triggered sparse compute, and System-0/System-1 control are the execution path; validation is contact timing, slip/contact risk, actual/zero/wrong-action separation, latency/Hz/VRAM, and contact-rich task success.",
   "subprojects": [
@@ -52,6 +52,7 @@
     "layout": "standard"
   },
   "details": [
+    "Dashboard routing rule 2026-07-07: causal_robot_daimon checkpoint smoke, DaiMeng materialized robot189/Gamma roots, and Daimon queue/load gates are tracked here; UMI World Model should only consume their summarized evidence as Stage 1 input.",
     "GE-Sim 2.0 reproduction path 2026-06-27: use the released GE-Sim-V2 repo and Genie-Envisioner-Sim v2.0 checkpoint as the first reproducible base for VTAM. Baseline goal is action-conditioned multi-view robot video rollout; VTAM extension adds contact/tactile latent prediction, pseudo tactile labels from contact/mask/proprio/object-slip signals, and a WAM state/action/contact rollout with actual/zero/wrong-action and contact-timing gates.",
     "Origin: this was discussed with the Wuji team on 2026-06-11 as a Tactile-WAM proposal. The key shift is to stop treating tactile as only another observation channel; tactile should become the contact-grounding signal that turns video imagination into action-capable prediction.",
     "Demo 3 first: use an external camera to observe human hand / arm motion, retarget that motion into the video model, and generate a robot arm + dexterous hand performing the same interaction. This should be a video-model demo, not necessarily immediate real-robot control.",
@@ -78,6 +79,7 @@
     "Event-camera visuo-tactile note 2026-06-30: keep the detailed evidence in Archive: Event-Camera Visuo-Tactile Sensing. VTAM should only reopen this direction if an ablation beats 120fps RGB, frame-difference pseudo-events, and existing Wuji/GelSight-style tactile streams on contact/slip/transient timing."
   ],
   "task_ids": [
+    "task_umi_stage1_daimon_post2000_smoke_20260707",
     "task_tactile_wam_reproduce_gesim2_tactile_wam_20260627",
     "task_tactile_wam_proposal_spec",
     "task_tactile_wam_external_camera_retarget_demo",

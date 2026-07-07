@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-07-07T20:45:00+08:00",
+  "updated_at": "2026-07-07T22:36:38+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -11596,9 +11596,9 @@
     },
     {
       "task_id": "task_umi_stage1_daimon_post2000_smoke_20260707",
-      "project_id": "umi-world-model",
-      "title": "Stage 1：DaiMeng causal_robot iter-2000 后 smoke / eval gate",
-      "description": "把 UMI intro 里反复出现的 live training / post-2000 smoke / 10Kh queue telemetry 移到任务系统。等 causal_robot_daimon 出现 iter_000002000 或更新 checkpoint 后，按 post2000 smoke command plan 跑最小 loader/inference/eval；确认训练实际使用的是 DaiMeng materialized robot189/Gamma root，而不是 10Kh/AgiBot queued datasets；记录 latest checkpoint、launcher/GPU 形态、action dims、report path/SHA、smoke 命令、生成视频可读性、failure/blocker，以及 10Kh 下载 gate 是否仍阻止后续队列。不要把每 30-60 分钟的下载/训练 telemetry 继续塞进项目 intro。",
+      "project_id": "tactile-wam",
+      "title": "DaiMeng causal_robot iter-2000 后 smoke / eval gate",
+      "description": "从 UMI 卡迁到 DaiMeng VTAM / Tactile-WAM：这个 TODO 的执行对象是 causal_robot_daimon、DaiMeng materialized robot189/Gamma root、post-2000 checkpoint smoke 和 10Kh/download gate，而不是 UMI project intro 本身。等 causal_robot_daimon 出现 iter_000002000 或更新 checkpoint 后，按 post2000 smoke command plan 跑最小 loader/inference/eval；确认训练实际使用的是 DaiMeng materialized robot189/Gamma root，而不是 10Kh/AgiBot queued datasets；记录 latest checkpoint、launcher/GPU 形态、action dims、report path/SHA、smoke 命令、生成视频可读性、failure/blocker，以及 10Kh 下载 gate 是否仍阻止后续队列。UMI World Model 只消费这个任务的 smoke/eval 结论作为 Stage 1 数据/训练证据。",
       "status": "todo",
       "priority": "high",
       "assignee": "Boris / Haoyu",
@@ -11613,10 +11613,19 @@
           "kind": "comment",
           "body": "Seeded from UMI intro cleanup: latest intro logs said the post-2000 smoke plan/precheck were ready but waiting for checkpoint, causal_robot_daimon was a single-process torch.distributed.run job on DaiMeng materialized robot189/Gamma data, and 10Kh queue/download state should remain telemetry evidence rather than project intro prose.",
           "created_at": "2026-07-07T20:45:00+08:00"
+        },
+        {
+          "comment_id": "comment_daimon_route_from_umi_20260707",
+          "task_id": "task_umi_stage1_daimon_post2000_smoke_20260707",
+          "author": "Codex / dashboard routing cleanup",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Routing cleanup 2026-07-07: moved this TODO from UMI Image Layered World Model to DaiMeng VTAM / Tactile-WAM because it tracks causal_robot_daimon checkpoint smoke, DaiMeng materialized robot189/Gamma data, and queue/load gates. UMI should link to the resulting evidence, not own the operational training gate.",
+          "created_at": "2026-07-07T22:36:38+08:00"
         }
       ],
       "created_at": "2026-07-07T20:45:00+08:00",
-      "updated_at": "2026-07-07T20:45:00+08:00",
+      "updated_at": "2026-07-07T22:36:38+08:00",
       "completed_at": null
     },
     {

@@ -263,6 +263,8 @@ for (const project of state.projects) {
 }
 const umiProject = state.projects.find((project) => project.doc.project_id === "umi-world-model")?.doc;
 assert.ok(umiProject, "UMI World Model project must stay mounted in dashboard state");
+const tactileWamProject = state.projects.find((project) => project.doc.project_id === "tactile-wam")?.doc;
+assert.ok(tactileWamProject, "DaiMeng VTAM / Tactile-WAM project must stay mounted in dashboard state");
 assert.ok(
   (umiProject.summary || "").length <= 700,
   "UMI intro summary must stay under 700 characters; move meeting notes into TODOs or task comments",
@@ -317,6 +319,36 @@ for (const milestone of umiProject.timeline?.milestones || []) {
     milestone.status === "active" && Boolean(milestone.date),
     false,
     `UMI active milestone ${milestone.milestone_id || milestone.title} has a date that belongs in TODO due_at`,
+  );
+}
+const daimonPost2000TaskId = "task_umi_stage1_daimon_post2000_smoke_20260707";
+const daimonPost2000Task = state.tasks.find((task) => task.task_id === daimonPost2000TaskId);
+assert.equal(
+  daimonPost2000Task?.project_id,
+  "tactile-wam",
+  "DaiMeng causal_robot post-2000 smoke TODO belongs under DaiMeng VTAM / Tactile-WAM, not UMI",
+);
+assert.equal(
+  umiProject.task_ids?.includes(daimonPost2000TaskId),
+  false,
+  "UMI project task_ids must not include the DaiMeng causal_robot post-2000 smoke TODO",
+);
+assert.equal(
+  tactileWamProject.task_ids?.includes(daimonPost2000TaskId),
+  true,
+  "DaiMeng VTAM / Tactile-WAM task_ids should include the causal_robot post-2000 smoke TODO",
+);
+const daimonOperationalPattern = /causal_robot_daimon|DaiMeng materialized|daimon_materialized|Daimon materialization|\/mnt\/data\/datasets\/daimon|post-2000 smoke|iter_000002000|10Kh queue\/download gate/i;
+for (const task of state.tasks.filter((candidate) => candidate.project_id === "umi-world-model" && candidate.status !== "done")) {
+  const taskText = [
+    task.title,
+    task.description,
+    ...(task.comments || []).map((comment) => comment.body),
+  ].join("\n");
+  assert.doesNotMatch(
+    taskText,
+    daimonOperationalPattern,
+    `Open UMI task ${task.task_id} contains Daimon operational-gate language that belongs under tactile-wam`,
   );
 }
 assert.deepEqual(

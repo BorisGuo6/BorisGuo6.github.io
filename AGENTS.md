@@ -38,6 +38,12 @@ summary <= 700 characters, details <= 12 entries, intro table <= 8 rows, and no
 `next`, `due`, `command`, `result`, `verification`, or telemetry-style columns in
 the intro table. If a meeting note does not fit that budget, create or update a
 TODO instead of expanding the intro.
+DaiMeng/Daimon operational gates belong under `tactile-wam`, not
+`umi-world-model`: causal_robot_daimon checkpoints, DaiMeng materialized
+robot189/Gamma roots, `/mnt/data/datasets/daimon` materialization, post-2000
+smoke/eval gates, and 10Kh-vs-Daimon queue/load decisions should be tracked on
+the DaiMeng VTAM / Tactile-WAM project. UMI may reference their summarized
+evidence as Stage 1 input, but should not own those operational TODOs.
 
 Hosted writes require `DASHBOARD_WRITE_TOKEN`. Do not print, commit, or paste the token into comments. Send it as `x-dashboard-token: $DASHBOARD_WRITE_TOKEN` or `Authorization: Bearer $DASHBOARD_WRITE_TOKEN`.
 
