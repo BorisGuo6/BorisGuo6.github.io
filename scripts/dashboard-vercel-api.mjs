@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
 import {
   appendSnapshotAuditEvent,
+  applySnapshotProjectTableRowUpdate,
   applySnapshotTaskComment,
   applySnapshotTaskCommentDelete,
   applySnapshotTaskCreate,
@@ -408,6 +409,46 @@ export async function handleDashboardTaskCommentDelete(request, response) {
     task_id: taskId,
     comment_id: commentId,
     deleted_comment: result.comment,
+    meta: result.meta,
+  });
+}
+
+export async function handleDashboardProjectTableRowUpdate(request, response) {
+  if (request.method !== "POST") return methodNotAllowed(response, ["POST"]);
+  const providedToken = dashboardProvidedWriteToken(request);
+  const auth = dashboardWriteAuth(request);
+  if (!auth.ok) return sendJson(response, auth.status, { ok: false, error: auth.error });
+  const body = await readJsonBody(request);
+  const projectId = requireString(body.project_id, "project_id");
+  const rowId = requireString(body.row_id, "row_id");
+  const tableKind = optionalString(body.table_kind || body.kind) || "procurement_table";
+  const patch = body.patch && typeof body.patch === "object" ? body.patch : {};
+  const result = await persistMutation((snapshot) => applySnapshotProjectTableRowUpdate(snapshot, {
+    project_id: projectId,
+    table_kind: tableKind,
+    row_id: rowId,
+    patch,
+  }, {
+    source: "vercel-blob",
+  }), {
+    request,
+    auth,
+    token: providedToken,
+    action: "project-table-row-update",
+    payload: (mutationResult) => ({
+      project_id: projectId,
+      table_kind: tableKind,
+      row_id: rowId,
+      changed_fields: mutationResult.update?.changed_fields || Object.keys(patch),
+    }),
+  });
+  return sendJson(response, 200, {
+    ok: true,
+    project_id: projectId,
+    table_kind: tableKind,
+    row_id: rowId,
+    row: result.row,
+    update: result.update,
     meta: result.meta,
   });
 }

@@ -4,9 +4,9 @@
   "title": "Real-Robot Demos",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-06-16T13:31:16+08:00",
+  "updated_at": "2026-07-07T17:45:18+08:00",
   "description": "真机 demo queue for Wuji / Franka / dexterous-hand experiments",
-  "summary": "This Engineering card owns the physical real-robot demo list. DexGello remains the data/control dependency layer for q_arm, T_hand, q_finger, MANUS/VIVE logging, and cuRobo where needed; demo scenarios, consumables, safety gates, owners, and acceptance evidence live here.",
+  "summary": "This Engineering card owns the physical real-robot demo list. Demo prop procurement was updated from 订单数据.xlsx on 2026-07-07: toy knife, Jenga set, Lego tool set, Lego/MOC blocks and baseplates, large Rubik-style cube, and 1-to-3 USB-C cables are buyer-paid; slime clay is shipped with ETA 2026-07-20 to 2026-07-23, with an additional 36-color M&G pack buyer-paid. The grey leather desktop mat is not being purchased. DexGello remains the data/control dependency layer for q_arm, T_hand, q_finger, MANUS/VIVE logging, and cuRobo where needed; demo scenarios, consumables, safety gates, owners, and acceptance evidence live here.",
   "visual": {
     "layout": "single-column"
   },
@@ -48,9 +48,9 @@
         "demo": "Wuji + Franka toy-knife slime-clay cutting",
         "owner": "Yuhang & Jingxiang / Boris / DexGello dependency support",
         "hardware": "Franka Research 3 + Wuji Hand + toy knife; DexGello logger and cuRobo are dependencies",
-        "object_setup": "Slime clay as simulated meat; blunt-edge toy knife; cutting board; washable desktop protection mat; fixture or tray; washable work area",
+        "object_setup": "Slime clay as simulated meat; blunt-edge toy knife; cutting board; fixture or tray; existing washable work surface",
         "status": "todo",
-        "todo": "Procure or confirm toy knife, slime clay, cutting board, and washable desktop mat; then run low-speed Stage 0/1 with E-stop watcher, workspace limits, video, q_arm / T_hand / q_finger / Wuji state logging.",
+        "todo": "Toy knife/cutting-board set is buyer-paid per 订单数据.xlsx; slime clay shipped with ETA 2026-07-20 to 2026-07-23 and an additional 36-color M&G pack is buyer-paid. Do not buy the grey leather desktop mat; confirm cutting board, fixture/tray, and washable work surface after arrival, then run low-speed Stage 0/1 with E-stop watcher, workspace limits, video, q_arm / T_hand / q_finger / Wuji state logging.",
         "notes": "No real knife, real meat, or high-speed cutting without separate approval. The demo row lives here; DexGello supplies the data/control stack."
       },
       {
@@ -59,7 +59,7 @@
         "hardware": "Robot arm + printable or custom block-extraction gripper + Daimon tactile sensors",
         "object_setup": "Jenga tower or custom block stack; target-block stickers / colored tape; non-slip base or anti-slip mat; tactile/VTA/VLA failure labels",
         "status": "needs_user",
-        "todo": "Procure or confirm Jenga/custom blocks, target markers, and non-slip base; assign owner and confirm whether the Daimon-side gripper package is ready and when it can reach Singapore.",
+        "todo": "Jenga 72-piece large numbered set with wooden hammer/storage bag is buyer-paid per 订单数据.xlsx. Still confirm target markers, non-slip base or anti-slip mat, owner assignment, and whether the Daimon-side gripper package is ready and when it can reach Singapore.",
         "notes": "Track slip, contact stability, lateral force, tower wobble, collapse risk, and recovery; keep as a compact true-robot benchmark."
       },
       {
@@ -68,16 +68,16 @@
         "hardware": "Wuji dexterous hand with Aloha-style 3M anti-slip tape on contact surfaces",
         "object_setup": "Plastic bag rubbing task; 3M anti-slip tape if not already available; high-contrast tabletop/background mat; camera view should show contact patch and bag deformation",
         "status": "todo",
-        "todo": "Confirm tape spec and placement, procure high-contrast mat, protect fingertips/cables, then run low-speed rubbing demo with video and state logs.",
+        "todo": "Confirm tape spec and placement, choose an existing or alternate high-contrast washable surface instead of buying the grey leather desktop mat, protect fingertips/cables, then run low-speed rubbing demo with video and state logs.",
         "notes": "Reference Xiaohongshu plastic-bag demo link is recorded in project references; goal is the cross-embodiment brain story from gripper to dexterous hand."
       },
       {
         "demo": "Changliu dexterous-hand Lego tool manipulation",
         "owner": "Changliu collaboration / Boris & Yuhang",
         "hardware": "Wuji or dexterous hand + Lego brick separator + safe plastic small tools + Lego/MOC pieces",
-        "object_setup": "Assemble / disassemble first-round large-particle Lego/MOC structures using tool manipulation; later move to small pieces if stable",
+        "object_setup": "Assemble / disassemble first-round Lego/MOC structures using ordered removal tools, baseplates, and mixed block pack; verify whether the actual small-particle order satisfies the intended first-round difficulty",
         "status": "todo",
-        "todo": "Procure or confirm Lego brick separator, safe plastic hammer/plier-style tools, and large-particle first-round Lego/MOC parts; compare Singapore shipping and wait for purchase confirmation.",
+        "todo": "Lego tool orders and Lego/MOC block/baseplate order are buyer-paid per 订单数据.xlsx. After arrival, verify tool size, brick fit, grip size, whether a separate large-particle set is still needed, and safe pick-use-tool-assemble/disassemble setup.",
         "notes": "Track both procurement and the first pick-use-tool-assemble/disassemble video/log evidence; do not mark done at link collection only."
       },
       {
@@ -92,10 +92,10 @@
       {
         "demo": "Long-horizon failure-data demo: two 90-degree cube turns",
         "owner": "DexGello / Learn-from-failure-data support; Yuhang & Jingxiang",
-        "hardware": "Wuji or dexterous hand; existing cube from Boris' COM2 seat if suitable, otherwise low-friction marked cube or safe Rubik-style cube",
-        "object_setup": "Existing cube to transfer from COM2 seat to ME and inspect for torque/visibility; stable table/fixture; camera view of finger contact and face orientation",
+        "hardware": "Wuji or dexterous hand; ordered large Rubik-style cube, or existing cube from Boris' COM2 seat if suitable",
+        "object_setup": "Large Rubik-style cube is buyer-paid per 订单数据.xlsx; product title says oversized cube while SKU says 7cm, so verify actual size on arrival. Existing cube can still be transferred from COM2 seat to ME if useful; stable table/fixture; camera view of finger contact and face orientation",
         "status": "todo",
-        "todo": "Have a human transfer the existing cube from Boris' COM2 seat to ME; inspect friction/markers, then define two-step 90-degree turn task, safe force limits, orientation labels, and low-speed trial that records success/failure after each quarter-turn.",
+        "todo": "After the buyer-paid large Rubik-style cube arrives, inspect actual size, friction/torque/markers and compare with any existing cube; then define two-step 90-degree turn task, safe force limits, orientation labels, and low-speed trial that records success/failure after each quarter-turn.",
         "notes": "Use this as a compact long-horizon manipulation sequence: pregrasp, first 90-degree turn, regrasp/stabilize, second 90-degree turn. Good for testing whether the metric separates useful early phases from failed final rotation."
       }
     ]
@@ -105,7 +105,7 @@
     "Procurement rule: Taobao/Lego/demo-kit candidate links are TODO evidence only. Do not mark procurement done until purchase route, delivery destination, receipt/procurement record, and arrival/fit check are recorded.",
     "Safety rule: every demo starts with read-only or simulation/dry-run, then low-speed robot motion with workspace limits, cable checks, and a dedicated E-stop watcher before collecting publishable evidence.",
     "Failure-data link 2026-06-13: broom-to-dustpan and two 90-degree cube-turn demos are added specifically as longer-horizon data sources for DexGello learn-from-failure metrics. They should log phase boundaries, intervention/takeover, object/contact progress, and which failed stages should not be imitated.",
-    "Procurement update 2026-06-16: v0 demo shopping list now covers toy-knife slime, Jenga target marking / anti-slip base, 3M plastic-bag visibility mat, Lego large-particle tool operation, and two 1-to-3 USB-C-output data/charging cables for VIVE Tracker / MANUS. Do not re-buy the existing COM2-seat props unless fit check fails.",
+    "Procurement update 2026-07-07: 订单数据.xlsx confirms buyer-paid rows for toy knife/cutting-board set, Jenga 72-piece set, Lego tools, Lego/MOC baseplates and mixed blocks, large Rubik-style cube, and two 1-to-3 USB-C-output data/charging cables for VIVE Tracker / MANUS. Slime clay shipped with ETA 2026-07-20 to 2026-07-23, and a second M&G 36-color clay pack is buyer-paid. The grey leather desktop mat was removed and should not be purchased; choose an existing or alternate surface if a demo still needs tabletop contrast or protection. Do not re-buy the existing COM2-seat props unless fit check fails.",
     "Existing-prop transfer note 2026-06-16: Boris has data-collection props at his COM2 seat, including a small broom/dustpan toy, cube, ping-pong paddle, and related toys. These need human transfer to ME; they are not procurement items."
   ],
   "task_ids": [
@@ -124,19 +124,19 @@
     },
     {
       "title": "Taobao Lego disassembly tools candidate",
-      "url": "https://e.tb.cn/h.RPMfOKPEYFHdGnp?tk=Dbcng3pXXX8",
-      "notes": "拆装标准乐板高小颗粒积木拆卸辅助工具拆件器锤子钳子起件器零件; compare Singapore shipping and total price before ordering."
+      "url": "https://item.taobao.com/item.htm?id=740119030272&mi_id=0000DdKAWQsHXdrD0Ltc14NIgXYvMg37w7w0T5y9uDZbQgU",
+      "notes": "Brick hammer + pliers + five-color separators; buyer-paid in 订单数据.xlsx on 2026-07-07. A second pixel-block quick-removal pliers order is also buyer-paid."
     },
     {
-      "title": "Taobao bulk Lego / MOC pieces candidate",
-      "url": "https://e.tb.cn/h.Rl7HuejKX6tvL5d?tk=DPjeg3pWUqm",
-      "notes": "正品乐高 lego 小颗粒散件 / MOC 二手乐高积木论斤卖随机称散装积木; compare Singapore shipping and total price before ordering."
+      "title": "Taobao Lego / MOC blocks and baseplates order",
+      "url": "https://item.taobao.com/item.htm?id=815763462697&mi_id=00001-7hkO4DH32JHtLLjzOo_qRrRZ8YgWcNKNeD0QDwZXQ",
+      "notes": "Buyer-paid in 订单数据.xlsx on 2026-07-07: two small-particle baseplates plus 1000g mixed block pack. Verify whether it satisfies first-round large-particle requirements."
     }
   ],
   "risks_decisions": [
     "Do not let demo ownership drift back into DexGello. DexGello can provide dependencies and logs, but this Engineering card is the source of truth for scenario rows and open demo TODOs.",
     "Plastic-bag rubbing depends on choosing a safe 3M anti-slip tape placement that improves grip without damaging Wuji fingertips, blocking sensors, or snagging cables.",
-    "Lego / tool-manipulation procurement needs human purchase confirmation. First-round parts should bias toward large-particle bricks and safe plastic tools before small-particle challenges. Link discovery and shipping comparison are progress, not completion.",
+    "Lego / tool-manipulation procurement is buyer-paid, but the actual block order appears to be small-particle baseplates and a mixed block pack. Do not treat the large-particle requirement as satisfied until arrival and fit check confirm it.",
     "Long-horizon failure-data demos should not be judged only by final success. They need per-stage labels so DexGello can learn useful pre-failure segments without imitating the actual failed action.",
     "All demos need explicit low-speed safety gates, workspace limits, cable routing, object fixture cleanup, and logged pass/fail evidence before being treated as done."
   ],

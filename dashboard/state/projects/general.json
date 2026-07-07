@@ -1,15 +1,34 @@
 {
   "schema_version": "project.v1",
   "project_id": "general",
-  "title": "General",
+  "title": "Procurement Table",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-07-05T01:05:00+08:00",
-  "description": "Procurement status table for cross-project lab purchases",
-  "summary": "General hardware procurement live list: active cross-project purchase status plus a small received archive. ClawCross WeChat procurement pass updated Cymple as ordered but presale shipping on 2026-07-12, Unitree SV1-25 as ordered by Zheng Yuhang on 2026-07-04, and RealMan bimanual arms as a Romoya-route follow-up. Received archive still includes the VIVE Tracker chest/thigh strap, PICO 5-point body tracker, HIG data glove, and HIGVR haptic clothing module.",
+  "updated_at": "2026-07-07T18:10:00+08:00",
+  "description": "Editable lab procurement register for cross-project purchases",
+  "summary": "Editable procurement register for lab purchases. Rows are sorted by last update, status changes update the timestamp, and old TODO/archive work has been moved to Real-Robot Lab Infra so this card stays focused on live purchasing records.",
   "intro_table": {
     "kind": "procurement_table",
-    "caption": "General procurement live list + received archive · ClawCross WeChat pass 2026-07-05",
+    "caption": "Editable procurement register · sorted by last update",
+    "editable": true,
+    "sortable": true,
+    "default_sort": {
+      "key": "updated_at",
+      "direction": "desc"
+    },
+    "status_options": [
+      "Requested",
+      "Ordered",
+      "Ordered · 2026-07-07",
+      "Ordered · buyer paid 2026-07-07",
+      "Ordered · presale ships Jul 12",
+      "Ordered by Zheng · 2026-07-04",
+      "Shipped · ETA 2026-07-20 to 2026-07-23",
+      "Done",
+      "Arrived",
+      "Canceled",
+      "Romoya route · pending follow-up"
+    ],
     "columns": [
       {
         "key": "item",
@@ -24,26 +43,235 @@
         "label": "Route"
       },
       {
+        "key": "updated_at",
+        "label": "Updated"
+      },
+      {
         "key": "notes",
         "label": "Notes"
       }
     ],
     "rows": [
       {
-        "item": "Tracker quick-release / headset top fixed base",
-        "status": "Shipped",
-        "route": "Taobao · ship to NUS/COM2",
-        "notes": "For Tracker / PICO4 / Quest 3 headset mounting in human-centric VR data collection. User reported shipped on 2026-06-16.",
-        "url": "https://e.tb.cn/h.Rl33zrrJA2MA00z?tk=FiDjg3jsslw"
+        "row_id": "proc_10x_3m_usb_3_0_extension_cables_3m_usb3_0",
+        "updated_at": "2026-07-07T17:45:18+08:00",
+        "item": "10x 3m USB 3.0 extension cables / 3m USB3.0延长线",
+        "status": "Ordered · buyer paid 2026-07-07",
+        "route": "Taobao · 仁朝数码旗舰店 · 订单数据.xlsx",
+        "notes": "Excel order 3311159846118004652: 10 pieces of 3m straight USB 3.0 male-to-female extension cable, nickel-plated anti-slip SKU. Paid RMB 205.99. After arrival verify USB 3.0 bandwidth, cable stiffness, and camera/sensor stability.",
+        "url": "https://item.taobao.com/item.htm?id=816560886724&mi_id=0000DCtLolnVtG14mHcP6OiP-jzY28MB8D9X9OPhq2ZEuho"
       },
       {
+        "row_id": "proc_2x_1_to_3_usb_c_data_charging_cables",
+        "updated_at": "2026-07-07T17:45:18+08:00",
+        "item": "2x 1-to-3 USB-C data/charging cables / 数据线",
+        "status": "Ordered · 2026-07-07",
+        "route": "Taobao / supplier · VIVE Tracker + MANUS charging",
+        "notes": "Excel order 3311159846118040662 buyer-paid on 2026-07-07: two Pisen 100W 1-to-3 cables, Type-C input with Type-C+Type-C+Type-C outputs, 2m length. Intended for VIVE Tracker and MANUS charging; confirm charge-only vs data capability after arrival.",
+        "url": "https://item.taobao.com/item.htm?id=848246640815&mi_id=0000PwWA-bHTZyj3URjD9mN5CxS9FSbS4-BwIkGankYKBME"
+      },
+      {
+        "row_id": "proc_4x_imx415_4k_usb_camera_modules_imx415",
+        "updated_at": "2026-07-07T17:45:18+08:00",
+        "item": "4x IMX415 4K USB camera modules / IMX415工业摄像头模组",
+        "status": "Ordered · buyer paid 2026-07-07",
+        "route": "Taobao · 明丽摄像头工厂店 · 订单数据.xlsx",
+        "notes": "Excel order 3311589289721122681: four IMX415 wide-angle 4K / 8MP USB driverless camera modules, 120-degree no-distortion lens with 1m cable. Paid RMB 1028.97. After arrival verify USB bandwidth, frame rate, exposure controls, lens FOV, mounting, and synchronization feasibility.",
+        "url": "https://item.taobao.com/item.htm?id=912787221463&mi_id=00003c9tOOZ3LIRG5x6Ds4UMyPSgRktPH3aOoPx2U7k9vHE"
+      },
+      {
+        "row_id": "proc_digital_caliper_150mm",
+        "updated_at": "2026-07-07T17:45:18+08:00",
+        "item": "Digital caliper / 数显游标卡尺 150mm",
+        "status": "Ordered · buyer paid 2026-07-07",
+        "route": "Taobao · syntek旗舰店 · 订单数据.xlsx",
+        "notes": "Excel order 3311589289721168690: 150mm all-metal IP54 digital caliper. Paid RMB 98.02. After arrival check zeroing, repeatability, battery, and measurement consistency against calibration weights/known blocks.",
+        "url": "https://item.taobao.com/item.htm?id=668553888281&mi_id=0000DNk2RRg2n1XBQzm_Y4dswcTLR1lwOOH_emQ8TI9is-c"
+      },
+      {
+        "row_id": "proc_electronics_prototyping_batch",
+        "updated_at": "2026-07-07T17:45:18+08:00",
+        "item": "Electronics prototyping batch / 电子开发与线材批次",
+        "status": "Ordered · buyer paid 2026-07-07",
+        "route": "Taobao · multiple shops · 订单数据.xlsx",
+        "notes": "Excel rows include Dupont jumper wires x2, ESP32 Type-C board with expansion board, Mega2560 Pro Type-C boards x2, 0603 resistor and capacitor sample books, 30AWG five-color wire kits x2, XGSP80 183C solder paste/flux, and 1000g PCB cleaner. Use for lab wiring, embedded prototypes, and repair bench stock; after arrival inventory quantities and keep chemical cleaners/flux labeled."
+      },
+      {
+        "row_id": "proc_fasteners_and_fabrication_consumables",
+        "updated_at": "2026-07-07T17:45:18+08:00",
+        "item": "Fasteners and fabrication consumables / 紧固件与加工耗材批次",
+        "status": "Ordered · buyer paid 2026-07-07",
+        "route": "Taobao · multiple shops · 订单数据.xlsx",
+        "notes": "Excel rows include 4x200 cable ties, stainless M2/M2.5/M3 screw kit x2, M4/M5/M6 screw kit, M2 cylindrical pin kits x2, and M2.5 cylindrical pin kit. After arrival inventory sizes and store by diameter/thread to avoid mixing."
+      },
+      {
+        "row_id": "proc_feetech_sts3032_servo_set_sts3032",
+        "updated_at": "2026-07-07T17:45:18+08:00",
+        "item": "Feetech STS3032 servo set / 飞特 STS3032 舵机与转接板",
+        "status": "Ordered · buyer paid 2026-07-07",
+        "route": "Taobao · 深圳飞特舵机工厂店 · 订单数据.xlsx",
+        "notes": "Excel order 3311768244368177872: three ST-3032-C036 dual-axis magnetic-encoder bus servos plus one FE-URT2-C001 signal conversion board. Paid RMB 645.66. After arrival verify firmware/tooling, bus communication, voltage/current limits, and mechanical fit.",
+        "url": "https://item.taobao.com/item.htm?id=766174013981&mi_id=0000gHl-UyVicjMPrK3yQgsV46qN8u_4VEoLG_Gd8WQOQuA"
+      },
+      {
+        "row_id": "proc_gx80_h80b_linear_stage",
+        "updated_at": "2026-07-07T17:45:18+08:00",
+        "item": "GX80/H80B linear stage / 直线滑台导轨模组",
+        "status": "Ordered · buyer paid 2026-07-07",
+        "route": "Taobao · 华芯运控企业店 · 订单数据.xlsx",
+        "notes": "Excel order 3311768244368350275: GX80/H80B dual-rail ball-screw linear slide, 80mm width, 1204 screw, 400mm effective travel. Paid RMB 300.91. After arrival verify travel, backlash, mounting holes, and motor/driver compatibility.",
+        "url": "https://item.taobao.com/item.htm?id=539369047500&mi_id=0000NaMK9-LgpwMWc1dLGEp6V9uL8isBE8Ff9hzDycUGiz0"
+      },
+      {
+        "row_id": "proc_jenga_tower_blocks_jenga",
+        "updated_at": "2026-07-07T17:45:18+08:00",
+        "item": "Jenga tower blocks / Jenga叠叠高积木",
+        "status": "Ordered · 2026-07-07",
+        "route": "Real-Robot Demos · Taobao / supplier",
+        "notes": "Excel order 3311589289721031480 buyer-paid on 2026-07-07: large numbered 72-piece Jenga set with wooden hammer and storage bag. For 02 Jenga extraction, target-block marking material, non-slip base / anti-slip mat, owner assignment, and gripper/tactile readiness still need confirmation before run.",
+        "url": "https://item.taobao.com/item.htm?id=938240813551&mi_id=0000zSETmC-Mnq7lML9BF8pb4lg2ldSpsRGuhq03rRwvCAQ"
+      },
+      {
+        "row_id": "proc_lab_drying_oven_15_6l",
+        "updated_at": "2026-07-07T17:45:18+08:00",
+        "item": "Lab drying oven / 电热鼓风干燥箱 15.6L",
+        "status": "Ordered · buyer paid 2026-07-07",
+        "route": "Taobao · 途途仪器商城 · 订单数据.xlsx",
+        "notes": "Excel order 3311768244368269073: 15.6L stainless-inner timed drying oven with over-temperature alarm, model 101-00B. Paid RMB 1494.45. After arrival verify voltage, temperature control, alarm behavior, ventilation, and material-curing safety rules.",
+        "url": "https://item.taobao.com/item.htm?id=823789851446&mi_id=0000flfmoBg3dCz4wITXAoPHbXkWBWC6nUqOriJzgP_47Eo"
+      },
+      {
+        "row_id": "proc_large_rubik_style_cube",
+        "updated_at": "2026-07-07T17:45:18+08:00",
+        "item": "Large Rubik-style cube / 大号魔方",
+        "status": "Ordered · 2026-07-07",
+        "route": "Real-Robot Demos · Taobao / supplier",
+        "notes": "Excel order 3311159846118077489 buyer-paid on 2026-07-07: product title says oversized 3x3 cube and SKU says 大号三阶魔方【7CM】. For the two 90-degree cube-turn demo, verify actual size, torque, safety, sticker/color contrast, and repeated low-speed robot-turn tolerance.",
+        "url": "https://item.taobao.com/item.htm?id=845984722029&mi_id=0000UizY_WPUP_axgiYA7sIzOzHGK8uEye3g6MPG3yf27R4"
+      },
+      {
+        "row_id": "proc_lego_tool_operation_demo_tool_set",
+        "updated_at": "2026-07-07T17:45:18+08:00",
+        "item": "Lego tool-operation demo tool set",
+        "status": "Ordered · 2026-07-07",
+        "route": "Taobao · Changliu demo procurement",
+        "notes": "Excel orders 3311589289721004652 and 3311589289721022298 buyer-paid on 2026-07-07: brick hammer + pliers + five-color separators, plus 8mm four-in-one quick removal pliers. After arrival, verify tool size and compatibility with the actual ordered blocks.",
+        "url": "https://item.taobao.com/item.htm?id=740119030272&mi_id=0000DdKAWQsHXdrD0Ltc14NIgXYvMg37w7w0T5y9uDZbQgU"
+      },
+      {
+        "row_id": "proc_lego_moc_blocks_and_baseplates",
+        "updated_at": "2026-07-07T17:45:18+08:00",
+        "item": "Lego/MOC blocks and baseplates / 积木散件与底板",
+        "status": "Ordered · 2026-07-07",
+        "route": "Taobao · Changliu demo procurement",
+        "notes": "Excel order 3311159846118086671 buyer-paid on 2026-07-07: small-particle 40x40cm grey baseplate, 51x38cm green baseplate, and 1000g mixed block pack with baseplate/accessory pack. Verify on arrival whether these satisfy the first-round large-particle requirement or whether a separate large-particle set is still needed.",
+        "url": "https://item.taobao.com/item.htm?id=815763462697&mi_id=00001-7hkO4DH32JHtLLjzOo_qRrRZ8YgWcNKNeD0QDwZXQ"
+      },
+      {
+        "row_id": "proc_mini_drill_press",
+        "updated_at": "2026-07-07T17:45:18+08:00",
+        "item": "Mini drill press / 小型迷你台钻",
+        "status": "Ordered · buyer paid 2026-07-07",
+        "route": "Taobao · 芝浦旗舰店 · 订单数据.xlsx",
+        "notes": "Excel order 3311589289721532677: plug-in / lithium dual-use mini drill press with 13-piece twist drill set. Paid RMB 332.43. After arrival verify chuck runout, speed control, fixture safety, and drill-bit completeness.",
+        "url": "https://item.taobao.com/item.htm?id=1044746346812&mi_id=0000n0uZ0g2nZ-VTZwKV-RWTMux4I3w-4m6bNCxagoZo834"
+      },
+      {
+        "row_id": "proc_pdms_sylgard_184_silicone_kit",
+        "updated_at": "2026-07-07T17:45:18+08:00",
+        "item": "PDMS / Sylgard 184 silicone kit",
+        "status": "Ordered · buyer paid 2026-07-07",
+        "route": "Taobao · 艾硕化工电子科技 · 订单数据.xlsx",
+        "notes": "Excel order 3311589289721259891: Dow Corning DC184 / Sylgard 184 PDMS, 1.1kg including 100g curing agent. Paid RMB 697.61. After arrival verify A/B ratio, storage, expiration, curing behavior, and optical clarity.",
+        "url": "https://item.taobao.com/item.htm?id=711165085758&mi_id=0000IOaQT4f1N07jc6ktwzsg1jlGlAzt6F2g3jIQKkzHbkA"
+      },
+      {
+        "row_id": "proc_soft_material_additives_and_print_stock",
+        "updated_at": "2026-07-07T17:45:18+08:00",
+        "item": "Soft-material additives and print stock / 软材料补充批次",
+        "status": "Ordered · buyer paid 2026-07-07",
+        "route": "Taobao · multiple shops · 订单数据.xlsx",
+        "notes": "Excel rows include 20ml high-concentration 5000ppm platinum catalyst, black TPU90A flexible filament, 10g commercial ZnS:Cu stress/electro/photo-luminescent powder, and 180-2000 grit wet/dry sandpaper sets. After arrival keep materials labeled and verify compatibility before tactile/soft-skin trials."
+      },
+      {
+        "row_id": "proc_toy_knife_for_slime_clay_cutting",
+        "updated_at": "2026-07-07T17:45:18+08:00",
+        "item": "Toy knife for slime-clay cutting / 儿童仿真切菜刀玩具",
+        "status": "Ordered · 2026-07-07",
+        "route": "Real-Robot Demos · Taobao / supplier",
+        "notes": "Excel order 3311589289721086671 buyer-paid on 2026-07-07: baby-food knife/cutting-board set, SKU 12cm milky-white knife plus 15cm board. For 01 toy-knife slime-clay cutting: use as blunt-edge toy/safe knife only; keep Stage 0/1 limited to toy knife, washable surface, low speed, and cleanable fixture.",
+        "url": "https://item.taobao.com/item.htm?id=954810762275&mi_id=0000YrbZ6QOr-HAOO-0uUEyBPqQZ5aXO8uLi-_c9yCBRkpo"
+      },
+      {
+        "row_id": "proc_uk_singapore_power_strip_batch",
+        "updated_at": "2026-07-07T17:45:18+08:00",
+        "item": "UK/Singapore power strip batch / 英标插排批次",
+        "status": "Ordered · buyer paid 2026-07-07",
+        "route": "Taobao · 中国插座直销 · 订单数据.xlsx",
+        "notes": "Excel order 3311589289721177872: 10 Bull-style UK plug power strips, 6 outlets, overload protection, individual switches, 1.5m cable. Paid RMB 1002.80. After arrival verify plug standard, fuse/overload behavior, cable rating, and lab safety suitability.",
+        "url": "https://item.taobao.com/item.htm?id=590320547954&mi_id=0000mfb-3E24xiy1NNMWUIybXV0hN5XcJkG748z76Oh02vU"
+      },
+      {
+        "row_id": "proc_adjustable_dc_bench_power_supply_k305d",
+        "updated_at": "2026-07-07T17:41:08+08:00",
+        "item": "Adjustable DC bench power supply / 可调直流稳压电源 K305D",
+        "status": "Shipped · ETA 2026-07-20 to 2026-07-23",
+        "route": "Taobao · 美创家居专营店",
+        "notes": "Seller shipped per Boris Taobao screenshot on 2026-07-07. K305D 30V5A three-digit display bench supply for lab electronics / sensor calibration work; after arrival verify voltage/current output, display accuracy, plug/adaptor safety, and a simple load test."
+      },
+      {
+        "row_id": "proc_calibration_weight_set",
+        "updated_at": "2026-07-07T17:41:08+08:00",
+        "item": "Calibration weight set / 标准砝码套装",
+        "status": "Shipped · ETA 2026-07-20 to 2026-07-23",
+        "route": "Taobao · 千锦旗舰店",
+        "notes": "Seller shipped per Boris Taobao screenshot on 2026-07-07. M1 chrome 1g-1kg 13-piece set with calibration certificate for scale/force calibration checks; after arrival verify certificate, case completeness, and obvious weight damage."
+      },
+      {
+        "row_id": "proc_m_g_ultra_light_clay",
+        "updated_at": "2026-07-07T17:41:08+08:00",
+        "item": "M&G ultra-light clay / 晨光超轻粘土",
+        "status": "Shipped · ETA 2026-07-20 to 2026-07-23",
+        "route": "Real-Robot Demos · Taobao / supplier",
+        "notes": "Seller shipped the 5-color 500g pack per Boris Taobao screenshot on 2026-07-07. Excel order 3311589289721077489 also shows a buyer-paid M&G 36-color 360g pack. For 01 toy-knife slime-clay cutting, after arrival verify cleanability, deformation visibility, and whether it sticks to the toy knife or fixture.",
+        "url": "https://e.tb.cn/h.RnFtENjokI5AbE7?tk=3P1tgUbCqNq"
+      },
+      {
+        "row_id": "proc_puston_self_defoaming_ab_mold_silicone_set_ab",
+        "updated_at": "2026-07-07T17:41:08+08:00",
+        "item": "Puston self-defoaming AB mold silicone set / 普斯顿自消泡 AB 翻模硅胶",
+        "status": "Shipped · ETA 2026-07-20 to 2026-07-23",
+        "route": "Taobao · 普斯顿硅胶企业店",
+        "notes": "Seller shipped per Boris Taobao screenshot on 2026-07-07. Includes high-transparent 10-degree 500g AB glue plus semitransparent self-defoaming 0/10/20/30-degree 500g samples; after arrival verify mix ratio, curing, bubble behavior, hardness, and material safety handling."
+      },
+      {
+        "row_id": "proc_smooth_on_dragon_skin_20_silicone_dragon_skin_20",
+        "updated_at": "2026-07-07T17:41:08+08:00",
+        "item": "Smooth-On Dragon Skin 20 silicone / Dragon Skin 20 硅胶",
+        "status": "Shipped · ETA 2026-07-20 to 2026-07-23",
+        "route": "Taobao · 东之轩",
+        "notes": "Seller shipped per Boris Taobao screenshot on 2026-07-07. Smooth-On Dragon Skin 20 2 lb kit for silicone material trials; after arrival verify batch/expiration, A/B mix ratio, curing behavior, and mechanical suitability."
+      },
+      {
+        "row_id": "proc_smooth_on_ecoflex_00_30_silicone_ecoflex_00_30",
+        "updated_at": "2026-07-07T17:41:08+08:00",
+        "item": "Smooth-On Ecoflex 00-30 silicone / Ecoflex 00-30 硅胶",
+        "status": "Shipped · ETA 2026-07-20 to 2026-07-23",
+        "route": "Taobao · 东之轩",
+        "notes": "Seller shipped per Boris Taobao screenshot on 2026-07-07. Smooth-On Ecoflex 00-30 kit for soft silicone / tactile skin material trials; after arrival verify batch/expiration, A/B mix ratio, curing behavior, and softness target."
+      },
+      {
+        "row_id": "proc_head_mounted_first_person_phone_holder",
+        "updated_at": "2026-07-07T17:40:07+08:00",
         "item": "Head-mounted first-person phone holder / 头戴手机支架",
-        "status": "Requested",
+        "status": "Ordered · 2026-07-07",
         "route": "Taobao · lab procurement",
-        "notes": "User-provided Taobao candidate marked 假一赔四. Use as a first-person hands-free operation / repair-view ego-video capture mount; before purchase confirm headband stability, phone clamp size/weight, anti-drop tether, FOV, comfort, and safe static or low-risk use. Do not treat active road-driving filming as an experiment requirement.",
+        "notes": "Ordered per Boris update on 2026-07-07. Use as a first-person hands-free operation / repair-view ego-video capture mount; after arrival confirm headband stability, phone clamp size/weight, anti-drop tether, FOV, comfort, and safe static or low-risk use. Do not treat active road-driving filming as an experiment requirement.",
         "url": "https://e.tb.cn/h.RoTHt0FU9m2Dn1g?tk=gWEXg5lyoqA"
       },
       {
+        "row_id": "proc_cymple_face_capture_eye_tracking_device",
+        "updated_at": "2026-07-07T17:35:00+08:00",
         "item": "Cymple face-capture / eye-tracking device",
         "status": "Ordered · presale ships Jul 12",
         "route": "Taobao · ship to Singapore/NUS",
@@ -51,6 +279,16 @@
         "url": "https://e.tb.cn/h.RIByZL0pypHF8K0?tk=tbzFgSE7ipS"
       },
       {
+        "row_id": "proc_realman_bimanual_arm_pair",
+        "updated_at": "2026-07-07T17:35:00+08:00",
+        "item": "RealMan bimanual arm pair / 睿尔曼双臂",
+        "status": "Romoya route · pending follow-up",
+        "route": "Romoya purchase path · Zheng Yuhang / Clement",
+        "notes": "ClawCross WeChat evidence: 2026-07-03 Boris asked about ordering a pair of 睿尔曼 arms; 2026-07-04 Zheng chat records that Prof. Yan wants the purchase routed through Romoya, and Zheng will raise it with Clement while temporary-office logistics are pending. Next confirm exact model, pair quantity, payload, vertical mounting feasibility, DaiMeng gripper adapter, quote, delivery destination, and acceptance owner."
+      },
+      {
+        "row_id": "proc_unitree_sv1_25_mini_stereo_global_shutter_usb_camera_sv1",
+        "updated_at": "2026-07-07T17:35:00+08:00",
         "item": "Unitree SV1-25 mini stereo global-shutter USB camera / 宇树 SV1-25 具身立体双目相机",
         "status": "Ordered by Zheng · 2026-07-04",
         "route": "Zheng Yuhang · Taobao",
@@ -58,129 +296,22 @@
         "url": "https://e.tb.cn/h.RDPhRlxsna7j6Kg?tk=9lHzglSbASl"
       },
       {
-        "item": "RealMan bimanual arm pair / 睿尔曼双臂",
-        "status": "Romoya route · pending follow-up",
-        "route": "Romoya purchase path · Zheng Yuhang / Clement",
-        "notes": "ClawCross WeChat evidence: 2026-07-03 Boris asked about ordering a pair of 睿尔曼 arms; 2026-07-04 Zheng chat records that Prof. Yan wants the purchase routed through Romoya, and Zheng will raise it with Clement while temporary-office logistics are pending. Next confirm exact model, pair quantity, payload, vertical mounting feasibility, DaiMeng gripper adapter, quote, delivery destination, and acceptance owner."
-      },
-      {
-        "item": "Back-to-school Mac replacement / 开学 Mac 换机配置",
-        "status": "Preference noted",
-        "route": "Apple / education procurement TBD",
-        "notes": "Preferred configuration to choose at school-start replacement time: 14-inch MacBook Pro, M5 Max, 128GB unified memory, 2TB storage. Treat this as a configuration target, not an availability or purchase confirmation."
-      },
-      {
+        "row_id": "proc_6x_2m_ugreen_usb_3_0_extension_cables",
+        "updated_at": "2026-06-12T00:00:00+08:00",
         "item": "6x 2m UGREEN USB 3.0 extension cables",
         "status": "Done",
         "route": "Taobao · ship to NUS/COM2",
         "notes": "Marked done by user on 2026-06-12. Lab previously bought four; current request was six 2m cables.",
         "url": "https://e.tb.cn/h.RmR1dsrrhJvWkn9?tk=F3q3g3QaNAh"
-      },
-      {
-        "item": "Toy knife for slime-clay cutting / 儿童仿真切菜刀玩具",
-        "status": "Requested",
-        "route": "Real-Robot Demos · Taobao / supplier",
-        "notes": "For 01 toy-knife slime-clay cutting: blunt-edge toy knife only. Keep Stage 0/1 limited to toy knife, washable surface, low speed, and cleanable fixture.",
-        "url": "https://e.tb.cn/h.RLYUYab9knO04Wh?tk=Y7AtgUbw6I1"
-      },
-      {
-        "item": "M&G ultra-light clay / 晨光超轻粘土",
-        "status": "Requested",
-        "route": "Real-Robot Demos · Taobao / supplier",
-        "notes": "For 01 toy-knife slime-clay cutting: slime-clay cutting material; verify cleanability, deformation visibility, and whether it sticks to the toy knife or fixture.",
-        "url": "https://e.tb.cn/h.RnFtENjokI5AbE7?tk=3P1tgUbCqNq"
-      },
-      {
-        "item": "Jenga tower blocks / Jenga叠叠高积木",
-        "status": "Requested",
-        "route": "Real-Robot Demos · Taobao / supplier",
-        "notes": "For 02 Jenga extraction: tower or custom block stack; still needs target-block marking material, non-slip base / anti-slip mat, owner assignment, and gripper/tactile readiness confirmation before run.",
-        "url": "https://e.tb.cn/h.RMsR2emY3w3geUC?tk=e6KCgUbCw90"
-      },
-      {
-        "item": "Grey leather desktop mat / 灰色皮革办公桌垫",
-        "status": "Requested",
-        "route": "Real-Robot Demos · Taobao / supplier",
-        "notes": "Reusable tabletop protection / visibility mat for slime-clay cutting and plastic-bag rubbing; confirm washable surface, camera contrast, and whether it slips under robot contact.",
-        "url": "https://e.tb.cn/h.Rn03Dktke8iNsm0?tk=Q0acgUYZeu3"
-      },
-      {
-        "item": "Lego tool-operation demo tool set",
-        "status": "Requested",
-        "route": "Taobao · Changliu demo procurement",
-        "notes": "For 04 Lego tool operation: Lego brick separator plus safe plastic small tools such as small hammer-style and plier-style tools. Existing candidate link is still useful, but first-round procurement should prioritize safe tool size and compatibility with large bricks.",
-        "url": "https://e.tb.cn/h.RPMfOKPEYFHdGnp?tk=Dbcng3pXXX8"
-      },
-      {
-        "item": "Large-particle building blocks / 大颗粒拼装积木",
-        "status": "Requested",
-        "route": "Taobao · Changliu demo procurement",
-        "notes": "For 04 Lego tool operation: first round should use large-particle bricks before moving to small-particle or random bulk pieces. Compare Singapore shipping and total price; purchase still needs human confirmation.",
-        "url": "https://e.tb.cn/h.Rn0T3Gz3bVS2U8S?tk=kZtqgUY2ULq"
-      },
-      {
-        "item": "Large Rubik-style cube / 大号魔方",
-        "status": "Requested",
-        "route": "Real-Robot Demos · Taobao / supplier",
-        "notes": "For the two 90-degree cube-turn long-horizon failure-data demo. Buy a large, low-resistance Rubik-style cube or oversized cube that is easier for Wuji fingers to contact and visually track; verify size, torque, safety, sticker/color contrast, and whether it tolerates repeated low-speed robot turns before using it as the canonical cube-turn prop."
-      },
-      {
-        "item": "2x 1-to-3 USB-C data/charging cables / 数据线",
-        "status": "Requested",
-        "route": "Taobao / supplier · VIVE Tracker + MANUS charging",
-        "notes": "User request: buy two one-to-three charging/data cables with all three outputs as Type-C / USB-C; about 1m length should be enough. Intended for VIVE Tracker and MANUS charging; confirm charge-only vs data capability before checkout. User-provided Taobao share code: CA381.",
-        "url": "https://e.tb.cn/h.RMHdoq6Zbd60muL?tk=LEA9gUYr3oZ"
-      },
-      {
-        "item": "VIVE Tracker chest / thigh strap",
-        "status": "Archive · arrived",
-        "route": "Zheng Yuhang · COM2/NUS",
-        "notes": "Archived as arrived per Boris update on 2026-07-05. Chest / thigh strap is now available for VIVE Tracker calibration, replay, and fit checks; keep as received hardware rather than an open procurement item.",
-        "url": "https://e.tb.cn/h.R4r5VmcWb0zN2ko?tk=2jtb5x1Zn8J"
-      },
-      {
-        "item": "PICO body-tracker kit / PICO 5-point full-body tracker",
-        "status": "Archive · arrived",
-        "route": "Zheng Yuhang · Taobao order",
-        "notes": "Archived as arrived per Boris update on 2026-07-05. Selected option remains 全身体感追踪器【官方原装5点追踪】, platform-after-subsidy RMB 1109; use for no-base-station body-tracking tests against VIVE Tracker-style setups.",
-        "url": "https://e.tb.cn/h.RJYrA1DxC3kLC24?tk=ojxKghScPGK"
-      },
-      {
-        "item": "HIG gesture-recognition data glove",
-        "status": "Archive · arrived",
-        "route": "Taobao · ship to NUS/COM2",
-        "notes": "Archived as arrived per Boris update on 2026-07-05. Large-space VR / dexterous-hand capture candidate; original logistics note said shipped on 2026-06-16.",
-        "url": "https://e.tb.cn/h.RO1V2osyTl17mYm?tk=tJU2g3jHPcG"
-      },
-      {
-        "item": "HIGVR haptic / vibration clothing module",
-        "status": "Archive · arrived",
-        "route": "Taobao · ship to NUS/COM2",
-        "notes": "Archived as arrived per Boris update on 2026-07-05. Touch / vibration feedback accessory for VR capture experiments; original logistics note said shipped on 2026-06-16.",
-        "url": "https://e.tb.cn/h.RmixRZE5uIuX49B?tk=h0OSg3jHtFY"
       }
     ]
   },
   "details": [],
-  "task_ids": [
-    "task_general_10t_hdd_nas_shared_storage",
-    "task_hardware_psa_three_finger_gripper",
-    "task_hardware_wuji_franka_camera_flange",
-    "task_hardware_glove_camera_mount_dexcap",
-    "task_hardware_manus_two_finger_retargeting",
-    "task_hardware_two_finger_tactile_gripper_platform",
-    "task_hardware_six_dof_tactile_calibration_platform",
-    "task_general_usb3_extension_cables_shopee",
-    "task_general_camera_short_screws",
-    "task_general_claude_code_yuhang_account_recharge",
-    "task_general_api_gateway_procurement_query",
-    "task_general_me_control_lab_anti_vibration_table_assembly",
-    "task_general_head_mounted_phone_holder_procurement",
-    "task_general_pico_body_tracker_procurement"
-  ],
+  "task_ids": [],
   "risks_decisions": [],
   "timeline": null,
   "visual": {
     "layout": "single-column"
-  }
+  },
+  "hide_workstream": true
 }

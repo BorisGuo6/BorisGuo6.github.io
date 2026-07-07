@@ -213,10 +213,11 @@
             return {
               statuses: parsed.statuses && typeof parsed.statuses === "object" ? parsed.statuses : {},
               comments: parsed.comments && typeof parsed.comments === "object" ? parsed.comments : {},
+              procurementRows: parsed.procurementRows && typeof parsed.procurementRows === "object" ? parsed.procurementRows : {},
             };
           } catch (error) {
             console.warn("Ignoring invalid local dashboard task state", error);
-            return { statuses: {}, comments: {} };
+            return { statuses: {}, comments: {}, procurementRows: {} };
           }
         }
 
@@ -564,6 +565,7 @@
             `- 留评论 endpoint：\`POST ${origin}/api/dashboard/task-comment\``,
             `- 新建任务 endpoint：\`POST ${origin}/api/dashboard/task-create\``,
             `- 删除评论 endpoint：\`POST ${origin}/api/dashboard/task-comment-delete\``,
+            `- 更新采购表行 endpoint：\`POST ${origin}/api/dashboard/project-table-row\``,
             "- Header：`x-dashboard-token: $DASHBOARD_WRITE_TOKEN`",
             "- 允许的任务状态：`todo`、`active`、`blocked`、`needs_user`、`review`、`done`。",
             "- 访问者身份由后端根据 token 绑定返回；不要在请求体、评论或提交说明里伪造/声明 viewer。",
@@ -581,6 +583,10 @@
             "  -H \"content-type: application/json\" \\",
             "  -H \"x-dashboard-token: $DASHBOARD_WRITE_TOKEN\" \\",
             "  --data '{\"task_id\":\"TASK_ID\",\"body\":\"具体进展、证据、阻塞或下一步。\"}'",
+            `curl -fsS -X POST ${origin}/api/dashboard/project-table-row \\`,
+            "  -H \"content-type: application/json\" \\",
+            "  -H \"x-dashboard-token: $DASHBOARD_WRITE_TOKEN\" \\",
+            "  --data '{\"project_id\":\"general\",\"table_kind\":\"procurement_table\",\"row_id\":\"ROW_ID\",\"patch\":{\"status\":\"Shipped\"}}'",
             "```",
           ].join("\n");
         }
@@ -748,6 +754,57 @@
           task.completed_at = status === "done" ? updatedAt.slice(0, 10) : null;
           task.completed_at_time = status === "done" ? updatedAt : null;
           delete localState.statuses[taskId];
+        }
+
+        function getLocalProjectTableRowPatch(projectId, rowId) {
+          const entry = localState.procurementRows?.[projectId]?.[rowId];
+          return entry?.patch && typeof entry.patch === "object" ? entry.patch : null;
+        }
+
+        function setLocalProjectTableRowPatch(projectId, rowId, patch) {
+          localState.procurementRows = localState.procurementRows && typeof localState.procurementRows === "object"
+            ? localState.procurementRows
+            : {};
+          localState.procurementRows[projectId] = localState.procurementRows[projectId] || {};
+          localState.procurementRows[projectId][rowId] = {
+            patch: { ...(getLocalProjectTableRowPatch(projectId, rowId) || {}), ...patch },
+            updated_at: new Date().toISOString(),
+          };
+        }
+
+        function clearLocalProjectTableRowPatch(projectId, rowId) {
+          if (!localState.procurementRows?.[projectId]) {
+            return;
+          }
+          delete localState.procurementRows[projectId][rowId];
+          if (Object.keys(localState.procurementRows[projectId]).length === 0) {
+            delete localState.procurementRows[projectId];
+          }
+        }
+
+        function applyProjectTableRowPatch(projectId, rowId, patch) {
+          const project = findProjectDoc(projectId);
+          const row = project?.intro_table?.rows?.find((candidate) => String(candidate?.row_id || "") === rowId);
+          if (!row) {
+            return null;
+          }
+          Object.assign(row, patch);
+          const updatedAt = patch.updated_at || new Date().toISOString();
+          row.updated_at = updatedAt;
+          project.updated_at = updatedAt;
+          return row;
+        }
+
+        function restoreProjectTableRow(projectId, rowId, previousRow) {
+          const project = findProjectDoc(projectId);
+          const rows = project?.intro_table?.rows;
+          if (!Array.isArray(rows)) {
+            return;
+          }
+          const index = rows.findIndex((candidate) => String(candidate?.row_id || "") === rowId);
+          if (index >= 0) {
+            rows[index] = previousRow;
+          }
         }
 
         function addTaskComment(taskId, comment) {
@@ -1079,7 +1136,122 @@
           return status.startsWith("archive");
         }
 
-        function createProjectIntroTable(tableConfig) {
+        function procurementStatusOptions(tableConfig, currentStatus) {
+          const options = Array.isArray(tableConfig.status_options)
+            ? tableConfig.status_options.filter((option) => typeof option === "string" && option.trim())
+            : [];
+          const current = String(currentStatus || "").trim();
+          if (current && !options.includes(current)) {
+            options.unshift(current);
+          }
+          return options.length ? options : [current || "Requested", "Ordered", "Shipped", "Arrived", "Done"];
+        }
+
+        function compareIntroTableRows(a, b, key, direction) {
+          const aValue = a?.[key] || "";
+          const bValue = b?.[key] || "";
+          const multiplier = direction === "asc" ? 1 : -1;
+          if (key === "updated_at") {
+            const aTime = Date.parse(aValue);
+            const bTime = Date.parse(bValue);
+            if (Number.isFinite(aTime) && Number.isFinite(bTime) && aTime !== bTime) {
+              return (aTime - bTime) * multiplier;
+            }
+          }
+          return String(aValue).localeCompare(String(bValue), "en", { numeric: true }) * multiplier;
+        }
+
+        function projectIntroTableRows(tableConfig, projectId) {
+          const rows = Array.isArray(tableConfig.rows) ? tableConfig.rows : [];
+          const isProcurementTable = tableConfig.kind === "procurement_table";
+          const mergedRows = rows.map((row) => {
+            const rowId = String(row?.row_id || "");
+            const localPatch = isProcurementTable && rowId ? getLocalProjectTableRowPatch(projectId, rowId) : null;
+            return localPatch ? { ...row, ...localPatch } : row;
+          });
+          if (!tableConfig.sortable && !tableConfig.default_sort) {
+            return mergedRows;
+          }
+          const sortKey = tableConfig.default_sort?.key || "updated_at";
+          const direction = tableConfig.default_sort?.direction === "asc" ? "asc" : "desc";
+          return [...mergedRows].sort((a, b) => compareIntroTableRows(a, b, sortKey, direction));
+        }
+
+        function createProcurementStatusSelect(row, projectId, tableConfig) {
+          const select = document.createElement("select");
+          select.className = "procurement-status-select";
+          select.dataset.projectId = projectId;
+          select.dataset.rowId = row.row_id || "";
+          select.dataset.tableKind = tableConfig.kind || "procurement_table";
+          select.setAttribute("aria-label", `Update status for ${row.item || "procurement row"}`);
+          procurementStatusOptions(tableConfig, row.status).forEach((status) => {
+            const option = document.createElement("option");
+            option.value = status;
+            option.textContent = status;
+            option.selected = status === row.status;
+            select.append(option);
+          });
+          select.disabled = !row.row_id;
+          return select;
+        }
+
+        function createProcurementEditForm(row, projectId, tableKind) {
+          const form = document.createElement("form");
+          form.className = "procurement-edit-form";
+          form.dataset.projectId = projectId;
+          form.dataset.rowId = row.row_id || "";
+          form.dataset.tableKind = tableKind || "procurement_table";
+
+          const fields = [
+            { key: "item", label: "Item", type: "text" },
+            { key: "status", label: "Status", type: "text" },
+            { key: "route", label: "Route", type: "text" },
+            { key: "url", label: "URL", type: "url" },
+            { key: "notes", label: "Notes", type: "textarea" },
+          ];
+          fields.forEach((field) => {
+            const label = document.createElement("label");
+            label.textContent = field.label;
+            const input = field.type === "textarea" ? document.createElement("textarea") : document.createElement("input");
+            input.name = field.key;
+            input.value = row?.[field.key] || "";
+            if (field.type !== "textarea") {
+              input.type = field.type;
+            } else {
+              input.rows = 3;
+            }
+            label.append(input);
+            form.append(label);
+          });
+
+          const actions = document.createElement("div");
+          actions.className = "procurement-edit-actions";
+          const save = document.createElement("button");
+          save.type = "submit";
+          save.textContent = "Save";
+          const cancel = document.createElement("button");
+          cancel.type = "button";
+          cancel.className = "procurement-edit-cancel";
+          cancel.textContent = "Cancel";
+          actions.append(save, cancel);
+          form.append(actions);
+          return form;
+        }
+
+        function createProcurementEditRow(row, projectId, tableConfig, colSpan) {
+          const editRow = document.createElement("tr");
+          editRow.className = "procurement-edit-row";
+          editRow.dataset.projectId = projectId;
+          editRow.dataset.rowId = row.row_id || "";
+          editRow.hidden = true;
+          const cell = document.createElement("td");
+          cell.colSpan = colSpan;
+          cell.append(createProcurementEditForm(row, projectId, tableConfig.kind));
+          editRow.append(cell);
+          return editRow;
+        }
+
+        function createProjectIntroTable(tableConfig, projectId = "") {
           if (!tableConfig || !Array.isArray(tableConfig.rows)) {
             return null;
           }
@@ -1100,6 +1272,7 @@
           const table = document.createElement("table");
           table.className = "project-intro-table";
           const isProcurementTable = tableConfig.kind === "procurement_table";
+          const isEditableProcurementTable = Boolean(isProcurementTable && tableConfig.editable);
           if (tableConfig.kind) {
             table.dataset.kind = tableConfig.kind;
           }
@@ -1115,14 +1288,26 @@
             const header = document.createElement("th");
             header.scope = "col";
             header.textContent = column.label || column.key;
+            if (column.key === tableConfig.default_sort?.key) {
+              header.classList.add("sorted-column");
+            }
             headRow.append(header);
           });
+          if (isEditableProcurementTable) {
+            const header = document.createElement("th");
+            header.scope = "col";
+            header.className = "procurement-actions-heading";
+            header.textContent = "Edit";
+            headRow.append(header);
+          }
           head.append(headRow);
 
           const body = document.createElement("tbody");
           const archiveRows = [];
-          tableConfig.rows.forEach((row) => {
+          projectIntroTableRows(tableConfig, projectId).forEach((row) => {
             const tableRow = document.createElement("tr");
+            tableRow.dataset.rowId = row?.row_id || "";
+            tableRow.dataset.projectId = projectId;
             if (isProcurementTable && isProcurementArchiveRow(row)) {
               tableRow.className = "project-intro-table-archive-row";
               tableRow.hidden = true;
@@ -1132,14 +1317,38 @@
               const cell = document.createElement("td");
               cell.dataset.column = column.key;
               const value = row?.[column.key] || "";
-              if (column.key === "item" && row?.url) {
+              if (isProcurementTable && column.key === "status" && isEditableProcurementTable) {
+                cell.append(createProcurementStatusSelect(row, projectId, tableConfig));
+              } else if (column.key === "updated_at") {
+                const time = document.createElement("time");
+                time.dateTime = value;
+                time.textContent = formatDateTime(value) || value;
+                time.title = value;
+                cell.append(time);
+              } else if (column.key === "item" && row?.url) {
                 cell.append(createExternalLink(row.url, String(value || row.url)));
               } else {
                 cell.textContent = value;
               }
               tableRow.append(cell);
             });
+            if (isEditableProcurementTable) {
+              const actionCell = document.createElement("td");
+              actionCell.className = "procurement-actions";
+              const edit = document.createElement("button");
+              edit.type = "button";
+              edit.className = "procurement-edit-button";
+              edit.dataset.projectId = projectId;
+              edit.dataset.rowId = row?.row_id || "";
+              edit.textContent = "Edit";
+              edit.disabled = !row?.row_id;
+              actionCell.append(edit);
+              tableRow.append(actionCell);
+            }
             body.append(tableRow);
+            if (isEditableProcurementTable && row?.row_id) {
+              body.append(createProcurementEditRow(row, projectId, tableConfig, columns.length + 1));
+            }
           });
           table.append(head, body);
           if (isProcurementTable && archiveRows.length > 0) {
@@ -1147,7 +1356,7 @@
             foot.className = "project-intro-table-archive-footer";
             const footRow = document.createElement("tr");
             const footCell = document.createElement("td");
-            footCell.colSpan = columns.length;
+            footCell.colSpan = isEditableProcurementTable ? columns.length + 1 : columns.length;
             const toggle = document.createElement("button");
             toggle.className = "project-intro-table-archive-toggle";
             toggle.type = "button";
@@ -2109,14 +2318,14 @@
           grid.replaceChildren(...subprojects.map(createSubprojectCard));
         }
 
-        function renderProjectIntroTable(projectElement, tableConfig) {
+        function renderProjectIntroTable(projectElement, tableConfig, projectId = "") {
           const intro = projectElement.querySelector(".project-intro");
           const summaryParagraph = intro?.querySelector(":scope > p");
           if (!intro || !summaryParagraph) {
             return;
           }
           const existing = intro.querySelector(":scope > .project-intro-table-wrap");
-          const table = createProjectIntroTable(tableConfig);
+          const table = createProjectIntroTable(tableConfig, projectId);
           if (!table) {
             existing?.remove();
             return;
@@ -2327,7 +2536,7 @@
           renderProjectFigure(projectElement, projectDoc);
           renderProjectLayerUtility(projectElement, projectDoc);
           renderProjectTimeline(projectElement, projectDoc.timeline);
-          renderProjectIntroTable(projectElement, projectDoc.intro_table);
+          renderProjectIntroTable(projectElement, projectDoc.intro_table, projectDoc.project_id);
           renderProjectSubprojects(projectElement, projectDoc.subprojects);
           renderProjectDetails(projectElement, projectDoc.details);
           updateProjectIntroCollapse(projectElement, projectDoc);
@@ -2888,7 +3097,7 @@
           document.body.dataset.dataSource = "vercel";
           vercelApiAvailable = true;
           vercelApiWritable = Boolean(result.meta?.writable);
-          localState = { statuses: {}, comments: {} };
+          localState = { statuses: {}, comments: {}, procurementRows: {} };
           writeLocalState();
           setDashboardBackendSyncStatus();
           renderAuthState();
@@ -2941,7 +3150,7 @@
             tasks: (tasksResult.data || []).map((task) => mapSupabaseTask(task, commentsByTask)),
           };
           if (dataMode !== "supabase") {
-            localState = { statuses: {}, comments: {} };
+            localState = { statuses: {}, comments: {}, procurementRows: {} };
             writeLocalState();
           }
           dataMode = "supabase";
@@ -3049,6 +3258,29 @@
           throw new Error("Sign in as a dashboard editor or start the local write API to write dashboard state.");
         }
 
+        function isProjectTableBackendWritable() {
+          if (dataMode === "vercel") {
+            return Boolean(vercelApiAvailable && vercelWriteToken);
+          }
+          return Boolean(localWriteApiAvailable);
+        }
+
+        async function updateDashboardBackendProjectTableRow(projectId, tableKind, rowId, patch) {
+          const payload = {
+            project_id: projectId,
+            table_kind: tableKind || "procurement_table",
+            row_id: rowId,
+            patch,
+          };
+          if (dataMode === "vercel") {
+            return postVercelApi("project-table-row", payload);
+          }
+          if (localWriteApiAvailable) {
+            return postLocalWriteApi("project-table-row", payload);
+          }
+          throw new Error("Start the local write API or unlock Vercel write access to persist procurement edits.");
+        }
+
         async function insertDashboardBackendComment(taskId, body) {
           if (body.length > maxCommentLength) {
             throw new Error(`Comment must be ${maxCommentLength} characters or fewer.`);
@@ -3119,6 +3351,81 @@
           throw new Error("Sign in as a dashboard editor or start the local write API to write dashboard state.");
         }
 
+        async function applyAndPersistProjectTableRowPatch(projectId, tableKind, rowId, patch) {
+          const project = findProjectDoc(projectId);
+          const row = project?.intro_table?.rows?.find((candidate) => String(candidate?.row_id || "") === rowId);
+          if (!row) {
+            throw new Error(`Procurement row not found: ${rowId}`);
+          }
+          const previousRow = JSON.parse(JSON.stringify(row));
+          const nextPatch = {
+            ...patch,
+            updated_at: patch.updated_at || new Date().toISOString(),
+          };
+          applyProjectTableRowPatch(projectId, rowId, nextPatch);
+          renderDashboardState();
+          if (!isProjectTableBackendWritable()) {
+            setLocalProjectTableRowPatch(projectId, rowId, nextPatch);
+            writeLocalState();
+            setSyncStatus(writeAccessMessage(), "readonly");
+            renderDashboardState();
+            return;
+          }
+          try {
+            const result = await updateDashboardBackendProjectTableRow(projectId, tableKind, rowId, nextPatch);
+            if (result?.row) {
+              applyProjectTableRowPatch(projectId, rowId, result.row);
+            }
+            clearLocalProjectTableRowPatch(projectId, rowId);
+            writeLocalState();
+            setDashboardBackendSyncStatus();
+            renderDashboardState();
+          } catch (error) {
+            console.warn("Procurement row update failed; using local fallback", error);
+            restoreProjectTableRow(projectId, rowId, previousRow);
+            applyProjectTableRowPatch(projectId, rowId, nextPatch);
+            setLocalProjectTableRowPatch(projectId, rowId, nextPatch);
+            writeLocalState();
+            setSyncStatus(`Procurement local fallback: ${error.message || "write failed"}`, "fallback");
+            renderDashboardState();
+          }
+        }
+
+        function toggleProcurementEditRow(button) {
+          const rowId = button.dataset.rowId || "";
+          const table = button.closest(".project-intro-table");
+          const editRow = table?.querySelector(`.procurement-edit-row[data-row-id="${CSS.escape(rowId)}"]`);
+          if (!editRow) {
+            return;
+          }
+          const shouldOpen = editRow.hidden;
+          table.querySelectorAll(".procurement-edit-row:not([hidden])").forEach((row) => {
+            if (row !== editRow) {
+              row.hidden = true;
+            }
+          });
+          table.querySelectorAll(".procurement-edit-button").forEach((candidate) => {
+            if (candidate !== button) {
+              candidate.textContent = "Edit";
+              candidate.setAttribute("aria-expanded", "false");
+            }
+          });
+          editRow.hidden = !shouldOpen;
+          button.textContent = shouldOpen ? "Close" : "Edit";
+          button.setAttribute("aria-expanded", String(shouldOpen));
+        }
+
+        function procurementPatchFromForm(form) {
+          const formData = new FormData(form);
+          const patch = {};
+          ["item", "status", "route", "url", "notes"].forEach((field) => {
+            if (formData.has(field)) {
+              patch[field] = String(formData.get(field) || "").trim();
+            }
+          });
+          return patch;
+        }
+
         function closeStatusMenus(exceptMenu = null) {
           document.querySelectorAll(".task-status-menu:not([hidden])").forEach((menu) => {
             if (menu === exceptMenu) {
@@ -3130,6 +3437,25 @@
         }
 
         document.addEventListener("click", (event) => {
+          const procurementEditButton = event.target.closest?.(".procurement-edit-button");
+          if (procurementEditButton) {
+            toggleProcurementEditRow(procurementEditButton);
+            return;
+          }
+
+          const procurementEditCancel = event.target.closest?.(".procurement-edit-cancel");
+          if (procurementEditCancel) {
+            const editRow = procurementEditCancel.closest(".procurement-edit-row");
+            const rowId = editRow?.dataset.rowId || "";
+            editRow.hidden = true;
+            const button = editRow.closest("tbody")?.querySelector(`.procurement-edit-button[data-row-id="${CSS.escape(rowId)}"]`);
+            if (button) {
+              button.textContent = "Edit";
+              button.setAttribute("aria-expanded", "false");
+            }
+            return;
+          }
+
           const statusOption = event.target.closest?.(".task-status-option");
           if (statusOption) {
             const taskId = statusOption.dataset.taskId;
@@ -3202,7 +3528,44 @@
           }
         });
 
+        document.addEventListener("change", (event) => {
+          const statusSelect = event.target.closest?.(".procurement-status-select");
+          if (!statusSelect) {
+            return;
+          }
+          const projectId = statusSelect.dataset.projectId || "";
+          const rowId = statusSelect.dataset.rowId || "";
+          const tableKind = statusSelect.dataset.tableKind || "procurement_table";
+          const status = statusSelect.value;
+          if (!projectId || !rowId || !status) {
+            return;
+          }
+          statusSelect.disabled = true;
+          applyAndPersistProjectTableRowPatch(projectId, tableKind, rowId, { status }).catch((error) => {
+            console.warn("Procurement status update failed", error);
+            setSyncStatus(`Procurement status failed: ${error.message || "unknown"}`, "fallback");
+            renderDashboardState();
+          });
+        });
+
         document.addEventListener("submit", (event) => {
+          const procurementForm = event.target.closest?.(".procurement-edit-form");
+          if (procurementForm) {
+            event.preventDefault();
+            const projectId = procurementForm.dataset.projectId || "";
+            const rowId = procurementForm.dataset.rowId || "";
+            const tableKind = procurementForm.dataset.tableKind || "procurement_table";
+            const button = procurementForm.querySelector("button[type='submit']");
+            button.disabled = true;
+            applyAndPersistProjectTableRowPatch(projectId, tableKind, rowId, procurementPatchFromForm(procurementForm)).catch((error) => {
+              console.warn("Procurement row form update failed", error);
+              setSyncStatus(`Procurement edit failed: ${error.message || "unknown"}`, "fallback");
+            }).finally(() => {
+              button.disabled = false;
+            });
+            return;
+          }
+
           const accessForm = event.target.closest?.("[data-dashboard-access-form]");
           if (accessForm) {
             event.preventDefault();

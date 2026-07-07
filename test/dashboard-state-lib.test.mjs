@@ -26,6 +26,7 @@ import {
 } from "../scripts/dashboard-task-store.mjs";
 import {
   appendSnapshotAuditEvent,
+  applySnapshotProjectTableRowUpdate,
   applySnapshotTaskComment,
   applySnapshotTaskCommentDelete,
   applySnapshotTaskCreate,
@@ -135,6 +136,39 @@ assert.equal(patchedSnapshot.task.title, "Updated dashboard task title");
 assert.equal(patchedSnapshot.task.description, "Updated dashboard task description");
 assert.equal(patchedSnapshot.task.priority, "high");
 assert.equal(patchedSnapshot.snapshot.taskDoc.updated_at, "2026-06-18T01:00:00.000Z");
+const projectTableSnapshot = normalizeDashboardSnapshot({
+  portfolio: { portfolio_id: "test", projects: [] },
+  projects: [{
+    project_id: "general",
+    updated_at: "2026-06-18T00:00:00.000Z",
+    intro_table: {
+      kind: "procurement_table",
+      rows: [{
+        row_id: "proc_test",
+        item: "Test item",
+        status: "Requested",
+        route: "Taobao",
+        notes: "",
+        updated_at: "2026-06-18T00:00:00.000Z",
+      }],
+    },
+  }],
+  taskDoc: { tasks: [] },
+});
+const projectTableUpdate = applySnapshotProjectTableRowUpdate(projectTableSnapshot, {
+  project_id: "general",
+  table_kind: "procurement_table",
+  row_id: "proc_test",
+  patch: { status: "Shipped", notes: "Tracking ready" },
+}, {
+  now: new Date("2026-06-18T02:00:00.000Z"),
+  source: "test",
+});
+assert.equal(projectTableUpdate.row.status, "Shipped");
+assert.equal(projectTableUpdate.row.notes, "Tracking ready");
+assert.equal(projectTableUpdate.row.updated_at, "2026-06-18T02:00:00.000Z");
+assert.deepEqual(projectTableUpdate.update.changed_fields, ["status", "notes", "updated_at"]);
+assert.equal(projectTableUpdate.snapshot.projects[0].updated_at, "2026-06-18T02:00:00.000Z");
 assert.deepEqual(
   dashboardWriteAuth({ headers: {} }, {}),
   {
@@ -470,6 +504,11 @@ assert.match(
   dashboardSource,
   /api\/dashboard\/state/,
   "dashboard agent prompt should point agents at the machine-readable state endpoint",
+);
+assert.match(
+  dashboardSource,
+  /api\/dashboard\/project-table-row/,
+  "dashboard agent prompt should document the procurement table row update endpoint",
 );
 assert.match(
   agentsSource,

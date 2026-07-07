@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-07-07T12:00:00+08:00",
+  "updated_at": "2026-07-07T17:45:18+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -6281,7 +6281,7 @@
       "task_id": "task_general_tactile_stacking_pilot",
       "project_id": "real-robot-demos",
       "title": "Real-Robot Demo: Jenga 抽积木塔 tactile pilot",
-      "description": "把 Jenga-style block extraction / 抽积木塔作为紧凑真机 demo：机器人从木块塔里推出或抽出指定木块，同时尽量不让塔倒。前置采购 / 确认：Jenga 积木塔或自定义积木块堆、目标块标记材料（贴纸 / 彩色胶带）、防滑底座或防滑垫。用 q_arm、T_hand、q_finger 记录链路和 tactile/VTA/VLA 分析接触稳定、摩擦/滑移、侧向推力、塔体晃动和失败恢复；配一个可打印/定制的特殊 gripper，并接入戴盟触觉。目标是把 slip、contact stability、lateral force、tower wobble、tower collapse 等失败变成真机 demo 和评测样例。DexGello 可提供数据/控制依赖，但 demo 场景归 Real-Robot Demos 表格管理。",
+      "description": "把 Jenga-style block extraction / 抽积木塔作为紧凑真机 demo：机器人从木块塔里推出或抽出指定木块，同时尽量不让塔倒。采购状态：订单数据.xlsx 确认 Jenga 72 块大号数字叠叠乐（带木锤和收纳袋）已于 2026-07-07 买家付款；仍需确认目标块标记材料（贴纸 / 彩色胶带）、防滑底座或防滑垫、负责人和戴盟触觉 gripper 到新加坡时间。用 q_arm、T_hand、q_finger 记录链路和 tactile/VTA/VLA 分析接触稳定、摩擦/滑移、侧向推力、塔体晃动和失败恢复；配一个可打印/定制的特殊 gripper，并接入戴盟触觉。目标是把 slip、contact stability、lateral force、tower wobble、tower collapse 等失败变成真机 demo 和评测样例。DexGello 可提供数据/控制依赖，但 demo 场景归 Real-Robot Demos 表格管理。",
       "status": "needs_user",
       "priority": "medium",
       "assignee": "master student TBD / Zheng Yuhang for gripper timing",
@@ -6332,7 +6332,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-16T13:24:37+08:00",
+      "updated_at": "2026-07-07T17:45:18+08:00",
       "completed_at": null
     },
     {
@@ -6798,7 +6798,7 @@
       "task_id": "task_real_robot_infra_wuji_franka_slime_cut_demo",
       "project_id": "real-robot-demos",
       "title": "Real-Robot Demo: Wuji + Franka 玩具刀切史莱姆泥",
-      "description": "把 Wuji Hand + Franka 的灵巧手切肉 demo 收敛到安全 Stage 0/1：仿真肉使用史莱姆泥，刀先使用玩具刀，不使用真刀或真实肉。前置采购 / 确认：钝边玩具刀、史莱姆泥、砧板、可清洗桌面保护垫。验收：准备固定史莱姆泥的夹具/托盘和可清洁工作区；确认玩具刀不会割伤手指/线缆/相机；设置 Franka 低速/力矩/工作空间限制、急停看护和 abort 条件；完成至少一次 read-only 或仿真轨迹预演；完成一次真实低速玩具刀切史莱姆泥 run；记录视频、q_arm、T_hand、q_finger、Wuji Hand command/state、相机视角、失败/成功判据和是否需要进入下一阶段。真实刀具、真实肉和高速切割必须另行审批。DexGello 提供数据/控制依赖，但 demo 场景归 Real-Robot Demos 表格管理。",
+      "description": "把 Wuji Hand + Franka 的灵巧手切肉 demo 收敛到安全 Stage 0/1：仿真肉使用史莱姆泥，刀先使用玩具刀，不使用真刀或真实肉。采购状态：订单数据.xlsx 确认婴儿辅食刀/菜板套装已于 2026-07-07 买家付款；史莱姆泥已发货，预计 2026-07-20 至 2026-07-23 送达，另有晨光 36 色 360g 超轻黏土已买家付款；灰色皮革桌垫不买，仍需确认砧板、夹具/托盘和可清洁工作区。验收：准备固定史莱姆泥的夹具/托盘和可清洁工作区；确认玩具刀不会割伤手指/线缆/相机；设置 Franka 低速/力矩/工作空间限制、急停看护和 abort 条件；完成至少一次 read-only 或仿真轨迹预演；完成一次真实低速玩具刀切史莱姆泥 run；记录视频、q_arm、T_hand、q_finger、Wuji Hand command/state、相机视角、失败/成功判据和是否需要进入下一阶段。真实刀具、真实肉和高速切割必须另行审批。DexGello 提供数据/控制依赖，但 demo 场景归 Real-Robot Demos 表格管理。",
       "status": "todo",
       "priority": "high",
       "assignee": "Yuhang & Jingxiang / Boris / DexGello",
@@ -6834,7 +6834,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-16T13:24:37+08:00"
+      "updated_at": "2026-07-07T17:45:18+08:00"
     },
     {
       "task_id": "task_drag_demo_on_policy_gravity_comp_survey",
@@ -9297,7 +9297,7 @@
       "task_id": "task_general_head_mounted_phone_holder_procurement",
       "project_id": "general",
       "title": "采购头戴手机支架用于第一人称双手操作视频采集",
-      "description": "采购 / 评估用户提供的 Taobao 候选：头戴手机支架第一人称双手开车视频固定架直播短视频录制穿戴固定身体支架头带汽车维修视角自拍配件（https://e.tb.cn/h.RoTHt0FU9m2Dn1g?tk=gWEXg5lyoqA）。用途定位为第一人称双手操作、维修视角、HOI / ego-video 采集候选；不要把实际道路驾驶拍摄作为实验要求。验收：确认可购买 / 配送、头带稳定性、手机重量与夹持尺寸、防跌落保险、佩戴舒适性、FOV / 遮挡、是否影响双手操作和安全边界；到货后完成静态 / 低风险试戴和 1 段短视频 fit-check。",
+      "description": "头戴手机支架第一人称双手开车视频固定架直播短视频录制穿戴固定身体支架头带汽车维修视角自拍配件（https://e.tb.cn/h.RoTHt0FU9m2Dn1g?tk=gWEXg5lyoqA）已于 2026-07-07 下单。用途定位为第一人称双手操作、维修视角、HOI / ego-video 采集候选；不要把实际道路驾驶拍摄作为实验要求。验收：到货后确认头带稳定性、手机重量与夹持尺寸、防跌落保险、佩戴舒适性、FOV / 遮挡、是否影响双手操作和安全边界；完成静态 / 低风险试戴和 1 段短视频 fit-check。",
       "status": "todo",
       "priority": "medium",
       "assignee": "Boris / lab procurement",
@@ -9312,7 +9312,7 @@
           "kind": "procurement"
         }
       ],
-      "updated_at": "2026-06-17T23:18:37+08:00",
+      "updated_at": "2026-07-07T17:40:07+08:00",
       "started_at": "2026-06-17",
       "completed_at": null
     },
@@ -9320,7 +9320,7 @@
       "task_id": "task_real_robot_demo_wuji_plastic_bag_rubbing",
       "project_id": "real-robot-demos",
       "title": "Wuji 灵巧手贴 3M 防滑胶带搓塑料袋 demo",
-      "description": "新增真机 demo：在 Wuji 灵巧手接触面贴 Aloha 同款或等效 3M 防滑胶带，做搓塑料袋 / rubbing plastic bag demo，讲从周老师之前夹爪结果迁移到灵巧手的跨本体大脑故事。前置采购 / 确认：3M 防滑胶带是否已有或需补买，以及高对比度桌面垫 / 背景垫，方便看清塑料袋形变。验收：确认胶带型号、贴附位置、是否影响指尖/传感器/线缆和可清洁性；完成低速 read-only 或仿真预演；完成一次真实低速搓塑料袋 run；记录相机视频、Wuji command/state、接触区域、塑料袋形变、成功/失败判据和是否需要更换胶带或手指保护。参考 Xiaohongshu 链接写在 Real-Robot Demos project references。",
+      "description": "新增真机 demo：在 Wuji 灵巧手接触面贴 Aloha 同款或等效 3M 防滑胶带，做搓塑料袋 / rubbing plastic bag demo，讲从周老师之前夹爪结果迁移到灵巧手的跨本体大脑故事。准备状态：仍需确认 3M 防滑胶带是否已有或需补买，并选择已有或替代的高对比度桌面/背景表面；灰色皮革桌垫不买。验收：确认胶带型号、贴附位置、是否影响指尖/传感器/线缆和可清洁性；完成低速 read-only 或仿真预演；完成一次真实低速搓塑料袋 run；记录相机视频、Wuji command/state、接触区域、塑料袋形变、成功/失败判据和是否需要更换胶带或手指保护。参考 Xiaohongshu 链接写在 Real-Robot Demos project references。",
       "status": "todo",
       "priority": "high",
       "assignee": "Yuhang & Jingxiang / Boris",
@@ -9335,7 +9335,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-16T13:24:37+08:00",
+      "updated_at": "2026-07-07T17:37:21+08:00",
       "started_at": "2026-06-13",
       "completed_at": null
     },
@@ -9343,7 +9343,7 @@
       "task_id": "task_real_robot_demo_changliu_lego_tool_manipulation",
       "project_id": "real-robot-demos",
       "title": "Changliu 灵巧手 Lego tool manipulation demo",
-      "description": "新增 Changliu 合作真机 demo：用灵巧手做 tool manipulation 来拼拆乐高 / MOC 积木，目标是展示灵巧手使用 Lego 拆件器、安全塑料小工具（小锤子式工具、钳子式工具）进行 assemble / disassemble。前置采购：比较 Taobao 乐高拆装工具和 Lego/MOC 零件，第一轮建议买大颗粒，后续稳定后再加小颗粒或随机散件；优先找能发新加坡且满足 199 包邮或综合价格更低的选项；付款/下单前需要用户或实验室确认。验收：记录候选链接、总价、运费、到货地和购买决定；到货后完成工具/积木清点；完成至少一次 pick-use-tool-assemble/disassemble 低速 demo，保留视频、机器人状态、失败/成功判据和下一步任务难度。",
+      "description": "新增 Changliu 合作真机 demo：用灵巧手做 tool manipulation 来拼拆乐高 / MOC 积木，目标是展示灵巧手使用 Lego 拆件器、安全塑料小工具（小锤子式工具、钳子式工具）进行 assemble / disassemble。采购状态：订单数据.xlsx 确认积木锤子/钳子/拆件器、8mm 四合一快拆钳、两块小颗粒底板和 1000g 混装积木包已于 2026-07-07 买家付款；注意这不等于“大颗粒 first-round”已满足，到货后要确认尺寸难度。验收：到货后完成工具/积木清点，验证工具尺寸、积木配合和抓取安全性；完成至少一次 pick-use-tool-assemble/disassemble 低速 demo，保留视频、机器人状态、失败/成功判据和下一步任务难度。",
       "status": "todo",
       "priority": "high",
       "assignee": "Changliu collaboration / Boris & Yuhang",
@@ -9353,12 +9353,12 @@
         {
           "comment_id": "comment_real_robot_demo_changliu_lego_seed_20260613",
           "author": "Boris / Codex",
-          "body": "Seeded from user-provided chat context on 2026-06-13: Changliu collaboration wants a dexterous-hand tool-manipulation Lego assembly/disassembly story. Candidate Taobao links: Lego disassembly tools https://e.tb.cn/h.RPMfOKPEYFHdGnp?tk=Dbcng3pXXX8 and bulk Lego/MOC pieces https://e.tb.cn/h.Rl7HuejKX6tvL5d?tk=DPjeg3pWUqm. Next step is shipping/price comparison for Singapore 199-free-shipping options, then human purchase confirmation.",
+          "body": "Seeded from user-provided chat context on 2026-06-13: Changliu collaboration wants a dexterous-hand tool-manipulation Lego assembly/disassembly story. 订单数据.xlsx update on 2026-07-07: brick hammer/pliers/separators, 8mm quick-removal pliers, two small-particle baseplates, and a 1000g mixed block pack are buyer-paid. Next step is arrival and fit check, including whether a separate large-particle set is still needed.",
           "created_at": "2026-06-13T00:13:51+08:00",
           "kind": "procurement"
         }
       ],
-      "updated_at": "2026-06-16T13:24:37+08:00",
+      "updated_at": "2026-07-07T17:45:18+08:00",
       "started_at": "2026-06-13",
       "completed_at": null
     },
@@ -9453,7 +9453,7 @@
       "task_id": "task_real_robot_demo_two_90_cube_turns",
       "project_id": "real-robot-demos",
       "title": "Long-horizon demo: 魔方/方块连续拧两下 90 度",
-      "description": "为 DexGello / Learn-from-failure-data 准备一个紧凑但多阶段的灵巧手 demo：对低摩擦方块、带标记方块或安全 Rubik-style cube 连续完成两次 90 度转动。前置采购 / 确认：低摩擦方块、带标记方块，或安全 Rubik-style cube。任务目标不是解魔方，而是制造可观测的长一点 horizon：pregrasp、first 90-degree turn、stabilize/regrasp、second 90-degree turn、final orientation check。验收：选择安全低阻尼 cube 或 fixture，确认不会过载 Wuji 指尖/关节；定义视觉 orientation labels 和每个 90 度阶段的成功/失败判据；完成 read-only 或仿真/dry-run；完成一次低速真机试验或明确硬件 blocker；记录视频、手指状态、接触/滑移/错位、human takeover/intervention 和每阶段 metric 打分样例。",
+      "description": "为 DexGello / Learn-from-failure-data 准备一个紧凑但多阶段的灵巧手 demo：对低摩擦方块、带标记方块或安全 Rubik-style cube 连续完成两次 90 度转动。采购状态：订单数据.xlsx 确认大号三阶魔方已于 2026-07-07 买家付款；商品标题写超大号，SKU 写 7CM，到货后必须确认真实尺寸、低阻尼、视觉标记和安全 fixture。任务目标不是解魔方，而是制造可观测的长一点 horizon：pregrasp、first 90-degree turn、stabilize/regrasp、second 90-degree turn、final orientation check。验收：选择安全低阻尼 cube 或 fixture，确认不会过载 Wuji 指尖/关节；定义视觉 orientation labels 和每个 90 度阶段的成功/失败判据；完成 read-only 或仿真/dry-run；完成一次低速真机试验或明确硬件 blocker；记录视频、手指状态、接触/滑移/错位、human takeover/intervention 和每阶段 metric 打分样例。",
       "status": "todo",
       "priority": "high",
       "assignee": "Yuhang & Jingxiang / DexGello",
@@ -9468,7 +9468,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-16T13:24:37+08:00",
+      "updated_at": "2026-07-07T17:45:18+08:00",
       "started_at": "2026-06-13",
       "completed_at": null
     },
@@ -11671,6 +11671,30 @@
       ],
       "created_at": "2026-07-07T12:00:00+08:00",
       "updated_at": "2026-07-07T12:00:00+08:00"
+    },
+    {
+      "task_id": "task_general_back_to_school_mac_replacement_config",
+      "project_id": "general",
+      "title": "开学 Mac 换机配置 TODO",
+      "status": "todo",
+      "priority": "low",
+      "assignee": "Boris",
+      "due_at": "",
+      "description": "Track the preferred back-to-school Mac replacement configuration as a TODO instead of a procurement-table item. Current preference: 14-inch MacBook Pro, M5 Max, 128GB unified memory, 2TB storage. Treat this as a future configuration target for school-start replacement planning, not as an active procurement order, shipping status, or availability confirmation.",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_general_mac_replacement_moved_from_procurement_20260707",
+          "task_id": "task_general_back_to_school_mac_replacement_config",
+          "author": "Boris / Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved from the General procurement table on 2026-07-07 per user correction: this is a TODO/configuration preference, not a procurement row.",
+          "created_at": "2026-07-07T16:22:15+08:00"
+        }
+      ],
+      "created_at": "2026-07-07T16:22:15+08:00",
+      "updated_at": "2026-07-07T16:22:15+08:00"
     }
   ]
 }

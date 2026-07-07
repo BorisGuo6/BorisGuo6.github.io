@@ -1,7 +1,10 @@
 import http from "node:http";
 import {
   makeAgentEventSender,
+  readJsonFile,
   readEnvFile,
+  statePathToFile,
+  writeJsonFile,
 } from "./dashboard-state-lib.mjs";
 import {
   appendLocalTaskComment,
@@ -53,6 +56,75 @@ function requireString(value, name) {
     throw new Error(`Missing ${name}`);
   }
   return value.trim();
+}
+
+const projectTableRowPatchFields = new Set(["item", "status", "route", "notes", "url", "updated_at", "owner", "source"]);
+
+function sanitizeProjectTableRowPatch(patch) {
+  if (!patch || typeof patch !== "object" || Array.isArray(patch)) {
+    throw new Error("Missing row patch");
+  }
+  const nextPatch = {};
+  for (const [field, value] of Object.entries(patch)) {
+    if (!projectTableRowPatchFields.has(field)) {
+      continue;
+    }
+    nextPatch[field] = typeof value === "string" ? value.trim() : value;
+  }
+  if (!Object.keys(nextPatch).length) {
+    throw new Error("Missing row update fields");
+  }
+  return nextPatch;
+}
+
+async function updateLocalProjectTableRow({ projectId, tableKind, rowId, patch }, options = {}) {
+  const portfolio = await readJsonFile(statePathToFile("dashboard/state/portfolio.json"));
+  const projectRef = (Array.isArray(portfolio.projects) ? portfolio.projects : [])
+    .find((candidate) => String(candidate?.project_id || "") === projectId);
+  if (!projectRef?.state_path) {
+    throw new Error(`Project not found in portfolio: ${projectId}`);
+  }
+  const filePath = statePathToFile(projectRef.state_path);
+  const project = await readJsonFile(filePath);
+  const table = project?.intro_table;
+  if (!table || !Array.isArray(table.rows)) {
+    throw new Error(`Project ${projectId} does not have an editable table`);
+  }
+  if (tableKind && table.kind !== tableKind) {
+    throw new Error(`Project ${projectId} does not have table kind ${tableKind}`);
+  }
+  const row = table.rows.find((candidate) => String(candidate?.row_id || "") === rowId);
+  if (!row) {
+    throw new Error(`Table row not found: ${rowId}`);
+  }
+  const cleanedPatch = sanitizeProjectTableRowPatch(patch);
+  const changedFields = [];
+  for (const [field, value] of Object.entries(cleanedPatch)) {
+    if (row[field] !== value) {
+      row[field] = value;
+      changedFields.push(field);
+    }
+  }
+  const updatedAt = cleanedPatch.updated_at || (options.now || new Date()).toISOString();
+  if (changedFields.length && row.updated_at !== updatedAt) {
+    row.updated_at = updatedAt;
+    if (!changedFields.includes("updated_at")) {
+      changedFields.push("updated_at");
+    }
+  }
+  if (changedFields.length) {
+    project.updated_at = updatedAt;
+    await writeJsonFile(filePath, project);
+  }
+  return {
+    row,
+    update: {
+      project_id: projectId,
+      row_id: rowId,
+      changed_fields: changedFields,
+      updated_at: updatedAt,
+    },
+  };
 }
 
 async function tryAgentEvent(agentEvent, event) {
@@ -225,6 +297,31 @@ async function main() {
           },
         });
         return sendJson(response, 200, { ok: true, task_id: taskId, comment_id: commentId, deleted_comment: comment, ...syncResult }, origin);
+      }
+
+      if (request.method === "POST" && url.pathname === "/project-table-row") {
+        const body = await readRequestJson(request);
+        const projectId = requireString(body.project_id, "project_id");
+        const rowId = requireString(body.row_id, "row_id");
+        const tableKind = optionalString(body.table_kind || body.kind) || "procurement_table";
+        const { row, update } = await updateLocalProjectTableRow({
+          projectId,
+          tableKind,
+          rowId,
+          patch: body.patch,
+        });
+        const syncResult = await tryAgentEvent(agentEvent, {
+          action: "project_table_row_update",
+          project_id: projectId,
+          payload: {
+            table_kind: tableKind,
+            row_id: rowId,
+            changed_fields: update.changed_fields,
+            source_updated_at: update.updated_at,
+            source: "dashboard/state/projects",
+          },
+        });
+        return sendJson(response, 200, { ok: true, project_id: projectId, table_kind: tableKind, row_id: rowId, row, update, ...syncResult }, origin);
       }
 
       return sendJson(response, 404, { error: "Not found" }, origin);

@@ -107,6 +107,52 @@ function cloneMutableSnapshot(snapshot) {
   return normalizeDashboardSnapshot(snapshot);
 }
 
+const projectTableRowPatchFields = new Set([
+  "item",
+  "status",
+  "route",
+  "notes",
+  "url",
+  "updated_at",
+  "owner",
+  "source",
+]);
+
+function findProject(snapshot, projectId) {
+  const targetProjectId = String(projectId || "").trim();
+  return snapshot.projects.find((project) => String(project?.project_id || "") === targetProjectId) || null;
+}
+
+function findProjectTableRow(project, tableKind, rowId) {
+  const table = project?.intro_table;
+  if (!table || !Array.isArray(table.rows)) {
+    return { table: null, row: null };
+  }
+  if (tableKind && table.kind !== tableKind) {
+    throw new Error(`Project ${project.project_id} does not have table kind ${tableKind}`);
+  }
+  const targetRowId = String(rowId || "").trim();
+  const row = table.rows.find((candidate) => String(candidate?.row_id || "") === targetRowId) || null;
+  return { table, row };
+}
+
+function sanitizeProjectTableRowPatch(patch) {
+  if (!patch || typeof patch !== "object" || Array.isArray(patch)) {
+    throw new Error("Missing row patch");
+  }
+  const nextPatch = {};
+  for (const [field, value] of Object.entries(patch)) {
+    if (!projectTableRowPatchFields.has(field)) {
+      continue;
+    }
+    nextPatch[field] = typeof value === "string" ? value.trim() : value;
+  }
+  if (!Object.keys(nextPatch).length) {
+    throw new Error("Missing row update fields");
+  }
+  return nextPatch;
+}
+
 export function appendSnapshotAuditEvent(snapshot, event, options = {}) {
   const next = cloneMutableSnapshot(snapshot);
   const limit = Number.isFinite(options.limit) && options.limit > 0
@@ -157,6 +203,58 @@ export function applySnapshotTaskUpdate(snapshot, taskId, patch, options = {}) {
   }
   next.source = options.source || next.source;
   return { snapshot: next, task, update };
+}
+
+export function applySnapshotProjectTableRowUpdate(snapshot, input, options = {}) {
+  const next = cloneMutableSnapshot(snapshot);
+  const projectId = String(input?.project_id || "").trim();
+  const rowId = String(input?.row_id || "").trim();
+  if (!projectId) {
+    throw new Error("Missing project_id");
+  }
+  if (!rowId) {
+    throw new Error("Missing row_id");
+  }
+  const project = findProject(next, projectId);
+  if (!project) {
+    throw new Error(`Project not found: ${projectId}`);
+  }
+  const { table, row } = findProjectTableRow(project, input?.table_kind || input?.kind || "", rowId);
+  if (!table || !row) {
+    throw new Error(`Table row not found: ${rowId}`);
+  }
+  const patch = sanitizeProjectTableRowPatch(input.patch);
+  const changedFields = [];
+  for (const [field, value] of Object.entries(patch)) {
+    if (row[field] !== value) {
+      row[field] = value;
+      changedFields.push(field);
+    }
+  }
+  const updatedAt = patch.updated_at || (options.now || new Date()).toISOString();
+  if (changedFields.length && row.updated_at !== updatedAt) {
+    row.updated_at = updatedAt;
+    if (!changedFields.includes("updated_at")) {
+      changedFields.push("updated_at");
+    }
+  }
+  if (changedFields.length) {
+    project.updated_at = updatedAt;
+    next.updated_at = updatedAt;
+  }
+  next.source = options.source || next.source;
+  return {
+    snapshot: next,
+    project,
+    table,
+    row,
+    update: {
+      project_id: projectId,
+      row_id: rowId,
+      changed_fields: changedFields,
+      updated_at: updatedAt,
+    },
+  };
 }
 
 export function applySnapshotTaskComment(snapshot, taskId, comment, options = {}) {

@@ -4,16 +4,18 @@
   "title": "Real-Robot Lab Infra",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-06-22T09:57:56+08:00",
+  "updated_at": "2026-07-07T18:10:00+08:00",
   "description": "Engineering stack for teleoperation, data collection, and robot-side validation",
-  "summary": "Real-Robot Infra now tracks both the runnable architecture and the asset table: hardware config feeds tactile, camera, robot, and gripper lifecycle modules, then pedal-gated ROS2 publish/domain-isolation records synchronized MP4, pickle, and per-timestamp sensor data. The canonical hardware inventory still tracks location, owner, and readiness state for lab robot/data-collection assets, including the FSR tactile glove + Ray-Ban human-centric collection asset.",
+  "summary": "Real-Robot Infra now tracks both the runnable architecture and the asset table: hardware config feeds tactile, camera, robot, and gripper lifecycle modules, then pedal-gated ROS2 publish/domain-isolation records synchronized MP4, pickle, and per-timestamp sensor data. The canonical hardware inventory still tracks location, owner, and readiness state for lab robot/data-collection assets, including the FSR tactile glove + Ray-Ban human-centric collection asset. General-card TODO ownership has been folded into this infra card; the separate Procurement Table now only tracks editable live purchasing rows.",
   "asset": "dashboard/assets/real-robot-infra-data-collection-architecture-20260622.png",
   "asset_alt": "Real-robot infra system life cycle and data collection pipeline architecture",
   "asset_caption": "Real-robot infra architecture: hardware config drives tactile, camera, robot, and gripper lifecycle modules; pedal-gated ROS2 publish/domain isolation records synchronized MP4, pickle, visualization, and per-timestamp sensor data.",
   "visual": {
     "layout": "single-column"
   },
-  "details": [],
+  "details": [
+    "Procurement archive moved from Procurement Table on 2026-07-07: Tracker quick-release / headset top fixed base; VIVE Tracker chest / thigh strap; PICO body-tracker kit / PICO 5-point full-body tracker; HIG gesture-recognition data glove; HIGVR haptic / vibration clothing module. Keep received-hardware fit checks, acceptance notes, and future maintenance under Real-Robot Lab Infra rather than the live purchasing table."
+  ],
   "task_ids": [
     "task_real_robot_infra_arx_setup",
     "task_real_robot_infra_inventory",
@@ -32,7 +34,16 @@
     "task_general_camera_short_screws",
     "task_general_claude_code_yuhang_account_recharge",
     "task_general_api_gateway_procurement_query",
-    "task_general_me_control_lab_anti_vibration_table_assembly"
+    "task_general_me_control_lab_anti_vibration_table_assembly",
+    "task_hardware_psa_three_finger_gripper",
+    "task_hardware_wuji_franka_camera_flange",
+    "task_hardware_glove_camera_mount_dexcap",
+    "task_hardware_manus_two_finger_retargeting",
+    "task_hardware_two_finger_tactile_gripper_platform",
+    "task_hardware_six_dof_tactile_calibration_platform",
+    "task_general_head_mounted_phone_holder_procurement",
+    "task_general_pico_body_tracker_procurement",
+    "task_general_back_to_school_mac_replacement_config"
   ],
   "risks_decisions": [
     "不同设备的驱动、SDK、ROS topic 和日志格式需要尽早统一，否则后面每条数据都会带维护成本。",
@@ -51,7 +62,8 @@
     "Do not reopen separate Wuji Glove TODOs for network smoke or data wrapper; keep status, blockers, and evidence on the canonical Wuji Glove task.",
     "Project boundary: Real Robot Infra keeps robot availability, shared safety gates, VR-control baseline, and purchase/setup work; DexGello owns reusable data/control dependencies; Real-Robot Demos owns concrete physical scenario rows and demo pass/fail evidence.",
     "ME Control Lab two-host expansion was completed on 2026-06-12; keep future host changes as separate scaling or maintenance TODOs rather than reopening the original two-host blocker.",
-    "Lab ops/tooling boundary: account procurement, API gateway purchasing, shared storage, cables, camera screws, and ME Control Lab installation support are infrastructure records; General should only show the live procurement table."
+    "Lab ops/tooling boundary: account procurement, API gateway purchasing, shared storage, cables, camera screws, and ME Control Lab installation support are infrastructure records; General should only show the live procurement table.",
+    "Project boundary update: old General TODOs and received procurement archive now belong to Real-Robot Lab Infra; Procurement Table should stay as a live editable purchase register only."
   ],
   "external_resources": [
     {

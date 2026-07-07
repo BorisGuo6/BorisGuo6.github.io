@@ -1362,6 +1362,123 @@ summary.bucket-title::-webkit-details-marker {
   color: var(--muted);
 }
 
+.project-intro-table[data-kind="procurement_table"] {
+  min-width: 1180px;
+}
+
+.project-intro-table th.sorted-column::after {
+  content: " desc";
+  margin-left: 4px;
+  color: var(--accent);
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.project-intro-table[data-kind="procurement_table"] td[data-column="updated_at"] {
+  width: 118px;
+  color: var(--muted);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.procurement-status-select,
+.procurement-edit-form input,
+.procurement-edit-form textarea {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid #c7d2dc;
+  border-radius: 6px;
+  background: #ffffff;
+  color: var(--ink);
+  font: inherit;
+}
+
+.procurement-status-select {
+  padding: 5px 24px 5px 8px;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.procurement-actions {
+  width: 72px;
+  text-align: right;
+}
+
+.procurement-edit-button,
+.procurement-edit-actions button {
+  border: 1px solid #c7d2dc;
+  border-radius: 999px;
+  background: #ffffff;
+  color: var(--ink);
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.procurement-edit-button {
+  min-height: 28px;
+  padding: 4px 10px;
+}
+
+.procurement-edit-button:hover,
+.procurement-edit-button:focus-visible,
+.procurement-edit-actions button:hover,
+.procurement-edit-actions button:focus-visible {
+  border-color: rgba(15, 118, 110, 0.45);
+  box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.1);
+  outline: none;
+}
+
+.procurement-edit-row td {
+  background: #f7faf9;
+}
+
+.procurement-edit-form {
+  display: grid;
+  grid-template-columns: minmax(180px, 1fr) minmax(150px, 0.7fr) minmax(180px, 0.8fr) minmax(180px, 0.9fr);
+  gap: 10px;
+  align-items: end;
+}
+
+.procurement-edit-form label {
+  display: grid;
+  gap: 5px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.procurement-edit-form label:has(textarea) {
+  grid-column: 1 / -1;
+}
+
+.procurement-edit-form input,
+.procurement-edit-form textarea {
+  padding: 7px 9px;
+  font-size: 13px;
+  text-transform: none;
+}
+
+.procurement-edit-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.procurement-edit-actions button {
+  min-height: 30px;
+  padding: 5px 12px;
+}
+
+.procurement-edit-actions button[type="submit"] {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #ffffff;
+}
+
 .project-intro-table-archive-row td {
   background: rgba(245, 247, 242, 0.72);
 }
