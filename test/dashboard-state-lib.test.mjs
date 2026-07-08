@@ -744,6 +744,11 @@ assert.match(
   "procurement table should fit inside its card instead of enforcing a wide minimum width",
 );
 assert.match(
+  await readFile(new URL("../dashboard/print.css", import.meta.url), "utf8"),
+  /td\.procurement-actions \{[\s\S]+width: 68px;[\s\S]+overflow-wrap: normal;[\s\S]+white-space: nowrap;[\s\S]+\.procurement-edit-button \{[\s\S]+min-width: 44px;[\s\S]+white-space: nowrap;/,
+  "procurement edit buttons should not wrap into vertical text in the compact action column",
+);
+assert.match(
   agentsSource,
   /https:\/\/jingxiangguo\.com\/api\/dashboard\/state/,
   "AGENTS.md should tell agents where to read dashboard task state",

@@ -1392,7 +1392,9 @@ summary.bucket-title::-webkit-details-marker {
 
 .project-intro-table[data-kind="procurement_table"] th.procurement-actions-heading,
 .project-intro-table[data-kind="procurement_table"] td.procurement-actions {
-  width: 52px;
+  width: 68px;
+  overflow-wrap: normal;
+  white-space: nowrap;
 }
 
 .project-intro-table th.sorted-column::after {
@@ -1487,8 +1489,9 @@ summary.bucket-title::-webkit-details-marker {
 }
 
 .procurement-actions {
-  width: 52px;
+  width: 68px;
   text-align: right;
+  white-space: nowrap;
 }
 
 .procurement-edit-button,
@@ -1504,8 +1507,14 @@ summary.bucket-title::-webkit-details-marker {
 }
 
 .procurement-edit-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-height: 28px;
+  min-width: 44px;
   padding: 4px 10px;
+  overflow-wrap: normal;
+  white-space: nowrap;
 }
 
 .procurement-edit-button:hover,
