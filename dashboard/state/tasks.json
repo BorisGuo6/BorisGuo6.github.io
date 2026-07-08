@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-07-07T15:44:38.777Z",
+  "updated_at": "2026-07-08T17:28:20+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -463,6 +463,28 @@
       ],
       "updated_at": "2026-06-16T23:41:09+08:00",
       "completed_at": "2026-06-16"
+    },
+    {
+      "task_id": "task_real_robot_infra_manus_quest_controller_mount",
+      "project_id": "real-robot-infra",
+      "title": "为 MANUS 设计 Quest 手柄卡扣替代 VIVE Tracker",
+      "description": "给 MANUS glove 设计一个能刚性卡住 Quest controller 的卡扣 / 转接件，用 Quest 手柄 pose 作为 VIVE Tracker 手背位姿路线的替代或对照。动机：VIVE 坐标系和外参路线目前让团队非常 struggle；Quest controller 可能更容易形成稳定、可复现的 operator hand pose 输入。HIGVR 转接件暂时没有 3D 模型，等 Boris 2026-07-17 到现场后先看实物转接件怎么固定、怎么避让手套和线缆，再决定手工测量、3D 扫描、建模打印或绑带式原型。验收：1) 现场拍照 / 测量 HIGVR 转接件和 MANUS 手套可用安装空间；2) 出一版 Quest controller 卡扣几何方案，明确固定点、释放方式、材料和是否需要 3D 打印；3) 不遮挡 MANUS 手指运动、腕部活动、线缆和相机视野；4) 完成 Quest pose 到 MANUS root / robot base 的最小标定方案；5) 记录至少 10 秒 Quest pose + MANUS stream + robot / GELLO reference 的同步日志；6) 给出是否继续用 Quest 替代 VIVE hand-back tracker 的 go/no-go。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Boris / real-robot",
+      "result": null,
+      "due_at": "2026-07-17",
+      "comments": [
+        {
+          "comment_id": "comment_real_robot_infra_manus_quest_mount_seed_20260708",
+          "author": "Boris / Codex",
+          "body": "Seeded from 2026-07-08 user discussion: make a MANUS-mounted bracket that clips onto a Quest controller, replacing the VIVE Tracker route because the team is struggling with VIVE coordinate frames. HIGVR does not provide a 3D model; inspect the HIGVR adapter when Boris is onsite on 2026-07-17 before choosing the mechanical design.",
+          "created_at": "2026-07-08T17:28:20+08:00",
+          "kind": "comment"
+        }
+      ],
+      "created_at": "2026-07-08T17:28:20+08:00",
+      "updated_at": "2026-07-08T17:28:20+08:00"
     },
     {
       "task_id": "task_real_robot_infra_vive_tracker_chest_mount",
