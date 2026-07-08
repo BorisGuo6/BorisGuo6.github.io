@@ -1656,12 +1656,47 @@
           if (!src || seen.has(src)) {
             return;
           }
+          const order = references.length;
           seen.add(src);
           references.push({
             src,
             alt: reference.alt || reference.asset_alt || reference.caption || reference.title || fallbackSource || "Dashboard image",
             caption: reference.caption || reference.asset_caption || reference.title || fallbackSource || src,
             source: reference.source || fallbackSource,
+            added_at: reference.added_at || reference.submitted_at || reference.created_at || reference.updated_at || "",
+            order,
+          });
+        }
+
+        function imageContextDateFromPath(src) {
+          const match = String(src || "").match(/(?:^|[^0-9])(20[0-9]{2})[-_]?([0-9]{2})[-_]?([0-9]{2})(?:[^0-9]|$)/);
+          return match ? `${match[1]}-${match[2]}-${match[3]}` : "";
+        }
+
+        function imageContextSortValue(reference) {
+          const value = reference?.added_at || imageContextDateFromPath(reference?.src) || "";
+          if (!value) {
+            return null;
+          }
+          const normalized = /^\d{4}-\d{2}-\d{2}$/.test(value) ? `${value}T00:00:00` : value;
+          const date = new Date(normalized);
+          return Number.isNaN(date.getTime()) ? null : date.getTime();
+        }
+
+        function sortImageContextReferences(references) {
+          return [...references].sort((a, b) => {
+            const timeA = imageContextSortValue(a);
+            const timeB = imageContextSortValue(b);
+            if (timeA !== null && timeB !== null && timeA !== timeB) {
+              return timeB - timeA;
+            }
+            if (timeA !== null && timeB === null) {
+              return -1;
+            }
+            if (timeA === null && timeB !== null) {
+              return 1;
+            }
+            return (a.order ?? 0) - (b.order ?? 0);
           });
         }
 
@@ -1680,11 +1715,12 @@
                 alt: projectDoc.asset_alt || projectDoc.title,
                 caption: projectDoc.asset_caption || projectDoc.title,
                 source: projectDoc.title,
+                added_at: projectDoc.asset_added_at,
               },
               projectDoc.title,
             );
           });
-          return references;
+          return sortImageContextReferences(references);
         }
 
         function renderImageContext(portfolio) {

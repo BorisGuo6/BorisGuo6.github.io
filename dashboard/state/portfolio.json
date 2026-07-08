@@ -5,7 +5,7 @@
   "subtitle": "World models, self-improving simulators, teleop acceleration, and robotics + 3D printing",
   "week": "2026-W24",
   "date": "2026-06-12",
-  "updated_at": "2026-07-07T23:40:00+08:00",
+  "updated_at": "2026-07-08T00:35:00+08:00",
   "state_root": "dashboard/state",
   "summary": {
     "focus": "Research 主线保持 Tri-View/Image-Layered IDM、Self-Improving Agents 和 DexGello；Survey TODO 已统一 inactive/archived，不再显示为当前执行队列。",
@@ -78,130 +78,155 @@
     {
       "src": "dashboard/assets/real-robot-infra-collage.png",
       "alt": "Real-robot lab infrastructure hardware collage",
-      "caption": "Real-robot infra: ARX, Franka + Wuji Hand, UMI, Linker Hand, gloves, and VIVE Tracker."
+      "caption": "Real-robot infra: ARX, Franka + Wuji Hand, UMI, Linker Hand, gloves, and VIVE Tracker.",
+      "added_at": "2026-06-19"
     },
     {
       "src": "dashboard/assets/egovtla-pillars.png",
       "alt": "EgoVTLA perception and intuition pillars",
-      "caption": "EgoVTLA pillars: perception alignment and intuition alignment."
+      "caption": "EgoVTLA pillars: perception alignment and intuition alignment.",
+      "added_at": "2026-06-19"
     },
     {
       "src": "dashboard/assets/egovtla-world-model.png",
       "alt": "World-model-driven EgoVTLA map",
-      "caption": "World-model-driven EgoVTLA: vision -> depth / flow -> action."
+      "caption": "World-model-driven EgoVTLA: vision -> depth / flow -> action.",
+      "added_at": "2026-06-19"
     },
     {
       "src": "dashboard/assets/umi-overview.png",
       "alt": "UMI World Model overview",
-      "caption": "UMI World Model project framing."
+      "caption": "UMI World Model project framing.",
+      "added_at": "2026-06-19"
     },
     {
       "src": "dashboard/assets/layered-world-model.png",
       "alt": "Layered robot data hierarchy: background, object, and robot layers feed augmentation, reward, and inverse dynamics.",
-      "caption": "Layered robot data hypothesis: background -> augmentation/adaptation, object/contact -> process reward, robot -> IDM and pose/VO supervision."
+      "caption": "Layered robot data hypothesis: background -> augmentation/adaptation, object/contact -> process reward, robot -> IDM and pose/VO supervision.",
+      "added_at": "2026-06-19"
     },
     {
       "src": "dashboard/assets/world-model-taxonomy-20260615.jpg",
       "alt": "World model taxonomy comparing reconstruction, next-step prediction, and runnable models across reconstruction, object/3D, and pixel/video levels.",
-      "caption": "World-model taxonomy note: reconstruction, predictive next-step, and runnable simulation are different claims and should not be collapsed."
+      "caption": "World-model taxonomy note: reconstruction, predictive next-step, and runnable simulation are different claims and should not be collapsed.",
+      "added_at": "2026-06-19"
     },
     {
       "src": "dashboard/assets/pearl-overview.png",
       "alt": "PEARL self-improving physical AI framework",
-      "caption": "PEARL-style loop: memory, attribution, co-evolution, governance."
+      "caption": "PEARL-style loop: memory, attribution, co-evolution, governance.",
+      "added_at": "2026-06-19"
     },
     {
       "src": "dashboard/assets/simulator-taxonomy-20260615.png",
       "alt": "Robotics simulator taxonomy comparing task APIs, assets, simulation frameworks, renderers, and physics engines across ManiSkill, SAPIEN, Isaac Sim, OmniGibson, MuJoCo, Habitat, RLBench, and CoppeliaSim.",
-      "caption": "Simulator taxonomy: separate task/API layer, assets, sim framework, renderer, and physics engine when choosing the Text2Env / AgenticSim backend."
+      "caption": "Simulator taxonomy: separate task/API layer, assets, sim framework, renderer, and physics engine when choosing the Text2Env / AgenticSim backend.",
+      "added_at": "2026-06-19"
     },
     {
       "src": "dashboard/assets/robotwin2-text2env-workflow-20260626.jpg",
       "alt": "RoboTwin2 Text2Env workflow showing natural-language task parsing, SceneSmith-lite agents, asset checking, Text2Env JSON, RoboTwin task generation, deployment, data collection, policy training, and evaluation.",
       "caption": "RoboTwin2 Text2Env workflow: natural-language tabletop task -> SceneSmith-lite placement agents -> asset check / optional adapter -> Text2Env JSON -> RoboTwin task program -> data collection -> policy training and evaluation.",
-      "source": "Self-Improving Agents"
+      "source": "Self-Improving Agents",
+      "added_at": "2026-06-26"
     },
     {
       "src": "dashboard/assets/aspire-robot-execution-engine-20260703.jpg",
       "alt": "ASPIRE Robot Execution Engine screenshot showing a physical-engine layer with LIBERO, RoboSuite, BEHAVIOR, and real-robot examples.",
       "caption": "ASPIRE context: robot execution engine and physical-engine view, useful as the direct prior for rollout-trace debugging and skill-library self-improvement; PEARL should differentiate with Open X Sim / Any Sim Transfer and scene-task decoupling.",
-      "source": "Self-Improving Agents"
+      "source": "Self-Improving Agents",
+      "added_at": "2026-07-03"
     },
     {
       "src": "dashboard/assets/self-improving-embodied-harness-loop-20260707.png",
       "alt": "Embodied harness loop diagram showing weakness mining, harness proposal, proposal validation, and accepted harness updates around a fixed model.",
       "caption": "Self-Improving / PEARL harness framing: run current harness on embodied tasks, mine failure traces, propose harness edits, regression-test candidates, and promote accepted edits into the next harness iteration.",
-      "source": "Self-Improving Agents"
+      "source": "Self-Improving Agents",
+      "added_at": "2026-07-07"
     },
     {
       "src": "dashboard/assets/robotics-3d-printing-platform.png",
       "alt": "Robotics and 3D printing product design platform",
-      "caption": "Robotics + 3D printing: generated structure exported toward printable parts, printer-farm takeout, and assembly."
+      "caption": "Robotics + 3D printing: generated structure exported toward printable parts, printer-farm takeout, and assembly.",
+      "added_at": "2026-06-19"
     },
     {
       "src": "dashboard/assets/drag-demo-video-editing.png",
       "alt": "Drag-teaching robot data video editing and hand removal",
-      "caption": "Drag-demo editing: ARX egg-cracking data, Kling hand removal, and diff-map QA."
+      "caption": "Drag-demo editing: ARX egg-cracking data, Kling hand removal, and diff-map QA.",
+      "added_at": "2026-06-19"
     },
     {
       "src": "dashboard/assets/hoi-diverse-dataset.png",
       "alt": "HOI diverse dataset with ego camera, hand pose, and depth",
-      "caption": "Diverse same-task HOI data: ego RGB, hand pose, and z16 depth."
+      "caption": "Diverse same-task HOI data: ego RGB, hand pose, and z16 depth.",
+      "added_at": "2026-06-19"
     },
     {
       "src": "dashboard/assets/general-engineering-backlog.png",
       "alt": "Procurement table for cross-project lab purchases",
-      "caption": "Procurement table: editable cross-project lab purchase register."
+      "caption": "Procurement table: editable cross-project lab purchase register.",
+      "added_at": "2026-06-19"
     },
     {
       "src": "dashboard/assets/pico-body-tracker-taobao-20260621.jpg",
       "alt": "Taobao screenshot for PICO full-body tracking kit, showing the official 5-point tracker option at RMB 1109.",
-      "caption": "PICO body tracker procurement candidate: 5-point no-base-station full-body tracking kit for comparison against VIVE Tracker-style setups."
+      "caption": "PICO body tracker procurement candidate: 5-point no-base-station full-body tracking kit for comparison against VIVE Tracker-style setups.",
+      "added_at": "2026-06-21"
     },
     {
       "src": "dashboard/assets/r2s2r-reconstruction.png",
       "alt": "Real2Sim2Real reconstruction and hierarchical physics simulation pipeline",
-      "caption": "R2S2R reconstruction reference: input video -> SuGaR reconstruction -> mesh / Gaussian surfaces -> physics-aware simulation and rendering."
+      "caption": "R2S2R reconstruction reference: input video -> SuGaR reconstruction -> mesh / Gaussian surfaces -> physics-aware simulation and rendering.",
+      "added_at": "2026-06-19"
     },
     {
       "src": "dashboard/assets/umi-dataset-visualization.png",
       "alt": "UMI dataset annotation and subtask segmentation visualization panel",
-      "caption": "UMI dataset QA: synchronized wrist views, 3D pose, EEF traces, current segment, and action log after subtask splitting."
+      "caption": "UMI dataset QA: synchronized wrist views, 3D pose, EEF traces, current segment, and action log after subtask splitting.",
+      "added_at": "2026-06-19"
     },
     {
       "src": "dashboard/assets/maskwam-annotation-pipeline-20260621.png",
       "alt": "MaskWAM annotation pipeline using language annotation, VLM object extraction, SAM3 mask propagation, point prompts, and human verification to produce labeled episodes.",
-      "caption": "MaskWAM annotation pipeline reference: language labels -> task-relevant objects -> SAM3 mask propagation -> human verification -> labeled episodes."
+      "caption": "MaskWAM annotation pipeline reference: language labels -> task-relevant objects -> SAM3 mask propagation -> human verification -> labeled episodes.",
+      "added_at": "2026-06-21"
     },
     {
       "src": "dashboard/assets/umi-demo.png",
       "alt": "GenRobot UMI monitor demo with dual wrist views, 3D viewer, and timestamped episode metadata",
-      "caption": "UMI monitor demo: dual wrist camera views, 3D gripper visualization, playback timeline, and episode metadata."
+      "caption": "UMI monitor demo: dual wrist camera views, 3D gripper visualization, playback timeline, and episode metadata.",
+      "added_at": "2026-06-19"
     },
     {
       "src": "dashboard/assets/umi-shared-backbone-dual-branch-wan-20260617.jpg",
       "alt": "Shared-Backbone Dual-Branch Wan architecture diagram for UMI Stage 1",
-      "caption": "Former UMI head image kept as Image Context: Shared-Backbone Dual-Branch Wan for Stage 1 dual-wrist video latents, view embeddings, shared Wan2.1 backbone, dual decoded outputs, and cross-view / temporal / state-action consistency losses."
+      "caption": "Former UMI head image kept as Image Context: Shared-Backbone Dual-Branch Wan for Stage 1 dual-wrist video latents, view embeddings, shared Wan2.1 backbone, dual decoded outputs, and cross-view / temporal / state-action consistency losses.",
+      "added_at": "2026-06-19"
     },
     {
       "src": "dashboard/assets/umi-qwen-layer-failure-20260618-0.jpg",
       "alt": "Qwen Image-Layered UMI failure sample 0",
-      "caption": "UMI layer failure context: Qwen/Image-agent decomposition merges robot, object, and scene regions and does not produce clean robot/object/background layers."
+      "caption": "UMI layer failure context: Qwen/Image-agent decomposition merges robot, object, and scene regions and does not produce clean robot/object/background layers.",
+      "added_at": "2026-06-19"
     },
     {
       "src": "dashboard/assets/umi-qwen-layer-failure-20260618-1.jpg",
       "alt": "Qwen Image-Layered UMI failure sample 1",
-      "caption": "UMI layer failure context: increasing layer count still leaves duplicated objects, missing robot structure, and fragmented scene/background regions."
+      "caption": "UMI layer failure context: increasing layer count still leaves duplicated objects, missing robot structure, and fragmented scene/background regions.",
+      "added_at": "2026-06-19"
     },
     {
       "src": "dashboard/assets/umi-qwen-layer-failure-20260618-2.jpg",
       "alt": "Qwen Image-Layered UMI failure sample 2",
-      "caption": "UMI layer failure context: Qwen/Image-agent layer decomposition remains useful as a negative still-frame baseline, not as the main video-layer route."
+      "caption": "UMI layer failure context: Qwen/Image-agent layer decomposition remains useful as a negative still-frame baseline, not as the main video-layer route.",
+      "added_at": "2026-06-19"
     },
     {
       "src": "dashboard/assets/umi-qwen-layer-failure-20260618-3.jpg",
       "alt": "Qwen Image-Layered UMI failure sample 3",
-      "caption": "UMI layer failure context: reduced layer-count output loses important robot/object regions and confirms the need for explicit segmentation plus inpainting."
+      "caption": "UMI layer failure context: reduced layer-count output loses important robot/object regions and confirms the need for explicit segmentation plus inpainting.",
+      "added_at": "2026-06-19"
     }
   ],
   "weekly_briefs": [
