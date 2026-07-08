@@ -4,9 +4,9 @@
   "title": "Procurement Table",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-07-08T17:28:20+08:00",
+  "updated_at": "2026-07-08T14:42:41.459Z",
   "description": "Editable lab procurement register for cross-project purchases",
-  "summary": "Editable procurement register for lab purchases. Rows are sorted by last update, status changes update the timestamp, and old TODO/archive work has been moved to Real-Robot Lab Infra so this card stays focused on live purchasing records.",
+  "summary": "Editable procurement register for lab purchases. Rows are sorted by status first (blank not ordered, dash ordered, check arrived) and then by last update; status changes update the timestamp. Old TODO/archive work has been moved to Real-Robot Lab Infra so this card stays focused on live purchasing records.",
   "intro_table": {
     "kind": "procurement_table",
     "caption": "Editable procurement register · blank not ordered, dash ordered, check arrived",
@@ -45,12 +45,56 @@
     ],
     "rows": [
       {
-        "row_id": "proc_a3_carbon_steel_hollow_tube_spacer",
-        "updated_at": "2026-07-07T20:59:00+08:00",
-        "item": "A3 carbon-steel hollow tube spacer / 碳钢铁 A3 空心套管通孔圆柱",
-        "status": "Done",
-        "route": "Taobao · 大鼎五金",
-        "notes": "Boris Taobao screenshot at 2026-07-07 20:59 shows this low-cost A3 carbon-steel hollow tube / through-hole round standoff row as 交易成功, visible price RMB 2.4. Screenshot is partially cropped; after receipt verify dimensions, bore, wall thickness, corrosion, and sharp edges before fixture use."
+        "row_id": "proc_arduino_mega_2580_expansion_wiring_bundle",
+        "updated_at": "2026-07-08T14:42:41.459Z",
+        "item": "Arduino MEGA 2580 + expansion board + wiring bundle / Arduino MEGA 2580、拓展板与配套线材",
+        "status": "",
+        "route": "Taobao / supplier · pending buyer",
+        "notes": "Not purchased yet. Buy an Arduino MEGA 2580 board, compatible expansion board / shield, and matching wiring/cable set for tactile, FSR, haptic-module, and bench electronics experiments. Before checkout verify whether the intended seller SKU is actually Arduino Mega 2560 or a MEGA 2580 variant, USB connector type, voltage logic, shield compatibility, Dupont/JST/screw-terminal wiring style, cable quantities, and overlap with the already ordered electronics prototyping batch.",
+        "url": ""
+      },
+      {
+        "row_id": "proc_hu591_fsr402_400_406_force_sensor_voltage_converter",
+        "updated_at": "2026-07-08T14:36:25.042Z",
+        "item": "HU591 FSR402/400/406 thin-film force-sensitive module + linear voltage converter / 足底压力传感器力敏模块 + 线性电压转换模块",
+        "status": "",
+        "route": "Taobao · user-provided candidate",
+        "notes": "Not purchased yet. Candidate title: 足底压力传感器电阻式力敏模块薄膜鞋垫机器人触觉FSR402/400/406. Wuhao suggested buying only one or two single-point force sensors first and adding a linear voltage conversion module; existing microcontroller may be enough. Screenshot candidate: RP-C7.6-ST, 7.6 mm short-tail / FSR400-compatible, range 30 g to 1.5 kg. Use as a quick bench path for one-finger / one-phalanx haptic proof before committing to MF287/FPC glove-style sensors. Confirm exact model, quantity, converter board, voltage range, readout path, wiring burden, connector, calibration load range, and whether an Arduino/ADC board is actually needed before checkout. Taobao share code: HU591.",
+        "url": "https://e.tb.cn/h.RCCGUVzpDTo9qjJ?tk=9PX5gMWRH4V"
+      },
+      {
+        "row_id": "proc_mf287_flexible_film_piezoresistive_grip_force_sensor",
+        "updated_at": "2026-07-08T14:33:33.306Z",
+        "item": "MF287 flexible film piezoresistive grip-force sensor / 手掌抓握力传感器柔性薄膜压阻式触觉感应器",
+        "status": "",
+        "route": "Taobao · user-provided candidate",
+        "notes": "Not purchased yet. Candidate title: 手掌抓握力传感器柔性薄膜压阻式机器人触觉感应仿生可穿戴应变式. Evaluate as a possible add-on tactile / grip-force sensor for Wuji hand and a possible input path into the haptic module before buying. Confirm sensor dimensions, thickness, bending radius, adhesive / fixture method, cable exit direction, connector / electrical interface, ADC/front-end needs, calibration plan, and whether it interferes with Wuji finger motion, palm contact, existing tactile surfaces, cameras, or glove/teleop wiring. Taobao share code: MF287.",
+        "url": "https://e.tb.cn/h.RCChiiqRVVfaEjO?tk=6cCrgMdyp5m"
+      },
+      {
+        "row_id": "proc_factr_low_cost_force_feedback_teleoperation_hardware",
+        "updated_at": "2026-07-08T22:19:35+08:00",
+        "item": "FACTR low-cost force-feedback teleoperation hardware / FACTR 低成本力反馈遥操作硬件",
+        "status": "",
+        "route": "Taobao · user-provided candidate",
+        "notes": "Added per Boris on 2026-07-08 after the Yuhang-side purchase route could not buy it; keep as unpurchased until a buyer/procurement route is confirmed. Candidate title: FACTR 低成本力反馈遥操作硬件 机器人泛化控制 双边遥操作. Before purchase confirm SKU/configuration, compatibility with Franka/GELLO/YAM master-arm setup, gravity compensation vs brake/damping value, delivery route, reimbursement owner, and whether this replaces the earlier Jingte/KING TECHNOLOGY quote-review path. Taobao share code: CZ001.",
+        "url": "https://e.tb.cn/h.RzgrhiKsCTcn9Sx?tk=b89rgMWe8dN"
+      },
+      {
+        "row_id": "proc_realman_bimanual_arm_pair",
+        "updated_at": "2026-07-07T17:35:00+08:00",
+        "item": "RealMan bimanual arm pair / 睿尔曼双臂",
+        "status": "Romoya route · pending follow-up",
+        "route": "Romoya purchase path · Zheng Yuhang / Clement",
+        "notes": "ClawCross WeChat evidence: 2026-07-03 Boris asked about ordering a pair of 睿尔曼 arms; 2026-07-04 Zheng chat records that Prof. Yan wants the purchase routed through Romoya, and Zheng will raise it with Clement while temporary-office logistics are pending. Next confirm exact model, pair quantity, payload, vertical mounting feasibility, DaiMeng gripper adapter, quote, delivery destination, and acceptance owner."
+      },
+      {
+        "row_id": "proc_electronics_prototyping_batch",
+        "updated_at": "2026-07-08T17:28:20+08:00",
+        "item": "Electronics prototyping batch / 电子开发与线材批次",
+        "status": "Ordered · buyer paid 2026-07-07",
+        "route": "Taobao · multiple shops · 订单数据.xlsx",
+        "notes": "Excel rows include Dupont jumper wires x2, ESP32 Type-C board with expansion board, Mega2560 Pro Type-C boards x2, 0603 resistor and capacitor sample books, 30AWG five-color wire kits x2, and XGSP80 183C solder paste/flux. Use for lab wiring, embedded prototypes, and repair bench stock; after arrival inventory quantities and keep solder paste/flux labeled."
       },
       {
         "row_id": "proc_banfully_gray_cuttable_leather_desk_mat",
@@ -85,15 +129,6 @@
         "notes": "Boris Taobao screenshot at 2026-07-07 20:59: 2m x 1m x 1.0cm high-density sponge/foam sheet, paid RMB 29.8, status 待发货, seller expected to ship before 2026-07-09 21:00. Use as soft padding / fixture / scene material; after arrival verify thickness, density, flatness, shedding, and compression under robot contact."
       },
       {
-        "row_id": "proc_10x_3m_usb_3_0_extension_cables_3m_usb3_0",
-        "updated_at": "2026-07-07T17:45:18+08:00",
-        "item": "10x 3m USB 3.0 extension cables / 3m USB3.0延长线",
-        "status": "Ordered · buyer paid 2026-07-07",
-        "route": "Taobao · 仁朝数码旗舰店 · 订单数据.xlsx",
-        "notes": "Excel order 3311159846118004652: 10 pieces of 3m straight USB 3.0 male-to-female extension cable, nickel-plated anti-slip SKU. Paid RMB 205.99. After arrival verify USB 3.0 bandwidth, cable stiffness, and camera/sensor stability.",
-        "url": "https://item.taobao.com/item.htm?id=816560886724&mi_id=0000DCtLolnVtG14mHcP6OiP-jzY28MB8D9X9OPhq2ZEuho"
-      },
-      {
         "row_id": "proc_2x_1_to_3_usb_c_data_charging_cables",
         "updated_at": "2026-07-07T17:45:18+08:00",
         "item": "2x 1-to-3 USB-C data/charging cables / 数据线",
@@ -112,6 +147,15 @@
         "url": "https://item.taobao.com/item.htm?id=912787221463&mi_id=00003c9tOOZ3LIRG5x6Ds4UMyPSgRktPH3aOoPx2U7k9vHE"
       },
       {
+        "row_id": "proc_10x_3m_usb_3_0_extension_cables_3m_usb3_0",
+        "updated_at": "2026-07-07T17:45:18+08:00",
+        "item": "10x 3m USB 3.0 extension cables / 3m USB3.0延长线",
+        "status": "Ordered · buyer paid 2026-07-07",
+        "route": "Taobao · 仁朝数码旗舰店 · 订单数据.xlsx",
+        "notes": "Excel order 3311159846118004652: 10 pieces of 3m straight USB 3.0 male-to-female extension cable, nickel-plated anti-slip SKU. Paid RMB 205.99. After arrival verify USB 3.0 bandwidth, cable stiffness, and camera/sensor stability.",
+        "url": "https://item.taobao.com/item.htm?id=816560886724&mi_id=0000DCtLolnVtG14mHcP6OiP-jzY28MB8D9X9OPhq2ZEuho"
+      },
+      {
         "row_id": "proc_digital_caliper_150mm",
         "updated_at": "2026-07-07T17:45:18+08:00",
         "item": "Digital caliper / 数显游标卡尺 150mm",
@@ -119,14 +163,6 @@
         "route": "Taobao · syntek旗舰店 · 订单数据.xlsx",
         "notes": "Excel order 3311589289721168690: 150mm all-metal IP54 digital caliper. Paid RMB 98.02. After arrival check zeroing, repeatability, battery, and measurement consistency against calibration weights/known blocks.",
         "url": "https://item.taobao.com/item.htm?id=668553888281&mi_id=0000DNk2RRg2n1XBQzm_Y4dswcTLR1lwOOH_emQ8TI9is-c"
-      },
-      {
-        "row_id": "proc_electronics_prototyping_batch",
-        "updated_at": "2026-07-08T17:28:20+08:00",
-        "item": "Electronics prototyping batch / 电子开发与线材批次",
-        "status": "Ordered · buyer paid 2026-07-07",
-        "route": "Taobao · multiple shops · 订单数据.xlsx",
-        "notes": "Excel rows include Dupont jumper wires x2, ESP32 Type-C board with expansion board, Mega2560 Pro Type-C boards x2, 0603 resistor and capacitor sample books, 30AWG five-color wire kits x2, and XGSP80 183C solder paste/flux. Use for lab wiring, embedded prototypes, and repair bench stock; after arrival inventory quantities and keep solder paste/flux labeled."
       },
       {
         "row_id": "proc_fasteners_and_fabrication_consumables",
@@ -311,14 +347,6 @@
         "url": "https://e.tb.cn/h.RIByZL0pypHF8K0?tk=tbzFgSE7ipS"
       },
       {
-        "row_id": "proc_realman_bimanual_arm_pair",
-        "updated_at": "2026-07-07T17:35:00+08:00",
-        "item": "RealMan bimanual arm pair / 睿尔曼双臂",
-        "status": "Romoya route · pending follow-up",
-        "route": "Romoya purchase path · Zheng Yuhang / Clement",
-        "notes": "ClawCross WeChat evidence: 2026-07-03 Boris asked about ordering a pair of 睿尔曼 arms; 2026-07-04 Zheng chat records that Prof. Yan wants the purchase routed through Romoya, and Zheng will raise it with Clement while temporary-office logistics are pending. Next confirm exact model, pair quantity, payload, vertical mounting feasibility, DaiMeng gripper adapter, quote, delivery destination, and acceptance owner."
-      },
-      {
         "row_id": "proc_unitree_sv1_25_mini_stereo_global_shutter_usb_camera_sv1",
         "updated_at": "2026-07-07T17:35:00+08:00",
         "item": "Unitree SV1-25 mini stereo global-shutter USB camera / 宇树 SV1-25 具身立体双目相机",
@@ -326,6 +354,14 @@
         "route": "Zheng Yuhang · Taobao",
         "notes": "User-provided Taobao candidate marked 假一赔四: Unitree SV1-25 small / mini embodied stereo binocular camera, RGB global-shutter USB camera. ClawCross WeChat evidence from Zheng Yuhang private chat: Boris asked Zheng to place the Taobao order on 2026-07-04, and Zheng replied that the camera would be ordered that day. Next verify tracking, arrival, SDK/driver availability, resolution/FPS, stereo calibration support, ROS/ROS2 or Python access, USB bandwidth, mount compatibility, cable length, and whether it fits wrist/head/fixed-view robot data collection.",
         "url": "https://e.tb.cn/h.RDPhRlxsna7j6Kg?tk=9lHzglSbASl"
+      },
+      {
+        "row_id": "proc_a3_carbon_steel_hollow_tube_spacer",
+        "updated_at": "2026-07-07T20:59:00+08:00",
+        "item": "A3 carbon-steel hollow tube spacer / 碳钢铁 A3 空心套管通孔圆柱",
+        "status": "Done",
+        "route": "Taobao · 大鼎五金",
+        "notes": "Boris Taobao screenshot at 2026-07-07 20:59 shows this low-cost A3 carbon-steel hollow tube / through-hole round standoff row as 交易成功, visible price RMB 2.4. Screenshot is partially cropped; after receipt verify dimensions, bore, wall thickness, corrosion, and sharp edges before fixture use."
       },
       {
         "row_id": "proc_6x_2m_ugreen_usb_3_0_extension_cables",

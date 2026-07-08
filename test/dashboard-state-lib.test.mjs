@@ -143,16 +143,30 @@ const projectTableSnapshot = normalizeDashboardSnapshot({
     updated_at: "2026-06-18T00:00:00.000Z",
     intro_table: {
       kind: "procurement_table",
-      rows: [{
-        row_id: "proc_test",
-        item: "Test item",
-        status: "Requested",
-        route: "Taobao",
-        notes: "",
-        updated_at: "2026-06-18T00:00:00.000Z",
-      }],
-    },
-  }],
+	      rows: [{
+	        row_id: "proc_test",
+	        item: "Test item",
+	        status: "Requested",
+	        route: "Taobao",
+	        notes: "",
+	        updated_at: "2026-06-18T00:00:00.000Z",
+	      }, {
+	        row_id: "proc_pending",
+	        item: "Pending item",
+	        status: "",
+	        route: "Taobao",
+	        notes: "",
+	        updated_at: "2026-06-18T01:00:00.000Z",
+	      }, {
+	        row_id: "proc_arrived",
+	        item: "Arrived item",
+	        status: "Done",
+	        route: "Taobao",
+	        notes: "",
+	        updated_at: "2026-06-18T03:00:00.000Z",
+	      }],
+	    },
+	  }],
   taskDoc: { tasks: [] },
 });
 const projectTableUpdate = applySnapshotProjectTableRowUpdate(projectTableSnapshot, {
@@ -166,12 +180,17 @@ const projectTableUpdate = applySnapshotProjectTableRowUpdate(projectTableSnapsh
 });
 assert.equal(projectTableUpdate.row.status, "Shipped");
 assert.equal(projectTableUpdate.row.notes, "Tracking ready");
-assert.equal(projectTableUpdate.row.updated_at, "2026-06-18T02:00:00.000Z");
-assert.deepEqual(projectTableUpdate.update.changed_fields, ["status", "notes", "updated_at"]);
-assert.equal(projectTableUpdate.snapshot.projects[0].updated_at, "2026-06-18T02:00:00.000Z");
-assert.deepEqual(
-  dashboardWriteAuth({ headers: {} }, {}),
-  {
+	assert.equal(projectTableUpdate.row.updated_at, "2026-06-18T02:00:00.000Z");
+	assert.deepEqual(projectTableUpdate.update.changed_fields, ["status", "notes", "updated_at"]);
+	assert.equal(projectTableUpdate.snapshot.projects[0].updated_at, "2026-06-18T02:00:00.000Z");
+	assert.deepEqual(
+	  projectTableUpdate.table.rows.map((row) => row.row_id),
+	  ["proc_pending", "proc_test", "proc_arrived"],
+	  "Procurement row updates should keep unpurchased rows above ordered and arrived rows",
+	);
+	assert.deepEqual(
+	  dashboardWriteAuth({ headers: {} }, {}),
+	  {
     ok: false,
     status: 503,
     error: "DASHBOARD_WRITE_TOKEN is not configured",
@@ -698,6 +717,11 @@ assert.match(
   dashboardSource,
   /function createProcurementStatusControl\(/,
   "procurement status should render through the same icon-menu pattern as TODO status",
+);
+assert.match(
+  dashboardSource,
+  /function procurementStatusRank\(row\)[\s\S]+statusDiff = procurementStatusRank\(a\) - procurementStatusRank\(b\)/,
+  "procurement rows should render unpurchased rows first before falling back to updated_at sort",
 );
 assert.doesNotMatch(
   dashboardSource,

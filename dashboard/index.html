@@ -1157,6 +1157,14 @@
           return "Ordered";
         }
 
+        function procurementStatusRank(row) {
+          const status = normalizeProcurementStatus(row?.status);
+          if (status === "") return 0;
+          if (status === "Ordered") return 1;
+          if (status === "Arrived") return 2;
+          return 3;
+        }
+
         function compareIntroTableRows(a, b, key, direction) {
           const aValue = a?.[key] || "";
           const bValue = b?.[key] || "";
@@ -1184,6 +1192,15 @@
           }
           const sortKey = tableConfig.default_sort?.key || "updated_at";
           const direction = tableConfig.default_sort?.direction === "asc" ? "asc" : "desc";
+          if (isProcurementTable) {
+            return [...mergedRows].sort((a, b) => {
+              const statusDiff = procurementStatusRank(a) - procurementStatusRank(b);
+              if (statusDiff) return statusDiff;
+              const sortDiff = compareIntroTableRows(a, b, sortKey, direction);
+              if (sortDiff) return sortDiff;
+              return String(a?.item || "").localeCompare(String(b?.item || ""), "en", { numeric: true });
+            });
+          }
           return [...mergedRows].sort((a, b) => compareIntroTableRows(a, b, sortKey, direction));
         }
 
@@ -3611,13 +3628,26 @@
             if (isDashboardBackendWritable()) {
               applyTaskStatus(taskId, status);
               updateDashboardBackendTaskStatus(taskId, status).catch((error) => {
-                console.warn("Dashboard status update failed; using local fallback", error);
+                console.warn("Dashboard status update failed", error);
+                if (dataMode === "vercel") {
+                  if (previousStatus) {
+                    applyTaskStatus(taskId, previousStatus);
+                  }
+                  renderAllProjects();
+                  setSyncStatus("Vercel write failed", "fallback");
+                  return;
+                }
                 setLocalStatus(taskId, status, previousStatus);
                 writeLocalState();
                 renderAllProjects();
                 setSyncStatus("Local fallback", "fallback");
               });
             } else {
+              if (dataMode === "vercel") {
+                setSyncStatus(writeAccessMessage(), "readonly");
+                renderAllProjects();
+                return;
+              }
               setLocalStatus(taskId, status);
               writeLocalState();
               if (dataMode === "supabase" || dataMode === "vercel") {

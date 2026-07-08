@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-07-08T17:28:20+08:00",
+  "updated_at": "2026-07-08T14:36:25.042Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -642,69 +642,6 @@
       ],
       "updated_at": "2026-06-12T15:39:17+08:00",
       "completed_at": "2026-05-22"
-    },
-    {
-      "task_id": "task_real_robot_infra_factr_force_feedback",
-      "project_id": "real-robot-infra",
-      "title": "走菁特智能采购 FACTR / 评估主臂力反馈",
-      "description": "FACTR procurement is now at quote-review stage. Jingte / KING TECHNOLOGY has issued the FACTR-Franka quotation; next step is to send it to Karen for review and purchasing approval while keeping the technical safety comparison around master-arm gravity compensation, damping/brake, and force-feedback value.",
-      "status": "needs_user",
-      "priority": "medium",
-      "assignee": "Karen / Zheng Yuhang",
-      "result": null,
-      "comments": [
-        {
-          "comment_id": "comment_real_robot_infra_factr_20260520",
-          "author": "Progress",
-          "body": "Core issue is master-arm gravity compensation, not just force feedback. Gello is passive, so software can only filter, limit, or stop follower motion; it cannot hold the master arm up. Treat the 12k FACTR-style device as one benchmark, and ask Yuhang to compare it with mechanical counterbalance, damping, brake, or cheaper bilateral-force options.",
-          "created_at": "2026-05-20T19:15:50+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_a6eb1ad2ee15",
-          "author": "Progress",
-          "body": "FACTR / master-arm gravity comp 调研更新 (2026-05-22)\n\nRepo 现状 (franka_wrapper/gello/factr/):\n- gravity_compensation.py: 完整 Pinocchio RNEA + null-space + joint-limit + stiction-dither 实现, 走 Dynamixel current-control。架构正确, 即拿即用的前提是 current-mode-capable 伺服 + 对应 URDF + yaml 配置。\n- run_yam_gello_gravity_comp.py / yam_gello_factr_agent.py: 仅适配 6-DOF YAM_GELLO (XM430-W210 在 joint 2,3; XC330-T288 其余), gravity gain 默认 0.4 (有意欠补偿)。\n- 引用的 configs/yam_gello_factr_{sim,hw}.yaml 在仓库里**缺失**。\n- factr/urdf/ 只有 yam_active_gello/robot.urdf, **没有 7-DOF Franka-Gello URDF**。\n- 不是真正双向力反馈: 只有 leader 端 gravity comp + leader→follower 位置 mirror, 没有 Franka external_torque 回传到 leader 关节的通路。\n\n与本实验室主臂(Franka FR3 + 7-DOF Gello)的差距:\n- gello_agent.py 里有 7-DOF Gello 注册 (port FT3M9NVB, joint_ids 1-7, gripper id 8), 但 servo 型号未在 factr 配置内记录, 需要硬件确认。\n- 若肩/肘关节是 XC330_T288 (~0.9 Nm stall), 软件 GC 顶不动 Franka-Gello 的重量; 必须 XM430-W350 (~4 Nm) 及以上才有意义。\n\n方案对比 (按\"防自由落体/碰撞风险\"目标):\n\nA. 软件 GC (现 FACTR 代码 → 7-DOF Franka-Gello)\n   成本: 0-300 USD (视是否需要升级 joint 2/3/4 伺服)\n   工作量: 1-2 周 (URDF + yaml + 调试)\n   缺陷: 欠补偿配置下仍有残留下垂; gain=1.0 + URDF 质量不准会\"游泳\"。\n   适合: 第一步, 前提是伺服扭矩够。\n\nB. 机械配重/弹簧\n   成本: 50-300 USD\n   工作量: 2-4 周 CAD + 加工 + 调试\n   优点: 无源安全, 断电也不掉; 不依赖软件。\n   缺陷: 单配置最优, 改变 payload 就要重调。\n   建议: 与其它方案叠加做被动底盘。\n\nC. 电磁刹车 / 阻尼\n   成本: 50-150 USD/关节 × 6-7\n   工作量: 1-2 周接线安装\n   定位: 在操作员松手 / 死人开关触发时锁住主臂; 不解决主动 GC, 只防\"放手就坠\"。\n   建议: 与 A 或 B 配合上, 主要锁肩/肘 (joint 2,3,4)。\n\nD. 12k FACTR-style 商用双向设备\n   成本: ~12,000 USD + lead time\n   缺陷: 厂商绑定; 机构通常不对应 Franka FR3, 需要重做 mapping; 与现有 Gello 重复投资。\n   建议: 只在双向力反馈是硬需求且预算充足时考虑, 不是首选。\n\nE. 在现 Gello 上加廉价双向 FF (扩 FACTR 代码读 libfranka O_F_ext_K / tau_J_d 注入 leader current)\n   成本: 软件 0, 必要时升级伺服 ~300 USD\n   工作量: 1-2 周\n   缺陷: Dynamixel 扭矩上限决定可渲染力上限 (~3 Nm), 接触刚性物体时会饱和; 增益不当易振荡。\n   建议: A 之后的自然扩展, 给操作员真正的力反馈手感。\n\n正交建议(无论选哪个都该上):\n- Follower-side deadman + freeze-on-release: 脚踏开关 / 把手按压门控 teleop loop, 主臂掉电或松手即冻结 Franka, 不要让 follower 追着主臂坠下。成本 20-50 USD, 1 天实现, 是最高 ROI 的安全网。\n\nneeds_user: 推荐给 Zheng Yuhang 的下一步决策\n1. 拍照 / 列清本实验室 Franka-Gello 每关节的 Dynamixel 型号 (5 分钟硬件检查) — 决定 A/E 是否可行。\n2. 双向力反馈是硬需求还是 nice-to-have? — 决定要不要走 D 或 E。\n3. 缺失的 configs/yam_gello_factr_*.yaml 是在其它内部仓库还是需要从零写? — 决定 A 的工作量。\n4. 12k FACTR 设备的预算是否真有? — 决定 D 是否上桌。\n\n推荐顺序: 先做正交的 follower deadman (本周即可); 再确认伺服扭矩后跑 A; 必要时叠加 B 弹簧; 最后才考虑 E/D。",
-          "created_at": "2026-05-22T21:34:11+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_67bfada58041",
-          "author": "Needs user",
-          "body": "请 Zheng Yuhang/用户确认：1. 本实验室 Franka-Gello 每个关节的 Dynamixel 型号或照片；2. 双向力反馈是硬需求还是 nice-to-have；3. 缺失的 configs/yam_gello_factr_{sim,hw}.yaml 在哪里，还是需要从零写；4. 12k FACTR 设备预算是否真实可用。确认后再让 worker 补齐可审查 artifact，例如 docs/master_arm_gravcomp_evaluation.md，含来源、sha256/git_sha 和 verifier，再回到 review。",
-          "created_at": "2026-05-22T21:37:02+08:00",
-          "kind": "needs_user"
-        },
-        {
-          "comment_id": "comment_real_robot_factr_jingte_20260524",
-          "author": "Codex",
-          "body": "Procurement route updated: FACTR should be purchased through Jingte Intelligent. Keep the technical comparison focused on master-arm gravity compensation, damping / brake, and force-feedback safety value.",
-          "created_at": "2026-05-24T23:58:00+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "comment_real_robot_factr_quote_karen_review_20260525",
-          "author": "Boris / Codex",
-          "body": "Procurement update: Jingte / KING TECHNOLOGY quotation is available. Quote No. 2026052501, dated 2026-05-25, valid until 2026-06-25. Item: FACTR-Franka, quantity 2 sets, unit price USD 1,765, goods subtotal USD 3,530; air shipping USD 300; GST 9% USD 344.70; payment fee shown as USD 41.75; total order value including tax USD 4,216.45. Freight terms: DDP. Lead time: 1-2 weeks. Payment terms: wire transfer within 30 days after receiving goods. Next step: send quotation to Karen for review / purchasing approval.",
-          "created_at": "2026-05-25T17:58:00+08:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_81d591d9074c",
-          "author": "Needs user",
-          "body": "Mirrored strict audit decision from default state for task_real_robot_infra_factr_force_feedback; remaining work requires human action/credential/hardware/decision, not more autonomous dependency installation.",
-          "created_at": "2026-05-29T02:22:50+08:00",
-          "kind": "needs_user"
-        },
-        {
-          "comment_id": "comment_task_real_robot_infra_factr_force_feedback_intro_note_factr_procurement_route_purchase_through_jingte_intellig",
-          "author": "Boris / Codex",
-          "body": "Moved from previous Real-Robot Infra intro: FACTR procurement route: purchase through Jingte Intelligent; keep the dashboard task focused on procurement path, gravity compensation, and force-feedback safety value.",
-          "created_at": "2026-06-12T15:39:17+08:00",
-          "kind": "comment"
-        }
-      ],
-      "updated_at": "2026-06-12T15:39:17+08:00",
-      "due_at": ""
     },
     {
       "task_id": "task_umi_gemini_frame_test",
@@ -6304,7 +6241,7 @@
       "project_id": "real-robot-demos",
       "title": "Real-Robot Demo: Jenga 抽积木塔 tactile pilot",
       "description": "把 Jenga-style block extraction / 抽积木塔作为紧凑真机 demo：机器人从木块塔里推出或抽出指定木块，同时尽量不让塔倒。采购状态：订单数据.xlsx 确认 Jenga 72 块大号数字叠叠乐（带木锤和收纳袋）已于 2026-07-07 买家付款；仍需确认目标块标记材料（贴纸 / 彩色胶带）、防滑底座或防滑垫、负责人和戴盟触觉 gripper 到新加坡时间。用 q_arm、T_hand、q_finger 记录链路和 tactile/VTA/VLA 分析接触稳定、摩擦/滑移、侧向推力、塔体晃动和失败恢复；配一个可打印/定制的特殊 gripper，并接入戴盟触觉。目标是把 slip、contact stability、lateral force、tower wobble、tower collapse 等失败变成真机 demo 和评测样例。DexGello 可提供数据/控制依赖，但 demo 场景归 Real-Robot Demos 表格管理。\n\nReal-Robot Demos intro migration 2026-07-07:\n- Demo: Jenga-style block extraction tactile pilot\n- Owner / collab: Master student TBD / Zheng Yuhang for Daimon gripper timing\n- Hardware: Robot arm + printable or custom block-extraction gripper + Daimon tactile sensors\n- Object / setup: Jenga tower or custom block stack; target-block stickers / colored tape; non-slip base or anti-slip mat; tactile/VTA/VLA failure labels\n- Intro status: needs_user\n- Next TODO: Jenga 72-piece large numbered set with wooden hammer/storage bag is buyer-paid per 订单数据.xlsx. Still confirm target markers, non-slip base or anti-slip mat, owner assignment, and whether the Daimon-side gripper package is ready and when it can reach Singapore.\n- Notes / acceptance: Track slip, contact stability, lateral force, tower wobble, collapse risk, and recovery; keep as a compact true-robot benchmark.\n- Shared Real-Robot Demos rules:\n  - Scope rule: this card owns demo scenarios, physical objects, consumables, safety gates, and acceptance evidence. DexGello owns reusable data/control dependencies such as GELLO arm state, MANUS/Wuji finger state, VIVE hand pose, cuRobo planning, and episode logging.\n  - Procurement rule: Taobao/Lego/demo-kit candidate links are TODO evidence only. Do not mark procurement done until purchase route, delivery destination, receipt/procurement record, and arrival/fit check are recorded.\n  - Safety rule: every demo starts with read-only or simulation/dry-run, then low-speed robot motion with workspace limits, cable checks, and a dedicated E-stop watcher before collecting publishable evidence.\n  - Failure-data link 2026-06-13: broom-to-dustpan and two 90-degree cube-turn demos are added specifically as longer-horizon data sources for DexGello learn-from-failure metrics. They should log phase boundaries, intervention/takeover, object/contact progress, and which failed stages should not be imitated.\n  - Procurement update 2026-07-07: 订单数据.xlsx confirms buyer-paid rows for toy knife/cutting-board set, Jenga 72-piece set, Lego tools, Lego/MOC baseplates and mixed blocks, large Rubik-style cube, and two 1-to-3 USB-C-output data/charging cables for VIVE Tracker / MANUS. Slime clay shipped with ETA 2026-07-20 to 2026-07-23, and a second M&G 36-color clay pack is buyer-paid. The grey leather desktop mat was removed and should not be purchased; choose an existing or alternate surface if a demo still needs tabletop contrast or protection. Do not re-buy the existing COM2-seat props unless fit check fails.\n  - Existing-prop transfer note 2026-06-16: Boris has data-collection props at his COM2 seat, including a small broom/dustpan toy, cube, ping-pong paddle, and related toys. These need human transfer to ME; they are not procurement items.",
-      "status": "needs_user",
+      "status": "todo",
       "priority": "medium",
       "assignee": "master student TBD / Zheng Yuhang for gripper timing",
       "result": null,
@@ -6354,8 +6291,9 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-07-07T18:45:00+08:00",
-      "completed_at": null
+      "updated_at": "2026-07-08T14:27:47.066Z",
+      "completed_at": null,
+      "completed_at_time": null
     },
     {
       "task_id": "task_real_robot_infra_linker_ta_ffg_wrapper",
@@ -9220,9 +9158,9 @@
     {
       "task_id": "task_general_claude_code_yuhang_account_recharge",
       "project_id": "real-robot-infra",
-      "title": "Claude Code 让宇航重新开号充值",
-      "description": "让宇航重新开 Claude Code / Claude 账号并充值，避免一个账号在 ME 和 SoC / 多个 robot base 之间频繁切换物理位置导致继续被封。背景：AGI Max 和 Team 账号也出现阵亡风险；当前判断是 ME 和 SoC 最好分开账号，一个 base 尽量对应独立账号。验收：确认宇航新账号开通、套餐/充值路径、绑定邮箱/手机号归属、可报销或个人垫付方案、ME/SoC 使用边界、账号共享规则；不要把密码、token、付款信息写入 dashboard。",
-      "status": "active",
+      "title": "Codex recharge completed for Yuhang account path",
+      "description": "Scope changed from opening/recharging a Claude Code / Claude account to completing a Codex recharge path for Yuhang/Boris usage. Acceptance: Codex recharge is marked complete; no password, token, payment card, invoice number, or other sensitive account/payment details are stored in dashboard. Any remaining ME/SoC account-boundary or reimbursement details should be tracked outside public dashboard or added only as non-sensitive policy notes.",
+      "status": "done",
       "priority": "high",
       "assignee": "Yuhang / Boris",
       "due_at": "",
@@ -9248,9 +9186,20 @@
           "body": "Progress sync from LV-Robotic Lab 创世工作群 on 2026-06-16: Boris asked whether the Romoya-side Claude Code subscription was moving, and the latest reply was that Xiaobai is already handling the procurement path and Yuhang will check the latest purchase status. Current working assumption is they may open several separate personal-use accounts instead of one shared account across ME and SoC; unrelated people likely will not be included. An alternative path under discussion is upgrading existing Team accounts to Max seats inside Teams, and Yuhang said he will ask about that route as well. Keep ME/SoC usage boundaries separate and do not store any password, token, or payment detail in the dashboard.",
           "created_at": "2026-06-16T23:33:42+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_1b81920b-ec85-4342-824c-eeb1f54ba815",
+          "task_id": "task_general_claude_code_yuhang_account_recharge",
+          "author": "Boris / Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Marked done per Boris update on 2026-07-08: original Claude Code/Yuhang new-account task was changed to Codex recharge, and the Codex recharge is complete. No password, token, payment card, invoice number, or other sensitive account/payment details are recorded here.",
+          "created_at": "2026-07-08T14:16:56.656Z"
         }
       ],
-      "updated_at": "2026-06-16T23:33:42+08:00"
+      "updated_at": "2026-07-08T14:16:56.656Z",
+      "completed_at": "2026-07-08",
+      "completed_at_time": "2026-07-08T14:16:56.656Z"
     },
     {
       "task_id": "task_general_api_gateway_procurement_query",
@@ -9285,7 +9234,7 @@
       "project_id": "real-robot-infra",
       "title": "ME Control Lab 防振桌由周建树老师协调学校 manager 安装",
       "description": "把 ME Control Lab 的防振桌 / 防震桌安装路径改成由周建树老师找学校 manager 协商处理，不再以本地人力公司报价为主线。目标：确认桌子型号、重量、包装尺寸、安装说明、所需工具、现场可进入时间、ME building 搬运/施工限制、是否需要 lift / trolley / PPE / risk assessment，以及学校 manager 能否安排校内安装/搬运支持；同时确认组装后是否影响真机摆放和线缆走线。验收：明确学校 manager 协调路径和负责人；确认安装/搬运支持是否由校内安排；约定时间；完成组装；记录安装照片、水平/稳定性检查、设备摆位和防振效果初步检查。",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignee": "周建树老师 / school manager / Boris",
       "due_at": "",
@@ -9313,14 +9262,16 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-06-16T23:24:41+08:00"
+      "updated_at": "2026-07-08T14:20:34.031Z",
+      "completed_at": "2026-07-08",
+      "completed_at_time": "2026-07-08T14:20:34.031Z"
     },
     {
       "task_id": "task_general_head_mounted_phone_holder_procurement",
       "project_id": "general",
       "title": "采购头戴手机支架用于第一人称双手操作视频采集",
       "description": "头戴手机支架第一人称双手开车视频固定架直播短视频录制穿戴固定身体支架头带汽车维修视角自拍配件（https://e.tb.cn/h.RoTHt0FU9m2Dn1g?tk=gWEXg5lyoqA）已于 2026-07-07 下单。用途定位为第一人称双手操作、维修视角、HOI / ego-video 采集候选；不要把实际道路驾驶拍摄作为实验要求。验收：到货后确认头带稳定性、手机重量与夹持尺寸、防跌落保险、佩戴舒适性、FOV / 遮挡、是否影响双手操作和安全边界；完成静态 / 低风险试戴和 1 段短视频 fit-check。",
-      "status": "todo",
+      "status": "done",
       "priority": "medium",
       "assignee": "Boris / lab procurement",
       "due_at": "",
@@ -9334,9 +9285,10 @@
           "kind": "procurement"
         }
       ],
-      "updated_at": "2026-07-07T17:40:07+08:00",
+      "updated_at": "2026-07-08T14:23:52.226Z",
       "started_at": "2026-06-17",
-      "completed_at": null
+      "completed_at": "2026-07-08",
+      "completed_at_time": "2026-07-08T14:23:52.226Z"
     },
     {
       "task_id": "task_real_robot_demo_wuji_plastic_bag_rubbing",
@@ -9453,7 +9405,7 @@
       "project_id": "real-robot-demos",
       "title": "Long-horizon demo: 用扫帚把物体扫进撮箕",
       "description": "为 DexGello / Learn-from-failure-data 准备一个较长 horizon 的真机 demo：机器人抓住小扫帚，把桌面上的轻物体 / debris proxy 扫进撮箕。前置采购 / 确认：桌面使用的小扫帚（软毛）和桌面使用的小撮箕。目标不是只看最终成功，而是产生可分阶段标注的成功/失败/接管轨迹，用来验证 phase-importance metric。建议阶段：approach broom、grasp broom、align with object、make contact、sweep toward dustpan、enter dustpan、settle / finish。验收：完成安全 tabletop setup 和物体/撮箕固定方案；完成 read-only 或仿真/dry-run；完成一次低速真机试验或明确硬件 blocker；记录视频、q_arm、T_hand、q_finger/Wuji state、object progress、contact/failure labels、human takeover/intervention；产出至少 1 条可用于 failure metric 离线打分的 episode。\n\nReal-Robot Demos intro migration 2026-07-07:\n- Demo: Long-horizon failure-data demo: sweep object into dustpan\n- Owner / collab: DexGello / Learn-from-failure-data support; Yuhang & Jingxiang\n- Hardware: Franka + Wuji or simpler dexterous-hand/gripper tool-holding setup; existing tabletop broom/dustpan toy from Boris' COM2 seat\n- Object / setup: Light tabletop object or debris proxy; existing small broom/dustpan toy to transfer from COM2 seat to ME; camera view of object progress and tool contact\n- Intro status: todo\n- Next TODO: Have a human transfer the existing small broom/dustpan toy from Boris' COM2 seat to ME; design safe setup, then run dry-run and low-speed robot trial with phase labels: grasp broom, align object, sweep, enter dustpan, settle.\n- Notes / acceptance: Primary value is long-horizon stage importance for failure-data learning: failed sweeps still contain learnable approach/grasp/alignment phases, while bad contact or missed dustpan stages should be low-weight failure evidence.\n- Shared Real-Robot Demos rules:\n  - Scope rule: this card owns demo scenarios, physical objects, consumables, safety gates, and acceptance evidence. DexGello owns reusable data/control dependencies such as GELLO arm state, MANUS/Wuji finger state, VIVE hand pose, cuRobo planning, and episode logging.\n  - Procurement rule: Taobao/Lego/demo-kit candidate links are TODO evidence only. Do not mark procurement done until purchase route, delivery destination, receipt/procurement record, and arrival/fit check are recorded.\n  - Safety rule: every demo starts with read-only or simulation/dry-run, then low-speed robot motion with workspace limits, cable checks, and a dedicated E-stop watcher before collecting publishable evidence.\n  - Failure-data link 2026-06-13: broom-to-dustpan and two 90-degree cube-turn demos are added specifically as longer-horizon data sources for DexGello learn-from-failure metrics. They should log phase boundaries, intervention/takeover, object/contact progress, and which failed stages should not be imitated.\n  - Procurement update 2026-07-07: 订单数据.xlsx confirms buyer-paid rows for toy knife/cutting-board set, Jenga 72-piece set, Lego tools, Lego/MOC baseplates and mixed blocks, large Rubik-style cube, and two 1-to-3 USB-C-output data/charging cables for VIVE Tracker / MANUS. Slime clay shipped with ETA 2026-07-20 to 2026-07-23, and a second M&G 36-color clay pack is buyer-paid. The grey leather desktop mat was removed and should not be purchased; choose an existing or alternate surface if a demo still needs tabletop contrast or protection. Do not re-buy the existing COM2-seat props unless fit check fails.\n  - Existing-prop transfer note 2026-06-16: Boris has data-collection props at his COM2 seat, including a small broom/dustpan toy, cube, ping-pong paddle, and related toys. These need human transfer to ME; they are not procurement items.",
-      "status": "todo",
+      "status": "active",
       "priority": "high",
       "assignee": "Yuhang & Jingxiang / DexGello",
       "due_at": "",
@@ -9467,16 +9419,17 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-07-07T18:45:00+08:00",
+      "updated_at": "2026-07-08T14:27:47.066Z",
       "started_at": "2026-06-13",
-      "completed_at": null
+      "completed_at": null,
+      "completed_at_time": null
     },
     {
       "task_id": "task_real_robot_demo_two_90_cube_turns",
       "project_id": "real-robot-demos",
       "title": "Long-horizon demo: 魔方/方块连续拧两下 90 度",
-      "description": "为 DexGello / Learn-from-failure-data 准备一个紧凑但多阶段的灵巧手 demo：对低摩擦方块、带标记方块或安全 Rubik-style cube 连续完成两次 90 度转动。采购状态：订单数据.xlsx 确认大号三阶魔方已于 2026-07-07 买家付款；商品标题写超大号，SKU 写 7CM，到货后必须确认真实尺寸、低阻尼、视觉标记和安全 fixture。任务目标不是解魔方，而是制造可观测的长一点 horizon：pregrasp、first 90-degree turn、stabilize/regrasp、second 90-degree turn、final orientation check。验收：选择安全低阻尼 cube 或 fixture，确认不会过载 Wuji 指尖/关节；定义视觉 orientation labels 和每个 90 度阶段的成功/失败判据；完成 read-only 或仿真/dry-run；完成一次低速真机试验或明确硬件 blocker；记录视频、手指状态、接触/滑移/错位、human takeover/intervention 和每阶段 metric 打分样例。\n\nReal-Robot Demos intro migration 2026-07-07:\n- Demo: Long-horizon failure-data demo: two 90-degree cube turns\n- Owner / collab: DexGello / Learn-from-failure-data support; Yuhang & Jingxiang\n- Hardware: Wuji or dexterous hand; ordered large Rubik-style cube, or existing cube from Boris' COM2 seat if suitable\n- Object / setup: Large Rubik-style cube is buyer-paid per 订单数据.xlsx; product title says oversized cube while SKU says 7cm, so verify actual size on arrival. Existing cube can still be transferred from COM2 seat to ME if useful; stable table/fixture; camera view of finger contact and face orientation\n- Intro status: todo\n- Next TODO: After the buyer-paid large Rubik-style cube arrives, inspect actual size, friction/torque/markers and compare with any existing cube; then define two-step 90-degree turn task, safe force limits, orientation labels, and low-speed trial that records success/failure after each quarter-turn.\n- Notes / acceptance: Use this as a compact long-horizon manipulation sequence: pregrasp, first 90-degree turn, regrasp/stabilize, second 90-degree turn. Good for testing whether the metric separates useful early phases from failed final rotation.\n- Shared Real-Robot Demos rules:\n  - Scope rule: this card owns demo scenarios, physical objects, consumables, safety gates, and acceptance evidence. DexGello owns reusable data/control dependencies such as GELLO arm state, MANUS/Wuji finger state, VIVE hand pose, cuRobo planning, and episode logging.\n  - Procurement rule: Taobao/Lego/demo-kit candidate links are TODO evidence only. Do not mark procurement done until purchase route, delivery destination, receipt/procurement record, and arrival/fit check are recorded.\n  - Safety rule: every demo starts with read-only or simulation/dry-run, then low-speed robot motion with workspace limits, cable checks, and a dedicated E-stop watcher before collecting publishable evidence.\n  - Failure-data link 2026-06-13: broom-to-dustpan and two 90-degree cube-turn demos are added specifically as longer-horizon data sources for DexGello learn-from-failure metrics. They should log phase boundaries, intervention/takeover, object/contact progress, and which failed stages should not be imitated.\n  - Procurement update 2026-07-07: 订单数据.xlsx confirms buyer-paid rows for toy knife/cutting-board set, Jenga 72-piece set, Lego tools, Lego/MOC baseplates and mixed blocks, large Rubik-style cube, and two 1-to-3 USB-C-output data/charging cables for VIVE Tracker / MANUS. Slime clay shipped with ETA 2026-07-20 to 2026-07-23, and a second M&G 36-color clay pack is buyer-paid. The grey leather desktop mat was removed and should not be purchased; choose an existing or alternate surface if a demo still needs tabletop contrast or protection. Do not re-buy the existing COM2-seat props unless fit check fails.\n  - Existing-prop transfer note 2026-06-16: Boris has data-collection props at his COM2 seat, including a small broom/dustpan toy, cube, ping-pong paddle, and related toys. These need human transfer to ME; they are not procurement items.",
-      "status": "todo",
+      "description": "为 DexGello / Learn-from-failure-data 准备一个紧凑但多阶段的灵巧手 demo：对低摩擦方块、带标记方块或安全 Rubik-style cube 连续完成两次 90 度转动。采购状态：订单数据.xlsx 确认大号三阶魔方已于 2026-07-07 买家付款；商品标题写超大号，SKU 写 7CM，到货后必须确认真实尺寸、低阻尼、视觉标记和安全 fixture。任务目标不是解魔方，而是制造可观测的长一点 horizon：pregrasp、first 90-degree turn、stabilize/regrasp、second 90-degree turn、final orientation check。验收：选择安全低阻尼 cube 或 fixture，确认不会过载 Wuji 指尖/关节；定义视觉 orientation labels 和每个 90 度阶段的成功/失败判据；完成 read-only 或仿真/dry-run；完成一次低速真机试验或明确硬件 blocker；记录视频、手指状态、接触/滑移/错位、human takeover/intervention 和每阶段 metric 打分样例。\n\nReal-Robot Demos intro migration 2026-07-07:\n- Demo: Long-horizon failure-data demo: two 90-degree cube turns\n- Owner / collab: DexGello / Learn-from-failure-data support; Yuhang & Jingxiang\n- Hardware: Wuji or dexterous hand; ordered large Rubik-style cube, or existing cube from Boris' COM2 seat if suitable\n- Object / setup: Large Rubik-style cube is buyer-paid per 订单数据.xlsx; product title says oversized cube while SKU says 7cm, so verify actual size on arrival. Existing cube can still be transferred from COM2 seat to ME if useful; stable table/fixture; camera view of finger contact and face orientation\n- Intro status: todo\n- Next TODO: After the buyer-paid large Rubik-style cube arrives, inspect actual size, friction/torque/markers and compare with any existing cube; then define two-step 90-degree turn task, safe force limits, orientation labels, and low-speed trial that records success/failure after each quarter-turn.\n- Notes / acceptance: Use this as a compact long-horizon manipulation sequence: pregrasp, first 90-degree turn, regrasp/stabilize, second 90-degree turn. Good for testing whether the metric separates useful early phases from failed final rotation.\n- Shared Real-Robot Demos rules:\n  - Scope rule: this card owns demo scenarios, physical objects, consumables, safety gates, and acceptance evidence. DexGello owns reusable data/control dependencies such as GELLO arm state, MANUS/Wuji finger state, VIVE hand pose, cuRobo planning, and episode logging.\n  - Procurement rule: Taobao/Lego/demo-kit candidate links are TODO evidence only. Do not mark procurement done until purchase route, delivery destination, receipt/procurement record, and arrival/fit check are recorded.\n  - Safety rule: every demo starts with read-only or simulation/dry-run, then low-speed robot motion with workspace limits, cable checks, and a dedicated E-stop watcher before collecting publishable evidence.\n  - Failure-data link 2026-06-13: broom-to-dustpan and two 90-degree cube-turn demos are added specifically as longer-horizon data sources for DexGello learn-from-failure metrics. They should log phase boundaries, intervention/takeover, object/contact progress, and which failed stages should not be imitated.\n  - Procurement update 2026-07-07: 订单数据.xlsx confirms buyer-paid rows for toy knife/cutting-board set, Jenga 72-piece set, Lego tools, Lego/MOC baseplates and mixed blocks, large Rubik-style cube, and two 1-to-3 USB-C-output data/charging cables for VIVE Tracker / MANUS. Slime clay shipped with ETA 2026-07-20 to 2026-07-23, and a second M&G 36-color clay pack is buyer-paid. The grey leather desktop mat was removed and should not be purchased; choose an existing or alternate surface if a demo still needs tabletop contrast or protection. Do not re-buy the existing COM2-seat props unless fit check fails.\n  - Existing-prop transfer note 2026-06-16: Boris has data-collection props at his COM2 seat, including a small broom/dustpan toy, cube, ping-pong paddle, and related toys. These need human transfer to ME; they are not procurement items.\n\n展示视频补充验收：为周建树老师展示剪一版效果更好的变速 / 加速视频，优先用今天 0:28 拧魔方素材，保留关键接触和 90 度转动瞬间，避免剪掉失败诊断所需的手指/方块姿态信息。",
+      "status": "active",
       "priority": "high",
       "assignee": "Yuhang & Jingxiang / DexGello",
       "due_at": "",
@@ -9488,11 +9441,30 @@
           "body": "Seeded from user request on 2026-06-13: Learn-from-failure-data needs longer-horizon real-robot demos, such as turning a Rubik-style cube 90 degrees twice. Keep the goal as staged dexterous manipulation data, not cube solving.",
           "created_at": "2026-06-13T16:13:00+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_1dd37aed-158a-4749-b35f-b3734c1ab44b",
+          "task_id": "task_real_robot_demo_two_90_cube_turns",
+          "author": "Boris / Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Progress update from Boris on 2026-07-08: today the cube-turn implementation achieved one 90-degree turn. Keep the task ongoing because the target remains two consecutive 90-degree turns with staged logging, regrasp/stabilization, safety checks, and failure/phase labels.",
+          "created_at": "2026-07-08T14:27:47.066Z"
+        },
+        {
+          "comment_id": "comment_52c48984-44f5-4e4b-ad84-5ab666bc2e8a",
+          "task_id": "task_real_robot_demo_two_90_cube_turns",
+          "author": "Boris / Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Display-video requirement added per Boris on 2026-07-08: Zhou Jianshu said the cube-turn clip looks good and asked for a better edited accelerated / speed-ramped video. Add this as a deliverable for the real-robot cube-turn TODO while keeping the raw clip/logs for failure-data analysis.",
+          "created_at": "2026-07-08T14:31:36.807Z"
         }
       ],
-      "updated_at": "2026-07-07T18:45:00+08:00",
+      "updated_at": "2026-07-08T14:31:36.807Z",
       "started_at": "2026-06-13",
-      "completed_at": null
+      "completed_at": null,
+      "completed_at_time": null
     },
     {
       "task_id": "task_self_improving_cosmos3_robolab_rollouts",
@@ -11823,6 +11795,40 @@
       "updated_at": "2026-07-07T23:30:00+08:00",
       "started_at": null,
       "completed_at": null
+    },
+    {
+      "task_id": "task_real_robot_infra_franka_camera_mount_bolt_hole_reprint",
+      "project_id": "real-robot-infra",
+      "title": "重画 Franka 相机支架并对齐自带螺栓孔重新打印",
+      "description": "FYI from Boris/Wuhao: current Franka camera bracket should be revised to reuse the built-in Franka bolt holes visible around the flange instead of relying on the current clamp-only geometry. Action: draw a bolt-hole-aligned version of the Franka camera mount, preserve the intended camera pose, and reprint a test part. Acceptance: confirm the real Franka bolt-hole pattern from official CAD/manual or direct caliper measurement rather than inferring dimensions from the chat photo; produce CAD/STL/print files; verify screw size/thread engagement, flange clearance, camera FOV, cable routing, and no interference with Wuji hand / end-effector / robot motion envelope; perform a dry fit with robot motion disabled before any live test.",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Wuhao / Boris",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-07-08T14:25:33.882Z"
+    },
+    {
+      "task_id": "task_real_robot_infra_wuji_mf287_flexible_sensor_haptic_module_eval",
+      "project_id": "real-robot-infra",
+      "title": "评估 MF287 柔性薄膜抓握力传感器能否装到 Wuji 手并接入 haptic 模块",
+      "description": "评估 Taobao 候选 MF287 手掌抓握力传感器 / 柔性薄膜压阻式触觉感应器是否能贴装或夹装到 Wuji 手上，并作为 haptic 模块的输入信号使用。候选链接：https://e.tb.cn/h.RCChiiqRVVfaEjO?tk=6cCrgMdyp5m；当前未购买，采购表中保持未下单状态。验收：确认传感器真实尺寸、厚度、弯折半径、压阻量程、接线/连接器、电气接口和采样前端需求；确定贴装位置（掌心、指腹、侧面或外置夹具）不会妨碍 Wuji 关节、指尖接触、相机视野、线缆和安全工作区；完成 bench 测试方案（万用表/分压/ADC 读数、简单标定、滞后和重复性检查）；定义接入 haptic 模块的数据路径和隔离/限流保护；购买前给出是否值得采购、需要几片、需要哪些转接线/ADC/固定材料的结论。\n\n新增讨论结论：先用 1-2 个单点 FSR402/400/406 类力敏模块 + 线性电压转换模块做一指/一指节 haptic bench test；MF287/FPC 手套式传感器需先向商家要图纸并与 Wuji Hand 1 / 灵心巧手几何对比，确认指节相对位置、侧摆和拇指自由度能否适配后再买。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Boris / Wuhao / Yuhang & Jingxiang",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_2cd4b509-23f7-4b49-a67f-01b0ee7e1f1d",
+          "task_id": "task_real_robot_infra_wuji_mf287_flexible_sensor_haptic_module_eval",
+          "author": "Boris / Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "ClawCross WeChat sync from Dexterous Data Collection on 2026-07-08: Wuhao cautioned that the MF287 glove/FPC-style sensor likely will not directly fit Wuji because finger segment positions, side-splay, and thumb geometry differ; it may also be poor for lateral motion. The signal is sparse: roughly one force value per finger segment, useful mainly for simple grip/contact feedback rather than contact localization. Boris noted the haptic module is also single-value vibration, so one force channel can still map to one haptic actuator. Wuhao suggested first buying 1-2 single-point FSR402/400/406-style sensors plus a linear voltage conversion module and trying a one-finger / one-phalanx haptic loop; existing microcontroller may be enough, but readout and whether an Arduino/ADC is needed remain open. Haoming should check Wuji Hand 1 manual/current or position-error telemetry; Wuhao expects current loop feedback may be unavailable or weak. Also ask the MF287 seller for drawings and compare against Lingxin/Wuji hand geometry before buying the full FPC sensor.",
+          "created_at": "2026-07-08T14:36:25.042Z"
+        }
+      ],
+      "updated_at": "2026-07-08T14:36:25.042Z"
     }
   ]
 }

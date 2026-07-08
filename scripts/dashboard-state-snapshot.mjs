@@ -153,6 +153,45 @@ function sanitizeProjectTableRowPatch(patch) {
   return nextPatch;
 }
 
+function normalizeProcurementStatusForSort(status) {
+  const value = String(status || "").trim().toLowerCase();
+  if (!value || value === "requested" || value.includes("pending") || value.includes("romoya") || value.includes("canceled")) {
+    return "";
+  }
+  if (value.startsWith("archive") || value.includes("arrived") || value.includes("received") || value === "done" || value.includes("交易成功")) {
+    return "Arrived";
+  }
+  if (value.includes("ordered") || value.includes("shipped") || value.includes("buyer paid") || value.includes("presale")) {
+    return "Ordered";
+  }
+  return "Ordered";
+}
+
+function procurementStatusRank(row) {
+  const status = normalizeProcurementStatusForSort(row?.status);
+  if (status === "") return 0;
+  if (status === "Ordered") return 1;
+  if (status === "Arrived") return 2;
+  return 3;
+}
+
+function compareProcurementRows(a, b) {
+  const statusDiff = procurementStatusRank(a) - procurementStatusRank(b);
+  if (statusDiff) return statusDiff;
+  const aTime = Date.parse(a?.updated_at || "");
+  const bTime = Date.parse(b?.updated_at || "");
+  if (Number.isFinite(aTime) && Number.isFinite(bTime) && aTime !== bTime) {
+    return bTime - aTime;
+  }
+  return String(a?.item || "").localeCompare(String(b?.item || ""), "en", { numeric: true });
+}
+
+function sortProjectTableRows(table) {
+  if (table?.kind === "procurement_table" && Array.isArray(table.rows)) {
+    table.rows.sort(compareProcurementRows);
+  }
+}
+
 export function appendSnapshotAuditEvent(snapshot, event, options = {}) {
   const next = cloneMutableSnapshot(snapshot);
   const limit = Number.isFinite(options.limit) && options.limit > 0
@@ -239,6 +278,7 @@ export function applySnapshotProjectTableRowUpdate(snapshot, input, options = {}
     }
   }
   if (changedFields.length) {
+    sortProjectTableRows(table);
     project.updated_at = updatedAt;
     next.updated_at = updatedAt;
   }
