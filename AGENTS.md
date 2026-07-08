@@ -27,17 +27,19 @@ Before updating a task, read the machine-readable state and locate the relevant 
 
 Dashboard project intros are for durable architecture and status framing only.
 Do not use a project intro, `intro_table`, timeline, or `details` array as an
-execution log. If a note has an owner, due date, next gate, command to run,
-verification result, resource request, live training/download telemetry, or
-decision that changes execution, put it in a new TODO or in a comment on the
-existing relevant TODO. Keep project intros short enough to scan before the task
-list; for UMI-style project cards, prefer a short stage summary plus durable
-acceptance guardrails, and route all meeting action items into `tasks.json`.
+execution log. If a note has an owner, due date, next step, next gate, command
+to run, verification result, resource request, live training/download
+telemetry, or decision that changes execution, put it in a new TODO or in a
+comment on the existing relevant TODO. Keep project intros short enough to scan
+before the task list; for UMI-style project cards, prefer a short stage summary
+plus durable acceptance guardrails, and route all meeting action items into
+`tasks.json`.
 For the UMI card specifically, `npm run test:dashboard` enforces the guardrail:
 summary <= 700 characters, details <= 12 entries, intro table <= 8 rows, and no
-`next`, `due`, `command`, `result`, `verification`, or telemetry-style columns in
-the intro table. If a meeting note does not fit that budget, create or update a
-TODO instead of expanding the intro.
+execution-field keys such as `owner`, `due`, `next_step`, `command`, `result`,
+`verification`, `resource`, or telemetry-style fields in intro surfaces. If a
+meeting note does not fit that budget, create or update a TODO instead of
+expanding the intro.
 DaiMeng/Daimon operational gates belong under `tactile-wam`, not
 `umi-world-model`: causal_robot_daimon checkpoints, DaiMeng materialized
 robot189/Gamma roots, `/mnt/data/datasets/daimon` materialization, post-2000

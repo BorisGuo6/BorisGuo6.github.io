@@ -6,7 +6,7 @@
   "status": "ongoing",
   "updated_at": "2026-07-07T22:36:38+08:00",
   "description": "UMI Image Layered World Model: three linked papers covering multi-view robot video world modeling, manipulation-video dynamics decomposition into reusable layers, and layered data as a downstream VLA/IDM/reward training interface.",
-  "summary": "UMI World Model is a three-paper program with one shared data substrate: Stage 1 trains a streaming multi-view pose/action-conditioned robot world model; Stage 2 turns manipulation videos into reusable scene, object/contact, occluder/tool, and robot/actor layers; Stage 3 tests whether those layers improve manipulation and video-model training. This intro is only architecture/status framing; task-level execution state lives in TODOs and task comments.",
+  "summary": "UMI World Model is a three-paper program with one shared data substrate: Stage 1 trains a streaming multi-view pose/action-conditioned robot world model; Stage 2 turns manipulation videos into reusable scene, object/contact, occluder/tool, and robot/actor layers; Stage 3 tests whether those layers improve manipulation and video-model training.",
   "subprojects": [
     {
       "label": "A",
@@ -287,7 +287,6 @@
     ]
   },
   "details": [
-    "Dashboard hygiene rule 2026-07-07: the UMI intro carries architecture and durable status framing only; task-level execution evidence belongs in TODOs or task comments, and DaiMeng/Daimon training gates belong under the DaiMeng VTAM / Tactile-WAM card.",
     "Three-paper split: Stage 1 is the streaming multi-view pose/action-conditioned UMI World Model; Stage 2 is VDDM for reusable manipulation layers; Stage 3 is the downstream VLA/IDM/reward paper proving layered data changes learning and evaluation.",
     "Stage 1 acceptance: generated robot-camera videos must share scene, object, contact, and action consequences across views instead of drifting as independent clips. Evaluation must include copy/hold, retrieval, wrist-only/main-view-only, action-swapped, shared-world teacher/ranker, and generic interactive-world-model negative baselines.",
     "Stage 2 acceptance: every layer batch must preserve raster truth and structure through masks, RGBA/video, inpainted background, optional SVG/contact metadata, layer_manifest.json, temporal consistency, motion-residue checks, and recomposition QA.",
