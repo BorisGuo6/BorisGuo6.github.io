@@ -5,7 +5,7 @@
   "subtitle": "World models, self-improving simulators, teleop acceleration, and robotics + 3D printing",
   "week": "2026-W24",
   "date": "2026-06-12",
-  "updated_at": "2026-07-08T00:35:00+08:00",
+  "updated_at": "2026-07-08T14:55:50.934Z",
   "state_root": "dashboard/state",
   "summary": {
     "focus": "Research 主线保持 Tri-View/Image-Layered IDM、Self-Improving Agents 和 DexGello；Survey TODO 已统一 inactive/archived，不再显示为当前执行队列。",
@@ -82,45 +82,9 @@
       "added_at": "2026-06-19"
     },
     {
-      "src": "dashboard/assets/egovtla-pillars.png",
-      "alt": "EgoVTLA perception and intuition pillars",
-      "caption": "EgoVTLA pillars: perception alignment and intuition alignment.",
-      "added_at": "2026-06-19"
-    },
-    {
-      "src": "dashboard/assets/egovtla-world-model.png",
-      "alt": "World-model-driven EgoVTLA map",
-      "caption": "World-model-driven EgoVTLA: vision -> depth / flow -> action.",
-      "added_at": "2026-06-19"
-    },
-    {
-      "src": "dashboard/assets/umi-overview.png",
-      "alt": "UMI World Model overview",
-      "caption": "UMI World Model project framing.",
-      "added_at": "2026-06-19"
-    },
-    {
       "src": "dashboard/assets/layered-world-model.png",
       "alt": "Layered robot data hierarchy: background, object, and robot layers feed augmentation, reward, and inverse dynamics.",
       "caption": "Layered robot data hypothesis: background -> augmentation/adaptation, object/contact -> process reward, robot -> IDM and pose/VO supervision.",
-      "added_at": "2026-06-19"
-    },
-    {
-      "src": "dashboard/assets/world-model-taxonomy-20260615.jpg",
-      "alt": "World model taxonomy comparing reconstruction, next-step prediction, and runnable models across reconstruction, object/3D, and pixel/video levels.",
-      "caption": "World-model taxonomy note: reconstruction, predictive next-step, and runnable simulation are different claims and should not be collapsed.",
-      "added_at": "2026-06-19"
-    },
-    {
-      "src": "dashboard/assets/pearl-overview.png",
-      "alt": "PEARL self-improving physical AI framework",
-      "caption": "PEARL-style loop: memory, attribution, co-evolution, governance.",
-      "added_at": "2026-06-19"
-    },
-    {
-      "src": "dashboard/assets/simulator-taxonomy-20260615.png",
-      "alt": "Robotics simulator taxonomy comparing task APIs, assets, simulation frameworks, renderers, and physics engines across ManiSkill, SAPIEN, Isaac Sim, OmniGibson, MuJoCo, Habitat, RLBench, and CoppeliaSim.",
-      "caption": "Simulator taxonomy: separate task/API layer, assets, sim framework, renderer, and physics engine when choosing the Text2Env / AgenticSim backend.",
       "added_at": "2026-06-19"
     },
     {
@@ -163,18 +127,6 @@
       "added_at": "2026-06-19"
     },
     {
-      "src": "dashboard/assets/general-engineering-backlog.png",
-      "alt": "Procurement table for cross-project lab purchases",
-      "caption": "Procurement table: editable cross-project lab purchase register.",
-      "added_at": "2026-06-19"
-    },
-    {
-      "src": "dashboard/assets/pico-body-tracker-taobao-20260621.jpg",
-      "alt": "Taobao screenshot for PICO full-body tracking kit, showing the official 5-point tracker option at RMB 1109.",
-      "caption": "PICO body tracker procurement candidate: 5-point no-base-station full-body tracking kit for comparison against VIVE Tracker-style setups.",
-      "added_at": "2026-06-21"
-    },
-    {
       "src": "dashboard/assets/r2s2r-reconstruction.png",
       "alt": "Real2Sim2Real reconstruction and hierarchical physics simulation pipeline",
       "caption": "R2S2R reconstruction reference: input video -> SuGaR reconstruction -> mesh / Gaussian surfaces -> physics-aware simulation and rendering.",
@@ -205,27 +157,33 @@
       "added_at": "2026-06-19"
     },
     {
-      "src": "dashboard/assets/umi-qwen-layer-failure-20260618-0.jpg",
-      "alt": "Qwen Image-Layered UMI failure sample 0",
-      "caption": "UMI layer failure context: Qwen/Image-agent decomposition merges robot, object, and scene regions and does not produce clean robot/object/background layers.",
-      "added_at": "2026-06-19"
-    },
-    {
       "src": "dashboard/assets/umi-qwen-layer-failure-20260618-1.jpg",
-      "alt": "Qwen Image-Layered UMI failure sample 1",
-      "caption": "UMI layer failure context: increasing layer count still leaves duplicated objects, missing robot structure, and fragmented scene/background regions.",
+      "alt": "Representative Qwen Image-Layered UMI failure sample",
+      "caption": "Representative UMI layer failure context: extra layers still duplicate objects, miss robot structure, and fragment scene/background regions; keep one negative still-frame baseline instead of four near-duplicate images.",
       "added_at": "2026-06-19"
     },
     {
-      "src": "dashboard/assets/umi-qwen-layer-failure-20260618-2.jpg",
-      "alt": "Qwen Image-Layered UMI failure sample 2",
-      "caption": "UMI layer failure context: Qwen/Image-agent layer decomposition remains useful as a negative still-frame baseline, not as the main video-layer route.",
+      "src": "dashboard/assets/umi-overview.png",
+      "alt": "UMI World Model overview",
+      "caption": "UMI World Model project framing.",
       "added_at": "2026-06-19"
     },
     {
-      "src": "dashboard/assets/umi-qwen-layer-failure-20260618-3.jpg",
-      "alt": "Qwen Image-Layered UMI failure sample 3",
-      "caption": "UMI layer failure context: reduced layer-count output loses important robot/object regions and confirms the need for explicit segmentation plus inpainting.",
+      "src": "dashboard/assets/world-model-taxonomy-20260615.jpg",
+      "alt": "World model taxonomy comparing reconstruction, next-step prediction, and runnable models across reconstruction, object/3D, and pixel/video levels.",
+      "caption": "World-model taxonomy note: reconstruction, predictive next-step, and runnable simulation are different claims and should not be collapsed.",
+      "added_at": "2026-06-19"
+    },
+    {
+      "src": "dashboard/assets/pearl-overview.png",
+      "alt": "PEARL self-improving physical AI framework",
+      "caption": "PEARL-style loop: memory, attribution, co-evolution, governance.",
+      "added_at": "2026-06-19"
+    },
+    {
+      "src": "dashboard/assets/simulator-taxonomy-20260615.png",
+      "alt": "Robotics simulator taxonomy comparing task APIs, assets, simulation frameworks, renderers, and physics engines across ManiSkill, SAPIEN, Isaac Sim, OmniGibson, MuJoCo, Habitat, RLBench, and CoppeliaSim.",
+      "caption": "Simulator taxonomy: separate task/API layer, assets, sim framework, renderer, and physics engine when choosing the Text2Env / AgenticSim backend.",
       "added_at": "2026-06-19"
     }
   ],

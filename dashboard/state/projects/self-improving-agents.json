@@ -4,12 +4,12 @@
   "title": "Self-Improving Agents for Physical AI",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-07-07T23:40:00+08:00",
+  "updated_at": "2026-07-08T14:55:50.934Z",
   "description": "Simulation-first AgenticSim proposal: orchestrated setup-collect-train-eval-diagnose loop",
   "summary": "Self-Improving Agents / PEARL should be positioned as an embodied harness system, not as another Text2Env demo or monolithic VLA finetune. The paper thesis: keep the embodied model or policy under test fixed enough to measure it, then iteratively improve the surrounding harness of prompts, tools, simulator adapters, reset/eval rules, validation gates, memory, and data requirements. The loop mirrors the provided harness sketch: run the current harness on embodied tasks, mine and cluster failure traces, propose harness edits, regression-test candidates, and promote only edits that improve robot robustness without regressing prior tasks. The implementation substrate remains AgenticSim + Open X Sim: /gen-env, /collect, /train, /evaluate, /diagnose, and /transfer, with scene-task decoupling and verifier-backed promotion as the defensible route to the first real embodied harness claim.",
-  "asset": "dashboard/assets/simulator-taxonomy-20260615.png",
-  "asset_alt": "Robotics simulator taxonomy comparing task APIs, assets, simulation frameworks, renderers, and physics engines.",
-  "asset_caption": "Simulator taxonomy reference: separate task/API layer, asset layer, simulation framework, renderer, and physics engine when choosing the Text2Env / AgenticSim backend.",
+  "asset": "dashboard/assets/self-improving-embodied-harness-loop-20260707.png",
+  "asset_alt": "Embodied harness self-improvement loop with weakness mining, harness proposal, validation, and promoted updates.",
+  "asset_caption": "Embodied harness loop: mine task failures, propose harness edits over prompts/tools/memory/policies/validators, regression-test candidates, and promote accepted edits into the next harness iteration.",
   "details": [
     "Current foundation: 129 registered AgenticSim environments, 38/38 full-runner tests, 16 failure traces, demo CLI, Isaac smoke gate, and a RoboTwin2 Placement/Text2Env demo that can become the first /gen-env backend.",
     "PEARL architecture from the project deck: run_state.json + events.jsonl record state; tools are skillized; MCP servers expose scene/code/execute/verify/diagnose; memory is layered into short-term run state, event logs, and long-term experience; an Orchestrator decides the next action instead of a static pipeline.",
@@ -325,5 +325,6 @@
       }
     ],
     "target_note": "Next target: turn PEARL into a defensible embodied harness paper and system demo: current harness h_t runs embodied tasks, weakness mining clusters trace failures, the harness proposes edits, regression tests accept/reject candidates, and promoted edits update h_{t+1} across /gen-env, /collect, /evaluate, /diagnose, and /transfer."
-  }
+  },
+  "asset_added_at": "2026-07-07"
 }
