@@ -4,10 +4,9 @@
   "title": "Archive: Model-Assisted Teleoperation",
   "bucket": "archive",
   "status": "archived",
-  "updated_at": "2026-06-12T15:13:20+08:00",
+  "updated_at": "2026-07-08T00:20:00+08:00",
   "description": "Archived: the ICRA 2026 Foundational World Models failure-detection paper covers the core model-assisted teleop risk-monitor direction closely enough that this should no longer occupy Survey space.",
   "summary": "Archived standalone Model-Assisted Teleoperation survey. The useful remaining insight is a reference pattern: train a compact world model in a foundation-model latent space on nominal teleop/manipulation data, then use uncertainty or prediction-error thresholds as a runtime failure monitor. That direction should now feed active UMI / DexGello / Real-Robot evaluation work instead of remaining a separate Survey TODO set.",
-  "asset": "dashboard/assets/survey-model-assisted-teleop.svg",
   "details": [
     {
       "text": "Core Notion idea: Model-assisted Teleoperation = text prompter -> world prompter, where an agentic R2S2R / controllable VideoGen / Image-Layered world model previews outcomes before or during teleop. This is not yet a standalone dashboard project; it should sit in survey until a concrete demo is chosen.",
@@ -138,7 +137,5 @@
     "Research update 2026-06-05: the Stanford/Watney Cosmos-latent failure monitor suggests a narrower first demo than full video preview: train on nominal teleop episodes and show an uncertainty / nonconformity warning when the operator approaches an out-of-distribution contact or object-state failure.",
     "Do not claim assistance unless it changes an operator-facing decision: measure warning lead time, false alarm rate, correction rate, and task completion delta with monitor on/off.",
     "Archive decision 2026-06-12: do not keep this as a separate Survey project. Reuse the world-model failure-monitor idea inside UMI/DexGello/Real-Robot evaluations when a concrete task and dataset exist."
-  ],
-  "asset_alt": "Model-assisted teleoperation loop with world-model preview and risk overlay",
-  "asset_caption": "Survey diagram: operator input, world-model preview, contact-risk overlay, and corrected teleoperation output."
+  ]
 }

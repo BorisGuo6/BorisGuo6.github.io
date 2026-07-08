@@ -4,10 +4,9 @@
   "title": "Archive: Cross-Embodiment Representations",
   "bucket": "archive",
   "status": "archived",
-  "updated_at": "2026-06-09T02:39:11+08:00",
+  "updated_at": "2026-07-08T00:20:00+08:00",
   "description": "Archived on the dashboard: the representation decision has been promoted into a Tri-View ablation task.",
   "summary": "Survey-stage track for the Notion representation ideas: decide which action/state space can transfer across robot hands, arms, camera setups, and HOI demonstrations without collapsing into embodiment-specific joint values.",
-  "asset": "dashboard/assets/survey-cross-embodiment-representations.svg",
   "details": [
     {
       "text": "Dexterous-hand world model idea: represent action using fingertip camera pose or camera-frame geometry instead of robot-specific joint values. The strongest direct reference is camera-frame action unification with calibration-free dataset conversion, which is highly aligned with cross-embodiment pretraining.",
@@ -96,8 +95,6 @@
     "OHRA boundary 2026-06-05: canonical hand representation / canonical URDF / cross-hand latent conditioning is now a strong external baseline, so do not pitch hand graph/eigengrasp as a standalone project unless we test it against OHRA on our HOI/UMI/Wuji data.",
     "Mainline merge decision 2026-06-05: standalone Survey TODO is closed; the next artifact must be a Tri-View representation ablation with runnable feature extraction or a reproducible blocker."
   ],
-  "asset_alt": "Cross-embodiment representation diagram linking human HOI, camera-frame actions, object-contact state, and robot policy adapters",
-  "asset_caption": "Survey diagram: candidate shared action/state spaces for hands, arms, cameras, and HOI demonstrations.",
   "references": [
     {
       "title": "Notion: Random Thought",
