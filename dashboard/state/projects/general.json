@@ -4,7 +4,7 @@
   "title": "Procurement Table",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-07-08T14:55:31.675Z",
+  "updated_at": "2026-07-08T15:01:17.507Z",
   "description": "Editable lab procurement register for cross-project purchases",
   "summary": "Editable procurement register for lab purchases. Rows are sorted by status first (blank not ordered, dash ordered, check arrived) and then by last update; status changes update the timestamp. Old TODO/archive work has been moved to Real-Robot Lab Infra so this card stays focused on live purchasing records.",
   "intro_table": {
@@ -87,6 +87,15 @@
         "status": "Romoya route · pending follow-up",
         "route": "Romoya purchase path · Zheng Yuhang / Clement",
         "notes": "ClawCross WeChat evidence: 2026-07-03 Boris asked about ordering a pair of 睿尔曼 arms; 2026-07-04 Zheng chat records that Prof. Yan wants the purchase routed through Romoya, and Zheng will raise it with Clement while temporary-office logistics are pending. Next confirm exact model, pair quantity, payload, vertical mounting feasibility, DaiMeng gripper adapter, quote, delivery destination, and acceptance owner."
+      },
+      {
+        "row_id": "proc_6x_2m_ugreen_usb_3_0_extension_cables",
+        "updated_at": "2026-07-08T15:01:17.507Z",
+        "item": "6x 2m UGREEN USB 3.0 extension cables",
+        "status": "Shipped · in transit",
+        "route": "Taobao · ship to NUS/COM2",
+        "notes": "Correction 2026-07-08: not arrived yet. Order has been placed and the cables are still in transit; keep this in the yellow ordered/shipping state until actual receipt. Lab previously bought four; current request was six 2m cables.",
+        "url": "https://e.tb.cn/h.RmR1dsrrhJvWkn9?tk=F3q3g3QaNAh"
       },
       {
         "row_id": "proc_a3_carbon_steel_hollow_tube_spacer",
@@ -362,15 +371,6 @@
         "route": "Zheng Yuhang · Taobao",
         "notes": "User-provided Taobao candidate marked 假一赔四: Unitree SV1-25 small / mini embodied stereo binocular camera, RGB global-shutter USB camera. ClawCross WeChat evidence from Zheng Yuhang private chat: Boris asked Zheng to place the Taobao order on 2026-07-04, and Zheng replied that the camera would be ordered that day. Next verify tracking, arrival, SDK/driver availability, resolution/FPS, stereo calibration support, ROS/ROS2 or Python access, USB bandwidth, mount compatibility, cable length, and whether it fits wrist/head/fixed-view robot data collection.",
         "url": "https://e.tb.cn/h.RDPhRlxsna7j6Kg?tk=9lHzglSbASl"
-      },
-      {
-        "row_id": "proc_6x_2m_ugreen_usb_3_0_extension_cables",
-        "updated_at": "2026-06-12T00:00:00+08:00",
-        "item": "6x 2m UGREEN USB 3.0 extension cables",
-        "status": "Done",
-        "route": "Taobao · ship to NUS/COM2",
-        "notes": "Marked done by user on 2026-06-12. Lab previously bought four; current request was six 2m cables.",
-        "url": "https://e.tb.cn/h.RmR1dsrrhJvWkn9?tk=F3q3g3QaNAh"
       }
     ]
   },
