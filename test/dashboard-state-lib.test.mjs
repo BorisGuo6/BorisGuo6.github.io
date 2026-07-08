@@ -723,6 +723,16 @@ assert.match(
   /function procurementStatusRank\(row\)[\s\S]+statusDiff = procurementStatusRank\(a\) - procurementStatusRank\(b\)/,
   "procurement rows should render unpurchased rows first before falling back to updated_at sort",
 );
+assert.match(
+  dashboardSource,
+  /function isProcurementArchiveRow\(row\) \{[\s\S]+normalizeProcurementStatus\(row\?\.status\) === "Arrived"/,
+  "procurement received rows should stay behind the bottom received-archive toggle",
+);
+assert.match(
+  dashboardSource,
+  /Show received archive \(\$\{archiveRows\.length\}\)/,
+  "procurement table should keep the bottom received-archive toggle",
+);
 assert.doesNotMatch(
   dashboardSource,
   /createProcurementStatusSelect|procurement-status-select/,

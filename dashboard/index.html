@@ -1139,8 +1139,7 @@
         }
 
         function isProcurementArchiveRow(row) {
-          const status = String(row?.status || "").trim().toLowerCase();
-          return status.startsWith("archive");
+          return normalizeProcurementStatus(row?.status) === "Arrived";
         }
 
         function normalizeProcurementStatus(status) {
