@@ -2881,9 +2881,18 @@
           "comment_id": "comment_self_improving_sceneagent_act_hdf5_adapter_20260709",
           "created_at": "2026-07-09T15:53:12.000Z",
           "body": "[COMPUTED][HIGH] 2026-07-09 ACT train-smoke update: remote workspace `/home/jingxiang/workspace/alchedata-self-improving-agents` on `jingxiang-b850m-c` now verifies generated policy-data format plus a bounded ACT train pass. `scripts/verify_workspace.py` passes with `act_hdf5=6 act_train=pass_act_train_smoke policy_probe=blocked_policy_train_eval_not_wired`; generated planner traces are stored as `policy_trace.json`, converted into compact ACT-compatible HDF5 episodes under `runs/act_hdf5_generated_smoke/`, loaded by RoboTwin ACT dataset utilities, and trained for one epoch via `runs/act_train_smoke_generated/train_smoke_report.json` with `best_val_loss=10.308693` and `policy_best.ckpt`. Commits: local `7545109`, remote `ae02653`. [COMPUTED][HIGH] Remaining blocker is `/evaluate` and default wrapper wiring: ACT `process_data.sh` still targets `../../data/task_apple_plate/demo_clean/data`, default train task `sim-task_apple_plate-demo_clean-3` is absent from ACT config, and eval cannot import generated `envs.task_apple_plate`."
+        },
+        {
+          "comment_id": "comment_self_improving_sceneagent_fallback_blockers_20260709",
+          "task_id": "task_self_improving_sceneagent_selection2env_20260701",
+          "author": "Codex / jingxiang-b850m-c workspace",
+          "author_type": "system",
+          "kind": "evidence_update",
+          "created_at": "2026-07-09T18:19:56.000Z",
+          "body": "[COMPUTED][HIGH] 2026-07-09 gen-env fallback update: remote workspace `/home/jingxiang/workspace/alchedata-self-improving-agents` on `jingxiang-b850m-c` now verifies typed fallback blocker artifacts for SceneAgent /gen-env. Evidence: `schemas/gen_env_fallback.schema.json`, `scripts/build_gen_env_fallback_blockers.py`, `artifacts/generation_fallback/blocked_drawer_mug_video2sim_forge.json`, `artifacts/generation_fallback/blocked_neumatex_material_sidecar.json`, and `artifacts/generation_fallback/fallback_blocker_summary.json`. Remote verifier output includes `docs=8 static_runs=4 asset_smoke_runs=3 basetask_smoke_runs=3 collect_dry_runs=3 official_rollouts=3 generated_rollouts=2 generated_collections=2 articraft_assets=9996 articraft_archive_passes=3 articraft_collision_blockers=2 act_hdf5=6 act_train=pass_act_train_smoke policy_probe=blocked_policy_train_eval_not_wired fallback_blockers=2 artifacts=4`. The video2sim-forge branch is explicitly blocked by missing RGB-D/reference video/object prompt inputs and no generated mesh/URDF/import artifact; the NeuMaTeX-style material branch is explicitly blocked by missing calibrated multiview/rendered material inputs and no renderer-bound sidecar. Commits: local `6653895`, remote `7e32d3d`. [COMPUTED][HIGH] This closes the dashboard requirement for explicit video2sim/NeuMaTeX blockers, but not actual forge/material dry-run execution or learned-policy evaluation."
         }
       ],
-      "updated_at": "2026-07-09T15:53:12.000Z",
+      "updated_at": "2026-07-09T18:19:56.000Z",
       "created_at": "2026-07-01T11:10:00+08:00",
       "due_at": "2026-07-07"
     },
@@ -11756,9 +11765,18 @@
           "comment_id": "comment_self_improving_openxsim_act_hdf5_adapter_20260709",
           "created_at": "2026-07-09T15:53:12.000Z",
           "body": "[COMPUTED][HIGH] 2026-07-09 ACT train-smoke update: remote workspace `/home/jingxiang/workspace/alchedata-self-improving-agents` on `jingxiang-b850m-c` now verifies generated policy-data format plus a bounded ACT train pass. `scripts/verify_workspace.py` passes with `act_hdf5=6 act_train=pass_act_train_smoke policy_probe=blocked_policy_train_eval_not_wired`; generated planner traces are stored as `policy_trace.json`, converted into compact ACT-compatible HDF5 episodes under `runs/act_hdf5_generated_smoke/`, loaded by RoboTwin ACT dataset utilities, and trained for one epoch via `runs/act_train_smoke_generated/train_smoke_report.json` with `best_val_loss=10.308693` and `policy_best.ckpt`. Commits: local `7545109`, remote `ae02653`. [COMPUTED][HIGH] Remaining blocker is `/evaluate` and default wrapper wiring: ACT `process_data.sh` still targets `../../data/task_apple_plate/demo_clean/data`, default train task `sim-task_apple_plate-demo_clean-3` is absent from ACT config, and eval cannot import generated `envs.task_apple_plate`."
+        },
+        {
+          "comment_id": "comment_self_improving_openxsim_fallback_blockers_20260709",
+          "task_id": "task_self_improving_openxsim_command_loop_20260703",
+          "author": "Codex / jingxiang-b850m-c workspace",
+          "author_type": "system",
+          "kind": "evidence_update",
+          "created_at": "2026-07-09T18:19:56.000Z",
+          "body": "[COMPUTED][HIGH] 2026-07-09 Open X Sim fallback update: `/gen-env` now has machine-readable fallback blockers for both acceptance branches. `blocked_drawer_mug_video2sim_forge.json` records the missing capture/reference-video and import-artifact gates for video2sim-forge; `blocked_neumatex_material_sidecar.json` records the missing multiview/material-input and renderer-binding gates for NeuMaTeX-style material extraction. `scripts/verify_workspace.py` validates both against `schemas/gen_env_fallback.schema.json`; remote verification passes with `docs=8 static_runs=4 asset_smoke_runs=3 basetask_smoke_runs=3 collect_dry_runs=3 official_rollouts=3 generated_rollouts=2 generated_collections=2 articraft_assets=9996 articraft_archive_passes=3 articraft_collision_blockers=2 act_hdf5=6 act_train=pass_act_train_smoke policy_probe=blocked_policy_train_eval_not_wired fallback_blockers=2 artifacts=4`. Commits: local `6653895`, remote `7e32d3d`. [COMPUTED][HIGH] Remaining command-loop blockers are actual forge/material execution, broader Articraft scale/material/task-suitability validation, held-out generated-task robustness, and generated-task `/evaluate` registration."
         }
       ],
-      "updated_at": "2026-07-09T15:53:12.000Z",
+      "updated_at": "2026-07-09T18:19:56.000Z",
       "created_at": "2026-07-03T15:45:00+08:00",
       "due_at": "2026-07-10"
     },
