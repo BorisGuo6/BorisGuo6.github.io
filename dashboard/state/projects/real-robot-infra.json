@@ -4,7 +4,7 @@
   "title": "Real-Robot Lab Infra",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-07-09T16:30:00+08:00",
+  "updated_at": "2026-07-09T21:44:00+08:00",
   "description": "Engineering stack for teleoperation, data collection, and robot-side validation",
   "summary": "",
   "asset": "dashboard/assets/real-robot-infra-data-collection-architecture-20260622.png",
@@ -68,7 +68,8 @@
     "Project boundary: Real Robot Infra keeps robot availability, shared safety gates, VR-control baseline, and purchase/setup work; DexGello owns reusable data/control dependencies; Real-Robot Demos owns concrete physical scenario rows and demo pass/fail evidence.",
     "ME Control Lab two-host expansion was completed on 2026-06-12; keep future host changes as separate scaling or maintenance TODOs rather than reopening the original two-host blocker.",
     "Lab ops/tooling boundary: account procurement, API gateway purchasing, shared storage, cables, camera screws, and ME Control Lab installation support are infrastructure records; General should only show the live procurement table.",
-    "Project boundary update: old General TODOs and received procurement archive now belong to Real-Robot Lab Infra; Procurement Table should stay as a live editable purchase register only."
+    "Project boundary update: old General TODOs and received procurement archive now belong to Real-Robot Lab Infra; Procurement Table should stay as a live editable purchase register only.",
+    "Procurement window 2026-07-09: current Taobao purchase route has a single-order limit around SGD 2000 and a near-term expiry before 2026-07-16, so collect hardware needs early; do not store card, payment, or private procurement credentials in dashboard."
   ],
   "external_resources": [
     {
@@ -82,6 +83,18 @@
       "kind": "notion",
       "url": "https://www.notion.so/Hardware-Resource-Center-34120ba53f898026b4cfe366c9b71ac1?source=copy_link",
       "notes": "Canonical place for hardware manuals, SOPs, calibration docs, and vendor resources. Current Codex Notion connector could not fetch page contents; keep link as resource target and fix permissions if live sync is required."
+    },
+    {
+      "label": "HIGVR user manuals",
+      "kind": "vendor_manual",
+      "url": "https://higvr.com/en-cn/pages/user-manual",
+      "notes": "Manual entry for HIGVR glove / haptic hardware. Add specific glove or haptic-module notes here after the onsite device model is confirmed."
+    },
+    {
+      "label": "Meta Quest Help Center",
+      "kind": "vendor_manual",
+      "url": "https://www.meta.com/help/quest/",
+      "notes": "Official Quest manual/help pointer for Quest controller / headset operation. Quest Streamer repo instructions remain the practical lab-side setup guide."
     }
   ],
   "asset_inventory_snapshot": {

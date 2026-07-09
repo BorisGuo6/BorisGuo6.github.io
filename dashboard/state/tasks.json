@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-07-09T18:05:00+08:00",
+  "updated_at": "2026-07-09T21:44:00+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -192,9 +192,18 @@
           "kind": "comment",
           "body": "Seeded from 2026-07-09 Dexterous Data Collection: after Haoming shared a video of end-effector oscillation near an object, Boris suggested trying curobo / another IK library because the current Pinocchio path may be too slow. Keep the first validation in replay/read-only mode before live robot motion.",
           "created_at": "2026-07-09T16:30:00+08:00"
+        },
+        {
+          "comment_id": "comment_real_robot_infra_ik_curobo_clawcross_tail_20260709",
+          "task_id": "task_real_robot_infra_franka_wuji_ik_curobo_stability",
+          "author": "Boris / Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "ClawCross WeChat tail 2026-07-09 14:53-15:15: Haoming shared a video showing the end-effector entering an oscillatory / unstable state after approaching the object; the first hypothesis is that the target may be near the far workspace boundary. Boris suggested trying cuRobo / another IK library because the current Pinocchio path may be too slow. Keep first validation in replay/read-only mode and only then run low-speed live smoke. Evidence link from chat: https://drive.google.com/file/d/1ukiZnlci47TVv3UMDqnITE9h7Lg9u4_t/view?usp=drivesdk.",
+          "created_at": "2026-07-09T21:44:00+08:00"
         }
       ],
-      "updated_at": "2026-07-09T16:30:00+08:00"
+      "updated_at": "2026-07-09T21:44:00+08:00"
     },
     {
       "task_id": "task_real_robot_infra_wuji_glove",
@@ -512,10 +521,19 @@
           "kind": "comment",
           "body": "ClawCross WeChat sync from Dexterous Data Collection on 2026-07-09: for wrist/operator pose, try Quest first if Pico tracker routing is awkward; current onsite note says Pico has small trackers but no Pico headset, while Quest controller/headset are identifiable. Boris noted the organization repo already has Quest reading code under quest streamer, and shared linkerhand_telop_python as a reference for hand teleop. Keep this task focused on a Quest-controller bracket and pose-sync smoke: Quest pose + MANUS stream + robot/GELLO reference for at least 10 seconds before deciding whether to replace VIVE Tracker on hand-back pose.",
           "created_at": "2026-07-09T16:30:00+08:00"
+        },
+        {
+          "comment_id": "comment_real_robot_infra_quest_manual_resource_20260709",
+          "task_id": "task_real_robot_infra_manus_quest_controller_mount",
+          "author": "Boris / Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "ClawCross WeChat tail 2026-07-09 13:23-17:36: for wrist/operator pose, use Quest first if Pico tracker routing is awkward; the group found Quest hardware and no Pico headset. Quest Streamer instructions are considered sufficient for operation, but add an official Meta Quest manual / help-center pointer to Hardware Resource Center for completeness. Keep this task focused on a Quest-controller bracket and pose-sync smoke: Quest pose + MANUS stream + robot/GELLO reference for at least 10 seconds before deciding whether to replace VIVE Tracker on hand-back pose.",
+          "created_at": "2026-07-09T21:44:00+08:00"
         }
       ],
       "created_at": "2026-07-08T17:28:20+08:00",
-      "updated_at": "2026-07-09T16:30:00+08:00"
+      "updated_at": "2026-07-09T21:44:00+08:00"
     },
     {
       "task_id": "task_real_robot_infra_vive_tracker_chest_mount",
@@ -619,11 +637,11 @@
           "author": "Boris / Codex",
           "author_type": "system",
           "kind": "comment",
-          "body": "ClawCross WeChat sync from Dexterous Data Collection on 2026-07-09: keep Quest as the preferred near-term operator-pose route for Franka/Wuji teleop because Pico lacks the headset locally and VIVE frame setup remains painful. Use existing quest streamer code for read-only pose preview first, then low-speed control only after calibration, workspace bounds, deadman/E-stop, and logging are ready. Reference link shared in group: https://gitee.com/ericbrunt/linkerhand_telop_python .",
-          "created_at": "2026-07-09T16:30:00+08:00"
+          "body": "ClawCross WeChat tail 2026-07-09: keep Quest as the preferred near-term operator-pose route for Franka/Wuji teleop because Pico lacks the headset locally and VIVE frame setup remains painful. Use existing Quest Streamer code for read-only pose preview first, then low-speed control only after calibration, workspace bounds, deadman/E-stop, and logging are ready. Reference link shared in group: https://gitee.com/ericbrunt/linkerhand_telop_python .",
+          "created_at": "2026-07-09T21:44:00+08:00"
         }
       ],
-      "updated_at": "2026-07-09T16:30:00+08:00"
+      "updated_at": "2026-07-09T21:44:00+08:00"
     },
     {
       "task_id": "task_real_robot_infra_safety_workspace",
@@ -2845,11 +2863,11 @@
           "author": "Codex / jingxiang-b850m-c workspace",
           "author_type": "system",
           "kind": "evidence_update",
-          "body": "2026-07-09 evidence update: remote workspace `/home/jingxiang/workspace/alchedata-self-improving-agents` now has selection2env schema/artifacts, accepted/rejected candidates, drawer/mug unsupported blocker, scene-task decoupling via `task_apple_plate_reverse`, and three RoboTwin `Base_Task` + CuRobo smoke passes under `runs/smoke_basetask_*`. Runtime evidence is `artifacts/runtime/robotwin_5090_env.json`. Remaining gaps: `/collect` rollout data, semantic VLM/human acceptance, and real Articraft-10K metadata parsing.",
-          "created_at": "2026-07-09T18:05:00+08:00"
+          "body": "2026-07-09 evidence update: remote workspace `/home/jingxiang/workspace/alchedata-self-improving-agents` on `jingxiang-b850m-c` now verifies selection2env beyond static smoke. `python3 scripts/verify_workspace.py` passes with docs=8, static_runs=4, asset_smoke_runs=3, basetask_smoke_runs=3, collect_dry_runs=3, artifacts=4. Evidence includes schema/artifacts, accepted/rejected candidates, drawer/mug unsupported blocker, scene-task decoupling via `task_apple_plate_reverse`, three RoboTwin asset-load smokes, three `Base_Task` + CuRobo smokes, and three `/collect` dry-runs under `runs/collect_dryrun_*` with `collect_report.json`, `dataset_manifest.json`, `episode_000/object_states.jsonl`, camera PNGs, and observer MP4. Visual review: `artifacts/visual_review/selection2env_visual_review.json` accepts initial-scene support while explicitly leaving final task relation `not_claimed`. Remaining blockers: generated manipulation `play_once`/policy rollout collection, `/train`/`/evaluate` integration, and real Articraft metadata.",
+          "created_at": "2026-07-09T21:36:16+08:00"
         }
       ],
-      "updated_at": "2026-07-09T18:05:00+08:00",
+      "updated_at": "2026-07-09T21:36:16+08:00",
       "created_at": "2026-07-01T11:10:00+08:00",
       "due_at": "2026-07-07"
     },
@@ -11705,11 +11723,11 @@
           "author": "Codex / jingxiang-b850m-c workspace",
           "author_type": "system",
           "kind": "evidence_update",
-          "body": "2026-07-09 evidence update: `/gen-env` artifacts and PEARL command spec are in `/home/jingxiang/workspace/alchedata-self-improving-agents`; three RoboTwin `Base_Task` + CuRobo smoke reports passed (`runs/smoke_basetask_apple_plate`, `runs/smoke_basetask_laptop_knife`, `runs/smoke_basetask_vegetable_basket`). `robotwin-5090` uses torch 2.11.0+cu128 and CuRobo compiled for RTX 5090 sm_120. Still pending: actual `/collect` rollout logs/dataset manifests, train/evaluate handoff execution, and video2sim/NeuMaTeX dry runs beyond explicit blockers.",
-          "created_at": "2026-07-09T18:05:00+08:00"
+          "body": "2026-07-09 evidence update: PEARL command-loop workspace now has concrete `/gen-env` plus bounded `/collect` artifacts on `jingxiang-b850m-c`. Command spec/schema remain in `docs/openxsim_command_spec.md` and `schemas/pearl_command.schema.json`; selection artifacts now include `simulator_smoke.collect_dry_run.status=pass_collect_dry_run` for apple/plate, laptop/knife, and vegetable/basket. Remote verification: `cd /home/jingxiang/workspace/alchedata-self-improving-agents && python3 scripts/verify_workspace.py` -> PASS with `collect_dry_runs=3`. This is still not policy rollout or `/train`/`/evaluate` completion; it is an observation/object-state dry-run gate for the command loop.",
+          "created_at": "2026-07-09T21:36:16+08:00"
         }
       ],
-      "updated_at": "2026-07-09T18:05:00+08:00",
+      "updated_at": "2026-07-09T21:36:16+08:00",
       "created_at": "2026-07-03T15:45:00+08:00",
       "due_at": "2026-07-10"
     },
@@ -11912,9 +11930,18 @@
           "kind": "comment",
           "body": "Seeded from 2026-07-09 Dexterous Data Collection: Boris shared the gripper manual link and asked whether Jingru/Wuhao can draw and print the adapter for connecting the Daimon gripper to Songling Nero; Jingru confirmed Nero wrist interface matches the previous one and added that a camera adapter is also needed.",
           "created_at": "2026-07-09T16:30:00+08:00"
+        },
+        {
+          "comment_id": "comment_real_robot_infra_nero_daimon_clawcross_tail_20260709",
+          "task_id": "task_real_robot_infra_nero_daimon_gripper_camera_adapters",
+          "author": "Boris / Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "ClawCross WeChat tail 2026-07-09 15:16-15:54: Lingxin dexterous hand is back for after-sales service; Boris will bring the Daimon gripper on Monday; Jingru confirmed the Songling Nero wrist interface is the same as the previous one, and a camera adapter is also needed. Use the gripper manual shared in chat plus the Hardware Resource Center before CAD; do not infer bolt patterns, screw size, or camera clearance from chat photos alone. Gripper manual link from chat: https://drive.google.com/file/d/1ukiZnlci47TVv3UMDqnITE9h7Lg9u4_t/view?usp=drivesdk.",
+          "created_at": "2026-07-09T21:44:00+08:00"
         }
       ],
-      "updated_at": "2026-07-09T16:30:00+08:00"
+      "updated_at": "2026-07-09T21:44:00+08:00"
     },
     {
       "task_id": "task_real_robot_infra_wuji_mf287_flexible_sensor_haptic_module_eval",
