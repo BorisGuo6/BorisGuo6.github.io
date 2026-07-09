@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-07-09T18:48:47.657Z",
+  "updated_at": "2026-07-09T18:56:09.777Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -11810,9 +11810,18 @@
           "kind": "comment",
           "body": "[COMPUTED][HIGH] 2026-07-10 learned ACT /evaluate evidence: runs/act_eval_smoke_generated/evaluate_report.json records 3/3 completed apple/plate episodes for source-held-out seeds 4,5,6, 20 RoboTwin actions per episode, and 0/3 task success. The adapter writes run_state, events, action traces, images, videos, process logs, success-verifier results, six dense diagnosis categories, and next_data_requirement. Remote verifier: act_eval=pass_generated_act_evaluate_execution act_eval_success=0/3; default wrapper probe remains blocked_policy_train_eval_not_wired. Commits: local 30fb1e0, remote 726093d. [INFERRED][HIGH] /train to /evaluate execution is wired for fixed apple/plate, but promotion remains blocked on synchronized data, more training, declared thresholds, randomized/cross-task eval, default-wrapper choice, and actual forge/material imports.",
           "created_at": "2026-07-09T18:46:52.269Z"
+        },
+        {
+          "comment_id": "comment_self_improving_openxsim_bundles_20260710",
+          "task_id": "task_self_improving_openxsim_command_loop_20260703",
+          "author": "Codex / jingxiang-b850m-c workspace",
+          "author_type": "system",
+          "kind": "evidence_update",
+          "body": "[COMPUTED][HIGH] 2026-07-10 Open X Sim benchmark bundle update: artifacts/openxsim_benchmarks/manifest.json now indexes typed bundles for open_laptop, place_mouse_pad, and place_container_plate. Every bundle includes run_state.json, command-level events.jsonl, scene_manifest.json, task_manifest.json, standalone dense diagnosis, next_data_requirement, and links to rollout/move logs, camera evidence, observer video, and the official success verifier. scripts/verify_workspace.py validates all three and reports openxsim_bundles=3. The bundles explicitly set learned_policy=false; the separate apple/plate ACT evaluation remains 0/3. Commits: local Alchedata f737c55, remote Alchedata 67fb38c. [INFERRED][HIGH] This closes the per-benchmark artifact-shape acceptance item without overstating three learned-policy evaluations.",
+          "created_at": "2026-07-09T18:56:09.777Z"
         }
       ],
-      "updated_at": "2026-07-09T18:46:52.269Z",
+      "updated_at": "2026-07-09T18:56:09.777Z",
       "created_at": "2026-07-03T15:45:00+08:00",
       "due_at": "2026-07-10"
     },
