@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-07-09T15:16:49.000Z",
+  "updated_at": "2026-07-09T18:48:47.657Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2899,9 +2899,18 @@
           "kind": "evidence_update",
           "created_at": "2026-07-09T18:24:45.000Z",
           "body": "[COMPUTED][HIGH] 2026-07-09 unified /gen-env schema update: remote workspace `/home/jingxiang/workspace/alchedata-self-improving-agents` on `jingxiang-b850m-c` now validates `schemas/gen_env.schema.json` against three contract examples: `artifacts/gen_env_contract/selection2env_route_sample.json`, `artifacts/gen_env_contract/forge_fallback_route_blocker.json`, and `artifacts/gen_env_contract/material_sidecar_route_blocker.json`. Remote verifier output includes `docs=8 static_runs=4 asset_smoke_runs=3 basetask_smoke_runs=3 collect_dry_runs=3 official_rollouts=3 generated_rollouts=2 generated_collections=2 articraft_assets=9996 articraft_archive_passes=3 articraft_collision_blockers=2 act_hdf5=6 act_train=pass_act_train_smoke policy_probe=blocked_policy_train_eval_not_wired gen_env_contracts=3 fallback_blockers=2 artifacts=4`. The schema requires the selection2env fields, the video2sim-forge fields `capture_source/object_prompts/masks/meshes/world_frame_poses/scene_json/urdf/physics_metadata/provenance/import_gate`, and the material-sidecar fields `textures/materials/albedo/specular_latent/uncertainty/lighting_assumption/renderer_binding/material_provenance/render_gate`. Commits: local `ea5d211`, remote `86e97f1`. [COMPUTED][HIGH] This covers schema/contract evidence for the three /gen-env route families; actual forge/material execution remains unclaimed."
+        },
+        {
+          "comment_id": "comment_self_improving_sceneagent_act_eval_20260710",
+          "task_id": "task_self_improving_sceneagent_selection2env_20260701",
+          "author": "Codex / jingxiang-b850m-c workspace",
+          "author_type": "system",
+          "kind": "evidence_update",
+          "body": "[COMPUTED][HIGH] 2026-07-10 generated-task /evaluate update: Alchedata now includes scripts/run_generated_act_eval_smoke.py and runs/act_eval_smoke_generated/evaluate_report.json. On jingxiang-b850m-c, policy_best.ckpt loaded with all 12,078,607 parameter keys matched; source-held-out seeds 4,5,6 each executed 20 ACT qpos actions through RoboTwin. Infrastructure completion is 3/3 and task success is 0/3. Each episode records events, action traces, camera images, video, relation metrics, and six dense diagnosis categories. Remote verifier passes with act_eval=pass_generated_act_evaluate_execution act_eval_success=0/3 while the default wrapper probe remains blocked_policy_train_eval_not_wired. Commits: local 30fb1e0, remote 726093d. [INFERRED][HIGH] This closes bounded generated-task eval execution for fixed apple/plate, but not policy quality, randomized/cross-task robustness, default wrapper compatibility, or forge/material execution.",
+          "created_at": "2026-07-09T18:48:47.657Z"
         }
       ],
-      "updated_at": "2026-07-09T18:24:45.000Z",
+      "updated_at": "2026-07-09T18:48:47.657Z",
       "created_at": "2026-07-01T11:10:00+08:00",
       "due_at": "2026-07-07"
     },
@@ -11792,9 +11801,18 @@
           "kind": "evidence_update",
           "created_at": "2026-07-09T18:24:45.000Z",
           "body": "[COMPUTED][HIGH] 2026-07-09 Open X Sim contract update: `scripts/verify_workspace.py` now checks the unified `/gen-env` schema, route enum coverage for `selection2env`, `forge_fallback`, and `material_sidecar`, required branch fields, and three concrete contract examples under `artifacts/gen_env_contract/`. Remote verification passes with `docs=8 static_runs=4 asset_smoke_runs=3 basetask_smoke_runs=3 collect_dry_runs=3 official_rollouts=3 generated_rollouts=2 generated_collections=2 articraft_assets=9996 articraft_archive_passes=3 articraft_collision_blockers=2 act_hdf5=6 act_train=pass_act_train_smoke policy_probe=blocked_policy_train_eval_not_wired gen_env_contracts=3 fallback_blockers=2 artifacts=4`. Commits: local `ea5d211`, remote `86e97f1`. [COMPUTED][HIGH] Remaining command-loop blockers are actual forge/material import execution, generated-task `/evaluate` registration, held-out generated-task robustness, and broader Articraft scale/material/task-suitability validation."
+        },
+        {
+          "comment_id": "comment_5c0f6be2-0b95-475f-af64-314c977bdb4d",
+          "task_id": "task_self_improving_openxsim_command_loop_20260703",
+          "author": "Codex dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[COMPUTED][HIGH] 2026-07-10 learned ACT /evaluate evidence: runs/act_eval_smoke_generated/evaluate_report.json records 3/3 completed apple/plate episodes for source-held-out seeds 4,5,6, 20 RoboTwin actions per episode, and 0/3 task success. The adapter writes run_state, events, action traces, images, videos, process logs, success-verifier results, six dense diagnosis categories, and next_data_requirement. Remote verifier: act_eval=pass_generated_act_evaluate_execution act_eval_success=0/3; default wrapper probe remains blocked_policy_train_eval_not_wired. Commits: local 30fb1e0, remote 726093d. [INFERRED][HIGH] /train to /evaluate execution is wired for fixed apple/plate, but promotion remains blocked on synchronized data, more training, declared thresholds, randomized/cross-task eval, default-wrapper choice, and actual forge/material imports.",
+          "created_at": "2026-07-09T18:46:52.269Z"
         }
       ],
-      "updated_at": "2026-07-09T18:24:45.000Z",
+      "updated_at": "2026-07-09T18:46:52.269Z",
       "created_at": "2026-07-03T15:45:00+08:00",
       "due_at": "2026-07-10"
     },
