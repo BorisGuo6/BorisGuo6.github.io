@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-07-08T14:54:04.322Z",
+  "updated_at": "2026-07-09T16:30:00+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -173,6 +173,28 @@
         }
       ],
       "updated_at": "2026-06-12T15:39:17+08:00"
+    },
+    {
+      "task_id": "task_real_robot_infra_franka_wuji_ik_curobo_stability",
+      "project_id": "real-robot-infra",
+      "title": "排查 Franka + Wuji 末端接近物体时的 IK 抖动并试 curobo",
+      "description": "Dexterous Data Collection 2026-07-09 update: Haoming reported that when the end-effector approaches the object it enters an oscillatory / unstable state, possibly near the reachable boundary. Action: reproduce the video case, log commanded pose, solved joint targets, actual Franka state, distance-to-boundary / joint-limit metrics, control rate, and object-relative pose; compare current Pinocchio IK path with curobo or another faster IK/planning backend. Acceptance: 1) identify whether the jitter is reach-boundary, singularity/joint-limit, IK latency, controller gain, or frame-calibration related; 2) run a read-only replay and then low-speed live smoke with safety bounds; 3) report before/after trajectory smoothness, solve time, dropped frames, and abort conditions; 4) decide whether curobo becomes the default IK backend for this setup.",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Haoming / Boris / real-robot",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_real_robot_infra_ik_curobo_seed_20260709",
+          "task_id": "task_real_robot_infra_franka_wuji_ik_curobo_stability",
+          "author": "Boris / Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Seeded from 2026-07-09 Dexterous Data Collection: after Haoming shared a video of end-effector oscillation near an object, Boris suggested trying curobo / another IK library because the current Pinocchio path may be too slow. Keep the first validation in replay/read-only mode before live robot motion.",
+          "created_at": "2026-07-09T16:30:00+08:00"
+        }
+      ],
+      "updated_at": "2026-07-09T16:30:00+08:00"
     },
     {
       "task_id": "task_real_robot_infra_wuji_glove",
@@ -481,10 +503,19 @@
           "body": "Seeded from 2026-07-08 user discussion: make a MANUS-mounted bracket that clips onto a Quest controller, replacing the VIVE Tracker route because the team is struggling with VIVE coordinate frames. HIGVR does not provide a 3D model; inspect the HIGVR adapter when Boris is onsite on 2026-07-17 before choosing the mechanical design.",
           "created_at": "2026-07-08T17:28:20+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_real_robot_infra_quest_pico_wrist_teleop_20260709",
+          "task_id": "task_real_robot_infra_manus_quest_controller_mount",
+          "author": "Boris / Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "ClawCross WeChat sync from Dexterous Data Collection on 2026-07-09: for wrist/operator pose, try Quest first if Pico tracker routing is awkward; current onsite note says Pico has small trackers but no Pico headset, while Quest controller/headset are identifiable. Boris noted the organization repo already has Quest reading code under quest streamer, and shared linkerhand_telop_python as a reference for hand teleop. Keep this task focused on a Quest-controller bracket and pose-sync smoke: Quest pose + MANUS stream + robot/GELLO reference for at least 10 seconds before deciding whether to replace VIVE Tracker on hand-back pose.",
+          "created_at": "2026-07-09T16:30:00+08:00"
         }
       ],
       "created_at": "2026-07-08T17:28:20+08:00",
-      "updated_at": "2026-07-08T17:28:20+08:00"
+      "updated_at": "2026-07-09T16:30:00+08:00"
     },
     {
       "task_id": "task_real_robot_infra_vive_tracker_chest_mount",
@@ -581,9 +612,18 @@
           "body": "Moved from previous Real-Robot Infra intro: VR teleoperation direction: implement a SteamVR/OpenVR input path for controlling Franka end-effector pose with controller / tracker / headset input, gated by calibration, workspace limits, velocity / acceleration caps, deadman switch, and E-stop readiness.",
           "created_at": "2026-06-12T15:39:17+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_real_robot_infra_vr_teleop_quest_route_20260709",
+          "task_id": "task_real_robot_infra_vr_teleop_franka",
+          "author": "Boris / Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "ClawCross WeChat sync from Dexterous Data Collection on 2026-07-09: keep Quest as the preferred near-term operator-pose route for Franka/Wuji teleop because Pico lacks the headset locally and VIVE frame setup remains painful. Use existing quest streamer code for read-only pose preview first, then low-speed control only after calibration, workspace bounds, deadman/E-stop, and logging are ready. Reference link shared in group: https://gitee.com/ericbrunt/linkerhand_telop_python .",
+          "created_at": "2026-07-09T16:30:00+08:00"
         }
       ],
-      "updated_at": "2026-06-12T15:39:17+08:00"
+      "updated_at": "2026-07-09T16:30:00+08:00"
     },
     {
       "task_id": "task_real_robot_infra_safety_workspace",
@@ -11805,8 +11845,40 @@
       "priority": "high",
       "assignee": "Wuhao / Boris",
       "result": null,
-      "comments": [],
-      "updated_at": "2026-07-08T14:25:33.882Z"
+      "comments": [
+        {
+          "comment_id": "comment_real_robot_infra_franka_camera_stl_bolt_holes_20260709",
+          "task_id": "task_real_robot_infra_franka_camera_mount_bolt_hole_reprint",
+          "author": "Boris / Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "ClawCross WeChat sync from Dexterous Data Collection on 2026-07-08: Wuhao sent `Franka 相机固定支架1.STL` and noted he has added holes, but the manual does not specify the real screw dimensions. Next step is for Haoming/Jingru to learn/use the 3D printer, print the candidate, remove or measure the actual Franka flange screws if possible, dry-fit with robot motion disabled, then feed back screw size, clearance, camera FOV, cable routing, and interference issues to Wuhao.",
+          "created_at": "2026-07-09T16:30:00+08:00"
+        }
+      ],
+      "updated_at": "2026-07-09T16:30:00+08:00"
+    },
+    {
+      "task_id": "task_real_robot_infra_nero_daimon_gripper_camera_adapters",
+      "project_id": "real-robot-infra",
+      "title": "设计并打印戴盟夹爪接松灵 Nero 的转接件和 camera 转接件",
+      "description": "Dexterous Data Collection 2026-07-09 update: Lingxin dexterous hand has been sent back for after-sales service; Boris will bring the Daimon gripper on Monday. Need Jingru/Wuhao to align the Daimon gripper with the Songling Nero wrist interface and draw/print the adapter, plus a camera adapter for the same setup. Jingru noted the Songling Nero wrist interface is the same as the previous one. Acceptance: 1) confirm Songling Nero wrist bolt pattern/interface and Daimon gripper mounting pattern from manual/CAD or direct measurement; 2) produce CAD/STL/print files for gripper adapter and camera adapter; 3) verify screw size, thread engagement, flange clearance, camera FOV, cable routing, mass/torque safety, and no collision with Nero motion envelope; 4) dry-fit with robot powered off, then low-speed pose check; 5) update Hardware Resource Center with files, measurements, and print notes.",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Jingru / Wuhao / Boris",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_real_robot_infra_nero_daimon_adapter_seed_20260709",
+          "task_id": "task_real_robot_infra_nero_daimon_gripper_camera_adapters",
+          "author": "Boris / Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Seeded from 2026-07-09 Dexterous Data Collection: Boris shared the gripper manual link and asked whether Jingru/Wuhao can draw and print the adapter for connecting the Daimon gripper to Songling Nero; Jingru confirmed Nero wrist interface matches the previous one and added that a camera adapter is also needed.",
+          "created_at": "2026-07-09T16:30:00+08:00"
+        }
+      ],
+      "updated_at": "2026-07-09T16:30:00+08:00"
     },
     {
       "task_id": "task_real_robot_infra_wuji_mf287_flexible_sensor_haptic_module_eval",
@@ -11826,9 +11898,18 @@
           "kind": "comment",
           "body": "ClawCross WeChat sync from Dexterous Data Collection on 2026-07-08: Wuhao cautioned that the MF287 glove/FPC-style sensor likely will not directly fit Wuji because finger segment positions, side-splay, and thumb geometry differ; it may also be poor for lateral motion. The signal is sparse: roughly one force value per finger segment, useful mainly for simple grip/contact feedback rather than contact localization. Boris noted the haptic module is also single-value vibration, so one force channel can still map to one haptic actuator. Wuhao suggested first buying 1-2 single-point FSR402/400/406-style sensors plus a linear voltage conversion module and trying a one-finger / one-phalanx haptic loop; existing microcontroller may be enough, but readout and whether an Arduino/ADC is needed remain open. Haoming should check Wuji Hand 1 manual/current or position-error telemetry; Wuhao expects current loop feedback may be unavailable or weak. Also ask the MF287 seller for drawings and compare against Lingxin/Wuji hand geometry before buying the full FPC sensor.",
           "created_at": "2026-07-08T14:36:25.042Z"
+        },
+        {
+          "comment_id": "comment_real_robot_infra_fsr_arduino_readout_20260709",
+          "task_id": "task_real_robot_infra_wuji_mf287_flexible_sensor_haptic_module_eval",
+          "author": "Boris / Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "ClawCross WeChat sync from Dexterous Data Collection on 2026-07-09: readout path is not direct-to-computer. The linear voltage conversion module should feed an Arduino analog input, then Arduino sends serial data to the computer. The earlier Arduino purchase likely covers the MCU; keep the procurement ask focused on 1-2 linear voltage conversion modules plus single-point FSR402/400/406-style sensors. Bench acceptance should include ADC range check, serial packet schema, sampling rate, calibration curve, hysteresis/repeatability, and a one-finger haptic mapping before buying or mounting the full MF287/FPC glove sensor.",
+          "created_at": "2026-07-09T16:30:00+08:00"
         }
       ],
-      "updated_at": "2026-07-08T14:36:25.042Z"
+      "updated_at": "2026-07-09T16:30:00+08:00"
     }
   ]
 }
