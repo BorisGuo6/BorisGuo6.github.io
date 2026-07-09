@@ -2876,9 +2876,14 @@
           "body": "2026-07-09 evidence update: remote workspace `/home/jingxiang/workspace/alchedata-self-improving-agents` on `jingxiang-b850m-c` now verifies selection2env beyond static smoke. `python3 scripts/verify_workspace.py` passes with docs=8 static_runs=4 asset_smoke_runs=3 basetask_smoke_runs=3 collect_dry_runs=3 official_rollouts=3 generated_rollouts=2 generated_collections=2 articraft_assets=9996 articraft_archive_passes=3 articraft_collision_blockers=2 policy_probe=blocked_policy_train_eval_not_wired artifacts=4. Evidence includes schema/artifacts, accepted/rejected candidates, drawer/mug unsupported blocker, scene-task decoupling via `task_apple_plate_reverse`, three asset-load smokes, three Base_Task/CuRobo smokes, three `/collect` dry-runs, three official RoboTwin action rollout probes, generated apple/plate and can/basket action-repair `play_once` passes, generated collections at `runs/generated_collect_apple_plate_action_repair/collection_report.json` and `runs/generated_collect_can_basket_action_repair/collection_report.json`, initial-scene review at `artifacts/visual_review/selection2env_visual_review.json`, generated final-relation review at `artifacts/visual_review/generated_rollout_final_relation_review.json`, Articraft catalog metadata at `artifacts/adapter_catalog/articraft10k_manifest.json`, five selected archive reports under `runs/articraft_archive_probe_*/probe_report.json`, and policy-hook blocker logs under `runs/policy_train_eval_entrypoint_probe/`. Commits: local `9f8d0f1`, remote `691211d`. Remaining blockers: convert generated collections into ACT/RoboTwin HDF5, fix policy-train dependencies, register generated task env modules for eval, broaden Articraft scale/material/task-suitability coverage, and test held-out generated-task robustness.",
           "created_at": "2026-07-09T13:52:56.294Z",
           "updated_at": "2026-07-09T15:16:49.000Z"
+        },
+        {
+          "comment_id": "comment_self_improving_sceneagent_act_hdf5_adapter_20260709",
+          "created_at": "2026-07-09T15:43:49.000Z",
+          "body": "[COMPUTED][HIGH] 2026-07-09 ACT adapter update: remote workspace `/home/jingxiang/workspace/alchedata-self-improving-agents` on `jingxiang-b850m-c` now verifies generated policy-data format smoke. `scripts/verify_workspace.py` passes with `act_hdf5=6 policy_probe=blocked_policy_train_eval_not_wired`; generated planner traces are stored as `policy_trace.json`, converted into six compact ACT-compatible HDF5 episodes under `runs/act_hdf5_generated_smoke/`, and loaded by RoboTwin ACT dataset utilities via `runs/act_hdf5_generated_smoke/load_data_report.json`. Commits: local `ebfdac4`, remote `644e8ac`. [COMPUTED][HIGH] Remaining blocker is actual `/train` and `/evaluate`: ACT process/train config still targets `../../data/task_apple_plate/demo_clean/data`, ACT train import lacks `einops`, and eval cannot import generated `envs.task_apple_plate`."
         }
       ],
-      "updated_at": "2026-07-09T15:16:49.000Z",
+      "updated_at": "2026-07-09T15:43:49.000Z",
       "created_at": "2026-07-01T11:10:00+08:00",
       "due_at": "2026-07-07"
     },
@@ -11746,9 +11751,14 @@
           "body": "2026-07-09 generated-action update: PEARL command-loop workspace now has concrete `/gen-env`, bounded `/collect`, official RoboTwin action rollout smoke, two generated selection2env action-repair smokes, two 3-episode generated collections, generated final-relation visual review, Articraft-10K metadata catalog parsing, five selected Articraft archive probes, and a RoboTwin ACT train/eval entrypoint blocker probe on `jingxiang-b850m-c`. Command spec/schema remain in `docs/openxsim_command_spec.md` and `schemas/pearl_command.schema.json`; generated collection artifacts include `runs/generated_collect_apple_plate_action_repair/collection_report.json` and `runs/generated_collect_can_basket_action_repair/collection_report.json`; review evidence is `artifacts/visual_review/generated_rollout_final_relation_review.json`; Articraft metadata evidence is `artifacts/adapter_catalog/articraft10k_manifest.json` with 9996 searchable URDF archive entries. Archive-smoke evidence: weight bench, microscope, and monitor pass SAPIEN load/20-step smoke; washing machine and Zippo lighter load/step but fail the missing-collision-geometry gate. Policy hook blocker: `runs/policy_train_eval_entrypoint_probe/probe_report.json` shows current generated collections contain no ACT HDF5 episodes; ACT train import fails on missing `einops`; ACT eval cannot import `envs.task_apple_plate`. Remote verification: `cd /home/jingxiang/workspace/alchedata-self-improving-agents && python3 scripts/verify_workspace.py` -> PASS with `official_rollouts=3 generated_rollouts=2 generated_collections=2 articraft_assets=9996 articraft_archive_passes=3 articraft_collision_blockers=2 policy_probe=blocked_policy_train_eval_not_wired`. Commits: local `9f8d0f1`, remote `691211d`. This is still not policy `/train` or `/evaluate` completion.",
           "created_at": "2026-07-09T13:52:56.294Z",
           "updated_at": "2026-07-09T15:16:49.000Z"
+        },
+        {
+          "comment_id": "comment_self_improving_openxsim_act_hdf5_adapter_20260709",
+          "created_at": "2026-07-09T15:43:49.000Z",
+          "body": "[COMPUTED][HIGH] 2026-07-09 ACT adapter update: remote workspace `/home/jingxiang/workspace/alchedata-self-improving-agents` on `jingxiang-b850m-c` now verifies generated policy-data format smoke. `scripts/verify_workspace.py` passes with `act_hdf5=6 policy_probe=blocked_policy_train_eval_not_wired`; generated planner traces are stored as `policy_trace.json`, converted into six compact ACT-compatible HDF5 episodes under `runs/act_hdf5_generated_smoke/`, and loaded by RoboTwin ACT dataset utilities via `runs/act_hdf5_generated_smoke/load_data_report.json`. Commits: local `ebfdac4`, remote `644e8ac`. [COMPUTED][HIGH] Remaining blocker is actual `/train` and `/evaluate`: ACT process/train config still targets `../../data/task_apple_plate/demo_clean/data`, ACT train import lacks `einops`, and eval cannot import generated `envs.task_apple_plate`."
         }
       ],
-      "updated_at": "2026-07-09T15:16:49.000Z",
+      "updated_at": "2026-07-09T15:43:49.000Z",
       "created_at": "2026-07-03T15:45:00+08:00",
       "due_at": "2026-07-10"
     },
