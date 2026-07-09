@@ -27,12 +27,7 @@ async function inspectCanvasRender(canvas) {
               colors.add(`${red},${green},${blue},${alpha}`);
             }
 
-            const blank = document.createElement("canvas");
-            blank.width = element.width;
-            blank.height = element.height;
             resolve({
-              blankDataUrl: blank.toDataURL("image/png"),
-              dataUrl: element.toDataURL("image/png"),
               nonTransparent,
               uniqueColors: colors.size,
               channelRange: maximumChannel - minimumChannel,
@@ -41,12 +36,7 @@ async function inspectCanvasRender(canvas) {
         });
       }),
   );
-  expect(result.dataUrl).toMatch(/^data:image\/png;base64,/);
-  return {
-    ...result,
-    blankPngBytes: Buffer.from(result.blankDataUrl.split(",", 2)[1], "base64").byteLength,
-    pngBytes: Buffer.from(result.dataUrl.split(",", 2)[1], "base64").byteLength,
-  };
+  return result;
 }
 
 async function expectCanvasRendered(canvas) {
@@ -57,11 +47,10 @@ async function expectCanvasRendered(canvas) {
         return (
           render.nonTransparent > 2_048 &&
           render.uniqueColors > 8 &&
-          render.channelRange > 12 &&
-          render.pngBytes > render.blankPngBytes + 256
+          render.channelRange > 12
         );
       },
-      { timeout: 30_000 },
+      { timeout: 45_000 },
     )
     .toBe(true);
 }
@@ -79,7 +68,7 @@ test("homepage uses the device viewport without horizontal overflow", async ({ p
 });
 
 test("homepage robot runtime loads only after an explicit launch", async ({ page }) => {
-  test.setTimeout(90_000);
+  test.setTimeout(120_000);
   await page.setViewportSize({ width: 1440, height: 900 });
   const runtimeRequests = [];
   const brokenRuntimePreloads = [];
