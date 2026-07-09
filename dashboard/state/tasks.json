@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-07-09T21:44:00+08:00",
+  "updated_at": "2026-07-09T13:52:56.294Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2816,16 +2816,16 @@
           "created_at": "2026-07-03T15:45:00+08:00"
         },
         {
-          "comment_id": "comment_self_improving_text2env_downloads_20260709",
+          "comment_id": "comment_self_improving_text2env_downloads_20260709_hosted",
           "task_id": "task_self_improving_text2env_lit_review_20260701",
           "author": "Codex / jingxiang-b850m-c workspace",
           "author_type": "system",
           "kind": "evidence_update",
-          "body": "2026-07-09 evidence update: literature review is in `docs/text2env_literature_review.md` and copied to `/home/jingxiang/Downloads/text2env_literature_review.md` plus `/Users/boris/Downloads/text2env_literature_review.md`. It covers primary sources, method matrix, taxonomy, P0/P1/P2 shortlist, ASPIRE/ENPIRE differentiation, and pipeline handoff fields. This comment records the dashboard path requested by the TODO.",
-          "created_at": "2026-07-09T18:05:00+08:00"
+          "body": "2026-07-09 evidence update: literature review is in `docs/text2env_literature_review.md` and copied to `/home/jingxiang/Downloads/text2env_literature_review.md` plus `/Users/boris/Downloads/text2env_literature_review.md`. Web primary-source spot check covered SceneSmith, RoboTwin 2.0, FATE, VLMbench/AMSolver, REALM, ASPIRE, ENPIRE, Articraft-10K, video2sim-forge, and NeuMatEx. It includes method matrix, taxonomy, P0/P1/P2 shortlist, ASPIRE/ENPIRE differentiation, and pipeline handoff fields.",
+          "created_at": "2026-07-09T13:52:56.294Z"
         }
       ],
-      "updated_at": "2026-07-09T18:05:00+08:00",
+      "updated_at": "2026-07-09T13:52:56.294Z",
       "created_at": "2026-07-01T12:05:00+08:00",
       "due_at": "2026-07-08"
     },
@@ -2858,16 +2858,25 @@
           "created_at": "2026-07-03T15:45:00+08:00"
         },
         {
-          "comment_id": "comment_self_improving_sceneagent_robotwin_smoke_20260709",
+          "comment_id": "comment_4a850f1f-c119-4099-8681-1c7a417850b1",
+          "task_id": "task_self_improving_sceneagent_selection2env_20260701",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-07-09 evidence update: remote workspace `/home/jingxiang/workspace/alchedata-self-improving-agents` on `jingxiang-b850m-c` now verifies selection2env beyond static smoke. `python3 scripts/verify_workspace.py` passes with docs=8, static_runs=4, asset_smoke_runs=3, basetask_smoke_runs=3, collect_dry_runs=3, artifacts=4. New evidence: `runs/collect_dryrun_apple_plate`, `runs/collect_dryrun_laptop_knife`, `runs/collect_dryrun_vegetable_basket` each include `collect_report.json`, `dataset_manifest.json`, `episode_000/object_states.jsonl`, camera PNGs, and observer MP4. `artifacts/visual_review/selection2env_visual_review.json` accepts initial-scene support while explicitly leaving final task relation `not_claimed`. Remaining blockers: generated manipulation `play_once`/policy rollout collection, train/eval integration, and real Articraft metadata.",
+          "created_at": "2026-07-09T13:35:23.768Z"
+        },
+        {
+          "comment_id": "comment_self_improving_sceneagent_official_rollouts_20260709_hosted",
           "task_id": "task_self_improving_sceneagent_selection2env_20260701",
           "author": "Codex / jingxiang-b850m-c workspace",
           "author_type": "system",
           "kind": "evidence_update",
-          "body": "2026-07-09 evidence update: remote workspace `/home/jingxiang/workspace/alchedata-self-improving-agents` on `jingxiang-b850m-c` now verifies selection2env beyond static smoke. `python3 scripts/verify_workspace.py` passes with docs=8, static_runs=4, asset_smoke_runs=3, basetask_smoke_runs=3, collect_dry_runs=3, artifacts=4. Evidence includes schema/artifacts, accepted/rejected candidates, drawer/mug unsupported blocker, scene-task decoupling via `task_apple_plate_reverse`, three RoboTwin asset-load smokes, three `Base_Task` + CuRobo smokes, and three `/collect` dry-runs under `runs/collect_dryrun_*` with `collect_report.json`, `dataset_manifest.json`, `episode_000/object_states.jsonl`, camera PNGs, and observer MP4. Visual review: `artifacts/visual_review/selection2env_visual_review.json` accepts initial-scene support while explicitly leaving final task relation `not_claimed`. Remaining blockers: generated manipulation `play_once`/policy rollout collection, `/train`/`/evaluate` integration, and real Articraft metadata.",
-          "created_at": "2026-07-09T21:36:16+08:00"
+          "body": "2026-07-09 evidence update: remote workspace `/home/jingxiang/workspace/alchedata-self-improving-agents` on `jingxiang-b850m-c` now verifies selection2env beyond static smoke. `python3 scripts/verify_workspace.py` passes with docs=8, static_runs=4, asset_smoke_runs=3, basetask_smoke_runs=3, collect_dry_runs=3, official_rollouts=3, artifacts=4. Evidence includes schema/artifacts, accepted/rejected candidates, drawer/mug unsupported blocker, scene-task decoupling via `task_apple_plate_reverse`, three asset-load smokes, three Base_Task/CuRobo smokes, three `/collect` dry-runs, three official RoboTwin action rollout probes, and `artifacts/visual_review/selection2env_visual_review.json`. Remaining blockers: generated selection2env `play_once`, `/train`/`/evaluate`, and real Articraft metadata.",
+          "created_at": "2026-07-09T13:52:56.294Z"
         }
       ],
-      "updated_at": "2026-07-09T21:36:16+08:00",
+      "updated_at": "2026-07-09T13:52:56.294Z",
       "created_at": "2026-07-01T11:10:00+08:00",
       "due_at": "2026-07-07"
     },
@@ -11718,16 +11727,25 @@
           "created_at": "2026-07-03T15:45:00+08:00"
         },
         {
-          "comment_id": "comment_self_improving_openxsim_basetask_smoke_20260709",
+          "comment_id": "comment_5d6e261a-b7a6-4ee4-abdb-97560172568b",
+          "task_id": "task_self_improving_openxsim_command_loop_20260703",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-07-09 evidence update: PEARL command-loop workspace now has concrete `/gen-env` plus bounded `/collect` artifacts on `jingxiang-b850m-c`. Command spec/schema remain in `docs/openxsim_command_spec.md` and `schemas/pearl_command.schema.json`; selection artifacts now include `simulator_smoke.collect_dry_run.status=pass_collect_dry_run` for apple/plate, laptop/knife, and vegetable/basket. Remote verification: `cd /home/jingxiang/workspace/alchedata-self-improving-agents && python3 scripts/verify_workspace.py` -> PASS with `collect_dry_runs=3`. This is still not policy rollout or `/train`/`/evaluate` completion; it is an observation/object-state dry-run gate for the command loop.",
+          "created_at": "2026-07-09T13:36:54.993Z"
+        },
+        {
+          "comment_id": "comment_self_improving_openxsim_official_rollouts_20260709_hosted",
           "task_id": "task_self_improving_openxsim_command_loop_20260703",
           "author": "Codex / jingxiang-b850m-c workspace",
           "author_type": "system",
           "kind": "evidence_update",
-          "body": "2026-07-09 evidence update: PEARL command-loop workspace now has concrete `/gen-env` plus bounded `/collect` artifacts on `jingxiang-b850m-c`. Command spec/schema remain in `docs/openxsim_command_spec.md` and `schemas/pearl_command.schema.json`; selection artifacts now include `simulator_smoke.collect_dry_run.status=pass_collect_dry_run` for apple/plate, laptop/knife, and vegetable/basket. Remote verification: `cd /home/jingxiang/workspace/alchedata-self-improving-agents && python3 scripts/verify_workspace.py` -> PASS with `collect_dry_runs=3`. This is still not policy rollout or `/train`/`/evaluate` completion; it is an observation/object-state dry-run gate for the command loop.",
-          "created_at": "2026-07-09T21:36:16+08:00"
+          "body": "2026-07-09 evidence update: PEARL command-loop workspace now has concrete `/gen-env`, bounded `/collect`, and official RoboTwin action rollout smoke on `jingxiang-b850m-c`. Command spec/schema remain in `docs/openxsim_command_spec.md` and `schemas/pearl_command.schema.json`; selection artifacts include `simulator_smoke.collect_dry_run.status=pass_collect_dry_run`; official probes `open_laptop`, `place_mouse_pad`, and `place_container_plate` all report `pass_action_rollout` with `check_success=true`. Remote verification: `cd /home/jingxiang/workspace/alchedata-self-improving-agents && python3 scripts/verify_workspace.py` -> PASS with `official_rollouts=3`. This is still not generated selection2env `play_once` or `/train`/`/evaluate` completion.",
+          "created_at": "2026-07-09T13:52:56.294Z"
         }
       ],
-      "updated_at": "2026-07-09T21:36:16+08:00",
+      "updated_at": "2026-07-09T13:52:56.294Z",
       "created_at": "2026-07-03T15:45:00+08:00",
       "due_at": "2026-07-10"
     },
