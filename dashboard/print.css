@@ -1392,9 +1392,12 @@ summary.bucket-title::-webkit-details-marker {
 
 .project-intro-table[data-kind="procurement_table"] th.procurement-actions-heading,
 .project-intro-table[data-kind="procurement_table"] td.procurement-actions {
-  width: 68px;
+  width: 72px;
+  min-width: 72px;
+  max-width: 72px;
   overflow-wrap: normal;
   white-space: nowrap;
+  word-break: normal;
 }
 
 .project-intro-table th.sorted-column::after {
@@ -1489,9 +1492,12 @@ summary.bucket-title::-webkit-details-marker {
 }
 
 .procurement-actions {
-  width: 68px;
+  box-sizing: border-box;
+  width: 72px;
   text-align: right;
+  overflow-wrap: normal;
   white-space: nowrap;
+  word-break: normal;
 }
 
 .procurement-edit-button,
@@ -1507,14 +1513,20 @@ summary.bucket-title::-webkit-details-marker {
 }
 
 .procurement-edit-button {
-  display: inline-flex;
+  box-sizing: border-box;
+  display: inline-grid;
   align-items: center;
   justify-content: center;
+  flex: 0 0 48px;
+  inline-size: 48px;
+  max-inline-size: 48px;
   min-height: 28px;
-  min-width: 44px;
-  padding: 4px 10px;
+  min-inline-size: 48px;
+  padding: 4px 0;
+  line-height: 1;
   overflow-wrap: normal;
   white-space: nowrap;
+  word-break: keep-all;
 }
 
 .procurement-edit-button:hover,

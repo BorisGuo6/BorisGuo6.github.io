@@ -745,7 +745,7 @@ assert.match(
 );
 assert.match(
   await readFile(new URL("../dashboard/print.css", import.meta.url), "utf8"),
-  /td\.procurement-actions \{[\s\S]+width: 68px;[\s\S]+overflow-wrap: normal;[\s\S]+white-space: nowrap;[\s\S]+\.procurement-edit-button \{[\s\S]+min-width: 44px;[\s\S]+white-space: nowrap;/,
+  /td\.procurement-actions \{[\s\S]+width: 72px;[\s\S]+overflow-wrap: normal;[\s\S]+white-space: nowrap;[\s\S]+word-break: normal;[\s\S]+\.procurement-edit-button \{[\s\S]+box-sizing: border-box;[\s\S]+inline-size: 48px;[\s\S]+min-inline-size: 48px;[\s\S]+white-space: nowrap;[\s\S]+word-break: keep-all;/,
   "procurement edit buttons should not wrap into vertical text in the compact action column",
 );
 assert.match(
