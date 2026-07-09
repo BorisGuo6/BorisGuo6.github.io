@@ -4,7 +4,7 @@
   "title": "Self-Improving Agents for Physical AI",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-07-09T15:10:06.000Z",
+  "updated_at": "2026-07-09T15:16:49.000Z",
   "description": "Simulation-first AgenticSim proposal: orchestrated setup-collect-train-eval-diagnose loop",
   "summary": "Self-Improving Agents / PEARL should be positioned as an embodied harness system, not as another Text2Env demo or monolithic VLA finetune. The paper thesis: keep the embodied model or policy under test fixed enough to measure it, then iteratively improve the surrounding harness of prompts, tools, simulator adapters, reset/eval rules, validation gates, memory, and data requirements. The loop mirrors the provided harness sketch: run the current harness on embodied tasks, mine and cluster failure traces, propose harness edits, regression-test candidates, and promote only edits that improve robot robustness without regressing prior tasks. The implementation substrate remains AgenticSim + Open X Sim: /gen-env, /collect, /train, /evaluate, /diagnose, and /transfer, with scene-task decoupling and verifier-backed promotion as the defensible route to the first real embodied harness claim.",
   "asset": "dashboard/assets/self-improving-embodied-harness-loop-20260707.png",
@@ -249,6 +249,7 @@
     }
   ],
   "risks_decisions": [
+    "Policy hook probe 2026-07-09: RoboTwin ACT train/eval entrypoints exist, but current generated collections are not yet policy-train data. `runs/policy_train_eval_entrypoint_probe/probe_report.json` records no ACT HDF5 episodes, missing `einops` for ACT train import, and missing `envs.task_apple_plate` for eval. Next implementation target is data conversion plus generated-task env registration, not claiming /train or /evaluate success.",
     "Embodied-harness paper-positioning decision 2026-07-07: frame PEARL as the first real embodied harness target, not merely a self-improving simulator, Text2Env tool, code-repair loop, or VLA training recipe. The defendable claim requires a harness-level abstraction around a fixed embodied model/policy: weakness mining from robot/simulator execution traces, clustered failure patterns, harness proposal edits over prompts/tools/memory/policies/validators, regression tests, and promotion gates that update the harness only when embodied task behavior improves without regression.",
     "NeuMaTeX material-sidecar decision 2026-07-06: texture/material realism should become an explicit /gen-env branch instead of being hidden inside geometry generation. Reference: https://nvlabs.github.io/neumatex/. Use NeuMaTeX-style multi-view neural-material extraction for relightable texture/material sidecars when assets are forged from RGB-D/video, but keep it gated separately from simulator validity: scale, mesh, collision proxy, URDF/joints, physical material parameters, renderer import, and verifier smoke must still pass before /collect uses the scene.",
     "Backend decision 2026-07-03: keep RoboTwin / SAPIEN as the v0 implementation backend rather than forcing Isaac Sim/USD. Isaac/Omniverse remains an adapter target through /transfer, but the near-term system should trust the current RoboTwin stack and avoid turning simulator compatibility into the main blocker.",
