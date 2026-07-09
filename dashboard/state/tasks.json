@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-07-09T17:10:00+08:00",
+  "updated_at": "2026-07-09T18:05:00+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2796,9 +2796,18 @@
           "kind": "comment",
           "body": "2026-07-03 update: add ASPIRE and ENPIRE as mandatory comparison axes. ASPIRE covers code-as-policy skill repair and persistent skill library; ENPIRE covers real-world reset/rollout/evolve. The review must decide why PEARL is not a weaker copy: reusable scene/task decoupling, Open X Sim aggregation, /transfer adapters, and dense failure-to-data requirements.",
           "created_at": "2026-07-03T15:45:00+08:00"
+        },
+        {
+          "comment_id": "comment_self_improving_text2env_downloads_20260709",
+          "task_id": "task_self_improving_text2env_lit_review_20260701",
+          "author": "Codex / jingxiang-b850m-c workspace",
+          "author_type": "system",
+          "kind": "evidence_update",
+          "body": "2026-07-09 evidence update: literature review is in `docs/text2env_literature_review.md` and copied to `/home/jingxiang/Downloads/text2env_literature_review.md` plus `/Users/boris/Downloads/text2env_literature_review.md`. It covers primary sources, method matrix, taxonomy, P0/P1/P2 shortlist, ASPIRE/ENPIRE differentiation, and pipeline handoff fields. This comment records the dashboard path requested by the TODO.",
+          "created_at": "2026-07-09T18:05:00+08:00"
         }
       ],
-      "updated_at": "2026-07-03T15:45:00+08:00",
+      "updated_at": "2026-07-09T18:05:00+08:00",
       "created_at": "2026-07-01T12:05:00+08:00",
       "due_at": "2026-07-08"
     },
@@ -2829,9 +2838,18 @@
           "kind": "comment",
           "body": "2026-07-03 update from user-provided WeChat excerpt: the innovation target should move beyond generating a single task. SceneAgent /gen-env should decouple scene and task, allow one scene to support multiple operations, and keep RoboTwin/SAPIEN as the v0 backend. /transfer becomes the future Any Sim Transfer bridge for importing existing simulator environments instead of rebuilding wheels.",
           "created_at": "2026-07-03T15:45:00+08:00"
+        },
+        {
+          "comment_id": "comment_self_improving_sceneagent_robotwin_smoke_20260709",
+          "task_id": "task_self_improving_sceneagent_selection2env_20260701",
+          "author": "Codex / jingxiang-b850m-c workspace",
+          "author_type": "system",
+          "kind": "evidence_update",
+          "body": "2026-07-09 evidence update: remote workspace `/home/jingxiang/workspace/alchedata-self-improving-agents` now has selection2env schema/artifacts, accepted/rejected candidates, drawer/mug unsupported blocker, scene-task decoupling via `task_apple_plate_reverse`, and three RoboTwin `Base_Task` + CuRobo smoke passes under `runs/smoke_basetask_*`. Runtime evidence is `artifacts/runtime/robotwin_5090_env.json`. Remaining gaps: `/collect` rollout data, semantic VLM/human acceptance, and real Articraft-10K metadata parsing.",
+          "created_at": "2026-07-09T18:05:00+08:00"
         }
       ],
-      "updated_at": "2026-07-03T15:45:00+08:00",
+      "updated_at": "2026-07-09T18:05:00+08:00",
       "created_at": "2026-07-01T11:10:00+08:00",
       "due_at": "2026-07-07"
     },
@@ -11680,9 +11698,18 @@
           "kind": "comment",
           "body": "Seeded from 2026-07-03 user-provided WeChat excerpt: ASPIRE increases collision pressure because it skillizes tasks through rollout trace debugging and code repair. The counter-position is PEARL as Open X Sim / Any Sim Transfer: /gen-env for reusable scene/task specs, /collect for rollout data, /train and /evaluate on Gaochen’s side, /transfer for importing existing simulator environments instead of rebuilding them. Also record the scene-task decoupling thesis: one scene can support multiple tasks, and RoboTwin/SAPIEN stays the v0 backend while Isaac/USD remains an adapter target.",
           "created_at": "2026-07-03T15:45:00+08:00"
+        },
+        {
+          "comment_id": "comment_self_improving_openxsim_basetask_smoke_20260709",
+          "task_id": "task_self_improving_openxsim_command_loop_20260703",
+          "author": "Codex / jingxiang-b850m-c workspace",
+          "author_type": "system",
+          "kind": "evidence_update",
+          "body": "2026-07-09 evidence update: `/gen-env` artifacts and PEARL command spec are in `/home/jingxiang/workspace/alchedata-self-improving-agents`; three RoboTwin `Base_Task` + CuRobo smoke reports passed (`runs/smoke_basetask_apple_plate`, `runs/smoke_basetask_laptop_knife`, `runs/smoke_basetask_vegetable_basket`). `robotwin-5090` uses torch 2.11.0+cu128 and CuRobo compiled for RTX 5090 sm_120. Still pending: actual `/collect` rollout logs/dataset manifests, train/evaluate handoff execution, and video2sim/NeuMaTeX dry runs beyond explicit blockers.",
+          "created_at": "2026-07-09T18:05:00+08:00"
         }
       ],
-      "updated_at": "2026-07-06T10:35:00+08:00",
+      "updated_at": "2026-07-09T18:05:00+08:00",
       "created_at": "2026-07-03T15:45:00+08:00",
       "due_at": "2026-07-10"
     },
@@ -11830,9 +11857,18 @@
           "kind": "source_note",
           "body": "Seeded from Boris 2026-07-07: the Self-Improving article should reference the provided harness concept and position the work as the first truly embodied harness system. Key diagram structure: current harness h_t -> weakness mining over task execution traces -> clustered failure patterns -> harness proposal edits -> regression validation -> accept/reject -> updated harness h_{t+1}.",
           "created_at": "2026-07-07T23:30:00+08:00"
+        },
+        {
+          "comment_id": "comment_self_improving_embodied_harness_doc_20260709",
+          "task_id": "task_self_improving_embodied_harness_positioning_20260707",
+          "author": "Codex / jingxiang-b850m-c workspace",
+          "author_type": "system",
+          "kind": "evidence_update",
+          "body": "2026-07-09 evidence update: `docs/embodied_harness_thesis.md` now contains the embodied harness thesis, loop mapping, harness surfaces, novelty table, figure caption, and routing into `/gen-env`, `/collect`, `/evaluate`, `/diagnose`, and `/transfer`. Current implementation evidence is cross-linked from `docs/todo_completion_audit.md`.",
+          "created_at": "2026-07-09T18:05:00+08:00"
         }
       ],
-      "updated_at": "2026-07-07T23:30:00+08:00",
+      "updated_at": "2026-07-09T18:05:00+08:00",
       "started_at": null,
       "completed_at": null
     },
