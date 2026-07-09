@@ -6,9 +6,10 @@
     "node": "22.x"
   },
   "scripts": {
-    "dev": "live-server --port=8765 --host=127.0.0.1 --open=/ .",
+    "dev": "python3 -m http.server 8765 --bind 127.0.0.1 --directory .",
     "dev:write-api": "node scripts/local-dashboard-write-api.mjs",
-    "vercel-build": "npm run test:dashboard",
+    "build:static": "node scripts/build-static-site.mjs",
+    "build:verify": "npm run test:dashboard:unit && npm run test:assets && npm run build:static && npm run test:dist",
     "agent:check": "npm run test:dashboard",
     "dashboard:mutate": "node scripts/dashboard-mutate.mjs",
     "vercel:pull-blob": "node scripts/pull-vercel-dashboard-blob.mjs",
@@ -22,10 +23,14 @@
     "gate:isaacsim-oss": "node scripts/generate-isaacsim-open-source-gate.mjs",
     "plan:isaacsim-intake": "node scripts/generate-isaacsim-benchmark-intake-plan.mjs",
     "verify:isaacsim-catalog": "node scripts/verify-isaacsim-benchmark-catalog.mjs",
-    "test:dashboard": "node test/dashboard-state-lib.test.mjs && node test/dashboard-mutate.test.mjs"
+    "test:dashboard:unit": "node test/dashboard-state-lib.test.mjs && node test/dashboard-mutate.test.mjs",
+    "test:dashboard:e2e": "playwright test",
+    "test:assets": "node scripts/audit-site-assets.mjs",
+    "test:dist": "node scripts/audit-site-assets.mjs --root dist",
+    "test:dashboard": "npm run test:dashboard:unit && npm run test:assets && npm run test:dashboard:e2e"
   },
   "devDependencies": {
-    "live-server": "^1.2.2"
+    "@playwright/test": "^1.61.1"
   },
   "dependencies": {
     "@vercel/blob": "^2.4.0"

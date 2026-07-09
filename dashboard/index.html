@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="print.css">
   </head>
   <body class="dashboard-locked">
-    <main class="page">
+    <main class="page" inert>
       <header class="report-header">
         <div>
           <p class="kicker">Weekly Project Dashboard</p>
@@ -27,10 +27,6 @@
             <form class="auth-form" data-auth-form hidden>
               <input type="email" name="email" placeholder="editor email" aria-label="Editor email" autocomplete="email">
               <button type="submit">Sign in</button>
-            </form>
-            <form class="auth-form" data-vercel-token-form hidden>
-              <input type="password" name="token" placeholder="write token" aria-label="Dashboard write token" autocomplete="off">
-              <button type="submit">Unlock</button>
             </form>
             <button class="auth-signout" type="button" data-auth-signout hidden>Sign out</button>
             <button class="auth-signout" type="button" data-vercel-token-clear hidden>Lock</button>
@@ -138,7 +134,6 @@
         const detailsStorageKey = "dashboard.details-open.v2";
         const textCollapseStorageKey = "dashboard.text-collapse.v1";
         const dashboardAccessTokenName = "DASHBOARD_WRITE_TOKEN";
-        const vercelTokenStorageKey = "dashboard.vercel-write-token.v2";
         const vercelApiBase = "/api/dashboard";
         const supabaseEsmUrl = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
         const statusCycle = ["todo", "active", "done"];
@@ -188,7 +183,7 @@
         let dataMode = "json";
         let vercelApiAvailable = false;
         let vercelApiWritable = false;
-        let vercelWriteToken = "";
+        let dashboardSessionActive = false;
         let dashboardViewer = "";
         let reloadTimer = null;
         let realtimeChannel = null;
@@ -224,32 +219,6 @@
           } catch (error) {
             console.warn("Ignoring invalid local dashboard task state", error);
             return { statuses: {}, comments: {}, procurementRows: {} };
-          }
-        }
-
-        function readVercelWriteToken() {
-          try {
-            return localStorage.getItem(vercelTokenStorageKey) || "";
-          } catch (error) {
-            console.warn("Unable to read persisted dashboard token", error);
-            return "";
-          }
-        }
-
-        function writeVercelWriteToken(token, options = {}) {
-          const { persist = true } = options;
-          vercelWriteToken = String(token || "").trim();
-          if (!persist) {
-            return;
-          }
-          try {
-            if (vercelWriteToken) {
-              localStorage.setItem(vercelTokenStorageKey, vercelWriteToken);
-            } else {
-              localStorage.removeItem(vercelTokenStorageKey);
-            }
-          } catch (error) {
-            console.warn("Unable to persist dashboard token", error);
           }
         }
 
@@ -399,6 +368,64 @@
           localStorage.setItem(storageKey, JSON.stringify(localState));
         }
 
+        function localPendingChangeCount() {
+          const statusCount = Object.keys(localState.statuses || {}).length;
+          const commentCount = Object.values(localState.comments || {}).reduce((total, comments) => (
+            total + (Array.isArray(comments) ? comments.length : 0)
+          ), 0);
+          const procurementCount = Object.values(localState.procurementRows || {}).reduce((total, rows) => (
+            total + (rows && typeof rows === "object" ? Object.keys(rows).length : 0)
+          ), 0);
+          return statusCount + commentCount + procurementCount;
+        }
+
+        function reconcileLocalStateWithRemote() {
+          for (const [taskId, override] of Object.entries(localState.statuses || {})) {
+            const task = getTaskById(taskId);
+            const status = typeof override === "string" ? override : override?.status;
+            if (task && status && task.status === status) {
+              delete localState.statuses[taskId];
+            }
+          }
+
+          for (const [taskId, comments] of Object.entries(localState.comments || {})) {
+            const task = getTaskById(taskId);
+            if (!task || !Array.isArray(comments)) {
+              continue;
+            }
+            const remoteComments = Array.isArray(task.comments) ? task.comments : [];
+            const pending = comments.filter((comment) => !remoteComments.some((remote) => (
+              String(remote.comment_id || remote.id || "") === String(comment.comment_id || comment.id || "")
+              || String(remote.body || "").trim() === String(comment.body || "").trim()
+            )));
+            if (pending.length) {
+              localState.comments[taskId] = pending;
+            } else {
+              delete localState.comments[taskId];
+            }
+          }
+
+          for (const [projectId, rows] of Object.entries(localState.procurementRows || {})) {
+            const project = findProjectDoc(projectId);
+            if (!project || !rows || typeof rows !== "object") {
+              continue;
+            }
+            for (const [rowId, entry] of Object.entries(rows)) {
+              const remoteRow = project.intro_table?.rows?.find((candidate) => String(candidate?.row_id || "") === rowId);
+              const patch = entry?.patch;
+              if (remoteRow && patch && Object.entries(patch).every(([field, value]) => remoteRow[field] === value)) {
+                delete rows[rowId];
+              }
+            }
+            if (Object.keys(rows).length === 0) {
+              delete localState.procurementRows[projectId];
+            }
+          }
+
+          writeLocalState();
+          return localPendingChangeCount();
+        }
+
         function preserveDetailsOpenState(details, key, defaultOpen = false) {
           if (!details || !key) {
             return details;
@@ -496,7 +523,9 @@
           if (dataMode === "vercel") {
             if (!vercelApiAvailable) {
               setSyncStatus("Vercel API unavailable", "fallback");
-            } else if (vercelWriteToken) {
+            } else if (localPendingChangeCount()) {
+              setSyncStatus(`Vercel · ${localPendingChangeCount()} pending local`, "fallback");
+            } else if (dashboardSessionActive) {
               setSyncStatus("Vercel editable", "online");
             } else if (vercelApiWritable) {
               setSyncStatus("Vercel read-only (locked)", "readonly");
@@ -522,14 +551,12 @@
         function renderAuthState() {
           const form = document.querySelector("[data-auth-form]");
           const signOut = document.querySelector("[data-auth-signout]");
-          const vercelForm = document.querySelector("[data-vercel-token-form]");
           const vercelClear = document.querySelector("[data-vercel-token-clear]");
-          if (!form || !signOut || !vercelForm || !vercelClear) {
+          if (!form || !signOut || !vercelClear) {
             return;
           }
           const isVercel = dataMode === "vercel";
-          vercelForm.hidden = true;
-          vercelClear.hidden = !isVercel || !vercelWriteToken;
+          vercelClear.hidden = !isVercel || !dashboardSessionActive;
           const hasSupabase = Boolean(supabaseClient);
           const isSignedIn = Boolean(supabaseSession?.user);
           form.hidden = isVercel || !hasSupabase || isSignedIn || localWriteApiAvailable;
@@ -541,7 +568,7 @@
 
         function isDashboardBackendWritable() {
           if (dataMode === "vercel") {
-            return Boolean(vercelApiAvailable && vercelWriteToken);
+            return Boolean(vercelApiAvailable && dashboardSessionActive);
           }
           return dataMode === "supabase" && Boolean(localWriteApiAvailable || (supabaseClient && supabaseSession?.user && supabaseIsEditor));
         }
@@ -558,7 +585,7 @@
 
         function dashboardAgentPromptText() {
           const origin = "https://jingxiangguo.com";
-          const token = vercelWriteToken || "TOKEN";
+          const token = "$DASHBOARD_WRITE_TOKEN";
           return [
             "# Dashboard Backend Write Token",
             "- 更新时间：2026-06-18 20:30 Asia/Shanghai",
@@ -629,6 +656,10 @@
 
         function unlockDashboardView() {
           document.body.classList.remove("dashboard-locked");
+          const main = document.querySelector("main");
+          if (main) {
+            main.inert = false;
+          }
           const gate = document.querySelector("[data-dashboard-access-gate]");
           if (gate) {
             gate.hidden = true;
@@ -636,15 +667,20 @@
           updateDashboardWatermark();
         }
 
-        function lockDashboardView() {
-          writeVercelWriteToken("");
+        async function lockDashboardView() {
+          try {
+            await fetch(`${vercelApiBase}/session`, { method: "DELETE" });
+          } catch (error) {
+            console.warn("Dashboard session logout failed", error);
+          }
+          dashboardSessionActive = false;
           dashboardViewer = "";
           window.location.reload();
         }
 
         async function validateDashboardAccess(token) {
-          const response = await fetch(`${vercelApiBase}/health`, {
-            cache: "no-store",
+          const response = await fetch(`${vercelApiBase}/session`, {
+            method: "POST",
             headers: {
               "x-dashboard-token": token,
             },
@@ -654,7 +690,7 @@
           if (!response.ok || !result?.ok || !auth?.ok) {
             throw new Error(auth?.error || result?.error || `Dashboard health returned ${response.status}`);
           }
-          writeVercelWriteToken(token);
+          dashboardSessionActive = true;
           dashboardViewer = auth.viewer || "unknown";
           unlockDashboardView();
           setSyncStatus("Vercel loading", "loading");
@@ -663,23 +699,27 @@
 
         async function initDashboardAccessGate() {
           const tokenInput = document.querySelector("[data-dashboard-access-form] input[name='token']");
-          const storedToken = readVercelWriteToken();
-          if (!storedToken) {
-            tokenInput?.focus();
-            return;
-          }
-          if (tokenInput) {
-            tokenInput.value = storedToken;
-          }
-          setDashboardAccessStatus("正在验证已保存 token...", "loading");
+          setDashboardAccessStatus("正在检查登录状态...", "loading");
           try {
-            await validateDashboardAccess(storedToken);
+            const response = await fetch(`${vercelApiBase}/health`, { cache: "no-store" });
+            const result = response.ok ? await response.json() : null;
+            const auth = result?.write_auth;
+            if (!response.ok || !result?.ok || !auth?.ok) {
+              setDashboardAccessStatus("", "");
+              tokenInput?.focus();
+              return;
+            }
+            dashboardSessionActive = true;
+            dashboardViewer = auth.viewer || "unknown";
+            unlockDashboardView();
+            setSyncStatus("Vercel loading", "loading");
+            await initDashboardState();
             setDashboardAccessStatus("", "");
           } catch (error) {
-            console.warn("Persisted dashboard token validation failed", error);
-            writeVercelWriteToken("");
+            console.warn("Dashboard session validation failed", error);
+            dashboardSessionActive = false;
             dashboardViewer = "";
-            setDashboardAccessStatus("保存的 token 已失效，请重新输入。", "error");
+            setDashboardAccessStatus("无法验证登录状态，请重新输入 token。", "error");
             tokenInput?.focus();
           }
         }
@@ -1131,9 +1171,34 @@
           };
         }
 
+        function safeExternalHref(href) {
+          let value = String(href || "").trim();
+          if (!value) {
+            return "";
+          }
+          if (value.startsWith("dashboard/")) {
+            value = value.slice("dashboard/".length);
+          } else if (value.startsWith("source-pptx/")) {
+            value = `/${value}`;
+          }
+          try {
+            const parsed = new URL(value, document.baseURI);
+            return parsed.protocol === "http:" || parsed.protocol === "https:" ? parsed.href : "";
+          } catch (error) {
+            return "";
+          }
+        }
+
         function createExternalLink(href, text) {
+          const safeHref = safeExternalHref(href);
+          if (!safeHref) {
+            const label = document.createElement("span");
+            label.textContent = text;
+            return label;
+          }
           const link = document.createElement("a");
-          link.href = href;
+          link.href = safeHref;
+          link.rel = "noopener noreferrer";
           link.textContent = text;
           return link;
         }
@@ -1352,6 +1417,7 @@
           columns.forEach((column) => {
             const header = document.createElement("th");
             header.scope = "col";
+            header.dataset.column = column.key;
             header.textContent = column.label || column.key;
             if (column.key === tableConfig.default_sort?.key) {
               header.classList.add("sorted-column");
@@ -1416,12 +1482,8 @@
             }
           });
           table.append(head, body);
+          let archiveToggle = null;
           if (isProcurementTable && archiveRows.length > 0) {
-            const foot = document.createElement("tfoot");
-            foot.className = "project-intro-table-archive-footer";
-            const footRow = document.createElement("tr");
-            const footCell = document.createElement("td");
-            footCell.colSpan = isEditableProcurementTable ? columns.length + 1 : columns.length;
             const toggle = document.createElement("button");
             toggle.className = "project-intro-table-archive-toggle";
             toggle.type = "button";
@@ -1438,12 +1500,12 @@
                 ? `Hide received archive (${archiveRows.length})`
                 : `Show received archive (${archiveRows.length})`;
             });
-            footCell.append(toggle);
-            footRow.append(footCell);
-            foot.append(footRow);
-            table.append(foot);
+            archiveToggle = toggle;
           }
           wrapper.append(table);
+          if (archiveToggle) {
+            wrapper.append(archiveToggle);
+          }
           return wrapper;
         }
 
@@ -2478,6 +2540,8 @@
           if (!shouldCollapse) {
             intro.classList.remove("is-collapsible", "is-expanded", "is-collapse-hidden");
             delete intro.dataset.collapsedLabel;
+            intro.inert = false;
+            intro.removeAttribute("aria-hidden");
             intro.removeAttribute("role");
             intro.removeAttribute("tabindex");
             intro.removeAttribute("aria-expanded");
@@ -2493,36 +2557,38 @@
           } else {
             delete intro.dataset.collapsedLabel;
           }
-          intro.setAttribute("role", "button");
-          intro.setAttribute("tabindex", "0");
+          intro.removeAttribute("role");
+          intro.removeAttribute("tabindex");
+          intro.removeAttribute("aria-expanded");
+          intro.removeAttribute("title");
+          intro.id = intro.id || `project-intro-${projectDoc.project_id}`;
+          if (!toggle) {
+            toggle = document.createElement("button");
+            toggle.type = "button";
+            toggle.className = "project-intro-toggle";
+            toggle.setAttribute("aria-controls", intro.id);
+            intro.after(toggle);
+          }
           const initialExpanded = textCollapseState.has(stateKey)
             ? textCollapseState.get(stateKey)
             : Boolean(collapseConfig.default_expanded);
-          applyTextCollapseExpandedState(
-            intro,
-            initialExpanded,
-            "is-expanded",
-          );
-          syncIntroLinkedContent(projectElement, stateKey, initialExpanded);
-          toggle?.remove();
-          if (!intro.dataset.collapseBound) {
-            intro.dataset.collapseBound = "true";
-            const toggleIntro = () => {
-              const expanded = toggleTextCollapseElement(intro, "is-expanded", "intro");
-              syncIntroLinkedContent(projectElement, stateKey, expanded);
-            };
-            intro.addEventListener("pointerdown", (event) => recordTextTogglePointerStart(event, intro));
-            intro.addEventListener("click", (event) => {
-              if (shouldIgnoreTextToggleClick(event, intro)) {
-                return;
-              }
-              toggleIntro();
-            });
-            intro.addEventListener("keydown", (event) => {
-              if (event.key === "Enter" || event.key === " ") {
-                event.preventDefault();
-                toggleIntro();
-              }
+          const applyExpanded = (expanded) => {
+            intro.classList.toggle("is-expanded", expanded);
+            intro.inert = !expanded;
+            intro.setAttribute("aria-hidden", String(!expanded));
+            toggle.setAttribute("aria-expanded", String(expanded));
+            toggle.textContent = expanded
+              ? "Collapse intro"
+              : (collapseConfig.collapsed_label || "Show full intro");
+            syncIntroLinkedContent(projectElement, stateKey, expanded);
+          };
+          applyExpanded(initialExpanded);
+          if (!toggle.dataset.collapseBound) {
+            toggle.dataset.collapseBound = "true";
+            toggle.addEventListener("click", () => {
+              const expanded = !intro.classList.contains("is-expanded");
+              applyExpanded(expanded);
+              recordTextCollapseState(stateKey, expanded);
             });
           }
         }
@@ -3179,6 +3245,8 @@
             const result = response.ok ? await response.json() : null;
             vercelApiAvailable = Boolean(result?.ok);
             vercelApiWritable = Boolean(result?.writable);
+            dashboardSessionActive = Boolean(result?.write_auth?.ok);
+            dashboardViewer = result?.write_auth?.viewer || dashboardViewer;
           } catch (error) {
             vercelApiAvailable = false;
             vercelApiWritable = false;
@@ -3192,7 +3260,6 @@
               method: "POST",
               headers: {
                 "content-type": "application/json",
-                "x-dashboard-token": vercelWriteToken,
               },
               body: JSON.stringify(payload),
             });
@@ -3218,8 +3285,7 @@
           document.body.dataset.dataSource = "vercel";
           vercelApiAvailable = true;
           vercelApiWritable = Boolean(result.meta?.writable);
-          localState = { statuses: {}, comments: {}, procurementRows: {} };
-          writeLocalState();
+          reconcileLocalStateWithRemote();
           setDashboardBackendSyncStatus();
           renderAuthState();
           renderDashboardState();
@@ -3270,10 +3336,7 @@
             schema_version: "tasks.v1",
             tasks: (tasksResult.data || []).map((task) => mapSupabaseTask(task, commentsByTask)),
           };
-          if (dataMode !== "supabase") {
-            localState = { statuses: {}, comments: {}, procurementRows: {} };
-            writeLocalState();
-          }
+          reconcileLocalStateWithRemote();
           dataMode = "supabase";
           document.body.dataset.dataSource = "supabase";
           setDashboardBackendSyncStatus();
@@ -3381,7 +3444,7 @@
 
         function isProjectTableBackendWritable() {
           if (dataMode === "vercel") {
-            return Boolean(vercelApiAvailable && vercelWriteToken);
+            return Boolean(vercelApiAvailable && dashboardSessionActive);
           }
           return Boolean(localWriteApiAvailable);
         }
@@ -3534,6 +3597,11 @@
           editRow.hidden = !shouldOpen;
           button.textContent = shouldOpen ? "Close" : "Edit";
           button.setAttribute("aria-expanded", String(shouldOpen));
+          if (shouldOpen) {
+            window.requestAnimationFrame(() => editRow.querySelector("input, textarea, select, button")?.focus());
+          } else {
+            button.focus();
+          }
         }
 
         function procurementPatchFromForm(form) {
@@ -3547,23 +3615,31 @@
           return patch;
         }
 
-        function closeStatusMenus(exceptMenu = null) {
+        function closeStatusMenus(exceptMenu = null, options = {}) {
           document.querySelectorAll(".task-status-menu:not([hidden])").forEach((menu) => {
             if (menu === exceptMenu) {
               return;
             }
             menu.hidden = true;
-            document.querySelector(`[aria-controls="${menu.id}"]`)?.setAttribute("aria-expanded", "false");
+            const trigger = document.querySelector(`[aria-controls="${menu.id}"]`);
+            trigger?.setAttribute("aria-expanded", "false");
+            if (options.restoreFocus) {
+              trigger?.focus();
+            }
           });
         }
 
-        function closeProcurementStatusMenus(exceptMenu = null) {
+        function closeProcurementStatusMenus(exceptMenu = null, options = {}) {
           document.querySelectorAll(".procurement-status-menu:not([hidden])").forEach((menu) => {
             if (menu === exceptMenu) {
               return;
             }
             menu.hidden = true;
-            document.querySelector(`[aria-controls="${menu.id}"]`)?.setAttribute("aria-expanded", "false");
+            const trigger = document.querySelector(`[aria-controls="${menu.id}"]`);
+            trigger?.setAttribute("aria-expanded", "false");
+            if (options.restoreFocus) {
+              trigger?.focus();
+            }
           });
         }
 
@@ -3583,6 +3659,7 @@
             if (button) {
               button.textContent = "Edit";
               button.setAttribute("aria-expanded", "false");
+              button.focus();
             }
             return;
           }
@@ -3613,6 +3690,9 @@
             if (menu) {
               menu.hidden = !shouldOpen;
               procurementStatusButton.setAttribute("aria-expanded", String(shouldOpen));
+              if (shouldOpen) {
+                window.requestAnimationFrame(() => menu.querySelector(".procurement-status-option")?.focus());
+              }
             }
             return;
           }
@@ -3666,6 +3746,9 @@
             if (menu) {
               menu.hidden = !shouldOpen;
               statusButton.setAttribute("aria-expanded", String(shouldOpen));
+              if (shouldOpen) {
+                window.requestAnimationFrame(() => menu.querySelector(".task-status-option")?.focus());
+              }
             }
             return;
           }
@@ -3703,9 +3786,23 @@
 
         document.addEventListener("keydown", (event) => {
           if (event.key === "Escape") {
-            closeStatusMenus();
-            closeProcurementStatusMenus();
+            closeStatusMenus(null, { restoreFocus: true });
+            closeProcurementStatusMenus(null, { restoreFocus: true });
+            return;
           }
+          const option = event.target.closest?.(".task-status-option, .procurement-status-option");
+          if (!option || !["ArrowDown", "ArrowUp", "Home", "End"].includes(event.key)) {
+            return;
+          }
+          const items = [...option.parentElement.querySelectorAll(".task-status-option, .procurement-status-option")];
+          const currentIndex = items.indexOf(option);
+          const nextIndex = event.key === "Home"
+            ? 0
+            : event.key === "End"
+            ? items.length - 1
+            : (currentIndex + (event.key === "ArrowDown" ? 1 : -1) + items.length) % items.length;
+          event.preventDefault();
+          items[nextIndex]?.focus();
         });
 
         document.addEventListener("submit", (event) => {
@@ -3742,27 +3839,12 @@
               setDashboardAccessStatus("", "");
             }).catch((error) => {
               console.warn("Dashboard access validation failed", error);
-              writeVercelWriteToken("");
+              dashboardSessionActive = false;
               dashboardViewer = "";
               setDashboardAccessStatus(error.message || "Token 验证失败。", "error");
             }).finally(() => {
               button.disabled = false;
             });
-            return;
-          }
-
-          const vercelTokenForm = event.target.closest?.("[data-vercel-token-form]");
-          if (vercelTokenForm) {
-            event.preventDefault();
-            const token = vercelTokenForm.elements.token.value.trim();
-            if (!token) {
-              return;
-            }
-            writeVercelWriteToken(token);
-            vercelTokenForm.reset();
-            setDashboardBackendSyncStatus();
-            renderAuthState();
-            renderAllProjects();
             return;
           }
 
@@ -3943,8 +4025,20 @@
           }
         }
 
+        async function initDashboardExperience() {
+          const params = new URLSearchParams(window.location.search);
+          if (params.get("json") === "1") {
+            dashboardViewer = "read-only JSON";
+            dashboardSessionActive = false;
+            unlockDashboardView();
+            await initDashboardState();
+            return;
+          }
+          await initDashboardAccessGate();
+        }
+
         hydrateStaticDetailsOpenState();
-        initDashboardAccessGate();
+        initDashboardExperience();
       })();
     </script>
 
@@ -3954,6 +4048,7 @@
         const lightboxImage = lightbox.querySelector(".lightbox-image");
         const lightboxCaption = lightbox.querySelector(".lightbox-caption");
         const closeButton = lightbox.querySelector("[data-lightbox-close]");
+        const main = document.querySelector("main");
         const zoomableImages = document.querySelectorAll(".figure-card img, .project-body figure img");
         const placeholderImage = lightboxImage.src;
         let lastFocusedElement = null;
@@ -3973,6 +4068,9 @@
           lightboxCaption.textContent = caption || image.alt || "";
           lightbox.hidden = false;
           lightbox.setAttribute("aria-hidden", "false");
+          if (main) {
+            main.inert = true;
+          }
           document.body.classList.add("lightbox-open");
           closeButton.focus();
         };
@@ -3984,6 +4082,9 @@
           lightboxImage.alt = "";
           lightboxCaption.textContent = "";
           document.body.classList.remove("lightbox-open");
+          if (main) {
+            main.inert = false;
+          }
           if (lastFocusedElement instanceof HTMLElement) {
             lastFocusedElement.focus();
           }
@@ -4004,6 +4105,25 @@
 
           if (event.key === "Escape" && !lightbox.hidden) {
             closeLightbox();
+            return;
+          }
+
+          if (event.key === "Tab" && !lightbox.hidden) {
+            const focusable = [...lightbox.querySelectorAll("button, a[href], input, select, textarea, [tabindex]:not([tabindex='-1'])")]
+              .filter((element) => !element.hidden && !element.disabled);
+            if (!focusable.length) {
+              event.preventDefault();
+              return;
+            }
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+            if (focusable.length === 1 || (!event.shiftKey && document.activeElement === last)) {
+              event.preventDefault();
+              first.focus();
+            } else if (event.shiftKey && document.activeElement === first) {
+              event.preventDefault();
+              last.focus();
+            }
           }
         });
 

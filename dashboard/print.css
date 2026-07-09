@@ -1590,15 +1590,11 @@ summary.bucket-title::-webkit-details-marker {
   background: rgba(245, 247, 242, 0.72);
 }
 
-.project-intro-table-archive-footer td {
-  padding: 0;
-  border-top: 1px solid var(--line);
-}
-
 .project-intro-table-archive-toggle {
   width: 100%;
   min-height: 42px;
   border: 0;
+  border-top: 1px solid var(--line);
   border-radius: 0 0 8px 8px;
   background: linear-gradient(180deg, rgba(251, 253, 250, 0.96), rgba(235, 244, 241, 0.96));
   color: var(--accent);
@@ -1661,66 +1657,52 @@ summary.bucket-title::-webkit-details-marker {
 .project-intro.is-collapsible {
   max-height: 184px;
   overflow: hidden;
-  cursor: pointer;
+  cursor: default;
 }
 
 .project-intro.is-collapsible.is-collapse-hidden:not(.is-expanded) {
-  min-height: 42px;
-  max-height: 42px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: #ffffff;
+  min-height: 0;
+  max-height: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
 }
 
 .project-intro.is-collapsible.is-collapse-hidden:not(.is-expanded) > * {
-  visibility: hidden;
+  visibility: visible;
 }
 
 .project-intro.is-collapsible::after {
-  content: "...";
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  height: 54px;
-  padding-bottom: 3px;
-  background: linear-gradient(rgba(255, 255, 255, 0), var(--paper) 72%);
-  color: var(--muted);
-  font-size: 16px;
-  font-weight: 900;
-  letter-spacing: 0.16em;
-  pointer-events: none;
+  display: none;
 }
 
-.project-intro.is-collapsible.is-collapse-hidden:not(.is-expanded)::after {
-  content: attr(data-collapsed-label);
-  inset: 0;
-  height: auto;
-  padding: 0 12px;
-  align-items: center;
-  justify-content: flex-start;
+.project-intro-toggle {
+  width: 100%;
+  min-height: 34px;
+  margin: 6px 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
   background: #ffffff;
   color: var(--accent);
+  font: inherit;
   font-size: 12px;
-  font-weight: 900;
-  letter-spacing: 0;
+  font-weight: 850;
+  cursor: pointer;
+}
+
+.project-intro-toggle:hover,
+.project-intro-toggle:focus-visible {
+  border-color: #89c9c1;
+  background: #f5fbfa;
 }
 
 .project-intro.is-expanded {
   max-height: none;
-  cursor: pointer;
+  cursor: default;
 }
 
 .project-intro.is-expanded::after {
   display: none;
-}
-
-.project-intro.is-collapsible:focus-visible {
-  outline: 2px solid #89c9c1;
-  outline-offset: 3px;
 }
 
 .auto-text-collapsible {
@@ -3304,6 +3286,75 @@ body.lightbox-open {
   .report-header,
   .section-title {
     display: block;
+  }
+
+  .project-detail > summary {
+    display: grid;
+    grid-template-columns: 19px minmax(0, 1fr);
+    align-items: start;
+    justify-content: initial;
+    gap: 6px 10px;
+  }
+
+  .project-detail > summary::before {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .project-detail > summary > span,
+  .project-summary-meta,
+  .project-detail > summary > .status {
+    grid-column: 2;
+  }
+
+  .project-detail > summary > span {
+    grid-row: 1;
+  }
+
+  .project-summary-meta,
+  .project-detail > summary > .status {
+    justify-self: start;
+  }
+
+  .project-summary-meta {
+    grid-row: 2;
+    white-space: normal;
+  }
+
+  .project-detail > summary > .status {
+    grid-row: 3;
+  }
+
+  .project-intro-table[data-kind="procurement_table"] th[data-column="route"],
+  .project-intro-table[data-kind="procurement_table"] th[data-column="updated_at"],
+  .project-intro-table[data-kind="procurement_table"] th[data-column="notes"],
+  .project-intro-table[data-kind="procurement_table"] td[data-column="route"],
+  .project-intro-table[data-kind="procurement_table"] td[data-column="updated_at"],
+  .project-intro-table[data-kind="procurement_table"] td[data-column="notes"] {
+    display: none;
+  }
+
+  .project-intro-table[data-kind="procurement_table"] th[data-column="item"],
+  .project-intro-table[data-kind="procurement_table"] td[data-column="item"] {
+    width: auto;
+  }
+
+  .project-intro-table[data-kind="procurement_table"] th[data-column="status"],
+  .project-intro-table[data-kind="procurement_table"] td[data-column="status"] {
+    width: 44px;
+  }
+
+  .project-intro-table[data-kind="procurement_table"] th[data-column="status"] {
+    padding-inline: 4px;
+    font-size: 0;
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+
+  .project-intro-table[data-kind="procurement_table"] th[data-column="status"]::before {
+    content: "State";
+    font-size: 8px;
+    white-space: nowrap;
   }
 
   .week-box {

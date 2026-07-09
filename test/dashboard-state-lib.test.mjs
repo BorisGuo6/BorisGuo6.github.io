@@ -8,6 +8,7 @@ import {
   isNoisyHarnessComment,
   loadDashboardState,
   normalizeCommentKind,
+  statePathToFile,
 } from "../scripts/dashboard-state-lib.mjs";
 import {
   buildSyncPlan,
@@ -36,23 +37,43 @@ import {
   normalizeDashboardSnapshot,
   serializeDashboardSnapshot,
   toDashboardStateResponse,
+  validateDashboardSnapshot,
 } from "../scripts/dashboard-state-snapshot.mjs";
 import {
   dashboardCanWrite,
+  createDashboardSession,
   dashboardProvidedWriteToken,
+  dashboardSessionAuth,
   dashboardTokenFingerprint,
   dashboardViewerForWriteToken,
   dashboardWriteTokenIsAllowed,
   dashboardWriteAuth,
+  dashboardErrorResponse,
+  getDashboardHealth,
   makeDashboardAuditEvent,
 } from "../scripts/dashboard-vercel-api.mjs";
 import {
+  blobEtagsMatch,
+  isBlobPreconditionFailedError,
+  readVercelBlobSnapshot,
   vercelBlobReadUrl,
+  writeVercelBlobSnapshot,
 } from "../scripts/dashboard-vercel-store.mjs";
 
 assert.equal(normalizeCommentKind("host_verified"), "verification");
 assert.equal(normalizeCommentKind("route"), "comment");
 assert.equal(normalizeCommentKind(""), "comment");
+assert.match(statePathToFile("dashboard/state/tasks.json"), /dashboard\/state\/tasks\.json$/);
+assert.throws(
+  () => statePathToFile("../package.json"),
+  /outside dashboard\/state/,
+  "state paths must not escape the dashboard state directory",
+);
+assert.throws(
+  () => statePathToFile("/etc/passwd"),
+  /outside dashboard\/state/,
+  "absolute state paths must be rejected",
+);
 
 assert.equal(isNoisyHarnessComment({
   kind: "conductor_note",
@@ -84,6 +105,77 @@ assert.match(await dashboardHash(state), /^[a-f0-9]{64}$/);
 const bundledSnapshot = dashboardStateToSnapshot(state, {
   now: new Date("2026-06-18T00:00:00.000Z"),
 });
+assert.doesNotThrow(
+  () => validateDashboardSnapshot(bundledSnapshot),
+  "the bundled dashboard state must satisfy the persisted snapshot invariants",
+);
+const invalidSnapshotBase = {
+  schema_version: "dashboard-state.v1",
+  portfolio: {
+    portfolio_id: "invalid-test",
+    projects: [{ project_id: "project_one" }],
+  },
+  projects: [{ project_id: "project_one", task_ids: ["task_one"] }],
+  taskDoc: {
+    tasks: [{
+      task_id: "task_one",
+      project_id: "project_one",
+      title: "Task one",
+      status: "todo",
+      priority: "medium",
+      comments: [{ comment_id: "comment_one", task_id: "task_one", body: "ok" }],
+    }],
+  },
+};
+assert.throws(
+  () => validateDashboardSnapshot({
+    ...invalidSnapshotBase,
+    taskDoc: {
+      tasks: [
+        ...invalidSnapshotBase.taskDoc.tasks,
+        { ...invalidSnapshotBase.taskDoc.tasks[0] },
+      ],
+    },
+  }),
+  /Duplicate task_id: task_one/,
+);
+assert.throws(
+  () => validateDashboardSnapshot({
+    ...invalidSnapshotBase,
+    taskDoc: {
+      tasks: [{ ...invalidSnapshotBase.taskDoc.tasks[0], project_id: "missing_project" }],
+    },
+  }),
+  /Task task_one references missing project_id missing_project/,
+);
+assert.throws(
+  () => validateDashboardSnapshot({
+    ...invalidSnapshotBase,
+    taskDoc: {
+      tasks: [{ ...invalidSnapshotBase.taskDoc.tasks[0], status: "almost_done" }],
+    },
+  }),
+  /Task task_one has invalid status almost_done/,
+);
+assert.throws(
+  () => validateDashboardSnapshot({
+    ...invalidSnapshotBase,
+    taskDoc: {
+      tasks: [{
+        ...invalidSnapshotBase.taskDoc.tasks[0],
+        comments: [{ comment_id: "comment_one", task_id: "another_task", body: "wrong" }],
+      }],
+    },
+  }),
+  /Comment comment_one belongs to another_task, not task_one/,
+);
+assert.throws(
+  () => validateDashboardSnapshot({
+    ...invalidSnapshotBase,
+    projects: [{ project_id: "project_one", task_ids: ["missing_task"] }],
+  }),
+  /Project project_one references missing task_id missing_task/,
+);
 const bundledResponse = toDashboardStateResponse(bundledSnapshot);
 assert.equal(bundledResponse.ok, true);
 assert.equal(bundledResponse.portfolio.portfolio_id, state.portfolio.portfolio_id);
@@ -188,6 +280,25 @@ assert.equal(projectTableUpdate.row.notes, "Tracking ready");
 	  ["proc_pending", "proc_test", "proc_arrived"],
 	  "Procurement row updates should keep unpurchased rows above ordered and arrived rows",
 	);
+assert.throws(
+  () => applySnapshotProjectTableRowUpdate(projectTableSnapshot, {
+    project_id: "general",
+    table_kind: "procurement_table",
+    row_id: "proc_test",
+    patch: { url: "javascript:alert(document.domain)" },
+  }),
+  /URL must use http or https/,
+  "procurement row writes must reject executable URL schemes",
+);
+assert.equal(
+  applySnapshotProjectTableRowUpdate(projectTableSnapshot, {
+    project_id: "general",
+    table_kind: "procurement_table",
+    row_id: "proc_test",
+    patch: { url: "https://example.com/item" },
+  }).row.url,
+  "https://example.com/item",
+);
 	assert.deepEqual(
 	  dashboardWriteAuth({ headers: {} }, {}),
 	  {
@@ -244,6 +355,35 @@ assert.equal(
   dashboardViewerForWriteToken("right", { DASHBOARD_WRITE_TOKEN: "right", DASHBOARD_WRITE_USER: "boris" }),
   "boris",
 );
+const dashboardSessionEnv = { DASHBOARD_WRITE_TOKEN: "right" };
+const dashboardSession = createDashboardSession("jiahao chen", dashboardSessionEnv, {
+  now: new Date("2099-06-18T00:00:00.000Z"),
+  maxAgeSeconds: 60,
+});
+assert.equal(dashboardSession.includes("right"), false, "signed dashboard sessions must not contain the write token");
+const dashboardSessionRequest = {
+  headers: { cookie: `dashboard_session=${encodeURIComponent(dashboardSession)}` },
+};
+assert.deepEqual(
+  dashboardSessionAuth(dashboardSessionRequest, dashboardSessionEnv, {
+    now: new Date("2099-06-18T00:00:30.000Z"),
+  }),
+  { ok: true, viewer: "jiahao chen" },
+);
+assert.deepEqual(
+  dashboardWriteAuth(dashboardSessionRequest, dashboardSessionEnv),
+  { ok: true, viewer: "jiahao chen" },
+);
+assert.deepEqual(
+  dashboardSessionAuth({ headers: { cookie: `dashboard_session=${encodeURIComponent(`${dashboardSession}x`)}` } }, dashboardSessionEnv),
+  { ok: false, status: 401, error: "Invalid dashboard session" },
+);
+assert.deepEqual(
+  dashboardSessionAuth(dashboardSessionRequest, dashboardSessionEnv, {
+    now: new Date("2099-06-18T00:01:01.000Z"),
+  }),
+  { ok: false, status: 401, error: "Expired dashboard session" },
+);
 assert.equal(
   dashboardProvidedWriteToken({ headers: { "x-dashboard-token": "abc" } }),
   "abc",
@@ -254,11 +394,11 @@ assert.equal(
 );
 assert.equal(
   vercelBlobReadUrl({
-    url: "https://example.com/current-dashboard.json",
-    downloadUrl: "https://example.com/stale-signed-dashboard.json",
+    url: "https://example.com/cached-public-dashboard.json",
+    downloadUrl: "https://example.com/current-dashboard.json?download=1",
   }),
-  "https://example.com/current-dashboard.json",
-  "dashboard Blob reads should prefer the public pathname URL after overwrite writes",
+  "https://example.com/current-dashboard.json?download=1",
+  "dashboard Blob reads should prefer downloadUrl so overwrite verification bypasses the public CDN cache",
 );
 assert.equal(
   vercelBlobReadUrl({
@@ -267,6 +407,113 @@ assert.equal(
   "https://example.com/private-dashboard.json",
   "dashboard Blob reads should still fall back to downloadUrl when no public URL exists",
 );
+assert.equal(blobEtagsMatch('W/"fresh"', '"fresh"'), true);
+assert.equal(blobEtagsMatch('"stale"', '"fresh"'), false);
+class BlobPreconditionFailedError extends Error {}
+const sdkShapedConflict = new BlobPreconditionFailedError("Vercel Blob: Precondition failed: ETag mismatch.");
+assert.equal(sdkShapedConflict.name, "Error", "the current Vercel Blob SDK does not override Error.name");
+assert.equal(isBlobPreconditionFailedError(sdkShapedConflict), true);
+let blobFetchCount = 0;
+const fakeBlobSnapshot = projectTableSnapshot;
+const freshBlobRead = await readVercelBlobSnapshot({
+  env: { BLOB_READ_WRITE_TOKEN: "test-token" },
+  pathname: "dashboard-state/test.json",
+  retryDelays: [0, 0],
+  blobApi: {
+    BlobNotFoundError: class BlobNotFoundError extends Error {},
+    async head() {
+      return {
+        pathname: "dashboard-state/test.json",
+        url: "https://example.com/test.json",
+        downloadUrl: "https://example.com/test.json?download=1",
+        etag: '"fresh"',
+      };
+    },
+  },
+  fetchImpl: async () => {
+    blobFetchCount += 1;
+    return new Response(JSON.stringify(fakeBlobSnapshot), {
+      status: 200,
+      headers: { etag: blobFetchCount === 1 ? 'W/"stale"' : 'W/"fresh"' },
+    });
+  },
+  sleep: async () => {},
+});
+assert.equal(blobFetchCount, 2, "Blob reads should retry until the content ETag matches head");
+assert.equal(freshBlobRead.blob.etag, '"fresh"');
+assert.equal(freshBlobRead.snapshot.projects[0].project_id, "general");
+const fakeBlobWrites = [];
+await writeVercelBlobSnapshot(projectTableSnapshot, {
+  env: { BLOB_READ_WRITE_TOKEN: "test-token" },
+  pathname: "dashboard-state/test-write.json",
+  previousSnapshot: { ...projectTableSnapshot, audit_log: [{ audit_id: "private-history" }] },
+  blobApi: {
+    async put(pathname, body, options) {
+      fakeBlobWrites.push({ pathname, body: JSON.parse(body), options });
+      return { pathname, url: `https://example.com/${pathname}`, etag: '"written"' };
+    },
+  },
+});
+assert.equal(fakeBlobWrites.length, 1, "Blob backups must be opt-in");
+fakeBlobWrites.length = 0;
+await writeVercelBlobSnapshot(projectTableSnapshot, {
+  env: { BLOB_READ_WRITE_TOKEN: "test-token", DASHBOARD_ENABLE_BLOB_BACKUP: "1" },
+  pathname: "dashboard-state/test-write.json",
+  previousSnapshot: { ...projectTableSnapshot, audit_log: [{ audit_id: "private-history" }] },
+  now: new Date("2026-07-10T00:00:00.000Z"),
+  blobApi: {
+    async put(pathname, body, options) {
+      fakeBlobWrites.push({ pathname, body: JSON.parse(body), options });
+      return { pathname, url: `https://example.com/${pathname}`, etag: '"written"' };
+    },
+  },
+});
+assert.equal(fakeBlobWrites.length, 2);
+assert.deepEqual(fakeBlobWrites[1].body.audit_log, [], "opt-in backups must not retain write audit history");
+
+assert.deepEqual(
+  dashboardErrorResponse(new SyntaxError("Unexpected token")),
+  { status: 400, error: "Invalid JSON request body" },
+);
+assert.deepEqual(
+  dashboardErrorResponse(sdkShapedConflict),
+  { status: 409, error: "Dashboard state changed; retry the request" },
+);
+assert.deepEqual(
+  dashboardErrorResponse(new Error("Task not found: task_missing")),
+  { status: 404, error: "Task not found: task_missing" },
+);
+assert.deepEqual(
+  dashboardErrorResponse(new Error("secret upstream failure")),
+  { status: 500, error: "Dashboard request failed" },
+  "unexpected server failures must not expose internal error text",
+);
+const healthyDashboard = await getDashboardHealth({
+  env: {
+    BLOB_READ_WRITE_TOKEN: "blob-token",
+    DASHBOARD_WRITE_TOKEN: "write-token",
+  },
+  loadSnapshot: async () => ({
+    snapshot: projectTableSnapshot,
+    meta: { storage: "vercel-blob", blob_etag: '"fresh"' },
+  }),
+});
+assert.equal(healthyDashboard.ok, true);
+assert.equal(healthyDashboard.storage, "vercel-blob");
+assert.equal(healthyDashboard.state.projects, 1);
+assert.equal(healthyDashboard.state.tasks, 0);
+assert.equal(healthyDashboard.writable, true);
+const unhealthyDashboard = await getDashboardHealth({
+  env: { BLOB_READ_WRITE_TOKEN: "blob-token", DASHBOARD_WRITE_TOKEN: "write-token" },
+  loadSnapshot: async () => { throw new Error("Blob is unavailable"); },
+});
+assert.deepEqual(unhealthyDashboard, {
+  ok: false,
+  mode: "vercel-dashboard-api",
+  storage: "vercel-blob",
+  writable: false,
+  state: { ok: false, error: "Dashboard state unavailable" },
+});
 
 const projectBucketNames = new Set((state.portfolio.project_buckets || []).map((bucket) => bucket.bucket));
 assert.deepEqual(projectBucketNames, new Set(["research", "engineering", "survey", "archive"]));
@@ -469,6 +716,19 @@ assert.deepEqual(
 const dashboardSource = await readFile(new URL("../dashboard/index.html", import.meta.url), "utf8");
 const agentsSource = await readFile(new URL("../AGENTS.md", import.meta.url), "utf8");
 const vercelApiSource = await readFile(new URL("../scripts/dashboard-vercel-api.mjs", import.meta.url), "utf8");
+const vercelConfig = JSON.parse(await readFile(new URL("../vercel.json", import.meta.url), "utf8"));
+const workflowSource = await readFile(new URL("../.github/workflows/vercel-build-check.yml", import.meta.url), "utf8");
+const globalHeaders = vercelConfig.headers.find((rule) => rule.source === "/(.*)")?.headers || [];
+const contentSecurityPolicy = globalHeaders.find((header) => header.key === "Content-Security-Policy")?.value || "";
+assert.match(contentSecurityPolicy, /object-src 'none'/);
+assert.match(contentSecurityPolicy, /frame-ancestors 'self'/);
+assert.match(contentSecurityPolicy, /base-uri 'self'/);
+assert.ok(
+  vercelConfig.functions?.["api/dashboard/*.js"]?.maxDuration >= 20,
+  "dashboard functions need enough runtime for Blob cache-coherence retries",
+);
+assert.match(workflowSource, /playwright install --with-deps chromium/);
+assert.match(workflowSource, /npm run test:dashboard:e2e/);
 assert.match(
   dashboardSource,
   /function projectTasksFor\(/,
@@ -629,8 +889,13 @@ assert.match(
 );
 assert.match(
   dashboardSource,
-  /vercelTokenStorageKey = "dashboard\.vercel-write-token\.v2"[\s\S]+function readVercelWriteToken\(\)[\s\S]+initDashboardAccessGate\(\)/,
-  "dashboard should persist successful token login and retry it on the next visit",
+  /fetch\(`\$\{vercelApiBase\}\/session`[\s\S]+method: "POST"[\s\S]+initDashboardAccessGate\(\)/,
+  "dashboard should exchange the token for a server-managed session and reuse it on the next visit",
+);
+assert.doesNotMatch(
+  dashboardSource,
+  /dashboard\.vercel-write-token|localStorage\.setItem\([^)]*token|sessionStorage\.setItem\([^)]*token/,
+  "dashboard bearer tokens must not be persisted in browser storage",
 );
 assert.doesNotMatch(
   dashboardSource,
@@ -664,8 +929,13 @@ assert.doesNotMatch(
 );
 assert.match(
   dashboardSource,
-  /localStorage\.setItem\(vercelTokenStorageKey, vercelWriteToken\)[\s\S]+localStorage\.removeItem\(vercelTokenStorageKey\)/,
-  "dashboard should persist the token locally and clear it on lock or invalidation",
+  /fetch\(`\$\{vercelApiBase\}\/session`[\s\S]+method: "DELETE"[\s\S]+window\.location\.reload\(\)/,
+  "dashboard lock should revoke the server-managed session before reloading",
+);
+assert.doesNotMatch(
+  dashboardSource,
+  /vercelTokenStorageKey|localStorage\.setItem\([^)]*vercelWriteToken|sessionStorage\.setItem\([^)]*vercelWriteToken/,
+  "dashboard should never persist the bearer token in browser storage",
 );
 assert.doesNotMatch(
   dashboardSource,
@@ -976,6 +1246,31 @@ try {
   assert.equal(deletedLocalComment.body, "Comment");
   assert.equal(deletedLocalDoc.updated_at, "2026-05-26T03:15:00.000Z");
   assert.equal(deletedLocalDoc.tasks[0].comments.length, 0);
+
+  const concurrentComments = Array.from({ length: 12 }, (_, index) => ({
+    comment_id: `comment_concurrent_${index}`,
+    task_id: "task_demo_existing",
+    author: "Concurrent test",
+    kind: "comment",
+    body: `Concurrent comment ${index}`,
+    created_at: `2026-05-26T03:${String(20 + index).padStart(2, "0")}:00.000Z`,
+  }));
+  await Promise.all(concurrentComments.map((comment) => appendLocalTaskComment(
+    "task_demo_existing",
+    comment,
+    { filePath: tempTasksPath },
+  )));
+  const concurrentDoc = JSON.parse(await readFile(tempTasksPath, "utf8"));
+  assert.deepEqual(
+    new Set(concurrentDoc.tasks[0].comments.map((comment) => comment.comment_id)),
+    new Set(concurrentComments.map((comment) => comment.comment_id)),
+    "concurrent local mutations must not overwrite one another",
+  );
+  assert.deepEqual(
+    (await readdir(tempDir)).sort(),
+    ["tasks.json"],
+    "atomic JSON writes must not leave temporary files behind",
+  );
 
   await assert.rejects(
     appendLocalTaskComment(

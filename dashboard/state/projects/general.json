@@ -4,9 +4,9 @@
   "title": "Procurement Table",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-07-09T17:10:00+08:00",
+  "updated_at": "2026-07-10T10:30:00+08:00",
   "description": "Editable lab procurement register for cross-project purchases",
-  "summary": "Editable procurement register for lab purchases. Rows are sorted by status first (blank not ordered, dash ordered, check arrived) and then by last update; status changes update the timestamp. Old TODO/archive work has been moved to Real-Robot Lab Infra so this card stays focused on live purchasing records. Latest batch update 2026-07-09: tactile sensors, Arduino/FSR readout electronics, safety armband, data glove, and microphone-array kit were marked ordered from 订单数据.xlsx plus Taobao screenshot evidence.",
+  "summary": "Editable procurement register for lab purchases. Rows are sorted by status first (blank not ordered, dash ordered, check arrived) and then by last update; status changes update the timestamp. Received items stay available behind the bottom archive toggle. Old TODO/archive work has been moved to Real-Robot Lab Infra so this card stays focused on purchasing records. Latest audit 2026-07-10 restored historically received hardware that had been dropped during the table refactor; UGREEN extension cables remain shipped and in transit.",
   "intro_table": {
     "kind": "procurement_table",
     "caption": "Editable procurement register · blank not ordered, dash ordered, check arrived",
@@ -135,9 +135,9 @@
       },
       {
         "row_id": "proc_a3_carbon_steel_hollow_tube_spacer",
-        "updated_at": "2026-07-08T14:55:31.675Z",
+        "updated_at": "2026-07-07T20:59:00+08:00",
         "item": "A3 carbon-steel hollow tube spacer / 碳钢铁 A3 空心套管通孔圆柱",
-        "status": "Ordered",
+        "status": "Arrived",
         "route": "Taobao · 大鼎五金",
         "notes": "Boris Taobao screenshot at 2026-07-07 20:59 shows this low-cost A3 carbon-steel hollow tube / through-hole round standoff row as 交易成功, visible price RMB 2.4. Screenshot is partially cropped; after receipt verify dimensions, bore, wall thickness, corrosion, and sharp edges before fixture use."
       },
@@ -407,6 +407,42 @@
         "route": "Zheng Yuhang · Taobao",
         "notes": "User-provided Taobao candidate marked 假一赔四: Unitree SV1-25 small / mini embodied stereo binocular camera, RGB global-shutter USB camera. ClawCross WeChat evidence from Zheng Yuhang private chat: Boris asked Zheng to place the Taobao order on 2026-07-04, and Zheng replied that the camera would be ordered that day. Next verify tracking, arrival, SDK/driver availability, resolution/FPS, stereo calibration support, ROS/ROS2 or Python access, USB bandwidth, mount compatibility, cable length, and whether it fits wrist/head/fixed-view robot data collection.",
         "url": "https://e.tb.cn/h.RDPhRlxsna7j6Kg?tk=9lHzglSbASl"
+      },
+      {
+        "row_id": "proc_vive_tracker_chest_thigh_strap",
+        "updated_at": "2026-07-05T12:00:00+08:00",
+        "item": "VIVE Tracker chest / thigh strap",
+        "status": "Arrived",
+        "route": "Zheng Yuhang · COM2/NUS",
+        "notes": "Arrived per Boris update on 2026-07-05. Chest / thigh strap is available for VIVE Tracker calibration, replay, and fit checks; keep it in the received archive rather than as an open procurement item.",
+        "url": "https://e.tb.cn/h.R4r5VmcWb0zN2ko?tk=2jtb5x1Zn8J"
+      },
+      {
+        "row_id": "proc_pico_body_tracker_kit",
+        "updated_at": "2026-07-05T12:00:00+08:00",
+        "item": "PICO body-tracker kit / PICO 5-point full-body tracker",
+        "status": "Arrived",
+        "route": "Zheng Yuhang · Taobao order",
+        "notes": "Arrived per Boris update on 2026-07-05. Selected option: 全身体感追踪器【官方原装5点追踪】, platform-after-subsidy RMB 1109; use for no-base-station body-tracking tests against VIVE Tracker-style setups.",
+        "url": "https://e.tb.cn/h.RJYrA1DxC3kLC24?tk=ojxKghScPGK"
+      },
+      {
+        "row_id": "proc_hig_gesture_recognition_data_glove",
+        "updated_at": "2026-07-05T12:00:00+08:00",
+        "item": "HIG gesture-recognition data glove",
+        "status": "Arrived",
+        "route": "Taobao · ship to NUS/COM2",
+        "notes": "Arrived per Boris update on 2026-07-05. Large-space VR / dexterous-hand capture candidate; the original logistics record said shipped on 2026-06-16.",
+        "url": "https://e.tb.cn/h.RO1V2osyTl17mYm?tk=tJU2g3jHPcG"
+      },
+      {
+        "row_id": "proc_higvr_haptic_vibration_clothing_module",
+        "updated_at": "2026-07-05T12:00:00+08:00",
+        "item": "HIGVR haptic / vibration clothing module",
+        "status": "Arrived",
+        "route": "Taobao · ship to NUS/COM2",
+        "notes": "Arrived per Boris update on 2026-07-05. Touch / vibration feedback accessory for VR capture experiments; the original logistics record said shipped on 2026-06-16.",
+        "url": "https://e.tb.cn/h.RmixRZE5uIuX49B?tk=h0OSg3jHtFY"
       }
     ]
   },

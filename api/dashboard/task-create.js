@@ -1,5 +1,3 @@
-import { handleDashboardTaskCreate } from "../../scripts/dashboard-vercel-api.mjs";
+import { handleDashboardTaskCreate, withDashboardApiErrors } from "../../scripts/dashboard-vercel-api.mjs";
 
-export default async function handler(request, response) {
-  return handleDashboardTaskCreate(request, response);
-}
+export default withDashboardApiErrors(handleDashboardTaskCreate);

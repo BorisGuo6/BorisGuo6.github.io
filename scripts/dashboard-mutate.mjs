@@ -19,6 +19,7 @@ import {
   normalizeDashboardSnapshot,
 } from "./dashboard-state-snapshot.mjs";
 import {
+  isBlobPreconditionFailedError,
   loadVercelDashboardSnapshot,
   writeVercelBlobSnapshot,
 } from "./dashboard-vercel-store.mjs";
@@ -342,14 +343,31 @@ async function main() {
     throw new Error("Missing BLOB_READ_WRITE_TOKEN. Run `vercel env pull .env.local --yes` first.");
   }
   const parsed = await loadBodyFromFile(parseMutationArgs(process.argv.slice(2)));
-  const { snapshot, meta } = await loadVercelDashboardSnapshot({ env });
-  if (meta.storage !== "vercel-blob") {
-    throw new Error(`Hosted dashboard state is not backed by Vercel Blob (storage=${meta.storage}).`);
+  let result;
+  let blob;
+  let verification;
+  let mutationAttempt = 0;
+  for (let attempt = 1; attempt <= 3; attempt += 1) {
+    mutationAttempt = attempt;
+    const { snapshot, meta } = await loadVercelDashboardSnapshot({ env });
+    if (meta.storage !== "vercel-blob") {
+      throw new Error(`Hosted dashboard state is not backed by Vercel Blob (storage=${meta.storage}).`);
+    }
+    result = applyDashboardMutationToSnapshot(snapshot, parsed);
+    try {
+      blob = await writeVercelBlobSnapshot(result.snapshot, {
+        env,
+        ifMatch: meta.blob_etag,
+        previousSnapshot: snapshot,
+      });
+      const verifiedSnapshot = await loadVercelDashboardSnapshot({ env });
+      verification = verifyDashboardMutation(verifiedSnapshot.snapshot, result);
+      break;
+    } catch (error) {
+      const isConflict = isBlobPreconditionFailedError(error);
+      if (!isConflict || attempt === 3) throw error;
+    }
   }
-  const result = applyDashboardMutationToSnapshot(snapshot, parsed);
-  const blob = await writeVercelBlobSnapshot(result.snapshot, { env });
-  const verifiedSnapshot = await loadVercelDashboardSnapshot({ env });
-  const verification = verifyDashboardMutation(verifiedSnapshot.snapshot, result);
   const response = {
     ok: true,
     action: parsed.action,
@@ -357,6 +375,7 @@ async function main() {
     blob_path: blob.pathname,
     blob_url: blob.url,
     updated_at: result.snapshot.updated_at,
+    mutation_attempt: mutationAttempt,
   };
   if (parsed.pull) {
     response.pull = await pullMirror(parsed.forcePull);

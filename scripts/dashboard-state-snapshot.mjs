@@ -4,6 +4,8 @@ import {
   statePathToFile,
 } from "./dashboard-state-lib.mjs";
 import {
+  allowedTaskPriorities,
+  allowedTaskStatuses,
   applyTaskPatch,
   applyTaskStatus,
   findTask,
@@ -17,10 +19,108 @@ function cloneJson(value) {
   return JSON.parse(JSON.stringify(value));
 }
 
+function requiredId(value, label) {
+  const id = String(value || "").trim();
+  if (!id) throw new Error(`Missing ${label}`);
+  return id;
+}
+
+function addUniqueId(ids, id, label) {
+  if (ids.has(id)) throw new Error(`Duplicate ${label}: ${id}`);
+  ids.add(id);
+}
+
+export function validateDashboardSnapshot(snapshot) {
+  if (!snapshot || typeof snapshot !== "object" || Array.isArray(snapshot)) {
+    throw new Error("Dashboard snapshot must be an object");
+  }
+  const container = snapshot.data && typeof snapshot.data === "object" ? snapshot.data : snapshot;
+  const portfolio = container.portfolio;
+  const projects = container.projects || container.projectDocs;
+  const taskDoc = container.taskDoc || container.tasksDoc;
+  if (!portfolio || typeof portfolio !== "object" || Array.isArray(portfolio)) {
+    throw new Error("Dashboard snapshot is missing portfolio");
+  }
+  if (!Array.isArray(projects)) {
+    throw new Error("Dashboard snapshot is missing projects");
+  }
+  if (!taskDoc || !Array.isArray(taskDoc.tasks)) {
+    throw new Error("Dashboard snapshot is missing taskDoc.tasks");
+  }
+
+  const projectIds = new Set();
+  for (const project of projects) {
+    const projectId = requiredId(project?.project_id, "project_id");
+    addUniqueId(projectIds, projectId, "project_id");
+  }
+  const portfolioProjectIds = new Set();
+  for (const projectRef of Array.isArray(portfolio.projects) ? portfolio.projects : []) {
+    const projectId = requiredId(projectRef?.project_id, "portfolio project_id");
+    addUniqueId(portfolioProjectIds, projectId, "portfolio project_id");
+    if (!projectIds.has(projectId)) {
+      throw new Error(`Portfolio references missing project_id ${projectId}`);
+    }
+  }
+  for (const projectId of projectIds) {
+    if (portfolioProjectIds.size && !portfolioProjectIds.has(projectId)) {
+      throw new Error(`Project ${projectId} is missing from portfolio.projects`);
+    }
+  }
+
+  const taskIds = new Set();
+  const commentIds = new Set();
+  for (const task of taskDoc.tasks) {
+    const taskId = requiredId(task?.task_id, "task_id");
+    addUniqueId(taskIds, taskId, "task_id");
+    const projectId = requiredId(task?.project_id, `project_id for task ${taskId}`);
+    if (!projectIds.has(projectId)) {
+      throw new Error(`Task ${taskId} references missing project_id ${projectId}`);
+    }
+    if (!String(task?.title || "").trim()) {
+      throw new Error(`Task ${taskId} is missing title`);
+    }
+    if (!allowedTaskStatuses.has(task?.status)) {
+      throw new Error(`Task ${taskId} has invalid status ${task?.status}`);
+    }
+    if (!allowedTaskPriorities.has(task?.priority)) {
+      throw new Error(`Task ${taskId} has invalid priority ${task?.priority}`);
+    }
+    for (const comment of Array.isArray(task.comments) ? task.comments : []) {
+      const commentId = requiredId(comment?.comment_id || comment?.id, `comment_id for task ${taskId}`);
+      addUniqueId(commentIds, commentId, "comment_id");
+      if (comment?.task_id && comment.task_id !== taskId) {
+        throw new Error(`Comment ${commentId} belongs to ${comment.task_id}, not ${taskId}`);
+      }
+      if (!String(comment?.body || "").trim()) {
+        throw new Error(`Comment ${commentId} is missing body`);
+      }
+    }
+  }
+  for (const project of projects) {
+    const projectId = String(project.project_id);
+    const referencedTaskIds = new Set();
+    for (const taskIdValue of Array.isArray(project.task_ids) ? project.task_ids : []) {
+      const taskId = requiredId(taskIdValue, `task_id in project ${projectId}`);
+      addUniqueId(referencedTaskIds, taskId, `task_id in project ${projectId}`);
+      if (!taskIds.has(taskId)) {
+        throw new Error(`Project ${projectId} references missing task_id ${taskId}`);
+      }
+    }
+    const rowIds = new Set();
+    for (const row of Array.isArray(project.intro_table?.rows) ? project.intro_table.rows : []) {
+      const rowId = String(row?.row_id || "").trim();
+      if (!rowId && project.intro_table?.kind !== "procurement_table") continue;
+      requiredId(rowId, `row_id in project ${projectId}`);
+      addUniqueId(rowIds, rowId, `row_id in project ${projectId}`);
+    }
+  }
+  return snapshot;
+}
+
 export function dashboardStateToSnapshot(state, options = {}) {
   const now = options.now || new Date();
   const updatedAt = options.updatedAt || now.toISOString();
-  return {
+  const snapshot = {
     schema_version: dashboardSnapshotSchemaVersion,
     source: options.source || "dashboard/state",
     updated_at: updatedAt,
@@ -29,6 +129,8 @@ export function dashboardStateToSnapshot(state, options = {}) {
     taskDoc: cloneJson(state.taskDoc),
     audit_log: Array.isArray(options.auditLog) ? cloneJson(options.auditLog) : [],
   };
+  validateDashboardSnapshot(snapshot);
+  return snapshot;
 }
 
 export async function loadBundledDashboardSnapshot(options = {}) {
@@ -71,7 +173,7 @@ export function normalizeDashboardSnapshot(raw) {
   if (!taskDoc || !Array.isArray(taskDoc.tasks)) {
     throw new Error("Dashboard snapshot is missing taskDoc.tasks");
   }
-  return {
+  const normalized = {
     schema_version: raw.schema_version || dashboardSnapshotSchemaVersion,
     source: raw.source || "unknown",
     updated_at: raw.updated_at || taskDoc.updated_at || new Date().toISOString(),
@@ -80,6 +182,8 @@ export function normalizeDashboardSnapshot(raw) {
     taskDoc: cloneJson(taskDoc),
     audit_log: Array.isArray(container.audit_log) ? cloneJson(container.audit_log) : [],
   };
+  validateDashboardSnapshot(normalized);
+  return normalized;
 }
 
 export function serializeDashboardSnapshot(snapshot) {
@@ -145,7 +249,19 @@ function sanitizeProjectTableRowPatch(patch) {
     if (!projectTableRowPatchFields.has(field)) {
       continue;
     }
-    nextPatch[field] = typeof value === "string" ? value.trim() : value;
+    const normalizedValue = typeof value === "string" ? value.trim() : value;
+    if (field === "url" && normalizedValue) {
+      let parsed;
+      try {
+        parsed = new URL(normalizedValue);
+      } catch (error) {
+        throw new Error("URL must be an absolute http or https URL");
+      }
+      if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+        throw new Error("URL must use http or https");
+      }
+    }
+    nextPatch[field] = normalizedValue;
   }
   if (!Object.keys(nextPatch).length) {
     throw new Error("Missing row update fields");

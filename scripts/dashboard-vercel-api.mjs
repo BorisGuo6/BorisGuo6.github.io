@@ -1,4 +1,4 @@
-import { createHash } from "node:crypto";
+import { createHash, createHmac, timingSafeEqual } from "node:crypto";
 import {
   appendSnapshotAuditEvent,
   applySnapshotProjectTableRowUpdate,
@@ -12,11 +12,14 @@ import {
 import { makeTaskComment } from "./dashboard-task-store.mjs";
 import {
   isVercelBlobConfigured,
+  isBlobPreconditionFailedError,
   loadVercelDashboardSnapshot,
   writeVercelBlobSnapshot,
 } from "./dashboard-vercel-store.mjs";
 
 let mutationQueue = Promise.resolve();
+export const dashboardSessionCookieName = "dashboard_session";
+export const dashboardSessionMaxAgeSeconds = 7 * 24 * 60 * 60;
 
 function methodNotAllowed(response, allowed) {
   response.setHeader("allow", allowed.join(", "));
@@ -26,7 +29,53 @@ function methodNotAllowed(response, allowed) {
 export function sendJson(response, status, body) {
   response.setHeader("cache-control", "no-store");
   response.setHeader("content-type", "application/json; charset=utf-8");
+  response.setHeader("x-content-type-options", "nosniff");
   return response.status(status).json(body);
+}
+
+export function dashboardErrorResponse(error) {
+  const message = error instanceof Error ? error.message : String(error || "");
+  if (error instanceof SyntaxError) {
+    return { status: 400, error: "Invalid JSON request body" };
+  }
+  if (isBlobPreconditionFailedError(error)) {
+    return { status: 409, error: "Dashboard state changed; retry the request" };
+  }
+  if (message === "Request body is too large") {
+    return { status: 413, error: message };
+  }
+  if (/^(Task|Project|Table row|Comment) not found:/.test(message)) {
+    return { status: 404, error: message };
+  }
+  if (/^(Missing |Invalid |URL must |Comment .* belongs to )/.test(message)) {
+    return { status: 400, error: message };
+  }
+  if (
+    message.includes("is not configured")
+    || message.includes("remained stale after retries")
+    || message.includes("mutation retries exhausted")
+  ) {
+    return { status: 503, error: "Dashboard storage is unavailable" };
+  }
+  return { status: 500, error: "Dashboard request failed" };
+}
+
+export function withDashboardApiErrors(handler) {
+  return async function guardedDashboardHandler(request, response) {
+    try {
+      return await handler(request, response);
+    } catch (error) {
+      console.error("Dashboard API failure", {
+        name: error?.name || "Error",
+        message: error instanceof Error ? error.message : String(error),
+        method: request?.method || "UNKNOWN",
+        path: requestPath(request || {}),
+      });
+      if (response.headersSent) return undefined;
+      const mapped = dashboardErrorResponse(error);
+      return sendJson(response, mapped.status, { ok: false, error: mapped.error });
+    }
+  };
 }
 
 export function dashboardProvidedWriteToken(request) {
@@ -34,6 +83,93 @@ export function dashboardProvidedWriteToken(request) {
   const bearerToken = authorization.startsWith("Bearer ") ? authorization.slice("Bearer ".length).trim() : "";
   const headerToken = request.headers["x-dashboard-token"];
   return Array.isArray(headerToken) ? headerToken[0] : (headerToken || bearerToken);
+}
+
+function safeEqual(left, right) {
+  const leftBuffer = Buffer.from(String(left || ""));
+  const rightBuffer = Buffer.from(String(right || ""));
+  return leftBuffer.length === rightBuffer.length && timingSafeEqual(leftBuffer, rightBuffer);
+}
+
+function dashboardSessionSecret(env = process.env) {
+  return optionalString(
+    env.DASHBOARD_SESSION_SECRET
+      || env.DASHBOARD_WRITE_TOKEN
+      || env.DASHBOARD_WRITE_TOKEN_USERS
+      || env.DASHBOARD_USER_TOKENS,
+  );
+}
+
+function requestCookie(request, name) {
+  const cookieHeader = request.headers?.cookie || "";
+  for (const part of String(cookieHeader).split(";")) {
+    const separator = part.indexOf("=");
+    if (separator < 0) continue;
+    const key = part.slice(0, separator).trim();
+    if (key === name) return decodeURIComponent(part.slice(separator + 1).trim());
+  }
+  return "";
+}
+
+export function dashboardProvidedSession(request) {
+  return requestCookie(request, dashboardSessionCookieName);
+}
+
+export function createDashboardSession(viewer, env = process.env, options = {}) {
+  const secret = dashboardSessionSecret(env);
+  if (!secret) {
+    throw new Error("Dashboard session secret is not configured");
+  }
+  const now = options.now || new Date();
+  const maxAgeSeconds = Number(options.maxAgeSeconds || dashboardSessionMaxAgeSeconds);
+  const payload = Buffer.from(JSON.stringify({
+    v: 1,
+    viewer: optionalString(viewer) || "unknown",
+    exp: Math.floor(now.getTime() / 1000) + maxAgeSeconds,
+  })).toString("base64url");
+  const signature = createHmac("sha256", secret).update(payload).digest("base64url");
+  return `${payload}.${signature}`;
+}
+
+export function dashboardSessionAuth(request, env = process.env, options = {}) {
+  const session = dashboardProvidedSession(request);
+  if (!session) return null;
+  const secret = dashboardSessionSecret(env);
+  const separator = session.lastIndexOf(".");
+  if (!secret || separator < 1) {
+    return { ok: false, status: 401, error: "Invalid dashboard session" };
+  }
+  const payload = session.slice(0, separator);
+  const signature = session.slice(separator + 1);
+  const expected = createHmac("sha256", secret).update(payload).digest("base64url");
+  if (!safeEqual(signature, expected)) {
+    return { ok: false, status: 401, error: "Invalid dashboard session" };
+  }
+  try {
+    const parsed = JSON.parse(Buffer.from(payload, "base64url").toString("utf8"));
+    const nowSeconds = Math.floor((options.now || new Date()).getTime() / 1000);
+    const viewer = optionalString(parsed?.viewer);
+    if (parsed?.v !== 1 || !viewer || !Number.isFinite(parsed?.exp) || parsed.exp <= nowSeconds) {
+      return { ok: false, status: 401, error: "Expired dashboard session" };
+    }
+    return { ok: true, viewer };
+  } catch (error) {
+    return { ok: false, status: 401, error: "Invalid dashboard session" };
+  }
+}
+
+function dashboardSessionCookie(request, value, maxAgeSeconds) {
+  const forwardedProto = optionalString(request.headers?.["x-forwarded-proto"]);
+  const host = optionalString(request.headers?.host);
+  const secure = forwardedProto === "https" || (!host.startsWith("localhost") && !host.startsWith("127.0.0.1"));
+  return [
+    `${dashboardSessionCookieName}=${encodeURIComponent(value)}`,
+    "Path=/api/dashboard",
+    "HttpOnly",
+    "SameSite=Strict",
+    `Max-Age=${Math.max(0, Math.floor(maxAgeSeconds))}`,
+    secure ? "Secure" : "",
+  ].filter(Boolean).join("; ");
 }
 
 export function dashboardViewerForWriteToken(providedToken, env = process.env) {
@@ -80,6 +216,10 @@ export function dashboardWriteAuth(request, env = process.env) {
     };
   }
   const providedToken = dashboardProvidedWriteToken(request);
+  if (!providedToken) {
+    const sessionAuth = dashboardSessionAuth(request, env);
+    if (sessionAuth) return sessionAuth;
+  }
   if (!dashboardWriteTokenIsAllowed(providedToken, env)) {
     return {
       ok: false,
@@ -195,33 +335,48 @@ async function loadWritableSnapshot() {
 
 async function persistMutation(mutation, auditOptions = {}) {
   const run = mutationQueue.catch(() => undefined).then(async () => {
-    const { snapshot, meta } = await loadWritableSnapshot();
-    const result = mutation(snapshot);
-    const payload = typeof auditOptions.payload === "function"
-      ? auditOptions.payload(result)
-      : (auditOptions.payload || {});
-    const auditEvent = makeDashboardAuditEvent({
-      request: auditOptions.request,
-      auth: auditOptions.auth,
-      token: auditOptions.token,
-      action: auditOptions.action,
-      payload,
-    });
-    const auditedSnapshot = appendSnapshotAuditEvent(result.snapshot, auditEvent);
-    const blob = await writeVercelBlobSnapshot(auditedSnapshot);
-    return {
-      ...result,
-      audit: auditEvent,
-      meta: {
-        ...meta,
-        storage: "vercel-blob",
-        blob_path: blob.pathname,
-        blob_url: blob.url,
-        updated_at: auditedSnapshot.updated_at,
-        audit_id: auditEvent.audit_id,
-        audit_viewer: auditEvent.viewer,
-      },
-    };
+    for (let attempt = 1; attempt <= 3; attempt += 1) {
+      const { snapshot, meta } = await loadWritableSnapshot();
+      const result = mutation(snapshot);
+      const payload = typeof auditOptions.payload === "function"
+        ? auditOptions.payload(result)
+        : (auditOptions.payload || {});
+      const auditEvent = makeDashboardAuditEvent({
+        request: auditOptions.request,
+        auth: auditOptions.auth,
+        token: auditOptions.token,
+        action: auditOptions.action,
+        payload,
+      });
+      const auditedSnapshot = appendSnapshotAuditEvent(result.snapshot, auditEvent);
+      try {
+        const blob = await writeVercelBlobSnapshot(auditedSnapshot, {
+          ifMatch: meta.blob_etag,
+          previousSnapshot: snapshot,
+        });
+        return {
+          ...result,
+          audit: auditEvent,
+          meta: {
+            ...meta,
+            storage: "vercel-blob",
+            blob_path: blob.pathname,
+            blob_url: blob.url,
+            blob_etag: blob.etag,
+            updated_at: auditedSnapshot.updated_at,
+            audit_id: auditEvent.audit_id,
+            audit_viewer: auditEvent.viewer,
+            mutation_attempt: attempt,
+          },
+        };
+      } catch (error) {
+        const isConflict = isBlobPreconditionFailedError(error);
+        if (!isConflict || attempt === 3) {
+          throw error;
+        }
+      }
+    }
+    throw new Error("Dashboard mutation retries exhausted");
   });
   mutationQueue = run.catch(() => undefined);
   return run;
@@ -230,17 +385,69 @@ async function persistMutation(mutation, auditOptions = {}) {
 export async function handleDashboardHealth(request, response) {
   if (request.method !== "GET") return methodNotAllowed(response, ["GET"]);
   const providedToken = dashboardProvidedWriteToken(request);
-  const writeAuth = providedToken
+  const providedSession = dashboardProvidedSession(request);
+  const writeAuth = providedToken || providedSession
     ? dashboardWriteAuth(request)
     : null;
-  return sendJson(response, 200, {
-    ok: true,
-    mode: "vercel-dashboard-api",
-    storage: isVercelBlobConfigured() ? "vercel-blob" : "bundled-json",
-    writable: dashboardCanWrite(),
+  const health = await getDashboardHealth();
+  return sendJson(response, health.ok ? 200 : 503, {
+    ...health,
     write_auth: writeAuth
       ? { ok: Boolean(writeAuth.ok), status: writeAuth.status || 200, error: writeAuth.error || null, viewer: writeAuth.viewer || null }
       : null,
+  });
+}
+
+export async function getDashboardHealth(options = {}) {
+  const env = options.env || process.env;
+  const loadSnapshot = options.loadSnapshot || loadVercelDashboardSnapshot;
+  const configuredStorage = isVercelBlobConfigured(env) ? "vercel-blob" : "bundled-json";
+  try {
+    const { snapshot, meta } = await loadSnapshot({ env });
+    if (configuredStorage === "vercel-blob" && meta?.storage !== "vercel-blob") {
+      throw new Error("Configured dashboard Blob is missing");
+    }
+    return {
+      ok: true,
+      mode: "vercel-dashboard-api",
+      storage: meta?.storage || configuredStorage,
+      writable: dashboardCanWrite(env),
+      state: {
+        ok: true,
+        projects: Array.isArray(snapshot?.projects) ? snapshot.projects.length : 0,
+        tasks: Array.isArray(snapshot?.taskDoc?.tasks) ? snapshot.taskDoc.tasks.length : 0,
+        updated_at: snapshot?.updated_at || null,
+        blob_etag: meta?.blob_etag || null,
+      },
+    };
+  } catch (error) {
+    return {
+      ok: false,
+      mode: "vercel-dashboard-api",
+      storage: configuredStorage,
+      writable: false,
+      state: { ok: false, error: "Dashboard state unavailable" },
+    };
+  }
+}
+
+export async function handleDashboardSession(request, response) {
+  if (request.method === "DELETE") {
+    response.setHeader("set-cookie", dashboardSessionCookie(request, "", 0));
+    return sendJson(response, 200, { ok: true });
+  }
+  if (request.method !== "POST") return methodNotAllowed(response, ["POST", "DELETE"]);
+  const token = dashboardProvidedWriteToken(request);
+  const viewer = dashboardViewerForWriteToken(token);
+  if (!viewer) {
+    const auth = dashboardWriteAuth({ ...request, headers: { ...request.headers, cookie: "" } });
+    return sendJson(response, auth.status || 401, { ok: false, error: auth.error || "Invalid dashboard write token" });
+  }
+  const session = createDashboardSession(viewer);
+  response.setHeader("set-cookie", dashboardSessionCookie(request, session, dashboardSessionMaxAgeSeconds));
+  return sendJson(response, 200, {
+    ok: true,
+    write_auth: { ok: true, status: 200, error: null, viewer },
   });
 }
 

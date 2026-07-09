@@ -20,7 +20,27 @@ async function blobClient() {
 }
 
 export function vercelBlobReadUrl(blob) {
-  return blob?.url || blob?.downloadUrl;
+  return blob?.downloadUrl || blob?.url;
+}
+
+function normalizeBlobEtag(etag) {
+  return String(etag || "").trim().replace(/^W\//i, "");
+}
+
+export function blobEtagsMatch(left, right) {
+  const normalizedLeft = normalizeBlobEtag(left);
+  const normalizedRight = normalizeBlobEtag(right);
+  return Boolean(normalizedLeft && normalizedRight && normalizedLeft === normalizedRight);
+}
+
+export function isBlobPreconditionFailedError(error) {
+  return error?.name === "BlobPreconditionFailedError"
+    || error?.constructor?.name === "BlobPreconditionFailedError"
+    || /Precondition failed: ETag mismatch/i.test(String(error?.message || ""));
+}
+
+function wait(milliseconds) {
+  return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
 
 function timestampForPath(now = new Date()) {
@@ -39,33 +59,54 @@ export async function readVercelBlobSnapshot(options = {}) {
   const token = env.BLOB_READ_WRITE_TOKEN;
   if (!token) return null;
   const pathname = options.pathname || dashboardBlobPath(env);
-  const { BlobNotFoundError, head } = await blobClient();
-  let blob = null;
-  try {
-    blob = await head(pathname, { token });
-  } catch (error) {
-    if (error instanceof BlobNotFoundError || error?.name === "BlobNotFoundError") {
-      return null;
+  const blobApi = options.blobApi || await blobClient();
+  const fetchImpl = options.fetchImpl || fetch;
+  const sleep = options.sleep || wait;
+  const retryDelays = options.retryDelays || [0, 150, 350, 750, 1500, 3000, 6000];
+  let lastObserved = "unknown";
+
+  for (const delay of retryDelays) {
+    if (delay > 0) await sleep(delay);
+    let blob;
+    try {
+      blob = await blobApi.head(pathname, { token });
+    } catch (error) {
+      if (error instanceof blobApi.BlobNotFoundError || error?.name === "BlobNotFoundError") {
+        return null;
+      }
+      throw error;
     }
-    throw error;
+    const readUrls = [...new Set([blob.downloadUrl, blob.url].filter(Boolean))];
+    if (!readUrls.length) {
+      throw new Error(`Dashboard blob ${pathname} does not expose a readable URL`);
+    }
+    for (const readUrl of readUrls) {
+      const url = new URL(readUrl);
+      url.searchParams.set("dashboardBust", `${Date.now()}-${Math.random().toString(36).slice(2)}`);
+      const response = await fetchImpl(url, {
+        cache: "no-store",
+        headers: { "cache-control": "no-cache" },
+      });
+      if (!response.ok) {
+        lastObserved = `HTTP ${response.status}`;
+        continue;
+      }
+      const responseEtag = response.headers.get("etag");
+      if (blob.etag && !blobEtagsMatch(responseEtag, blob.etag)) {
+        lastObserved = `head=${blob.etag || "none"}, content=${responseEtag || "none"}`;
+        continue;
+      }
+      const snapshot = normalizeDashboardSnapshot(await response.json());
+      return {
+        snapshot: {
+          ...snapshot,
+          source: "vercel-blob",
+        },
+        blob,
+      };
+    }
   }
-  const downloadUrl = vercelBlobReadUrl(blob);
-  if (!downloadUrl) {
-    throw new Error(`Dashboard blob ${pathname} does not expose a readable URL`);
-  }
-  const cacheBustSeparator = downloadUrl.includes("?") ? "&" : "?";
-  const response = await fetch(`${downloadUrl}${cacheBustSeparator}dashboardBust=${Date.now()}`, { cache: "no-store" });
-  if (!response.ok) {
-    throw new Error(`Failed to read dashboard blob ${pathname}: ${response.status}`);
-  }
-  const snapshot = normalizeDashboardSnapshot(await response.json());
-  return {
-    snapshot: {
-      ...snapshot,
-      source: "vercel-blob",
-    },
-    blob,
-  };
+  throw new Error(`Dashboard blob ${pathname} remained stale after retries (${lastObserved})`);
 }
 
 export async function writeVercelBlobSnapshot(snapshot, options = {}) {
@@ -75,38 +116,51 @@ export async function writeVercelBlobSnapshot(snapshot, options = {}) {
     throw new Error("BLOB_READ_WRITE_TOKEN is not configured");
   }
   const pathname = options.pathname || dashboardBlobPath(env);
-  const { put } = await blobClient();
+  const blobApi = options.blobApi || await blobClient();
   let backup = null;
-  const shouldBackup = options.backupBeforeWrite !== false
+  let backupError = null;
+  const backupRequested = options.backupBeforeWrite === true
+    || (options.backupBeforeWrite !== false && env.DASHBOARD_ENABLE_BLOB_BACKUP === "1");
+  const shouldBackup = backupRequested
     && env.DASHBOARD_DISABLE_BLOB_BACKUP !== "1"
     && !pathname.includes("/backups/");
-  if (shouldBackup) {
-    const previous = await readVercelBlobSnapshot({ env, pathname });
-    if (previous?.snapshot) {
-      const backupPath = options.backupPath || backupPathForBlob(pathname, options.now || new Date());
-      backup = await put(backupPath, serializeDashboardSnapshot({
-        ...previous.snapshot,
-        source: "vercel-blob-backup",
-      }), {
-        access: "public",
-        addRandomSuffix: false,
-        allowOverwrite: false,
-        cacheControlMaxAge: 0,
-        token,
-      });
-    }
-  }
-  const blob = await put(pathname, serializeDashboardSnapshot({
+  const previousSnapshot = options.previousSnapshot || (shouldBackup
+    ? (await readVercelBlobSnapshot({ env, pathname, blobApi }))?.snapshot
+    : null);
+  const blob = await blobApi.put(pathname, serializeDashboardSnapshot({
     ...snapshot,
     source: "vercel-blob",
   }), {
     access: "public",
     addRandomSuffix: false,
     allowOverwrite: true,
-    cacheControlMaxAge: 0,
+    cacheControlMaxAge: 60,
+    ...(options.ifMatch ? { ifMatch: options.ifMatch } : {}),
     token,
   });
-  return backup ? { ...blob, backup } : blob;
+  if (shouldBackup && previousSnapshot) {
+    const backupPath = options.backupPath || backupPathForBlob(pathname, options.now || new Date());
+    try {
+      backup = await blobApi.put(backupPath, serializeDashboardSnapshot({
+        ...previousSnapshot,
+        audit_log: [],
+        source: "vercel-blob-backup",
+      }), {
+        access: "public",
+        addRandomSuffix: false,
+        allowOverwrite: false,
+        cacheControlMaxAge: 60,
+        token,
+      });
+    } catch (error) {
+      backupError = error instanceof Error ? error.message : String(error);
+    }
+  }
+  return {
+    ...blob,
+    ...(backup ? { backup } : {}),
+    ...(backupError ? { backup_error: backupError } : {}),
+  };
 }
 
 export async function loadVercelDashboardSnapshot(options = {}) {
@@ -118,6 +172,7 @@ export async function loadVercelDashboardSnapshot(options = {}) {
         storage: "vercel-blob",
         blob_path: blobResult.blob.pathname,
         blob_url: blobResult.blob.url,
+        blob_etag: blobResult.blob.etag,
       },
     };
   }

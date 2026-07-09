@@ -1,5 +1,3 @@
-import { handleDashboardTaskCommentDelete } from "../../scripts/dashboard-vercel-api.mjs";
+import { handleDashboardTaskCommentDelete, withDashboardApiErrors } from "../../scripts/dashboard-vercel-api.mjs";
 
-export default async function handler(request, response) {
-  return handleDashboardTaskCommentDelete(request, response);
-}
+export default withDashboardApiErrors(handleDashboardTaskCommentDelete);

@@ -5,7 +5,7 @@
     
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="author" content="Jingxiang Guo">
-    <meta name="viewport" content="width=900, initial-scale=0.8, maximum-scale=2.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="ky_GtW3ix1x6MhH-pM6PonkpJCmE-237rRUvxvyQjVs" />
 
     <link rel="shortcut icon" href="assets/img/site/favicon.png" type="image/x-icon">
@@ -61,12 +61,12 @@
           <td style="padding:0px">
 
             <!-- Introduction & Profile Photo -->
-            <table style="width:100%; border:0px; border-spacing:0px; border-collapse:separate; margin-left:auto; margin-right:auto;">
+            <table class="profile-layout" style="width:100%; border:0px; border-spacing:0px; border-collapse:separate; margin-left:auto; margin-right:auto;">
               <tbody>
-                <tr style="padding:0px">
+                <tr class="profile-row" style="padding:0px">
 
                   <!-- introduction -->
-                  <td style="padding: 20px; width:64%; vertical-align:middle">
+                  <td class="profile-intro" style="padding: 20px; width:64%; vertical-align:middle">
                     <p class="webname" style="text-align: center;">
                       Jingxiang Guo &nbsp;|&nbsp; 郭京翔
                     </p>
@@ -132,7 +132,7 @@
                   </td>
 
                   <!-- profile photo -->
-                  <td style="padding: 20px; padding-left: 0px; padding-bottom: 0px; width:24%; max-width:240px; vertical-align:top;">
+                  <td class="profile-photo" style="padding: 20px; padding-left: 0px; padding-bottom: 0px; width:24%; max-width:240px; vertical-align:top;">
                     <img 
                     style="display:block; width:min(100%, 220px); height:auto; aspect-ratio:2 / 3; object-fit: cover; margin-left:auto; border-radius: 0%; box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.3);"
                     alt="profile photo" 
@@ -287,12 +287,20 @@
                   <td style="padding: 10px 20px 0 20px;">
                     <div class="lab-window-grid">
                       <article class="lab-widget lab-widget-demo" id="robot-demo-widget">
+                        <div class="robot-demo-launch" data-robot-demo-launch>
+                          <button type="button" class="robot-demo-launch-button" data-robot-demo-launch-button>
+                            <span aria-hidden="true">&#9654;</span>
+                            Launch robot demo
+                          </button>
+                        </div>
                         <iframe
                           class="robot-demo-runtime-frame"
                           title="Browser-side ACT robot policy demo"
                           referrerpolicy="no-referrer"
                           allow="fullscreen; clipboard-read; clipboard-write"
-                          src="/assets/robot-demo-runtime/embed.html?v=home-robot-main-bigger-20260629"
+                          data-src="/assets/robot-demo-runtime/embed.html?v=home-robot-main-bigger-20260629"
+                          loading="lazy"
+                          hidden
                         ></iframe>
                       </article>
 

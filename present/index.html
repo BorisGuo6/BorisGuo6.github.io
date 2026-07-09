@@ -430,7 +430,7 @@
         const manualControls = Boolean(slot.manualControls);
 
         const player = document.createElement("video");
-        player.src = videoSource(video);
+        player.dataset.src = videoSource(video);
         player.controls = manualControls;
         player.autoplay = !manualControls;
         player.muted = !manualControls;
@@ -440,13 +440,10 @@
         if (!manualControls) {
           player.setAttribute("data-autoplay", "");
         }
-        player.preload = "auto";
+        player.preload = "none";
         player.poster = slide.image;
         player.setAttribute("aria-label", labelForVideo(video, index));
         player.addEventListener("error", markMissingAsset, { once: true });
-        if (slot.start != null) {
-          player.currentTime = slot.start;
-        }
         if (slot.end != null) {
           player.dataset.endAt = String(slot.end);
         }
@@ -639,6 +636,21 @@
         }
       }
 
+      function activateVideo(video) {
+        if (!video.getAttribute("src") && video.dataset.src) {
+          video.src = video.dataset.src;
+          video.load();
+        }
+      }
+
+      function deactivateVideo(video) {
+        video.pause();
+        if (video.getAttribute("src")) {
+          video.removeAttribute("src");
+          video.load();
+        }
+      }
+
       function syncDeckChrome(currentSlide) {
         const changed = document.body.classList.toggle(
           "full-video-active",
@@ -782,10 +794,11 @@
         document.querySelectorAll(".reveal video").forEach((video) => {
           const ownerSlide = video.closest("section[data-output-slide]");
           if (ownerSlide !== currentSlide) {
-            video.pause();
+            deactivateVideo(video);
           }
         });
         currentSlide?.querySelectorAll("video").forEach((video) => {
+          activateVideo(video);
           if (video.muted) {
             video.play().catch(() => {});
           }
@@ -822,7 +835,14 @@
         } catch (error) {
           slidesRoot.replaceChildren();
           const section = document.createElement("section");
-          section.innerHTML = `<div class="error-state"><p><strong>Presentation assets unavailable</strong>${error.message}</p></div>`;
+          const errorState = document.createElement("div");
+          errorState.className = "error-state";
+          const message = document.createElement("p");
+          const title = document.createElement("strong");
+          title.textContent = "Presentation assets unavailable";
+          message.append(title, document.createTextNode(error instanceof Error ? error.message : String(error)));
+          errorState.append(message);
+          section.append(errorState);
           slidesRoot.append(section);
           await Reveal.initialize({ controls: false, progress: false, transition: "none" });
         }

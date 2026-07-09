@@ -38,4 +38,10 @@ jobs:
         run: npm ci
 
       - name: Run Vercel build command
-        run: npm run vercel-build
+        run: npm run build:verify
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run browser regression suite
+        run: npm run test:dashboard:e2e

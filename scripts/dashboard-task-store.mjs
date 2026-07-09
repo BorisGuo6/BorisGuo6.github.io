@@ -4,6 +4,23 @@ import { maxCommentLength, readJsonFile, tasksPath, writeJsonFile } from "./dash
 export const allowedTaskStatuses = new Set(["todo", "active", "blocked", "needs_user", "review", "done"]);
 export const allowedTaskPriorities = new Set(["low", "medium", "high", "urgent"]);
 
+const taskFileMutationQueues = new Map();
+
+async function withTaskFileMutation(filePath, mutation) {
+  const queueKey = String(filePath);
+  const previous = taskFileMutationQueues.get(queueKey) || Promise.resolve();
+  const run = previous.catch(() => undefined).then(mutation);
+  const settled = run.catch(() => undefined);
+  taskFileMutationQueues.set(queueKey, settled);
+  try {
+    return await run;
+  } finally {
+    if (taskFileMutationQueues.get(queueKey) === settled) {
+      taskFileMutationQueues.delete(queueKey);
+    }
+  }
+}
+
 export function slugifyTaskPart(value) {
   return String(value || "")
     .trim()
@@ -188,89 +205,99 @@ async function readTaskDocument(filePath = tasksPath) {
 
 export async function createLocalTask(input, options = {}) {
   const filePath = options.filePath || tasksPath;
-  const now = options.now || new Date();
-  const doc = await readTaskDocument(filePath);
-  const existingIds = new Set(doc.tasks.map((task) => task?.task_id).filter(Boolean));
-  const task = makeTask(input, existingIds, now);
-  doc.updated_at = task.updated_at;
-  doc.tasks.push(task);
-  await writeJsonFile(filePath, doc);
-  return task;
+  return withTaskFileMutation(filePath, async () => {
+    const now = options.now || new Date();
+    const doc = await readTaskDocument(filePath);
+    const existingIds = new Set(doc.tasks.map((task) => task?.task_id).filter(Boolean));
+    const task = makeTask(input, existingIds, now);
+    doc.updated_at = task.updated_at;
+    doc.tasks.push(task);
+    await writeJsonFile(filePath, doc);
+    return task;
+  });
 }
 
 export async function updateLocalTaskStatus(taskId, status, options = {}) {
   const filePath = options.filePath || tasksPath;
-  const now = options.now || new Date();
-  const doc = await readTaskDocument(filePath);
-  const task = findTask(doc, taskId);
-  if (!task) {
-    throw new Error(`Task not found in local tasks.json: ${taskId}`);
-  }
-  const update = applyTaskStatus(task, status, now);
-  touchTaskDocument(doc, update.updated_at);
-  await writeJsonFile(filePath, doc);
-  return update;
+  return withTaskFileMutation(filePath, async () => {
+    const now = options.now || new Date();
+    const doc = await readTaskDocument(filePath);
+    const task = findTask(doc, taskId);
+    if (!task) {
+      throw new Error(`Task not found in local tasks.json: ${taskId}`);
+    }
+    const update = applyTaskStatus(task, status, now);
+    touchTaskDocument(doc, update.updated_at);
+    await writeJsonFile(filePath, doc);
+    return update;
+  });
 }
 
 export async function updateLocalTask(taskId, patch, options = {}) {
   const filePath = options.filePath || tasksPath;
-  const now = options.now || new Date();
-  const doc = await readTaskDocument(filePath);
-  const task = findTask(doc, taskId);
-  if (!task) {
-    throw new Error(`Task not found in local tasks.json: ${taskId}`);
-  }
-  const update = applyTaskPatch(task, patch, now);
-  if (update.changed_fields.length) {
-    touchTaskDocument(doc, update.updated_at);
-    await writeJsonFile(filePath, doc);
-  }
-  return { task, update };
+  return withTaskFileMutation(filePath, async () => {
+    const now = options.now || new Date();
+    const doc = await readTaskDocument(filePath);
+    const task = findTask(doc, taskId);
+    if (!task) {
+      throw new Error(`Task not found in local tasks.json: ${taskId}`);
+    }
+    const update = applyTaskPatch(task, patch, now);
+    if (update.changed_fields.length) {
+      touchTaskDocument(doc, update.updated_at);
+      await writeJsonFile(filePath, doc);
+    }
+    return { task, update };
+  });
 }
 
 export async function appendLocalTaskComment(taskId, comment, options = {}) {
   const filePath = options.filePath || tasksPath;
-  const doc = await readTaskDocument(filePath);
-  const task = findTask(doc, taskId);
-  if (!task) {
-    throw new Error(`Task not found in local tasks.json: ${taskId}`);
-  }
-  if (comment?.task_id && comment.task_id !== taskId) {
-    throw new Error(`Comment ${comment.comment_id || ""} belongs to ${comment.task_id}, not ${taskId}`);
-  }
-  task.comments = Array.isArray(task.comments) ? task.comments : [];
-  if (task.comments.some((existing) => existing.comment_id === comment.comment_id)) {
+  return withTaskFileMutation(filePath, async () => {
+    const doc = await readTaskDocument(filePath);
+    const task = findTask(doc, taskId);
+    if (!task) {
+      throw new Error(`Task not found in local tasks.json: ${taskId}`);
+    }
+    if (comment?.task_id && comment.task_id !== taskId) {
+      throw new Error(`Comment ${comment.comment_id || ""} belongs to ${comment.task_id}, not ${taskId}`);
+    }
+    task.comments = Array.isArray(task.comments) ? task.comments : [];
+    if (task.comments.some((existing) => existing.comment_id === comment.comment_id)) {
+      return comment;
+    }
+    task.comments.push(comment);
+    task.updated_at = comment.created_at || new Date().toISOString();
+    touchTaskDocument(doc, task.updated_at);
+    await writeJsonFile(filePath, doc);
     return comment;
-  }
-  task.comments.push(comment);
-  task.updated_at = comment.created_at || new Date().toISOString();
-  touchTaskDocument(doc, task.updated_at);
-  await writeJsonFile(filePath, doc);
-  return comment;
+  });
 }
 
 export async function deleteLocalTaskComment(taskId, commentId, options = {}) {
   const filePath = options.filePath || tasksPath;
-  const doc = await readTaskDocument(filePath);
-  const task = findTask(doc, taskId);
-  if (!task) {
-    throw new Error(`Task not found in local tasks.json: ${taskId}`);
-  }
-  const targetCommentId = optionalString(commentId);
-  if (!targetCommentId) {
-    throw new Error("Missing comment_id");
-  }
-  task.comments = Array.isArray(task.comments) ? task.comments : [];
-  const index = task.comments.findIndex((comment) => (
-    String(comment.comment_id || comment.id || "") === targetCommentId
-  ));
-  if (index < 0) {
-    throw new Error(`Comment not found in local tasks.json: ${targetCommentId}`);
-  }
-  const [comment] = task.comments.splice(index, 1);
-  const updatedAt = (options.now || new Date()).toISOString();
-  task.updated_at = updatedAt;
-  touchTaskDocument(doc, updatedAt);
-  await writeJsonFile(filePath, doc);
-  return comment;
+  return withTaskFileMutation(filePath, async () => {
+    const doc = await readTaskDocument(filePath);
+    const task = findTask(doc, taskId);
+    if (!task) {
+      throw new Error(`Task not found in local tasks.json: ${taskId}`);
+    }
+    const targetCommentId = optionalString(commentId);
+    if (!targetCommentId) {
+      throw new Error("Missing comment_id");
+    }
+    task.comments = Array.isArray(task.comments) ? task.comments : [];
+    const index = task.comments.findIndex((comment) => (
+      String(comment.comment_id || comment.id || "") === targetCommentId
+    ));
+    if (index < 0) {
+      throw new Error(`Comment not found in local tasks.json: ${targetCommentId}`);
+    }
+    const [comment] = task.comments.splice(index, 1);
+    const updatedAt = (options.now || new Date()).toISOString();
+    task.updated_at = updatedAt;
+    touchTaskDocument(doc, updatedAt);
+    await writeJsonFile(filePath, doc);
+    return comment;
+  });
 }

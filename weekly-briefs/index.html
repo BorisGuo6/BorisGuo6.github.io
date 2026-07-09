@@ -418,6 +418,29 @@
           padding-right: 18px;
         }
 
+        .topbar {
+          display: grid;
+          grid-template-columns: auto minmax(0, 1fr) auto;
+          gap: 6px;
+          padding-top: 7px;
+          padding-bottom: 7px;
+        }
+
+        .topbar nav {
+          min-width: 0;
+          flex-wrap: nowrap;
+          overflow-x: auto;
+          overscroll-behavior-inline: contain;
+          scrollbar-width: thin;
+        }
+
+        .topbar a,
+        .print-button {
+          min-height: 32px;
+          padding: 7px 8px;
+          white-space: nowrap;
+        }
+
         .hero,
         .section-title,
         .grid-2,
@@ -457,7 +480,7 @@
   <body>
     <div class="page">
       <div class="topbar">
-        <a href="../dashboard/">Back to Dashboard</a>
+        <a href="../dashboard/" aria-label="Back to Dashboard">Dashboard</a>
         <nav aria-label="Page sections">
           <a href="#tri-view-proposal">Proposal</a>
           <a href="#main-references">References</a>

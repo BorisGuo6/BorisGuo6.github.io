@@ -12,10 +12,10 @@ const baseSnapshot = {
   portfolio: {
     portfolio_id: "demo-dashboard",
     title: "Demo",
-    projects: [],
+    projects: [{ project_id: "demo" }],
     project_buckets: [{ bucket: "research" }],
   },
-  projects: [],
+  projects: [{ project_id: "demo", task_ids: ["task_demo"] }],
   taskDoc: {
     schema_version: "tasks.v1",
     updated_at: "2026-06-18T00:00:00.000Z",

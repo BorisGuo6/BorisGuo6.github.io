@@ -1,5 +1,3 @@
-import { handleDashboardAuditLog } from "../../scripts/dashboard-vercel-api.mjs";
+import { handleDashboardAuditLog, withDashboardApiErrors } from "../../scripts/dashboard-vercel-api.mjs";
 
-export default async function handler(request, response) {
-  return handleDashboardAuditLog(request, response);
-}
+export default withDashboardApiErrors(handleDashboardAuditLog);

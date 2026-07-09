@@ -1,5 +1,5 @@
-import { createHash } from "node:crypto";
-import { readFile, writeFile } from "node:fs/promises";
+import { createHash, randomUUID } from "node:crypto";
+import { readFile, rename, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 export const repoRoot = path.resolve(import.meta.dirname, "..");
@@ -31,11 +31,23 @@ export async function readJsonFile(filePath) {
 }
 
 export async function writeJsonFile(filePath, data) {
-  await writeFile(filePath, `${JSON.stringify(data, null, 2)}\n`);
+  const tempPath = `${filePath}.${process.pid}.${randomUUID()}.tmp`;
+  try {
+    await writeFile(tempPath, `${JSON.stringify(data, null, 2)}\n`);
+    await rename(tempPath, filePath);
+  } catch (error) {
+    await rm(tempPath, { force: true }).catch(() => undefined);
+    throw error;
+  }
 }
 
 export function statePathToFile(statePath) {
-  return path.join(repoRoot, statePath);
+  const resolved = path.resolve(repoRoot, String(statePath || ""));
+  const stateRoot = `${path.resolve(stateDir)}${path.sep}`;
+  if (!resolved.startsWith(stateRoot) || path.extname(resolved).toLowerCase() !== ".json") {
+    throw new Error(`State path resolves outside dashboard/state: ${statePath}`);
+  }
+  return resolved;
 }
 
 export function normalizeCommentKind(kind) {

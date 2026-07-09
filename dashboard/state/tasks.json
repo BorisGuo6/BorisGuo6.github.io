@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-07-09T18:56:09.777Z",
+  "updated_at": "2026-07-09T21:10:21.707Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -194,16 +194,16 @@
           "created_at": "2026-07-09T16:30:00+08:00"
         },
         {
-          "comment_id": "comment_real_robot_infra_ik_curobo_clawcross_tail_20260709",
+          "comment_id": "comment_4cbd55ba-e434-4cc5-a007-aa83df42fb18",
           "task_id": "task_real_robot_infra_franka_wuji_ik_curobo_stability",
           "author": "Boris / Codex",
           "author_type": "system",
           "kind": "comment",
-          "body": "ClawCross WeChat tail 2026-07-09 14:53-15:15: Haoming shared a video showing the end-effector entering an oscillatory / unstable state after approaching the object; the first hypothesis is that the target may be near the far workspace boundary. Boris suggested trying cuRobo / another IK library because the current Pinocchio path may be too slow. Keep first validation in replay/read-only mode and only then run low-speed live smoke. Evidence link from chat: https://drive.google.com/file/d/1ukiZnlci47TVv3UMDqnITE9h7Lg9u4_t/view?usp=drivesdk.",
-          "created_at": "2026-07-09T21:44:00+08:00"
+          "body": "ClawCross WeChat tail 2026-07-09 14:53-14:56: Haoming posted an in-chat video showing the end-effector entering an oscillatory / unstable state after approaching the object; the first hypothesis is that the target may be near the far workspace boundary. Boris suggested trying cuRobo or another IK library because the current Pinocchio path may be too slow. Keep first validation in replay/read-only mode, then run a low-speed live smoke with workspace, joint-limit, singularity, latency, control-rate, gain, and frame-calibration diagnostics. No external video URL was provided in this sequence; the Google Drive link posted later is the Daimon gripper manual and belongs to the Nero adapter task.",
+          "created_at": "2026-07-09T19:06:53.662Z"
         }
       ],
-      "updated_at": "2026-07-09T21:44:00+08:00"
+      "updated_at": "2026-07-09T19:08:39.207Z"
     },
     {
       "task_id": "task_real_robot_infra_wuji_glove",
@@ -3635,7 +3635,7 @@
     },
     {
       "task_id": "task_layered_wm_survey_notes",
-      "project_id": "image-layered-world-model",
+      "project_id": "umi-world-model",
       "title": "Write Image-Layered World Model survey notes",
       "description": "Define persistent scene / object-contact / robot-ego layers and connect WEM-style world-ego decomposition to IDM, reward model, and augmentation.",
       "status": "done",
@@ -3679,7 +3679,7 @@
     },
     {
       "task_id": "task_layered_wm_methods",
-      "project_id": "image-layered-world-model",
+      "project_id": "umi-world-model",
       "title": "Compare layered video / object-centric generation methods",
       "description": "Compare WEM-style world/ego disentanglement, layered video generation, and object-centric generation; decide whether v1 needs explicit object/contact and robot state supervision.",
       "status": "done",
@@ -3716,7 +3716,7 @@
     },
     {
       "task_id": "task_layered_wm_qwen_image_layered_probe",
-      "project_id": "image-layered-world-model",
+      "project_id": "umi-world-model",
       "title": "Run Qwen-Image-Layered decomposition probe",
       "description": "Test Qwen/Qwen-Image-Layered on one poster-like image and one robot manipulation still; export generated RGBA layers plus a manifest; score recomposition error, duplicate or missing elements, layer purity, and whether scene/background, object/contact, and robot/ego regions are separable.",
       "status": "done",
@@ -3781,7 +3781,7 @@
     },
     {
       "task_id": "task_layered_wm_photoshop_psd_pipeline",
-      "project_id": "image-layered-world-model",
+      "project_id": "umi-world-model",
       "title": "Prototype ChatGPT + Photoshop PSD layer pipeline",
       "description": "Use the white-background element-splitting prompt to generate one image per visual element without changing relative positions, then use Photoshop scripting/actions to remove white, keep every element as a separate layer, and export a PSD for inspection.",
       "status": "done",
@@ -3923,7 +3923,7 @@
     },
     {
       "task_id": "task_layered_wm_layer_qa_metrics",
-      "project_id": "image-layered-world-model",
+      "project_id": "umi-world-model",
       "title": "Define layer decomposition QA metrics",
       "description": "For each layered output, compute reconstruction / recomposition error, duplicate or missing elements, layer mask overlap, object/contact preservation, robot/ego isolation, and whether the layers support IDM / reward-model targets.",
       "status": "done",
@@ -4888,7 +4888,7 @@
     },
     {
       "task_id": "task_layered_wm_contact_object_head",
-      "project_id": "image-layered-world-model",
+      "project_id": "umi-world-model",
       "title": "补 object/contact supervision probe",
       "description": "Why now: object_contact 在 robot_still 只有约 0.21，说明单靠 layered image 不足。Deliverable: object/contact head 的弱监督方案，对比 color/geometry/Qwen layer features。Acceptance: poster 和 robot_still 都输出 object/contact mask；记录 contact recall/precision、penetration/sliding proxy。",
       "status": "done",
@@ -4917,7 +4917,7 @@
     },
     {
       "task_id": "task_layered_wm_robot_ego_head",
-      "project_id": "image-layered-world-model",
+      "project_id": "umi-world-model",
       "title": "Prototype explicit robot/ego layer head",
       "description": "Why now: Qwen-Image-Layered 已证明 scene layer 强，但 robot_ego IoU 只有约 0.14，不能直接服务 IDM/robot prior。Deliverable: 一个显式 robot/ego mask/head 的最小 probe，可用 synthetic robot still + simple robot prior/segmentation baseline。Acceptance: robot_still robot_ego max-IoU 明显超过 Qwen baseline；输出 score_summary 和失败样例。",
       "status": "done",
@@ -4953,7 +4953,7 @@
     },
     {
       "task_id": "task_layered_wm_video_temporal_probe",
-      "project_id": "image-layered-world-model",
+      "project_id": "umi-world-model",
       "title": "把单图 layer probe 扩展到短视频 temporal consistency",
       "description": "Why now: world model 要服务视频/IDM，PSD/单图 round-trip 只是静态验证。Deliverable: 3-5 帧短序列 layer propagation 或逐帧 decomposition + consistency metric。Acceptance: 输出 temporal flicker / mask IoU over time / object-contact continuity 指标，并列出最小训练目标。",
       "status": "done",
@@ -6665,7 +6665,7 @@
     },
     {
       "task_id": "task_layered_wm_linux_layer_editor_pipeline",
-      "project_id": "image-layered-world-model",
+      "project_id": "umi-world-model",
       "title": "用 AffinityOnLinux / GIMP 替代 Photoshop 分图层流程",
       "description": "Ubuntu 没有 Photoshop 时，把 agentic prompt 生成的固定位置分元素图片接到 Linux 可运行的图层编辑流程。优先评估两条路线：(1) seapear/AffinityOnLinux: 通过 Wine 在 GNU/Linux 上运行 Affinity Photo/Designer/Publisher，用来复现 PSD/图层检查体验；(2) GIMP: 原生免费开源图像编辑器，作为可脚本化 baseline。Acceptance: 记录 AffinityOnLinux 安装/启动可行性或 blocker；写出 GIMP 批处理或 Script-Fu/Python-Fu 路线；对 poster 和 robot_still 各跑一次白底去除、透明图层叠加、原始相对位置保持、layer naming、导出 .xcf/.afphoto 或 PSD/PNG round-trip；输出 reconstruction diff、缺失/重复元素检查、命令/log/sha256 和最终推荐的 Ubuntu 默认路线。",
       "status": "done",
@@ -7433,10 +7433,10 @@
     },
     {
       "task_id": "task_embodied_music_problem_formulation",
-      "project_id": "embodied-music-survey",
+      "project_id": "archive-embodied-music",
       "title": "Formulate EmbodiedMusic as a measurable problem",
       "description": "Separate action/contact-to-MIDI, motion-to-rhythm, and audio-generation objectives. Acceptance: related-work table plus one minimal dataset/demo plan with metrics for timing, pitch/event correctness, and audio quality.",
-      "status": "todo",
+      "status": "done",
       "priority": "medium",
       "assignee": "Boris / Codex",
       "due_at": "2026-06-13",
@@ -7458,7 +7458,8 @@
         }
       ],
       "updated_at": "2026-06-03T08:33:15+02:00",
-      "completed_at": "2026-06-05"
+      "completed_at": "2026-06-05",
+      "completed_at_time": "2026-06-05T00:43:00+02:00"
     },
     {
       "task_id": "task_open_hardware_collection_decision_table",
@@ -7491,10 +7492,10 @@
     },
     {
       "task_id": "task_fracture_soft_wrist_benchmark_scope",
-      "project_id": "fracture-soft-wrist-assembly-survey",
+      "project_id": "archive-fracture-soft-wrist-assembly",
       "title": "Choose first assembly benchmark scope",
       "description": "Decide whether fractured-object reassembly or soft-wrist insertion is the lower-risk first benchmark. Acceptance: state chosen benchmark, required assets, physical setup, policy inputs, simulator/real split, and success/failure metrics.",
-      "status": "todo",
+      "status": "done",
       "priority": "medium",
       "assignee": "Boris / Codex",
       "due_at": "2026-06-14",
@@ -7516,7 +7517,8 @@
         }
       ],
       "updated_at": "2026-06-03T08:33:15+02:00",
-      "completed_at": "2026-06-05"
+      "completed_at": "2026-06-05",
+      "completed_at_time": "2026-06-05T00:42:00+02:00"
     },
     {
       "task_id": "task_umi_tri_view_capture_schema",
@@ -7840,49 +7842,6 @@
         }
       ],
       "updated_at": "2026-06-16T23:46:34+08:00",
-      "completed_at": "2026-06-05"
-    },
-    {
-      "task_id": "task_rlbench_isaacsim_migration_feasibility",
-      "project_id": "rlbench-isaacsim-migration-survey",
-      "title": "Write RLBench -> IsaacSim 5-task pilot matrix",
-      "description": "Choose five representative RLBench tasks and score conversion feasibility across assets, robot/controller assumptions, observations, rewards, expert demos, VLA inputs, and automated verifier evidence.",
-      "status": "active",
-      "priority": "medium",
-      "assignee": null,
-      "result": "Migrated into task_self_improving_rlbench_isaacsim_pilot_gate. The old Survey result selected the 5-task pilot; the remaining work is Isaac-side smoke/verifier execution under Self-improving.",
-      "due_at": "",
-      "comments": [
-        {
-          "comment_id": "ideas_migration_task_rlbench_isaacsim_20260531",
-          "author": "Codex migration",
-          "body": "Created from Notion idea: migrate RLBench 106 tasks to IsaacSim. Kept as Survey because full migration should wait for a 5-task feasibility pilot.",
-          "created_at": "2026-05-31T09:52:35+02:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "clawcross_f5e3d3956cd5",
-          "author": "Result",
-          "body": "Remote Codex finished RLBench -> Isaac Sim feasibility matrix. Result: 5-task pilot = ReachTarget, PickAndLift, OpenDrawer, StackBlocks, InsertOntoSquarePeg; first formal pilot = PickAndLift; ReachTarget as smoke; InsertOntoSquarePeg highest false-friend risk. Artifact: /home/shaol/workspace/clawcross-dispatch/task_rlbench_isaacsim_migration_feasibility/RESULT.md. Recommended dashboard state: review, not done, because no Isaac-side prototype/verifier has been run yet.",
-          "created_at": "2026-05-31T17:35:07+02:00",
-          "kind": "result"
-        },
-        {
-          "comment_id": "clawcross_a485473d0c35",
-          "author": "Review",
-          "body": "Local Codex host review reopened this TODO.\n请继续处理：把 RESULT.md 内容或可访问副本同步到 dashboard/本机可读位置，并补齐每个 pilot task 的自动 verifier evidence；如果无法运行 Isaac-side verifier，请写明可复现的 blocker、尝试命令、环境缺口和下一步最小验证计划。",
-          "created_at": "2026-05-31T23:42:01+02:00",
-          "kind": "comment"
-        },
-        {
-          "comment_id": "comment_rlbench_isaacsim_migrated_to_self_improving_20260605",
-          "author": "Boris / Codex",
-          "body": "Closed as standalone Survey work. The selected 5-task matrix now feeds task_self_improving_rlbench_isaacsim_pilot_gate: ReachTarget smoke, PickAndLift formal verifier, then OpenDrawer, StackBlocks, and InsertOntoSquarePeg with explicit blocker evidence if Isaac execution is unavailable.",
-          "created_at": "2026-06-05T00:58:00+02:00",
-          "kind": "comment"
-        }
-      ],
-      "updated_at": "2026-06-03T08:33:20+02:00",
       "completed_at": "2026-06-05"
     },
     {

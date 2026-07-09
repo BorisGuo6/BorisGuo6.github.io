@@ -901,11 +901,27 @@ function initVisitorMapFallback() {
   window.setTimeout(refreshFallbackState, 8000);
 }
 
+function initRobotDemoLauncher() {
+  var launch = document.querySelector('[data-robot-demo-launch]');
+  var button = document.querySelector('[data-robot-demo-launch-button]');
+  var frame = document.querySelector('.robot-demo-runtime-frame[data-src]');
+  if (!launch || !button || !frame) return;
+  button.addEventListener('click', function () {
+    if (!frame.getAttribute('src')) {
+      frame.setAttribute('src', frame.dataset.src);
+    }
+    frame.hidden = false;
+    launch.hidden = true;
+    frame.focus();
+  }, { once: true });
+}
+
 // ============================================================================
 // Initialize from JSON data
 // ============================================================================
 document.addEventListener('DOMContentLoaded', function () {
   syncOrgEntreDetails();
+  initRobotDemoLauncher();
   function fetchJsonSafe(url) {
     const versionedUrl = url + (url.indexOf('?') === -1 ? '?' : '&') + 'v=' + encodeURIComponent(SITE_ASSET_VERSION);
     return fetch(versionedUrl)
