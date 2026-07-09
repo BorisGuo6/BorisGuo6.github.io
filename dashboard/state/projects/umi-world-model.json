@@ -4,7 +4,7 @@
   "title": "UMI Image Layered World Model",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-07-08T14:55:50.934Z",
+  "updated_at": "2026-07-09T20:59:00+08:00",
   "description": "UMI Image Layered World Model: three linked papers covering multi-view robot video world modeling, manipulation-video dynamics decomposition into reusable layers, and layered data as a downstream VLA/IDM/reward training interface.",
   "summary": "UMI World Model is a three-paper program with one shared data substrate: Stage 1 trains a streaming multi-view pose/action-conditioned robot world model; Stage 2 turns manipulation videos into reusable scene, object/contact, occluder/tool, and robot/actor layers; Stage 3 tests whether those layers improve manipulation and video-model training. This intro is only architecture/status framing; task-level execution state lives in TODOs and task comments.",
   "subprojects": [
@@ -54,7 +54,7 @@
       {
         "stage": "Stage 1",
         "interface": "Streaming multi-view robot world model",
-        "status_frame": "Synchronized wrist/head/fixed views are treated as one shared scene with pose/action sidecars, not as independent video clips."
+        "status_frame": "Synchronized wrist/head/fixed views are treated as one shared scene with pose/action sidecars, not as independent video clips. RynnWorld-Teleop is a close Stage 1 reference for hand-pose/control-video -> robot-centric action-conditioned rollout: https://alibaba-damo-academy.github.io/RynnWorld-Teleop.github.io/."
       },
       {
         "stage": "Stage 2",
@@ -326,6 +326,13 @@
       "arxiv_id": "2605.28816",
       "submitted_at": "2026-05-27",
       "notes": "MAIN REFERENCE / Stage 1 build-upon route. Gamma-World defines the synchronized action-conditioned interactive world-model lane, with Simplex Rotary Agent Encoding, Sparse Hub Attention, and causal real-time rollout. Use it as the Stage 1 reference for UMI Ego World generation and shared-context multi-view rollout; then make the UMI contribution about robot-data utility, view/layer/eval contracts, IDM/control decoding, and policy ablations rather than agent-count scaling."
+    },
+    {
+      "title": "RynnWorld-Teleop: Human-to-Robot Teleoperation with a World Model",
+      "url": "https://alibaba-damo-academy.github.io/RynnWorld-Teleop.github.io/",
+      "arxiv_id": "2607.06558",
+      "submitted_at": "2026-07-08",
+      "notes": "Stage 1 close reference. RynnWorld-Teleop converts monocular human demonstration into hand-pose motion control, renders a depth-aware skeleton-style control video, and uses a DiT video world model to generate robot-centric execution videos conditioned on image / control-video / task instruction. This is directly relevant to UMI Stage 1's sidecar-conditioned rollout interface, especially pose/control token design, cross-embodiment H2R generation, and the need to evaluate physical executability rather than image realism alone. Difference: RynnWorld is mainly single-view H2R teleop generation, while UMI Stage 1 must keep synchronized left/right/head/fixed robot views sharing one latent scene and pass action counterfactual/cross-view consistency gates."
     },
     {
       "title": "COMBO: Compositional World Models for Embodied Multi-Agent Cooperation",
