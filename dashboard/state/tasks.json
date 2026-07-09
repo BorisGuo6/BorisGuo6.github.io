@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-07-09T13:52:56.294Z",
+  "updated_at": "2026-07-09T15:03:19.000Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2863,8 +2863,9 @@
           "author": "Codex",
           "author_type": "system",
           "kind": "comment",
-          "body": "2026-07-09 generated-action update: remote workspace `/home/jingxiang/workspace/alchedata-self-improving-agents` on `jingxiang-b850m-c` now verifies selection2env through static artifacts, Base_Task/CuRobo smoke, bounded `/collect`, official action rollouts, two generated selection2env action-repair `play_once` probes, two 3-episode generated collections, agent visual review of generated final relations, and Articraft-10K metadata parsing. `python3 scripts/verify_workspace.py` passes with docs=8, static_runs=4, asset_smoke_runs=3, basetask_smoke_runs=3, collect_dry_runs=3, official_rollouts=3, generated_rollouts=2, generated_collections=2, articraft_assets=9996, artifacts=4. New catalog evidence: `artifacts/adapter_catalog/articraft10k_manifest.json` contains 9996 searchable Hugging Face URDF archive entries, with search examples in `artifacts/adapter_catalog/articraft10k_search_examples.json`. Commits: local `2b0076c`, remote `8ff6b0a`. Remaining blockers: `/train`/`/evaluate`, Articraft archive import/physics validation, and held-out generated-task robustness.",
-          "created_at": "2026-07-09T13:35:23.768Z"
+          "body": "2026-07-09 Articraft archive-smoke update: remote workspace `/home/jingxiang/workspace/alchedata-self-improving-agents` on `jingxiang-b850m-c` now verifies selection2env through static artifacts, Base_Task/CuRobo smoke, bounded `/collect`, official action rollouts, two generated selection2env action-repair `play_once` probes, two 3-episode generated collections, generated final-relation review, Articraft-10K metadata parsing, and one selected Articraft archive SAPIEN load/step smoke. `python3 scripts/verify_workspace.py` passes with docs=8, static_runs=4, asset_smoke_runs=3, basetask_smoke_runs=3, collect_dry_runs=3, official_rollouts=3, generated_rollouts=2, generated_collections=2, articraft_assets=9996, articraft_archive_probe=pass_articraft_archive_sapien_smoke, artifacts=4. New Articraft evidence: `scripts/probe_articraft_archive.py` and `runs/articraft_archive_probe_weight_bench/probe_report.json`; selected asset `rec_adjustable_weight_bench_with_hinged_backrest_008247976e6d499d8bcbd1304f26c972` downloaded/extracted `model.urdf`, parsed 6 links and 5 joints, loaded as SAPIEN `PhysxArticulation`, and stepped physics 20 times. Commits: local `ba30a4c`, remote `2f53e71`. Remaining blockers: `/train`/`/evaluate`, representative Articraft scale/collision/material coverage beyond the first sample, and held-out generated-task robustness.",
+          "created_at": "2026-07-09T13:35:23.768Z",
+          "updated_at": "2026-07-09T15:03:19.000Z"
         },
         {
           "comment_id": "comment_self_improving_sceneagent_official_rollouts_20260709_hosted",
@@ -2872,11 +2873,12 @@
           "author": "Codex / jingxiang-b850m-c workspace",
           "author_type": "system",
           "kind": "evidence_update",
-          "body": "2026-07-09 evidence update: remote workspace `/home/jingxiang/workspace/alchedata-self-improving-agents` on `jingxiang-b850m-c` now verifies selection2env beyond static smoke. `python3 scripts/verify_workspace.py` passes with docs=8, static_runs=4, asset_smoke_runs=3, basetask_smoke_runs=3, collect_dry_runs=3, official_rollouts=3, generated_rollouts=2, generated_collections=2, articraft_assets=9996, artifacts=4. Evidence includes schema/artifacts, accepted/rejected candidates, drawer/mug unsupported blocker, scene-task decoupling via `task_apple_plate_reverse`, three asset-load smokes, three Base_Task/CuRobo smokes, three `/collect` dry-runs, three official RoboTwin action rollout probes, generated apple/plate and can/basket action-repair `play_once` passes, generated collections at `runs/generated_collect_apple_plate_action_repair/collection_report.json` and `runs/generated_collect_can_basket_action_repair/collection_report.json`, initial-scene review at `artifacts/visual_review/selection2env_visual_review.json`, generated final-relation review at `artifacts/visual_review/generated_rollout_final_relation_review.json`, and Articraft catalog metadata at `artifacts/adapter_catalog/articraft10k_manifest.json`. Commits: local `2b0076c`, remote `8ff6b0a`. Remaining blockers: `/train`/`/evaluate`, Articraft archive import/physics validation, and broader generated-task robustness.",
-          "created_at": "2026-07-09T13:52:56.294Z"
+          "body": "2026-07-09 evidence update: remote workspace `/home/jingxiang/workspace/alchedata-self-improving-agents` on `jingxiang-b850m-c` now verifies selection2env beyond static smoke. `python3 scripts/verify_workspace.py` passes with docs=8, static_runs=4, asset_smoke_runs=3, basetask_smoke_runs=3, collect_dry_runs=3, official_rollouts=3, generated_rollouts=2, generated_collections=2, articraft_assets=9996, articraft_archive_probe=pass_articraft_archive_sapien_smoke, artifacts=4. Evidence includes schema/artifacts, accepted/rejected candidates, drawer/mug unsupported blocker, scene-task decoupling via `task_apple_plate_reverse`, three asset-load smokes, three Base_Task/CuRobo smokes, three `/collect` dry-runs, three official RoboTwin action rollout probes, generated apple/plate and can/basket action-repair `play_once` passes, generated collections at `runs/generated_collect_apple_plate_action_repair/collection_report.json` and `runs/generated_collect_can_basket_action_repair/collection_report.json`, initial-scene review at `artifacts/visual_review/selection2env_visual_review.json`, generated final-relation review at `artifacts/visual_review/generated_rollout_final_relation_review.json`, Articraft catalog metadata at `artifacts/adapter_catalog/articraft10k_manifest.json`, and selected archive smoke at `runs/articraft_archive_probe_weight_bench/probe_report.json`. Commits: local `ba30a4c`, remote `2f53e71`. Remaining blockers: `/train`/`/evaluate`, representative Articraft scale/collision/material coverage beyond the first sample, and broader generated-task robustness.",
+          "created_at": "2026-07-09T13:52:56.294Z",
+          "updated_at": "2026-07-09T15:03:19.000Z"
         }
       ],
-      "updated_at": "2026-07-09T14:53:03.000Z",
+      "updated_at": "2026-07-09T15:03:19.000Z",
       "created_at": "2026-07-01T11:10:00+08:00",
       "due_at": "2026-07-07"
     },
@@ -11741,11 +11743,12 @@
           "author": "Codex / jingxiang-b850m-c workspace",
           "author_type": "system",
           "kind": "evidence_update",
-          "body": "2026-07-09 generated-action update: PEARL command-loop workspace now has concrete `/gen-env`, bounded `/collect`, official RoboTwin action rollout smoke, two generated selection2env action-repair smokes, two 3-episode generated collections, generated final-relation visual review, and Articraft-10K metadata catalog parsing on `jingxiang-b850m-c`. Command spec/schema remain in `docs/openxsim_command_spec.md` and `schemas/pearl_command.schema.json`; generated collection artifacts include `runs/generated_collect_apple_plate_action_repair/collection_report.json` and `runs/generated_collect_can_basket_action_repair/collection_report.json`; review evidence is `artifacts/visual_review/generated_rollout_final_relation_review.json`; Articraft metadata evidence is `artifacts/adapter_catalog/articraft10k_manifest.json` with 9996 searchable URDF archive entries. Remote verification: `cd /home/jingxiang/workspace/alchedata-self-improving-agents && python3 scripts/verify_workspace.py` -> PASS with `official_rollouts=3 generated_rollouts=2 generated_collections=2 articraft_assets=9996`. Commits: local `2b0076c`, remote `8ff6b0a`. This is still not policy `/train` or `/evaluate` completion.",
-          "created_at": "2026-07-09T13:52:56.294Z"
+          "body": "2026-07-09 generated-action update: PEARL command-loop workspace now has concrete `/gen-env`, bounded `/collect`, official RoboTwin action rollout smoke, two generated selection2env action-repair smokes, two 3-episode generated collections, generated final-relation visual review, Articraft-10K metadata catalog parsing, and one selected Articraft archive SAPIEN load/step smoke on `jingxiang-b850m-c`. Command spec/schema remain in `docs/openxsim_command_spec.md` and `schemas/pearl_command.schema.json`; generated collection artifacts include `runs/generated_collect_apple_plate_action_repair/collection_report.json` and `runs/generated_collect_can_basket_action_repair/collection_report.json`; review evidence is `artifacts/visual_review/generated_rollout_final_relation_review.json`; Articraft metadata evidence is `artifacts/adapter_catalog/articraft10k_manifest.json` with 9996 searchable URDF archive entries; archive-smoke evidence is `runs/articraft_archive_probe_weight_bench/probe_report.json` with SAPIEN `PhysxArticulation`, 6 links, 5 active joints, and 20 physics steps. Remote verification: `cd /home/jingxiang/workspace/alchedata-self-improving-agents && python3 scripts/verify_workspace.py` -> PASS with `official_rollouts=3 generated_rollouts=2 generated_collections=2 articraft_assets=9996 articraft_archive_probe=pass_articraft_archive_sapien_smoke`. Commits: local `ba30a4c`, remote `2f53e71`. This is still not policy `/train` or `/evaluate` completion.",
+          "created_at": "2026-07-09T13:52:56.294Z",
+          "updated_at": "2026-07-09T15:03:19.000Z"
         }
       ],
-      "updated_at": "2026-07-09T14:53:03.000Z",
+      "updated_at": "2026-07-09T15:03:19.000Z",
       "created_at": "2026-07-03T15:45:00+08:00",
       "due_at": "2026-07-10"
     },

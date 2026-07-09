@@ -4,7 +4,7 @@
   "title": "Self-Improving Agents for Physical AI",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-07-08T14:55:50.934Z",
+  "updated_at": "2026-07-09T15:03:19.000Z",
   "description": "Simulation-first AgenticSim proposal: orchestrated setup-collect-train-eval-diagnose loop",
   "summary": "Self-Improving Agents / PEARL should be positioned as an embodied harness system, not as another Text2Env demo or monolithic VLA finetune. The paper thesis: keep the embodied model or policy under test fixed enough to measure it, then iteratively improve the surrounding harness of prompts, tools, simulator adapters, reset/eval rules, validation gates, memory, and data requirements. The loop mirrors the provided harness sketch: run the current harness on embodied tasks, mine and cluster failure traces, propose harness edits, regression-test candidates, and promote only edits that improve robot robustness without regressing prior tasks. The implementation substrate remains AgenticSim + Open X Sim: /gen-env, /collect, /train, /evaluate, /diagnose, and /transfer, with scene-task decoupling and verifier-backed promotion as the defensible route to the first real embodied harness claim.",
   "asset": "dashboard/assets/self-improving-embodied-harness-loop-20260707.png",
@@ -112,7 +112,7 @@
       "title": "Articraft-10K asset dataset",
       "url": "https://huggingface.co/datasets/camvsl/Articraft-10K/tree/main",
       "submitted_at": "2026-07-01",
-      "notes": "Candidate asset-library source for SceneAgent selection2env. First use it as a searchable asset manifest to select existing objects, categories, geometry/scale, affordance tags, simulator paths, and collision/proxy status; do not treat it as solved generation2env until import, conversion, and simulator smoke pass."
+      "notes": "Candidate asset-library source for SceneAgent selection2env. Current workspace parses it into `artifacts/adapter_catalog/articraft10k_manifest.json` with 9996 searchable URDF archive entries and now has one selected archive smoke at `runs/articraft_archive_probe_weight_bench/probe_report.json`: adjustable weight bench archive downloaded, URDF parsed as 6 links / 5 joints, loaded as SAPIEN `PhysxArticulation`, and stepped 20 physics steps. Do not treat Articraft as solved generation2env until representative scale, collision, material, and task-success validation pass across more samples."
     },
     {
       "title": "RoboTwin 2.0 official repository",
