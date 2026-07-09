@@ -2863,7 +2863,7 @@
           "author": "Codex",
           "author_type": "system",
           "kind": "comment",
-          "body": "2026-07-09 evidence update: remote workspace `/home/jingxiang/workspace/alchedata-self-improving-agents` on `jingxiang-b850m-c` now verifies selection2env beyond static smoke. `python3 scripts/verify_workspace.py` passes with docs=8, static_runs=4, asset_smoke_runs=3, basetask_smoke_runs=3, collect_dry_runs=3, artifacts=4. New evidence: `runs/collect_dryrun_apple_plate`, `runs/collect_dryrun_laptop_knife`, `runs/collect_dryrun_vegetable_basket` each include `collect_report.json`, `dataset_manifest.json`, `episode_000/object_states.jsonl`, camera PNGs, and observer MP4. `artifacts/visual_review/selection2env_visual_review.json` accepts initial-scene support while explicitly leaving final task relation `not_claimed`. Remaining blockers: generated manipulation `play_once`/policy rollout collection, train/eval integration, and real Articraft metadata.",
+          "body": "2026-07-09 generated-action update: remote workspace `/home/jingxiang/workspace/alchedata-self-improving-agents` on `jingxiang-b850m-c` now verifies selection2env through static artifacts, Base_Task/CuRobo smoke, bounded `/collect`, official action rollouts, and one generated selection2env action-repair `play_once`. `python3 scripts/verify_workspace.py` passes with docs=8, static_runs=4, asset_smoke_runs=3, basetask_smoke_runs=3, collect_dry_runs=3, official_rollouts=3, generated_rollouts=1, generated_diagnostics=1, artifacts=4. New generated evidence: `runs/generated_rollout_apple_plate_action_repair_pass/rollout_report.json` is `pass_generated_action_rollout` with `check_success=true`; `runs/generated_rollout_can_basket_action_repair/rollout_report.json` is kept as a relation-miss diagnostic. Commits: local `199b614`, remote `d57c583`. Remaining blockers: multi-episode generated rollouts, `/train`/`/evaluate`, and real Articraft metadata.",
           "created_at": "2026-07-09T13:35:23.768Z"
         },
         {
@@ -2872,11 +2872,11 @@
           "author": "Codex / jingxiang-b850m-c workspace",
           "author_type": "system",
           "kind": "evidence_update",
-          "body": "2026-07-09 evidence update: remote workspace `/home/jingxiang/workspace/alchedata-self-improving-agents` on `jingxiang-b850m-c` now verifies selection2env beyond static smoke. `python3 scripts/verify_workspace.py` passes with docs=8, static_runs=4, asset_smoke_runs=3, basetask_smoke_runs=3, collect_dry_runs=3, official_rollouts=3, artifacts=4. Evidence includes schema/artifacts, accepted/rejected candidates, drawer/mug unsupported blocker, scene-task decoupling via `task_apple_plate_reverse`, three asset-load smokes, three Base_Task/CuRobo smokes, three `/collect` dry-runs, three official RoboTwin action rollout probes, and `artifacts/visual_review/selection2env_visual_review.json`. Remaining blockers: generated selection2env `play_once`, `/train`/`/evaluate`, and real Articraft metadata.",
+          "body": "2026-07-09 evidence update: remote workspace `/home/jingxiang/workspace/alchedata-self-improving-agents` on `jingxiang-b850m-c` now verifies selection2env beyond static smoke. `python3 scripts/verify_workspace.py` passes with docs=8, static_runs=4, asset_smoke_runs=3, basetask_smoke_runs=3, collect_dry_runs=3, official_rollouts=3, generated_rollouts=1, generated_diagnostics=1, artifacts=4. Evidence includes schema/artifacts, accepted/rejected candidates, drawer/mug unsupported blocker, scene-task decoupling via `task_apple_plate_reverse`, three asset-load smokes, three Base_Task/CuRobo smokes, three `/collect` dry-runs, three official RoboTwin action rollout probes, one generated apple/plate action-repair `play_once` pass, the can/basket relation-miss diagnostic, and `artifacts/visual_review/selection2env_visual_review.json`. Commits: local `199b614`, remote `d57c583`. Remaining blockers: multi-episode generated rollouts, `/train`/`/evaluate`, and real Articraft metadata.",
           "created_at": "2026-07-09T13:52:56.294Z"
         }
       ],
-      "updated_at": "2026-07-09T13:52:56.294Z",
+      "updated_at": "2026-07-09T14:19:44.000Z",
       "created_at": "2026-07-01T11:10:00+08:00",
       "due_at": "2026-07-07"
     },
@@ -11741,11 +11741,11 @@
           "author": "Codex / jingxiang-b850m-c workspace",
           "author_type": "system",
           "kind": "evidence_update",
-          "body": "2026-07-09 evidence update: PEARL command-loop workspace now has concrete `/gen-env`, bounded `/collect`, and official RoboTwin action rollout smoke on `jingxiang-b850m-c`. Command spec/schema remain in `docs/openxsim_command_spec.md` and `schemas/pearl_command.schema.json`; selection artifacts include `simulator_smoke.collect_dry_run.status=pass_collect_dry_run`; official probes `open_laptop`, `place_mouse_pad`, and `place_container_plate` all report `pass_action_rollout` with `check_success=true`. Remote verification: `cd /home/jingxiang/workspace/alchedata-self-improving-agents && python3 scripts/verify_workspace.py` -> PASS with `official_rollouts=3`. This is still not generated selection2env `play_once` or `/train`/`/evaluate` completion.",
+          "body": "2026-07-09 generated-action update: PEARL command-loop workspace now has concrete `/gen-env`, bounded `/collect`, official RoboTwin action rollout smoke, and one generated selection2env action-repair smoke on `jingxiang-b850m-c`. Command spec/schema remain in `docs/openxsim_command_spec.md` and `schemas/pearl_command.schema.json`; selection artifacts include `simulator_smoke.collect_dry_run.status=pass_collect_dry_run` and `simulator_smoke.generated_action_rollout.status=pass_generated_action_rollout` for apple/plate. Official probes `open_laptop`, `place_mouse_pad`, and `place_container_plate` pass; generated apple/plate action-repair `play_once` passes; can/basket is a recorded relation-miss diagnostic. Remote verification: `cd /home/jingxiang/workspace/alchedata-self-improving-agents && python3 scripts/verify_workspace.py` -> PASS with `official_rollouts=3 generated_rollouts=1 generated_diagnostics=1`. Commits: local `199b614`, remote `d57c583`. This is still not multi-episode generated rollout data or `/train`/`/evaluate` completion.",
           "created_at": "2026-07-09T13:52:56.294Z"
         }
       ],
-      "updated_at": "2026-07-09T13:52:56.294Z",
+      "updated_at": "2026-07-09T14:19:44.000Z",
       "created_at": "2026-07-03T15:45:00+08:00",
       "due_at": "2026-07-10"
     },
