@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-07-09T16:30:00+08:00",
+  "updated_at": "2026-07-09T17:10:00+08:00",
   "owner": "dashboard",
   "tasks": [
     {
@@ -11884,7 +11884,7 @@
       "task_id": "task_real_robot_infra_wuji_mf287_flexible_sensor_haptic_module_eval",
       "project_id": "real-robot-infra",
       "title": "评估 MF287 柔性薄膜抓握力传感器能否装到 Wuji 手并接入 haptic 模块",
-      "description": "评估 Taobao 候选 MF287 手掌抓握力传感器 / 柔性薄膜压阻式触觉感应器是否能贴装或夹装到 Wuji 手上，并作为 haptic 模块的输入信号使用。候选链接：https://e.tb.cn/h.RCChiiqRVVfaEjO?tk=6cCrgMdyp5m；当前未购买，采购表中保持未下单状态。验收：确认传感器真实尺寸、厚度、弯折半径、压阻量程、接线/连接器、电气接口和采样前端需求；确定贴装位置（掌心、指腹、侧面或外置夹具）不会妨碍 Wuji 关节、指尖接触、相机视野、线缆和安全工作区；完成 bench 测试方案（万用表/分压/ADC 读数、简单标定、滞后和重复性检查）；定义接入 haptic 模块的数据路径和隔离/限流保护；购买前给出是否值得采购、需要几片、需要哪些转接线/ADC/固定材料的结论。\n\n新增讨论结论：先用 1-2 个单点 FSR402/400/406 类力敏模块 + 线性电压转换模块做一指/一指节 haptic bench test；MF287/FPC 手套式传感器需先向商家要图纸并与 Wuji Hand 1 / 灵心巧手几何对比，确认指节相对位置、侧摆和拇指自由度能否适配后再买。",
+      "description": "评估 2026-07-09 已下单的 MF287 手掌抓握力传感器 / 柔性薄膜压阻式触觉感应器是否能贴装或夹装到 Wuji 手上，并作为 haptic 模块的输入信号使用。采购表已更新为 Ordered；同批还包括单点 FSR402/400/406 类力敏模块、线性电压转换模块，以及 Arduino Mega 2560 / 扩展板 / TTL 线 / 9V 电源读出链路。验收：到货后确认 MF287 与 FSR 的真实尺寸、厚度、弯折半径、压阻量程、接线/连接器、电气接口和采样前端需求；确定贴装位置（掌心、指腹、侧面或外置夹具）不会妨碍 Wuji 关节、指尖接触、相机视野、线缆和安全工作区；先完成单点 FSR + 线性电压模块 + Arduino ADC/串口的 bench 测试（分压/ADC 读数、简单标定、滞后和重复性检查）；再决定 MF287 是否进入 Wuji 真机贴装；定义接入 haptic 模块的数据路径和隔离/限流保护。\n\n新增讨论结论：先用单点 FSR402/400/406 类力敏模块 + 线性电压转换模块做一指/一指节 haptic bench test；MF287/FPC 手套式传感器即使已下单，仍需与 Wuji Hand 1 / 灵心巧手几何对比，确认指节相对位置、侧摆和拇指自由度能否适配后再上手。",
       "status": "todo",
       "priority": "high",
       "assignee": "Boris / Wuhao / Yuhang & Jingxiang",
@@ -11907,9 +11907,18 @@
           "kind": "comment",
           "body": "ClawCross WeChat sync from Dexterous Data Collection on 2026-07-09: readout path is not direct-to-computer. The linear voltage conversion module should feed an Arduino analog input, then Arduino sends serial data to the computer. The earlier Arduino purchase likely covers the MCU; keep the procurement ask focused on 1-2 linear voltage conversion modules plus single-point FSR402/400/406-style sensors. Bench acceptance should include ADC range check, serial packet schema, sampling rate, calibration curve, hysteresis/repeatability, and a one-finger haptic mapping before buying or mounting the full MF287/FPC glove sensor.",
           "created_at": "2026-07-09T16:30:00+08:00"
+        },
+        {
+          "comment_id": "comment_real_robot_infra_mf287_fsr_procurement_ordered_20260709",
+          "task_id": "task_real_robot_infra_wuji_mf287_flexible_sensor_haptic_module_eval",
+          "author": "Boris / Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Procurement update from 订单数据.xlsx and Taobao screenshot on 2026-07-09: MF287 serial collector + left/right hand sensor pair, single-point FSR sensors, linear voltage conversion modules, Arduino Mega 2560 board, Mega2560 expansion board/display, USB-to-TTL cable, and 9V1A Arduino power supply are now ordered. Keep this TODO open for arrival inspection, bench ADC/serial validation, one-channel haptic mapping, and Wuji fit-risk assessment.",
+          "created_at": "2026-07-09T17:10:00+08:00"
         }
       ],
-      "updated_at": "2026-07-09T16:30:00+08:00"
+      "updated_at": "2026-07-09T17:10:00+08:00"
     }
   ]
 }

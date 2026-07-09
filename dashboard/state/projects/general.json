@@ -4,9 +4,9 @@
   "title": "Procurement Table",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-07-08T15:01:17.507Z",
+  "updated_at": "2026-07-09T17:10:00+08:00",
   "description": "Editable lab procurement register for cross-project purchases",
-  "summary": "Editable procurement register for lab purchases. Rows are sorted by status first (blank not ordered, dash ordered, check arrived) and then by last update; status changes update the timestamp. Old TODO/archive work has been moved to Real-Robot Lab Infra so this card stays focused on live purchasing records.",
+  "summary": "Editable procurement register for lab purchases. Rows are sorted by status first (blank not ordered, dash ordered, check arrived) and then by last update; status changes update the timestamp. Old TODO/archive work has been moved to Real-Robot Lab Infra so this card stays focused on live purchasing records. Latest batch update 2026-07-09: tactile sensors, Arduino/FSR readout electronics, safety armband, data glove, and microphone-array kit were marked ordered from 订单数据.xlsx plus Taobao screenshot evidence.",
   "intro_table": {
     "kind": "procurement_table",
     "caption": "Editable procurement register · blank not ordered, dash ordered, check arrived",
@@ -45,33 +45,6 @@
     ],
     "rows": [
       {
-        "row_id": "proc_arduino_mega_2580_expansion_wiring_bundle",
-        "updated_at": "2026-07-08T14:42:41.459Z",
-        "item": "Arduino MEGA 2580 + expansion board + wiring bundle / Arduino MEGA 2580、拓展板与配套线材",
-        "status": "",
-        "route": "Taobao / supplier · pending buyer",
-        "notes": "Not purchased yet. Buy an Arduino MEGA 2580 board, compatible expansion board / shield, and matching wiring/cable set for tactile, FSR, haptic-module, and bench electronics experiments. Before checkout verify whether the intended seller SKU is actually Arduino Mega 2560 or a MEGA 2580 variant, USB connector type, voltage logic, shield compatibility, Dupont/JST/screw-terminal wiring style, cable quantities, and overlap with the already ordered electronics prototyping batch.",
-        "url": ""
-      },
-      {
-        "row_id": "proc_hu591_fsr402_400_406_force_sensor_voltage_converter",
-        "updated_at": "2026-07-08T14:36:25.042Z",
-        "item": "HU591 FSR402/400/406 thin-film force-sensitive module + linear voltage converter / 足底压力传感器力敏模块 + 线性电压转换模块",
-        "status": "",
-        "route": "Taobao · user-provided candidate",
-        "notes": "Not purchased yet. Candidate title: 足底压力传感器电阻式力敏模块薄膜鞋垫机器人触觉FSR402/400/406. Wuhao suggested buying only one or two single-point force sensors first and adding a linear voltage conversion module; existing microcontroller may be enough. Screenshot candidate: RP-C7.6-ST, 7.6 mm short-tail / FSR400-compatible, range 30 g to 1.5 kg. Use as a quick bench path for one-finger / one-phalanx haptic proof before committing to MF287/FPC glove-style sensors. Confirm exact model, quantity, converter board, voltage range, readout path, wiring burden, connector, calibration load range, and whether an Arduino/ADC board is actually needed before checkout. Taobao share code: HU591.",
-        "url": "https://e.tb.cn/h.RCCGUVzpDTo9qjJ?tk=9PX5gMWRH4V"
-      },
-      {
-        "row_id": "proc_mf287_flexible_film_piezoresistive_grip_force_sensor",
-        "updated_at": "2026-07-08T14:33:33.306Z",
-        "item": "MF287 flexible film piezoresistive grip-force sensor / 手掌抓握力传感器柔性薄膜压阻式触觉感应器",
-        "status": "",
-        "route": "Taobao · user-provided candidate",
-        "notes": "Not purchased yet. Candidate title: 手掌抓握力传感器柔性薄膜压阻式机器人触觉感应仿生可穿戴应变式. Evaluate as a possible add-on tactile / grip-force sensor for Wuji hand and a possible input path into the haptic module before buying. Confirm sensor dimensions, thickness, bending radius, adhesive / fixture method, cable exit direction, connector / electrical interface, ADC/front-end needs, calibration plan, and whether it interferes with Wuji finger motion, palm contact, existing tactile surfaces, cameras, or glove/teleop wiring. Taobao share code: MF287.",
-        "url": "https://e.tb.cn/h.RCChiiqRVVfaEjO?tk=6cCrgMdyp5m"
-      },
-      {
         "row_id": "proc_factr_low_cost_force_feedback_teleoperation_hardware",
         "updated_at": "2026-07-08T22:19:35+08:00",
         "item": "FACTR low-cost force-feedback teleoperation hardware / FACTR 低成本力反馈遥操作硬件",
@@ -87,6 +60,69 @@
         "status": "Romoya route · pending follow-up",
         "route": "Romoya purchase path · Zheng Yuhang / Clement",
         "notes": "ClawCross WeChat evidence: 2026-07-03 Boris asked about ordering a pair of 睿尔曼 arms; 2026-07-04 Zheng chat records that Prof. Yan wants the purchase routed through Romoya, and Zheng will raise it with Clement while temporary-office logistics are pending. Next confirm exact model, pair quantity, payload, vertical mounting feasibility, DaiMeng gripper adapter, quote, delivery destination, and acceptance owner."
+      },
+      {
+        "row_id": "proc_arduino_mega_2580_expansion_wiring_bundle",
+        "updated_at": "2026-07-09T17:10:00+08:00",
+        "item": "Arduino MEGA 2560 + expansion board + wiring/power bundle / Arduino MEGA2560、拓展板、TTL线与9V电源",
+        "status": "Ordered",
+        "route": "Taobao · multiple shops · 订单数据.xlsx + Taobao screenshot",
+        "notes": "Ordered on 2026-07-09. Corrects the earlier MEGA 2580 wording to the actually ordered Arduino Mega 2560 route. Bundle now includes: Arduino Mega 2560 official board + shell + USB cable, order 3311566538794187054, paid RMB 203.04; YwRobot Mega2560 sensor expansion board / MAGE V2 single board + display, order 3311566538794223064, paid RMB 106.83; DTECH IOT-6553 1.8m USB-to-TTL 4P 3.3V PL2303 serial cable, order 3311566538794213882, paid RMB 55.51; 220V to 9V1A Arduino independent power adapter, order 3311566538794177872, seller shipped per screenshot with ETA 2026-07-23 to 2026-07-26, paid RMB 19.87. After arrival verify board clone/chip, USB driver, shield pinout, analog readout with the linear voltage module, serial packet path, power-supply polarity/noise, and cable strain relief before tactile/haptic bench tests.",
+        "url": "https://item.taobao.com/item.htm?id=842379596077&mi_id=0000znJK1gmz-3mQMsFLaUct2AFx6sa0vNCRPEXyinYfhjA"
+      },
+      {
+        "row_id": "proc_elastremesense_manu_5d_wireless_data_glove_right_hand",
+        "updated_at": "2026-07-09T17:10:00+08:00",
+        "item": "ElastremeSense Manu-5D wireless data glove kit, right hand / 电子皮肤数据手套无线采集套件（右手）",
+        "status": "Ordered",
+        "route": "Taobao · 柔性电子实验室 · 订单数据.xlsx",
+        "notes": "Ordered on 2026-07-09, order 3311566538794131863, paid RMB 1336.16. SKU: ElastremeSense Manu-5D right-hand wireless acquisition kit. Use as an alternate human-centric hand-data / tactile-glove candidate, not a replacement for MANUS until validated. After arrival verify hand size/fit, wireless stability, SDK or serial/Bluetooth export path, sampling rate, calibration, battery/charging, timestamping, and synchronization with camera/robot logs.",
+        "url": "https://item.taobao.com/item.htm?id=923059744236&mi_id=0000JHLodCHMfW8hzXNPiFXigay-uq5TBfypFg7ueW8AoB0"
+      },
+      {
+        "row_id": "proc_hu591_fsr402_400_406_force_sensor_voltage_converter",
+        "updated_at": "2026-07-09T17:10:00+08:00",
+        "item": "FSR402/400/406 single-point force sensors + linear voltage converters / 力敏模块 + 线性电压转换模块",
+        "status": "Ordered",
+        "route": "Taobao · 维可思科技 · 订单数据.xlsx",
+        "notes": "Ordered on 2026-07-09, order 3311566538794086671, paid RMB 254.78. SKUs: 5x small-range round 4mm FSR sensors without voltage conversion module, and 5x small-range round 7mm linear voltage conversion modules with pads. This replaces the earlier unpurchased HU591 candidate state. Use first for one-finger / one-phalanx haptic bench testing before mounting larger MF287/FPC sensors. After arrival verify resistance curve, converter output range, Arduino analog input wiring, sampling rate, hysteresis, repeatability, and safe isolation from the haptic module.",
+        "url": "https://item.taobao.com/item.htm?id=604304494119&mi_id=0000uPhv-0V8D9CriIR-3L7DNVjcmJo0EuI-GtZHHSMjOn8"
+      },
+      {
+        "row_id": "proc_mems_microphone_array_orangepi_zero2_kit",
+        "updated_at": "2026-07-09T17:10:00+08:00",
+        "item": "MEMS microphone array kit + Orange Pi Zero2 / 麦克风阵列套装 + 香橙派 ZERO2",
+        "status": "Ordered",
+        "route": "Taobao · SMD麦克风阵列仓库 · 订单数据.xlsx",
+        "notes": "Ordered on 2026-07-09, order 3311566538794168690, paid RMB 1132.82 including RMB 7 shipping. SKU: MEMS microphone array kit 1 + Orange Pi Zero2 full configuration. Use for audio/contact-sound capture experiments and possible embodied-music / action-sound logging. After arrival verify array geometry, driver support, Orange Pi image, sample rate, synchronization path, latency, mounting, and whether audio can be timestamped with robot/video data.",
+        "url": "https://item.taobao.com/item.htm?id=638908023861&mi_id=0000RpLCfbUZV1bj0umfewgQHOeko00CGQqNcvnwIfyDMSc"
+      },
+      {
+        "row_id": "proc_mf287_flexible_film_piezoresistive_grip_force_sensor",
+        "updated_at": "2026-07-09T17:10:00+08:00",
+        "item": "MF287 flexible film grip-force sensor pair + serial collector / 手掌抓握力柔性薄膜传感器 + 串口采集器",
+        "status": "Ordered",
+        "route": "Taobao · 智男电子 · 订单数据.xlsx",
+        "notes": "Ordered on 2026-07-09, order 3311566538794259891, paid RMB 1585.84. SKU: serial collector + left/right hand pair with rubber glove fixing straps, G0505M-5kg. This replaces the earlier unpurchased MF287 candidate state. Still treat as fit-risk hardware: after arrival compare sensor geometry against Wuji / Lingxin hand finger spacing, side-splay, thumb geometry, bending radius, cable exits, and palm/finger contact zones before robot mounting. Bench first with Arduino/serial readout and one-channel haptic mapping; do not assume it gives contact localization.",
+        "url": "https://item.taobao.com/item.htm?id=931657582190&mi_id=0000MPp_9onoCHzhXnM_fwh5EYDqqPIUc3B8-GfxRFmpbNo"
+      },
+      {
+        "row_id": "proc_safety_supervisor_cotton_armband",
+        "updated_at": "2026-07-09T17:10:00+08:00",
+        "item": "Safety supervisor cotton armband / 安全监督红袖章",
+        "status": "Ordered",
+        "route": "Taobao · 正星劳保定制工厂 · 订单数据.xlsx",
+        "notes": "Ordered on 2026-07-09, order 3311566538794122681, paid RMB 11.33. SKU: 安全监督, pure-cotton double-layer thickened armband. Use as a visible label for the safety watcher / E-stop supervisor role during real-robot low-speed trials. After arrival verify fit, visibility under lab lighting, and whether it interferes with sleeves or emergency access.",
+        "url": "https://item.taobao.com/item.htm?id=1003004509113&mi_id=0000wpeOAEHiD7Vr7GagrB3m4ZCyo4fIk7z22bRU0RbOor8"
+      },
+      {
+        "row_id": "proc_waaax_array_thin_film_pressure_sensor_acquisition_module",
+        "updated_at": "2026-07-09T17:10:00+08:00",
+        "item": "WAAAX array thin-film pressure sensors + serial/Bluetooth acquisition module / 阵列式薄膜压力传感器 + 采集模块",
+        "status": "Ordered",
+        "route": "Taobao · 维可思电子企业店 WAAAX · 订单数据.xlsx",
+        "notes": "Ordered on 2026-07-09, order 3311566538794031480, paid RMB 421.86. SKUs: 1x 4x8 sensor FS-ARR-4X8-ROT and 1x serial/Bluetooth acquisition module + 6x6 sensor. Use for multi-point tactile/pressure-array evaluation alongside the single-point FSR and MF287 routes. After arrival verify active area, scan rate, serial/Bluetooth protocol, calibration load range, spatial cross-talk, cable robustness, and whether the acquisition module can timestamp or stream into the robot data logger.",
+        "url": "https://item.taobao.com/item.htm?id=992030409117&mi_id=0000LrWutBbBY_JsuKqhNQfTHk4YN4AKTS4oQ8OC8kE2rF8"
       },
       {
         "row_id": "proc_6x_2m_ugreen_usb_3_0_extension_cables",
