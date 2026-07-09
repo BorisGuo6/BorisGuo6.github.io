@@ -2879,11 +2879,11 @@
         },
         {
           "comment_id": "comment_self_improving_sceneagent_act_hdf5_adapter_20260709",
-          "created_at": "2026-07-09T15:43:49.000Z",
-          "body": "[COMPUTED][HIGH] 2026-07-09 ACT adapter update: remote workspace `/home/jingxiang/workspace/alchedata-self-improving-agents` on `jingxiang-b850m-c` now verifies generated policy-data format smoke. `scripts/verify_workspace.py` passes with `act_hdf5=6 policy_probe=blocked_policy_train_eval_not_wired`; generated planner traces are stored as `policy_trace.json`, converted into six compact ACT-compatible HDF5 episodes under `runs/act_hdf5_generated_smoke/`, and loaded by RoboTwin ACT dataset utilities via `runs/act_hdf5_generated_smoke/load_data_report.json`. Commits: local `ebfdac4`, remote `644e8ac`. [COMPUTED][HIGH] Remaining blocker is actual `/train` and `/evaluate`: ACT process/train config still targets `../../data/task_apple_plate/demo_clean/data`, ACT train import lacks `einops`, and eval cannot import generated `envs.task_apple_plate`."
+          "created_at": "2026-07-09T15:53:12.000Z",
+          "body": "[COMPUTED][HIGH] 2026-07-09 ACT train-smoke update: remote workspace `/home/jingxiang/workspace/alchedata-self-improving-agents` on `jingxiang-b850m-c` now verifies generated policy-data format plus a bounded ACT train pass. `scripts/verify_workspace.py` passes with `act_hdf5=6 act_train=pass_act_train_smoke policy_probe=blocked_policy_train_eval_not_wired`; generated planner traces are stored as `policy_trace.json`, converted into compact ACT-compatible HDF5 episodes under `runs/act_hdf5_generated_smoke/`, loaded by RoboTwin ACT dataset utilities, and trained for one epoch via `runs/act_train_smoke_generated/train_smoke_report.json` with `best_val_loss=10.308693` and `policy_best.ckpt`. Commits: local `7545109`, remote `ae02653`. [COMPUTED][HIGH] Remaining blocker is `/evaluate` and default wrapper wiring: ACT `process_data.sh` still targets `../../data/task_apple_plate/demo_clean/data`, default train task `sim-task_apple_plate-demo_clean-3` is absent from ACT config, and eval cannot import generated `envs.task_apple_plate`."
         }
       ],
-      "updated_at": "2026-07-09T15:43:49.000Z",
+      "updated_at": "2026-07-09T15:53:12.000Z",
       "created_at": "2026-07-01T11:10:00+08:00",
       "due_at": "2026-07-07"
     },
@@ -11754,11 +11754,11 @@
         },
         {
           "comment_id": "comment_self_improving_openxsim_act_hdf5_adapter_20260709",
-          "created_at": "2026-07-09T15:43:49.000Z",
-          "body": "[COMPUTED][HIGH] 2026-07-09 ACT adapter update: remote workspace `/home/jingxiang/workspace/alchedata-self-improving-agents` on `jingxiang-b850m-c` now verifies generated policy-data format smoke. `scripts/verify_workspace.py` passes with `act_hdf5=6 policy_probe=blocked_policy_train_eval_not_wired`; generated planner traces are stored as `policy_trace.json`, converted into six compact ACT-compatible HDF5 episodes under `runs/act_hdf5_generated_smoke/`, and loaded by RoboTwin ACT dataset utilities via `runs/act_hdf5_generated_smoke/load_data_report.json`. Commits: local `ebfdac4`, remote `644e8ac`. [COMPUTED][HIGH] Remaining blocker is actual `/train` and `/evaluate`: ACT process/train config still targets `../../data/task_apple_plate/demo_clean/data`, ACT train import lacks `einops`, and eval cannot import generated `envs.task_apple_plate`."
+          "created_at": "2026-07-09T15:53:12.000Z",
+          "body": "[COMPUTED][HIGH] 2026-07-09 ACT train-smoke update: remote workspace `/home/jingxiang/workspace/alchedata-self-improving-agents` on `jingxiang-b850m-c` now verifies generated policy-data format plus a bounded ACT train pass. `scripts/verify_workspace.py` passes with `act_hdf5=6 act_train=pass_act_train_smoke policy_probe=blocked_policy_train_eval_not_wired`; generated planner traces are stored as `policy_trace.json`, converted into compact ACT-compatible HDF5 episodes under `runs/act_hdf5_generated_smoke/`, loaded by RoboTwin ACT dataset utilities, and trained for one epoch via `runs/act_train_smoke_generated/train_smoke_report.json` with `best_val_loss=10.308693` and `policy_best.ckpt`. Commits: local `7545109`, remote `ae02653`. [COMPUTED][HIGH] Remaining blocker is `/evaluate` and default wrapper wiring: ACT `process_data.sh` still targets `../../data/task_apple_plate/demo_clean/data`, default train task `sim-task_apple_plate-demo_clean-3` is absent from ACT config, and eval cannot import generated `envs.task_apple_plate`."
         }
       ],
-      "updated_at": "2026-07-09T15:43:49.000Z",
+      "updated_at": "2026-07-09T15:53:12.000Z",
       "created_at": "2026-07-03T15:45:00+08:00",
       "due_at": "2026-07-10"
     },
