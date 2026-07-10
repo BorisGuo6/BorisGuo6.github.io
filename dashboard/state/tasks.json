@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-07-09T21:10:21.707Z",
+  "updated_at": "2026-07-10T13:26:02.823Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2792,7 +2792,7 @@
       "project_id": "self-improving-agents",
       "title": "Text2Env literature review：梳理文本到仿真环境/任务生成工作",
       "description": "根据 2026-07-01 Self-Improving 会议更新，先把 Text2Env / SceneAgent 相关工作做成 literature review，避免 implementation 直接陷入“做场景生成还是做任务生成”的混乱。Review 要服务两个问题：1) 我们的 selection2env 到底和已有 text-to-scene / task generation / simulation-ready asset generation / sim-in-loop code repair 工作有什么区别；2) 哪些工作应该作为 SceneAgent implementation reference，哪些只作为 positioning/reference。\n\nScope: 系统梳理 Text2Env 相关方向，至少覆盖 SceneSmith、RoboTwin 2.0、RoboGen、FATE、VLMbench/AMSolver、RoboTwin / generative digital twins、REALM 或同类 real-to-sim validated benchmark、ENPIRE、ASPIRE、以及当前 robotwin-text2env-demo / AgenticSim placement_agent。按功能拆成 text2task、text2scene、text2asset、selection2env、generation2env、simulation-in-the-loop repair、domain randomization / data generation、policy eval / data-collection hook。重点不是泛泛读论文，而是判断哪些能力能直接进入我们这周的 SceneAgent selection2env。\n\nAcceptance: 1) 输出一份本地 HTML/Markdown literature review 报告到 Downloads，并在 dashboard comment 里放路径；2) 至少 8 个 primary sources，每个给 project/paper/code 链接、年份、输入输出、环境/资产来源、是否开源、是否能复现、和 AgenticSim/RoboTwin 的接口关系；3) 做一张 method matrix：task generation、asset retrieval/generation、placement planning、physics/collision validation、code generation/repair、simulator smoke、data collection、policy eval；4) 明确 taxonomy：selection2env 只负责从任务意图选择/布置现有资产并生成 env/task spec，generation2env 才负责新资产/新场景生成；5) 给出 P0/P1/P2 shortlist，标出本周该接入的实现参考和暂缓项；6) 写清和 Zheng Ye 当前 repo / Gaochen pipeline 的 handoff：哪些字段、哪些 artifact、哪些 open blockers；7) 额外回答 ASPIRE/ENPIRE 之后我们为什么仍然有本源性创新：scene-task decoupling、Open X Sim aggregation、Any Sim Transfer、MCP memory/debug loop、failure-to-data requirement，而不是只贴摘要；必须落到我们 pipeline 的 schema、acceptance gate 和下一步实验。",
-      "status": "active",
+      "status": "done",
       "priority": "high",
       "assignee": "Boris / Zheng Ye",
       "result": null,
@@ -2823,18 +2823,29 @@
           "kind": "evidence_update",
           "body": "2026-07-09 evidence update: literature review is in `docs/text2env_literature_review.md` and copied to `/home/jingxiang/Downloads/text2env_literature_review.md` plus `/Users/boris/Downloads/text2env_literature_review.md`. Web primary-source spot check covered SceneSmith, RoboTwin 2.0, FATE, VLMbench/AMSolver, REALM, ASPIRE, ENPIRE, Articraft-10K, video2sim-forge, and NeuMatEx. It includes method matrix, taxonomy, P0/P1/P2 shortlist, ASPIRE/ENPIRE differentiation, and pipeline handoff fields.",
           "created_at": "2026-07-09T13:52:56.294Z"
+        },
+        {
+          "comment_id": "comment_5439c9de-0385-4235-a226-4cdc62bd2383",
+          "task_id": "task_self_improving_text2env_lit_review_20260701",
+          "author": "Codex / jingxiang-b850m-c workspace",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[COMPUTED][HIGH] 2026-07-10 completion audit: the Text2Env review acceptance list is covered by `docs/text2env_literature_review.md`, `/home/jingxiang/Downloads/text2env_literature_review.md`, and `/Users/boris/Downloads/text2env_literature_review.md`. The report contains 13 primary-source rows, a method matrix, selection2env/generation2env taxonomy, P0/P1/P2 shortlist, Zheng Ye/Gaochen handoff fields, and ASPIRE/ENPIRE differentiation tied to schemas, gates, and next experiments. Alchedata commits: local `09a56cf`, RTX 5090 remote `64aa653`; extended workspace verifier passes.",
+          "created_at": "2026-07-10T13:21:50.286Z"
         }
       ],
-      "updated_at": "2026-07-09T13:52:56.294Z",
+      "updated_at": "2026-07-10T13:24:00.817Z",
       "created_at": "2026-07-01T12:05:00+08:00",
-      "due_at": "2026-07-08"
+      "due_at": "2026-07-08",
+      "completed_at": "2026-07-10",
+      "completed_at_time": "2026-07-10T13:24:00.817Z"
     },
     {
       "task_id": "task_self_improving_sceneagent_selection2env_20260701",
       "project_id": "self-improving-agents",
       "title": "SceneAgent / selection2env：接入 RoboTwin 现有资产的场景布置管线",
       "description": "根据 2026-07-01 ClawCross 读取的 Boris / Zheng Ye 与 Boris / Gaochen 微信对话，RoboTwin2 Placement/Text2Env demo 已完成，下一步不要重开整套闭环 analysis，也不要先做 generation2env。Zheng Ye 先负责 SceneAgent 的 selection2env，并把它升级成 /gen-env 的 v0：从自然语言任务意图、参考图或视频出发，在现有 RoboTwin / AgenticSim / Articraft-10K 资产库里选择可执行资产、支撑面、区域、初始 pose、相机/观测、机器人约束和 success verifier，并输出 Text2Env JSON / RoboTwin task-program 输入。Gaochen 已确认这块能和大项目后续 pipeline 接上。\n\nScope: 先用 existing assets 做场景布置和任务接口，保持和 ye zheng04/robotwin-text2env-demo 以及 AgenticSim placement_agent 的接口兼容；Articraft-10K 先作为 asset catalog / manifest 来源接入，目标是让 AI agent 自动读取、分析、选择、调取资产生成 env。generation2env 只做 blocker 调研，因为 SAPIEN 导入 Gaussian scene、资产转换、collision proxy、physics validation 仍然不稳。\n\nAcceptance: 1) 写出 selection2env 的输入/输出 schema，包括 task_text、asset_candidates、selected_assets、placement_regions、support_surface、pose constraints、camera/observation、robot constraints、success verifier、blockers；2) 接入 RoboTwin/AgenticSim 现有资产清单，并尝试解析 Articraft-10K metadata 到 searchable manifest；3) 至少 3 个任务样例，其中 2 个必须能生成 Text2Env JSON + RoboTwin task-program 输入并通过 simulator smoke / data collection dry run，1 个记录为 unsupported/blocker；4) VLM/agent critique 不只检查刚体碰撞，还要检查视觉上摆放是否合理、任务意图是否满足、遮挡/可达性/稳定性；5) 输出 accepted/rejected asset candidates、placement manifest、生成代码 diff/commit、运行命令、日志、artifact path、失败截图或视频；6) 写 generation2env blocker memo：SAM3/SAM3D/Hunyuan-3D/SceneSmith-style asset generation 可参考，但暂不作为本 TODO 的完成条件；7) 明确与 Gaochen pipeline 的 handoff API：/collect 输出哪些 rollout artifact，/train /evaluate 读取哪些字段；8) 显式支持 scene-task decoupling：同一场景至少生成两个不同任务 spec，证明不是 task 和 scene 绑定死。",
-      "status": "active",
+      "status": "done",
       "priority": "urgent",
       "assignee": "Zheng Ye / Gaochen / Boris",
       "result": null,
@@ -2908,11 +2919,22 @@
           "kind": "evidence_update",
           "body": "[COMPUTED][HIGH] 2026-07-10 generated-task /evaluate update: Alchedata now includes scripts/run_generated_act_eval_smoke.py and runs/act_eval_smoke_generated/evaluate_report.json. On jingxiang-b850m-c, policy_best.ckpt loaded with all 12,078,607 parameter keys matched; source-held-out seeds 4,5,6 each executed 20 ACT qpos actions through RoboTwin. Infrastructure completion is 3/3 and task success is 0/3. Each episode records events, action traces, camera images, video, relation metrics, and six dense diagnosis categories. Remote verifier passes with act_eval=pass_generated_act_evaluate_execution act_eval_success=0/3 while the default wrapper probe remains blocked_policy_train_eval_not_wired. Commits: local 30fb1e0, remote 726093d. [INFERRED][HIGH] This closes bounded generated-task eval execution for fixed apple/plate, but not policy quality, randomized/cross-task robustness, default wrapper compatibility, or forge/material execution.",
           "created_at": "2026-07-09T18:48:47.657Z"
+        },
+        {
+          "comment_id": "comment_825a0248-3e48-4c1b-a3d5-d47f73fd92cb",
+          "task_id": "task_self_improving_sceneagent_selection2env_20260701",
+          "author": "Codex / jingxiang-b850m-c workspace",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[COMPUTED][HIGH] 2026-07-10 completion audit: SceneAgent selection2env acceptance 1-8 is covered. Evidence includes typed schemas, accepted/rejected candidates, 9996-entry Articraft searchable manifest, three supported task examples plus drawer/mug blocker, Base_Task/CuRobo and `/collect` smokes, scripted apple/plate and can/basket rollouts, visual/task-intent/reachability/stability critique, Gaochen handoff fields, and same-scene alternate task spec. Native synchronized apple/plate data now converts to ACT, replays all 161 expert actions successfully, trains for 1200 epochs, and fixed-placement `/evaluate` passes 3/3. [INFERRED][HIGH] Robustness is not established because the three training trajectories are byte-identical and placement/domain randomization are disabled. Diagnosis: `artifacts/diagnosis/native_act_closed_loop_diagnosis.json`; commits local `09a56cf`, remote `64aa653`.",
+          "created_at": "2026-07-10T13:22:16.606Z"
         }
       ],
-      "updated_at": "2026-07-09T18:48:47.657Z",
+      "updated_at": "2026-07-10T13:24:12.297Z",
       "created_at": "2026-07-01T11:10:00+08:00",
-      "due_at": "2026-07-07"
+      "due_at": "2026-07-07",
+      "completed_at": "2026-07-10",
+      "completed_at_time": "2026-07-10T13:24:12.297Z"
     },
     {
       "task_id": "task_self_improving_molmoact2_reasoning_base",
@@ -11705,7 +11727,7 @@
       "project_id": "self-improving-agents",
       "title": "PEARL Open X Sim command loop：定义 /gen-env /collect /train /evaluate /transfer",
       "description": "根据 2026-07-03 ASPIRE/ENPIRE 讨论、PEARL PPT，以及 video2sim-forge / NeuMaTeX 参考，把 Self-Improving Agents 从单点 Text2Env demo 升级成命令级 AgenticSim/Open X Sim 架构。核心不是复刻 ASPIRE 的 task-to-skill 或 ENPIRE 的 real-robot reset/rollout/evolve，而是把场景、任务、数据采集、训练评估、诊断、仿真迁移解耦：/gen-env 接收自然语言、参考图、RGB-D capture 或视频，输出可复用 scene + task specs + asset manifests + material/texture sidecars；/collect 生成 simulator/robot rollout 数据；/train 和 /evaluate 对接 Gaochen 的 policy/eval pipeline；/diagnose 用物体 pose/state、机械臂运动、gripper 行为和 failure traces 解释失败；/transfer 作为 Any Sim Transfer skill，把已有 simulator environments/tasks/assets 聚合进统一接口。\n\nScope: /gen-env 拆成三条路径。P0 是 selection2env：优先在 RoboTwin/SAPIEN、AgenticSim、Articraft-10K、已有 Open X Sim adapter catalog 里选择和布置可执行资产，输出 scene/task spec，不重新生成资产。P1 是 forge fallback：当现有资产不满足任务时，参考 video2sim-forge (https://github.com/Marvelousp4/video2sim-forge) 的 RGB-D/video-to-sim 路线，用 Gemini scene analysis、SAM3、SAM3D、RealSense/AprilTag/world-frame utilities，把参考视频或 RGB-D capture 转成 object prompts、masks、meshes、world-frame poses、scene JSON、URDFs 和 approximate physics metadata。P1.5/P2 是 material fallback：参考 NeuMaTeX (https://nvlabs.github.io/neumatex/) 从 multi-view images / rendered captures 提取 relightable neural materials，把 albedo / specular latent / uncertainty / renderer-material provenance 作为 texture/material sidecar，而不是把纹理 baked 到几何或 base color 里。Isaac Sim/USD、MuJoCo、BEHAVIOR、LIBERO、RoboSuite 等先作为 /transfer adapter catalog。明确 scene-task decoupling：一个场景可以对应多个任务，一个 task prompt 不必重新生成场景。\n\nAcceptance: 1) 写出 command spec：/gen-env、/collect、/train、/evaluate、/diagnose、/transfer 的输入、输出、artifact path、owner 和失败码；2) /gen-env schema 同时覆盖 selection2env asset_candidates/selected_assets/placement_regions、forge fallback capture_source/object_prompts/masks/meshes/poses/urdf/physics_metadata/provenance，以及 material sidecar textures/materials/albedo/specular_latent/uncertainty/lighting_assumption/renderer_binding；3) 选择 2-3 个 RoboTwin single-task benchmarks 做 self-evolving loop smoke；4) 每个 benchmark 输出 run_state.json、events.jsonl、scene/task manifest、rollout logs、failure diagnosis、next data requirement；5) 对至少 1 个缺资产或参考视频场景做 video2sim-forge-style dry run 或明确 blocker，并对至少 1 个 textured asset 做 NeuMaTeX-style material extraction / import dry run 或明确 blocker，检查输出能否进入 RoboTwin/SAPIEN import、scale/collision/support/material/render/verifier gate；6) 诊断不只报 success rate，必须覆盖 wrong grasp location、object knocked over、arm jitter、uncontrolled gripper open/close、after-contact failure、visual-material mismatch 等密集反馈；7) 做一个 Open X Sim adapter matrix，列已有环境来源、物理引擎/renderer、asset format、material system、reset/step/verifier API、license/access、迁移难点；8) 明确 Zheng Ye 负责 /gen-env /transfer，Gaochen 负责 /train /evaluate，Boris 负责架构与 dashboard/proposal 对齐。",
-      "status": "active",
+      "status": "done",
       "priority": "urgent",
       "assignee": "Boris / Zheng Ye / Gaochen",
       "result": null,
@@ -11778,11 +11800,22 @@
           "kind": "evidence_update",
           "body": "[COMPUTED][HIGH] 2026-07-10 Open X Sim benchmark bundle update: artifacts/openxsim_benchmarks/manifest.json now indexes typed bundles for open_laptop, place_mouse_pad, and place_container_plate. Every bundle includes run_state.json, command-level events.jsonl, scene_manifest.json, task_manifest.json, standalone dense diagnosis, next_data_requirement, and links to rollout/move logs, camera evidence, observer video, and the official success verifier. scripts/verify_workspace.py validates all three and reports openxsim_bundles=3. The bundles explicitly set learned_policy=false; the separate apple/plate ACT evaluation remains 0/3. Commits: local Alchedata f737c55, remote Alchedata 67fb38c. [INFERRED][HIGH] This closes the per-benchmark artifact-shape acceptance item without overstating three learned-policy evaluations.",
           "created_at": "2026-07-09T18:56:09.777Z"
+        },
+        {
+          "comment_id": "comment_24e44506-37fd-46d4-9391-8b6e3bade481",
+          "task_id": "task_self_improving_openxsim_command_loop_20260703",
+          "author": "Codex / jingxiang-b850m-c workspace",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[COMPUTED][HIGH] 2026-07-10 completion audit: the Open X Sim command-loop acceptance list is covered by command/schema specs, typed `/gen-env` selection/forge/material routes, three benchmark bundles (`open_laptop`, `place_mouse_pad`, `place_container_plate`) with run state, events, scene/task manifests, logs, dense diagnosis and next-data requirements, explicit video2sim/NeuMaTeX blockers, adapter matrix, and owner split. The native synchronized `/collect -> /train -> /evaluate` apple/plate loop now passes 3/3 on one fixed placement; matched chunk-20 was 0/3 and chunk-161 is 3/3. [INFERRED][HIGH] Policy promotion remains blocked on non-identical demonstrations and held-out placements/tasks; this does not reopen the explicit TODO acceptance. Commits local `09a56cf`, RTX 5090 remote `64aa653`; verifier reports `native_act_eval_success=3/3` and `openxsim_bundles=3`.",
+          "created_at": "2026-07-10T13:22:20.129Z"
         }
       ],
-      "updated_at": "2026-07-09T18:56:09.777Z",
+      "updated_at": "2026-07-10T13:25:14.741Z",
       "created_at": "2026-07-03T15:45:00+08:00",
-      "due_at": "2026-07-10"
+      "due_at": "2026-07-10",
+      "completed_at": "2026-07-10",
+      "completed_at_time": "2026-07-10T13:25:14.741Z"
     },
     {
       "task_id": "task_umi_davide_multilayer_video_model_architecture_20260707",
@@ -11914,7 +11947,7 @@
       "project_id": "self-improving-agents",
       "title": "Frame the Self-Improving paper as an embodied harness system",
       "description": "User positioning update 2026-07-07: use the harness sketch as the paper frame. The central claim should be that PEARL is a real embodied harness: it keeps an embodied model/policy under test while the harness evolves prompts, tools, simulator adapters, reset/eval protocols, validators, memory, and data requirements around it. This is not just Text2Env, ASPIRE-style code repair, ENPIRE-style real rollout evolution, or another VLA finetune.\n\nAcceptance: 1) Write a one-page thesis for the paper claim \"first real embodied harness system\" with precise scope and no unsupported priority overclaim; 2) map the figure loop into PEARL terms: current harness h_t, embodied task execution, weakness mining, clustered failure patterns, harness proposal, proposed edits, regression test, promotion decision, updated harness h_{t+1}; 3) define embodied-specific harness surfaces: robot/sim reset, observations/actions, tool calls, safety limits, real/sim traces, validation rules, data requirements, memory, and rollback; 4) produce a novelty table versus LLM coding harnesses, ASPIRE, ENPIRE, RoboTwin/Text2Env, and standard VLA evaluation; 5) draft a figure caption or diagram brief for the embodied harness architecture; 6) route implementation requirements into existing /gen-env, /collect, /evaluate, /diagnose, and /transfer TODOs instead of expanding the project intro.",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignee": "Boris / Codex",
       "due_at": "",
@@ -11937,11 +11970,21 @@
           "kind": "evidence_update",
           "body": "2026-07-09 evidence update: `docs/embodied_harness_thesis.md` now contains the embodied harness thesis, loop mapping, harness surfaces, novelty table, figure caption, and routing into `/gen-env`, `/collect`, `/evaluate`, `/diagnose`, and `/transfer`. Current implementation evidence is cross-linked from `docs/todo_completion_audit.md`.",
           "created_at": "2026-07-09T18:05:00+08:00"
+        },
+        {
+          "comment_id": "comment_3cfd7ab6-aa71-4612-b425-4953cb3f9ac7",
+          "task_id": "task_self_improving_embodied_harness_positioning_20260707",
+          "author": "Codex / jingxiang-b850m-c workspace",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[COMPUTED][HIGH] 2026-07-10 completion audit: `docs/embodied_harness_thesis.md` covers the one-page scoped thesis, h_t execution/weakness/proposal/regression/promotion/h_{t+1} mapping, embodied reset/observation/action/safety/trace/validation/data/memory/rollback surfaces, novelty table versus coding harnesses/ASPIRE/ENPIRE/RoboTwin/VLA evaluation, figure caption, and routing into `/gen-env`, `/collect`, `/evaluate`, `/diagnose`, and `/transfer`. The claim remains scoped as an embodied harness target rather than an unsupported first-in-field priority claim. Alchedata commits local `09a56cf`, remote `64aa653`; verifier passes.",
+          "created_at": "2026-07-10T13:22:50.881Z"
         }
       ],
-      "updated_at": "2026-07-09T18:05:00+08:00",
+      "updated_at": "2026-07-10T13:26:02.823Z",
       "started_at": null,
-      "completed_at": null
+      "completed_at": "2026-07-10",
+      "completed_at_time": "2026-07-10T13:26:02.823Z"
     },
     {
       "task_id": "task_real_robot_infra_franka_camera_mount_bolt_hole_reprint",
