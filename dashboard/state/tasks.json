@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-07-11T00:49:18.548Z",
+  "updated_at": "2026-07-11T01:18:09.251Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -12146,6 +12146,66 @@
         }
       ],
       "updated_at": "2026-07-11T00:49:18.548Z"
+    },
+    {
+      "task_id": "task_urdf_embodiment_prior_world_model_idea_novelty_matrix_urdf_x_action_x_dynamic_camera_20260711",
+      "project_id": "urdf-embodiment-prior-world-model-idea",
+      "title": "Novelty matrix: 锁定 URDF x action x dynamic-camera 研究边界",
+      "description": "对 BridgeV2W、Kinema4D、OSCAR、EnerVerse-AC、RynnWorld-Teleop、WorldCraft / SymphoMotion 建 direct-match matrix，逐项记录 morphology input、action provenance、camera control、control/output representation、held-out embodiment/view split、code/data/license。验收：收敛为一句可证伪 claim；不得再把 URDF + camera 本身当作创新。",
+      "status": "active",
+      "priority": "high",
+      "assignee": "Boris / Image Layered Policy",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-07-11T01:15:46.253Z"
+    },
+    {
+      "task_id": "task_urdf_embodiment_prior_world_model_idea_reference_compiler_v0_urdf_fk_action_multi_camer_20260711",
+      "project_id": "urdf-embodiment-prior-world-model-idea",
+      "title": "Reference compiler v0: URDF/FK + action + multi-camera TF",
+      "description": "定义并实现显式 3D reference compiler。输入：URDF visual/collision mesh、q_cmd/q_meas/q_sim 及硬件时间戳、固定第三人称与随 link 运动的腕部相机内外参/畸变。输出：每相机 robot RGB render、skeleton、silhouette/link-ID、depth/normal/pointmap/flow/ray map、可见性和 layer manifest。验收：同一条 Franka 轨迹可重复生成两视角时间对齐 control bundle，并能反投影检查。",
+      "status": "todo",
+      "priority": "urgent",
+      "assignee": "Boris / Jiahao / Image Layered Policy",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-07-11T01:16:13.365Z"
+    },
+    {
+      "task_id": "task_urdf_embodiment_prior_world_model_idea_camera_action_factorization_gate_x_20260711",
+      "project_id": "urdf-embodiment-prior-world-model-idea",
+      "title": "Camera/action factorization gate: 静/动机器人 x 静/动相机",
+      "description": "建立四组配对：静机器人+静相机、动机器人+静相机、静机器人+动相机、动机器人+动相机。明确 world/base/link/tool/camera frame 方向、T_world_camera(t)=T_world_link(t)T_link_camera、内参裁剪、畸变、曝光/rolling shutter、时钟重采样与 command-to-execution latency。验收：每组都有 overlay、reprojection/pose error 曲线和可复现 calibration manifest。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Boris / Real-Robot Infra / Image Layered Policy",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-07-11T01:16:42.107Z"
+    },
+    {
+      "task_id": "task_urdf_embodiment_prior_world_model_idea_film_space_style_two_view_generation_probe_20260711",
+      "project_id": "urdf-embodiment-prior-world-model-idea",
+      "title": "Film Space-style two-view generation probe",
+      "description": "选一条短操作轨迹，用同一 world-frame robot trajectory 同时生成固定第三人称与动态腕部 control bundle，再驱动视频生成。Seedance 2.0 仅作为 reference-video 能力探针；生成后端必须可替换，并保留 Cosmos-Transfer / WAN-VACE 类开源路径。验收：两路同步视频、输入 bundle、生成配置、action/camera adherence 对比齐全；Seedance 2.5 在官方版本/API 核验前不得写成依赖。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Boris / Jiahao / Image Layered Policy",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-07-11T01:17:26.193Z"
+    },
+    {
+      "task_id": "task_urdf_embodiment_prior_world_model_idea_held_out_urdf_factorial_ablation_executable_eval_20260711",
+      "project_id": "urdf-embodiment-prior-world-model-idea",
+      "title": "Held-out URDF factorial ablation + executable evaluation",
+      "description": "做 morphology x action x camera 因子消融，并比较 text-only、raw sim RGB、2D skeleton、mask、pointmap、full mesh/depth/normal/layer bundle。拆分 held-out topology、link geometry、DoF、robot family、camera 与 scene；加入同动作不同相机/同相机不同动作。评测 link reprojection、silhouette IoU、EEF/joint/inverse-action recovery、多视角几何、contact/scene reaction，并将生成视频反演动作后在 real-to-sim 重放检查可执行性。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Boris / Jiahao / Image Layered Policy",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-07-11T01:18:09.251Z"
     }
   ]
 }

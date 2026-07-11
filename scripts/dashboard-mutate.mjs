@@ -11,6 +11,7 @@ import {
   makeTaskComment,
 } from "./dashboard-task-store.mjs";
 import {
+  applySnapshotProjectUpdate,
   applySnapshotTaskComment,
   applySnapshotTaskCommentDelete,
   applySnapshotTaskCreate,
@@ -33,6 +34,7 @@ function usage() {
     "  npm run dashboard:mutate -- comment --task-id ID --body TEXT [--author NAME] [--pull]",
     "  npm run dashboard:mutate -- update --task-id ID [--title TEXT] [--description TEXT] [--priority P] [--assignee NAME] [--due-at YYYY-MM-DD] [--pull]",
     "  npm run dashboard:mutate -- create --project-id ID --title TEXT [--description TEXT] [--priority P] [--status S] [--assignee NAME] [--due-at YYYY-MM-DD] [--pull]",
+    "  npm run dashboard:mutate -- project-update --project-id ID --patch-file FILE [--pull] [--force-pull]",
     "  npm run dashboard:mutate -- delete-comment --task-id ID --comment-id ID [--pull]",
   ].join("\n");
 }
@@ -154,7 +156,17 @@ export function parseMutationArgs(argv) {
     }
     if (normalized === "--project-id" || normalized.startsWith("--project-id=")) {
       const [value, next] = takeValue(args, idx, "--project-id");
-      createInput = { ...(createInput || {}), project_id: value };
+      if (action === "project-update") {
+        mutation.projectId = value;
+      } else {
+        createInput = { ...(createInput || {}), project_id: value };
+      }
+      idx = next;
+      continue;
+    }
+    if (normalized === "--patch-file" || normalized.startsWith("--patch-file=")) {
+      const [value, next] = takeValue(args, idx, "--patch-file");
+      mutation.patchFile = value;
       idx = next;
       continue;
     }
@@ -187,6 +199,11 @@ export function parseMutationArgs(argv) {
   if (action === "delete-comment") {
     mutation.taskId = requireValue(mutation.taskId, "--task-id");
     mutation.commentId = requireValue(mutation.commentId, "--comment-id");
+    return mutation;
+  }
+  if (action === "project-update") {
+    mutation.projectId = requireValue(mutation.projectId, "--project-id");
+    mutation.patchFile = requireValue(mutation.patchFile, "--patch-file");
     return mutation;
   }
   throw new Error(`Unknown action: ${action}\n${usage()}`);
@@ -235,6 +252,13 @@ export function applyDashboardMutationToSnapshot(snapshot, mutation, options = {
     });
     return { action: mutation.action, ...result, comment_id: mutation.commentId };
   }
+  if (mutation.action === "project-update") {
+    const result = applySnapshotProjectUpdate(snapshot, mutation.projectId, mutation.patch, {
+      now,
+      source: "vercel-blob",
+    });
+    return { action: mutation.action, ...result };
+  }
   throw new Error(`Unknown action: ${mutation.action}`);
 }
 
@@ -243,7 +267,33 @@ function findTask(snapshot, taskId) {
   return normalized.taskDoc.tasks.find((task) => task.task_id === taskId) || null;
 }
 
+function findProject(snapshot, projectId) {
+  const normalized = normalizeDashboardSnapshot(snapshot);
+  return normalized.projects.find((project) => project.project_id === projectId) || null;
+}
+
 export function verifyDashboardMutation(snapshot, result) {
+  if (result.action === "project-update") {
+    const project = findProject(snapshot, result.project.project_id);
+    if (!project) throw new Error(`Project not found after write: ${result.project.project_id}`);
+    for (const field of result.update.changed_fields || []) {
+      if (JSON.stringify(project[field] ?? null) !== JSON.stringify(result.project[field] ?? null)) {
+        throw new Error(`Verified project ${project.project_id} field ${field} did not match`);
+      }
+    }
+    const normalized = normalizeDashboardSnapshot(snapshot);
+    const projectRef = (normalized.portfolio.projects || []).find((entry) => entry.project_id === project.project_id);
+    for (const field of ["title", "bucket", "status"]) {
+      if ((projectRef?.[field] ?? null) !== (project[field] ?? null)) {
+        throw new Error(`Verified portfolio project ${project.project_id} field ${field} did not match`);
+      }
+    }
+    return {
+      ok: true,
+      project_id: project.project_id,
+      changed_fields: result.update.changed_fields || [],
+    };
+  }
   if (result.action === "create") {
     const created = findTask(snapshot, result.task.task_id);
     if (!created) throw new Error(`Created task not found after write: ${result.task.task_id}`);
@@ -320,6 +370,16 @@ async function loadBodyFromFile(mutation) {
   return { ...mutation, body: requireValue(body, "--body-file") };
 }
 
+async function loadProjectPatch(mutation) {
+  if (mutation.action !== "project-update") return mutation;
+  const filePath = path.resolve(repoRoot, mutation.patchFile);
+  const patch = JSON.parse(await readFile(filePath, "utf8"));
+  if (!patch || typeof patch !== "object" || Array.isArray(patch)) {
+    throw new Error("Project patch file must contain a JSON object");
+  }
+  return { ...mutation, patch };
+}
+
 async function pullMirror(forcePull) {
   const args = ["scripts/pull-vercel-dashboard-blob.mjs"];
   if (forcePull) args.push("--force");
@@ -328,6 +388,7 @@ async function pullMirror(forcePull) {
     maxBuffer: 1024 * 1024,
   });
   return {
+    ok: true,
     stdout: stdout.trim(),
     stderr: stderr.trim(),
   };
@@ -342,7 +403,7 @@ async function main() {
   if (!env.BLOB_READ_WRITE_TOKEN) {
     throw new Error("Missing BLOB_READ_WRITE_TOKEN. Run `vercel env pull .env.local --yes` first.");
   }
-  const parsed = await loadBodyFromFile(parseMutationArgs(process.argv.slice(2)));
+  const parsed = await loadProjectPatch(await loadBodyFromFile(parseMutationArgs(process.argv.slice(2))));
   let result;
   let blob;
   let verification;
@@ -378,7 +439,18 @@ async function main() {
     mutation_attempt: mutationAttempt,
   };
   if (parsed.pull) {
-    response.pull = await pullMirror(parsed.forcePull);
+    try {
+      response.pull = await pullMirror(parsed.forcePull);
+    } catch (error) {
+      response.pull = {
+        ok: false,
+        error: error instanceof Error ? error.message : String(error),
+      };
+      response.warning = "Hosted mutation succeeded, but the local dashboard mirror was not pulled.";
+      console.log(JSON.stringify(response, null, 2));
+      process.exitCode = 2;
+      return;
+    }
   }
   console.log(JSON.stringify(response, null, 2));
 }

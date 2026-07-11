@@ -57,6 +57,17 @@ assert.deepEqual(
   },
 );
 
+assert.deepEqual(
+  parseMutationArgs(["project-update", "--project-id", "demo", "--patch-file", "tmp/project-patch.json", "--pull"]),
+  {
+    action: "project-update",
+    pull: true,
+    forcePull: false,
+    projectId: "demo",
+    patchFile: "tmp/project-patch.json",
+  },
+);
+
 const fixedNow = new Date("2026-06-18T01:00:00.000Z");
 const statusResult = applyDashboardMutationToSnapshot(baseSnapshot, {
   action: "status",
@@ -111,6 +122,31 @@ assert.deepEqual(verifyDashboardMutation(updateResult.snapshot, updateResult), {
   changed_fields: ["title", "priority"],
 });
 
+const projectUpdateResult = applyDashboardMutationToSnapshot(baseSnapshot, {
+  action: "project-update",
+  projectId: "demo",
+  patch: {
+    title: "Research demo",
+    bucket: "research",
+    status: "ongoing",
+    description: "Explicit project update",
+  },
+}, {
+  now: fixedNow,
+});
+
+assert.equal(projectUpdateResult.project.title, "Research demo");
+assert.equal(projectUpdateResult.project.status, "ongoing");
+assert.equal(projectUpdateResult.projectRef.title, "Research demo");
+assert.equal(projectUpdateResult.projectRef.bucket, "research");
+assert.equal(projectUpdateResult.projectRef.status, "ongoing");
+assert.deepEqual(projectUpdateResult.update.changed_ref_fields, ["title", "bucket", "status"]);
+assert.deepEqual(verifyDashboardMutation(projectUpdateResult.snapshot, projectUpdateResult), {
+  ok: true,
+  project_id: "demo",
+  changed_fields: ["title", "bucket", "status", "description"],
+});
+
 assert.throws(
   () => parseMutationArgs(["status", "--task-id", "task_demo"]),
   /Missing --status/,
@@ -122,4 +158,16 @@ assert.throws(
     status: "done",
   }),
   /Task not found: missing/,
+);
+assert.throws(
+  () => parseMutationArgs(["project-update", "--project-id", "demo"]),
+  /Missing --patch-file/,
+);
+assert.throws(
+  () => applyDashboardMutationToSnapshot(baseSnapshot, {
+    action: "project-update",
+    projectId: "demo",
+    patch: { bucket: "missing" },
+  }),
+  /Invalid project bucket: missing/,
 );

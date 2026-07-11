@@ -222,9 +222,51 @@ const projectTableRowPatchFields = new Set([
   "source",
 ]);
 
+const projectPatchFields = new Set([
+  "title",
+  "bucket",
+  "status",
+  "description",
+  "summary",
+  "details",
+  "timeline",
+  "references",
+  "risks_decisions",
+  "task_ids",
+  "intro_table",
+  "visual",
+  "asset",
+  "asset_alt",
+  "asset_caption",
+  "asset_added_at",
+]);
+
 function findProject(snapshot, projectId) {
   const targetProjectId = String(projectId || "").trim();
   return snapshot.projects.find((project) => String(project?.project_id || "") === targetProjectId) || null;
+}
+
+function sanitizeProjectPatch(patch) {
+  if (!patch || typeof patch !== "object" || Array.isArray(patch)) {
+    throw new Error("Missing project patch");
+  }
+  const nextPatch = {};
+  for (const [field, value] of Object.entries(patch)) {
+    if (!projectPatchFields.has(field)) continue;
+    const normalizedValue = typeof value === "string" ? value.trim() : cloneJson(value);
+    if (["title", "bucket", "status"].includes(field) && !normalizedValue) {
+      throw new Error(`Missing project ${field}`);
+    }
+    nextPatch[field] = normalizedValue;
+  }
+  if (!Object.keys(nextPatch).length) {
+    throw new Error("Missing project update fields");
+  }
+  return nextPatch;
+}
+
+function jsonValuesEqual(left, right) {
+  return JSON.stringify(left) === JSON.stringify(right);
 }
 
 function findProjectTableRow(project, tableKind, rowId) {
@@ -409,6 +451,66 @@ export function applySnapshotProjectTableRowUpdate(snapshot, input, options = {}
       row_id: rowId,
       changed_fields: changedFields,
       updated_at: updatedAt,
+    },
+  };
+}
+
+export function applySnapshotProjectUpdate(snapshot, projectId, patch, options = {}) {
+  const next = cloneMutableSnapshot(snapshot);
+  const targetProjectId = String(projectId || "").trim();
+  if (!targetProjectId) {
+    throw new Error("Missing project_id");
+  }
+  const project = findProject(next, targetProjectId);
+  if (!project) {
+    throw new Error(`Project not found: ${targetProjectId}`);
+  }
+  const nextPatch = sanitizeProjectPatch(patch);
+  if (nextPatch.bucket) {
+    const buckets = new Set((next.portfolio.project_buckets || []).map((entry) => entry?.bucket));
+    if (!buckets.has(nextPatch.bucket)) {
+      throw new Error(`Invalid project bucket: ${nextPatch.bucket}`);
+    }
+  }
+
+  const changedFields = [];
+  for (const [field, value] of Object.entries(nextPatch)) {
+    if (!jsonValuesEqual(project[field], value)) {
+      project[field] = cloneJson(value);
+      changedFields.push(field);
+    }
+  }
+
+  const projectRef = (next.portfolio.projects || []).find((entry) => entry?.project_id === targetProjectId);
+  if (!projectRef) {
+    throw new Error(`Portfolio project not found: ${targetProjectId}`);
+  }
+  const changedRefFields = [];
+  for (const field of ["title", "bucket", "status"]) {
+    if (
+      Object.prototype.hasOwnProperty.call(nextPatch, field)
+      && !jsonValuesEqual(projectRef[field], nextPatch[field])
+    ) {
+      projectRef[field] = nextPatch[field];
+      changedRefFields.push(field);
+    }
+  }
+
+  const updatedAt = (options.now || new Date()).toISOString();
+  if (changedFields.length || changedRefFields.length) {
+    project.updated_at = updatedAt;
+    next.updated_at = updatedAt;
+  }
+  next.source = options.source || next.source;
+  return {
+    snapshot: next,
+    project,
+    projectRef,
+    update: {
+      project_id: targetProjectId,
+      changed_fields: changedFields,
+      changed_ref_fields: changedRefFields,
+      updated_at: changedFields.length || changedRefFields.length ? updatedAt : project.updated_at,
     },
   };
 }
