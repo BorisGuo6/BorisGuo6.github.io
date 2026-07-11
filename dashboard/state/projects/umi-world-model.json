@@ -4,15 +4,15 @@
   "title": "UMI Image Layered World Model",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-07-09T20:59:00+08:00",
+  "updated_at": "2026-07-11T07:26:10.146Z",
   "description": "UMI Image Layered World Model: three linked papers covering multi-view robot video world modeling, manipulation-video dynamics decomposition into reusable layers, and layered data as a downstream VLA/IDM/reward training interface.",
-  "summary": "UMI World Model is a three-paper program with one shared data substrate: Stage 1 trains a streaming multi-view pose/action-conditioned robot world model; Stage 2 turns manipulation videos into reusable scene, object/contact, occluder/tool, and robot/actor layers; Stage 3 tests whether those layers improve manipulation and video-model training. This intro is only architecture/status framing; task-level execution state lives in TODOs and task comments.",
+  "summary": "UMI World Model is a three-paper program with one shared data substrate: Stage 1 trains a streaming multi-view pose/action-conditioned robot world model, with an optional Stage 1B that consumes explicit URDF/FK/action/camera controls from the separate URDF Kinematic-Camera Research track; Stage 2 turns manipulation videos into reusable scene, object/contact, occluder/tool, and robot/actor layers; Stage 3 tests whether those layers improve manipulation and video-model training. This intro is only architecture/status framing; task-level execution state lives in TODOs and task comments.",
   "subprojects": [
     {
       "label": "A",
       "title": "Stage 1: Streaming Multi-View UMI World Model",
-      "body": "Paper 1 learns a shared-scene, multi-view robot world model from synchronized wrist/head/fixed views and pose/action sidecars. Durable data context: DaiMeng/Jingdu-style material has roughly 943 usable dual-arm hours after filtering single-arm episodes.",
-      "output": "Durable output: multi-view robot-video rollout metrics and stage-1 evaluation protocol."
+      "body": "Paper 1 learns a shared-scene, multi-view robot world model from synchronized wrist/head/fixed views and pose/action sidecars. Stage 1B is an optional explicit-control method branch that consumes URDF/FK, commanded/measured motion, and calibrated multi-camera controls from the separate URDF Kinematic-Camera Research card; it does not add a fourth UMI paper or absorb the held-out-morphology claim. Durable data context: DaiMeng/Jingdu-style material has roughly 943 usable dual-arm hours after filtering single-arm episodes.",
+      "output": "Durable output: multi-view robot-video rollout metrics, the Stage 1 evaluation protocol, and a controlled comparison between compact pose/action sidecars and explicit URDF/camera reference bundles."
     },
     {
       "label": "B",
@@ -52,14 +52,14 @@
     ],
     "rows": [
       {
-        "stage": "Stage 1",
-        "interface": "Streaming multi-view robot world model",
-        "status_frame": "Synchronized wrist/head/fixed views are treated as one shared scene with pose/action sidecars, not as independent video clips. RynnWorld-Teleop is a close Stage 1 reference for hand-pose/control-video -> robot-centric action-conditioned rollout: https://alibaba-damo-academy.github.io/RynnWorld-Teleop.github.io/."
+        "stage": "Stage 1 / 1B",
+        "interface": "Streaming multi-view robot WM + optional explicit URDF/camera control",
+        "status_frame": "Stage 1 treats synchronized wrist/head/fixed views as one shared scene with pose/action sidecars. Stage 1B is a linked method branch supplied by the separate URDF Kinematic-Camera Research card; it compares explicit morphology/action/camera controls without changing the UMI three-paper structure. RynnWorld-Teleop remains a close compact-control reference: https://alibaba-damo-academy.github.io/RynnWorld-Teleop.github.io/."
       },
       {
         "stage": "Stage 2",
         "interface": "Video Dynamics Decomposition Model",
-        "status_frame": "Manipulation video is decomposed into scene/background, object/contact, occluder/tool, and robot/actor layers with one manifest schema."
+        "status_frame": "Manipulation video is decomposed into scene/background, object/contact, occluder/tool, and robot/actor layers with one manifest schema. Stage 1B compiler outputs may provide robot geometry and camera sidecars under this same contract."
       },
       {
         "stage": "Stage 3",
@@ -69,7 +69,7 @@
       {
         "stage": "Shared substrate",
         "interface": "Single video -> multi-layer package",
-        "status_frame": "All three stages consume the same scene, object/contact, robot/actor, pose-sidecar, and QA/retry outputs instead of separate preprocessing stacks."
+        "status_frame": "All three stages consume the same scene, object/contact, robot/actor, pose/camera-sidecar, and QA/retry outputs instead of separate preprocessing stacks."
       }
     ]
   },

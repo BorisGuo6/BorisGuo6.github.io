@@ -283,7 +283,7 @@ export function verifyDashboardMutation(snapshot, result) {
     }
     const normalized = normalizeDashboardSnapshot(snapshot);
     const projectRef = (normalized.portfolio.projects || []).find((entry) => entry.project_id === project.project_id);
-    for (const field of ["title", "bucket", "status"]) {
+    for (const field of result.update.changed_ref_fields || []) {
       if ((projectRef?.[field] ?? null) !== (project[field] ?? null)) {
         throw new Error(`Verified portfolio project ${project.project_id} field ${field} did not match`);
       }

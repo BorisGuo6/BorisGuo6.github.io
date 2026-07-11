@@ -130,6 +130,7 @@ const projectUpdateResult = applyDashboardMutationToSnapshot(baseSnapshot, {
     bucket: "research",
     status: "ongoing",
     description: "Explicit project update",
+    subprojects: [{ label: "A", title: "Stage A" }],
   },
 }, {
   now: fixedNow,
@@ -140,11 +141,34 @@ assert.equal(projectUpdateResult.project.status, "ongoing");
 assert.equal(projectUpdateResult.projectRef.title, "Research demo");
 assert.equal(projectUpdateResult.projectRef.bucket, "research");
 assert.equal(projectUpdateResult.projectRef.status, "ongoing");
+assert.deepEqual(projectUpdateResult.project.subprojects, [{ label: "A", title: "Stage A" }]);
 assert.deepEqual(projectUpdateResult.update.changed_ref_fields, ["title", "bucket", "status"]);
 assert.deepEqual(verifyDashboardMutation(projectUpdateResult.snapshot, projectUpdateResult), {
   ok: true,
   project_id: "demo",
-  changed_fields: ["title", "bucket", "status", "description"],
+  changed_fields: ["title", "bucket", "status", "description", "subprojects"],
+});
+
+const projectDescriptionOnlyResult = applyDashboardMutationToSnapshot({
+  ...baseSnapshot,
+  portfolio: {
+    ...baseSnapshot.portfolio,
+    projects: [{ project_id: "demo", title: "Display title" }],
+  },
+  projects: [{ project_id: "demo", title: "Document title", task_ids: ["task_demo"] }],
+}, {
+  action: "project-update",
+  projectId: "demo",
+  patch: { description: "Description-only update" },
+}, {
+  now: fixedNow,
+});
+
+assert.deepEqual(projectDescriptionOnlyResult.update.changed_ref_fields, []);
+assert.deepEqual(verifyDashboardMutation(projectDescriptionOnlyResult.snapshot, projectDescriptionOnlyResult), {
+  ok: true,
+  project_id: "demo",
+  changed_fields: ["description"],
 });
 
 assert.throws(

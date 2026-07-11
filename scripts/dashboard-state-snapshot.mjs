@@ -229,6 +229,7 @@ const projectPatchFields = new Set([
   "description",
   "summary",
   "details",
+  "subprojects",
   "timeline",
   "references",
   "risks_decisions",
