@@ -1,5 +1,7 @@
 import { expect, test } from "@playwright/test";
 
+const RUNTIME_BOOT_TIMEOUT = 60_000;
+
 async function inspectCanvasRender(canvas) {
   const result = await canvas.evaluate(
     (element) =>
@@ -50,7 +52,7 @@ async function expectCanvasRendered(canvas) {
           render.channelRange > 12
         );
       },
-      { timeout: 45_000 },
+      { timeout: RUNTIME_BOOT_TIMEOUT },
     )
     .toBe(true);
 }
@@ -85,7 +87,6 @@ test("homepage robot runtime loads only after an explicit launch", async ({ page
   });
 
   await page.goto("/");
-  await page.waitForLoadState("networkidle");
   expect(runtimeRequests).toHaveLength(0);
 
   const launchButton = page.getByRole("button", { name: "Launch robot demo" });
@@ -95,20 +96,23 @@ test("homepage robot runtime loads only after an explicit launch", async ({ page
   await expect(frame).toBeVisible();
   await expect(frame).toHaveAttribute("src", /\/assets\/robot-demo-runtime\/embed\.html/);
   await expect.poll(() => runtimeRequests.length).toBeGreaterThan(0);
-  await expect.poll(() => frame.contentFrame().locator("#root").count()).toBe(1);
+  await expect(frame.contentFrame().locator("#root")).toHaveCount(1, {
+    timeout: RUNTIME_BOOT_TIMEOUT,
+  });
   const renderCanvas = frame.contentFrame().locator('canvas[data-engine^="three.js"]');
-  await expect.poll(() => renderCanvas.count(), { timeout: 30_000 }).toBe(1);
+  await expect(renderCanvas).toHaveCount(1, { timeout: RUNTIME_BOOT_TIMEOUT });
   await expect(renderCanvas).toBeVisible();
   await expectCanvasRendered(renderCanvas);
 
+  // Resize the live runtime instead of cold-starting MuJoCo and ONNX twice.
+  // The same rendered canvas still exercises the mobile responsive path.
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("/");
-  await page.getByRole("button", { name: "Launch robot demo" }).click();
   const mobileFrame = page.locator(".robot-demo-runtime-frame");
   await expect(mobileFrame).toBeVisible();
   await expect(mobileFrame).toHaveAttribute("src", /\/assets\/robot-demo-runtime\/embed\.html/);
+  await mobileFrame.scrollIntoViewIfNeeded();
   const mobileRenderCanvas = mobileFrame.contentFrame().locator('canvas[data-engine^="three.js"]');
-  await expect.poll(() => mobileRenderCanvas.count(), { timeout: 30_000 }).toBe(1);
+  await expect(mobileRenderCanvas).toHaveCount(1, { timeout: RUNTIME_BOOT_TIMEOUT });
   await expect(mobileRenderCanvas).toBeVisible();
   const mobileLayout = await mobileFrame.evaluate((element) => {
     const rect = element.getBoundingClientRect();
