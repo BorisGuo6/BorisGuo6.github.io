@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-07-10T13:26:02.823Z",
+  "updated_at": "2026-07-11T00:49:18.548Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -639,9 +639,18 @@
           "kind": "comment",
           "body": "ClawCross WeChat tail 2026-07-09: keep Quest as the preferred near-term operator-pose route for Franka/Wuji teleop because Pico lacks the headset locally and VIVE frame setup remains painful. Use existing Quest Streamer code for read-only pose preview first, then low-speed control only after calibration, workspace bounds, deadman/E-stop, and logging are ready. Reference link shared in group: https://gitee.com/ericbrunt/linkerhand_telop_python .",
           "created_at": "2026-07-09T21:44:00+08:00"
+        },
+        {
+          "comment_id": "comment_031ca655-4faf-42d8-9619-46b8b9c07a29",
+          "task_id": "task_real_robot_infra_vr_teleop_franka",
+          "author": "Boris / Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "ClawCross WeChat tail 2026-07-10: CDE requested a publicity photo showing an operator wearing VR, MANUS glove and VIVE for teleoperation; Haoming sent three photos in the group at 13:23. This is useful documentation that the wearable hardware can be staged, but it is not proof that the Franka VR control path passed device listing, frame calibration, pose preview, deadman/workspace checks, low-speed live smoke, or logging acceptance. Keep this task at needs_user until those technical gates have onsite evidence.",
+          "created_at": "2026-07-11T00:48:51.123Z"
         }
       ],
-      "updated_at": "2026-07-09T21:44:00+08:00"
+      "updated_at": "2026-07-11T00:48:51.123Z"
     },
     {
       "task_id": "task_real_robot_infra_safety_workspace",
@@ -12078,6 +12087,65 @@
         }
       ],
       "updated_at": "2026-07-09T17:10:00+08:00"
+    },
+    {
+      "task_id": "task_real_robot_infra_todo_20260711",
+      "project_id": "real-robot-infra",
+      "title": "敲定山上联合实验室阳台封闭与室外活动板房方案并报学校审批",
+      "description": "ClawCross 读取 2026-07-10 与刘磊磊的沟通：山上联合实验室计划把整块阳台改为全玻璃封闭阳光房，并评估用活动板房利用室外空间；刘磊磊已开始联系可施工团队。现场最早可于 2026-08-05 进场装修，因此须在进场前完成方案收敛与学校书面审批。验收：1) 完成阳台、室外区域和相邻室内空间的现场测量及现状照片；2) 分别形成阳台全封闭与室外活动板房的平面、立面、材料、结构连接、排水防水、抗风、消防疏散、空调通风、电力网络、施工访问与噪声控制方案；3) 至少取得可比施工范围、报价、工期、保修和负责人；4) 明确校方审批材料、提交人、审批链和书面许可，不得在批准前开工；5) 在 2026-08-05 前完成 go/no-go 决策与可执行施工排期。",
+      "status": "active",
+      "priority": "high",
+      "assignee": "Liu Leilei / Boris / lab facilities",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-07-11T00:43:55.332Z",
+      "due_at": "2026-08-04"
+    },
+    {
+      "task_id": "task_real_robot_infra_indoor_phone_booth_plan_20260711",
+      "project_id": "real-robot-infra",
+      "title": "评估并配置实验室室内单人 phone booth",
+      "description": "ClawCross 读取 2026-07-10 与刘磊磊的沟通：实验室希望配置若干单人开会 phone booth，明确放在现有室内空间，不放进拟建阳光房；数量和具体点位尚未确定。验收：1) 标注候选点位、通道和门开启范围，确定数量、外形尺寸与搬运路径；2) 比较隔音、语音私密性、通风散热、照明、电源、网络、消防材料、疏散与无障碍影响；3) 获取至少两套产品或施工方案的总价、交期、安装、保修与维护条件；4) 现场确认不会遮挡设备、配电、空调、消防设施或人员通行；5) 形成选型结论并在采购前取得实验室与校方设施侧确认。",
+      "status": "todo",
+      "priority": "medium",
+      "assignee": "Liu Leilei / Boris / lab facilities",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-07-11T00:46:56.089Z"
+    },
+    {
+      "task_id": "task_real_robot_infra_hillside_commute_option_decision_20260711",
+      "project_id": "real-robot-infra",
+      "title": "评估山上联合实验室通勤方案：scooter vs 电助力折叠自行车",
+      "description": "ClawCross 读取 2026-07-10 与刘磊磊的沟通：山上联合实验室的日常通勤仍需在 scooter 与电助力折叠自行车之间做方案选择；当前只是决策项，不应直接进入采购。验收：1) 记录实际起终点、坡度、距离、雨天和室内外搬运约束；2) 核对 NUS 场地政策与新加坡适用的道路、路径、停放和充电规则；3) 对比安全、制动与坡道能力、续航、重量和折叠尺寸、充电与电池存放、防雨、维修、保险和总拥有成本；4) 明确使用人、停放点、充电点、PPE 与事故处理要求；5) 做出 scooter、电助力折叠自行车或不采购的书面结论，选型确定后再新增采购行。",
+      "status": "todo",
+      "priority": "medium",
+      "assignee": "Boris / Liu Leilei / lab operations",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-07-11T00:47:15.943Z"
+    },
+    {
+      "task_id": "task_real_robot_infra_songling_aloha_operator_handoff_sop_20260711",
+      "project_id": "real-robot-infra",
+      "title": "固化松灵 ALOHA 开关机与现场 demo handoff SOP",
+      "description": "ClawCross 读取 Dexterous Data Collection 2026-07-10 群聊：在 Boris 不在实验室时，Jingru 与 Haoming 需要为 ZJU Camp 展示遥操作并与刘剑博协调；Yongxi 提供了松灵 ALOHA 当前口头开机顺序：前部底下开机、急停、电小二电源、电小二 AC、排插开关，关机顺序反向。口头步骤中的急停动作含义仍须现场确认，不能直接写成按下或释放。该任务针对资产 GM-ROB-001 松灵 Aloha 遥操臂平台，不与已完成的 YAM 臂 ALOHA 搭建任务混同。验收：1) 现场逐项识别开关、急停、电小二与排插，确认每一步准确动作和等待条件；2) 增加上电前线缆、工作区、急停、主从臂和相机检查；3) 记录硬件上电、网络与软件启动、低速 teleop smoke、正常关机与异常停机流程；4) 产出一页 checklist 和短视频，归档 Hardware Resource Center；5) 至少由 Yongxi 向 Jingru、Haoming 两名操作者完成一次冷启动、demo、冷关机 handoff，并记录未解决 blocker。",
+      "status": "active",
+      "priority": "high",
+      "assignee": "Yongxi / Jingru / Haoming / Boris",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_c71ec241-d55e-4527-ba54-c8cd92a36140",
+          "task_id": "task_real_robot_infra_songling_aloha_operator_handoff_sop_20260711",
+          "author": "Boris / Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "The 2026-07-10 group history confirms task assignment, a proposed five-step power sequence, and Yongxi offering a video handoff. It does not contain a completed cold-start, successful teleop demo, shutdown verification, or archived SOP artifact. Keep status active until those acceptance artifacts exist.",
+          "created_at": "2026-07-11T00:49:18.548Z"
+        }
+      ],
+      "updated_at": "2026-07-11T00:49:18.548Z"
     }
   ]
 }
