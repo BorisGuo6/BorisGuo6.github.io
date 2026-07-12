@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-07-11T01:18:09.251Z",
+  "updated_at": "2026-07-12T14:13:36.373Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -2937,9 +2937,18 @@
           "kind": "comment",
           "body": "[COMPUTED][HIGH] 2026-07-10 completion audit: SceneAgent selection2env acceptance 1-8 is covered. Evidence includes typed schemas, accepted/rejected candidates, 9996-entry Articraft searchable manifest, three supported task examples plus drawer/mug blocker, Base_Task/CuRobo and `/collect` smokes, scripted apple/plate and can/basket rollouts, visual/task-intent/reachability/stability critique, Gaochen handoff fields, and same-scene alternate task spec. Native synchronized apple/plate data now converts to ACT, replays all 161 expert actions successfully, trains for 1200 epochs, and fixed-placement `/evaluate` passes 3/3. [INFERRED][HIGH] Robustness is not established because the three training trajectories are byte-identical and placement/domain randomization are disabled. Diagnosis: `artifacts/diagnosis/native_act_closed_loop_diagnosis.json`; commits local `09a56cf`, remote `64aa653`.",
           "created_at": "2026-07-10T13:22:16.606Z"
+        },
+        {
+          "comment_id": "comment_236e06cf-f55c-46ab-814b-10228d6767a7",
+          "task_id": "task_self_improving_sceneagent_selection2env_20260701",
+          "author": "Codex / jingxiang-b850m-c workspace",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[COMPUTED] [CONFIDENCE: HIGH] 2026-07-12 strict completion re-audit: SceneAgent / selection2env acceptance 1-8 is now backed by executable evidence, not the earlier static-only `task_apple_plate_reverse` proxy.\n\n[COMPUTED] [CONFIDENCE: HIGH] Unified catalog proof on `jingxiang-b850m-c`: 123/123 live-discovered RoboTwin assets are execution-eligible; 8/8 AgenticSim aliases resolve to live RoboTwin backends; 9,996 Articraft metadata entries are searchable while default execution eligibility remains 0 until per-asset import/physics gates pass. Evidence: `artifacts/adapter_catalog/selection2env_catalog_sources.json` and `artifacts/adapter_catalog/selection2env_queries/*.json`.\n\n[COMPUTED] [CONFIDENCE: HIGH] Real scene-task decoupling now passes twice from the same byte-identical placement: scene `scene_apple_plate_shared_two_task_v0`, placement SHA-256 `c39169d68ab617debdd8b4462d7bc9d30ad6fae0ce5c3d4aa9e4a34893bee592`; `task_apple_plate` executes `place_on apple_1 -> plate_1` with `check_success=true`; `task_apple_plate_to_left_front` executes `place_in_region apple_1 -> left_front_reachable_area` with `check_success=true`. Initial observer images are byte-identical with SHA-256 `18e53b736c0a9716e7489dc889a2c2375c7d26fe3078d207dccf61e8cac53012`. Evidence: `artifacts/scene_task_decoupling/apple_plate_two_tasks.json` and `runs/scene_task_decoupling/`.\n\n[COMPUTED] [CONFIDENCE: HIGH] Drawer/mug no longer has a false asset-missing claim: `036_cabinet` and `039_mug` ground successfully and static scene generation passes. The only retained task blocker is typed as `ARTICULATED_CONTAINER_TASK_API_UNSUPPORTED` because drawer opening, interior placement and the corresponding success verifier are not yet exposed by the task scaffold/API.\n\n[COMPUTED] [CONFIDENCE: HIGH] Local and RTX 5090 verification both pass: outer tests `6 passed`; upstream tests `4 passed`; `scripts/verify_workspace.py` returns `PASS workspace verification` with `docs=10 static_runs=4 asset_smoke_runs=3 basetask_smoke_runs=3 collect_dry_runs=3 official_rollouts=3 generated_rollouts=2 generated_collections=2 articraft_assets=9996 articraft_archive_passes=3 articraft_collision_blockers=2`, supported tasks `task_apple_plate, task_laptop_knife, task_vegetable_basket`, and unsupported sample `task_drawer_mug_blocker`.\n\n[COMPUTED] [CONFIDENCE: HIGH] Reproducibility proof: public upstream base `78bef41c136a0f4bf2c35ebec2793f3f4ad7dd75`; replay patch SHA-256 `aac9f153dcf94340528f65678dab8d8c2e4784e6594963937a11350886d41f2e`; replay result tree `68e84128bbf5f8702f918024f6ca0c6e056a478f`; upstream local commit `029911db427c8eaee5f8837792198351314ea7de`; upstream 5090 commit `e3e3c76ad359f26c3dfa88e3b543865f66b7bc06`; outer local commit `f35a0aa6d720fb160770bc9318351ebcce1d8c3f`; outer 5090 commit `2f31d221dd0008ba48b2e4610e9cdb2755639209`; local/5090 stable patch-id `78bf1ccf90882d16ee2017532445dfd383cc64a9`.\n\n[COMPUTED] [CONFIDENCE: HIGH] Self-contained HTML audit: `/Users/boris/Downloads/alchedata_sceneagent_selection2env_20260712/index.html`. It bundles 190 evidence files, including 69 PNG and 14 MP4 assets; all PNGs decode, all MP4s probe with nonzero duration, and Chromium QA passes at 1440x1000 and 390x844 with 61/61 local references present and zero console/page errors.\n\n[COMPUTED] [CONFIDENCE: HIGH] Claim boundary: this TODO is complete, but varied-placement learned-policy promotion is still rejected at 1/4 task success. No public push is claimed; the upstream changes are committed locally and on the 5090 and are reproducible from the locked patch.",
+          "created_at": "2026-07-12T14:13:36.373Z"
         }
       ],
-      "updated_at": "2026-07-10T13:24:12.297Z",
+      "updated_at": "2026-07-12T14:13:36.373Z",
       "created_at": "2026-07-01T11:10:00+08:00",
       "due_at": "2026-07-07",
       "completed_at": "2026-07-10",
