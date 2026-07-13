@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-07-13T02:31:08.985Z",
+  "updated_at": "2026-07-13T10:18:00.360Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -11228,9 +11228,18 @@
           "kind": "comment",
           "body": "Full Reading List audit completed via live ntn recursion: 348 pages fetched, 1 Notion API failure page (4.14), 4,325 links, 1,008 unique robotics/simulation-relevant URLs, 11 unique Isaac/Omniverse-specific URLs. This exposed gaps in the earlier 2026.6-only scan. Added confirmed OSS misses: RoboVerse Platform, ASAP Humanoid Sim-to-Real Skill Stack, and SO-ARM100/101 Isaac Lab External Project. Catalog is now 44 entries; OSS gate admits 20 and excludes 24 until license/source verification.",
           "created_at": "2026-06-26T04:26:41.717Z"
+        },
+        {
+          "comment_id": "comment_c550d973-f879-419f-bddc-c129fe72438a",
+          "task_id": "task_self_improving_isaacsim_benchmark_intake",
+          "author": "Codex dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[COMPUTED] [CONFIDENCE: HIGH] 2026-07-13 Awesome Isaac intake expansion based on `shaoxiang/awesome-isaac-sim@7c42a15f4a2819802abe3e91900dd6505942b3af`, `sjtuyinjie/awesome-isaac-sim@be3e8f1972a79bee90dc682e523a314e84f15021`, and AgenticSim submodules: 745 unique repositories were normalized. GitHub metadata detects 308 recognized open-source licenses; 412 repositories have no detected license, 23 are unavailable, and 2 are private. Content inspection finds 84 documented current-Isaac environment sources and 64 static open-environment candidates. [KNOWN] [CONFIDENCE: HIGH] A list entry or detected license is not runtime proof. The current RTX 5090 probe set is intentionally narrow: 2 candidates pass only with recorded conditions or repairs, 1 candidate blocks on a missing external USD, and there are zero proven clone-and-run direct passes. Machine-readable outputs are in AgenticSim `docs/awesome_isaac_environment_catalog.json`, `docs/awesome_isaac_agenticsim_intake.json`, and `docs/awesome_isaac_runtime_evidence.json`; the bundled report is `/Users/boris/Downloads/openxsim_command_loop_20260713/index.html`.",
+          "created_at": "2026-07-13T10:18:00.360Z"
         }
       ],
-      "updated_at": "2026-06-27T02:04:30.167Z",
+      "updated_at": "2026-07-13T10:18:00.360Z",
       "completed_at": "2026-06-27",
       "completed_at_time": "2026-06-27T02:04:30.167Z"
     },
@@ -11854,9 +11863,18 @@
           "kind": "comment",
           "body": "[COMPUTED] [CONFIDENCE: HIGH] 2026-07-13 correction to strict completion evidence: the previous 3 observer MP4s were defective endpoint-only clips with exactly 2 frames each (0.1667 s). They have been replaced by continuous RoboTwin native save-frequency-hook captures at stride 4: open_laptop=640 frames/53.33 s, place_mouse_pad=531 frames/44.25 s, place_container_plate=527 frames/43.92 s, all 12 fps, check_success=true, endpoint_only=false; frame-MD5 inspection found every encoded frame unique. ffprobe-backed validation now rejects any official/report video below 24 frames or 2 s and checks encoded/report frame-count equality. The HTML cards display frame count, duration, and capture mode; browser QA passes desktop/mobile with 3/3 videos and zero console/page errors. Matching 35-file Downloads bundles remain at /Users/boris/Downloads/openxsim_command_loop_20260713/ and /home/jingxiang/Downloads/openxsim_command_loop_20260713/, new report_manifest SHA-256=e70eaaebea46cd9fc04da63510a0931112325f9f939576cec9b7cdc1738961fe. Tests: 17/17 PASS; full workspace verifier PASS. Commits: local 4fdbc3287f316b730f2a8aab4fb8b008709a050d, RTX 5090 2d395d8cd12bf2088458af18fa9953845a750de7; exact tree 02b2303cf8cdd3c9cbba1f871d363c76f089ad5d.",
           "created_at": "2026-07-13T02:31:08.985Z"
+        },
+        {
+          "comment_id": "comment_78b8dd78-52c6-410c-bd0a-d4aa5d716249",
+          "task_id": "task_self_improving_openxsim_command_loop_20260703",
+          "author": "Codex dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[COMPUTED] [CONFIDENCE: HIGH] 2026-07-13 AgenticSim/OpenXSim intake refresh: LV-Robotics-Lab/AgenticSim commit `7a9fd0486cf827ea054915da0a21c17f876cb727` now carries the Awesome Isaac source audit, schemas, AgenticSim intake queue, and RTX runtime evidence; alchedata commit `da8d7d0470cebcfec959db0dba459c73c3766424` pins that commit and every source file hash into the Open X Sim acceptance package. [COMPUTED] [CONFIDENCE: HIGH] On `jingxiang-b850m-c` (RTX 5090, driver 580.159.03), the Isaac Sim 5.1 / Isaac Lab 2.3 baseline passes physics, RTX rendering, CUDA, and continuous video: 180 simulation steps, 32 encoded frames, 32 unique frame hashes, 31 pose-movement transitions, and 32 unique positions. OpenArm Reach and Neuromeka Indy-Deploy each pass registration, reset, 20 steps, render, and screenshot under recorded repair conditions; WobbleGo remains blocked because its core USD is absent and the configured external URL cannot load. [COMPUTED] [CONFIDENCE: HIGH] The self-contained report at `/Users/boris/Downloads/openxsim_command_loop_20260713/index.html` has 53 manifest-verified files, 13 decoded images, 4 decoded videos, zero desktop/mobile horizontal overflow, zero clipped badges, and zero console/page errors. Video frame counts are Isaac=32, open_laptop=640, place_mouse_pad=531, and place_container_plate=527. [KNOWN] [CONFIDENCE: HIGH] This extends the done acceptance evidence; it does not prove an unmodified third-party install path, a full Isaac PEARL command loop, recovered WobbleGo assets, full Any Sim transfer, or robust learned-policy promotion.",
+          "created_at": "2026-07-13T10:17:47.586Z"
         }
       ],
-      "updated_at": "2026-07-13T02:31:08.985Z",
+      "updated_at": "2026-07-13T10:17:47.586Z",
       "created_at": "2026-07-03T15:45:00+08:00",
       "due_at": "2026-07-10",
       "completed_at": "2026-07-10",
