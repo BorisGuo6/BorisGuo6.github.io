@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-07-13T01:52:35.202Z",
+  "updated_at": "2026-07-13T02:07:08.254Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -12015,9 +12015,18 @@
           "kind": "comment",
           "body": "[COMPUTED][HIGH] 2026-07-10 completion audit: `docs/embodied_harness_thesis.md` covers the one-page scoped thesis, h_t execution/weakness/proposal/regression/promotion/h_{t+1} mapping, embodied reset/observation/action/safety/trace/validation/data/memory/rollback surfaces, novelty table versus coding harnesses/ASPIRE/ENPIRE/RoboTwin/VLA evaluation, figure caption, and routing into `/gen-env`, `/collect`, `/evaluate`, `/diagnose`, and `/transfer`. The claim remains scoped as an embodied harness target rather than an unsupported first-in-field priority claim. Alchedata commits local `09a56cf`, remote `64aa653`; verifier passes.",
           "created_at": "2026-07-10T13:22:50.881Z"
+        },
+        {
+          "comment_id": "comment_7f668bf9-1679-47bd-9c49-73edfa8830bd",
+          "task_id": "task_self_improving_embodied_harness_positioning_20260707",
+          "author": "Codex / jingxiang-b850m-c workspace",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[COMPUTED] [CONFIDENCE: HIGH] 2026-07-13 strict completion refresh: embodied-harness paper framing acceptance is 6/6 with a machine-readable 9-step h_t -> h_{t+1} loop, 11 embodied surfaces, 5 required comparisons, 5 routed commands, fixed-checkpoint attribution control, figure caption/brief, and 4 explicit proof obligations. [KNOWN] [CONFIDENCE: HIGH] The public priority claim \"first real embodied harness system\" is not established and is explicitly prohibited by the validator; the working claim is limited to PEARL as an embodied harness system with a partially implemented artifact contract. Self-contained 19-file HTML+Markdown bundles are at /Users/boris/Downloads/embodied_harness_20260713/ and /home/jingxiang/Downloads/embodied_harness_20260713/, both report_manifest SHA-256=a48999e15f9a673c48befe6f7095f5427e67dce0c0fb999015c41e9b5d9e2fa0. Bundled assets include the original harness diagram, ASPIRE/ENPIRE/RoboTwin source snapshots, Open X Sim execution/blocker screenshots, JSON spec/audit, and desktop/mobile QA. Browser QA passes at 1440x1000 and 390x844 with 6/6 images, 6 acceptance rows, 9 loop steps, 11 surfaces, 5 comparisons, 5 routes, 4 proof obligations, zero root overflow, and zero console/page errors. Local tests 15/15 and full verifier PASS; RTX 5090 tests 15/15 and full verifier PASS. Commits: local 7c79c9b4222975c51c10d1fe4f0134d83501a26b, RTX 5090 fc2c7e4da04f72bed8db5359bc213e199903cc51; exact tree a4e965bf55803a6d474539eaed2e642105622236.",
+          "created_at": "2026-07-13T02:04:38.639Z"
         }
       ],
-      "updated_at": "2026-07-10T13:26:02.823Z",
+      "updated_at": "2026-07-13T02:04:38.639Z",
       "started_at": null,
       "completed_at": "2026-07-10",
       "completed_at_time": "2026-07-10T13:26:02.823Z"
@@ -12233,6 +12242,18 @@
       "result": null,
       "comments": [],
       "updated_at": "2026-07-11T01:18:09.251Z"
+    },
+    {
+      "task_id": "task_umi_world_model_x2sam_roboseg_cloak_vla_umi_wrist_view_masks_20260713",
+      "project_id": "umi-world-model",
+      "title": "比较 X2SAM、RoboSeg 与 Cloak-VLA 的 UMI / wrist-view masks",
+      "description": "在同一批真实 UMI / 腕部 egocentric 数据上，对 X2SAM、RoboSeg / RobotSeg 与 Cloak 的 end-effector mask 路线做可复现比较，并明确它们在 Stage 2 分层数据管线中的边界。\n\n方法定位：\n1) X2SAM (https://wanghao9610.github.io/X2SAM/；代码 https://github.com/wanghao9610/X-SAM) 是统一 image/video any-segmentation MLLM，支持 conversational instruction、visual prompt 与 Mask Memory；重点验证它能否稳定切出 UMI / wrist-view 的 gripper、hand、arm+gripper，而不是只看通用 benchmark。\n2) RoboSeg / RobotSeg (https://github.com/showlab/RobotSeg) 保持 robot-specific baseline / 当前主线，复用已有 image/video、arm/gripper/whole-robot mask 设置。\n3) Cloak (https://tml.stanford.edu/cloak/；代码 https://github.com/Stanford-TML/cloak) 不是普通视频分割模型：它根据 robot geometry、joint state 与 wrist-camera extrinsics 在 simulation 中渲染 end-effector mask，再用于 VLA attention cloaking。当前开源仓库已提供 DROID wrist extrinsics、Silhouette Calibration 与 render example，但 README 仍写明 training code / checkpoints coming soon；因此把 Cloak mask 作为 geometry-rendered oracle / control 与 VLA mask ablation，不把它伪装成无 metadata 的真实视频 segmentation baseline。\n\nAcceptance:\n1) 选择至少 3 个真实 UMI / dual-wrist / MolmoAct-style clips，每段 20-50 帧或等长短视频，覆盖黑色 gripper、手臂遮挡、快速运动、接触和背景干扰；同一输入、同一裁剪、同一分辨率比较。\n2) 统一输出 taxonomy：gripper-only、hand/end-effector、arm+gripper；每路保存 binary mask、overlay、mask video 与输入/配置/prompt metadata。\n3) 制作少量人工 reference masks 或可审计 consensus labels，报告 mask IoU、Boundary F / edge quality、gripper recall、missing-gripper rate、false foreground rate、frame-to-frame mask IoU、bbox jitter、topology jump、propagation drift、runtime、峰值显存、初始化/人工修正成本。\n4) X2SAM 至少比较 text instruction 与 visual-prompt initialization；RoboSeg 使用官方 checkpoint / inference 设置；Cloak 仅在 URDF/MJCF、joint state 和 camera extrinsics 可对齐时渲染，缺 metadata 时记录明确 blocker，不生成伪 GT。\n5) 输出同帧三路可视化、定量 CSV/JSON、failure gallery 和最小复现命令/环境/git SHA；失败样例至少覆盖 gripper miss、arm over-mask、object leakage、接触区断裂和时序漂移。\n6) 给出主线决策：RoboSeg 是否继续做 robot-mask mainline，X2SAM 是否适合作为语言/视觉提示 fallback 或人工修正器，Cloak geometry mask 是否适合作为 wrist-view oracle / VLA masking ablation；结论必须基于同输入证据，不以论文通用 benchmark 代替 UMI 数据结果。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Lai / Seb.M / Boris",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-07-13T02:07:08.254Z"
     }
   ]
 }
