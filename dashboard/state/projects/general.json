@@ -4,9 +4,9 @@
   "title": "Procurement Table",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-07-16T07:01:29.693Z",
+  "updated_at": "2026-07-16T07:32:49.420Z",
   "description": "Editable lab procurement and equipment-loan register for cross-project hardware",
-  "summary": "Editable register for lab purchases and equipment loans. Quoted packages cover Flexiv Rizon 4s x2, xArm7 x2, optical tables x2, FACTR-Franka x2, one Wuji Hand2 left/right pair with a Wuji motion-capture glove pair, and a RealMan RM75-B-V bimanual package quoted at USD 25,500. The bimanual base remains RealMan x2 versus Tianji CCS 696 x2; an additional open-source dexterous-hand pair is ROBOTIS HX5 versus MIDAS Hand. Three DaiMeng loan bundles are planned for Singapore: a DM-DataMaster teleoperation set, a new-generation UMI DM-DataClaw/DM-DataPacket set, and a DM-DateDex glove pair. Quote PDFs and loan documents stay private and are referenced only by safe inventory details. Rows are sorted by status first and then by last update; received items remain behind the bottom archive toggle.",
+  "summary": "Editable register for lab purchases and equipment loans. Quoted packages cover Flexiv Rizon 4s x2, xArm7 x2, optical tables x2, FACTR-Franka x2, one Wuji Hand2 left/right pair with a Wuji motion-capture glove pair, a RealMan RM75-B-V bimanual package at USD 25,500, and a Tianji Marvin-M6-CCS 696 bimanual package at USD 33,300. The bimanual base remains RealMan x2 versus Tianji CCS 696 x2; compare normalized landed cost because the quotes use different Incoterms. An additional open-source dexterous-hand pair is ROBOTIS HX5 versus MIDAS Hand. Three DaiMeng loan bundles are planned for Singapore: a DM-DataMaster teleoperation set, a new-generation UMI DM-DataClaw/DM-DataPacket set, and a DM-DateDex glove pair. Quote PDFs and loan documents stay private and are referenced only by safe inventory details. Rows are sorted by status first and then by last update; received items remain behind the bottom archive toggle.",
   "intro_table": {
     "kind": "procurement_table",
     "caption": "Editable purchase and equipment-loan register · blank pending, dash ordered/loan confirmed, check arrived",
@@ -166,11 +166,11 @@
       },
       {
         "row_id": "proc_tianji_ccs_696_bimanual_pair_20260716",
-        "updated_at": "2026-07-16T04:57:21Z",
-        "item": "Bimanual platform option B: 2x Tianji CCS 696 arms / 双臂候选 B：天机 CCS 696 ×2",
+        "updated_at": "2026-07-16T07:30:52Z",
+        "item": "Bimanual platform option B: 2x Tianji Marvin-M6-CCS 696 arms / 双臂候选 B：天机 CCS 696 ×2",
         "status": "",
-        "route": "Tianji CCS 696 vendor · quote pending · selected over M6 Lite · choose against RealMan",
-        "notes": "Mutually exclusive bimanual-base option B; purchase either this Tianji CCS 696 pair or the RealMan pair, not both. CCS 696 is selected over M6 Lite for the Tianji option: each CCS 696 arm is specified at 6 kg payload and 695 mm reach, versus 5 kg payload and 615 mm reach for M6 Lite. Neither Tianji model is covered by the three supplied quotation PDFs, so obtain a separate CCS 696 quote for two arms. Compare pair price, controller and SDK openness, force-control and synchronization support, mounting footprint, warranty, lead time and local support."
+        "route": "Tianji quote dated 2026-07-16 · DAP USD 33,300 · valid for 30 days · choose against RealMan",
+        "notes": "Quote received: TianJi Quotation -NUS 2026.7.16(2).pdf. Mutually exclusive bimanual-base option B; purchase either this Tianji pair or the RealMan pair, not both. Scope: 2x Marvin-M6-CCS 696 7-DoF force-controlled humanoid robot arms, discounted from USD 16,999 to USD 14,000 per arm (USD 28,000 total); one power module at USD 500; one robot support frame at USD 400; one robot pedestal at USD 600; and a USD 3,800 shipping-fee line, for a quoted total of USD 33,300. Standard-arm remarks list a robot-arm control module, Tianji Robot Control Software V1.0, optional built-in USB cable, CCS wrist configuration, Tianji white color and two-week delivery lead time. Terms: DAP to Singapore, including customs clearance, international transportation, import duties and applicable import taxes but excluding local miscellaneous handling after delivery; 100% advance T/T before shipment; 30-day quotation validity from 2026-07-16. The quote does not state a warranty. Prior comparison information identifies CCS 696 as 6 kg payload and 695 mm reach versus M6 Lite at 5 kg and 615 mm, but this quote does not restate payload or reach; require the signed datasheet, warranty, controller/SDK access, synchronization and force-control interfaces, USB-cable inclusion, safety/E-stop scope, local support and final landed-cost exclusions before approval. Compare against RealMan only after normalizing CFR versus DAP scope."
       },
       {
         "row_id": "proc_wuji_gen2_dexterous_hand_pair_romoya_20260713",
