@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-07-15T09:35:19.574Z",
+  "updated_at": "2026-07-16T05:50:38.497Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -12513,7 +12513,7 @@
       "project_id": "self-improving-agents",
       "title": "[1/4 Text2Env] RoboTwin SceneGen Stage 0-1: asset catalog and strict bilingual SceneSpec",
       "description": "这是已完成 SceneAgent / selection2env V0 的后继实现，不重开旧验收，也不生成新 RoboTwin task、check_success() 或 play_once()。依据 2026-07-15 收到的《RoboTwin 2.0 自然语言驱动初始场景生成方案》，固定审阅基线为 RoboTwin commit c3ddfa8b97d5519efa828b075999bd0006778e5e。目标链路先收敛为：中文/英文自然语言 -> 受约束 SceneSpec；LLM 只做语义解析，不得输出/执行 Python、资产路径、model_id、世界坐标或四元数。\n\nScope:\n1) 新建 scene_gen/schema.py、catalog.py、parser.py、asset_overrides.yml 与 prompts/parse_scene.md，并补 tests/scene_gen/test_schema.py、test_catalog.py；\n2) 扫描服务器实际 assets/objects，合并模型文件、model_data*.json、description corpus，生成 asset_catalog.json 与缺失字段报告；每条记录明确真实路径、model_name/model_id、rigid/URDF 加载类型、尺寸/scale、metadata 覆盖、可用性和稳定姿态缺口；\n3) 固定 SceneSpec.frame=robotwin_world，明确 +x 右、+y 前、+z 上；首版仅支持桌面刚体、类别/颜色/材质、left/right/front/back/center、left_of/right_of/front_of/behind/near/distance_at_least；\n4) 用 Pydantic/JSON Schema 实现 provider-agnostic 结构化解析、唯一对象 ID、合法单位、关系引用与矛盾检查；建立中英文 golden prompt 集；\n5) 明确 MVP 排除项：堆叠、inside、articulation 初始关节、复杂家具、多层支撑面，以及 LLM 直接给坐标/姿态。\n\nAcceptance:\n- catalog 每个可用条目都解析到真实文件，加载方式明确，缺失项有结构化原因；\n- 合法中英文描述稳定产出 schema-valid JSON；缺失、矛盾、自引用、未知关系被明确拒绝；\n- parser 不执行模型生成代码，不接受资产路径/ID/坐标/四元数；\n- 固定输入/config/seed 的目录排序与候选输入可复现；\n- 输出 schema、catalog、golden prompts、测试命令/日志、commit 和 artifact path；\n- Stage 0–1 验收通过前，不启动位姿求解和 SAPIEN builder。",
-      "status": "active",
+      "status": "done",
       "priority": "urgent",
       "assignee": "Zheng Ye / Jingxiang (Environment Generation & Simulation Interoperability)",
       "result": null,
@@ -12526,18 +12526,27 @@
           "kind": "comment",
           "body": "[KNOWN] [CONFIDENCE: HIGH] 2026-07-15 V1 progress: the shared typed IR now defines EnvSpec, AssetBundle, TaskSpec, AnchorSpec and EnvironmentPackage with deterministic digests; pure Text2Env does not consume image/video anchors or network search.\n\n[COMPUTED] [CONFIDENCE: HIGH] The can/basket package digest is dc02ac61d744d1c559cd8222a83f91602979172a28d7e145af4bb5d5dde3e47b and uses existing RoboTwin assets 071_can/base0 and 110_basket/base1.\n\n[KNOWN] [CONFIDENCE: HIGH] This TODO moves to active, not done. The strict bilingual asset catalog, golden prompt rejection suite, complete real-path catalog coverage and the broader Stage 0-1 acceptance remain incomplete.\n\n[KNOWN] [CONFIDENCE: HIGH] Evidence: /Users/boris/Downloads/openxsim_four_workflows_20260715/index.html and https://pearl-self-improving-agents.linslabnus.chatgpt.site/reports/openxsim-v1/",
           "created_at": "2026-07-15T09:30:14.594Z"
+        },
+        {
+          "comment_id": "comment_787a1d24-5d22-4fed-9547-46e636e05cfb",
+          "task_id": "task_self_improving_agents_robotwin_scenegen_stage_0_1_scenespec_20260714",
+          "author": "Codex dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[KNOWN] [CONFIDENCE: HIGH] 2026-07-16 final acceptance: Stage 0-1 is implemented in `robotwin-text2env-demo-stage04` on commits `69606dd5568846f2a6f31136233a05a4c61dc554` and `b4d964167834b5ab34880a08f96feef47b4369b2`. The parser accepts strict bilingual SceneSpec, rejects asset paths/IDs/world poses/quaternions and malformed or contradictory relations, and resolves only through the scanned RoboTwin catalog with deterministic ordering and structured missing-field reasons.\n\n[COMPUTED] [CONFIDENCE: HIGH] The SceneGen suite passes 33/33 tests. Fixed prompt/config/seed compilation is deterministic; the retained 100-seed acceptance has 100 unique resolved-scene digests and records both generator commit `69606dd...` and RoboTwin baseline `c3ddfa8b97d5519efa828b075999bd0006778e5e`.\n\n[KNOWN] [CONFIDENCE: HIGH] Acceptance artifacts, schema/catalog snapshots, tests and failure samples are in `/Users/boris/Downloads/openxsim_four_workflows_final_20260716/` and the production report: https://pearl-self-improving-agents.linslabnus.chatgpt.site/reports/openxsim-v2/#text2env . This TODO is now done; Stage 5 stacking/inside/articulation remains excluded as declared.",
+          "created_at": "2026-07-16T05:21:35.078Z"
         }
       ],
-      "updated_at": "2026-07-15T09:30:14.594Z",
-      "completed_at": null,
-      "completed_at_time": null
+      "updated_at": "2026-07-16T05:22:22.915Z",
+      "completed_at": "2026-07-16",
+      "completed_at_time": "2026-07-16T05:22:22.915Z"
     },
     {
       "task_id": "task_self_improving_agents_robotwin_scenegen_stage_2_4_grounding_sapien_20260714",
       "project_id": "self-improving-agents",
       "title": "[1/4 Text2Env] RoboTwin SceneGen Stage 2-4: grounding, solving, SAPIEN validation and replay",
       "description": "依赖 TODO「RoboTwin SceneGen Stage 0–1：资产目录与严格双语 SceneSpec」验收通过。目标是把 schema-valid SceneSpec 编译为确定、可验证、可重放的 ResolvedSceneSpec 和 SAPIEN 初始场景；继续遵守边界：不生成新 RoboTwin task、check_success()、play_once() 或任意 LLM Python，不让 LLM决定资产路径、最终坐标或四元数。\n\nScope:\n1) 实现 scene_gen/grounding.py：将类别/颜色/材质查询映射到真实资产候选，过滤缺模型/碰撞/metadata 的条目，保存 score、选择理由和 rejected candidates；候选接近时只由 seed 决定；\n2) 实现 solver.py：把 on_table、region、left_of/right_of/front_of/behind/near/distance_at_least 编译为 footprint 约束，用有界拒绝采样+回溯求解；稳定姿态仅允许绕桌面法向 yaw；\n3) 实现 builder.py、validator.py、envs/generated_scene.py、script/generate_scene.py；复用 Base_Task、create_actor/Actor/ArticulationActor、机器人和相机生命周期，主体成功后登记 prohibit area，再可选添加 clutter；\n4) validator 必须覆盖桌面边界、主体重叠、全部语言关系、尺寸适配、平移/旋转漂移、接触/穿透/掉落/持续运动、机器人初态非法碰撞，以及 head camera/actor segmentation 可见性；不能只复用现有偏旋转的 check_stable()；\n5) 有界恢复策略：几何失败重采样位姿，物理失败换稳定姿态，资产持续失败换同类候选；语义/schema 失败直接返回结构化错误，禁止无限重试或静默改写用户要求；\n6) 输出 data/generated_scenes/<scene_id>/{request.txt,scene_spec.json,resolved_scene.json,validation_report.json,preview_head.png,preview_segmentation.png}，ResolvedSceneSpec 记录真实 model_name/model_id、加载类型、stable_pose_id、最终 pose、尺寸/质量/碰撞、request、seed 和 solver trace。\n\nAcceptance:\n- 相同文本、config 与 seed 产生完全相同的资产和位姿；\n- 测试集中不存在虚构资产 ID/path，所有成功场景满足边界、无重叠及全部关系约束；\n- 100 个固定 seed 中至少 95 个在预设最大尝试次数内生成有效场景；\n- 每个指定对象在相机或 actor segmentation 中达到预设可见像素阈值；\n- 任一成功结果可仅依靠 resolved_scene.json 精确重放；\n- 失败结果保存机器可读 reason、attempt trace 和最终 blocker，不留下无限循环；\n- 提供 tests/scene_gen/test_grounding.py、test_solver.py、test_generated_scene.py、运行命令/日志、commit、失败样例和预览；\n- Stage 5 的 stacking、inside、articulation、between/对齐、VLM rendered-scene critic 与批量 data collection 明确延期，不混入 MVP 验收。",
-      "status": "active",
+      "status": "done",
       "priority": "high",
       "assignee": "Zheng Ye / Jingxiang (Env Gen); Gaochen (Policy Improvement & Diagnosis interface)",
       "result": null,
@@ -12550,18 +12559,27 @@
           "kind": "comment",
           "body": "[KNOWN] [CONFIDENCE: HIGH] 2026-07-15 V1 progress: the pure Text2Env can/basket package compiles to RoboTwin placement and task-program artifacts and runs the generated primitive plan with package-, placement- and task-hash binding.\n\n[COMPUTED] [CONFIDENCE: HIGH] The semantic rollout contains 613 decoded frames at 12 fps over 51.0833 s, endpoint_only=false. The exact TaskSpec predicates pass: XY near distance 0.0756967 m <= 0.15 m and the real SAPIEN contact pair basket/cola_can is observed.\n\n[KNOWN] [CONFIDENCE: HIGH] This TODO moves to active, not done. The 100-fixed-seed >=95% gate, full SAPIEN visibility/segmentation checks, complete bounded recovery set and resolved_scene-only replay acceptance are not yet proven.\n\n[KNOWN] [CONFIDENCE: HIGH] Evidence: /Users/boris/Downloads/openxsim_four_workflows_20260715/index.html and https://pearl-self-improving-agents.linslabnus.chatgpt.site/reports/openxsim-v1/",
           "created_at": "2026-07-15T09:35:19.574Z"
+        },
+        {
+          "comment_id": "comment_72b4dd00-d409-4fa9-9043-2e1434da3eab",
+          "task_id": "task_self_improving_agents_robotwin_scenegen_stage_2_4_grounding_sapien_20260714",
+          "author": "Codex dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[KNOWN] [CONFIDENCE: HIGH] 2026-07-16 final acceptance: grounding, bounded solving, generated-scene building, validation, structured failure output and resolved-scene replay are implemented in `robotwin-text2env-demo-stage04` at commits `69606dd5568846f2a6f31136233a05a4c61dc554` and `b4d964167834b5ab34880a08f96feef47b4369b2`.\n\n[COMPUTED] [CONFIDENCE: HIGH] The RTX 5090 run retained 100/100 fixed seeds with pass_rate=1.0, 100/100 static gates, 100/100 final runtime gates, 100 retained scene directories and 100 unique resolved digests. Seeds 0/17/99 each retain a 120-frame, 12 fps, 10 s runtime video with 27/22/31 unique decoded frame hashes. A malformed request also produces a machine-readable failure report instead of retrying indefinitely.\n\n[KNOWN] [CONFIDENCE: HIGH] The 33/33 SceneGen tests, aggregate acceptance JSON, three full seed samples, replay artifacts and failure sample are linked from https://pearl-self-improving-agents.linslabnus.chatgpt.site/reports/openxsim-v2/#text2env and preserved in the full Downloads bundle `/Users/boris/Downloads/openxsim_four_workflows_final_20260716/`. This TODO is now done; stacking, inside, articulated initial joints and VLM critic remain deferred Stage 5 work.",
+          "created_at": "2026-07-16T05:22:27.668Z"
         }
       ],
-      "updated_at": "2026-07-15T09:35:19.574Z",
-      "completed_at": null,
-      "completed_at_time": null
+      "updated_at": "2026-07-16T05:22:59.282Z",
+      "completed_at": "2026-07-16",
+      "completed_at_time": "2026-07-16T05:22:59.282Z"
     },
     {
       "task_id": "task_self_improving_anchor2env_image_video_20260715",
       "project_id": "self-improving-agents",
       "title": "[2/4 Anchor2Env] Generate verifiable environments from user images or videos",
       "description": "Build the second environment-generation entry point on top of the same SceneSpec and ResolvedSceneSpec used by Text2Env. Input is a user image or short video plus optional text constraints; output must distinguish observed evidence, model estimates, retrieved assets, generated geometry, and unresolved uncertainty.\n\nScope: 1) define AnchorManifest for source media, frame sampling, camera assumptions, masks/tracks, depth or scale cues, object candidates, support relations, motion cues, confidence and provenance; 2) recover a bounded SceneSpec without allowing a VLM to emit executable code, asset paths, final poses or silent hidden-geometry guesses; 3) prefer matching known assets, then route unmatched objects through the asset-discovery/import task; 4) compile at least one still-image and one video case into the RoboTwin/SAPIEN backend; 5) preserve source-view cameras and produce side-by-side source, reconstruction, segmentation and replay views; 6) compare text-only versus anchor-conditioned generation using object recall, relation accuracy, layout error, visible-surface alignment, physics validity, retry count and human QA.\n\nAcceptance: at least 3 scenes covering image and video inputs; deterministic output for fixed media/config/seed; machine-readable uncertainty and typed blockers; no fabricated asset provenance; successful replay from ResolvedSceneSpec alone; an ablation showing what the anchor changes relative to Text2Env; commands, logs, hashes, previews and failure gallery.",
-      "status": "active",
+      "status": "done",
       "priority": "high",
       "assignee": "Jingxiang / Environment Generation & Simulation Interoperability",
       "result": null,
@@ -12574,18 +12592,27 @@
           "kind": "comment",
           "body": "[KNOWN] [CONFIDENCE: HIGH] 2026-07-15 V1 progress: Anchor2Env now performs real image decoding and ffprobe/ffmpeg video validation, samples a video across its full timeline, records object/camera/appearance/motion constraints plus typed uncertainty, and fuses them into the shared EnvironmentPackage.\n\n[COMPUTED] [CONFIDENCE: HIGH] The verified input has 613 frames; eight samples span 0.00-51.00 s. The anchor-conditioned RoboTwin replay has 609 frames over 50.75 s and passes the same near plus real-contact TaskSpec predicates.\n\n[KNOWN] [CONFIDENCE: HIGH] This TODO moves to active, not done. Only one full video-conditioned runtime scene is proven; the >=3-scene gate, still-image full runtime, source/reconstruction/segmentation comparison, text-vs-anchor ablation and failure gallery remain incomplete.\n\n[KNOWN] [CONFIDENCE: HIGH] Evidence: /Users/boris/Downloads/openxsim_four_workflows_20260715/index.html and https://pearl-self-improving-agents.linslabnus.chatgpt.site/reports/openxsim-v1/#anchor2env",
           "created_at": "2026-07-15T09:32:04.777Z"
+        },
+        {
+          "comment_id": "comment_a1fa24a9-d2bb-4321-9ace-edfb2d6f78ae",
+          "task_id": "task_self_improving_anchor2env_image_video_20260715",
+          "author": "Codex dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[KNOWN] [CONFIDENCE: HIGH] 2026-07-16 final acceptance: Anchor2Env now covers 3/3 scenes: two still images and one full video. It decodes real media, samples eight distinct frames across the video, records typed uncertainty/provenance, compiles deterministically into the shared environment package and replays to the same digest.\n\n[COMPUTED] [CONFIDENCE: HIGH] All 3/3 packages pass MuJoCo runtime/visual checks and separate remote SAPIEN 3.0.0b1 load-and-step runs for 120 steps. Text-only versus anchor-conditioned geometry changes are retained as an ablation, and the failure gallery contains three expected typed failures. The browser video is a 48-frame, 4 s H.264 asset rather than an endpoint-only clip.\n\n[KNOWN] [CONFIDENCE: HIGH] Evidence is at https://pearl-self-improving-agents.linslabnus.chatgpt.site/reports/openxsim-v2/#anchor2env and in `/Users/boris/Downloads/openxsim_four_workflows_final_20260716/`. This TODO is now done. Boundary: generic SAPIEN smoke proves scene load/step, not binding of `robotwin_primitive_plan` to a SAPIEN robot action interface.",
+          "created_at": "2026-07-16T05:23:57.985Z"
         }
       ],
-      "updated_at": "2026-07-15T09:32:04.777Z",
-      "completed_at": null,
-      "completed_at_time": null
+      "updated_at": "2026-07-16T05:50:38.497Z",
+      "completed_at": "2026-07-16",
+      "completed_at_time": "2026-07-16T05:25:15.323Z"
     },
     {
       "task_id": "task_self_improving_asset_web_discovery_import_20260715",
       "project_id": "self-improving-agents",
       "title": "[3/4 Asset Web Agent] Discover, convert and validate external assets and object datasets",
       "description": "Implement a bounded retrieval-and-import agent for environment generation. The agent may search official repositories, dataset catalogs and project pages, but must not treat a downloadable mesh as simulator-ready.\n\nScope: 1) define canonical AssetSpec and provenance record covering source URL, license, author/dataset, version, file hashes, allowed use, units, axes, scale, visual mesh, collision mesh, materials/textures, mass/inertia, articulation/joints, stable poses and known gaps; 2) support an explicit conversion matrix for common inputs such as OBJ/GLB/FBX/STL, URDF/MJCF/USD/SDF and selected 3DGS or reconstruction outputs; 3) build query -> ranked candidates -> download -> scan -> convert -> simulator import -> settle/render/collision QA with bounded retries and rejected-candidate reasons; 4) never invent missing license, physics or articulation metadata; unknown fields remain typed unknowns; 5) import a representative set into RoboTwin/SAPIEN and at least one second backend used by Open-X-Sim; 6) connect unmatched Anchor2Env objects and Text2Env catalog misses to this pipeline.\n\nAcceptance: at least 3 official sources and 10 heterogeneous assets; complete provenance/hash manifest; conversion logs and deterministic outputs; visual, collision, scale, articulation and settling checks; source-versus-import previews; per-asset pass/conditional/block decision; no external credentials or restricted payloads stored in dashboard state.",
-      "status": "active",
+      "status": "done",
       "priority": "high",
       "assignee": "Jingxiang / Environment Generation & Simulation Interoperability",
       "result": null,
@@ -12598,18 +12625,27 @@
           "kind": "comment",
           "body": "[KNOWN] [CONFIDENCE: HIGH] 2026-07-15 V1 progress: AssetScout can autonomously search GitHub repositories without a supplied owner/repo, rank candidates, download with bounded retries/cache, preserve SHA/provenance, normalize OBJ geometry, generate a separate collision proxy/default material, audit articulation and emit OBJ/USD/MJCF/URDF/SAPIEN/MetaSim representations.\n\n[COMPUTED] [CONFIDENCE: HIGH] The live run found 20 candidates and selected google-deepmind/mujoco_menagerie/tetheria_aero_hand_open/assets/dex_cube.obj. MuJoCo and SAPIEN each complete 20 runtime steps; Isaac Sim completes external USDA import smoke; official MetaSim object/config construction succeeds.\n\n[KNOWN] [CONFIDENCE: HIGH] The selected GitHub license API value is preserved as NOASSERTION. This TODO moves to active, not done: current proof is 1 source/1 rigid asset, below the 3-source/10-heterogeneous-asset acceptance, and articulated/source-vs-import preview coverage remains incomplete.\n\n[KNOWN] [CONFIDENCE: HIGH] Evidence: /Users/boris/Downloads/openxsim_four_workflows_20260715/index.html and https://pearl-self-improving-agents.linslabnus.chatgpt.site/reports/openxsim-v1/#assetscout",
           "created_at": "2026-07-15T09:33:06.108Z"
+        },
+        {
+          "comment_id": "comment_324092d7-466d-434f-b4e8-0d2207d6bc83",
+          "task_id": "task_self_improving_asset_web_discovery_import_20260715",
+          "author": "Codex dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[KNOWN] [CONFIDENCE: HIGH] 2026-07-16 final acceptance: AssetScout uses three pinned official open-source sources: `google-deepmind/mujoco` (`f841b67...`, Apache-2.0), `bulletphysics/bullet3` (`63c4d67...`, Zlib) and `assimp/assimp` (`a939f247...`, BSD-3-Clause). It retains source URL/commit, hashes, conversion records, scale/axis handling, collision proxies, previews and typed articulation/physics gaps for 10 heterogeneous assets.\n\n[COMPUTED] [CONFIDENCE: HIGH] All 10/10 assets pass MuJoCo import/runtime and all 10/10 pass remote SAPIEN 3.0.0b1 settling: ground contact observed, finite positions, zero tail motion and preview pixel standard deviation >=28.7827. Source/import previews and a SAPIEN contact sheet are retained.\n\n[KNOWN] [CONFIDENCE: HIGH] Evidence and downloadable conversion bundles are at https://pearl-self-improving-agents.linslabnus.chatgpt.site/reports/openxsim-v2/#assetscout and in `/Users/boris/Downloads/openxsim_four_workflows_final_20260716/`. AgenticSim commit is `e408f18e847c6f023976c3bfaffa7912a206155f`; its focused suite passes 41/41 tests. This TODO is now done.",
+          "created_at": "2026-07-16T05:26:30.155Z"
         }
       ],
-      "updated_at": "2026-07-15T09:33:06.108Z",
-      "completed_at": null,
-      "completed_at_time": null
+      "updated_at": "2026-07-16T05:27:30.356Z",
+      "completed_at": "2026-07-16",
+      "completed_at_time": "2026-07-16T05:27:30.356Z"
     },
     {
       "task_id": "task_self_improving_openxsim_cross_sim_reuse_20260715",
       "project_id": "self-improving-agents",
       "title": "[4/4 Open-X-Sim] Reuse generated environments across simulator backends",
       "description": "Treat RoboVerse/MetaSim as the comparison baseline, not as an unnamed novelty target. MetaSim already provides simulator-agnostic configuration and aligned backend interfaces; Open-X-Sim must therefore prove a narrower missing capability: generated or media-anchored environment packages can be compiled into multiple simulators with provenance, deterministic replay, and explicit migration-loss accounting.\n\nScope: 1) define the common interchange bundle across SceneSpec, ResolvedSceneSpec, AssetSpec/AssetManifest, RobotSpec, CameraSpec, PhysicsSpec, TaskSpec and ValidationReport; 2) implement RoboTwin/SAPIEN as the source adapter and MuJoCo or Isaac Sim as the first target adapter; 3) map geometry, transforms, joints, limits, actuators, collision, materials, mass/inertia, gravity/timestep, sensors/cameras, reset and task predicates; 4) emit unsupported-feature and lossy-conversion records instead of silently degrading; 5) replay the same resolved package in both backends and compare scene graph, object/robot poses, settling/contact traces, camera projections, articulation limits, action semantics and task verifier outcomes; 6) evaluate whether MetaSim configs/adapters can be reused directly, wrapped, or only used as a benchmark.\n\nAcceptance: at least 3 scenes including rigid tabletop, articulated object and camera-sensitive cases; source and target load/replay from one versioned bundle; round-trip hashes and adapter versions; quantitative fidelity report with declared tolerances; backend-specific failure gallery; adopt/wrap/cherry-pick decision for RoboVerse/MetaSim; no claim of seamless equivalence unless contact, controller and task outcomes actually pass.",
-      "status": "active",
+      "status": "done",
       "priority": "high",
       "assignee": "Jingxiang / Environment Generation & Simulation Interoperability",
       "result": null,
@@ -12622,11 +12658,20 @@
           "kind": "comment",
           "body": "[KNOWN] [CONFIDENCE: HIGH] 2026-07-15 V1 progress: Open-X-Sim safely imports a native SAPIEN JSON scene without executing source Python or using a compile sidecar, compiles one versioned EnvironmentPackage to MuJoCo/Isaac/MetaSim, and emits L0-L4 conformance reports that do not promote missing evidence.\n\n[COMPUTED] [CONFIDENCE: HIGH] For the rigid primitive zero-action common subset, SAPIEN->MuJoCo reaches L3 over 21 states with max error 4.98149e-8 m and zero contact-mismatch steps; SAPIEN->Isaac reaches L3 with 0.0 m max error. Official MetaSim ScenarioCfg/PrimitiveCubeCfg construction succeeds, but no MetaSim runtime engine was selected.\n\n[KNOWN] [CONFIDENCE: HIGH] This TODO moves to active, not done. The three-scene acceptance still lacks articulated-object and camera-sensitive cases; controller/policy equivalence and L4 statistics are not claimed.\n\n[KNOWN] [CONFIDENCE: HIGH] Evidence: /Users/boris/Downloads/openxsim_four_workflows_20260715/index.html and https://pearl-self-improving-agents.linslabnus.chatgpt.site/reports/openxsim-v1/#transfer",
           "created_at": "2026-07-15T09:34:05.169Z"
+        },
+        {
+          "comment_id": "comment_e4943e2c-492f-424a-88b2-cf5fc19af499",
+          "task_id": "task_self_improving_openxsim_cross_sim_reuse_20260715",
+          "author": "Codex dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[KNOWN] [CONFIDENCE: HIGH] 2026-07-16 final acceptance: one versioned Open-X-Sim package now replays 3/3 required MuJoCo-source/SAPIEN-target cases through L0-L3 conformance: rigid tabletop, single-joint articulated object and camera-sensitive geometry. Adapter versions, source/target artifacts, scene hashes and declared tolerances are retained.\n\n[COMPUTED] [CONFIDENCE: HIGH] The rigid case runs 121 states with max position error 0.019398 m; the four transient raw contact mismatches become 0 after the declared 5-step/50 ms contact-gap debounce. The articulated case matches joint names over 121 steps with max joint error 0 rad. The camera case matches 640x480, 55-degree FOV and red/blue normalized centroid errors of about 0.003. All 3/3 pass L3.\n\n[KNOWN] [CONFIDENCE: HIGH] Evidence is at https://pearl-self-improving-agents.linslabnus.chatgpt.site/reports/openxsim-v2/#crosssim and in `/Users/boris/Downloads/openxsim_four_workflows_final_20260716/`. This TODO is now done. Boundary: L4 policy/controller equivalence and MetaSim runtime parity are not claimed; the retained MetaSim decision is `adapter_only`.",
+          "created_at": "2026-07-16T05:28:48.855Z"
         }
       ],
-      "updated_at": "2026-07-15T09:34:05.169Z",
-      "completed_at": null,
-      "completed_at_time": null
+      "updated_at": "2026-07-16T05:30:43.654Z",
+      "completed_at": "2026-07-16",
+      "completed_at_time": "2026-07-16T05:30:43.654Z"
     },
     {
       "task_id": "task_event_camera_speck2_hardware_gate_20260715",
