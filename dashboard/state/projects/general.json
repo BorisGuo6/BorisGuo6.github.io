@@ -4,12 +4,12 @@
   "title": "Procurement Table",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-07-16T04:59:32.711Z",
-  "description": "Editable lab procurement register for cross-project purchases",
-  "summary": "Editable procurement register for lab purchases. Quoted packages cover Flexiv Rizon 4s x2, xArm7 x2, optical tables x2, FACTR-Franka x2, and one Wuji Hand2 left/right pair with a Wuji motion-capture glove pair. The bimanual base is RealMan x2 versus Tianji CCS 696 x2; an additional open-source dexterous-hand pair is ROBOTIS HX5 versus MIDAS Hand. Quote PDFs stay private and are referenced by filename only. Rows are sorted by status first and then by last update; received items remain behind the bottom archive toggle.",
+  "updated_at": "2026-07-16T05:16:49.622Z",
+  "description": "Editable lab procurement and equipment-loan register for cross-project hardware",
+  "summary": "Editable register for lab purchases and equipment loans. Quoted packages cover Flexiv Rizon 4s x2, xArm7 x2, optical tables x2, FACTR-Franka x2, and one Wuji Hand2 left/right pair with a Wuji motion-capture glove pair. The bimanual base is RealMan x2 versus Tianji CCS 696 x2; an additional open-source dexterous-hand pair is ROBOTIS HX5 versus MIDAS Hand. Three DaiMeng loan bundles are planned for Singapore: a DM-DataMaster teleoperation set, a new-generation UMI DM-DataClaw/DM-DataPacket set, and a DM-DateDex glove pair. Quote PDFs and loan documents stay private and are referenced only by safe inventory details. Rows are sorted by status first and then by last update; received items remain behind the bottom archive toggle.",
   "intro_table": {
     "kind": "procurement_table",
-    "caption": "Editable procurement register · blank not ordered, dash ordered, check arrived",
+    "caption": "Editable purchase and equipment-loan register · blank pending, dash ordered/loan confirmed, check arrived",
     "editable": true,
     "sortable": true,
     "default_sort": {
@@ -44,6 +44,30 @@
       }
     ],
     "rows": [
+      {
+        "row_id": "loan_daimeng_datamaster_teleop_set_20260805",
+        "updated_at": "2026-07-16T05:15:26Z",
+        "item": "Planned DaiMeng loan: DM-DataMaster Hand + DM-DataMaster Station / 戴盟遥操作设备借测套装",
+        "status": "",
+        "route": "DaiMeng loan · confirm handover scope before possible Singapore hand-carry on 2026-08-05",
+        "notes": "Purpose: reproduce the DaiMeng gripper teleoperation and test platform in Singapore. Requested inventory: DM25TO02H000 DM-DataMaster Hand x1 and DM25TO02S000 DM-DataMaster Station (stand version) x1. Before the handover is marked confirmed, freeze the complete packing list: gloves, station/stand, controllers, power supplies, chargers, cables, mounting hardware, calibration files, firmware/SDK and operating instructions. Record asset or serial numbers, working-condition evidence, lender/borrower owners, customs or temporary-loan paperwork, transport restrictions, handover date and return date; do not store signatures or private documents in the dashboard."
+      },
+      {
+        "row_id": "loan_daimeng_dataclaw_datapacket_umi_set_20260805",
+        "updated_at": "2026-07-16T05:15:26Z",
+        "item": "Planned DaiMeng loan: 2x DM-DataClaw + DM-DataPacket / 戴盟新版 UMI 借测套装",
+        "status": "",
+        "route": "DaiMeng loan · confirm handover scope before possible Singapore hand-carry on 2026-08-05",
+        "notes": "Purpose: update the existing Singapore V1 UMI setup with the newer DaiMeng collection hardware. Requested inventory: DM25DA03G000 DM-DataClaw x2 and DM25DA03P000 DM-DataPacket x1. Confirm both grippers, backpack/packet unit, batteries and chargers, storage media, cables, mounts, spare consumables, firmware/SDK, calibration files, synchronization path and V1 data/schema compatibility. Record asset or serial numbers, a pre-handover capture smoke test, customs or temporary-loan paperwork, transport restrictions, responsible owners, handover date and return terms."
+      },
+      {
+        "row_id": "loan_daimeng_datedex_glove_pair_20260805",
+        "updated_at": "2026-07-16T05:15:26Z",
+        "item": "Planned DaiMeng loan: 2x DM-DateDex data-collection gloves / 戴盟无本体数采手套一对",
+        "status": "",
+        "route": "DaiMeng loan · confirm handover scope before possible Singapore hand-carry on 2026-08-05",
+        "notes": "Purpose: collect dexterous-hand tactile data in Singapore. Requested inventory: DM26DA04H000 DM-DateDex x2, treated as one glove pair. Confirm left/right configuration, glove sizes, tactile and pose channels, raw-data access, sampling and synchronization interfaces, controller/receiver, batteries and chargers, cables, software, calibration files and one acquisition smoke test. Record asset or serial numbers, working-condition evidence, customs or temporary-loan paperwork, transport restrictions, responsible owners, handover date and return terms."
+      },
       {
         "row_id": "proc_eflesh_base_tpu95_n52_structure_20260715",
         "updated_at": "2026-07-15T00:58:00+08:00",
