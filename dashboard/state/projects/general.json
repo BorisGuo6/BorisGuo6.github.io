@@ -4,9 +4,9 @@
   "title": "Procurement Table",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-07-16T04:27:36.105Z",
+  "updated_at": "2026-07-16T04:59:32.711Z",
   "description": "Editable lab procurement register for cross-project purchases",
-  "summary": "Editable procurement register for lab purchases. Quoted packages cover Flexiv Rizon 4s x2, xArm7 x2, optical tables x2, FACTR-Franka x2, and one Wuji Hand2 left/right pair with a Wuji motion-capture glove pair. The bimanual base is RealMan x2 versus Tianji M6S-Lite x2; an additional open-source dexterous-hand pair is ROBOTIS HX5 versus MIDAS Hand. Quote PDFs stay private and are referenced by filename only. Rows are sorted by status first and then by last update; received items remain behind the bottom archive toggle.",
+  "summary": "Editable procurement register for lab purchases. Quoted packages cover Flexiv Rizon 4s x2, xArm7 x2, optical tables x2, FACTR-Franka x2, and one Wuji Hand2 left/right pair with a Wuji motion-capture glove pair. The bimanual base is RealMan x2 versus Tianji CCS 696 x2; an additional open-source dexterous-hand pair is ROBOTIS HX5 versus MIDAS Hand. Quote PDFs stay private and are referenced by filename only. Rows are sorted by status first and then by last update; received items remain behind the bottom archive toggle.",
   "intro_table": {
     "kind": "procurement_table",
     "caption": "Editable procurement register · blank not ordered, dash ordered, check arrived",
@@ -137,16 +137,16 @@
         "updated_at": "2026-07-16T04:22:43Z",
         "item": "Bimanual platform option A: 2x RealMan arms + DaiMeng gripper / 双臂候选 A：睿尔曼 ×2 + 戴盟夹爪",
         "status": "",
-        "route": "RealMan/Romoya · quote missing · choose against Tianji M6S-Lite",
-        "notes": "Mutually exclusive bimanual-base option A; purchase either this RealMan pair or the Tianji M6S-Lite pair, not both. No RealMan quotation is present in the supplied three PDFs. Request the exact arm model, pair price, payload/reach, controller and SDK, force-control capability, mounting hardware, warranty and lead time, then include the DaiMeng gripper electrical/mechanical adapter, collision and E-stop setup, delivery destination and acceptance owner in the comparison."
+        "route": "RealMan/Romoya · quote missing · choose against Tianji CCS 696",
+        "notes": "Mutually exclusive bimanual-base option A; purchase either this RealMan pair or the Tianji CCS 696 pair, not both. No RealMan quotation is present in the supplied three PDFs. Request the exact arm model, pair price, payload/reach, controller and SDK, force-control capability, mounting hardware, warranty and lead time, then include the DaiMeng gripper electrical/mechanical adapter, collision and E-stop setup, delivery destination and acceptance owner in the comparison."
       },
       {
-        "row_id": "proc_tianji_m6s_lite_bimanual_pair_20260716",
-        "updated_at": "2026-07-16T04:22:43Z",
-        "item": "Bimanual platform option B: 2x Tianji M6S-Lite arms + DaiMeng gripper / 双臂候选 B：天机 M6S-Lite ×2 + 戴盟夹爪",
+        "row_id": "proc_tianji_ccs_696_bimanual_pair_20260716",
+        "updated_at": "2026-07-16T04:57:21Z",
+        "item": "Bimanual platform option B: 2x Tianji CCS 696 arms + DaiMeng gripper / 双臂候选 B：天机 CCS 696 ×2 + 戴盟夹爪",
         "status": "",
-        "route": "Tianji M6S-Lite vendor · quote pending · choose against RealMan",
-        "notes": "Mutually exclusive bimanual-base option B; purchase either this Tianji M6S-Lite pair or the RealMan pair, not both. M6S-Lite is not covered by the three supplied quotation PDFs, so obtain a separate quote for two arms. Compare pair price, payload/reach, controller and SDK openness, force-control and synchronization support, mounting footprint, warranty, lead time, local support and the DaiMeng gripper adapter effort using the same acceptance sheet as RealMan."
+        "route": "Tianji CCS 696 vendor · quote pending · selected over M6 Lite · choose against RealMan",
+        "notes": "Mutually exclusive bimanual-base option B; purchase either this Tianji CCS 696 pair or the RealMan pair, not both. CCS 696 is selected over M6 Lite for the Tianji option: each CCS 696 arm is specified at 6 kg payload and 695 mm reach, versus 5 kg payload and 615 mm reach for M6 Lite. Neither Tianji model is covered by the three supplied quotation PDFs, so obtain a separate CCS 696 quote for two arms. Compare pair price, controller and SDK openness, force-control and synchronization support, mounting footprint, warranty, lead time, local support and the DaiMeng gripper adapter effort using the same acceptance sheet as RealMan."
       },
       {
         "row_id": "proc_wuji_gen2_dexterous_hand_pair_romoya_20260713",
