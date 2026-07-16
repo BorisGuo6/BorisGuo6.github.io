@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-07-16T13:15:45.137Z",
+  "updated_at": "2026-07-16T13:58:59.096Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -12056,8 +12056,8 @@
       "title": "Ziyang / Meng：Object Layer pose / flow / value 路由验证",
       "status": "active",
       "priority": "high",
-      "assignee": "Ziyang / Meng / Boris",
-      "due_at": "2026-07-14",
+      "assignee": "Ziyang / Meng / Jiayi / Boris",
+      "due_at": "2026-07-20",
       "description": "目标是证明 Object Layer 对 manipulation 的实际价值，并按物体类型选择状态表示，而不是把所有对象都塞进一个密集 3D renderer。\n\n路线决策：刚体/关节物体优先走 6D pose；柔性物体、布料、电缆、流体或无可靠 CAD 的对象走 optical flow + keypoint/track 表示。会议正文写 ANeXy，但方法对比表又写 Any6D，ClawCross 群聊未找到可消歧原文；第一道 gate 必须确认准确项目名、代码库、模型输入和许可，禁止把两个名称当同一实现。若刚体后端需要 depth/intrinsics，则在数据生成或前处理阶段固定并记录相机内参，必要时接 DepthAnything 类 depth estimate，并对估计误差做敏感性测试。\n\nObject3D 当前约 1 min/batch、约 32GB、偏离线高斯输出，不应作为实时密集依赖；先把 object pose/flow/contact/state 作为稀疏 value/process-reward sidecar。柔性路线重点验证 flow/keypoint 是否能提供过程奖励、失败定位和任务进度，而不只生成漂亮光流图。\n\nAcceptance: 1) 明确 ANeXy/Any6D 名称歧义并附官方 repo/paper；2) 在同一组 rigid/articulated 与 deformable clips 上跑 pose 与 flow/keypoint 两路，保存命令、git SHA、输入输出、runtime、VRAM；3) 报告 rigid pose error/track stability，deformable endpoint/keypoint/flow consistency、contact timing 和 process-reward separability；4) 对 raw RGB、mask-only、object layer、object+background、recomposed clip 做同输入消融；5) 选择至少一个 RoboMimic/真实 robot benchmark smoke，不能只在本地人机环境展示；6) 输出 occlusion、fast motion、textureless object、cloth fold、cable crossing、pose/flow drift failure gallery；7) 在 GitHub 共享文档、表格和可视化，并给出按 object type 自动分流的 schema 与 fallback。",
       "result": null,
       "comments": [
@@ -12087,10 +12087,19 @@
           "kind": "comment",
           "body": "2026-07-13 Ziyang research note mapped to Stage 3 Layer utility evaluation:\n\n1. Known-state camera-to-robot branch: DREAM detects robot keypoints and uses forward kinematics + PnP; CtRNet's released ROS path consumes image + joint state; CtRNet-X adds partial-visibility robustness and an optional RGB-D refinement path. These are camera-extrinsics baselines, not observation-only robot-state estimators.\n2. Unknown-state Robot Layer branch: RoboPose estimates joint angles and 6D camera-to-robot pose from a single RGB image, while HoRoPose targets real-time RGB pose estimation without known robot state. Both still require explicit robot model/camera assumptions in the benchmark manifest.\n3. Differentiable rendering branch: keep Dr. Robot as a render-and-compare probe, but record the current blocker that Franka is not plug-and-play before treating it as an executable baseline.\n4. Rigid Object Layer branch: normalize the meeting-note typo to official Any6D. Its released path is RGB-D/calibration dependent and uses a single RGB-D anchor plus masks/camera intrinsics, so it is a calibrated rigid-object oracle rather than the default generated-video route.\n5. Deformable branch: optical flow is still untested. Run one cloth/cable smoke first, report 2D tracks independently, and only lift to 3D when depth/intrinsics are available with uncertainty recorded.\n\nNext gate: use one clip manifest to compare calibrated oracle vs estimated depth/intrinsics vs layer-only inputs. For each method log URDF, joint state, K, depth, mask, visibility, runtime, VRAM, pose/track error, and failure cases. Do not claim Layer utility from a route that receives stronger sensor or calibration inputs than its baseline.",
           "created_at": "2026-07-13T16:02:13.983Z"
+        },
+        {
+          "comment_id": "comment_a02e9229-2fbf-4130-8e39-d5cee94e9dae",
+          "task_id": "task_umi_ziyang_object_layer_pose_value_benchmark_20260707",
+          "author": "Codex / Image Layered Policy sync",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-07-16 群聊更新：Jiayi 加入 Stage 3，并与 Ziyang 同步当前未完成实验。她的主问题是 Object Layer 产生的 process reward 能否改善或诊断视频模型的反推结果。沿用现有 rigid pose / deformable optical-flow 路由，不另建重复 TODO；补齐同一 clips 上的 Object Layer quality、pose/flow stability、process-reward 定义，以及该 reward 与视频模型误差/失败阶段的相关性或干预消融。下次组会前至少提交一组可视化、指标表、失败样例和是否值得进入训练监督的 go/no-go 结论。",
+          "created_at": "2026-07-16T13:56:49.652Z"
         }
       ],
       "created_at": "2026-07-07T12:00:00+08:00",
-      "updated_at": "2026-07-13T16:02:13.983Z"
+      "updated_at": "2026-07-16T13:56:49.652Z"
     },
     {
       "task_id": "task_umi_user_tokens_autodl_resource_governance_20260707",
@@ -12370,60 +12379,70 @@
       "project_id": "urdf-embodiment-prior-world-model-idea",
       "title": "Novelty matrix: 锁定 URDF x action x dynamic-camera 研究边界",
       "description": "对 BridgeV2W、Kinema4D、OSCAR、EnerVerse-AC、RynnWorld-Teleop、WorldCraft / SymphoMotion 建 direct-match matrix，逐项记录 morphology input、action provenance、camera control、control/output representation、held-out embodiment/view split、code/data/license。验收：收敛为一句可证伪 claim；不得再把 URDF + camera 本身当作创新。",
-      "status": "active",
+      "status": "done",
       "priority": "high",
       "assignee": "Boris / Image Layered Policy",
       "result": null,
       "comments": [],
-      "updated_at": "2026-07-11T01:15:46.253Z"
+      "updated_at": "2026-07-16T13:46:52.413Z",
+      "completed_at": "2026-07-16",
+      "completed_at_time": "2026-07-16T13:46:52.413Z"
     },
     {
       "task_id": "task_urdf_embodiment_prior_world_model_idea_reference_compiler_v0_urdf_fk_action_multi_camer_20260711",
       "project_id": "urdf-embodiment-prior-world-model-idea",
       "title": "Reference compiler v0: URDF/FK + action + multi-camera TF",
       "description": "定义并实现显式 3D reference compiler。输入：URDF visual/collision mesh、q_cmd/q_meas/q_sim 及硬件时间戳、固定第三人称与随 link 运动的腕部相机内外参/畸变。输出：每相机 robot RGB render、skeleton、silhouette/link-ID、depth/normal/pointmap/flow/ray map、可见性和 layer manifest。验收：同一条 Franka 轨迹可重复生成两视角时间对齐 control bundle，并能反投影检查。",
-      "status": "todo",
+      "status": "done",
       "priority": "urgent",
       "assignee": "Boris / Jiahao / Image Layered Policy",
       "result": null,
       "comments": [],
-      "updated_at": "2026-07-11T01:16:13.365Z"
+      "updated_at": "2026-07-16T13:49:22.820Z",
+      "completed_at": "2026-07-16",
+      "completed_at_time": "2026-07-16T13:49:22.820Z"
     },
     {
       "task_id": "task_urdf_embodiment_prior_world_model_idea_camera_action_factorization_gate_x_20260711",
       "project_id": "urdf-embodiment-prior-world-model-idea",
       "title": "Camera/action factorization gate: 静/动机器人 x 静/动相机",
       "description": "建立四组配对：静机器人+静相机、动机器人+静相机、静机器人+动相机、动机器人+动相机。明确 world/base/link/tool/camera frame 方向、T_world_camera(t)=T_world_link(t)T_link_camera、内参裁剪、畸变、曝光/rolling shutter、时钟重采样与 command-to-execution latency。验收：每组都有 overlay、reprojection/pose error 曲线和可复现 calibration manifest。",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignee": "Boris / Real-Robot Infra / Image Layered Policy",
       "result": null,
       "comments": [],
-      "updated_at": "2026-07-11T01:16:42.107Z"
+      "updated_at": "2026-07-16T13:49:59.263Z",
+      "completed_at": "2026-07-16",
+      "completed_at_time": "2026-07-16T13:49:59.263Z"
     },
     {
       "task_id": "task_urdf_embodiment_prior_world_model_idea_film_space_style_two_view_generation_probe_20260711",
       "project_id": "urdf-embodiment-prior-world-model-idea",
       "title": "Film Space-style two-view generation probe",
       "description": "选一条短操作轨迹，用同一 world-frame robot trajectory 同时生成固定第三人称与动态腕部 control bundle，再驱动视频生成。Seedance 2.0 仅作为 reference-video 能力探针；生成后端必须可替换，并保留 Cosmos-Transfer / WAN-VACE 类开源路径。验收：两路同步视频、输入 bundle、生成配置、action/camera adherence 对比齐全；Seedance 2.5 在官方版本/API 核验前不得写成依赖。",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignee": "Boris / Jiahao / Image Layered Policy",
       "result": null,
       "comments": [],
-      "updated_at": "2026-07-11T01:17:26.193Z"
+      "updated_at": "2026-07-16T13:52:03.033Z",
+      "completed_at": "2026-07-16",
+      "completed_at_time": "2026-07-16T13:52:03.033Z"
     },
     {
       "task_id": "task_urdf_embodiment_prior_world_model_idea_held_out_urdf_factorial_ablation_executable_eval_20260711",
       "project_id": "urdf-embodiment-prior-world-model-idea",
       "title": "Held-out URDF factorial ablation + executable evaluation",
       "description": "做 morphology x action x camera 因子消融，并比较 text-only、raw sim RGB、2D skeleton、mask、pointmap、full mesh/depth/normal/layer bundle。拆分 held-out topology、link geometry、DoF、robot family、camera 与 scene；加入同动作不同相机/同相机不同动作。评测 link reprojection、silhouette IoU、EEF/joint/inverse-action recovery、多视角几何、contact/scene reaction，并将生成视频反演动作后在 real-to-sim 重放检查可执行性。",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignee": "Boris / Jiahao / Image Layered Policy",
       "result": null,
       "comments": [],
-      "updated_at": "2026-07-11T01:18:09.251Z"
+      "updated_at": "2026-07-16T13:52:49.757Z",
+      "completed_at": "2026-07-16",
+      "completed_at_time": "2026-07-16T13:52:49.757Z"
     },
     {
       "task_id": "task_umi_world_model_x2sam_roboseg_cloak_vla_umi_wrist_view_masks_20260713",
@@ -12764,10 +12783,33 @@
       "description": "把 NVIDIA cuVSLAM / Isaac ROS Visual SLAM 加入 UMI Stage 2/3 的 wrist-view geometry probe。先确认 UMI 数据能否满足 cuVSLAM 的输入约束（支持模式、成对相机/时间同步、内参、畸变与 rectification；不要默认左右腕相机就是有效 stereo pair）。为同一批 3-5 个 UMI clips 制作三种输入：raw wrist view、robot removed/inpainted、robot + manipulated object removed/inpainted；保持相同裁剪、时间戳与相机参数。分别运行 cuVSLAM，并以 ORB-SLAM3、VGGT-SLAM 为对照，记录初始化/跟踪成功率、lost/restart 次数、valid-pose ratio、轨迹平滑度、ATE/RPE 或无 GT 时的循环/重投影代理、速度、VRAM 与失败样例。核心检验不是“去掉前景一定更好”，而是量化动态 robot/object 像素与 inpainting temporal artifacts 对 VO/SLAM 的净影响。验收：提供可复查命令/配置、输入与 mask/layer_manifest、三路轨迹叠加或可视化、指标表和明确 go/no-go 结论；若输入模式不兼容，写明最小采集/标定改造。参考：https://github.com/nvidia-isaac/cuVSLAM 和 https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_visual_slam。",
       "status": "todo",
       "priority": "high",
-      "assignee": "Seb.M",
+      "assignee": "Ziyang (Seb.M) / Jiayi",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_2e04f63b-ccb0-4773-aa8d-0c3a9945b581",
+          "task_id": "task_umi_world_model_cuvslam_robot_object_umi_wrist_view_vo_slam_20260716",
+          "author": "Codex / Image Layered Policy sync",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-07-16 群聊更新：Ziyang 需要与 Jiayi 同步 Stage 3 尚未测试的项目，cuVSLAM 明确继续验证 robot-layer removal 后的 UMI view；Object optical flow 仍归并到既有 Object Layer pose / flow / value TODO。两条任务必须使用可对齐的 clip/layer manifest，避免 cuVSLAM 与 optical-flow 结果来自不同数据切片而无法联合判断 Layer utility。",
+          "created_at": "2026-07-16T13:58:59.096Z"
+        }
+      ],
+      "updated_at": "2026-07-16T13:58:59.096Z",
+      "due_at": "2026-07-20"
+    },
+    {
+      "task_id": "task_urdf_embodiment_prior_world_model_idea_yubo_bridgev2w_kinema4d_oscar_urdf_world_model_n_20260716",
+      "project_id": "urdf-embodiment-prior-world-model-idea",
+      "title": "Yubo：复现 BridgeV2W / Kinema4D / OSCAR，收紧 URDF World Model novelty",
+      "description": "Image Layered Policy 群聊在 2026-07-16 明确：Yubo 在下次组会前测试三个与 Robot Layer 注入、URDF action-conditioned world model 高度相通的基线。1) BridgeV2W：验证 URDF + camera 渲染的 pixel-aligned embodiment mask 控制；2) Kinema4D：验证 URDF-driven 4D trajectory / pointmap 控制；3) OSCAR：验证跨 embodiment 的 2D skeleton 控制。使用同一套至少 1-2 条 robot trajectories、相机设定与目标视频，分别记录可复现命令、commit/model、输入控制表示、相机/URDF依赖、生成结果、action/camera adherence、跨视角或跨 embodiment 能力、runtime/VRAM、代码/模型/数据可用性和失败样例。验收：在下次组会前提交三项最小运行证据（截图或短视频）、一张横向比较表、失败日志，以及明确的 reuse/differentiate 结论。Novelty gate：URDF + action + camera 本身不能再作为新颖性主张；后续主张必须证明超出这三者已覆盖的 mask、pointmap/4D trajectory 与 skeleton control，例如 layer-aware environment reaction、commanded/measured action provenance、动态 wrist + third-person 多视角一致性或 held-out morphology。参考：https://arxiv.org/abs/2602.03793；https://arxiv.org/abs/2603.16669；https://arxiv.org/abs/2606.04463。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Yubo",
       "result": null,
       "comments": [],
-      "updated_at": "2026-07-16T13:15:45.137Z"
+      "updated_at": "2026-07-16T13:53:28.763Z"
     }
   ]
 }
