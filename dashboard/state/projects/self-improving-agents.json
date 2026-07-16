@@ -4,7 +4,7 @@
   "title": "Self-Improving Agents for Physical AI",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-07-15T09:27:03.472Z",
+  "updated_at": "2026-07-16T07:03:40.761Z",
   "description": "Environment-generation workstream for Self-Improving Agents: Text2Env, image/video-anchored generation, autonomous asset discovery and import, and Open-X-Sim cross-simulator reuse.",
   "summary": "The environment-generation and simulation-interoperability workstream now has an executed V1 across four shared workflows: pure Text2Env, image/video Anchor2Env, autonomous asset discovery/conversion, and rigid-common-subset Open-X-Sim transfer. V1 runtime gates pass, while the broader dashboard acceptance remains active for strict bilingual SceneGen Stage 0-4, three anchor scenes, three sources and ten assets, articulated/camera-sensitive transfer, and L4 policy statistics.",
   "asset": "dashboard/assets/robotwin2-text2env-workflow-20260626.jpg",
@@ -57,6 +57,18 @@
     "task_self_improving_contact_curriculum_bridge"
   ],
   "references": [
+    {
+      "title": "Drift: robotics-native simulation engineering agent",
+      "url": "https://www.godrift.ai",
+      "submitted_at": "2026-07-16",
+      "notes": "Direct product baseline for the Text2Env execution loop. Drift takes natural-language robotics requests, generates or edits URDF/SDF/MJCF and ROS2 workspace files, launches Gazebo or MuJoCo, observes simulator and ROS state, validates physics/runtime behavior, and attempts build or simulation repair. Its prompt -> workspace -> run -> inspect -> repair workflow strongly overlaps our Text2Env compiler and executable harness, so benchmark against it rather than claiming prompt-to-simulation itself as novelty. Differentiate through image/video Anchor2Env, autonomous web asset discovery with provenance and conversion, typed SceneSpec/AssetSpec contracts, measured Open-X-Sim migration loss, environment-pool governance, and regression-gated self-improvement."
+    },
+    {
+      "title": "Drift documentation: Introduction and current capability boundary",
+      "url": "https://docs.godrift.ai/getting-started/introduction",
+      "submitted_at": "2026-07-16",
+      "notes": "Implementation reference for local CLI orchestration, DRIFT.md/CLAUDE.md/AGENTS.md project context, reusable team skills, multi-step workspace edits, live ROS2 inspection, command visibility, and build-error recovery. Current v1.0.15 documentation describes Ubuntu x86_64, ROS2, Gazebo Harmonic and MuJoCo as the supported path; the docs index says not to rely on Isaac Sim today even though the marketing page advertises it as coming soon. No official evidence was found for image/video-conditioned scene generation, autonomous internet asset search, semantics-preserving cross-simulator migration, policy training in the current beta, or regression-tested harness promotion, so keep those as explicit project differentiators and evaluation gates."
+    },
     {
       "title": "General Agent: A Self-Evolving, Synthetic Agent Environment",
       "url": "https://www.primeintellect.ai/blog/general-agent",

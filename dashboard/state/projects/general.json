@@ -4,9 +4,9 @@
   "title": "Procurement Table",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-07-16T05:57:58.148Z",
+  "updated_at": "2026-07-16T07:01:29.693Z",
   "description": "Editable lab procurement and equipment-loan register for cross-project hardware",
-  "summary": "Editable register for lab purchases and equipment loans. Quoted packages cover Flexiv Rizon 4s x2, xArm7 x2, optical tables x2, FACTR-Franka x2, and one Wuji Hand2 left/right pair with a Wuji motion-capture glove pair. The bimanual base is RealMan x2 versus Tianji CCS 696 x2; an additional open-source dexterous-hand pair is ROBOTIS HX5 versus MIDAS Hand. Three DaiMeng loan bundles are planned for Singapore: a DM-DataMaster teleoperation set, a new-generation UMI DM-DataClaw/DM-DataPacket set, and a DM-DateDex glove pair. Quote PDFs and loan documents stay private and are referenced only by safe inventory details. Rows are sorted by status first and then by last update; received items remain behind the bottom archive toggle.",
+  "summary": "Editable register for lab purchases and equipment loans. Quoted packages cover Flexiv Rizon 4s x2, xArm7 x2, optical tables x2, FACTR-Franka x2, one Wuji Hand2 left/right pair with a Wuji motion-capture glove pair, and a RealMan RM75-B-V bimanual package quoted at USD 25,500. The bimanual base remains RealMan x2 versus Tianji CCS 696 x2; an additional open-source dexterous-hand pair is ROBOTIS HX5 versus MIDAS Hand. Three DaiMeng loan bundles are planned for Singapore: a DM-DataMaster teleoperation set, a new-generation UMI DM-DataClaw/DM-DataPacket set, and a DM-DateDex glove pair. Quote PDFs and loan documents stay private and are referenced only by safe inventory details. Rows are sorted by status first and then by last update; received items remain behind the bottom archive toggle.",
   "intro_table": {
     "kind": "procurement_table",
     "caption": "Editable purchase and equipment-loan register · blank pending, dash ordered/loan confirmed, check arrived",
@@ -158,11 +158,11 @@
       },
       {
         "row_id": "proc_realman_bimanual_arm_pair",
-        "updated_at": "2026-07-16T04:22:43Z",
+        "updated_at": "2026-07-16T06:58:44Z",
         "item": "Bimanual platform option A: 2x RealMan arms / 双臂候选 A：睿尔曼 ×2",
         "status": "",
-        "route": "RealMan/Romoya · quote missing · choose against Tianji CCS 696",
-        "notes": "Mutually exclusive bimanual-base option A; purchase either this RealMan pair or the Tianji CCS 696 pair, not both. No RealMan quotation is present in the supplied three PDFs. Request the exact arm model, pair price, payload/reach, controller and SDK, force-control capability, mounting hardware, warranty, lead time, collision and E-stop setup, delivery destination and acceptance owner."
+        "route": "RealMan quote 20260716001 · dated 2026-07-16 · valid for 1 week · choose against Tianji CCS 696",
+        "notes": "Quote received: RM Quotation For新加坡国际大学_260716.xls. Mutually exclusive bimanual-base option A; purchase either this RealMan pair or the Tianji CCS 696 pair, not both. Scope: 2x RM75-B-V 7-DoF visual-version arms, 5 kg payload each, discounted from USD 15,900 to USD 12,000 per arm (USD 24,000 total); one dual-arm mounting bracket at USD 700; shipping at USD 800; quoted package total USD 25,500. Terms: full payment by wire transfer once the order is confirmed, CFR Incoterm, 15 working days lead time after payment receipt, 12-month warranty from shipment, and one-week quotation validity from 2026-07-16. Before selection, compare against Tianji CCS 696 on reach, controller/SDK openness, force-control and synchronization support, bracket footprint, collision and E-stop setup, landed import cost, local support and acceptance owner."
       },
       {
         "row_id": "proc_tianji_ccs_696_bimanual_pair_20260716",
