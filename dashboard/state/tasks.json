@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-07-16T08:39:38.423Z",
+  "updated_at": "2026-07-16T13:15:45.137Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -12756,6 +12756,18 @@
       "updated_at": "2026-07-16T08:39:38.423Z",
       "completed_at": "2026-07-16",
       "completed_at_time": "2026-07-16T08:38:50.324Z"
+    },
+    {
+      "task_id": "task_umi_world_model_cuvslam_robot_object_umi_wrist_view_vo_slam_20260716",
+      "project_id": "umi-world-model",
+      "title": "测试 cuVSLAM：在移除 robot/object 后的 UMI wrist view 上跑 VO/SLAM",
+      "description": "把 NVIDIA cuVSLAM / Isaac ROS Visual SLAM 加入 UMI Stage 2/3 的 wrist-view geometry probe。先确认 UMI 数据能否满足 cuVSLAM 的输入约束（支持模式、成对相机/时间同步、内参、畸变与 rectification；不要默认左右腕相机就是有效 stereo pair）。为同一批 3-5 个 UMI clips 制作三种输入：raw wrist view、robot removed/inpainted、robot + manipulated object removed/inpainted；保持相同裁剪、时间戳与相机参数。分别运行 cuVSLAM，并以 ORB-SLAM3、VGGT-SLAM 为对照，记录初始化/跟踪成功率、lost/restart 次数、valid-pose ratio、轨迹平滑度、ATE/RPE 或无 GT 时的循环/重投影代理、速度、VRAM 与失败样例。核心检验不是“去掉前景一定更好”，而是量化动态 robot/object 像素与 inpainting temporal artifacts 对 VO/SLAM 的净影响。验收：提供可复查命令/配置、输入与 mask/layer_manifest、三路轨迹叠加或可视化、指标表和明确 go/no-go 结论；若输入模式不兼容，写明最小采集/标定改造。参考：https://github.com/nvidia-isaac/cuVSLAM 和 https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_visual_slam。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Seb.M",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-07-16T13:15:45.137Z"
     }
   ]
 }

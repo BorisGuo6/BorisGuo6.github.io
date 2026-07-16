@@ -4,14 +4,30 @@
   "title": "URDF Kinematic-Camera World Model",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-07-11T07:00:29.697Z",
+  "updated_at": "2026-07-16T13:15:05.421Z",
   "description": "Research track: compile explicit robot morphology, time-aligned action/state, and calibrated third-person/wrist-camera trajectories into multi-view, layer-aware controls for generative robot rollouts and policy evaluation.",
   "summary": "The robotics analogue of an AI-film previs workflow is not raw URDF prompting. It is a deterministic 3D reference compiler: import the robot URDF, drive it with commanded/measured joint trajectories, re-project the same world-frame motion through calibrated third-person and wrist cameras, and condition a pluggable video generator with synchronized spatial controls. Program boundary: its compiler and robot/camera sidecars feed UMI Stage 1B and Stage 2, while held-out morphology and cross-embodiment claims remain owned by this separate Research track.",
   "details": [
     "Research thesis: separate controllable robot geometry and camera motion from learned environment appearance/reaction. URDF/FK anchors the articulated body; the video model predicts scene, object, contact, deformation, and residual appearance dynamics around that anchor.",
     "Film-workflow mapping: scene blocking becomes URDF/scene assets; Blender animation becomes timestamped q_cmd/q_meas/q_sim and gripper/object state; phone cinematography becomes fixed eye-to-hand or dynamic eye-in-hand camera TF plus intrinsics/extrinsics; Seedance becomes a replaceable multimodal video backend.",
     "Compiler contract: URDF meshes/joints/limits + action/state provenance + camera calibration/TF -> per-view robot render, skeleton, silhouette/link-ID, depth, normals, pointmap/flow, ray maps, visibility and robot/object/contact/background layer manifests. Raw URDF remains provenance and validation metadata rather than the primary learned token stream.",
-    "Novelty boundary: BridgeV2W already renders URDF/camera-conditioned embodiment masks; Kinema4D already projects URDF-driven 4D trajectories into pointmaps; OSCAR already uses cross-embodiment 2D skeleton controls. URDF + action + camera alone is therefore not a defensible new claim.",
+    {
+      "text": "Novelty boundary: BridgeV2W already renders URDF/camera-conditioned embodiment masks; Kinema4D already projects URDF-driven 4D trajectories into pointmaps; OSCAR already uses cross-embodiment 2D skeleton controls. URDF + action + camera alone is therefore not a defensible new claim.",
+      "links": [
+        {
+          "label": "BridgeV2W",
+          "url": "https://arxiv.org/abs/2602.03793"
+        },
+        {
+          "label": "Kinema4D",
+          "url": "https://arxiv.org/abs/2603.16669"
+        },
+        {
+          "label": "OSCAR",
+          "url": "https://arxiv.org/abs/2606.04463"
+        }
+      ]
+    },
     "Candidate claim: jointly model held-out URDF morphology, explicit commanded/measured action provenance, calibrated dynamic wrist plus third-person cameras, action/camera factorization, and layer-aware environmental reaction in one multi-view world-model interface.",
     "Evaluation principle: use morphology x action x camera factorial splits and compare text, sim RGB, skeleton, mask, pointmap and full 3D/layer bundles. Judge action/camera adherence, cross-view geometry, contact/scene reaction, long-rollout persistence, and executable policy-evaluation correlation rather than FVD alone.",
     "Program boundary decision 2026-07-11: keep this as a separate Research card linked to UMI Stage 1B. Share the reference compiler, calibrated camera controls, robot geometry and layer_manifest sidecars with UMI Stage 1/2, but do not migrate tasks or turn it into a fourth UMI paper. Absorb it into UMI only if the v0 gains are UMI-specific; retain an independent paper if the held-out URDF and cross-embodiment results survive."
