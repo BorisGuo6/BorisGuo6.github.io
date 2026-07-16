@@ -4,9 +4,9 @@
   "title": "Procurement Table",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-07-14T17:22:09.788Z",
+  "updated_at": "2026-07-16T04:27:36.105Z",
   "description": "Editable lab procurement register for cross-project purchases",
-  "summary": "Editable procurement register for lab purchases. Rows are sorted by status first (blank not ordered, dash ordered, check arrived) and then by last update; status changes update the timestamp. Received items stay available behind the bottom archive toggle. Old TODO/archive work has been moved to Real-Robot Lab Infra so this card stays focused on purchasing records. Latest audit 2026-07-10 restored historically received hardware that had been dropped during the table refactor; UGREEN extension cables remain shipped and in transit.",
+  "summary": "Editable procurement register for lab purchases. Quoted packages cover Flexiv Rizon 4s x2, xArm7 x2, optical tables x2, FACTR-Franka x2, and one Wuji Hand2 left/right pair with a Wuji motion-capture glove pair. The bimanual base is RealMan x2 versus Tianji M6S-Lite x2; an additional open-source dexterous-hand pair is ROBOTIS HX5 versus MIDAS Hand. Quote PDFs stay private and are referenced by filename only. Rows are sorted by status first and then by last update; received items remain behind the bottom archive toggle.",
   "intro_table": {
     "kind": "procurement_table",
     "caption": "Editable procurement register · blank not ordered, dash ordered, check arrived",
@@ -118,51 +118,77 @@
       },
       {
         "row_id": "proc_2x_flexiv_robot_arms_romoya_20260713",
-        "updated_at": "2026-07-13T19:43:04+08:00",
-        "item": "2x Flexiv robot arms / 非夕机械臂 ×2",
+        "updated_at": "2026-07-16T04:22:43Z",
+        "item": "2x Flexiv Rizon 4s robot arms + RDK/TDK / 非夕 Rizon 4s 机械臂 ×2",
         "status": "",
-        "route": "Romoya purchase path · cost review and approval pending",
-        "notes": "Included in the final 2026-07-13 equipment list after discussion with Gao Chen; the chat explicitly noted that Flexiv is relatively expensive, so this remains a planning item rather than an approved order. Confirm model, payload/reach, force-control requirements, controller/software license, end-effector interface, mounting table, safety package, quote validity, total landed cost and whether the value over the xArm/RealMan alternatives justifies purchase."
+        "route": "TechVantage quote TV120626NUS · refresh required",
+        "notes": "Quote received: NUS Quote TV120626NUS(2).pdf, dated 2026-06-12 and valid for one month, so a refreshed quotation is now required. Scope: 2x Rizon 4s arms with control boxes, teach pendants and base brackets, plus RDK x2 and TDK x2. Quoted total USD 92,000 excluding VAT; CIF to destination port with NUS handling customs; stated lead time 60 days, 100% payment before production and one-year warranty. Keep unpurchased pending refreshed validity, landed-cost confirmation and comparison against xArm and the selected bimanual platform."
       },
       {
         "row_id": "proc_2x_xarm_robot_arms_romoya_20260713",
-        "updated_at": "2026-07-13T19:43:04+08:00",
-        "item": "2x xArm robot arms / xArm 机械臂 ×2",
+        "updated_at": "2026-07-16T04:22:43Z",
+        "item": "2x xArm7 robot arms / xArm7 机械臂 ×2",
         "status": "",
-        "route": "Romoya purchase path · quote and approval pending",
-        "notes": "Finalized as part of the 2026-07-13 equipment batch discussed with Gao Chen. Quantity is two arms, but no order or payment evidence was posted. Before requesting a quote, confirm the exact xArm model, payload, reach, controller, end-effector package, mounting orientation, table/bolt pattern, safety accessories, warranty, delivery site and acceptance owner. Keep unpurchased until the quote, budget owner and purchasing entity are confirmed."
+        "route": "KING Technology quote 2026050801 · refresh required",
+        "notes": "Quote received: Quotation xarm7+tables+ Factr v2(2).pdf, dated 2026-05-08 with validity through 2026-06-23, so a refreshed quotation is required. Scope: xArm7 x2 at USD 8,950 each, USD 17,900 total; stated lead time 4-6 weeks and one-year warranty. The combined DDP package also contains FACTR-Franka x2 and two optical tables. Keep unpurchased until the refreshed quote confirms controllers, software licenses, end-effector interfaces, safety accessories, table bolt patterns and the final purchasing entity."
       },
       {
         "row_id": "proc_realman_bimanual_arm_pair",
-        "updated_at": "2026-07-13T19:43:04+08:00",
-        "item": "2x RealMan robot arms as one bimanual pair + DaiMeng gripper integration / 睿尔曼机械臂 ×2 + 戴盟夹爪",
+        "updated_at": "2026-07-16T04:22:43Z",
+        "item": "Bimanual platform option A: 2x RealMan arms + DaiMeng gripper / 双臂候选 A：睿尔曼 ×2 + 戴盟夹爪",
         "status": "",
-        "route": "Romoya purchase path · revised quote and approval pending",
-        "notes": "Updated from the 2026-07-13 final equipment list discussed with Gao Chen: two RealMan arms form one bimanual setup, with the DaiMeng gripper intended on the RealMan platform. The earlier Romoya route remains, but no order or payment evidence exists. Confirm the exact arm model, payload/reach, vertical or table mounting, one-versus-two gripper configuration, DaiMeng electrical/mechanical adapter, controller/CAN interfaces, collision and E-stop setup, revised purchasing entity on the quotation, delivery destination and acceptance owner."
+        "route": "RealMan/Romoya · quote missing · choose against Tianji M6S-Lite",
+        "notes": "Mutually exclusive bimanual-base option A; purchase either this RealMan pair or the Tianji M6S-Lite pair, not both. No RealMan quotation is present in the supplied three PDFs. Request the exact arm model, pair price, payload/reach, controller and SDK, force-control capability, mounting hardware, warranty and lead time, then include the DaiMeng gripper electrical/mechanical adapter, collision and E-stop setup, delivery destination and acceptance owner in the comparison."
+      },
+      {
+        "row_id": "proc_tianji_m6s_lite_bimanual_pair_20260716",
+        "updated_at": "2026-07-16T04:22:43Z",
+        "item": "Bimanual platform option B: 2x Tianji M6S-Lite arms + DaiMeng gripper / 双臂候选 B：天机 M6S-Lite ×2 + 戴盟夹爪",
+        "status": "",
+        "route": "Tianji M6S-Lite vendor · quote pending · choose against RealMan",
+        "notes": "Mutually exclusive bimanual-base option B; purchase either this Tianji M6S-Lite pair or the RealMan pair, not both. M6S-Lite is not covered by the three supplied quotation PDFs, so obtain a separate quote for two arms. Compare pair price, payload/reach, controller and SDK openness, force-control and synchronization support, mounting footprint, warranty, lead time, local support and the DaiMeng gripper adapter effort using the same acceptance sheet as RealMan."
       },
       {
         "row_id": "proc_wuji_gen2_dexterous_hand_pair_romoya_20260713",
-        "updated_at": "2026-07-13T19:43:04+08:00",
-        "item": "Wuji second-generation dexterous hands, one left/right pair / 舞肌二代灵巧手一对",
+        "updated_at": "2026-07-16T04:22:43Z",
+        "item": "Wuji Hand2 left/right pair + Wuji motion-capture glove pair / 舞肌二代灵巧手一对 + 数据手套一对",
         "status": "",
-        "route": "Romoya purchase path · quote and approval pending",
-        "notes": "Included in the final 2026-07-13 equipment list discussed with Gao Chen as one pair. Treat one pair as one left hand plus one right hand unless the vendor quotation states otherwise. Confirm the exact second-generation SKU, handedness, controller and power package, communication SDK, tactile/sensing configuration, spare cables, arm adapters, warranty, lead time and compatibility with the planned robot platforms before approval."
+        "route": "Wuji quote WJ202607150864/WJ202607150865 · approval pending",
+        "notes": "Quote received: Quotation_for_NUS_260715(1).pdf, dated 2026-07-15. Scope: Wuji Hand2_R x1 at USD 13,000, Wuji Hand2_L x1 at USD 13,000, and one Wuji Glove Motion Capture Version pair at USD 4,000; total USD 30,000. Terms state DAP with buyer self-clearance for customs, TT payment in full, 6-8 week shipment time and a seven-day inspection period after receipt. This remains an intended purchase; confirm controller and power package, raw glove/hand interfaces, tactile configuration, arm adapters, customs handling, warranty details and acceptance owner before approval."
+      },
+      {
+        "row_id": "proc_robotis_hx5_d20_mrt_pair_candidate_20260716",
+        "updated_at": "2026-07-16T04:22:43Z",
+        "item": "Open-source dexterous-hand option A: ROBOTIS HAND HX5-D20-MRT left/right pair / 开源灵巧手候选 A",
+        "status": "",
+        "route": "Taobao candidate · choose against MIDAS Hand",
+        "notes": "Mutually exclusive open-source hand option A; buy one left/right pair only after comparison with MIDAS Hand. This is an additional modifiable hand pair alongside the quoted Wuji Hand2 purchase, not a replacement for Wuji. The listing identifies ROBOTIS HAND HX5-D20-MRT and nine sensors. Confirm the exact left/right SKUs and pair price, source repository and license, CAD/BOM, firmware and controller, raw sensor access, tactile channel layout, spare parts, arm adapters and whether sensor additions can be made without breaking the control stack.",
+        "url": "https://e.tb.cn/h.80QFIss4aOQdTGs?tk=TIuggrIWVQJ"
+      },
+      {
+        "row_id": "proc_midas_hand_pair_candidate_20260716",
+        "updated_at": "2026-07-16T04:22:43Z",
+        "item": "Open-source dexterous-hand option B: MIDAS Hand tactile/force-feedback pair / 开源灵巧手候选 B",
+        "status": "",
+        "route": "Taobao candidate · choose against ROBOTIS HX5",
+        "notes": "Mutually exclusive open-source hand option B; buy one left/right pair only after comparison with ROBOTIS HX5. This is an additional modifiable hand pair alongside the quoted Wuji Hand2 purchase, not a replacement for Wuji. The listing describes an open-source MIDAS Hand with tactile sensing and force feedback. Confirm whether the selected SKU is one hand or a left/right pair, source repository and license, CAD/BOM, actuator and controller package, tactile raw-data interface, force-feedback implementation, hand-specific firmware, spare parts, arm adapters and the practical effort required to add or replace sensors. Open hardware, lower cost and modifiability are the selection rationale.",
+        "url": "https://e.tb.cn/h.8bhEYbmlkw7sC1f?tk=cyjhgrI3Q1W"
       },
       {
         "row_id": "proc_custom_robot_mounting_tables_romoya_20260713",
-        "updated_at": "2026-07-13T19:35:45+08:00",
-        "item": "Custom robot mounting tables for the new arm batch / 新机械臂定制工作台",
+        "updated_at": "2026-07-16T04:22:43Z",
+        "item": "2x optical platform tables, 1600 x 1000 x 750 mm / 光学平台工作台 ×2",
         "status": "",
-        "route": "Romoya/vendor custom fabrication · specification pending",
-        "notes": "The 2026-07-13 discussion confirmed that tables are still required and that the supplier can customize them, but it did not finalize whether these should be optical tables or simpler rigid robot worktables. Do not request fabrication yet. First freeze arm allocation and room layout, then specify quantity, footprint, working height, payload and stiffness, leveling/casters, anchor points, xArm/Flexiv/RealMan bolt patterns, cable routing, E-stop placement, camera mounting, transport constraints and acceptance tests."
+        "route": "KING Technology quote 2026050801 · refresh required",
+        "notes": "Quoted in Quotation xarm7+tables+ Factr v2(2).pdf: two 1600 x 1000 x 750 mm optical platform tables at USD 2,815 each, USD 5,630 total, with a stated 4-6 week lead. The quotation expired on 2026-06-23. Refresh the quote after freezing arm allocation and room layout, then confirm payload and stiffness, leveling or casters, xArm/Flexiv/selected-bimanual-arm bolt patterns, cable routing, E-stop and camera mounting, transport constraints and acceptance tests."
       },
       {
         "row_id": "proc_factr_low_cost_force_feedback_teleoperation_hardware",
-        "updated_at": "2026-07-08T22:19:35+08:00",
-        "item": "FACTR low-cost force-feedback teleoperation hardware / FACTR 低成本力反馈遥操作硬件",
+        "updated_at": "2026-07-16T04:22:43Z",
+        "item": "2x FACTR-Franka low-cost force-feedback teleoperation hardware / FACTR-Franka ×2",
         "status": "",
-        "route": "Taobao · user-provided candidate",
-        "notes": "Added per Boris on 2026-07-08 after the Yuhang-side purchase route could not buy it; keep as unpurchased until a buyer/procurement route is confirmed. Candidate title: FACTR 低成本力反馈遥操作硬件 机器人泛化控制 双边遥操作. Before purchase confirm SKU/configuration, compatibility with Franka/GELLO/YAM master-arm setup, gravity compensation vs brake/damping value, delivery route, reimbursement owner, and whether this replaces the earlier Jingte/KING TECHNOLOGY quote-review path. Taobao share code: CZ001.",
+        "route": "KING quote 2026050801 + Taobao candidate · refresh required",
+        "notes": "Quoted in Quotation xarm7+tables+ Factr v2(2).pdf: FACTR-Franka x2 at USD 1,765 each, USD 3,530 total, with a stated 1-2 week lead. The combined xArm7 + FACTR + table DDP quotation totals USD 32,461.80 including listed shipping, GST and payment-on-account line, but expired on 2026-06-23 and must be refreshed. Keep the Taobao candidate as the purchase link; confirm the exact Franka configuration, gravity compensation, brake/damping and force-feedback behavior, compatibility with the master-arm setup, safety limits, delivery route and reimbursement owner before approval. Taobao share code: CZ001.",
         "url": "https://e.tb.cn/h.RzgrhiKsCTcn9Sx?tk=b89rgMWe8dN"
       },
       {
