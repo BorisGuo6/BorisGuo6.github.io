@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-07-16T05:50:38.497Z",
+  "updated_at": "2026-07-16T08:39:38.423Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -12732,6 +12732,30 @@
       "result": null,
       "comments": [],
       "updated_at": "2026-07-15T07:03:59.539Z"
+    },
+    {
+      "task_id": "task_self_improving_agents_1_4_text2env_robotwin_scenegen_stage_5_stacking__20260716",
+      "project_id": "self-improving-agents",
+      "title": "[1/4 Text2Env] RoboTwin SceneGen Stage 5: stacking, inside, articulation, generated assets, VLM critic and demo",
+      "description": "Close the Stage 5 gaps explicitly deferred by the Stage 2-4 TODO. Scope: add typed on_top_of and inside support relations; solve nested 3D placement with support-cycle rejection, containment and support validation; parse and apply multi-joint articulation initial states; generate a bounded simulator-ready geometry proxy on catalog miss with provenance and hashes; run a rendered-scene VLM critic over multiple real camera views with strict machine-readable checks and bounded repair; and expose compile, RoboTwin runtime, screenshots, video and JSON evidence through a text-input web demo. Acceptance requires real RTX 5090 RoboTwin runs for stacking, containment, articulation and generated-asset cases, 120 decoded runtime frames per case, deterministic runtime gates, complete VLM checks, browser QA, a self-contained Downloads report and explicit claim boundaries.",
+      "status": "done",
+      "priority": "high",
+      "assignee": "Zheng Ye / Jingxiang (Environment Generation & Simulation Interoperability)",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_f8b36834-bc12-499a-9c67-c58f783c337c",
+          "task_id": "task_self_improving_agents_1_4_text2env_robotwin_scenegen_stage_5_stacking__20260716",
+          "author": "Codex Stage 5 acceptance",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[KNOWN] [CONFIDENCE: HIGH] 2026-07-16 final acceptance: Stage 5 is implemented in `robotwin-text2env-demo-stage04` at commit `b2913cd`. The compiler now supports typed `on_top_of`, `inside`, multi-joint open/closed/partial articulation state, support DAG solving, 3D containment/support validation, catalog-miss procedural proxy generation with SHA-256 provenance, multi-view rendered-scene Qwen critic, and a queued Flask demo.\n\n[COMPUTED] [CONFIDENCE: HIGH] Four final RTX 5090 RoboTwin/SAPIEN cases pass: can-on-plate, cup-inside-basket, a three-drawer cabinet with all prismatic target qpos values at 0.0675 m, and a generated purple hexagonal pedestal. Each case retains 120 real runtime frames at 12 fps, runtime validation has fail_count=0, and Qwen/Qwen2.5-VL-3B-Instruct returns all 5 required checks with status pass and zero issues. Inside and generated-asset cases each use one bounded single-check repair whose raw response is retained.\n\n[COMPUTED] [CONFIDENCE: HIGH] Local and jingxiang-b850m-c suites both pass 49/49. Frontend job `7972c4543d60416e` completes compile, runtime and critic in 24.34 s with verdict pass and 14 registered artifacts. Playwright QA at 1440x1000 and 390x844 records HTTP 200, zero horizontal/control overflow and zero console, page or request errors; the MP4 decodes as 320x240, 10 s.\n\n[KNOWN] [CONFIDENCE: HIGH] Live Tailscale demo: http://100.64.0.6:8765/?job=7972c4543d60416e . Self-contained report and all pulled screenshots, world views, videos, JSON, logs, generated OBJ/MTL/collision/provenance files, QA screenshots and source snapshot: `/Users/boris/Downloads/robotwin_text2env_stage5_20260716/index.html`. The bundle contains 167 files; `manifest.sha256` verifies 166 files and excludes only itself.\n\n[KNOWN] [CONFIDENCE: HIGH] Boundary: catalog misses produce deterministic semantic geometry proxies, not arbitrary high-fidelity text-to-3D. Stacking and containment are validated initial layouts, not a robot policy executing placement actions. The VLM critic covers visible semantics while geometry, contacts, drift, support, visibility and articulation error remain deterministic runtime gates.",
+          "created_at": "2026-07-16T08:39:38.423Z"
+        }
+      ],
+      "updated_at": "2026-07-16T08:39:38.423Z",
+      "completed_at": "2026-07-16",
+      "completed_at_time": "2026-07-16T08:38:50.324Z"
     }
   ]
 }

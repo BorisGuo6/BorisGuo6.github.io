@@ -4,9 +4,9 @@
   "title": "Self-Improving Agents for Physical AI",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-07-16T07:03:40.761Z",
+  "updated_at": "2026-07-16T08:43:01.485Z",
   "description": "Environment-generation workstream for Self-Improving Agents: Text2Env, image/video-anchored generation, autonomous asset discovery and import, and Open-X-Sim cross-simulator reuse.",
-  "summary": "The environment-generation and simulation-interoperability workstream now has an executed V1 across four shared workflows: pure Text2Env, image/video Anchor2Env, autonomous asset discovery/conversion, and rigid-common-subset Open-X-Sim transfer. V1 runtime gates pass, while the broader dashboard acceptance remains active for strict bilingual SceneGen Stage 0-4, three anchor scenes, three sources and ten assets, articulated/camera-sensitive transfer, and L4 policy statistics.",
+  "summary": "[KNOWN] [CONFIDENCE: HIGH] The four scoped environment-generation workflows now meet their declared acceptance gates: RoboTwin Text2Env Stage 0-5 with stacking, inside placement, articulation, bounded generated geometry proxies, a rendered-scene VLM critic and a live demo; three-scene image/video Anchor2Env; three-source ten-asset discovery/import; and three-case Open-X-Sim L3 transfer. [KNOWN] [CONFIDENCE: HIGH] The project remains ongoing for higher-fidelity open-world assets, robot-policy execution and L4 controller/policy equivalence, which are not claimed by these completions.",
   "asset": "dashboard/assets/robotwin2-text2env-workflow-20260626.jpg",
   "asset_alt": "RoboTwin 2.0 Text2Env workflow from natural-language scene request through constrained scene specification, asset grounding, deterministic placement, simulator validation, and replay.",
   "asset_caption": "Environment-generation mainline: compile text first, then add image/video anchors, autonomous asset ingestion, and Open-X-Sim adapters around the same validated scene package.",
@@ -37,6 +37,7 @@
     "task_self_improving_sceneagent_selection2env_20260701",
     "task_self_improving_agents_robotwin_scenegen_stage_0_1_scenespec_20260714",
     "task_self_improving_agents_robotwin_scenegen_stage_2_4_grounding_sapien_20260714",
+    "task_self_improving_agents_1_4_text2env_robotwin_scenegen_stage_5_stacking__20260716",
     "task_self_improving_anchor2env_image_video_20260715",
     "task_self_improving_asset_web_discovery_import_20260715",
     "task_self_improving_openxsim_cross_sim_reuse_20260715",
@@ -330,7 +331,7 @@
       },
       {
         "label": "MVP",
-        "value": "Text2Env Stage 0-4"
+        "value": "Text2Env Stage 0-5 + demo"
       },
       {
         "label": "Diagnosis",
@@ -349,33 +350,33 @@
         "value": "RoboVerse / MetaSim"
       }
     ],
-    "target_note": "Next target: close RoboTwin Text2Env Stage 0-1 before Stage 2-4, then reuse the same SceneSpec/AssetSpec contract for Anchor2Env, bounded asset discovery/import, and one source-to-target Open-X-Sim adapter with explicit migration-loss reporting."
+    "target_note": "[KNOWN] [CONFIDENCE: HIGH] Next target: connect anchored observations and retrieved high-fidelity assets to the same Stage 5 runtime gates, then evaluate robot-policy execution and L4 controller/policy transfer without weakening the current provenance, migration-loss or fail-closed critic contracts."
   },
   "asset_added_at": "2026-06-26",
   "subprojects": [
     {
       "id": "text2env",
       "name": "1. Text2Env",
-      "status": "active",
-      "summary": "V1 RoboTwin semantic runtime passes for an existing-asset can/basket task; the broader strict bilingual catalog, 100-seed and resolved-only replay gates remain active."
+      "status": "done",
+      "summary": "[COMPUTED] [CONFIDENCE: HIGH] Stage 0-5 passes: strict SceneSpec/catalog grounding, 100-seed Stage 0-4 acceptance, stacking, containment, three-joint half-open articulation, bounded generated geometry proxies, 4/4 real RoboTwin runtime plus VLM cases, and a browser-verified text-input demo."
     },
     {
       "id": "anchor2env",
       "name": "2. Image / Video Anchor2Env",
-      "status": "active",
-      "summary": "V1 video decoding, eight-frame full-timeline sampling, typed uncertainty, fusion and a 609-frame RoboTwin replay pass; three-scene, still-image runtime and ablation gates remain active."
+      "status": "done",
+      "summary": "[COMPUTED] [CONFIDENCE: HIGH] The declared 3-scene gate passes with two still images and one full video, deterministic typed uncertainty/provenance, shared-package replay, MuJoCo runtime/visual checks, remote SAPIEN load-and-step checks, ablation and a typed failure gallery."
     },
     {
       "id": "asset-web-agent",
       "name": "3. Autonomous Asset Discovery and Import",
-      "status": "active",
-      "summary": "V1 autonomous GitHub repository discovery, bounded download, provenance, normalization, collision/material generation and multi-backend import pass for one rigid asset; the 3-source/10-asset gate remains active."
+      "status": "done",
+      "summary": "[COMPUTED] [CONFIDENCE: HIGH] The declared 3-source/10-asset gate passes with pinned open-source commits, provenance and hashes, deterministic conversions, collision/material outputs, source/import previews, 10/10 MuJoCo runs and 10/10 remote SAPIEN settling checks."
     },
     {
       "id": "open-x-sim",
       "name": "4. Open-X-Sim Cross-Simulator Reuse",
-      "status": "active",
-      "summary": "V1 native SAPIEN scene import and SAPIEN-to-MuJoCo/Isaac rigid zero-action transfer reach L3; articulated, camera-sensitive, controller and L4 policy transfer remain active."
+      "status": "done",
+      "summary": "[COMPUTED] [CONFIDENCE: HIGH] The declared 3-case L0-L3 gate passes for rigid tabletop, articulated and camera-sensitive scenes through one versioned bundle with adapter versions, hashes, tolerances and migration-loss records. [KNOWN] [CONFIDENCE: HIGH] L4 policy/controller equivalence remains explicitly outside this completion."
     }
   ]
 }
