@@ -181,13 +181,13 @@ test("procurement stays readable on a phone", async ({ page }) => {
   expect(statusHeaderMetrics.shortLabel).toBe('"State"');
 
   const receivedRows = table.locator("tbody tr.project-intro-table-archive-row");
-  await expect(receivedRows).toHaveCount(5);
+  await expect(receivedRows).toHaveCount(6);
   await expect(receivedRows.first()).toBeHidden();
-  const receivedToggle = project.getByRole("button", { name: "Show received archive (5)" });
+  const receivedToggle = project.getByRole("button", { name: "Show received archive (6)" });
   await expect(receivedToggle).toBeVisible();
   await receivedToggle.click();
   await expect(receivedRows.first()).toBeVisible();
-  await expect(project.getByRole("button", { name: "Hide received archive (5)" })).toBeVisible();
+  await expect(project.getByRole("button", { name: "Hide received archive (6)" })).toBeVisible();
 });
 
 test("unlock never persists the bearer token in browser storage", async ({ page }) => {

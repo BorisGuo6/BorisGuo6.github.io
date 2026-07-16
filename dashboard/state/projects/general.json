@@ -4,7 +4,7 @@
   "title": "Procurement Table",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-07-16T05:16:49.622Z",
+  "updated_at": "2026-07-16T05:57:58.148Z",
   "description": "Editable lab procurement and equipment-loan register for cross-project hardware",
   "summary": "Editable register for lab purchases and equipment loans. Quoted packages cover Flexiv Rizon 4s x2, xArm7 x2, optical tables x2, FACTR-Franka x2, and one Wuji Hand2 left/right pair with a Wuji motion-capture glove pair. The bimanual base is RealMan x2 versus Tianji CCS 696 x2; an additional open-source dexterous-hand pair is ROBOTIS HX5 versus MIDAS Hand. Three DaiMeng loan bundles are planned for Singapore: a DM-DataMaster teleoperation set, a new-generation UMI DM-DataClaw/DM-DataPacket set, and a DM-DateDex glove pair. Quote PDFs and loan documents stay private and are referenced only by safe inventory details. Rows are sorted by status first and then by last update; received items remain behind the bottom archive toggle.",
   "intro_table": {
@@ -50,7 +50,7 @@
         "item": "Planned DaiMeng loan: DM-DataMaster Hand + DM-DataMaster Station / 戴盟遥操作设备借测套装",
         "status": "",
         "route": "DaiMeng loan · confirm handover scope before possible Singapore hand-carry on 2026-08-05",
-        "notes": "Purpose: reproduce the DaiMeng gripper teleoperation and test platform in Singapore. Requested inventory: DM25TO02H000 DM-DataMaster Hand x1 and DM25TO02S000 DM-DataMaster Station (stand version) x1. Before the handover is marked confirmed, freeze the complete packing list: gloves, station/stand, controllers, power supplies, chargers, cables, mounting hardware, calibration files, firmware/SDK and operating instructions. Record asset or serial numbers, working-condition evidence, lender/borrower owners, customs or temporary-loan paperwork, transport restrictions, handover date and return date; do not store signatures or private documents in the dashboard."
+        "notes": "Purpose: reproduce the teleoperation and test platform in Singapore. Requested inventory: DM25TO02H000 DM-DataMaster Hand x1 and DM25TO02S000 DM-DataMaster Station (stand version) x1. Before the handover is marked confirmed, freeze the complete packing list: gloves, station/stand, controllers, power supplies, chargers, cables, mounting hardware, calibration files, firmware/SDK and operating instructions. Record asset or serial numbers, working-condition evidence, lender/borrower owners, customs or temporary-loan paperwork, transport restrictions, handover date and return date; do not store signatures or private documents in the dashboard."
       },
       {
         "row_id": "loan_daimeng_dataclaw_datapacket_umi_set_20260805",
@@ -159,18 +159,18 @@
       {
         "row_id": "proc_realman_bimanual_arm_pair",
         "updated_at": "2026-07-16T04:22:43Z",
-        "item": "Bimanual platform option A: 2x RealMan arms + DaiMeng gripper / 双臂候选 A：睿尔曼 ×2 + 戴盟夹爪",
+        "item": "Bimanual platform option A: 2x RealMan arms / 双臂候选 A：睿尔曼 ×2",
         "status": "",
         "route": "RealMan/Romoya · quote missing · choose against Tianji CCS 696",
-        "notes": "Mutually exclusive bimanual-base option A; purchase either this RealMan pair or the Tianji CCS 696 pair, not both. No RealMan quotation is present in the supplied three PDFs. Request the exact arm model, pair price, payload/reach, controller and SDK, force-control capability, mounting hardware, warranty and lead time, then include the DaiMeng gripper electrical/mechanical adapter, collision and E-stop setup, delivery destination and acceptance owner in the comparison."
+        "notes": "Mutually exclusive bimanual-base option A; purchase either this RealMan pair or the Tianji CCS 696 pair, not both. No RealMan quotation is present in the supplied three PDFs. Request the exact arm model, pair price, payload/reach, controller and SDK, force-control capability, mounting hardware, warranty, lead time, collision and E-stop setup, delivery destination and acceptance owner."
       },
       {
         "row_id": "proc_tianji_ccs_696_bimanual_pair_20260716",
         "updated_at": "2026-07-16T04:57:21Z",
-        "item": "Bimanual platform option B: 2x Tianji CCS 696 arms + DaiMeng gripper / 双臂候选 B：天机 CCS 696 ×2 + 戴盟夹爪",
+        "item": "Bimanual platform option B: 2x Tianji CCS 696 arms / 双臂候选 B：天机 CCS 696 ×2",
         "status": "",
         "route": "Tianji CCS 696 vendor · quote pending · selected over M6 Lite · choose against RealMan",
-        "notes": "Mutually exclusive bimanual-base option B; purchase either this Tianji CCS 696 pair or the RealMan pair, not both. CCS 696 is selected over M6 Lite for the Tianji option: each CCS 696 arm is specified at 6 kg payload and 695 mm reach, versus 5 kg payload and 615 mm reach for M6 Lite. Neither Tianji model is covered by the three supplied quotation PDFs, so obtain a separate CCS 696 quote for two arms. Compare pair price, controller and SDK openness, force-control and synchronization support, mounting footprint, warranty, lead time, local support and the DaiMeng gripper adapter effort using the same acceptance sheet as RealMan."
+        "notes": "Mutually exclusive bimanual-base option B; purchase either this Tianji CCS 696 pair or the RealMan pair, not both. CCS 696 is selected over M6 Lite for the Tianji option: each CCS 696 arm is specified at 6 kg payload and 695 mm reach, versus 5 kg payload and 615 mm reach for M6 Lite. Neither Tianji model is covered by the three supplied quotation PDFs, so obtain a separate CCS 696 quote for two arms. Compare pair price, controller and SDK openness, force-control and synchronization support, mounting footprint, warranty, lead time and local support."
       },
       {
         "row_id": "proc_wuji_gen2_dexterous_hand_pair_romoya_20260713",
@@ -661,6 +661,14 @@
         "route": "Zheng Yuhang · Taobao",
         "notes": "User-provided Taobao candidate marked 假一赔四: Unitree SV1-25 small / mini embodied stereo binocular camera, RGB global-shutter USB camera. ClawCross WeChat evidence from Zheng Yuhang private chat: Boris asked Zheng to place the Taobao order on 2026-07-04, and Zheng replied that the camera would be ordered that day. Next verify tracking, arrival, SDK/driver availability, resolution/FPS, stereo calibration support, ROS/ROS2 or Python access, USB bandwidth, mount compatibility, cable length, and whether it fits wrist/head/fixed-view robot data collection.",
         "url": "https://e.tb.cn/h.RDPhRlxsna7j6Kg?tk=9lHzglSbASl"
+      },
+      {
+        "row_id": "loan_daimeng_gripper_singapore_archive",
+        "updated_at": "2026-07-16T05:54:52Z",
+        "item": "DaiMeng gripper / 戴盟夹爪",
+        "status": "Arrived",
+        "route": "DaiMeng loan · already in Singapore",
+        "notes": "Archive-only availability record. The DaiMeng gripper has already been borrowed and is in Singapore; do not include it in active procurement or the planned 2026-08-05 loan request. Keep exact asset or serial number, condition, lender/borrower owners and return terms in the private loan ledger rather than this dashboard."
       },
       {
         "row_id": "proc_a3_carbon_steel_hollow_tube_spacer",
