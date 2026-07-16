@@ -4,7 +4,7 @@
   "title": "Human Intention Data Collection Proposal",
   "bucket": "survey",
   "status": "survey",
-  "updated_at": "2026-06-30T04:47:37.274Z",
+  "updated_at": "2026-07-15T06:39:40.474Z",
   "description": "Keep in Survey as a full data-collection proposal: build an intention-first human-data stack whose ordered signals eventually feed an XLA model that can fuse all usable human, contact, embodiment, and environment channels.",
   "summary": "Proposal-stage survey for collecting human demonstrations as intention-rich multimodal episodes. The priority order follows Boris' list: eye tracking, EMG, EEG, wrist muscle ultrasound, wrist cameras, tactile, whole-body pose, proximity, temperature, vibration, multichannel audio / source localization, and finally smell or taste when the task justifies it. P2GI now anchors the proximity case: pre-contact hand-object relation can drive grasp-posture selection before touch, not merely annotate contact after the fact. The end goal is an XLA-style cross-modal latent action / intention model that consumes all aligned signals and predicts target, affordance, contact onset, force direction, hesitation, correction, and failure evidence for robot learning.",
   "asset": "dashboard/assets/survey-human-intention-sensorium.svg",
@@ -100,7 +100,7 @@
     {
       "text": "Dashboard placement: keep this as a proposal-oriented Survey card feeding UMI / Tri-View, VTLA, Self-Improving Agents, and Real-Robot Infra. UMI gets intention and cross-view labels; VTLA gets contact/force/tactile supervision; Self-Improving gets failure and curriculum traces; Real-Robot Infra only receives engineering tasks after the proposal chooses a concrete v0 rig and partner discussion checklist."
     },
-    "Event-camera ego-data note 2026-06-30: detailed evidence moved to Archive: Event-Camera Visuo-Tactile Sensing. Human-intention data collection should only include event streams after a marginal-value test against high-FPS RGB and pseudo-event frame differencing."
+    "[KNOWN][HIGH] Event-camera ego-data cross-reference updated 2026-07-15: detailed evidence now lives in Survey: Event-Camera VLA / World Model Sensor Survey. [INFERRED][HIGH] Human-intention collection should add event streams only after synchronized RGB-event-pose tests show a concrete gain over high-FPS RGB and pseudo-events."
   ],
   "task_ids": [
     "task_human_intention_sensorium_xla_proposal"

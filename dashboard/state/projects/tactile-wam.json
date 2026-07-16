@@ -2,9 +2,9 @@
   "schema_version": "project.v1",
   "project_id": "tactile-wam",
   "title": "DaiMeng VTAM / Tactile-WAM: Predictive Contact Intelligence",
-  "bucket": "research",
-  "status": "ongoing",
-  "updated_at": "2026-07-10T05:16:00+08:00",
+  "bucket": "survey",
+  "status": "survey",
+  "updated_at": "2026-07-15T07:03:59.539Z",
   "description": "DaiMeng internship research project: merge VTLA tactile-intuition survey and VTAM/Tactile-WAM proposal into one active Predictive Contact Intelligence track for dexterous manipulation.",
   "summary": "DaiMeng VTAM turns the VTLA tactile-intuition survey into an active internship project: From Reactive Manipulation to Proactive Manipulation. The merged track treats future tactile/contact latents as an Internal Contact Model and builds a Vision-Tactile-Action World Model with a Temporal Action-Token Shared-World architecture rather than simple vision/tactile feature concatenation. Fast contact/action rollout, visual/layer latent cache, contact-triggered sparse compute, and System-0/System-1 control are the execution path; validation is contact timing, slip/contact risk, actual/zero/wrong-action separation, latency/Hz/VRAM, and contact-rich task success.",
   "subprojects": [
@@ -76,7 +76,8 @@
     "System-0 / System-1 loop: System-1 runs predictive VTAM at planning frequency, while System-0 runs high-frequency tactile servo control by comparing predicted tactile latent with current tactile latent and emitting residual corrections for slip, overload, misalignment, or impending contact failure.",
     "World-model-guided VLA refinement update 2026-06-29: the BAAI seminar slide is effectively the policy-improvement loop version of VTAM. For contact-rich insertion, pressing, screwing, and assembly, let the pretrained VLA provide semantic/coarse motion, use a reward/contact model to detect the contact-rich phase, sample multiple candidate contact trajectories, score them through imagined VTAM/world-model rollouts, then stitch the selected segment back into the trajectory as post-training data. This should be tracked as an evaluation and refinement protocol, not just as a visual rollout demo.",
     "UMI2Render2Real subproject 2026-06-30: from the personal presentation UMI2Render2Real pages, the intended loop is: large UMI-device datasets -> scan object -> scan scene -> retarget UMI trajectory -> render robot data with LeHome-style household/cooking scenes -> apply to the real robot while explicitly modeling the Render2Real gap. In DaiMeng VTAM this becomes the sixth subproject: a local-workstation pipeline for producing semi-teleop robot data and testing whether rendered trajectories plus tactile/contact supervision improve predictive contact intelligence.",
-    "Event-camera visuo-tactile note 2026-06-30: keep the detailed evidence in Archive: Event-Camera Visuo-Tactile Sensing. VTAM should only reopen this direction if an ablation beats 120fps RGB, frame-difference pseudo-events, and existing Wuji/GelSight-style tactile streams on contact/slip/transient timing."
+    "[KNOWN][HIGH] Event-camera cross-reference updated 2026-07-15: detailed evidence now lives in Survey: Event-Camera VLA / World Model Sensor Survey. [INFERRED][HIGH] DaiMeng VTAM should consume synchronized event features only after the Survey shows marginal value over 120 fps RGB, pseudo-events, and existing tactile streams; event hardware is not a VTAM mainline dependency yet.",
+    "[KNOWN][HIGH] SpikingTac cross-reference 2026-07-15: the Event-Camera Survey now tracks a separate neuromorphic visuotactile branch using a sealed marker-and-gel optical stack for 1000 Hz contact transients and 350 Hz marker tracking. [INFERRED][HIGH] DaiMeng VTAM may consume this as a candidate high-frequency contact stream only after independent reproduction against high-FPS RGB visuotactile and existing tactile/force baselines; this cross-reference does not reopen completed VTAM TODOs."
   ],
   "task_ids": [
     "task_umi_stage1_daimon_post2000_smoke_20260707",
@@ -290,6 +291,13 @@
       "title": "Personal presentation: UMI2Render2Real pages",
       "url": "/present/",
       "notes": "Online presentation entry for the UMI2Render2Real pages. The excluded local source deck is `source-pptx/romoya_present.pptx`; the published section covers Project 2 UMI2Render2Real, object/scene scanning, UMI trajectory retargeting, robot-data rendering, Render2Real gap handling, and conversion of UMI data to semi-teleop data."
+    },
+    {
+      "title": "SpikingTac: A Miniaturized Neuromorphic Visuotactile Sensor for High-Precision Dynamic Tactile Imprint Tracking",
+      "url": "https://arxiv.org/abs/2602.23654",
+      "arxiv_id": "2602.23654",
+      "category": "event-visuotactile",
+      "notes": "Candidate high-frequency contact stream for VTAM ablation; keep gated behind an independent SpikingTac reproduction and RGB/tactile baseline comparison."
     }
   ],
   "risks_decisions": [

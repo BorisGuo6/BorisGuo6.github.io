@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-07-13T10:18:00.360Z",
+  "updated_at": "2026-07-15T09:35:19.574Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -1416,8 +1416,8 @@
     {
       "task_id": "task_self_improving_environment_coverage",
       "project_id": "self-improving-agents",
-      "title": "Complete AgenticSim environment coverage",
-      "description": "Align the task stack with the downloaded LeHome, LeHome-challenge, and NVlabs/RoboLab references; register all formal environments in AgenticSim and verify imports/tests.",
+      "title": "Complete AgenticSim / Open X Sim environment coverage",
+      "description": "Maintain AgenticSim environment coverage in three non-interchangeable layers: (1) registered formal Gymnasium environment IDs, (2) runtime-evidenced external environment entrypoints/adapters, and (3) statically audited intake candidates. The registered baseline is 129 formal environments: 9 LeHome / LeHome-challenge plus 120 RoboLab. The 2026-07-13 extension audits 745 repositories and produces 127 prioritized intake rows, including 12 existing strict-evidence rows, 11 new RTX 5090 runtime passes with conditions, 1 runtime blocker, 48 dependency-review candidates, and 2 integrated sources pending strict runtime. Keep catalog and intake counts separate from the registered-environment total until unified registration/import, reset, step, render, and task-verifier evidence exists.",
       "status": "done",
       "priority": "high",
       "assignee": null,
@@ -1439,9 +1439,27 @@
           "kind": "comment",
           "body": "Moved from Self-Improving intro to corresponding TODO during 2026-06-24 intro cleanup:\nReference update 2026-06-04: add InternData-A1 / InternDataEngine as the large-scale synthetic-data engine reference. The useful pattern is not only more simulator tasks, but a decoupled production stack: compositional skill/task assembly, heterogeneous embodiments, rich simulator-state annotations, multi-dimensional randomization, and high-throughput scheduling for policy pretraining data.",
           "created_at": "2026-06-24T23:09:30+08:00"
+        },
+        {
+          "comment_id": "comment_aa51e04a-cfe6-4f77-ba54-e2c95f7f457a",
+          "task_id": "task_self_improving_environment_coverage",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[COMPUTED] [CONFIDENCE: HIGH] 2026-07-13 coverage refresh supersedes the 2026-05-21 129-only snapshot. The unified registered layer remains exactly 129 formal Gymnasium environments: 9 LeHome / LeHome-challenge plus 120 RoboLab. The new AgenticSim / Open X Sim intake layer at AgenticSim commit `6d952560870b0a9b71f707f0476d28425bfab256` audits 745 repositories, detects 308 recognized repository licenses, identifies 84 documented current-Isaac environment sources and 64 static open-environment candidates, and emits 127 prioritized intake rows: 12 existing strict-evidence rows, 11 current runtime passes with conditions, 1 runtime blocker, 48 dependency-review candidates, 2 integrated-source rows pending strict runtime, 3 legacy-migration rows, 20 role-review rows, and 30 runbook-review rows.\n\n[COMPUTED] [CONFIDENCE: HIGH] On `jingxiang-B850M-C` with Isaac Sim 5.1, Isaac Lab 2.3, RTX 5090, driver 580.159.03, and 32607 MiB VRAM, the new 12-candidate probe set yields 11 accepted noncommercial-academic local-use runtime entries with reset, 5-20 simulation steps, render, and screenshot evidence: `Isaac-Reach-OpenArm-Play-v0`, `Indy-Deploy`, `RobotLab-Isaac-Velocity-Flat-Unitree-Go2-v0`, `Unitree-Go2-Velocity`, `Lerobot-So101-Teleop-Base`, `LeHome-BiSO101-Direct-Garment-v2`, `Locomotion-Go2-Flat`, `IsaacLab-Pace-Go2`, `Matterix-Test-Beakers-Franka-v1`, `Exomy-v0`, and LabUtopia `level1_pick`. `WobbleGo-Direct-v0` remains blocked because its external core USD is unavailable. Six runtime rows have strict open-source closure; five carry provenance/license advisories under the requested academic-use policy.\n\n[COMPUTED] [CONFIDENCE: HIGH] The RTX baseline passes physics, RTX rendering, CUDA compute, and continuous video with 180 simulation steps and 32/32 unique encoded frames. The focused catalog/runtime verifier passes 22/22 tests in an isolated Python 3.12 environment. Evidence is in AgenticSim `docs/awesome_isaac_environment_catalog.json`, `docs/awesome_isaac_agenticsim_intake.json`, `docs/awesome_isaac_runtime_evidence.json`, and `docs/awesome_isaac_environment_audit.md`; the self-contained report remains `/Users/boris/Downloads/openxsim_command_loop_20260713/index.html`. Alchedata commit `52b24cad3a5ed9eadc88fe3205034dc7bbdf47b4` pins the AgenticSim snapshot into the report.\n\n[KNOWN] [CONFIDENCE: HIGH] Coverage counts are deliberately layered: do not add 127 intake rows or 745 audited sources to the 129 registered-environment total. Promotion into the registered layer still requires a normalized registry/import path plus reset, step, render, and task-verifier evidence.",
+          "created_at": "2026-07-13T14:37:23.017Z"
+        },
+        {
+          "comment_id": "comment_8c669659-965c-400b-9b2f-05fa49c3b839",
+          "task_id": "task_self_improving_environment_coverage",
+          "author": "Codex / jingxiang-b850m-c",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[COMPUTED] [CONFIDENCE: HIGH] 2026-07-13 coverage-layer follow-up: the registered Gymnasium total remains exactly 129 and the audited/runtime intake counts remain 745 repositories, 127 prioritized rows, 11 accepted bounded runtime passes, and 1 runtime blocker. Do not inflate the registered total. The coverage matrix now additionally records one Isaac Sim task-semantic environment promoted beyond reset/step/render intake into a complete normalized /gen-env, /collect, /evaluate, /diagnose, and /transfer bundle: 120 backend-native trace steps, 24/24 unique frames, target verifier pass, 34 hashed files, and declared transfer losses in runs/isaac_openxsim_place_container_plate_v1/. [KNOWN] [CONFIDENCE: HIGH] This adds command-contract depth to one accepted Isaac environment; it does not add another registered Gymnasium ID or imply robot-policy, asset, or material parity.",
+          "created_at": "2026-07-13T16:52:48.493Z"
         }
       ],
-      "updated_at": "2026-06-24T23:09:30+08:00"
+      "updated_at": "2026-07-13T16:52:48.493Z"
     },
     {
       "task_id": "task_self_improving_sim2real_vla_eval",
@@ -2850,9 +2868,18 @@
           "kind": "comment",
           "body": "[COMPUTED] [CONFIDENCE: HIGH] 2026-07-13 strict completion refresh: Text2Env acceptance is 7/7 with 14 audited source rows (11 academic primary sources), a complete 14x8 capability matrix, explicit selection2env/generation2env taxonomy, P0/P1/P2 disposition, Zheng Ye -> Gaochen handoff, and post-ASPIRE/ENPIRE hypotheses tied to schemas, gates, and not-run experiments. Self-contained 26-file HTML+Markdown bundles, 10 official-page screenshots, capture manifest, contact sheet, raw JSON, and desktop/mobile QA are at /Users/boris/Downloads/text2env_literature_review_20260713/ and /home/jingxiang/Downloads/text2env_literature_review_20260713/. Both report_manifest.json files SHA-256=2e574d6ac29f14e22004b66cf2ac1c7d676e4ff5754042ae5640bd43cb0cacf0. Browser QA: 1440x1000 + 390x844, 10/10 images, 53 local references, zero console/page errors. Local tests 9/9 and full verifier PASS; RTX 5090 tests 9/9 and full verifier PASS. Alchedata commits: local 1211b15d7f724fee81ba072f2311a8cb22614a7f, RTX 5090 a84460a7ea9667e125c0ef5529b28733adb677a2; exact tree c0b23037f66f596caa18a1511ce0032c2e7b5b7a. [KNOWN] [CONFIDENCE: HIGH] Public novelty, cross-simulator execution, memory ablation, material extraction, and robust policy promotion are not claimed; those remain explicit unproven or not-run experiments.",
           "created_at": "2026-07-13T01:32:36.191Z"
+        },
+        {
+          "comment_id": "comment_eaf64f98-1e53-4ef4-8f59-4252c53af3b9",
+          "task_id": "task_self_improving_text2env_lit_review_20260701",
+          "author": "Codex / jingxiang-b850m-c",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[COMPUTED] [CONFIDENCE: HIGH] 2026-07-13 empirical follow-through refresh: the 14-source, 11-academic-primary, 14x8 literature audit remains complete, and five previously open hypotheses now have executed bounded results. One normalized place_on task runs five task-semantic commands in Isaac with 120 backend-native trace steps, 24/24 unique frames, target-verifier success, and declared transfer losses. A matched memory/no-memory protocol fixes checkpoint, placement, seeds 4/5/6, actions, and evaluator and yields 0/3 with the default swapped-channel adapter versus 3/3 when failure memory selects identity. An observation-derived material sidecar is imported as native UsdPreviewSurface and rendered with RGB MAE 0.05098 and CIE76 Delta-E 13.8758. A predeclared failure-score study retains the null/negative result over 12 executable episodes: r=-0.2545, exact p=0.7273. The bounded SceneAgent policy gate is also linked. Unified audit: artifacts/text2env_empirics/text2env_empirical_audit_v1.json; report: /Users/boris/Downloads/text2env_literature_review_20260713/index.html. [KNOWN] [CONFIDENCE: HIGH] This does not reproduce cited methods, establish novelty or SOTA, prove robot-policy transfer, intrinsic neural-material recovery, or a visual language policy.",
+          "created_at": "2026-07-13T16:51:36.223Z"
         }
       ],
-      "updated_at": "2026-07-13T01:32:36.191Z",
+      "updated_at": "2026-07-13T16:51:36.223Z",
       "created_at": "2026-07-01T12:05:00+08:00",
       "due_at": "2026-07-08",
       "completed_at": "2026-07-10",
@@ -2955,9 +2982,36 @@
           "kind": "comment",
           "body": "[COMPUTED] [CONFIDENCE: HIGH] 2026-07-12 strict completion re-audit: SceneAgent / selection2env acceptance 1-8 is now backed by executable evidence, not the earlier static-only `task_apple_plate_reverse` proxy.\n\n[COMPUTED] [CONFIDENCE: HIGH] Unified catalog proof on `jingxiang-b850m-c`: 123/123 live-discovered RoboTwin assets are execution-eligible; 8/8 AgenticSim aliases resolve to live RoboTwin backends; 9,996 Articraft metadata entries are searchable while default execution eligibility remains 0 until per-asset import/physics gates pass. Evidence: `artifacts/adapter_catalog/selection2env_catalog_sources.json` and `artifacts/adapter_catalog/selection2env_queries/*.json`.\n\n[COMPUTED] [CONFIDENCE: HIGH] Real scene-task decoupling now passes twice from the same byte-identical placement: scene `scene_apple_plate_shared_two_task_v0`, placement SHA-256 `c39169d68ab617debdd8b4462d7bc9d30ad6fae0ce5c3d4aa9e4a34893bee592`; `task_apple_plate` executes `place_on apple_1 -> plate_1` with `check_success=true`; `task_apple_plate_to_left_front` executes `place_in_region apple_1 -> left_front_reachable_area` with `check_success=true`. Initial observer images are byte-identical with SHA-256 `18e53b736c0a9716e7489dc889a2c2375c7d26fe3078d207dccf61e8cac53012`. Evidence: `artifacts/scene_task_decoupling/apple_plate_two_tasks.json` and `runs/scene_task_decoupling/`.\n\n[COMPUTED] [CONFIDENCE: HIGH] Drawer/mug no longer has a false asset-missing claim: `036_cabinet` and `039_mug` ground successfully and static scene generation passes. The only retained task blocker is typed as `ARTICULATED_CONTAINER_TASK_API_UNSUPPORTED` because drawer opening, interior placement and the corresponding success verifier are not yet exposed by the task scaffold/API.\n\n[COMPUTED] [CONFIDENCE: HIGH] Local and RTX 5090 verification both pass: outer tests `6 passed`; upstream tests `4 passed`; `scripts/verify_workspace.py` returns `PASS workspace verification` with `docs=10 static_runs=4 asset_smoke_runs=3 basetask_smoke_runs=3 collect_dry_runs=3 official_rollouts=3 generated_rollouts=2 generated_collections=2 articraft_assets=9996 articraft_archive_passes=3 articraft_collision_blockers=2`, supported tasks `task_apple_plate, task_laptop_knife, task_vegetable_basket`, and unsupported sample `task_drawer_mug_blocker`.\n\n[COMPUTED] [CONFIDENCE: HIGH] Reproducibility proof: public upstream base `78bef41c136a0f4bf2c35ebec2793f3f4ad7dd75`; replay patch SHA-256 `aac9f153dcf94340528f65678dab8d8c2e4784e6594963937a11350886d41f2e`; replay result tree `68e84128bbf5f8702f918024f6ca0c6e056a478f`; upstream local commit `029911db427c8eaee5f8837792198351314ea7de`; upstream 5090 commit `e3e3c76ad359f26c3dfa88e3b543865f66b7bc06`; outer local commit `f35a0aa6d720fb160770bc9318351ebcce1d8c3f`; outer 5090 commit `2f31d221dd0008ba48b2e4610e9cdb2755639209`; local/5090 stable patch-id `78bf1ccf90882d16ee2017532445dfd383cc64a9`.\n\n[COMPUTED] [CONFIDENCE: HIGH] Self-contained HTML audit: `/Users/boris/Downloads/alchedata_sceneagent_selection2env_20260712/index.html`. It bundles 190 evidence files, including 69 PNG and 14 MP4 assets; all PNGs decode, all MP4s probe with nonzero duration, and Chromium QA passes at 1440x1000 and 390x844 with 61/61 local references present and zero console/page errors.\n\n[COMPUTED] [CONFIDENCE: HIGH] Claim boundary: this TODO is complete, but varied-placement learned-policy promotion is still rejected at 1/4 task success. No public push is claimed; the upstream changes are committed locally and on the 5090 and are reproducible from the locked patch.",
           "created_at": "2026-07-12T14:13:36.373Z"
+        },
+        {
+          "comment_id": "comment_6d2b3b3f-eabe-4fc3-9954-352261f1eb8d",
+          "task_id": "task_self_improving_sceneagent_selection2env_20260701",
+          "author": "Codex / jingxiang-b850m-c",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[COMPUTED] [CONFIDENCE: HIGH] 2026-07-13 core-result refresh supersedes the prior promotion boundary without deleting it. The earlier ACT recovery remains rejected at 1/4 varied-placement success. A separate supervised pose-conditioned trajectory policy, trained from 15 successful apple/plate demonstrations spanning 10 unique placements, now passes 4/4 signature-disjoint held-out placements and 4/4 matched held-out placements with official RoboTwin backgrounds, random light, 0.01 m camera displacement, and 0.005 m table-height randomization. A second task, can/basket, passes 3/3 unseen seeds at fixed placement. The promotion record is artifacts/sceneagent_policy_promotion/pose_conditioned_policy_promotion_v1.json; all three evaluation families include continuous 143/143/144-frame videos in the SceneAgent report at /Users/boris/Downloads/alchedata_sceneagent_selection2env_20260712/index.html. [KNOWN] [CONFIDENCE: HIGH] Scope is privileged initial source/target XY plus open-loop 14-D qpos trajectories; this does not promote ACT or establish visual, language-conditioned, closed-loop, or broad task generalization.",
+          "created_at": "2026-07-13T16:48:18.569Z"
+        },
+        {
+          "comment_id": "comment_71efa0ff-7256-4bb1-a8fa-c10a76cb7f3d",
+          "task_id": "task_self_improving_sceneagent_selection2env_20260701",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[KNOWN][HIGH] 2026-07-15 scope handoff：本 TODO 的 completed V0 仍代表已有 selection2env / placement / task-program smoke 证据，不因新方案而重开。[KNOWN][HIGH] 后继实现已拆成两个未完成任务：`task_self_improving_agents_robotwin_scenegen_stage_0_1_scenespec_20260714` 负责真实资产目录、坐标语义、严格双语 SceneSpec 与拒绝规则；`task_self_improving_agents_robotwin_scenegen_stage_2_4_grounding_sapien_20260714` 负责确定性资产 grounding、空间约束求解、SAPIEN builder、几何/物理/视觉验证与 resolved_scene.json 回放。[INFERRED][HIGH] 这次拆分把 LLM 权限收紧到 schema-level 语义解析，资产 ID/path、最终坐标/姿态、碰撞与验收全部交给确定性代码，避免把“能生成 task program”的旧证据误当成“自然语言场景生成已可靠”。",
+          "created_at": "2026-07-14T17:09:40.578Z"
+        },
+        {
+          "comment_id": "comment_245754fc-5ded-42af-bb93-354225d63f8b",
+          "task_id": "task_self_improving_sceneagent_selection2env_20260701",
+          "author": "Codex SceneAgent closure",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[KNOWN] [CONFIDENCE: HIGH] SceneAgent / selection2env 原始 V0 TODO 已按 8/8 验收项完成，严格审计结果为 pass_all_8_sceneagent_acceptance_items；该结论不包含另立的 SceneGen Stage 0-1 SceneSpec 与 Stage 2-4 grounding/SAPIEN 后续 TODO。\n\n[COMPUTED] [CONFIDENCE: HIGH] 最终 /collect 证据为 apple/plate 与 laptop/knife 各 97 帧、12 fps、8.083 秒连续视频；不再使用仅起点/终点的两帧视频作为主要证明。\n\n[COMPUTED] [CONFIDENCE: HIGH] 同一场景、两份任务规格的连续回放分别为 589 帧（apple_on_plate，49.083 秒）和 585 帧（apple_to_left_front，48.750 秒）。两次回放的 placement SHA256 均为 c39169d68ab617debdd8b4462d7bc9d30ad6fae0ce5c3d4aa9e4a34893bee592，初始 observer 图像 SHA256 均为 18e53b736c0a9716e7489dc889a2c2375c7d26fe3078d207dccf61e8cac53012。\n\n[KNOWN] [CONFIDENCE: HIGH] 本机 SceneAgent 定向测试 12/12 通过；jingxiang-b850m-c（100.64.0.6，RTX 5090）定向测试 12/12 通过；远端 RoboTwin 上游测试 4/4 通过；本机与远端 workspace verifier 均 PASS。\n\n[KNOWN] [CONFIDENCE: HIGH] 本机与远端 Downloads 均已交付四份可离线打开的报告：SceneAgent、Text2Env、OpenXSim command loop、embodied harness。生产站点：https://pearl-self-improving-agents.linslabnus.chatgpt.site\n\n[KNOWN] [CONFIDENCE: HIGH] Text2Env 调研现含 20 个来源、20x8 比较矩阵，以及候选人简历中的 12 个项目线索；其中 9 个有公开主来源，WAM、4DLABEL 和未命名 CoRL 2026 benchmark 保持 resume-only/unverified，不把候选人个人贡献当作已验证事实。\n\n[KNOWN] [CONFIDENCE: HIGH] 策略证据边界保留：ACT checkpoint 在已测回放中仍为 1/4；pose-conditioned controller 仅作为有明确适用范围的 SceneAgent 证据，不表述为通用学习策略成功。",
+          "created_at": "2026-07-15T02:38:05.566Z"
         }
       ],
-      "updated_at": "2026-07-12T14:13:36.373Z",
+      "updated_at": "2026-07-15T02:38:05.566Z",
       "created_at": "2026-07-01T11:10:00+08:00",
       "due_at": "2026-07-07",
       "completed_at": "2026-07-10",
@@ -9723,11 +9777,11 @@
     {
       "task_id": "task_umi_layered_pipeline_sam_vace_flux_lama_automation_20260622",
       "project_id": "umi-world-model",
-      "title": "搭建 RobotSeg/SAM3 + VACE 分层自动化管线 smoke",
+      "title": "搭建 RobotSeg/X2SAM + inpaint 的共享分层数据管线",
       "status": "active",
       "priority": "urgent",
-      "assignee": "Lai / Ziyang / Davide / Boris",
-      "description": "根据 Zoom 与 2026-06-25/26/29/30 Layered Image Policy 微信同步，把分层处理从单图手工样例推进到可重复的自动化 smoke pipeline。Pipeline 顺序保持 iterative segment + inpaint：robot mask/rgba/video -> robot removal -> object/contact/occluder mask/rgba/video -> object/contact removal -> scene/background layer，所有输出保持原始 canvas 尺寸，支持原地 overlay/recomposition。\n\nSegmentation front-end 更新：1) RobotSeg / RoboSeg (https://github.com/showlab/RobotSeg) 升为 MolmoAct/robot-layer segmentation 第一候选；群里 MolmoAct 测试反馈目前 RobotSeg 效果最好，且 RobotSeg 自带 image/video、arm/gripper/whole-robot fine-grained masks；2) P3 路线从这条总 smoke 中拆成单独 TODO：保持 SAM3 backbone，不回退到 SAM2.1，并把 RobotSeg 的 RobotPromptGenerator、MaskDecoder_Robot_RPG、arm/gripper/robot class token、memory foreground region prompt、part-aware mask decoder token path 迁移到 SAM3；3) gripper-first，arm 次之：SAM3 对 robot 整体已经更强，当前短板是 gripper / wrist-view part prior；4) SAM3/SAM2 继续作为 reference-mask propagation / mask tracking 备选：可先用干净 Franka reference 或第一帧 robot mask 初始化，再追踪整段视频；5) 参考 Cloak / arXiv:2606.22836 的 wrist-view end-effector mask 思路，单独评估 gripper-only、hand、arm+gripper 的 first-person/ego mask；6) SAM-HQ robot mask review 不如 SAM3，暂时排除；Qwen/RevealLayer 只保留为负例或完成 baseline。\n\nInpainting 更新：LaMa 群里测试效果不好，降级为 failure / negative baseline，不作为主路线；VACE 仍是 raster video inpaint 候选，但 2026-06-29 最新反馈是目前 inpaint 不稳定，因此必须加 judgement / retry / morphology QA 管线，不能直接批量信任输出；Gemini-Omni 明天先给 object/video edit 结果，作为 object removal / contact completion 的强 qualitative probe；FLUX.fill 保留为 still-frame fallback，GPT image 保留为强 still-frame baseline 但不作为视频方案。背景若基本静态，可在移除 robot/object layer 后尝试单次 image inpainting 生成 background plate，避免逐帧漂移；wrist/ego view 背景变化较大，需要单独记录 temporal consistency 风险。\n\nAcceptance: 1) 选 3 个 UMI/MolmoAct/Hoi-style clips，每个抽 20-50 帧或短视频；2) 同一输入上比较 RobotSeg、RobotSeg+SAM3 modification、SAM3/SAM2 reference tracking、Cloak-style ego mask 的 robot/gripper/hand/arm masks，记录 mask IoU/edge quality/gripper coverage/bbox jitter/topology jump；3) 输出 robot/object/contact/occluder/background 的 mask.png、rgba.png、layer video、inpainted_background.png/video、SVG sidecar、layer_manifest.json；4) 对同一 mask/manifest 比较 VACE、Gemini-Omni、FLUX.fill、LaMa、GPT image baseline 的质量/速度/显存/是否改变画幅，其中 LaMa 和失败 VACE 输出作为 failure gallery；5) VACE/Gemini-Omni 输出必须检查 masked-region temporal consistency、unmasked-region preservation、recomposition SSIM/LPIPS 或人工评分，并记录是否需要自动重试或 mask morphology 修正；6) 失败样例包括 gripper miss、thin cable/shadow mistrace、pillow/object drift、background texture hallucination、电线等小细节可降权但 robot/object/background 主体必须正确分离。\n\nStage 2 VDDM framing update 2026-06-27: 这条 smoke pipeline 现在是 VDDM 论文的最小工程切片，而不是单纯分割/补全脚本。除 robot/MolmoAct/UMI/RoboTwin clips 外，加入 egocentric human-hand manipulation clips 作为跨域 probe；统一输出 actor_layer(actor_type=robot|human_hand)、object_contact_layer、occluder_tool_layer、scene_background_layer，以及 mask.png / rgba.png / layer video / SVG sidecar / depth or pointmap / mesh when available / tracks / contact events / layer_manifest.json。评估下游时接 HaWoR 与 Do-As-I-Do-style reconstruction stack（SAM3 -> SAM3D mesh -> MoGe pointmaps -> HaWoR -> TAPIR/BootsTAPIR/guided diffusion tracking -> projection/retargeting），判断 VDDM 是否让 reconstruction / tracking / retargeting 比 raw RGB 或 mask-only 更稳。新增 acceptance: 至少 3 个 robot clips + 3 个 egocentric human-hand clips；每类输出 recomposition QA、temporal consistency、actor/object/contact failure gallery、以及是否扩成 Stage 2 dataset/model 训练的判断。\n\n2026-07-07 meeting update: this smoke pipeline is now shared infrastructure for three papers/projects. Lai owns any-data-to-layer conversion and SAM3/RobotSeg segmentation; Ziyang owns object-layer utility and pose/value/benchmark checks; Davide owns direct multi-layer video generation. The one-week target is a single-real-robot-video pipeline: raw video -> segmentation -> foreground inpainting (WHATS/VACE candidate, backend to confirm) -> object segmentation -> object inpainting -> pure-scene verification by remaining moving pixels -> retry segmentation/inpainting when motion remains -> export layer package. Outputs must include scene/background, object/contact, occluder/tool, robot/actor layers, layer_manifest, motion-residue QA, recomposition QA, object pose, robot pose, and point-flow for cloth/fluid or deformable cases when available. Bad clips/frames may be discarded with evidence rather than forced into the dataset.",
+      "assignee": "Lai / Yongxi / Ziyang / Meng / Jiahao / Boris",
+      "description": "把 Lai、Ziyang/Meng、Jiahao/Davide 三条论文线收敛到同一个 single-video-to-multilayer preprocessing contract，不允许各自维护不兼容的数据格式。\n\nCanonical pipeline: raw robot video -> robot/actor segmentation -> robot removal/inpainting -> object/contact/tool segmentation -> object removal/inpainting -> pure scene/background verification -> remaining-motion detection -> retry segmentation/inpainting or drop bad frame/clip -> export layer package。Global Layer 保留原视频；Robot Layer 用于 IDM/action prediction；Object Layer 根据物体类型输出 rigid pose 或 deformable flow/keypoints；Background Layer 服务分层生成与重组。每一步由 agent/规则检查质量，VLM 不认识对象时可退化为颜色、形状、相对位置 prompt。\n\nSegmentation decision 2026-07-13: 暂停 SAM3 fine-tuning，保留原版稳定分割/追踪模型作为 baseline；Lai/Yongxi 先同输入比较 RobotSeg/RoboSeg、X2SAM、STAM/相关 tracking route。不要在没有同输入证据时继续扩写 SAM3 adapter。Inpainting 继续比较 VACE/WHATS 候选、Gemini/FLUX still fallback；LaMa 保留 failure baseline。静态 third-person 背景可先生成 background plate，wrist/ego 视角需单独检查 temporal drift。\n\nCanonical outputs: source/global video；scene/background、object/contact、robot/actor、occluder/tool 的 mask/RGBA/layer video；layer_manifest；motion-residue QA；recomposition QA；object pose 或 point flow；robot pose/state；camera/depth metadata 及 confidence；失败/重试记录。所有文档、pipeline 图、配置、git SHA、可视化与 benchmark 表必须进 GitHub 的 data-processing-pipeline 目录。\n\nAcceptance: 1) 至少 3 个真实 robot clips，每段 20-50 帧/等长短视频；2) segmentation 同输入报告 mask IoU/Boundary-F/gripper recall/jitter/drift/runtime/VRAM；3) inpainting 报告 masked temporal consistency、unmasked preservation、moving-pixel residue、recomposition SSIM/LPIPS 或人审；4) 输出完整 manifest/schema verifier，逐层文件可独立加载且可重组；5) rigid/articulated 与 deformable 分流有明确 backend、confidence gate 和 fallback；6) 不追求 100% 保留坏样本，drop 必须记录原因；7) 产出 pipeline PDF/PNG、最小复现命令、failure gallery，并让 Jiahao 的 RynnWorld 三层模型与 Ziyang 的 MIMIC-Video IDM 直接消费同一 manifest。",
       "result": null,
       "comments": [
         {
@@ -9804,18 +9858,18 @@
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-07-07T20:45:00+08:00",
+      "updated_at": "2026-07-13T13:43:36.661Z",
       "due_at": "2026-07-14"
     },
     {
       "task_id": "task_umi_roboseg_sam3_backend_migration_p3_20260701",
       "project_id": "umi-world-model",
-      "title": "P3：把 RoboSeg 后端从 SAM2.1 迁移到 SAM3 backbone",
-      "status": "active",
-      "priority": "urgent",
-      "assignee": "Lai / Boris",
+      "title": "已暂停：RoboSeg → SAM3 微调路线",
+      "status": "done",
+      "priority": "medium",
+      "assignee": "Lai / Yongxi / Boris",
       "due_at": "2026-07-14",
-      "description": "把 RobotSeg/RoboSeg 的 robot-specific 创新模块迁移到 SAM3，而不是退回 SAM2.1 或只做 SAM3 prompt 调参。路线：1) 保持 SAM3 backbone，冻结 backbone 作为第一版；2) 迁移 RobotPromptGenerator、MaskDecoder_Robot_RPG、arm / gripper / robot class token、memory foreground region prompt、part-aware mask decoder token path；3) 先做 gripper，arm 次之，因为 SAM3 对 robot 整体已经更强，当前主要短板是 gripper / wrist-view part prior；4) 先训练新增 RPG / robot-token / decoder adapter，必要时再用小学习率微调 mask decoder 或 LoRA；5) 明确和原始 RobotSeg(SAM2/SAM2.1)、原始 SAM3 tracking、SAM2.1 fallback 做同输入对比。Acceptance: 1) 写清 backend swap / adapter 的代码入口、配置、git SHA 或 patch diff；2) 在 3-5 个 MolmoAct / UMI / DaiMeng-style clips 上跑 20-50 帧或短视频，覆盖 third-person robot、wrist/ego gripper、arm+gripper；3) 输出 robot / gripper / arm masks、layer_manifest、recomposition preview、failure gallery；4) 记录 gripper coverage、edge quality、人审 IoU 或人工评分、frame-to-frame mask IoU/bbox jitter/topology jump、missing-gripper rate、false foreground rate、propagation drift；5) 给出是否把 SAM3+RobotSeg modules 作为 v0 segmentation mainline 的判断，以及不能进入主线时的 blocker。\n\n2026-07-07 meeting update: current SAM3 fine-tuning has not beaten the SAM2.5/SAM2.1 baseline because some modules are rough and training may be insufficient. Move debugging from the 5090 workstation to the A100 server, fix first-step localization/precision issues, and report baseline-vs-SAM3+adapter results within one week. Keep SAM3 as the target backbone unless A100 evidence shows a hard blocker.",
+      "description": "2026-07-13 UMI 会议决策：暂停 SAM3 fine-tuning，继续使用原版稳定分割模型并把当前 SAM3 adapter 实验作为负结果归档。现有 fine-tuned SAM3 未超过 SAM2.5/SAM2.1 baseline；会议给出的可能原因包括语义对齐问题、模块实现粗糙和训练不足，但这些只是待验证解释，不再自动触发更多训练。\n\n收口要求：1) 保存最后一个 SAM3 adapter 的代码/git SHA、配置、checkpoint、A100/5090 日志和同输入可视化；2) 用同一批 clips 报告相对 baseline 的 gripper recall、IoU/edge、时序 drift、runtime/VRAM；3) 把失败原因分成已证实与假设；4) 在 GitHub 留一页 stop decision，说明为何暂时不进入共享 pipeline；5) 当前主线转到 RobotSeg/RoboSeg、X2SAM、STAM/原版 tracking 的同输入比较。只有当这些路线出现明确 blocker，且提出可反驳的新 SAM3 假设与预算时，才另开新 TODO；不得直接重新激活本任务。",
       "result": null,
       "comments": [
         {
@@ -9844,10 +9898,20 @@
           "kind": "comment",
           "body": "Moved from the UMI owner matrix on 2026-07-07: Lai/Yongxi should debug the SAM3/RobotSeg path on A100, compare against the SAM2.5 baseline, and avoid treating the rough 5090 run as final evidence. AutoDL account management and idle-shutdown coordination stay under the resource-governance TODO.",
           "created_at": "2026-07-07T20:45:00+08:00"
+        },
+        {
+          "comment_id": "comment_e0a2e223-75d4-45e7-888e-dc9a145ec28f",
+          "task_id": "task_umi_roboseg_sam3_backend_migration_p3_20260701",
+          "author": "Codex / UMI meeting sync",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-07-13 decision: stop spending compute on the current SAM3 fine-tune path. Archive the below-baseline result and move segmentation effort to the shared RobotSeg/RoboSeg vs X2SAM vs STAM/original-model comparison. This closes the route; it does not claim SAM3 is generally worse.",
+          "created_at": "2026-07-13T13:44:56.528Z"
         }
       ],
-      "completed_at": null,
-      "updated_at": "2026-07-07T20:45:00+08:00"
+      "completed_at": "2026-07-13",
+      "updated_at": "2026-07-13T13:45:23.029Z",
+      "completed_at_time": "2026-07-13T13:45:23.029Z"
     },
     {
       "task_id": "task_umi_wan22_action_injection_encoder_plan_20260622",
@@ -11237,9 +11301,27 @@
           "kind": "comment",
           "body": "[COMPUTED] [CONFIDENCE: HIGH] 2026-07-13 Awesome Isaac intake expansion based on `shaoxiang/awesome-isaac-sim@7c42a15f4a2819802abe3e91900dd6505942b3af`, `sjtuyinjie/awesome-isaac-sim@be3e8f1972a79bee90dc682e523a314e84f15021`, and AgenticSim submodules: 745 unique repositories were normalized. GitHub metadata detects 308 recognized open-source licenses; 412 repositories have no detected license, 23 are unavailable, and 2 are private. Content inspection finds 84 documented current-Isaac environment sources and 64 static open-environment candidates. [KNOWN] [CONFIDENCE: HIGH] A list entry or detected license is not runtime proof. The current RTX 5090 probe set is intentionally narrow: 2 candidates pass only with recorded conditions or repairs, 1 candidate blocks on a missing external USD, and there are zero proven clone-and-run direct passes. Machine-readable outputs are in AgenticSim `docs/awesome_isaac_environment_catalog.json`, `docs/awesome_isaac_agenticsim_intake.json`, and `docs/awesome_isaac_runtime_evidence.json`; the bundled report is `/Users/boris/Downloads/openxsim_command_loop_20260713/index.html`.",
           "created_at": "2026-07-13T10:18:00.360Z"
+        },
+        {
+          "comment_id": "comment_d40a9881-d432-40fb-91c2-d6715b3eaf7a",
+          "task_id": "task_self_improving_isaacsim_benchmark_intake",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[COMPUTED] [CONFIDENCE: HIGH] 2026-07-13 runtime-verified expansion supersedes the prior 2-pass/1-blocked snapshot. On jingxiang-B850M-C (RTX 5090, driver 580.159.03), 12 Isaac candidates were probed: 11 technical runtime passes and 1 runtime blocker; 9 passes use source-unmodified checkouts and 2 use tracked source patches. License closure admits exactly 6 strict OSS runtimes: OpenArm Reach, Neuromeka NRMK Indy7, RobotLab Go2, LeHome garment, Basic Locomotion, and Robot Identification. Five technical passes are not admitted: Unitree RL Lab, LeRobot SO101, Matterix, and RLRoverLab lack a license for required external assets; LabUtopia requires CC BY-NC 4.0 assets. WobbleGo is runtime-blocked by its missing external core USD. [COMPUTED] [CONFIDENCE: HIGH] AgenticSim commit dc04137694e933efe1f88d2180f17a033a3c7dc2 records the 745-repository catalog, 308 recognized repository licenses, 84 documented current-Isaac environment sources, 64 static open candidates, all 12 probe records, 11 screenshots, raw logs, normalized source hashes, and 20 passing tests. [KNOWN] [CONFIDENCE: HIGH] Technical runtime success is not OSS redistribution closure; only the six strict-OSS rows pass the intake gate.",
+          "created_at": "2026-07-13T14:05:17.980Z"
+        },
+        {
+          "comment_id": "comment_881fc032-54d4-4655-b95e-88dad0466096",
+          "task_id": "task_self_improving_isaacsim_benchmark_intake",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[COMPUTED] [CONFIDENCE: HIGH] 2026-07-13 academic-use policy update per user direction: required-asset license findings no longer block local noncommercial academic runtime admission. AgenticSim commit 6d952560870b0a9b71f707f0476d28425bfab256 adds policy_id=noncommercial_academic_local_use, license_gate_mode=advisory, and runtime_admission_rule=runtime_passed. All 11 bounded runtime passes now enter current_runtime_evidence and academic_use_accepted; 5 rows retain provenance advisories, 6 retain strict OSS closure, and WobbleGo remains the sole runtime blocker because its core USD is unavailable. Third-party asset redistribution is not included. Targeted AgenticSim tests pass 9/9 and all three generated JSON documents pass their schemas.",
+          "created_at": "2026-07-13T14:23:27.521Z"
         }
       ],
-      "updated_at": "2026-07-13T10:18:00.360Z",
+      "updated_at": "2026-07-13T14:23:27.521Z",
       "completed_at": "2026-06-27",
       "completed_at_time": "2026-06-27T02:04:30.167Z"
     },
@@ -11729,7 +11811,7 @@
       "project_id": "tactile-wam",
       "title": "DaiMeng causal_robot iter-2000 后 smoke / eval gate",
       "description": "从 UMI 卡迁到 DaiMeng VTAM / Tactile-WAM：这个 TODO 的执行对象是 causal_robot_daimon、DaiMeng materialized robot189/Gamma root、post-2000 checkpoint smoke 和 10Kh/download gate，而不是 UMI project intro 本身。等 causal_robot_daimon 出现 iter_000002000 或更新 checkpoint 后，按 post2000 smoke command plan 跑最小 loader/inference/eval；确认训练实际使用的是 DaiMeng materialized robot189/Gamma root，而不是 10Kh/AgiBot queued datasets；记录 latest checkpoint、launcher/GPU 形态、action dims、report path/SHA、smoke 命令、生成视频可读性、failure/blocker，以及 10Kh 下载 gate 是否仍阻止后续队列。UMI World Model 只消费这个任务的 smoke/eval 结论作为 Stage 1 数据/训练证据。",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignee": "Boris / Haoyu",
       "due_at": "2026-07-10",
@@ -11755,8 +11837,9 @@
         }
       ],
       "created_at": "2026-07-07T20:45:00+08:00",
-      "updated_at": "2026-07-07T22:36:38+08:00",
-      "completed_at": null
+      "updated_at": "2026-07-15T03:25:40.089Z",
+      "completed_at": "2026-07-15",
+      "completed_at_time": "2026-07-15T03:25:40.089Z"
     },
     {
       "task_id": "task_self_improving_openxsim_command_loop_20260703",
@@ -11872,9 +11955,45 @@
           "kind": "comment",
           "body": "[COMPUTED] [CONFIDENCE: HIGH] 2026-07-13 AgenticSim/OpenXSim intake refresh: LV-Robotics-Lab/AgenticSim commit `7a9fd0486cf827ea054915da0a21c17f876cb727` now carries the Awesome Isaac source audit, schemas, AgenticSim intake queue, and RTX runtime evidence; alchedata commit `da8d7d0470cebcfec959db0dba459c73c3766424` pins that commit and every source file hash into the Open X Sim acceptance package. [COMPUTED] [CONFIDENCE: HIGH] On `jingxiang-b850m-c` (RTX 5090, driver 580.159.03), the Isaac Sim 5.1 / Isaac Lab 2.3 baseline passes physics, RTX rendering, CUDA, and continuous video: 180 simulation steps, 32 encoded frames, 32 unique frame hashes, 31 pose-movement transitions, and 32 unique positions. OpenArm Reach and Neuromeka Indy-Deploy each pass registration, reset, 20 steps, render, and screenshot under recorded repair conditions; WobbleGo remains blocked because its core USD is absent and the configured external URL cannot load. [COMPUTED] [CONFIDENCE: HIGH] The self-contained report at `/Users/boris/Downloads/openxsim_command_loop_20260713/index.html` has 53 manifest-verified files, 13 decoded images, 4 decoded videos, zero desktop/mobile horizontal overflow, zero clipped badges, and zero console/page errors. Video frame counts are Isaac=32, open_laptop=640, place_mouse_pad=531, and place_container_plate=527. [KNOWN] [CONFIDENCE: HIGH] This extends the done acceptance evidence; it does not prove an unmodified third-party install path, a full Isaac PEARL command loop, recovered WobbleGo assets, full Any Sim transfer, or robust learned-policy promotion.",
           "created_at": "2026-07-13T10:17:47.586Z"
+        },
+        {
+          "comment_id": "comment_1c8f7707-9521-48f9-9083-9451b7119cf9",
+          "task_id": "task_self_improving_openxsim_command_loop_20260703",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[COMPUTED] [CONFIDENCE: HIGH] 2026-07-13 final Open X Sim report refresh after the endpoint-only video correction and expanded Isaac intake. Alchedata commit 7a5f0e3c8894b7ddcb51f0216b2784b82ccd2935 packages 179 manifest-listed assets plus the manifest itself, including all 12 candidate cards, 11 runtime screenshots, raw probe evidence, and four continuous MP4s. Matching report copies are at /Users/boris/Downloads/openxsim_command_loop_20260713/ and /home/jingxiang/Downloads/openxsim_command_loop_20260713/ on jingxiang-B850M-C; remote per-file size/SHA-256 verification reports zero bad entries and report_manifest.json SHA-256=1a21c33ea1a18c9d214cca3a8d5b9deba648bb8b5c8ae8c521bb0dbe4f9d014e. [COMPUTED] [CONFIDENCE: HIGH] Direct ffmpeg decoded-frame hashing proves Isaac baseline=32/32 unique, open_laptop=640/640, place_mouse_pad=531/531, and place_container_plate=527/527, totaling 1,730 unique decoded frames; these are not two-frame endpoint clips. Browser QA passes at 1440x1000 and 390x844 with 22 decoded images, 4 decoded videos, 12 candidate cards, zero horizontal overflow, zero clipped status labels, and zero console/page errors. Scoped alchedata tests pass 18/18; package validation reports 8 acceptance items, 8 adapters, 3 benchmarks, 6 commands, 11 Isaac runtime passes, 1 runtime blocker, and 1,730 unique decoded video frames. [KNOWN] [CONFIDENCE: HIGH] This proves report integrity, continuous video capture, and the bounded intake/command-loop acceptance; it does not prove full Any-Sim transfer, recovered WobbleGo assets, license closure for the five held rows, or robust cross-task learned-policy promotion.",
+          "created_at": "2026-07-13T14:05:39.406Z"
+        },
+        {
+          "comment_id": "comment_e0afa5fe-5821-4b9e-aeef-2261265d1b02",
+          "task_id": "task_self_improving_openxsim_command_loop_20260703",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[COMPUTED] [CONFIDENCE: HIGH] 2026-07-13 Open X Sim report rebuilt for the noncommercial academic-use intake policy. Alchedata commit 52b24cad3a5ed9eadc88fe3205034dc7bbdf47b4 renders all 11 runtime passes as academic-use accepted; the 5 licensing rows remain provenance advisories rather than blockers, while WobbleGo remains runtime-blocked. Matching 179-entry report bundles are at /Users/boris/Downloads/openxsim_command_loop_20260713/ and /home/jingxiang/Downloads/openxsim_command_loop_20260713/; remote per-file verification reports zero bad entries and report_manifest SHA-256=a52db28f7f109a0fe475ce5bd3729614502c3ec48ccfb9e75b09a252f9de264a. Browser QA passes desktop/mobile with 22 images, 4 videos, 12 candidate cards, zero overflow, zero clipped statuses, and zero console/page errors. Alchedata tests pass 18/18; package validation reports isaac_academic_use_accepted=11, isaac_license_advisories=5, isaac_runtime_blocked=1, and 1,730 unique decoded video frames.",
+          "created_at": "2026-07-13T14:24:47.648Z"
+        },
+        {
+          "comment_id": "comment_2df66e1c-b0ec-45da-af4b-e0bcc6361766",
+          "task_id": "task_self_improving_openxsim_command_loop_20260703",
+          "author": "Codex / jingxiang-b850m-c",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[COMPUTED] [CONFIDENCE: HIGH] 2026-07-13 second-backend completion refresh: RoboTwin/SAPIEN retains three full scripted robot-action benchmark loops. Isaac Sim 5.1 now adds one normalized place_on(container, plate) task-semantic bundle with backend-native /gen-env, /collect, /evaluate, /diagnose, and /transfer outputs, a 120-step state/action trace, 24/24 unique video frames, target geometric verifier success, 34 hashed bundle files, and explicit field mappings plus four declared losses. Evidence: runs/isaac_openxsim_place_container_plate_v1/ and artifacts/openxsim_cross_sim/place_container_plate_task_contract.json; report: /Users/boris/Downloads/openxsim_command_loop_20260713/index.html. [KNOWN] [CONFIDENCE: HIGH] The Isaac arm is a scripted object-space primitive-proxy execution. It does not transfer robot embodiment, joint-action policy, source asset identity, materials, or learned-policy quality. MuJoCo, LIBERO, robosuite, BEHAVIOR, WobbleGo recovery, and video2sim-forge remain outside this completed bounded second-backend result.",
+          "created_at": "2026-07-13T16:51:59.176Z"
+        },
+        {
+          "comment_id": "comment_decc6fb9-1af3-4463-af38-47945073d0a6",
+          "task_id": "task_self_improving_openxsim_command_loop_20260703",
+          "author": "Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[KNOWN][HIGH] 2026-07-15 /gen-env implementation handoff：RoboTwin natural-language scene generation is now a concrete selection2env successor under two open TODOs. Its contract is `request.txt -> scene_spec.json -> resolved_scene.json -> validation_report.json + previews`; it reuses existing RoboTwin assets, robot and cameras, but does not generate task logic, success conditions or play_once() actions. [KNOWN][HIGH] Stage 0–1 must establish the real asset catalog and strict bilingual SceneSpec before Stage 2–4 can ground assets, solve poses, instantiate SAPIEN and validate/replay. [INFERRED][HIGH] This is a stricter RoboTwin backend for the already completed command contract, not evidence that /gen-env scene reliability is already solved.",
+          "created_at": "2026-07-14T17:10:52.103Z"
         }
       ],
-      "updated_at": "2026-07-13T10:17:47.586Z",
+      "updated_at": "2026-07-14T17:10:52.103Z",
       "created_at": "2026-07-03T15:45:00+08:00",
       "due_at": "2026-07-10",
       "completed_at": "2026-07-10",
@@ -11883,12 +12002,12 @@
     {
       "task_id": "task_umi_davide_multilayer_video_model_architecture_20260707",
       "project_id": "umi-world-model",
-      "title": "Davide：设计直接生成多图层视频的模型架构",
+      "title": "Jiahao / Davide：复现 RynnWorld-Teleop 并设计三层视频模型",
       "status": "active",
       "priority": "high",
-      "assignee": "Davide / Boris / Lai",
+      "assignee": "Jiahao / Davide / Boris / Lai",
       "due_at": "2026-07-21",
-      "description": "Davide 新加入 UMI 多图层视频模型线：目标不是只对现有视频做后处理，而是实现可以直接生成带分层信息的视频模型。输出至少包含 object layer、background/scene layer、robot/actor 或其他必要 layer；可先探索 3 个 layer token 或 3 个 layer embedding，把 layer identity 注入 video generation backbone / decoder。必须复用 Lai/Ziyang/Davide 共用的 layer_manifest 和 preprocessing output，保证端到端生成路线与 Stage 2 数据管线兼容。\n\nImmediate gate from 2026-07-07 meeting: Davide 先联系 Lai 获取 AutoDL 账号/开通流程，再开始模型训练或 dataloader smoke；不要绕过共享 manifest/schema 单独造一套分层输出格式。\n\nAcceptance: 1) 写出模型接口 spec：输入视频/动作/文本/层 token，输出 RGB/layer/video/mask/manifest；2) 给出 layer token/embedding 设计与训练 loss 草案；3) 用 1-3 个真实 robot clips 或 synthetic layered samples 做 dataloader smoke；4) 输出至少一个 toy layered-video generation 或 reconstruction demo；5) 记录显存、速度、训练数据需求、和 Stage 2 后处理路线的关系；6) 明确是否作为独立第三篇/并行论文路线，还是先作为 Stage 2/3 对照。",
+      "description": "以官方代码库 https://github.com/alibaba-damo-academy/RynnWorld-Teleop 为直接基线，先复现再改三层输出。该仓库基于 Wan2.2-TI2V-5B，公开了 Stage 0 ego-video SFT、Stage 1 control-conditioned LoRA/SFT、Stage 2 MSE warm-up + DMD causal streaming distillation，以及 SFT/LoRA/streaming inference；不要另起一个无法复用官方 checkpoint、数据格式和控制注入路径的骨架。\n\nUMI 改造目标：保留 first-frame / original-video / action-or-control condition，把单一 RGB denoising head 扩展为 background/scene、object/contact、robot/actor 三层输出，并与 Lai/Ziyang/Jiahao 共用 layer_manifest。先并行设计两种最小接口：A) 三层 VAE latent 按通道拼接；B) token fusion + layer embedding。两者必须输出可重组 RGB、逐层 mask/RGBA/video、置信度与 manifest，而不是只展示三张定性图。\n\n执行顺序：1) 固定 upstream git SHA、Wan2.2-TI2V-5B base、公开 RynnWorld checkpoint、环境和 seeds，跑通官方 sample / inference_user.py / inference_streaming.py；2) 记录 Stage 1 control injection、control_patch_embedding、control_scale、causal cache、MSE/DMD 训练入口中可复用模块；3) 在 1-3 个共享分层 robot clips 上完成 dataloader + reconstruction smoke；4) 再做三层 decoder/latent ablation；5) smoke 通过后才申请 32×A800 微调，2-4 GPU 先用于推理和结构验证。\n\nAcceptance: 1) GitHub 提交复现文档、命令、环境、git SHA、checkpoint、输入输出和可视化；2) 官方 8-case 或等价最小样例至少跑通 1 个 SFT 与 1 个 streaming case；3) 给出通道拼接 vs layer embedding 的 tensor shape、loss、显存和速度；4) 逐层报告 mask/recomposition、temporal consistency、unmasked-region preservation、layer leakage、object/robot motion fidelity；5) 用 VBench 只评整帧视频质量，同时增加 layer IoU/Boundary-F、recomposition、contact/pose/action utility 等项目指标；6) 明确 physics forcing 如何接入每层，而不是先假定有效；7) 形成 adopt/cherry-pick/reject RynnWorld 模块的工程结论。",
       "result": null,
       "comments": [
         {
@@ -11908,20 +12027,38 @@
           "kind": "comment",
           "body": "Moved from the UMI owner matrix on 2026-07-07: Davide should contact Lai for AutoDL access, define the layer-token or layer-embedding model interface, and run a toy layered-video dataloader/reconstruction smoke that consumes the shared layer_manifest instead of inventing a separate output format.",
           "created_at": "2026-07-07T20:45:00+08:00"
+        },
+        {
+          "comment_id": "comment_7b96d990-2af0-442c-9385-4eb573cec8ab",
+          "task_id": "task_umi_davide_multilayer_video_model_architecture_20260707",
+          "author": "Codex / ClawCross wx sync",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "ClawCross sync 2026-07-13: Image Layered Policy latest assignment points Jiahao to https://github.com/alibaba-damo-academy/RynnWorld-Teleop and Jiahao acknowledged. Treat the repo as the implementation base, while retaining Davide as architecture collaborator until ownership is explicitly separated.",
+          "created_at": "2026-07-13T13:49:03.968Z"
+        },
+        {
+          "comment_id": "comment_2136f9e2-b079-4c24-a0d7-1d222967a92b",
+          "task_id": "task_umi_davide_multilayer_video_model_architecture_20260707",
+          "author": "Codex / Mask2IV review",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Mask2IV comparison added 2026-07-13. Scope: treat it as a trajectory-control baseline, not a direct background/object/robot RGB decomposition substitute. Minimum matched-input experiment: use the same initial frame, target-object mask, action text or target-position condition; compare the RynnWorld control-video route and UMI layer_manifest route with Mask2IV actor/object mask trajectories. Report target endpoint error, mask-trajectory IoU and temporal consistency, contact timing and contact-region quality, full-frame FVD/LPIPS/SSIM, background preservation, robot/object layer leakage, and downstream action/pose consistency. Architecture probe: inject predicted actor/object mask trajectories as sidecar conditions or auxiliary supervision into the three-layer Wan branch. Do not replace the background/object/robot output contract unless this ablation passes.",
+          "created_at": "2026-07-13T14:10:08.180Z"
         }
       ],
       "created_at": "2026-07-07T12:00:00+08:00",
-      "updated_at": "2026-07-07T20:45:00+08:00"
+      "updated_at": "2026-07-13T14:10:08.180Z"
     },
     {
       "task_id": "task_umi_ziyang_object_layer_pose_value_benchmark_20260707",
       "project_id": "umi-world-model",
-      "title": "Ziyang：Object Layer pose / value / benchmark utility 验证",
+      "title": "Ziyang / Meng：Object Layer pose / flow / value 路由验证",
       "status": "active",
       "priority": "high",
-      "assignee": "Ziyang / Boris",
+      "assignee": "Ziyang / Meng / Boris",
       "due_at": "2026-07-14",
-      "description": "Ziyang 的目标从“只测试 FoundationPose/Doctor Robert”收敛为证明 object layer 对 manipulation 有实际价值。当前 Doctor Robert/Dr. Robot-style 系统在 FRANK 环境中兼容性差，先测试新的 pose-estimation 代码库并在 2026-07-08 给出首轮结果；Object3D 渲染约 1 分钟/batch、需要约 32GB、输出偏高斯/离线文件，因此暂时不要把 object layer 做成密集实时 renderer，而应作为稀疏 value/process-reward 信号。Mask policy 也不能只在本地人机环境测，需要扩到 RoboMimic 或更大 robotic-learning benchmark。\n\nVisualization/resource gate from 2026-07-07 meeting: 优先研究 headless 但可本地查看的方案；如果需要 GPU 可先用 Ziyang 本地 4060，不够再联系 Boris 开 AnyDesk，不要默认把交互可视化放到远端无头训练机上。\n\nAcceptance: 1) 新 pose-estimation repo 跑通或明确 blocker，输出命令、日志、输入/输出样例；2) Object3D 渲染性能表：batch 时间、显存、输出格式、能否用于 process reward/value model；3) 选择至少一个 benchmark 或大数据集 smoke（如 RoboMimic/阿里云数据），说明数据规模、下载/处理位置、评价任务；4) 用 raw RGB、mask-only、object layer、object+background、recomposed clip 对比 object pose/extraction/value signal；5) 给出 headless 本地可视化方案，若失败则列出 AnyDesk/GPU requirements；6) 输出 failure gallery：遮挡、背景干扰、pose漂移、渲染慢、稀疏 value 不足。",
+      "description": "目标是证明 Object Layer 对 manipulation 的实际价值，并按物体类型选择状态表示，而不是把所有对象都塞进一个密集 3D renderer。\n\n路线决策：刚体/关节物体优先走 6D pose；柔性物体、布料、电缆、流体或无可靠 CAD 的对象走 optical flow + keypoint/track 表示。会议正文写 ANeXy，但方法对比表又写 Any6D，ClawCross 群聊未找到可消歧原文；第一道 gate 必须确认准确项目名、代码库、模型输入和许可，禁止把两个名称当同一实现。若刚体后端需要 depth/intrinsics，则在数据生成或前处理阶段固定并记录相机内参，必要时接 DepthAnything 类 depth estimate，并对估计误差做敏感性测试。\n\nObject3D 当前约 1 min/batch、约 32GB、偏离线高斯输出，不应作为实时密集依赖；先把 object pose/flow/contact/state 作为稀疏 value/process-reward sidecar。柔性路线重点验证 flow/keypoint 是否能提供过程奖励、失败定位和任务进度，而不只生成漂亮光流图。\n\nAcceptance: 1) 明确 ANeXy/Any6D 名称歧义并附官方 repo/paper；2) 在同一组 rigid/articulated 与 deformable clips 上跑 pose 与 flow/keypoint 两路，保存命令、git SHA、输入输出、runtime、VRAM；3) 报告 rigid pose error/track stability，deformable endpoint/keypoint/flow consistency、contact timing 和 process-reward separability；4) 对 raw RGB、mask-only、object layer、object+background、recomposed clip 做同输入消融；5) 选择至少一个 RoboMimic/真实 robot benchmark smoke，不能只在本地人机环境展示；6) 输出 occlusion、fast motion、textureless object、cloth fold、cable crossing、pose/flow drift failure gallery；7) 在 GitHub 共享文档、表格和可视化，并给出按 object type 自动分流的 schema 与 fallback。",
       "result": null,
       "comments": [
         {
@@ -11941,10 +12078,19 @@
           "kind": "comment",
           "body": "Moved from the UMI owner matrix on 2026-07-07: Ziyang should report the replacement pose-estimation repo result, decide whether Object3D can serve as a sparse value/process-reward signal, select a benchmark or cloud dataset smoke beyond the local human-machine setup, and settle headless local visualization before asking Boris for AnyDesk.",
           "created_at": "2026-07-07T20:45:00+08:00"
+        },
+        {
+          "comment_id": "comment_66486498-e89a-49e0-8d03-2b6e9ba28d9e",
+          "task_id": "task_umi_ziyang_object_layer_pose_value_benchmark_20260707",
+          "author": "Codex / Ziyang Stage 3 sync",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-07-13 Ziyang research note mapped to Stage 3 Layer utility evaluation:\n\n1. Known-state camera-to-robot branch: DREAM detects robot keypoints and uses forward kinematics + PnP; CtRNet's released ROS path consumes image + joint state; CtRNet-X adds partial-visibility robustness and an optional RGB-D refinement path. These are camera-extrinsics baselines, not observation-only robot-state estimators.\n2. Unknown-state Robot Layer branch: RoboPose estimates joint angles and 6D camera-to-robot pose from a single RGB image, while HoRoPose targets real-time RGB pose estimation without known robot state. Both still require explicit robot model/camera assumptions in the benchmark manifest.\n3. Differentiable rendering branch: keep Dr. Robot as a render-and-compare probe, but record the current blocker that Franka is not plug-and-play before treating it as an executable baseline.\n4. Rigid Object Layer branch: normalize the meeting-note typo to official Any6D. Its released path is RGB-D/calibration dependent and uses a single RGB-D anchor plus masks/camera intrinsics, so it is a calibrated rigid-object oracle rather than the default generated-video route.\n5. Deformable branch: optical flow is still untested. Run one cloth/cable smoke first, report 2D tracks independently, and only lift to 3D when depth/intrinsics are available with uncertainty recorded.\n\nNext gate: use one clip manifest to compare calibrated oracle vs estimated depth/intrinsics vs layer-only inputs. For each method log URDF, joint state, K, depth, mask, visibility, runtime, VRAM, pose/track error, and failure cases. Do not claim Layer utility from a route that receives stronger sensor or calibration inputs than its baseline.",
+          "created_at": "2026-07-13T16:02:13.983Z"
         }
       ],
       "created_at": "2026-07-07T12:00:00+08:00",
-      "updated_at": "2026-07-07T20:45:00+08:00"
+      "updated_at": "2026-07-13T16:02:13.983Z"
     },
     {
       "task_id": "task_umi_user_tokens_autodl_resource_governance_20260707",
@@ -12051,9 +12197,18 @@
           "kind": "comment",
           "body": "[COMPUTED] [CONFIDENCE: HIGH] 2026-07-13 strict completion refresh: embodied-harness paper framing acceptance is 6/6 with a machine-readable 9-step h_t -> h_{t+1} loop, 11 embodied surfaces, 5 required comparisons, 5 routed commands, fixed-checkpoint attribution control, figure caption/brief, and 4 explicit proof obligations. [KNOWN] [CONFIDENCE: HIGH] The public priority claim \"first real embodied harness system\" is not established and is explicitly prohibited by the validator; the working claim is limited to PEARL as an embodied harness system with a partially implemented artifact contract. Self-contained 19-file HTML+Markdown bundles are at /Users/boris/Downloads/embodied_harness_20260713/ and /home/jingxiang/Downloads/embodied_harness_20260713/, both report_manifest SHA-256=a48999e15f9a673c48befe6f7095f5427e67dce0c0fb999015c41e9b5d9e2fa0. Bundled assets include the original harness diagram, ASPIRE/ENPIRE/RoboTwin source snapshots, Open X Sim execution/blocker screenshots, JSON spec/audit, and desktop/mobile QA. Browser QA passes at 1440x1000 and 390x844 with 6/6 images, 6 acceptance rows, 9 loop steps, 11 surfaces, 5 comparisons, 5 routes, 4 proof obligations, zero root overflow, and zero console/page errors. Local tests 15/15 and full verifier PASS; RTX 5090 tests 15/15 and full verifier PASS. Commits: local 7c79c9b4222975c51c10d1fe4f0134d83501a26b, RTX 5090 fc2c7e4da04f72bed8db5359bc213e199903cc51; exact tree a4e965bf55803a6d474539eaed2e642105622236.",
           "created_at": "2026-07-13T02:04:38.639Z"
+        },
+        {
+          "comment_id": "comment_7b0a265e-7304-4ec3-be98-69f631afda98",
+          "task_id": "task_self_improving_embodied_harness_positioning_20260707",
+          "author": "Codex / jingxiang-b850m-c",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[COMPUTED] [CONFIDENCE: HIGH] 2026-07-13 embodied-harness core evidence refresh: the 9-step h_t to h_{t+1} contract, 11 surfaces, 5 comparison classes, and 5 command routes remain complete. Four bounded evidence classes now sit behind the framing. First, a fixed-checkpoint matched RGB-adapter edit holds checkpoint hash, dataset stats, seeds 4/5/6, placement, actions, and verifier fixed and improves 0/3 to 3/3 with an accepted candidate and rollback pointer. Second, versioned failure memory selects the same correction in a matched 0/3 versus 3/3 protocol. Third, the same normalized task semantics execute through a five-command Isaac bundle with target-verifier success. Fourth, a privileged pose-conditioned open-loop policy passes 4/4 held-out, 4/4 randomized, and 3/3 second-task gates. Evidence: artifacts/embodied_harness/fixed_checkpoint_rgb_ablation_v1.json, artifacts/text2env_empirics/text2env_empirical_audit_v1.json, and artifacts/sceneagent_policy_promotion/pose_conditioned_policy_promotion_v1.json; report: /Users/boris/Downloads/embodied_harness_20260713/index.html. [KNOWN] [CONFIDENCE: HIGH] The priority claim first real embodied harness system remains not established and prohibited. Real-robot evolution, robot-policy cross-simulator transfer, and visual-language closed-loop control remain unproven.",
+          "created_at": "2026-07-13T16:52:22.584Z"
         }
       ],
-      "updated_at": "2026-07-13T02:04:38.639Z",
+      "updated_at": "2026-07-13T16:52:22.584Z",
       "started_at": null,
       "completed_at": "2026-07-10",
       "completed_at_time": "2026-07-10T13:26:02.823Z"
@@ -12274,13 +12429,264 @@
       "task_id": "task_umi_world_model_x2sam_roboseg_cloak_vla_umi_wrist_view_masks_20260713",
       "project_id": "umi-world-model",
       "title": "比较 X2SAM、RoboSeg 与 Cloak-VLA 的 UMI / wrist-view masks",
-      "description": "在同一批真实 UMI / 腕部 egocentric 数据上，对 X2SAM、RoboSeg / RobotSeg 与 Cloak 的 end-effector mask 路线做可复现比较，并明确它们在 Stage 2 分层数据管线中的边界。\n\n方法定位：\n1) X2SAM (https://wanghao9610.github.io/X2SAM/；代码 https://github.com/wanghao9610/X-SAM) 是统一 image/video any-segmentation MLLM，支持 conversational instruction、visual prompt 与 Mask Memory；重点验证它能否稳定切出 UMI / wrist-view 的 gripper、hand、arm+gripper，而不是只看通用 benchmark。\n2) RoboSeg / RobotSeg (https://github.com/showlab/RobotSeg) 保持 robot-specific baseline / 当前主线，复用已有 image/video、arm/gripper/whole-robot mask 设置。\n3) Cloak (https://tml.stanford.edu/cloak/；代码 https://github.com/Stanford-TML/cloak) 不是普通视频分割模型：它根据 robot geometry、joint state 与 wrist-camera extrinsics 在 simulation 中渲染 end-effector mask，再用于 VLA attention cloaking。当前开源仓库已提供 DROID wrist extrinsics、Silhouette Calibration 与 render example，但 README 仍写明 training code / checkpoints coming soon；因此把 Cloak mask 作为 geometry-rendered oracle / control 与 VLA mask ablation，不把它伪装成无 metadata 的真实视频 segmentation baseline。\n\nAcceptance:\n1) 选择至少 3 个真实 UMI / dual-wrist / MolmoAct-style clips，每段 20-50 帧或等长短视频，覆盖黑色 gripper、手臂遮挡、快速运动、接触和背景干扰；同一输入、同一裁剪、同一分辨率比较。\n2) 统一输出 taxonomy：gripper-only、hand/end-effector、arm+gripper；每路保存 binary mask、overlay、mask video 与输入/配置/prompt metadata。\n3) 制作少量人工 reference masks 或可审计 consensus labels，报告 mask IoU、Boundary F / edge quality、gripper recall、missing-gripper rate、false foreground rate、frame-to-frame mask IoU、bbox jitter、topology jump、propagation drift、runtime、峰值显存、初始化/人工修正成本。\n4) X2SAM 至少比较 text instruction 与 visual-prompt initialization；RoboSeg 使用官方 checkpoint / inference 设置；Cloak 仅在 URDF/MJCF、joint state 和 camera extrinsics 可对齐时渲染，缺 metadata 时记录明确 blocker，不生成伪 GT。\n5) 输出同帧三路可视化、定量 CSV/JSON、failure gallery 和最小复现命令/环境/git SHA；失败样例至少覆盖 gripper miss、arm over-mask、object leakage、接触区断裂和时序漂移。\n6) 给出主线决策：RoboSeg 是否继续做 robot-mask mainline，X2SAM 是否适合作为语言/视觉提示 fallback 或人工修正器，Cloak geometry mask 是否适合作为 wrist-view oracle / VLA masking ablation；结论必须基于同输入证据，不以论文通用 benchmark 代替 UMI 数据结果。",
+      "description": "在同一批真实 UMI / wrist-view egocentric 数据上，对 X2SAM、RoboSeg/RobotSeg 与 Cloak mask 路线做可复现比较。2026-07-13 ClawCross 群聊确认：X2SAM 尚未完成实测，Yongxi/Lai 继续负责官方 X2SAM 结果；不能因通用 benchmark 或群里出现视频文件就提前标 done。\n\n方法边界：1) X2SAM 官方仓库 https://github.com/wanghao9610/X2SAM 已开放 training/evaluation/visualization/demo；它支持 conversational instruction、visual prompt 和 Mask Memory，重点测试 UMI wrist-view 的 gripper、hand/end-effector、arm+gripper 时序 mask。2) RoboSeg/RobotSeg https://github.com/showlab/RobotSeg 作为 robot-specific baseline 与当前候选主线。3) Cloak https://tml.stanford.edu/cloak/ 依赖 robot geometry、joint state 与 wrist-camera extrinsics 渲染 end-effector mask，适合作 geometry oracle/control；缺 URDF/MJCF、joint state 或 extrinsics 时必须记 blocker，不能伪造 GT。Cloak 的训练代码/checkpoint 是否完整开放需按当前 upstream 再核验。\n\nAcceptance: 1) 至少 3 个真实 UMI/dual-wrist clips，每段 20-50 帧，覆盖黑色 gripper、快速运动、接触、遮挡和背景干扰；2) 统一输出 gripper-only、hand/end-effector、arm+gripper taxonomy，保存 binary mask、overlay、video、prompt/config/git SHA；3) X2SAM 比 text instruction 与 visual-prompt initialization，RoboSeg 用官方 checkpoint，Cloak 只在 metadata 足够时渲染；4) 少量人工 reference/consensus labels 上报告 IoU、Boundary-F、gripper recall、missing rate、false foreground、frame-to-frame IoU、bbox jitter、topology jump、propagation drift、runtime、VRAM 和人工修正成本；5) 输出同帧三路可视化、CSV/JSON 和 failure gallery；6) 给出明确主线：RoboSeg 是否保留 mainline，X2SAM 是否做语言/视觉提示 fallback，Cloak 是否做 geometry oracle/VLA ablation。",
+      "status": "active",
+      "priority": "high",
+      "assignee": "Lai / Yongxi / Seb.M / Boris",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_ca1dcc55-d97d-4c2b-a644-028c096655c8",
+          "task_id": "task_umi_world_model_x2sam_roboseg_cloak_vla_umi_wrist_view_masks_20260713",
+          "author": "Codex / ClawCross wx sync",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "ClawCross sync 2026-07-13: X2SAM had not been tried when asked; Yongxi/Lai were assigned https://github.com/wanghao9610/X2SAM.git. Later shared videos are not treated as X2SAM completion until model/config/input and same-input RoboSeg comparison are attached.",
+          "created_at": "2026-07-13T13:50:24.533Z"
+        }
+      ],
+      "updated_at": "2026-07-13T13:50:24.533Z",
+      "due_at": "2026-07-20",
+      "completed_at": null,
+      "completed_at_time": null
+    },
+    {
+      "task_id": "task_self_improving_agents_embodiedgen_v2_self_improving_harness_gen_env_20260713",
+      "project_id": "self-improving-agents",
+      "title": "[3/4 Asset pipeline] Evaluate EmbodiedGen V2 as an environment and asset compiler backend",
+      "description": "Package: https://github.com/HorizonRobotics/EmbodiedGen （project/docs: https://horizonrobotics.github.io/EmbodiedGen/）。背景：近期面试过该项目的一位作者，需要把作者交流转化为可验证的工程判断；dashboard 只记录技术结论与待澄清问题，不记录候选人的个人面试信息。定位边界：EmbodiedGen V2 是 task/image/text -> simulation-ready assets / layouts / worlds 的候选环境编译器，可对接 PEARL/Open X Sim 的 /gen-env；它不替代 weakness mining、trace memory、policy diagnosis、regression test 或 promotion gate。Desk review：v2.0.0 tag cc3015ca5ccdacf94df3428d9e65f79375982216；支持 URDF + mesh + 3DGS、task-driven layout、SAPIEN/Isaac Sim/Isaac Gym/MuJoCo/Genesis/PyBullet 导出、Claude Code 3D-vibe-coding skills、part affordance 与 simulation validation。多数 pipeline 需要 GPT endpoint/key，安装按 basic/scene3d/room/affordance/CUDA 分阶段且包含较重 third-party/model 依赖。许可元数据声明 Apache-2.0，但 v2.0.0 的实际 license 位于 docs/documentation/LICENSE，README 的 docs/LICENSE 链接及 pyproject 的 root LICENSE/NOTICE 声明不一致，集成前必须向维护者确认打包与再分发边界。Acceptance: 1) 固定 v2.0.0/上述 SHA，在隔离环境完成 basic install 与官方最小 smoke，记录 Python/CUDA/GPU/VRAM、模型下载、安装时长、外部 API 和失败点，禁止把 token 写入日志或 dashboard；2) 从现有 PEARL/selection2env held-out specs 选至少 3 个任务，每个 >=5 seeds，跑 task -> scene graph/layout -> sim-ready world，保存命令、config、seed、git SHA、输出目录和失败样例；3) 与当前 SceneAgent/selection2env 同输入比较 asset reuse/generated ratio、layout validity、scale/mass/friction、collision/penetration、physics settling、task reachability、retry count、latency、peak VRAM 与 API cost；4) 至少在 SAPIEN 加 MuJoCo/Isaac Sim 二选一加载同一输出，核对 geometry/collision/pose/physics metadata，而非只看渲染视频；5) 审计 /embodiedgen:* Claude Code skills 是否能收敛为有 schema、bounded edit、deterministic verifier 的 /gen-env adapter，禁止自然语言 agent 绕过验证直接改 world state；6) 整理给作者/维护者的问题：V2 roadmap、必需闭源模型/API、seed determinism、cross-simulator fidelity、commercial/redistribution license、失败重试与 benchmark protocol；7) 输出一页决策：adopt as backend / cherry-pick modules / research reference / reject，并给出最小 adapter contract、预计集成工期和明确 blocker。",
       "status": "todo",
       "priority": "high",
-      "assignee": "Lai / Seb.M / Boris",
+      "assignee": "Boris / Codex",
       "result": null,
       "comments": [],
-      "updated_at": "2026-07-13T02:07:08.254Z"
+      "updated_at": "2026-07-15T06:06:11.252Z"
+    },
+    {
+      "task_id": "task_umi_world_model_ziyang_meng_mimic_video_robot_layer_action_idm_20260713",
+      "project_id": "umi-world-model",
+      "title": "Ziyang / Meng：评估 MIMIC-Video 的 Robot Layer → action IDM",
+      "description": "评估 https://mimic-video.github.io/ 与官方代码 https://github.com/mimic-video/mimic-video 是否能把 UMI Robot Layer 转成可用 action。技术边界：MIMIC-Video 不是 mask-to-action 黑盒；其 flow-matching action decoder 由预训练视频模型的 latent visual plan 和 proprioceptive state 条件化，作为 IDM 预测 action trajectory。UMI 必须验证 Robot Layer 表示是否保留视频 backbone/decoder 需要的动态信息。\n\n执行顺序：1) 先按会议要求用默认设置做 global-layer + initial robot state -> future delta-action baseline；2) 再比较 robot RGB/RGBA layer、robot mask video、global+robot fusion 三种输入；3) 固定相机 pose 的场景先做，不把未知 camera calibration 当成已解决；4) 对接官方 Cosmos-Predict2 2B + action decoder 路径，优先跑公开 Bridge/LIBERO checkpoint/eval smoke，再替换成 UMI 数据；5) 测试 Euler pose、quaternion pose、10D action 等表示，并明确 gripper width、frame rate、normalization 和 action chunk 对齐。\n\nAcceptance: 1) 固定官方 git SHA、checkpoint、环境、数据 schema 和复现命令；2) 跑通至少一个官方 inference/eval，再跑同一批 UMI clips 的 global、robot-only、global+robot 三路；3) 报告 action L2/rotation/translation/gripper error、trajectory drift、chunk latency、VRAM、actual-vs-zero/wrong-action separation 和可用时的 rollout success；4) 明确 mask-only 是否信息不足、robot RGBA 是否需要重训 video backbone、initial state/proprioception 如何注入；5) 输出 predicted-vs-GT action plot、reconstructed/denoised plan video、failure gallery；6) 与简单 CNN/ViT robot-layer IDM 和 global-layer baseline 比较，不能只复现论文数字；7) GitHub 共享文档和可视化，并给出 adopt/cherry-pick/reject MIMIC-Video action decoder 的结论。",
+      "status": "active",
+      "priority": "high",
+      "assignee": "Ziyang / Meng / Seb.M / Boris",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_dcbf440e-ba86-41a4-98b8-e591704e40d0",
+          "task_id": "task_umi_world_model_ziyang_meng_mimic_video_robot_layer_action_idm_20260713",
+          "author": "Codex / ClawCross wx sync",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "ClawCross sync 2026-07-13: the group assigned https://mimic-video.github.io to the Ziyang/Meng/Seb.M lane. This comment records assignment only; completion still requires an official-code smoke and UMI Robot Layer action evidence.",
+          "created_at": "2026-07-13T13:49:07.260Z"
+        }
+      ],
+      "updated_at": "2026-07-13T13:49:07.260Z",
+      "due_at": "2026-07-20"
+    },
+    {
+      "task_id": "task_umi_world_model_boris_action_conditioned_teacher_student_20260713",
+      "project_id": "umi-world-model",
+      "title": "Boris：收口 action-conditioned teacher/student 与多视角噪声实验",
+      "description": "把本次会议中的 Stage 1 训练结果和下周实验从 Intro 拆成可验收 TODO。当前实现：teacher 以 first frame + 完整 10D action sequence（6D rotation + 3D translation + gripper width）生成完整 rollout；causal/streaming student 通过 distillation 做流式推理。会议报告的 preliminary evidence 是 action swap 会改变生成结果，zero-action/freeze 会生成近静止画面；这些必须附同输入对照、seed、checkpoint 和 metric 才能算正式结论。\n\n未完成问题：Stage 3 DMD 尚未收口；手/夹爪生成崩坏；当前数据质量一般；是否升级 13B 尚无成本收益证据。数据侧在深圳黑棚尝试采集约 5 m 高质量序列，但必须先定义相机、动作同步、曝光/噪声和验收，而不是只记录总长度。\n\n下周核心实验：1) 在两个视角交汇区域测噪声/误差相关性；2) 比较 independent noise、shared noise、overlap-only shared noise、pose-conditioned noise；3) 相机内外参/TF 作为已知条件和扰动变量分开记录；4) 检查 pose condition 是否提高 overlap consistency 而不损害单视角质量；5) 继续 MSE student -> DMD 路线，先用官方 RynnWorld-Teleop streaming/DMD 实现作代码参考。\n\nAcceptance: 1) actual/zero/wrong/shuffled action 四组同 seed 生成和 metric，报告 motion magnitude、action-video alignment、contact/object outcome、background drift；2) teacher vs streaming student 报告 fidelity、latency、throughput、VRAM、cache length；3) overlap/noise ablation 报告重叠区 photometric/feature/geometry consistency 与非重叠区质量；4) hand/gripper collapse failure gallery 与可定位原因；5) Stage 3 DMD 最小命令、checkpoint lineage、critic/student 初始化和失败日志；6) 黑棚数据记录 schema、样本质量、同步与 reject ratio；7) 只有 5B 路线被瓶颈证据否定后才评估 13B；8) 所有文档、图表、视频和结果索引提交 GitHub。",
+      "status": "active",
+      "priority": "urgent",
+      "assignee": "Boris / Haoyu",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_5e0f7ebe-0e2a-4e73-91e5-7798d32d362f",
+          "task_id": "task_umi_world_model_boris_action_conditioned_teacher_student_20260713",
+          "author": "Codex research",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "2026-07-13 detailed research decision — Stage 1 pose-conditioned / cross-view noise\n\n结论：两个 POV 的噪声不应全局相同，也不应完全独立。默认方案应是 geometry-warped partial correlation：每个视角先用 CameraNoise 根据自身 K / T_world_cam(t) 生成时间相关、pose-conditioned 的 Gaussian noise；跨视角只在可靠共视区域共享经过几何传输的噪声分量，并保留 view-specific residual。\n\nCameraNoise 的适用边界：它用相机内外参和 constant pseudo-depth 构造 GRFlow，再用 PDE / bipartite transport + density/Jacobian correction 传播初始 Gaussian noise，解决单条视频内的相机轨迹条件和时间一致性。论文明确说明 GRFlow 只表示 dominant global camera-motion prior，不重建精确 3D scene dynamics。因此它本身没有解决同步双相机之间的真实共视、遮挡/新显露、动态 robot/object 对应或联合多视角去噪；双视角耦合必须额外使用 depth/geometry + visibility。\n\n推荐构造。设 C_A、C_B 为两路分别由 CameraNoise 生成且相互独立的单位方差噪声序列，W_GP(A→B) 为基于 K_A、K_B、T_B<-A(t)、D_A/D_B 的 Gaussian-preserving transport，rho(x,t) 由共视 mask、z-buffer depth consistency、forward/backward reprojection error 和边界置信度决定：\n\nepsilon_A = C_A\nepsilon_B = rho * W_GP(C_A) + sqrt(1-rho^2) * C_B\n\n独立单位方差分量下 Var(epsilon_B)=rho^2+(1-rho^2)=1；一一对应且 transport 正确时，匹配点相关系数约为 rho。非重叠、遮挡、新显露和低置信区域令 rho=0；可靠背景共视区用 0<rho<1；rho=1 只作为 exact-correspondence / negative-control 消融，不作为默认。直接复制同一像素坐标的噪声会关联不同 camera rays；普通双线性 warp 又会改变噪声方差/空间协方差。\n\n实现顺序：\n1. 先在 Wan/RynnWorld latent resolution（通常 H/8 x W/8）做 training-free noise initializer smoke test，不先改 backbone。\n2. sidecar 记录 K、T_world_cam(t)、depth source、overlap/visibility mask、warp field、rho map、seed 和 latent shape；wrist camera 的 T_world_cam(t) 必须由 FK/TF + hand-eye calibration 得到，并保留同步/标定扰动版本。\n3. 背景层可用较高 rho；robot/刚体 object 需用 joint state / 3D pose 建立动态对应；柔性物体用 flow/keypoint tracks；接触和遮挡边界降低 rho。CameraNoise 的 pseudo-depth 不能替代跨视角真实 depth，可依次比较传感器 depth、VGGT/DepthAnything 类估计和显式 scene geometry。\n4. 若相关初始噪声仍不能稳定同一几何/语义，再加入 CVD 式 epipolar/correspondence cross-view attention；noise prior 不能替代 denoiser 内部的跨视角通信。\n5. CameraNoise 论文训练时混合标准 Gaussian 与 CameraNoise，并指出直接替换会损害 pretrained prior；training-free smoke 之后必须比较 inference-only initialization 与 LoRA fine-tune，检查 distribution shift。\n\n最小消融：A0 independent Gaussian；A1 unwarped globally identical noise（负对照）；A2 per-view CameraNoise、跨视角独立；A3 overlap-warped CameraNoise with rho=1；A4 confidence-adaptive rho，扫描 rho_max={0.25,0.5,0.75,1.0}；A5 A4 + epipolar cross-view attention。所有组固定 prompt / first frame / action / checkpoint / sampler / seed lineage，并保留 actual/zero/wrong/shuffled action counterfactual，避免用静态一致性换掉动作响应。\n\n指标与 gate：1) noise mean/variance/spectrum/spatial covariance，匹配区经验 corr≈target rho、非重叠区≈0；2) depth/pose warp 后的 overlap masked LPIPS、DINO feature distance、PSNR/SSIM；3) depth reprojection、bidirectional cycle、epipolar/keypoint error；4) CameraNoise 的 TransErr/RotErr + FVD/VBench；5) 双视角 robot EE/object pose/contact-event consistency 与 action sensitivity；6) 非重叠区 diversity、occlusion-boundary ghosting、duplicate robot parts 和 shared-noise leakage。只有 A4 相对 A0/A2 改善共视一致性，且不显著损害单视角质量、非共视多样性和 action counterfactual sensitivity，才进入训练主线。\n\nPrimary references: CameraNoise https://gulucaptain.github.io/CameraNoise/ and https://arxiv.org/abs/2605.30774 ; NoiseController https://arxiv.org/abs/2504.18448 ; Coordinate Noise https://openaccess.thecvf.com/content/WACV2025/html/Theiss_Multi-View_Image_Diffusion_via_Coordinate_Noise_and_Fourier_Attention_WACV_2025_paper.html ; Collaborative Video Diffusion https://collaborativevideodiffusion.github.io/ .",
+          "created_at": "2026-07-13T14:36:05.583Z"
+        }
+      ],
+      "updated_at": "2026-07-13T14:36:05.583Z",
+      "due_at": "2026-07-20"
+    },
+    {
+      "task_id": "task_self_improving_agents_robotwin_scenegen_stage_0_1_scenespec_20260714",
+      "project_id": "self-improving-agents",
+      "title": "[1/4 Text2Env] RoboTwin SceneGen Stage 0-1: asset catalog and strict bilingual SceneSpec",
+      "description": "这是已完成 SceneAgent / selection2env V0 的后继实现，不重开旧验收，也不生成新 RoboTwin task、check_success() 或 play_once()。依据 2026-07-15 收到的《RoboTwin 2.0 自然语言驱动初始场景生成方案》，固定审阅基线为 RoboTwin commit c3ddfa8b97d5519efa828b075999bd0006778e5e。目标链路先收敛为：中文/英文自然语言 -> 受约束 SceneSpec；LLM 只做语义解析，不得输出/执行 Python、资产路径、model_id、世界坐标或四元数。\n\nScope:\n1) 新建 scene_gen/schema.py、catalog.py、parser.py、asset_overrides.yml 与 prompts/parse_scene.md，并补 tests/scene_gen/test_schema.py、test_catalog.py；\n2) 扫描服务器实际 assets/objects，合并模型文件、model_data*.json、description corpus，生成 asset_catalog.json 与缺失字段报告；每条记录明确真实路径、model_name/model_id、rigid/URDF 加载类型、尺寸/scale、metadata 覆盖、可用性和稳定姿态缺口；\n3) 固定 SceneSpec.frame=robotwin_world，明确 +x 右、+y 前、+z 上；首版仅支持桌面刚体、类别/颜色/材质、left/right/front/back/center、left_of/right_of/front_of/behind/near/distance_at_least；\n4) 用 Pydantic/JSON Schema 实现 provider-agnostic 结构化解析、唯一对象 ID、合法单位、关系引用与矛盾检查；建立中英文 golden prompt 集；\n5) 明确 MVP 排除项：堆叠、inside、articulation 初始关节、复杂家具、多层支撑面，以及 LLM 直接给坐标/姿态。\n\nAcceptance:\n- catalog 每个可用条目都解析到真实文件，加载方式明确，缺失项有结构化原因；\n- 合法中英文描述稳定产出 schema-valid JSON；缺失、矛盾、自引用、未知关系被明确拒绝；\n- parser 不执行模型生成代码，不接受资产路径/ID/坐标/四元数；\n- 固定输入/config/seed 的目录排序与候选输入可复现；\n- 输出 schema、catalog、golden prompts、测试命令/日志、commit 和 artifact path；\n- Stage 0–1 验收通过前，不启动位姿求解和 SAPIEN builder。",
+      "status": "active",
+      "priority": "urgent",
+      "assignee": "Zheng Ye / Jingxiang (Environment Generation & Simulation Interoperability)",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_27db235f-71d7-457b-b726-3787b6f09156",
+          "task_id": "task_self_improving_agents_robotwin_scenegen_stage_0_1_scenespec_20260714",
+          "author": "Codex runtime audit",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[KNOWN] [CONFIDENCE: HIGH] 2026-07-15 V1 progress: the shared typed IR now defines EnvSpec, AssetBundle, TaskSpec, AnchorSpec and EnvironmentPackage with deterministic digests; pure Text2Env does not consume image/video anchors or network search.\n\n[COMPUTED] [CONFIDENCE: HIGH] The can/basket package digest is dc02ac61d744d1c559cd8222a83f91602979172a28d7e145af4bb5d5dde3e47b and uses existing RoboTwin assets 071_can/base0 and 110_basket/base1.\n\n[KNOWN] [CONFIDENCE: HIGH] This TODO moves to active, not done. The strict bilingual asset catalog, golden prompt rejection suite, complete real-path catalog coverage and the broader Stage 0-1 acceptance remain incomplete.\n\n[KNOWN] [CONFIDENCE: HIGH] Evidence: /Users/boris/Downloads/openxsim_four_workflows_20260715/index.html and https://pearl-self-improving-agents.linslabnus.chatgpt.site/reports/openxsim-v1/",
+          "created_at": "2026-07-15T09:30:14.594Z"
+        }
+      ],
+      "updated_at": "2026-07-15T09:30:14.594Z",
+      "completed_at": null,
+      "completed_at_time": null
+    },
+    {
+      "task_id": "task_self_improving_agents_robotwin_scenegen_stage_2_4_grounding_sapien_20260714",
+      "project_id": "self-improving-agents",
+      "title": "[1/4 Text2Env] RoboTwin SceneGen Stage 2-4: grounding, solving, SAPIEN validation and replay",
+      "description": "依赖 TODO「RoboTwin SceneGen Stage 0–1：资产目录与严格双语 SceneSpec」验收通过。目标是把 schema-valid SceneSpec 编译为确定、可验证、可重放的 ResolvedSceneSpec 和 SAPIEN 初始场景；继续遵守边界：不生成新 RoboTwin task、check_success()、play_once() 或任意 LLM Python，不让 LLM决定资产路径、最终坐标或四元数。\n\nScope:\n1) 实现 scene_gen/grounding.py：将类别/颜色/材质查询映射到真实资产候选，过滤缺模型/碰撞/metadata 的条目，保存 score、选择理由和 rejected candidates；候选接近时只由 seed 决定；\n2) 实现 solver.py：把 on_table、region、left_of/right_of/front_of/behind/near/distance_at_least 编译为 footprint 约束，用有界拒绝采样+回溯求解；稳定姿态仅允许绕桌面法向 yaw；\n3) 实现 builder.py、validator.py、envs/generated_scene.py、script/generate_scene.py；复用 Base_Task、create_actor/Actor/ArticulationActor、机器人和相机生命周期，主体成功后登记 prohibit area，再可选添加 clutter；\n4) validator 必须覆盖桌面边界、主体重叠、全部语言关系、尺寸适配、平移/旋转漂移、接触/穿透/掉落/持续运动、机器人初态非法碰撞，以及 head camera/actor segmentation 可见性；不能只复用现有偏旋转的 check_stable()；\n5) 有界恢复策略：几何失败重采样位姿，物理失败换稳定姿态，资产持续失败换同类候选；语义/schema 失败直接返回结构化错误，禁止无限重试或静默改写用户要求；\n6) 输出 data/generated_scenes/<scene_id>/{request.txt,scene_spec.json,resolved_scene.json,validation_report.json,preview_head.png,preview_segmentation.png}，ResolvedSceneSpec 记录真实 model_name/model_id、加载类型、stable_pose_id、最终 pose、尺寸/质量/碰撞、request、seed 和 solver trace。\n\nAcceptance:\n- 相同文本、config 与 seed 产生完全相同的资产和位姿；\n- 测试集中不存在虚构资产 ID/path，所有成功场景满足边界、无重叠及全部关系约束；\n- 100 个固定 seed 中至少 95 个在预设最大尝试次数内生成有效场景；\n- 每个指定对象在相机或 actor segmentation 中达到预设可见像素阈值；\n- 任一成功结果可仅依靠 resolved_scene.json 精确重放；\n- 失败结果保存机器可读 reason、attempt trace 和最终 blocker，不留下无限循环；\n- 提供 tests/scene_gen/test_grounding.py、test_solver.py、test_generated_scene.py、运行命令/日志、commit、失败样例和预览；\n- Stage 5 的 stacking、inside、articulation、between/对齐、VLM rendered-scene critic 与批量 data collection 明确延期，不混入 MVP 验收。",
+      "status": "active",
+      "priority": "high",
+      "assignee": "Zheng Ye / Jingxiang (Env Gen); Gaochen (Policy Improvement & Diagnosis interface)",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_8ea0633e-740d-49f5-bc0f-98c922e5e27e",
+          "task_id": "task_self_improving_agents_robotwin_scenegen_stage_2_4_grounding_sapien_20260714",
+          "author": "Codex runtime audit",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[KNOWN] [CONFIDENCE: HIGH] 2026-07-15 V1 progress: the pure Text2Env can/basket package compiles to RoboTwin placement and task-program artifacts and runs the generated primitive plan with package-, placement- and task-hash binding.\n\n[COMPUTED] [CONFIDENCE: HIGH] The semantic rollout contains 613 decoded frames at 12 fps over 51.0833 s, endpoint_only=false. The exact TaskSpec predicates pass: XY near distance 0.0756967 m <= 0.15 m and the real SAPIEN contact pair basket/cola_can is observed.\n\n[KNOWN] [CONFIDENCE: HIGH] This TODO moves to active, not done. The 100-fixed-seed >=95% gate, full SAPIEN visibility/segmentation checks, complete bounded recovery set and resolved_scene-only replay acceptance are not yet proven.\n\n[KNOWN] [CONFIDENCE: HIGH] Evidence: /Users/boris/Downloads/openxsim_four_workflows_20260715/index.html and https://pearl-self-improving-agents.linslabnus.chatgpt.site/reports/openxsim-v1/",
+          "created_at": "2026-07-15T09:35:19.574Z"
+        }
+      ],
+      "updated_at": "2026-07-15T09:35:19.574Z",
+      "completed_at": null,
+      "completed_at_time": null
+    },
+    {
+      "task_id": "task_self_improving_anchor2env_image_video_20260715",
+      "project_id": "self-improving-agents",
+      "title": "[2/4 Anchor2Env] Generate verifiable environments from user images or videos",
+      "description": "Build the second environment-generation entry point on top of the same SceneSpec and ResolvedSceneSpec used by Text2Env. Input is a user image or short video plus optional text constraints; output must distinguish observed evidence, model estimates, retrieved assets, generated geometry, and unresolved uncertainty.\n\nScope: 1) define AnchorManifest for source media, frame sampling, camera assumptions, masks/tracks, depth or scale cues, object candidates, support relations, motion cues, confidence and provenance; 2) recover a bounded SceneSpec without allowing a VLM to emit executable code, asset paths, final poses or silent hidden-geometry guesses; 3) prefer matching known assets, then route unmatched objects through the asset-discovery/import task; 4) compile at least one still-image and one video case into the RoboTwin/SAPIEN backend; 5) preserve source-view cameras and produce side-by-side source, reconstruction, segmentation and replay views; 6) compare text-only versus anchor-conditioned generation using object recall, relation accuracy, layout error, visible-surface alignment, physics validity, retry count and human QA.\n\nAcceptance: at least 3 scenes covering image and video inputs; deterministic output for fixed media/config/seed; machine-readable uncertainty and typed blockers; no fabricated asset provenance; successful replay from ResolvedSceneSpec alone; an ablation showing what the anchor changes relative to Text2Env; commands, logs, hashes, previews and failure gallery.",
+      "status": "active",
+      "priority": "high",
+      "assignee": "Jingxiang / Environment Generation & Simulation Interoperability",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_0fc7a713-b449-4da8-b2d4-0e5a6244179c",
+          "task_id": "task_self_improving_anchor2env_image_video_20260715",
+          "author": "Codex runtime audit",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[KNOWN] [CONFIDENCE: HIGH] 2026-07-15 V1 progress: Anchor2Env now performs real image decoding and ffprobe/ffmpeg video validation, samples a video across its full timeline, records object/camera/appearance/motion constraints plus typed uncertainty, and fuses them into the shared EnvironmentPackage.\n\n[COMPUTED] [CONFIDENCE: HIGH] The verified input has 613 frames; eight samples span 0.00-51.00 s. The anchor-conditioned RoboTwin replay has 609 frames over 50.75 s and passes the same near plus real-contact TaskSpec predicates.\n\n[KNOWN] [CONFIDENCE: HIGH] This TODO moves to active, not done. Only one full video-conditioned runtime scene is proven; the >=3-scene gate, still-image full runtime, source/reconstruction/segmentation comparison, text-vs-anchor ablation and failure gallery remain incomplete.\n\n[KNOWN] [CONFIDENCE: HIGH] Evidence: /Users/boris/Downloads/openxsim_four_workflows_20260715/index.html and https://pearl-self-improving-agents.linslabnus.chatgpt.site/reports/openxsim-v1/#anchor2env",
+          "created_at": "2026-07-15T09:32:04.777Z"
+        }
+      ],
+      "updated_at": "2026-07-15T09:32:04.777Z",
+      "completed_at": null,
+      "completed_at_time": null
+    },
+    {
+      "task_id": "task_self_improving_asset_web_discovery_import_20260715",
+      "project_id": "self-improving-agents",
+      "title": "[3/4 Asset Web Agent] Discover, convert and validate external assets and object datasets",
+      "description": "Implement a bounded retrieval-and-import agent for environment generation. The agent may search official repositories, dataset catalogs and project pages, but must not treat a downloadable mesh as simulator-ready.\n\nScope: 1) define canonical AssetSpec and provenance record covering source URL, license, author/dataset, version, file hashes, allowed use, units, axes, scale, visual mesh, collision mesh, materials/textures, mass/inertia, articulation/joints, stable poses and known gaps; 2) support an explicit conversion matrix for common inputs such as OBJ/GLB/FBX/STL, URDF/MJCF/USD/SDF and selected 3DGS or reconstruction outputs; 3) build query -> ranked candidates -> download -> scan -> convert -> simulator import -> settle/render/collision QA with bounded retries and rejected-candidate reasons; 4) never invent missing license, physics or articulation metadata; unknown fields remain typed unknowns; 5) import a representative set into RoboTwin/SAPIEN and at least one second backend used by Open-X-Sim; 6) connect unmatched Anchor2Env objects and Text2Env catalog misses to this pipeline.\n\nAcceptance: at least 3 official sources and 10 heterogeneous assets; complete provenance/hash manifest; conversion logs and deterministic outputs; visual, collision, scale, articulation and settling checks; source-versus-import previews; per-asset pass/conditional/block decision; no external credentials or restricted payloads stored in dashboard state.",
+      "status": "active",
+      "priority": "high",
+      "assignee": "Jingxiang / Environment Generation & Simulation Interoperability",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_4dff28e6-1f65-4dda-ba1b-7a40ffb6162b",
+          "task_id": "task_self_improving_asset_web_discovery_import_20260715",
+          "author": "Codex runtime audit",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[KNOWN] [CONFIDENCE: HIGH] 2026-07-15 V1 progress: AssetScout can autonomously search GitHub repositories without a supplied owner/repo, rank candidates, download with bounded retries/cache, preserve SHA/provenance, normalize OBJ geometry, generate a separate collision proxy/default material, audit articulation and emit OBJ/USD/MJCF/URDF/SAPIEN/MetaSim representations.\n\n[COMPUTED] [CONFIDENCE: HIGH] The live run found 20 candidates and selected google-deepmind/mujoco_menagerie/tetheria_aero_hand_open/assets/dex_cube.obj. MuJoCo and SAPIEN each complete 20 runtime steps; Isaac Sim completes external USDA import smoke; official MetaSim object/config construction succeeds.\n\n[KNOWN] [CONFIDENCE: HIGH] The selected GitHub license API value is preserved as NOASSERTION. This TODO moves to active, not done: current proof is 1 source/1 rigid asset, below the 3-source/10-heterogeneous-asset acceptance, and articulated/source-vs-import preview coverage remains incomplete.\n\n[KNOWN] [CONFIDENCE: HIGH] Evidence: /Users/boris/Downloads/openxsim_four_workflows_20260715/index.html and https://pearl-self-improving-agents.linslabnus.chatgpt.site/reports/openxsim-v1/#assetscout",
+          "created_at": "2026-07-15T09:33:06.108Z"
+        }
+      ],
+      "updated_at": "2026-07-15T09:33:06.108Z",
+      "completed_at": null,
+      "completed_at_time": null
+    },
+    {
+      "task_id": "task_self_improving_openxsim_cross_sim_reuse_20260715",
+      "project_id": "self-improving-agents",
+      "title": "[4/4 Open-X-Sim] Reuse generated environments across simulator backends",
+      "description": "Treat RoboVerse/MetaSim as the comparison baseline, not as an unnamed novelty target. MetaSim already provides simulator-agnostic configuration and aligned backend interfaces; Open-X-Sim must therefore prove a narrower missing capability: generated or media-anchored environment packages can be compiled into multiple simulators with provenance, deterministic replay, and explicit migration-loss accounting.\n\nScope: 1) define the common interchange bundle across SceneSpec, ResolvedSceneSpec, AssetSpec/AssetManifest, RobotSpec, CameraSpec, PhysicsSpec, TaskSpec and ValidationReport; 2) implement RoboTwin/SAPIEN as the source adapter and MuJoCo or Isaac Sim as the first target adapter; 3) map geometry, transforms, joints, limits, actuators, collision, materials, mass/inertia, gravity/timestep, sensors/cameras, reset and task predicates; 4) emit unsupported-feature and lossy-conversion records instead of silently degrading; 5) replay the same resolved package in both backends and compare scene graph, object/robot poses, settling/contact traces, camera projections, articulation limits, action semantics and task verifier outcomes; 6) evaluate whether MetaSim configs/adapters can be reused directly, wrapped, or only used as a benchmark.\n\nAcceptance: at least 3 scenes including rigid tabletop, articulated object and camera-sensitive cases; source and target load/replay from one versioned bundle; round-trip hashes and adapter versions; quantitative fidelity report with declared tolerances; backend-specific failure gallery; adopt/wrap/cherry-pick decision for RoboVerse/MetaSim; no claim of seamless equivalence unless contact, controller and task outcomes actually pass.",
+      "status": "active",
+      "priority": "high",
+      "assignee": "Jingxiang / Environment Generation & Simulation Interoperability",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_cc17430e-8a56-4058-975e-7f9c5ee768ac",
+          "task_id": "task_self_improving_openxsim_cross_sim_reuse_20260715",
+          "author": "Codex runtime audit",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[KNOWN] [CONFIDENCE: HIGH] 2026-07-15 V1 progress: Open-X-Sim safely imports a native SAPIEN JSON scene without executing source Python or using a compile sidecar, compiles one versioned EnvironmentPackage to MuJoCo/Isaac/MetaSim, and emits L0-L4 conformance reports that do not promote missing evidence.\n\n[COMPUTED] [CONFIDENCE: HIGH] For the rigid primitive zero-action common subset, SAPIEN->MuJoCo reaches L3 over 21 states with max error 4.98149e-8 m and zero contact-mismatch steps; SAPIEN->Isaac reaches L3 with 0.0 m max error. Official MetaSim ScenarioCfg/PrimitiveCubeCfg construction succeeds, but no MetaSim runtime engine was selected.\n\n[KNOWN] [CONFIDENCE: HIGH] This TODO moves to active, not done. The three-scene acceptance still lacks articulated-object and camera-sensitive cases; controller/policy equivalence and L4 statistics are not claimed.\n\n[KNOWN] [CONFIDENCE: HIGH] Evidence: /Users/boris/Downloads/openxsim_four_workflows_20260715/index.html and https://pearl-self-improving-agents.linslabnus.chatgpt.site/reports/openxsim-v1/#transfer",
+          "created_at": "2026-07-15T09:34:05.169Z"
+        }
+      ],
+      "updated_at": "2026-07-15T09:34:05.169Z",
+      "completed_at": null,
+      "completed_at_time": null
+    },
+    {
+      "task_id": "task_event_camera_speck2_hardware_gate_20260715",
+      "project_id": "archive-event-camera-visuotactile",
+      "title": "Event-camera hardware gate: verify Speck 2 and alternatives",
+      "description": "[KNOWN][HIGH] Verify the exact Speck 2 / 2f SKU, DVS resolution, lens and FOV, raw event export, timestamp precision, USB bandwidth, external trigger or clock synchronization, Samna support, ROS integration, power, thermal behavior, and wrist-mount mechanics. [INFERRED][HIGH] Do not purchase or standardize Speck solely because the packaged module is small; compare a borrowable Speck dev kit with DAVIS346 and current iniVation / Prophesee options, and select only a device that can produce synchronized raw events for the planned benchmark.",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Boris / Real-Robot Infra",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-07-15T06:39:40.474Z"
+    },
+    {
+      "task_id": "task_event_camera_rgb_event_sync_benchmark_20260715",
+      "project_id": "archive-event-camera-visuotactile",
+      "title": "Build synchronized RGB-event-proprioception benchmark",
+      "description": "[INFERRED][HIGH] Record synchronized 30 fps RGB, 120 fps RGB where available, real events, pseudo-events from frame differences, robot actions and joint states, wrist-camera TF, and tactile or force signals. [INFERRED][HIGH] Use fast cube turns, insertion/contact onset, slip and regrasp, tool contact, and moving-object trials; report synchronization error, event rate, bandwidth, contact/slip latency, motion-mask IoU, point-tracking error, and task success instead of visual novelty alone. [KNOWN][HIGH] Explicitly compensate known robot and camera ego-motion before scoring independent moving-object residuals.",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Boris / Real-Robot Infra",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-07-15T06:39:40.474Z"
+    },
+    {
+      "task_id": "task_event_camera_vla_baseline_20260715",
+      "project_id": "archive-event-camera-visuotactile",
+      "title": "Evaluate Event-VLA and E-VLA as RGB-complement baselines",
+      "description": "[KNOWN][HIGH] Implement the lightweight E-VLA accumulated-event overlay baseline and the Event-VLA action-query gated cross-attention design when code or sufficient implementation detail is available. [INFERRED][HIGH] Keep the pretrained RGB-language semantic path intact and route event features only to motion-sensitive action prediction; compare RGB-only, pseudo-event, event-only, RGB plus event overlay, and learned RGB-event fusion under nominal light, low light, motion blur, and fast wrist motion.",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Boris / VLA",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-07-15T06:39:40.474Z"
+    },
+    {
+      "task_id": "task_event_camera_world_model_residual_20260715",
+      "project_id": "archive-event-camera-visuotactile",
+      "title": "Prototype an action- and pose-conditioned event residual world model",
+      "description": "[INFERRED][MED] Predict event polarity, rate, time-surface or sparse event tokens conditioned on robot action, joint state, and camera pose rather than forcing events into ordinary RGB frames. [INFERRED][MED] Use the known wrist-camera motion to predict ego-motion events, model object/contact residuals separately, and test whether event surprise can trigger or refine dense RGB world-model updates. [INFERRED][HIGH] Treat this as a bounded UMI World Model side experiment until it improves contact timing, high-speed tracking, or closed-loop action quality over RGB and pseudo-event baselines.",
+      "status": "todo",
+      "priority": "medium",
+      "assignee": "Boris / UMI World Model",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-07-15T06:39:40.474Z"
+    },
+    {
+      "task_id": "task_event_camera_spikingtac_visuotactile_gate_20260715",
+      "project_id": "archive-event-camera-visuotactile",
+      "title": "Reproduce SpikingTac as a neuromorphic visuotactile branch",
+      "description": "[KNOWN][HIGH] SpikingTac encloses a custom miniaturized event camera behind controlled LED illumination, an optical shield, silicone layers, and an 8 x 8 marker grid; the paper reports a 22 x 22 x 19 mm package, material cost below USD 150, 1000 Hz transient perception, and 350 Hz marker tracking. [INFERRED][HIGH] Treat this as a separate tactile optical stack, not evidence that the same scene-facing Speck or DAVIS module can be reused unchanged. Reproduce or audit the BOM, camera and driver availability, CAD and gel fabrication, event export, dynamic-state-map reconstruction, denoising, hysteresis compensation, zero-point return, contact and slip latency, and collision stop behavior. Compare against GelSight or another high-FPS RGB visuotactile baseline and the lab's existing tactile or force streams; report marker error, zero drift, contact latency, overshoot, bandwidth, mount size, and repeatability before promotion or procurement.",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Boris / VTLA / Real-Robot Infra",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-07-15T07:03:59.539Z"
     }
   ]
 }

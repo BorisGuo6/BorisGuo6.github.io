@@ -5,7 +5,7 @@
   "subtitle": "World models, self-improving simulators, teleop acceleration, and robotics + 3D printing",
   "week": "2026-W24",
   "date": "2026-06-12",
-  "updated_at": "2026-07-08T15:41:12.178Z",
+  "updated_at": "2026-07-16T02:05:58.901Z",
   "state_root": "dashboard/state",
   "summary": {
     "focus": "Research 主线保持 Tri-View/Image-Layered IDM、Self-Improving Agents 和 DexGello；Survey TODO 已统一 inactive/archived，不再显示为当前执行队列。",
@@ -192,6 +192,34 @@
       "caption": "Real-Robot Lab Infra asset inventory: 16 hardware entries, 11 ready, 4 under setup, 1 N.A.; covers Lingzu arms, Aloha, Franka, YAM, teleop wearable arm, Linker/Wuji/Manus hands, VIVE Tracker, Daimon UMI, L515/D405 cameras, and mobile base hardware.",
       "source": "Real-Robot Lab Infra",
       "added_at": "2026-07-08"
+    },
+    {
+      "src": "dashboard/assets/umi-layered-preprocessing-pipeline-20260715.png",
+      "alt": "UMI World Model layered preprocessing pipeline separating robot, object, and background layers with segmentation, inpainting, agent QA, and rigid versus deformable routing.",
+      "caption": "UMI layered preprocessing flow: remove the robot, recover object plus background with VACE, segment the object, validate inpainting and recognition with agents, then route rigid and deformable objects to separate downstream processing.",
+      "source": "UMI Image Layered World Model",
+      "added_at": "2026-07-15"
+    },
+    {
+      "src": "dashboard/assets/event-camera-speck-overview-20260715.png",
+      "alt": "Daniel Gehrig event-camera overview slide with standard camera and DVS outputs plus compact SynSense Speck hardware",
+      "caption": "[KNOWN][HIGH] Seminar framing: event cameras report scene-motion-induced brightness changes as sparse events; the compact Speck module illustrates the form-factor opportunity. [INFERRED][HIGH] Treat it as an auxiliary wrist or always-on sensor candidate, not an RGB substitute.",
+      "source": "Daniel Gehrig seminar / user-provided capture",
+      "added_at": "2026-07-15"
+    },
+    {
+      "src": "dashboard/assets/event-camera-rgb-events-50ms-20260715.png",
+      "alt": "Standard RGB image beside positive and negative event measurements aggregated over 50 milliseconds",
+      "caption": "[KNOWN][HIGH] Events aggregated over 50 ms expose changing edges and polarity but omit full static appearance. [INFERRED][HIGH] This is why RGB-event fusion is the default architecture for VLA and world-model experiments.",
+      "source": "Daniel Gehrig seminar / user-provided capture",
+      "added_at": "2026-07-15"
+    },
+    {
+      "src": "dashboard/assets/event-camera-moving-object-detection-20260715.png",
+      "alt": "Moving-object detection slide showing known robot ego-motion, observed events, and motion-compensated object segmentation",
+      "caption": "[KNOWN][HIGH] Moving cameras generate background events from ego-motion. [INFERRED][HIGH] Robot joint state and wrist-camera TF should condition motion compensation so residual event sharpness isolates independently moving objects and contacts.",
+      "source": "Daniel Gehrig seminar / user-provided capture",
+      "added_at": "2026-07-15"
     }
   ],
   "weekly_briefs": [
@@ -249,8 +277,8 @@
     {
       "project_id": "tactile-wam",
       "title": "DaiMeng VTAM / Tactile-WAM: Predictive Contact Intelligence",
-      "bucket": "research",
-      "status": "ongoing",
+      "bucket": "survey",
+      "status": "survey",
       "state_path": "dashboard/state/projects/tactile-wam.json"
     },
     {
@@ -290,9 +318,9 @@
     },
     {
       "project_id": "archive-event-camera-visuotactile",
-      "title": "Archive: Event-Camera Visuo-Tactile Sensing",
-      "bucket": "archive",
-      "status": "archived",
+      "title": "Event-Camera VLA / World Model Sensor Survey",
+      "bucket": "survey",
+      "status": "survey",
       "state_path": "dashboard/state/projects/archive-event-camera-visuotactile.json"
     },
     {

@@ -4,18 +4,21 @@
   "title": "Self-Improving Agents for Physical AI",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-07-09T18:24:45.000Z",
-  "description": "Simulation-first AgenticSim proposal: orchestrated setup-collect-train-eval-diagnose loop",
-  "summary": "Self-Improving Agents / PEARL should be positioned as an embodied harness system, not as another Text2Env demo or monolithic VLA finetune. The paper thesis: keep the embodied model or policy under test fixed enough to measure it, then iteratively improve the surrounding harness of prompts, tools, simulator adapters, reset/eval rules, validation gates, memory, and data requirements. The loop mirrors the provided harness sketch: run the current harness on embodied tasks, mine and cluster failure traces, propose harness edits, regression-test candidates, and promote only edits that improve robot robustness without regressing prior tasks. The implementation substrate remains AgenticSim + Open X Sim: /gen-env, /collect, /train, /evaluate, /diagnose, and /transfer, with scene-task decoupling and verifier-backed promotion as the defensible route to the first real embodied harness claim.",
-  "asset": "dashboard/assets/self-improving-embodied-harness-loop-20260707.png",
-  "asset_alt": "Embodied harness self-improvement loop with weakness mining, harness proposal, validation, and promoted updates.",
-  "asset_caption": "Embodied harness loop: mine task failures, propose harness edits over prompts/tools/memory/policies/validators, regression-test candidates, and promote accepted edits into the next harness iteration.",
+  "updated_at": "2026-07-15T09:27:03.472Z",
+  "description": "Environment-generation workstream for Self-Improving Agents: Text2Env, image/video-anchored generation, autonomous asset discovery and import, and Open-X-Sim cross-simulator reuse.",
+  "summary": "The environment-generation and simulation-interoperability workstream now has an executed V1 across four shared workflows: pure Text2Env, image/video Anchor2Env, autonomous asset discovery/conversion, and rigid-common-subset Open-X-Sim transfer. V1 runtime gates pass, while the broader dashboard acceptance remains active for strict bilingual SceneGen Stage 0-4, three anchor scenes, three sources and ten assets, articulated/camera-sensitive transfer, and L4 policy statistics.",
+  "asset": "dashboard/assets/robotwin2-text2env-workflow-20260626.jpg",
+  "asset_alt": "RoboTwin 2.0 Text2Env workflow from natural-language scene request through constrained scene specification, asset grounding, deterministic placement, simulator validation, and replay.",
+  "asset_caption": "Environment-generation mainline: compile text first, then add image/video anchors, autonomous asset ingestion, and Open-X-Sim adapters around the same validated scene package.",
   "details": [
-    "Current foundation: 129 registered AgenticSim environments, 38/38 full-runner tests, 16 failure traces, demo CLI, Isaac smoke gate, and a RoboTwin2 Placement/Text2Env demo that can become the first /gen-env backend.",
-    "PEARL architecture from the project deck: run_state.json + events.jsonl record state; tools are skillized; MCP servers expose scene/code/execute/verify/diagnose; memory is layered into short-term run state, event logs, and long-term experience; an Orchestrator decides the next action instead of a static pipeline.",
-    "Command-level loop: /gen-env accepts text, reference image, RGB-D capture, or video and outputs reusable scene + task specs plus asset manifests; /collect turns accepted scenes/tasks into rollouts and data; /train and /evaluate connect to Gaochen's policy/eval side; /diagnose explains failures with simulator state, object pose/state, arm motion, and gripper behavior; /transfer is the Any Sim Transfer skill for adapting existing external simulator environments.",
-    "Research positioning: ENPIRE proves the real-world reset/rollout/evolve loop; ASPIRE proves rollout-trace debugging, code-as-policy repair, and persistent skill libraries. AgenticSim should not compete by merely skillizing tasks. The stronger angle is Open X Sim: aggregate existing simulator tasks/assets, decouple scene generation from task definition, map one scene to multiple tasks, and reuse/transfer environments across SAPIEN/RoboTwin/Isaac/MuJoCo-style stacks.",
-    "Near-term implementation map: keep RoboTwin / SAPIEN as the trusted v0 backend, because the current discussion explicitly prefers staying with RoboTwin rather than forcing Isaac Sim/USD. SceneAgent selection2env remains P0. Full generation2env stays behind a gate, but video2sim-forge (https://github.com/Marvelousp4/video2sim-forge) is a concrete fallback for the missing-asset path: Gemini/SAM3/SAM3D/RealSense utilities can turn RGB-D captures into prompts, masks, meshes, world-frame poses, URDFs, and approximate physics metadata for later RoboTwin/SAPIEN adapter work. NeuMaTeX (https://nvlabs.github.io/neumatex/) adds the corresponding texture/material sidecar route: recover relightable neural materials from multi-view images or rendered captures, then export renderer-bound material provenance separately from geometry, collision, joints, and physical parameters. Current workspace proof now includes `schemas/gen_env.schema.json` plus three `artifacts/gen_env_contract/` samples covering selection2env, video2sim-forge fallback blocker, and NeuMaTeX-style material-sidecar blocker routes."
+    "Ownership boundary: this card now tracks environment generation, asset ingestion, and environment interchange. Policy training, VLA evaluation, failure mining, memory, and harness promotion are adjacent consumers and should not dominate the active TODO list.",
+    "[INFERRED][HIGH] Workstream naming and people boundary from the 2026-07-14 MoM: Policy Improvement & Diagnosis = Gaochen + Kunyi; Environment Generation & Simulation Interoperability = Jingxiang (Boris) lead, with Zheng Ye on environment generation and adapter implementation. Salon remains the MoM and archive coordinator unless a technical deliverable is explicitly assigned.",
+    "Shared compiler contract: request plus optional anchor or web-discovered assets -> SceneSpec -> AssetManifest -> ResolvedSceneSpec -> simulator package -> validation and replay report. Every stage must preserve seeds, source URLs, hashes, units, coordinate frames, conversion steps, rejected candidates, and typed blockers.",
+    "Track 1 / Text2Env: use the current RoboTwin SceneGen Stage 0-4 split as the first production backend. Natural language supplies semantics and relations; deterministic code owns asset IDs, coordinates, quaternions, collision, physics, validation, and replay.",
+    "Track 2 / Anchor2Env: images and videos constrain object identity, layout, scale, camera, motion, and visible geometry. The system must separate observed evidence from estimated or generated content and compare anchor-conditioned output against the text-only baseline.",
+    "Track 3 / Asset Web Agent: retrieval is not complete when a mesh downloads. A pass requires provenance and license capture, canonical metadata, unit/axis normalization, visual and collision geometry, mass/inertia or typed unknowns, articulation mapping, simulator load, settling, and preview QA.",
+    "Track 4 / Open-X-Sim: RoboVerse/MetaSim is the baseline for simulator-agnostic configuration and aligned backend APIs (https://github.com/RoboVerseOrg/RoboVerse and https://roboverse.wiki/metasim/concept/architecture). Open-X-Sim should focus on generated/anchored environment interchange, asset provenance, adapter compilation, and machine-readable migration-loss reports rather than duplicating a generic benchmark platform.",
+    "Claim boundary: cross-simulator reuse means a declared common subset plus measured backend-specific losses. It does not mean identical contacts, rendering, controller behavior, or task success across SAPIEN, MuJoCo, Isaac Sim, Genesis, or other backends."
   ],
   "task_ids": [
     "task_self_improving_prepare_proposal",
@@ -32,6 +35,11 @@
     "task_self_improving_vlm_loop",
     "task_self_improving_text2env_lit_review_20260701",
     "task_self_improving_sceneagent_selection2env_20260701",
+    "task_self_improving_agents_robotwin_scenegen_stage_0_1_scenespec_20260714",
+    "task_self_improving_agents_robotwin_scenegen_stage_2_4_grounding_sapien_20260714",
+    "task_self_improving_anchor2env_image_video_20260715",
+    "task_self_improving_asset_web_discovery_import_20260715",
+    "task_self_improving_openxsim_cross_sim_reuse_20260715",
     "task_self_improving_openxsim_command_loop_20260703",
     "task_self_improving_embodied_harness_positioning_20260707",
     "task_self_improving_cosmos3_robolab_rollouts",
@@ -249,6 +257,8 @@
     }
   ],
   "risks_decisions": [
+    "[KNOWN][HIGH] 2026-07-14 diagnosis evidence: 20 place_container_plate rollouts on the RTX 4090 workstation reached 65% success with 7 failures; the next-step deck calls for deterministic failure metrics and video temporal analysis instead of isolated-keyframe diagnosis.",
+    "[INFERRED][HIGH] 2026-07-15 scope decision: keep two collaborating workstreams rather than calling both teams generic agent groups. Policy Improvement & Diagnosis owns data/training/evaluation/diagnosis; Environment Generation & Simulation Interoperability owns Text2Env, Anchor2Env, autonomous asset discovery/import, and Open-X-Sim. The /collect and /diagnose contracts remain joint interface surfaces.",
     "Gen-env route contract update 2026-07-09: Alchedata workspace `/home/jingxiang/workspace/alchedata-self-improving-agents` on `jingxiang-b850m-c` now has a unified `/gen-env` route schema at `schemas/gen_env.schema.json`, validated by three contract examples under `artifacts/gen_env_contract/`: `selection2env_route_sample.json`, `forge_fallback_route_blocker.json`, and `material_sidecar_route_blocker.json`. Remote verification passes with `docs=8 static_runs=4 asset_smoke_runs=3 basetask_smoke_runs=3 collect_dry_runs=3 official_rollouts=3 generated_rollouts=2 generated_collections=2 articraft_assets=9996 articraft_archive_passes=3 articraft_collision_blockers=2 act_hdf5=6 act_train=pass_act_train_smoke policy_probe=blocked_policy_train_eval_not_wired gen_env_contracts=3 fallback_blockers=2 artifacts=4`. This covers the schema requirement for selection2env, video2sim-forge fallback, and NeuMaTeX-style material-sidecar routes; it still does not claim actual forge/material execution or generated-task policy evaluation. Commits: local `ea5d211`, remote `86e97f1`.",
     "Gen-env fallback blocker update 2026-07-09: Alchedata workspace `/home/jingxiang/workspace/alchedata-self-improving-agents` on `jingxiang-b850m-c` now records typed `/gen-env` fallback blockers for both required fallback branches. `artifacts/generation_fallback/blocked_drawer_mug_video2sim_forge.json` records `FORGE_CAPTURE_SOURCE_MISSING` for the drawer/mug video2sim-forge route; `artifacts/generation_fallback/blocked_neumatex_material_sidecar.json` records `MATERIAL_MULTIVIEW_INPUT_MISSING` for the NeuMaTeX-style material sidecar route; `fallback_blocker_summary.json` records `blocked_fallback_inputs_missing`. Remote verification passes with `docs=8 static_runs=4 asset_smoke_runs=3 basetask_smoke_runs=3 collect_dry_runs=3 official_rollouts=3 generated_rollouts=2 generated_collections=2 articraft_assets=9996 articraft_archive_passes=3 articraft_collision_blockers=2 act_hdf5=6 act_train=pass_act_train_smoke policy_probe=blocked_policy_train_eval_not_wired fallback_blockers=2 artifacts=4`. This is blocker evidence, not forge/material execution. Commits: local `6653895`, remote `7e32d3d`.",
     "ACT train-smoke update 2026-07-09: Alchedata workspace `/home/jingxiang/workspace/alchedata-self-improving-agents` on `jingxiang-b850m-c` now has six generated planner-trace episodes converted into ACT-compatible HDF5 under `runs/act_hdf5_generated_smoke/`, `load_data_report.json` records `pass_act_hdf5_loader_smoke`, and `runs/act_train_smoke_generated/train_smoke_report.json` records `pass_act_train_smoke` with `best_val_loss=10.308693` and `policy_best.ckpt`. Remote verification passes with `act_hdf5=6 act_train=pass_act_train_smoke policy_probe=blocked_policy_train_eval_not_wired`. Remaining blocker is `/evaluate` and default entrypoint wiring: `process_data.sh` still targets `../../data/task_apple_plate/demo_clean/data`, default train task `sim-task_apple_plate-demo_clean-3` is absent from ACT config, and eval lacks generated `envs.task_apple_plate`. Commits: local `7545109`, remote `ae02653`.",
@@ -295,39 +305,65 @@
         "value": "Tue 09:30-10:30 Beijing"
       },
       {
-        "label": "Proposal",
-        "value": "AgenticSim"
+        "label": "Workstream",
+        "value": "EnvGen + Sim Interop"
       },
       {
-        "label": "Paper claim",
-        "value": "Embodied harness"
+        "label": "Env owners",
+        "value": "Jingxiang + Zheng Ye"
       },
       {
         "label": "Foundation",
-        "value": "129 envs"
+        "value": "129 registered + 11 runtime"
       },
       {
         "label": "MVP",
-        "value": "Text2Env demo"
+        "value": "Text2Env Stage 0-4"
       },
       {
-        "label": "WAM path",
-        "value": "Cosmos3 + memory"
+        "label": "Diagnosis",
+        "value": "Gaochen + Kunyi"
       },
       {
-        "label": "NVIDIA refs",
-        "value": "ENPIRE + ASPIRE"
+        "label": "Tracks",
+        "value": "Text / Anchor / Assets / Open-X-Sim"
       },
       {
         "label": "Architecture",
-        "value": "MCP + Open X Sim"
+        "value": "SceneSpec + AssetSpec + adapters"
       },
       {
-        "label": "Commands",
-        "value": "/gen-env /collect /transfer"
+        "label": "Baseline",
+        "value": "RoboVerse / MetaSim"
       }
     ],
-    "target_note": "Next target: turn PEARL into a defensible embodied harness paper and system demo: current harness h_t runs embodied tasks, weakness mining clusters trace failures, the harness proposes edits, regression tests accept/reject candidates, and promoted edits update h_{t+1} across /gen-env, /collect, /evaluate, /diagnose, and /transfer."
+    "target_note": "[FRAME][HIGH] Next target: close RoboTwin Text2Env Stage 0-1 before Stage 2-4, then use the same SceneSpec/AssetSpec contract for Anchor2Env, bounded asset discovery/import, and one source-to-target Open-X-Sim adapter with explicit migration-loss reporting."
   },
-  "asset_added_at": "2026-07-07"
+  "asset_added_at": "2026-06-26",
+  "subprojects": [
+    {
+      "id": "text2env",
+      "name": "1. Text2Env",
+      "status": "active",
+      "summary": "V1 RoboTwin semantic runtime passes for an existing-asset can/basket task; the broader strict bilingual catalog, 100-seed and resolved-only replay gates remain active."
+    },
+    {
+      "id": "anchor2env",
+      "name": "2. Image / Video Anchor2Env",
+      "status": "active",
+      "summary": "V1 video decoding, eight-frame full-timeline sampling, typed uncertainty, fusion and a 609-frame RoboTwin replay pass; three-scene, still-image runtime and ablation gates remain active."
+    },
+    {
+      "id": "asset-web-agent",
+      "name": "3. Autonomous Asset Discovery and Import",
+      "status": "active",
+      "summary": "V1 autonomous GitHub repository discovery, bounded download, provenance, normalization, collision/material generation and multi-backend import pass for one rigid asset; the 3-source/10-asset gate remains active."
+    },
+    {
+      "id": "open-x-sim",
+      "name": "4. Open-X-Sim Cross-Simulator Reuse",
+      "status": "active",
+      "summary": "V1 native SAPIEN scene import and SAPIEN-to-MuJoCo/Isaac rigid zero-action transfer reach L3; articulated, camera-sensitive, controller and L4 policy transfer remain active."
+    }
+  ]
 }

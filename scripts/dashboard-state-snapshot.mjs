@@ -235,11 +235,16 @@ const projectPatchFields = new Set([
   "risks_decisions",
   "task_ids",
   "intro_table",
+  "layer_utility",
   "visual",
   "asset",
   "asset_alt",
   "asset_caption",
   "asset_added_at",
+]);
+
+const portfolioPatchFields = new Set([
+  "visual_references",
 ]);
 
 function findProject(snapshot, projectId) {
@@ -262,6 +267,21 @@ function sanitizeProjectPatch(patch) {
   }
   if (!Object.keys(nextPatch).length) {
     throw new Error("Missing project update fields");
+  }
+  return nextPatch;
+}
+
+function sanitizePortfolioPatch(patch) {
+  if (!patch || typeof patch !== "object" || Array.isArray(patch)) {
+    throw new Error("Missing portfolio patch");
+  }
+  const nextPatch = {};
+  for (const [field, value] of Object.entries(patch)) {
+    if (!portfolioPatchFields.has(field)) continue;
+    nextPatch[field] = cloneJson(value);
+  }
+  if (!Object.keys(nextPatch).length) {
+    throw new Error("Missing portfolio update fields");
   }
   return nextPatch;
 }
@@ -512,6 +532,33 @@ export function applySnapshotProjectUpdate(snapshot, projectId, patch, options =
       changed_fields: changedFields,
       changed_ref_fields: changedRefFields,
       updated_at: changedFields.length || changedRefFields.length ? updatedAt : project.updated_at,
+    },
+  };
+}
+
+export function applySnapshotPortfolioUpdate(snapshot, patch, options = {}) {
+  const next = cloneMutableSnapshot(snapshot);
+  const nextPatch = sanitizePortfolioPatch(patch);
+  const changedFields = [];
+  for (const [field, value] of Object.entries(nextPatch)) {
+    if (!jsonValuesEqual(next.portfolio[field], value)) {
+      next.portfolio[field] = cloneJson(value);
+      changedFields.push(field);
+    }
+  }
+
+  const updatedAt = (options.now || new Date()).toISOString();
+  if (changedFields.length) {
+    next.portfolio.updated_at = updatedAt;
+    next.updated_at = updatedAt;
+  }
+  next.source = options.source || next.source;
+  return {
+    snapshot: next,
+    portfolio: next.portfolio,
+    update: {
+      changed_fields: changedFields,
+      updated_at: changedFields.length ? updatedAt : next.portfolio.updated_at,
     },
   };
 }

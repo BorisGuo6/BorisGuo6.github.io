@@ -227,8 +227,10 @@ test("server session survives reload without leaking the bearer token", async ({
 });
 
 test("unsafe procurement URLs render as text instead of executable links", async ({ page }) => {
+  const unsafeRowId = "unsafe-procurement-url-test";
   await mockDashboardApi(page, (snapshot) => {
     const project = snapshot.projects.find((candidate) => candidate.project_id === "general");
+    project.intro_table.rows[0].row_id = unsafeRowId;
     project.intro_table.rows[0].url = "javascript:window.__unsafeProcurementLinkExecuted=true";
   });
   await unlockDashboard(page);
@@ -242,9 +244,11 @@ test("unsafe procurement URLs render as text instead of executable links", async
     await project.locator(":scope > summary").click();
   }
 
-  const firstItem = project.locator('table[data-kind="procurement_table"] tbody tr').first().locator('td[data-column="item"]');
-  await expect(firstItem).toBeVisible();
-  await expect(firstItem.locator("a")).toHaveCount(0);
+  const unsafeItem = project.locator(
+    `table[data-kind="procurement_table"] tbody tr[data-row-id="${unsafeRowId}"]:not(.procurement-edit-row) td[data-column="item"]`,
+  );
+  await expect(unsafeItem).toBeVisible();
+  await expect(unsafeItem.locator("a")).toHaveCount(0);
   expect(await page.evaluate(() => Boolean(window.__unsafeProcurementLinkExecuted))).toBe(false);
 });
 

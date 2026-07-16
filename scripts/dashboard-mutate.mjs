@@ -11,6 +11,7 @@ import {
   makeTaskComment,
 } from "./dashboard-task-store.mjs";
 import {
+  applySnapshotPortfolioUpdate,
   applySnapshotProjectUpdate,
   applySnapshotTaskComment,
   applySnapshotTaskCommentDelete,
@@ -35,6 +36,7 @@ function usage() {
     "  npm run dashboard:mutate -- update --task-id ID [--title TEXT] [--description TEXT] [--priority P] [--assignee NAME] [--due-at YYYY-MM-DD] [--pull]",
     "  npm run dashboard:mutate -- create --project-id ID --title TEXT [--description TEXT] [--priority P] [--status S] [--assignee NAME] [--due-at YYYY-MM-DD] [--pull]",
     "  npm run dashboard:mutate -- project-update --project-id ID --patch-file FILE [--pull] [--force-pull]",
+    "  npm run dashboard:mutate -- portfolio-update --patch-file FILE [--pull] [--force-pull]",
     "  npm run dashboard:mutate -- delete-comment --task-id ID --comment-id ID [--pull]",
   ].join("\n");
 }
@@ -206,6 +208,10 @@ export function parseMutationArgs(argv) {
     mutation.patchFile = requireValue(mutation.patchFile, "--patch-file");
     return mutation;
   }
+  if (action === "portfolio-update") {
+    mutation.patchFile = requireValue(mutation.patchFile, "--patch-file");
+    return mutation;
+  }
   throw new Error(`Unknown action: ${action}\n${usage()}`);
 }
 
@@ -259,6 +265,13 @@ export function applyDashboardMutationToSnapshot(snapshot, mutation, options = {
     });
     return { action: mutation.action, ...result };
   }
+  if (mutation.action === "portfolio-update") {
+    const result = applySnapshotPortfolioUpdate(snapshot, mutation.patch, {
+      now,
+      source: "vercel-blob",
+    });
+    return { action: mutation.action, ...result };
+  }
   throw new Error(`Unknown action: ${mutation.action}`);
 }
 
@@ -273,6 +286,18 @@ function findProject(snapshot, projectId) {
 }
 
 export function verifyDashboardMutation(snapshot, result) {
+  if (result.action === "portfolio-update") {
+    const normalized = normalizeDashboardSnapshot(snapshot);
+    for (const field of result.update.changed_fields || []) {
+      if (JSON.stringify(normalized.portfolio[field] ?? null) !== JSON.stringify(result.portfolio[field] ?? null)) {
+        throw new Error(`Verified portfolio field ${field} did not match`);
+      }
+    }
+    return {
+      ok: true,
+      changed_fields: result.update.changed_fields || [],
+    };
+  }
   if (result.action === "project-update") {
     const project = findProject(snapshot, result.project.project_id);
     if (!project) throw new Error(`Project not found after write: ${result.project.project_id}`);
@@ -370,8 +395,8 @@ async function loadBodyFromFile(mutation) {
   return { ...mutation, body: requireValue(body, "--body-file") };
 }
 
-async function loadProjectPatch(mutation) {
-  if (mutation.action !== "project-update") return mutation;
+async function loadMutationPatch(mutation) {
+  if (!["project-update", "portfolio-update"].includes(mutation.action)) return mutation;
   const filePath = path.resolve(repoRoot, mutation.patchFile);
   const patch = JSON.parse(await readFile(filePath, "utf8"));
   if (!patch || typeof patch !== "object" || Array.isArray(patch)) {
@@ -403,7 +428,7 @@ async function main() {
   if (!env.BLOB_READ_WRITE_TOKEN) {
     throw new Error("Missing BLOB_READ_WRITE_TOKEN. Run `vercel env pull .env.local --yes` first.");
   }
-  const parsed = await loadProjectPatch(await loadBodyFromFile(parseMutationArgs(process.argv.slice(2))));
+  const parsed = await loadMutationPatch(await loadBodyFromFile(parseMutationArgs(process.argv.slice(2))));
   let result;
   let blob;
   let verification;

@@ -1,45 +1,229 @@
 {
   "schema_version": "project.v1",
   "project_id": "archive-event-camera-visuotactile",
-  "title": "Archive: Event-Camera Visuo-Tactile Sensing",
-  "bucket": "archive",
-  "status": "archived",
-  "updated_at": "2026-07-08T00:20:00+08:00",
+  "title": "Event-Camera VLA / World Model Sensor Survey",
+  "bucket": "survey",
+  "status": "survey",
+  "updated_at": "2026-07-15T07:03:59.539Z",
   "visual": {
     "layout": "single_column"
   },
   "timeline": null,
-  "description": "Archive reason: event cameras and event-driven sensors are relevant to high-frequency visual-tactile sensing, but the current DaiMeng VTAM path should not make them a mainline hardware dependency until they beat 120fps RGB, pseudo-event frame differencing, and existing Wuji/GelSight-style tactile streams on contact/slip timing.",
-  "summary": "The event-camera visuo-tactile idea is archived as an evidence card. It remains useful for System-0/System-1 contact transients, slip onset, roller/large-surface inspection, and ego/wrist data capture under motion blur, but it is not a live TODO. Reopen only if a small ablation shows marginal value over high-FPS RGB and frame-difference pseudo-events, or if a concrete event-tactile sensor is available for Wuji/Franka/DaiMeng experiments.",
+  "description": "[KNOWN][HIGH] Event cameras produce asynchronous brightness-change events rather than complete intensity images. [INFERRED][HIGH] They should be evaluated as an auxiliary high-rate motion and transient sensor for wrist/ego robot perception, Event-VLA, and event-conditioned world models, not as a replacement for RGB, depth, or tactile sensing.",
+  "summary": "[INFERRED][HIGH] Reopen this direction as a bounded Survey: first validate a synchronized RGB-event-proprioception pipeline and the marginal value of real events over 120 fps RGB and pseudo-events; then test event-aware action fusion and event-residual world modeling. [INFERRED][HIGH] Speck is a compact low-power candidate for an always-on trigger or wrist sensor, but its exact developer interface and synchronization fit must pass a hardware gate before procurement.",
   "details": [
-    "Old dashboard source: VTLA / Tactile Intuition already had “event-camera VLA as an additional modality.” The new G&M Lab seminar discussion narrows it to high-frequency tactile/contact transients rather than a general VLA modality.",
-    "Evidence interpretation: GelEvent and the T-RO event-roller sensor show that event cameras can capture fast tactile changes with low motion blur and sparse event streams. That supports the hypothesis that event sensing may help contact onset, slip, vibration, and large-surface inspection.",
-    "Why archived: event cameras are expensive/bulky, deployed tactile-event data is sparse, and there is no ready event-camera tactile foundation model. The next real step should be an ablation, not an open-ended hardware purchase.",
-    "Pragmatic baseline: first compare 120fps industrial RGB, ordinary-camera frame-difference pseudo-events, Wuji/GelSight-style tactile streams, and any available GelEvent/event-roller-style sensor. Target metric is contact/slip/transient timing and low-latency System-0 utility, not visual novelty.",
-    "Polarization-camera tactile sensing remains a side probe. It may matter for photoelastic/contact patterns, but it needs a separate paper/hardware check before becoming a dashboard TODO."
+    {
+      "text": "[KNOWN][HIGH] Events are sparse per-pixel brightness-change measurements, not images; static appearance, color, texture, and language-grounded object identity remain much stronger in RGB. [INFERRED][HIGH] The correct sensor stack is RGB or RGB-D for scene semantics plus events for fast motion, high dynamic range, motion-blur resilience, and low-latency transients.",
+      "links": [
+        {
+          "label": "Daniel Gehrig research",
+          "url": "https://danielgehrig18.github.io/"
+        },
+        {
+          "label": "Events + frames RAM depth",
+          "url": "https://danielgehrig18.github.io/publication/21gehrigrala/"
+        }
+      ]
+    },
+    {
+      "text": "[KNOWN][HIGH] Daniel Gehrig's published examples cover events-plus-frames fusion, high-speed point tracking, asynchronous object catching, optical flow, odometry, calibration, and event simulation. [INFERRED][HIGH] For manipulation, the most transferable pieces are multimodal asynchronous state updates, point tracking under fast motion, and ego-motion-aware residual motion rather than generic event-only recognition.",
+      "links": [
+        {
+          "label": "ETAP",
+          "url": "https://danielgehrig18.github.io/publication/25hamanncvpr/"
+        },
+        {
+          "label": "Agile object catching",
+          "url": "https://danielgehrig18.github.io/publication/23forraiicra/"
+        },
+        {
+          "label": "ESIM",
+          "url": "https://danielgehrig18.github.io/publication/rebecq18corl/"
+        }
+      ]
+    },
+    {
+      "text": "[KNOWN][HIGH] Event-VLA routes event tokens into action representations with learnable action queries and gated cross-attention, while E-VLA reports synchronized RGB-event-action manipulation with a DAVIS346 and evaluates overlay and learned adapter fusion under low light and blur. [INFERRED][HIGH] These are the correct immediate baselines because both preserve the RGB-language semantic prior and ask whether events improve action robustness.",
+      "links": [
+        {
+          "label": "Event-VLA",
+          "url": "https://arxiv.org/abs/2606.29384"
+        },
+        {
+          "label": "E-VLA",
+          "url": "https://arxiv.org/abs/2604.04834"
+        }
+      ]
+    },
+    {
+      "text": "[INFERRED][MED] An Event World Model should not merely reconstruct RGB. A stronger formulation predicts sparse event polarity, rate, time-surfaces, or event tokens from action, robot state, and camera pose; known wrist ego-motion explains background events, while residual events represent independently moving objects, contacts, slip, and model surprise. [INFERRED][MED] Sparse event surprise can then trigger a dense RGB rollout update instead of running the full world model at every control tick.",
+      "links": [
+        {
+          "label": "Predictive Event Tokenization direction",
+          "url": "https://danielgehrig18.github.io/"
+        },
+        {
+          "label": "ESIM simulator",
+          "url": "https://danielgehrig18.github.io/publication/rebecq18corl/"
+        }
+      ]
+    },
+    {
+      "text": "[KNOWN][HIGH] SynSense describes Speck as an event-driven sensing-computing SoC; the public product page lists milliwatt-class operation and a 17 x 10 x 7 mm packaged module, while the public Speck dev-kit datasheet lists a 128 x 128 DVS, at least 80 dB dynamic range, nine DYNAPCNN layers, and USB 3.0. [INFERRED][HIGH] The size and power are attractive for an always-on wrist trigger, but the public 128 x 128 configuration is too weak to assume semantic VLA suitability without fusion and hardware tests.",
+      "links": [
+        {
+          "label": "SynSense Speck",
+          "url": "https://www.synsense.ai/products/speck-2/"
+        },
+        {
+          "label": "Speck dev-kit datasheet",
+          "url": "https://www.synsense.ai/wp-content/uploads/2023/08/Speck-Dev-Kit-Datasheet.pdf"
+        },
+        {
+          "label": "Samna developer interface",
+          "url": "https://www.synsense.ai/products/samna/"
+        }
+      ]
+    },
+    "[INFERRED][HIGH] Priority robot use cases are fast wrist motion, tool impact, contact onset, slip and vibration, insertion transients, fast point tracking, and moving-object separation after ego-motion compensation. [INFERRED][HIGH] Static scene understanding, color or texture semantics, slow quasi-static manipulation, and language grounding remain poor reasons to add an event camera.",
+    "[INFERRED][HIGH] Promotion gate: require synchronized evidence that real events beat both 120 fps RGB and frame-difference pseudo-events on at least one robot metric, with acceptable calibration burden, event bandwidth, compute, power, and mounting cost. [INFERRED][HIGH] Until then, keep this in Survey and do not make it a dependency of DaiMeng VTAM, UMI World Model, or Real-Robot Infra.",
+    {
+      "text": "[KNOWN][HIGH] SpikingTac is a 22 x 22 x 19 mm event-based optical tactile sensor with a 20.6 x 20.6 mm sensing area, controlled LED illumination, opaque optical shielding, silicone layers, and an 8 x 8 white-marker grid. Its event stream encodes marker displacement for force vectors, slip, and contact geometry. The paper reports total material cost below USD 150, 1000 Hz transient perception, 350 Hz marker tracking, 100% return-to-origin in ten tested sequences with 0.8039-pixel mean bias, 6.2 mm maximum collision overshoot, 0.0952 mm localization RMSE, and 0.0452 mm radius RMSE. [INFERRED][HIGH] These are paper results to reproduce, not accepted specifications for a lab deployment.",
+      "links": [
+        {
+          "label": "SpikingTac paper",
+          "url": "https://arxiv.org/abs/2602.23654"
+        }
+      ]
+    },
+    "[KNOWN][HIGH] Event-only tactile sensing has a specific quasi-static failure mode: an event camera responds to temporal intensity change, so absolute marker positions under sustained static contact are not directly observed. SpikingTac addresses this with a persistent dynamic state map, unsupervised denoising, marker association, and hysteresis-aware incremental updates. [INFERRED][HIGH] The lab gate must therefore test both fast transients and slow hold/release cycles; a high collision rate alone is insufficient."
   ],
   "risks_decisions": [
-    "Archived 2026-06-30 as a standalone evidence card rather than a VTAM implementation TODO.",
-    "Reopen condition: a local ablation shows event streams improve contact-onset, slip/vibration, or high-speed tactile reconstruction over 120fps RGB and pseudo-events.",
-    "Do not buy or build around event-camera tactile hardware until the marginal-value table is positive on a DaiMeng/Wuji/Franka task."
+    "[KNOWN][HIGH] A moving wrist camera creates events across the background; raw event activity cannot be interpreted as independently moving objects without robot/camera ego-motion compensation.",
+    "[KNOWN][HIGH] Event streams depend on contrast changes and can contain flicker, hot-pixel, and shot noise; static or low-contrast objects may emit little useful signal.",
+    "[INFERRED][HIGH] Do not replace RGB or RGB-D. Preserve RGB-language semantics and use events as a high-rate residual or trigger channel.",
+    "[INFERRED][HIGH] Do not conflate the tiny Speck packaged module with a complete synchronized robot data-collection rig; the exact SKU, optical module, developer board, raw stream, synchronization, SDK, and ROS path must be verified.",
+    "[INFERRED][HIGH] Keep event-tactile sensors such as GelEvent as a separate contact-sensing branch; a scene-facing event camera and a tactile event sensor answer different questions.",
+    "[INFERRED][MED] Event World Model novelty is only credible if sparse event prediction improves control latency, contact timing, tracking, or dense rollout efficiency; RGB reconstruction alone is not enough.",
+    "[INFERRED][HIGH] Hardware boundary: keep scene-event and tactile-event branches separate. A scene sensor optimizes lens, field of view, synchronization, ego-motion, and ambient-light robustness; a visuotactile sensor requires a sealed optical cavity, controlled illumination, deformable gel, marker fabrication, hysteresis calibration, and contact-safe mechanics. Do not infer that Speck, DAVIS, or the SpikingTac custom module is interchangeable across these roles without a fresh hardware gate."
   ],
   "references": [
     {
+      "title": "SynSense Speck event-driven neuromorphic vision SoC",
+      "url": "https://www.synsense.ai/products/speck-2/",
+      "notes": "[KNOWN][HIGH] Official product page for the compact sensing-computing module, milliwatt-class positioning, development kit, and software toolchain."
+    },
+    {
+      "title": "SynSense Speck Development Kit Datasheet",
+      "url": "https://www.synsense.ai/wp-content/uploads/2023/08/Speck-Dev-Kit-Datasheet.pdf",
+      "notes": "[KNOWN][HIGH] Official public datasheet for the 128 x 128 DVS, dynamic range, DYNAPCNN constraints, USB interface, event filters, and Samna configuration."
+    },
+    {
+      "title": "Samna developer interface",
+      "url": "https://www.synsense.ai/products/samna/",
+      "notes": "[KNOWN][HIGH] Official Python and C++ toolchain interface with real-time multi-branch event-stream filtering."
+    },
+    {
+      "title": "Daniel Gehrig: event-based sensing research",
+      "url": "https://danielgehrig18.github.io/",
+      "notes": "[KNOWN][HIGH] Research index covering event cameras, events-plus-frames fusion, ETAP, asynchronous object catching, event simulation, and Predictive Event Tokenization."
+    },
+    {
+      "title": "Event-VLA: Action-Conditioned Event Fusion for Robust Vision-Language-Action Model",
+      "url": "https://arxiv.org/abs/2606.29384",
+      "notes": "[KNOWN][HIGH] Action-query routing and gated cross-attention baseline for preserving RGB-language priors while adding event-aware action features."
+    },
+    {
+      "title": "E-VLA: Event-Augmented Vision-Language-Action Model for Dark and Blurred Scenes",
+      "url": "https://arxiv.org/abs/2604.04834",
+      "notes": "[KNOWN][HIGH] RGB-event-action manipulation baseline with DAVIS346, event overlay, and learned event-adapter evaluations under low light and blur."
+    },
+    {
+      "title": "Combining Events and Frames using Recurrent Asynchronous Multimodal Networks",
+      "url": "https://danielgehrig18.github.io/publication/21gehrigrala/",
+      "notes": "[KNOWN][HIGH] Events-plus-frames evidence that asynchronously updates a shared hidden state while retaining frame context."
+    },
+    {
+      "title": "ETAP: Event-based Tracking of Any Point",
+      "url": "https://danielgehrig18.github.io/publication/25hamanncvpr/",
+      "notes": "[KNOWN][HIGH] High-speed and difficult-lighting point tracking evidence relevant to robot wrist motion and object trajectories."
+    },
+    {
+      "title": "Event-based Agile Object Catching with a Quadrupedal Robot",
+      "url": "https://danielgehrig18.github.io/publication/23forraiicra/",
+      "notes": "[KNOWN][HIGH] Robot evidence for low-latency event perception under high-speed object motion."
+    },
+    {
+      "title": "ESIM: an Open Event Camera Simulator",
+      "url": "https://danielgehrig18.github.io/publication/rebecq18corl/",
+      "notes": "[KNOWN][HIGH] Synthetic-event generator for pre-hardware prototyping and pseudo-versus-real event ablations."
+    },
+    {
       "title": "GelEvent: A Novel High-Speed Tactile Sensor With Event Camera",
       "url": "https://ieeexplore.ieee.org/abstract/document/10926508",
-      "notes": "IEEE reference from the G&M Lab discussion. Use it as the primary event-camera tactile sensor evidence before treating event cameras as a VTAM front-end."
+      "notes": "[KNOWN][HIGH] Event-camera tactile reference; keep separate from scene-facing wrist event-camera evaluation."
     },
     {
       "title": "They See Me Rolling: High-Speed Event Vision-Based Tactile Roller Sensor for Large Surface Inspection",
       "url": "https://doi.org/10.1109/TRO.2026.3672333",
       "doi": "10.1109/TRO.2026.3672333",
-      "notes": "T-RO 2026 event-vision tactile roller sensor evidence: continuous rolling tactile 3D reconstruction, 0.5 m/s scanning, MAE below 100 um, and event-based motion-blur robustness."
+      "notes": "[KNOWN][HIGH] Event-vision tactile roller reference for high-speed contact and surface inspection."
     },
     {
       "title": "Thin-film event-based vision sensors for enhanced multispectral perception beyond human vision",
       "url": "https://doi.org/10.1002/inf2.70007",
       "doi": "10.1002/inf2.70007",
-      "notes": "InfoMat 2025 event-based thin-film sensor evidence: sparse spiking dynamic perception, UV-to-NIR multispectral response, low-light fingerprint edge extraction, and reduced data processing."
+      "notes": "[KNOWN][HIGH] Thin-film event-sensor evidence retained as a longer-term hardware reference rather than a current robot-camera baseline."
+    },
+    {
+      "title": "SpikingTac: A Miniaturized Neuromorphic Visuotactile Sensor for High-Precision Dynamic Tactile Imprint Tracking",
+      "url": "https://arxiv.org/abs/2602.23654",
+      "arxiv_id": "2602.23654",
+      "category": "event-visuotactile",
+      "notes": "Primary reference for a compact event-camera tactile optical stack, dynamic-state-map marker tracking, hysteresis compensation, 1000 Hz transient collision detection, and 350 Hz marker tracking."
     }
-  ]
+  ],
+  "subprojects": [
+    {
+      "id": "event-hardware-sync",
+      "name": "1. Event Hardware and Synchronization",
+      "status": "planned",
+      "summary": "[INFERRED][HIGH] Select a raw-event-capable camera and prove timestamp, trigger, calibration, wrist mounting, and robot-state synchronization before treating it as lab infrastructure."
+    },
+    {
+      "id": "event-motion-contact-benchmark",
+      "name": "2. Motion and Contact Residual Benchmark",
+      "status": "planned",
+      "summary": "[INFERRED][HIGH] Measure whether events improve fast point tracking, ego-motion-compensated moving-object masks, contact onset, slip, and regrasp timing over high-FPS RGB and pseudo-events."
+    },
+    {
+      "id": "event-vla",
+      "name": "3. Event-Augmented VLA",
+      "status": "survey",
+      "summary": "[KNOWN][HIGH] Current Event-VLA and E-VLA work treats events as a complementary motion-sensitive modality while preserving RGB-language semantics. [INFERRED][HIGH] The lab baseline should follow that auxiliary-fusion framing rather than train an event-only VLA."
+    },
+    {
+      "id": "event-world-model",
+      "name": "4. Event-Conditioned World Model",
+      "status": "planned",
+      "summary": "[INFERRED][MED] Predict sparse action- and pose-conditioned event residuals between RGB updates, separating known camera ego-motion from object and contact motion."
+    },
+    {
+      "id": "event-visuotactile-spikingtac",
+      "name": "5. Neuromorphic Visuotactile / SpikingTac",
+      "status": "survey",
+      "summary": "[KNOWN][HIGH] SpikingTac uses an event camera inside a controlled tactile optical stack to track marker deformation and high-frequency contact transients. [INFERRED][HIGH] Evaluate it as a compact dynamic-touch branch for contact onset, slip, impact, and geometry, not as a replacement for scene RGB or as the same hardware configuration as a wrist event camera."
+    }
+  ],
+  "task_ids": [
+    "task_event_camera_speck2_hardware_gate_20260715",
+    "task_event_camera_rgb_event_sync_benchmark_20260715",
+    "task_event_camera_vla_baseline_20260715",
+    "task_event_camera_world_model_residual_20260715",
+    "task_event_camera_spikingtac_visuotactile_gate_20260715"
+  ],
+  "asset": "dashboard/assets/event-camera-speck-overview-20260715.png",
+  "asset_alt": "Daniel Gehrig seminar slide comparing standard cameras and event cameras with a compact SynSense Speck module",
+  "asset_caption": "[KNOWN][HIGH] Event cameras measure sparse brightness changes rather than complete images. [INFERRED][HIGH] The compact Speck module motivates a wrist-sensor pilot, but not an RGB replacement or automatic procurement decision.",
+  "asset_added_at": "2026-07-15"
 }

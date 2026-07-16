@@ -4,7 +4,7 @@
   "title": "UMI Image Layered World Model",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-07-11T07:26:10.146Z",
+  "updated_at": "2026-07-13T16:01:23.708Z",
   "description": "UMI Image Layered World Model: three linked papers covering multi-view robot video world modeling, manipulation-video dynamics decomposition into reusable layers, and layered data as a downstream VLA/IDM/reward training interface.",
   "summary": "UMI World Model is a three-paper program with one shared data substrate: Stage 1 trains a streaming multi-view pose/action-conditioned robot world model, with an optional Stage 1B that consumes explicit URDF/FK/action/camera controls from the separate URDF Kinematic-Camera Research track; Stage 2 turns manipulation videos into reusable scene, object/contact, occluder/tool, and robot/actor layers; Stage 3 tests whether those layers improve manipulation and video-model training. This intro is only architecture/status framing; task-level execution state lives in TODOs and task comments.",
   "subprojects": [
@@ -54,7 +54,7 @@
       {
         "stage": "Stage 1 / 1B",
         "interface": "Streaming multi-view robot WM + optional explicit URDF/camera control",
-        "status_frame": "Stage 1 treats synchronized wrist/head/fixed views as one shared scene with pose/action sidecars. Stage 1B is a linked method branch supplied by the separate URDF Kinematic-Camera Research card; it compares explicit morphology/action/camera controls without changing the UMI three-paper structure. RynnWorld-Teleop remains a close compact-control reference: https://alibaba-damo-academy.github.io/RynnWorld-Teleop.github.io/."
+        "status_frame": "Stage 1 treats synchronized wrist/head/fixed views as one shared scene with pose/action sidecars. Stage 1B is a linked method branch supplied by the separate URDF Kinematic-Camera Research card; it compares explicit morphology/action/camera controls without changing the UMI three-paper structure. RynnWorld-Teleop remains a close compact-control reference: https://alibaba-damo-academy.github.io/RynnWorld-Teleop.github.io/. CameraNoise is the Stage 1 noise-space camera-control reference: https://gulucaptain.github.io/CameraNoise/. For synchronized POV overlap, use geometry-warped partial correlation plus independent residuals; identical noise is an ablation, not the default."
       },
       {
         "stage": "Stage 2",
@@ -155,10 +155,11 @@
               },
               {
                 "label": "Any6D",
-                "url": "https://github.com/taeyeopl/Any6D"
+                "url": "https://github.com/taeyeopl/Any6D",
+                "note": "Official CVPR 2025 model-free route for novel rigid objects. The released pipeline is RGB-D and calibration dependent, using a single RGB-D anchor plus masks/camera intrinsics; treat it as a calibrated rigid-object oracle, not the default generated-video route."
               }
             ],
-            "note": "Use FoundationPose-family methods when a CAD/template or RGB-D setup is available; use SAM 3D Objects/Fast-SAM3D as a single-image shape/layout probe for missing object geometry."
+            "note": "Split the benchmark by available evidence. Use FoundationPose-family methods when CAD/template or calibrated RGB-D is available; use Any6D for novel rigid objects only when its RGB-D anchor, masks, and camera intrinsics can be supplied. Use SAM 3D Objects/Fast-SAM3D as single-image shape/layout probes, and report estimated-depth/calibration variants separately from sensor-ground-truth runs."
           },
           {
             "label": "Object point flow / motion",
@@ -241,10 +242,37 @@
             "label": "Image robot pose",
             "repositories": [
               {
+                "label": "DREAM",
+                "url": "https://github.com/NVlabs/DREAM",
+                "note": "Known-state camera-to-robot baseline: detects robot keypoints in RGB and combines them with robot forward kinematics through PnP."
+              },
+              {
+                "label": "CtRNet",
+                "url": "https://github.com/ucsdarclab/CtRNet-robot-pose-estimation",
+                "note": "Markerless camera-to-robot baseline whose released ROS path consumes image and joint-state topics and publishes robot pose."
+              },
+              {
+                "label": "CtRNet-X",
+                "url": "https://github.com/darthandvader/CtRNet-X",
+                "note": "CtRNet extension for partially visible manipulators; useful for cropped wrist/third-person clips, with RGB-D refinement available as an optional branch."
+              },
+              {
+                "label": "RoboPose",
+                "url": "https://github.com/yannlabb/robopose",
+                "note": "Single-RGB render-and-compare baseline that estimates joint angles and 6D camera-to-robot pose, with a known-joint variant also available."
+              },
+              {
+                "label": "HoRoPose",
+                "url": "https://github.com/Oliverbansk/Holistic-Robot-Pose-Estimation",
+                "note": "Real-time RGB robot-pose baseline for unknown robot states; requires the robot URDF/model and an explicit camera-model audit."
+              },
+              {
                 "label": "Dr. Robot",
-                "url": "https://github.com/cvlab-columbia/drrobot"
+                "url": "https://github.com/cvlab-columbia/drrobot",
+                "note": "Differentiable-rendering probe for optimizing robot state/camera pose against pixels; Ziyang's current finding is that Franka support is not plug-and-play."
               }
-            ]
+            ],
+            "note": "Keep three supervision regimes separate: DREAM/CtRNet/CtRNet-X estimate camera-to-robot pose with robot-state/kinematic support; RoboPose/HoRoPose estimate unknown robot state from RGB; Dr. Robot is a differentiable render-and-compare route. Every run must declare URDF, joint-state, intrinsics, depth, mask, and visibility inputs so oracle calibration is not mistaken for Robot Layer utility."
           },
           {
             "label": "Wrist-view VO / SLAM",
@@ -779,6 +807,77 @@
       "url": "https://open-x-tactile.github.io/site-data.js",
       "submitted_at": "2026-07-06",
       "notes": "Parsed static data source for Open-X-Tactile; current conclusion is tactile reference-only, not a dual-wrist RGB robot-action download lane."
+    },
+    {
+      "title": "RynnWorld-Teleop official code",
+      "url": "https://github.com/alibaba-damo-academy/RynnWorld-Teleop",
+      "submitted_at": "2026-07-13",
+      "notes": "Implementation base for the Jiahao/Davide layered-video branch: Wan2.2-TI2V-5B, control-conditioned LoRA/SFT, MSE-to-DMD streaming distillation, public checkpoints, sample data, and inference entrypoints."
+    },
+    {
+      "title": "mimic-video official code",
+      "url": "https://github.com/mimic-video/mimic-video",
+      "submitted_at": "2026-07-13",
+      "notes": "Robot Layer action-decoder candidate. Its flow-matching IDM conditions on video-backbone latent plans plus proprioception; UMI must test whether robot-only RGB/RGBA layers retain enough dynamics and compare against global and fused inputs."
+    },
+    {
+      "title": "X2SAM official code",
+      "url": "https://github.com/wanghao9610/X2SAM",
+      "submitted_at": "2026-07-13",
+      "notes": "Yongxi/Lai segmentation candidate for UMI wrist-view clips. Official code includes image/video segmentation, conversational and visual prompts, Mask Memory, evaluation, and visualization; require same-input evidence against RoboSeg."
+    },
+    {
+      "title": "Mask2IV: Interaction-Centric Video Generation via Mask Trajectories",
+      "url": "https://www.genli.top/mask2iv/",
+      "arxiv_id": "2510.03135",
+      "submitted_at": "2025-10",
+      "notes": "Layered-video comparison reference, not a three-layer decomposition substitute. Mask2IV first predicts actor/object mask trajectories from an initial RGB frame and object mask plus a text or target-position condition, then generates video conditioned on those trajectories. Compare its explicit trajectory control with the UMI/RynnWorld route under matched inputs using endpoint accuracy, contact timing and contact-region quality, trajectory-to-video mask consistency, background preservation, and robot/object layer leakage. Test actor/object trajectories as a layer sidecar or auxiliary control head before considering architecture adoption."
+    },
+    {
+      "title": "CameraNoise: Geometry-Flow-Guided Noise Warping",
+      "url": "https://gulucaptain.github.io/CameraNoise/",
+      "arxiv_id": "2605.30774",
+      "submitted_at": "2026-05-29",
+      "notes": "Stage 1 camera-control reference. CameraNoise converts per-frame intrinsics/extrinsics into GRFlow and uses Gaussian-preserving noise transport to encode temporal camera motion in the diffusion prior. Its constant pseudo-depth captures dominant global camera motion rather than exact 3D scene dynamics, so it does not by itself solve synchronized cross-camera overlap, visibility, occlusion, or dynamic robot/object correspondence."
+    },
+    {
+      "title": "NoiseController: Multi-view Noise Decomposition and Collaboration",
+      "url": "https://arxiv.org/abs/2504.18448",
+      "arxiv_id": "2504.18448",
+      "submitted_at": "2025-04",
+      "notes": "Stage 1 cross-view noise reference. NoiseController decomposes multi-view video noise into background/foreground and shared/residual components, then learns view/time-dependent collaboration. Its fixed all-ones collaboration ablation performs worse because views and frames are not equally related; use this as evidence against globally identical UMI POV noise."
+    },
+    {
+      "title": "Multi-View Image Diffusion via Coordinate Noise and Fourier Attention",
+      "url": "https://openaccess.thecvf.com/content/WACV2025/html/Theiss_Multi-View_Image_Diffusion_via_Coordinate_Noise_and_Fourier_Attention_WACV_2025_paper.html",
+      "submitted_at": "2025-02",
+      "notes": "Geometry-aware cross-view noise reference. The method combines shared noise, independent variation, and low-frequency pixel-coordinate/depth information to induce correlations across views. For UMI, adapt the principle at video-latent resolution with calibrated camera transforms, depth-derived overlap masks, visibility checks, and spatially varying correlation rather than raw pixelwise seed copying."
+    },
+    {
+      "title": "Collaborative Video Diffusion: Consistent Multi-video Generation with Camera Control",
+      "url": "https://collaborativevideodiffusion.github.io/",
+      "submitted_at": "2024",
+      "notes": "Stage 1 denoiser-level synchronization reference. CVD jointly predicts multiple camera-controlled videos and uses fundamental-matrix-masked epipolar attention between corresponding frames. Treat it as the escalation after correlated-noise initialization: a geometry-aware noise prior can help alignment but cannot replace cross-view feature communication when shared geometry or semantics still drift."
+    },
+    {
+      "title": "DREAM: Camera-to-Robot Pose Estimation from a Single Image",
+      "url": "https://github.com/NVlabs/DREAM",
+      "notes": "Stage 3 Robot Layer reference for known-state camera extrinsics: RGB keypoints plus forward kinematics and PnP."
+    },
+    {
+      "title": "CtRNet: Markerless Camera-to-Robot Pose Estimation",
+      "url": "https://github.com/ucsdarclab/CtRNet-robot-pose-estimation",
+      "notes": "Stage 3 known-state camera-to-robot baseline; the released ROS node consumes image and joint-state topics."
+    },
+    {
+      "title": "CtRNet-X: Camera-to-Robot Pose Estimation in Real-world Conditions",
+      "url": "https://github.com/darthandvader/CtRNet-X",
+      "notes": "Stage 3 partially-visible robot baseline, with an optional RGB-D refinement path."
+    },
+    {
+      "title": "HoRoPose: Real-time Holistic Robot Pose Estimation with Unknown States",
+      "url": "https://github.com/Oliverbansk/Holistic-Robot-Pose-Estimation",
+      "notes": "Stage 3 unknown-state RGB robot-pose baseline using robot URDF/model assets."
     }
   ],
   "risks_decisions": [
@@ -801,7 +900,6 @@
     "WAN2.2 action-control risk: high-noise expert must receive action/control signal early enough; output-head-only conditioning is too late. Any future WAN2.2 run must report base preservation plus actual/zero/wrong-row action gates, not only reconstruction MAE/MA.",
     "Closed-loop validation guardrail 2026-06-28: do not justify Stage 1 only by saying no public interactive wrist-view robot world model exists. That is a positioning fact, not a metric. The dashboard success gate should report same-episode rollout quality, cross-view consistency, action counterfactual separation, downstream planner/reward utility, and cross-dataset generalization from DaiMeng/JianZhi/AGI-World splits.",
     "Layering risk: SAM3/SAM2.1 masks and VACE/FLUX.fill/LaMa inpaint should preserve canvas size and coordinates so layers can be overlaid without manual alignment. If inpaint shifts geometry, the result is not acceptable even if the hole looks plausible.",
-    "Layering route decision 2026-07-01: the near-term Stage 2/P3 segmentation path should keep SAM3 as backbone and port RobotSeg/RoboSeg innovations onto it, rather than falling back to SAM2.1. Start with gripper-specific part prior in the propagation/decoder path, then arm; freeze SAM3 first and train only RobotPromptGenerator / robot-token / decoder-adapter style modules before any low-LR mask-decoder or LoRA tuning. VACE remains the raster video-inpaint candidate only behind judgement/retry/mask-morphology QA; Gemini-Omni is a qualitative fallback probe; LaMa remains a failure baseline.",
     "Stage 3 utility decision: scene layer validation targets RoboEngine-style augmentation; rigid/articulated object validation targets FoundationPose, Fast-FoundationStereoPhysics, Orient-Anything, and Any6D; deformable object validation targets AllTracker plus Video Depth Anything, D4RT, CoTracker, and Any4D; robot layer validation targets Dr. Robot and wrist-view ORB-SLAM3 / VGGT-SLAM. FoundationPose remains a baseline, not the whole validation plan.",
     "Stage 3 third-party visual stack decision 2026-06-26: evaluate each layer through explicit external tools instead of calling “FoundationPose” the whole plan. Scene uses RoboEngine + MoGe/GeoCalib geometry; object/contact uses SAM3 masks, SAM 3D Objects/Fast-SAM3D, FoundationPose/Any6D-family pose, BootsTAPIR/TAPNet/AllTracker-style point flow, and Do-As-I-Do HOI reconstruction; robot/hand uses Dr. Robot, wrist-view VO/SLAM, HaWoR, and Do-As-I-Do/dex-retargeting. The metric target remains layer utility: better pose/flow/reward/IDM/action retargeting than raw RGB or mask-only.",
     "Decision 2026-06-27: Stage 2 is framed as VDDM, not as “we ran SAM3 + inpaint.” The paper must show reusable decomposition schema, temporal consistency/recomposition QA, and downstream reconstruction/retargeting benefit. Egocentric human-hand clips are included as a generalization probe, but the core target remains manipulation dynamics decomposition for robot data.",
@@ -934,7 +1032,21 @@
     "Template execution decision 2026-07-07 02:07 +0800: do not execute any dispatch template now. The templates are structurally executable or properly deferred, but generated report/output roots should appear only after the relevant dataset download and post-download probe/conversion gates clear.",
     "Adapter dependency decision 2026-07-07 02:12 +0800: no adapter script syntax blocker is present now, and image/video dependencies are already covered by per-dataset pydeps or the Gamma venv. Do not install h5py/tensorflow or run ALOHA/RLDS decoder work while 10Kh and training gates are active; revisit those dependencies after the relevant dataset lands.",
     "Training gate decision 2026-07-07 02:16 +0800: keep conversion and non-10Kh downloads held. The training checkpoint stream is healthy, but the next required action is to inspect the iter_800 checkpoint when it appears and later inspect final logs/checkpoints after training exits before releasing conversion work.",
-    "Training gate decision 2026-07-07 06:11 +0800: iter_000001200 is stable and latest_checkpoint.txt points to it, but causal_robot_daimon is still active and 10Kh remains the sole external download. Keep batch74, metadata/action_stats writers, loader smoke, full_auto, XRZero resume, ABC/HIW probes, source Daimon materialization, and non-10Kh download starts held until training exits or the user explicitly accepts mixed load."
+    "Training gate decision 2026-07-07 06:11 +0800: iter_000001200 is stable and latest_checkpoint.txt points to it, but causal_robot_daimon is still active and 10Kh remains the sole external download. Keep batch74, metadata/action_stats writers, loader smoke, full_auto, XRZero resume, ABC/HIW probes, source Daimon materialization, and non-10Kh download starts held until training exits or the user explicitly accepts mixed load.",
+    {
+      "type": "decision",
+      "date": "2026-07-13",
+      "title": "Pause SAM3 fine-tuning and route the three UMI workstreams through one shared manifest",
+      "body": "The current SAM3 fine-tune did not beat the stable SAM2.5/SAM2.1 baseline, so archive it and stop spending compute on that route. Lai/Yongxi compare RobotSeg/RoboSeg, X2SAM, STAM/original tracking on the same clips. Jiahao/Davide use the official RynnWorld-Teleop codebase for layered-video generation. Ziyang/Meng evaluate MIMIC-Video as a Robot Layer video-latent plus proprioception to action IDM, not as a mask-to-action shortcut. Object processing routes rigid/articulated cases to a verified 6D-pose backend and deformable cases to optical flow/keypoint tracks; confirm the ANeXy versus Any6D name mismatch before implementation. All three lanes consume and publish one layer_manifest with QA/retry, pose/flow, camera and recomposition sidecars.",
+      "evidence": "task_umi_layered_pipeline_sam_vace_flux_lama_automation_20260622; task_umi_davide_multilayer_video_model_architecture_20260707; task_umi_world_model_ziyang_meng_mimic_video_robot_layer_action_idm_20260713; task_umi_world_model_x2sam_roboseg_cloak_vla_umi_wrist_view_masks_20260713"
+    },
+    {
+      "type": "decision",
+      "date": "2026-07-13",
+      "title": "Stage 3 pose and flow claims must expose calibration and sensor dependencies",
+      "body": "Ziyang's method review splits Robot Layer evaluation into known-state camera-to-robot methods (DREAM, CtRNet, CtRNet-X), unknown-state image robot-pose methods (RoboPose, HoRoPose), and differentiable rendering (Dr. Robot). The rigid Object Layer branch uses Any6D only as a calibrated RGB-D route; deformable-object optical flow remains untested. Compare calibrated-oracle, estimated-depth/intrinsics, and layer-only inputs separately, and record URDF, joint-state, intrinsics, depth, mask, and visibility dependencies for every result.",
+      "evidence": "13-Jul-26_Ziyang.md; task_umi_ziyang_object_layer_pose_value_benchmark_20260707"
+    }
   ],
   "timeline": {
     "target_venue": "ICLR",

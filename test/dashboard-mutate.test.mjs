@@ -68,6 +68,16 @@ assert.deepEqual(
   },
 );
 
+assert.deepEqual(
+  parseMutationArgs(["portfolio-update", "--patch-file", "tmp/portfolio-patch.json", "--pull"]),
+  {
+    action: "portfolio-update",
+    pull: true,
+    forcePull: false,
+    patchFile: "tmp/portfolio-patch.json",
+  },
+);
+
 const fixedNow = new Date("2026-06-18T01:00:00.000Z");
 const statusResult = applyDashboardMutationToSnapshot(baseSnapshot, {
   action: "status",
@@ -131,6 +141,10 @@ const projectUpdateResult = applyDashboardMutationToSnapshot(baseSnapshot, {
     status: "ongoing",
     description: "Explicit project update",
     subprojects: [{ label: "A", title: "Stage A" }],
+    layer_utility: {
+      title: "Layer utility map",
+      layers: [{ layer: "Layer 2", name: "Robot" }],
+    },
   },
 }, {
   now: fixedNow,
@@ -142,11 +156,12 @@ assert.equal(projectUpdateResult.projectRef.title, "Research demo");
 assert.equal(projectUpdateResult.projectRef.bucket, "research");
 assert.equal(projectUpdateResult.projectRef.status, "ongoing");
 assert.deepEqual(projectUpdateResult.project.subprojects, [{ label: "A", title: "Stage A" }]);
+assert.deepEqual(projectUpdateResult.project.layer_utility.layers, [{ layer: "Layer 2", name: "Robot" }]);
 assert.deepEqual(projectUpdateResult.update.changed_ref_fields, ["title", "bucket", "status"]);
 assert.deepEqual(verifyDashboardMutation(projectUpdateResult.snapshot, projectUpdateResult), {
   ok: true,
   project_id: "demo",
-  changed_fields: ["title", "bucket", "status", "description", "subprojects"],
+  changed_fields: ["title", "bucket", "status", "description", "subprojects", "layer_utility"],
 });
 
 const projectDescriptionOnlyResult = applyDashboardMutationToSnapshot({
@@ -171,6 +186,26 @@ assert.deepEqual(verifyDashboardMutation(projectDescriptionOnlyResult.snapshot, 
   changed_fields: ["description"],
 });
 
+const portfolioUpdateResult = applyDashboardMutationToSnapshot(baseSnapshot, {
+  action: "portfolio-update",
+  patch: {
+    visual_references: [{
+      src: "dashboard/assets/umi-layered-preprocessing-pipeline-20260715.png",
+      caption: "UMI layered preprocessing pipeline",
+      added_at: "2026-07-13",
+    }],
+  },
+}, {
+  now: fixedNow,
+});
+
+assert.equal(portfolioUpdateResult.portfolio.visual_references.length, 1);
+assert.equal(portfolioUpdateResult.portfolio.updated_at, "2026-06-18T01:00:00.000Z");
+assert.deepEqual(verifyDashboardMutation(portfolioUpdateResult.snapshot, portfolioUpdateResult), {
+  ok: true,
+  changed_fields: ["visual_references"],
+});
+
 assert.throws(
   () => parseMutationArgs(["status", "--task-id", "task_demo"]),
   /Missing --status/,
@@ -185,6 +220,10 @@ assert.throws(
 );
 assert.throws(
   () => parseMutationArgs(["project-update", "--project-id", "demo"]),
+  /Missing --patch-file/,
+);
+assert.throws(
+  () => parseMutationArgs(["portfolio-update"]),
   /Missing --patch-file/,
 );
 assert.throws(

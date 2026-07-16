@@ -4,7 +4,7 @@
   "title": "Procurement Table",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-07-10T10:30:00+08:00",
+  "updated_at": "2026-07-14T17:22:09.788Z",
   "description": "Editable lab procurement register for cross-project purchases",
   "summary": "Editable procurement register for lab purchases. Rows are sorted by status first (blank not ordered, dash ordered, check arrived) and then by last update; status changes update the timestamp. Received items stay available behind the bottom archive toggle. Old TODO/archive work has been moved to Real-Robot Lab Infra so this card stays focused on purchasing records. Latest audit 2026-07-10 restored historically received hardware that had been dropped during the table refactor; UGREEN extension cables remain shipped and in transit.",
   "intro_table": {
@@ -45,6 +45,118 @@
     ],
     "rows": [
       {
+        "row_id": "proc_eflesh_base_tpu95_n52_structure_20260715",
+        "updated_at": "2026-07-15T00:58:00+08:00",
+        "item": "eFlesh base + TPU95 structural part with N52 magnetic hardware / eFlesh底座+TPU95结构件",
+        "status": "",
+        "route": "Taobao cart · screenshots 2026-07-15 · checkout pending",
+        "notes": "Still in cart; not ordered. Quantity 1, displayed price RMB 150. The screenshot truncates the SKU after the N52 magnet reference; confirm the exact magnet count/specification, printed-part geometry, mounting pattern and whether it fits the selected eFlesh-mini and existing board before checkout."
+      },
+      {
+        "row_id": "proc_eflesh_mini_silicone_test_kit_20260715",
+        "updated_at": "2026-07-15T00:58:00+08:00",
+        "item": "eFlesh-mini + silicone test kit / eFlesh-mini硅胶测试套件",
+        "status": "",
+        "route": "Taobao cart · screenshots 2026-07-15 · checkout pending",
+        "notes": "Still in cart; not ordered. Quantity 1, displayed price RMB 300. Confirm sensor dimensions, magnet arrangement, silicone formulation/thickness, controller requirement, calibration files, raw acquisition protocol and compatibility with the already ordered eFlesh electronics."
+      },
+      {
+        "row_id": "proc_eflesh_qt_py_samd21_controller_20260715",
+        "updated_at": "2026-07-15T00:58:00+08:00",
+        "item": "Adafruit QT Py SAMD21 controller for AnySkin/eFlesh/Reskin / 触觉皮主控板",
+        "status": "",
+        "route": "Taobao cart · screenshots 2026-07-15 · checkout pending",
+        "notes": "Still in cart; not ordered. Quantity 1, displayed price RMB 80; cart SKU identifies an Adafruit QT Py SAMD21-class controller. Confirm exact board revision, connector/pinout, firmware flashing state and compatibility with the already ordered eFlesh magnetic-sensing board + programmed MCU bundle before checkout to avoid an unnecessary duplicate."
+      },
+      {
+        "row_id": "proc_grove_gsr_arduino_oled_display_kit_20260715",
+        "updated_at": "2026-07-15T00:58:00+08:00",
+        "item": "Grove GSR Arduino OLED direct-display kit / Grove GSR皮肤电Arduino OLED显示套件",
+        "status": "",
+        "route": "Taobao cart · screenshots 2026-07-15 · checkout pending",
+        "notes": "Still in cart; not ordered. Quantity 1, displayed post-subsidy price RMB 237. Confirm exact Grove GSR board revision, Arduino/OLED contents, raw ADC access, firmware/source examples, electrode consumables and whether this is needed as a reference implementation alongside the lower-cost Sichiray GSR V2."
+      },
+      {
+        "row_id": "proc_sichiray_6_channel_mox_electronic_nose_20260715",
+        "updated_at": "2026-07-15T00:58:00+08:00",
+        "item": "Sichiray 6-channel MOX electronic-nose odor fingerprint sensor + analysis software / 6路MOX电子鼻气味指纹传感器",
+        "status": "",
+        "route": "Taobao cart · screenshots 2026-07-15 · checkout pending",
+        "notes": "Still in cart; not ordered. Quantity 1, displayed price RMB 1299; screenshot SKU says electronic nose + analysis software. Confirm the six MOX element types, calibration/warm-up procedure, raw channel export, software license/OS support, serial protocol, replacement sensors, safe test substances and whether cross-border shipping imposes restrictions."
+      },
+      {
+        "row_id": "proc_sichiray_gsr_v2_battery_kit_20260715",
+        "updated_at": "2026-07-15T00:58:00+08:00",
+        "item": "Sichiray GSR skin-conductance sensor V2 battery kit / Sichiray GSR皮肤电传感器V2电池套件",
+        "status": "",
+        "route": "Taobao cart · screenshots 2026-07-15 · checkout pending",
+        "notes": "Still in cart; not ordered. Quantity 1, displayed post-subsidy price RMB 68. Confirm included electrodes/straps/battery, raw conductance or resistance output, sampling rate, interface voltage, isolation and whether reusable electrodes or consumables are required."
+      },
+      {
+        "row_id": "proc_sichiray_hand_pose_capture_exoskeleton_right_ble_20260715",
+        "updated_at": "2026-07-15T00:58:00+08:00",
+        "item": "Sichiray 3rd-gen hand-pose capture exoskeleton glove + BLE adapter, right hand / 手部姿态捕捉外骨骼手套（右手标准版）",
+        "status": "",
+        "route": "Taobao cart · screenshots 2026-07-15 · checkout pending",
+        "notes": "Still in cart; not ordered. Quantity 1, displayed price RMB 2229. Selected SKU is glove + BLE adapter, right hand, standard configuration. Confirm tracked DOFs/joints, calibration drift, sampling rate/latency, raw pose protocol, SDK/source availability, battery/runtime, hand-size range, whether one glove is sufficient and compatibility with the Human-Centric data stack."
+      },
+      {
+        "row_id": "proc_tgam_eeg_2_0_arduino_uno_development_kit_20260715",
+        "updated_at": "2026-07-15T00:58:00+08:00",
+        "item": "TGAM EEG 2.0 Arduino UNO development kit / TGAM脑电波2.0 Arduino UNO开发套件",
+        "status": "",
+        "route": "Taobao cart · screenshots 2026-07-15 · checkout pending",
+        "notes": "Still in cart; not ordered. Quantity 1, displayed post-subsidy price RMB 586. Before checkout confirm the exact TGAM board/revision, dry-electrode/headband contents, Arduino UNO compatibility, raw EEG data access, SDK/protocol documentation, sampling rate, power isolation and replacement consumables."
+      },
+      {
+        "row_id": "proc_tgam_eeg_vr_development_module_20260715",
+        "updated_at": "2026-07-15T00:58:00+08:00",
+        "item": "TGAM EEG VR development module, VR device excluded / TGAM脑电波VR开发模组（不含VR设备）",
+        "status": "",
+        "route": "Taobao cart · screenshots 2026-07-15 · checkout pending",
+        "notes": "Still in cart; not ordered. Quantity 1, displayed post-subsidy price RMB 930. Confirm the supported VR headset/interface, whether the package includes only the EEG module and mount, raw-data/API access, latency, SDK source/examples, mechanical fit and whether this duplicates the TGAM Arduino kit."
+      },
+      {
+        "row_id": "proc_2x_flexiv_robot_arms_romoya_20260713",
+        "updated_at": "2026-07-13T19:43:04+08:00",
+        "item": "2x Flexiv robot arms / 非夕机械臂 ×2",
+        "status": "",
+        "route": "Romoya purchase path · cost review and approval pending",
+        "notes": "Included in the final 2026-07-13 equipment list after discussion with Gao Chen; the chat explicitly noted that Flexiv is relatively expensive, so this remains a planning item rather than an approved order. Confirm model, payload/reach, force-control requirements, controller/software license, end-effector interface, mounting table, safety package, quote validity, total landed cost and whether the value over the xArm/RealMan alternatives justifies purchase."
+      },
+      {
+        "row_id": "proc_2x_xarm_robot_arms_romoya_20260713",
+        "updated_at": "2026-07-13T19:43:04+08:00",
+        "item": "2x xArm robot arms / xArm 机械臂 ×2",
+        "status": "",
+        "route": "Romoya purchase path · quote and approval pending",
+        "notes": "Finalized as part of the 2026-07-13 equipment batch discussed with Gao Chen. Quantity is two arms, but no order or payment evidence was posted. Before requesting a quote, confirm the exact xArm model, payload, reach, controller, end-effector package, mounting orientation, table/bolt pattern, safety accessories, warranty, delivery site and acceptance owner. Keep unpurchased until the quote, budget owner and purchasing entity are confirmed."
+      },
+      {
+        "row_id": "proc_realman_bimanual_arm_pair",
+        "updated_at": "2026-07-13T19:43:04+08:00",
+        "item": "2x RealMan robot arms as one bimanual pair + DaiMeng gripper integration / 睿尔曼机械臂 ×2 + 戴盟夹爪",
+        "status": "",
+        "route": "Romoya purchase path · revised quote and approval pending",
+        "notes": "Updated from the 2026-07-13 final equipment list discussed with Gao Chen: two RealMan arms form one bimanual setup, with the DaiMeng gripper intended on the RealMan platform. The earlier Romoya route remains, but no order or payment evidence exists. Confirm the exact arm model, payload/reach, vertical or table mounting, one-versus-two gripper configuration, DaiMeng electrical/mechanical adapter, controller/CAN interfaces, collision and E-stop setup, revised purchasing entity on the quotation, delivery destination and acceptance owner."
+      },
+      {
+        "row_id": "proc_wuji_gen2_dexterous_hand_pair_romoya_20260713",
+        "updated_at": "2026-07-13T19:43:04+08:00",
+        "item": "Wuji second-generation dexterous hands, one left/right pair / 舞肌二代灵巧手一对",
+        "status": "",
+        "route": "Romoya purchase path · quote and approval pending",
+        "notes": "Included in the final 2026-07-13 equipment list discussed with Gao Chen as one pair. Treat one pair as one left hand plus one right hand unless the vendor quotation states otherwise. Confirm the exact second-generation SKU, handedness, controller and power package, communication SDK, tactile/sensing configuration, spare cables, arm adapters, warranty, lead time and compatibility with the planned robot platforms before approval."
+      },
+      {
+        "row_id": "proc_custom_robot_mounting_tables_romoya_20260713",
+        "updated_at": "2026-07-13T19:35:45+08:00",
+        "item": "Custom robot mounting tables for the new arm batch / 新机械臂定制工作台",
+        "status": "",
+        "route": "Romoya/vendor custom fabrication · specification pending",
+        "notes": "The 2026-07-13 discussion confirmed that tables are still required and that the supplier can customize them, but it did not finalize whether these should be optical tables or simpler rigid robot worktables. Do not request fabrication yet. First freeze arm allocation and room layout, then specify quantity, footprint, working height, payload and stiffness, leveling/casters, anchor points, xArm/Flexiv/RealMan bolt patterns, cable routing, E-stop placement, camera mounting, transport constraints and acceptance tests."
+      },
+      {
         "row_id": "proc_factr_low_cost_force_feedback_teleoperation_hardware",
         "updated_at": "2026-07-08T22:19:35+08:00",
         "item": "FACTR low-cost force-feedback teleoperation hardware / FACTR 低成本力反馈遥操作硬件",
@@ -54,12 +166,112 @@
         "url": "https://e.tb.cn/h.RzgrhiKsCTcn9Sx?tk=b89rgMWe8dN"
       },
       {
-        "row_id": "proc_realman_bimanual_arm_pair",
-        "updated_at": "2026-07-07T17:35:00+08:00",
-        "item": "RealMan bimanual arm pair / 睿尔曼双臂",
-        "status": "Romoya route · pending follow-up",
-        "route": "Romoya purchase path · Zheng Yuhang / Clement",
-        "notes": "ClawCross WeChat evidence: 2026-07-03 Boris asked about ordering a pair of 睿尔曼 arms; 2026-07-04 Zheng chat records that Prof. Yan wants the purchase routed through Romoya, and Zheng will raise it with Clement while temporary-office logistics are pending. Next confirm exact model, pair quantity, payload, vertical mounting feasibility, DaiMeng gripper adapter, quote, delivery destination, and acceptance owner."
+        "row_id": "proc_7991_ultra_thin_low_head_hex_socket_screws_20260713",
+        "updated_at": "2026-07-14T17:20:10+08:00",
+        "item": "7991 ultra-thin low-head hex socket screws / 304不锈钢薄头内六角螺钉",
+        "status": "Ordered",
+        "route": "Taobao · 稳妥紧固件厂家 · 订单数据.xlsx",
+        "notes": "Ordered and buyer-paid on 2026-07-14, order 3312175011595350275. Exact SKU: M6x6, 10 screws per pack, quantity 2 packs; paid RMB 9.33 including RMB 4 shipping. Use for the Nero/Piper/Wuji/camera-adapter integration batch only after checking head clearance, thread engagement and whether washers or thread locking are needed.",
+        "url": "https://item.taobao.com/item.htm?id=890084805954&mi_id=0000hHL3pUgheKx5NCwj1hp5spjH6V1FMRkU7vr_Tb6346U"
+      },
+      {
+        "row_id": "proc_bambu_cmyk_pla_pva_print_material_batch_20260714",
+        "updated_at": "2026-07-14T17:20:10+08:00",
+        "item": "Bambu CMYK lithophane + PLA Matte/PVA print-material batch / 拓竹CMYK、PLA哑光与PVA耗材",
+        "status": "Ordered",
+        "route": "Taobao · 拓竹官方旗舰店 · 订单数据.xlsx",
+        "notes": "Ordered and buyer-paid on 2026-07-14, order 3312175011595077489, paid RMB 769.85. Includes Type-C backlight x1, CMYK four-color lithophane set with spools x1, PLA Matte ivory x1, PLA Matte charcoal black x2 and PVA water-soluble support filament x1. After arrival inventory sealed spools, RFID recognition, moisture condition and printer compatibility; dry/store PVA separately before support-material tests.",
+        "url": "https://item.taobao.com/item.htm?id=715351727644&mi_id=00002BTNj8DiVd5RHrgA7nElxTtF07dBmyt-aGTX8JKrfdo"
+      },
+      {
+        "row_id": "proc_decxin_1080p_stereo_usb_camera_module_20260714",
+        "updated_at": "2026-07-14T17:20:10+08:00",
+        "item": "DECXIN 1080p synchronized stereo USB camera module / 1080P双目同步USB摄像头模组",
+        "status": "Ordered",
+        "route": "Taobao · DECXIN旗舰店 · 订单数据.xlsx",
+        "notes": "Ordered and buyer-paid on 2026-07-14, order 3312175011595314265, paid RMB 208.57. SKU: 1080p, 90-degree low-distortion stereo module, quantity 1. After arrival verify true hardware synchronization, baseline, intrinsics/extrinsics, frame rate, exposure controls, USB bandwidth, Linux access and whether calibration data are supplied.",
+        "url": "https://item.taobao.com/item.htm?id=795504560980&mi_id=0000Rtxu9TWjIDwWykUbNEaihZU8w6_z1I0N04MyIl9zOhY"
+      },
+      {
+        "row_id": "proc_eflesh_magnetic_sensing_board_mcu_bundle_20260714",
+        "updated_at": "2026-07-14T17:20:10+08:00",
+        "item": "eFlesh magnetic-sensing board + programmed MCU / eFlesh磁性感知板与配套单片机",
+        "status": "Ordered",
+        "route": "Taobao · WowRobo机器人企业店铺 · 订单数据.xlsx",
+        "notes": "Ordered and buyer-paid on 2026-07-14 under shared order 3312175011595187054. Includes 1x eFlesh magnetic-sensing board and 1x programmed MCU with extended cable; listed merchandise subtotal RMB 300. The order's RMB 4495.27 paid total also includes the XLeRobot bundle tracked separately. After arrival verify board revision, firmware/source, pinout, sampling protocol, magnet/skin requirements and integration path into the tactile logger.",
+        "url": "https://item.taobao.com/item.htm?id=946157748131&mi_id=0000FV7XeX7NXJplnrDHhaZctgQGuseRcP4r4o58dA7YvBU"
+      },
+      {
+        "row_id": "proc_elastremesense_manu_5d_wireless_data_glove_left_hand",
+        "updated_at": "2026-07-14T17:20:10+08:00",
+        "item": "ElastremeSense Manu-5D wireless data glove kit, left hand / 电子皮肤数据手套无线采集套件（左手）",
+        "status": "Ordered",
+        "route": "Taobao · 柔性电子实验室 · 订单数据.xlsx",
+        "notes": "Ordered and buyer-paid on 2026-07-14, order 3312175011595305083, paid RMB 1311.25. This complements the right-hand Manu-5D kit ordered on 2026-07-09. After arrival verify handedness, fit, wireless stability, SDK/export path, sampling rate, calibration, battery, timestamps and left/right synchronization before calling the pair a usable bimanual data source.",
+        "url": "https://item.taobao.com/item.htm?id=923059744236&mi_id=0000JHLodCHMfW8hzXNPiFXigW0-OfFWW70CAASZNeFyqbg"
+      },
+      {
+        "row_id": "proc_ir_gesture_recognition_module_20260714",
+        "updated_at": "2026-07-14T17:20:10+08:00",
+        "item": "Low-power IR gesture-recognition module / 低功耗红外隔空手势识别模块",
+        "status": "Ordered",
+        "route": "Taobao · 深圳觅感科技有限公司 · 订单数据.xlsx",
+        "notes": "Ordered and buyer-paid on 2026-07-14, order 3312175011595278255, quantity 1, paid RMB 28.91. SKU supply range: 5-12V. After arrival verify interface/protocol, gesture classes, range, latency, ambient-light robustness and raw-data availability before treating it as a human-intention input.",
+        "url": "https://item.taobao.com/item.htm?id=806120796123&mi_id=0000WXlzYucD5BA6AFbceS9e3cNurd85OANwt4CbNUx7tIw"
+      },
+      {
+        "row_id": "proc_mt6826s_magnetic_encoder_module_20260714",
+        "updated_at": "2026-07-14T17:20:10+08:00",
+        "item": "MT6826S high-speed magnetic encoder module / MT6826S磁性角度编码器模块",
+        "status": "Ordered",
+        "route": "Taobao · 深圳市优信电子科技有限公司 · 订单数据.xlsx",
+        "notes": "Ordered and buyer-paid on 2026-07-14, order 3312175011595269073, quantity 1, paid RMB 24.30. After arrival verify supply voltage, output interface, resolution, update rate, magnet spacing/alignment, zero calibration and compatibility with the intended joint/fixture controller.",
+        "url": "https://item.taobao.com/item.htm?id=969698528552&mi_id=0000HvLEpmBfAdFAaPNZC8F4adylsOB7aorIMdH7lVYhZmY"
+      },
+      {
+        "row_id": "proc_pegasus_muscle_deformation_armband_semg_bundle_20260714",
+        "updated_at": "2026-07-14T17:20:10+08:00",
+        "item": "Pegasus muscle-deformation armband + dual-channel sEMG kit / 飞马座形变手环 + 双通道肌电套件",
+        "status": "Ordered",
+        "route": "Taobao · 大脑实验室 · 订单数据.xlsx",
+        "notes": "Ordered and buyer-paid on 2026-07-14, order 3312175011595022298, paid RMB 1326.69. Includes 1x Pegasus Hall-sensor muscle-deformation armband and 1x enhanced dual-channel wireless surface-EMG kit. After arrival verify raw analog/digital export, sample rate, channel synchronization, calibration, fit, signal-to-noise ratio and timestamp alignment with robot/video logs before using either signal as Human-Centric supervision.",
+        "url": "https://item.taobao.com/item.htm?id=725274198302&mi_id=0000FH41B6LWzn24_v-TSvj2nRlAmv_ZuxKFVND3qWCDi9A"
+      },
+      {
+        "row_id": "proc_songling_nero_usb_to_can_adapter_20260713",
+        "updated_at": "2026-07-14T17:20:10+08:00",
+        "item": "USB-to-CAN adapter for Songling Nero / 松灵 Nero USB转CAN",
+        "status": "Ordered",
+        "route": "Taobao · 松灵机器人 · 订单数据.xlsx",
+        "notes": "Ordered and buyer-paid on 2026-07-14, order 3312175011595341093. Quantity: 1x Songling USB-to-CAN adapter; paid RMB 353.16. This closes the earlier missing-adapter purchase gate for one unit. After arrival verify Linux driver support, CAN bitrate, connector/pinout, termination, isolation, included cable and compatibility with the Nero control stack before deciding whether more adapters are required.",
+        "url": "https://item.taobao.com/item.htm?id=652626400942&mi_id=0000Eygj5ONyC4ZZ7NKN65bqOItxeiqG4egZ2sUmpMZtT1U"
+      },
+      {
+        "row_id": "proc_stm32_motion_control_glove_kit_20260714",
+        "updated_at": "2026-07-14T17:20:10+08:00",
+        "item": "STM32 motion-control glove kit / STM32体感控制仿生手套",
+        "status": "Ordered",
+        "route": "Taobao · 松甲科技机器人商城 · 订单数据.xlsx",
+        "notes": "Ordered and buyer-paid on 2026-07-14, order 3312175011595168690, paid RMB 479.34. SKU: motion-control glove with STM32 controller, quantity 1. After arrival verify sensing channels, firmware/source availability, serial protocol, sample rate, calibration, handedness and whether joint estimates can be exported independently of the bundled demo hand.",
+        "url": "https://item.taobao.com/item.htm?id=743041502417&mi_id=0000pKYUPSOfXYf4iTnxrXdlWmt0ozdpiz-aB7Rux9jKLpM"
+      },
+      {
+        "row_id": "proc_xlerobot_040_household_robot_platform_bundle_20260714",
+        "updated_at": "2026-07-14T17:20:10+08:00",
+        "item": "XLeRobot 0.4.0 household-robot research platform, package 3 / XLeRobot 0.4.0 套餐3",
+        "status": "Ordered",
+        "route": "Taobao · WowRobo机器人企业店铺 · 订单数据.xlsx",
+        "notes": "Ordered and buyer-paid on 2026-07-14 under order 3312175011595187054. SKU: package 3 (package 1 + package 2), quantity 1, listed product amount RMB 3699; shared order paid total RMB 4495.27 including the eFlesh bundle. After arrival inventory every package component and version, obtain the official BOM/assembly/software instructions, verify power and controller safety, and keep this as a separate mobile/manipulation platform rather than folding it into the small-sensor batch.",
+        "url": "https://item.taobao.com/item.htm?id=974483486023&mi_id=0000Xkd2VJ_9Zb9-bEfeRyZAxkoWq7EC4vdnQJUwXgPVldU"
+      },
+      {
+        "row_id": "proc_zns01_flexible_pressure_sensor_glove_pair_20260714",
+        "updated_at": "2026-07-14T17:20:10+08:00",
+        "item": "ZNS-01 flexible pressure-sensor glove pair / ZNS-01柔性薄膜压力传感器手套一双",
+        "status": "Ordered",
+        "route": "Taobao · 苏州能斯达电子科技有限公司 · 订单数据.xlsx",
+        "notes": "Ordered and buyer-paid on 2026-07-14, order 3312175011595177872, paid RMB 592.12 including RMB 15 shipping. SKU: white, one pair. After arrival verify sensor count and placement, per-channel raw output, acquisition hardware/protocol, calibration range, hysteresis, scan rate, glove sizing and synchronization before comparing against MF287, FSR and WAAAX routes.",
+        "url": "https://item.taobao.com/item.htm?id=558751991061&mi_id=0000kXAEJvDVwnmc9WihJ3SvGYDnERIJ5MQCzklPgkUuiE8"
       },
       {
         "row_id": "proc_arduino_mega_2580_expansion_wiring_bundle",
@@ -125,6 +337,14 @@
         "url": "https://item.taobao.com/item.htm?id=992030409117&mi_id=0000LrWutBbBY_JsuKqhNQfTHk4YN4AKTS4oQ8OC8kE2rF8"
       },
       {
+        "row_id": "proc_electronics_prototyping_batch",
+        "updated_at": "2026-07-08T17:28:20+08:00",
+        "item": "Electronics prototyping batch / 电子开发与线材批次",
+        "status": "Ordered · buyer paid 2026-07-07",
+        "route": "Taobao · multiple shops · 订单数据.xlsx",
+        "notes": "Excel rows include Dupont jumper wires x2, ESP32 Type-C board with expansion board, Mega2560 Pro Type-C boards x2, 0603 resistor and capacitor sample books, 30AWG five-color wire kits x2, and XGSP80 183C solder paste/flux. Use for lab wiring, embedded prototypes, and repair bench stock; after arrival inventory quantities and keep solder paste/flux labeled."
+      },
+      {
         "row_id": "proc_6x_2m_ugreen_usb_3_0_extension_cables",
         "updated_at": "2026-07-08T15:01:17.507Z",
         "item": "6x 2m UGREEN USB 3.0 extension cables",
@@ -132,22 +352,6 @@
         "route": "Taobao · ship to NUS/COM2",
         "notes": "Correction 2026-07-08: not arrived yet. Order has been placed and the cables are still in transit; keep this in the yellow ordered/shipping state until actual receipt. Lab previously bought four; current request was six 2m cables.",
         "url": "https://e.tb.cn/h.RmR1dsrrhJvWkn9?tk=F3q3g3QaNAh"
-      },
-      {
-        "row_id": "proc_a3_carbon_steel_hollow_tube_spacer",
-        "updated_at": "2026-07-07T20:59:00+08:00",
-        "item": "A3 carbon-steel hollow tube spacer / 碳钢铁 A3 空心套管通孔圆柱",
-        "status": "Arrived",
-        "route": "Taobao · 大鼎五金",
-        "notes": "Boris Taobao screenshot at 2026-07-07 20:59 shows this low-cost A3 carbon-steel hollow tube / through-hole round standoff row as 交易成功, visible price RMB 2.4. Screenshot is partially cropped; after receipt verify dimensions, bore, wall thickness, corrosion, and sharp edges before fixture use."
-      },
-      {
-        "row_id": "proc_electronics_prototyping_batch",
-        "updated_at": "2026-07-08T17:28:20+08:00",
-        "item": "Electronics prototyping batch / 电子开发与线材批次",
-        "status": "Ordered · buyer paid 2026-07-07",
-        "route": "Taobao · multiple shops · 订单数据.xlsx",
-        "notes": "Excel rows include Dupont jumper wires x2, ESP32 Type-C board with expansion board, Mega2560 Pro Type-C boards x2, 0603 resistor and capacitor sample books, 30AWG five-color wire kits x2, and XGSP80 183C solder paste/flux. Use for lab wiring, embedded prototypes, and repair bench stock; after arrival inventory quantities and keep solder paste/flux labeled."
       },
       {
         "row_id": "proc_banfully_gray_cuttable_leather_desk_mat",
@@ -182,6 +386,15 @@
         "notes": "Boris Taobao screenshot at 2026-07-07 20:59: 2m x 1m x 1.0cm high-density sponge/foam sheet, paid RMB 29.8, status 待发货, seller expected to ship before 2026-07-09 21:00. Use as soft padding / fixture / scene material; after arrival verify thickness, density, flatness, shedding, and compression under robot contact."
       },
       {
+        "row_id": "proc_10x_3m_usb_3_0_extension_cables_3m_usb3_0",
+        "updated_at": "2026-07-07T17:45:18+08:00",
+        "item": "10x 3m USB 3.0 extension cables / 3m USB3.0延长线",
+        "status": "Ordered · buyer paid 2026-07-07",
+        "route": "Taobao · 仁朝数码旗舰店 · 订单数据.xlsx",
+        "notes": "Excel order 3311159846118004652: 10 pieces of 3m straight USB 3.0 male-to-female extension cable, nickel-plated anti-slip SKU. Paid RMB 205.99. After arrival verify USB 3.0 bandwidth, cable stiffness, and camera/sensor stability.",
+        "url": "https://item.taobao.com/item.htm?id=816560886724&mi_id=0000DCtLolnVtG14mHcP6OiP-jzY28MB8D9X9OPhq2ZEuho"
+      },
+      {
         "row_id": "proc_2x_1_to_3_usb_c_data_charging_cables",
         "updated_at": "2026-07-07T17:45:18+08:00",
         "item": "2x 1-to-3 USB-C data/charging cables / 数据线",
@@ -198,15 +411,6 @@
         "route": "Taobao · 明丽摄像头工厂店 · 订单数据.xlsx",
         "notes": "Excel order 3311589289721122681: four IMX415 wide-angle 4K / 8MP USB driverless camera modules, 120-degree no-distortion lens with 1m cable. Paid RMB 1028.97. After arrival verify USB bandwidth, frame rate, exposure controls, lens FOV, mounting, and synchronization feasibility.",
         "url": "https://item.taobao.com/item.htm?id=912787221463&mi_id=00003c9tOOZ3LIRG5x6Ds4UMyPSgRktPH3aOoPx2U7k9vHE"
-      },
-      {
-        "row_id": "proc_10x_3m_usb_3_0_extension_cables_3m_usb3_0",
-        "updated_at": "2026-07-07T17:45:18+08:00",
-        "item": "10x 3m USB 3.0 extension cables / 3m USB3.0延长线",
-        "status": "Ordered · buyer paid 2026-07-07",
-        "route": "Taobao · 仁朝数码旗舰店 · 订单数据.xlsx",
-        "notes": "Excel order 3311159846118004652: 10 pieces of 3m straight USB 3.0 male-to-female extension cable, nickel-plated anti-slip SKU. Paid RMB 205.99. After arrival verify USB 3.0 bandwidth, cable stiffness, and camera/sensor stability.",
-        "url": "https://item.taobao.com/item.htm?id=816560886724&mi_id=0000DCtLolnVtG14mHcP6OiP-jzY28MB8D9X9OPhq2ZEuho"
       },
       {
         "row_id": "proc_digital_caliper_150mm",
@@ -271,15 +475,6 @@
         "url": "https://item.taobao.com/item.htm?id=845984722029&mi_id=0000UizY_WPUP_axgiYA7sIzOzHGK8uEye3g6MPG3yf27R4"
       },
       {
-        "row_id": "proc_lego_tool_operation_demo_tool_set",
-        "updated_at": "2026-07-07T17:45:18+08:00",
-        "item": "Lego tool-operation demo tool set",
-        "status": "Ordered · 2026-07-07",
-        "route": "Taobao · Changliu demo procurement",
-        "notes": "Excel orders 3311589289721004652 and 3311589289721022298 buyer-paid on 2026-07-07: brick hammer + pliers + five-color separators, plus 8mm four-in-one quick removal pliers. After arrival, verify tool size and compatibility with the actual ordered blocks.",
-        "url": "https://item.taobao.com/item.htm?id=740119030272&mi_id=0000DdKAWQsHXdrD0Ltc14NIgXYvMg37w7w0T5y9uDZbQgU"
-      },
-      {
         "row_id": "proc_lego_moc_blocks_and_baseplates",
         "updated_at": "2026-07-07T17:45:18+08:00",
         "item": "Lego/MOC blocks and baseplates / 积木散件与底板",
@@ -287,6 +482,15 @@
         "route": "Taobao · Changliu demo procurement",
         "notes": "Excel order 3311159846118086671 buyer-paid on 2026-07-07: small-particle 40x40cm grey baseplate, 51x38cm green baseplate, and 1000g mixed block pack with baseplate/accessory pack. Verify on arrival whether these satisfy the first-round large-particle requirement or whether a separate large-particle set is still needed.",
         "url": "https://item.taobao.com/item.htm?id=815763462697&mi_id=00001-7hkO4DH32JHtLLjzOo_qRrRZ8YgWcNKNeD0QDwZXQ"
+      },
+      {
+        "row_id": "proc_lego_tool_operation_demo_tool_set",
+        "updated_at": "2026-07-07T17:45:18+08:00",
+        "item": "Lego tool-operation demo tool set",
+        "status": "Ordered · 2026-07-07",
+        "route": "Taobao · Changliu demo procurement",
+        "notes": "Excel orders 3311589289721004652 and 3311589289721022298 buyer-paid on 2026-07-07: brick hammer + pliers + five-color separators, plus 8mm four-in-one quick removal pliers. After arrival, verify tool size and compatibility with the actual ordered blocks.",
+        "url": "https://item.taobao.com/item.htm?id=740119030272&mi_id=0000DdKAWQsHXdrD0Ltc14NIgXYvMg37w7w0T5y9uDZbQgU"
       },
       {
         "row_id": "proc_mini_drill_press",
@@ -409,22 +613,12 @@
         "url": "https://e.tb.cn/h.RDPhRlxsna7j6Kg?tk=9lHzglSbASl"
       },
       {
-        "row_id": "proc_vive_tracker_chest_thigh_strap",
-        "updated_at": "2026-07-05T12:00:00+08:00",
-        "item": "VIVE Tracker chest / thigh strap",
+        "row_id": "proc_a3_carbon_steel_hollow_tube_spacer",
+        "updated_at": "2026-07-07T20:59:00+08:00",
+        "item": "A3 carbon-steel hollow tube spacer / 碳钢铁 A3 空心套管通孔圆柱",
         "status": "Arrived",
-        "route": "Zheng Yuhang · COM2/NUS",
-        "notes": "Arrived per Boris update on 2026-07-05. Chest / thigh strap is available for VIVE Tracker calibration, replay, and fit checks; keep it in the received archive rather than as an open procurement item.",
-        "url": "https://e.tb.cn/h.R4r5VmcWb0zN2ko?tk=2jtb5x1Zn8J"
-      },
-      {
-        "row_id": "proc_pico_body_tracker_kit",
-        "updated_at": "2026-07-05T12:00:00+08:00",
-        "item": "PICO body-tracker kit / PICO 5-point full-body tracker",
-        "status": "Arrived",
-        "route": "Zheng Yuhang · Taobao order",
-        "notes": "Arrived per Boris update on 2026-07-05. Selected option: 全身体感追踪器【官方原装5点追踪】, platform-after-subsidy RMB 1109; use for no-base-station body-tracking tests against VIVE Tracker-style setups.",
-        "url": "https://e.tb.cn/h.RJYrA1DxC3kLC24?tk=ojxKghScPGK"
+        "route": "Taobao · 大鼎五金",
+        "notes": "Boris Taobao screenshot at 2026-07-07 20:59 shows this low-cost A3 carbon-steel hollow tube / through-hole round standoff row as 交易成功, visible price RMB 2.4. Screenshot is partially cropped; after receipt verify dimensions, bore, wall thickness, corrosion, and sharp edges before fixture use."
       },
       {
         "row_id": "proc_hig_gesture_recognition_data_glove",
@@ -443,6 +637,24 @@
         "route": "Taobao · ship to NUS/COM2",
         "notes": "Arrived per Boris update on 2026-07-05. Touch / vibration feedback accessory for VR capture experiments; the original logistics record said shipped on 2026-06-16.",
         "url": "https://e.tb.cn/h.RmixRZE5uIuX49B?tk=h0OSg3jHtFY"
+      },
+      {
+        "row_id": "proc_pico_body_tracker_kit",
+        "updated_at": "2026-07-05T12:00:00+08:00",
+        "item": "PICO body-tracker kit / PICO 5-point full-body tracker",
+        "status": "Arrived",
+        "route": "Zheng Yuhang · Taobao order",
+        "notes": "Arrived per Boris update on 2026-07-05. Selected option: 全身体感追踪器【官方原装5点追踪】, platform-after-subsidy RMB 1109; use for no-base-station body-tracking tests against VIVE Tracker-style setups.",
+        "url": "https://e.tb.cn/h.RJYrA1DxC3kLC24?tk=ojxKghScPGK"
+      },
+      {
+        "row_id": "proc_vive_tracker_chest_thigh_strap",
+        "updated_at": "2026-07-05T12:00:00+08:00",
+        "item": "VIVE Tracker chest / thigh strap",
+        "status": "Arrived",
+        "route": "Zheng Yuhang · COM2/NUS",
+        "notes": "Arrived per Boris update on 2026-07-05. Chest / thigh strap is available for VIVE Tracker calibration, replay, and fit checks; keep it in the received archive rather than as an open procurement item.",
+        "url": "https://e.tb.cn/h.R4r5VmcWb0zN2ko?tk=2jtb5x1Zn8J"
       }
     ]
   },
