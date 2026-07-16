@@ -5,7 +5,7 @@
   "subtitle": "World models, self-improving simulators, teleop acceleration, and robotics + 3D printing",
   "week": "2026-W24",
   "date": "2026-06-12",
-  "updated_at": "2026-07-16T02:05:58.901Z",
+  "updated_at": "2026-07-16T02:51:06.747Z",
   "state_root": "dashboard/state",
   "summary": {
     "focus": "Research 主线保持 Tri-View/Image-Layered IDM、Self-Improving Agents 和 DexGello；Survey TODO 已统一 inactive/archived，不再显示为当前执行队列。",
@@ -220,6 +220,48 @@
       "caption": "[KNOWN][HIGH] Moving cameras generate background events from ego-motion. [INFERRED][HIGH] Robot joint state and wrist-camera TF should condition motion compensation so residual event sharpness isolates independently moving objects and contacts.",
       "source": "Daniel Gehrig seminar / user-provided capture",
       "added_at": "2026-07-15"
+    },
+    {
+      "src": "dashboard/assets/tactile-wam-pipeline.svg",
+      "alt": "Tactile-WAM video-to-touch world action model pipeline connecting human motion, robot video generation, tactile prediction, and executable actions.",
+      "caption": "Tactile-WAM proposal: retarget human motion into robot arm-hand video, predict contact, pressure, and slip from the rollout, then train a joint video-tactile world-action head that emits executable actions.",
+      "source": "DaiMeng VTAM / Tactile-WAM",
+      "added_at": "2026-06-19"
+    },
+    {
+      "src": "/weekly-briefs/assets/physx-anything-framework.png",
+      "alt": "PhysX-Anything framework mapping an image prompt and structured physical representation into URDF or XML assets for simulation.",
+      "caption": "PhysX-Anything framework: extract scale, affordance, material, kinematics, description, and part geometry from an image, then decode the representation into URDF or XML for physical simulation.",
+      "source": "PhysX-Anything / Weekly Brief",
+      "added_at": "2026-06-19"
+    },
+    {
+      "src": "/weekly-briefs/assets/physx-anything-decoder.png",
+      "alt": "PhysX-Anything controllable flow transformer and physical-format decoder architecture.",
+      "caption": "PhysX-Anything decoder: a controllable flow transformer predicts high-resolution geometry features, while a physical-format decoder emits mesh, radiance-field, 3D Gaussian, URDF, XML, and part-level outputs.",
+      "source": "PhysX-Anything / Weekly Brief",
+      "added_at": "2026-06-19"
+    },
+    {
+      "src": "/weekly-briefs/assets/physx-omni-framework.png",
+      "alt": "PhysX-Omni framework generating simulation-ready physical 3D assets for free-fall and wind-driven motion.",
+      "caption": "PhysX-Omni framework: convert object imagery into a structured, simulation-ready asset with overall and part geometry information, then exercise it under free-fall and wind-driven dynamics.",
+      "source": "PhysX-Omni / Weekly Brief",
+      "added_at": "2026-06-19"
+    },
+    {
+      "src": "/weekly-briefs/assets/physx-omni-bench.png",
+      "alt": "PhysX-Bench evaluation dimensions for geometry, description, affordance, material, kinematics, and absolute scale.",
+      "caption": "PhysX-Bench evaluates generated physical assets across geometry, semantic description, affordance, material behavior, kinematic coherence, and absolute scale.",
+      "source": "PhysX-Omni / Weekly Brief",
+      "added_at": "2026-06-19"
+    },
+    {
+      "src": "/weekly-briefs/assets/robotwin2-expert-code-generation.png",
+      "alt": "RoboTwin 2.0 expert code generation and repair pipeline using task execution logs and VLM observations.",
+      "caption": "RoboTwin 2.0 expert-code loop: generate task programs from task/API context, execute repeated trials, classify failures from logs and visual observations, repair code, and retain programs that pass the success threshold.",
+      "source": "RoboTwin 2.0 / Weekly Brief",
+      "added_at": "2026-06-19"
     }
   ],
   "weekly_briefs": [

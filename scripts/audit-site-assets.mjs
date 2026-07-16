@@ -8,7 +8,13 @@ const repoRoot = rootFlagIndex >= 0
   ? path.resolve(sourceRoot, process.argv[rootFlagIndex + 1] || "")
   : sourceRoot;
 const missing = [];
+const uncoveredImageContextAssets = [];
 const checked = new Set();
+const imageExtensions = new Set([".gif", ".jpeg", ".jpg", ".png", ".svg", ".webp"]);
+const imageContextAssetDirectories = [
+  { directory: "dashboard/assets", referencePrefix: "dashboard/assets" },
+  { directory: "weekly-briefs/assets", referencePrefix: "weekly-briefs/assets" },
+];
 
 function isRemoteOrSpecial(value) {
   return /^(?:[a-z][a-z0-9+.-]*:|\/\/|#)/i.test(value)
@@ -92,6 +98,28 @@ async function auditDashboardState() {
   }
 }
 
+async function auditImageContextCoverage() {
+  const portfolio = JSON.parse(await readFile(path.join(repoRoot, "dashboard/state/portfolio.json"), "utf8"));
+  const projectDirectory = path.join(repoRoot, "dashboard/state/projects");
+  const projectFiles = (await readdir(projectDirectory)).filter((name) => name.endsWith(".json"));
+  const projects = await Promise.all(projectFiles.map(async (name) => (
+    JSON.parse(await readFile(path.join(projectDirectory, name), "utf8"))
+  )));
+  const covered = new Set([
+    ...(portfolio.visual_references || []).map((reference) => reference?.src),
+    ...projects.map((project) => project?.asset),
+  ].filter(Boolean).map((value) => cleanReference(value).replace(/^\/+/, "")));
+  for (const assetGroup of imageContextAssetDirectories) {
+    const assetDirectory = path.join(repoRoot, assetGroup.directory);
+    const imageFiles = (await readdir(assetDirectory))
+      .filter((name) => imageExtensions.has(path.extname(name).toLowerCase()));
+    for (const name of imageFiles) {
+      const relativePath = `${assetGroup.referencePrefix}/${name}`;
+      if (!covered.has(relativePath)) uncoveredImageContextAssets.push(relativePath);
+    }
+  }
+}
+
 await Promise.all([
   "index.html",
   "dashboard/index.html",
@@ -109,12 +137,21 @@ await Promise.all([
   auditJsonAssets("content/publications.json", "", new Set(["image", "webm", "mp4", "poster"])),
   auditJsonAssets("present/slide-manifest.json", "present", new Set(["image", "asset"])),
   auditDashboardState(),
+  auditImageContextCoverage(),
 ]);
 
-if (missing.length) {
-  console.error("Missing local site assets:");
-  for (const item of missing) {
-    console.error(`- ${item.source}: ${item.reference} -> ${item.resolved}`);
+if (missing.length || uncoveredImageContextAssets.length) {
+  if (missing.length) {
+    console.error("Missing local site assets:");
+    for (const item of missing) {
+      console.error(`- ${item.source}: ${item.reference} -> ${item.resolved}`);
+    }
+  }
+  if (uncoveredImageContextAssets.length) {
+    console.error("Research images missing from Image Context:");
+    for (const relativePath of uncoveredImageContextAssets) {
+      console.error(`- ${relativePath}`);
+    }
   }
   process.exitCode = 1;
 } else {
