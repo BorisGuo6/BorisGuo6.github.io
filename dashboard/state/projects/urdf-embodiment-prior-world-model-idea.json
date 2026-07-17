@@ -4,7 +4,7 @@
   "title": "URDF Kinematic-Camera World Model",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-07-16T14:01:43.795Z",
+  "updated_at": "2026-07-17T04:40:58.229Z",
   "description": "Research track: compile explicit robot morphology, time-aligned action/state, and calibrated third-person/wrist-camera trajectories into multi-view, layer-aware controls for generative robot rollouts and policy evaluation.",
   "summary": "The robotics analogue of an AI-film previs workflow is not raw URDF prompting. It is a deterministic 3D reference compiler: import the robot URDF, drive it with commanded/measured joint trajectories, re-project the same world-frame motion through calibrated third-person and wrist cameras, and condition a pluggable video generator with synchronized spatial controls. Program boundary: its compiler and robot/camera sidecars feed UMI Stage 1B and Stage 2, while held-out morphology and cross-embodiment claims remain owned by this separate Research track.",
   "details": [
@@ -25,6 +25,23 @@
         {
           "label": "OSCAR",
           "url": "https://arxiv.org/abs/2606.04463"
+        }
+      ]
+    },
+    {
+      "text": "Training/transfer baseline: SimDist distills structural priors from large-scale mixed-quality simulation into an action-conditioned latent world model, transfers the encoder, reward model and value function, and adapts only latent dynamics with real prediction loss. Here it is the direct baseline for whether explicit URDF morphology, camera and layer controls improve held-out embodiment transfer or reduce real-data adaptation; simulator pretraining alone is not a new claim.",
+      "links": [
+        {
+          "label": "SimDist",
+          "url": "https://sim-dist.github.io/"
+        },
+        {
+          "label": "paper",
+          "url": "https://arxiv.org/abs/2603.15759"
+        },
+        {
+          "label": "code",
+          "url": "https://github.com/CLeARoboticsLab/simdist"
         }
       ]
     },
@@ -76,6 +93,13 @@
       "arxiv_id": "2606.04463",
       "submitted_at": "2026-06-03",
       "notes": "Strong skeleton-only baseline: renders 2D kinematic skeletons as a unified condition across robot arms and human hands for video generation and policy evaluation."
+    },
+    {
+      "title": "SimDist: simulation-pretrained world models with dynamics-only real adaptation",
+      "url": "https://sim-dist.github.io/",
+      "arxiv_id": "2603.15759",
+      "submitted_at": "2026-03-16",
+      "notes": "Training and sim-to-real baseline: pretrains an action-conditioned latent world model from mixed-quality simulator data, preserves the encoder/reward/value task structure, and finetunes only latent dynamics from limited real prediction data. Compare against it before claiming that an explicit URDF compiler improves adaptation or real-data efficiency."
     },
     {
       "title": "EnerVerse-AC: action conditioning with dynamic multi-view ray maps",
