@@ -4,7 +4,7 @@
   "title": "DaiMeng VTAM / Tactile-WAM: Predictive Contact Intelligence",
   "bucket": "survey",
   "status": "survey",
-  "updated_at": "2026-07-17T13:06:37.296Z",
+  "updated_at": "2026-07-17T14:13:30.860Z",
   "description": "DaiMeng internship research project: merge VTLA tactile-intuition survey and VTAM/Tactile-WAM proposal into one active Predictive Contact Intelligence track for dexterous manipulation.",
   "summary": "DaiMeng VTAM turns the VTLA tactile-intuition survey into an active internship project: From Reactive Manipulation to Proactive Manipulation. The merged track treats future tactile/contact latents as an Internal Contact Model and builds a Vision-Tactile-Action World Model with a Temporal Action-Token Shared-World architecture rather than simple vision/tactile feature concatenation. Fast contact/action rollout, visual/layer latent cache, contact-triggered sparse compute, and System-0/System-1 control are the execution path; validation is contact timing, slip/contact risk, actual/zero/wrong-action separation, latency/Hz/VRAM, and contact-rich task success.",
   "subprojects": [
@@ -98,7 +98,20 @@
       ]
     },
     "[KNOWN][HIGH] Event-camera cross-reference updated 2026-07-15: detailed evidence now lives in Survey: Event-Camera VLA / World Model Sensor Survey. [INFERRED][HIGH] DaiMeng VTAM should consume synchronized event features only after the Survey shows marginal value over 120 fps RGB, pseudo-events, and existing tactile streams; event hardware is not a VTAM mainline dependency yet.",
-    "[KNOWN][HIGH] SpikingTac cross-reference 2026-07-15: the Event-Camera Survey now tracks a separate neuromorphic visuotactile branch using a sealed marker-and-gel optical stack for 1000 Hz contact transients and 350 Hz marker tracking. [INFERRED][HIGH] DaiMeng VTAM may consume this as a candidate high-frequency contact stream only after independent reproduction against high-FPS RGB visuotactile and existing tactile/force baselines; this cross-reference does not reopen completed VTAM TODOs."
+    "[KNOWN][HIGH] SpikingTac cross-reference 2026-07-15: the Event-Camera Survey now tracks a separate neuromorphic visuotactile branch using a sealed marker-and-gel optical stack for 1000 Hz contact transients and 350 Hz marker tracking. [INFERRED][HIGH] DaiMeng VTAM may consume this as a candidate high-frequency contact stream only after independent reproduction against high-FPS RGB visuotactile and existing tactile/force baselines; this cross-reference does not reopen completed VTAM TODOs.",
+    {
+      "text": "[KNOWN][HIGH] 2026-07-17 soft-sensor paper audit: E-slime is a published 2024 Advanced Functional Materials epidermal strain-sensing material, but the supplied image is a mixed research-trajectory slide rather than a clean paper figure. ML-sensor is now the published 2026 Advanced Science paper A Soft Mechanoluminescent Skin for High-Resolution Optical Tactile Sensing in Human-Machine Interaction. [KNOWN][HIGH] No retrievable DOI, preprint, or public project page was located for the supplied RoboTac Skin or Ther-Tac / T-Tac labels as of this audit; their high-information design slides remain useful as explicitly labeled presentation context, not published-paper evidence. [INFERRED][HIGH] For VTAM, the three retained slides span conformable contact skin, active thermal material sensing, and vision-native normal-force imaging, but none alone establishes predictive action or robot-policy gains.",
+      "links": [
+        {
+          "label": "E-slime paper",
+          "url": "https://doi.org/10.1002/adfm.202402393"
+        },
+        {
+          "label": "ML-sensor paper",
+          "url": "https://doi.org/10.1002/advs.75507"
+        }
+      ]
+    }
   ],
   "task_ids": [
     "task_umi_stage1_daimon_post2000_smoke_20260707",
@@ -328,6 +341,20 @@
       "arxiv_id": "2602.23654",
       "category": "event-visuotactile",
       "notes": "Candidate high-frequency contact stream for VTAM ablation; keep gated behind an independent SpikingTac reproduction and RGB/tactile baseline comparison."
+    },
+    {
+      "title": "Amoeba-Inspired Self-Healing Electronic Slime for Adaptable, Durable Epidermal Wearable Electronics",
+      "url": "https://doi.org/10.1002/adfm.202402393",
+      "doi": "10.1002/adfm.202402393",
+      "category": "soft-material-sensing",
+      "notes": "[KNOWN][HIGH] Published in Advanced Functional Materials in 2024. Useful as a soft, self-healing strain-sensor material reference; it is not direct evidence for robotic contact prediction or control."
+    },
+    {
+      "title": "A Soft Mechanoluminescent Skin for High-Resolution Optical Tactile Sensing in Human-Machine Interaction",
+      "url": "https://doi.org/10.1002/advs.75507",
+      "doi": "10.1002/advs.75507",
+      "category": "vision-tactile-sensor",
+      "notes": "[KNOWN][HIGH] Published in Advanced Science in 2026. The CMOS-read mechanoluminescent skin is a candidate normal-force/contact stream; published demonstrations emphasize handwriting and human-computer interaction rather than robot manipulation policy learning."
     }
   ],
   "risks_decisions": [
@@ -343,7 +370,8 @@
     "Decision: retire separate VTLA Survey card: Keep one live card under Research. The merged card owns VTLA representation work, Wuji/Franka/HOI benchmark selection, VTAM architecture, and DaiMeng internship deliverables.",
     "Risk: visual quality alone is the wrong success metric: The proposal should not pass because generated video looks plausible. It must pass contact prediction, action separation, latency, memory, servo stability, and contact-rich task success metrics.",
     "[KNOWN][HIGH] OSMO novelty boundary 2026-07-17: a shared glove on the human and robot, direct transfer of normal/shear tactile signals, and policy training without robot demonstrations are already demonstrated. [INFERRED][HIGH] VTAM must not claim the matched glove alone; require cross-device or cross-morphology tactile normalization, predictive contact/action utility, and gains across multiple contact-rich tasks or unseen objects, with an ablation against unmatched sensor layouts.",
-    "Refinement decision 2026-06-29: BAAI-style imagined trajectory scoring belongs inside VTAM as a contact-rich policy refinement protocol. The reward/contact model must explicitly identify contact phase entry; otherwise the loop degenerates into generic video rollout ranking."
+    "Refinement decision 2026-06-29: BAAI-style imagined trajectory scoring belongs inside VTAM as a contact-rich policy refinement protocol. The reward/contact model must explicitly identify contact phase entry; otherwise the loop degenerates into generic video rollout ranking.",
+    "[KNOWN][HIGH] Image Context decision 2026-07-17: retain the RoboTac Skin, Ther-Tac and ML-sensor design/application slides with publication-status labels. Skip the mixed E-slime/RoboTac/T-Tac roadmap slide because it is a temporary composite, and skip the two MC-Tac slides because they describe a fifth, ambiguously identified work outside the four-item request. [INFERRED][HIGH] Revisit magnetic MC-Tac only after its exact paper/project identity is established."
   ],
   "timeline": {
     "target_cycle": "DaiMeng VTAM internship project",

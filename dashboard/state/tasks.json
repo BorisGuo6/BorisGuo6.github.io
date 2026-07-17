@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-07-17T04:42:57.336Z",
+  "updated_at": "2026-07-17T13:45:19.875Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -12472,14 +12472,14 @@
     {
       "task_id": "task_self_improving_agents_embodiedgen_v2_self_improving_harness_gen_env_20260713",
       "project_id": "self-improving-agents",
-      "title": "[3/4 Asset pipeline] Evaluate EmbodiedGen V2 as an environment and asset compiler backend",
-      "description": "Package: https://github.com/HorizonRobotics/EmbodiedGen （project/docs: https://horizonrobotics.github.io/EmbodiedGen/）。背景：近期面试过该项目的一位作者，需要把作者交流转化为可验证的工程判断；dashboard 只记录技术结论与待澄清问题，不记录候选人的个人面试信息。定位边界：EmbodiedGen V2 是 task/image/text -> simulation-ready assets / layouts / worlds 的候选环境编译器，可对接 PEARL/Open X Sim 的 /gen-env；它不替代 weakness mining、trace memory、policy diagnosis、regression test 或 promotion gate。Desk review：v2.0.0 tag cc3015ca5ccdacf94df3428d9e65f79375982216；支持 URDF + mesh + 3DGS、task-driven layout、SAPIEN/Isaac Sim/Isaac Gym/MuJoCo/Genesis/PyBullet 导出、Claude Code 3D-vibe-coding skills、part affordance 与 simulation validation。多数 pipeline 需要 GPT endpoint/key，安装按 basic/scene3d/room/affordance/CUDA 分阶段且包含较重 third-party/model 依赖。许可元数据声明 Apache-2.0，但 v2.0.0 的实际 license 位于 docs/documentation/LICENSE，README 的 docs/LICENSE 链接及 pyproject 的 root LICENSE/NOTICE 声明不一致，集成前必须向维护者确认打包与再分发边界。Acceptance: 1) 固定 v2.0.0/上述 SHA，在隔离环境完成 basic install 与官方最小 smoke，记录 Python/CUDA/GPU/VRAM、模型下载、安装时长、外部 API 和失败点，禁止把 token 写入日志或 dashboard；2) 从现有 PEARL/selection2env held-out specs 选至少 3 个任务，每个 >=5 seeds，跑 task -> scene graph/layout -> sim-ready world，保存命令、config、seed、git SHA、输出目录和失败样例；3) 与当前 SceneAgent/selection2env 同输入比较 asset reuse/generated ratio、layout validity、scale/mass/friction、collision/penetration、physics settling、task reachability、retry count、latency、peak VRAM 与 API cost；4) 至少在 SAPIEN 加 MuJoCo/Isaac Sim 二选一加载同一输出，核对 geometry/collision/pose/physics metadata，而非只看渲染视频；5) 审计 /embodiedgen:* Claude Code skills 是否能收敛为有 schema、bounded edit、deterministic verifier 的 /gen-env adapter，禁止自然语言 agent 绕过验证直接改 world state；6) 整理给作者/维护者的问题：V2 roadmap、必需闭源模型/API、seed determinism、cross-simulator fidelity、commercial/redistribution license、失败重试与 benchmark protocol；7) 输出一页决策：adopt as backend / cherry-pick modules / research reference / reject，并给出最小 adapter contract、预计集成工期和明确 blocker。",
+      "title": "[Phase 2 3B/4 Generation fallback] Benchmark rigid and articulated 3D generation backends",
+      "description": "[KNOWN] [CONFIDENCE: HIGH] EmbodiedGen V2 is the first pinned candidate, but the harness route must remain backend-agnostic; current project discussion also names Meshy, Tripo and SAM3-style reconstruction or generation as candidates. Scope: invoke direct 3D generation only when retrieval, matching and parameter filling cannot satisfy the scene constraints; benchmark rigid and articulated objects separately; require visual and collision geometry, units, axes, scale, materials, mass and inertia, stable poses, joint topology, limits and drives, provenance and hashes; compile into SAPIEN plus one second backend. Acceptance: at least 3 rigid and 3 articulated cases preserve prompts, config, seed, model version, output hashes and failure artifacts; compare task fit, geometry, collision, scale, physics settling, articulation validity, determinism, retry count, latency, peak VRAM and API cost; produce an adopt, cherry-pick, research-reference or reject decision for each backend; no credentials or restricted payloads enter dashboard state or logs.",
       "status": "todo",
       "priority": "high",
-      "assignee": "Boris / Codex",
+      "assignee": "Jingxiang / Zheng Ye / Environment Generation team",
       "result": null,
       "comments": [],
-      "updated_at": "2026-07-15T06:06:11.252Z"
+      "updated_at": "2026-07-17T13:45:19.875Z"
     },
     {
       "task_id": "task_umi_world_model_ziyang_meng_mimic_video_robot_layer_action_idm_20260713",
@@ -12820,6 +12820,66 @@
         }
       ],
       "updated_at": "2026-07-17T04:42:57.336Z"
+    },
+    {
+      "task_id": "task_self_improving_agents_phase_2_harness_build_reusable_skill_mcp_registr_20260717",
+      "project_id": "self-improving-agents",
+      "title": "[Phase 2 / Harness] Build reusable Skill + MCP registry for agentic environment generation",
+      "description": "[KNOWN] [CONFIDENCE: HIGH] The four V1 environment-generation routes have bounded acceptance evidence and remain closed as historical milestones. Phase 2 must integrate them into one reusable agentic harness rather than reopen those acceptance claims. Scope: define a capability registry and typed contracts for discover, match, fill, generate, compile, validate and transfer; record tool version, dependencies and side-effect boundaries; implement selection-first routing, bounded retries, run_state, events, artifact manifests, typed blockers and rollback; expose four golden flows for Text2Env, Anchor2Env, internet asset intake and cross-simulator transfer. Acceptance: every route is callable as a versioned Skill or MCP tool with deterministic fixtures; every run preserves seed, model and adapter versions, provenance and hashes, rejected candidates, verifier results and failure codes; regression gates block promotion on schema, provenance, physics, replay or migration-loss failures.",
+      "status": "active",
+      "priority": "urgent",
+      "assignee": "Jingxiang / Zheng Ye / Environment Generation team",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-07-17T13:42:21.916Z"
+    },
+    {
+      "task_id": "task_self_improving_agents_phase_2_1_4_text2env_wrap_deterministic_text2env_20260717",
+      "project_id": "self-improving-agents",
+      "title": "[Phase 2 1/4 Text2Env] Wrap deterministic Text2Env as a reusable Skill/MCP route",
+      "description": "[KNOWN] [CONFIDENCE: HIGH] RoboTwin SceneGen Stage 0-5 remains the accepted V1 backend; this task packages it for the harness rather than redoing scene generation. Scope: map a text request into typed SceneSpec, AssetManifest, ResolvedSceneSpec, simulator package and validation report; forbid arbitrary generated code, asset paths, final poses or quaternions from the language model; expose compile, validate and replay as versioned Skill/MCP calls with bounded repair. Acceptance: bilingual golden prompts and negative cases pass; fixed input, config and seed replay to the same resolved package; provenance, rejected candidates and typed blockers are retained; RoboTwin plus one adapter target pass runtime gates; promotion is regression-gated.",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Zheng Ye / Environment Generation team",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-07-17T13:43:26.397Z"
+    },
+    {
+      "task_id": "task_self_improving_agents_phase_2_2_4_anchor2env_wrap_image_video_conditio_20260717",
+      "project_id": "self-improving-agents",
+      "title": "[Phase 2 2/4 Anchor2Env] Wrap image/video-conditioned generation as a reusable Skill/MCP route",
+      "description": "[KNOWN] [CONFIDENCE: HIGH] The accepted Anchor2Env V1 proves a bounded image/video path; Phase 2 must expose it through the common harness contract. Scope: accept an image or short video plus optional text, preserve source frames and camera assumptions, separate observed, estimated, retrieved and generated content, emit typed uncertainty, and compile through the same EnvironmentPackage used by Text2Env. Acceptance: at least one image and one video golden flow invoke the versioned Skill/MCP route; fixed media, config and seed are deterministic; no asset provenance is fabricated; asset misses route into reuse-first retrieval and then generation fallback; source/reconstruction/segmentation/replay evidence and typed failure cases are regression-tested.",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Zheng Ye / Environment Generation team",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-07-17T13:43:56.645Z"
+    },
+    {
+      "task_id": "task_self_improving_agents_phase_2_3a_4_asset_reuse_retrieve_match_select_a_20260717",
+      "project_id": "self-improving-agents",
+      "title": "[Phase 2 3A/4 Asset reuse] Retrieve, match, select and parameterize internet assets/datasets",
+      "description": "[KNOWN] [CONFIDENCE: HIGH] Asset reuse is a separate path from 3D generation and must be attempted first when a verified candidate can satisfy the scene constraints. Scope: search official repositories, dataset catalogs and project pages; rank top-k candidates with rejection reasons; capture license, source, version and hashes; normalize units, axes, scale, pose, materials, collision, mass and inertia; map rigid-body and articulated-joint metadata; preserve typed unknowns rather than invent values. Acceptance: rigid and articulated examples complete query to ranked candidates to import to settle/render/collision QA; parameter filling is machine-readable and reproducible; SAPIEN plus one second backend load the selected assets; every rejected or conditional asset has an explicit reason and provenance record.",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Jingxiang / Environment Generation team",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-07-17T13:44:04.835Z"
+    },
+    {
+      "task_id": "task_self_improving_agents_phase_2_4_4_transfer_package_cross_simulator_mig_20260717",
+      "project_id": "self-improving-agents",
+      "title": "[Phase 2 4/4 Transfer] Package cross-simulator migration as a reusable Skill/MCP route",
+      "description": "[KNOWN] [CONFIDENCE: HIGH] Open-X-Sim V1 retains bounded L0-L3 transfer evidence; Phase 2 must turn that compiler and validator into a reusable harness route. Scope: accept generated, anchor-conditioned or imported environments; compile one versioned interchange bundle into source and target adapters; record adapter versions and hashes; map geometry, transforms, articulation, collision, materials, mass and inertia, cameras, physics, reset and task predicates; emit unsupported and lossy records instead of silent degradation. Acceptance: at least three upstream environment or format families invoke the Skill/MCP route; rigid, articulated and camera-sensitive cases replay from one bundle; migration-loss reports are quantitative and regression-gated; contact, controller, rendering and task-outcome equivalence are claimed only when their explicit tolerances pass.",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Jingxiang / Zheng Ye / Environment Generation team",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-07-17T13:44:36.132Z"
     }
   ]
 }
