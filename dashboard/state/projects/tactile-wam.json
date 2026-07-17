@@ -76,6 +76,27 @@
     "System-0 / System-1 loop: System-1 runs predictive VTAM at planning frequency, while System-0 runs high-frequency tactile servo control by comparing predicted tactile latent with current tactile latent and emitting residual corrections for slip, overload, misalignment, or impending contact failure.",
     "World-model-guided VLA refinement update 2026-06-29: the BAAI seminar slide is effectively the policy-improvement loop version of VTAM. For contact-rich insertion, pressing, screwing, and assembly, let the pretrained VLA provide semantic/coarse motion, use a reward/contact model to detect the contact-rich phase, sample multiple candidate contact trajectories, score them through imagined VTAM/world-model rollouts, then stitch the selected segment back into the trajectory as post-training data. This should be tracked as an evaluation and refinement protocol, not just as a visual rollout demo.",
     "UMI2Render2Real subproject 2026-06-30: from the personal presentation UMI2Render2Real pages, the intended loop is: large UMI-device datasets -> scan object -> scan scene -> retarget UMI trajectory -> render robot data with LeHome-style household/cooking scenes -> apply to the real robot while explicitly modeling the Render2Real gap. In DaiMeng VTAM this becomes the sixth subproject: a local-workstation pipeline for producing semi-teleop robot data and testing whether rendered trajectories plus tactile/contact supervision improve predictive contact intelligence.",
+    {
+      "text": "[KNOWN][HIGH] OSMO is the direct prior for the shared tactile-carrier idea: the same stretchable magnetic tactile glove is worn by the human demonstrator and a biomimetic robot hand, reducing both visual and tactile embodiment gaps while transferring continuous normal and shear signals. Its wiping policy is trained only on 140 human demonstrations (about two hours, no real-robot training data) and reports 71.69% mean task completion versus 55.75% for vision plus proprioception over 12 rollouts. [INFERRED][HIGH] For VTAM, this validates matched sensor topology as a data-collection primitive but closes the novelty of \"human and robot wear the same glove\" by itself; the defensible extension is cross-device tactile latents, predictive contact/action modeling, and multi-task transfer beyond one matched human/robot glove and one wiping setup.",
+      "links": [
+        {
+          "label": "OSMO project",
+          "url": "https://www.jessicayin.com/osmo_tactile_glove/"
+        },
+        {
+          "label": "paper",
+          "url": "https://arxiv.org/abs/2512.08920"
+        },
+        {
+          "label": "code and hardware",
+          "url": "https://github.com/jessicayin/osmo_tactile_glove"
+        },
+        {
+          "label": "IEEE RA-L DOI",
+          "url": "https://doi.org/10.1109/LRA.2026.3692034"
+        }
+      ]
+    },
     "[KNOWN][HIGH] Event-camera cross-reference updated 2026-07-15: detailed evidence now lives in Survey: Event-Camera VLA / World Model Sensor Survey. [INFERRED][HIGH] DaiMeng VTAM should consume synchronized event features only after the Survey shows marginal value over 120 fps RGB, pseudo-events, and existing tactile streams; event hardware is not a VTAM mainline dependency yet.",
     "[KNOWN][HIGH] SpikingTac cross-reference 2026-07-15: the Event-Camera Survey now tracks a separate neuromorphic visuotactile branch using a sealed marker-and-gel optical stack for 1000 Hz contact transients and 350 Hz marker tracking. [INFERRED][HIGH] DaiMeng VTAM may consume this as a candidate high-frequency contact stream only after independent reproduction against high-FPS RGB visuotactile and existing tactile/force baselines; this cross-reference does not reopen completed VTAM TODOs."
   ],
@@ -293,6 +314,15 @@
       "notes": "Online presentation entry for the UMI2Render2Real pages. The excluded local source deck is `source-pptx/romoya_present.pptx`; the published section covers Project 2 UMI2Render2Real, object/scene scanning, UMI trajectory retargeting, robot-data rendering, Render2Real gap handling, and conversion of UMI data to semi-teleop data."
     },
     {
+      "title": "OSMO: Open-Source Tactile Glove for Human-to-Robot Skill Transfer",
+      "url": "https://www.jessicayin.com/osmo_tactile_glove/",
+      "arxiv_id": "2512.08920",
+      "doi": "10.1109/LRA.2026.3692034",
+      "submitted_at": "2025-12-09",
+      "category": "human-to-robot-tactile-transfer",
+      "notes": "[KNOWN][HIGH] Direct prior for the shared human/robot tactile-glove idea. OSMO uses 12 three-axis magnetic tactile sensors across fingertips and palm, open hardware/firmware/ROS2 interfaces, and a matched glove on the demonstrator and robot. The reported wiping result is 71.69% versus 55.75% for vision plus proprioception, not a twofold gain over the vision baseline; the experiment uses 140 human demonstrations, no robot training data, 12 rollouts, fixed camera/environment, and a Psyonic Ability Hand with Franka."
+    },
+    {
       "title": "SpikingTac: A Miniaturized Neuromorphic Visuotactile Sensor for High-Precision Dynamic Tactile Imprint Tracking",
       "url": "https://arxiv.org/abs/2602.23654",
       "arxiv_id": "2602.23654",
@@ -312,6 +342,7 @@
     "Acceptance boundary 2026-06-27: do not accept demos based only on pretty video or qualitative tactile maps. A passing VTAM demo must separate actual actions from zero/wrong actions, predict contact timing/slip risk, show latency/Hz/VRAM numbers, and improve at least one contact-rich manipulation task under perturbation.",
     "Decision: retire separate VTLA Survey card: Keep one live card under Research. The merged card owns VTLA representation work, Wuji/Franka/HOI benchmark selection, VTAM architecture, and DaiMeng internship deliverables.",
     "Risk: visual quality alone is the wrong success metric: The proposal should not pass because generated video looks plausible. It must pass contact prediction, action separation, latency, memory, servo stability, and contact-rich task success metrics.",
+    "[KNOWN][HIGH] OSMO novelty boundary 2026-07-17: a shared glove on the human and robot, direct transfer of normal/shear tactile signals, and policy training without robot demonstrations are already demonstrated. [INFERRED][HIGH] VTAM must not claim the matched glove alone; require cross-device or cross-morphology tactile normalization, predictive contact/action utility, and gains across multiple contact-rich tasks or unseen objects, with an ablation against unmatched sensor layouts.",
     "Refinement decision 2026-06-29: BAAI-style imagined trajectory scoring belongs inside VTAM as a contact-rich policy refinement protocol. The reward/contact model must explicitly identify contact phase entry; otherwise the loop degenerates into generic video rollout ranking."
   ],
   "timeline": {
