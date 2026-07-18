@@ -16,8 +16,22 @@ import {
   loadVercelDashboardSnapshot,
   writeVercelBlobSnapshot,
 } from "./dashboard-vercel-store.mjs";
+import {
+  createDashboardAccessUser,
+  dashboardProjectOptions,
+  defaultDashboardVisibility,
+  filterDashboardSnapshotForAuth,
+  listDashboardAccessUsers,
+  loadDashboardAccessControl,
+  normalizeDashboardVisibility,
+  rotateDashboardAccessToken,
+  updateDashboardAccessUser,
+  verifyDashboardAccessToken,
+  writeDashboardAccessControl,
+} from "./dashboard-access-control.mjs";
 
 let mutationQueue = Promise.resolve();
+let accessMutationQueue = Promise.resolve();
 export const dashboardSessionCookieName = "dashboard_session";
 export const dashboardSessionMaxAgeSeconds = 7 * 24 * 60 * 60;
 
@@ -44,10 +58,10 @@ export function dashboardErrorResponse(error) {
   if (message === "Request body is too large") {
     return { status: 413, error: message };
   }
-  if (/^(Task|Project|Table row|Comment) not found:/.test(message)) {
+  if (/^(Task|Project|Table row|Comment|Access user) not found:/.test(message)) {
     return { status: 404, error: message };
   }
-  if (/^(Missing |Invalid |URL must |Comment .* belongs to )/.test(message)) {
+  if (/^(Missing |Invalid |Access user already exists:|URL must |Comment .* belongs to )/.test(message)) {
     return { status: 400, error: message };
   }
   if (
@@ -108,17 +122,38 @@ function dashboardIndividualWriteTokens(env = process.env) {
     .filter(Boolean);
 }
 
+function dashboardMappedWriteTokens(env = process.env) {
+  const userMap = optionalString(env.DASHBOARD_WRITE_TOKEN_USERS || env.DASHBOARD_USER_TOKENS);
+  if (!userMap) return [];
+  try {
+    return Object.entries(JSON.parse(userMap) || {})
+      .map(([token, viewer]) => ({ token: optionalString(token), viewer: optionalString(viewer) }))
+      .filter(({ token, viewer }) => token && viewer);
+  } catch (error) {
+    return [];
+  }
+}
+
+function dashboardEnvironmentCredentialForToken(providedToken, env = process.env) {
+  if (!providedToken) return null;
+  if (optionalString(env.DASHBOARD_WRITE_TOKEN) && safeEqual(providedToken, env.DASHBOARD_WRITE_TOKEN)) {
+    return {
+      viewer: dashboardAdminViewer(),
+      role: "admin",
+      source: "environment",
+    };
+  }
+  const mapped = dashboardMappedWriteTokens(env).find(({ token }) => safeEqual(providedToken, token));
+  if (mapped) return { viewer: mapped.viewer, role: "viewer", source: "environment" };
+  const individual = dashboardIndividualWriteTokens(env).find(({ token }) => safeEqual(providedToken, token));
+  if (individual) return { viewer: individual.viewer, role: "viewer", source: "environment" };
+  return null;
+}
+
 function dashboardSessionSecret(env = process.env) {
-  const individualTokenSecret = dashboardIndividualWriteTokens(env)
-    .map(({ token, viewer }) => `${viewer}:${token}`)
-    .sort()
-    .join("\n");
   return optionalString(
     env.DASHBOARD_SESSION_SECRET
-      || env.DASHBOARD_WRITE_TOKEN
-      || env.DASHBOARD_WRITE_TOKEN_USERS
-      || env.DASHBOARD_USER_TOKENS
-      || individualTokenSecret,
+      || env.DASHBOARD_WRITE_TOKEN,
   );
 }
 
@@ -137,16 +172,83 @@ export function dashboardProvidedSession(request) {
   return requestCookie(request, dashboardSessionCookieName);
 }
 
-export function createDashboardSession(viewer, env = process.env, options = {}) {
+function dashboardAdminViewer() {
+  return "jingxiang";
+}
+
+export function dashboardRoleForViewer(viewer, env = process.env) {
+  return optionalString(viewer).toLocaleLowerCase("en-US") === dashboardAdminViewer().toLocaleLowerCase("en-US")
+    ? "admin"
+    : "viewer";
+}
+
+function dashboardAuthEnvelope(viewer, options = {}) {
+  const normalizedViewer = optionalString(viewer) || "unknown";
+  const role = options.role === "admin" ? "admin" : "viewer";
+  const visibility = role === "admin"
+    ? { bucket_ids: ["research", "engineering", "survey", "archive"], include_project_ids: [], exclude_project_ids: [] }
+    : normalizeDashboardVisibility(options.visibility || defaultDashboardVisibility);
+  return {
+    ok: true,
+    viewer: normalizedViewer,
+    user_id: optionalString(options.user_id) || null,
+    session_version: Number.isSafeInteger(options.session_version) && options.session_version > 0
+      ? options.session_version
+      : 1,
+    role,
+    source: optionalString(options.source) || "environment",
+    visibility,
+    permissions: {
+      can_write: role === "admin",
+      can_manage_access: role === "admin",
+    },
+  };
+}
+
+function publicDashboardAuth(auth) {
+  if (!auth) return null;
+  if (!auth.ok) {
+    return {
+      ok: false,
+      status: auth.status || 401,
+      error: auth.error || "Dashboard authentication failed",
+    };
+  }
+  return {
+    ok: true,
+    status: 200,
+    error: null,
+    viewer: auth.viewer,
+    user_id: auth.user_id || null,
+    session_version: auth.session_version || 1,
+    role: auth.role,
+    visibility: auth.visibility,
+    permissions: auth.permissions,
+  };
+}
+
+export function createDashboardSession(viewerOrAuth, env = process.env, options = {}) {
   const secret = dashboardSessionSecret(env);
   if (!secret) {
     throw new Error("Dashboard session secret is not configured");
   }
   const now = options.now || new Date();
   const maxAgeSeconds = Number(options.maxAgeSeconds || dashboardSessionMaxAgeSeconds);
+  const input = viewerOrAuth && typeof viewerOrAuth === "object"
+    ? viewerOrAuth
+    : dashboardAuthEnvelope(viewerOrAuth, {
+      role: dashboardRoleForViewer(viewerOrAuth, env),
+      source: "environment",
+    });
   const payload = Buffer.from(JSON.stringify({
-    v: 1,
-    viewer: optionalString(viewer) || "unknown",
+    v: 2,
+    viewer: optionalString(input.viewer) || "unknown",
+    user_id: optionalString(input.user_id) || null,
+    session_version: Number.isSafeInteger(input.session_version) && input.session_version > 0
+      ? input.session_version
+      : 1,
+    role: input.role === "admin" ? "admin" : "viewer",
+    source: optionalString(input.source) || "environment",
     exp: Math.floor(now.getTime() / 1000) + maxAgeSeconds,
   })).toString("base64url");
   const signature = createHmac("sha256", secret).update(payload).digest("base64url");
@@ -171,10 +273,15 @@ export function dashboardSessionAuth(request, env = process.env, options = {}) {
     const parsed = JSON.parse(Buffer.from(payload, "base64url").toString("utf8"));
     const nowSeconds = Math.floor((options.now || new Date()).getTime() / 1000);
     const viewer = optionalString(parsed?.viewer);
-    if (parsed?.v !== 1 || !viewer || !Number.isFinite(parsed?.exp) || parsed.exp <= nowSeconds) {
+    if (![1, 2].includes(parsed?.v) || !viewer || !Number.isFinite(parsed?.exp) || parsed.exp <= nowSeconds) {
       return { ok: false, status: 401, error: "Expired dashboard session" };
     }
-    return { ok: true, viewer };
+    return dashboardAuthEnvelope(viewer, {
+      user_id: parsed?.v === 2 ? parsed.user_id : null,
+      session_version: parsed?.v === 2 ? parsed.session_version : 1,
+      role: parsed?.v === 2 ? parsed.role : dashboardRoleForViewer(viewer, env),
+      source: parsed?.v === 2 ? parsed.source : "environment",
+    });
   } catch (error) {
     return { ok: false, status: 401, error: "Invalid dashboard session" };
   }
@@ -195,41 +302,11 @@ function dashboardSessionCookie(request, value, maxAgeSeconds) {
 }
 
 export function dashboardViewerForWriteToken(providedToken, env = process.env) {
-  if (!providedToken) {
-    return "";
-  }
-  const userMap = optionalString(env.DASHBOARD_WRITE_TOKEN_USERS || env.DASHBOARD_USER_TOKENS);
-  if (userMap) {
-    try {
-      const parsed = JSON.parse(userMap);
-      const mappedViewer = optionalString(parsed?.[providedToken]);
-      if (mappedViewer) {
-        return mappedViewer;
-      }
-    } catch (error) {
-      // Fall back to the single-token viewer below; health checks should not
-      // expose token-map parse details to clients.
-    }
-  }
-  const individualToken = dashboardIndividualWriteTokens(env)
-    .find(({ token }) => safeEqual(providedToken, token));
-  if (individualToken) {
-    return individualToken.viewer;
-  }
-  if (providedToken === env.DASHBOARD_WRITE_TOKEN) {
-    return optionalString(env.DASHBOARD_WRITE_USER) || "boris";
-  }
-  return "";
+  return dashboardEnvironmentCredentialForToken(providedToken, env)?.viewer || "";
 }
 
 export function dashboardWriteTokenIsAllowed(providedToken, env = process.env) {
-  if (!providedToken) {
-    return false;
-  }
-  if (providedToken === env.DASHBOARD_WRITE_TOKEN) {
-    return true;
-  }
-  return Boolean(dashboardViewerForWriteToken(providedToken, env));
+  return Boolean(dashboardEnvironmentCredentialForToken(providedToken, env));
 }
 
 export function dashboardWriteAuth(request, env = process.env) {
@@ -255,31 +332,58 @@ export function dashboardWriteAuth(request, env = process.env) {
       error: "Invalid dashboard write token",
     };
   }
-  return {
-    ok: true,
-    viewer: dashboardViewerForWriteToken(providedToken, env),
-  };
+  const credential = dashboardEnvironmentCredentialForToken(providedToken, env);
+  return dashboardAuthEnvelope(credential.viewer, credential);
+}
+
+export async function dashboardRequestAuth(request, env = process.env, options = {}) {
+  const providedToken = dashboardProvidedWriteToken(request);
+  if (!providedToken) {
+    const sessionAuth = dashboardSessionAuth(request, env, options);
+    if (!sessionAuth?.ok || sessionAuth.source !== "dashboard") return sessionAuth;
+    const loadAccess = options.loadAccess || loadDashboardAccessControl;
+    const { document } = await loadAccess({ env, ...options.accessOptions });
+    const user = listDashboardAccessUsers(document)
+      .find((candidate) => (
+        candidate.user_id === sessionAuth.user_id
+        && candidate.enabled
+        && candidate.session_version === sessionAuth.session_version
+      ));
+    if (!user) return { ok: false, status: 401, error: "Dashboard access has been revoked" };
+    return dashboardAuthEnvelope(user.viewer, {
+      user_id: user.user_id,
+      role: "viewer",
+      source: "dashboard",
+      visibility: user.visibility,
+      session_version: user.session_version,
+    });
+  }
+
+  const environmentCredential = dashboardEnvironmentCredentialForToken(providedToken, env);
+  if (environmentCredential) {
+    return dashboardAuthEnvelope(environmentCredential.viewer, environmentCredential);
+  }
+  if (!providedToken.startsWith("dash_")) {
+    return dashboardWriteAuth(request, env);
+  }
+  const loadAccess = options.loadAccess || loadDashboardAccessControl;
+  const { document } = await loadAccess({ env, ...options.accessOptions });
+  const user = verifyDashboardAccessToken(document, providedToken);
+  if (!user) return { ok: false, status: 401, error: "Invalid dashboard access token" };
+  return dashboardAuthEnvelope(user.viewer, {
+    user_id: user.user_id,
+    role: "viewer",
+    source: "dashboard",
+    visibility: user.visibility,
+    session_version: user.session_version,
+  });
 }
 
 export function dashboardCanWrite(env = process.env) {
-  const userMap = optionalString(env.DASHBOARD_WRITE_TOKEN_USERS || env.DASHBOARD_USER_TOKENS);
-  let hasMappedToken = false;
-  if (userMap) {
-    try {
-      const parsed = JSON.parse(userMap);
-      hasMappedToken = Boolean(Object.entries(parsed || {}).some(([token, viewer]) => (
-        optionalString(token) && optionalString(viewer)
-      )));
-    } catch (error) {
-      hasMappedToken = false;
-    }
-  }
-  const hasWriteToken = Boolean(
+  return Boolean(
     optionalString(env.DASHBOARD_WRITE_TOKEN)
-      || hasMappedToken
-      || dashboardIndividualWriteTokens(env).length > 0,
+      && optionalString(env.BLOB_READ_WRITE_TOKEN),
   );
-  return Boolean(hasWriteToken && optionalString(env.BLOB_READ_WRITE_TOKEN));
 }
 
 export function dashboardTokenFingerprint(token) {
@@ -393,7 +497,6 @@ async function persistMutation(mutation, auditOptions = {}) {
             ...meta,
             storage: "vercel-blob",
             blob_path: blob.pathname,
-            blob_url: blob.url,
             blob_etag: blob.etag,
             updated_at: auditedSnapshot.updated_at,
             audit_id: auditEvent.audit_id,
@@ -414,18 +517,68 @@ async function persistMutation(mutation, auditOptions = {}) {
   return run;
 }
 
+async function persistAccessMutation(mutation, options = {}) {
+  const run = accessMutationQueue.catch(() => undefined).then(async () => {
+    for (let attempt = 1; attempt <= 3; attempt += 1) {
+      const { document, meta } = await loadDashboardAccessControl(options);
+      const result = mutation(document);
+      try {
+        const blob = await writeDashboardAccessControl(result.document, {
+          ...options,
+          ifMatch: meta.etag || undefined,
+          allowOverwrite: false,
+        });
+        return {
+          ...result,
+          meta: {
+            storage: "vercel-blob-private",
+            blob_path: blob.pathname,
+            blob_etag: blob.etag,
+            updated_at: result.document.updated_at,
+            mutation_attempt: attempt,
+          },
+        };
+      } catch (error) {
+        const isConflict = isBlobPreconditionFailedError(error)
+          || error?.name === "BlobAlreadyExistsError"
+          || error?.constructor?.name === "BlobAlreadyExistsError";
+        if (!isConflict || attempt === 3) throw error;
+      }
+    }
+    throw new Error("Dashboard access mutation retries exhausted");
+  });
+  accessMutationQueue = run.catch(() => undefined);
+  return run;
+}
+
+function dashboardWriteAuthorization(auth) {
+  if (!auth?.ok) return auth || { ok: false, status: 401, error: "Dashboard authentication required" };
+  if (!auth.permissions?.can_write) {
+    return { ok: false, status: 403, error: "Dashboard write access requires the administrator role" };
+  }
+  return auth;
+}
+
+function dashboardAdminAuthorization(auth) {
+  if (!auth?.ok) return auth || { ok: false, status: 401, error: "Dashboard authentication required" };
+  if (!auth.permissions?.can_manage_access) {
+    return { ok: false, status: 403, error: "Dashboard access settings require the administrator role" };
+  }
+  return auth;
+}
+
 export async function handleDashboardHealth(request, response) {
   if (request.method !== "GET") return methodNotAllowed(response, ["GET"]);
   const providedToken = dashboardProvidedWriteToken(request);
   const providedSession = dashboardProvidedSession(request);
-  const writeAuth = providedToken || providedSession
-    ? dashboardWriteAuth(request)
+  const accessAuth = providedToken || providedSession
+    ? await dashboardRequestAuth(request)
     : null;
   const health = await getDashboardHealth();
   return sendJson(response, health.ok ? 200 : 503, {
     ...health,
-    write_auth: writeAuth
-      ? { ok: Boolean(writeAuth.ok), status: writeAuth.status || 200, error: writeAuth.error || null, viewer: writeAuth.viewer || null }
+    write_auth: accessAuth
+      ? publicDashboardAuth(accessAuth)
       : null,
   });
 }
@@ -469,33 +622,35 @@ export async function handleDashboardSession(request, response) {
     return sendJson(response, 200, { ok: true });
   }
   if (request.method !== "POST") return methodNotAllowed(response, ["POST", "DELETE"]);
-  const token = dashboardProvidedWriteToken(request);
-  const viewer = dashboardViewerForWriteToken(token);
-  if (!viewer) {
-    const auth = dashboardWriteAuth({ ...request, headers: { ...request.headers, cookie: "" } });
-    return sendJson(response, auth.status || 401, { ok: false, error: auth.error || "Invalid dashboard write token" });
+  const auth = await dashboardRequestAuth({ ...request, headers: { ...request.headers, cookie: "" } });
+  if (!auth?.ok) {
+    return sendJson(response, auth?.status || 401, { ok: false, error: auth?.error || "Invalid dashboard access token" });
   }
-  const session = createDashboardSession(viewer);
+  const session = createDashboardSession(auth);
   response.setHeader("set-cookie", dashboardSessionCookie(request, session, dashboardSessionMaxAgeSeconds));
   return sendJson(response, 200, {
     ok: true,
-    write_auth: { ok: true, status: 200, error: null, viewer },
+    write_auth: publicDashboardAuth(auth),
   });
 }
 
 export async function handleDashboardState(request, response) {
   if (request.method !== "GET") return methodNotAllowed(response, ["GET"]);
+  const auth = await dashboardRequestAuth(request);
+  if (!auth?.ok) return sendJson(response, auth?.status || 401, { ok: false, error: auth?.error || "Dashboard authentication required" });
   const { snapshot, meta } = await loadVercelDashboardSnapshot();
-  return sendJson(response, 200, toDashboardStateResponse(snapshot, {
+  const filteredSnapshot = filterDashboardSnapshotForAuth(snapshot, auth);
+  return sendJson(response, 200, toDashboardStateResponse(filteredSnapshot, {
     ...meta,
-    writable: dashboardCanWrite(),
+    writable: Boolean(auth.permissions?.can_write && dashboardCanWrite()),
+    auth: publicDashboardAuth(auth),
   }));
 }
 
 export async function handleDashboardTaskStatus(request, response) {
   if (request.method !== "POST") return methodNotAllowed(response, ["POST"]);
   const providedToken = dashboardProvidedWriteToken(request);
-  const auth = dashboardWriteAuth(request);
+  const auth = dashboardWriteAuthorization(await dashboardRequestAuth(request));
   if (!auth.ok) return sendJson(response, auth.status, { ok: false, error: auth.error });
   const body = await readJsonBody(request);
   const taskId = requireString(body.task_id, "task_id");
@@ -521,7 +676,7 @@ export async function handleDashboardTaskStatus(request, response) {
 export async function handleDashboardTaskCreate(request, response) {
   if (request.method !== "POST") return methodNotAllowed(response, ["POST"]);
   const providedToken = dashboardProvidedWriteToken(request);
-  const auth = dashboardWriteAuth(request);
+  const auth = dashboardWriteAuthorization(await dashboardRequestAuth(request));
   if (!auth.ok) return sendJson(response, auth.status, { ok: false, error: auth.error });
   const body = await readJsonBody(request);
   const payload = {
@@ -561,7 +716,7 @@ export async function handleDashboardTaskCreate(request, response) {
 export async function handleDashboardTaskUpdate(request, response) {
   if (request.method !== "POST") return methodNotAllowed(response, ["POST"]);
   const providedToken = dashboardProvidedWriteToken(request);
-  const auth = dashboardWriteAuth(request);
+  const auth = dashboardWriteAuthorization(await dashboardRequestAuth(request));
   if (!auth.ok) return sendJson(response, auth.status, { ok: false, error: auth.error });
   const body = await readJsonBody(request);
   const taskId = requireString(body.task_id, "task_id");
@@ -598,7 +753,7 @@ export async function handleDashboardTaskUpdate(request, response) {
 export async function handleDashboardTaskComment(request, response) {
   if (request.method !== "POST") return methodNotAllowed(response, ["POST"]);
   const providedToken = dashboardProvidedWriteToken(request);
-  const auth = dashboardWriteAuth(request);
+  const auth = dashboardWriteAuthorization(await dashboardRequestAuth(request));
   if (!auth.ok) return sendJson(response, auth.status, { ok: false, error: auth.error });
   const body = await readJsonBody(request);
   const taskId = requireString(body.task_id, "task_id");
@@ -629,7 +784,7 @@ export async function handleDashboardTaskComment(request, response) {
 export async function handleDashboardTaskCommentDelete(request, response) {
   if (request.method !== "POST") return methodNotAllowed(response, ["POST"]);
   const providedToken = dashboardProvidedWriteToken(request);
-  const auth = dashboardWriteAuth(request);
+  const auth = dashboardWriteAuthorization(await dashboardRequestAuth(request));
   if (!auth.ok) return sendJson(response, auth.status, { ok: false, error: auth.error });
   const body = await readJsonBody(request);
   const taskId = requireString(body.task_id, "task_id");
@@ -655,7 +810,7 @@ export async function handleDashboardTaskCommentDelete(request, response) {
 export async function handleDashboardProjectTableRowUpdate(request, response) {
   if (request.method !== "POST") return methodNotAllowed(response, ["POST"]);
   const providedToken = dashboardProvidedWriteToken(request);
-  const auth = dashboardWriteAuth(request);
+  const auth = dashboardWriteAuthorization(await dashboardRequestAuth(request));
   if (!auth.ok) return sendJson(response, auth.status, { ok: false, error: auth.error });
   const body = await readJsonBody(request);
   const projectId = requireString(body.project_id, "project_id");
@@ -694,7 +849,7 @@ export async function handleDashboardProjectTableRowUpdate(request, response) {
 
 export async function handleDashboardAuditLog(request, response) {
   if (request.method !== "GET") return methodNotAllowed(response, ["GET"]);
-  const auth = dashboardWriteAuth(request);
+  const auth = dashboardAdminAuthorization(await dashboardRequestAuth(request));
   if (!auth.ok) return sendJson(response, auth.status, { ok: false, error: auth.error });
   const url = new URL(request.url || "/", "https://jingxiangguo.com");
   const requestedLimit = Number.parseInt(url.searchParams.get("limit") || "100", 10);
@@ -712,5 +867,114 @@ export async function handleDashboardAuditLog(request, response) {
       returned: Math.min(limit, auditLog.length),
       total: auditLog.length,
     },
+  });
+}
+
+function dashboardEnvironmentAccessUsers(env = process.env) {
+  const credentials = [];
+  const adminToken = optionalString(env.DASHBOARD_WRITE_TOKEN);
+  if (adminToken) {
+    credentials.push({
+      token: adminToken,
+      viewer: dashboardAdminViewer(),
+      role: "admin",
+    });
+  }
+  dashboardMappedWriteTokens(env).forEach((credential) => credentials.push({ ...credential, role: "viewer" }));
+  dashboardIndividualWriteTokens(env).forEach((credential) => credentials.push({ ...credential, role: "viewer" }));
+  const users = new Map();
+  credentials.forEach((credential) => {
+    const key = `${credential.role}:${credential.viewer.toLocaleLowerCase("en-US")}`;
+    const existing = users.get(key);
+    if (existing) {
+      existing.credential_count += 1;
+      return;
+    }
+    users.set(key, {
+      user_id: `env_${shortHash(key)}`,
+      viewer: credential.viewer,
+      role: credential.role,
+      enabled: true,
+      visibility: dashboardAuthEnvelope(credential.viewer, credential).visibility,
+      token_fingerprint: dashboardTokenFingerprint(credential.token),
+      token_hint: "Environment credential",
+      created_at: null,
+      updated_at: null,
+      rotated_at: null,
+      managed_by: "environment",
+      editable: false,
+      credential_count: 1,
+    });
+  });
+  return [...users.values()];
+}
+
+export async function handleDashboardAccessUsers(request, response) {
+  if (!["GET", "POST", "PATCH", "DELETE"].includes(request.method)) {
+    return methodNotAllowed(response, ["GET", "POST", "PATCH", "DELETE"]);
+  }
+  const auth = dashboardAdminAuthorization(await dashboardRequestAuth(request));
+  if (!auth.ok) return sendJson(response, auth.status, { ok: false, error: auth.error });
+
+  if (request.method === "GET") {
+    const [{ document, meta }, { snapshot }] = await Promise.all([
+      loadDashboardAccessControl(),
+      loadVercelDashboardSnapshot(),
+    ]);
+    return sendJson(response, 200, {
+      ok: true,
+      users: [...dashboardEnvironmentAccessUsers(), ...listDashboardAccessUsers(document)],
+      projects: dashboardProjectOptions(snapshot),
+      meta: {
+        storage: meta.storage,
+        updated_at: document.updated_at,
+        viewer: auth.viewer,
+      },
+    });
+  }
+
+  const body = await readJsonBody(request);
+  if (request.method === "POST" && optionalString(body.action) === "rotate") {
+    const userId = requireString(body.user_id, "user_id");
+    const result = await persistAccessMutation((document) => rotateDashboardAccessToken(document, userId));
+    return sendJson(response, 200, {
+      ok: true,
+      user: result.user,
+      token: result.token,
+      token_notice: "Copy this token now. It will not be shown again.",
+      meta: result.meta,
+    });
+  }
+  if (request.method === "POST") {
+    const result = await persistAccessMutation((document) => createDashboardAccessUser(document, {
+      viewer: requireString(body.viewer, "viewer"),
+      visibility: body.visibility,
+    }));
+    return sendJson(response, 201, {
+      ok: true,
+      user: result.user,
+      token: result.token,
+      token_notice: "Copy this token now. It will not be shown again.",
+      meta: result.meta,
+    });
+  }
+  if (request.method === "PATCH") {
+    const userId = requireString(body.user_id, "user_id");
+    const patch = {};
+    for (const field of ["viewer", "enabled", "visibility"]) {
+      if (Object.hasOwn(body, field)) patch[field] = body[field];
+    }
+    if (!Object.keys(patch).length) throw new Error("Missing access user update fields");
+    const result = await persistAccessMutation((document) => updateDashboardAccessUser(document, userId, patch));
+    return sendJson(response, 200, { ok: true, user: result.user, meta: result.meta });
+  }
+
+  const userId = requireString(body.user_id, "user_id");
+  const result = await persistAccessMutation((document) => updateDashboardAccessUser(document, userId, { enabled: false }));
+  return sendJson(response, 200, {
+    ok: true,
+    user: result.user,
+    revoked: true,
+    meta: result.meta,
   });
 }

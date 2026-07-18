@@ -29,6 +29,7 @@
               <button type="submit">Sign in</button>
             </form>
             <button class="auth-signout" type="button" data-auth-signout hidden>Sign out</button>
+            <button class="auth-signout access-settings-trigger" type="button" data-access-settings-open hidden>Settings</button>
             <button class="auth-signout" type="button" data-vercel-token-clear hidden>Lock</button>
             <button class="agent-prompt-copy" type="button" data-agent-prompt-copy>Copy Agent Prompt</button>
             <span class="agent-prompt-status" data-agent-prompt-status aria-live="polite"></span>
@@ -125,6 +126,77 @@
       </form>
     </div>
 
+    <div class="access-settings-modal" data-access-settings-modal hidden aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="access-settings-title">
+      <section class="access-settings-panel" data-access-settings-panel tabindex="-1">
+        <header class="access-settings-header">
+          <div>
+            <p class="kicker">Administrator control</p>
+            <h2 id="access-settings-title">Dashboard access</h2>
+            <p>Create viewer tokens and decide which project cards each person can open.</p>
+          </div>
+          <button class="access-settings-close" type="button" data-access-settings-close aria-label="Close dashboard access settings">Close</button>
+        </header>
+
+        <div class="access-settings-layout">
+          <aside class="access-user-rail" aria-label="Dashboard users">
+            <div class="access-rail-heading">
+              <strong>People</strong>
+              <span data-access-user-count>0</span>
+            </div>
+            <div class="access-user-list" data-access-user-list></div>
+          </aside>
+
+          <div class="access-settings-workspace">
+            <form class="access-user-create" data-access-user-create>
+              <div class="access-form-heading">
+                <div>
+                  <span class="label">New access token</span>
+                  <strong>Add a viewer</strong>
+                </div>
+                <button type="submit">Create token</button>
+              </div>
+              <label class="access-name-field">
+                <span>Name</span>
+                <input type="text" name="viewer" maxlength="80" autocomplete="off" placeholder="e.g. Davide" required>
+              </label>
+              <fieldset class="access-scope-fieldset" data-access-create-scope>
+                <legend>Visible cards</legend>
+                <label class="access-research-default">
+                  <input type="checkbox" name="bucket_research" checked>
+                  <span>
+                    <strong>Follow Research</strong>
+                    <small>Automatically include current and future Research cards.</small>
+                  </span>
+                </label>
+                <div class="access-project-picker" data-access-create-projects></div>
+              </fieldset>
+              <p class="access-form-status" data-access-create-status aria-live="polite"></p>
+            </form>
+
+            <section class="access-token-reveal" data-access-token-reveal hidden aria-live="polite">
+              <div>
+                <span class="label">Shown once</span>
+                <strong data-access-token-owner>New viewer token</strong>
+                <p>Copy it now. The dashboard stores only a salted hash.</p>
+              </div>
+              <div class="access-token-copy-row">
+                <input type="text" readonly data-access-token-value aria-label="New dashboard access token">
+                <button type="button" data-access-token-copy>Copy token</button>
+              </div>
+            </section>
+
+            <section class="access-user-editor" data-access-user-editor>
+              <div class="access-editor-empty" data-access-editor-empty>
+                <strong>Select a person</strong>
+                <p>Review their token fingerprint, revoke access, rotate the token, or change card visibility.</p>
+              </div>
+              <form data-access-user-edit hidden></form>
+            </section>
+          </div>
+        </div>
+      </section>
+    </div>
+
     <div class="dashboard-watermark" data-dashboard-watermark hidden aria-hidden="true"></div>
 
     <script>
@@ -185,6 +257,13 @@
         let vercelApiWritable = false;
         let dashboardSessionActive = false;
         let dashboardViewer = "";
+        let dashboardRole = "viewer";
+        let dashboardPermissions = { can_write: false, can_manage_access: false };
+        let dashboardVisibility = { bucket_ids: ["research"], include_project_ids: [], exclude_project_ids: [] };
+        let accessSettingsUsers = [];
+        let accessSettingsProjects = [];
+        let selectedAccessUserId = "";
+        let accessSettingsLastFocus = null;
         let reloadTimer = null;
         let realtimeChannel = null;
         let localState = readLocalState();
@@ -525,8 +604,10 @@
               setSyncStatus("Vercel API unavailable", "fallback");
             } else if (localPendingChangeCount()) {
               setSyncStatus(`Vercel · ${localPendingChangeCount()} pending local`, "fallback");
-            } else if (dashboardSessionActive) {
+            } else if (dashboardSessionActive && dashboardPermissions.can_write) {
               setSyncStatus("Vercel editable", "online");
+            } else if (dashboardSessionActive) {
+              setSyncStatus("Vercel viewer", "readonly");
             } else if (vercelApiWritable) {
               setSyncStatus("Vercel read-only (locked)", "readonly");
             } else {
@@ -548,15 +629,33 @@
           }
         }
 
+        function applyDashboardAuth(auth) {
+          dashboardSessionActive = Boolean(auth?.ok);
+          dashboardViewer = auth?.viewer || "";
+          dashboardRole = auth?.role === "admin" ? "admin" : "viewer";
+          dashboardPermissions = {
+            can_write: Boolean(auth?.permissions?.can_write),
+            can_manage_access: Boolean(auth?.permissions?.can_manage_access),
+          };
+          dashboardVisibility = auth?.visibility || {
+            bucket_ids: ["research"],
+            include_project_ids: [],
+            exclude_project_ids: [],
+          };
+          document.body.classList.toggle("dashboard-scoped-viewer", dashboardSessionActive && dashboardRole !== "admin");
+        }
+
         function renderAuthState() {
           const form = document.querySelector("[data-auth-form]");
           const signOut = document.querySelector("[data-auth-signout]");
           const vercelClear = document.querySelector("[data-vercel-token-clear]");
-          if (!form || !signOut || !vercelClear) {
+          const accessSettings = document.querySelector("[data-access-settings-open]");
+          if (!form || !signOut || !vercelClear || !accessSettings) {
             return;
           }
           const isVercel = dataMode === "vercel";
           vercelClear.hidden = !isVercel || !dashboardSessionActive;
+          accessSettings.hidden = !isVercel || !dashboardPermissions.can_manage_access;
           const hasSupabase = Boolean(supabaseClient);
           const isSignedIn = Boolean(supabaseSession?.user);
           form.hidden = isVercel || !hasSupabase || isSignedIn || localWriteApiAvailable;
@@ -568,7 +667,7 @@
 
         function isDashboardBackendWritable() {
           if (dataMode === "vercel") {
-            return Boolean(vercelApiAvailable && dashboardSessionActive);
+            return Boolean(vercelApiAvailable && dashboardSessionActive && dashboardPermissions.can_write);
           }
           return dataMode === "supabase" && Boolean(localWriteApiAvailable || (supabaseClient && supabaseSession?.user && supabaseIsEditor));
         }
@@ -607,7 +706,7 @@
             "示例：",
             "```bash",
             `export DASHBOARD_WRITE_TOKEN='${token.replaceAll("'", "'\\''")}'`,
-            `curl -fsS ${origin}/api/dashboard/state`,
+            `curl -fsS ${origin}/api/dashboard/state -H "x-dashboard-token: $DASHBOARD_WRITE_TOKEN"`,
             `curl -fsS -X POST ${origin}/api/dashboard/task-status \\`,
             "  -H \"content-type: application/json\" \\",
             "  -H \"x-dashboard-token: $DASHBOARD_WRITE_TOKEN\" \\",
@@ -673,8 +772,7 @@
           } catch (error) {
             console.warn("Dashboard session logout failed", error);
           }
-          dashboardSessionActive = false;
-          dashboardViewer = "";
+          applyDashboardAuth(null);
           window.location.reload();
         }
 
@@ -690,8 +788,7 @@
           if (!response.ok || !result?.ok || !auth?.ok) {
             throw new Error(auth?.error || result?.error || `Dashboard health returned ${response.status}`);
           }
-          dashboardSessionActive = true;
-          dashboardViewer = auth.viewer || "unknown";
+          applyDashboardAuth(auth);
           unlockDashboardView();
           setSyncStatus("Vercel loading", "loading");
           await initDashboardState();
@@ -709,16 +806,14 @@
               tokenInput?.focus();
               return;
             }
-            dashboardSessionActive = true;
-            dashboardViewer = auth.viewer || "unknown";
+            applyDashboardAuth(auth);
             unlockDashboardView();
             setSyncStatus("Vercel loading", "loading");
             await initDashboardState();
             setDashboardAccessStatus("", "");
           } catch (error) {
             console.warn("Dashboard session validation failed", error);
-            dashboardSessionActive = false;
-            dashboardViewer = "";
+            applyDashboardAuth(null);
             setDashboardAccessStatus("无法验证登录状态，请重新输入 token。", "error");
             tokenInput?.focus();
           }
@@ -756,6 +851,327 @@
           if (!copied) {
             throw new Error("Clipboard copy failed");
           }
+        }
+
+        async function accessSettingsApi(method = "GET", payload = null) {
+          const response = await fetch(`${vercelApiBase}/access-users`, {
+            method,
+            headers: payload ? { "content-type": "application/json" } : undefined,
+            body: payload ? JSON.stringify(payload) : undefined,
+            cache: "no-store",
+          });
+          const text = await response.text();
+          const result = text ? JSON.parse(text) : {};
+          if (!response.ok || !result?.ok) {
+            throw new Error(result?.error || `Access settings returned ${response.status}`);
+          }
+          return result;
+        }
+
+        function accessVisibilityForForm(form) {
+          const followsResearch = Boolean(form.elements.bucket_research?.checked);
+          const visibility = {
+            bucket_ids: followsResearch ? ["research"] : [],
+            include_project_ids: [],
+            exclude_project_ids: [],
+          };
+          form.querySelectorAll("[data-access-project-id]").forEach((input) => {
+            const projectId = input.dataset.accessProjectId;
+            const bucket = input.dataset.accessProjectBucket;
+            const inherited = followsResearch && bucket === "research";
+            if (input.checked && !inherited) visibility.include_project_ids.push(projectId);
+            if (!input.checked && inherited) visibility.exclude_project_ids.push(projectId);
+          });
+          return visibility;
+        }
+
+        function accessProjectIsVisible(project, visibility) {
+          const bucketIds = Array.isArray(visibility?.bucket_ids) ? visibility.bucket_ids : ["research"];
+          const included = Array.isArray(visibility?.include_project_ids) ? visibility.include_project_ids : [];
+          const excluded = Array.isArray(visibility?.exclude_project_ids) ? visibility.exclude_project_ids : [];
+          return (bucketIds.includes(project.bucket) || included.includes(project.project_id))
+            && !excluded.includes(project.project_id);
+        }
+
+        function renderAccessProjectPicker(container, visibility, prefix, disabled = false) {
+          if (!container) return;
+          const bucketLabels = {
+            research: "Research",
+            engineering: "Engineering",
+            survey: "Survey",
+            archive: "Archive",
+          };
+          const groups = new Map();
+          accessSettingsProjects.forEach((project) => {
+            const bucket = project.bucket || "research";
+            if (!groups.has(bucket)) groups.set(bucket, []);
+            groups.get(bucket).push(project);
+          });
+          const fragments = [];
+          ["research", "engineering", "survey", "archive"].forEach((bucket) => {
+            const projects = groups.get(bucket) || [];
+            if (!projects.length) return;
+            const group = document.createElement("section");
+            group.className = "access-project-group";
+            const heading = document.createElement("strong");
+            heading.textContent = bucketLabels[bucket] || bucket;
+            const options = document.createElement("div");
+            options.className = "access-project-options";
+            projects.forEach((project) => {
+              const label = document.createElement("label");
+              label.className = "access-project-option";
+              const input = document.createElement("input");
+              input.type = "checkbox";
+              input.name = `${prefix}_project`;
+              input.dataset.accessProjectId = project.project_id;
+              input.dataset.accessProjectBucket = bucket;
+              input.checked = accessProjectIsVisible(project, visibility);
+              input.disabled = disabled;
+              const text = document.createElement("span");
+              text.textContent = project.title || project.project_id;
+              if ((visibility?.bucket_ids || []).includes(bucket)) {
+                const inherited = document.createElement("small");
+                inherited.textContent = `Inherited from ${bucketLabels[bucket] || bucket}`;
+                text.append(inherited);
+                label.dataset.inherited = "true";
+              }
+              label.append(input, text);
+              options.append(label);
+            });
+            group.append(heading, options);
+            fragments.push(group);
+          });
+          container.replaceChildren(...fragments);
+        }
+
+        function accessVisibilitySummary(user) {
+          if (user.role === "admin") return "All project cards";
+          const buckets = user.visibility?.bucket_ids || [];
+          const included = user.visibility?.include_project_ids?.length || 0;
+          const excluded = user.visibility?.exclude_project_ids?.length || 0;
+          const parts = [];
+          if (buckets.includes("research")) parts.push("Research");
+          if (included) parts.push(`+${included} card${included === 1 ? "" : "s"}`);
+          if (excluded) parts.push(`-${excluded}`);
+          return parts.join(" · ") || "Selected cards only";
+        }
+
+        function renderAccessUserList() {
+          const list = document.querySelector("[data-access-user-list]");
+          const count = document.querySelector("[data-access-user-count]");
+          if (!list || !count) return;
+          count.textContent = String(accessSettingsUsers.length);
+          const items = accessSettingsUsers.map((user) => {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "access-user-item";
+            button.dataset.accessUserId = user.user_id;
+            button.setAttribute("aria-current", String(user.user_id === selectedAccessUserId));
+            const name = document.createElement("strong");
+            name.textContent = user.viewer;
+            const badge = document.createElement("span");
+            badge.className = "access-user-badge";
+            badge.dataset.state = user.enabled ? "active" : "disabled";
+            badge.textContent = user.role === "admin" ? "Admin" : (user.enabled ? "Active" : "Disabled");
+            const scope = document.createElement("small");
+            scope.textContent = accessVisibilitySummary(user);
+            button.append(name, badge, scope);
+            return button;
+          });
+          list.replaceChildren(...items);
+        }
+
+        function accessMetaCell(label, value) {
+          const cell = document.createElement("div");
+          const key = document.createElement("span");
+          key.textContent = label;
+          const content = document.createElement("strong");
+          content.textContent = value || "-";
+          cell.append(key, content);
+          return cell;
+        }
+
+        function renderAccessUserEditor() {
+          const empty = document.querySelector("[data-access-editor-empty]");
+          const form = document.querySelector("[data-access-user-edit]");
+          if (!empty || !form) return;
+          const user = accessSettingsUsers.find((candidate) => candidate.user_id === selectedAccessUserId);
+          if (!user) {
+            empty.hidden = false;
+            form.hidden = true;
+            form.replaceChildren();
+            return;
+          }
+          empty.hidden = true;
+          form.hidden = false;
+          form.dataset.accessUserId = user.user_id;
+
+          const heading = document.createElement("div");
+          heading.className = "access-editor-heading";
+          const headingText = document.createElement("div");
+          const eyebrow = document.createElement("span");
+          eyebrow.className = "label";
+          eyebrow.textContent = user.managed_by === "environment" ? "Bootstrap credential" : "Managed viewer";
+          const title = document.createElement("h3");
+          title.textContent = user.viewer;
+          headingText.append(eyebrow, title);
+          const state = document.createElement("span");
+          state.className = "access-user-badge";
+          state.dataset.state = user.enabled ? "active" : "disabled";
+          state.textContent = user.role === "admin" ? "Admin" : (user.enabled ? "Active" : "Disabled");
+          heading.append(headingText, state);
+
+          const meta = document.createElement("div");
+          meta.className = "access-user-meta";
+          meta.append(
+            accessMetaCell("Token", user.token_hint),
+            accessMetaCell("Fingerprint", user.token_fingerprint),
+            accessMetaCell("Rotated", user.rotated_at ? dateTimeFormatter.format(new Date(user.rotated_at)) : "Environment"),
+          );
+
+          if (!user.editable) {
+            const note = document.createElement("p");
+            note.className = "access-form-status";
+            note.textContent = user.role === "admin"
+              ? "This is the unique administrator bootstrap credential for jingxiang. Manage its secret in Vercel environment settings."
+              : "This legacy credential is managed in Vercel environment settings. Create a dashboard-managed replacement to edit it here.";
+            form.replaceChildren(heading, meta, note);
+            return;
+          }
+
+          const nameLabel = document.createElement("label");
+          nameLabel.className = "access-editor-name";
+          const nameCaption = document.createElement("span");
+          nameCaption.textContent = "Name";
+          const nameInput = document.createElement("input");
+          nameInput.type = "text";
+          nameInput.name = "viewer";
+          nameInput.maxLength = 80;
+          nameInput.required = true;
+          nameInput.value = user.viewer;
+          nameLabel.append(nameCaption, nameInput);
+
+          const enabledLabel = document.createElement("label");
+          enabledLabel.className = "access-enabled-toggle";
+          const enabledInput = document.createElement("input");
+          enabledInput.type = "checkbox";
+          enabledInput.name = "enabled";
+          enabledInput.checked = user.enabled;
+          const enabledText = document.createElement("span");
+          enabledText.textContent = "Access enabled";
+          enabledLabel.append(enabledInput, enabledText);
+
+          const scope = document.createElement("fieldset");
+          scope.className = "access-scope-fieldset";
+          const legend = document.createElement("legend");
+          legend.textContent = "Visible cards";
+          const researchLabel = document.createElement("label");
+          researchLabel.className = "access-research-default";
+          const researchInput = document.createElement("input");
+          researchInput.type = "checkbox";
+          researchInput.name = "bucket_research";
+          researchInput.checked = (user.visibility?.bucket_ids || []).includes("research");
+          const researchText = document.createElement("span");
+          const researchStrong = document.createElement("strong");
+          researchStrong.textContent = "Follow Research";
+          const researchSmall = document.createElement("small");
+          researchSmall.textContent = "New Research cards become visible automatically; uncheck individual cards to exclude them.";
+          researchText.append(researchStrong, researchSmall);
+          researchLabel.append(researchInput, researchText);
+          const picker = document.createElement("div");
+          picker.className = "access-project-picker";
+          picker.dataset.accessEditProjects = "";
+          renderAccessProjectPicker(picker, user.visibility, `edit_${user.user_id}`);
+          scope.append(legend, researchLabel, picker);
+
+          const actions = document.createElement("div");
+          actions.className = "access-user-edit-actions";
+          const save = document.createElement("button");
+          save.type = "submit";
+          save.textContent = "Save access";
+          const rotate = document.createElement("button");
+          rotate.type = "button";
+          rotate.dataset.accessRotate = user.user_id;
+          rotate.textContent = "Rotate token";
+          const revoke = document.createElement("button");
+          revoke.type = "button";
+          revoke.className = "danger";
+          revoke.dataset.accessRevoke = user.user_id;
+          revoke.textContent = user.enabled ? "Revoke access" : "Keep disabled";
+          revoke.disabled = !user.enabled;
+          actions.append(save, rotate, revoke);
+          const status = document.createElement("p");
+          status.className = "access-form-status";
+          status.dataset.accessEditStatus = "";
+          status.setAttribute("aria-live", "polite");
+          form.replaceChildren(heading, meta, nameLabel, enabledLabel, scope, actions, status);
+        }
+
+        function revealAccessToken(token, viewer) {
+          const reveal = document.querySelector("[data-access-token-reveal]");
+          const value = document.querySelector("[data-access-token-value]");
+          const owner = document.querySelector("[data-access-token-owner]");
+          if (!reveal || !value || !owner) return;
+          value.value = token;
+          owner.textContent = `${viewer} · new token`;
+          reveal.hidden = false;
+          value.focus();
+          value.select();
+        }
+
+        function clearAccessTokenReveal() {
+          const reveal = document.querySelector("[data-access-token-reveal]");
+          const value = document.querySelector("[data-access-token-value]");
+          if (value) value.value = "";
+          if (reveal) reveal.hidden = true;
+        }
+
+        async function loadAccessSettings(preferredUserId = selectedAccessUserId) {
+          const result = await accessSettingsApi("GET");
+          accessSettingsUsers = Array.isArray(result.users) ? result.users : [];
+          accessSettingsProjects = Array.isArray(result.projects) ? result.projects : [];
+          selectedAccessUserId = accessSettingsUsers.some((user) => user.user_id === preferredUserId)
+            ? preferredUserId
+            : (accessSettingsUsers.find((user) => user.editable)?.user_id || accessSettingsUsers[0]?.user_id || "");
+          renderAccessUserList();
+          renderAccessUserEditor();
+          const createForm = document.querySelector("[data-access-user-create]");
+          const createPicker = document.querySelector("[data-access-create-projects]");
+          const createVisibility = accessVisibilityForForm(createForm);
+          renderAccessProjectPicker(createPicker, createVisibility, "create");
+        }
+
+        async function openAccessSettings(trigger) {
+          if (!dashboardPermissions.can_manage_access) return;
+          const modal = document.querySelector("[data-access-settings-modal]");
+          const panel = document.querySelector("[data-access-settings-panel]");
+          const main = document.querySelector("main");
+          accessSettingsLastFocus = trigger || document.activeElement;
+          clearAccessTokenReveal();
+          modal.hidden = false;
+          modal.setAttribute("aria-hidden", "false");
+          main.inert = true;
+          document.body.style.overflow = "hidden";
+          panel.focus();
+          try {
+            await loadAccessSettings();
+          } catch (error) {
+            const status = document.querySelector("[data-access-create-status]");
+            status.textContent = error.message || "Unable to load access settings";
+            status.dataset.state = "error";
+          }
+        }
+
+        function closeAccessSettings() {
+          const modal = document.querySelector("[data-access-settings-modal]");
+          const main = document.querySelector("main");
+          if (!modal || modal.hidden) return;
+          clearAccessTokenReveal();
+          modal.hidden = true;
+          modal.setAttribute("aria-hidden", "true");
+          main.inert = false;
+          document.body.style.overflow = "";
+          accessSettingsLastFocus?.focus?.();
         }
 
         function getStatusOverride(taskId) {
@@ -1402,7 +1818,11 @@
           const table = document.createElement("table");
           table.className = "project-intro-table";
           const isProcurementTable = tableConfig.kind === "procurement_table";
-          const isEditableProcurementTable = Boolean(isProcurementTable && tableConfig.editable);
+          const isEditableProcurementTable = Boolean(
+            isProcurementTable
+              && tableConfig.editable
+              && isDashboardBackendWritable(),
+          );
           if (tableConfig.kind) {
             table.dataset.kind = tableConfig.kind;
           }
@@ -1931,10 +2351,13 @@
           taskPanel.className = "project-panel";
           const taskHeading = document.createElement("h3");
           taskHeading.textContent = "Tasks";
-          const taskCreate = createTaskCreatePanel(projectRef);
           const taskList = document.createElement("ul");
           taskList.className = "todo-list project-list";
-          taskPanel.append(taskHeading, taskCreate, taskList);
+          taskPanel.append(taskHeading);
+          if (isDashboardBackendWritable()) {
+            taskPanel.append(createTaskCreatePanel(projectRef));
+          }
+          taskPanel.append(taskList);
 
           const referencePanel = document.createElement("details");
           referencePanel.className = "project-panel reference-panel";
@@ -2822,7 +3245,11 @@
         }
 
         function canDeleteComment(comment) {
-          return Boolean(comment.id && !comment.protected && (comment.local || isDashboardBackendWritable()));
+          return Boolean(
+            isDashboardBackendWritable()
+              && comment.id
+              && !comment.protected,
+          );
         }
 
         function createCommentPanel(task) {
@@ -2885,8 +3312,10 @@
           button.type = "submit";
           button.textContent = "Add";
 
-          form.append(textarea, button);
-          details.append(form);
+          if (isDashboardBackendWritable()) {
+            form.append(textarea, button);
+            details.append(form);
+          }
           return details;
         }
 
@@ -2911,6 +3340,7 @@
           statusButton.setAttribute("aria-haspopup", "menu");
           statusButton.setAttribute("aria-label", `${task.title}: choose status. Current ${statusLabels[status] || status}.`);
           statusButton.title = "Choose status";
+          statusButton.disabled = !isDashboardBackendWritable();
 
           const box = document.createElement("span");
           box.className = ["box", boxClasses[status]].filter(Boolean).join(" ");
@@ -2944,7 +3374,10 @@
             statusMenu.append(optionButton);
           });
 
-          statusControl.append(statusButton, statusMenu);
+          statusControl.append(statusButton);
+          if (isDashboardBackendWritable()) {
+            statusControl.append(statusMenu);
+          }
           item.append(statusControl);
 
           const body = document.createElement("div");
@@ -3245,8 +3678,9 @@
             const result = response.ok ? await response.json() : null;
             vercelApiAvailable = Boolean(result?.ok);
             vercelApiWritable = Boolean(result?.writable);
-            dashboardSessionActive = Boolean(result?.write_auth?.ok);
-            dashboardViewer = result?.write_auth?.viewer || dashboardViewer;
+            if (result?.write_auth) {
+              applyDashboardAuth(result.write_auth);
+            }
           } catch (error) {
             vercelApiAvailable = false;
             vercelApiWritable = false;
@@ -3285,6 +3719,9 @@
           document.body.dataset.dataSource = "vercel";
           vercelApiAvailable = true;
           vercelApiWritable = Boolean(result.meta?.writable);
+          if (result.meta?.auth) {
+            applyDashboardAuth(result.meta.auth);
+          }
           reconcileLocalStateWithRemote();
           setDashboardBackendSyncStatus();
           renderAuthState();
@@ -3806,6 +4243,63 @@
         });
 
         document.addEventListener("submit", (event) => {
+          const accessCreateForm = event.target.closest?.("[data-access-user-create]");
+          if (accessCreateForm) {
+            event.preventDefault();
+            const viewer = accessCreateForm.elements.viewer.value.trim();
+            const button = accessCreateForm.querySelector("button[type='submit']");
+            const status = document.querySelector("[data-access-create-status]");
+            if (!viewer) return;
+            button.disabled = true;
+            status.textContent = "Creating token...";
+            status.dataset.state = "loading";
+            accessSettingsApi("POST", {
+              viewer,
+              visibility: accessVisibilityForForm(accessCreateForm),
+            }).then(async (result) => {
+              selectedAccessUserId = result.user.user_id;
+              revealAccessToken(result.token, result.user.viewer);
+              accessCreateForm.reset();
+              accessCreateForm.elements.bucket_research.checked = true;
+              status.textContent = `${result.user.viewer} created. Copy the token before closing.`;
+              status.dataset.state = "success";
+              await loadAccessSettings(result.user.user_id);
+            }).catch((error) => {
+              status.textContent = error.message || "Unable to create token";
+              status.dataset.state = "error";
+            }).finally(() => {
+              button.disabled = false;
+            });
+            return;
+          }
+
+          const accessEditForm = event.target.closest?.("[data-access-user-edit]");
+          if (accessEditForm) {
+            event.preventDefault();
+            const button = accessEditForm.querySelector("button[type='submit']");
+            const status = accessEditForm.querySelector("[data-access-edit-status]");
+            const userId = accessEditForm.dataset.accessUserId;
+            button.disabled = true;
+            status.textContent = "Saving access...";
+            status.dataset.state = "loading";
+            accessSettingsApi("PATCH", {
+              user_id: userId,
+              viewer: accessEditForm.elements.viewer.value.trim(),
+              enabled: accessEditForm.elements.enabled.checked,
+              visibility: accessVisibilityForForm(accessEditForm),
+            }).then(async (result) => {
+              status.textContent = "Access updated.";
+              status.dataset.state = "success";
+              await loadAccessSettings(result.user.user_id);
+            }).catch((error) => {
+              status.textContent = error.message || "Unable to update access";
+              status.dataset.state = "error";
+            }).finally(() => {
+              button.disabled = false;
+            });
+            return;
+          }
+
           const procurementForm = event.target.closest?.(".procurement-edit-form");
           if (procurementForm) {
             event.preventDefault();
@@ -3839,8 +4333,7 @@
               setDashboardAccessStatus("", "");
             }).catch((error) => {
               console.warn("Dashboard access validation failed", error);
-              dashboardSessionActive = false;
-              dashboardViewer = "";
+              applyDashboardAuth(null);
               setDashboardAccessStatus(error.message || "Token 验证失败。", "error");
             }).finally(() => {
               button.disabled = false;
@@ -3961,6 +4454,80 @@
         });
 
         document.addEventListener("click", (event) => {
+          const settingsOpen = event.target.closest?.("[data-access-settings-open]");
+          if (settingsOpen) {
+            openAccessSettings(settingsOpen);
+            return;
+          }
+
+          const settingsClose = event.target.closest?.("[data-access-settings-close]");
+          const settingsBackdrop = event.target.matches?.("[data-access-settings-modal]");
+          if (settingsClose || settingsBackdrop) {
+            closeAccessSettings();
+            return;
+          }
+
+          const accessUser = event.target.closest?.("[data-access-user-id]");
+          if (accessUser) {
+            selectedAccessUserId = accessUser.dataset.accessUserId;
+            renderAccessUserList();
+            renderAccessUserEditor();
+            return;
+          }
+
+          const accessTokenCopy = event.target.closest?.("[data-access-token-copy]");
+          if (accessTokenCopy) {
+            const value = document.querySelector("[data-access-token-value]")?.value || "";
+            if (!value) return;
+            copyTextToClipboard(value).then(() => {
+              accessTokenCopy.textContent = "Copied";
+              window.setTimeout(() => { accessTokenCopy.textContent = "Copy token"; }, 1600);
+            }).catch(() => {
+              accessTokenCopy.textContent = "Copy failed";
+            });
+            return;
+          }
+
+          const rotateToken = event.target.closest?.("[data-access-rotate]");
+          if (rotateToken) {
+            const user = accessSettingsUsers.find((candidate) => candidate.user_id === rotateToken.dataset.accessRotate);
+            if (!user || !window.confirm(`Rotate ${user.viewer}'s token? Their current token and sessions will stop working.`)) return;
+            rotateToken.disabled = true;
+            accessSettingsApi("POST", { action: "rotate", user_id: user.user_id }).then(async (result) => {
+              revealAccessToken(result.token, result.user.viewer);
+              await loadAccessSettings(result.user.user_id);
+            }).catch((error) => {
+              const status = document.querySelector("[data-access-edit-status]");
+              if (status) {
+                status.textContent = error.message || "Unable to rotate token";
+                status.dataset.state = "error";
+              }
+            }).finally(() => {
+              rotateToken.disabled = false;
+            });
+            return;
+          }
+
+          const revokeAccess = event.target.closest?.("[data-access-revoke]");
+          if (revokeAccess) {
+            const user = accessSettingsUsers.find((candidate) => candidate.user_id === revokeAccess.dataset.accessRevoke);
+            if (!user || !window.confirm(`Revoke dashboard access for ${user.viewer}?`)) return;
+            revokeAccess.disabled = true;
+            accessSettingsApi("DELETE", { user_id: user.user_id }).then(async (result) => {
+              clearAccessTokenReveal();
+              await loadAccessSettings(result.user.user_id);
+            }).catch((error) => {
+              const status = document.querySelector("[data-access-edit-status]");
+              if (status) {
+                status.textContent = error.message || "Unable to revoke access";
+                status.dataset.state = "error";
+              }
+            }).finally(() => {
+              revokeAccess.disabled = false;
+            });
+            return;
+          }
+
           const agentPromptCopy = event.target.closest?.("[data-agent-prompt-copy]");
           if (agentPromptCopy) {
             copyTextToClipboard(dashboardAgentPromptText()).then(() => {
@@ -3991,9 +4558,41 @@
           });
         });
 
+        document.addEventListener("change", (event) => {
+          const researchDefault = event.target.closest?.("[data-access-user-create] input[name='bucket_research'], [data-access-user-edit] input[name='bucket_research']");
+          if (!researchDefault) return;
+          const form = researchDefault.closest("form");
+          form.querySelectorAll("[data-access-project-bucket='research']").forEach((input) => {
+            input.checked = researchDefault.checked;
+          });
+        });
+
+        document.addEventListener("keydown", (event) => {
+          const modal = document.querySelector("[data-access-settings-modal]");
+          if (!modal || modal.hidden) return;
+          if (event.key === "Escape") {
+            event.preventDefault();
+            closeAccessSettings();
+            return;
+          }
+          if (event.key !== "Tab") return;
+          const focusable = [...modal.querySelectorAll("button:not(:disabled), input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex]:not([tabindex='-1'])")]
+            .filter((element) => !element.hidden && element.getClientRects().length > 0);
+          if (!focusable.length) return;
+          const first = focusable[0];
+          const last = focusable[focusable.length - 1];
+          if (event.shiftKey && document.activeElement === first) {
+            event.preventDefault();
+            last.focus();
+          } else if (!event.shiftKey && document.activeElement === last) {
+            event.preventDefault();
+            first.focus();
+          }
+        });
+
         async function initDashboardState() {
           const params = new URLSearchParams(window.location.search);
-          const forceJson = params.get("json") === "1";
+          const forceJson = params.get("json") === "1" && isLocalDashboard;
           const useSupabase = params.get("supabase") === "1";
           const useVercel = params.get("vercel") === "1" || window.DASHBOARD_VERCEL_AUTO_LOAD !== false;
           if (forceJson) {
@@ -4008,11 +4607,19 @@
                 return;
               }
             } catch (error) {
-              console.warn("Vercel state loading failed; falling back to JSON state", error);
+              console.warn("Vercel state loading failed", error);
+              if (!isLocalDashboard) {
+                setSyncStatus("Dashboard API unavailable", "fallback");
+                return;
+              }
             }
           }
           if (!useSupabase) {
-            await loadJsonState();
+            if (isLocalDashboard) {
+              await loadJsonState();
+            } else {
+              setSyncStatus("Dashboard API unavailable", "fallback");
+            }
             return;
           }
           try {
@@ -4027,7 +4634,7 @@
 
         async function initDashboardExperience() {
           const params = new URLSearchParams(window.location.search);
-          if (params.get("json") === "1") {
+          if (params.get("json") === "1" && isLocalDashboard) {
             dashboardViewer = "read-only JSON";
             dashboardSessionActive = false;
             unlockDashboardView();

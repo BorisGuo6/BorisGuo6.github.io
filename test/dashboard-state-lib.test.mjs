@@ -315,17 +315,22 @@ assert.deepEqual(
     error: "Invalid dashboard write token",
   },
 );
-assert.deepEqual(
-  dashboardWriteAuth({ headers: { authorization: "Bearer right" } }, { DASHBOARD_WRITE_TOKEN: "right" }),
-  { ok: true, viewer: "boris" },
+const adminDashboardAuth = dashboardWriteAuth(
+  { headers: { authorization: "Bearer right" } },
+  { DASHBOARD_WRITE_TOKEN: "right" },
 );
-assert.deepEqual(
-  dashboardWriteAuth(
+assert.equal(adminDashboardAuth.ok, true);
+assert.equal(adminDashboardAuth.viewer, "jingxiang");
+assert.equal(adminDashboardAuth.role, "admin");
+assert.equal(adminDashboardAuth.permissions.can_manage_access, true);
+const mappedDashboardAuth = dashboardWriteAuth(
     { headers: { "x-dashboard-token": "mapped-token" } },
     { DASHBOARD_WRITE_TOKEN_USERS: JSON.stringify({ "mapped-token": "jiahao chen" }) },
-  ),
-  { ok: true, viewer: "jiahao chen" },
 );
+assert.equal(mappedDashboardAuth.ok, true);
+assert.equal(mappedDashboardAuth.viewer, "jiahao chen");
+assert.equal(mappedDashboardAuth.role, "viewer");
+assert.equal(mappedDashboardAuth.permissions.can_write, false);
 assert.equal(
   dashboardViewerForWriteToken("mapped-token", {
     DASHBOARD_WRITE_TOKEN_USERS: JSON.stringify({ "mapped-token": "agent-a" }),
@@ -345,40 +350,54 @@ assert.equal(
     DASHBOARD_WRITE_TOKEN_USERS: JSON.stringify({ "mapped-token": "jiahao chen" }),
     BLOB_READ_WRITE_TOKEN: "blob",
   }),
-  true,
-  "mapped dashboard write tokens should make the hosted dashboard writable without the legacy single-token env",
+  false,
+  "mapped dashboard viewer tokens must not make the hosted dashboard writable",
 );
 assert.equal(dashboardCanWrite({ DASHBOARD_WRITE_TOKEN_USERS: "{}", BLOB_READ_WRITE_TOKEN: "blob" }), false);
 const individualDashboardTokenEnv = {
   DASHBOARD_WRITE_TOKEN_YANXIANG: "yanxiang-token",
+  DASHBOARD_SESSION_SECRET: "independent-session-secret",
   BLOB_READ_WRITE_TOKEN: "blob",
 };
-assert.deepEqual(
-  dashboardWriteAuth(
+const individualDashboardAuth = dashboardWriteAuth(
     { headers: { "x-dashboard-token": "yanxiang-token" } },
     individualDashboardTokenEnv,
-  ),
-  { ok: true, viewer: "yanxiang" },
 );
+assert.equal(individualDashboardAuth.ok, true);
+assert.equal(individualDashboardAuth.viewer, "yanxiang");
+assert.equal(individualDashboardAuth.role, "viewer");
 assert.equal(dashboardWriteTokenIsAllowed("yanxiang-token", individualDashboardTokenEnv), true);
-assert.equal(dashboardCanWrite(individualDashboardTokenEnv), true);
+assert.equal(dashboardCanWrite(individualDashboardTokenEnv), false);
+assert.throws(
+  () => createDashboardSession("yanxiang", {
+    DASHBOARD_WRITE_TOKEN_YANXIANG: "viewer-controlled-secret",
+  }),
+  /Dashboard session secret is not configured/,
+  "viewer credentials must never become the session-signing secret",
+);
+assert.equal(
+  dashboardCanWrite({ DASHBOARD_WRITE_TOKEN: "admin", BLOB_READ_WRITE_TOKEN: "blob" }),
+  true,
+  "the unique bootstrap administrator token should make the hosted dashboard writable",
+);
 const individualDashboardSession = createDashboardSession("yanxiang", individualDashboardTokenEnv, {
   now: new Date("2099-06-18T00:00:00.000Z"),
   maxAgeSeconds: 60,
 });
-assert.deepEqual(
-  dashboardSessionAuth(
+const individualDashboardSessionAuth = dashboardSessionAuth(
     { headers: { cookie: `dashboard_session=${encodeURIComponent(individualDashboardSession)}` } },
     individualDashboardTokenEnv,
     { now: new Date("2099-06-18T00:00:30.000Z") },
-  ),
-  { ok: true, viewer: "yanxiang" },
 );
+assert.equal(individualDashboardSessionAuth.ok, true);
+assert.equal(individualDashboardSessionAuth.viewer, "yanxiang");
+assert.equal(individualDashboardSessionAuth.role, "viewer");
 assert.match(dashboardTokenFingerprint("mapped-token"), /^sha256:[a-f0-9]{16}$/);
 assert.notEqual(dashboardTokenFingerprint("mapped-token"), dashboardTokenFingerprint("other-token"));
 assert.equal(
   dashboardViewerForWriteToken("right", { DASHBOARD_WRITE_TOKEN: "right", DASHBOARD_WRITE_USER: "boris" }),
-  "boris",
+  "jingxiang",
+  "the bootstrap administrator identity must stay reserved even when a legacy viewer-name variable remains deployed",
 );
 const dashboardSessionEnv = { DASHBOARD_WRITE_TOKEN: "right" };
 const dashboardSession = createDashboardSession("jiahao chen", dashboardSessionEnv, {
@@ -389,16 +408,13 @@ assert.equal(dashboardSession.includes("right"), false, "signed dashboard sessio
 const dashboardSessionRequest = {
   headers: { cookie: `dashboard_session=${encodeURIComponent(dashboardSession)}` },
 };
-assert.deepEqual(
-  dashboardSessionAuth(dashboardSessionRequest, dashboardSessionEnv, {
+const dashboardSessionAuthResult = dashboardSessionAuth(dashboardSessionRequest, dashboardSessionEnv, {
     now: new Date("2099-06-18T00:00:30.000Z"),
-  }),
-  { ok: true, viewer: "jiahao chen" },
-);
-assert.deepEqual(
-  dashboardWriteAuth(dashboardSessionRequest, dashboardSessionEnv),
-  { ok: true, viewer: "jiahao chen" },
-);
+  });
+assert.equal(dashboardSessionAuthResult.ok, true);
+assert.equal(dashboardSessionAuthResult.viewer, "jiahao chen");
+assert.equal(dashboardSessionAuthResult.role, "viewer");
+assert.equal(dashboardWriteAuth(dashboardSessionRequest, dashboardSessionEnv).viewer, "jiahao chen");
 assert.deepEqual(
   dashboardSessionAuth({ headers: { cookie: `dashboard_session=${encodeURIComponent(`${dashboardSession}x`)}` } }, dashboardSessionEnv),
   { ok: false, status: 401, error: "Invalid dashboard session" },
@@ -438,6 +454,24 @@ class BlobPreconditionFailedError extends Error {}
 const sdkShapedConflict = new BlobPreconditionFailedError("Vercel Blob: Precondition failed: ETag mismatch.");
 assert.equal(sdkShapedConflict.name, "Error", "the current Vercel Blob SDK does not override Error.name");
 assert.equal(isBlobPreconditionFailedError(sdkShapedConflict), true);
+const privateBlobRead = await readVercelBlobSnapshot({
+  env: { BLOB_READ_WRITE_TOKEN: "test-token" },
+  blobApi: {
+    async get(pathname, options) {
+      assert.equal(pathname, "dashboard-state-private/embodied-ai-dashboard.json");
+      assert.equal(options.access, "private");
+      return {
+        stream: new Response(JSON.stringify(projectTableSnapshot)).body,
+        blob: { pathname, etag: '"private"' },
+      };
+    },
+    async head() {
+      throw new Error("private reads must not fall back to public metadata");
+    },
+  },
+});
+assert.equal(privateBlobRead.blob.etag, '"private"');
+assert.equal(privateBlobRead.snapshot.projects[0].project_id, "general");
 let blobFetchCount = 0;
 const fakeBlobSnapshot = projectTableSnapshot;
 const freshBlobRead = await readVercelBlobSnapshot({
@@ -480,6 +514,7 @@ await writeVercelBlobSnapshot(projectTableSnapshot, {
   },
 });
 assert.equal(fakeBlobWrites.length, 1, "Blob backups must be opt-in");
+assert.equal(fakeBlobWrites[0].options.access, "private", "dashboard state must be stored in a private Blob");
 fakeBlobWrites.length = 0;
 await writeVercelBlobSnapshot(projectTableSnapshot, {
   env: { BLOB_READ_WRITE_TOKEN: "test-token", DASHBOARD_ENABLE_BLOB_BACKUP: "1" },
@@ -494,6 +529,8 @@ await writeVercelBlobSnapshot(projectTableSnapshot, {
   },
 });
 assert.equal(fakeBlobWrites.length, 2);
+assert.equal(fakeBlobWrites[0].options.access, "private");
+assert.equal(fakeBlobWrites[1].options.access, "private");
 assert.deepEqual(fakeBlobWrites[1].body.audit_log, [], "opt-in backups must not retain write audit history");
 
 assert.deepEqual(
@@ -909,7 +946,7 @@ assert.match(
 );
 assert.match(
   dashboardSource,
-  /data-dashboard-access-form[\s\S]+DASHBOARD_WRITE_TOKEN[\s\S]+auth\.viewer[\s\S]+validateDashboardAccess/,
+  /data-dashboard-access-form[\s\S]+DASHBOARD_WRITE_TOKEN[\s\S]+auth\?\.viewer[\s\S]+validateDashboardAccess/,
   "dashboard should validate the token and use the token-bound viewer before loading readable state",
 );
 assert.match(
@@ -923,9 +960,14 @@ assert.doesNotMatch(
   "dashboard bearer tokens must not be persisted in browser storage",
 );
 assert.doesNotMatch(
-  dashboardSource,
+  dashboardSource.match(/<form class="dashboard-access-card"[\s\S]*?<\/form>/)?.[0] || "",
   /name="viewer"|elements\.viewer/,
   "dashboard viewer identity must be bound to the token, not entered by the visitor",
+);
+assert.match(
+  dashboardSource,
+  /data-access-settings-open[\s\S]+data-access-user-create[\s\S]+name="viewer"/,
+  "dashboard administrator settings should expose viewer provisioning",
 );
 assert.match(
   dashboardSource,

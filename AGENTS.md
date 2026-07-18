@@ -11,7 +11,7 @@ Work is tracked directly in the dashboard state files for now; external GitHub i
 The hosted dashboard is the cross-agent task control plane.
 
 - Human page: `https://jingxiangguo.com/dashboard/`
-- Machine-readable state: `https://jingxiangguo.com/api/dashboard/state`
+- Machine-readable state: `https://jingxiangguo.com/api/dashboard/state` (dashboard token or session required)
 - Health check: `https://jingxiangguo.com/api/dashboard/health`
 
 Vercel Blob is the mutable source of truth. Local `dashboard/state/*.json` files are a Git/static fallback mirror, not the primary write target. Before editing local dashboard state files, sync from the hosted Blob:
@@ -49,15 +49,16 @@ evidence as Stage 1 input, but should not own those operational TODOs.
 
 Hosted writes require `DASHBOARD_WRITE_TOKEN`. Do not print, commit, or paste the token into comments. Send it as `x-dashboard-token: $DASHBOARD_WRITE_TOKEN` or `Authorization: Bearer $DASHBOARD_WRITE_TOKEN`.
 
-Provision new people with a separate sensitive `DASHBOARD_WRITE_TOKEN_<VIEWER>` Vercel variable when the existing
-`DASHBOARD_WRITE_TOKEN_USERS` value is sensitive and cannot be read back safely. The suffix is normalized to a
-lowercase viewer name with underscores converted to spaces. Never replace an unreadable token map, and never put the
-token value in Git, dashboard state, logs, or comments.
+Provision new viewers through the administrator-only Settings dialog. New tokens are shown once and stored as salted
+hashes in a private Blob; never put token values in Git, dashboard state, logs, comments, or chat. Legacy
+`DASHBOARD_WRITE_TOKEN_<VIEWER>` variables remain read-only credentials managed in Vercel. The bootstrap
+`DASHBOARD_WRITE_TOKEN` belongs only to the `jingxiang` administrator.
 
 Use these endpoints for dashboard interaction:
 
 ```bash
-curl -fsS https://jingxiangguo.com/api/dashboard/state
+curl -fsS https://jingxiangguo.com/api/dashboard/state \
+  -H "x-dashboard-token: $DASHBOARD_WRITE_TOKEN"
 
 curl -fsS -X POST https://jingxiangguo.com/api/dashboard/task-update \
   -H "content-type: application/json" \

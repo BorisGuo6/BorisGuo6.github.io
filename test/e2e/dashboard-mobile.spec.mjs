@@ -3,13 +3,45 @@ import {
   loadDashboardSnapshotFromFiles,
   toDashboardStateResponse,
 } from "../../scripts/dashboard-state-snapshot.mjs";
+import { filterDashboardSnapshotForAuth } from "../../scripts/dashboard-access-control.mjs";
 
 const auditToken = "dashboard-audit-token";
 
-async function mockDashboardApi(page, mutateSnapshot = null) {
+async function mockDashboardApi(page, mutateSnapshot = null, options = {}) {
   const snapshot = await loadDashboardSnapshotFromFiles({ source: "browser-test" });
   if (mutateSnapshot) mutateSnapshot(snapshot);
   let sessionActive = false;
+  const role = options.role === "viewer" ? "viewer" : "admin";
+  const auth = {
+    ok: true,
+    status: 200,
+    error: null,
+    viewer: role === "admin" ? "jingxiang" : "browser-viewer",
+    user_id: role === "admin" ? null : "user_browser_viewer",
+    role,
+    visibility: role === "admin"
+      ? { bucket_ids: ["research", "engineering", "survey", "archive"], include_project_ids: [], exclude_project_ids: [] }
+      : (options.visibility || { bucket_ids: ["research"], include_project_ids: [], exclude_project_ids: [] }),
+    permissions: {
+      can_write: role === "admin",
+      can_manage_access: role === "admin",
+    },
+  };
+  const managedToken = "dash_browser_test_token_shown_once_1234567890";
+  const accessUsers = [{
+    user_id: "env_admin_browser",
+    viewer: "jingxiang",
+    role: "admin",
+    enabled: true,
+    visibility: { bucket_ids: ["research", "engineering", "survey", "archive"], include_project_ids: [], exclude_project_ids: [] },
+    token_fingerprint: "sha256:adminbrowser1234",
+    token_hint: "Environment credential",
+    created_at: null,
+    updated_at: null,
+    rotated_at: null,
+    managed_by: "environment",
+    editable: false,
+  }];
 
   await page.route("**/api/dashboard/**", async (route) => {
     const request = route.request();
@@ -33,7 +65,7 @@ async function mockDashboardApi(page, mutateSnapshot = null) {
         },
         body: JSON.stringify({
           ok: true,
-          write_auth: { ok: true, status: 200, error: null, viewer: "browser-test" },
+          write_auth: auth,
         }),
       });
       return;
@@ -60,10 +92,10 @@ async function mockDashboardApi(page, mutateSnapshot = null) {
           storage: "memory",
           writable: true,
           write_auth: sessionActive
-            ? { ok: true, status: 200, error: null, viewer: "browser-test" }
+            ? auth
             : token
             ? (token === auditToken
-              ? { ok: true, viewer: "browser-test" }
+              ? auth
               : { ok: false, error: "Invalid dashboard write token" })
             : null,
         }),
@@ -72,12 +104,80 @@ async function mockDashboardApi(page, mutateSnapshot = null) {
     }
 
     if (request.method() === "GET" && url.pathname === "/api/dashboard/state") {
+      if (!sessionActive) {
+        await route.fulfill({
+          status: 401,
+          contentType: "application/json",
+          body: JSON.stringify({ ok: false, error: "Dashboard authentication required" }),
+        });
+        return;
+      }
+      const visibleSnapshot = filterDashboardSnapshotForAuth(snapshot, auth);
       await route.fulfill({
         contentType: "application/json",
-        body: JSON.stringify(toDashboardStateResponse(snapshot, {
+        body: JSON.stringify(toDashboardStateResponse(visibleSnapshot, {
           source: "browser-test",
-          writable: true,
+          writable: auth.permissions.can_write,
+          auth,
         })),
+      });
+      return;
+    }
+
+    if (url.pathname === "/api/dashboard/access-users") {
+      if (!sessionActive || role !== "admin") {
+        await route.fulfill({
+          status: sessionActive ? 403 : 401,
+          contentType: "application/json",
+          body: JSON.stringify({ ok: false, error: "Dashboard access settings require the administrator role" }),
+        });
+        return;
+      }
+      if (request.method() === "GET") {
+        await route.fulfill({
+          contentType: "application/json",
+          body: JSON.stringify({
+            ok: true,
+            users: accessUsers,
+            projects: snapshot.portfolio.projects.map(({ project_id, title, bucket }) => ({ project_id, title, bucket })),
+          }),
+        });
+        return;
+      }
+      const body = request.postDataJSON();
+      if (request.method() === "POST" && body.action !== "rotate") {
+        const user = {
+          user_id: "user_browser_created",
+          viewer: body.viewer,
+          role: "viewer",
+          enabled: true,
+          visibility: body.visibility,
+          token_fingerprint: "sha256:viewerbrowser12",
+          token_hint: "dash_browse...",
+          created_at: "2026-07-18T08:00:00.000Z",
+          updated_at: "2026-07-18T08:00:00.000Z",
+          rotated_at: "2026-07-18T08:00:00.000Z",
+          managed_by: "dashboard",
+          editable: true,
+        };
+        accessUsers.push(user);
+        await route.fulfill({
+          status: 201,
+          contentType: "application/json",
+          body: JSON.stringify({ ok: true, user, token: managedToken }),
+        });
+        return;
+      }
+      const user = accessUsers.find((candidate) => candidate.user_id === body.user_id);
+      if (request.method() === "PATCH" && user) Object.assign(user, body);
+      if (request.method() === "DELETE" && user) user.enabled = false;
+      await route.fulfill({
+        contentType: "application/json",
+        body: JSON.stringify({
+          ok: true,
+          user,
+          ...(request.method() === "POST" ? { token: managedToken } : {}),
+        }),
       });
       return;
     }
@@ -200,6 +300,66 @@ test("unlock never persists the bearer token in browser storage", async ({ page 
   }));
 
   expect(JSON.stringify(storage)).not.toContain(auditToken);
+});
+
+test("admin settings creates a one-time viewer token without persisting it", async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, "clipboard", {
+      configurable: true,
+      value: {
+        writeText: async (text) => {
+          window.__dashboardCopiedText = text;
+        },
+      },
+    });
+  });
+  await mockDashboardApi(page);
+  await unlockDashboard(page);
+
+  const settings = page.getByRole("button", { name: "Settings" });
+  await expect(settings).toBeVisible();
+  await settings.click();
+  const dialog = page.getByRole("dialog", { name: "Dashboard access" });
+  await expect(dialog).toBeVisible();
+  await dialog.getByRole("textbox", { name: "Name" }).fill("Davide");
+  await dialog.getByRole("button", { name: "Create token" }).click();
+  const tokenField = dialog.getByRole("textbox", { name: "New dashboard access token" });
+  await expect(tokenField).toHaveValue("dash_browser_test_token_shown_once_1234567890");
+  await dialog.getByRole("button", { name: "Copy token" }).click();
+  expect(await page.evaluate(() => window.__dashboardCopiedText || "")).toBe("dash_browser_test_token_shown_once_1234567890");
+  await expect(dialog.getByRole("button", { name: "Davide" })).toBeVisible();
+
+  const storage = await page.evaluate(() => JSON.stringify({ ...localStorage, ...sessionStorage }));
+  expect(storage).not.toContain("dash_browser_test_token_shown_once_1234567890");
+  await dialog.getByRole("button", { name: "Close dashboard access settings" }).click();
+  await expect(dialog).toBeHidden();
+  await expect(settings).toBeFocused();
+});
+
+test("viewer receives only server-authorized cards and cannot open settings", async ({ page }) => {
+  const { snapshot } = await mockDashboardApi(page, null, {
+    role: "viewer",
+    visibility: {
+      bucket_ids: ["research"],
+      include_project_ids: ["general"],
+      exclude_project_ids: ["umi-world-model"],
+    },
+  });
+  await unlockDashboard(page);
+
+  const expectedIds = snapshot.portfolio.projects
+    .filter((project) => (project.bucket === "research" || project.project_id === "general") && project.project_id !== "umi-world-model")
+    .map((project) => project.project_id);
+  const renderedIds = await page.locator("[data-project-id]").evaluateAll((elements) => (
+    [...new Set(elements.map((element) => element.dataset.projectId))]
+  ));
+  expect(renderedIds.sort()).toEqual(expectedIds.sort());
+  await expect(page.getByRole("button", { name: "Settings" })).toBeHidden();
+  await expect(page.locator('[data-details-key="section:weekly-context"]')).toBeHidden();
+  await expect(page.locator(".task-create-detail, .comment-form, .procurement-edit-button")).toHaveCount(0);
+  await expect(page.locator(".task-status-button").first()).toBeDisabled();
+  const forbiddenStatus = await page.evaluate(async () => (await fetch("/api/dashboard/access-users")).status);
+  expect(forbiddenStatus).toBe(403);
 });
 
 test("server session survives reload without leaking the bearer token", async ({ page }) => {

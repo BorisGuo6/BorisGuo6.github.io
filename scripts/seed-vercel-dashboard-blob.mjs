@@ -24,7 +24,7 @@ async function main() {
     );
   }
   requireEnv("BLOB_READ_WRITE_TOKEN");
-  const pathname = process.env.DASHBOARD_BLOB_PATH || defaultDashboardBlobPath;
+  const pathname = process.env.DASHBOARD_PRIVATE_BLOB_PATH || defaultDashboardBlobPath;
   const snapshot = await loadBundledDashboardSnapshot({
     source: "seed-vercel-dashboard-blob",
   });
@@ -32,7 +32,6 @@ async function main() {
   console.log(JSON.stringify({
     ok: true,
     blob_path: blob.pathname,
-    blob_url: blob.url,
     projects: snapshot.projects.length,
     tasks: snapshot.taskDoc.tasks.length,
     updated_at: snapshot.updated_at,

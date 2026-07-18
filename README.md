@@ -7,34 +7,46 @@ The dashboard can run as static JSON or through Vercel Functions under `api/dash
 Required Vercel environment variables for hosted writes:
 
 - `BLOB_READ_WRITE_TOKEN`: Vercel Blob read/write token.
-- `DASHBOARD_WRITE_TOKEN`: legacy private token entered in the dashboard UI to unlock writes.
+- `DASHBOARD_WRITE_TOKEN`: bootstrap token for the code-reserved `jingxiang` administrator; it is the only credential
+  with the `admin` role.
+- `DASHBOARD_SESSION_SECRET`: independent random secret used to sign HttpOnly dashboard sessions.
+- `DASHBOARD_PRIVATE_BLOB_PATH`: private dashboard snapshot path; defaults to
+  `dashboard-state-private/embodied-ai-dashboard.json`.
+- `DASHBOARD_ACCESS_BLOB_PATH`: private token registry path; defaults to
+  `dashboard-access/access-control.json`.
 - `DASHBOARD_WRITE_TOKEN_USERS`: optional JSON map from private random tokens to viewer names.
 - `DASHBOARD_WRITE_TOKEN_<VIEWER>`: optional sensitive per-user token, for example
   `DASHBOARD_WRITE_TOKEN_YANXIANG`; the suffix becomes the lowercase viewer name.
-- `DASHBOARD_BLOB_PATH`: optional, defaults to `dashboard-state/embodied-ai-dashboard.json`.
+- `DASHBOARD_BLOB_PATH`: legacy public snapshot path used only while migrating existing state.
 
 Without those variables, `/api/dashboard/state` falls back to bundled JSON and the dashboard stays read-only.
 
-Hosted dashboard writes are token-gated. Human users unlock writes in `/dashboard/`; agents can use the same
-`DASHBOARD_WRITE_TOKEN` through the Vercel API. Public agents can read `/api/dashboard/state`, but they cannot mutate
-tasks or comments without that token.
+Hosted dashboard reads and writes are token-gated. The `jingxiang` administrator receives the full state and can open
+the Settings dialog to create, rotate, disable, and scope viewer tokens. Viewers are read-only: Research cards are
+visible by default, and per-card includes/excludes are enforced by `/api/dashboard/state` before data reaches the
+browser. Newly generated tokens are returned once; the private registry stores only salted hashes and fingerprints.
 
-For new users, prefer a separate sensitive `DASHBOARD_WRITE_TOKEN_<VIEWER>` variable so provisioning does not replace
-or expose the existing sensitive token map. Generate at least 32 random bytes, keep the value outside Git, and deploy
-after adding the variable because Vercel environment changes apply to new deployments.
+Production builds intentionally omit `dashboard/state/**`. The `?json=1` static fallback is restricted to localhost,
+so production visibility cannot be bypassed through the bundled JSON mirror. The source repository still contains the
+local mirror; do not treat cards committed to a public repository as confidential data.
+
+Legacy `DASHBOARD_WRITE_TOKEN_USERS` and `DASHBOARD_WRITE_TOKEN_<VIEWER>` credentials remain login-compatible but are
+read-only and must still be maintained through Vercel. Prefer the administrator Settings dialog for new viewers.
 
 Initial setup order:
 
 1. Create or link the Vercel project.
 2. Add a Vercel Blob store and expose `BLOB_READ_WRITE_TOKEN` to production and preview.
-3. Add a private `DASHBOARD_WRITE_TOKEN` value to production and preview.
+3. Add private `DASHBOARD_WRITE_TOKEN` and `DASHBOARD_SESSION_SECRET` values to production and preview, with
+   no per-user token aliases for the administrator.
 4. Seed the hosted dashboard snapshot once, only if no Blob snapshot exists yet:
 
 ```bash
 BLOB_READ_WRITE_TOKEN=... npm run vercel:seed-blob:force
 ```
 
-5. Deploy the site. Open `/dashboard/`; use the `Unlock` field with `DASHBOARD_WRITE_TOKEN` for hosted edits.
+5. Deploy the site. Open `/dashboard/`; use the `Unlock` field with `DASHBOARD_WRITE_TOKEN`, then open Settings to
+   provision viewer tokens.
 
 Daily dashboard workflow is remote-first. Vercel Blob is the mutable source of truth; local JSON is a mirror for Git
 history and static fallback. Before editing `dashboard/state/*.json`, pull the hosted snapshot:
@@ -61,3 +73,4 @@ Supported hosted mutations:
 - `POST /api/dashboard/task-status`
 - `POST /api/dashboard/task-comment`
 - `POST /api/dashboard/task-comment-delete`
+- `GET|POST|PATCH|DELETE /api/dashboard/access-users` (administrator only)
