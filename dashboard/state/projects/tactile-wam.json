@@ -4,7 +4,7 @@
   "title": "DaiMeng VTAM / Tactile-WAM: Predictive Contact Intelligence",
   "bucket": "survey",
   "status": "survey",
-  "updated_at": "2026-07-17T14:13:30.860Z",
+  "updated_at": "2026-07-18T02:13:56.589Z",
   "description": "DaiMeng internship research project: merge VTLA tactile-intuition survey and VTAM/Tactile-WAM proposal into one active Predictive Contact Intelligence track for dexterous manipulation.",
   "summary": "DaiMeng VTAM turns the VTLA tactile-intuition survey into an active internship project: From Reactive Manipulation to Proactive Manipulation. The merged track treats future tactile/contact latents as an Internal Contact Model and builds a Vision-Tactile-Action World Model with a Temporal Action-Token Shared-World architecture rather than simple vision/tactile feature concatenation. Fast contact/action rollout, visual/layer latent cache, contact-triggered sparse compute, and System-0/System-1 control are the execution path; validation is contact timing, slip/contact risk, actual/zero/wrong-action separation, latency/Hz/VRAM, and contact-rich task success.",
   "subprojects": [
@@ -109,6 +109,19 @@
         {
           "label": "ML-sensor paper",
           "url": "https://doi.org/10.1002/advs.75507"
+        }
+      ]
+    },
+    {
+      "text": "[KNOWN][HIGH] MC-Tac targeted audit 2026-07-18: the supplied slides describe a magnetic microstructure tactile prototype that records Bx/By/Bz response traces under x/y/z contact and demonstrates robot ring placement. Exact-phrase, author-profile, DOI, preprint and project-page searches found no matching public paper record. The published 2023 MC-Tac is a different modular camera-based gel sensor. A 2026 npj Robotics magnetic-cilia paper is the closest public mechanism-level prior located, but it is not the supplied MC-Tac artifact. [INFERRED][HIGH] Treat the retained task-level slide as an in-progress presentation reference for compact multi-axis contact sensing, not as peer-reviewed performance evidence or a resolved citation.",
+      "links": [
+        {
+          "label": "closest magnetic-cilia prior",
+          "url": "https://doi.org/10.1038/s44182-026-00091-2"
+        },
+        {
+          "label": "different camera-based MC-Tac",
+          "url": "https://doi.org/10.1007/978-981-99-6495-6_15"
         }
       ]
     }
@@ -355,6 +368,26 @@
       "doi": "10.1002/advs.75507",
       "category": "vision-tactile-sensor",
       "notes": "[KNOWN][HIGH] Published in Advanced Science in 2026. The CMOS-read mechanoluminescent skin is a candidate normal-force/contact stream; published demonstrations emphasize handwriting and human-computer interaction rather than robot manipulation policy learning."
+    },
+    {
+      "title": "MC-Tac magnetic-contact prototype presentation capture",
+      "submitted_at": "2026-07-18",
+      "category": "magnetic-tactile-sensor",
+      "notes": "[KNOWN][HIGH] User-provided presentation evidence for Bx/By/Bz contact responses and robot ring placement. No matching public DOI, preprint, or project page was located in the 2026-07-18 audit; do not conflate it with the 2023 camera-based MC-Tac."
+    },
+    {
+      "title": "Simultaneous measurement of bending angle and direction with magnetic cilia tactile sensors",
+      "url": "https://doi.org/10.1038/s44182-026-00091-2",
+      "doi": "10.1038/s44182-026-00091-2",
+      "category": "magnetic-tactile-sensor",
+      "notes": "[KNOWN][HIGH] Published in npj Robotics in 2026. Closest public mechanism-level prior found for magnetic cilia that encode bending magnitude and direction; it is related context, not the exact MC-Tac shown in the supplied slides."
+    },
+    {
+      "title": "MC-Tac: Modular Camera-Based Tactile Sensor for Robot Gripper",
+      "url": "https://doi.org/10.1007/978-981-99-6495-6_15",
+      "doi": "10.1007/978-981-99-6495-6_15",
+      "category": "citation-disambiguation",
+      "notes": "[KNOWN][HIGH] Published ICIRA 2023 sensor with modular sense, receptor, and adapter modules around camera-based gel tactile sensing. Same acronym, different hardware and contribution from the magnetic MC-Tac presentation prototype."
     }
   ],
   "risks_decisions": [
@@ -371,7 +404,7 @@
     "Risk: visual quality alone is the wrong success metric: The proposal should not pass because generated video looks plausible. It must pass contact prediction, action separation, latency, memory, servo stability, and contact-rich task success metrics.",
     "[KNOWN][HIGH] OSMO novelty boundary 2026-07-17: a shared glove on the human and robot, direct transfer of normal/shear tactile signals, and policy training without robot demonstrations are already demonstrated. [INFERRED][HIGH] VTAM must not claim the matched glove alone; require cross-device or cross-morphology tactile normalization, predictive contact/action utility, and gains across multiple contact-rich tasks or unseen objects, with an ablation against unmatched sensor layouts.",
     "Refinement decision 2026-06-29: BAAI-style imagined trajectory scoring belongs inside VTAM as a contact-rich policy refinement protocol. The reward/contact model must explicitly identify contact phase entry; otherwise the loop degenerates into generic video rollout ranking.",
-    "[KNOWN][HIGH] Image Context decision 2026-07-17: retain the RoboTac Skin, Ther-Tac and ML-sensor design/application slides with publication-status labels. Skip the mixed E-slime/RoboTac/T-Tac roadmap slide because it is a temporary composite, and skip the two MC-Tac slides because they describe a fifth, ambiguously identified work outside the four-item request. [INFERRED][HIGH] Revisit magnetic MC-Tac only after its exact paper/project identity is established."
+    "[KNOWN][HIGH] Image Context decision 2026-07-18: retain the RoboTac Skin, Ther-Tac and ML-sensor design/application slides, and add one MC-Tac task-level slide showing contact-response traces and ring placement. Skip the mixed E-slime/RoboTac/T-Tac roadmap slide because it is a temporary composite, and skip the MC-Tac modeling slide because the retained task slide already covers the same prototype more directly. [INFERRED][HIGH] MC-Tac remains presentation evidence with unresolved publication identity; do not map either the 2023 camera-based MC-Tac or the related 2026 magnetic-cilia paper onto it."
   ],
   "timeline": {
     "target_cycle": "DaiMeng VTAM internship project",
