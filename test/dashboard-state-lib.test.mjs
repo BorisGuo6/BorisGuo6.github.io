@@ -477,9 +477,7 @@ const legacyFallbackRead = await readVercelBlobSnapshot({
   retryDelays: [0],
   blobApi: {
     async get() {
-      const error = new Error("Requested private access for a public Blob");
-      error.name = "BlobAccessError";
-      throw error;
+      throw new Error("Vercel Blob: Failed to fetch blob: 400 Bad Request");
     },
     async head(pathname) {
       assert.equal(pathname, "dashboard-state/embodied-ai-dashboard.json");

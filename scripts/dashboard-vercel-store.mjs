@@ -93,7 +93,8 @@ export async function readVercelBlobSnapshot(options = {}) {
       const isMissingPrivateBlob = error?.name === "BlobNotFoundError"
         || error?.constructor?.name === "BlobNotFoundError";
       const isPrivateAccessMismatch = error?.name === "BlobAccessError"
-        || error?.constructor?.name === "BlobAccessError";
+        || error?.constructor?.name === "BlobAccessError"
+        || /Failed to fetch blob:\s*400 Bad Request/i.test(String(error?.message || ""));
       const canFallBackToLegacyPublicBlob = isPrivateAccessMismatch
         || isMissingPrivateBlob;
       if (!canFallBackToLegacyPublicBlob) throw error;
