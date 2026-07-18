@@ -92,14 +92,13 @@ export async function readVercelBlobSnapshot(options = {}) {
     } catch (error) {
       const isMissingPrivateBlob = error?.name === "BlobNotFoundError"
         || error?.constructor?.name === "BlobNotFoundError";
-      if (isMissingPrivateBlob) {
-        legacyReadPathname = options.legacyPathname || legacyDashboardBlobPath(env);
-      }
-      const canFallBackToLegacyPublicBlob = error?.name === "BlobAccessError"
-        || error?.constructor?.name === "BlobAccessError"
+      const isPrivateAccessMismatch = error?.name === "BlobAccessError"
+        || error?.constructor?.name === "BlobAccessError";
+      const canFallBackToLegacyPublicBlob = isPrivateAccessMismatch
         || isMissingPrivateBlob;
       if (!canFallBackToLegacyPublicBlob) throw error;
-      if (!isMissingPrivateBlob) legacyReadPathname = pathname;
+      legacyReadPathname = options.legacyPathname || legacyDashboardBlobPath(env);
+      if (legacyReadPathname === pathname && !isPrivateAccessMismatch) return null;
     }
   }
 

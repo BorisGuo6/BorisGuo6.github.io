@@ -472,6 +472,31 @@ const privateBlobRead = await readVercelBlobSnapshot({
 });
 assert.equal(privateBlobRead.blob.etag, '"private"');
 assert.equal(privateBlobRead.snapshot.projects[0].project_id, "general");
+const legacyFallbackRead = await readVercelBlobSnapshot({
+  env: { BLOB_READ_WRITE_TOKEN: "test-token" },
+  retryDelays: [0],
+  blobApi: {
+    async get() {
+      const error = new Error("Requested private access for a public Blob");
+      error.name = "BlobAccessError";
+      throw error;
+    },
+    async head(pathname) {
+      assert.equal(pathname, "dashboard-state/embodied-ai-dashboard.json");
+      return {
+        pathname,
+        etag: '"legacy"',
+        url: "https://example.com/legacy-dashboard.json",
+      };
+    },
+  },
+  fetchImpl: async () => new Response(JSON.stringify(projectTableSnapshot), {
+    status: 200,
+    headers: { etag: '"legacy"' },
+  }),
+});
+assert.equal(legacyFallbackRead.blob.legacy_public, true);
+assert.equal(legacyFallbackRead.blob.legacy_public_pathname, "dashboard-state/embodied-ai-dashboard.json");
 let blobFetchCount = 0;
 const fakeBlobSnapshot = projectTableSnapshot;
 const freshBlobRead = await readVercelBlobSnapshot({
