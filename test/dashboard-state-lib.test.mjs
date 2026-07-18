@@ -330,7 +330,8 @@ const mappedDashboardAuth = dashboardWriteAuth(
 assert.equal(mappedDashboardAuth.ok, true);
 assert.equal(mappedDashboardAuth.viewer, "jiahao chen");
 assert.equal(mappedDashboardAuth.role, "viewer");
-assert.equal(mappedDashboardAuth.permissions.can_write, false);
+assert.equal(mappedDashboardAuth.permissions.can_write, true);
+assert.equal(mappedDashboardAuth.permissions.can_manage_access, false);
 assert.equal(
   dashboardViewerForWriteToken("mapped-token", {
     DASHBOARD_WRITE_TOKEN_USERS: JSON.stringify({ "mapped-token": "agent-a" }),
@@ -567,6 +568,10 @@ assert.deepEqual(
 assert.deepEqual(
   dashboardErrorResponse(new Error("Task not found: task_missing")),
   { status: 404, error: "Task not found: task_missing" },
+);
+assert.deepEqual(
+  dashboardErrorResponse(new Error("Dashboard write is outside the viewer's visible scope")),
+  { status: 403, error: "Dashboard write is outside the viewer's visible scope" },
 );
 assert.deepEqual(
   dashboardErrorResponse(new Error("secret upstream failure")),

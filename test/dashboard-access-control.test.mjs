@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import {
   allowedDashboardProjectIds,
+  assertDashboardProjectWriteScope,
+  assertDashboardTaskWriteScope,
   createDashboardAccessUser,
   emptyDashboardAccessControl,
   filterDashboardSnapshotForAuth,
@@ -102,6 +104,20 @@ const customized = updateDashboardAccessUser(created.document, created.user.user
 }, { now: new Date("2026-07-18T08:10:00.000Z") });
 const customAuth = { role: "viewer", visibility: customized.user.visibility };
 assert.deepEqual([...allowedDashboardProjectIds(baseSnapshot, customAuth)], ["research-a", "engineering-a"]);
+assert.doesNotThrow(() => assertDashboardProjectWriteScope(baseSnapshot, customAuth, "research-a"));
+assert.doesNotThrow(() => assertDashboardProjectWriteScope(baseSnapshot, customAuth, "engineering-a"));
+assert.throws(
+  () => assertDashboardProjectWriteScope(baseSnapshot, customAuth, "research-b"),
+  /outside the viewer's visible scope/,
+);
+assert.doesNotThrow(() => assertDashboardTaskWriteScope(baseSnapshot, customAuth, "task-ra"));
+assert.doesNotThrow(() => assertDashboardTaskWriteScope(baseSnapshot, customAuth, "task-ea"));
+assert.throws(
+  () => assertDashboardTaskWriteScope(baseSnapshot, customAuth, "task-rb"),
+  /outside the viewer's visible scope/,
+);
+assert.doesNotThrow(() => assertDashboardTaskWriteScope(baseSnapshot, customAuth, "missing-task"));
+assert.doesNotThrow(() => assertDashboardProjectWriteScope(baseSnapshot, { role: "admin" }, "missing-project"));
 const filtered = filterDashboardSnapshotForAuth(baseSnapshot, customAuth);
 assert.deepEqual(filtered.portfolio.projects.map((project) => project.project_id), ["research-a", "engineering-a"]);
 assert.deepEqual(filtered.projects.map((project) => project.project_id), ["research-a", "engineering-a"]);
@@ -130,7 +146,8 @@ const dynamicAuth = await dashboardRequestAuth({
 });
 assert.equal(dynamicAuth.ok, true);
 assert.equal(dynamicAuth.role, "viewer");
-assert.equal(dynamicAuth.permissions.can_write, false);
+assert.equal(dynamicAuth.permissions.can_write, true);
+assert.equal(dynamicAuth.permissions.can_manage_access, false);
 const dynamicSession = createDashboardSession(dynamicAuth, authEnv, {
   now: new Date("2099-07-18T00:00:00.000Z"),
   maxAgeSeconds: 60,

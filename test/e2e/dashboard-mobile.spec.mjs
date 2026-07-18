@@ -3,7 +3,10 @@ import {
   loadDashboardSnapshotFromFiles,
   toDashboardStateResponse,
 } from "../../scripts/dashboard-state-snapshot.mjs";
-import { filterDashboardSnapshotForAuth } from "../../scripts/dashboard-access-control.mjs";
+import {
+  allowedDashboardProjectIds,
+  filterDashboardSnapshotForAuth,
+} from "../../scripts/dashboard-access-control.mjs";
 
 const auditToken = "dashboard-audit-token";
 
@@ -23,7 +26,7 @@ async function mockDashboardApi(page, mutateSnapshot = null, options = {}) {
       ? { bucket_ids: ["research", "engineering", "survey", "archive"], include_project_ids: [], exclude_project_ids: [] }
       : (options.visibility || { bucket_ids: ["research"], include_project_ids: [], exclude_project_ids: [] }),
     permissions: {
-      can_write: role === "admin",
+      can_write: true,
       can_manage_access: role === "admin",
     },
   };
@@ -120,6 +123,51 @@ async function mockDashboardApi(page, mutateSnapshot = null, options = {}) {
           writable: auth.permissions.can_write,
           auth,
         })),
+      });
+      return;
+    }
+
+    if (request.method() === "POST" && new Set([
+      "/api/dashboard/task-create",
+      "/api/dashboard/task-status",
+      "/api/dashboard/task-update",
+      "/api/dashboard/task-comment",
+      "/api/dashboard/task-comment-delete",
+      "/api/dashboard/project-table-row-update",
+    ]).has(url.pathname)) {
+      if (!sessionActive) {
+        await route.fulfill({
+          status: 401,
+          contentType: "application/json",
+          body: JSON.stringify({ ok: false, error: "Dashboard authentication required" }),
+        });
+        return;
+      }
+      const body = request.postDataJSON();
+      const task = body.task_id
+        ? snapshot.taskDoc.tasks.find((candidate) => candidate.task_id === body.task_id)
+        : null;
+      const projectId = body.project_id || task?.project_id || "";
+      const allowedIds = allowedDashboardProjectIds(snapshot, auth);
+      if (role !== "admin" && !allowedIds.has(projectId)) {
+        await route.fulfill({
+          status: 403,
+          contentType: "application/json",
+          body: JSON.stringify({ ok: false, error: "Dashboard write is outside the viewer's visible scope" }),
+        });
+        return;
+      }
+      if (url.pathname === "/api/dashboard/task-status" && task) task.status = body.status;
+      await route.fulfill({
+        contentType: "application/json",
+        body: JSON.stringify({
+          ok: true,
+          task_id: body.task_id || null,
+          project_id: projectId,
+          status: body.status || null,
+          task,
+          meta: { storage: "browser-test" },
+        }),
       });
       return;
     }
@@ -336,7 +384,7 @@ test("admin settings creates a one-time viewer token without persisting it", asy
   await expect(settings).toBeFocused();
 });
 
-test("viewer receives only server-authorized cards and cannot open settings", async ({ page }) => {
+test("viewer can write visible cards but cannot open settings or write hidden cards", async ({ page }) => {
   const { snapshot } = await mockDashboardApi(page, null, {
     role: "viewer",
     visibility: {
@@ -356,8 +404,26 @@ test("viewer receives only server-authorized cards and cannot open settings", as
   expect(renderedIds.sort()).toEqual(expectedIds.sort());
   await expect(page.getByRole("button", { name: "Settings" })).toBeHidden();
   await expect(page.locator('[data-details-key="section:weekly-context"]')).toBeHidden();
-  await expect(page.locator(".task-create-detail, .comment-form, .procurement-edit-button")).toHaveCount(0);
-  await expect(page.locator(".task-status-button").first()).toBeDisabled();
+  expect(await page.locator(".task-create-detail").count()).toBeGreaterThan(0);
+  expect(await page.locator(".comment-form").count()).toBeGreaterThan(0);
+  expect(await page.locator(".procurement-edit-button").count()).toBeGreaterThan(0);
+  await expect(page.locator(".task-status-button").first()).toBeEnabled();
+  const visibleTask = snapshot.taskDoc.tasks.find((task) => expectedIds.includes(task.project_id));
+  const hiddenTask = snapshot.taskDoc.tasks.find((task) => !expectedIds.includes(task.project_id));
+  expect(visibleTask).toBeTruthy();
+  expect(hiddenTask).toBeTruthy();
+  const writeStatuses = await page.evaluate(async ({ visibleTaskId, hiddenTaskId }) => {
+    const request = (taskId) => fetch("/api/dashboard/task-status", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ task_id: taskId, status: "active" }),
+    });
+    return [
+      (await request(visibleTaskId)).status,
+      (await request(hiddenTaskId)).status,
+    ];
+  }, { visibleTaskId: visibleTask.task_id, hiddenTaskId: hiddenTask.task_id });
+  expect(writeStatuses).toEqual([200, 403]);
   const forbiddenStatus = await page.evaluate(async () => (await fetch("/api/dashboard/access-users")).status);
   expect(forbiddenStatus).toBe(403);
 });

@@ -22,16 +22,17 @@ Required Vercel environment variables for hosted writes:
 Without those variables, `/api/dashboard/state` falls back to bundled JSON and the dashboard stays read-only.
 
 Hosted dashboard reads and writes are token-gated. The `jingxiang` administrator receives the full state and can open
-the Settings dialog to create, rotate, disable, and scope viewer tokens. Viewers are read-only: Research cards are
-visible by default, and per-card includes/excludes are enforced by `/api/dashboard/state` before data reaches the
-browser. Newly generated tokens are returned once; the private registry stores only salted hashes and fingerprints.
+the Settings dialog to create, rotate, disable, and scope viewer tokens. Viewers can read and mutate only their visible
+cards: Research cards are visible by default, and per-card includes/excludes are enforced on both state reads and every
+mutation. Newly generated tokens are returned once; the private registry stores only salted hashes and fingerprints.
 
 Production builds intentionally omit `dashboard/state/**`. The `?json=1` static fallback is restricted to localhost,
 so production visibility cannot be bypassed through the bundled JSON mirror. The source repository still contains the
 local mirror; do not treat cards committed to a public repository as confidential data.
 
 Legacy `DASHBOARD_WRITE_TOKEN_USERS` and `DASHBOARD_WRITE_TOKEN_<VIEWER>` credentials remain login-compatible but are
-read-only and must still be maintained through Vercel. Prefer the administrator Settings dialog for new viewers.
+scoped to the same Research-default visibility and must still be maintained through Vercel. Prefer the administrator
+Settings dialog for new viewers.
 
 Initial setup order:
 

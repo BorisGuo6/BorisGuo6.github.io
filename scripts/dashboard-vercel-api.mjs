@@ -17,6 +17,8 @@ import {
   writeVercelBlobSnapshot,
 } from "./dashboard-vercel-store.mjs";
 import {
+  assertDashboardProjectWriteScope,
+  assertDashboardTaskWriteScope,
   createDashboardAccessUser,
   dashboardProjectOptions,
   defaultDashboardVisibility,
@@ -57,6 +59,9 @@ export function dashboardErrorResponse(error) {
   }
   if (message === "Request body is too large") {
     return { status: 413, error: message };
+  }
+  if (message === "Dashboard write is outside the viewer's visible scope") {
+    return { status: 403, error: message };
   }
   if (/^(Task|Project|Table row|Comment|Access user) not found:/.test(message)) {
     return { status: 404, error: message };
@@ -199,7 +204,7 @@ function dashboardAuthEnvelope(viewer, options = {}) {
     source: optionalString(options.source) || "environment",
     visibility,
     permissions: {
-      can_write: role === "admin",
+      can_write: true,
       can_manage_access: role === "admin",
     },
   };
@@ -554,7 +559,7 @@ async function persistAccessMutation(mutation, options = {}) {
 function dashboardWriteAuthorization(auth) {
   if (!auth?.ok) return auth || { ok: false, status: 401, error: "Dashboard authentication required" };
   if (!auth.permissions?.can_write) {
-    return { ok: false, status: 403, error: "Dashboard write access requires the administrator role" };
+    return { ok: false, status: 403, error: "Dashboard write access is unavailable" };
   }
   return auth;
 }
@@ -655,9 +660,12 @@ export async function handleDashboardTaskStatus(request, response) {
   const body = await readJsonBody(request);
   const taskId = requireString(body.task_id, "task_id");
   const status = requireString(body.status, "status");
-  const result = await persistMutation((snapshot) => applySnapshotTaskStatus(snapshot, taskId, status, {
-    source: "vercel-blob",
-  }), {
+  const result = await persistMutation((snapshot) => {
+    assertDashboardTaskWriteScope(snapshot, auth, taskId);
+    return applySnapshotTaskStatus(snapshot, taskId, status, {
+      source: "vercel-blob",
+    });
+  }, {
     request,
     auth,
     token: providedToken,
@@ -689,9 +697,12 @@ export async function handleDashboardTaskCreate(request, response) {
     due_at: optionalString(body.due_at),
     assignee: optionalString(body.assignee) || null,
   };
-  const result = await persistMutation((snapshot) => applySnapshotTaskCreate(snapshot, payload, {
-    source: "vercel-blob",
-  }), {
+  const result = await persistMutation((snapshot) => {
+    assertDashboardProjectWriteScope(snapshot, auth, payload.project_id);
+    return applySnapshotTaskCreate(snapshot, payload, {
+      source: "vercel-blob",
+    });
+  }, {
     request,
     auth,
     token: providedToken,
@@ -729,9 +740,12 @@ export async function handleDashboardTaskUpdate(request, response) {
   if (!Object.keys(patch).length) {
     throw new Error("Missing update fields");
   }
-  const result = await persistMutation((snapshot) => applySnapshotTaskUpdate(snapshot, taskId, patch, {
-    source: "vercel-blob",
-  }), {
+  const result = await persistMutation((snapshot) => {
+    assertDashboardTaskWriteScope(snapshot, auth, taskId);
+    return applySnapshotTaskUpdate(snapshot, taskId, patch, {
+      source: "vercel-blob",
+    });
+  }, {
     request,
     auth,
     token: providedToken,
@@ -760,9 +774,12 @@ export async function handleDashboardTaskComment(request, response) {
   const commentBody = requireString(body.body, "body");
   const author = optionalString(auth.viewer) || "Vercel dashboard";
   const comment = makeTaskComment(taskId, commentBody, author);
-  const result = await persistMutation((snapshot) => applySnapshotTaskComment(snapshot, taskId, comment, {
-    source: "vercel-blob",
-  }), {
+  const result = await persistMutation((snapshot) => {
+    assertDashboardTaskWriteScope(snapshot, auth, taskId);
+    return applySnapshotTaskComment(snapshot, taskId, comment, {
+      source: "vercel-blob",
+    });
+  }, {
     request,
     auth,
     token: providedToken,
@@ -789,9 +806,12 @@ export async function handleDashboardTaskCommentDelete(request, response) {
   const body = await readJsonBody(request);
   const taskId = requireString(body.task_id, "task_id");
   const commentId = requireString(body.comment_id, "comment_id");
-  const result = await persistMutation((snapshot) => applySnapshotTaskCommentDelete(snapshot, taskId, commentId, {
-    source: "vercel-blob",
-  }), {
+  const result = await persistMutation((snapshot) => {
+    assertDashboardTaskWriteScope(snapshot, auth, taskId);
+    return applySnapshotTaskCommentDelete(snapshot, taskId, commentId, {
+      source: "vercel-blob",
+    });
+  }, {
     request,
     auth,
     token: providedToken,
@@ -817,14 +837,17 @@ export async function handleDashboardProjectTableRowUpdate(request, response) {
   const rowId = requireString(body.row_id, "row_id");
   const tableKind = optionalString(body.table_kind || body.kind) || "procurement_table";
   const patch = body.patch && typeof body.patch === "object" ? body.patch : {};
-  const result = await persistMutation((snapshot) => applySnapshotProjectTableRowUpdate(snapshot, {
-    project_id: projectId,
-    table_kind: tableKind,
-    row_id: rowId,
-    patch,
+  const result = await persistMutation((snapshot) => {
+    assertDashboardProjectWriteScope(snapshot, auth, projectId);
+    return applySnapshotProjectTableRowUpdate(snapshot, {
+      project_id: projectId,
+      table_kind: tableKind,
+      row_id: rowId,
+      patch,
+    }, {
+      source: "vercel-blob",
+    });
   }, {
-    source: "vercel-blob",
-  }), {
     request,
     auth,
     token: providedToken,

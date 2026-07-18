@@ -51,7 +51,8 @@ Hosted writes require `DASHBOARD_WRITE_TOKEN`. Do not print, commit, or paste th
 
 Provision new viewers through the administrator-only Settings dialog. New tokens are shown once and stored as salted
 hashes in a private Blob; never put token values in Git, dashboard state, logs, comments, or chat. Legacy
-`DASHBOARD_WRITE_TOKEN_<VIEWER>` variables remain read-only credentials managed in Vercel. The bootstrap
+`DASHBOARD_WRITE_TOKEN_<VIEWER>` variables remain Research-default scoped credentials managed in Vercel. Viewers may
+mutate visible cards, but every task/project mutation must reject resources outside the viewer's visibility. The bootstrap
 `DASHBOARD_WRITE_TOKEN` belongs only to the `jingxiang` administrator.
 
 Use these endpoints for dashboard interaction:

@@ -319,6 +319,22 @@ export function allowedDashboardProjectIds(snapshot, auth) {
     .filter((projectId) => knownIds.has(projectId) && !excludedIds.has(projectId)));
 }
 
+export function assertDashboardProjectWriteScope(snapshot, auth, projectId) {
+  if (auth?.role === "admin") return;
+  if (!allowedDashboardProjectIds(snapshot, auth).has(optionalString(projectId))) {
+    throw new Error("Dashboard write is outside the viewer's visible scope");
+  }
+}
+
+export function assertDashboardTaskWriteScope(snapshot, auth, taskId) {
+  if (auth?.role === "admin") return;
+  const normalizedTaskId = optionalString(taskId);
+  const task = (Array.isArray(snapshot?.taskDoc?.tasks) ? snapshot.taskDoc.tasks : [])
+    .find((candidate) => optionalString(candidate?.task_id) === normalizedTaskId);
+  if (!task) return;
+  assertDashboardProjectWriteScope(snapshot, auth, task.project_id);
+}
+
 export function filterDashboardSnapshotForAuth(snapshot, auth) {
   if (auth?.role === "admin") return cloneJson(snapshot);
   const allowedIds = allowedDashboardProjectIds(snapshot, auth);
