@@ -349,6 +349,31 @@ assert.equal(
   "mapped dashboard write tokens should make the hosted dashboard writable without the legacy single-token env",
 );
 assert.equal(dashboardCanWrite({ DASHBOARD_WRITE_TOKEN_USERS: "{}", BLOB_READ_WRITE_TOKEN: "blob" }), false);
+const individualDashboardTokenEnv = {
+  DASHBOARD_WRITE_TOKEN_YANXIANG: "yanxiang-token",
+  BLOB_READ_WRITE_TOKEN: "blob",
+};
+assert.deepEqual(
+  dashboardWriteAuth(
+    { headers: { "x-dashboard-token": "yanxiang-token" } },
+    individualDashboardTokenEnv,
+  ),
+  { ok: true, viewer: "yanxiang" },
+);
+assert.equal(dashboardWriteTokenIsAllowed("yanxiang-token", individualDashboardTokenEnv), true);
+assert.equal(dashboardCanWrite(individualDashboardTokenEnv), true);
+const individualDashboardSession = createDashboardSession("yanxiang", individualDashboardTokenEnv, {
+  now: new Date("2099-06-18T00:00:00.000Z"),
+  maxAgeSeconds: 60,
+});
+assert.deepEqual(
+  dashboardSessionAuth(
+    { headers: { cookie: `dashboard_session=${encodeURIComponent(individualDashboardSession)}` } },
+    individualDashboardTokenEnv,
+    { now: new Date("2099-06-18T00:00:30.000Z") },
+  ),
+  { ok: true, viewer: "yanxiang" },
+);
 assert.match(dashboardTokenFingerprint("mapped-token"), /^sha256:[a-f0-9]{16}$/);
 assert.notEqual(dashboardTokenFingerprint("mapped-token"), dashboardTokenFingerprint("other-token"));
 assert.equal(
