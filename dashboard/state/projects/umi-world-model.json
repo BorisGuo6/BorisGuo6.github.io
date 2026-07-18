@@ -4,7 +4,7 @@
   "title": "UMI Image Layered World Model",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-07-13T16:01:23.708Z",
+  "updated_at": "2026-07-18T03:56:26.961Z",
   "description": "UMI Image Layered World Model: three linked papers covering multi-view robot video world modeling, manipulation-video dynamics decomposition into reusable layers, and layered data as a downstream VLA/IDM/reward training interface.",
   "summary": "UMI World Model is a three-paper program with one shared data substrate: Stage 1 trains a streaming multi-view pose/action-conditioned robot world model, with an optional Stage 1B that consumes explicit URDF/FK/action/camera controls from the separate URDF Kinematic-Camera Research track; Stage 2 turns manipulation videos into reusable scene, object/contact, occluder/tool, and robot/actor layers; Stage 3 tests whether those layers improve manipulation and video-model training. This intro is only architecture/status framing; task-level execution state lives in TODOs and task comments.",
   "subprojects": [
@@ -17,7 +17,7 @@
     {
       "label": "B",
       "title": "Stage 2: Video Dynamics Decomposition Model",
-      "body": "Paper 2 is VDDM: a model/data interface for decomposing robot or egocentric manipulation video into scene/background, object/contact, occluder/tool, and robot/actor layers with manifests and QA. Implementation variants share a single layer_manifest-compatible output contract.",
+      "body": "Paper 2 is VDDM: a model/data interface for decomposing robot manipulation video into scene/background, object/contact, occluder/tool, and robot/end-effector layers with manifests and QA. Human ego hand-object reconstruction is evaluated in Engineering / Real-Robot Demos / Ego2Dex LfD and returns only validated sidecars when needed.",
       "output": "Durable output: layer_manifest-compatible VDDM layer packages and QA criteria."
     },
     {
@@ -59,7 +59,7 @@
       {
         "stage": "Stage 2",
         "interface": "Video Dynamics Decomposition Model",
-        "status_frame": "Manipulation video is decomposed into scene/background, object/contact, occluder/tool, and robot/actor layers with one manifest schema. Stage 1B compiler outputs may provide robot geometry and camera sidecars under this same contract."
+        "status_frame": "Robot manipulation video is decomposed into scene/background, object/contact, occluder/tool, and robot/end-effector layers with one manifest schema. Human Ego2Dex reconstruction is a linked Engineering evaluation lane, not another UMI subproject."
       },
       {
         "stage": "Stage 3",
@@ -76,7 +76,7 @@
   "layer_utility": {
     "title": "Layer utility map",
     "aria_label": "Image-layered robot data utility map linking scene, object, and robot layers to downstream model families and third-party visual processing tools.",
-    "caption": "Layer order follows recomposition: robot/object layers overlay upward onto the scene layer. Stage 3 treats each layer as an interface to external vision/geometry/retargeting tools, then checks whether the resulting signals improve IDM, reward, pose/flow, augmentation, and PhysisForcing-style video-model physics alignment beyond raw RGB and mask-only baselines.",
+    "caption": "Layer order follows recomposition: robot/object layers overlay upward onto the scene layer. Stage 3 treats each robot-data layer as an interface to external vision/geometry tools, then checks whether the resulting signals improve IDM, reward, pose/flow, augmentation, and PhysisForcing-style video-model physics alignment beyond raw RGB and mask-only baselines. Human Ego2Dex reconstruction and LfD execution live in Engineering / Real-Robot Demos.",
     "layers": [
       {
         "layer": "Layer 0",
@@ -115,7 +115,7 @@
         "layer": "Layer 1",
         "name": "Object(s) / Contact",
         "target": "Reward Model",
-        "summary": "Use object/contact layers for masks, 3D shape, 6-DoF/object pose, point flow, hand-object consistency, process reward evidence, and physics-forcing supervision for video world models.",
+        "summary": "Use object/contact layers for masks, 3D shape, 6-DoF/object pose, point flow, process-reward evidence, and physics-forcing supervision for video world models.",
         "groups": [
           {
             "label": "2D mask / region tracking",
@@ -197,21 +197,6 @@
             "note": "For cloth/fluid/deformable objects, report 2D tracks and lifted 3D point-cloud flow separately; depth/calibration uncertainty should be part of QA."
           },
           {
-            "label": "HOI reconstruction / retargeting bridge",
-            "repositories": [
-              {
-                "label": "Do-As-I-Do",
-                "url": "https://do-as-i-do.com/",
-                "note": "Human RGB video -> hand-object reconstruction -> robot retargeting reference."
-              },
-              {
-                "label": "Do-As-I-Do code",
-                "url": "https://github.com/malik-group/do-as-i-do"
-              }
-            ],
-            "note": "Use Do-As-I-Do as the Stage 3 bridge between object/contact evidence and robot action: matched object pose/velocity/contact intent is the target, not human-vs-robot joint-angle imitation."
-          },
-          {
             "label": "Video-model physics forcing",
             "repositories": [
               {
@@ -234,9 +219,9 @@
       },
       {
         "layer": "Layer 2",
-        "name": "Robot(s) / Hand",
+        "name": "Robot(s) / End-Effector",
         "target": "Inverse Dynamic Model",
-        "summary": "Use robot/hand layers for robot pose, wrist/head ego-motion, human-hand source motion, HOI retargeting, and IDM supervision.",
+        "summary": "Use robot/end-effector layers for robot pose, wrist/head ego-motion, state recovery, action prediction, and IDM supervision.",
         "groups": [
           {
             "label": "Image robot pose",
@@ -286,29 +271,6 @@
                 "url": "https://github.com/MIT-SPARK/VGGT-SLAM.git"
               }
             ]
-          },
-          {
-            "label": "Human hand tracking / retargeting source",
-            "repositories": [
-              {
-                "label": "HaWoR",
-                "url": "https://hawor-project.github.io/",
-                "note": "World-space hand motion reconstruction from egocentric videos."
-              },
-              {
-                "label": "HaWoR code",
-                "url": "https://github.com/ThunderVVV/HaWoR"
-              },
-              {
-                "label": "Do-As-I-Do",
-                "url": "https://do-as-i-do.com/"
-              },
-              {
-                "label": "Dex Retargeting",
-                "url": "https://github.com/dexsuite/dex-retargeting"
-              }
-            ],
-            "note": "Use this when the source is human video or no visible robot layer exists; the validation target is object-state/contact-consistent retargeting into Franka/Wuji or other robot hands."
           }
         ]
       }
@@ -340,7 +302,6 @@
     "task_umi_stage1_closed_loop_eval_split_20260628",
     "task_umi_haoyu_2000_clip_finetune_result_20260622",
     "task_umi_layered_pipeline_sam_vace_flux_lama_automation_20260622",
-    "task_umi_stage2_vddm_human_ego_probe_20260627",
     "task_umi_physisforcing_layer_state_video_probe_20260701",
     "task_umi_roboseg_sam3_backend_migration_p3_20260701",
     "task_umi_davide_multilayer_video_model_architecture_20260707",
@@ -731,30 +692,6 @@
       "notes": "Local inpainting fallback for Ziyang when ChatGPT image API access is blocked. Useful as a lightweight mask-inpaint baseline for robot/object removal before video-level VACE tests."
     },
     {
-      "title": "Do-As-I-Do: Learning Robot Actions from Human Videos",
-      "url": "https://do-as-i-do.com/",
-      "submitted_at": "2026-06-26",
-      "notes": "Stage 2/3 downstream reference for human-video hand-object reconstruction, SAM3/SAM3D/MoGe/HaWoR/TAPIR-style processing, and HOI-consistent retargeting."
-    },
-    {
-      "title": "Do-As-I-Do code",
-      "url": "https://github.com/malik-group/do-as-i-do",
-      "submitted_at": "2026-06-26",
-      "notes": "Public code reference for the human-video-to-robot-retargeting pipeline."
-    },
-    {
-      "title": "HaWoR: World-Space Hand Motion Reconstruction from Egocentric Videos",
-      "url": "https://hawor-project.github.io/",
-      "submitted_at": "2026-06-26",
-      "notes": "Stage 2/3 egocentric human-hand reconstruction probe: tests whether VDDM actor/object/contact layers improve world-space hand-object reconstruction and retargeting inputs."
-    },
-    {
-      "title": "HaWoR code",
-      "url": "https://github.com/ThunderVVV/HaWoR",
-      "submitted_at": "2026-06-26",
-      "notes": "Implementation reference for world-space hand motion reconstruction from egocentric videos."
-    },
-    {
       "title": "SAM3: Segment Anything with Concepts",
       "url": "https://github.com/facebookresearch/sam3",
       "submitted_at": "2026-06-26",
@@ -901,8 +838,6 @@
     "Closed-loop validation guardrail 2026-06-28: do not justify Stage 1 only by saying no public interactive wrist-view robot world model exists. That is a positioning fact, not a metric. The dashboard success gate should report same-episode rollout quality, cross-view consistency, action counterfactual separation, downstream planner/reward utility, and cross-dataset generalization from DaiMeng/JianZhi/AGI-World splits.",
     "Layering risk: SAM3/SAM2.1 masks and VACE/FLUX.fill/LaMa inpaint should preserve canvas size and coordinates so layers can be overlaid without manual alignment. If inpaint shifts geometry, the result is not acceptable even if the hole looks plausible.",
     "Stage 3 utility decision: scene layer validation targets RoboEngine-style augmentation; rigid/articulated object validation targets FoundationPose, Fast-FoundationStereoPhysics, Orient-Anything, and Any6D; deformable object validation targets AllTracker plus Video Depth Anything, D4RT, CoTracker, and Any4D; robot layer validation targets Dr. Robot and wrist-view ORB-SLAM3 / VGGT-SLAM. FoundationPose remains a baseline, not the whole validation plan.",
-    "Stage 3 third-party visual stack decision 2026-06-26: evaluate each layer through explicit external tools instead of calling “FoundationPose” the whole plan. Scene uses RoboEngine + MoGe/GeoCalib geometry; object/contact uses SAM3 masks, SAM 3D Objects/Fast-SAM3D, FoundationPose/Any6D-family pose, BootsTAPIR/TAPNet/AllTracker-style point flow, and Do-As-I-Do HOI reconstruction; robot/hand uses Dr. Robot, wrist-view VO/SLAM, HaWoR, and Do-As-I-Do/dex-retargeting. The metric target remains layer utility: better pose/flow/reward/IDM/action retargeting than raw RGB or mask-only.",
-    "Decision 2026-06-27: Stage 2 is framed as VDDM, not as “we ran SAM3 + inpaint.” The paper must show reusable decomposition schema, temporal consistency/recomposition QA, and downstream reconstruction/retargeting benefit. Egocentric human-hand clips are included as a generalization probe, but the core target remains manipulation dynamics decomposition for robot data.",
     "Risk 2026-06-27: the three stages can blur together. Keep Stage 1 about shared-view world modeling, Stage 2 about decomposition/reconstruction interfaces, and Stage 3 about downstream VLA/IDM/reward utility; avoid moving training logs into the intro.",
     "Dataset-source guardrail 2026-06-28: Datasets Bot can seed Stage 2/3 candidate data, including datasets already used by this project, but it is not an automatic allowlist. Candidate rows must be re-audited for license, physical/sim split, camera/action schema, task overlap with current Hoi/MolmoAct/RealOmni/AGI-World/DaiMeng splits, and downstream leakage before training or reporting.",
     "Training-data guardrail 2026-06-27: treat data_umi_robot189_10k as 10,000 total loader-visible clips, not automatically 10,000 train examples under val_holdout_frac=0.06. New Gamma/Wan/Cosmos ablations must log the data_root override and whether controlled duplicates are included.",
@@ -1046,7 +981,8 @@
       "title": "Stage 3 pose and flow claims must expose calibration and sensor dependencies",
       "body": "Ziyang's method review splits Robot Layer evaluation into known-state camera-to-robot methods (DREAM, CtRNet, CtRNet-X), unknown-state image robot-pose methods (RoboPose, HoRoPose), and differentiable rendering (Dr. Robot). The rigid Object Layer branch uses Any6D only as a calibrated RGB-D route; deformable-object optical flow remains untested. Compare calibrated-oracle, estimated-depth/intrinsics, and layer-only inputs separately, and record URDF, joint-state, intrinsics, depth, mask, and visibility dependencies for every result.",
       "evidence": "13-Jul-26_Ziyang.md; task_umi_ziyang_object_layer_pose_value_benchmark_20260707"
-    }
+    },
+    "Scope boundary 2026-07-18: human egocentric hand-object reconstruction, contact/trajectory refinement, retargeting, human-video VLA pretraining, and physical LfD acceptance moved to Engineering / Real-Robot Demos / Ego2Dex LfD. UMI may consume validated camera/depth/pose/contact/layer_manifest sidecars, but does not own their full implementation queue."
   ],
   "timeline": {
     "target_venue": "ICLR",

@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-07-18T02:31:46.234Z",
+  "updated_at": "2026-07-18T03:56:26.961Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -4373,7 +4373,7 @@
     },
     {
       "task_id": "task_hoi_pnp_calibration",
-      "project_id": "diverse-same-task-dataset",
+      "project_id": "real-robot-demos",
       "title": "Add PnP calibration layer for camera extrinsics",
       "description": "Extra calibration support was added to help 2077AI stabilize camera extrinsics after sensor synchronization took longer than expected.",
       "status": "done",
@@ -4409,13 +4409,22 @@
           "body": "Local Codex host review reopened this TODO.\n请补齐 PnP calibration layer 的可验收证据：实际工作区路径、commit 或文件清单、关键实现文件、可复现验证命令、测试/verifier 输出、结果 artifact/日志路径与 sha256；至少证明 solvePnP/外参更新层能在样例输入上生成相机外参，并给出 reprojection error 或等价指标。若依赖真实 2077AI 数据/硬件，请明确 blocker、所需数据/设备、最小复现命令和当前失败输出。",
           "created_at": "2026-06-09T11:44:49+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_ego2dex_lfd_merge_task_hoi_pnp_calibration_20260718",
+          "task_id": "task_hoi_pnp_calibration",
+          "author": "Codex / ClawCross dashboard merge",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved to Engineering / Real-Robot Demos / Ego2Dex LfD on 2026-07-18. Human/ego demonstration reconstruction, same-task HOI schema, contact-aware retargeting, and real-robot acceptance now share one execution card; UMI only consumes validated layer_manifest sidecars.",
+          "created_at": "2026-07-18T03:53:00.469Z"
         }
       ],
-      "updated_at": "2026-06-09T11:44:49+08:00"
+      "updated_at": "2026-07-18T03:53:00.469Z"
     },
     {
       "task_id": "task_hoi_collection_matrix",
-      "project_id": "diverse-same-task-dataset",
+      "project_id": "real-robot-demos",
       "title": "Freeze the same-task collection matrix",
       "description": "Define the identical task across glove, UMI, ALOHA, drag demonstration, and teleoperation, with human-centric and robot-centric camera views.",
       "status": "done",
@@ -4438,14 +4447,23 @@
           "body": "Host verification passed: inspected boris-PC artifact ~/workspace/diverse-same-task-dataset/task_hoi_collection_matrix.md (222 lines). It freezes tiered tasks, embodiments, episode budgets, collection protocol, object standardization, naming convention, open questions, and freeze criteria. Accepted as planning TODO.",
           "created_at": "2026-05-22T09:36:50+08:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "comment_ego2dex_lfd_merge_task_hoi_collection_matrix_20260718",
+          "task_id": "task_hoi_collection_matrix",
+          "author": "Codex / ClawCross dashboard merge",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved to Engineering / Real-Robot Demos / Ego2Dex LfD on 2026-07-18. Human/ego demonstration reconstruction, same-task HOI schema, contact-aware retargeting, and real-robot acceptance now share one execution card; UMI only consumes validated layer_manifest sidecars.",
+          "created_at": "2026-07-18T03:53:00.469Z"
         }
       ],
-      "updated_at": "2026-05-22T09:36:51+08:00",
+      "updated_at": "2026-07-18T03:53:00.469Z",
       "completed_at": "2026-05-22"
     },
     {
       "task_id": "task_hoi_sensor_validation",
-      "project_id": "diverse-same-task-dataset",
+      "project_id": "real-robot-demos",
       "title": "Validate synchronized sensor package",
       "description": "Confirm hand pose, ego camera, and z16-encoded depth are aligned well enough for HOI supervision; z16 replaces depth heatmaps for better metric accuracy.",
       "status": "done",
@@ -4475,14 +4493,23 @@
           "body": "Host verification reaffirmed after remote late review update: inspected ~/workspace/diverse-same-task-dataset/task_hoi_sensor_validation.md (216 lines). Accepted; remote review status was stale.",
           "created_at": "2026-05-22T09:40:04+08:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "comment_ego2dex_lfd_merge_task_hoi_sensor_validation_20260718",
+          "task_id": "task_hoi_sensor_validation",
+          "author": "Codex / ClawCross dashboard merge",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved to Engineering / Real-Robot Demos / Ego2Dex LfD on 2026-07-18. Human/ego demonstration reconstruction, same-task HOI schema, contact-aware retargeting, and real-robot acceptance now share one execution card; UMI only consumes validated layer_manifest sidecars.",
+          "created_at": "2026-07-18T03:53:00.469Z"
         }
       ],
-      "updated_at": "2026-05-22T09:40:04+08:00",
+      "updated_at": "2026-07-18T03:53:00.469Z",
       "completed_at": "2026-05-22"
     },
     {
       "task_id": "task_hoi_object_tracking",
-      "project_id": "diverse-same-task-dataset",
+      "project_id": "real-robot-demos",
       "title": "Add object tracking with the same mechanism as hand tracking",
       "description": "The object tracker should share the same tracking / calibration assumptions as the hand tracker rather than creating a separate data path.",
       "status": "done",
@@ -4505,14 +4532,23 @@
           "body": "Host verification passed: inspected boris-PC artifact ~/workspace/diverse-same-task-dataset/task_hoi_object_tracking.md (287 lines). It selects a hybrid ArUco + FoundationPose multi-view object tracker, defines per-object tracking plans, coordinate-frame alignment with hand tracking, validation protocols, and schema integration fields. Accepted as object-tracking design TODO.",
           "created_at": "2026-05-22T09:38:59+08:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "comment_ego2dex_lfd_merge_task_hoi_object_tracking_20260718",
+          "task_id": "task_hoi_object_tracking",
+          "author": "Codex / ClawCross dashboard merge",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved to Engineering / Real-Robot Demos / Ego2Dex LfD on 2026-07-18. Human/ego demonstration reconstruction, same-task HOI schema, contact-aware retargeting, and real-robot acceptance now share one execution card; UMI only consumes validated layer_manifest sidecars.",
+          "created_at": "2026-07-18T03:53:00.469Z"
         }
       ],
-      "updated_at": "2026-05-22T09:40:01+08:00",
+      "updated_at": "2026-07-18T03:53:00.469Z",
       "completed_at": "2026-05-22"
     },
     {
       "task_id": "task_hoi_schema_model_target",
-      "project_id": "diverse-same-task-dataset",
+      "project_id": "real-robot-demos",
       "title": "Define unified HOI schema and baseline model target",
       "description": "Specify common timestamps, camera extrinsics, hand / object state, robot embodiment metadata, and the prediction target for the HOI base model / world model. The retargeting label should be object-centric: same object trajectory, contact sequence, grasp / tool-use mode, and task result across human hand and robot hand, not raw joint-angle similarity.",
       "status": "done",
@@ -4533,15 +4569,24 @@
           "body": "Host verification passed: inspected boris-PC artifact ~/workspace/diverse-same-task-dataset/task_hoi_schema_model_target.md (239 lines). It defines an episode/frame schema with timestamps, camera intrinsics/extrinsics, raw and canonical actions, hand/object/robot metadata, contact/geometry fields, LeRobot-compatible storage, and object-centric model targets with pi0/Octo/Diffusion Policy baselines. Accepted.",
           "created_at": "2026-05-22T09:32:30+08:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "comment_ego2dex_lfd_merge_task_hoi_schema_model_target_20260718",
+          "task_id": "task_hoi_schema_model_target",
+          "author": "Codex / ClawCross dashboard merge",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved to Engineering / Real-Robot Demos / Ego2Dex LfD on 2026-07-18. Human/ego demonstration reconstruction, same-task HOI schema, contact-aware retargeting, and real-robot acceptance now share one execution card; UMI only consumes validated layer_manifest sidecars.",
+          "created_at": "2026-07-18T03:53:00.469Z"
         }
       ],
-      "updated_at": "2026-05-22T09:32:30+08:00",
+      "updated_at": "2026-07-18T03:53:00.469Z",
       "completed_at": "2026-05-22",
       "due_at": ""
     },
     {
       "task_id": "task_hoi_retargeting_baselines",
-      "project_id": "diverse-same-task-dataset",
+      "project_id": "real-robot-demos",
       "title": "Connect retargeting baselines",
       "description": "Use the HOI Retargeting notes to compare Manus glove -> LEAP / Isaac Sim retargeting, object-centric / functional retargeting baselines such as HOP, Object-Centric Dexterous Manipulation, DexMachina, DexFlow, and GenHand, plus object sim2real alignment ideas such as FoundationPose. Isaac Sim should score whether the robot reproduces the same object-state transition and contact result.",
       "status": "done",
@@ -4576,9 +4621,18 @@
           "body": "Closed per user instruction: temporary Survey work is complete enough for this pass; worker must switch back to its original project. Any extra retargeting-note expansion is deferred to a future explicit Survey TODO.",
           "created_at": "2026-05-22T09:49:54+08:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "comment_ego2dex_lfd_merge_task_hoi_retargeting_baselines_20260718",
+          "task_id": "task_hoi_retargeting_baselines",
+          "author": "Codex / ClawCross dashboard merge",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved to Engineering / Real-Robot Demos / Ego2Dex LfD on 2026-07-18. Human/ego demonstration reconstruction, same-task HOI schema, contact-aware retargeting, and real-robot acceptance now share one execution card; UMI only consumes validated layer_manifest sidecars.",
+          "created_at": "2026-07-18T03:53:00.469Z"
         }
       ],
-      "updated_at": "2026-05-22T09:49:54+08:00",
+      "updated_at": "2026-07-18T03:53:00.469Z",
       "completed_at": "2026-05-22",
       "due_at": ""
     },
@@ -5408,7 +5462,7 @@
     },
     {
       "task_id": "task_hoi_contact_annotation_pack",
-      "project_id": "diverse-same-task-dataset",
+      "project_id": "real-robot-demos",
       "title": "定义 object/contact annotation pack 并标注样例",
       "description": "Why now: HOI retargeting 目标不是关节相似，而是 object trajectory/contact/task result。Deliverable: contact patch、contact normal、grasp/tool-use mode、object pose trajectory 的 label spec + 5 个样例。Acceptance: 标注能喂给 retargeting baseline 或 Isaac verifier。",
       "status": "done",
@@ -5443,15 +5497,24 @@
           "body": "Host verification passed: reran validate_contact_pack.py on all 5 contact-pack samples (all VALID) and tests/run_verifier_tests.py (4/4 PASS, including self_collision and sliding_consistency reject branches). Sha256s for spec, validator, generator, test harness and summary are recorded.",
           "created_at": "2026-05-23T14:28:32+08:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "comment_ego2dex_lfd_merge_task_hoi_contact_annotation_pack_20260718",
+          "task_id": "task_hoi_contact_annotation_pack",
+          "author": "Codex / ClawCross dashboard merge",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved to Engineering / Real-Robot Demos / Ego2Dex LfD on 2026-07-18. Human/ego demonstration reconstruction, same-task HOI schema, contact-aware retargeting, and real-robot acceptance now share one execution card; UMI only consumes validated layer_manifest sidecars.",
+          "created_at": "2026-07-18T03:53:00.469Z"
         }
       ],
-      "updated_at": "2026-05-23T14:28:32+08:00",
+      "updated_at": "2026-07-18T03:53:00.469Z",
       "due_at": "2026-05-28",
       "completed_at": "2026-05-23"
     },
     {
       "task_id": "task_hoi_isaac_retargeting_verifier_v0",
-      "project_id": "diverse-same-task-dataset",
+      "project_id": "real-robot-demos",
       "title": "做 Isaac retargeting verifier v0",
       "description": "Why now: 已经决定要用 Isaac 判断机器人是否复现同一 object-state transition。Deliverable: 一个 v0 verifier，输入 human HOI label + robot candidate trajectory，输出 object pose/contact/joint-limit/collision/failure report。Acceptance: 能在 mock scene 上跑通，并给出可解释 reject reason。",
       "status": "done",
@@ -5500,15 +5563,24 @@
           "body": "Strict audit 2026-05-29: reopened because mock-Isaac verifier is insufficient. Install/run real Isaac where feasible, otherwise mark blocked with dependency logs.",
           "created_at": "2026-05-29T00:39:42+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_ego2dex_lfd_merge_task_hoi_isaac_retargeting_verifier_v0_20260718",
+          "task_id": "task_hoi_isaac_retargeting_verifier_v0",
+          "author": "Codex / ClawCross dashboard merge",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved to Engineering / Real-Robot Demos / Ego2Dex LfD on 2026-07-18. Human/ego demonstration reconstruction, same-task HOI schema, contact-aware retargeting, and real-robot acceptance now share one execution card; UMI only consumes validated layer_manifest sidecars.",
+          "created_at": "2026-07-18T03:53:00.469Z"
         }
       ],
-      "updated_at": "2026-05-23T03:17:09+08:00",
+      "updated_at": "2026-07-18T03:53:00.469Z",
       "due_at": "2026-05-30",
       "completed_at": "2026-05-23"
     },
     {
       "task_id": "task_hoi_two_modality_capture_smoke",
-      "project_id": "diverse-same-task-dataset",
+      "project_id": "real-robot-demos",
       "title": "同一任务跑两个采集模态 smoke",
       "description": "Why now: collection matrix/schema 都完成了，下一步要证明同一任务能跨模态对齐。Deliverable: 选一个 manipulation task，至少 glove/UMI 或 teleop/drag 两个模态各出 1 条样例。Acceptance: 两条样例共享 task_id/object_id/timestamps/camera metadata，并能在同一 schema validator 中通过。",
       "status": "done",
@@ -5557,9 +5629,18 @@
           "body": "Strict audit 2026-05-29: reopened because smoke capture is insufficient. Produce two real modality samples or attach fresh hardware blocker logs.",
           "created_at": "2026-05-29T00:39:42+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_ego2dex_lfd_merge_task_hoi_two_modality_capture_smoke_20260718",
+          "task_id": "task_hoi_two_modality_capture_smoke",
+          "author": "Codex / ClawCross dashboard merge",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved to Engineering / Real-Robot Demos / Ego2Dex LfD on 2026-07-18. Human/ego demonstration reconstruction, same-task HOI schema, contact-aware retargeting, and real-robot acceptance now share one execution card; UMI only consumes validated layer_manifest sidecars.",
+          "created_at": "2026-07-18T03:53:00.469Z"
         }
       ],
-      "updated_at": "2026-05-23T14:28:32+08:00",
+      "updated_at": "2026-07-18T03:53:00.469Z",
       "due_at": "2026-05-27",
       "completed_at": "2026-05-23"
     },
@@ -8586,8 +8667,8 @@
     {
       "task_id": "task_umi_foundationpose_layer_utility_probe_20260617",
       "project_id": "umi-world-model",
-      "title": "验证 Stage 3 layer utility：scene geometry、object HOI/pose/flow、robot pose/retargeting",
-      "description": "Ziyang/Boris 用分层结果验证三类下游 utility，不再只看 FoundationPose。\n\nScene Layer: 用 RoboEngine (https://roboengine.github.io) 做物理/任务感知背景替换与 data augmentation；补 MoGe (https://github.com/microsoft/moge) 估计 depth / point map / normal / camera FOV，GeoCalib (https://github.com/cvg/GeoCalib) 估计 intrinsics / gravity direction，用于把 object flow/pose lift 到稳定场景坐标。\n\nObject / Contact Layer: 2D 分割/掩码追踪用 SAM3 (https://github.com/facebookresearch/sam3)；3D 形状和 6-DoF/pose 用 SAM 3D Objects (https://github.com/facebookresearch/sam-3d-objects)、Fast-SAM3D (https://github.com/wlfeng0509/Fast-SAM3D)、FoundationPose、Fast-FoundationStereoPhysics、Orient-Anything、Any6D；物体运动/形变辅助估计用 BootsTAPIR/TAPNet (https://github.com/google-deepmind/tapnet)、AllTracker、D4RT、CoTracker、Any4D，并在需要时结合 Video Depth Anything / MoGe 做 3D point flow。Do-As-I-Do (https://do-as-i-do.com/ ; https://github.com/malik-group/do-as-i-do) 作为 hand-object reconstruction + retargeting bridge：评价 object pose/velocity trajectory、contact intent、grasp/tool-use mode、task result 是否一致，而不是只比关节角。\n\nRobot / Hand Layer: 可见机器人用 Dr. Robot 做 image-based robot pose；腕部/头部 ego-view 用 ORB-SLAM3 / VGGT-SLAM 做 VO/SLAM；人手源视频用 HaWoR (https://hawor-project.github.io/ ; https://github.com/ThunderVVV/HaWoR) 做 world-space hand tracking，再用 Do-As-I-Do / dex-retargeting 连接到 robot layer / IDM。\n\nAcceptance: 选 3-5 个对象/片段，输出 raw RGB、mask-only、object-only、object+background、robot-only、recomposed clip 的 pose/flow/retarget/eval 结果；每层报告成功率或人工评分、遮挡/背景干扰案例、几何/标定误差、contact/flow 稳定性、是否 object/contact layer 比 flat RGB 或 mask-only 更有用；明确哪些工具进入 v0 pipeline，哪些只作为对照或失败样例。",
+      "title": "验证 Stage 3 layer utility：scene geometry、object pose/flow、robot pose/IDM",
+      "description": "Ziyang/Boris 用机器人分层结果验证三类下游 utility，不再把 FoundationPose 当成完整计划。\n\nScene Layer: 用 RoboEngine 做物理/任务感知背景替换与 data augmentation；用 MoGe 估计 depth / point map / normal / camera FOV，GeoCalib 估计 intrinsics / gravity direction，把 object flow/pose lift 到稳定场景坐标。\n\nObject / Contact Layer: 用 SAM3 做 2D mask/track；用 SAM 3D Objects、Fast-SAM3D、FoundationPose、Fast-FoundationStereoPhysics、Orient-Anything、Any6D 对比 3D shape 与 6-DoF pose；用 BootsTAPIR/TAPNet、AllTracker、D4RT、CoTracker、Any4D，必要时结合 Video Depth Anything / MoGe，估计刚体或形变对象的 2D/3D motion。\n\nRobot / End-Effector Layer: 用 Dr. Robot 做 image-based robot pose；腕部/头部 ego-view 用 ORB-SLAM3 / VGGT-SLAM 做 VO/SLAM；将可见 robot pose、初始 state 与 layer features 接到 state recovery、action prediction 和 IDM。\n\nAcceptance: 选 3-5 个机器人对象/片段，对 raw RGB、mask-only、object-only、object+background、robot-only、recomposed clip 报告 pose/flow/IDM/eval 结果、遮挡/背景干扰、几何/标定误差、contact/flow 稳定性和相对 flat RGB/mask-only 的增益；人类 ego reconstruction、MANO/contact refinement 与 retargeting 的执行比较迁到 Engineering / Real-Robot Demos / Ego2Dex LfD。",
       "status": "done",
       "priority": "high",
       "assignee": "Ziyang / Boris",
@@ -8617,15 +8698,6 @@
           "created_at": "2026-06-24T12:52:28.932Z"
         },
         {
-          "comment_id": "comment_umi_stage3_third_party_visual_stack_20260626",
-          "task_id": "task_umi_foundationpose_layer_utility_probe_20260617",
-          "author": "Codex / dashboard sync",
-          "author_type": "system",
-          "kind": "comment",
-          "body": "2026-06-26 update: Stage 3 layer utility now maps the screenshot/tool list into the three-layer plan. Scene/background adds MoGe + GeoCalib for depth/camera/gravity. Object/contact adds SAM3, SAM 3D Objects, Fast-SAM3D, BootsTAPIR/TAPNet, and Do-As-I-Do as HOI reconstruction/retargeting bridge. Robot/hand adds HaWoR and Do-As-I-Do/dex-retargeting next to Dr. Robot and wrist-view VO/SLAM. Do-As-I-Do should be evaluated as matched object/contact/task outcome retargeting, not joint-angle imitation.",
-          "created_at": "2026-06-26T15:52:47.549Z"
-        },
-        {
           "comment_id": "comment_71f4405b-1264-4605-a898-dbd45acaa891",
           "task_id": "task_umi_foundationpose_layer_utility_probe_20260617",
           "author": "Codex dashboard",
@@ -8633,9 +8705,18 @@
           "kind": "comment",
           "body": "Marked done on 2026-06-30 per Boris direction: the Stage 3 layer-utility tool map has been promoted into the UMI intro/layer-utility framing. The remaining work should be narrower DaiMeng-data-backed experiments, not this broad FoundationPose/geometry/retargeting scoping TODO.",
           "created_at": "2026-06-30T01:01:25.960Z"
+        },
+        {
+          "comment_id": "comment_umi_stage3_ego2dex_scope_move_20260718",
+          "task_id": "task_umi_foundationpose_layer_utility_probe_20260617",
+          "author": "Codex / dashboard scope cleanup",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Human-hand reconstruction, contact refinement, and robot retargeting were moved to Engineering / Real-Robot Demos / Ego2Dex LfD. Stage 3 keeps only robot-layer utility and may consume validated sidecars from that Engineering lane.",
+          "created_at": "2026-07-18T03:56:26.961Z"
         }
       ],
-      "updated_at": "2026-06-30T01:01:25.960Z",
+      "updated_at": "2026-07-18T03:56:26.961Z",
       "due_at": "",
       "completed_at": "2026-06-29",
       "completed_at_time": "2026-06-29T15:37:16.558Z"
@@ -11332,10 +11413,10 @@
       "description": "把 Do-As-I-Do 作为真机 Engineering 复现实验，而不是只放 Survey：在 Franka + Wuji Hand 上复现“monocular human video -> hand-object reconstruction -> robot retargeting -> executable manipulation data”的链路，并专门做 tactile ablation，回答触觉在整条数据生成/retarget/执行链路中到底提供什么增益。\n\nReference: https://do-as-i-do.com/ ; arXiv 2606.19333 ; code: https://github.com/malik-group/do-as-i-do 。项目页面描述的核心步骤是从日常单目 RGB 人类视频重建 hand-object interaction，再用 sampling-based optimization retarget 到多指机器人手；我们的复现目标是把它落到 Franka + Wuji，而不是只停留在网页调研。\n\nAcceptance: 1) 选 3-5 个可在 Wuji 上完成的短任务，至少包含一种刚体 grasp/manipulation 和一种接触敏感任务；2) 跑通 Do-As-I-Do 或等价 pipeline 的视频输入、3D object/hand reconstruction、retarget action、sim/real playback；3) 记录 Franka arm pose、Wuji joint/action、Wuji tactile、RGB/Depth/外参和对象状态的统一 schema；4) 做 no-tactile / tactile-observed / tactile-feedback 三组对照，比较成功率、接触时序、滑移/掉落、过大接触力、regrasp 次数、trajectory deviation；5) 明确触觉只作为 logging/evaluation、policy input、online correction、还是 retarget optimization constraint 时分别有什么价值；6) 输出失败样例和结论，回流到 Tactile-WAM / VTLA：触觉是否值得进入 video-to-touch / WAM 训练目标。",
       "status": "todo",
       "priority": "high",
-      "assignee": "Boris / Ziyang / Lai",
+      "assignee": "Yutao / Haoming / Boris",
       "result": null,
       "comments": [],
-      "updated_at": "2026-06-26T15:40:59.765Z"
+      "updated_at": "2026-07-18T03:56:26.961Z"
     },
     {
       "task_id": "task_vtam_universal_tactile_encoder_20260627",
@@ -11487,16 +11568,25 @@
           "body": "Local Codex host review reopened this TODO.\n请补交可验收产物或明确 blocker：至少 3 个 robot clips + 3 个 egocentric human-hand clips；每个 clip 输出 actor_layer/object_contact_layer/occluder_tool_layer/scene_background_layer 的 mask.png、rgba.png、layer video、SVG contour、depth/pointmap、tracks/contact events、layer_manifest.json；提供 raw RGB vs mask-only vs VDDM layers 的 recomposition、temporal consistency、track/pose/reconstruction/retargeting 对比表；附 failure gallery；给出 run_id、git_sha、运行命令、产物路径、verifier/metrics 脚本与是否足以支撑 Stage 2 paper/v0 dataset/model 训练的结论。若无法完成，请写明具体数据、模型、GPU、API、远端环境或账号权限 blocker。",
           "created_at": "2026-06-30T19:08:29+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_ego2dex_lfd_merge_task_umi_stage2_vddm_human_ego_probe_20260627_20260718",
+          "task_id": "task_umi_stage2_vddm_human_ego_probe_20260627",
+          "author": "Codex / ClawCross dashboard merge",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved to Engineering / Real-Robot Demos / Ego2Dex LfD on 2026-07-18. Human/ego demonstration reconstruction, same-task HOI schema, contact-aware retargeting, and real-robot acceptance now share one execution card; UMI only consumes validated layer_manifest sidecars.",
+          "created_at": "2026-07-18T03:53:00.469Z"
         }
       ],
       "created_at": "2026-06-27T05:42:22.606Z",
-      "updated_at": "2026-06-30T20:59:04+08:00",
+      "updated_at": "2026-07-18T03:56:26.961Z",
       "task_id": "task_umi_stage2_vddm_human_ego_probe_20260627",
-      "project_id": "umi-world-model",
-      "title": "Stage 2 VDDM: 加入 egocentric human-hand manipulation decomposition probe",
+      "project_id": "real-robot-demos",
+      "title": "Ego2Dex archive: human-hand manipulation decomposition sidecars",
       "assignee": "Boris / Ziyang / Lai",
       "due_at": "2026-07-10",
-      "description": "把 Stage 2 从 robot-only 分层扩展成 Video Dynamics Decomposition Model (VDDM) 的跨域验证：在 MolmoAct/UMI/RoboTwin robot clips 之外，加入 egocentric human-hand manipulation videos。统一 schema: actor_layer(actor_type=robot|human_hand)、object_contact_layer、occluder_tool_layer、scene_background_layer；sidecars 包括 mask.png、rgba.png、layer video、SVG contour、depth/pointmap、mesh/pose if available、2D/3D tracks、contact events、layer_manifest.json。实验路线：robot 侧用 RobotSeg/SAM3/SAM2 tracking + VACE/FLUX.fill/LaMa baseline；human-ego 侧参考 HaWoR 与 Do-As-I-Do pipeline，用 SAM3 -> SAM3D mesh -> MoGe pointmaps -> HaWoR -> TAPIR/BootsTAPIR or guided-diffusion tracking -> projection/retargeting 检查分层是否改善 reconstruction。Acceptance: 1) 3 个 robot clips + 3 个 egocentric human-hand clips；2) 每个 clip 输出四层 layer package 与 manifest；3) raw RGB vs mask-only vs VDDM layers 的 recomposition、temporal consistency、track/pose/reconstruction/retargeting 对比；4) failure gallery 覆盖手指/夹爪细节、透明/反光/布料/液体、遮挡接触、背景漂移；5) 判断 VDDM 是否足以支撑 Stage 2 独立论文与 v0 dataset/model 训练。",
+      "description": "Completed cross-domain probe retained as Engineering evidence. It established a common actor/object/contact/occluder/scene layer package for egocentric human-hand clips, with masks, RGBA/layer videos, depth/pointmaps, optional mesh/pose, tracks, contact events, and layer_manifest.json. Current reproduction and retargeting work continues in the Yutao Ego2Dex baseline task; UMI World Model only consumes sidecars that pass this interface and no longer owns the human-video execution queue.",
       "completed_at": "2026-06-29",
       "completed_at_time": "2026-06-29T15:35:23.462Z"
     },
@@ -12889,6 +12979,39 @@
       "result": null,
       "comments": [],
       "updated_at": "2026-07-17T13:44:36.132Z"
+    },
+    {
+      "task_id": "task_real_robot_demos_ego2dex_lfd_baseline_20260718",
+      "project_id": "real-robot-demos",
+      "title": "Yutao：到线下前跑通 Ego2Dex / LfD 手物重建 baseline",
+      "description": "在同一组 2-3 段单目 ego 手物交互视频上，优先审计并跑通 EgoEngine、Do-As-I-Do、VideoManip、EasyHOI；HandFlow 作为 4D MANO/手部时序恢复候选加入手重建对比。不要用每篇论文自己的 demo 直接横向下结论。\n\n统一输入与输出：冻结原始视频、帧率、裁剪、相机约定和对象；每条路线记录 upstream git SHA、checkpoint、环境、命令、runtime/VRAM 与人工干预。统一导出 camera intrinsics/extrinsics or gravity frame、metric depth/pointmap、hand MANO/keypoints/mesh、object mask/mesh/scale/6D pose trajectory、contact/penetration sidecar、retargeted robot wrist/finger trajectory，以及可复现 manifest。若某仓库或权重未开放，记录缺口并用可替换模块完成同接口 smoke，不得伪造复现完成。\n\nAcceptance A（到线下前）：至少 2 段共享视频、四条主路线的 availability/reproduction matrix、至少两条可运行 end-to-end 路线、HandFlow 对 HaWoR/HaMeR 类手轨迹的同输入比较；报告 hand reprojection/world-space error、acceleration/jitter、object pose drift、scale error、contact precision/recall、penetration、temporal consistency、runtime/VRAM/manual steps，并提交 failure gallery。Acceptance B（到线下后）：选择一条 pipeline，把可执行 retargeted trajectory 接到一个现有真机 demo 的仿真/read-only/低速安全流程；由 Haoming 协助数据与硬件接口，保留 E-stop watcher、workspace/joint limits 和完整日志。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Yutao / Haoming / Boris",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_ego2dex_lfd_assignment_clawcross_20260718",
+          "task_id": "task_real_robot_demos_ego2dex_lfd_baseline_20260718",
+          "author": "Codex / ClawCross wx sync",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Dexterous Data Collection sync: Yutao is assigned to Human-Centric data for robot-policy improvement and should prepare Ego processing before arriving onsite, with EgoEngine, Do-As-I-Do, VideoManip, and EasyHOI as the first baselines; onsite coordination routes through Haoming. This comment stores only the task-relevant assignment summary.",
+          "created_at": "2026-07-18T03:53:00.469Z"
+        },
+        {
+          "comment_id": "comment_ego2dex_handflow_20260718",
+          "task_id": "task_real_robot_demos_ego2dex_lfd_baseline_20260718",
+          "author": "Boris / Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Added HandFlow (arXiv:2607.11221) to the hand-reconstruction comparison. Evaluate its full-window MANO recovery and temporal smoothness on the same clips; do not treat its paper metrics as local evidence until the code/checkpoint and local run artifacts are verified.",
+          "created_at": "2026-07-18T03:53:00.469Z"
+        }
+      ],
+      "updated_at": "2026-07-18T03:53:00.469Z",
+      "due_at": "",
+      "completed_at": null
     }
   ]
 }

@@ -1,24 +1,91 @@
 {
   "schema_version": "project.v1",
   "project_id": "real-robot-demos",
-  "title": "Real-Robot Demos",
+  "title": "Real-Robot Demos / Ego2Dex LfD",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-07-08T14:31:36.807Z",
-  "description": "真机 demo queue for Wuji / Franka / dexterous-hand experiments",
-  "summary": "Intro content was migrated into the corresponding TODO cards on 2026-07-07; this project now uses the task cards as the source of truth for demo details.",
+  "updated_at": "2026-07-18T03:56:26.961Z",
+  "description": "Engineering source of truth for physical robot demos and human-video-to-robot learning baselines",
+  "summary": "Physical demo execution remains task-card driven. This intro now owns the shared Ego2Dex / Learning-from-Demonstration pipeline: monocular hand-object reconstruction, contact-aware trajectory refinement, human-to-robot action alignment, and one matched real-robot acceptance path.",
   "visual": {
     "layout": "single-column"
   },
-  "intro_table": null,
-  "details": [],
+  "intro_table": {
+    "kind": "architecture_status_table",
+    "caption": "Ego2Dex / LfD engineering contract",
+    "columns": [
+      {
+        "key": "lane",
+        "label": "Lane"
+      },
+      {
+        "key": "inputs_outputs",
+        "label": "Inputs -> outputs"
+      },
+      {
+        "key": "acceptance",
+        "label": "Acceptance"
+      }
+    ],
+    "rows": [
+      {
+        "lane": "Reconstruct",
+        "inputs_outputs": "Shared ego RGB clips -> camera/depth + MANO/hand mesh + object mesh/scale/6D pose",
+        "acceptance": "Same-input EgoEngine / Do-As-I-Do / VideoManip / EasyHOI comparison; HandFlow added for temporal 4D hand recovery."
+      },
+      {
+        "lane": "Refine",
+        "inputs_outputs": "Noisy hand-object trajectory -> contact-consistent, low-penetration, temporally smooth trajectory",
+        "acceptance": "Before/after reprojection, contact precision/recall, penetration, jitter/acceleration, object drift, runtime, and failure gallery."
+      },
+      {
+        "lane": "Transfer",
+        "inputs_outputs": "Human hand/wrist/object state -> target robot wrist/finger actions",
+        "acceptance": "Compare learned mapping, optimization-based retargeting, and IK under identical target embodiment and task state."
+      },
+      {
+        "lane": "Execute",
+        "inputs_outputs": "Selected trajectory + real-robot state/logging -> one physical demo episode",
+        "acceptance": "Simulation/read-only first, then low-speed run with limits, E-stop watcher, synchronized logs, and phase-level pass/fail evidence."
+      }
+    ]
+  },
+  "details": [
+    {
+      "text": "Ownership update 2026-07-18: Yutao owns the pre-onsite Ego2Dex reproduction matrix and coordinates onsite data/hardware integration with Haoming. The comparison starts with EgoEngine, Do-As-I-Do, VideoManip, and EasyHOI; HandFlow is added to the hand-reconstruction lane.",
+      "links": [
+        {
+          "label": "Do-As-I-Do",
+          "url": "https://do-as-i-do.com/"
+        },
+        {
+          "label": "HandFlow",
+          "url": "https://arxiv.org/abs/2607.11221"
+        }
+      ]
+    },
+    "Scope boundary: this Engineering card owns human/ego reconstruction, contact cleanup, retargeting, same-task HOI schema, and physical acceptance. UMI World Model may consume validated layer_manifest sidecars, but it no longer owns the full Ego2Dex/LfD implementation queue.",
+    "Comparison rule: freeze clips and coordinate conventions first. A paper-specific qualitative demo is not evidence of a better pipeline; every baseline must expose the same manifest fields, metrics, runtime, manual intervention, and failures.",
+    "Human data is a scalable pretraining source, not proof of robot control. Promotion requires a target-embodiment mapping plus simulation/read-only validation and a logged low-speed physical run."
+  ],
   "task_ids": [
+    "task_real_robot_demos_ego2dex_lfd_baseline_20260718",
+    "task_umi_stage2_vddm_human_ego_probe_20260627",
     "task_real_robot_infra_wuji_franka_slime_cut_demo",
     "task_general_tactile_stacking_pilot",
     "task_real_robot_demo_wuji_plastic_bag_rubbing",
     "task_real_robot_demo_changliu_lego_tool_manipulation",
     "task_real_robot_demo_broom_dustpan_long_horizon",
-    "task_real_robot_demo_two_90_cube_turns"
+    "task_real_robot_demo_two_90_cube_turns",
+    "task_hoi_pnp_calibration",
+    "task_hoi_collection_matrix",
+    "task_hoi_sensor_validation",
+    "task_hoi_object_tracking",
+    "task_hoi_schema_model_target",
+    "task_hoi_retargeting_baselines",
+    "task_hoi_contact_annotation_pack",
+    "task_hoi_isaac_retargeting_verifier_v0",
+    "task_hoi_two_modality_capture_smoke"
   ],
   "references": [
     {
@@ -35,9 +102,117 @@
       "title": "Taobao Lego / MOC blocks and baseplates order",
       "url": "https://item.taobao.com/item.htm?id=815763462697&mi_id=00001-7hkO4DH32JHtLLjzOo_qRrRZ8YgWcNKNeD0QDwZXQ",
       "notes": "Buyer-paid in 订单数据.xlsx on 2026-07-07: two small-particle baseplates plus 1000g mixed block pack. Verify whether it satisfies first-round large-particle requirements."
+    },
+    {
+      "title": "EgoEngine: From Egocentric Human Videos to High-Fidelity Dexterous Robot Demonstrations",
+      "url": "https://egoengine.github.io/",
+      "arxiv_id": "2606.12604",
+      "submitted_at": "2026-06-10",
+      "notes": "Primary scalable Ego2Dex baseline: egocentric RGB -> robot observation video plus feasible robot action trajectory. Audit public code/checkpoint availability before claiming reproduction."
+    },
+    {
+      "title": "Do-As-I-Do: Learning Robot Actions from Human Videos",
+      "url": "https://do-as-i-do.com/",
+      "notes": "Primary reconstruction/retargeting baseline using segmentation, monocular geometry, hand tracking, object reconstruction/tracking, and robot retargeting."
+    },
+    {
+      "title": "Do-As-I-Do code",
+      "url": "https://github.com/malik-group/do-as-i-do",
+      "notes": "Implementation reference for the human-video-to-robot action pipeline."
+    },
+    {
+      "title": "VideoManip: Dexterous Manipulation Policies from RGB Human Videos",
+      "url": "https://videomanip.github.io/",
+      "arxiv_id": "2602.09013",
+      "submitted_at": "2026-02-09",
+      "notes": "Explicit monocular hand/object trajectory reconstruction, metric alignment, contact optimization, retargeting, demonstration synthesis, and policy training baseline."
+    },
+    {
+      "title": "EasyHOI",
+      "url": "https://lym29.github.io/EasyHOI-page/",
+      "arxiv_id": "2411.14280",
+      "notes": "Single-view hand-object reconstruction baseline combining segmentation, inpainting, hand/object reconstruction, and image/physics-guided contact optimization."
+    },
+    {
+      "title": "HandFlow: Fully Generative 4D Hand Recovery with Flow Matching",
+      "url": "https://arxiv.org/abs/2607.11221",
+      "arxiv_id": "2607.11221",
+      "submitted_at": "2026-07-13",
+      "notes": "Hand-reconstruction candidate for temporally coherent MANO recovery from monocular video; compare world-space error, acceleration/jitter, throughput, and robustness to occlusion/motion blur on shared clips."
+    },
+    {
+      "title": "HaWoR: World-Space Hand Motion Reconstruction from Egocentric Videos",
+      "url": "https://hawor-project.github.io/",
+      "notes": "World-space egocentric hand-motion baseline and component candidate for the common hand trajectory interface."
+    },
+    {
+      "title": "ContactOpt: Optimizing Contact to Improve Grasps",
+      "url": "https://arxiv.org/abs/2104.07267",
+      "arxiv_id": "2104.07267",
+      "notes": "Static/contact refinement baseline using predicted surface contact and differentiable pose optimization."
+    },
+    {
+      "title": "TOCH: Spatio-Temporal Object-to-Hand Correspondence for Motion Refinement",
+      "url": "https://arxiv.org/abs/2205.07982",
+      "arxiv_id": "2205.07982",
+      "notes": "Temporal HOI refinement baseline with an object-centric correspondence field and learned plausible-interaction manifold."
+    },
+    {
+      "title": "GeneOH Diffusion",
+      "url": "https://meowuu7.github.io/GeneOH-Diffusion/",
+      "arxiv_id": "2402.14810",
+      "notes": "Contact-centric diffusion baseline for denoising erroneous hand-object trajectories across interaction and noise domains."
+    },
+    {
+      "title": "GHOST: Gaussian Hand-Object Splatting",
+      "url": "https://ataboukhadra.github.io/ghost/",
+      "arxiv_id": "2603.18912",
+      "notes": "Video HOI reconstruction comparison with object completion, grasp-aware hand/object alignment, object-scale refinement, and hand-aware background loss."
+    },
+    {
+      "title": "Being-H0",
+      "url": "https://beingbeyond.github.io/Being-H0/",
+      "arxiv_id": "2507.15597",
+      "notes": "Human-video VLA pretraining and robot physical-alignment baseline for the human-to-robot learning lane."
+    },
+    {
+      "title": "EgoScale",
+      "url": "https://research.nvidia.com/labs/gear/egoscale/",
+      "notes": "Human egocentric data scaling and robot-alignment reference; use its retargeted action representation and scaling analysis as comparison points."
+    },
+    {
+      "title": "VITRA",
+      "url": "https://github.com/microsoft/VITRA",
+      "notes": "Human-video VLA implementation reference for aligned hand/wrist action representations and robot adaptation."
+    },
+    {
+      "title": "EgoVLA",
+      "url": "https://rchalyang.github.io/EgoVLA/",
+      "notes": "Egocentric human-video VLA and hand-to-robot mapping reference, retained here instead of a standalone archive card."
+    },
+    {
+      "title": "METIS",
+      "url": "https://aureleopku.github.io/METIS/",
+      "notes": "Human/robot action-alignment reference that predicts hand targets and resolves target robot commands through IK."
+    },
+    {
+      "title": "ConTrack",
+      "url": "https://arxiv.org/abs/2606.03177",
+      "arxiv_id": "2606.03177",
+      "notes": "Migrated from the same-task HOI card: prioritize object-trajectory fidelity while preserving feasible hand/contact motion."
+    },
+    {
+      "title": "TopoRetarget",
+      "url": "https://arxiv.org/abs/2606.16272",
+      "arxiv_id": "2606.16272",
+      "notes": "Migrated interaction-preserving retargeting reference for object/contact-centric cross-embodiment labels."
     }
   ],
   "risks_decisions": [
+    "Ego2Dex/LfD ownership is consolidated here. Do not recreate standalone EgoVLA, Diverse Same-Task Dataset, or human-ego reconstruction cards unless a new claim has a distinct owner, dataset, and acceptance surface.",
+    "Metric depth, camera convention, object scale, MANO frame, and robot base frame must be explicit in every manifest; silent frame/scale mismatch can make a visually plausible trajectory physically unusable.",
+    "Contact refinement is downstream of hand/object geometry quality. Report whether a method repairs geometry or merely pulls meshes together despite wrong scale, pose, or occlusion.",
+    "Human-video pretraining gains do not establish target-robot executability. Promotion requires a declared mapping/IK/retargeting path and matched robot-side validation.",
     "Do not let demo ownership drift back into DexGello. DexGello can provide dependencies and logs, but this Engineering card is the source of truth for scenario rows and open demo TODOs.",
     "Plastic-bag rubbing depends on choosing a safe 3M anti-slip tape placement that improves grip without damaging Wuji fingertips, blocking sensors, or snagging cables.",
     "Lego / tool-manipulation procurement is buyer-paid, but the actual block order appears to be small-particle baseplates and a mixed block pack. Do not treat the large-particle requirement as satisfied until arrival and fit check confirm it.",
@@ -52,22 +227,48 @@
       },
       {
         "label": "Mode",
-        "value": "real robot demos"
+        "value": "real robot + Ego2Dex LfD"
       },
       {
-        "label": "Hardware",
-        "value": "Franka + Wuji / dex hands"
+        "label": "Owners",
+        "value": "Yutao / Haoming / Boris"
       },
       {
         "label": "Status",
-        "value": "open table"
+        "value": "matched-baseline queue"
       }
     ],
-    "target_cycle": "v0 true-robot demo queue",
-    "target_note": "Keep each demo row independently trackable; avoid hiding physical scenario work inside DexGello control-stack tasks.",
+    "target_cycle": "Ego2Dex baseline -> retargeting -> one real-robot demo",
+    "target_note": "Keep reconstruction evidence and physical execution on one card, while retaining independent safety/acceptance for each demo task.",
     "sprint_start": "2026-06-13",
     "sprint_due": null,
     "milestones": []
   },
-  "hide_intro": true
+  "hide_intro": false,
+  "subprojects": [
+    {
+      "label": "A",
+      "title": "Physical real-robot demos",
+      "body": "Wuji / Franka / dexterous-hand scenarios remain independent TODOs with fixtures, low-speed safety gates, synchronized video/state/contact logs, stage labels, and failure evidence.",
+      "output": "Durable output: reproducible physical episodes and per-stage pass/fail evidence."
+    },
+    {
+      "label": "B",
+      "title": "Ego2Dex hand-object reconstruction",
+      "body": "Convert monocular ego RGB into a common metric 3D state: camera/depth, MANO or hand keypoints/mesh, object mesh/scale/6D trajectory, contact sidecars, and a versioned manifest. Compare EgoEngine, Do-As-I-Do, VideoManip, EasyHOI, HaWoR/HaMeR, and HandFlow on shared clips.",
+      "output": "Durable output: common-format hand/object trajectories with uncertainty and failure cases."
+    },
+    {
+      "label": "C",
+      "title": "Contact and trajectory refinement",
+      "body": "Use ContactOpt/DiffContact, TOCH, GeneOH Diffusion, EasyHOI-style image constraints, and GHOST/HOLD-style reconstruction as explicit alternatives. Refinement must reduce penetration and missing contact without destroying image agreement or temporal smoothness.",
+      "output": "Durable output: before/after geometry, contact, penetration, temporal, and runtime metrics."
+    },
+    {
+      "label": "D",
+      "title": "Human-to-robot learning and execution",
+      "body": "Treat Being-H0, EgoScale, VITRA, EgoVLA, and METIS as transfer baselines: human data supplies visual-language-action and hand-motion priors; robot data binds them to the target wrist/finger interface through learned mapping, retargeting, or IK.",
+      "output": "Durable output: one selected reconstruction-to-retargeting path validated in simulation/read-only and then a low-speed real-robot demo."
+    }
+  ]
 }
