@@ -49,6 +49,11 @@ evidence as Stage 1 input, but should not own those operational TODOs.
 
 Hosted writes require `DASHBOARD_WRITE_TOKEN`. Do not print, commit, or paste the token into comments. Send it as `x-dashboard-token: $DASHBOARD_WRITE_TOKEN` or `Authorization: Bearer $DASHBOARD_WRITE_TOKEN`.
 
+Provision new people with a separate sensitive `DASHBOARD_WRITE_TOKEN_<VIEWER>` Vercel variable when the existing
+`DASHBOARD_WRITE_TOKEN_USERS` value is sensitive and cannot be read back safely. The suffix is normalized to a
+lowercase viewer name with underscores converted to spaces. Never replace an unreadable token map, and never put the
+token value in Git, dashboard state, logs, or comments.
+
 Use these endpoints for dashboard interaction:
 
 ```bash

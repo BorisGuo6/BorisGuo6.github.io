@@ -7,7 +7,10 @@ The dashboard can run as static JSON or through Vercel Functions under `api/dash
 Required Vercel environment variables for hosted writes:
 
 - `BLOB_READ_WRITE_TOKEN`: Vercel Blob read/write token.
-- `DASHBOARD_WRITE_TOKEN`: private token entered in the dashboard UI to unlock writes.
+- `DASHBOARD_WRITE_TOKEN`: legacy private token entered in the dashboard UI to unlock writes.
+- `DASHBOARD_WRITE_TOKEN_USERS`: optional JSON map from private random tokens to viewer names.
+- `DASHBOARD_WRITE_TOKEN_<VIEWER>`: optional sensitive per-user token, for example
+  `DASHBOARD_WRITE_TOKEN_YANXIANG`; the suffix becomes the lowercase viewer name.
 - `DASHBOARD_BLOB_PATH`: optional, defaults to `dashboard-state/embodied-ai-dashboard.json`.
 
 Without those variables, `/api/dashboard/state` falls back to bundled JSON and the dashboard stays read-only.
@@ -15,6 +18,10 @@ Without those variables, `/api/dashboard/state` falls back to bundled JSON and t
 Hosted dashboard writes are token-gated. Human users unlock writes in `/dashboard/`; agents can use the same
 `DASHBOARD_WRITE_TOKEN` through the Vercel API. Public agents can read `/api/dashboard/state`, but they cannot mutate
 tasks or comments without that token.
+
+For new users, prefer a separate sensitive `DASHBOARD_WRITE_TOKEN_<VIEWER>` variable so provisioning does not replace
+or expose the existing sensitive token map. Generate at least 32 random bytes, keep the value outside Git, and deploy
+after adding the variable because Vercel environment changes apply to new deployments.
 
 Initial setup order:
 

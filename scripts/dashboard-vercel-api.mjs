@@ -91,12 +91,34 @@ function safeEqual(left, right) {
   return leftBuffer.length === rightBuffer.length && timingSafeEqual(leftBuffer, rightBuffer);
 }
 
+const dashboardIndividualTokenPrefix = "DASHBOARD_WRITE_TOKEN_";
+
+function dashboardIndividualWriteTokens(env = process.env) {
+  return Object.entries(env)
+    .filter(([key]) => key.startsWith(dashboardIndividualTokenPrefix) && key !== "DASHBOARD_WRITE_TOKEN_USERS")
+    .map(([key, value]) => {
+      const suffix = key.slice(dashboardIndividualTokenPrefix.length);
+      const token = optionalString(value);
+      if (!token || !/^[A-Z0-9]+(?:_[A-Z0-9]+)*$/.test(suffix)) return null;
+      return {
+        token,
+        viewer: suffix.toLowerCase().replaceAll("_", " "),
+      };
+    })
+    .filter(Boolean);
+}
+
 function dashboardSessionSecret(env = process.env) {
+  const individualTokenSecret = dashboardIndividualWriteTokens(env)
+    .map(({ token, viewer }) => `${viewer}:${token}`)
+    .sort()
+    .join("\n");
   return optionalString(
     env.DASHBOARD_SESSION_SECRET
       || env.DASHBOARD_WRITE_TOKEN
       || env.DASHBOARD_WRITE_TOKEN_USERS
-      || env.DASHBOARD_USER_TOKENS,
+      || env.DASHBOARD_USER_TOKENS
+      || individualTokenSecret,
   );
 }
 
@@ -189,6 +211,11 @@ export function dashboardViewerForWriteToken(providedToken, env = process.env) {
       // expose token-map parse details to clients.
     }
   }
+  const individualToken = dashboardIndividualWriteTokens(env)
+    .find(({ token }) => safeEqual(providedToken, token));
+  if (individualToken) {
+    return individualToken.viewer;
+  }
   if (providedToken === env.DASHBOARD_WRITE_TOKEN) {
     return optionalString(env.DASHBOARD_WRITE_USER) || "boris";
   }
@@ -208,7 +235,8 @@ export function dashboardWriteTokenIsAllowed(providedToken, env = process.env) {
 export function dashboardWriteAuth(request, env = process.env) {
   const expectedToken = env.DASHBOARD_WRITE_TOKEN;
   const userMap = optionalString(env.DASHBOARD_WRITE_TOKEN_USERS || env.DASHBOARD_USER_TOKENS);
-  if (!expectedToken && !userMap) {
+  const individualTokens = dashboardIndividualWriteTokens(env);
+  if (!expectedToken && !userMap && individualTokens.length === 0) {
     return {
       ok: false,
       status: 503,
@@ -246,7 +274,11 @@ export function dashboardCanWrite(env = process.env) {
       hasMappedToken = false;
     }
   }
-  const hasWriteToken = Boolean(optionalString(env.DASHBOARD_WRITE_TOKEN) || hasMappedToken);
+  const hasWriteToken = Boolean(
+    optionalString(env.DASHBOARD_WRITE_TOKEN)
+      || hasMappedToken
+      || dashboardIndividualWriteTokens(env).length > 0,
+  );
   return Boolean(hasWriteToken && optionalString(env.BLOB_READ_WRITE_TOKEN));
 }
 
