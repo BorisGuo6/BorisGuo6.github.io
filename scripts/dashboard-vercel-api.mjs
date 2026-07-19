@@ -594,13 +594,15 @@ export async function getDashboardHealth(options = {}) {
   const configuredStorage = isVercelBlobConfigured(env) ? "vercel-blob" : "bundled-json";
   try {
     const { snapshot, meta } = await loadSnapshot({ env });
-    if (configuredStorage === "vercel-blob" && meta?.storage !== "vercel-blob") {
+    const storage = meta?.storage || configuredStorage;
+    const blobBackedRead = storage === "vercel-blob" || storage === "bundled-json-newer-than-blob";
+    if (configuredStorage === "vercel-blob" && !blobBackedRead) {
       throw new Error("Configured dashboard Blob is missing");
     }
     return {
       ok: true,
       mode: "vercel-dashboard-api",
-      storage: meta?.storage || configuredStorage,
+      storage,
       writable: dashboardCanWrite(env),
       state: {
         ok: true,

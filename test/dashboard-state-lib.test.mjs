@@ -620,6 +620,19 @@ assert.equal(healthyDashboard.storage, "vercel-blob");
 assert.equal(healthyDashboard.state.projects, 1);
 assert.equal(healthyDashboard.state.tasks, 0);
 assert.equal(healthyDashboard.writable, true);
+const bundledSupersedesBlobDashboard = await getDashboardHealth({
+  env: {
+    BLOB_READ_WRITE_TOKEN: "blob-token",
+    DASHBOARD_WRITE_TOKEN: "write-token",
+  },
+  loadSnapshot: async () => ({
+    snapshot: projectTableSnapshot,
+    meta: { storage: "bundled-json-newer-than-blob", blob_etag: '"stale"' },
+  }),
+});
+assert.equal(bundledSupersedesBlobDashboard.ok, true);
+assert.equal(bundledSupersedesBlobDashboard.storage, "bundled-json-newer-than-blob");
+assert.equal(bundledSupersedesBlobDashboard.writable, true);
 const unhealthyDashboard = await getDashboardHealth({
   env: { BLOB_READ_WRITE_TOKEN: "blob-token", DASHBOARD_WRITE_TOKEN: "write-token" },
   loadSnapshot: async () => { throw new Error("Blob is unavailable"); },
