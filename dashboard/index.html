@@ -142,6 +142,7 @@
               <strong>People</strong>
               <span data-access-user-count>0</span>
             </div>
+            <button class="access-add-user" type="button" data-access-user-create-open aria-label="Add dashboard user" title="Add dashboard user">+</button>
             <div class="access-user-list" data-access-user-list></div>
           </aside>
 
@@ -166,7 +167,7 @@
               </div>
             </section>
 
-            <form class="access-user-create" data-access-user-create>
+            <form class="access-user-create" data-access-user-create hidden>
               <div class="access-form-heading">
                 <div>
                   <span class="label">New access token</span>
@@ -262,6 +263,7 @@
         let accessSettingsUsers = [];
         let accessSettingsProjects = [];
         let selectedAccessUserId = "";
+        let accessSettingsMode = "edit";
         let accessSettingsLastFocus = null;
         let reloadTimer = null;
         let realtimeChannel = null;
@@ -965,12 +967,14 @@
           const count = document.querySelector("[data-access-user-count]");
           if (!list || !count) return;
           count.textContent = String(accessSettingsUsers.length);
+          const createOpen = document.querySelector("[data-access-user-create-open]");
+          if (createOpen) createOpen.setAttribute("aria-pressed", String(accessSettingsMode === "create"));
           const items = accessSettingsUsers.map((user) => {
             const button = document.createElement("button");
             button.type = "button";
             button.className = "access-user-item";
             button.dataset.accessUserId = user.user_id;
-            button.setAttribute("aria-current", String(user.user_id === selectedAccessUserId));
+            button.setAttribute("aria-current", String(accessSettingsMode === "edit" && user.user_id === selectedAccessUserId));
             const name = document.createElement("strong");
             name.textContent = user.viewer;
             const badge = document.createElement("span");
@@ -983,6 +987,13 @@
             return button;
           });
           list.replaceChildren(...items);
+        }
+
+        function renderAccessSettingsMode() {
+          const editor = document.querySelector("[data-access-user-editor]");
+          const createForm = document.querySelector("[data-access-user-create]");
+          if (editor) editor.hidden = accessSettingsMode === "create";
+          if (createForm) createForm.hidden = accessSettingsMode !== "create";
         }
 
         function accessMetaCell(label, value) {
@@ -1153,6 +1164,7 @@
           const createPicker = document.querySelector("[data-access-create-projects]");
           const createVisibility = accessVisibilityForForm(createForm);
           renderAccessProjectPicker(createPicker, createVisibility, "create");
+          renderAccessSettingsMode();
         }
 
         async function openAccessSettings(trigger) {
@@ -1161,6 +1173,7 @@
           const panel = document.querySelector("[data-access-settings-panel]");
           const main = document.querySelector("main");
           accessSettingsLastFocus = trigger || document.activeElement;
+          accessSettingsMode = "edit";
           clearAccessTokenReveal();
           modal.hidden = false;
           modal.setAttribute("aria-hidden", "false");
@@ -4272,6 +4285,7 @@
               visibility: accessVisibilityForForm(accessCreateForm),
             }).then(async (result) => {
               selectedAccessUserId = result.user.user_id;
+              accessSettingsMode = "edit";
               revealAccessToken(result.token, result.user.viewer);
               accessCreateForm.reset();
               accessCreateForm.elements.bucket_research.checked = true;
@@ -4481,11 +4495,29 @@
             return;
           }
 
-          const accessUser = event.target.closest?.("[data-access-user-id]");
-          if (accessUser) {
-            selectedAccessUserId = accessUser.dataset.accessUserId;
+          const accessCreateOpen = event.target.closest?.("[data-access-user-create-open]");
+          if (accessCreateOpen) {
+            selectedAccessUserId = "";
+            accessSettingsMode = "create";
+            clearAccessTokenReveal();
             renderAccessUserList();
             renderAccessUserEditor();
+            renderAccessSettingsMode();
+            const workspace = document.querySelector("[data-access-settings-workspace]");
+            if (workspace) workspace.scrollTop = 0;
+            const nameInput = document.querySelector("[data-access-user-create] input[name='viewer']");
+            window.requestAnimationFrame(() => nameInput?.focus());
+            return;
+          }
+
+          const accessUser = event.target.closest?.(".access-user-item[data-access-user-id]");
+          if (accessUser) {
+            selectedAccessUserId = accessUser.dataset.accessUserId;
+            accessSettingsMode = "edit";
+            clearAccessTokenReveal();
+            renderAccessUserList();
+            renderAccessUserEditor();
+            renderAccessSettingsMode();
             const workspace = document.querySelector("[data-access-settings-workspace]");
             if (workspace) workspace.scrollTop = 0;
             return;

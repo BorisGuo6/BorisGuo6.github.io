@@ -385,6 +385,9 @@ test("admin settings creates a one-time viewer token without persisting it", asy
   const dialog = page.getByRole("dialog", { name: "Dashboard access" });
   await expect(dialog).toBeVisible();
   const createForm = dialog.locator("[data-access-user-create]");
+  await expect(createForm).toBeHidden();
+  await dialog.getByRole("button", { name: "Add dashboard user" }).click();
+  await expect(createForm).toBeVisible();
   await createForm.getByRole("textbox", { name: "Name" }).fill("Davide");
   await createForm.getByRole("button", { name: "Create token" }).click();
   const tokenField = dialog.getByRole("textbox", { name: "New dashboard access token" });
@@ -415,15 +418,19 @@ test("admin settings can rescope environment viewer tokens without exposing secr
   const editForm = dialog.locator("[data-access-user-edit]");
   const createForm = dialog.locator("[data-access-user-create]");
   await expect(editForm).toBeVisible();
-  await expect(createForm).toBeVisible();
+  await expect(createForm).toBeHidden();
+  await expect(dialog.getByRole("button", { name: "Add dashboard user" })).toBeVisible();
+  await expect.poll(async () => dialog.locator(".access-user-list").evaluate((element) => (
+    getComputedStyle(element).overflowY
+  ))).toBe("auto");
   await expect.poll(async () => dialog.locator(".access-settings-workspace").evaluate((element) => (
     getComputedStyle(element).overflowY
   ))).toBe("auto");
   expect(await dialog.evaluate(() => {
-    const edit = document.querySelector("[data-access-user-edit]");
-    const create = document.querySelector("[data-access-user-create]");
-    if (!edit || !create) return false;
-    return edit.getBoundingClientRect().top < create.getBoundingClientRect().top;
+    const add = document.querySelector("[data-access-user-create-open]");
+    const list = document.querySelector("[data-access-user-list]");
+    if (!add || !list) return false;
+    return add.getBoundingClientRect().bottom <= list.getBoundingClientRect().top;
   })).toBe(true);
   await expect(editForm.getByText("The current environment token value is encrypted outside the dashboard and cannot be copied from Settings.")).toBeVisible();
   await expect(editForm.getByRole("textbox", { name: "Name" })).toBeDisabled();

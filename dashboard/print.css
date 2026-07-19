@@ -322,20 +322,21 @@ body.dashboard-locked .page {
 }
 
 .access-user-rail {
+  display: flex;
+  flex-direction: column;
   min-width: 0;
   min-height: 0;
-  overflow: auto;
-  scrollbar-gutter: stable;
+  overflow: hidden;
   padding: 16px;
   border-right: 1px solid #cbd9dd;
   background: rgba(232, 240, 241, 0.68);
 }
 
 .access-rail-heading {
+  flex: 0 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 10px;
   padding: 0 3px;
 }
 
@@ -352,9 +353,40 @@ body.dashboard-locked .page {
   font-weight: 900;
 }
 
+.access-add-user {
+  flex: 0 0 auto;
+  width: 100%;
+  min-height: 32px;
+  margin: 10px 0;
+  border: 1px dashed #9eb5bd;
+  border-radius: 11px;
+  background: rgba(255, 255, 255, 0.78);
+  color: var(--accent);
+  font: inherit;
+  font-size: 20px;
+  font-weight: 900;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.access-add-user:hover,
+.access-add-user[aria-pressed="true"] {
+  border-style: solid;
+  border-color: #5e9d98;
+  background: #fff;
+  box-shadow: 0 8px 22px rgba(20, 65, 69, 0.09);
+}
+
 .access-user-list {
+  flex: 1 1 auto;
+  min-height: 0;
   display: grid;
+  align-content: start;
   gap: 8px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-right: 2px;
+  scrollbar-gutter: stable;
 }
 
 .access-user-item {
@@ -739,6 +771,7 @@ body.dashboard-scoped-viewer [data-agent-prompt-status] {
   }
 
   .access-user-rail {
+    display: block;
     border-right: 0;
     border-bottom: 1px solid #cbd9dd;
   }
@@ -746,6 +779,7 @@ body.dashboard-scoped-viewer [data-agent-prompt-status] {
   .access-user-list {
     display: flex;
     overflow-x: auto;
+    overflow-y: hidden;
     padding-bottom: 3px;
   }
 
