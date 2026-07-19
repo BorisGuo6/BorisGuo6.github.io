@@ -30,7 +30,6 @@
             </form>
             <button class="auth-signout" type="button" data-auth-signout hidden>Sign out</button>
             <button class="auth-signout access-settings-trigger" type="button" data-access-settings-open hidden>Settings</button>
-            <button class="auth-signout" type="button" data-vercel-token-clear hidden>Lock</button>
             <button class="agent-prompt-copy" type="button" data-agent-prompt-copy>Copy Agent Prompt</button>
             <span class="agent-prompt-status" data-agent-prompt-status aria-live="polite"></span>
           </div>
@@ -650,11 +649,13 @@
           const signOut = document.querySelector("[data-auth-signout]");
           const vercelClear = document.querySelector("[data-vercel-token-clear]");
           const accessSettings = document.querySelector("[data-access-settings-open]");
-          if (!form || !signOut || !vercelClear || !accessSettings) {
+          if (!form || !signOut || !accessSettings) {
             return;
           }
           const isVercel = dataMode === "vercel";
-          vercelClear.hidden = !isVercel || !dashboardSessionActive;
+          if (vercelClear) {
+            vercelClear.hidden = !isVercel || !dashboardSessionActive;
+          }
           accessSettings.hidden = !isVercel || !dashboardPermissions.can_manage_access;
           const hasSupabase = Boolean(supabaseClient);
           const isSignedIn = Boolean(supabaseSession?.user);

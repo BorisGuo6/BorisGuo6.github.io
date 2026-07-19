@@ -1,7 +1,7 @@
 export default {
   "schema_version": "dashboard-state.v1",
   "source": "bundled-json-generated",
-  "updated_at": "2026-07-19T03:06:35.703Z",
+  "updated_at": "2026-07-19T03:39:52.659Z",
   "portfolio": {
     "schema_version": "portfolio.v1",
     "portfolio_id": "embodied-ai-dashboard",
@@ -17791,7 +17791,7 @@ export default {
         "title": "Ziyang / Meng：Object Layer pose / flow / value 路由验证",
         "status": "active",
         "priority": "high",
-        "assignee": "Ziyang / Meng / Jiayi / Boris",
+        "assignee": "Ziyang / Meng / jiayi / Boris",
         "due_at": "2026-07-20",
         "description": "目标是证明 Object Layer 对 manipulation 的实际价值，并按物体类型选择状态表示，而不是把所有对象都塞进一个密集 3D renderer。\n\n路线决策：刚体/关节物体优先走 6D pose；柔性物体、布料、电缆、流体或无可靠 CAD 的对象走 optical flow + keypoint/track 表示。会议正文写 ANeXy，但方法对比表又写 Any6D，ClawCross 群聊未找到可消歧原文；第一道 gate 必须确认准确项目名、代码库、模型输入和许可，禁止把两个名称当同一实现。若刚体后端需要 depth/intrinsics，则在数据生成或前处理阶段固定并记录相机内参，必要时接 DepthAnything 类 depth estimate，并对估计误差做敏感性测试。\n\nObject3D 当前约 1 min/batch、约 32GB、偏离线高斯输出，不应作为实时密集依赖；先把 object pose/flow/contact/state 作为稀疏 value/process-reward sidecar。柔性路线重点验证 flow/keypoint 是否能提供过程奖励、失败定位和任务进度，而不只生成漂亮光流图。\n\nAcceptance: 1) 明确 ANeXy/Any6D 名称歧义并附官方 repo/paper；2) 在同一组 rigid/articulated 与 deformable clips 上跑 pose 与 flow/keypoint 两路，保存命令、git SHA、输入输出、runtime、VRAM；3) 报告 rigid pose error/track stability，deformable endpoint/keypoint/flow consistency、contact timing 和 process-reward separability；4) 对 raw RGB、mask-only、object layer、object+background、recomposed clip 做同输入消融；5) 选择至少一个 RoboMimic/真实 robot benchmark smoke，不能只在本地人机环境展示；6) 输出 occlusion、fast motion、textureless object、cloth fold、cable crossing、pose/flow drift failure gallery；7) 在 GitHub 共享文档、表格和可视化，并给出按 object type 自动分流的 schema 与 fallback。",
         "result": null,
@@ -17829,7 +17829,7 @@ export default {
             "author": "Codex / Image Layered Policy sync",
             "author_type": "system",
             "kind": "comment",
-            "body": "2026-07-16 群聊更新：Jiayi 加入 Stage 3，并与 Ziyang 同步当前未完成实验。她的主问题是 Object Layer 产生的 process reward 能否改善或诊断视频模型的反推结果。沿用现有 rigid pose / deformable optical-flow 路由，不另建重复 TODO；补齐同一 clips 上的 Object Layer quality、pose/flow stability、process-reward 定义，以及该 reward 与视频模型误差/失败阶段的相关性或干预消融。下次组会前至少提交一组可视化、指标表、失败样例和是否值得进入训练监督的 go/no-go 结论。",
+            "body": "2026-07-16 群聊更新：jiayi 加入 Stage 3，并与 Ziyang 同步当前未完成实验。她的主问题是 Object Layer 产生的 process reward 能否改善或诊断视频模型的反推结果。沿用现有 rigid pose / deformable optical-flow 路由，不另建重复 TODO；补齐同一 clips 上的 Object Layer quality、pose/flow stability、process-reward 定义，以及该 reward 与视频模型误差/失败阶段的相关性或干预消融。下次组会前至少提交一组可视化、指标表、失败样例和是否值得进入训练监督的 go/no-go 结论。",
             "created_at": "2026-07-16T13:56:49.652Z"
           }
         ],
@@ -17844,7 +17844,7 @@ export default {
         "priority": "medium",
         "assignee": "Boris / Lai",
         "due_at": "2026-07-10",
-        "description": "把 2026-07-07 会议里的资源和权限流程固化到 dashboard 操作规则。Dashboard 写权限从公共 token 改成 user-specific token；token 应使用随机字节再 Base64url/等价编码生成，前端水印根据后端 token->viewer 绑定显示，禁止把真实 token 写入公开 state。AutoDL 账号由 Lai 管理，Davide 和 Ziyang 需要训练时联系 Lai 开通；使用后 Lai 检查 GPU 使用率，空闲后通知并关闭实例。AutoDL 只能做 <=8 GPU / 单节点架构测试；8 卡以上或大存储需求必须提前向 Boris 报备，由 Boris 协调华为云/阿里云/dev-team 资源。Acceptance: 1) 为 Lai、Ziyang、Davide 开通个人 dashboard token（仅记录 viewer 名称和已开通状态，不公开 token）；2) 在 dashboard/AGENTS 或项目说明里写明 viewer 由 token 绑定返回，不由请求体伪造；3) 写 AutoDL 使用流程：申请、启动、训练、GPU 利用率检查、关闭；4) 写 >8GPU/大存储报备规则；5) 不泄露账号、密码、token、账单或供应商敏感信息。",
+        "description": "把 2026-07-07 会议里的资源和权限流程固化到 dashboard 操作规则。Dashboard 写权限从公共 token 改成 user-specific token；token 应使用随机字节再 Base64url/等价编码生成，前端水印根据后端 token->viewer 绑定显示，禁止把真实 token 写入公开 state。AutoDL 账号由 Lai/yongxi 管理，Davide 和 ziyang 需要训练时联系 Lai/yongxi 开通；使用后 Lai/yongxi 检查 GPU 使用率，空闲后通知并关闭实例。AutoDL 只能做 <=8 GPU / 单节点架构测试；8 卡以上或大存储需求必须提前向 Boris 报备，由 Boris 协调华为云/阿里云/dev-team 资源。Acceptance: 1) Dashboard access 名单至少覆盖 Lai/yongxi、ziyang、Davide、haoyu、yubo、jiayi 等需要访问的成员；仅记录 viewer 名称和已开通状态，不公开 token；2) 在 dashboard/AGENTS 或项目说明里写明 viewer 由 token 绑定返回，不由请求体伪造；3) 写 AutoDL 使用流程：申请、启动、训练、GPU 利用率检查、关闭；4) 写 >8GPU/大存储报备规则；5) 不泄露账号、密码、token、账单或供应商敏感信息。",
         "result": null,
         "comments": [
           {
@@ -17867,7 +17867,7 @@ export default {
           }
         ],
         "created_at": "2026-07-07T12:00:00+08:00",
-        "updated_at": "2026-07-07T15:44:38.777Z",
+        "updated_at": "2026-07-19T03:31:03.830Z",
         "completed_at": "2026-07-07",
         "completed_at_time": "2026-07-07T15:44:38.777Z"
       },
@@ -18572,7 +18572,7 @@ export default {
         "description": "把 NVIDIA cuVSLAM / Isaac ROS Visual SLAM 加入 UMI Stage 2/3 的 wrist-view geometry probe。先确认 UMI 数据能否满足 cuVSLAM 的输入约束（支持模式、成对相机/时间同步、内参、畸变与 rectification；不要默认左右腕相机就是有效 stereo pair）。为同一批 3-5 个 UMI clips 制作三种输入：raw wrist view、robot removed/inpainted、robot + manipulated object removed/inpainted；保持相同裁剪、时间戳与相机参数。分别运行 cuVSLAM，并以 ORB-SLAM3、VGGT-SLAM 为对照，记录初始化/跟踪成功率、lost/restart 次数、valid-pose ratio、轨迹平滑度、ATE/RPE 或无 GT 时的循环/重投影代理、速度、VRAM 与失败样例。核心检验不是“去掉前景一定更好”，而是量化动态 robot/object 像素与 inpainting temporal artifacts 对 VO/SLAM 的净影响。验收：提供可复查命令/配置、输入与 mask/layer_manifest、三路轨迹叠加或可视化、指标表和明确 go/no-go 结论；若输入模式不兼容，写明最小采集/标定改造。参考：https://github.com/nvidia-isaac/cuVSLAM 和 https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_visual_slam。",
         "status": "todo",
         "priority": "high",
-        "assignee": "Ziyang (Seb.M) / Jiayi",
+        "assignee": "Ziyang (Seb.M) / jiayi",
         "result": null,
         "comments": [
           {
@@ -18581,7 +18581,7 @@ export default {
             "author": "Codex / Image Layered Policy sync",
             "author_type": "system",
             "kind": "comment",
-            "body": "2026-07-16 群聊更新：Ziyang 需要与 Jiayi 同步 Stage 3 尚未测试的项目，cuVSLAM 明确继续验证 robot-layer removal 后的 UMI view；Object optical flow 仍归并到既有 Object Layer pose / flow / value TODO。两条任务必须使用可对齐的 clip/layer manifest，避免 cuVSLAM 与 optical-flow 结果来自不同数据切片而无法联合判断 Layer utility。",
+            "body": "2026-07-16 群聊更新：Ziyang 需要与 jiayi 同步 Stage 3 尚未测试的项目，cuVSLAM 明确继续验证 robot-layer removal 后的 UMI view；Object optical flow 仍归并到既有 Object Layer pose / flow / value TODO。两条任务必须使用可对齐的 clip/layer manifest，避免 cuVSLAM 与 optical-flow 结果来自不同数据切片而无法联合判断 Layer utility。",
             "created_at": "2026-07-16T13:58:59.096Z"
           }
         ],
@@ -18591,11 +18591,11 @@ export default {
       {
         "task_id": "task_urdf_embodiment_prior_world_model_idea_yubo_bridgev2w_kinema4d_oscar_urdf_world_model_n_20260716",
         "project_id": "umi-world-model",
-        "title": "Yubo：在 UMI Robot Layer 分支复现 BridgeV2W / Kinema4D / OSCAR / SimDist",
-        "description": "Image Layered Policy 群聊在 2026-07-16 明确：URDF World Model 应理解为 UMI Robot Layer 注入的 action-conditioned world model，而不是独立第四张 Research 卡片。Yubo 在下次组会前测试四个相通基线。1) BridgeV2W：URDF + camera 渲染 pixel-aligned embodiment mask 控制；2) Kinema4D：URDF-driven 4D trajectory / pointmap 控制；3) OSCAR：跨 embodiment 的 2D skeleton 控制；4) SimDist：仿真 world model / dynamics transfer 对 Stage 2/Robot Layer 的相邻假设。使用同一套至少 1-2 条 robot trajectories、相机设定与目标视频，记录可复现命令、commit/model、输入控制表示、相机/URDF依赖、生成结果、action/camera adherence、跨视角或跨 embodiment 能力、runtime/VRAM、代码/模型/数据可用性和失败样例。验收：下次组会前提交最小运行证据、一张横向比较表、失败日志，以及明确的 reuse/differentiate 结论。Novelty gate：URDF + action + camera 本身不能作为新颖性主张；后续主张必须证明 layer-aware environment reaction、commanded/measured action provenance、动态 wrist + third-person 多视角一致性、held-out morphology，或相对 BridgeV2W/Kinema4D/OSCAR/SimDist 的增量。参考：https://arxiv.org/abs/2602.03793；https://arxiv.org/abs/2603.16669；https://arxiv.org/abs/2606.04463；https://sim-dist.github.io",
+        "title": "yubo：在 UMI Robot Layer 分支复现 BridgeV2W / Kinema4D / OSCAR / SimDist",
+        "description": "Image Layered Policy 群聊在 2026-07-16 明确：URDF World Model 应理解为 UMI Robot Layer 注入的 action-conditioned world model，而不是独立第四张 Research 卡片。yubo 在下次组会前测试四个相通基线。1) BridgeV2W：URDF + camera 渲染 pixel-aligned embodiment mask 控制；2) Kinema4D：URDF-driven 4D trajectory / pointmap 控制；3) OSCAR：跨 embodiment 的 2D skeleton 控制；4) SimDist：仿真 world model / dynamics transfer 对 Stage 2/Robot Layer 的相邻假设。使用同一套至少 1-2 条 robot trajectories、相机设定与目标视频，记录可复现命令、commit/model、输入控制表示、相机/URDF依赖、生成结果、action/camera adherence、跨视角或跨 embodiment 能力、runtime/VRAM、代码/模型/数据可用性和失败样例。验收：下次组会前提交最小运行证据、一张横向比较表、失败日志，以及明确的 reuse/differentiate 结论。Novelty gate：URDF + action + camera 本身不能作为新颖性主张；后续主张必须证明 layer-aware environment reaction、commanded/measured action provenance、动态 wrist + third-person 多视角一致性、held-out morphology，或相对 BridgeV2W/Kinema4D/OSCAR/SimDist 的增量。参考：https://arxiv.org/abs/2602.03793；https://arxiv.org/abs/2603.16669；https://arxiv.org/abs/2606.04463；https://sim-dist.github.io",
         "status": "todo",
         "priority": "high",
-        "assignee": "Yubo",
+        "assignee": "yubo",
         "result": null,
         "comments": [
           {
@@ -18616,7 +18616,7 @@ export default {
             "created_at": "2026-07-19T01:50:33.491Z"
           }
         ],
-        "updated_at": "2026-07-19T01:56:26.790Z"
+        "updated_at": "2026-07-19T03:31:03.830Z"
       },
       {
         "task_id": "task_self_improving_agents_phase_2_harness_build_reusable_skill_mcp_registr_20260717",
