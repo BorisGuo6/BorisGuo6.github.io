@@ -55,6 +55,7 @@ import {
 import {
   blobEtagsMatch,
   isBlobPreconditionFailedError,
+  loadVercelDashboardSnapshot,
   readVercelBlobSnapshot,
   vercelBlobReadUrl,
   writeVercelBlobSnapshot,
@@ -525,6 +526,32 @@ const freshBlobRead = await readVercelBlobSnapshot({
 assert.equal(blobFetchCount, 2, "Blob reads should retry until the content ETag matches head");
 assert.equal(freshBlobRead.blob.etag, '"fresh"');
 assert.equal(freshBlobRead.snapshot.projects[0].project_id, "general");
+const staleRemoteState = normalizeDashboardSnapshot({
+  ...projectTableSnapshot,
+  updated_at: "2026-01-01T00:00:00.000Z",
+});
+const newerBundledRead = await loadVercelDashboardSnapshot({
+  env: { BLOB_READ_WRITE_TOKEN: "test-token" },
+  retryDelays: [0],
+  blobApi: {
+    async get() {
+      return {
+        stream: new Response(JSON.stringify(staleRemoteState)).body,
+        blob: { pathname: "dashboard-state-private/embodied-ai-dashboard.json", etag: '"stale"' },
+      };
+    },
+  },
+});
+assert.equal(
+  newerBundledRead.meta.storage,
+  "bundled-json-newer-than-blob",
+  "a stale production Blob must not hide a newer dashboard state bundled in the deployment",
+);
+assert.equal(
+  newerBundledRead.snapshot.projects.length,
+  state.projects.length,
+  "newer bundled state should be returned intact when it supersedes the Blob",
+);
 const fakeBlobWrites = [];
 await writeVercelBlobSnapshot(projectTableSnapshot, {
   env: { BLOB_READ_WRITE_TOKEN: "test-token" },

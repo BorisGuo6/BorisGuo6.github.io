@@ -44,6 +44,15 @@ export function isBlobPreconditionFailedError(error) {
     || /Precondition failed: ETag mismatch/i.test(String(error?.message || ""));
 }
 
+function timestampValue(value) {
+  const timestamp = Date.parse(value || "");
+  return Number.isFinite(timestamp) ? timestamp : 0;
+}
+
+function bundledSnapshotIsNewer(bundledSnapshot, blobSnapshot) {
+  return timestampValue(bundledSnapshot?.updated_at) > timestampValue(blobSnapshot?.updated_at);
+}
+
 function wait(milliseconds) {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
@@ -206,8 +215,27 @@ export async function writeVercelBlobSnapshot(snapshot, options = {}) {
 }
 
 export async function loadVercelDashboardSnapshot(options = {}) {
+  const env = options.env || process.env;
   const blobResult = await readVercelBlobSnapshot(options);
   if (blobResult?.snapshot) {
+    const bundledSnapshot = await loadBundledDashboardSnapshot({
+      source: "bundled-json",
+    });
+    if (bundledSnapshotIsNewer(bundledSnapshot, blobResult.snapshot)) {
+      return {
+        snapshot: {
+          ...bundledSnapshot,
+          source: "bundled-json-newer-than-blob",
+        },
+        meta: {
+          storage: "bundled-json-newer-than-blob",
+          blob_path: blobResult.blob.pathname,
+          blob_etag: blobResult.blob.legacy_public ? null : blobResult.blob.etag,
+          legacy_public_blob_path: blobResult.blob.legacy_public_pathname || null,
+          superseded_blob_updated_at: blobResult.snapshot.updated_at || null,
+        },
+      };
+    }
     return {
       snapshot: blobResult.snapshot,
       meta: {
@@ -220,11 +248,11 @@ export async function loadVercelDashboardSnapshot(options = {}) {
   }
   return {
     snapshot: await loadBundledDashboardSnapshot({
-      source: isVercelBlobConfigured(options.env || process.env) ? "bundled-json-seed" : "bundled-json",
+      source: isVercelBlobConfigured(env) ? "bundled-json-seed" : "bundled-json",
     }),
     meta: {
-      storage: isVercelBlobConfigured(options.env || process.env) ? "bundled-json-seed" : "bundled-json",
-      blob_path: dashboardBlobPath(options.env || process.env),
+      storage: isVercelBlobConfigured(env) ? "bundled-json-seed" : "bundled-json",
+      blob_path: dashboardBlobPath(env),
     },
   };
 }
