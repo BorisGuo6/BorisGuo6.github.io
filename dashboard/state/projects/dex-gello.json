@@ -4,7 +4,7 @@
   "title": "DexGello Arm-Hand Decoupled Teleoperation",
   "bucket": "survey",
   "status": "survey",
-  "updated_at": "2026-06-27T06:03:49.249Z",
+  "updated_at": "2026-07-19T01:56:26.790Z",
   "description": "Idea/survey-stage DexGello notes are paused while Yongxi is away; keep the design and evidence as reference material rather than an active ongoing project.",
   "summary": "DexGello is moved back to Idea/Survey while Yongxi is home and active execution is paused. The useful retained idea is arm-hand decoupled data collection: GELLO for q_arm, VIVE for T_hand, MANUS/Wuji for q_finger/tactile, plus calibration and replay logs. All current TODOs are marked done/parked; future restart should reopen only if staffing and calibration bandwidth return.",
   "subprojects": [
@@ -113,7 +113,7 @@
     "Failure-data risk: failed trajectories are not automatically useful. The metric must separate high-value pre-failure phases from the actual wrong action, otherwise imitation learning may amplify bad recovery/contact behavior.",
     "Proximity/P2GI boundary: use P2GI as a design reference for pre-contact object-relation metrics. Adding proximity sensors to Wuji is a possible v1 experiment, not a prerequisite for the current GELLO + MANUS + VIVE logger.",
     "DexGello input boundary: do not reintroduce GELLO trigger as the hand/finger control source. Keep arm control on GELLO, wrist/intent on ACE-style ring, and hand/finger retargeting on MANUS.",
-    "Demo boundary: slime-clay cutting, Jenga extraction, broom-to-dustpan sweeping, cube-turning, plastic-bag rubbing, and Lego tool manipulation are owned by Engineering / Real-Robot Demos; DexGello contributes reusable logging, calibration, planning, and evaluation dependencies only. Safety gates still apply before any live run.",
+    "Demo boundary: slime-clay cutting, Jenga extraction, broom-to-dustpan sweeping, cube-turning, plastic-bag rubbing, and Lego tool manipulation are owned by Research / Ego2Dex Human Demonstration / LfD; DexGello contributes reusable logging, calibration, planning, and evaluation dependencies only. Safety gates still apply before any live run.",
     "cuRobo boundary: planning wrapper, collision scene, joint limits, and reusable planner integration belong in DexGello; concrete demo scenario ownership and pass/fail evidence live in Real-Robot Demos.",
     "Mounting dependency boundary: glove/camera adapters that affect MANUS, Wuji, VIVE, Franka, or DexGello episode replay belong in DexGello; shared robot availability and safety gates remain in Real-Robot Infra.",
     "Status decision 2026-06-27: mark all DexGello TODOs done/parked and move the card from Research ongoing to Idea/Survey. Reopen only when Yongxi or another owner can actively run calibration, logging, and comparison experiments."

@@ -1,12 +1,12 @@
 {
   "schema_version": "project.v1",
   "project_id": "real-robot-demos",
-  "title": "Real-Robot Demos / Ego2Dex LfD",
-  "bucket": "engineering",
+  "title": "Ego2Dex Human Demonstration / LfD",
+  "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-07-18T03:56:26.961Z",
-  "description": "Engineering source of truth for physical robot demos and human-video-to-robot learning baselines",
-  "summary": "Physical demo execution remains task-card driven. This intro now owns the shared Ego2Dex / Learning-from-Demonstration pipeline: monocular hand-object reconstruction, contact-aware trajectory refinement, human-to-robot action alignment, and one matched real-robot acceptance path.",
+  "updated_at": "2026-07-19T01:56:26.790Z",
+  "description": "Research track for human/ego demonstration reconstruction, contact-aware retargeting, and matched real-robot validation",
+  "summary": "Research track for Ego2Dex / Learning-from-Demonstration: monocular ego or human-video hand-object reconstruction, contact-aware trajectory cleanup, human-to-robot retargeting, and matched real-robot validation. Physical demo tasks remain here only as acceptance surfaces for the LfD claim, while hardware readiness stays in Real-Robot Infra.",
   "visual": {
     "layout": "single-column"
   },
@@ -64,7 +64,7 @@
         }
       ]
     },
-    "Scope boundary: this Engineering card owns human/ego reconstruction, contact cleanup, retargeting, same-task HOI schema, and physical acceptance. UMI World Model may consume validated layer_manifest sidecars, but it no longer owns the full Ego2Dex/LfD implementation queue.",
+    "Scope boundary: this Research card owns human/ego reconstruction, contact cleanup, retargeting, same-task HOI schema, and physical acceptance. UMI World Model may consume validated layer_manifest sidecars, but it no longer owns the full Ego2Dex/LfD implementation queue.",
     "Comparison rule: freeze clips and coordinate conventions first. A paper-specific qualitative demo is not evidence of a better pipeline; every baseline must expose the same manifest fields, metrics, runtime, manual intervention, and failures.",
     "Human data is a scalable pretraining source, not proof of robot control. Promotion requires a target-embodiment mapping plus simulation/read-only validation and a logged low-speed physical run."
   ],
@@ -213,11 +213,11 @@
     "Metric depth, camera convention, object scale, MANO frame, and robot base frame must be explicit in every manifest; silent frame/scale mismatch can make a visually plausible trajectory physically unusable.",
     "Contact refinement is downstream of hand/object geometry quality. Report whether a method repairs geometry or merely pulls meshes together despite wrong scale, pose, or occlusion.",
     "Human-video pretraining gains do not establish target-robot executability. Promotion requires a declared mapping/IK/retargeting path and matched robot-side validation.",
-    "Do not let demo ownership drift back into DexGello. DexGello can provide dependencies and logs, but this Engineering card is the source of truth for scenario rows and open demo TODOs.",
     "Plastic-bag rubbing depends on choosing a safe 3M anti-slip tape placement that improves grip without damaging Wuji fingertips, blocking sensors, or snagging cables.",
     "Lego / tool-manipulation procurement is buyer-paid, but the actual block order appears to be small-particle baseplates and a mixed block pack. Do not treat the large-particle requirement as satisfied until arrival and fit check confirm it.",
     "Long-horizon failure-data demos should not be judged only by final success. They need per-stage labels so DexGello can learn useful pre-failure segments without imitating the actual failed action.",
-    "All demos need explicit low-speed safety gates, workspace limits, cable routing, object fixture cleanup, and logged pass/fail evidence before being treated as done."
+    "All demos need explicit low-speed safety gates, workspace limits, cable routing, object fixture cleanup, and logged pass/fail evidence before being treated as done.",
+    "Scope boundary: this Research card owns human/ego reconstruction, contact cleanup, retargeting, same-task HOI schema, and physical acceptance. UMI World Model may consume validated layer_manifest sidecars, but it should not own the full Ego2Dex/LfD implementation queue."
   ],
   "timeline": {
     "badges": [

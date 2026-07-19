@@ -488,22 +488,22 @@ test("explicit JSON fallback opens read-only without an API session", async ({ p
   await expect(page.locator("[data-sync-status]")).toContainText("JSON fallback");
 });
 
-test("URDF baseline names in the novelty boundary are clickable", async ({ page }) => {
+test("URDF baseline names in the UMI Robot Layer branch are clickable", async ({ page }) => {
   await mockDashboardApi(page);
   await unlockDashboard(page);
 
   const project = page.locator(
-    'details.project-detail[data-project-id="urdf-embodiment-prior-world-model-idea"]',
+    'details.project-detail[data-project-id="umi-world-model"]',
   );
-  const intro = project.locator(".project-intro");
   const expectedLinks = [
     ["BridgeV2W", "https://arxiv.org/abs/2602.03793"],
     ["Kinema4D", "https://arxiv.org/abs/2603.16669"],
     ["OSCAR", "https://arxiv.org/abs/2606.04463"],
+    ["SimDist", "https://sim-dist.github.io/"],
   ];
 
   for (const [label, href] of expectedLinks) {
-    const link = intro.locator("a", { hasText: label });
+    const link = project.locator("a", { hasText: label });
     await expect(link).toHaveCount(1);
     await expect(link).toHaveAttribute("href", href);
   }

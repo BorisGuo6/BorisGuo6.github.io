@@ -5,7 +5,7 @@
   "subtitle": "World models, self-improving simulators, teleop acceleration, and robotics + 3D printing",
   "week": "2026-W24",
   "date": "2026-06-12",
-  "updated_at": "2026-07-18T03:56:26.961Z",
+  "updated_at": "2026-07-19T01:56:26.790Z",
   "state_root": "dashboard/state",
   "summary": {
     "focus": "Research 主线保持 Tri-View/Image-Layered IDM、Self-Improving Agents 和 DexGello；Survey TODO 已统一 inactive/archived，不再显示为当前执行队列。",
@@ -332,10 +332,11 @@
   "projects": [
     {
       "project_id": "umi-world-model",
-      "title": "Tri-View Ego World + Image-Layered IDM Foundation Model",
+      "title": "UMI Image Layered World Model",
       "bucket": "research",
       "status": "ongoing",
-      "state_path": "dashboard/state/projects/umi-world-model.json"
+      "state_path": "dashboard/state/projects/umi-world-model.json",
+      "summary": "UMI World Model is a three-paper program with one shared data substrate: Stage 1 trains a streaming multi-view pose/action-conditioned robot world model and now owns the URDF/FK/action/camera Robot Layer branch; Stage 2 turns manipulation videos into reusable scene, object/contact, occluder/tool, and robot/actor layers; Stage 3 tests whether those layers improve manipulation and video-model training. This intro is architecture/status framing only; execution lives in TODOs and task comments."
     },
     {
       "project_id": "self-improving-agents",
@@ -343,6 +344,14 @@
       "bucket": "research",
       "status": "ongoing",
       "state_path": "dashboard/state/projects/self-improving-agents.json"
+    },
+    {
+      "project_id": "real-robot-demos",
+      "title": "Ego2Dex Human Demonstration / LfD",
+      "bucket": "research",
+      "status": "ongoing",
+      "state_path": "dashboard/state/projects/real-robot-demos.json",
+      "summary": "Research track for Ego2Dex / Learning-from-Demonstration: monocular ego or human-video hand-object reconstruction, contact-aware trajectory cleanup, human-to-robot retargeting, and matched real-robot validation. Physical demo tasks remain here only as acceptance surfaces for the LfD claim, while hardware readiness stays in Real-Robot Infra."
     },
     {
       "project_id": "tactile-wam",
@@ -371,13 +380,6 @@
       "bucket": "engineering",
       "status": "ongoing",
       "state_path": "dashboard/state/projects/general.json"
-    },
-    {
-      "project_id": "real-robot-demos",
-      "title": "Real-Robot Demos / Ego2Dex LfD",
-      "bucket": "engineering",
-      "status": "ongoing",
-      "state_path": "dashboard/state/projects/real-robot-demos.json"
     },
     {
       "project_id": "superhuman-rate-curve-teleop",
@@ -413,13 +415,6 @@
       "bucket": "archive",
       "status": "archived",
       "state_path": "dashboard/state/projects/model-assisted-teleop-survey.json"
-    },
-    {
-      "project_id": "urdf-embodiment-prior-world-model-idea",
-      "title": "URDF Kinematic-Camera World Model",
-      "bucket": "research",
-      "status": "ongoing",
-      "state_path": "dashboard/state/projects/urdf-embodiment-prior-world-model-idea.json"
     },
     {
       "project_id": "skill-world-model-survey",

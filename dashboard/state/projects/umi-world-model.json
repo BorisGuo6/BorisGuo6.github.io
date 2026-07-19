@@ -4,20 +4,20 @@
   "title": "UMI Image Layered World Model",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-07-18T03:56:26.961Z",
+  "updated_at": "2026-07-19T01:56:26.790Z",
   "description": "UMI Image Layered World Model: three linked papers covering multi-view robot video world modeling, manipulation-video dynamics decomposition into reusable layers, and layered data as a downstream VLA/IDM/reward training interface.",
-  "summary": "UMI World Model is a three-paper program with one shared data substrate: Stage 1 trains a streaming multi-view pose/action-conditioned robot world model, with an optional Stage 1B that consumes explicit URDF/FK/action/camera controls from the separate URDF Kinematic-Camera Research track; Stage 2 turns manipulation videos into reusable scene, object/contact, occluder/tool, and robot/actor layers; Stage 3 tests whether those layers improve manipulation and video-model training. This intro is only architecture/status framing; task-level execution state lives in TODOs and task comments.",
+  "summary": "UMI World Model is a three-paper program with one shared data substrate: Stage 1 trains a streaming multi-view pose/action-conditioned robot world model and now owns the URDF/FK/action/camera Robot Layer branch; Stage 2 turns manipulation videos into reusable scene, object/contact, occluder/tool, and robot/actor layers; Stage 3 tests whether those layers improve manipulation and video-model training. This intro is architecture/status framing only; execution lives in TODOs and task comments.",
   "subprojects": [
     {
       "label": "A",
       "title": "Stage 1: Streaming Multi-View UMI World Model",
-      "body": "Paper 1 learns a shared-scene, multi-view robot world model from synchronized wrist/head/fixed views and pose/action sidecars. Stage 1B is an optional explicit-control method branch that consumes URDF/FK, commanded/measured motion, and calibrated multi-camera controls from the separate URDF Kinematic-Camera Research card; it does not add a fourth UMI paper or absorb the held-out-morphology claim. Durable data context: DaiMeng/Jingdu-style material has roughly 943 usable dual-arm hours after filtering single-arm episodes.",
-      "output": "Durable output: multi-view robot-video rollout metrics, the Stage 1 evaluation protocol, and a controlled comparison between compact pose/action sidecars and explicit URDF/camera reference bundles."
+      "body": "Paper 1 learns a shared-scene, multi-view robot world model from synchronized wrist/head/fixed views and pose/action sidecars. The Robot Layer branch imports URDF/FK, commanded/measured motion, skeleton/mesh controls, and calibrated third-person/wrist cameras as explicit action-conditioned references inside UMI, not as a standalone Research card. Durable data context: DaiMeng/Jingdu-style material has roughly 943 usable dual-arm hours after filtering single-arm episodes.",
+      "output": "Durable output: multi-view robot-video rollout metrics, the Stage 1 evaluation protocol, and controlled comparisons between compact pose/action sidecars and explicit URDF/camera/Robot Layer reference bundles."
     },
     {
       "label": "B",
       "title": "Stage 2: Video Dynamics Decomposition Model",
-      "body": "Paper 2 is VDDM: a model/data interface for decomposing robot manipulation video into scene/background, object/contact, occluder/tool, and robot/end-effector layers with manifests and QA. Human ego hand-object reconstruction is evaluated in Engineering / Real-Robot Demos / Ego2Dex LfD and returns only validated sidecars when needed.",
+      "body": "Paper 2 is VDDM: a model/data interface for decomposing robot manipulation video into scene/background, object/contact, occluder/tool, and robot/end-effector layers with manifests and QA. Human ego hand-object reconstruction is evaluated in Research / Ego2Dex Human Demonstration / LfD and returns only validated sidecars when needed.",
       "output": "Durable output: layer_manifest-compatible VDDM layer packages and QA criteria."
     },
     {
@@ -53,13 +53,13 @@
     "rows": [
       {
         "stage": "Stage 1 / 1B",
-        "interface": "Streaming multi-view robot WM + optional explicit URDF/camera control",
-        "status_frame": "Stage 1 treats synchronized wrist/head/fixed views as one shared scene with pose/action sidecars. Stage 1B is a linked method branch supplied by the separate URDF Kinematic-Camera Research card; it compares explicit morphology/action/camera controls without changing the UMI three-paper structure. RynnWorld-Teleop remains a close compact-control reference: https://alibaba-damo-academy.github.io/RynnWorld-Teleop.github.io/. CameraNoise is the Stage 1 noise-space camera-control reference: https://gulucaptain.github.io/CameraNoise/. For synchronized POV overlap, use geometry-warped partial correlation plus independent residuals; identical noise is an ablation, not the default."
+        "interface": "Streaming multi-view robot WM + URDF/action/camera Robot Layer control",
+        "status_frame": "Stage 1 treats synchronized wrist/head/fixed views as one shared scene with pose/action sidecars. The URDF/FK/action/camera branch is now inside UMI as Robot Layer interaction control: URDF skeleton/mesh + commanded/measured action + third-person/wrist camera TF. RynnWorld-Teleop remains a compact-control reference: https://alibaba-damo-academy.github.io/RynnWorld-Teleop.github.io/. CameraNoise is the noise-space camera-control reference: https://gulucaptain.github.io/CameraNoise/. BridgeV2W/Kinema4D/OSCAR/SimDist are novelty gates, so the claim must go beyond URDF + action + camera alone."
       },
       {
         "stage": "Stage 2",
         "interface": "Video Dynamics Decomposition Model",
-        "status_frame": "Robot manipulation video is decomposed into scene/background, object/contact, occluder/tool, and robot/end-effector layers with one manifest schema. Human Ego2Dex reconstruction is a linked Engineering evaluation lane, not another UMI subproject."
+        "status_frame": "Robot manipulation video is decomposed into scene/background, object/contact, occluder/tool, and robot/end-effector layers with one manifest schema. Human Ego2Dex reconstruction is a linked Research evaluation lane, not another UMI subproject."
       },
       {
         "stage": "Stage 3",
@@ -76,7 +76,7 @@
   "layer_utility": {
     "title": "Layer utility map",
     "aria_label": "Image-layered robot data utility map linking scene, object, and robot layers to downstream model families and third-party visual processing tools.",
-    "caption": "Layer order follows recomposition: robot/object layers overlay upward onto the scene layer. Stage 3 treats each robot-data layer as an interface to external vision/geometry tools, then checks whether the resulting signals improve IDM, reward, pose/flow, augmentation, and PhysisForcing-style video-model physics alignment beyond raw RGB and mask-only baselines. Human Ego2Dex reconstruction and LfD execution live in Engineering / Real-Robot Demos.",
+    "caption": "Layer order follows recomposition: robot/object layers overlay upward onto the scene layer. Stage 3 treats each robot-data layer as an interface to external vision/geometry tools, then checks whether the resulting signals improve IDM, reward, pose/flow, augmentation, and PhysisForcing-style video-model physics alignment beyond raw RGB and mask-only baselines. Human Ego2Dex reconstruction and LfD execution live in Research / Ego2Dex Human Demonstration / LfD.",
     "layers": [
       {
         "layer": "Layer 0",
@@ -306,7 +306,13 @@
     "task_umi_roboseg_sam3_backend_migration_p3_20260701",
     "task_umi_davide_multilayer_video_model_architecture_20260707",
     "task_umi_ziyang_object_layer_pose_value_benchmark_20260707",
-    "task_umi_user_tokens_autodl_resource_governance_20260707"
+    "task_umi_user_tokens_autodl_resource_governance_20260707",
+    "task_urdf_embodiment_prior_world_model_idea_novelty_matrix_urdf_x_action_x_dynamic_camera_20260711",
+    "task_urdf_embodiment_prior_world_model_idea_reference_compiler_v0_urdf_fk_action_multi_camer_20260711",
+    "task_urdf_embodiment_prior_world_model_idea_camera_action_factorization_gate_x_20260711",
+    "task_urdf_embodiment_prior_world_model_idea_film_space_style_two_view_generation_probe_20260711",
+    "task_urdf_embodiment_prior_world_model_idea_held_out_urdf_factorial_ablation_executable_eval_20260711",
+    "task_urdf_embodiment_prior_world_model_idea_yubo_bridgev2w_kinema4d_oscar_urdf_world_model_n_20260716"
   ],
   "references": [
     {
@@ -815,6 +821,46 @@
       "title": "HoRoPose: Real-time Holistic Robot Pose Estimation with Unknown States",
       "url": "https://github.com/Oliverbansk/Holistic-Robot-Pose-Estimation",
       "notes": "Stage 3 unknown-state RGB robot-pose baseline using robot URDF/model assets."
+    },
+    {
+      "title": "Film Space: iPhone ARKit virtual-film camera workflow",
+      "url": "https://github.com/maxprokopp/film-space",
+      "notes": "Workflow inspiration and implicit reference-video baseline. The current public code tracks camera-to-world transforms internally but records rendered video to Photos; it does not expose a documented per-frame trajectory export or Blender bridge."
+    },
+    {
+      "title": "BridgeV2W: URDF- and camera-rendered embodiment masks",
+      "url": "https://arxiv.org/abs/2602.03793",
+      "arxiv_id": "2602.03793",
+      "submitted_at": "2026-02-03",
+      "notes": "Closest direct baseline: coordinate-space actions are converted into pixel-aligned masks rendered from URDF and camera parameters, then injected through a ControlNet-style pathway."
+    },
+    {
+      "title": "Kinema4D: URDF-driven 4D trajectories and pointmap control",
+      "url": "https://arxiv.org/abs/2603.16669",
+      "arxiv_id": "2603.16669",
+      "submitted_at": "2026-03-17",
+      "notes": "Direct baseline for precise kinematic control, pointmap conditioning, synchronized RGB/geometry generation and cross-embodiment claims."
+    },
+    {
+      "title": "OSCAR: Omni-Embodiment Action-Conditioned World Model",
+      "url": "https://arxiv.org/abs/2606.04463",
+      "arxiv_id": "2606.04463",
+      "submitted_at": "2026-06-03",
+      "notes": "Strong skeleton-only baseline: renders 2D kinematic skeletons as a unified condition across robot arms and human hands for video generation and policy evaluation."
+    },
+    {
+      "title": "SimDist: simulation-pretrained world models with dynamics-only real adaptation",
+      "url": "https://sim-dist.github.io/",
+      "arxiv_id": "2603.15759",
+      "submitted_at": "2026-03-16",
+      "notes": "Training and sim-to-real baseline: pretrains an action-conditioned latent world model from mixed-quality simulator data, preserves the encoder/reward/value task structure, and finetunes only latent dynamics from limited real prediction data. Compare against it before claiming that an explicit URDF compiler improves adaptation or real-data efficiency."
+    },
+    {
+      "title": "EnerVerse-AC: action conditioning with dynamic multi-view ray maps",
+      "url": "https://arxiv.org/abs/2505.09723",
+      "arxiv_id": "2505.09723",
+      "submitted_at": "2025-05-14",
+      "notes": "Robot world-model baseline for multi-level action conditioning, dynamic multi-view ray maps, failure trajectories and policy evaluation."
     }
   ],
   "risks_decisions": [
@@ -853,62 +899,7 @@
     "10k launch guardrail 2026-06-28: the scalable 10k structured-bottleneck/action-dependent launcher exists but is deliberately opt-in via ALLOW_10K_TEACHER=1. It must not run before the current 398-row strict gate is reviewed; otherwise it would consume GPUs without first learning whether the route direction works.",
     "Queue guardrail 2026-06-28 live check: do not interrupt the current Gamma Stage3 job just to start the 398-row actiondep route. The useful next evidence is the automatic post-Stage3 strict-nearest + layer-gate report; until that exists, the project remains in queued-validation state, not success state.",
     "Iter-600 ablation guardrail 2026-06-28: the iter-600 teacher -> student/DMD wrapper is prepared but must remain secondary. Run it only after the current 398-row actiondep route has produced strict-nearest evidence, or if we explicitly choose to compare teacher checkpoints before scaling 10k training.",
-    {
-      "type": "decision",
-      "date": "2026-06-29",
-      "title": "Promote Gamma teacher as visual-quality anchor candidate, not final action-conditioned completion",
-      "body": "Gamma quality-anchor counterfactual eval produced 14/15 global action and 10/15 dual-view action passes with 45/45 readable videos. Continue with strict-nearest/hard-negative and per-view action separation before claiming a true action-conditioned dual-view UMI world model.",
-      "evidence": "/Users/boris/Downloads/umi_gamma_quality_anchor_counterfactual_20260628/index.html"
-    },
-    {
-      "type": "decision",
-      "date": "2026-06-29",
-      "title": "Strict-nearest hard negatives reject Gamma teacher as completed action-conditioned model",
-      "body": "The earlier weak wrong_next-only Gamma eval looked promising, but strict-nearest evaluation drops to 8/15 global action and 6/15 dual-view action while visual quality stays 15/15. Treat Gamma as a visual-quality teacher/anchor; next work should add an explicit action/state bottleneck or contrastive state head before claiming action-conditioned dual-view control.",
-      "evidence": "/Users/boris/Downloads/umi_gamma_strict_quality_anchor_counterfactual_20260629/index.html"
-    },
-    {
-      "type": "decision",
-      "date": "2026-06-29",
-      "title": "Do not continue ranker-only scaling from explicit10 grid",
-      "body": "The explicit10/raw-gripper structured action-video ranker grid completed 8 candidates and topped out at 6/15 strict GT rank gates, below the previous 8/15 reference; the best ranker also scored Gamma strict generated actual videos at only 4/15. Treat this as negative evidence for ranker-only progress. A useful next route must change the generator-side action/state bottleneck or use the ranker as a training/guidance signal, not just tune discriminator hyperparameters.",
-      "evidence": "/Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/action_video_ranker_explicit10_structured_grid8_20260629/index.html"
-    },
-    {
-      "type": "decision",
-      "date": "2026-06-29",
-      "title": "Iter800 is not a better strict action-conditioned teacher",
-      "body": "The iter800 Gamma teacher rerun kept visual quality readable, but did not improve strict-nearest action separation. Pixel global action stayed at 8/15 while dual-view action dropped from iter3200's 6/15 to 4/15; the explicit10 structured ranker dropped from 4/15 on iter3200 generated actual videos to 2/15 on iter800. Do not start student/DMD from iter800 just because one held-out clip looks nicer; first fix generator-side action/state conditioning.",
-      "evidence": "/Users/boris/Downloads/umi_gamma_strict_quality_anchor_counterfactual_iter800_20260629/index.html"
-    },
-    {
-      "type": "decision",
-      "date": "2026-06-29",
-      "title": "Gamma original entrypoints still pass regression smoke after UMI edits",
-      "body": "The rerun of original Gamma scripts/train.py and scripts/inference.py passed in the current source tree: 8-card 1-step train smoke wrote a checkpoint and bidirectional_robot inference generated a readable 189-frame dual-view video. This keeps Gamma viable as a visual-quality anchor while action separation remains unsolved under strict negatives.",
-      "evidence": "/Users/boris/Downloads/gamma_world_regression_rerun_20260629_085555/index.html"
-    },
-    {
-      "type": "finding",
-      "date": "2026-06-29",
-      "title": "Gamma action encoder responds, but full-resolution generator sensitivity remains unproven",
-      "body": "Bias-only quick3 probe on s1_iter3200_norm shows the Gamma-style 10-D UMI action path is numerically responsive: 3 rows, 9 action-bias comparisons, mean relative L1 0.5106; zero-action relative L1 is 0.6742-1.1840 and nearest wrong-action relative L1 is 0.1377-0.3333. Tiny velocity smoke on row0/t900 at 80x240 also changes denoising velocity: zero 0.3763, nearest wrong action 0.2435, nearest same-category 0.2388 relative L1. This supports keeping Gamma-style action encoder/bias as a candidate component, but it does not prove full-resolution action-conditioned generation because strict-nearest generation still fails and full-resolution velocity probe is blocked by CUDA runtime/OOM issues.",
-      "evidence": "/Users/boris/Downloads/umi_gamma_action_sensitivity_20260629/index.html"
-    },
-    {
-      "type": "finding",
-      "date": "2026-06-29",
-      "title": "Shared-motion auxiliary head does not pass strict-nearest action gate",
-      "body": "The 8-H20 structured bottleneck + pre-decoder SharedMotionStateHead route completed and saved a teacher checkpoint, but scored 0/15 on both RGB strict-nearest action gate and shared motion-state gate. Treat this as negative evidence for auxiliary-head-only progress; next route must change generator-side conditioning more directly or use Gamma-style action bias/control inside the denoising path rather than relying on an auxiliary state head.",
-      "evidence": "/Users/boris/Downloads/umi_acwm_action_injection_20260622/evidence/acwm_sharedmotion_20260629/eval_holdout/index.html"
-    },
-    {
-      "type": "status",
-      "date": "2026-06-29",
-      "title": "Rebalanced Gamma continuation is queued for strict-nearest eval",
-      "body": "The rebal4500 run is still training at iter 4089/4500 on 8 H20 GPUs. The follow-up watcher will only promote evidence after iter_000004500 exists, the checkpoint is converted, the 75-video strict-nearest counterfactual eval finishes, and the explicit10 ranker scores generated actual videos. Until then this route remains pending, not a candidate solution.",
-      "evidence": "/Users/boris/Downloads/umi_gamma_strict_quality_anchor_counterfactual_rebal4500_20260629/index.html"
-    },
+    "[object Object]",
     "PhysisForcing guardrail 2026-06-30: layer-derived object/robot/scene state is useful for video-model training only if confidence-gated sidecars improve same-backbone physical plausibility and action/object outcome metrics over whole-frame finetuning, mask-only weighting, and raw tracker/depth forcing. Do not treat estimated pose/flow/contact labels as ground truth without QA.",
     "PhysisForcing execution decision 2026-07-01: use VDDM layers as a cleaner source of physics-informative regions and relation labels for video-model training. The concrete artifact is a confidence-gated physics_forcing sidecar, not a claim that estimated pose/flow is ground truth. Train/evaluate the same backbone against whole-frame finetune, mask-only weighting, raw tracker/depth forcing, and VDDM layer+state forcing before claiming improved physical plausibility.",
     "Dataset scheduling decision 2026-07-04: do not run Datasets Bot candidates in parallel with the active 10Kh/JianZhi download. The observed single-download throughput beat multi-way contention, so the dashboard queue must preserve XRZero/Mobile ALOHA/LeRobot Folding/etc. as pending entries until 10Kh is complete or explicitly paused.",
@@ -968,21 +959,8 @@
     "Adapter dependency decision 2026-07-07 02:12 +0800: no adapter script syntax blocker is present now, and image/video dependencies are already covered by per-dataset pydeps or the Gamma venv. Do not install h5py/tensorflow or run ALOHA/RLDS decoder work while 10Kh and training gates are active; revisit those dependencies after the relevant dataset lands.",
     "Training gate decision 2026-07-07 02:16 +0800: keep conversion and non-10Kh downloads held. The training checkpoint stream is healthy, but the next required action is to inspect the iter_800 checkpoint when it appears and later inspect final logs/checkpoints after training exits before releasing conversion work.",
     "Training gate decision 2026-07-07 06:11 +0800: iter_000001200 is stable and latest_checkpoint.txt points to it, but causal_robot_daimon is still active and 10Kh remains the sole external download. Keep batch74, metadata/action_stats writers, loader smoke, full_auto, XRZero resume, ABC/HIW probes, source Daimon materialization, and non-10Kh download starts held until training exits or the user explicitly accepts mixed load.",
-    {
-      "type": "decision",
-      "date": "2026-07-13",
-      "title": "Pause SAM3 fine-tuning and route the three UMI workstreams through one shared manifest",
-      "body": "The current SAM3 fine-tune did not beat the stable SAM2.5/SAM2.1 baseline, so archive it and stop spending compute on that route. Lai/Yongxi compare RobotSeg/RoboSeg, X2SAM, STAM/original tracking on the same clips. Jiahao/Davide use the official RynnWorld-Teleop codebase for layered-video generation. Ziyang/Meng evaluate MIMIC-Video as a Robot Layer video-latent plus proprioception to action IDM, not as a mask-to-action shortcut. Object processing routes rigid/articulated cases to a verified 6D-pose backend and deformable cases to optical flow/keypoint tracks; confirm the ANeXy versus Any6D name mismatch before implementation. All three lanes consume and publish one layer_manifest with QA/retry, pose/flow, camera and recomposition sidecars.",
-      "evidence": "task_umi_layered_pipeline_sam_vace_flux_lama_automation_20260622; task_umi_davide_multilayer_video_model_architecture_20260707; task_umi_world_model_ziyang_meng_mimic_video_robot_layer_action_idm_20260713; task_umi_world_model_x2sam_roboseg_cloak_vla_umi_wrist_view_masks_20260713"
-    },
-    {
-      "type": "decision",
-      "date": "2026-07-13",
-      "title": "Stage 3 pose and flow claims must expose calibration and sensor dependencies",
-      "body": "Ziyang's method review splits Robot Layer evaluation into known-state camera-to-robot methods (DREAM, CtRNet, CtRNet-X), unknown-state image robot-pose methods (RoboPose, HoRoPose), and differentiable rendering (Dr. Robot). The rigid Object Layer branch uses Any6D only as a calibrated RGB-D route; deformable-object optical flow remains untested. Compare calibrated-oracle, estimated-depth/intrinsics, and layer-only inputs separately, and record URDF, joint-state, intrinsics, depth, mask, and visibility dependencies for every result.",
-      "evidence": "13-Jul-26_Ziyang.md; task_umi_ziyang_object_layer_pose_value_benchmark_20260707"
-    },
-    "Scope boundary 2026-07-18: human egocentric hand-object reconstruction, contact/trajectory refinement, retargeting, human-video VLA pretraining, and physical LfD acceptance moved to Engineering / Real-Robot Demos / Ego2Dex LfD. UMI may consume validated camera/depth/pose/contact/layer_manifest sidecars, but does not own their full implementation queue."
+    "Scope boundary 2026-07-18: human egocentric hand-object reconstruction, contact/trajectory refinement, retargeting, human-video VLA pretraining, and physical LfD acceptance moved to Research / Ego2Dex Human Demonstration / LfD. UMI may consume validated camera/depth/pose/contact/layer_manifest sidecars, but does not own their full implementation queue.",
+    "Scope update 2026-07-18: URDF/FK/action/camera is no longer a standalone Research card. It is the UMI Robot Layer interaction branch: import URDF skeleton/mesh, inject commanded/measured actions, project through calibrated third-person/wrist cameras, and test whether this improves layer-aware world-model rollouts beyond BridgeV2W, Kinema4D, OSCAR, and SimDist."
   ],
   "timeline": {
     "target_venue": "ICLR",
