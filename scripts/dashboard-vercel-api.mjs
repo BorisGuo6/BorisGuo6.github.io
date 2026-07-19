@@ -595,7 +595,9 @@ export async function getDashboardHealth(options = {}) {
   try {
     const { snapshot, meta } = await loadSnapshot({ env });
     const storage = meta?.storage || configuredStorage;
-    const blobBackedRead = storage === "vercel-blob" || storage === "bundled-json-newer-than-blob";
+    const blobBackedRead = storage === "vercel-blob"
+      || storage === "bundled-json-newer-than-blob"
+      || storage === "bundled-json-blob-read-failed";
     if (configuredStorage === "vercel-blob" && !blobBackedRead) {
       throw new Error("Configured dashboard Blob is missing");
     }

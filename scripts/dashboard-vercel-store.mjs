@@ -216,7 +216,13 @@ export async function writeVercelBlobSnapshot(snapshot, options = {}) {
 
 export async function loadVercelDashboardSnapshot(options = {}) {
   const env = options.env || process.env;
-  const blobResult = await readVercelBlobSnapshot(options);
+  let blobReadError = null;
+  let blobResult = null;
+  try {
+    blobResult = await readVercelBlobSnapshot(options);
+  } catch (error) {
+    blobReadError = error;
+  }
   if (blobResult?.snapshot) {
     const bundledSnapshot = await loadBundledDashboardSnapshot({
       source: "bundled-json",
@@ -243,6 +249,18 @@ export async function loadVercelDashboardSnapshot(options = {}) {
         blob_path: blobResult.blob.pathname,
         blob_etag: blobResult.blob.legacy_public ? null : blobResult.blob.etag,
         legacy_public_blob_path: blobResult.blob.legacy_public_pathname || null,
+      },
+    };
+  }
+  if (blobReadError) {
+    return {
+      snapshot: await loadBundledDashboardSnapshot({
+        source: isVercelBlobConfigured(env) ? "bundled-json-blob-read-failed" : "bundled-json",
+      }),
+      meta: {
+        storage: isVercelBlobConfigured(env) ? "bundled-json-blob-read-failed" : "bundled-json",
+        blob_path: dashboardBlobPath(env),
+        blob_read_error: blobReadError instanceof Error ? blobReadError.message : String(blobReadError || ""),
       },
     };
   }

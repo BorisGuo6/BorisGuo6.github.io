@@ -552,6 +552,21 @@ assert.equal(
   state.projects.length,
   "newer bundled state should be returned intact when it supersedes the Blob",
 );
+const blobReadFailedBundledRead = await loadVercelDashboardSnapshot({
+  env: { BLOB_READ_WRITE_TOKEN: "test-token" },
+  retryDelays: [0],
+  blobApi: {
+    async get() {
+      throw new Error("Dashboard blob dashboard-state-private/embodied-ai-dashboard.json remained stale after retries");
+    },
+  },
+});
+assert.equal(
+  blobReadFailedBundledRead.meta.storage,
+  "bundled-json-blob-read-failed",
+  "a failed Blob read should still serve the deployed bundled dashboard state",
+);
+assert.equal(blobReadFailedBundledRead.snapshot.projects.length, state.projects.length);
 const fakeBlobWrites = [];
 await writeVercelBlobSnapshot(projectTableSnapshot, {
   env: { BLOB_READ_WRITE_TOKEN: "test-token" },
@@ -633,6 +648,19 @@ const bundledSupersedesBlobDashboard = await getDashboardHealth({
 assert.equal(bundledSupersedesBlobDashboard.ok, true);
 assert.equal(bundledSupersedesBlobDashboard.storage, "bundled-json-newer-than-blob");
 assert.equal(bundledSupersedesBlobDashboard.writable, true);
+const bundledAfterBlobReadFailureDashboard = await getDashboardHealth({
+  env: {
+    BLOB_READ_WRITE_TOKEN: "blob-token",
+    DASHBOARD_WRITE_TOKEN: "write-token",
+  },
+  loadSnapshot: async () => ({
+    snapshot: projectTableSnapshot,
+    meta: { storage: "bundled-json-blob-read-failed" },
+  }),
+});
+assert.equal(bundledAfterBlobReadFailureDashboard.ok, true);
+assert.equal(bundledAfterBlobReadFailureDashboard.storage, "bundled-json-blob-read-failed");
+assert.equal(bundledAfterBlobReadFailureDashboard.writable, true);
 const unhealthyDashboard = await getDashboardHealth({
   env: { BLOB_READ_WRITE_TOKEN: "blob-token", DASHBOARD_WRITE_TOKEN: "write-token" },
   loadSnapshot: async () => { throw new Error("Blob is unavailable"); },
