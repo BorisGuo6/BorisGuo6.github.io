@@ -14,9 +14,10 @@ Required Vercel environment variables for hosted writes:
   `dashboard-state-private/embodied-ai-dashboard.json`.
 - `DASHBOARD_ACCESS_BLOB_PATH`: private token registry path; defaults to
   `dashboard-access/access-control.json`.
-- `DASHBOARD_WRITE_TOKEN_USERS`: optional JSON map from private random tokens to viewer names.
-- `DASHBOARD_WRITE_TOKEN_<VIEWER>`: optional sensitive per-user token, for example
-  `DASHBOARD_WRITE_TOKEN_YANXIANG`; the suffix becomes the lowercase viewer name.
+- `DASHBOARD_WRITE_TOKEN_USERS`: optional JSON map from private random tokens to viewer names; use this for Vercel-managed
+  viewer credentials instead of standalone per-user variables.
+- `DASHBOARD_WRITE_TOKEN_<VIEWER>`: legacy sensitive per-user token compatibility only. Do not create new standalone
+  per-user variables.
 - `DASHBOARD_BLOB_PATH`: legacy public snapshot path used only while migrating existing state.
 
 Without those variables, `/api/dashboard/state` falls back to bundled JSON and the dashboard stays read-only.
@@ -30,9 +31,10 @@ Production builds intentionally omit `dashboard/state/**`. The `?json=1` static 
 so production visibility cannot be bypassed through the bundled JSON mirror. The source repository still contains the
 local mirror; do not treat cards committed to a public repository as confidential data.
 
-Legacy `DASHBOARD_WRITE_TOKEN_USERS` and `DASHBOARD_WRITE_TOKEN_<VIEWER>` credentials remain login-compatible but are
-scoped to the same Research-default visibility and must still be maintained through Vercel. Prefer the administrator
-Settings dialog for new viewers.
+`DASHBOARD_WRITE_TOKEN_USERS` credentials remain login-compatible and are scoped to the same Research-default visibility
+as Settings-created viewers. Legacy `DASHBOARD_WRITE_TOKEN_<VIEWER>` variables are still accepted by the runtime only for
+backward compatibility; prefer the administrator Settings dialog for new viewers, and use `DASHBOARD_WRITE_TOKEN_USERS`
+if a Vercel environment credential is still needed.
 
 Initial setup order:
 
