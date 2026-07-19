@@ -1,6 +1,8 @@
 import { cp, mkdir, rm } from "node:fs/promises";
 import path from "node:path";
 
+import "./generate-bundled-dashboard-snapshot.mjs";
+
 const repoRoot = path.resolve(import.meta.dirname, "..");
 const outputRoot = path.join(repoRoot, "dist");
 
