@@ -1,7 +1,7 @@
 export default {
   "schema_version": "dashboard-state.v1",
   "source": "bundled-json-generated",
-  "updated_at": "2026-07-19T03:39:52.659Z",
+  "updated_at": "2026-07-19T04:08:07.696Z",
   "portfolio": {
     "schema_version": "portfolio.v1",
     "portfolio_id": "embodied-ai-dashboard",
@@ -560,7 +560,7 @@ export default {
       "title": "UMI Image Layered World Model",
       "bucket": "research",
       "status": "ongoing",
-      "updated_at": "2026-07-19T01:56:26.790Z",
+      "updated_at": "2026-07-19T04:07:37.092Z",
       "description": "UMI Image Layered World Model: three linked papers covering multi-view robot video world modeling, manipulation-video dynamics decomposition into reusable layers, and layered data as a downstream VLA/IDM/reward training interface.",
       "summary": "UMI World Model is a three-paper program with one shared data substrate: Stage 1 trains a streaming multi-view pose/action-conditioned robot world model and now owns the URDF/FK/action/camera Robot Layer branch; Stage 2 turns manipulation videos into reusable scene, object/contact, occluder/tool, and robot/actor layers; Stage 3 tests whether those layers improve manipulation and video-model training. This intro is architecture/status framing only; execution lives in TODOs and task comments.",
       "subprojects": [
@@ -1499,7 +1499,7 @@ export default {
         "Active-load decision 2026-07-07 00:22 +0800: training remains active at iter 456/2000 and only iter_000000400 exists as a checkpoint, so do not start batch74, XRZero resume, ABC manifest generation, source Daimon materialization, loader smoke, metadata/action_stats writers, or any non-10Kh external downloader. Continue 10Kh as the sole external lane and recheck after causal_robot_daimon exits or after the user explicitly accepts mixed load.",
         "datasets.bot MCP admission decision 2026-07-07 01:09 +0800: do not add AIRoA MoMa, FMB, RoboSet, or DROID to the exact dual-arm wrist auto-download queue without new schema evidence. Current strict positives are already queued or held, missing strict-positive count is 0, and 10Kh remains the only external download lane while causal_robot_daimon training is active. Defer batch74, XRZero resume, ABC manifest generation, non-10Kh downloads, loader smoke, stats writers, and materialization until training clears or mixed load is explicitly accepted.",
         "Shared infrastructure decision 2026-07-07: Lai, Ziyang, and Davide should not build three incompatible preprocessing stacks. The canonical interface is one shared layer_manifest plus scene/background, object/contact, robot/actor, QA/retry, object-pose, robot-pose, and deformable point-flow sidecars.",
-        "Resource governance 2026-07-07: AutoDL is for <=8-GPU architecture validation only. Lai manages AutoDL access for Davide and Ziyang, checks GPU utilization after use, and shuts down idle instances. Larger compute/storage goes through Boris before Huawei Cloud / Alibaba Cloud allocation.",
+        "Resource governance 2026-07-07: AutoDL is for <=8-GPU architecture validation only. Lai/yongxi manages AutoDL access for jiahao and ziyang, checks GPU utilization after use, and shuts down idle instances. Larger compute/storage goes through Boris before Huawei Cloud / Alibaba Cloud allocation.",
         "Layering QA decision 2026-07-07: do not accept an inpainted background just because it looks visually clean. The pipeline must check remaining moving pixels, layer recomposition, temporal consistency, unmasked-region preservation, and whether object/robot pose extraction still works. If motion remains after scene extraction, rerun object segmentation/inpainting or drop that frame/clip.",
         "Object-layer modeling decision 2026-07-07: Object3D-style rendering is too slow/heavy to assume dense realtime use (~1 minute per batch and ~32GB memory in meeting notes). Treat object layer as sparse value/process-reward evidence first, with pose/flow/state sidecars, not as a full dense renderer dependency.",
         "HIW-500 admission decision 2026-07-07 01:21 +0800: do not modify auto_order or start BitRobot/HIW-500 now. Treat it as blocked_candidate_needs_schema_probe_and_license_access_before_queue_admission. The next safe step, after 10Kh/training gates clear, is a lightweight HF/tree/schema probe for explicit left/right wrist streams and action semantics; only then decide whether it belongs in the exact dual-wrist queue.",
@@ -17844,7 +17844,7 @@ export default {
         "priority": "medium",
         "assignee": "Boris / Lai",
         "due_at": "2026-07-10",
-        "description": "把 2026-07-07 会议里的资源和权限流程固化到 dashboard 操作规则。Dashboard 写权限从公共 token 改成 user-specific token；token 应使用随机字节再 Base64url/等价编码生成，前端水印根据后端 token->viewer 绑定显示，禁止把真实 token 写入公开 state。AutoDL 账号由 Lai/yongxi 管理，Davide 和 ziyang 需要训练时联系 Lai/yongxi 开通；使用后 Lai/yongxi 检查 GPU 使用率，空闲后通知并关闭实例。AutoDL 只能做 <=8 GPU / 单节点架构测试；8 卡以上或大存储需求必须提前向 Boris 报备，由 Boris 协调华为云/阿里云/dev-team 资源。Acceptance: 1) Dashboard access 名单至少覆盖 Lai/yongxi、ziyang、Davide、haoyu、yubo、jiayi 等需要访问的成员；仅记录 viewer 名称和已开通状态，不公开 token；2) 在 dashboard/AGENTS 或项目说明里写明 viewer 由 token 绑定返回，不由请求体伪造；3) 写 AutoDL 使用流程：申请、启动、训练、GPU 利用率检查、关闭；4) 写 >8GPU/大存储报备规则；5) 不泄露账号、密码、token、账单或供应商敏感信息。",
+        "description": "把 2026-07-07 会议里的资源和权限流程固化到 dashboard 操作规则。Dashboard 写权限从公共 token 改成 user-specific token；token 应使用随机字节再 Base64url/等价编码生成，前端水印根据后端 token->viewer 绑定显示，禁止把真实 token 写入公开 state。AutoDL 账号由 Lai/yongxi 管理，jiahao 和 ziyang 需要训练时联系 Lai/yongxi 开通；使用后 Lai/yongxi 检查 GPU 使用率，空闲后通知并关闭实例。AutoDL 只能做 <=8 GPU / 单节点架构测试；8 卡以上或大存储需求必须提前向 Boris 报备，由 Boris 协调华为云/阿里云/dev-team 资源。Acceptance: 1) Dashboard access 名单至少覆盖 Lai/yongxi、ziyang、jiahao、haoyu、yubo、jiayi 等需要访问的成员；仅记录 viewer 名称和已开通状态，不公开 token；2) 在 dashboard/AGENTS 或项目说明里写明 viewer 由 token 绑定返回，不由请求体伪造；3) 写 AutoDL 使用流程：申请、启动、训练、GPU 利用率检查、关闭；4) 写 >8GPU/大存储报备规则；5) 不泄露账号、密码、token、账单或供应商敏感信息。",
         "result": null,
         "comments": [
           {
@@ -17867,7 +17867,7 @@ export default {
           }
         ],
         "created_at": "2026-07-07T12:00:00+08:00",
-        "updated_at": "2026-07-19T03:31:03.830Z",
+        "updated_at": "2026-07-19T04:06:58.319Z",
         "completed_at": "2026-07-07",
         "completed_at_time": "2026-07-07T15:44:38.777Z"
       },
