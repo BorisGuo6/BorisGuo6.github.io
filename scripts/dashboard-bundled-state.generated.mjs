@@ -1,7 +1,7 @@
 export default {
   "schema_version": "dashboard-state.v1",
   "source": "bundled-json-generated",
-  "updated_at": "2026-07-19T04:08:07.696Z",
+  "updated_at": "2026-07-19T06:38:24.501Z",
   "portfolio": {
     "schema_version": "portfolio.v1",
     "portfolio_id": "embodied-ai-dashboard",
@@ -17844,7 +17844,7 @@ export default {
         "priority": "medium",
         "assignee": "Boris / Lai",
         "due_at": "2026-07-10",
-        "description": "把 2026-07-07 会议里的资源和权限流程固化到 dashboard 操作规则。Dashboard 写权限从公共 token 改成 user-specific token；token 应使用随机字节再 Base64url/等价编码生成，前端水印根据后端 token->viewer 绑定显示，禁止把真实 token 写入公开 state。AutoDL 账号由 Lai/yongxi 管理，jiahao 和 ziyang 需要训练时联系 Lai/yongxi 开通；使用后 Lai/yongxi 检查 GPU 使用率，空闲后通知并关闭实例。AutoDL 只能做 <=8 GPU / 单节点架构测试；8 卡以上或大存储需求必须提前向 Boris 报备，由 Boris 协调华为云/阿里云/dev-team 资源。Acceptance: 1) Dashboard access 名单至少覆盖 Lai/yongxi、ziyang、jiahao、haoyu、yubo、jiayi 等需要访问的成员；仅记录 viewer 名称和已开通状态，不公开 token；2) 在 dashboard/AGENTS 或项目说明里写明 viewer 由 token 绑定返回，不由请求体伪造；3) 写 AutoDL 使用流程：申请、启动、训练、GPU 利用率检查、关闭；4) 写 >8GPU/大存储报备规则；5) 不泄露账号、密码、token、账单或供应商敏感信息。",
+        "description": "把 2026-07-07 会议里的资源和权限流程固化到 dashboard 操作规则。Dashboard 写权限从公共 token 改成 user-specific token；token 应使用随机字节再 Base64url/等价编码生成，前端水印根据后端 token->viewer 绑定显示，禁止把真实 token 写入公开 state。AutoDL 账号由 Lai/yongxi 管理，jiahao 和 ziyang 需要训练时联系 Lai/yongxi 开通；使用后 Lai/yongxi 检查 GPU 使用率，空闲后通知并关闭实例。AutoDL 只能做 <=8 GPU / 单节点架构测试；8 卡以上或大存储需求必须提前向 Boris 报备，由 Boris 协调华为云/阿里云/dev-team 资源。Acceptance: 1) Dashboard access 名单至少覆盖 Lai/yongxi、ziyang、jiahao、haoyu、yubo、jiayi、yanxiang 等需要访问的成员；仅记录 viewer 名称和已开通状态，不公开 token；2) 在 dashboard/AGENTS 或项目说明里写明 viewer 由 token 绑定返回，不由请求体伪造；3) 写 AutoDL 使用流程：申请、启动、训练、GPU 利用率检查、关闭；4) 写 >8GPU/大存储报备规则；5) 不泄露账号、密码、token、账单或供应商敏感信息。",
         "result": null,
         "comments": [
           {
@@ -17867,7 +17867,7 @@ export default {
           }
         ],
         "created_at": "2026-07-07T12:00:00+08:00",
-        "updated_at": "2026-07-19T04:06:58.319Z",
+        "updated_at": "2026-07-19T06:35:07.493Z",
         "completed_at": "2026-07-07",
         "completed_at_time": "2026-07-07T15:44:38.777Z"
       },
