@@ -855,6 +855,9 @@
         }
 
         async function accessSettingsApi(method = "GET", payload = null) {
+          if (!dashboardPermissions.can_manage_access) {
+            throw new Error("Dashboard access settings require the administrator role");
+          }
           const response = await fetch(`${vercelApiBase}/access-users`, {
             method,
             headers: payload ? { "content-type": "application/json" } : undefined,

@@ -486,8 +486,20 @@ test("viewer can write visible cards but cannot open settings or write hidden ca
     ];
   }, { visibleTaskId: visibleTask.task_id, hiddenTaskId: hiddenTask.task_id });
   expect(writeStatuses).toEqual([200, 403]);
-  const forbiddenStatus = await page.evaluate(async () => (await fetch("/api/dashboard/access-users")).status);
-  expect(forbiddenStatus).toBe(403);
+  const forbiddenStatuses = await page.evaluate(async () => {
+    const request = (method, body = null) => fetch("/api/dashboard/access-users", {
+      method,
+      headers: body ? { "content-type": "application/json" } : undefined,
+      body: body ? JSON.stringify(body) : undefined,
+    }).then((response) => response.status);
+    return [
+      await request("GET"),
+      await request("POST", { viewer: "Nope" }),
+      await request("PATCH", { user_id: "env_ziyang_browser", visibility: { bucket_ids: ["archive"], include_project_ids: [], exclude_project_ids: [] } }),
+      await request("DELETE", { user_id: "env_ziyang_browser" }),
+    ];
+  });
+  expect(forbiddenStatuses).toEqual([403, 403, 403, 403]);
 });
 
 test("server session survives reload without leaking the bearer token", async ({ page }) => {
