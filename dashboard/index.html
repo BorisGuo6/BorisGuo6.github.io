@@ -145,7 +145,27 @@
             <div class="access-user-list" data-access-user-list></div>
           </aside>
 
-          <div class="access-settings-workspace">
+          <div class="access-settings-workspace" data-access-settings-workspace>
+            <section class="access-user-editor" data-access-user-editor>
+              <div class="access-editor-empty" data-access-editor-empty>
+                <strong>Select a person</strong>
+                <p>Review their token fingerprint, revoke access, rotate the token, or change card visibility.</p>
+              </div>
+              <form data-access-user-edit hidden></form>
+            </section>
+
+            <section class="access-token-reveal" data-access-token-reveal hidden aria-live="polite">
+              <div>
+                <span class="label">Shown once</span>
+                <strong data-access-token-owner>New viewer token</strong>
+                <p>Copy it now. Existing token secrets cannot be recovered after this panel closes.</p>
+              </div>
+              <div class="access-token-copy-row">
+                <input type="text" readonly data-access-token-value aria-label="New dashboard access token">
+                <button type="button" data-access-token-copy>Copy token</button>
+              </div>
+            </section>
+
             <form class="access-user-create" data-access-user-create>
               <div class="access-form-heading">
                 <div>
@@ -171,26 +191,6 @@
               </fieldset>
               <p class="access-form-status" data-access-create-status aria-live="polite"></p>
             </form>
-
-            <section class="access-token-reveal" data-access-token-reveal hidden aria-live="polite">
-              <div>
-                <span class="label">Shown once</span>
-                <strong data-access-token-owner>New viewer token</strong>
-                <p>Copy it now. Existing token secrets cannot be recovered after this panel closes.</p>
-              </div>
-              <div class="access-token-copy-row">
-                <input type="text" readonly data-access-token-value aria-label="New dashboard access token">
-                <button type="button" data-access-token-copy>Copy token</button>
-              </div>
-            </section>
-
-            <section class="access-user-editor" data-access-user-editor>
-              <div class="access-editor-empty" data-access-editor-empty>
-                <strong>Select a person</strong>
-                <p>Review their token fingerprint, revoke access, rotate the token, or change card visibility.</p>
-              </div>
-              <form data-access-user-edit hidden></form>
-            </section>
           </div>
         </div>
       </section>
@@ -4486,6 +4486,8 @@
             selectedAccessUserId = accessUser.dataset.accessUserId;
             renderAccessUserList();
             renderAccessUserEditor();
+            const workspace = document.querySelector("[data-access-settings-workspace]");
+            if (workspace) workspace.scrollTop = 0;
             return;
           }
 

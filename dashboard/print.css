@@ -254,6 +254,8 @@ body.dashboard-locked .page {
 }
 
 .access-settings-panel {
+  display: flex;
+  flex-direction: column;
   width: min(1040px, 100%);
   max-height: min(820px, calc(100vh - 56px));
   overflow: hidden;
@@ -312,15 +314,18 @@ body.dashboard-locked .page {
 }
 
 .access-settings-layout {
+  flex: 1 1 auto;
   display: grid;
   grid-template-columns: minmax(220px, 0.34fr) minmax(0, 1fr);
-  min-height: 560px;
-  max-height: calc(min(820px, 100vh - 56px) - 94px);
+  min-height: 0;
+  height: min(650px, calc(100vh - 150px));
 }
 
 .access-user-rail {
   min-width: 0;
+  min-height: 0;
   overflow: auto;
+  scrollbar-gutter: stable;
   padding: 16px;
   border-right: 1px solid #cbd9dd;
   background: rgba(232, 240, 241, 0.68);
@@ -405,7 +410,13 @@ body.dashboard-locked .page {
 
 .access-settings-workspace {
   min-width: 0;
-  overflow: auto;
+  min-height: 0;
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
   padding: 18px;
 }
 
@@ -608,7 +619,7 @@ body.dashboard-locked .page {
 }
 
 .access-user-editor {
-  margin-top: 12px;
+  min-width: 0;
 }
 
 .access-editor-empty {
@@ -716,6 +727,8 @@ body.dashboard-scoped-viewer [data-agent-prompt-status] {
 
   .access-settings-layout {
     grid-template-columns: 1fr;
+    height: auto;
+    min-height: 0;
     max-height: calc(100vh - 92px);
     overflow: auto;
   }

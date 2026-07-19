@@ -413,6 +413,18 @@ test("admin settings can rescope environment viewer tokens without exposing secr
   await expect(dialog).toBeVisible();
   await dialog.getByRole("button", { name: /Ziyang/ }).click();
   const editForm = dialog.locator("[data-access-user-edit]");
+  const createForm = dialog.locator("[data-access-user-create]");
+  await expect(editForm).toBeVisible();
+  await expect(createForm).toBeVisible();
+  await expect.poll(async () => dialog.locator(".access-settings-workspace").evaluate((element) => (
+    getComputedStyle(element).overflowY
+  ))).toBe("auto");
+  expect(await dialog.evaluate(() => {
+    const edit = document.querySelector("[data-access-user-edit]");
+    const create = document.querySelector("[data-access-user-create]");
+    if (!edit || !create) return false;
+    return edit.getBoundingClientRect().top < create.getBoundingClientRect().top;
+  })).toBe(true);
   await expect(editForm.getByText("The current environment token value is encrypted outside the dashboard and cannot be copied from Settings.")).toBeVisible();
   await expect(editForm.getByRole("textbox", { name: "Name" })).toBeDisabled();
   await expect(editForm.getByRole("button", { name: "Regenerate & copy token" })).toHaveCount(0);
