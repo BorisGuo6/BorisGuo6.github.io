@@ -131,7 +131,7 @@
           <div>
             <p class="kicker">Administrator control</p>
             <h2 id="access-settings-title">Dashboard access</h2>
-            <p>Create viewer tokens and decide which project cards each person can open.</p>
+            <p>Create viewer tokens, regenerate copyable tokens, and decide which project cards each person can open.</p>
           </div>
           <button class="access-settings-close" type="button" data-access-settings-close aria-label="Close dashboard access settings">Close</button>
         </header>
@@ -176,7 +176,7 @@
               <div>
                 <span class="label">Shown once</span>
                 <strong data-access-token-owner>New viewer token</strong>
-                <p>Copy it now. The dashboard stores only a salted hash.</p>
+                <p>Copy it now. Existing token secrets cannot be recovered after this panel closes.</p>
               </div>
               <div class="access-token-copy-row">
                 <input type="text" readonly data-access-token-value aria-label="New dashboard access token">
@@ -1030,12 +1030,12 @@
             accessMetaCell("Rotated", user.rotated_at ? dateTimeFormatter.format(new Date(user.rotated_at)) : "Environment"),
           );
 
-          if (!user.editable) {
+          if (user.role === "admin" || !user.editable) {
             const note = document.createElement("p");
             note.className = "access-form-status";
             note.textContent = user.role === "admin"
               ? "This is the unique administrator bootstrap credential for jingxiang. Manage its secret in Vercel environment settings."
-              : "This legacy credential is managed in Vercel environment settings. Create a dashboard-managed replacement to edit it here.";
+              : "This credential is read-only in Settings.";
             form.replaceChildren(heading, meta, note);
             return;
           }
@@ -1050,6 +1050,7 @@
           nameInput.maxLength = 80;
           nameInput.required = true;
           nameInput.value = user.viewer;
+          nameInput.disabled = user.managed_by === "environment";
           nameLabel.append(nameCaption, nameInput);
 
           const enabledLabel = document.createElement("label");
@@ -1090,22 +1091,31 @@
           const save = document.createElement("button");
           save.type = "submit";
           save.textContent = "Save access";
-          const rotate = document.createElement("button");
-          rotate.type = "button";
-          rotate.dataset.accessRotate = user.user_id;
-          rotate.textContent = "Rotate token";
+          const tokenNote = document.createElement("p");
+          tokenNote.className = "access-token-note";
+          tokenNote.textContent = user.managed_by === "environment"
+            ? "The current environment token value is encrypted outside the dashboard and cannot be copied from Settings. Scope changes saved here still apply to that token."
+            : "The current token value is not stored. Regenerate to show and copy a replacement token once.";
           const revoke = document.createElement("button");
           revoke.type = "button";
           revoke.className = "danger";
           revoke.dataset.accessRevoke = user.user_id;
           revoke.textContent = user.enabled ? "Revoke access" : "Keep disabled";
           revoke.disabled = !user.enabled;
-          actions.append(save, rotate, revoke);
+          actions.append(save);
+          if (user.managed_by !== "environment") {
+            const rotate = document.createElement("button");
+            rotate.type = "button";
+            rotate.dataset.accessRotate = user.user_id;
+            rotate.textContent = "Regenerate & copy token";
+            actions.append(rotate);
+          }
+          actions.append(revoke);
           const status = document.createElement("p");
           status.className = "access-form-status";
           status.dataset.accessEditStatus = "";
           status.setAttribute("aria-live", "polite");
-          form.replaceChildren(heading, meta, nameLabel, enabledLabel, scope, actions, status);
+          form.replaceChildren(heading, meta, tokenNote, nameLabel, enabledLabel, scope, actions, status);
         }
 
         function revealAccessToken(token, viewer) {
@@ -4492,10 +4502,24 @@
           const rotateToken = event.target.closest?.("[data-access-rotate]");
           if (rotateToken) {
             const user = accessSettingsUsers.find((candidate) => candidate.user_id === rotateToken.dataset.accessRotate);
-            if (!user || !window.confirm(`Rotate ${user.viewer}'s token? Their current token and sessions will stop working.`)) return;
+            if (!user || !window.confirm(`Regenerate ${user.viewer}'s token? Their current token and sessions will stop working.`)) return;
             rotateToken.disabled = true;
             accessSettingsApi("POST", { action: "rotate", user_id: user.user_id }).then(async (result) => {
               revealAccessToken(result.token, result.user.viewer);
+              try {
+                await copyTextToClipboard(result.token);
+                const status = document.querySelector("[data-access-edit-status]");
+                if (status) {
+                  status.textContent = "New token regenerated and copied. It will not be shown again after closing.";
+                  status.dataset.state = "success";
+                }
+              } catch (error) {
+                const status = document.querySelector("[data-access-edit-status]");
+                if (status) {
+                  status.textContent = "New token regenerated. Copy it from the field above before closing.";
+                  status.dataset.state = "success";
+                }
+              }
               await loadAccessSettings(result.user.user_id);
             }).catch((error) => {
               const status = document.querySelector("[data-access-edit-status]");

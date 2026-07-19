@@ -20,6 +20,8 @@ import {
   assertDashboardProjectWriteScope,
   assertDashboardTaskWriteScope,
   createDashboardAccessUser,
+  applyDashboardEnvironmentOverride,
+  dashboardEnvironmentOverrideForViewer,
   dashboardProjectOptions,
   defaultDashboardVisibility,
   filterDashboardSnapshotForAuth,
@@ -28,6 +30,7 @@ import {
   normalizeDashboardVisibility,
   rotateDashboardAccessToken,
   updateDashboardAccessUser,
+  updateDashboardEnvironmentOverride,
   verifyDashboardAccessToken,
   writeDashboardAccessControl,
 } from "./dashboard-access-control.mjs";
@@ -345,7 +348,19 @@ export async function dashboardRequestAuth(request, env = process.env, options =
   const providedToken = dashboardProvidedWriteToken(request);
   if (!providedToken) {
     const sessionAuth = dashboardSessionAuth(request, env, options);
-    if (!sessionAuth?.ok || sessionAuth.source !== "dashboard") return sessionAuth;
+    if (!sessionAuth?.ok) return sessionAuth;
+    if (sessionAuth.source !== "dashboard") {
+      if (sessionAuth.role === "admin") return sessionAuth;
+      try {
+        const loadAccess = options.loadAccess || loadDashboardAccessControl;
+        const { document } = await loadAccess({ env, ...options.accessOptions });
+        const scopedCredential = applyDashboardEnvironmentOverride(document, sessionAuth);
+        if (!scopedCredential) return { ok: false, status: 401, error: "Dashboard access has been revoked" };
+        return dashboardAuthEnvelope(scopedCredential.viewer, scopedCredential);
+      } catch (error) {
+        return sessionAuth;
+      }
+    }
     const loadAccess = options.loadAccess || loadDashboardAccessControl;
     const { document } = await loadAccess({ env, ...options.accessOptions });
     const user = listDashboardAccessUsers(document)
@@ -366,7 +381,18 @@ export async function dashboardRequestAuth(request, env = process.env, options =
 
   const environmentCredential = dashboardEnvironmentCredentialForToken(providedToken, env);
   if (environmentCredential) {
-    return dashboardAuthEnvelope(environmentCredential.viewer, environmentCredential);
+    if (environmentCredential.role === "admin") {
+      return dashboardAuthEnvelope(environmentCredential.viewer, environmentCredential);
+    }
+    try {
+      const loadAccess = options.loadAccess || loadDashboardAccessControl;
+      const { document } = await loadAccess({ env, ...options.accessOptions });
+      const scopedCredential = applyDashboardEnvironmentOverride(document, environmentCredential);
+      if (!scopedCredential) return { ok: false, status: 401, error: "Dashboard access has been revoked" };
+      return dashboardAuthEnvelope(scopedCredential.viewer, scopedCredential);
+    } catch (error) {
+      return dashboardAuthEnvelope(environmentCredential.viewer, environmentCredential);
+    }
   }
   if (!providedToken.startsWith("dash_")) {
     return dashboardWriteAuth(request, env);
@@ -897,7 +923,7 @@ export async function handleDashboardAuditLog(request, response) {
   });
 }
 
-function dashboardEnvironmentAccessUsers(env = process.env) {
+function dashboardEnvironmentAccessUsers(env = process.env, document = null) {
   const credentials = [];
   const adminToken = optionalString(env.DASHBOARD_WRITE_TOKEN);
   if (adminToken) {
@@ -912,24 +938,31 @@ function dashboardEnvironmentAccessUsers(env = process.env) {
   const users = new Map();
   credentials.forEach((credential) => {
     const key = `${credential.role}:${credential.viewer.toLocaleLowerCase("en-US")}`;
+    const override = credential.role === "viewer" && document
+      ? dashboardEnvironmentOverrideForViewer(document, credential.viewer)
+      : null;
     const existing = users.get(key);
     if (existing) {
       existing.credential_count += 1;
       return;
     }
+    const authCredential = override
+      ? { ...credential, visibility: override.visibility }
+      : credential;
     users.set(key, {
       user_id: `env_${shortHash(key)}`,
       viewer: credential.viewer,
       role: credential.role,
-      enabled: true,
-      visibility: dashboardAuthEnvelope(credential.viewer, credential).visibility,
+      enabled: override ? override.enabled !== false : true,
+      visibility: dashboardAuthEnvelope(credential.viewer, authCredential).visibility,
       token_fingerprint: dashboardTokenFingerprint(credential.token),
-      token_hint: "Environment credential",
+      token_hint: override ? "Environment credential · Settings scope" : "Environment credential",
       created_at: null,
-      updated_at: null,
+      updated_at: override?.updated_at || null,
       rotated_at: null,
       managed_by: "environment",
-      editable: false,
+      editable: credential.role !== "admin",
+      token_copy_mode: credential.role === "admin" ? "none" : "environment-hidden",
       credential_count: 1,
     });
   });
@@ -950,7 +983,7 @@ export async function handleDashboardAccessUsers(request, response) {
     ]);
     return sendJson(response, 200, {
       ok: true,
-      users: [...dashboardEnvironmentAccessUsers(), ...listDashboardAccessUsers(document)],
+      users: [...dashboardEnvironmentAccessUsers(process.env, document), ...listDashboardAccessUsers(document)],
       projects: dashboardProjectOptions(snapshot),
       meta: {
         storage: meta.storage,
@@ -992,11 +1025,48 @@ export async function handleDashboardAccessUsers(request, response) {
       if (Object.hasOwn(body, field)) patch[field] = body[field];
     }
     if (!Object.keys(patch).length) throw new Error("Missing access user update fields");
+    if (userId.startsWith("env_")) {
+      const { document } = await loadDashboardAccessControl();
+      const envUser = dashboardEnvironmentAccessUsers(process.env, document)
+        .find((candidate) => candidate.user_id === userId);
+      if (!envUser) throw new Error(`Access user not found: ${userId}`);
+      if (envUser.role === "admin") throw new Error("The administrator bootstrap credential cannot be scoped here");
+      const result = await persistAccessMutation((accessDocument) => (
+        updateDashboardEnvironmentOverride(accessDocument, envUser.viewer, {
+          enabled: Object.hasOwn(patch, "enabled") ? patch.enabled : envUser.enabled,
+          visibility: Object.hasOwn(patch, "visibility") ? patch.visibility : envUser.visibility,
+        })
+      ));
+      const updatedUser = dashboardEnvironmentAccessUsers(process.env, result.document)
+        .find((candidate) => candidate.user_id === userId);
+      return sendJson(response, 200, { ok: true, user: updatedUser, meta: result.meta });
+    }
     const result = await persistAccessMutation((document) => updateDashboardAccessUser(document, userId, patch));
     return sendJson(response, 200, { ok: true, user: result.user, meta: result.meta });
   }
 
   const userId = requireString(body.user_id, "user_id");
+  if (userId.startsWith("env_")) {
+    const { document } = await loadDashboardAccessControl();
+    const envUser = dashboardEnvironmentAccessUsers(process.env, document)
+      .find((candidate) => candidate.user_id === userId);
+    if (!envUser) throw new Error(`Access user not found: ${userId}`);
+    if (envUser.role === "admin") throw new Error("The administrator bootstrap credential cannot be revoked here");
+    const result = await persistAccessMutation((accessDocument) => (
+      updateDashboardEnvironmentOverride(accessDocument, envUser.viewer, {
+        enabled: false,
+        visibility: envUser.visibility,
+      })
+    ));
+    const updatedUser = dashboardEnvironmentAccessUsers(process.env, result.document)
+      .find((candidate) => candidate.user_id === userId);
+    return sendJson(response, 200, {
+      ok: true,
+      user: updatedUser,
+      revoked: true,
+      meta: result.meta,
+    });
+  }
   const result = await persistAccessMutation((document) => updateDashboardAccessUser(document, userId, { enabled: false }));
   return sendJson(response, 200, {
     ok: true,

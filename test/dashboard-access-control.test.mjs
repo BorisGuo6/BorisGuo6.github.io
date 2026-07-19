@@ -1,14 +1,17 @@
 import assert from "node:assert/strict";
 import {
   allowedDashboardProjectIds,
+  applyDashboardEnvironmentOverride,
   assertDashboardProjectWriteScope,
   assertDashboardTaskWriteScope,
   createDashboardAccessUser,
+  dashboardEnvironmentOverrideForViewer,
   emptyDashboardAccessControl,
   filterDashboardSnapshotForAuth,
   listDashboardAccessUsers,
   loadDashboardAccessControl,
   rotateDashboardAccessToken,
+  updateDashboardEnvironmentOverride,
   updateDashboardAccessUser,
   verifyDashboardAccessToken,
   writeDashboardAccessControl,
@@ -91,6 +94,41 @@ assert.deepEqual(publicUsers[0].visibility, {
   exclude_project_ids: [],
 });
 
+const environmentOverride = updateDashboardEnvironmentOverride(created.document, "Ziyang", {
+  visibility: {
+    bucket_ids: ["engineering"],
+    include_project_ids: ["survey-a"],
+    exclude_project_ids: [],
+  },
+}, { now: new Date("2026-07-18T08:05:00.000Z") });
+assert.deepEqual(dashboardEnvironmentOverrideForViewer(environmentOverride.document, "ziyang")?.visibility, {
+  bucket_ids: ["engineering"],
+  include_project_ids: ["survey-a"],
+  exclude_project_ids: [],
+});
+assert.deepEqual(applyDashboardEnvironmentOverride(environmentOverride.document, {
+  viewer: "ziyang",
+  role: "viewer",
+  source: "environment",
+  visibility: { bucket_ids: ["research"], include_project_ids: [], exclude_project_ids: [] },
+})?.visibility, {
+  bucket_ids: ["engineering"],
+  include_project_ids: ["survey-a"],
+  exclude_project_ids: [],
+});
+const disabledEnvironmentOverride = updateDashboardEnvironmentOverride(environmentOverride.document, "Ziyang", {
+  enabled: false,
+}, { now: new Date("2026-07-18T08:06:00.000Z") });
+assert.equal(applyDashboardEnvironmentOverride(disabledEnvironmentOverride.document, {
+  viewer: "ziyang",
+  role: "viewer",
+  source: "environment",
+}), null);
+assert.throws(
+  () => updateDashboardEnvironmentOverride(created.document, "jingxiang", { enabled: false }, { now }),
+  /administrator identity is reserved/,
+);
+
 assert.deepEqual(
   [...allowedDashboardProjectIds(baseSnapshot, { role: "viewer", visibility: publicUsers[0].visibility })],
   ["research-a", "research-b"],
@@ -159,6 +197,55 @@ assert.equal((await dashboardRequestAuth(sessionRequest, authEnv, {
   now: new Date("2099-07-18T00:00:30.000Z"),
   loadAccess: async () => ({ document: rotated.document }),
 })).ok, true);
+const envMappedAuthEnv = {
+  ...authEnv,
+  DASHBOARD_WRITE_TOKEN_USERS: JSON.stringify({ "mapped-token": "Agent A" }),
+};
+const envOverride = updateDashboardEnvironmentOverride(rotated.document, "Agent A", {
+  visibility: {
+    bucket_ids: ["engineering"],
+    include_project_ids: [],
+    exclude_project_ids: [],
+  },
+}, { now: new Date("2026-07-18T08:25:00.000Z") });
+const environmentAuth = await dashboardRequestAuth({
+  headers: { "x-dashboard-token": "mapped-token" },
+}, envMappedAuthEnv, {
+  loadAccess: async () => ({ document: envOverride.document }),
+});
+assert.equal(environmentAuth.ok, true);
+assert.equal(environmentAuth.source, "environment");
+assert.deepEqual(environmentAuth.visibility, {
+  bucket_ids: ["engineering"],
+  include_project_ids: [],
+  exclude_project_ids: [],
+});
+const environmentSession = createDashboardSession(environmentAuth, envMappedAuthEnv, {
+  now: new Date("2099-07-18T00:00:00.000Z"),
+  maxAgeSeconds: 60,
+});
+const environmentSessionRequest = {
+  headers: { cookie: `dashboard_session=${encodeURIComponent(environmentSession)}` },
+};
+assert.deepEqual((await dashboardRequestAuth(environmentSessionRequest, envMappedAuthEnv, {
+  now: new Date("2099-07-18T00:00:30.000Z"),
+  loadAccess: async () => ({ document: envOverride.document }),
+})).visibility, {
+  bucket_ids: ["engineering"],
+  include_project_ids: [],
+  exclude_project_ids: [],
+});
+const disabledEnvOverride = updateDashboardEnvironmentOverride(envOverride.document, "Agent A", {
+  enabled: false,
+}, { now: new Date("2026-07-18T08:26:00.000Z") });
+assert.deepEqual(await dashboardRequestAuth(environmentSessionRequest, envMappedAuthEnv, {
+  now: new Date("2099-07-18T00:00:30.000Z"),
+  loadAccess: async () => ({ document: disabledEnvOverride.document }),
+}), {
+  ok: false,
+  status: 401,
+  error: "Dashboard access has been revoked",
+});
 const rotatedAgain = rotateDashboardAccessToken(rotated.document, created.user.user_id, {
   now: new Date("2026-07-18T08:30:00.000Z"),
   randomBytes: deterministicRandom(20),

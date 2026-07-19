@@ -73,7 +73,39 @@ export function emptyDashboardAccessControl(options = {}) {
     schema_version: dashboardAccessSchemaVersion,
     updated_at: (options.now || new Date()).toISOString(),
     users: [],
+    environment_overrides: [],
   };
+}
+
+function publicEnvironmentOverride(override) {
+  return {
+    viewer: override.viewer,
+    role: "viewer",
+    enabled: override.enabled !== false,
+    visibility: cloneJson(override.visibility),
+    updated_at: override.updated_at,
+  };
+}
+
+function normalizeEnvironmentOverrides(values = [], options = {}) {
+  if (!Array.isArray(values)) return [];
+  const seen = new Set();
+  return values.map((override) => {
+    const viewer = requireViewerName(override?.viewer);
+    if (normalizedViewerKey(viewer) === normalizedViewerKey(options.adminViewer || "jingxiang")) {
+      throw new Error("Invalid environment override: administrator identity is reserved");
+    }
+    const viewerKey = normalizedViewerKey(viewer);
+    if (seen.has(viewerKey)) throw new Error(`Duplicate environment override: ${viewer}`);
+    seen.add(viewerKey);
+    return {
+      viewer,
+      role: "viewer",
+      enabled: override?.enabled !== false,
+      visibility: normalizeDashboardVisibility(override?.visibility),
+      updated_at: optionalString(override?.updated_at) || optionalString(options.now?.toISOString?.()) || new Date(0).toISOString(),
+    };
+  });
 }
 
 export function normalizeDashboardAccessControl(raw, options = {}) {
@@ -121,6 +153,7 @@ export function normalizeDashboardAccessControl(raw, options = {}) {
     schema_version: dashboardAccessSchemaVersion,
     updated_at: optionalString(source.updated_at) || (options.now || new Date()).toISOString(),
     users,
+    environment_overrides: normalizeEnvironmentOverrides(source.environment_overrides, options),
   };
 }
 
@@ -179,6 +212,24 @@ function publicAccessUser(user) {
 
 export function listDashboardAccessUsers(document) {
   return normalizeDashboardAccessControl(document).users.map(publicAccessUser);
+}
+
+export function dashboardEnvironmentOverrideForViewer(document, viewer) {
+  const normalizedViewer = normalizedViewerKey(viewer);
+  const override = normalizeDashboardAccessControl(document).environment_overrides
+    .find((candidate) => normalizedViewerKey(candidate.viewer) === normalizedViewer);
+  return override ? publicEnvironmentOverride(override) : null;
+}
+
+export function applyDashboardEnvironmentOverride(document, credential) {
+  if (!credential || credential.role === "admin") return credential;
+  const override = dashboardEnvironmentOverrideForViewer(document, credential.viewer);
+  if (!override) return credential;
+  if (override.enabled === false) return null;
+  return {
+    ...credential,
+    visibility: override.visibility,
+  };
 }
 
 export function createDashboardAccessUser(document, input, options = {}) {
@@ -251,6 +302,45 @@ export function updateDashboardAccessUser(document, userId, patch, options = {})
   return {
     document: { ...normalized, updated_at: now.toISOString(), users },
     user: publicAccessUser(updated),
+  };
+}
+
+export function updateDashboardEnvironmentOverride(document, viewerValue, patch, options = {}) {
+  const now = options.now || new Date();
+  const normalized = normalizeDashboardAccessControl(document, { now });
+  const viewer = requireViewerName(viewerValue);
+  if (normalizedViewerKey(viewer) === normalizedViewerKey(options.adminViewer || "jingxiang")) {
+    throw new Error("Invalid environment override: administrator identity is reserved");
+  }
+  const index = normalized.environment_overrides.findIndex((override) => (
+    normalizedViewerKey(override.viewer) === normalizedViewerKey(viewer)
+  ));
+  const current = index >= 0
+    ? normalized.environment_overrides[index]
+    : {
+      viewer,
+      role: "viewer",
+      enabled: true,
+      visibility: defaultDashboardVisibility,
+      updated_at: now.toISOString(),
+    };
+  const updated = {
+    ...current,
+    enabled: Object.hasOwn(patch || {}, "enabled") ? patch.enabled === true : current.enabled,
+    visibility: Object.hasOwn(patch || {}, "visibility")
+      ? normalizeDashboardVisibility(patch.visibility)
+      : current.visibility,
+    updated_at: now.toISOString(),
+  };
+  const environment_overrides = [...normalized.environment_overrides];
+  if (index >= 0) {
+    environment_overrides[index] = updated;
+  } else {
+    environment_overrides.push(updated);
+  }
+  return {
+    document: { ...normalized, updated_at: now.toISOString(), environment_overrides },
+    user: publicEnvironmentOverride(updated),
   };
 }
 

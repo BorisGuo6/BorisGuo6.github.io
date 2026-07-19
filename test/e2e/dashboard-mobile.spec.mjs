@@ -44,6 +44,21 @@ async function mockDashboardApi(page, mutateSnapshot = null, options = {}) {
     rotated_at: null,
     managed_by: "environment",
     editable: false,
+    token_copy_mode: "none",
+  }, {
+    user_id: "env_ziyang_browser",
+    viewer: "Ziyang",
+    role: "viewer",
+    enabled: true,
+    visibility: { bucket_ids: ["research"], include_project_ids: [], exclude_project_ids: [] },
+    token_fingerprint: "sha256:ziyangbrowser12",
+    token_hint: "Environment credential",
+    created_at: null,
+    updated_at: null,
+    rotated_at: null,
+    managed_by: "environment",
+    editable: true,
+    token_copy_mode: "environment-hidden",
   }];
 
   await page.route("**/api/dashboard/**", async (route) => {
@@ -369,19 +384,66 @@ test("admin settings creates a one-time viewer token without persisting it", asy
   await settings.click();
   const dialog = page.getByRole("dialog", { name: "Dashboard access" });
   await expect(dialog).toBeVisible();
-  await dialog.getByRole("textbox", { name: "Name" }).fill("Davide");
-  await dialog.getByRole("button", { name: "Create token" }).click();
+  const createForm = dialog.locator("[data-access-user-create]");
+  await createForm.getByRole("textbox", { name: "Name" }).fill("Davide");
+  await createForm.getByRole("button", { name: "Create token" }).click();
   const tokenField = dialog.getByRole("textbox", { name: "New dashboard access token" });
   await expect(tokenField).toHaveValue("dash_browser_test_token_shown_once_1234567890");
-  await dialog.getByRole("button", { name: "Copy token" }).click();
+  await dialog.getByRole("button", { name: "Copy token", exact: true }).click();
   expect(await page.evaluate(() => window.__dashboardCopiedText || "")).toBe("dash_browser_test_token_shown_once_1234567890");
   await expect(dialog.getByRole("button", { name: "Davide" })).toBeVisible();
+  page.once("dialog", async (confirmation) => { await confirmation.accept(); });
+  await dialog.getByRole("button", { name: "Regenerate & copy token" }).click();
+  await expect(tokenField).toHaveValue("dash_browser_test_token_shown_once_1234567890");
+  expect(await page.evaluate(() => window.__dashboardCopiedText || "")).toBe("dash_browser_test_token_shown_once_1234567890");
 
   const storage = await page.evaluate(() => JSON.stringify({ ...localStorage, ...sessionStorage }));
   expect(storage).not.toContain("dash_browser_test_token_shown_once_1234567890");
   await dialog.getByRole("button", { name: "Close dashboard access settings" }).click();
   await expect(dialog).toBeHidden();
   await expect(settings).toBeFocused();
+});
+
+test("admin settings can rescope environment viewer tokens without exposing secrets", async ({ page }) => {
+  await mockDashboardApi(page);
+  await unlockDashboard(page);
+
+  await page.getByRole("button", { name: "Settings" }).click();
+  const dialog = page.getByRole("dialog", { name: "Dashboard access" });
+  await expect(dialog).toBeVisible();
+  await dialog.getByRole("button", { name: /Ziyang/ }).click();
+  const editForm = dialog.locator("[data-access-user-edit]");
+  await expect(editForm.getByText("The current environment token value is encrypted outside the dashboard and cannot be copied from Settings.")).toBeVisible();
+  await expect(editForm.getByRole("textbox", { name: "Name" })).toBeDisabled();
+  await expect(editForm.getByRole("button", { name: "Regenerate & copy token" })).toHaveCount(0);
+
+  await editForm.evaluate((form) => {
+    const research = form.querySelector('input[name="bucket_research"]');
+    const general = form.querySelector('input[data-access-project-id="general"]');
+    research.checked = false;
+    general.checked = true;
+    research.dispatchEvent(new Event("change", { bubbles: true }));
+    general.dispatchEvent(new Event("change", { bubbles: true }));
+  });
+  const saveResponsePromise = page.waitForResponse((response) => (
+    response.url().endsWith("/api/dashboard/access-users")
+    && response.request().method() === "PATCH"
+  ));
+  await editForm.evaluate((form) => { form.requestSubmit(); });
+  const saveResponse = await saveResponsePromise;
+  expect(saveResponse.ok()).toBe(true);
+
+  const updatedAccess = await page.evaluate(async () => {
+    const response = await fetch("/api/dashboard/access-users");
+    const data = await response.json();
+    return data.users.find((user) => user.viewer === "Ziyang");
+  });
+  expect(updatedAccess.visibility).toEqual({
+    bucket_ids: [],
+    include_project_ids: ["general"],
+    exclude_project_ids: [],
+  });
+  expect(JSON.stringify(updatedAccess)).not.toContain("dashboard-audit-token");
 });
 
 test("viewer can write visible cards but cannot open settings or write hidden cards", async ({ page }) => {
