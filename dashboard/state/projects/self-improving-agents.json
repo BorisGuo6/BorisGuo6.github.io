@@ -4,21 +4,19 @@
   "title": "Self-Improving Agents for Physical AI",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-07-16T08:43:01.485Z",
-  "description": "Environment-generation workstream for Self-Improving Agents: Text2Env, image/video-anchored generation, autonomous asset discovery and import, and Open-X-Sim cross-simulator reuse.",
-  "summary": "[KNOWN] [CONFIDENCE: HIGH] The four scoped environment-generation workflows now meet their declared acceptance gates: RoboTwin Text2Env Stage 0-5 with stacking, inside placement, articulation, bounded generated geometry proxies, a rendered-scene VLM critic and a live demo; three-scene image/video Anchor2Env; three-source ten-asset discovery/import; and three-case Open-X-Sim L3 transfer. [KNOWN] [CONFIDENCE: HIGH] The project remains ongoing for higher-fidelity open-world assets, robot-policy execution and L4 controller/policy equivalence, which are not claimed by these completions.",
-  "asset": "dashboard/assets/robotwin2-text2env-workflow-20260626.jpg",
-  "asset_alt": "RoboTwin 2.0 Text2Env workflow from natural-language scene request through constrained scene specification, asset grounding, deterministic placement, simulator validation, and replay.",
-  "asset_caption": "Environment-generation mainline: compile text first, then add image/video anchors, autonomous asset ingestion, and Open-X-Sim adapters around the same validated scene package.",
+  "updated_at": "2026-07-17T13:47:56.859Z",
+  "description": "[KNOWN] [CONFIDENCE: HIGH] Agentic environment-generation harness for Physical AI: route text requests, image/video anchors, internet asset and dataset retrieval, and cross-simulator migration through reusable Skills and MCP tools, preferring verified asset reuse and parameter filling before rigid or articulated 3D generation.",
+  "summary": "[KNOWN] [CONFIDENCE: HIGH] The four V1 workflows retain bounded acceptance evidence: Text2Env Stage 0-5, image/video Anchor2Env, verified asset discovery/import, and Open-X-Sim L0-L3 transfer. [KNOWN] [CONFIDENCE: HIGH] The current phase integrates them into one agentic harness with reusable Skill/MCP contracts, a selection-first asset route, a learned rigid/articulated 3D-generation fallback, and regression-gated cross-simulator compilation. [KNOWN] [CONFIDENCE: HIGH] Higher-fidelity open-world generation and policy/controller equivalence remain open.",
+  "asset": "dashboard/assets/self-improving-embodied-harness-loop-20260707.png",
+  "asset_alt": "Agentic Physical AI harness loop with reusable environment-generation Skills and MCP tools for text, visual anchors, asset reuse or generation, validation, and cross-simulator transfer.",
+  "asset_caption": "[FRAME] Phase 2 harness: orchestrate reusable Skills/MCP around four routes, reuse and parameterize verified assets first, fall back to rigid or articulated 3D generation when needed, then compile, validate, replay and transfer with regression gates.",
   "details": [
-    "Ownership boundary: this card now tracks environment generation, asset ingestion, and environment interchange. Policy training, VLA evaluation, failure mining, memory, and harness promotion are adjacent consumers and should not dominate the active TODO list.",
-    "[INFERRED][HIGH] Workstream naming and people boundary from the 2026-07-14 MoM: Policy Improvement & Diagnosis = Gaochen + Kunyi; Environment Generation & Simulation Interoperability = Jingxiang (Boris) lead, with Zheng Ye on environment generation and adapter implementation. Salon remains the MoM and archive coordinator unless a technical deliverable is explicitly assigned.",
-    "Shared compiler contract: request plus optional anchor or web-discovered assets -> SceneSpec -> AssetManifest -> ResolvedSceneSpec -> simulator package -> validation and replay report. Every stage must preserve seeds, source URLs, hashes, units, coordinate frames, conversion steps, rejected candidates, and typed blockers.",
-    "Track 1 / Text2Env: use the current RoboTwin SceneGen Stage 0-4 split as the first production backend. Natural language supplies semantics and relations; deterministic code owns asset IDs, coordinates, quaternions, collision, physics, validation, and replay.",
-    "Track 2 / Anchor2Env: images and videos constrain object identity, layout, scale, camera, motion, and visible geometry. The system must separate observed evidence from estimated or generated content and compare anchor-conditioned output against the text-only baseline.",
-    "Track 3 / Asset Web Agent: retrieval is not complete when a mesh downloads. A pass requires provenance and license capture, canonical metadata, unit/axis normalization, visual and collision geometry, mass/inertia or typed unknowns, articulation mapping, simulator load, settling, and preview QA.",
-    "Track 4 / Open-X-Sim: RoboVerse/MetaSim is the baseline for simulator-agnostic configuration and aligned backend APIs (https://github.com/RoboVerseOrg/RoboVerse and https://roboverse.wiki/metasim/concept/architecture). Open-X-Sim should focus on generated/anchored environment interchange, asset provenance, adapter compilation, and machine-readable migration-loss reports rather than duplicating a generic benchmark platform.",
-    "Claim boundary: cross-simulator reuse means a declared common subset plus measured backend-specific losses. It does not mean identical contacts, rendering, controller behavior, or task success across SAPIEN, MuJoCo, Isaac Sim, Genesis, or other backends."
+    "[KNOWN] [CONFIDENCE: HIGH] Four user-facing routes define the current environment-generation scope: Text2Env, image/video Anchor2Env, automatic internet asset or dataset retrieval, and cross-simulator environment migration.",
+    "[FRAME] The orchestrator follows a selection-first policy: discover, match, select and fill parameters for verified existing assets before invoking a generative fallback.",
+    "[FRAME] The asset-reuse branch records candidate ranking, rejected candidates, license and provenance, hashes, units, axes, scale, visual and collision geometry, material, mass and inertia, stable poses, and joint metadata or typed unknowns.",
+    "[FRAME] The generation branch handles rigid and articulated objects separately and must emit simulator-ready visual and collision geometry, scale, physics metadata, joint topology and limits, provenance, hashes, and validation evidence.",
+    "[FRAME] The reusable Skill/MCP layer exposes discover, match, fill, generate, compile, validate and transfer through typed contracts with versioned dependencies, bounded retries, run_state, events, artifact manifests, failure codes and rollback.",
+    "[KNOWN] [CONFIDENCE: HIGH] Cross-simulator reuse only claims a declared common subset plus measured migration losses; contact, rendering, controller behavior and task outcomes are not equivalent unless their explicit gates pass."
   ],
   "task_ids": [
     "task_self_improving_prepare_proposal",
@@ -55,7 +53,13 @@
     "task_self_improving_skill_api_memory_gate",
     "task_self_improving_rlbench_isaacsim_pilot_gate",
     "task_self_improving_dual_sim_robotwin_isaacsim_merge",
-    "task_self_improving_contact_curriculum_bridge"
+    "task_self_improving_contact_curriculum_bridge",
+    "task_self_improving_agents_phase_2_harness_build_reusable_skill_mcp_registr_20260717",
+    "task_self_improving_agents_phase_2_1_4_text2env_wrap_deterministic_text2env_20260717",
+    "task_self_improving_agents_phase_2_2_4_anchor2env_wrap_image_video_conditio_20260717",
+    "task_self_improving_agents_phase_2_3a_4_asset_reuse_retrieve_match_select_a_20260717",
+    "task_self_improving_agents_embodiedgen_v2_self_improving_harness_gen_env_20260713",
+    "task_self_improving_agents_phase_2_4_4_transfer_package_cross_simulator_mig_20260717"
   ],
   "references": [
     {
@@ -326,57 +330,63 @@
         "value": "Jingxiang + Zheng Ye"
       },
       {
-        "label": "Foundation",
-        "value": "129 registered + 11 runtime"
+        "label": "Phase",
+        "value": "V1 accepted; harness integration active"
       },
       {
-        "label": "MVP",
-        "value": "Text2Env Stage 0-5 + demo"
+        "label": "Routes",
+        "value": "Text / Anchor / Assets / Transfer"
       },
       {
-        "label": "Diagnosis",
-        "value": "Gaochen + Kunyi"
+        "label": "Asset policy",
+        "value": "Reuse first; generate on miss"
       },
       {
-        "label": "Tracks",
-        "value": "Text / Anchor / Assets / Open-X-Sim"
+        "label": "Generation",
+        "value": "Rigid + articulated 3D"
       },
       {
         "label": "Architecture",
-        "value": "SceneSpec + AssetSpec + adapters"
+        "value": "Skills/MCP -> typed specs -> adapters"
       },
       {
         "label": "Baseline",
-        "value": "RoboVerse / MetaSim"
+        "value": "RoboTwin/SAPIEN + Open-X-Sim"
       }
     ],
-    "target_note": "[KNOWN] [CONFIDENCE: HIGH] Next target: connect anchored observations and retrieved high-fidelity assets to the same Stage 5 runtime gates, then evaluate robot-policy execution and L4 controller/policy transfer without weakening the current provenance, migration-loss or fail-closed critic contracts."
+    "target_note": "[FRAME] Current target: make all four routes callable through the same versioned harness, preserve reuse-versus-generation decisions and typed evidence, and block promotion when provenance, physics, replay or migration-loss gates fail."
   },
   "asset_added_at": "2026-06-26",
   "subprojects": [
     {
+      "id": "agentic-harness",
+      "name": "Phase 2. Agentic Harness / Skills + MCP",
+      "status": "ongoing",
+      "summary": "[FRAME] Integrate the four accepted V1 routes behind a reusable, versioned Skill/MCP registry with selection-first asset routing, rigid/articulated generation fallback, typed artifacts, bounded repair and regression-gated promotion."
+    },
+    {
       "id": "text2env",
       "name": "1. Text2Env",
       "status": "done",
-      "summary": "[COMPUTED] [CONFIDENCE: HIGH] Stage 0-5 passes: strict SceneSpec/catalog grounding, 100-seed Stage 0-4 acceptance, stacking, containment, three-joint half-open articulation, bounded generated geometry proxies, 4/4 real RoboTwin runtime plus VLM cases, and a browser-verified text-input demo."
+      "summary": "[COMPUTED] [CONFIDENCE: HIGH] The bounded V1 Stage 0-5 gate passes; Phase 2 adapter packaging is tracked separately and does not reopen the historical acceptance evidence."
     },
     {
       "id": "anchor2env",
       "name": "2. Image / Video Anchor2Env",
       "status": "done",
-      "summary": "[COMPUTED] [CONFIDENCE: HIGH] The declared 3-scene gate passes with two still images and one full video, deterministic typed uncertainty/provenance, shared-package replay, MuJoCo runtime/visual checks, remote SAPIEN load-and-step checks, ablation and a typed failure gallery."
+      "summary": "[COMPUTED] [CONFIDENCE: HIGH] The bounded V1 three-scene image/video gate passes; Phase 2 Skill/MCP packaging and reuse-first fallback routing remain separate active work."
     },
     {
       "id": "asset-web-agent",
-      "name": "3. Autonomous Asset Discovery and Import",
+      "name": "3. Asset Reuse + 3D Generation Fallback",
       "status": "done",
-      "summary": "[COMPUTED] [CONFIDENCE: HIGH] The declared 3-source/10-asset gate passes with pinned open-source commits, provenance and hashes, deterministic conversions, collision/material outputs, source/import previews, 10/10 MuJoCo runs and 10/10 remote SAPIEN settling checks."
+      "summary": "[COMPUTED] [CONFIDENCE: HIGH] The bounded V1 three-source and ten-asset discovery/import gate passes. [FRAME] Phase 2 splits verified retrieval and parameter filling from rigid/articulated generative fallback."
     },
     {
       "id": "open-x-sim",
       "name": "4. Open-X-Sim Cross-Simulator Reuse",
       "status": "done",
-      "summary": "[COMPUTED] [CONFIDENCE: HIGH] The declared 3-case L0-L3 gate passes for rigid tabletop, articulated and camera-sensitive scenes through one versioned bundle with adapter versions, hashes, tolerances and migration-loss records. [KNOWN] [CONFIDENCE: HIGH] L4 policy/controller equivalence remains explicitly outside this completion."
+      "summary": "[COMPUTED] [CONFIDENCE: HIGH] The bounded V1 rigid, articulated and camera-sensitive L0-L3 gate passes. [KNOWN] [CONFIDENCE: HIGH] Reusable Skill/MCP packaging and L4 controller or policy equivalence remain outside that completion."
     }
   ]
 }

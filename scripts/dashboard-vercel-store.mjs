@@ -4,11 +4,16 @@ import {
   serializeDashboardSnapshot,
 } from "./dashboard-state-snapshot.mjs";
 
-export const defaultDashboardBlobPath = "dashboard-state/embodied-ai-dashboard.json";
+export const defaultDashboardBlobPath = "dashboard-state-private/embodied-ai-dashboard.json";
+export const legacyPublicDashboardBlobPath = "dashboard-state/embodied-ai-dashboard.json";
 export const defaultDashboardBlobBackupPrefix = "dashboard-state/backups";
 
 function dashboardBlobPath(env = process.env) {
-  return env.DASHBOARD_BLOB_PATH || defaultDashboardBlobPath;
+  return env.DASHBOARD_PRIVATE_BLOB_PATH || defaultDashboardBlobPath;
+}
+
+function legacyDashboardBlobPath(env = process.env) {
+  return env.DASHBOARD_BLOB_PATH || legacyPublicDashboardBlobPath;
 }
 
 export function isVercelBlobConfigured(env = process.env) {
@@ -39,6 +44,15 @@ export function isBlobPreconditionFailedError(error) {
     || /Precondition failed: ETag mismatch/i.test(String(error?.message || ""));
 }
 
+function timestampValue(value) {
+  const timestamp = Date.parse(value || "");
+  return Number.isFinite(timestamp) ? timestamp : 0;
+}
+
+function bundledSnapshotIsNewer(bundledSnapshot, blobSnapshot) {
+  return timestampValue(bundledSnapshot?.updated_at) > timestampValue(blobSnapshot?.updated_at);
+}
+
 function wait(milliseconds) {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
@@ -59,17 +73,50 @@ export async function readVercelBlobSnapshot(options = {}) {
   const token = env.BLOB_READ_WRITE_TOKEN;
   if (!token) return null;
   const pathname = options.pathname || dashboardBlobPath(env);
+  let legacyReadPathname = pathname;
   const blobApi = options.blobApi || await blobClient();
   const fetchImpl = options.fetchImpl || fetch;
   const sleep = options.sleep || wait;
   const retryDelays = options.retryDelays || [0, 150, 350, 750, 1500, 3000, 6000];
   let lastObserved = "unknown";
 
+  if (typeof blobApi.get === "function") {
+    try {
+      const privateResult = await blobApi.get(pathname, {
+        access: "private",
+        useCache: false,
+        token,
+      });
+      if (privateResult?.stream) {
+        const snapshot = normalizeDashboardSnapshot(await new Response(privateResult.stream).json());
+        return {
+          snapshot: { ...snapshot, source: "vercel-blob" },
+          blob: privateResult.blob,
+        };
+      }
+      if (privateResult === null) {
+        legacyReadPathname = options.legacyPathname || legacyDashboardBlobPath(env);
+        if (legacyReadPathname === pathname) return null;
+      }
+    } catch (error) {
+      const isMissingPrivateBlob = error?.name === "BlobNotFoundError"
+        || error?.constructor?.name === "BlobNotFoundError";
+      const isPrivateAccessMismatch = error?.name === "BlobAccessError"
+        || error?.constructor?.name === "BlobAccessError"
+        || /Failed to fetch blob:\s*400 Bad Request/i.test(String(error?.message || ""));
+      const canFallBackToLegacyPublicBlob = isPrivateAccessMismatch
+        || isMissingPrivateBlob;
+      if (!canFallBackToLegacyPublicBlob) throw error;
+      legacyReadPathname = options.legacyPathname || legacyDashboardBlobPath(env);
+      if (legacyReadPathname === pathname && !isPrivateAccessMismatch) return null;
+    }
+  }
+
   for (const delay of retryDelays) {
     if (delay > 0) await sleep(delay);
     let blob;
     try {
-      blob = await blobApi.head(pathname, { token });
+      blob = await blobApi.head(legacyReadPathname, { token });
     } catch (error) {
       if (error instanceof blobApi.BlobNotFoundError || error?.name === "BlobNotFoundError") {
         return null;
@@ -102,7 +149,11 @@ export async function readVercelBlobSnapshot(options = {}) {
           ...snapshot,
           source: "vercel-blob",
         },
-        blob,
+        blob: {
+          ...blob,
+          legacy_public: true,
+          legacy_public_pathname: legacyReadPathname,
+        },
       };
     }
   }
@@ -131,7 +182,7 @@ export async function writeVercelBlobSnapshot(snapshot, options = {}) {
     ...snapshot,
     source: "vercel-blob",
   }), {
-    access: "public",
+    access: "private",
     addRandomSuffix: false,
     allowOverwrite: true,
     cacheControlMaxAge: 60,
@@ -146,7 +197,7 @@ export async function writeVercelBlobSnapshot(snapshot, options = {}) {
         audit_log: [],
         source: "vercel-blob-backup",
       }), {
-        access: "public",
+        access: "private",
         addRandomSuffix: false,
         allowOverwrite: false,
         cacheControlMaxAge: 60,
@@ -164,25 +215,62 @@ export async function writeVercelBlobSnapshot(snapshot, options = {}) {
 }
 
 export async function loadVercelDashboardSnapshot(options = {}) {
-  const blobResult = await readVercelBlobSnapshot(options);
+  const env = options.env || process.env;
+  let blobReadError = null;
+  let blobResult = null;
+  try {
+    blobResult = await readVercelBlobSnapshot(options);
+  } catch (error) {
+    blobReadError = error;
+  }
   if (blobResult?.snapshot) {
+    const bundledSnapshot = await loadBundledDashboardSnapshot({
+      source: "bundled-json",
+    });
+    if (bundledSnapshotIsNewer(bundledSnapshot, blobResult.snapshot)) {
+      return {
+        snapshot: {
+          ...bundledSnapshot,
+          source: "bundled-json-newer-than-blob",
+        },
+        meta: {
+          storage: "bundled-json-newer-than-blob",
+          blob_path: blobResult.blob.pathname,
+          blob_etag: blobResult.blob.legacy_public ? null : blobResult.blob.etag,
+          legacy_public_blob_path: blobResult.blob.legacy_public_pathname || null,
+          superseded_blob_updated_at: blobResult.snapshot.updated_at || null,
+        },
+      };
+    }
     return {
       snapshot: blobResult.snapshot,
       meta: {
         storage: "vercel-blob",
         blob_path: blobResult.blob.pathname,
-        blob_url: blobResult.blob.url,
-        blob_etag: blobResult.blob.etag,
+        blob_etag: blobResult.blob.legacy_public ? null : blobResult.blob.etag,
+        legacy_public_blob_path: blobResult.blob.legacy_public_pathname || null,
+      },
+    };
+  }
+  if (blobReadError) {
+    return {
+      snapshot: await loadBundledDashboardSnapshot({
+        source: isVercelBlobConfigured(env) ? "bundled-json-blob-read-failed" : "bundled-json",
+      }),
+      meta: {
+        storage: isVercelBlobConfigured(env) ? "bundled-json-blob-read-failed" : "bundled-json",
+        blob_path: dashboardBlobPath(env),
+        blob_read_error: blobReadError instanceof Error ? blobReadError.message : String(blobReadError || ""),
       },
     };
   }
   return {
     snapshot: await loadBundledDashboardSnapshot({
-      source: isVercelBlobConfigured(options.env || process.env) ? "bundled-json-seed" : "bundled-json",
+      source: isVercelBlobConfigured(env) ? "bundled-json-seed" : "bundled-json",
     }),
     meta: {
-      storage: isVercelBlobConfigured(options.env || process.env) ? "bundled-json-seed" : "bundled-json",
-      blob_path: dashboardBlobPath(options.env || process.env),
+      storage: isVercelBlobConfigured(env) ? "bundled-json-seed" : "bundled-json",
+      blob_path: dashboardBlobPath(env),
     },
   };
 }

@@ -5,7 +5,7 @@
   "subtitle": "World models, self-improving simulators, teleop acceleration, and robotics + 3D printing",
   "week": "2026-W24",
   "date": "2026-06-12",
-  "updated_at": "2026-07-16T02:51:06.747Z",
+  "updated_at": "2026-07-19T01:56:26.790Z",
   "state_root": "dashboard/state",
   "summary": {
     "focus": "Research 主线保持 Tri-View/Image-Layered IDM、Self-Improving Agents 和 DexGello；Survey TODO 已统一 inactive/archived，不再显示为当前执行队列。",
@@ -262,6 +262,34 @@
       "caption": "RoboTwin 2.0 expert-code loop: generate task programs from task/API context, execute repeated trials, classify failures from logs and visual observations, repair code, and retain programs that pass the success threshold.",
       "source": "RoboTwin 2.0 / Weekly Brief",
       "added_at": "2026-06-19"
+    },
+    {
+      "src": "dashboard/assets/tactile-ml-sensor-mechanoluminescent-skin-20260717.png",
+      "alt": "Mechanoluminescent flexible tactile sensor design, CMOS readout mechanism, force image outputs, handwriting recognition, and Pac-Man and Minecraft interaction demonstrations",
+      "caption": "[KNOWN][HIGH] ML-sensor converts normal-force-induced mechanoluminescence into 640 x 480 CMOS tactile images; the corresponding paper was published in Advanced Science in 2026, so the slide footer saying submitted in 2025 is stale. [INFERRED][HIGH] Keep it as a vision-native tactile representation reference for VTAM, not as evidence of shear sensing or robot-policy gains.",
+      "source": "DaiMeng VTAM / Yu Feng et al., Advanced Science 2026",
+      "added_at": "2026-07-17"
+    },
+    {
+      "src": "dashboard/assets/tactile-robotac-skin-design-20260717.png",
+      "alt": "RoboTac Skin design comparing human skin receptors with a flexible ionic conductive film and FPCB electrode stack deployed on a robot gripper",
+      "caption": "[KNOWN][HIGH] The supplied 2025 RoboTac Skin slide proposes a thin ionic-conductive-film sandwich with FPCB and Au/Cu electrodes for conformable robot deployment; no public DOI, preprint, or project page was located in the 2026-07-17 audit. [INFERRED][HIGH] Keep it as sensor-stack and deployment context, not peer-reviewed performance or policy evidence.",
+      "source": "DaiMeng VTAM / user-provided research presentation capture",
+      "added_at": "2026-07-17"
+    },
+    {
+      "src": "dashboard/assets/tactile-ther-tac-material-identification-20260717.png",
+      "alt": "Ther-Tac active thermal tactile sensor design, pulse-heating and cooling mechanism, material response curves, clustering, and robot material-identification validation",
+      "caption": "[KNOWN][HIGH] The supplied Ther-Tac slide describes pulse heating plus transient cooling for effusivity-based in-grasp material identification and labels the work under review in 2025; no public DOI, preprint, or project page was located in the 2026-07-17 audit. [INFERRED][HIGH] Its durable value is a nonvisual material-identity channel, not evidence of force control or action learning.",
+      "source": "DaiMeng VTAM / user-provided research presentation capture",
+      "added_at": "2026-07-17"
+    },
+    {
+      "src": "dashboard/assets/tactile-mc-tac-contact-ring-placement-20260718.png",
+      "alt": "MC-Tac magnetic tactile prototype contact-response traces for x, y, and z interactions and a robot ring-placement task",
+      "caption": "[KNOWN][HIGH] The supplied MC-Tac slide shows Bx/By/Bz response traces under x/y/z contact and a robot ring-placement demonstration. Targeted search found no matching public paper record as of 2026-07-18; the published 2023 MC-Tac is a different camera-based modular sensor. [INFERRED][HIGH] Keep this single task-level slide as an in-progress magnetic-contact-sensor reference, not peer-reviewed performance evidence.",
+      "source": "DaiMeng VTAM / user-provided research presentation capture",
+      "added_at": "2026-07-18"
     }
   ],
   "weekly_briefs": [
@@ -304,10 +332,11 @@
   "projects": [
     {
       "project_id": "umi-world-model",
-      "title": "Tri-View Ego World + Image-Layered IDM Foundation Model",
+      "title": "UMI Image Layered World Model",
       "bucket": "research",
       "status": "ongoing",
-      "state_path": "dashboard/state/projects/umi-world-model.json"
+      "state_path": "dashboard/state/projects/umi-world-model.json",
+      "summary": "UMI World Model is a three-paper program with one shared data substrate: Stage 1 trains a streaming multi-view pose/action-conditioned robot world model and now owns the URDF/FK/action/camera Robot Layer branch; Stage 2 turns manipulation videos into reusable scene, object/contact, occluder/tool, and robot/actor layers; Stage 3 tests whether those layers improve manipulation and video-model training. This intro is architecture/status framing only; execution lives in TODOs and task comments."
     },
     {
       "project_id": "self-improving-agents",
@@ -315,6 +344,14 @@
       "bucket": "research",
       "status": "ongoing",
       "state_path": "dashboard/state/projects/self-improving-agents.json"
+    },
+    {
+      "project_id": "real-robot-demos",
+      "title": "Ego2Dex Human Demonstration / LfD",
+      "bucket": "research",
+      "status": "ongoing",
+      "state_path": "dashboard/state/projects/real-robot-demos.json",
+      "summary": "Research track for Ego2Dex / Learning-from-Demonstration: monocular ego or human-video hand-object reconstruction, contact-aware trajectory cleanup, human-to-robot retargeting, and matched real-robot validation. Physical demo tasks remain here only as acceptance surfaces for the LfD claim, while hardware readiness stays in Real-Robot Infra."
     },
     {
       "project_id": "tactile-wam",
@@ -345,13 +382,6 @@
       "state_path": "dashboard/state/projects/general.json"
     },
     {
-      "project_id": "real-robot-demos",
-      "title": "Real-Robot Demos",
-      "bucket": "engineering",
-      "status": "ongoing",
-      "state_path": "dashboard/state/projects/real-robot-demos.json"
-    },
-    {
       "project_id": "superhuman-rate-curve-teleop",
       "title": "Superhuman Robot Execution",
       "bucket": "survey",
@@ -373,13 +403,6 @@
       "state_path": "dashboard/state/projects/drag-demo-video-editing.json"
     },
     {
-      "project_id": "diverse-same-task-dataset",
-      "title": "Archive: Diverse Dataset on Same Task",
-      "bucket": "archive",
-      "status": "archived",
-      "state_path": "dashboard/state/projects/diverse-same-task-dataset.json"
-    },
-    {
       "project_id": "robotics-3d-printing",
       "title": "Archive: Robotics + 3D Printing",
       "bucket": "archive",
@@ -392,13 +415,6 @@
       "bucket": "archive",
       "status": "archived",
       "state_path": "dashboard/state/projects/model-assisted-teleop-survey.json"
-    },
-    {
-      "project_id": "urdf-embodiment-prior-world-model-idea",
-      "title": "URDF Kinematic-Camera World Model",
-      "bucket": "research",
-      "status": "ongoing",
-      "state_path": "dashboard/state/projects/urdf-embodiment-prior-world-model-idea.json"
     },
     {
       "project_id": "skill-world-model-survey",
@@ -455,13 +471,6 @@
       "bucket": "archive",
       "status": "archived",
       "state_path": "dashboard/state/projects/archive-fracture-soft-wrist-assembly.json"
-    },
-    {
-      "project_id": "archive-egovla-viewvla-standalone",
-      "title": "Archive: EgoVLA / ViewVLA Standalone Track",
-      "bucket": "archive",
-      "status": "archived",
-      "state_path": "dashboard/state/projects/archive-egovla-viewvla-standalone.json"
     },
     {
       "project_id": "archive-observation-centric-vla-standalone",

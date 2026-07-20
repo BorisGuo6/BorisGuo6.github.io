@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-07-17T04:42:57.336Z",
+  "updated_at": "2026-07-19T01:56:26.790Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -4373,7 +4373,7 @@
     },
     {
       "task_id": "task_hoi_pnp_calibration",
-      "project_id": "diverse-same-task-dataset",
+      "project_id": "real-robot-demos",
       "title": "Add PnP calibration layer for camera extrinsics",
       "description": "Extra calibration support was added to help 2077AI stabilize camera extrinsics after sensor synchronization took longer than expected.",
       "status": "done",
@@ -4409,13 +4409,22 @@
           "body": "Local Codex host review reopened this TODO.\n请补齐 PnP calibration layer 的可验收证据：实际工作区路径、commit 或文件清单、关键实现文件、可复现验证命令、测试/verifier 输出、结果 artifact/日志路径与 sha256；至少证明 solvePnP/外参更新层能在样例输入上生成相机外参，并给出 reprojection error 或等价指标。若依赖真实 2077AI 数据/硬件，请明确 blocker、所需数据/设备、最小复现命令和当前失败输出。",
           "created_at": "2026-06-09T11:44:49+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_ego2dex_lfd_merge_task_hoi_pnp_calibration_20260718",
+          "task_id": "task_hoi_pnp_calibration",
+          "author": "Codex / ClawCross dashboard merge",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved to Research / Ego2Dex Human Demonstration / LfD on 2026-07-18. Human/ego demonstration reconstruction, same-task HOI schema, contact-aware retargeting, and real-robot acceptance now share one execution card; UMI only consumes validated layer_manifest sidecars.",
+          "created_at": "2026-07-18T03:53:00.469Z"
         }
       ],
-      "updated_at": "2026-06-09T11:44:49+08:00"
+      "updated_at": "2026-07-19T01:56:26.790Z"
     },
     {
       "task_id": "task_hoi_collection_matrix",
-      "project_id": "diverse-same-task-dataset",
+      "project_id": "real-robot-demos",
       "title": "Freeze the same-task collection matrix",
       "description": "Define the identical task across glove, UMI, ALOHA, drag demonstration, and teleoperation, with human-centric and robot-centric camera views.",
       "status": "done",
@@ -4438,14 +4447,23 @@
           "body": "Host verification passed: inspected boris-PC artifact ~/workspace/diverse-same-task-dataset/task_hoi_collection_matrix.md (222 lines). It freezes tiered tasks, embodiments, episode budgets, collection protocol, object standardization, naming convention, open questions, and freeze criteria. Accepted as planning TODO.",
           "created_at": "2026-05-22T09:36:50+08:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "comment_ego2dex_lfd_merge_task_hoi_collection_matrix_20260718",
+          "task_id": "task_hoi_collection_matrix",
+          "author": "Codex / ClawCross dashboard merge",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved to Research / Ego2Dex Human Demonstration / LfD on 2026-07-18. Human/ego demonstration reconstruction, same-task HOI schema, contact-aware retargeting, and real-robot acceptance now share one execution card; UMI only consumes validated layer_manifest sidecars.",
+          "created_at": "2026-07-18T03:53:00.469Z"
         }
       ],
-      "updated_at": "2026-05-22T09:36:51+08:00",
+      "updated_at": "2026-07-19T01:56:26.790Z",
       "completed_at": "2026-05-22"
     },
     {
       "task_id": "task_hoi_sensor_validation",
-      "project_id": "diverse-same-task-dataset",
+      "project_id": "real-robot-demos",
       "title": "Validate synchronized sensor package",
       "description": "Confirm hand pose, ego camera, and z16-encoded depth are aligned well enough for HOI supervision; z16 replaces depth heatmaps for better metric accuracy.",
       "status": "done",
@@ -4475,14 +4493,23 @@
           "body": "Host verification reaffirmed after remote late review update: inspected ~/workspace/diverse-same-task-dataset/task_hoi_sensor_validation.md (216 lines). Accepted; remote review status was stale.",
           "created_at": "2026-05-22T09:40:04+08:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "comment_ego2dex_lfd_merge_task_hoi_sensor_validation_20260718",
+          "task_id": "task_hoi_sensor_validation",
+          "author": "Codex / ClawCross dashboard merge",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved to Research / Ego2Dex Human Demonstration / LfD on 2026-07-18. Human/ego demonstration reconstruction, same-task HOI schema, contact-aware retargeting, and real-robot acceptance now share one execution card; UMI only consumes validated layer_manifest sidecars.",
+          "created_at": "2026-07-18T03:53:00.469Z"
         }
       ],
-      "updated_at": "2026-05-22T09:40:04+08:00",
+      "updated_at": "2026-07-19T01:56:26.790Z",
       "completed_at": "2026-05-22"
     },
     {
       "task_id": "task_hoi_object_tracking",
-      "project_id": "diverse-same-task-dataset",
+      "project_id": "real-robot-demos",
       "title": "Add object tracking with the same mechanism as hand tracking",
       "description": "The object tracker should share the same tracking / calibration assumptions as the hand tracker rather than creating a separate data path.",
       "status": "done",
@@ -4505,14 +4532,23 @@
           "body": "Host verification passed: inspected boris-PC artifact ~/workspace/diverse-same-task-dataset/task_hoi_object_tracking.md (287 lines). It selects a hybrid ArUco + FoundationPose multi-view object tracker, defines per-object tracking plans, coordinate-frame alignment with hand tracking, validation protocols, and schema integration fields. Accepted as object-tracking design TODO.",
           "created_at": "2026-05-22T09:38:59+08:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "comment_ego2dex_lfd_merge_task_hoi_object_tracking_20260718",
+          "task_id": "task_hoi_object_tracking",
+          "author": "Codex / ClawCross dashboard merge",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved to Research / Ego2Dex Human Demonstration / LfD on 2026-07-18. Human/ego demonstration reconstruction, same-task HOI schema, contact-aware retargeting, and real-robot acceptance now share one execution card; UMI only consumes validated layer_manifest sidecars.",
+          "created_at": "2026-07-18T03:53:00.469Z"
         }
       ],
-      "updated_at": "2026-05-22T09:40:01+08:00",
+      "updated_at": "2026-07-19T01:56:26.790Z",
       "completed_at": "2026-05-22"
     },
     {
       "task_id": "task_hoi_schema_model_target",
-      "project_id": "diverse-same-task-dataset",
+      "project_id": "real-robot-demos",
       "title": "Define unified HOI schema and baseline model target",
       "description": "Specify common timestamps, camera extrinsics, hand / object state, robot embodiment metadata, and the prediction target for the HOI base model / world model. The retargeting label should be object-centric: same object trajectory, contact sequence, grasp / tool-use mode, and task result across human hand and robot hand, not raw joint-angle similarity.",
       "status": "done",
@@ -4533,15 +4569,24 @@
           "body": "Host verification passed: inspected boris-PC artifact ~/workspace/diverse-same-task-dataset/task_hoi_schema_model_target.md (239 lines). It defines an episode/frame schema with timestamps, camera intrinsics/extrinsics, raw and canonical actions, hand/object/robot metadata, contact/geometry fields, LeRobot-compatible storage, and object-centric model targets with pi0/Octo/Diffusion Policy baselines. Accepted.",
           "created_at": "2026-05-22T09:32:30+08:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "comment_ego2dex_lfd_merge_task_hoi_schema_model_target_20260718",
+          "task_id": "task_hoi_schema_model_target",
+          "author": "Codex / ClawCross dashboard merge",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved to Research / Ego2Dex Human Demonstration / LfD on 2026-07-18. Human/ego demonstration reconstruction, same-task HOI schema, contact-aware retargeting, and real-robot acceptance now share one execution card; UMI only consumes validated layer_manifest sidecars.",
+          "created_at": "2026-07-18T03:53:00.469Z"
         }
       ],
-      "updated_at": "2026-05-22T09:32:30+08:00",
+      "updated_at": "2026-07-19T01:56:26.790Z",
       "completed_at": "2026-05-22",
       "due_at": ""
     },
     {
       "task_id": "task_hoi_retargeting_baselines",
-      "project_id": "diverse-same-task-dataset",
+      "project_id": "real-robot-demos",
       "title": "Connect retargeting baselines",
       "description": "Use the HOI Retargeting notes to compare Manus glove -> LEAP / Isaac Sim retargeting, object-centric / functional retargeting baselines such as HOP, Object-Centric Dexterous Manipulation, DexMachina, DexFlow, and GenHand, plus object sim2real alignment ideas such as FoundationPose. Isaac Sim should score whether the robot reproduces the same object-state transition and contact result.",
       "status": "done",
@@ -4576,9 +4621,18 @@
           "body": "Closed per user instruction: temporary Survey work is complete enough for this pass; worker must switch back to its original project. Any extra retargeting-note expansion is deferred to a future explicit Survey TODO.",
           "created_at": "2026-05-22T09:49:54+08:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "comment_ego2dex_lfd_merge_task_hoi_retargeting_baselines_20260718",
+          "task_id": "task_hoi_retargeting_baselines",
+          "author": "Codex / ClawCross dashboard merge",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved to Research / Ego2Dex Human Demonstration / LfD on 2026-07-18. Human/ego demonstration reconstruction, same-task HOI schema, contact-aware retargeting, and real-robot acceptance now share one execution card; UMI only consumes validated layer_manifest sidecars.",
+          "created_at": "2026-07-18T03:53:00.469Z"
         }
       ],
-      "updated_at": "2026-05-22T09:49:54+08:00",
+      "updated_at": "2026-07-19T01:56:26.790Z",
       "completed_at": "2026-05-22",
       "due_at": ""
     },
@@ -5408,7 +5462,7 @@
     },
     {
       "task_id": "task_hoi_contact_annotation_pack",
-      "project_id": "diverse-same-task-dataset",
+      "project_id": "real-robot-demos",
       "title": "定义 object/contact annotation pack 并标注样例",
       "description": "Why now: HOI retargeting 目标不是关节相似，而是 object trajectory/contact/task result。Deliverable: contact patch、contact normal、grasp/tool-use mode、object pose trajectory 的 label spec + 5 个样例。Acceptance: 标注能喂给 retargeting baseline 或 Isaac verifier。",
       "status": "done",
@@ -5443,15 +5497,24 @@
           "body": "Host verification passed: reran validate_contact_pack.py on all 5 contact-pack samples (all VALID) and tests/run_verifier_tests.py (4/4 PASS, including self_collision and sliding_consistency reject branches). Sha256s for spec, validator, generator, test harness and summary are recorded.",
           "created_at": "2026-05-23T14:28:32+08:00",
           "kind": "host_verified"
+        },
+        {
+          "comment_id": "comment_ego2dex_lfd_merge_task_hoi_contact_annotation_pack_20260718",
+          "task_id": "task_hoi_contact_annotation_pack",
+          "author": "Codex / ClawCross dashboard merge",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved to Research / Ego2Dex Human Demonstration / LfD on 2026-07-18. Human/ego demonstration reconstruction, same-task HOI schema, contact-aware retargeting, and real-robot acceptance now share one execution card; UMI only consumes validated layer_manifest sidecars.",
+          "created_at": "2026-07-18T03:53:00.469Z"
         }
       ],
-      "updated_at": "2026-05-23T14:28:32+08:00",
+      "updated_at": "2026-07-19T01:56:26.790Z",
       "due_at": "2026-05-28",
       "completed_at": "2026-05-23"
     },
     {
       "task_id": "task_hoi_isaac_retargeting_verifier_v0",
-      "project_id": "diverse-same-task-dataset",
+      "project_id": "real-robot-demos",
       "title": "做 Isaac retargeting verifier v0",
       "description": "Why now: 已经决定要用 Isaac 判断机器人是否复现同一 object-state transition。Deliverable: 一个 v0 verifier，输入 human HOI label + robot candidate trajectory，输出 object pose/contact/joint-limit/collision/failure report。Acceptance: 能在 mock scene 上跑通，并给出可解释 reject reason。",
       "status": "done",
@@ -5500,15 +5563,24 @@
           "body": "Strict audit 2026-05-29: reopened because mock-Isaac verifier is insufficient. Install/run real Isaac where feasible, otherwise mark blocked with dependency logs.",
           "created_at": "2026-05-29T00:39:42+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_ego2dex_lfd_merge_task_hoi_isaac_retargeting_verifier_v0_20260718",
+          "task_id": "task_hoi_isaac_retargeting_verifier_v0",
+          "author": "Codex / ClawCross dashboard merge",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved to Research / Ego2Dex Human Demonstration / LfD on 2026-07-18. Human/ego demonstration reconstruction, same-task HOI schema, contact-aware retargeting, and real-robot acceptance now share one execution card; UMI only consumes validated layer_manifest sidecars.",
+          "created_at": "2026-07-18T03:53:00.469Z"
         }
       ],
-      "updated_at": "2026-05-23T03:17:09+08:00",
+      "updated_at": "2026-07-19T01:56:26.790Z",
       "due_at": "2026-05-30",
       "completed_at": "2026-05-23"
     },
     {
       "task_id": "task_hoi_two_modality_capture_smoke",
-      "project_id": "diverse-same-task-dataset",
+      "project_id": "real-robot-demos",
       "title": "同一任务跑两个采集模态 smoke",
       "description": "Why now: collection matrix/schema 都完成了，下一步要证明同一任务能跨模态对齐。Deliverable: 选一个 manipulation task，至少 glove/UMI 或 teleop/drag 两个模态各出 1 条样例。Acceptance: 两条样例共享 task_id/object_id/timestamps/camera metadata，并能在同一 schema validator 中通过。",
       "status": "done",
@@ -5557,9 +5629,18 @@
           "body": "Strict audit 2026-05-29: reopened because smoke capture is insufficient. Produce two real modality samples or attach fresh hardware blocker logs.",
           "created_at": "2026-05-29T00:39:42+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_ego2dex_lfd_merge_task_hoi_two_modality_capture_smoke_20260718",
+          "task_id": "task_hoi_two_modality_capture_smoke",
+          "author": "Codex / ClawCross dashboard merge",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved to Research / Ego2Dex Human Demonstration / LfD on 2026-07-18. Human/ego demonstration reconstruction, same-task HOI schema, contact-aware retargeting, and real-robot acceptance now share one execution card; UMI only consumes validated layer_manifest sidecars.",
+          "created_at": "2026-07-18T03:53:00.469Z"
         }
       ],
-      "updated_at": "2026-05-23T14:28:32+08:00",
+      "updated_at": "2026-07-19T01:56:26.790Z",
       "due_at": "2026-05-27",
       "completed_at": "2026-05-23"
     },
@@ -6501,19 +6582,19 @@
         {
           "comment_id": "comment_dex_gello_jenga_demo_move_20260612",
           "author": "Boris / Codex",
-          "body": "[superseded 2026-06-13] This task moved from General to DexGello on 2026-06-12, but user corrected the ownership on 2026-06-13. Current owner is Engineering / Real-Robot Demos; DexGello supplies reusable q_arm/T_hand/q_finger data/control dependencies only.",
+          "body": "[superseded 2026-06-13] This task moved from General to DexGello on 2026-06-12, but user corrected the ownership on 2026-06-13. Current owner is Research / Ego2Dex Human Demonstration / LfD; DexGello supplies reusable q_arm/T_hand/q_finger data/control dependencies only.",
           "created_at": "2026-06-12T15:06:53+08:00",
           "kind": "comment"
         },
         {
           "comment_id": "comment_real_robot_demo_jenga_move_20260613",
           "author": "Boris / Codex",
-          "body": "Moved from DexGello to Engineering / Real-Robot Demos on 2026-06-13 per user correction: all DexGello physical demo scenarios should be listed in the Real-Robot Demos table rather than under DexGello.",
+          "body": "Moved from DexGello to Research / Ego2Dex Human Demonstration / LfD on 2026-06-13 per user correction: all DexGello physical demo scenarios should be listed in the Real-Robot Demos table rather than under DexGello.",
           "created_at": "2026-06-13T00:13:51+08:00",
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-07-08T14:27:47.066Z",
+      "updated_at": "2026-07-19T01:56:26.790Z",
       "completed_at": null,
       "completed_at_time": null
     },
@@ -6997,7 +7078,7 @@
         {
           "comment_id": "comment_dex_gello_slime_cut_demo_move_20260612",
           "author": "Boris / Codex",
-          "body": "[superseded 2026-06-13] This task moved from Real-Robot Infra to DexGello on 2026-06-12, but user corrected the ownership on 2026-06-13. Current owner is Engineering / Real-Robot Demos; Real-Robot Infra supplies hardware/safety gates and DexGello supplies reusable data/control dependencies.",
+          "body": "[superseded 2026-06-13] This task moved from Real-Robot Infra to DexGello on 2026-06-12, but user corrected the ownership on 2026-06-13. Current owner is Research / Ego2Dex Human Demonstration / LfD; Real-Robot Infra supplies hardware/safety gates and DexGello supplies reusable data/control dependencies.",
           "created_at": "2026-06-12T15:06:53+08:00",
           "kind": "comment"
         },
@@ -7011,12 +7092,12 @@
         {
           "comment_id": "comment_real_robot_demo_slime_cut_move_20260613",
           "author": "Boris / Codex",
-          "body": "Moved from DexGello to Engineering / Real-Robot Demos on 2026-06-13 per user correction: DexGello should not own the physical demo list; it only supplies q_arm/T_hand/q_finger logging, MANUS/VIVE, cuRobo, and related data/control dependencies.",
+          "body": "Moved from DexGello to Research / Ego2Dex Human Demonstration / LfD on 2026-06-13 per user correction: DexGello should not own the physical demo list; it only supplies q_arm/T_hand/q_finger logging, MANUS/VIVE, cuRobo, and related data/control dependencies.",
           "created_at": "2026-06-13T00:13:51+08:00",
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-07-07T18:45:00+08:00"
+      "updated_at": "2026-07-19T01:56:26.790Z"
     },
     {
       "task_id": "task_drag_demo_on_policy_gravity_comp_survey",
@@ -8586,8 +8667,8 @@
     {
       "task_id": "task_umi_foundationpose_layer_utility_probe_20260617",
       "project_id": "umi-world-model",
-      "title": "验证 Stage 3 layer utility：scene geometry、object HOI/pose/flow、robot pose/retargeting",
-      "description": "Ziyang/Boris 用分层结果验证三类下游 utility，不再只看 FoundationPose。\n\nScene Layer: 用 RoboEngine (https://roboengine.github.io) 做物理/任务感知背景替换与 data augmentation；补 MoGe (https://github.com/microsoft/moge) 估计 depth / point map / normal / camera FOV，GeoCalib (https://github.com/cvg/GeoCalib) 估计 intrinsics / gravity direction，用于把 object flow/pose lift 到稳定场景坐标。\n\nObject / Contact Layer: 2D 分割/掩码追踪用 SAM3 (https://github.com/facebookresearch/sam3)；3D 形状和 6-DoF/pose 用 SAM 3D Objects (https://github.com/facebookresearch/sam-3d-objects)、Fast-SAM3D (https://github.com/wlfeng0509/Fast-SAM3D)、FoundationPose、Fast-FoundationStereoPhysics、Orient-Anything、Any6D；物体运动/形变辅助估计用 BootsTAPIR/TAPNet (https://github.com/google-deepmind/tapnet)、AllTracker、D4RT、CoTracker、Any4D，并在需要时结合 Video Depth Anything / MoGe 做 3D point flow。Do-As-I-Do (https://do-as-i-do.com/ ; https://github.com/malik-group/do-as-i-do) 作为 hand-object reconstruction + retargeting bridge：评价 object pose/velocity trajectory、contact intent、grasp/tool-use mode、task result 是否一致，而不是只比关节角。\n\nRobot / Hand Layer: 可见机器人用 Dr. Robot 做 image-based robot pose；腕部/头部 ego-view 用 ORB-SLAM3 / VGGT-SLAM 做 VO/SLAM；人手源视频用 HaWoR (https://hawor-project.github.io/ ; https://github.com/ThunderVVV/HaWoR) 做 world-space hand tracking，再用 Do-As-I-Do / dex-retargeting 连接到 robot layer / IDM。\n\nAcceptance: 选 3-5 个对象/片段，输出 raw RGB、mask-only、object-only、object+background、robot-only、recomposed clip 的 pose/flow/retarget/eval 结果；每层报告成功率或人工评分、遮挡/背景干扰案例、几何/标定误差、contact/flow 稳定性、是否 object/contact layer 比 flat RGB 或 mask-only 更有用；明确哪些工具进入 v0 pipeline，哪些只作为对照或失败样例。",
+      "title": "验证 Stage 3 layer utility：scene geometry、object pose/flow、robot pose/IDM",
+      "description": "Ziyang/Boris 用机器人分层结果验证三类下游 utility，不再把 FoundationPose 当成完整计划。\n\nScene Layer: 用 RoboEngine 做物理/任务感知背景替换与 data augmentation；用 MoGe 估计 depth / point map / normal / camera FOV，GeoCalib 估计 intrinsics / gravity direction，把 object flow/pose lift 到稳定场景坐标。\n\nObject / Contact Layer: 用 SAM3 做 2D mask/track；用 SAM 3D Objects、Fast-SAM3D、FoundationPose、Fast-FoundationStereoPhysics、Orient-Anything、Any6D 对比 3D shape 与 6-DoF pose；用 BootsTAPIR/TAPNet、AllTracker、D4RT、CoTracker、Any4D，必要时结合 Video Depth Anything / MoGe，估计刚体或形变对象的 2D/3D motion。\n\nRobot / End-Effector Layer: 用 Dr. Robot 做 image-based robot pose；腕部/头部 ego-view 用 ORB-SLAM3 / VGGT-SLAM 做 VO/SLAM；将可见 robot pose、初始 state 与 layer features 接到 state recovery、action prediction 和 IDM。\n\nAcceptance: 选 3-5 个机器人对象/片段，对 raw RGB、mask-only、object-only、object+background、robot-only、recomposed clip 报告 pose/flow/IDM/eval 结果、遮挡/背景干扰、几何/标定误差、contact/flow 稳定性和相对 flat RGB/mask-only 的增益；人类 ego reconstruction、MANO/contact refinement 与 retargeting 的执行比较迁到 Research / Ego2Dex Human Demonstration / LfD。",
       "status": "done",
       "priority": "high",
       "assignee": "Ziyang / Boris",
@@ -8617,15 +8698,6 @@
           "created_at": "2026-06-24T12:52:28.932Z"
         },
         {
-          "comment_id": "comment_umi_stage3_third_party_visual_stack_20260626",
-          "task_id": "task_umi_foundationpose_layer_utility_probe_20260617",
-          "author": "Codex / dashboard sync",
-          "author_type": "system",
-          "kind": "comment",
-          "body": "2026-06-26 update: Stage 3 layer utility now maps the screenshot/tool list into the three-layer plan. Scene/background adds MoGe + GeoCalib for depth/camera/gravity. Object/contact adds SAM3, SAM 3D Objects, Fast-SAM3D, BootsTAPIR/TAPNet, and Do-As-I-Do as HOI reconstruction/retargeting bridge. Robot/hand adds HaWoR and Do-As-I-Do/dex-retargeting next to Dr. Robot and wrist-view VO/SLAM. Do-As-I-Do should be evaluated as matched object/contact/task outcome retargeting, not joint-angle imitation.",
-          "created_at": "2026-06-26T15:52:47.549Z"
-        },
-        {
           "comment_id": "comment_71f4405b-1264-4605-a898-dbd45acaa891",
           "task_id": "task_umi_foundationpose_layer_utility_probe_20260617",
           "author": "Codex dashboard",
@@ -8633,9 +8705,18 @@
           "kind": "comment",
           "body": "Marked done on 2026-06-30 per Boris direction: the Stage 3 layer-utility tool map has been promoted into the UMI intro/layer-utility framing. The remaining work should be narrower DaiMeng-data-backed experiments, not this broad FoundationPose/geometry/retargeting scoping TODO.",
           "created_at": "2026-06-30T01:01:25.960Z"
+        },
+        {
+          "comment_id": "comment_umi_stage3_ego2dex_scope_move_20260718",
+          "task_id": "task_umi_foundationpose_layer_utility_probe_20260617",
+          "author": "Codex / dashboard scope cleanup",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Human-hand reconstruction, contact refinement, and robot retargeting were moved to Research / Ego2Dex Human Demonstration / LfD. Stage 3 keeps only robot-layer utility and may consume validated sidecars from that Research Ego2Dex lane.",
+          "created_at": "2026-07-18T03:56:26.961Z"
         }
       ],
-      "updated_at": "2026-06-30T01:01:25.960Z",
+      "updated_at": "2026-07-18T03:56:26.961Z",
       "due_at": "",
       "completed_at": "2026-06-29",
       "completed_at_time": "2026-06-29T15:37:16.558Z"
@@ -9490,7 +9571,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-07-07T18:45:00+08:00",
+      "updated_at": "2026-07-19T01:56:26.790Z",
       "started_at": "2026-06-13",
       "completed_at": null
     },
@@ -9513,7 +9594,7 @@
           "kind": "procurement"
         }
       ],
-      "updated_at": "2026-07-07T18:45:00+08:00",
+      "updated_at": "2026-07-19T01:56:26.790Z",
       "started_at": "2026-06-13",
       "completed_at": null
     },
@@ -9600,7 +9681,7 @@
           "kind": "comment"
         }
       ],
-      "updated_at": "2026-07-08T14:27:47.066Z",
+      "updated_at": "2026-07-19T01:56:26.790Z",
       "started_at": "2026-06-13",
       "completed_at": null,
       "completed_at_time": null
@@ -9642,7 +9723,7 @@
           "created_at": "2026-07-08T14:31:36.807Z"
         }
       ],
-      "updated_at": "2026-07-08T14:31:36.807Z",
+      "updated_at": "2026-07-19T01:56:26.790Z",
       "started_at": "2026-06-13",
       "completed_at": null,
       "completed_at_time": null
@@ -11332,10 +11413,10 @@
       "description": "把 Do-As-I-Do 作为真机 Engineering 复现实验，而不是只放 Survey：在 Franka + Wuji Hand 上复现“monocular human video -> hand-object reconstruction -> robot retargeting -> executable manipulation data”的链路，并专门做 tactile ablation，回答触觉在整条数据生成/retarget/执行链路中到底提供什么增益。\n\nReference: https://do-as-i-do.com/ ; arXiv 2606.19333 ; code: https://github.com/malik-group/do-as-i-do 。项目页面描述的核心步骤是从日常单目 RGB 人类视频重建 hand-object interaction，再用 sampling-based optimization retarget 到多指机器人手；我们的复现目标是把它落到 Franka + Wuji，而不是只停留在网页调研。\n\nAcceptance: 1) 选 3-5 个可在 Wuji 上完成的短任务，至少包含一种刚体 grasp/manipulation 和一种接触敏感任务；2) 跑通 Do-As-I-Do 或等价 pipeline 的视频输入、3D object/hand reconstruction、retarget action、sim/real playback；3) 记录 Franka arm pose、Wuji joint/action、Wuji tactile、RGB/Depth/外参和对象状态的统一 schema；4) 做 no-tactile / tactile-observed / tactile-feedback 三组对照，比较成功率、接触时序、滑移/掉落、过大接触力、regrasp 次数、trajectory deviation；5) 明确触觉只作为 logging/evaluation、policy input、online correction、还是 retarget optimization constraint 时分别有什么价值；6) 输出失败样例和结论，回流到 Tactile-WAM / VTLA：触觉是否值得进入 video-to-touch / WAM 训练目标。",
       "status": "todo",
       "priority": "high",
-      "assignee": "Boris / Ziyang / Lai",
+      "assignee": "Yutao / Haoming / Boris",
       "result": null,
       "comments": [],
-      "updated_at": "2026-06-26T15:40:59.765Z"
+      "updated_at": "2026-07-19T01:56:26.790Z"
     },
     {
       "task_id": "task_vtam_universal_tactile_encoder_20260627",
@@ -11487,16 +11568,25 @@
           "body": "Local Codex host review reopened this TODO.\n请补交可验收产物或明确 blocker：至少 3 个 robot clips + 3 个 egocentric human-hand clips；每个 clip 输出 actor_layer/object_contact_layer/occluder_tool_layer/scene_background_layer 的 mask.png、rgba.png、layer video、SVG contour、depth/pointmap、tracks/contact events、layer_manifest.json；提供 raw RGB vs mask-only vs VDDM layers 的 recomposition、temporal consistency、track/pose/reconstruction/retargeting 对比表；附 failure gallery；给出 run_id、git_sha、运行命令、产物路径、verifier/metrics 脚本与是否足以支撑 Stage 2 paper/v0 dataset/model 训练的结论。若无法完成，请写明具体数据、模型、GPU、API、远端环境或账号权限 blocker。",
           "created_at": "2026-06-30T19:08:29+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_ego2dex_lfd_merge_task_umi_stage2_vddm_human_ego_probe_20260627_20260718",
+          "task_id": "task_umi_stage2_vddm_human_ego_probe_20260627",
+          "author": "Codex / ClawCross dashboard merge",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Moved to Research / Ego2Dex Human Demonstration / LfD on 2026-07-18. Human/ego demonstration reconstruction, same-task HOI schema, contact-aware retargeting, and real-robot acceptance now share one execution card; UMI only consumes validated layer_manifest sidecars.",
+          "created_at": "2026-07-18T03:53:00.469Z"
         }
       ],
       "created_at": "2026-06-27T05:42:22.606Z",
-      "updated_at": "2026-06-30T20:59:04+08:00",
+      "updated_at": "2026-07-19T01:56:26.790Z",
       "task_id": "task_umi_stage2_vddm_human_ego_probe_20260627",
-      "project_id": "umi-world-model",
-      "title": "Stage 2 VDDM: 加入 egocentric human-hand manipulation decomposition probe",
+      "project_id": "real-robot-demos",
+      "title": "Ego2Dex archive: human-hand manipulation decomposition sidecars",
       "assignee": "Boris / Ziyang / Lai",
       "due_at": "2026-07-10",
-      "description": "把 Stage 2 从 robot-only 分层扩展成 Video Dynamics Decomposition Model (VDDM) 的跨域验证：在 MolmoAct/UMI/RoboTwin robot clips 之外，加入 egocentric human-hand manipulation videos。统一 schema: actor_layer(actor_type=robot|human_hand)、object_contact_layer、occluder_tool_layer、scene_background_layer；sidecars 包括 mask.png、rgba.png、layer video、SVG contour、depth/pointmap、mesh/pose if available、2D/3D tracks、contact events、layer_manifest.json。实验路线：robot 侧用 RobotSeg/SAM3/SAM2 tracking + VACE/FLUX.fill/LaMa baseline；human-ego 侧参考 HaWoR 与 Do-As-I-Do pipeline，用 SAM3 -> SAM3D mesh -> MoGe pointmaps -> HaWoR -> TAPIR/BootsTAPIR or guided-diffusion tracking -> projection/retargeting 检查分层是否改善 reconstruction。Acceptance: 1) 3 个 robot clips + 3 个 egocentric human-hand clips；2) 每个 clip 输出四层 layer package 与 manifest；3) raw RGB vs mask-only vs VDDM layers 的 recomposition、temporal consistency、track/pose/reconstruction/retargeting 对比；4) failure gallery 覆盖手指/夹爪细节、透明/反光/布料/液体、遮挡接触、背景漂移；5) 判断 VDDM 是否足以支撑 Stage 2 独立论文与 v0 dataset/model 训练。",
+      "description": "Completed cross-domain probe retained as Engineering evidence. It established a common actor/object/contact/occluder/scene layer package for egocentric human-hand clips, with masks, RGBA/layer videos, depth/pointmaps, optional mesh/pose, tracks, contact events, and layer_manifest.json. Current reproduction and retargeting work continues in the Yutao Ego2Dex baseline task; UMI World Model only consumes sidecars that pass this interface and no longer owns the human-video execution queue.",
       "completed_at": "2026-06-29",
       "completed_at_time": "2026-06-29T15:35:23.462Z"
     },
@@ -12056,7 +12146,7 @@
       "title": "Ziyang / Meng：Object Layer pose / flow / value 路由验证",
       "status": "active",
       "priority": "high",
-      "assignee": "Ziyang / Meng / Jiayi / Boris",
+      "assignee": "Ziyang / Meng / jiayi / Boris",
       "due_at": "2026-07-20",
       "description": "目标是证明 Object Layer 对 manipulation 的实际价值，并按物体类型选择状态表示，而不是把所有对象都塞进一个密集 3D renderer。\n\n路线决策：刚体/关节物体优先走 6D pose；柔性物体、布料、电缆、流体或无可靠 CAD 的对象走 optical flow + keypoint/track 表示。会议正文写 ANeXy，但方法对比表又写 Any6D，ClawCross 群聊未找到可消歧原文；第一道 gate 必须确认准确项目名、代码库、模型输入和许可，禁止把两个名称当同一实现。若刚体后端需要 depth/intrinsics，则在数据生成或前处理阶段固定并记录相机内参，必要时接 DepthAnything 类 depth estimate，并对估计误差做敏感性测试。\n\nObject3D 当前约 1 min/batch、约 32GB、偏离线高斯输出，不应作为实时密集依赖；先把 object pose/flow/contact/state 作为稀疏 value/process-reward sidecar。柔性路线重点验证 flow/keypoint 是否能提供过程奖励、失败定位和任务进度，而不只生成漂亮光流图。\n\nAcceptance: 1) 明确 ANeXy/Any6D 名称歧义并附官方 repo/paper；2) 在同一组 rigid/articulated 与 deformable clips 上跑 pose 与 flow/keypoint 两路，保存命令、git SHA、输入输出、runtime、VRAM；3) 报告 rigid pose error/track stability，deformable endpoint/keypoint/flow consistency、contact timing 和 process-reward separability；4) 对 raw RGB、mask-only、object layer、object+background、recomposed clip 做同输入消融；5) 选择至少一个 RoboMimic/真实 robot benchmark smoke，不能只在本地人机环境展示；6) 输出 occlusion、fast motion、textureless object、cloth fold、cable crossing、pose/flow drift failure gallery；7) 在 GitHub 共享文档、表格和可视化，并给出按 object type 自动分流的 schema 与 fallback。",
       "result": null,
@@ -12094,7 +12184,7 @@
           "author": "Codex / Image Layered Policy sync",
           "author_type": "system",
           "kind": "comment",
-          "body": "2026-07-16 群聊更新：Jiayi 加入 Stage 3，并与 Ziyang 同步当前未完成实验。她的主问题是 Object Layer 产生的 process reward 能否改善或诊断视频模型的反推结果。沿用现有 rigid pose / deformable optical-flow 路由，不另建重复 TODO；补齐同一 clips 上的 Object Layer quality、pose/flow stability、process-reward 定义，以及该 reward 与视频模型误差/失败阶段的相关性或干预消融。下次组会前至少提交一组可视化、指标表、失败样例和是否值得进入训练监督的 go/no-go 结论。",
+          "body": "2026-07-16 群聊更新：jiayi 加入 Stage 3，并与 Ziyang 同步当前未完成实验。她的主问题是 Object Layer 产生的 process reward 能否改善或诊断视频模型的反推结果。沿用现有 rigid pose / deformable optical-flow 路由，不另建重复 TODO；补齐同一 clips 上的 Object Layer quality、pose/flow stability、process-reward 定义，以及该 reward 与视频模型误差/失败阶段的相关性或干预消融。下次组会前至少提交一组可视化、指标表、失败样例和是否值得进入训练监督的 go/no-go 结论。",
           "created_at": "2026-07-16T13:56:49.652Z"
         }
       ],
@@ -12109,7 +12199,7 @@
       "priority": "medium",
       "assignee": "Boris / Lai",
       "due_at": "2026-07-10",
-      "description": "把 2026-07-07 会议里的资源和权限流程固化到 dashboard 操作规则。Dashboard 写权限从公共 token 改成 user-specific token；token 应使用随机字节再 Base64url/等价编码生成，前端水印根据后端 token->viewer 绑定显示，禁止把真实 token 写入公开 state。AutoDL 账号由 Lai 管理，Davide 和 Ziyang 需要训练时联系 Lai 开通；使用后 Lai 检查 GPU 使用率，空闲后通知并关闭实例。AutoDL 只能做 <=8 GPU / 单节点架构测试；8 卡以上或大存储需求必须提前向 Boris 报备，由 Boris 协调华为云/阿里云/dev-team 资源。Acceptance: 1) 为 Lai、Ziyang、Davide 开通个人 dashboard token（仅记录 viewer 名称和已开通状态，不公开 token）；2) 在 dashboard/AGENTS 或项目说明里写明 viewer 由 token 绑定返回，不由请求体伪造；3) 写 AutoDL 使用流程：申请、启动、训练、GPU 利用率检查、关闭；4) 写 >8GPU/大存储报备规则；5) 不泄露账号、密码、token、账单或供应商敏感信息。",
+      "description": "把 2026-07-07 会议里的资源和权限流程固化到 dashboard 操作规则。Dashboard 写权限从公共 token 改成 user-specific token；token 应使用随机字节再 Base64url/等价编码生成，前端水印根据后端 token->viewer 绑定显示，禁止把真实 token 写入公开 state。AutoDL 账号由 Lai/yongxi 管理，jiahao 和 ziyang 需要训练时联系 Lai/yongxi 开通；使用后 Lai/yongxi 检查 GPU 使用率，空闲后通知并关闭实例。AutoDL 只能做 <=8 GPU / 单节点架构测试；8 卡以上或大存储需求必须提前向 Boris 报备，由 Boris 协调华为云/阿里云/dev-team 资源。Acceptance: 1) Dashboard access 名单至少覆盖 Lai/yongxi、ziyang、jiahao、haoyu、yubo、jiayi、yanxiang 等需要访问的成员；仅记录 viewer 名称和已开通状态，不公开 token；2) 在 dashboard/AGENTS 或项目说明里写明 viewer 由 token 绑定返回，不由请求体伪造；3) 写 AutoDL 使用流程：申请、启动、训练、GPU 利用率检查、关闭；4) 写 >8GPU/大存储报备规则；5) 不泄露账号、密码、token、账单或供应商敏感信息。",
       "result": null,
       "comments": [
         {
@@ -12132,7 +12222,7 @@
         }
       ],
       "created_at": "2026-07-07T12:00:00+08:00",
-      "updated_at": "2026-07-07T15:44:38.777Z",
+      "updated_at": "2026-07-19T06:35:07.493Z",
       "completed_at": "2026-07-07",
       "completed_at_time": "2026-07-07T15:44:38.777Z"
     },
@@ -12376,71 +12466,116 @@
     },
     {
       "task_id": "task_urdf_embodiment_prior_world_model_idea_novelty_matrix_urdf_x_action_x_dynamic_camera_20260711",
-      "project_id": "urdf-embodiment-prior-world-model-idea",
+      "project_id": "umi-world-model",
       "title": "Novelty matrix: 锁定 URDF x action x dynamic-camera 研究边界",
       "description": "对 BridgeV2W、Kinema4D、OSCAR、EnerVerse-AC、RynnWorld-Teleop、WorldCraft / SymphoMotion 建 direct-match matrix，逐项记录 morphology input、action provenance、camera control、control/output representation、held-out embodiment/view split、code/data/license。验收：收敛为一句可证伪 claim；不得再把 URDF + camera 本身当作创新。",
       "status": "done",
       "priority": "high",
       "assignee": "Boris / Image Layered Policy",
       "result": null,
-      "comments": [],
-      "updated_at": "2026-07-16T13:46:52.413Z",
+      "comments": [
+        {
+          "comment_id": "task_urdf_embodiment_prior_world_model_idea_novelty_matrix_urdf_x_action_x_dynamic_camera_20260711_comment_20260719015033_research_layout",
+          "task_id": "task_urdf_embodiment_prior_world_model_idea_novelty_matrix_urdf_x_action_x_dynamic_camera_20260711",
+          "author": "Codex",
+          "kind": "comment",
+          "body": "Moved into UMI World Model on 2026-07-18. URDF/FK/action/camera work is now the Robot Layer interaction world-model branch, not a standalone Research card.",
+          "created_at": "2026-07-19T01:50:33.491Z"
+        }
+      ],
+      "updated_at": "2026-07-19T01:56:26.790Z",
       "completed_at": "2026-07-16",
       "completed_at_time": "2026-07-16T13:46:52.413Z"
     },
     {
       "task_id": "task_urdf_embodiment_prior_world_model_idea_reference_compiler_v0_urdf_fk_action_multi_camer_20260711",
-      "project_id": "urdf-embodiment-prior-world-model-idea",
+      "project_id": "umi-world-model",
       "title": "Reference compiler v0: URDF/FK + action + multi-camera TF",
       "description": "定义并实现显式 3D reference compiler。输入：URDF visual/collision mesh、q_cmd/q_meas/q_sim 及硬件时间戳、固定第三人称与随 link 运动的腕部相机内外参/畸变。输出：每相机 robot RGB render、skeleton、silhouette/link-ID、depth/normal/pointmap/flow/ray map、可见性和 layer manifest。验收：同一条 Franka 轨迹可重复生成两视角时间对齐 control bundle，并能反投影检查。",
       "status": "done",
       "priority": "urgent",
       "assignee": "Boris / Jiahao / Image Layered Policy",
       "result": null,
-      "comments": [],
-      "updated_at": "2026-07-16T13:49:22.820Z",
+      "comments": [
+        {
+          "comment_id": "task_urdf_embodiment_prior_world_model_idea_reference_compiler_v0_urdf_fk_action_multi_camer_20260711_comment_20260719015033_research_layout",
+          "task_id": "task_urdf_embodiment_prior_world_model_idea_reference_compiler_v0_urdf_fk_action_multi_camer_20260711",
+          "author": "Codex",
+          "kind": "comment",
+          "body": "Moved into UMI World Model on 2026-07-18. URDF/FK/action/camera work is now the Robot Layer interaction world-model branch, not a standalone Research card.",
+          "created_at": "2026-07-19T01:50:33.491Z"
+        }
+      ],
+      "updated_at": "2026-07-19T01:56:26.790Z",
       "completed_at": "2026-07-16",
       "completed_at_time": "2026-07-16T13:49:22.820Z"
     },
     {
       "task_id": "task_urdf_embodiment_prior_world_model_idea_camera_action_factorization_gate_x_20260711",
-      "project_id": "urdf-embodiment-prior-world-model-idea",
+      "project_id": "umi-world-model",
       "title": "Camera/action factorization gate: 静/动机器人 x 静/动相机",
       "description": "建立四组配对：静机器人+静相机、动机器人+静相机、静机器人+动相机、动机器人+动相机。明确 world/base/link/tool/camera frame 方向、T_world_camera(t)=T_world_link(t)T_link_camera、内参裁剪、畸变、曝光/rolling shutter、时钟重采样与 command-to-execution latency。验收：每组都有 overlay、reprojection/pose error 曲线和可复现 calibration manifest。",
       "status": "done",
       "priority": "high",
       "assignee": "Boris / Real-Robot Infra / Image Layered Policy",
       "result": null,
-      "comments": [],
-      "updated_at": "2026-07-16T13:49:59.263Z",
+      "comments": [
+        {
+          "comment_id": "task_urdf_embodiment_prior_world_model_idea_camera_action_factorization_gate_x_20260711_comment_20260719015033_research_layout",
+          "task_id": "task_urdf_embodiment_prior_world_model_idea_camera_action_factorization_gate_x_20260711",
+          "author": "Codex",
+          "kind": "comment",
+          "body": "Moved into UMI World Model on 2026-07-18. URDF/FK/action/camera work is now the Robot Layer interaction world-model branch, not a standalone Research card.",
+          "created_at": "2026-07-19T01:50:33.491Z"
+        }
+      ],
+      "updated_at": "2026-07-19T01:56:26.790Z",
       "completed_at": "2026-07-16",
       "completed_at_time": "2026-07-16T13:49:59.263Z"
     },
     {
       "task_id": "task_urdf_embodiment_prior_world_model_idea_film_space_style_two_view_generation_probe_20260711",
-      "project_id": "urdf-embodiment-prior-world-model-idea",
+      "project_id": "umi-world-model",
       "title": "Film Space-style two-view generation probe",
       "description": "选一条短操作轨迹，用同一 world-frame robot trajectory 同时生成固定第三人称与动态腕部 control bundle，再驱动视频生成。Seedance 2.0 仅作为 reference-video 能力探针；生成后端必须可替换，并保留 Cosmos-Transfer / WAN-VACE 类开源路径。验收：两路同步视频、输入 bundle、生成配置、action/camera adherence 对比齐全；Seedance 2.5 在官方版本/API 核验前不得写成依赖。",
       "status": "done",
       "priority": "high",
       "assignee": "Boris / Jiahao / Image Layered Policy",
       "result": null,
-      "comments": [],
-      "updated_at": "2026-07-16T13:52:03.033Z",
+      "comments": [
+        {
+          "comment_id": "task_urdf_embodiment_prior_world_model_idea_film_space_style_two_view_generation_probe_20260711_comment_20260719015033_research_layout",
+          "task_id": "task_urdf_embodiment_prior_world_model_idea_film_space_style_two_view_generation_probe_20260711",
+          "author": "Codex",
+          "kind": "comment",
+          "body": "Moved into UMI World Model on 2026-07-18. URDF/FK/action/camera work is now the Robot Layer interaction world-model branch, not a standalone Research card.",
+          "created_at": "2026-07-19T01:50:33.491Z"
+        }
+      ],
+      "updated_at": "2026-07-19T01:56:26.790Z",
       "completed_at": "2026-07-16",
       "completed_at_time": "2026-07-16T13:52:03.033Z"
     },
     {
       "task_id": "task_urdf_embodiment_prior_world_model_idea_held_out_urdf_factorial_ablation_executable_eval_20260711",
-      "project_id": "urdf-embodiment-prior-world-model-idea",
+      "project_id": "umi-world-model",
       "title": "Held-out URDF factorial ablation + executable evaluation",
       "description": "做 morphology x action x camera 因子消融，并比较 text-only、raw sim RGB、2D skeleton、mask、pointmap、full mesh/depth/normal/layer bundle。拆分 held-out topology、link geometry、DoF、robot family、camera 与 scene；加入同动作不同相机/同相机不同动作。评测 link reprojection、silhouette IoU、EEF/joint/inverse-action recovery、多视角几何、contact/scene reaction，并将生成视频反演动作后在 real-to-sim 重放检查可执行性。",
       "status": "done",
       "priority": "high",
       "assignee": "Boris / Jiahao / Image Layered Policy",
       "result": null,
-      "comments": [],
-      "updated_at": "2026-07-16T13:52:49.757Z",
+      "comments": [
+        {
+          "comment_id": "task_urdf_embodiment_prior_world_model_idea_held_out_urdf_factorial_ablation_executable_eval_20260711_comment_20260719015033_research_layout",
+          "task_id": "task_urdf_embodiment_prior_world_model_idea_held_out_urdf_factorial_ablation_executable_eval_20260711",
+          "author": "Codex",
+          "kind": "comment",
+          "body": "Moved into UMI World Model on 2026-07-18. URDF/FK/action/camera work is now the Robot Layer interaction world-model branch, not a standalone Research card.",
+          "created_at": "2026-07-19T01:50:33.491Z"
+        }
+      ],
+      "updated_at": "2026-07-19T01:56:26.790Z",
       "completed_at": "2026-07-16",
       "completed_at_time": "2026-07-16T13:52:49.757Z"
     },
@@ -12472,14 +12607,14 @@
     {
       "task_id": "task_self_improving_agents_embodiedgen_v2_self_improving_harness_gen_env_20260713",
       "project_id": "self-improving-agents",
-      "title": "[3/4 Asset pipeline] Evaluate EmbodiedGen V2 as an environment and asset compiler backend",
-      "description": "Package: https://github.com/HorizonRobotics/EmbodiedGen （project/docs: https://horizonrobotics.github.io/EmbodiedGen/）。背景：近期面试过该项目的一位作者，需要把作者交流转化为可验证的工程判断；dashboard 只记录技术结论与待澄清问题，不记录候选人的个人面试信息。定位边界：EmbodiedGen V2 是 task/image/text -> simulation-ready assets / layouts / worlds 的候选环境编译器，可对接 PEARL/Open X Sim 的 /gen-env；它不替代 weakness mining、trace memory、policy diagnosis、regression test 或 promotion gate。Desk review：v2.0.0 tag cc3015ca5ccdacf94df3428d9e65f79375982216；支持 URDF + mesh + 3DGS、task-driven layout、SAPIEN/Isaac Sim/Isaac Gym/MuJoCo/Genesis/PyBullet 导出、Claude Code 3D-vibe-coding skills、part affordance 与 simulation validation。多数 pipeline 需要 GPT endpoint/key，安装按 basic/scene3d/room/affordance/CUDA 分阶段且包含较重 third-party/model 依赖。许可元数据声明 Apache-2.0，但 v2.0.0 的实际 license 位于 docs/documentation/LICENSE，README 的 docs/LICENSE 链接及 pyproject 的 root LICENSE/NOTICE 声明不一致，集成前必须向维护者确认打包与再分发边界。Acceptance: 1) 固定 v2.0.0/上述 SHA，在隔离环境完成 basic install 与官方最小 smoke，记录 Python/CUDA/GPU/VRAM、模型下载、安装时长、外部 API 和失败点，禁止把 token 写入日志或 dashboard；2) 从现有 PEARL/selection2env held-out specs 选至少 3 个任务，每个 >=5 seeds，跑 task -> scene graph/layout -> sim-ready world，保存命令、config、seed、git SHA、输出目录和失败样例；3) 与当前 SceneAgent/selection2env 同输入比较 asset reuse/generated ratio、layout validity、scale/mass/friction、collision/penetration、physics settling、task reachability、retry count、latency、peak VRAM 与 API cost；4) 至少在 SAPIEN 加 MuJoCo/Isaac Sim 二选一加载同一输出，核对 geometry/collision/pose/physics metadata，而非只看渲染视频；5) 审计 /embodiedgen:* Claude Code skills 是否能收敛为有 schema、bounded edit、deterministic verifier 的 /gen-env adapter，禁止自然语言 agent 绕过验证直接改 world state；6) 整理给作者/维护者的问题：V2 roadmap、必需闭源模型/API、seed determinism、cross-simulator fidelity、commercial/redistribution license、失败重试与 benchmark protocol；7) 输出一页决策：adopt as backend / cherry-pick modules / research reference / reject，并给出最小 adapter contract、预计集成工期和明确 blocker。",
+      "title": "[Phase 2 3B/4 Generation fallback] Benchmark rigid and articulated 3D generation backends",
+      "description": "[KNOWN] [CONFIDENCE: HIGH] EmbodiedGen V2 is the first pinned candidate, but the harness route must remain backend-agnostic; current project discussion also names Meshy, Tripo and SAM3-style reconstruction or generation as candidates. Scope: invoke direct 3D generation only when retrieval, matching and parameter filling cannot satisfy the scene constraints; benchmark rigid and articulated objects separately; require visual and collision geometry, units, axes, scale, materials, mass and inertia, stable poses, joint topology, limits and drives, provenance and hashes; compile into SAPIEN plus one second backend. Acceptance: at least 3 rigid and 3 articulated cases preserve prompts, config, seed, model version, output hashes and failure artifacts; compare task fit, geometry, collision, scale, physics settling, articulation validity, determinism, retry count, latency, peak VRAM and API cost; produce an adopt, cherry-pick, research-reference or reject decision for each backend; no credentials or restricted payloads enter dashboard state or logs.",
       "status": "todo",
       "priority": "high",
-      "assignee": "Boris / Codex",
+      "assignee": "Jingxiang / Zheng Ye / Environment Generation team",
       "result": null,
       "comments": [],
-      "updated_at": "2026-07-15T06:06:11.252Z"
+      "updated_at": "2026-07-17T13:45:19.875Z"
     },
     {
       "task_id": "task_umi_world_model_ziyang_meng_mimic_video_robot_layer_action_idm_20260713",
@@ -12770,9 +12905,18 @@
           "kind": "comment",
           "body": "[KNOWN] [CONFIDENCE: HIGH] 2026-07-16 final acceptance: Stage 5 is implemented in `robotwin-text2env-demo-stage04` at commit `b2913cd`. The compiler now supports typed `on_top_of`, `inside`, multi-joint open/closed/partial articulation state, support DAG solving, 3D containment/support validation, catalog-miss procedural proxy generation with SHA-256 provenance, multi-view rendered-scene Qwen critic, and a queued Flask demo.\n\n[COMPUTED] [CONFIDENCE: HIGH] Four final RTX 5090 RoboTwin/SAPIEN cases pass: can-on-plate, cup-inside-basket, a three-drawer cabinet with all prismatic target qpos values at 0.0675 m, and a generated purple hexagonal pedestal. Each case retains 120 real runtime frames at 12 fps, runtime validation has fail_count=0, and Qwen/Qwen2.5-VL-3B-Instruct returns all 5 required checks with status pass and zero issues. Inside and generated-asset cases each use one bounded single-check repair whose raw response is retained.\n\n[COMPUTED] [CONFIDENCE: HIGH] Local and jingxiang-b850m-c suites both pass 49/49. Frontend job `7972c4543d60416e` completes compile, runtime and critic in 24.34 s with verdict pass and 14 registered artifacts. Playwright QA at 1440x1000 and 390x844 records HTTP 200, zero horizontal/control overflow and zero console, page or request errors; the MP4 decodes as 320x240, 10 s.\n\n[KNOWN] [CONFIDENCE: HIGH] Live Tailscale demo: http://100.64.0.6:8765/?job=7972c4543d60416e . Self-contained report and all pulled screenshots, world views, videos, JSON, logs, generated OBJ/MTL/collision/provenance files, QA screenshots and source snapshot: `/Users/boris/Downloads/robotwin_text2env_stage5_20260716/index.html`. The bundle contains 167 files; `manifest.sha256` verifies 166 files and excludes only itself.\n\n[KNOWN] [CONFIDENCE: HIGH] Boundary: catalog misses produce deterministic semantic geometry proxies, not arbitrary high-fidelity text-to-3D. Stacking and containment are validated initial layouts, not a robot policy executing placement actions. The VLM critic covers visible semantics while geometry, contacts, drift, support, visibility and articulation error remain deterministic runtime gates.",
           "created_at": "2026-07-16T08:39:38.423Z"
+        },
+        {
+          "comment_id": "comment_716438eb-28fa-479b-94f9-06bde91f36ab",
+          "task_id": "task_self_improving_agents_1_4_text2env_robotwin_scenegen_stage_5_stacking__20260716",
+          "author": "Codex physics acceptance",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[KNOWN] [CONFIDENCE: HIGH] Correction to the 2026-07-16 acceptance comment: its nested-support conclusion was a false positive. The old runtime counted any reported collision pair, including broad-phase candidates with positive clearance, and the earlier path could accept contact-free static nesting. Keep that comment as audit history, but supersede its physical-support claim with this verification.\n\n[KNOWN] [CONFIDENCE: HIGH] The corrected Robot Harness `/gen-env` code is published at https://github.com/LV-Robotics-Lab/robot-harness-gen-env commit `2ed297c0a2ab9c81377ee5ede46942812bf139fa`. GitHub Actions run https://github.com/LV-Robotics-Lab/robot-harness-gen-env/actions/runs/29626897474 is successful. Local, `jingxiang-b850m-c`, and CI suites pass 56/56.\n\n[COMPUTED] [CONFIDENCE: HIGH] Fresh no-resume RTX 5090/SAPIEN acceptance passes 20/20 forced runtime replays: 10 can-on-plate and 10 cup-in-basket, each using 300 settle steps and a 120-step contact window. A contact counts only when at least one point has separation <=1 mm; nested objects require declared-target contact >=80% and undeclared support contact exactly 0.\n\n[COMPUTED] [CONFIDENCE: HIGH] Can-on-plate: minimum target-contact fraction 1.0, maximum unexpected-contact fraction 0.0, minimum support margin 8.5457 mm, maximum resolved translation error 4.0773 mm, maximum rotation error 1.0431 degrees. Cup-in-basket: 10/10 contained, minimum target-contact fraction 1.0, maximum unexpected-contact fraction 0.0, maximum translation error 2.6447 mm, maximum rotation error 0.9754 degrees. Across both matrices, penetration, still-moving and dropped counts are zero.\n\n[COMPUTED] [CONFIDENCE: HIGH] The negative request `Place a red block on top of a plate.` is rejected because its footprint cannot satisfy the measured plate support surface and configured margin. Demo job `438c46c081da4033` (seed 45) passes compile, RoboTwin runtime and local Qwen critic; its faststart H.264 MP4 has exactly 120 decoded frames / 10 s. Full-page Chrome QA reports video readyState=4, a single successful HTTP 206 media request, and zero horizontal overflow at 1440 px and 390 px.\n\n[KNOWN] [CONFIDENCE: HIGH] Self-contained report: `/Users/boris/Downloads/robot_harness_gen_env_physics_acceptance_20260717/index.html`. It includes all 20 structured per-seed evidence sets, three 120-frame videos, screenshots, negative evidence, `summary.json` and a verified `manifest.sha256`. Live lab-network demo: http://100.64.0.6:8765 .\n\n[INFERRED] [CONFIDENCE: HIGH] This closes the reported can-on-plate edge-placement failure for the measured RoboTwin plate/basket assets and bounded parser surface. It does not establish arbitrary text-to-3D, arbitrary unseen meshes, or cross-simulator transfer.",
+          "created_at": "2026-07-18T02:31:46.234Z"
         }
       ],
-      "updated_at": "2026-07-16T08:39:38.423Z",
+      "updated_at": "2026-07-18T02:31:46.234Z",
       "completed_at": "2026-07-16",
       "completed_at_time": "2026-07-16T08:38:50.324Z"
     },
@@ -12783,7 +12927,7 @@
       "description": "把 NVIDIA cuVSLAM / Isaac ROS Visual SLAM 加入 UMI Stage 2/3 的 wrist-view geometry probe。先确认 UMI 数据能否满足 cuVSLAM 的输入约束（支持模式、成对相机/时间同步、内参、畸变与 rectification；不要默认左右腕相机就是有效 stereo pair）。为同一批 3-5 个 UMI clips 制作三种输入：raw wrist view、robot removed/inpainted、robot + manipulated object removed/inpainted；保持相同裁剪、时间戳与相机参数。分别运行 cuVSLAM，并以 ORB-SLAM3、VGGT-SLAM 为对照，记录初始化/跟踪成功率、lost/restart 次数、valid-pose ratio、轨迹平滑度、ATE/RPE 或无 GT 时的循环/重投影代理、速度、VRAM 与失败样例。核心检验不是“去掉前景一定更好”，而是量化动态 robot/object 像素与 inpainting temporal artifacts 对 VO/SLAM 的净影响。验收：提供可复查命令/配置、输入与 mask/layer_manifest、三路轨迹叠加或可视化、指标表和明确 go/no-go 结论；若输入模式不兼容，写明最小采集/标定改造。参考：https://github.com/nvidia-isaac/cuVSLAM 和 https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_visual_slam。",
       "status": "todo",
       "priority": "high",
-      "assignee": "Ziyang (Seb.M) / Jiayi",
+      "assignee": "Ziyang (Seb.M) / jiayi",
       "result": null,
       "comments": [
         {
@@ -12792,7 +12936,7 @@
           "author": "Codex / Image Layered Policy sync",
           "author_type": "system",
           "kind": "comment",
-          "body": "2026-07-16 群聊更新：Ziyang 需要与 Jiayi 同步 Stage 3 尚未测试的项目，cuVSLAM 明确继续验证 robot-layer removal 后的 UMI view；Object optical flow 仍归并到既有 Object Layer pose / flow / value TODO。两条任务必须使用可对齐的 clip/layer manifest，避免 cuVSLAM 与 optical-flow 结果来自不同数据切片而无法联合判断 Layer utility。",
+          "body": "2026-07-16 群聊更新：Ziyang 需要与 jiayi 同步 Stage 3 尚未测试的项目，cuVSLAM 明确继续验证 robot-layer removal 后的 UMI view；Object optical flow 仍归并到既有 Object Layer pose / flow / value TODO。两条任务必须使用可对齐的 clip/layer manifest，避免 cuVSLAM 与 optical-flow 结果来自不同数据切片而无法联合判断 Layer utility。",
           "created_at": "2026-07-16T13:58:59.096Z"
         }
       ],
@@ -12801,12 +12945,12 @@
     },
     {
       "task_id": "task_urdf_embodiment_prior_world_model_idea_yubo_bridgev2w_kinema4d_oscar_urdf_world_model_n_20260716",
-      "project_id": "urdf-embodiment-prior-world-model-idea",
-      "title": "Yubo：复现 BridgeV2W / Kinema4D / OSCAR，收紧 URDF World Model novelty",
-      "description": "Image Layered Policy 群聊在 2026-07-16 明确：Yubo 在下次组会前测试三个与 Robot Layer 注入、URDF action-conditioned world model 高度相通的基线。1) BridgeV2W：验证 URDF + camera 渲染的 pixel-aligned embodiment mask 控制；2) Kinema4D：验证 URDF-driven 4D trajectory / pointmap 控制；3) OSCAR：验证跨 embodiment 的 2D skeleton 控制。使用同一套至少 1-2 条 robot trajectories、相机设定与目标视频，分别记录可复现命令、commit/model、输入控制表示、相机/URDF依赖、生成结果、action/camera adherence、跨视角或跨 embodiment 能力、runtime/VRAM、代码/模型/数据可用性和失败样例。验收：在下次组会前提交三项最小运行证据（截图或短视频）、一张横向比较表、失败日志，以及明确的 reuse/differentiate 结论。Novelty gate：URDF + action + camera 本身不能再作为新颖性主张；后续主张必须证明超出这三者已覆盖的 mask、pointmap/4D trajectory 与 skeleton control，例如 layer-aware environment reaction、commanded/measured action provenance、动态 wrist + third-person 多视角一致性或 held-out morphology。参考：https://arxiv.org/abs/2602.03793；https://arxiv.org/abs/2603.16669；https://arxiv.org/abs/2606.04463。",
+      "project_id": "umi-world-model",
+      "title": "yubo：在 UMI Robot Layer 分支复现 BridgeV2W / Kinema4D / OSCAR / SimDist",
+      "description": "Image Layered Policy 群聊在 2026-07-16 明确：URDF World Model 应理解为 UMI Robot Layer 注入的 action-conditioned world model，而不是独立第四张 Research 卡片。yubo 在下次组会前测试四个相通基线。1) BridgeV2W：URDF + camera 渲染 pixel-aligned embodiment mask 控制；2) Kinema4D：URDF-driven 4D trajectory / pointmap 控制；3) OSCAR：跨 embodiment 的 2D skeleton 控制；4) SimDist：仿真 world model / dynamics transfer 对 Stage 2/Robot Layer 的相邻假设。使用同一套至少 1-2 条 robot trajectories、相机设定与目标视频，记录可复现命令、commit/model、输入控制表示、相机/URDF依赖、生成结果、action/camera adherence、跨视角或跨 embodiment 能力、runtime/VRAM、代码/模型/数据可用性和失败样例。验收：下次组会前提交最小运行证据、一张横向比较表、失败日志，以及明确的 reuse/differentiate 结论。Novelty gate：URDF + action + camera 本身不能作为新颖性主张；后续主张必须证明 layer-aware environment reaction、commanded/measured action provenance、动态 wrist + third-person 多视角一致性、held-out morphology，或相对 BridgeV2W/Kinema4D/OSCAR/SimDist 的增量。参考：https://arxiv.org/abs/2602.03793；https://arxiv.org/abs/2603.16669；https://arxiv.org/abs/2606.04463；https://sim-dist.github.io",
       "status": "todo",
       "priority": "high",
-      "assignee": "Yubo",
+      "assignee": "yubo",
       "result": null,
       "comments": [
         {
@@ -12817,9 +12961,110 @@
           "kind": "comment",
           "body": "[KNOWN][HIGH] 2026-07-17 SimDist reference extension: treat Simulation Distillation as a training/sim-to-real adaptation comparator, not a fourth URDF rendering representation. Add one row to the existing baseline report covering simulator data source and quality mix, latent world-model/planner interface, frozen versus adapted components, real-data budget, task coverage, and code/checkpoint availability. [INFERRED][HIGH] Evaluation gate: test whether explicit URDF morphology, calibrated camera and layer controls improve held-out embodiment transfer or reduce real-data dynamics adaptation beyond SimDist-style initialization; simulator pretraining alone is not a novelty claim. Project: https://sim-dist.github.io/ ; paper: https://arxiv.org/abs/2603.15759 ; code: https://github.com/CLeARoboticsLab/simdist .",
           "created_at": "2026-07-17T04:42:57.336Z"
+        },
+        {
+          "comment_id": "task_urdf_embodiment_prior_world_model_idea_yubo_bridgev2w_kinema4d_oscar_urdf_world_model_n_20260716_comment_20260719015033_research_layout",
+          "task_id": "task_urdf_embodiment_prior_world_model_idea_yubo_bridgev2w_kinema4d_oscar_urdf_world_model_n_20260716",
+          "author": "Codex",
+          "kind": "comment",
+          "body": "Moved into UMI World Model on 2026-07-18. URDF/FK/action/camera work is now the Robot Layer interaction world-model branch, not a standalone Research card.",
+          "created_at": "2026-07-19T01:50:33.491Z"
         }
       ],
-      "updated_at": "2026-07-17T04:42:57.336Z"
+      "updated_at": "2026-07-19T03:31:03.830Z"
+    },
+    {
+      "task_id": "task_self_improving_agents_phase_2_harness_build_reusable_skill_mcp_registr_20260717",
+      "project_id": "self-improving-agents",
+      "title": "[Phase 2 / Harness] Build reusable Skill + MCP registry for agentic environment generation",
+      "description": "[KNOWN] [CONFIDENCE: HIGH] The four V1 environment-generation routes have bounded acceptance evidence and remain closed as historical milestones. Phase 2 must integrate them into one reusable agentic harness rather than reopen those acceptance claims. Scope: define a capability registry and typed contracts for discover, match, fill, generate, compile, validate and transfer; record tool version, dependencies and side-effect boundaries; implement selection-first routing, bounded retries, run_state, events, artifact manifests, typed blockers and rollback; expose four golden flows for Text2Env, Anchor2Env, internet asset intake and cross-simulator transfer. Acceptance: every route is callable as a versioned Skill or MCP tool with deterministic fixtures; every run preserves seed, model and adapter versions, provenance and hashes, rejected candidates, verifier results and failure codes; regression gates block promotion on schema, provenance, physics, replay or migration-loss failures.",
+      "status": "active",
+      "priority": "urgent",
+      "assignee": "Jingxiang / Zheng Ye / Environment Generation team",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-07-17T13:42:21.916Z"
+    },
+    {
+      "task_id": "task_self_improving_agents_phase_2_1_4_text2env_wrap_deterministic_text2env_20260717",
+      "project_id": "self-improving-agents",
+      "title": "[Phase 2 1/4 Text2Env] Wrap deterministic Text2Env as a reusable Skill/MCP route",
+      "description": "[KNOWN] [CONFIDENCE: HIGH] RoboTwin SceneGen Stage 0-5 remains the accepted V1 backend; this task packages it for the harness rather than redoing scene generation. Scope: map a text request into typed SceneSpec, AssetManifest, ResolvedSceneSpec, simulator package and validation report; forbid arbitrary generated code, asset paths, final poses or quaternions from the language model; expose compile, validate and replay as versioned Skill/MCP calls with bounded repair. Acceptance: bilingual golden prompts and negative cases pass; fixed input, config and seed replay to the same resolved package; provenance, rejected candidates and typed blockers are retained; RoboTwin plus one adapter target pass runtime gates; promotion is regression-gated.",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Zheng Ye / Environment Generation team",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-07-17T13:43:26.397Z"
+    },
+    {
+      "task_id": "task_self_improving_agents_phase_2_2_4_anchor2env_wrap_image_video_conditio_20260717",
+      "project_id": "self-improving-agents",
+      "title": "[Phase 2 2/4 Anchor2Env] Wrap image/video-conditioned generation as a reusable Skill/MCP route",
+      "description": "[KNOWN] [CONFIDENCE: HIGH] The accepted Anchor2Env V1 proves a bounded image/video path; Phase 2 must expose it through the common harness contract. Scope: accept an image or short video plus optional text, preserve source frames and camera assumptions, separate observed, estimated, retrieved and generated content, emit typed uncertainty, and compile through the same EnvironmentPackage used by Text2Env. Acceptance: at least one image and one video golden flow invoke the versioned Skill/MCP route; fixed media, config and seed are deterministic; no asset provenance is fabricated; asset misses route into reuse-first retrieval and then generation fallback; source/reconstruction/segmentation/replay evidence and typed failure cases are regression-tested.",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Zheng Ye / Environment Generation team",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-07-17T13:43:56.645Z"
+    },
+    {
+      "task_id": "task_self_improving_agents_phase_2_3a_4_asset_reuse_retrieve_match_select_a_20260717",
+      "project_id": "self-improving-agents",
+      "title": "[Phase 2 3A/4 Asset reuse] Retrieve, match, select and parameterize internet assets/datasets",
+      "description": "[KNOWN] [CONFIDENCE: HIGH] Asset reuse is a separate path from 3D generation and must be attempted first when a verified candidate can satisfy the scene constraints. Scope: search official repositories, dataset catalogs and project pages; rank top-k candidates with rejection reasons; capture license, source, version and hashes; normalize units, axes, scale, pose, materials, collision, mass and inertia; map rigid-body and articulated-joint metadata; preserve typed unknowns rather than invent values. Acceptance: rigid and articulated examples complete query to ranked candidates to import to settle/render/collision QA; parameter filling is machine-readable and reproducible; SAPIEN plus one second backend load the selected assets; every rejected or conditional asset has an explicit reason and provenance record.",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Jingxiang / Environment Generation team",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-07-17T13:44:04.835Z"
+    },
+    {
+      "task_id": "task_self_improving_agents_phase_2_4_4_transfer_package_cross_simulator_mig_20260717",
+      "project_id": "self-improving-agents",
+      "title": "[Phase 2 4/4 Transfer] Package cross-simulator migration as a reusable Skill/MCP route",
+      "description": "[KNOWN] [CONFIDENCE: HIGH] Open-X-Sim V1 retains bounded L0-L3 transfer evidence; Phase 2 must turn that compiler and validator into a reusable harness route. Scope: accept generated, anchor-conditioned or imported environments; compile one versioned interchange bundle into source and target adapters; record adapter versions and hashes; map geometry, transforms, articulation, collision, materials, mass and inertia, cameras, physics, reset and task predicates; emit unsupported and lossy records instead of silent degradation. Acceptance: at least three upstream environment or format families invoke the Skill/MCP route; rigid, articulated and camera-sensitive cases replay from one bundle; migration-loss reports are quantitative and regression-gated; contact, controller, rendering and task-outcome equivalence are claimed only when their explicit tolerances pass.",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Jingxiang / Zheng Ye / Environment Generation team",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-07-17T13:44:36.132Z"
+    },
+    {
+      "task_id": "task_real_robot_demos_ego2dex_lfd_baseline_20260718",
+      "project_id": "real-robot-demos",
+      "title": "Yutao：到线下前跑通 Ego2Dex / LfD 手物重建 baseline",
+      "description": "在同一组 2-3 段单目 ego 手物交互视频上，优先审计并跑通 EgoEngine、Do-As-I-Do、VideoManip、EasyHOI；HandFlow 作为 4D MANO/手部时序恢复候选加入手重建对比。不要用每篇论文自己的 demo 直接横向下结论。\n\n统一输入与输出：冻结原始视频、帧率、裁剪、相机约定和对象；每条路线记录 upstream git SHA、checkpoint、环境、命令、runtime/VRAM 与人工干预。统一导出 camera intrinsics/extrinsics or gravity frame、metric depth/pointmap、hand MANO/keypoints/mesh、object mask/mesh/scale/6D pose trajectory、contact/penetration sidecar、retargeted robot wrist/finger trajectory，以及可复现 manifest。若某仓库或权重未开放，记录缺口并用可替换模块完成同接口 smoke，不得伪造复现完成。\n\nAcceptance A（到线下前）：至少 2 段共享视频、四条主路线的 availability/reproduction matrix、至少两条可运行 end-to-end 路线、HandFlow 对 HaWoR/HaMeR 类手轨迹的同输入比较；报告 hand reprojection/world-space error、acceleration/jitter、object pose drift、scale error、contact precision/recall、penetration、temporal consistency、runtime/VRAM/manual steps，并提交 failure gallery。Acceptance B（到线下后）：选择一条 pipeline，把可执行 retargeted trajectory 接到一个现有真机 demo 的仿真/read-only/低速安全流程；由 Haoming 协助数据与硬件接口，保留 E-stop watcher、workspace/joint limits 和完整日志。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Yutao / Haoming / Boris",
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_ego2dex_lfd_assignment_clawcross_20260718",
+          "task_id": "task_real_robot_demos_ego2dex_lfd_baseline_20260718",
+          "author": "Codex / ClawCross wx sync",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Dexterous Data Collection sync: Yutao is assigned to Human-Centric data for robot-policy improvement and should prepare Ego processing before arriving onsite, with EgoEngine, Do-As-I-Do, VideoManip, and EasyHOI as the first baselines; onsite coordination routes through Haoming. This comment stores only the task-relevant assignment summary.",
+          "created_at": "2026-07-18T03:53:00.469Z"
+        },
+        {
+          "comment_id": "comment_ego2dex_handflow_20260718",
+          "task_id": "task_real_robot_demos_ego2dex_lfd_baseline_20260718",
+          "author": "Boris / Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Added HandFlow (arXiv:2607.11221) to the hand-reconstruction comparison. Evaluate its full-window MANO recovery and temporal smoothness on the same clips; do not treat its paper metrics as local evidence until the code/checkpoint and local run artifacts are verified.",
+          "created_at": "2026-07-18T03:53:00.469Z"
+        }
+      ],
+      "updated_at": "2026-07-19T01:56:26.790Z",
+      "due_at": "",
+      "completed_at": null
     }
   ]
 }

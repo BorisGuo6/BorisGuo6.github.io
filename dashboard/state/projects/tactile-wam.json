@@ -4,7 +4,7 @@
   "title": "DaiMeng VTAM / Tactile-WAM: Predictive Contact Intelligence",
   "bucket": "survey",
   "status": "survey",
-  "updated_at": "2026-07-16T02:39:48.957Z",
+  "updated_at": "2026-07-18T02:13:56.589Z",
   "description": "DaiMeng internship research project: merge VTLA tactile-intuition survey and VTAM/Tactile-WAM proposal into one active Predictive Contact Intelligence track for dexterous manipulation.",
   "summary": "DaiMeng VTAM turns the VTLA tactile-intuition survey into an active internship project: From Reactive Manipulation to Proactive Manipulation. The merged track treats future tactile/contact latents as an Internal Contact Model and builds a Vision-Tactile-Action World Model with a Temporal Action-Token Shared-World architecture rather than simple vision/tactile feature concatenation. Fast contact/action rollout, visual/layer latent cache, contact-triggered sparse compute, and System-0/System-1 control are the execution path; validation is contact timing, slip/contact risk, actual/zero/wrong-action separation, latency/Hz/VRAM, and contact-rich task success.",
   "subprojects": [
@@ -76,8 +76,55 @@
     "System-0 / System-1 loop: System-1 runs predictive VTAM at planning frequency, while System-0 runs high-frequency tactile servo control by comparing predicted tactile latent with current tactile latent and emitting residual corrections for slip, overload, misalignment, or impending contact failure.",
     "World-model-guided VLA refinement update 2026-06-29: the BAAI seminar slide is effectively the policy-improvement loop version of VTAM. For contact-rich insertion, pressing, screwing, and assembly, let the pretrained VLA provide semantic/coarse motion, use a reward/contact model to detect the contact-rich phase, sample multiple candidate contact trajectories, score them through imagined VTAM/world-model rollouts, then stitch the selected segment back into the trajectory as post-training data. This should be tracked as an evaluation and refinement protocol, not just as a visual rollout demo.",
     "UMI2Render2Real subproject 2026-06-30: from the personal presentation UMI2Render2Real pages, the intended loop is: large UMI-device datasets -> scan object -> scan scene -> retarget UMI trajectory -> render robot data with LeHome-style household/cooking scenes -> apply to the real robot while explicitly modeling the Render2Real gap. In DaiMeng VTAM this becomes the sixth subproject: a local-workstation pipeline for producing semi-teleop robot data and testing whether rendered trajectories plus tactile/contact supervision improve predictive contact intelligence.",
+    {
+      "text": "[KNOWN][HIGH] OSMO is the direct prior for the shared tactile-carrier idea: the same stretchable magnetic tactile glove is worn by the human demonstrator and a biomimetic robot hand, reducing both visual and tactile embodiment gaps while transferring continuous normal and shear signals. Its wiping policy is trained only on 140 human demonstrations (about two hours, no real-robot training data) and reports 71.69% mean task completion versus 55.75% for vision plus proprioception over 12 rollouts. [INFERRED][HIGH] For VTAM, this validates matched sensor topology as a data-collection primitive but closes the novelty of \"human and robot wear the same glove\" by itself; the defensible extension is cross-device tactile latents, predictive contact/action modeling, and multi-task transfer beyond one matched human/robot glove and one wiping setup.",
+      "links": [
+        {
+          "label": "OSMO project",
+          "url": "https://www.jessicayin.com/osmo_tactile_glove/"
+        },
+        {
+          "label": "paper",
+          "url": "https://arxiv.org/abs/2512.08920"
+        },
+        {
+          "label": "code and hardware",
+          "url": "https://github.com/jessicayin/osmo_tactile_glove"
+        },
+        {
+          "label": "IEEE RA-L DOI",
+          "url": "https://doi.org/10.1109/LRA.2026.3692034"
+        }
+      ]
+    },
     "[KNOWN][HIGH] Event-camera cross-reference updated 2026-07-15: detailed evidence now lives in Survey: Event-Camera VLA / World Model Sensor Survey. [INFERRED][HIGH] DaiMeng VTAM should consume synchronized event features only after the Survey shows marginal value over 120 fps RGB, pseudo-events, and existing tactile streams; event hardware is not a VTAM mainline dependency yet.",
-    "[KNOWN][HIGH] SpikingTac cross-reference 2026-07-15: the Event-Camera Survey now tracks a separate neuromorphic visuotactile branch using a sealed marker-and-gel optical stack for 1000 Hz contact transients and 350 Hz marker tracking. [INFERRED][HIGH] DaiMeng VTAM may consume this as a candidate high-frequency contact stream only after independent reproduction against high-FPS RGB visuotactile and existing tactile/force baselines; this cross-reference does not reopen completed VTAM TODOs."
+    "[KNOWN][HIGH] SpikingTac cross-reference 2026-07-15: the Event-Camera Survey now tracks a separate neuromorphic visuotactile branch using a sealed marker-and-gel optical stack for 1000 Hz contact transients and 350 Hz marker tracking. [INFERRED][HIGH] DaiMeng VTAM may consume this as a candidate high-frequency contact stream only after independent reproduction against high-FPS RGB visuotactile and existing tactile/force baselines; this cross-reference does not reopen completed VTAM TODOs.",
+    {
+      "text": "[KNOWN][HIGH] 2026-07-17 soft-sensor paper audit: E-slime is a published 2024 Advanced Functional Materials epidermal strain-sensing material, but the supplied image is a mixed research-trajectory slide rather than a clean paper figure. ML-sensor is now the published 2026 Advanced Science paper A Soft Mechanoluminescent Skin for High-Resolution Optical Tactile Sensing in Human-Machine Interaction. [KNOWN][HIGH] No retrievable DOI, preprint, or public project page was located for the supplied RoboTac Skin or Ther-Tac / T-Tac labels as of this audit; their high-information design slides remain useful as explicitly labeled presentation context, not published-paper evidence. [INFERRED][HIGH] For VTAM, the three retained slides span conformable contact skin, active thermal material sensing, and vision-native normal-force imaging, but none alone establishes predictive action or robot-policy gains.",
+      "links": [
+        {
+          "label": "E-slime paper",
+          "url": "https://doi.org/10.1002/adfm.202402393"
+        },
+        {
+          "label": "ML-sensor paper",
+          "url": "https://doi.org/10.1002/advs.75507"
+        }
+      ]
+    },
+    {
+      "text": "[KNOWN][HIGH] MC-Tac targeted audit 2026-07-18: the supplied slides describe a magnetic microstructure tactile prototype that records Bx/By/Bz response traces under x/y/z contact and demonstrates robot ring placement. Exact-phrase, author-profile, DOI, preprint and project-page searches found no matching public paper record. The published 2023 MC-Tac is a different modular camera-based gel sensor. A 2026 npj Robotics magnetic-cilia paper is the closest public mechanism-level prior located, but it is not the supplied MC-Tac artifact. [INFERRED][HIGH] Treat the retained task-level slide as an in-progress presentation reference for compact multi-axis contact sensing, not as peer-reviewed performance evidence or a resolved citation.",
+      "links": [
+        {
+          "label": "closest magnetic-cilia prior",
+          "url": "https://doi.org/10.1038/s44182-026-00091-2"
+        },
+        {
+          "label": "different camera-based MC-Tac",
+          "url": "https://doi.org/10.1007/978-981-99-6495-6_15"
+        }
+      ]
+    }
   ],
   "task_ids": [
     "task_umi_stage1_daimon_post2000_smoke_20260707",
@@ -293,11 +340,54 @@
       "notes": "Online presentation entry for the UMI2Render2Real pages. The excluded local source deck is `source-pptx/romoya_present.pptx`; the published section covers Project 2 UMI2Render2Real, object/scene scanning, UMI trajectory retargeting, robot-data rendering, Render2Real gap handling, and conversion of UMI data to semi-teleop data."
     },
     {
+      "title": "OSMO: Open-Source Tactile Glove for Human-to-Robot Skill Transfer",
+      "url": "https://www.jessicayin.com/osmo_tactile_glove/",
+      "arxiv_id": "2512.08920",
+      "doi": "10.1109/LRA.2026.3692034",
+      "submitted_at": "2025-12-09",
+      "category": "human-to-robot-tactile-transfer",
+      "notes": "[KNOWN][HIGH] Direct prior for the shared human/robot tactile-glove idea. OSMO uses 12 three-axis magnetic tactile sensors across fingertips and palm, open hardware/firmware/ROS2 interfaces, and a matched glove on the demonstrator and robot. The reported wiping result is 71.69% versus 55.75% for vision plus proprioception, not a twofold gain over the vision baseline; the experiment uses 140 human demonstrations, no robot training data, 12 rollouts, fixed camera/environment, and a Psyonic Ability Hand with Franka."
+    },
+    {
       "title": "SpikingTac: A Miniaturized Neuromorphic Visuotactile Sensor for High-Precision Dynamic Tactile Imprint Tracking",
       "url": "https://arxiv.org/abs/2602.23654",
       "arxiv_id": "2602.23654",
       "category": "event-visuotactile",
       "notes": "Candidate high-frequency contact stream for VTAM ablation; keep gated behind an independent SpikingTac reproduction and RGB/tactile baseline comparison."
+    },
+    {
+      "title": "Amoeba-Inspired Self-Healing Electronic Slime for Adaptable, Durable Epidermal Wearable Electronics",
+      "url": "https://doi.org/10.1002/adfm.202402393",
+      "doi": "10.1002/adfm.202402393",
+      "category": "soft-material-sensing",
+      "notes": "[KNOWN][HIGH] Published in Advanced Functional Materials in 2024. Useful as a soft, self-healing strain-sensor material reference; it is not direct evidence for robotic contact prediction or control."
+    },
+    {
+      "title": "A Soft Mechanoluminescent Skin for High-Resolution Optical Tactile Sensing in Human-Machine Interaction",
+      "url": "https://doi.org/10.1002/advs.75507",
+      "doi": "10.1002/advs.75507",
+      "category": "vision-tactile-sensor",
+      "notes": "[KNOWN][HIGH] Published in Advanced Science in 2026. The CMOS-read mechanoluminescent skin is a candidate normal-force/contact stream; published demonstrations emphasize handwriting and human-computer interaction rather than robot manipulation policy learning."
+    },
+    {
+      "title": "MC-Tac magnetic-contact prototype presentation capture",
+      "submitted_at": "2026-07-18",
+      "category": "magnetic-tactile-sensor",
+      "notes": "[KNOWN][HIGH] User-provided presentation evidence for Bx/By/Bz contact responses and robot ring placement. No matching public DOI, preprint, or project page was located in the 2026-07-18 audit; do not conflate it with the 2023 camera-based MC-Tac."
+    },
+    {
+      "title": "Simultaneous measurement of bending angle and direction with magnetic cilia tactile sensors",
+      "url": "https://doi.org/10.1038/s44182-026-00091-2",
+      "doi": "10.1038/s44182-026-00091-2",
+      "category": "magnetic-tactile-sensor",
+      "notes": "[KNOWN][HIGH] Published in npj Robotics in 2026. Closest public mechanism-level prior found for magnetic cilia that encode bending magnitude and direction; it is related context, not the exact MC-Tac shown in the supplied slides."
+    },
+    {
+      "title": "MC-Tac: Modular Camera-Based Tactile Sensor for Robot Gripper",
+      "url": "https://doi.org/10.1007/978-981-99-6495-6_15",
+      "doi": "10.1007/978-981-99-6495-6_15",
+      "category": "citation-disambiguation",
+      "notes": "[KNOWN][HIGH] Published ICIRA 2023 sensor with modular sense, receptor, and adapter modules around camera-based gel tactile sensing. Same acronym, different hardware and contribution from the magnetic MC-Tac presentation prototype."
     }
   ],
   "risks_decisions": [
@@ -312,7 +402,9 @@
     "Acceptance boundary 2026-06-27: do not accept demos based only on pretty video or qualitative tactile maps. A passing VTAM demo must separate actual actions from zero/wrong actions, predict contact timing/slip risk, show latency/Hz/VRAM numbers, and improve at least one contact-rich manipulation task under perturbation.",
     "Decision: retire separate VTLA Survey card: Keep one live card under Research. The merged card owns VTLA representation work, Wuji/Franka/HOI benchmark selection, VTAM architecture, and DaiMeng internship deliverables.",
     "Risk: visual quality alone is the wrong success metric: The proposal should not pass because generated video looks plausible. It must pass contact prediction, action separation, latency, memory, servo stability, and contact-rich task success metrics.",
-    "Refinement decision 2026-06-29: BAAI-style imagined trajectory scoring belongs inside VTAM as a contact-rich policy refinement protocol. The reward/contact model must explicitly identify contact phase entry; otherwise the loop degenerates into generic video rollout ranking."
+    "[KNOWN][HIGH] OSMO novelty boundary 2026-07-17: a shared glove on the human and robot, direct transfer of normal/shear tactile signals, and policy training without robot demonstrations are already demonstrated. [INFERRED][HIGH] VTAM must not claim the matched glove alone; require cross-device or cross-morphology tactile normalization, predictive contact/action utility, and gains across multiple contact-rich tasks or unseen objects, with an ablation against unmatched sensor layouts.",
+    "Refinement decision 2026-06-29: BAAI-style imagined trajectory scoring belongs inside VTAM as a contact-rich policy refinement protocol. The reward/contact model must explicitly identify contact phase entry; otherwise the loop degenerates into generic video rollout ranking.",
+    "[KNOWN][HIGH] Image Context decision 2026-07-18: retain the RoboTac Skin, Ther-Tac and ML-sensor design/application slides, and add one MC-Tac task-level slide showing contact-response traces and ring placement. Skip the mixed E-slime/RoboTac/T-Tac roadmap slide because it is a temporary composite, and skip the MC-Tac modeling slide because the retained task slide already covers the same prototype more directly. [INFERRED][HIGH] MC-Tac remains presentation evidence with unresolved publication identity; do not map either the 2023 camera-based MC-Tac or the related 2026 magnetic-cilia paper onto it."
   ],
   "timeline": {
     "target_cycle": "DaiMeng VTAM internship project",

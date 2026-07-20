@@ -81,6 +81,7 @@ async function auditJsonAssets(relativePath, basePath, keys) {
 }
 
 async function auditDashboardState() {
+  if (!existsSync(path.join(repoRoot, "dashboard/state/projects"))) return;
   const projectFiles = (await readdir(path.join(repoRoot, "dashboard/state/projects")))
     .filter((name) => name.endsWith(".json"))
     .map((name) => `dashboard/state/projects/${name}`);
@@ -99,6 +100,7 @@ async function auditDashboardState() {
 }
 
 async function auditImageContextCoverage() {
+  if (!existsSync(path.join(repoRoot, "dashboard/state/portfolio.json"))) return;
   const portfolio = JSON.parse(await readFile(path.join(repoRoot, "dashboard/state/portfolio.json"), "utf8"));
   const projectDirectory = path.join(repoRoot, "dashboard/state/projects");
   const projectFiles = (await readdir(projectDirectory)).filter((name) => name.endsWith(".json"));

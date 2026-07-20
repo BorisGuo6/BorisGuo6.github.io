@@ -133,7 +133,22 @@ export function dashboardStateToSnapshot(state, options = {}) {
   return snapshot;
 }
 
+async function loadGeneratedBundledDashboardSnapshot(options = {}) {
+  try {
+    const module = await import("./dashboard-bundled-state.generated.mjs");
+    const snapshot = normalizeDashboardSnapshot(module.default);
+    return {
+      ...snapshot,
+      source: options.source || snapshot.source || "bundled-json-generated",
+    };
+  } catch {
+    return null;
+  }
+}
+
 export async function loadBundledDashboardSnapshot(options = {}) {
+  const generatedSnapshot = await loadGeneratedBundledDashboardSnapshot(options);
+  if (generatedSnapshot) return generatedSnapshot;
   const state = await loadDashboardState();
   return dashboardStateToSnapshot(state, {
     ...options,
