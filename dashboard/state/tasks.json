@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-07-20T14:04:47.617Z",
+  "updated_at": "2026-07-20T14:30:46.476Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -12640,8 +12640,18 @@
       "priority": "high",
       "assignee": "Jingxiang / Zheng Ye / Environment Generation team",
       "result": null,
-      "comments": [],
-      "updated_at": "2026-07-17T13:45:19.875Z"
+      "comments": [
+        {
+          "comment_id": "comment_9a0426e1-5685-4c7b-9528-20a78308df56",
+          "task_id": "task_self_improving_agents_embodiedgen_v2_self_improving_harness_gen_env_20260713",
+          "author": "jingxiang",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[MEETING 2026-07-20] Generation fallback alignment：只有在已验证资产复用无法满足约束时，才使用参考图/视频、开源视频重建或 3D 生成路线补齐缺失资产。输出必须是 robot-training-ready / sim-ready package，包含尺度、碰撞、质量/惯性、关节与限制、材质、provenance，以及物理合理性 auditor 的通过证据或 typed blocker。",
+          "created_at": "2026-07-20T14:28:48.296Z"
+        }
+      ],
+      "updated_at": "2026-07-20T14:28:48.296Z"
     },
     {
       "task_id": "task_umi_world_model_ziyang_meng_mimic_video_robot_layer_action_idm_20260713",
@@ -13018,8 +13028,18 @@
       "priority": "urgent",
       "assignee": "Jingxiang / Zheng Ye / Environment Generation team",
       "result": null,
-      "comments": [],
-      "updated_at": "2026-07-17T13:42:21.916Z"
+      "comments": [
+        {
+          "comment_id": "comment_72129bb9-6e83-4b69-8460-8cd51e974a84",
+          "task_id": "task_self_improving_agents_phase_2_harness_build_reusable_skill_mcp_registr_20260717",
+          "author": "jingxiang",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[MEETING 2026-07-20] Robot Harness 继续作为总闭环：环境生成 → 数据采集 → 训练 → 诊断 → 自评估；当前 sprint 聚焦环境生成。Immediate gate：先将现有仓库和 text-to-test-environment golden path 可复现跑通，再扩展四条路线；同时增加物理合理性 self-auditor。Boris 在群内补充论文、demo 与 ACDC（名称待确认）资料；团队成员在独立分支开发，并在 2026-07-27 周会前形成可合并集成。后端不在本条评论中改名：会议转写 “asag based / cpin” 需由 Hu 对照现有 RoboTwin/SAPIEN-v0 与 Isaac adapter 决策后确认。",
+          "created_at": "2026-07-20T14:26:20.766Z"
+        }
+      ],
+      "updated_at": "2026-07-20T14:26:20.766Z"
     },
     {
       "task_id": "task_self_improving_agents_phase_2_1_4_text2env_wrap_deterministic_text2env_20260717",
@@ -13030,8 +13050,18 @@
       "priority": "high",
       "assignee": "Zheng Ye / Environment Generation team",
       "result": null,
-      "comments": [],
-      "updated_at": "2026-07-17T13:43:26.397Z"
+      "comments": [
+        {
+          "comment_id": "comment_436f5665-5750-4c9d-a46d-5da1cd100ba7",
+          "task_id": "task_self_improving_agents_phase_2_1_4_text2env_wrap_deterministic_text2env_20260717",
+          "author": "jingxiang",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[MEETING 2026-07-20] Scope boundary：会议所说“纯文本到测试环境的第一部分已完成”对应已经验收的 Text2Env V1；本 TODO 仍只负责把该 golden path 包装成可复用、可版本化的 Skill/MCP 路线，不重做 V1，也不据此提前标记 Phase 2 为完成。",
+          "created_at": "2026-07-20T14:27:57.234Z"
+        }
+      ],
+      "updated_at": "2026-07-20T14:27:57.234Z"
     },
     {
       "task_id": "task_self_improving_agents_phase_2_2_4_anchor2env_wrap_image_video_conditio_20260717",
@@ -13042,8 +13072,18 @@
       "priority": "high",
       "assignee": "Zheng Ye / Environment Generation team",
       "result": null,
-      "comments": [],
-      "updated_at": "2026-07-17T13:43:56.645Z"
+      "comments": [
+        {
+          "comment_id": "comment_31389faa-e4d3-439e-95b7-621a436ab7e2",
+          "task_id": "task_self_improving_agents_phase_2_2_4_anchor2env_wrap_image_video_conditio_20260717",
+          "author": "jingxiang",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[MEETING 2026-07-20] Scope confirmation：用户提供的参考图像或视频应作为重建/生成 sim-ready 资产与环境的 anchor；交付必须保留输入、相机假设、分割/重建证据、provenance、不确定性、replay 和物理有效性验证，不能只提交视觉结果。",
+          "created_at": "2026-07-20T14:28:33.531Z"
+        }
+      ],
+      "updated_at": "2026-07-20T14:28:33.531Z"
     },
     {
       "task_id": "task_self_improving_agents_phase_2_3a_4_asset_reuse_retrieve_match_select_a_20260717",
@@ -13054,8 +13094,18 @@
       "priority": "high",
       "assignee": "Jingxiang / Environment Generation team",
       "result": null,
-      "comments": [],
-      "updated_at": "2026-07-17T13:44:04.835Z"
+      "comments": [
+        {
+          "comment_id": "comment_2e4e557b-5a46-4504-84bd-aad0f6c56230",
+          "task_id": "task_self_improving_agents_phase_2_3a_4_asset_reuse_retrieve_match_select_a_20260717",
+          "author": "jingxiang",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[MEETING 2026-07-20] Scope confirmation：本路线同时覆盖现有资产的选择/配置，以及从公开数据集或项目页自主搜索、导入和参数化；继续执行 reuse-first，并保留来源、许可、转换记录、hash 与 simulator QA。",
+          "created_at": "2026-07-20T14:28:40.135Z"
+        }
+      ],
+      "updated_at": "2026-07-20T14:28:40.135Z"
     },
     {
       "task_id": "task_self_improving_agents_phase_2_4_4_transfer_package_cross_simulator_mig_20260717",
@@ -13066,8 +13116,18 @@
       "priority": "high",
       "assignee": "Jingxiang / Zheng Ye / Environment Generation team",
       "result": null,
-      "comments": [],
-      "updated_at": "2026-07-17T13:44:36.132Z"
+      "comments": [
+        {
+          "comment_id": "comment_a20cd176-e8de-4e13-988d-3da2be225bac",
+          "task_id": "task_self_improving_agents_phase_2_4_4_transfer_package_cross_simulator_mig_20260717",
+          "author": "jingxiang",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[MEETING 2026-07-20] Scope confirmation：开源环境复用既可以是单个资产，也可以是整个环境；whole-environment reuse 归入 cross-simulator transfer 路线，必须记录物理引擎、renderer、资产格式、材质、reset/step/verifier 兼容性及迁移损失，不能默认等价。",
+          "created_at": "2026-07-20T14:28:55.609Z"
+        }
+      ],
+      "updated_at": "2026-07-20T14:28:55.609Z"
     },
     {
       "task_id": "task_real_robot_demos_ego2dex_lfd_baseline_20260718",
@@ -13125,6 +13185,19 @@
       "result": null,
       "comments": [],
       "updated_at": "2026-07-20T14:04:47.617Z"
+    },
+    {
+      "task_id": "task_self_improving_hu_repo_backend_onboarding_20260720",
+      "project_id": "self-improving-agents",
+      "title": "[Phase 2 / Onboarding] Hu: run the environment-generation repo and confirm the shared simulator backend",
+      "description": "[MEETING 2026-07-20] Scope：在独立分支检出当前共享仓库，复现现有 text-to-test-environment golden path，记录完整安装命令、依赖、runtime blocker 与 artifacts；对照现有 RoboTwin/SAPIEN-v0 决策和 Isaac adapter path，确认团队共用的仿真后端；阅读 Boris 分享的论文/demo/ACDC（名称待确认）资料；会后与 Zheng Ye 同步并形成可合并 handoff。Acceptance：记录 repo commit、环境版本和命令；至少一条可复现 end-to-end run，或带日志的 typed blocker；一份简短 backend decision memo；参考资料清单；branch/commit 与 test report 在下次周会前 merge-ready。会议转写 “asag based / cpin”、ACDC 和中文姓名字形均不得在未确认时静默规范化。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Hu",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-07-20T14:30:46.476Z",
+      "due_at": "2026-07-27"
     }
   ]
 }
