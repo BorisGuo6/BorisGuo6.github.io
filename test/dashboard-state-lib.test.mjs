@@ -571,6 +571,7 @@ const fakeBlobWrites = [];
 await writeVercelBlobSnapshot(projectTableSnapshot, {
   env: { BLOB_READ_WRITE_TOKEN: "test-token" },
   pathname: "dashboard-state/test-write.json",
+  ifMatch: 'W/"current"',
   previousSnapshot: { ...projectTableSnapshot, audit_log: [{ audit_id: "private-history" }] },
   blobApi: {
     async put(pathname, body, options) {
@@ -581,6 +582,7 @@ await writeVercelBlobSnapshot(projectTableSnapshot, {
 });
 assert.equal(fakeBlobWrites.length, 1, "Blob backups must be opt-in");
 assert.equal(fakeBlobWrites[0].options.access, "private", "dashboard state must be stored in a private Blob");
+assert.equal(fakeBlobWrites[0].options.ifMatch, '"current"', "weak read ETags must be normalized before conditional Blob writes");
 fakeBlobWrites.length = 0;
 await writeVercelBlobSnapshot(projectTableSnapshot, {
   env: { BLOB_READ_WRITE_TOKEN: "test-token", DASHBOARD_ENABLE_BLOB_BACKUP: "1" },

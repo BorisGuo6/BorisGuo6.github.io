@@ -186,7 +186,7 @@ export async function writeVercelBlobSnapshot(snapshot, options = {}) {
     addRandomSuffix: false,
     allowOverwrite: true,
     cacheControlMaxAge: 60,
-    ...(options.ifMatch ? { ifMatch: options.ifMatch } : {}),
+    ...(options.ifMatch ? { ifMatch: normalizeBlobEtag(options.ifMatch) } : {}),
     token,
   });
   if (shouldBackup && previousSnapshot) {
