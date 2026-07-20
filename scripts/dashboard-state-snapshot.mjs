@@ -119,7 +119,10 @@ export function validateDashboardSnapshot(snapshot) {
 
 export function dashboardStateToSnapshot(state, options = {}) {
   const now = options.now || new Date();
-  const updatedAt = options.updatedAt || now.toISOString();
+  const updatedAt = options.updatedAt
+    || state.taskDoc?.updated_at
+    || state.portfolio?.updated_at
+    || now.toISOString();
   const snapshot = {
     schema_version: dashboardSnapshotSchemaVersion,
     source: options.source || "dashboard/state",

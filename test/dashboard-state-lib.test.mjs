@@ -106,6 +106,11 @@ assert.match(await dashboardHash(state), /^[a-f0-9]{64}$/);
 const bundledSnapshot = dashboardStateToSnapshot(state, {
   now: new Date("2026-06-18T00:00:00.000Z"),
 });
+assert.equal(
+  bundledSnapshot.updated_at,
+  state.taskDoc.updated_at,
+  "bundled snapshots must use the data timestamp instead of the deployment build time",
+);
 assert.doesNotThrow(
   () => validateDashboardSnapshot(bundledSnapshot),
   "the bundled dashboard state must satisfy the persisted snapshot invariants",

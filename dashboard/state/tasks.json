@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-07-19T01:56:26.790Z",
+  "updated_at": "2026-07-20T14:04:47.617Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -9936,10 +9936,19 @@
           "kind": "comment",
           "body": "Moved from the UMI intro on 2026-07-07: the one-week shared preprocessing gate is not intro prose. Track it here: one real robot video must become multi-layer video with segmentation, foreground/object inpainting, motion-residue QA, retry/drop policy, layer_manifest, object pose, robot pose, and deformable/fluid point-flow sidecars where needed. Keep Lai, Ziyang, and Davide on the same manifest/schema.",
           "created_at": "2026-07-07T20:45:00+08:00"
+        },
+        {
+          "comment_id": "comment_efcbeb7f-6d7d-4de7-bb80-e038e478a094",
+          "task_id": "task_umi_layered_pipeline_sam_vace_flux_lama_automation_20260622",
+          "author": "jingxiang",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[MEETING 2026-07-20] Lai 数据管线更新：开始推进共享数据管线、agent-based QA 与分层流程。深度镜头/深度输入不预设单一路线；在同一批 clips 上比较保留 depth sidecar、对深度区域做特殊 mask，以及不使用 depth 三种路径，并统一记录内参、畸变、layer_manifest、重组质量、残影与失败样例。Global Lab / AG World 等数据集名称按会议转写暂待核对，确认正式名称后再固化。阿里云数据拉取依赖单独的访问权限 gate，任务评论和文档中不得记录账号或凭据。",
+          "created_at": "2026-07-20T14:01:39.032Z"
         }
       ],
       "completed_at": null,
-      "updated_at": "2026-07-13T13:43:36.661Z",
+      "updated_at": "2026-07-20T14:01:39.032Z",
       "due_at": "2026-07-14"
     },
     {
@@ -12135,10 +12144,19 @@
           "kind": "comment",
           "body": "Mask2IV comparison added 2026-07-13. Scope: treat it as a trajectory-control baseline, not a direct background/object/robot RGB decomposition substitute. Minimum matched-input experiment: use the same initial frame, target-object mask, action text or target-position condition; compare the RynnWorld control-video route and UMI layer_manifest route with Mask2IV actor/object mask trajectories. Report target endpoint error, mask-trajectory IoU and temporal consistency, contact timing and contact-region quality, full-frame FVD/LPIPS/SSIM, background preservation, robot/object layer leakage, and downstream action/pose consistency. Architecture probe: inject predicted actor/object mask trajectories as sidecar conditions or auxiliary supervision into the three-layer Wan branch. Do not replace the background/object/robot output contract unless this ablation passes.",
           "created_at": "2026-07-13T14:10:08.180Z"
+        },
+        {
+          "comment_id": "comment_c8a0c623-e204-4078-b277-64e572bfa0a3",
+          "task_id": "task_umi_davide_multilayer_video_model_architecture_20260707",
+          "author": "jingxiang",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[MEETING 2026-07-20] 架构决策：当前双 agent、双 token 分路解码后再合并可视化的原始结构保留为 baseline；不默认沿用 Gamma-World 在双 agent 场景中的组件。先固定数据、action、first frame、checkpoint 与 seed，单独完成 common/shared-noise 消融，再逐项比较共享 backbone、token fusion、cross-view communication 等结构改动，避免把噪声收益和架构收益混在一起。验收仍以跨视角一致性、action-video 联合分布、流式速度、尾影/ghosting 和单视角质量共同判断。",
+          "created_at": "2026-07-20T14:02:34.378Z"
         }
       ],
       "created_at": "2026-07-07T12:00:00+08:00",
-      "updated_at": "2026-07-13T14:10:08.180Z"
+      "updated_at": "2026-07-20T14:02:34.378Z"
     },
     {
       "task_id": "task_umi_ziyang_object_layer_pose_value_benchmark_20260707",
@@ -12186,10 +12204,19 @@
           "kind": "comment",
           "body": "2026-07-16 群聊更新：jiayi 加入 Stage 3，并与 Ziyang 同步当前未完成实验。她的主问题是 Object Layer 产生的 process reward 能否改善或诊断视频模型的反推结果。沿用现有 rigid pose / deformable optical-flow 路由，不另建重复 TODO；补齐同一 clips 上的 Object Layer quality、pose/flow stability、process-reward 定义，以及该 reward 与视频模型误差/失败阶段的相关性或干预消融。下次组会前至少提交一组可视化、指标表、失败样例和是否值得进入训练监督的 go/no-go 结论。",
           "created_at": "2026-07-16T13:56:49.652Z"
+        },
+        {
+          "comment_id": "comment_a83bf2d7-3f97-4896-aac3-2c1ffbbf27ae",
+          "task_id": "task_umi_ziyang_object_layer_pose_value_benchmark_20260707",
+          "author": "jingxiang",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[MEETING 2026-07-20] Ziyang 数据处理 gate：候选模型在普通数据上初步可行，但当前依赖 depth，第一视角/鱼眼相机畸变仍是 blocker。在同一批 clips 上比较两种顺序：A) 先校正/恢复 RGB-D，再做分层；B) 先在原始视角分层，再恢复/重组 RGB。每组记录 depth source、内参、畸变参数、mask、pose/flow、recomposition、运行成本与失败样例，并给出是否需要重新训练的 go/no-go 结论。会议转写中的 NECD 与“语言相机”名称存在歧义，确认正式模型和数据名称后再写入 description。",
+          "created_at": "2026-07-20T14:02:02.416Z"
         }
       ],
       "created_at": "2026-07-07T12:00:00+08:00",
-      "updated_at": "2026-07-16T13:56:49.652Z"
+      "updated_at": "2026-07-20T14:02:02.416Z"
     },
     {
       "task_id": "task_umi_user_tokens_autodl_resource_governance_20260707",
@@ -12657,9 +12684,18 @@
           "kind": "comment",
           "body": "2026-07-13 detailed research decision — Stage 1 pose-conditioned / cross-view noise\n\n结论：两个 POV 的噪声不应全局相同，也不应完全独立。默认方案应是 geometry-warped partial correlation：每个视角先用 CameraNoise 根据自身 K / T_world_cam(t) 生成时间相关、pose-conditioned 的 Gaussian noise；跨视角只在可靠共视区域共享经过几何传输的噪声分量，并保留 view-specific residual。\n\nCameraNoise 的适用边界：它用相机内外参和 constant pseudo-depth 构造 GRFlow，再用 PDE / bipartite transport + density/Jacobian correction 传播初始 Gaussian noise，解决单条视频内的相机轨迹条件和时间一致性。论文明确说明 GRFlow 只表示 dominant global camera-motion prior，不重建精确 3D scene dynamics。因此它本身没有解决同步双相机之间的真实共视、遮挡/新显露、动态 robot/object 对应或联合多视角去噪；双视角耦合必须额外使用 depth/geometry + visibility。\n\n推荐构造。设 C_A、C_B 为两路分别由 CameraNoise 生成且相互独立的单位方差噪声序列，W_GP(A→B) 为基于 K_A、K_B、T_B<-A(t)、D_A/D_B 的 Gaussian-preserving transport，rho(x,t) 由共视 mask、z-buffer depth consistency、forward/backward reprojection error 和边界置信度决定：\n\nepsilon_A = C_A\nepsilon_B = rho * W_GP(C_A) + sqrt(1-rho^2) * C_B\n\n独立单位方差分量下 Var(epsilon_B)=rho^2+(1-rho^2)=1；一一对应且 transport 正确时，匹配点相关系数约为 rho。非重叠、遮挡、新显露和低置信区域令 rho=0；可靠背景共视区用 0<rho<1；rho=1 只作为 exact-correspondence / negative-control 消融，不作为默认。直接复制同一像素坐标的噪声会关联不同 camera rays；普通双线性 warp 又会改变噪声方差/空间协方差。\n\n实现顺序：\n1. 先在 Wan/RynnWorld latent resolution（通常 H/8 x W/8）做 training-free noise initializer smoke test，不先改 backbone。\n2. sidecar 记录 K、T_world_cam(t)、depth source、overlap/visibility mask、warp field、rho map、seed 和 latent shape；wrist camera 的 T_world_cam(t) 必须由 FK/TF + hand-eye calibration 得到，并保留同步/标定扰动版本。\n3. 背景层可用较高 rho；robot/刚体 object 需用 joint state / 3D pose 建立动态对应；柔性物体用 flow/keypoint tracks；接触和遮挡边界降低 rho。CameraNoise 的 pseudo-depth 不能替代跨视角真实 depth，可依次比较传感器 depth、VGGT/DepthAnything 类估计和显式 scene geometry。\n4. 若相关初始噪声仍不能稳定同一几何/语义，再加入 CVD 式 epipolar/correspondence cross-view attention；noise prior 不能替代 denoiser 内部的跨视角通信。\n5. CameraNoise 论文训练时混合标准 Gaussian 与 CameraNoise，并指出直接替换会损害 pretrained prior；training-free smoke 之后必须比较 inference-only initialization 与 LoRA fine-tune，检查 distribution shift。\n\n最小消融：A0 independent Gaussian；A1 unwarped globally identical noise（负对照）；A2 per-view CameraNoise、跨视角独立；A3 overlap-warped CameraNoise with rho=1；A4 confidence-adaptive rho，扫描 rho_max={0.25,0.5,0.75,1.0}；A5 A4 + epipolar cross-view attention。所有组固定 prompt / first frame / action / checkpoint / sampler / seed lineage，并保留 actual/zero/wrong/shuffled action counterfactual，避免用静态一致性换掉动作响应。\n\n指标与 gate：1) noise mean/variance/spectrum/spatial covariance，匹配区经验 corr≈target rho、非重叠区≈0；2) depth/pose warp 后的 overlap masked LPIPS、DINO feature distance、PSNR/SSIM；3) depth reprojection、bidirectional cycle、epipolar/keypoint error；4) CameraNoise 的 TransErr/RotErr + FVD/VBench；5) 双视角 robot EE/object pose/contact-event consistency 与 action sensitivity；6) 非重叠区 diversity、occlusion-boundary ghosting、duplicate robot parts 和 shared-noise leakage。只有 A4 相对 A0/A2 改善共视一致性，且不显著损害单视角质量、非共视多样性和 action counterfactual sensitivity，才进入训练主线。\n\nPrimary references: CameraNoise https://gulucaptain.github.io/CameraNoise/ and https://arxiv.org/abs/2605.30774 ; NoiseController https://arxiv.org/abs/2504.18448 ; Coordinate Noise https://openaccess.thecvf.com/content/WACV2025/html/Theiss_Multi-View_Image_Diffusion_via_Coordinate_Noise_and_Fourier_Attention_WACV_2025_paper.html ; Collaborative Video Diffusion https://collaborativevideodiffusion.github.io/ .",
           "created_at": "2026-07-13T14:36:05.583Z"
+        },
+        {
+          "comment_id": "comment_26d75df3-5424-43bd-89b0-6d085ec9e4a6",
+          "task_id": "task_umi_world_model_boris_action_conditioned_teacher_student_20260713",
+          "author": "jingxiang",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[MEETING 2026-07-20] Stage 1 进展与实验决策：双视角 teacher/student 路线已有初步结果，会议口头反馈 student 在当前测试上优于 teacher，但第三步 streaming / true-flow 出现尾影或 ghosting；正式结论需补同输入、同 seed、同 checkpoint 与量化指标。保留当前双 agent / 双 token 解码结构作为 baseline，Haoyu 在此基础上对比 independent noise、common/shared noise 与 overlap-only shared noise；噪声改动和结构改动分开做单变量消融，并同时检查 action-video 联合分布、共视区一致性与非共视区质量。当前先用全量约 900 小时数据的既定 split 做离线/合成验证，后续再补真机验证。会议转写中的 Devon / true-flow 等名称暂按待核对记录，不覆盖正式模型字段。",
+          "created_at": "2026-07-20T14:00:52.150Z"
         }
       ],
-      "updated_at": "2026-07-13T14:36:05.583Z",
+      "updated_at": "2026-07-20T14:00:52.150Z",
       "due_at": "2026-07-20"
     },
     {
@@ -13065,6 +13101,30 @@
       "updated_at": "2026-07-19T01:56:26.790Z",
       "due_at": "",
       "completed_at": null
+    },
+    {
+      "task_id": "task_umi_aliyun_dataset_access_lai_5090_20260720",
+      "project_id": "umi-world-model",
+      "title": "为 Lai 开通阿里云数据集读取权限并完成 5090 拉取 smoke",
+      "description": "[MEETING 2026-07-20] Boris 配置 Lai 的阿里云数据集最小必要只读权限；Lai 验证可列出目标数据并先向 5090 服务器拉取一个小样本，再完成所需数据同步。验收：记录正式数据集名称与范围、目标目录、文件数/大小/校验结果、5090 存储余量和传输失败重试；Dashboard、评论和仓库中不得记录账号、Token、签名 URL 或其他凭据。权限开通并完成读取 smoke 后从 needs_user 转 active。",
+      "status": "needs_user",
+      "priority": "high",
+      "assignee": "Boris / Lai",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-07-20T14:04:15.608Z"
+    },
+    {
+      "task_id": "task_umi_stage_groups_weekly_sync_onboarding_20260720",
+      "project_id": "umi-world-model",
+      "title": "建立 UMI Stage 分组同步、周一代表汇报与新人 onboarding",
+      "description": "[MEETING 2026-07-20] 建立分 Stage 的轻量同步机制：1) Boris 创建 Stage 1 专用小群并加入 Jack、罗涛及相关成员，用于模型、实验和数据问题的高频同步；2) Stage 2 与 Stage 3 分别建立内部同步群，每周推选一名代表在周一 20:00 项目会上汇报进展、阻塞和下一步；3) 群内形成的技术决定回写到对应 Dashboard 任务评论；4) 为全体新成员明确实验室参观、onboarding 和首次聚餐安排。验收只记录群组已建立、代表与安排状态，不在 Dashboard 中保存个人联系方式。",
+      "status": "todo",
+      "priority": "medium",
+      "assignee": "Boris / Stage 1-3 leads",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-07-20T14:04:47.617Z"
     }
   ]
 }
