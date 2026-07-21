@@ -4,7 +4,7 @@
   "title": "Procurement Table",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-07-16T07:32:49.420Z",
+  "updated_at": "2026-07-21T10:43:25.017Z",
   "description": "Editable lab procurement and equipment-loan register for cross-project hardware",
   "summary": "Editable register for lab purchases and equipment loans. Quoted packages cover Flexiv Rizon 4s x2, xArm7 x2, optical tables x2, FACTR-Franka x2, one Wuji Hand2 left/right pair with a Wuji motion-capture glove pair, a RealMan RM75-B-V bimanual package at USD 25,500, and a Tianji Marvin-M6-CCS 696 bimanual package at USD 33,300. The bimanual base remains RealMan x2 versus Tianji CCS 696 x2; compare normalized landed cost because the quotes use different Incoterms. An additional open-source dexterous-hand pair is ROBOTIS HX5 versus MIDAS Hand. Three DaiMeng loan bundles are planned for Singapore: a DM-DataMaster teleoperation set, a new-generation UMI DM-DataClaw/DM-DataPacket set, and a DM-DateDex glove pair. Quote PDFs and loan documents stay private and are referenced only by safe inventory details. Rows are sorted by status first and then by last update; received items remain behind the bottom archive toggle.",
   "intro_table": {
@@ -45,12 +45,78 @@
     ],
     "rows": [
       {
-        "row_id": "loan_daimeng_datamaster_teleop_set_20260805",
-        "updated_at": "2026-07-16T05:15:26Z",
-        "item": "Planned DaiMeng loan: DM-DataMaster Hand + DM-DataMaster Station / 戴盟遥操作设备借测套装",
+        "row_id": "proc_factr_low_cost_force_feedback_teleoperation_hardware",
+        "updated_at": "2026-07-21T10:43:25.017Z",
+        "item": "2x FACTR-Franka low-cost force-feedback teleoperation hardware / FACTR-Franka ×2",
         "status": "",
-        "route": "DaiMeng loan · confirm handover scope before possible Singapore hand-carry on 2026-08-05",
-        "notes": "Purpose: reproduce the teleoperation and test platform in Singapore. Requested inventory: DM25TO02H000 DM-DataMaster Hand x1 and DM25TO02S000 DM-DataMaster Station (stand version) x1. Before the handover is marked confirmed, freeze the complete packing list: gloves, station/stand, controllers, power supplies, chargers, cables, mounting hardware, calibration files, firmware/SDK and operating instructions. Record asset or serial numbers, working-condition evidence, lender/borrower owners, customs or temporary-loan paperwork, transport restrictions, handover date and return date; do not store signatures or private documents in the dashboard."
+        "route": "KING quote 2026050801 + Taobao candidate · expired, refresh required · hillside KR4 destination",
+        "notes": "Quoted in Quotation xarm7+tables+ Factr v2.pdf: FACTR-Franka x2 at USD 1,765 each, USD 3,530 total, with a stated 1-2 week lead. The combined xArm7 + FACTR + table DDP quotation totals USD 32,461.80 including listed shipping, GST and payment-on-account line, but expired on 2026-06-23 and must be refreshed. Keep the Taobao candidate as the purchase link; confirm the exact Franka configuration, gravity compensation, brake/damping and force-feedback behavior, compatibility with the master-arm setup, safety limits, delivery route and reimbursement owner before approval. Taobao share code: CZ001.\n\n【2026-07-21 群聊与报价复核】\nFACTR-Franka x2 remains quoted at USD 1,765 each / USD 3,530 total with 1-2 week lead inside expired KING quotation 2026050801. Shared shipping/tax/payment-on-account lines must not be double-counted across xArm, FACTR and tables. Confirm exact Franka interface and the hillside/KR4 deployment configuration; ME has no remaining space. Not ordered.\n【/2026-07-21 群聊与报价复核】",
+        "url": "https://e.tb.cn/h.RzgrhiKsCTcn9Sx?tk=b89rgMWe8dN"
+      },
+      {
+        "row_id": "proc_custom_robot_mounting_tables_romoya_20260713",
+        "updated_at": "2026-07-21T10:43:25.017Z",
+        "item": "2x optical tables, 1600 x 1000 x 750 mm — alternative quotes, buy one pair only / 光学桌 ×2（两家替代报价）",
+        "status": "",
+        "route": "Dongyi DY-NUS-20260718 current primary quote · KING 2026050801 expired backup",
+        "notes": "Quoted, not ordered; this is one requirement for two tables, not four tables. Option A / historical backup: KING quotation 2026050801, written 8/5/2026 and expired 2026-06-23, generic optical platform tables x2 at USD 2,815 each / USD 5,630 total, 4-6 week lead, inside the xArm7 + FACTR DDP package; unloading/installation and detailed damping specifications are not stated. Option B / current primary: Hunan Dongyi DY-NUS-20260718 dated 2026-07-18, valid 30 days (about 2026-08-17), damped tables x2 at SGD 4,300 each / SGD 8,600 total with detailed 1600 x 1000 x 750 mm, 200 mm top, flatness, roughness, 4-8 Hz, <=5 um amplitude, M6 25 x 25 mm grid, stainless top and caster-frame specifications. Dongyi's SGD 5,000 destination handling/delivery/unloading/installation line is shared with two soundproof booths and must not be charged wholly to the tables; NUS also pays import GST and customs/permit fees. LV-Robotics Lab chat places the two tables on the hillside lab first floor, says ME has no space, and leaves company-vs-SoC purchasing/renovation routing for Thursday confirmation. Compare landed cost, site access, installation and technical acceptance on one normalized basis before choosing one supplier."
+      },
+      {
+        "row_id": "proc_2x_xarm_robot_arms_romoya_20260713",
+        "updated_at": "2026-07-21T10:43:25.017Z",
+        "item": "2x xArm7 robot arms / xArm7 机械臂 ×2",
+        "status": "",
+        "route": "KING Technology quote 2026050801 · expired, refresh required · hillside KR4 destination",
+        "notes": "Quote received: Quotation xarm7+tables+ Factr v2.pdf, dated 2026-05-08 with validity through 2026-06-23, so a refreshed quotation is required. Scope: xArm7 x2 at USD 8,950 each, USD 17,900 total; stated lead time 4-6 weeks and one-year warranty. The combined DDP package also contains FACTR-Franka x2 and two optical tables. Keep unpurchased until the refreshed quote confirms controllers, software licenses, end-effector interfaces, safety accessories, table bolt patterns and the final purchasing entity.\n\n【2026-07-21 群聊与报价复核】\nKING quotation 2026050801 is written as 8/5/2026 and expired 2026-06-23. xArm7 x2 remains USD 8,950 each / USD 17,900 total with 4-6 week lead; combined package total is USD 32,461.80 including the listed USD 2,645 shared shipping, USD 2,435.40 GST and unexplained USD 321.40 '1% payment on account' line. Refresh before PO and reconcile DDP with the quotation also naming NUS as importer. LV-Robotics Lab chat says the intended destination is the hillside/KR4 lab because ME has no remaining space; procurement owner/company-vs-SoC route and move schedule remain unresolved for Thursday discussion. Not ordered.\n【/2026-07-21 群聊与报价复核】"
+      },
+      {
+        "row_id": "proc_kr4_yadea_foldable_e_bike_candidate_20260721",
+        "updated_at": "2026-07-21T10:43:25.017Z",
+        "item": "YADEA 20-inch folding e-bike — user preferred, compliance-blocked / 雅迪折叠电助力车（用户首选、合规阻塞）",
+        "status": "",
+        "route": "User chose foldable e-bike over scooter · do not order exact model pending LTA/NUS clearance",
+        "url": "https://www.lazada.sg/products/electric-folding-commuter-bike-20-inch-i13738552291-s124681339678.html",
+        "notes": "Not ordered. User decision 2026-07-21: do not buy a scooter; use a foldable electric-assist form factor, with this YADEA listing as the preferred reference. The group asked for opinions because KR4 is uphill and more than ten minutes from the nearest shuttle stop, and indoor folding/storage/charging is desired; no team feedback was present in the supplied excerpt. The listing is high-confidence matched to YADEA Innovator and was observed at about SGD 896.01 with 350 W mid-drive, 36 V 12 Ah battery and listed 60 km range. Published 350 W / about 23.8 kg exceeds Singapore PAB 250 W continuous-power / 20 kg unladen-weight limits, and the model was not found in the current LTA approved list. Keep as a requirements/comparison reference; shortlist a similar LTA-approved foldable model and confirm NUS route, parking, indoor charging/fire policy and written private-property exception if the exact item is still proposed."
+      },
+      {
+        "row_id": "proc_2x_soundproof_phone_booths_dongyi_quote_20260718",
+        "updated_at": "2026-07-21T09:52:09.165Z",
+        "item": "2x single-person soundproof booths / 单人隔音 phone booth ×2",
+        "status": "",
+        "route": "Hunan Dongyi quote DY-NUS-20260718 · DPU NUS · PO pending",
+        "notes": "Quoted, not ordered. SGD 10,700 each / SGD 21,400 for two booths. Approx. 1000 x 1100 x 2400 mm; aluminium enclosure, 10 mm tempered glass, low-noise ventilation, desk/touchscreen control and 6000 K LED; Singapore socket TBD. The quotation's SGD 35,000 total also includes two damped optical tables plus one shared SGD 5,000 delivery/unloading/installation line, and excludes import GST and customs/permit fees. Lead time approximately 40-45 days after written order, agreed payment and final technical approval; 12-month warranty from installation acceptance. Confirm final placement, fire-alarm/smoke-detector integration, power/network, access route and NUS facilities approval before PO."
+      },
+      {
+        "row_id": "proc_robot_data_collection_softbox_lighting_pair_20260721",
+        "updated_at": "2026-07-21T09:52:09.165Z",
+        "item": "Large softbox continuous-light kits with stands x2 / 大型柔光箱连续补光灯架套装 ×2",
+        "status": "",
+        "route": "User reference photo · supplier/model/price pending",
+        "notes": "Not ordered. Intended for controlled robot data collection, consistent vision-model illumination and demo video capture. Select flicker-free dimmable LED/COB continuous lights with high CRI, adjustable or specified color temperature, deep/parabolic softboxes, stable tall stands and sandbag/weight provisions. Before checkout confirm output/power, CRI/TLCI, CCT range, flicker at intended camera frame rates, softbox size, stand footprint/height, Singapore 230 V plug, heat/noise, cable trip protection, included quantity, price, shipping and warranty."
+      },
+      {
+        "row_id": "proc_tianji_ccs_696_bimanual_pair_20260716",
+        "updated_at": "2026-07-16T07:30:52Z",
+        "item": "Bimanual platform option B: 2x Tianji Marvin-M6-CCS 696 arms / 双臂候选 B：天机 CCS 696 ×2",
+        "status": "",
+        "route": "Tianji quote dated 2026-07-16 · DAP USD 33,300 · valid for 30 days · choose against RealMan",
+        "notes": "Quote received: TianJi Quotation -NUS 2026.7.16(2).pdf. Mutually exclusive bimanual-base option B; purchase either this Tianji pair or the RealMan pair, not both. Scope: 2x Marvin-M6-CCS 696 7-DoF force-controlled humanoid robot arms, discounted from USD 16,999 to USD 14,000 per arm (USD 28,000 total); one power module at USD 500; one robot support frame at USD 400; one robot pedestal at USD 600; and a USD 3,800 shipping-fee line, for a quoted total of USD 33,300. Standard-arm remarks list a robot-arm control module, Tianji Robot Control Software V1.0, optional built-in USB cable, CCS wrist configuration, Tianji white color and two-week delivery lead time. Terms: DAP to Singapore, including customs clearance, international transportation, import duties and applicable import taxes but excluding local miscellaneous handling after delivery; 100% advance T/T before shipment; 30-day quotation validity from 2026-07-16. The quote does not state a warranty. Prior comparison information identifies CCS 696 as 6 kg payload and 695 mm reach versus M6 Lite at 5 kg and 615 mm, but this quote does not restate payload or reach; require the signed datasheet, warranty, controller/SDK access, synchronization and force-control interfaces, USB-cable inclusion, safety/E-stop scope, local support and final landed-cost exclusions before approval. Compare against RealMan only after normalizing CFR versus DAP scope."
+      },
+      {
+        "row_id": "proc_realman_bimanual_arm_pair",
+        "updated_at": "2026-07-16T06:58:44Z",
+        "item": "Bimanual platform option A: 2x RealMan arms / 双臂候选 A：睿尔曼 ×2",
+        "status": "",
+        "route": "RealMan quote 20260716001 · dated 2026-07-16 · valid for 1 week · choose against Tianji CCS 696",
+        "notes": "Quote received: RM Quotation For新加坡国际大学_260716.xls. Mutually exclusive bimanual-base option A; purchase either this RealMan pair or the Tianji CCS 696 pair, not both. Scope: 2x RM75-B-V 7-DoF visual-version arms, 5 kg payload each, discounted from USD 15,900 to USD 12,000 per arm (USD 24,000 total); one dual-arm mounting bracket at USD 700; shipping at USD 800; quoted package total USD 25,500. Terms: full payment by wire transfer once the order is confirmed, CFR Incoterm, 15 working days lead time after payment receipt, 12-month warranty from shipment, and one-week quotation validity from 2026-07-16. Before selection, compare against Tianji CCS 696 on reach, controller/SDK openness, force-control and synchronization support, bracket footprint, collision and E-stop setup, landed import cost, local support and acceptance owner."
+      },
+      {
+        "row_id": "loan_daimeng_gripper_singapore_archive",
+        "updated_at": "2026-07-16T05:54:52Z",
+        "item": "DaiMeng gripper / 戴盟夹爪",
+        "status": "Arrived",
+        "route": "DaiMeng loan · already in Singapore",
+        "notes": "Archive-only availability record. The DaiMeng gripper has already been borrowed and is in Singapore; do not include it in active procurement or the planned 2026-08-05 loan request. Keep exact asset or serial number, condition, lender/borrower owners and return terms in the private loan ledger rather than this dashboard."
       },
       {
         "row_id": "loan_daimeng_dataclaw_datapacket_umi_set_20260805",
@@ -69,76 +135,12 @@
         "notes": "Purpose: collect dexterous-hand tactile data in Singapore. Requested inventory: DM26DA04H000 DM-DateDex x2, treated as one glove pair. Confirm left/right configuration, glove sizes, tactile and pose channels, raw-data access, sampling and synchronization interfaces, controller/receiver, batteries and chargers, cables, software, calibration files and one acquisition smoke test. Record asset or serial numbers, working-condition evidence, customs or temporary-loan paperwork, transport restrictions, responsible owners, handover date and return terms."
       },
       {
-        "row_id": "proc_eflesh_base_tpu95_n52_structure_20260715",
-        "updated_at": "2026-07-15T00:58:00+08:00",
-        "item": "eFlesh base + TPU95 structural part with N52 magnetic hardware / eFlesh底座+TPU95结构件",
+        "row_id": "loan_daimeng_datamaster_teleop_set_20260805",
+        "updated_at": "2026-07-16T05:15:26Z",
+        "item": "Planned DaiMeng loan: DM-DataMaster Hand + DM-DataMaster Station / 戴盟遥操作设备借测套装",
         "status": "",
-        "route": "Taobao cart · screenshots 2026-07-15 · checkout pending",
-        "notes": "Still in cart; not ordered. Quantity 1, displayed price RMB 150. The screenshot truncates the SKU after the N52 magnet reference; confirm the exact magnet count/specification, printed-part geometry, mounting pattern and whether it fits the selected eFlesh-mini and existing board before checkout."
-      },
-      {
-        "row_id": "proc_eflesh_mini_silicone_test_kit_20260715",
-        "updated_at": "2026-07-15T00:58:00+08:00",
-        "item": "eFlesh-mini + silicone test kit / eFlesh-mini硅胶测试套件",
-        "status": "",
-        "route": "Taobao cart · screenshots 2026-07-15 · checkout pending",
-        "notes": "Still in cart; not ordered. Quantity 1, displayed price RMB 300. Confirm sensor dimensions, magnet arrangement, silicone formulation/thickness, controller requirement, calibration files, raw acquisition protocol and compatibility with the already ordered eFlesh electronics."
-      },
-      {
-        "row_id": "proc_eflesh_qt_py_samd21_controller_20260715",
-        "updated_at": "2026-07-15T00:58:00+08:00",
-        "item": "Adafruit QT Py SAMD21 controller for AnySkin/eFlesh/Reskin / 触觉皮主控板",
-        "status": "",
-        "route": "Taobao cart · screenshots 2026-07-15 · checkout pending",
-        "notes": "Still in cart; not ordered. Quantity 1, displayed price RMB 80; cart SKU identifies an Adafruit QT Py SAMD21-class controller. Confirm exact board revision, connector/pinout, firmware flashing state and compatibility with the already ordered eFlesh magnetic-sensing board + programmed MCU bundle before checkout to avoid an unnecessary duplicate."
-      },
-      {
-        "row_id": "proc_grove_gsr_arduino_oled_display_kit_20260715",
-        "updated_at": "2026-07-15T00:58:00+08:00",
-        "item": "Grove GSR Arduino OLED direct-display kit / Grove GSR皮肤电Arduino OLED显示套件",
-        "status": "",
-        "route": "Taobao cart · screenshots 2026-07-15 · checkout pending",
-        "notes": "Still in cart; not ordered. Quantity 1, displayed post-subsidy price RMB 237. Confirm exact Grove GSR board revision, Arduino/OLED contents, raw ADC access, firmware/source examples, electrode consumables and whether this is needed as a reference implementation alongside the lower-cost Sichiray GSR V2."
-      },
-      {
-        "row_id": "proc_sichiray_6_channel_mox_electronic_nose_20260715",
-        "updated_at": "2026-07-15T00:58:00+08:00",
-        "item": "Sichiray 6-channel MOX electronic-nose odor fingerprint sensor + analysis software / 6路MOX电子鼻气味指纹传感器",
-        "status": "",
-        "route": "Taobao cart · screenshots 2026-07-15 · checkout pending",
-        "notes": "Still in cart; not ordered. Quantity 1, displayed price RMB 1299; screenshot SKU says electronic nose + analysis software. Confirm the six MOX element types, calibration/warm-up procedure, raw channel export, software license/OS support, serial protocol, replacement sensors, safe test substances and whether cross-border shipping imposes restrictions."
-      },
-      {
-        "row_id": "proc_sichiray_gsr_v2_battery_kit_20260715",
-        "updated_at": "2026-07-15T00:58:00+08:00",
-        "item": "Sichiray GSR skin-conductance sensor V2 battery kit / Sichiray GSR皮肤电传感器V2电池套件",
-        "status": "",
-        "route": "Taobao cart · screenshots 2026-07-15 · checkout pending",
-        "notes": "Still in cart; not ordered. Quantity 1, displayed post-subsidy price RMB 68. Confirm included electrodes/straps/battery, raw conductance or resistance output, sampling rate, interface voltage, isolation and whether reusable electrodes or consumables are required."
-      },
-      {
-        "row_id": "proc_sichiray_hand_pose_capture_exoskeleton_right_ble_20260715",
-        "updated_at": "2026-07-15T00:58:00+08:00",
-        "item": "Sichiray 3rd-gen hand-pose capture exoskeleton glove + BLE adapter, right hand / 手部姿态捕捉外骨骼手套（右手标准版）",
-        "status": "",
-        "route": "Taobao cart · screenshots 2026-07-15 · checkout pending",
-        "notes": "Still in cart; not ordered. Quantity 1, displayed price RMB 2229. Selected SKU is glove + BLE adapter, right hand, standard configuration. Confirm tracked DOFs/joints, calibration drift, sampling rate/latency, raw pose protocol, SDK/source availability, battery/runtime, hand-size range, whether one glove is sufficient and compatibility with the Human-Centric data stack."
-      },
-      {
-        "row_id": "proc_tgam_eeg_2_0_arduino_uno_development_kit_20260715",
-        "updated_at": "2026-07-15T00:58:00+08:00",
-        "item": "TGAM EEG 2.0 Arduino UNO development kit / TGAM脑电波2.0 Arduino UNO开发套件",
-        "status": "",
-        "route": "Taobao cart · screenshots 2026-07-15 · checkout pending",
-        "notes": "Still in cart; not ordered. Quantity 1, displayed post-subsidy price RMB 586. Before checkout confirm the exact TGAM board/revision, dry-electrode/headband contents, Arduino UNO compatibility, raw EEG data access, SDK/protocol documentation, sampling rate, power isolation and replacement consumables."
-      },
-      {
-        "row_id": "proc_tgam_eeg_vr_development_module_20260715",
-        "updated_at": "2026-07-15T00:58:00+08:00",
-        "item": "TGAM EEG VR development module, VR device excluded / TGAM脑电波VR开发模组（不含VR设备）",
-        "status": "",
-        "route": "Taobao cart · screenshots 2026-07-15 · checkout pending",
-        "notes": "Still in cart; not ordered. Quantity 1, displayed post-subsidy price RMB 930. Confirm the supported VR headset/interface, whether the package includes only the EEG module and mount, raw-data/API access, latency, SDK source/examples, mechanical fit and whether this duplicates the TGAM Arduino kit."
+        "route": "DaiMeng loan · confirm handover scope before possible Singapore hand-carry on 2026-08-05",
+        "notes": "Purpose: reproduce the teleoperation and test platform in Singapore. Requested inventory: DM25TO02H000 DM-DataMaster Hand x1 and DM25TO02S000 DM-DataMaster Station (stand version) x1. Before the handover is marked confirmed, freeze the complete packing list: gloves, station/stand, controllers, power supplies, chargers, cables, mounting hardware, calibration files, firmware/SDK and operating instructions. Record asset or serial numbers, working-condition evidence, lender/borrower owners, customs or temporary-loan paperwork, transport restrictions, handover date and return date; do not store signatures or private documents in the dashboard."
       },
       {
         "row_id": "proc_2x_flexiv_robot_arms_romoya_20260713",
@@ -147,38 +149,6 @@
         "status": "",
         "route": "TechVantage quote TV120626NUS · refresh required",
         "notes": "Quote received: NUS Quote TV120626NUS(2).pdf, dated 2026-06-12 and valid for one month, so a refreshed quotation is now required. Scope: 2x Rizon 4s arms with control boxes, teach pendants and base brackets, plus RDK x2 and TDK x2. Quoted total USD 92,000 excluding VAT; CIF to destination port with NUS handling customs; stated lead time 60 days, 100% payment before production and one-year warranty. Keep unpurchased pending refreshed validity, landed-cost confirmation and comparison against xArm and the selected bimanual platform."
-      },
-      {
-        "row_id": "proc_2x_xarm_robot_arms_romoya_20260713",
-        "updated_at": "2026-07-16T04:22:43Z",
-        "item": "2x xArm7 robot arms / xArm7 机械臂 ×2",
-        "status": "",
-        "route": "KING Technology quote 2026050801 · refresh required",
-        "notes": "Quote received: Quotation xarm7+tables+ Factr v2(2).pdf, dated 2026-05-08 with validity through 2026-06-23, so a refreshed quotation is required. Scope: xArm7 x2 at USD 8,950 each, USD 17,900 total; stated lead time 4-6 weeks and one-year warranty. The combined DDP package also contains FACTR-Franka x2 and two optical tables. Keep unpurchased until the refreshed quote confirms controllers, software licenses, end-effector interfaces, safety accessories, table bolt patterns and the final purchasing entity."
-      },
-      {
-        "row_id": "proc_realman_bimanual_arm_pair",
-        "updated_at": "2026-07-16T06:58:44Z",
-        "item": "Bimanual platform option A: 2x RealMan arms / 双臂候选 A：睿尔曼 ×2",
-        "status": "",
-        "route": "RealMan quote 20260716001 · dated 2026-07-16 · valid for 1 week · choose against Tianji CCS 696",
-        "notes": "Quote received: RM Quotation For新加坡国际大学_260716.xls. Mutually exclusive bimanual-base option A; purchase either this RealMan pair or the Tianji CCS 696 pair, not both. Scope: 2x RM75-B-V 7-DoF visual-version arms, 5 kg payload each, discounted from USD 15,900 to USD 12,000 per arm (USD 24,000 total); one dual-arm mounting bracket at USD 700; shipping at USD 800; quoted package total USD 25,500. Terms: full payment by wire transfer once the order is confirmed, CFR Incoterm, 15 working days lead time after payment receipt, 12-month warranty from shipment, and one-week quotation validity from 2026-07-16. Before selection, compare against Tianji CCS 696 on reach, controller/SDK openness, force-control and synchronization support, bracket footprint, collision and E-stop setup, landed import cost, local support and acceptance owner."
-      },
-      {
-        "row_id": "proc_tianji_ccs_696_bimanual_pair_20260716",
-        "updated_at": "2026-07-16T07:30:52Z",
-        "item": "Bimanual platform option B: 2x Tianji Marvin-M6-CCS 696 arms / 双臂候选 B：天机 CCS 696 ×2",
-        "status": "",
-        "route": "Tianji quote dated 2026-07-16 · DAP USD 33,300 · valid for 30 days · choose against RealMan",
-        "notes": "Quote received: TianJi Quotation -NUS 2026.7.16(2).pdf. Mutually exclusive bimanual-base option B; purchase either this Tianji pair or the RealMan pair, not both. Scope: 2x Marvin-M6-CCS 696 7-DoF force-controlled humanoid robot arms, discounted from USD 16,999 to USD 14,000 per arm (USD 28,000 total); one power module at USD 500; one robot support frame at USD 400; one robot pedestal at USD 600; and a USD 3,800 shipping-fee line, for a quoted total of USD 33,300. Standard-arm remarks list a robot-arm control module, Tianji Robot Control Software V1.0, optional built-in USB cable, CCS wrist configuration, Tianji white color and two-week delivery lead time. Terms: DAP to Singapore, including customs clearance, international transportation, import duties and applicable import taxes but excluding local miscellaneous handling after delivery; 100% advance T/T before shipment; 30-day quotation validity from 2026-07-16. The quote does not state a warranty. Prior comparison information identifies CCS 696 as 6 kg payload and 695 mm reach versus M6 Lite at 5 kg and 615 mm, but this quote does not restate payload or reach; require the signed datasheet, warranty, controller/SDK access, synchronization and force-control interfaces, USB-cable inclusion, safety/E-stop scope, local support and final landed-cost exclusions before approval. Compare against RealMan only after normalizing CFR versus DAP scope."
-      },
-      {
-        "row_id": "proc_wuji_gen2_dexterous_hand_pair_romoya_20260713",
-        "updated_at": "2026-07-16T04:22:43Z",
-        "item": "Wuji Hand2 left/right pair + Wuji motion-capture glove pair / 舞肌二代灵巧手一对 + 数据手套一对",
-        "status": "",
-        "route": "Wuji quote WJ202607150864/WJ202607150865 · approval pending",
-        "notes": "Quote received: Quotation_for_NUS_260715(1).pdf, dated 2026-07-15. Scope: Wuji Hand2_R x1 at USD 13,000, Wuji Hand2_L x1 at USD 13,000, and one Wuji Glove Motion Capture Version pair at USD 4,000; total USD 30,000. Terms state DAP with buyer self-clearance for customs, TT payment in full, 6-8 week shipment time and a seven-day inspection period after receipt. This remains an intended purchase; confirm controller and power package, raw glove/hand interfaces, tactile configuration, arm adapters, customs handling, warranty details and acceptance owner before approval."
       },
       {
         "row_id": "proc_robotis_hx5_d20_mrt_pair_candidate_20260716",
@@ -199,21 +169,84 @@
         "url": "https://e.tb.cn/h.8bhEYbmlkw7sC1f?tk=cyjhgrI3Q1W"
       },
       {
-        "row_id": "proc_custom_robot_mounting_tables_romoya_20260713",
+        "row_id": "proc_wuji_gen2_dexterous_hand_pair_romoya_20260713",
         "updated_at": "2026-07-16T04:22:43Z",
-        "item": "2x optical platform tables, 1600 x 1000 x 750 mm / 光学平台工作台 ×2",
+        "item": "Wuji Hand2 left/right pair + Wuji motion-capture glove pair / 舞肌二代灵巧手一对 + 数据手套一对",
         "status": "",
-        "route": "KING Technology quote 2026050801 · refresh required",
-        "notes": "Quoted in Quotation xarm7+tables+ Factr v2(2).pdf: two 1600 x 1000 x 750 mm optical platform tables at USD 2,815 each, USD 5,630 total, with a stated 4-6 week lead. The quotation expired on 2026-06-23. Refresh the quote after freezing arm allocation and room layout, then confirm payload and stiffness, leveling or casters, xArm/Flexiv/selected-bimanual-arm bolt patterns, cable routing, E-stop and camera mounting, transport constraints and acceptance tests."
+        "route": "Wuji quote WJ202607150864/WJ202607150865 · approval pending",
+        "notes": "Quote received: Quotation_for_NUS_260715(1).pdf, dated 2026-07-15. Scope: Wuji Hand2_R x1 at USD 13,000, Wuji Hand2_L x1 at USD 13,000, and one Wuji Glove Motion Capture Version pair at USD 4,000; total USD 30,000. Terms state DAP with buyer self-clearance for customs, TT payment in full, 6-8 week shipment time and a seven-day inspection period after receipt. This remains an intended purchase; confirm controller and power package, raw glove/hand interfaces, tactile configuration, arm adapters, customs handling, warranty details and acceptance owner before approval."
       },
       {
-        "row_id": "proc_factr_low_cost_force_feedback_teleoperation_hardware",
-        "updated_at": "2026-07-16T04:22:43Z",
-        "item": "2x FACTR-Franka low-cost force-feedback teleoperation hardware / FACTR-Franka ×2",
+        "row_id": "proc_eflesh_qt_py_samd21_controller_20260715",
+        "updated_at": "2026-07-15T00:58:00+08:00",
+        "item": "Adafruit QT Py SAMD21 controller for AnySkin/eFlesh/Reskin / 触觉皮主控板",
         "status": "",
-        "route": "KING quote 2026050801 + Taobao candidate · refresh required",
-        "notes": "Quoted in Quotation xarm7+tables+ Factr v2(2).pdf: FACTR-Franka x2 at USD 1,765 each, USD 3,530 total, with a stated 1-2 week lead. The combined xArm7 + FACTR + table DDP quotation totals USD 32,461.80 including listed shipping, GST and payment-on-account line, but expired on 2026-06-23 and must be refreshed. Keep the Taobao candidate as the purchase link; confirm the exact Franka configuration, gravity compensation, brake/damping and force-feedback behavior, compatibility with the master-arm setup, safety limits, delivery route and reimbursement owner before approval. Taobao share code: CZ001.",
-        "url": "https://e.tb.cn/h.RzgrhiKsCTcn9Sx?tk=b89rgMWe8dN"
+        "route": "Taobao cart · screenshots 2026-07-15 · checkout pending",
+        "notes": "Still in cart; not ordered. Quantity 1, displayed price RMB 80; cart SKU identifies an Adafruit QT Py SAMD21-class controller. Confirm exact board revision, connector/pinout, firmware flashing state and compatibility with the already ordered eFlesh magnetic-sensing board + programmed MCU bundle before checkout to avoid an unnecessary duplicate."
+      },
+      {
+        "row_id": "proc_eflesh_base_tpu95_n52_structure_20260715",
+        "updated_at": "2026-07-15T00:58:00+08:00",
+        "item": "eFlesh base + TPU95 structural part with N52 magnetic hardware / eFlesh底座+TPU95结构件",
+        "status": "",
+        "route": "Taobao cart · screenshots 2026-07-15 · checkout pending",
+        "notes": "Still in cart; not ordered. Quantity 1, displayed price RMB 150. The screenshot truncates the SKU after the N52 magnet reference; confirm the exact magnet count/specification, printed-part geometry, mounting pattern and whether it fits the selected eFlesh-mini and existing board before checkout."
+      },
+      {
+        "row_id": "proc_eflesh_mini_silicone_test_kit_20260715",
+        "updated_at": "2026-07-15T00:58:00+08:00",
+        "item": "eFlesh-mini + silicone test kit / eFlesh-mini硅胶测试套件",
+        "status": "",
+        "route": "Taobao cart · screenshots 2026-07-15 · checkout pending",
+        "notes": "Still in cart; not ordered. Quantity 1, displayed price RMB 300. Confirm sensor dimensions, magnet arrangement, silicone formulation/thickness, controller requirement, calibration files, raw acquisition protocol and compatibility with the already ordered eFlesh electronics."
+      },
+      {
+        "row_id": "proc_grove_gsr_arduino_oled_display_kit_20260715",
+        "updated_at": "2026-07-15T00:58:00+08:00",
+        "item": "Grove GSR Arduino OLED direct-display kit / Grove GSR皮肤电Arduino OLED显示套件",
+        "status": "",
+        "route": "Taobao cart · screenshots 2026-07-15 · checkout pending",
+        "notes": "Still in cart; not ordered. Quantity 1, displayed post-subsidy price RMB 237. Confirm exact Grove GSR board revision, Arduino/OLED contents, raw ADC access, firmware/source examples, electrode consumables and whether this is needed as a reference implementation alongside the lower-cost Sichiray GSR V2."
+      },
+      {
+        "row_id": "proc_sichiray_hand_pose_capture_exoskeleton_right_ble_20260715",
+        "updated_at": "2026-07-15T00:58:00+08:00",
+        "item": "Sichiray 3rd-gen hand-pose capture exoskeleton glove + BLE adapter, right hand / 手部姿态捕捉外骨骼手套（右手标准版）",
+        "status": "",
+        "route": "Taobao cart · screenshots 2026-07-15 · checkout pending",
+        "notes": "Still in cart; not ordered. Quantity 1, displayed price RMB 2229. Selected SKU is glove + BLE adapter, right hand, standard configuration. Confirm tracked DOFs/joints, calibration drift, sampling rate/latency, raw pose protocol, SDK/source availability, battery/runtime, hand-size range, whether one glove is sufficient and compatibility with the Human-Centric data stack."
+      },
+      {
+        "row_id": "proc_sichiray_6_channel_mox_electronic_nose_20260715",
+        "updated_at": "2026-07-15T00:58:00+08:00",
+        "item": "Sichiray 6-channel MOX electronic-nose odor fingerprint sensor + analysis software / 6路MOX电子鼻气味指纹传感器",
+        "status": "",
+        "route": "Taobao cart · screenshots 2026-07-15 · checkout pending",
+        "notes": "Still in cart; not ordered. Quantity 1, displayed price RMB 1299; screenshot SKU says electronic nose + analysis software. Confirm the six MOX element types, calibration/warm-up procedure, raw channel export, software license/OS support, serial protocol, replacement sensors, safe test substances and whether cross-border shipping imposes restrictions."
+      },
+      {
+        "row_id": "proc_sichiray_gsr_v2_battery_kit_20260715",
+        "updated_at": "2026-07-15T00:58:00+08:00",
+        "item": "Sichiray GSR skin-conductance sensor V2 battery kit / Sichiray GSR皮肤电传感器V2电池套件",
+        "status": "",
+        "route": "Taobao cart · screenshots 2026-07-15 · checkout pending",
+        "notes": "Still in cart; not ordered. Quantity 1, displayed post-subsidy price RMB 68. Confirm included electrodes/straps/battery, raw conductance or resistance output, sampling rate, interface voltage, isolation and whether reusable electrodes or consumables are required."
+      },
+      {
+        "row_id": "proc_tgam_eeg_2_0_arduino_uno_development_kit_20260715",
+        "updated_at": "2026-07-15T00:58:00+08:00",
+        "item": "TGAM EEG 2.0 Arduino UNO development kit / TGAM脑电波2.0 Arduino UNO开发套件",
+        "status": "",
+        "route": "Taobao cart · screenshots 2026-07-15 · checkout pending",
+        "notes": "Still in cart; not ordered. Quantity 1, displayed post-subsidy price RMB 586. Before checkout confirm the exact TGAM board/revision, dry-electrode/headband contents, Arduino UNO compatibility, raw EEG data access, SDK/protocol documentation, sampling rate, power isolation and replacement consumables."
+      },
+      {
+        "row_id": "proc_tgam_eeg_vr_development_module_20260715",
+        "updated_at": "2026-07-15T00:58:00+08:00",
+        "item": "TGAM EEG VR development module, VR device excluded / TGAM脑电波VR开发模组（不含VR设备）",
+        "status": "",
+        "route": "Taobao cart · screenshots 2026-07-15 · checkout pending",
+        "notes": "Still in cart; not ordered. Quantity 1, displayed post-subsidy price RMB 930. Confirm the supported VR headset/interface, whether the package includes only the EEG module and mount, raw-data/API access, latency, SDK source/examples, mechanical fit and whether this duplicates the TGAM Arduino kit."
       },
       {
         "row_id": "proc_7991_ultra_thin_low_head_hex_socket_screws_20260713",
@@ -288,15 +321,6 @@
         "url": "https://item.taobao.com/item.htm?id=725274198302&mi_id=0000FH41B6LWzn24_v-TSvj2nRlAmv_ZuxKFVND3qWCDi9A"
       },
       {
-        "row_id": "proc_songling_nero_usb_to_can_adapter_20260713",
-        "updated_at": "2026-07-14T17:20:10+08:00",
-        "item": "USB-to-CAN adapter for Songling Nero / 松灵 Nero USB转CAN",
-        "status": "Ordered",
-        "route": "Taobao · 松灵机器人 · 订单数据.xlsx",
-        "notes": "Ordered and buyer-paid on 2026-07-14, order 3312175011595341093. Quantity: 1x Songling USB-to-CAN adapter; paid RMB 353.16. This closes the earlier missing-adapter purchase gate for one unit. After arrival verify Linux driver support, CAN bitrate, connector/pinout, termination, isolation, included cable and compatibility with the Nero control stack before deciding whether more adapters are required.",
-        "url": "https://item.taobao.com/item.htm?id=652626400942&mi_id=0000Eygj5ONyC4ZZ7NKN65bqOItxeiqG4egZ2sUmpMZtT1U"
-      },
-      {
         "row_id": "proc_stm32_motion_control_glove_kit_20260714",
         "updated_at": "2026-07-14T17:20:10+08:00",
         "item": "STM32 motion-control glove kit / STM32体感控制仿生手套",
@@ -304,6 +328,15 @@
         "route": "Taobao · 松甲科技机器人商城 · 订单数据.xlsx",
         "notes": "Ordered and buyer-paid on 2026-07-14, order 3312175011595168690, paid RMB 479.34. SKU: motion-control glove with STM32 controller, quantity 1. After arrival verify sensing channels, firmware/source availability, serial protocol, sample rate, calibration, handedness and whether joint estimates can be exported independently of the bundled demo hand.",
         "url": "https://item.taobao.com/item.htm?id=743041502417&mi_id=0000pKYUPSOfXYf4iTnxrXdlWmt0ozdpiz-aB7Rux9jKLpM"
+      },
+      {
+        "row_id": "proc_songling_nero_usb_to_can_adapter_20260713",
+        "updated_at": "2026-07-14T17:20:10+08:00",
+        "item": "USB-to-CAN adapter for Songling Nero / 松灵 Nero USB转CAN",
+        "status": "Ordered",
+        "route": "Taobao · 松灵机器人 · 订单数据.xlsx",
+        "notes": "Ordered and buyer-paid on 2026-07-14, order 3312175011595341093. Quantity: 1x Songling USB-to-CAN adapter; paid RMB 353.16. This closes the earlier missing-adapter purchase gate for one unit. After arrival verify Linux driver support, CAN bitrate, connector/pinout, termination, isolation, included cable and compatibility with the Nero control stack before deciding whether more adapters are required.",
+        "url": "https://item.taobao.com/item.htm?id=652626400942&mi_id=0000Eygj5ONyC4ZZ7NKN65bqOItxeiqG4egZ2sUmpMZtT1U"
       },
       {
         "row_id": "proc_xlerobot_040_household_robot_platform_bundle_20260714",
@@ -387,6 +420,15 @@
         "url": "https://item.taobao.com/item.htm?id=992030409117&mi_id=0000LrWutBbBY_JsuKqhNQfTHk4YN4AKTS4oQ8OC8kE2rF8"
       },
       {
+        "row_id": "proc_6x_2m_ugreen_usb_3_0_extension_cables",
+        "updated_at": "2026-07-08T15:01:17.507Z",
+        "item": "6x 2m UGREEN USB 3.0 extension cables",
+        "status": "Shipped · in transit",
+        "route": "Taobao · ship to NUS/COM2",
+        "notes": "Correction 2026-07-08: not arrived yet. Order has been placed and the cables are still in transit; keep this in the yellow ordered/shipping state until actual receipt. Lab previously bought four; current request was six 2m cables.",
+        "url": "https://e.tb.cn/h.RmR1dsrrhJvWkn9?tk=F3q3g3QaNAh"
+      },
+      {
         "row_id": "proc_electronics_prototyping_batch",
         "updated_at": "2026-07-08T17:28:20+08:00",
         "item": "Electronics prototyping batch / 电子开发与线材批次",
@@ -395,13 +437,12 @@
         "notes": "Excel rows include Dupont jumper wires x2, ESP32 Type-C board with expansion board, Mega2560 Pro Type-C boards x2, 0603 resistor and capacitor sample books, 30AWG five-color wire kits x2, and XGSP80 183C solder paste/flux. Use for lab wiring, embedded prototypes, and repair bench stock; after arrival inventory quantities and keep solder paste/flux labeled."
       },
       {
-        "row_id": "proc_6x_2m_ugreen_usb_3_0_extension_cables",
-        "updated_at": "2026-07-08T15:01:17.507Z",
-        "item": "6x 2m UGREEN USB 3.0 extension cables",
-        "status": "Shipped · in transit",
-        "route": "Taobao · ship to NUS/COM2",
-        "notes": "Correction 2026-07-08: not arrived yet. Order has been placed and the cables are still in transit; keep this in the yellow ordered/shipping state until actual receipt. Lab previously bought four; current request was six 2m cables.",
-        "url": "https://e.tb.cn/h.RmR1dsrrhJvWkn9?tk=F3q3g3QaNAh"
+        "row_id": "proc_a3_carbon_steel_hollow_tube_spacer",
+        "updated_at": "2026-07-07T20:59:00+08:00",
+        "item": "A3 carbon-steel hollow tube spacer / 碳钢铁 A3 空心套管通孔圆柱",
+        "status": "Arrived",
+        "route": "Taobao · 大鼎五金",
+        "notes": "Boris Taobao screenshot at 2026-07-07 20:59 shows this low-cost A3 carbon-steel hollow tube / through-hole round standoff row as 交易成功, visible price RMB 2.4. Screenshot is partially cropped; after receipt verify dimensions, bore, wall thickness, corrosion, and sharp edges before fixture use."
       },
       {
         "row_id": "proc_banfully_gray_cuttable_leather_desk_mat",
@@ -525,15 +566,6 @@
         "url": "https://item.taobao.com/item.htm?id=845984722029&mi_id=0000UizY_WPUP_axgiYA7sIzOzHGK8uEye3g6MPG3yf27R4"
       },
       {
-        "row_id": "proc_lego_moc_blocks_and_baseplates",
-        "updated_at": "2026-07-07T17:45:18+08:00",
-        "item": "Lego/MOC blocks and baseplates / 积木散件与底板",
-        "status": "Ordered · 2026-07-07",
-        "route": "Taobao · Changliu demo procurement",
-        "notes": "Excel order 3311159846118086671 buyer-paid on 2026-07-07: small-particle 40x40cm grey baseplate, 51x38cm green baseplate, and 1000g mixed block pack with baseplate/accessory pack. Verify on arrival whether these satisfy the first-round large-particle requirement or whether a separate large-particle set is still needed.",
-        "url": "https://item.taobao.com/item.htm?id=815763462697&mi_id=00001-7hkO4DH32JHtLLjzOo_qRrRZ8YgWcNKNeD0QDwZXQ"
-      },
-      {
         "row_id": "proc_lego_tool_operation_demo_tool_set",
         "updated_at": "2026-07-07T17:45:18+08:00",
         "item": "Lego tool-operation demo tool set",
@@ -541,6 +573,15 @@
         "route": "Taobao · Changliu demo procurement",
         "notes": "Excel orders 3311589289721004652 and 3311589289721022298 buyer-paid on 2026-07-07: brick hammer + pliers + five-color separators, plus 8mm four-in-one quick removal pliers. After arrival, verify tool size and compatibility with the actual ordered blocks.",
         "url": "https://item.taobao.com/item.htm?id=740119030272&mi_id=0000DdKAWQsHXdrD0Ltc14NIgXYvMg37w7w0T5y9uDZbQgU"
+      },
+      {
+        "row_id": "proc_lego_moc_blocks_and_baseplates",
+        "updated_at": "2026-07-07T17:45:18+08:00",
+        "item": "Lego/MOC blocks and baseplates / 积木散件与底板",
+        "status": "Ordered · 2026-07-07",
+        "route": "Taobao · Changliu demo procurement",
+        "notes": "Excel order 3311159846118086671 buyer-paid on 2026-07-07: small-particle 40x40cm grey baseplate, 51x38cm green baseplate, and 1000g mixed block pack with baseplate/accessory pack. Verify on arrival whether these satisfy the first-round large-particle requirement or whether a separate large-particle set is still needed.",
+        "url": "https://item.taobao.com/item.htm?id=815763462697&mi_id=00001-7hkO4DH32JHtLLjzOo_qRrRZ8YgWcNKNeD0QDwZXQ"
       },
       {
         "row_id": "proc_mini_drill_press",
@@ -661,22 +702,6 @@
         "route": "Zheng Yuhang · Taobao",
         "notes": "User-provided Taobao candidate marked 假一赔四: Unitree SV1-25 small / mini embodied stereo binocular camera, RGB global-shutter USB camera. ClawCross WeChat evidence from Zheng Yuhang private chat: Boris asked Zheng to place the Taobao order on 2026-07-04, and Zheng replied that the camera would be ordered that day. Next verify tracking, arrival, SDK/driver availability, resolution/FPS, stereo calibration support, ROS/ROS2 or Python access, USB bandwidth, mount compatibility, cable length, and whether it fits wrist/head/fixed-view robot data collection.",
         "url": "https://e.tb.cn/h.RDPhRlxsna7j6Kg?tk=9lHzglSbASl"
-      },
-      {
-        "row_id": "loan_daimeng_gripper_singapore_archive",
-        "updated_at": "2026-07-16T05:54:52Z",
-        "item": "DaiMeng gripper / 戴盟夹爪",
-        "status": "Arrived",
-        "route": "DaiMeng loan · already in Singapore",
-        "notes": "Archive-only availability record. The DaiMeng gripper has already been borrowed and is in Singapore; do not include it in active procurement or the planned 2026-08-05 loan request. Keep exact asset or serial number, condition, lender/borrower owners and return terms in the private loan ledger rather than this dashboard."
-      },
-      {
-        "row_id": "proc_a3_carbon_steel_hollow_tube_spacer",
-        "updated_at": "2026-07-07T20:59:00+08:00",
-        "item": "A3 carbon-steel hollow tube spacer / 碳钢铁 A3 空心套管通孔圆柱",
-        "status": "Arrived",
-        "route": "Taobao · 大鼎五金",
-        "notes": "Boris Taobao screenshot at 2026-07-07 20:59 shows this low-cost A3 carbon-steel hollow tube / through-hole round standoff row as 交易成功, visible price RMB 2.4. Screenshot is partially cropped; after receipt verify dimensions, bore, wall thickness, corrosion, and sharp edges before fixture use."
       },
       {
         "row_id": "proc_hig_gesture_recognition_data_glove",

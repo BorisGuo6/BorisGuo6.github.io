@@ -1,7 +1,7 @@
 export default {
   "schema_version": "dashboard-state.v1",
   "source": "bundled-json-generated",
-  "updated_at": "2026-07-20T14:30:46.476Z",
+  "updated_at": "2026-07-21T10:49:09.986Z",
   "portfolio": {
     "schema_version": "portfolio.v1",
     "portfolio_id": "embodied-ai-dashboard",
@@ -2834,7 +2834,7 @@ export default {
       "title": "Real-Robot Lab Infra",
       "bucket": "engineering",
       "status": "ongoing",
-      "updated_at": "2026-07-16T02:37:43.644Z",
+      "updated_at": "2026-07-21T10:43:25.017Z",
       "description": "Engineering stack for teleoperation, data collection, and robot-side validation",
       "summary": "",
       "asset": "dashboard/assets/real-robot-infra-data-collection-architecture-20260622.png",
@@ -2875,7 +2875,9 @@ export default {
         "task_hardware_six_dof_tactile_calibration_platform",
         "task_general_head_mounted_phone_holder_procurement",
         "task_general_pico_body_tracker_procurement",
-        "task_general_back_to_school_mac_replacement_config"
+        "task_general_back_to_school_mac_replacement_config",
+        "task_real_robot_infra_hillside_robot_relocation_procurement_coordination_20260721",
+        "task_real_robot_infra_tailscale_10t_nas_centralized_storage_rollout_20260721"
       ],
       "risks_decisions": [
         "Intro summary moved 2026-07-07: Real-Robot Infra now tracks both the runnable architecture and the asset table: hardware config feeds tactile, camera, robot, and gripper lifecycle modules, then pedal-gated ROS2 publish/domain-isolation records synchronized MP4, pickle, and per-timestamp sensor data. The canonical hardware inventory still tracks location, owner, and readiness state for lab robot/data-collection assets, including the FSR tactile glove + Ray-Ban human-centric collection asset. General-card TODO ownership has been folded into this infra card; the separate Procurement Table now only tracks editable live purchasing rows.",
@@ -3126,7 +3128,7 @@ export default {
       "title": "Procurement Table",
       "bucket": "engineering",
       "status": "ongoing",
-      "updated_at": "2026-07-16T07:32:49.420Z",
+      "updated_at": "2026-07-21T10:43:25.017Z",
       "description": "Editable lab procurement and equipment-loan register for cross-project hardware",
       "summary": "Editable register for lab purchases and equipment loans. Quoted packages cover Flexiv Rizon 4s x2, xArm7 x2, optical tables x2, FACTR-Franka x2, one Wuji Hand2 left/right pair with a Wuji motion-capture glove pair, a RealMan RM75-B-V bimanual package at USD 25,500, and a Tianji Marvin-M6-CCS 696 bimanual package at USD 33,300. The bimanual base remains RealMan x2 versus Tianji CCS 696 x2; compare normalized landed cost because the quotes use different Incoterms. An additional open-source dexterous-hand pair is ROBOTIS HX5 versus MIDAS Hand. Three DaiMeng loan bundles are planned for Singapore: a DM-DataMaster teleoperation set, a new-generation UMI DM-DataClaw/DM-DataPacket set, and a DM-DateDex glove pair. Quote PDFs and loan documents stay private and are referenced only by safe inventory details. Rows are sorted by status first and then by last update; received items remain behind the bottom archive toggle.",
       "intro_table": {
@@ -3167,12 +3169,78 @@ export default {
         ],
         "rows": [
           {
-            "row_id": "loan_daimeng_datamaster_teleop_set_20260805",
-            "updated_at": "2026-07-16T05:15:26Z",
-            "item": "Planned DaiMeng loan: DM-DataMaster Hand + DM-DataMaster Station / 戴盟遥操作设备借测套装",
+            "row_id": "proc_factr_low_cost_force_feedback_teleoperation_hardware",
+            "updated_at": "2026-07-21T10:43:25.017Z",
+            "item": "2x FACTR-Franka low-cost force-feedback teleoperation hardware / FACTR-Franka ×2",
             "status": "",
-            "route": "DaiMeng loan · confirm handover scope before possible Singapore hand-carry on 2026-08-05",
-            "notes": "Purpose: reproduce the teleoperation and test platform in Singapore. Requested inventory: DM25TO02H000 DM-DataMaster Hand x1 and DM25TO02S000 DM-DataMaster Station (stand version) x1. Before the handover is marked confirmed, freeze the complete packing list: gloves, station/stand, controllers, power supplies, chargers, cables, mounting hardware, calibration files, firmware/SDK and operating instructions. Record asset or serial numbers, working-condition evidence, lender/borrower owners, customs or temporary-loan paperwork, transport restrictions, handover date and return date; do not store signatures or private documents in the dashboard."
+            "route": "KING quote 2026050801 + Taobao candidate · expired, refresh required · hillside KR4 destination",
+            "notes": "Quoted in Quotation xarm7+tables+ Factr v2.pdf: FACTR-Franka x2 at USD 1,765 each, USD 3,530 total, with a stated 1-2 week lead. The combined xArm7 + FACTR + table DDP quotation totals USD 32,461.80 including listed shipping, GST and payment-on-account line, but expired on 2026-06-23 and must be refreshed. Keep the Taobao candidate as the purchase link; confirm the exact Franka configuration, gravity compensation, brake/damping and force-feedback behavior, compatibility with the master-arm setup, safety limits, delivery route and reimbursement owner before approval. Taobao share code: CZ001.\n\n【2026-07-21 群聊与报价复核】\nFACTR-Franka x2 remains quoted at USD 1,765 each / USD 3,530 total with 1-2 week lead inside expired KING quotation 2026050801. Shared shipping/tax/payment-on-account lines must not be double-counted across xArm, FACTR and tables. Confirm exact Franka interface and the hillside/KR4 deployment configuration; ME has no remaining space. Not ordered.\n【/2026-07-21 群聊与报价复核】",
+            "url": "https://e.tb.cn/h.RzgrhiKsCTcn9Sx?tk=b89rgMWe8dN"
+          },
+          {
+            "row_id": "proc_custom_robot_mounting_tables_romoya_20260713",
+            "updated_at": "2026-07-21T10:43:25.017Z",
+            "item": "2x optical tables, 1600 x 1000 x 750 mm — alternative quotes, buy one pair only / 光学桌 ×2（两家替代报价）",
+            "status": "",
+            "route": "Dongyi DY-NUS-20260718 current primary quote · KING 2026050801 expired backup",
+            "notes": "Quoted, not ordered; this is one requirement for two tables, not four tables. Option A / historical backup: KING quotation 2026050801, written 8/5/2026 and expired 2026-06-23, generic optical platform tables x2 at USD 2,815 each / USD 5,630 total, 4-6 week lead, inside the xArm7 + FACTR DDP package; unloading/installation and detailed damping specifications are not stated. Option B / current primary: Hunan Dongyi DY-NUS-20260718 dated 2026-07-18, valid 30 days (about 2026-08-17), damped tables x2 at SGD 4,300 each / SGD 8,600 total with detailed 1600 x 1000 x 750 mm, 200 mm top, flatness, roughness, 4-8 Hz, <=5 um amplitude, M6 25 x 25 mm grid, stainless top and caster-frame specifications. Dongyi's SGD 5,000 destination handling/delivery/unloading/installation line is shared with two soundproof booths and must not be charged wholly to the tables; NUS also pays import GST and customs/permit fees. LV-Robotics Lab chat places the two tables on the hillside lab first floor, says ME has no space, and leaves company-vs-SoC purchasing/renovation routing for Thursday confirmation. Compare landed cost, site access, installation and technical acceptance on one normalized basis before choosing one supplier."
+          },
+          {
+            "row_id": "proc_2x_xarm_robot_arms_romoya_20260713",
+            "updated_at": "2026-07-21T10:43:25.017Z",
+            "item": "2x xArm7 robot arms / xArm7 机械臂 ×2",
+            "status": "",
+            "route": "KING Technology quote 2026050801 · expired, refresh required · hillside KR4 destination",
+            "notes": "Quote received: Quotation xarm7+tables+ Factr v2.pdf, dated 2026-05-08 with validity through 2026-06-23, so a refreshed quotation is required. Scope: xArm7 x2 at USD 8,950 each, USD 17,900 total; stated lead time 4-6 weeks and one-year warranty. The combined DDP package also contains FACTR-Franka x2 and two optical tables. Keep unpurchased until the refreshed quote confirms controllers, software licenses, end-effector interfaces, safety accessories, table bolt patterns and the final purchasing entity.\n\n【2026-07-21 群聊与报价复核】\nKING quotation 2026050801 is written as 8/5/2026 and expired 2026-06-23. xArm7 x2 remains USD 8,950 each / USD 17,900 total with 4-6 week lead; combined package total is USD 32,461.80 including the listed USD 2,645 shared shipping, USD 2,435.40 GST and unexplained USD 321.40 '1% payment on account' line. Refresh before PO and reconcile DDP with the quotation also naming NUS as importer. LV-Robotics Lab chat says the intended destination is the hillside/KR4 lab because ME has no remaining space; procurement owner/company-vs-SoC route and move schedule remain unresolved for Thursday discussion. Not ordered.\n【/2026-07-21 群聊与报价复核】"
+          },
+          {
+            "row_id": "proc_kr4_yadea_foldable_e_bike_candidate_20260721",
+            "updated_at": "2026-07-21T10:43:25.017Z",
+            "item": "YADEA 20-inch folding e-bike — user preferred, compliance-blocked / 雅迪折叠电助力车（用户首选、合规阻塞）",
+            "status": "",
+            "route": "User chose foldable e-bike over scooter · do not order exact model pending LTA/NUS clearance",
+            "url": "https://www.lazada.sg/products/electric-folding-commuter-bike-20-inch-i13738552291-s124681339678.html",
+            "notes": "Not ordered. User decision 2026-07-21: do not buy a scooter; use a foldable electric-assist form factor, with this YADEA listing as the preferred reference. The group asked for opinions because KR4 is uphill and more than ten minutes from the nearest shuttle stop, and indoor folding/storage/charging is desired; no team feedback was present in the supplied excerpt. The listing is high-confidence matched to YADEA Innovator and was observed at about SGD 896.01 with 350 W mid-drive, 36 V 12 Ah battery and listed 60 km range. Published 350 W / about 23.8 kg exceeds Singapore PAB 250 W continuous-power / 20 kg unladen-weight limits, and the model was not found in the current LTA approved list. Keep as a requirements/comparison reference; shortlist a similar LTA-approved foldable model and confirm NUS route, parking, indoor charging/fire policy and written private-property exception if the exact item is still proposed."
+          },
+          {
+            "row_id": "proc_2x_soundproof_phone_booths_dongyi_quote_20260718",
+            "updated_at": "2026-07-21T09:52:09.165Z",
+            "item": "2x single-person soundproof booths / 单人隔音 phone booth ×2",
+            "status": "",
+            "route": "Hunan Dongyi quote DY-NUS-20260718 · DPU NUS · PO pending",
+            "notes": "Quoted, not ordered. SGD 10,700 each / SGD 21,400 for two booths. Approx. 1000 x 1100 x 2400 mm; aluminium enclosure, 10 mm tempered glass, low-noise ventilation, desk/touchscreen control and 6000 K LED; Singapore socket TBD. The quotation's SGD 35,000 total also includes two damped optical tables plus one shared SGD 5,000 delivery/unloading/installation line, and excludes import GST and customs/permit fees. Lead time approximately 40-45 days after written order, agreed payment and final technical approval; 12-month warranty from installation acceptance. Confirm final placement, fire-alarm/smoke-detector integration, power/network, access route and NUS facilities approval before PO."
+          },
+          {
+            "row_id": "proc_robot_data_collection_softbox_lighting_pair_20260721",
+            "updated_at": "2026-07-21T09:52:09.165Z",
+            "item": "Large softbox continuous-light kits with stands x2 / 大型柔光箱连续补光灯架套装 ×2",
+            "status": "",
+            "route": "User reference photo · supplier/model/price pending",
+            "notes": "Not ordered. Intended for controlled robot data collection, consistent vision-model illumination and demo video capture. Select flicker-free dimmable LED/COB continuous lights with high CRI, adjustable or specified color temperature, deep/parabolic softboxes, stable tall stands and sandbag/weight provisions. Before checkout confirm output/power, CRI/TLCI, CCT range, flicker at intended camera frame rates, softbox size, stand footprint/height, Singapore 230 V plug, heat/noise, cable trip protection, included quantity, price, shipping and warranty."
+          },
+          {
+            "row_id": "proc_tianji_ccs_696_bimanual_pair_20260716",
+            "updated_at": "2026-07-16T07:30:52Z",
+            "item": "Bimanual platform option B: 2x Tianji Marvin-M6-CCS 696 arms / 双臂候选 B：天机 CCS 696 ×2",
+            "status": "",
+            "route": "Tianji quote dated 2026-07-16 · DAP USD 33,300 · valid for 30 days · choose against RealMan",
+            "notes": "Quote received: TianJi Quotation -NUS 2026.7.16(2).pdf. Mutually exclusive bimanual-base option B; purchase either this Tianji pair or the RealMan pair, not both. Scope: 2x Marvin-M6-CCS 696 7-DoF force-controlled humanoid robot arms, discounted from USD 16,999 to USD 14,000 per arm (USD 28,000 total); one power module at USD 500; one robot support frame at USD 400; one robot pedestal at USD 600; and a USD 3,800 shipping-fee line, for a quoted total of USD 33,300. Standard-arm remarks list a robot-arm control module, Tianji Robot Control Software V1.0, optional built-in USB cable, CCS wrist configuration, Tianji white color and two-week delivery lead time. Terms: DAP to Singapore, including customs clearance, international transportation, import duties and applicable import taxes but excluding local miscellaneous handling after delivery; 100% advance T/T before shipment; 30-day quotation validity from 2026-07-16. The quote does not state a warranty. Prior comparison information identifies CCS 696 as 6 kg payload and 695 mm reach versus M6 Lite at 5 kg and 615 mm, but this quote does not restate payload or reach; require the signed datasheet, warranty, controller/SDK access, synchronization and force-control interfaces, USB-cable inclusion, safety/E-stop scope, local support and final landed-cost exclusions before approval. Compare against RealMan only after normalizing CFR versus DAP scope."
+          },
+          {
+            "row_id": "proc_realman_bimanual_arm_pair",
+            "updated_at": "2026-07-16T06:58:44Z",
+            "item": "Bimanual platform option A: 2x RealMan arms / 双臂候选 A：睿尔曼 ×2",
+            "status": "",
+            "route": "RealMan quote 20260716001 · dated 2026-07-16 · valid for 1 week · choose against Tianji CCS 696",
+            "notes": "Quote received: RM Quotation For新加坡国际大学_260716.xls. Mutually exclusive bimanual-base option A; purchase either this RealMan pair or the Tianji CCS 696 pair, not both. Scope: 2x RM75-B-V 7-DoF visual-version arms, 5 kg payload each, discounted from USD 15,900 to USD 12,000 per arm (USD 24,000 total); one dual-arm mounting bracket at USD 700; shipping at USD 800; quoted package total USD 25,500. Terms: full payment by wire transfer once the order is confirmed, CFR Incoterm, 15 working days lead time after payment receipt, 12-month warranty from shipment, and one-week quotation validity from 2026-07-16. Before selection, compare against Tianji CCS 696 on reach, controller/SDK openness, force-control and synchronization support, bracket footprint, collision and E-stop setup, landed import cost, local support and acceptance owner."
+          },
+          {
+            "row_id": "loan_daimeng_gripper_singapore_archive",
+            "updated_at": "2026-07-16T05:54:52Z",
+            "item": "DaiMeng gripper / 戴盟夹爪",
+            "status": "Arrived",
+            "route": "DaiMeng loan · already in Singapore",
+            "notes": "Archive-only availability record. The DaiMeng gripper has already been borrowed and is in Singapore; do not include it in active procurement or the planned 2026-08-05 loan request. Keep exact asset or serial number, condition, lender/borrower owners and return terms in the private loan ledger rather than this dashboard."
           },
           {
             "row_id": "loan_daimeng_dataclaw_datapacket_umi_set_20260805",
@@ -3191,76 +3259,12 @@ export default {
             "notes": "Purpose: collect dexterous-hand tactile data in Singapore. Requested inventory: DM26DA04H000 DM-DateDex x2, treated as one glove pair. Confirm left/right configuration, glove sizes, tactile and pose channels, raw-data access, sampling and synchronization interfaces, controller/receiver, batteries and chargers, cables, software, calibration files and one acquisition smoke test. Record asset or serial numbers, working-condition evidence, customs or temporary-loan paperwork, transport restrictions, responsible owners, handover date and return terms."
           },
           {
-            "row_id": "proc_eflesh_base_tpu95_n52_structure_20260715",
-            "updated_at": "2026-07-15T00:58:00+08:00",
-            "item": "eFlesh base + TPU95 structural part with N52 magnetic hardware / eFlesh底座+TPU95结构件",
+            "row_id": "loan_daimeng_datamaster_teleop_set_20260805",
+            "updated_at": "2026-07-16T05:15:26Z",
+            "item": "Planned DaiMeng loan: DM-DataMaster Hand + DM-DataMaster Station / 戴盟遥操作设备借测套装",
             "status": "",
-            "route": "Taobao cart · screenshots 2026-07-15 · checkout pending",
-            "notes": "Still in cart; not ordered. Quantity 1, displayed price RMB 150. The screenshot truncates the SKU after the N52 magnet reference; confirm the exact magnet count/specification, printed-part geometry, mounting pattern and whether it fits the selected eFlesh-mini and existing board before checkout."
-          },
-          {
-            "row_id": "proc_eflesh_mini_silicone_test_kit_20260715",
-            "updated_at": "2026-07-15T00:58:00+08:00",
-            "item": "eFlesh-mini + silicone test kit / eFlesh-mini硅胶测试套件",
-            "status": "",
-            "route": "Taobao cart · screenshots 2026-07-15 · checkout pending",
-            "notes": "Still in cart; not ordered. Quantity 1, displayed price RMB 300. Confirm sensor dimensions, magnet arrangement, silicone formulation/thickness, controller requirement, calibration files, raw acquisition protocol and compatibility with the already ordered eFlesh electronics."
-          },
-          {
-            "row_id": "proc_eflesh_qt_py_samd21_controller_20260715",
-            "updated_at": "2026-07-15T00:58:00+08:00",
-            "item": "Adafruit QT Py SAMD21 controller for AnySkin/eFlesh/Reskin / 触觉皮主控板",
-            "status": "",
-            "route": "Taobao cart · screenshots 2026-07-15 · checkout pending",
-            "notes": "Still in cart; not ordered. Quantity 1, displayed price RMB 80; cart SKU identifies an Adafruit QT Py SAMD21-class controller. Confirm exact board revision, connector/pinout, firmware flashing state and compatibility with the already ordered eFlesh magnetic-sensing board + programmed MCU bundle before checkout to avoid an unnecessary duplicate."
-          },
-          {
-            "row_id": "proc_grove_gsr_arduino_oled_display_kit_20260715",
-            "updated_at": "2026-07-15T00:58:00+08:00",
-            "item": "Grove GSR Arduino OLED direct-display kit / Grove GSR皮肤电Arduino OLED显示套件",
-            "status": "",
-            "route": "Taobao cart · screenshots 2026-07-15 · checkout pending",
-            "notes": "Still in cart; not ordered. Quantity 1, displayed post-subsidy price RMB 237. Confirm exact Grove GSR board revision, Arduino/OLED contents, raw ADC access, firmware/source examples, electrode consumables and whether this is needed as a reference implementation alongside the lower-cost Sichiray GSR V2."
-          },
-          {
-            "row_id": "proc_sichiray_6_channel_mox_electronic_nose_20260715",
-            "updated_at": "2026-07-15T00:58:00+08:00",
-            "item": "Sichiray 6-channel MOX electronic-nose odor fingerprint sensor + analysis software / 6路MOX电子鼻气味指纹传感器",
-            "status": "",
-            "route": "Taobao cart · screenshots 2026-07-15 · checkout pending",
-            "notes": "Still in cart; not ordered. Quantity 1, displayed price RMB 1299; screenshot SKU says electronic nose + analysis software. Confirm the six MOX element types, calibration/warm-up procedure, raw channel export, software license/OS support, serial protocol, replacement sensors, safe test substances and whether cross-border shipping imposes restrictions."
-          },
-          {
-            "row_id": "proc_sichiray_gsr_v2_battery_kit_20260715",
-            "updated_at": "2026-07-15T00:58:00+08:00",
-            "item": "Sichiray GSR skin-conductance sensor V2 battery kit / Sichiray GSR皮肤电传感器V2电池套件",
-            "status": "",
-            "route": "Taobao cart · screenshots 2026-07-15 · checkout pending",
-            "notes": "Still in cart; not ordered. Quantity 1, displayed post-subsidy price RMB 68. Confirm included electrodes/straps/battery, raw conductance or resistance output, sampling rate, interface voltage, isolation and whether reusable electrodes or consumables are required."
-          },
-          {
-            "row_id": "proc_sichiray_hand_pose_capture_exoskeleton_right_ble_20260715",
-            "updated_at": "2026-07-15T00:58:00+08:00",
-            "item": "Sichiray 3rd-gen hand-pose capture exoskeleton glove + BLE adapter, right hand / 手部姿态捕捉外骨骼手套（右手标准版）",
-            "status": "",
-            "route": "Taobao cart · screenshots 2026-07-15 · checkout pending",
-            "notes": "Still in cart; not ordered. Quantity 1, displayed price RMB 2229. Selected SKU is glove + BLE adapter, right hand, standard configuration. Confirm tracked DOFs/joints, calibration drift, sampling rate/latency, raw pose protocol, SDK/source availability, battery/runtime, hand-size range, whether one glove is sufficient and compatibility with the Human-Centric data stack."
-          },
-          {
-            "row_id": "proc_tgam_eeg_2_0_arduino_uno_development_kit_20260715",
-            "updated_at": "2026-07-15T00:58:00+08:00",
-            "item": "TGAM EEG 2.0 Arduino UNO development kit / TGAM脑电波2.0 Arduino UNO开发套件",
-            "status": "",
-            "route": "Taobao cart · screenshots 2026-07-15 · checkout pending",
-            "notes": "Still in cart; not ordered. Quantity 1, displayed post-subsidy price RMB 586. Before checkout confirm the exact TGAM board/revision, dry-electrode/headband contents, Arduino UNO compatibility, raw EEG data access, SDK/protocol documentation, sampling rate, power isolation and replacement consumables."
-          },
-          {
-            "row_id": "proc_tgam_eeg_vr_development_module_20260715",
-            "updated_at": "2026-07-15T00:58:00+08:00",
-            "item": "TGAM EEG VR development module, VR device excluded / TGAM脑电波VR开发模组（不含VR设备）",
-            "status": "",
-            "route": "Taobao cart · screenshots 2026-07-15 · checkout pending",
-            "notes": "Still in cart; not ordered. Quantity 1, displayed post-subsidy price RMB 930. Confirm the supported VR headset/interface, whether the package includes only the EEG module and mount, raw-data/API access, latency, SDK source/examples, mechanical fit and whether this duplicates the TGAM Arduino kit."
+            "route": "DaiMeng loan · confirm handover scope before possible Singapore hand-carry on 2026-08-05",
+            "notes": "Purpose: reproduce the teleoperation and test platform in Singapore. Requested inventory: DM25TO02H000 DM-DataMaster Hand x1 and DM25TO02S000 DM-DataMaster Station (stand version) x1. Before the handover is marked confirmed, freeze the complete packing list: gloves, station/stand, controllers, power supplies, chargers, cables, mounting hardware, calibration files, firmware/SDK and operating instructions. Record asset or serial numbers, working-condition evidence, lender/borrower owners, customs or temporary-loan paperwork, transport restrictions, handover date and return date; do not store signatures or private documents in the dashboard."
           },
           {
             "row_id": "proc_2x_flexiv_robot_arms_romoya_20260713",
@@ -3269,38 +3273,6 @@ export default {
             "status": "",
             "route": "TechVantage quote TV120626NUS · refresh required",
             "notes": "Quote received: NUS Quote TV120626NUS(2).pdf, dated 2026-06-12 and valid for one month, so a refreshed quotation is now required. Scope: 2x Rizon 4s arms with control boxes, teach pendants and base brackets, plus RDK x2 and TDK x2. Quoted total USD 92,000 excluding VAT; CIF to destination port with NUS handling customs; stated lead time 60 days, 100% payment before production and one-year warranty. Keep unpurchased pending refreshed validity, landed-cost confirmation and comparison against xArm and the selected bimanual platform."
-          },
-          {
-            "row_id": "proc_2x_xarm_robot_arms_romoya_20260713",
-            "updated_at": "2026-07-16T04:22:43Z",
-            "item": "2x xArm7 robot arms / xArm7 机械臂 ×2",
-            "status": "",
-            "route": "KING Technology quote 2026050801 · refresh required",
-            "notes": "Quote received: Quotation xarm7+tables+ Factr v2(2).pdf, dated 2026-05-08 with validity through 2026-06-23, so a refreshed quotation is required. Scope: xArm7 x2 at USD 8,950 each, USD 17,900 total; stated lead time 4-6 weeks and one-year warranty. The combined DDP package also contains FACTR-Franka x2 and two optical tables. Keep unpurchased until the refreshed quote confirms controllers, software licenses, end-effector interfaces, safety accessories, table bolt patterns and the final purchasing entity."
-          },
-          {
-            "row_id": "proc_realman_bimanual_arm_pair",
-            "updated_at": "2026-07-16T06:58:44Z",
-            "item": "Bimanual platform option A: 2x RealMan arms / 双臂候选 A：睿尔曼 ×2",
-            "status": "",
-            "route": "RealMan quote 20260716001 · dated 2026-07-16 · valid for 1 week · choose against Tianji CCS 696",
-            "notes": "Quote received: RM Quotation For新加坡国际大学_260716.xls. Mutually exclusive bimanual-base option A; purchase either this RealMan pair or the Tianji CCS 696 pair, not both. Scope: 2x RM75-B-V 7-DoF visual-version arms, 5 kg payload each, discounted from USD 15,900 to USD 12,000 per arm (USD 24,000 total); one dual-arm mounting bracket at USD 700; shipping at USD 800; quoted package total USD 25,500. Terms: full payment by wire transfer once the order is confirmed, CFR Incoterm, 15 working days lead time after payment receipt, 12-month warranty from shipment, and one-week quotation validity from 2026-07-16. Before selection, compare against Tianji CCS 696 on reach, controller/SDK openness, force-control and synchronization support, bracket footprint, collision and E-stop setup, landed import cost, local support and acceptance owner."
-          },
-          {
-            "row_id": "proc_tianji_ccs_696_bimanual_pair_20260716",
-            "updated_at": "2026-07-16T07:30:52Z",
-            "item": "Bimanual platform option B: 2x Tianji Marvin-M6-CCS 696 arms / 双臂候选 B：天机 CCS 696 ×2",
-            "status": "",
-            "route": "Tianji quote dated 2026-07-16 · DAP USD 33,300 · valid for 30 days · choose against RealMan",
-            "notes": "Quote received: TianJi Quotation -NUS 2026.7.16(2).pdf. Mutually exclusive bimanual-base option B; purchase either this Tianji pair or the RealMan pair, not both. Scope: 2x Marvin-M6-CCS 696 7-DoF force-controlled humanoid robot arms, discounted from USD 16,999 to USD 14,000 per arm (USD 28,000 total); one power module at USD 500; one robot support frame at USD 400; one robot pedestal at USD 600; and a USD 3,800 shipping-fee line, for a quoted total of USD 33,300. Standard-arm remarks list a robot-arm control module, Tianji Robot Control Software V1.0, optional built-in USB cable, CCS wrist configuration, Tianji white color and two-week delivery lead time. Terms: DAP to Singapore, including customs clearance, international transportation, import duties and applicable import taxes but excluding local miscellaneous handling after delivery; 100% advance T/T before shipment; 30-day quotation validity from 2026-07-16. The quote does not state a warranty. Prior comparison information identifies CCS 696 as 6 kg payload and 695 mm reach versus M6 Lite at 5 kg and 615 mm, but this quote does not restate payload or reach; require the signed datasheet, warranty, controller/SDK access, synchronization and force-control interfaces, USB-cable inclusion, safety/E-stop scope, local support and final landed-cost exclusions before approval. Compare against RealMan only after normalizing CFR versus DAP scope."
-          },
-          {
-            "row_id": "proc_wuji_gen2_dexterous_hand_pair_romoya_20260713",
-            "updated_at": "2026-07-16T04:22:43Z",
-            "item": "Wuji Hand2 left/right pair + Wuji motion-capture glove pair / 舞肌二代灵巧手一对 + 数据手套一对",
-            "status": "",
-            "route": "Wuji quote WJ202607150864/WJ202607150865 · approval pending",
-            "notes": "Quote received: Quotation_for_NUS_260715(1).pdf, dated 2026-07-15. Scope: Wuji Hand2_R x1 at USD 13,000, Wuji Hand2_L x1 at USD 13,000, and one Wuji Glove Motion Capture Version pair at USD 4,000; total USD 30,000. Terms state DAP with buyer self-clearance for customs, TT payment in full, 6-8 week shipment time and a seven-day inspection period after receipt. This remains an intended purchase; confirm controller and power package, raw glove/hand interfaces, tactile configuration, arm adapters, customs handling, warranty details and acceptance owner before approval."
           },
           {
             "row_id": "proc_robotis_hx5_d20_mrt_pair_candidate_20260716",
@@ -3321,21 +3293,84 @@ export default {
             "url": "https://e.tb.cn/h.8bhEYbmlkw7sC1f?tk=cyjhgrI3Q1W"
           },
           {
-            "row_id": "proc_custom_robot_mounting_tables_romoya_20260713",
+            "row_id": "proc_wuji_gen2_dexterous_hand_pair_romoya_20260713",
             "updated_at": "2026-07-16T04:22:43Z",
-            "item": "2x optical platform tables, 1600 x 1000 x 750 mm / 光学平台工作台 ×2",
+            "item": "Wuji Hand2 left/right pair + Wuji motion-capture glove pair / 舞肌二代灵巧手一对 + 数据手套一对",
             "status": "",
-            "route": "KING Technology quote 2026050801 · refresh required",
-            "notes": "Quoted in Quotation xarm7+tables+ Factr v2(2).pdf: two 1600 x 1000 x 750 mm optical platform tables at USD 2,815 each, USD 5,630 total, with a stated 4-6 week lead. The quotation expired on 2026-06-23. Refresh the quote after freezing arm allocation and room layout, then confirm payload and stiffness, leveling or casters, xArm/Flexiv/selected-bimanual-arm bolt patterns, cable routing, E-stop and camera mounting, transport constraints and acceptance tests."
+            "route": "Wuji quote WJ202607150864/WJ202607150865 · approval pending",
+            "notes": "Quote received: Quotation_for_NUS_260715(1).pdf, dated 2026-07-15. Scope: Wuji Hand2_R x1 at USD 13,000, Wuji Hand2_L x1 at USD 13,000, and one Wuji Glove Motion Capture Version pair at USD 4,000; total USD 30,000. Terms state DAP with buyer self-clearance for customs, TT payment in full, 6-8 week shipment time and a seven-day inspection period after receipt. This remains an intended purchase; confirm controller and power package, raw glove/hand interfaces, tactile configuration, arm adapters, customs handling, warranty details and acceptance owner before approval."
           },
           {
-            "row_id": "proc_factr_low_cost_force_feedback_teleoperation_hardware",
-            "updated_at": "2026-07-16T04:22:43Z",
-            "item": "2x FACTR-Franka low-cost force-feedback teleoperation hardware / FACTR-Franka ×2",
+            "row_id": "proc_eflesh_qt_py_samd21_controller_20260715",
+            "updated_at": "2026-07-15T00:58:00+08:00",
+            "item": "Adafruit QT Py SAMD21 controller for AnySkin/eFlesh/Reskin / 触觉皮主控板",
             "status": "",
-            "route": "KING quote 2026050801 + Taobao candidate · refresh required",
-            "notes": "Quoted in Quotation xarm7+tables+ Factr v2(2).pdf: FACTR-Franka x2 at USD 1,765 each, USD 3,530 total, with a stated 1-2 week lead. The combined xArm7 + FACTR + table DDP quotation totals USD 32,461.80 including listed shipping, GST and payment-on-account line, but expired on 2026-06-23 and must be refreshed. Keep the Taobao candidate as the purchase link; confirm the exact Franka configuration, gravity compensation, brake/damping and force-feedback behavior, compatibility with the master-arm setup, safety limits, delivery route and reimbursement owner before approval. Taobao share code: CZ001.",
-            "url": "https://e.tb.cn/h.RzgrhiKsCTcn9Sx?tk=b89rgMWe8dN"
+            "route": "Taobao cart · screenshots 2026-07-15 · checkout pending",
+            "notes": "Still in cart; not ordered. Quantity 1, displayed price RMB 80; cart SKU identifies an Adafruit QT Py SAMD21-class controller. Confirm exact board revision, connector/pinout, firmware flashing state and compatibility with the already ordered eFlesh magnetic-sensing board + programmed MCU bundle before checkout to avoid an unnecessary duplicate."
+          },
+          {
+            "row_id": "proc_eflesh_base_tpu95_n52_structure_20260715",
+            "updated_at": "2026-07-15T00:58:00+08:00",
+            "item": "eFlesh base + TPU95 structural part with N52 magnetic hardware / eFlesh底座+TPU95结构件",
+            "status": "",
+            "route": "Taobao cart · screenshots 2026-07-15 · checkout pending",
+            "notes": "Still in cart; not ordered. Quantity 1, displayed price RMB 150. The screenshot truncates the SKU after the N52 magnet reference; confirm the exact magnet count/specification, printed-part geometry, mounting pattern and whether it fits the selected eFlesh-mini and existing board before checkout."
+          },
+          {
+            "row_id": "proc_eflesh_mini_silicone_test_kit_20260715",
+            "updated_at": "2026-07-15T00:58:00+08:00",
+            "item": "eFlesh-mini + silicone test kit / eFlesh-mini硅胶测试套件",
+            "status": "",
+            "route": "Taobao cart · screenshots 2026-07-15 · checkout pending",
+            "notes": "Still in cart; not ordered. Quantity 1, displayed price RMB 300. Confirm sensor dimensions, magnet arrangement, silicone formulation/thickness, controller requirement, calibration files, raw acquisition protocol and compatibility with the already ordered eFlesh electronics."
+          },
+          {
+            "row_id": "proc_grove_gsr_arduino_oled_display_kit_20260715",
+            "updated_at": "2026-07-15T00:58:00+08:00",
+            "item": "Grove GSR Arduino OLED direct-display kit / Grove GSR皮肤电Arduino OLED显示套件",
+            "status": "",
+            "route": "Taobao cart · screenshots 2026-07-15 · checkout pending",
+            "notes": "Still in cart; not ordered. Quantity 1, displayed post-subsidy price RMB 237. Confirm exact Grove GSR board revision, Arduino/OLED contents, raw ADC access, firmware/source examples, electrode consumables and whether this is needed as a reference implementation alongside the lower-cost Sichiray GSR V2."
+          },
+          {
+            "row_id": "proc_sichiray_hand_pose_capture_exoskeleton_right_ble_20260715",
+            "updated_at": "2026-07-15T00:58:00+08:00",
+            "item": "Sichiray 3rd-gen hand-pose capture exoskeleton glove + BLE adapter, right hand / 手部姿态捕捉外骨骼手套（右手标准版）",
+            "status": "",
+            "route": "Taobao cart · screenshots 2026-07-15 · checkout pending",
+            "notes": "Still in cart; not ordered. Quantity 1, displayed price RMB 2229. Selected SKU is glove + BLE adapter, right hand, standard configuration. Confirm tracked DOFs/joints, calibration drift, sampling rate/latency, raw pose protocol, SDK/source availability, battery/runtime, hand-size range, whether one glove is sufficient and compatibility with the Human-Centric data stack."
+          },
+          {
+            "row_id": "proc_sichiray_6_channel_mox_electronic_nose_20260715",
+            "updated_at": "2026-07-15T00:58:00+08:00",
+            "item": "Sichiray 6-channel MOX electronic-nose odor fingerprint sensor + analysis software / 6路MOX电子鼻气味指纹传感器",
+            "status": "",
+            "route": "Taobao cart · screenshots 2026-07-15 · checkout pending",
+            "notes": "Still in cart; not ordered. Quantity 1, displayed price RMB 1299; screenshot SKU says electronic nose + analysis software. Confirm the six MOX element types, calibration/warm-up procedure, raw channel export, software license/OS support, serial protocol, replacement sensors, safe test substances and whether cross-border shipping imposes restrictions."
+          },
+          {
+            "row_id": "proc_sichiray_gsr_v2_battery_kit_20260715",
+            "updated_at": "2026-07-15T00:58:00+08:00",
+            "item": "Sichiray GSR skin-conductance sensor V2 battery kit / Sichiray GSR皮肤电传感器V2电池套件",
+            "status": "",
+            "route": "Taobao cart · screenshots 2026-07-15 · checkout pending",
+            "notes": "Still in cart; not ordered. Quantity 1, displayed post-subsidy price RMB 68. Confirm included electrodes/straps/battery, raw conductance or resistance output, sampling rate, interface voltage, isolation and whether reusable electrodes or consumables are required."
+          },
+          {
+            "row_id": "proc_tgam_eeg_2_0_arduino_uno_development_kit_20260715",
+            "updated_at": "2026-07-15T00:58:00+08:00",
+            "item": "TGAM EEG 2.0 Arduino UNO development kit / TGAM脑电波2.0 Arduino UNO开发套件",
+            "status": "",
+            "route": "Taobao cart · screenshots 2026-07-15 · checkout pending",
+            "notes": "Still in cart; not ordered. Quantity 1, displayed post-subsidy price RMB 586. Before checkout confirm the exact TGAM board/revision, dry-electrode/headband contents, Arduino UNO compatibility, raw EEG data access, SDK/protocol documentation, sampling rate, power isolation and replacement consumables."
+          },
+          {
+            "row_id": "proc_tgam_eeg_vr_development_module_20260715",
+            "updated_at": "2026-07-15T00:58:00+08:00",
+            "item": "TGAM EEG VR development module, VR device excluded / TGAM脑电波VR开发模组（不含VR设备）",
+            "status": "",
+            "route": "Taobao cart · screenshots 2026-07-15 · checkout pending",
+            "notes": "Still in cart; not ordered. Quantity 1, displayed post-subsidy price RMB 930. Confirm the supported VR headset/interface, whether the package includes only the EEG module and mount, raw-data/API access, latency, SDK source/examples, mechanical fit and whether this duplicates the TGAM Arduino kit."
           },
           {
             "row_id": "proc_7991_ultra_thin_low_head_hex_socket_screws_20260713",
@@ -3410,15 +3445,6 @@ export default {
             "url": "https://item.taobao.com/item.htm?id=725274198302&mi_id=0000FH41B6LWzn24_v-TSvj2nRlAmv_ZuxKFVND3qWCDi9A"
           },
           {
-            "row_id": "proc_songling_nero_usb_to_can_adapter_20260713",
-            "updated_at": "2026-07-14T17:20:10+08:00",
-            "item": "USB-to-CAN adapter for Songling Nero / 松灵 Nero USB转CAN",
-            "status": "Ordered",
-            "route": "Taobao · 松灵机器人 · 订单数据.xlsx",
-            "notes": "Ordered and buyer-paid on 2026-07-14, order 3312175011595341093. Quantity: 1x Songling USB-to-CAN adapter; paid RMB 353.16. This closes the earlier missing-adapter purchase gate for one unit. After arrival verify Linux driver support, CAN bitrate, connector/pinout, termination, isolation, included cable and compatibility with the Nero control stack before deciding whether more adapters are required.",
-            "url": "https://item.taobao.com/item.htm?id=652626400942&mi_id=0000Eygj5ONyC4ZZ7NKN65bqOItxeiqG4egZ2sUmpMZtT1U"
-          },
-          {
             "row_id": "proc_stm32_motion_control_glove_kit_20260714",
             "updated_at": "2026-07-14T17:20:10+08:00",
             "item": "STM32 motion-control glove kit / STM32体感控制仿生手套",
@@ -3426,6 +3452,15 @@ export default {
             "route": "Taobao · 松甲科技机器人商城 · 订单数据.xlsx",
             "notes": "Ordered and buyer-paid on 2026-07-14, order 3312175011595168690, paid RMB 479.34. SKU: motion-control glove with STM32 controller, quantity 1. After arrival verify sensing channels, firmware/source availability, serial protocol, sample rate, calibration, handedness and whether joint estimates can be exported independently of the bundled demo hand.",
             "url": "https://item.taobao.com/item.htm?id=743041502417&mi_id=0000pKYUPSOfXYf4iTnxrXdlWmt0ozdpiz-aB7Rux9jKLpM"
+          },
+          {
+            "row_id": "proc_songling_nero_usb_to_can_adapter_20260713",
+            "updated_at": "2026-07-14T17:20:10+08:00",
+            "item": "USB-to-CAN adapter for Songling Nero / 松灵 Nero USB转CAN",
+            "status": "Ordered",
+            "route": "Taobao · 松灵机器人 · 订单数据.xlsx",
+            "notes": "Ordered and buyer-paid on 2026-07-14, order 3312175011595341093. Quantity: 1x Songling USB-to-CAN adapter; paid RMB 353.16. This closes the earlier missing-adapter purchase gate for one unit. After arrival verify Linux driver support, CAN bitrate, connector/pinout, termination, isolation, included cable and compatibility with the Nero control stack before deciding whether more adapters are required.",
+            "url": "https://item.taobao.com/item.htm?id=652626400942&mi_id=0000Eygj5ONyC4ZZ7NKN65bqOItxeiqG4egZ2sUmpMZtT1U"
           },
           {
             "row_id": "proc_xlerobot_040_household_robot_platform_bundle_20260714",
@@ -3509,6 +3544,15 @@ export default {
             "url": "https://item.taobao.com/item.htm?id=992030409117&mi_id=0000LrWutBbBY_JsuKqhNQfTHk4YN4AKTS4oQ8OC8kE2rF8"
           },
           {
+            "row_id": "proc_6x_2m_ugreen_usb_3_0_extension_cables",
+            "updated_at": "2026-07-08T15:01:17.507Z",
+            "item": "6x 2m UGREEN USB 3.0 extension cables",
+            "status": "Shipped · in transit",
+            "route": "Taobao · ship to NUS/COM2",
+            "notes": "Correction 2026-07-08: not arrived yet. Order has been placed and the cables are still in transit; keep this in the yellow ordered/shipping state until actual receipt. Lab previously bought four; current request was six 2m cables.",
+            "url": "https://e.tb.cn/h.RmR1dsrrhJvWkn9?tk=F3q3g3QaNAh"
+          },
+          {
             "row_id": "proc_electronics_prototyping_batch",
             "updated_at": "2026-07-08T17:28:20+08:00",
             "item": "Electronics prototyping batch / 电子开发与线材批次",
@@ -3517,13 +3561,12 @@ export default {
             "notes": "Excel rows include Dupont jumper wires x2, ESP32 Type-C board with expansion board, Mega2560 Pro Type-C boards x2, 0603 resistor and capacitor sample books, 30AWG five-color wire kits x2, and XGSP80 183C solder paste/flux. Use for lab wiring, embedded prototypes, and repair bench stock; after arrival inventory quantities and keep solder paste/flux labeled."
           },
           {
-            "row_id": "proc_6x_2m_ugreen_usb_3_0_extension_cables",
-            "updated_at": "2026-07-08T15:01:17.507Z",
-            "item": "6x 2m UGREEN USB 3.0 extension cables",
-            "status": "Shipped · in transit",
-            "route": "Taobao · ship to NUS/COM2",
-            "notes": "Correction 2026-07-08: not arrived yet. Order has been placed and the cables are still in transit; keep this in the yellow ordered/shipping state until actual receipt. Lab previously bought four; current request was six 2m cables.",
-            "url": "https://e.tb.cn/h.RmR1dsrrhJvWkn9?tk=F3q3g3QaNAh"
+            "row_id": "proc_a3_carbon_steel_hollow_tube_spacer",
+            "updated_at": "2026-07-07T20:59:00+08:00",
+            "item": "A3 carbon-steel hollow tube spacer / 碳钢铁 A3 空心套管通孔圆柱",
+            "status": "Arrived",
+            "route": "Taobao · 大鼎五金",
+            "notes": "Boris Taobao screenshot at 2026-07-07 20:59 shows this low-cost A3 carbon-steel hollow tube / through-hole round standoff row as 交易成功, visible price RMB 2.4. Screenshot is partially cropped; after receipt verify dimensions, bore, wall thickness, corrosion, and sharp edges before fixture use."
           },
           {
             "row_id": "proc_banfully_gray_cuttable_leather_desk_mat",
@@ -3647,15 +3690,6 @@ export default {
             "url": "https://item.taobao.com/item.htm?id=845984722029&mi_id=0000UizY_WPUP_axgiYA7sIzOzHGK8uEye3g6MPG3yf27R4"
           },
           {
-            "row_id": "proc_lego_moc_blocks_and_baseplates",
-            "updated_at": "2026-07-07T17:45:18+08:00",
-            "item": "Lego/MOC blocks and baseplates / 积木散件与底板",
-            "status": "Ordered · 2026-07-07",
-            "route": "Taobao · Changliu demo procurement",
-            "notes": "Excel order 3311159846118086671 buyer-paid on 2026-07-07: small-particle 40x40cm grey baseplate, 51x38cm green baseplate, and 1000g mixed block pack with baseplate/accessory pack. Verify on arrival whether these satisfy the first-round large-particle requirement or whether a separate large-particle set is still needed.",
-            "url": "https://item.taobao.com/item.htm?id=815763462697&mi_id=00001-7hkO4DH32JHtLLjzOo_qRrRZ8YgWcNKNeD0QDwZXQ"
-          },
-          {
             "row_id": "proc_lego_tool_operation_demo_tool_set",
             "updated_at": "2026-07-07T17:45:18+08:00",
             "item": "Lego tool-operation demo tool set",
@@ -3663,6 +3697,15 @@ export default {
             "route": "Taobao · Changliu demo procurement",
             "notes": "Excel orders 3311589289721004652 and 3311589289721022298 buyer-paid on 2026-07-07: brick hammer + pliers + five-color separators, plus 8mm four-in-one quick removal pliers. After arrival, verify tool size and compatibility with the actual ordered blocks.",
             "url": "https://item.taobao.com/item.htm?id=740119030272&mi_id=0000DdKAWQsHXdrD0Ltc14NIgXYvMg37w7w0T5y9uDZbQgU"
+          },
+          {
+            "row_id": "proc_lego_moc_blocks_and_baseplates",
+            "updated_at": "2026-07-07T17:45:18+08:00",
+            "item": "Lego/MOC blocks and baseplates / 积木散件与底板",
+            "status": "Ordered · 2026-07-07",
+            "route": "Taobao · Changliu demo procurement",
+            "notes": "Excel order 3311159846118086671 buyer-paid on 2026-07-07: small-particle 40x40cm grey baseplate, 51x38cm green baseplate, and 1000g mixed block pack with baseplate/accessory pack. Verify on arrival whether these satisfy the first-round large-particle requirement or whether a separate large-particle set is still needed.",
+            "url": "https://item.taobao.com/item.htm?id=815763462697&mi_id=00001-7hkO4DH32JHtLLjzOo_qRrRZ8YgWcNKNeD0QDwZXQ"
           },
           {
             "row_id": "proc_mini_drill_press",
@@ -3783,22 +3826,6 @@ export default {
             "route": "Zheng Yuhang · Taobao",
             "notes": "User-provided Taobao candidate marked 假一赔四: Unitree SV1-25 small / mini embodied stereo binocular camera, RGB global-shutter USB camera. ClawCross WeChat evidence from Zheng Yuhang private chat: Boris asked Zheng to place the Taobao order on 2026-07-04, and Zheng replied that the camera would be ordered that day. Next verify tracking, arrival, SDK/driver availability, resolution/FPS, stereo calibration support, ROS/ROS2 or Python access, USB bandwidth, mount compatibility, cable length, and whether it fits wrist/head/fixed-view robot data collection.",
             "url": "https://e.tb.cn/h.RDPhRlxsna7j6Kg?tk=9lHzglSbASl"
-          },
-          {
-            "row_id": "loan_daimeng_gripper_singapore_archive",
-            "updated_at": "2026-07-16T05:54:52Z",
-            "item": "DaiMeng gripper / 戴盟夹爪",
-            "status": "Arrived",
-            "route": "DaiMeng loan · already in Singapore",
-            "notes": "Archive-only availability record. The DaiMeng gripper has already been borrowed and is in Singapore; do not include it in active procurement or the planned 2026-08-05 loan request. Keep exact asset or serial number, condition, lender/borrower owners and return terms in the private loan ledger rather than this dashboard."
-          },
-          {
-            "row_id": "proc_a3_carbon_steel_hollow_tube_spacer",
-            "updated_at": "2026-07-07T20:59:00+08:00",
-            "item": "A3 carbon-steel hollow tube spacer / 碳钢铁 A3 空心套管通孔圆柱",
-            "status": "Arrived",
-            "route": "Taobao · 大鼎五金",
-            "notes": "Boris Taobao screenshot at 2026-07-07 20:59 shows this low-cost A3 carbon-steel hollow tube / through-hole round standoff row as 交易成功, visible price RMB 2.4. Screenshot is partially cropped; after receipt verify dimensions, bore, wall thickness, corrosion, and sharp edges before fixture use."
           },
           {
             "row_id": "proc_hig_gesture_recognition_data_glove",
@@ -5645,7 +5672,7 @@ export default {
   ],
   "taskDoc": {
     "schema_version": "tasks.v1",
-    "updated_at": "2026-07-20T14:30:46.476Z",
+    "updated_at": "2026-07-21T10:49:09.986Z",
     "owner": "dashboard",
     "tasks": [
       {
@@ -5823,8 +5850,8 @@ export default {
         "task_id": "task_real_robot_infra_franka_wuji_ik_curobo_stability",
         "project_id": "real-robot-infra",
         "title": "排查 Franka + Wuji 末端接近物体时的 IK 抖动并试 curobo",
-        "description": "Dexterous Data Collection 2026-07-09 update: Haoming reported that when the end-effector approaches the object it enters an oscillatory / unstable state, possibly near the reachable boundary. Action: reproduce the video case, log commanded pose, solved joint targets, actual Franka state, distance-to-boundary / joint-limit metrics, control rate, and object-relative pose; compare current Pinocchio IK path with curobo or another faster IK/planning backend. Acceptance: 1) identify whether the jitter is reach-boundary, singularity/joint-limit, IK latency, controller gain, or frame-calibration related; 2) run a read-only replay and then low-speed live smoke with safety bounds; 3) report before/after trajectory smoothness, solve time, dropped frames, and abort conditions; 4) decide whether curobo becomes the default IK backend for this setup.",
-        "status": "todo",
+        "description": "Dexterous Data Collection 2026-07-09 update: Haoming reported that when the end-effector approaches the object it enters an oscillatory / unstable state, possibly near the reachable boundary. Action: reproduce the video case, log commanded pose, solved joint targets, actual Franka state, distance-to-boundary / joint-limit metrics, control rate, and object-relative pose; compare current Pinocchio IK path with curobo or another faster IK/planning backend. Acceptance: 1) identify whether the jitter is reach-boundary, singularity/joint-limit, IK latency, controller gain, or frame-calibration related; 2) run a read-only replay and then low-speed live smoke with safety bounds; 3) report before/after trajectory smoothness, solve time, dropped frames, and abort conditions; 4) decide whether curobo becomes the default IK backend for this setup.\n\n【2026-07-21 Haoming 当前诊断】\n遥操效果已明显改善，系统较少进入 singularity，但仍存在抖动。Haoming 已把现象定位为输出端抖动，而非输入端抖动；当前仅怀疑 IK 解发生关节反转/分支跳变，根因尚未证实。cuRobo 路线正在尝试，改动量较大，尚未跑通或完成前后对照。下一步必须记录输入目标、IK branch/joint solution、输出关节命令、实际关节状态与奇异度/关节限位指标，确认是否真为解分支翻转。\n【/2026-07-21 Haoming 当前诊断】",
+        "status": "active",
         "priority": "high",
         "assignee": "Haoming / Boris / real-robot",
         "result": null,
@@ -5846,9 +5873,29 @@ export default {
             "kind": "comment",
             "body": "ClawCross WeChat tail 2026-07-09 14:53-14:56: Haoming posted an in-chat video showing the end-effector entering an oscillatory / unstable state after approaching the object; the first hypothesis is that the target may be near the far workspace boundary. Boris suggested trying cuRobo or another IK library because the current Pinocchio path may be too slow. Keep first validation in replay/read-only mode, then run a low-speed live smoke with workspace, joint-limit, singularity, latency, control-rate, gain, and frame-calibration diagnostics. No external video URL was provided in this sequence; the Google Drive link posted later is the Daimon gripper manual and belongs to the Nero adapter task.",
             "created_at": "2026-07-09T19:06:53.662Z"
+          },
+          {
+            "comment_id": "comment_real_robot_ik_curobo_user_active_20260721",
+            "task_id": "task_real_robot_infra_franka_wuji_ik_curobo_stability",
+            "author": "Boris / Codex",
+            "author_type": "system",
+            "kind": "comment",
+            "body": "[USER CONFIRMED 2026-07-21] Boris confirmed that Haoming's Franka + Wuji IK-jitter / cuRobo work is in progress. Status moves to active. The existing 2026-07-09 evidence and diagnostic acceptance remain unchanged; this update adds no unverified private-chat detail.",
+            "created_at": "2026-07-21T09:52:09.165Z"
+          },
+          {
+            "comment_id": "comment_real_robot_ik_curobo_haoming_detail_20260721",
+            "task_id": "task_real_robot_infra_franka_wuji_ik_curobo_stability",
+            "author": "Boris / Codex",
+            "author_type": "system",
+            "kind": "comment",
+            "body": "[USER-PROVIDED HAOMING CHAT 2026-07-21] Teleoperation is much better and enters singularity less often, but jitter remains. Haoming identified it as output-side rather than input-side jitter and currently suspects IK joint-solution reversal/branch flipping. cuRobo integration is in progress and requires a large change. This is a working hypothesis and active implementation, not a confirmed root cause or completed cuRobo result.",
+            "created_at": "2026-07-21T10:43:25.017Z"
           }
         ],
-        "updated_at": "2026-07-09T19:08:39.207Z"
+        "updated_at": "2026-07-21T10:43:25.017Z",
+        "completed_at": null,
+        "completed_at_time": null
       },
       {
         "task_id": "task_real_robot_infra_wuji_glove",
@@ -12707,9 +12754,9 @@ export default {
         "project_id": "real-robot-demos",
         "title": "Real-Robot Demo: Wuji + Franka 玩具刀切史莱姆泥",
         "description": "把 Wuji Hand + Franka 的灵巧手切肉 demo 收敛到安全 Stage 0/1：仿真肉使用史莱姆泥，刀先使用玩具刀，不使用真刀或真实肉。采购状态：订单数据.xlsx 确认婴儿辅食刀/菜板套装已于 2026-07-07 买家付款；史莱姆泥已发货，预计 2026-07-20 至 2026-07-23 送达，另有晨光 36 色 360g 超轻黏土已买家付款；灰色皮革桌垫不买，仍需确认砧板、夹具/托盘和可清洁工作区。验收：准备固定史莱姆泥的夹具/托盘和可清洁工作区；确认玩具刀不会割伤手指/线缆/相机；设置 Franka 低速/力矩/工作空间限制、急停看护和 abort 条件；完成至少一次 read-only 或仿真轨迹预演；完成一次真实低速玩具刀切史莱姆泥 run；记录视频、q_arm、T_hand、q_finger、Wuji Hand command/state、相机视角、失败/成功判据和是否需要进入下一阶段。真实刀具、真实肉和高速切割必须另行审批。DexGello 提供数据/控制依赖，但 demo 场景归 Real-Robot Demos 表格管理。\n\nReal-Robot Demos intro migration 2026-07-07:\n- Demo: Wuji + Franka toy-knife slime-clay cutting\n- Owner / collab: Yuhang & Jingxiang / Boris / DexGello dependency support\n- Hardware: Franka Research 3 + Wuji Hand + toy knife; DexGello logger and cuRobo are dependencies\n- Object / setup: Slime clay as simulated meat; blunt-edge toy knife; cutting board; fixture or tray; existing washable work surface\n- Intro status: todo\n- Next TODO: Toy knife/cutting-board set is buyer-paid per 订单数据.xlsx; slime clay shipped with ETA 2026-07-20 to 2026-07-23 and an additional 36-color M&G pack is buyer-paid. Do not buy the grey leather desktop mat; confirm cutting board, fixture/tray, and washable work surface after arrival, then run low-speed Stage 0/1 with E-stop watcher, workspace limits, video, q_arm / T_hand / q_finger / Wuji state logging.\n- Notes / acceptance: No real knife, real meat, or high-speed cutting without separate approval. The demo row lives here; DexGello supplies the data/control stack.\n- Shared Real-Robot Demos rules:\n  - Scope rule: this card owns demo scenarios, physical objects, consumables, safety gates, and acceptance evidence. DexGello owns reusable data/control dependencies such as GELLO arm state, MANUS/Wuji finger state, VIVE hand pose, cuRobo planning, and episode logging.\n  - Procurement rule: Taobao/Lego/demo-kit candidate links are TODO evidence only. Do not mark procurement done until purchase route, delivery destination, receipt/procurement record, and arrival/fit check are recorded.\n  - Safety rule: every demo starts with read-only or simulation/dry-run, then low-speed robot motion with workspace limits, cable checks, and a dedicated E-stop watcher before collecting publishable evidence.\n  - Failure-data link 2026-06-13: broom-to-dustpan and two 90-degree cube-turn demos are added specifically as longer-horizon data sources for DexGello learn-from-failure metrics. They should log phase boundaries, intervention/takeover, object/contact progress, and which failed stages should not be imitated.\n  - Procurement update 2026-07-07: 订单数据.xlsx confirms buyer-paid rows for toy knife/cutting-board set, Jenga 72-piece set, Lego tools, Lego/MOC baseplates and mixed blocks, large Rubik-style cube, and two 1-to-3 USB-C-output data/charging cables for VIVE Tracker / MANUS. Slime clay shipped with ETA 2026-07-20 to 2026-07-23, and a second M&G 36-color clay pack is buyer-paid. The grey leather desktop mat was removed and should not be purchased; choose an existing or alternate surface if a demo still needs tabletop contrast or protection. Do not re-buy the existing COM2-seat props unless fit check fails.\n  - Existing-prop transfer note 2026-06-16: Boris has data-collection props at his COM2 seat, including a small broom/dustpan toy, cube, ping-pong paddle, and related toys. These need human transfer to ME; they are not procurement items.",
-        "status": "todo",
+        "status": "active",
         "priority": "high",
-        "assignee": "Yuhang & Jingxiang / Boris / DexGello",
+        "assignee": "Yuexi",
         "due_at": "",
         "result": null,
         "comments": [
@@ -12740,9 +12787,29 @@ export default {
             "body": "Moved from DexGello to Research / Ego2Dex Human Demonstration / LfD on 2026-06-13 per user correction: DexGello should not own the physical demo list; it only supplies q_arm/T_hand/q_finger logging, MANUS/VIVE, cuRobo, and related data/control dependencies.",
             "created_at": "2026-06-13T00:13:51+08:00",
             "kind": "comment"
+          },
+          {
+            "comment_id": "comment_c5c6fe5e-a0f6-4b91-88f0-4433a32506ec",
+            "task_id": "task_real_robot_infra_wuji_franka_slime_cut_demo",
+            "author": "Boris / Codex",
+            "author_type": "system",
+            "kind": "comment",
+            "body": "[ASSIGNMENT 2026-07-21] 当前负责人更新为 Yuexi，任务已开始执行并切换为 active。Real-Robot Demos 继续负责物理场景与安全验收，DexGello 仍按任务描述提供数据记录与控制依赖。",
+            "created_at": "2026-07-21T08:46:35.378Z"
+          },
+          {
+            "comment_id": "comment_real_robot_slime_demo_yuexi_schedule_20260721",
+            "task_id": "task_real_robot_infra_wuji_franka_slime_cut_demo",
+            "author": "Boris / Codex",
+            "author_type": "system",
+            "kind": "comment",
+            "body": "[USER-PROVIDED HAOMING CHAT 2026-07-21] Coordinate Yuexi as the primary added collaborator for the Wuji cutting demo. Yuexi is still interning and expects to have time after school starts; the onboarding visit was during a lunch break. Keep the task active as a scheduled handoff, but do not claim that the physical slime/toy-knife run has started or passed.",
+            "created_at": "2026-07-21T10:43:25.017Z"
           }
         ],
-        "updated_at": "2026-07-19T01:56:26.790Z"
+        "updated_at": "2026-07-21T10:43:25.017Z",
+        "completed_at": null,
+        "completed_at_time": null
       },
       {
         "task_id": "task_drag_demo_on_policy_gravity_comp_survey",
@@ -15503,11 +15570,11 @@ export default {
       {
         "task_id": "task_umi_layered_pipeline_sam_vace_flux_lama_automation_20260622",
         "project_id": "umi-world-model",
-        "title": "搭建 RobotSeg/X2SAM + inpaint 的共享分层数据管线",
+        "title": "落地 X2SAM/RoboSeg + VACE 共享分层数据管线（第三人称对比待补）",
         "status": "active",
         "priority": "urgent",
         "assignee": "Lai / Yongxi / Ziyang / Meng / Jiahao / Boris",
-        "description": "把 Lai、Ziyang/Meng、Jiahao/Davide 三条论文线收敛到同一个 single-video-to-multilayer preprocessing contract，不允许各自维护不兼容的数据格式。\n\nCanonical pipeline: raw robot video -> robot/actor segmentation -> robot removal/inpainting -> object/contact/tool segmentation -> object removal/inpainting -> pure scene/background verification -> remaining-motion detection -> retry segmentation/inpainting or drop bad frame/clip -> export layer package。Global Layer 保留原视频；Robot Layer 用于 IDM/action prediction；Object Layer 根据物体类型输出 rigid pose 或 deformable flow/keypoints；Background Layer 服务分层生成与重组。每一步由 agent/规则检查质量，VLM 不认识对象时可退化为颜色、形状、相对位置 prompt。\n\nSegmentation decision 2026-07-13: 暂停 SAM3 fine-tuning，保留原版稳定分割/追踪模型作为 baseline；Lai/Yongxi 先同输入比较 RobotSeg/RoboSeg、X2SAM、STAM/相关 tracking route。不要在没有同输入证据时继续扩写 SAM3 adapter。Inpainting 继续比较 VACE/WHATS 候选、Gemini/FLUX still fallback；LaMa 保留 failure baseline。静态 third-person 背景可先生成 background plate，wrist/ego 视角需单独检查 temporal drift。\n\nCanonical outputs: source/global video；scene/background、object/contact、robot/actor、occluder/tool 的 mask/RGBA/layer video；layer_manifest；motion-residue QA；recomposition QA；object pose 或 point flow；robot pose/state；camera/depth metadata 及 confidence；失败/重试记录。所有文档、pipeline 图、配置、git SHA、可视化与 benchmark 表必须进 GitHub 的 data-processing-pipeline 目录。\n\nAcceptance: 1) 至少 3 个真实 robot clips，每段 20-50 帧/等长短视频；2) segmentation 同输入报告 mask IoU/Boundary-F/gripper recall/jitter/drift/runtime/VRAM；3) inpainting 报告 masked temporal consistency、unmasked preservation、moving-pixel residue、recomposition SSIM/LPIPS 或人审；4) 输出完整 manifest/schema verifier，逐层文件可独立加载且可重组；5) rigid/articulated 与 deformable 分流有明确 backend、confidence gate 和 fallback；6) 不追求 100% 保留坏样本，drop 必须记录原因；7) 产出 pipeline PDF/PNG、最小复现命令、failure gallery，并让 Jiahao 的 RynnWorld 三层模型与 Ziyang 的 MIMIC-Video IDM 直接消费同一 manifest。",
+        "description": "把 Lai、Ziyang/Meng、Jiahao/Davide 三条论文线收敛到同一个 single-video-to-multilayer preprocessing contract，不允许各自维护不兼容的数据格式。\n\n已验证并锁定的路线（2026-07-21）：按视角选择 robot-layer segmentation，而不是继续把 X2SAM 与 RoboSeg 当成未决的二选一比较。UMI wrist/ego/第一人称视频使用 X2SAM；固定外部相机/第三人称视频使用 RoboSeg。两条入口必须使用同一套 robot/gripper/object taxonomy、同一 layer_manifest 和同一 QA contract。VACE 作为两次 video inpainting 的主线。\n\nYongxi 确认的 canonical pipeline（图：dashboard/assets/umi-layered-preprocessing-pipeline-20260715.png）：\n1) 输入 full video = robot layer + object layer + background/global source。\n2) 第一次分割提取 robot layer：根据 viewpoint router 选择 X2SAM（UMI 第一人称）或 RoboSeg（第三人称）；记录所用 checkpoint、prompt、tracking/SAM2/VSAM 相关配置与 git SHA。\n3) 第一次 VACE inpainting 去除 robot，得到 object layer + background；并行保存 robot mask/RGBA/layer video。Robot branch 对齐 robot state/action，并执行缺失 action 补全。\n4) agent 检查第一次 inpainting 的残影、遮挡、时序漂移与未遮罩区域保持；失败则修改 robot mask、prompt 或 tracking 配置并重试，不把坏结果送入下一阶段。\n5) 对 object + background 做第二次分割：SAM3 提取 object/contact/tool layer；第二次 VACE inpainting 去除 object，得到 pure background。\n6) agent + VLM 检查 object recognition。若对象识别错误，则修改 segmentation model prompt（可退化为颜色、形状、相对位置提示）并回到第二次分割；识别正确后进入 rigid/soft gate。\n7) rigid/articulated object 输出 pose/trajectory/contact sidecar；soft/deformable object 输出 flow/keypoints/deformation sidecar，分别进入对应处理方法。\n8) 最后执行 pure-background motion-residue QA、逐层重组与 source 对齐；失败 clip 进入 retry/drop log，合格样本导出统一 layer package。\n\nCanonical outputs：source/global video；robot/actor、object/contact/tool、scene/background 的 mask、RGBA、layer video；layer_manifest；robot pose/state/action；rigid pose 或 deformable flow/keypoints；camera/depth metadata 与 confidence；inpainting/recognition/recomposition QA；所有失败、重试与 drop 原因。图、配置、git SHA、可视化和 benchmark 表统一归档到 GitHub data-processing-pipeline 目录。\n\n剩余工程化验收：1) 至少覆盖 UMI 第一人称与第三人称真实 clips，每类不少于 3 段、每段 20-50 帧或等长短视频；2) 验证 viewpoint router 命中正确，不再重复做开放式模型选型；3) segmentation 报告 mask IoU、Boundary-F、gripper recall、jitter/drift、runtime/VRAM；4) VACE 报告 masked temporal consistency、unmasked preservation、moving-pixel residue 与重组质量；5) VLM retry loop、rigid/soft 分流和 action 补全均写入 manifest；6) 逐层文件可独立加载并可重组；7) Jiahao 的 RynnWorld 三层模型与 Ziyang 的 MIMIC-Video IDM 直接消费同一 manifest。任务保持 active，后续目标是批量化与 downstream 接入，不再把 X2SAM/RoboSeg 的视角分工视为 blocker。\n\n【2026-07-21 当前证据更正】\n以 2026-07-21 Boris 提供的与 NUS-赖咏曦最新确认记录为准，并覆盖同日更早的宽泛路由表述：当前实际只完成了 UMI 腕部/第一人称输入上的比较，X2SAM 在这批已测输入上表现更好。第三人称对比尚未完成，计划随后补测，因此目前不得把“RoboSeg 对第三人称更好”写成已验证结论，只能保留为待验证候选。Cloak-VLA 的 mask 处理管线未开源，当前无法复现或测试；这是可用性 blocker，不是模型效果负结论。戴盟数据集是否也做 layered decomposition 尚未定案：在主数据管线分层质量不足时把它作为高优先级补充/交叉验证数据，不宣称已经完成分层。\n【/2026-07-21 当前证据更正】",
         "result": null,
         "comments": [
           {
@@ -15590,10 +15657,46 @@ export default {
             "kind": "comment",
             "body": "[MEETING 2026-07-20] Lai 数据管线更新：开始推进共享数据管线、agent-based QA 与分层流程。深度镜头/深度输入不预设单一路线；在同一批 clips 上比较保留 depth sidecar、对深度区域做特殊 mask，以及不使用 depth 三种路径，并统一记录内参、畸变、layer_manifest、重组质量、残影与失败样例。Global Lab / AG World 等数据集名称按会议转写暂待核对，确认正式名称后再固化。阿里云数据拉取依赖单独的访问权限 gate，任务评论和文档中不得记录账号或凭据。",
             "created_at": "2026-07-20T14:01:39.032Z"
+          },
+          {
+            "comment_id": "comment_3bd49c78-90f9-491d-be7a-2cf17e6076b6",
+            "task_id": "task_umi_layered_pipeline_sam_vace_flux_lama_automation_20260622",
+            "author": "Boris / Codex",
+            "author_type": "system",
+            "kind": "comment",
+            "body": "[PIPELINE DECISION 2026-07-21] 数据管线已完成测试并确定：UMI wrist/ego 第一人称视频固定走 X2SAM，固定外部相机/第三人称视频固定走 RoboSeg；二者共用同一 taxonomy、layer_manifest 和 QA contract。Yongxi 的流程图已归档为 dashboard/assets/umi-layered-preprocessing-pipeline-20260715.png。主流程为 robot segmentation -> VACE robot inpaint -> agent QA/retry -> SAM3 object segmentation -> VACE object inpaint -> VLM recognition gate；识别失败修改 prompt/模型并回环，识别成功后按 rigid/soft 分流，robot layer 另做 action 补全。该 TODO 继续保持 active，但开放式模型选型已经结束，剩余工作是批量化、QA/manifest 完整性和 RynnWorld/MIMIC-Video downstream 接入。",
+            "created_at": "2026-07-21T08:19:54.156Z"
+          },
+          {
+            "comment_id": "comment_d23f1a8e-9ded-407a-b727-81957e22a0c6",
+            "task_id": "task_umi_layered_pipeline_sam_vace_flux_lama_automation_20260622",
+            "author": "Boris / Codex",
+            "author_type": "system",
+            "kind": "comment",
+            "body": "[BLOCKER 2026-07-21] Cloak-VLA 的 mask 处理管线目前没有开源，因此本轮无法复现、运行或纳入同输入实测对比。不要把论文展示结果当成可用 baseline，也不要根据论文描述自行臆造实现；当前仅保留为参考路线。等官方 mask pipeline、代码/checkpoint 和必要配置公开后再重开验证。在此之前，可执行主线仍是按视角路由：UMI 第一人称使用 X2SAM，第三人称使用 RoboSeg，后接 VACE/SAM3 分层与 QA 回环。",
+            "created_at": "2026-07-21T08:22:02.704Z"
+          },
+          {
+            "comment_id": "comment_umi_layered_pipeline_yongxi_clarification_20260721",
+            "task_id": "task_umi_layered_pipeline_sam_vace_flux_lama_automation_20260622",
+            "author": "Boris / Codex",
+            "author_type": "system",
+            "kind": "comment",
+            "body": "[USER-PROVIDED CHAT CLARIFICATION 2026-07-21] 以 2026-07-21 Boris 提供的与 NUS-赖咏曦最新确认记录为准，并覆盖同日更早的宽泛路由表述：当前实际只完成了 UMI 腕部/第一人称输入上的比较，X2SAM 在这批已测输入上表现更好。第三人称对比尚未完成，计划随后补测，因此目前不得把“RoboSeg 对第三人称更好”写成已验证结论，只能保留为待验证候选。Cloak-VLA 的 mask 处理管线未开源，当前无法复现或测试；这是可用性 blocker，不是模型效果负结论。戴盟数据集是否也做 layered decomposition 尚未定案：在主数据管线分层质量不足时把它作为高优先级补充/交叉验证数据，不宣称已经完成分层。",
+            "created_at": "2026-07-21T09:52:09.165Z"
+          },
+          {
+            "comment_id": "comment_umi_layered_pipeline_yongxi_full_context_20260721",
+            "task_id": "task_umi_layered_pipeline_sam_vace_flux_lama_automation_20260622",
+            "author": "Boris / Codex",
+            "author_type": "system",
+            "kind": "comment",
+            "body": "[USER-PROVIDED YONGXI CHAT 2026-07-21] Current comparison evidence remains limited to UMI wrist/first-person inputs, where X2SAM performed better; the third-person same-input comparison is still pending and must not be reported as a verified RoboSeg win. Cloak-VLA's mask-processing pipeline is not open sourced, so it cannot be tested. DaiMeng data layered decomposition remains a higher-priority conditional input if the current pipeline quality is insufficient; it has not been completed. Haoyu has Alibaba Cloud full access and is asked to help transfer a subset to Yongxi's AutoDL host or a lab workstation; no account, token, signed URL or credential belongs in Dashboard state.",
+            "created_at": "2026-07-21T10:43:25.017Z"
           }
         ],
         "completed_at": null,
-        "updated_at": "2026-07-20T14:01:39.032Z",
+        "updated_at": "2026-07-21T10:49:09.986Z",
         "due_at": "2026-07-14"
       },
       {
@@ -17065,12 +17168,24 @@ export default {
         "project_id": "real-robot-demos",
         "title": "Reproduce Do-As-I-Do on Franka + Wuji and test tactile value",
         "description": "把 Do-As-I-Do 作为真机 Engineering 复现实验，而不是只放 Survey：在 Franka + Wuji Hand 上复现“monocular human video -> hand-object reconstruction -> robot retargeting -> executable manipulation data”的链路，并专门做 tactile ablation，回答触觉在整条数据生成/retarget/执行链路中到底提供什么增益。\n\nReference: https://do-as-i-do.com/ ; arXiv 2606.19333 ; code: https://github.com/malik-group/do-as-i-do 。项目页面描述的核心步骤是从日常单目 RGB 人类视频重建 hand-object interaction，再用 sampling-based optimization retarget 到多指机器人手；我们的复现目标是把它落到 Franka + Wuji，而不是只停留在网页调研。\n\nAcceptance: 1) 选 3-5 个可在 Wuji 上完成的短任务，至少包含一种刚体 grasp/manipulation 和一种接触敏感任务；2) 跑通 Do-As-I-Do 或等价 pipeline 的视频输入、3D object/hand reconstruction、retarget action、sim/real playback；3) 记录 Franka arm pose、Wuji joint/action、Wuji tactile、RGB/Depth/外参和对象状态的统一 schema；4) 做 no-tactile / tactile-observed / tactile-feedback 三组对照，比较成功率、接触时序、滑移/掉落、过大接触力、regrasp 次数、trajectory deviation；5) 明确触觉只作为 logging/evaluation、policy input、online correction、还是 retarget optimization constraint 时分别有什么价值；6) 输出失败样例和结论，回流到 Tactile-WAM / VTLA：触觉是否值得进入 video-to-touch / WAM 训练目标。",
-        "status": "todo",
+        "status": "done",
         "priority": "high",
         "assignee": "Yutao / Haoming / Boris",
         "result": null,
-        "comments": [],
-        "updated_at": "2026-07-19T01:56:26.790Z"
+        "comments": [
+          {
+            "comment_id": "comment_b4cefaec-4b5b-4741-ae9c-3911d866e0b6",
+            "task_id": "task_real_robot_demo_do_as_i_do_franka_wuji_tactile",
+            "author": "Boris / Codex",
+            "author_type": "system",
+            "kind": "comment",
+            "body": "[MERGE 2026-07-21] 本任务已去重并完整合并到 task_real_robot_demos_ego2dex_lfd_baseline_20260718。Franka + Wuji 真机复现、触觉消融、指标和安全验收均已写入目标任务。本任务标记 done 仅用于归档重复项，不表示 Do-As-I-Do 真机实验已完成。",
+            "created_at": "2026-07-21T08:44:21.685Z"
+          }
+        ],
+        "updated_at": "2026-07-21T08:44:21.685Z",
+        "completed_at": "2026-07-21",
+        "completed_at_time": "2026-07-21T08:44:21.685Z"
       },
       {
         "task_id": "task_vtam_universal_tactile_encoder_20260627",
@@ -17902,7 +18017,7 @@ export default {
         "task_id": "task_general_back_to_school_mac_replacement_config",
         "project_id": "general",
         "title": "开学 Mac 换机配置 TODO",
-        "status": "todo",
+        "status": "done",
         "priority": "low",
         "assignee": "Boris",
         "due_at": "",
@@ -17917,10 +18032,21 @@ export default {
             "kind": "comment",
             "body": "Moved from the General procurement table on 2026-07-07 per user correction: this is a TODO/configuration preference, not a procurement row.",
             "created_at": "2026-07-07T16:22:15+08:00"
+          },
+          {
+            "comment_id": "comment_general_mac_replacement_user_done_20260721",
+            "task_id": "task_general_back_to_school_mac_replacement_config",
+            "author": "Boris / Codex",
+            "author_type": "system",
+            "kind": "comment",
+            "body": "[USER CONFIRMED 2026-07-21] The back-to-school Mac configuration planning TODO is complete and is closed. This records the preferred configuration only; it does not claim that a Mac was ordered, shipped, available, or purchased.",
+            "created_at": "2026-07-21T09:52:09.165Z"
           }
         ],
         "created_at": "2026-07-07T16:22:15+08:00",
-        "updated_at": "2026-07-07T16:22:15+08:00"
+        "updated_at": "2026-07-21T09:52:09.165Z",
+        "completed_at": "2026-07-21",
+        "completed_at_time": "2026-07-21T09:52:09.165Z"
       },
       {
         "task_id": "task_self_improving_embodied_harness_positioning_20260707",
@@ -18082,44 +18208,89 @@ export default {
         "project_id": "real-robot-infra",
         "title": "敲定山上联合实验室阳台封闭与室外活动板房方案并报学校审批",
         "description": "ClawCross 读取 2026-07-10 与刘磊磊的沟通：山上联合实验室计划把整块阳台改为全玻璃封闭阳光房，并评估用活动板房利用室外空间；刘磊磊已开始联系可施工团队。现场最早可于 2026-08-05 进场装修，因此须在进场前完成方案收敛与学校书面审批。验收：1) 完成阳台、室外区域和相邻室内空间的现场测量及现状照片；2) 分别形成阳台全封闭与室外活动板房的平面、立面、材料、结构连接、排水防水、抗风、消防疏散、空调通风、电力网络、施工访问与噪声控制方案；3) 至少取得可比施工范围、报价、工期、保修和负责人；4) 明确校方审批材料、提交人、审批链和书面许可，不得在批准前开工；5) 在 2026-08-05 前完成 go/no-go 决策与可执行施工排期。",
-        "status": "active",
+        "status": "done",
         "priority": "high",
         "assignee": "Liu Leilei / Boris / lab facilities",
         "result": null,
-        "comments": [],
-        "updated_at": "2026-07-11T00:43:55.332Z",
-        "due_at": "2026-08-04"
+        "comments": [
+          {
+            "comment_id": "comment_f41e2b17-8af5-40a3-8890-782a8abb417a",
+            "task_id": "task_real_robot_infra_todo_20260711",
+            "author": "Boris / Codex",
+            "author_type": "system",
+            "kind": "comment",
+            "body": "[STATUS 2026-07-21 · facilities] Boris confirmed that the hillside joint-lab balcony enclosure / outdoor prefab-room planning and school-approval TODO is complete. Marked done per this confirmation.",
+            "created_at": "2026-07-21T08:49:25.649Z"
+          }
+        ],
+        "updated_at": "2026-07-21T08:49:25.649Z",
+        "due_at": "2026-08-04",
+        "completed_at": "2026-07-21",
+        "completed_at_time": "2026-07-21T08:49:25.649Z"
       },
       {
         "task_id": "task_real_robot_infra_indoor_phone_booth_plan_20260711",
         "project_id": "real-robot-infra",
         "title": "评估并配置实验室室内单人 phone booth",
         "description": "ClawCross 读取 2026-07-10 与刘磊磊的沟通：实验室希望配置若干单人开会 phone booth，明确放在现有室内空间，不放进拟建阳光房；数量和具体点位尚未确定。验收：1) 标注候选点位、通道和门开启范围，确定数量、外形尺寸与搬运路径；2) 比较隔音、语音私密性、通风散热、照明、电源、网络、消防材料、疏散与无障碍影响；3) 获取至少两套产品或施工方案的总价、交期、安装、保修与维护条件；4) 现场确认不会遮挡设备、配电、空调、消防设施或人员通行；5) 形成选型结论并在采购前取得实验室与校方设施侧确认。",
-        "status": "todo",
+        "status": "done",
         "priority": "medium",
         "assignee": "Liu Leilei / Boris / lab facilities",
         "result": null,
-        "comments": [],
-        "updated_at": "2026-07-11T00:46:56.089Z"
+        "comments": [
+          {
+            "comment_id": "comment_real_robot_phone_booth_quote_done_20260721",
+            "task_id": "task_real_robot_infra_indoor_phone_booth_plan_20260711",
+            "author": "Boris / Codex",
+            "author_type": "system",
+            "kind": "comment",
+            "body": "[USER CONFIRMED + QUOTATION EVIDENCE 2026-07-21] Close the phone-booth evaluation TODO because quotation DY-NUS-20260718 (18 Jul 2026) includes Soundproof Booth x2 at SGD 10,700 each / SGD 21,400 total. The booths are quoted as 1000 x 1100 x 2400 mm with aluminium enclosure, 10 mm tempered glass, low-noise ventilation, desk/touchscreen control and 6000 K LED; Singapore socket remains TBD. The full package total is SGD 35,000, including two damped optical tables and one shared delivery/unloading/installation line, but excluding import GST and import customs/permit fees. Trade term is DPU NUS, lead time is approximately 40-45 days after the stated approvals/payment conditions, and warranty is 12 months from installation acceptance. Closing this TODO records quote acquisition, not a purchase order or arrival.",
+            "created_at": "2026-07-21T09:52:09.165Z"
+          }
+        ],
+        "updated_at": "2026-07-21T09:52:09.165Z",
+        "completed_at": "2026-07-21",
+        "completed_at_time": "2026-07-21T09:52:09.165Z"
       },
       {
         "task_id": "task_real_robot_infra_hillside_commute_option_decision_20260711",
         "project_id": "real-robot-infra",
-        "title": "评估山上联合实验室通勤方案：scooter vs 电助力折叠自行车",
-        "description": "ClawCross 读取 2026-07-10 与刘磊磊的沟通：山上联合实验室的日常通勤仍需在 scooter 与电助力折叠自行车之间做方案选择；当前只是决策项，不应直接进入采购。验收：1) 记录实际起终点、坡度、距离、雨天和室内外搬运约束；2) 核对 NUS 场地政策与新加坡适用的道路、路径、停放和充电规则；3) 对比安全、制动与坡道能力、续航、重量和折叠尺寸、充电与电池存放、防雨、维修、保险和总拥有成本；4) 明确使用人、停放点、充电点、PPE 与事故处理要求；5) 做出 scooter、电助力折叠自行车或不采购的书面结论，选型确定后再新增采购行。",
-        "status": "todo",
+        "title": "KR4 通勤：不买 scooter，筛选合规折叠电助力车",
+        "description": "ClawCross 读取 2026-07-10 与刘磊磊的沟通：山上联合实验室的日常通勤仍需在 scooter 与电助力折叠自行车之间做方案选择；当前只是决策项，不应直接进入采购。验收：1) 记录实际起终点、坡度、距离、雨天和室内外搬运约束；2) 核对 NUS 场地政策与新加坡适用的道路、路径、停放和充电规则；3) 对比安全、制动与坡道能力、续航、重量和折叠尺寸、充电与电池存放、防雨、维修、保险和总拥有成本；4) 明确使用人、停放点、充电点、PPE 与事故处理要求；5) 做出 scooter、电助力折叠自行车或不采购的书面结论，选型确定后再新增采购行。\n\n【2026-07-21 用户决策与合规边界】\n用户决定不购买 scooter，通勤形态收敛为可折叠电助力车，并明确偏好已分享的 YADEA 20-inch 商品。群聊中已征集意见，动机是 KR4 上坡且距离最近校车站仍需步行十几分钟，折叠后希望室内存放/充电；截至所提供聊天片段，团队尚未反馈。该具体商品高置信匹配 YADEA Innovator，公开规格 350 W、约 23.8 kg，超过新加坡 PAB 250 W 连续功率和 20 kg 空载重量门槛，且未在当前 LTA approved-model list 中找到。因此记录为用户首选但合规阻塞，不标可下单；优先筛同类折叠且 LTA-approved 的替代型号。只有在路线完全属于封闭私人场地且取得 NUS 书面存放/充电/使用许可时，才另行评估原商品。\n【/2026-07-21 用户决策与合规边界】",
+        "status": "active",
         "priority": "medium",
         "assignee": "Boris / Liu Leilei / lab operations",
         "result": null,
-        "comments": [],
-        "updated_at": "2026-07-11T00:47:15.943Z"
+        "comments": [
+          {
+            "comment_id": "comment_real_robot_kr4_commute_yadea_candidate_20260721",
+            "task_id": "task_real_robot_infra_hillside_commute_option_decision_20260711",
+            "author": "Boris / Codex",
+            "author_type": "system",
+            "kind": "comment",
+            "body": "[USER PROVIDED + LINK CHECK 2026-07-21] The team is soliciting opinions on a foldable electric-assist option for the uphill connection from the nearest shuttle stop to KR4, with indoor storage/charging proposed. The shared Lazada item resolves to https://www.lazada.sg/products/electric-folding-commuter-bike-20-inch-i13738552291-s124681339678.html and is a YADEA 20-inch folding commuter e-bike, high-confidence matched to the YADEA Innovator family. Observed listing: about SGD 896.01, 350 W mid-drive, 36 V 12 Ah removable battery, listed 60 km range, hydraulic disc brakes, assisted speed below 25 km/h. Compliance blocker: Singapore LTA PAB rules require no more than 250 W continuous power and no more than 20 kg unladen weight, while the official Innovator specification lists 350 W and about 23.8 kg; the model is also absent from the current approved-model list. Keep it in procurement only as a blocked comparison candidate, do not order it, and screen an LTA-approved <=250 W / <=20 kg alternative plus NUS indoor storage/charging policy. Sources: https://yadea.com/electric-bicycle/Innovator ; https://onemotoring.lta.gov.sg/content/onemotoring/home/buying/vehicle-types-and-registrations/active-mobility-devices/PAB.html ; https://onemotoring.lta.gov.sg/content/dam/onemotoring/Buying/PDF/PAB/List_of_Approved_PAB_Models.pdf",
+            "created_at": "2026-07-21T09:52:09.165Z"
+          },
+          {
+            "comment_id": "comment_real_robot_kr4_no_scooter_foldable_ebike_decision_20260721",
+            "task_id": "task_real_robot_infra_hillside_commute_option_decision_20260711",
+            "author": "Boris / Codex",
+            "author_type": "system",
+            "kind": "comment",
+            "body": "[USER DECISION 2026-07-21] Do not buy a scooter; proceed with a foldable pedal-assist form factor. The shared YADEA item remains the user's preferred reference, but it is compliance-blocked rather than purchase-approved because its published 350 W / about 23.8 kg specification exceeds Singapore PAB limits. Team feedback was still pending in the supplied LV-Robotics Lab excerpt. Screen an LTA-approved foldable alternative and confirm NUS indoor storage/charging policy before PO.",
+            "created_at": "2026-07-21T10:43:25.017Z"
+          }
+        ],
+        "updated_at": "2026-07-21T10:43:25.017Z",
+        "completed_at": null,
+        "completed_at_time": null
       },
       {
         "task_id": "task_real_robot_infra_songling_aloha_operator_handoff_sop_20260711",
         "project_id": "real-robot-infra",
         "title": "固化松灵 ALOHA 开关机与现场 demo handoff SOP",
         "description": "ClawCross 读取 Dexterous Data Collection 2026-07-10 群聊：在 Boris 不在实验室时，Jingru 与 Haoming 需要为 ZJU Camp 展示遥操作并与刘剑博协调；Yongxi 提供了松灵 ALOHA 当前口头开机顺序：前部底下开机、急停、电小二电源、电小二 AC、排插开关，关机顺序反向。口头步骤中的急停动作含义仍须现场确认，不能直接写成按下或释放。该任务针对资产 GM-ROB-001 松灵 Aloha 遥操臂平台，不与已完成的 YAM 臂 ALOHA 搭建任务混同。验收：1) 现场逐项识别开关、急停、电小二与排插，确认每一步准确动作和等待条件；2) 增加上电前线缆、工作区、急停、主从臂和相机检查；3) 记录硬件上电、网络与软件启动、低速 teleop smoke、正常关机与异常停机流程；4) 产出一页 checklist 和短视频，归档 Hardware Resource Center；5) 至少由 Yongxi 向 Jingru、Haoming 两名操作者完成一次冷启动、demo、冷关机 handoff，并记录未解决 blocker。",
-        "status": "active",
+        "status": "done",
         "priority": "high",
         "assignee": "Yongxi / Jingru / Haoming / Boris",
         "result": null,
@@ -18132,9 +18303,20 @@ export default {
             "kind": "comment",
             "body": "The 2026-07-10 group history confirms task assignment, a proposed five-step power sequence, and Yongxi offering a video handoff. It does not contain a completed cold-start, successful teleop demo, shutdown verification, or archived SOP artifact. Keep status active until those acceptance artifacts exist.",
             "created_at": "2026-07-11T00:49:18.548Z"
+          },
+          {
+            "comment_id": "comment_5f541368-68f2-46a0-a361-c8fd8d8b1c32",
+            "task_id": "task_real_robot_infra_songling_aloha_operator_handoff_sop_20260711",
+            "author": "Boris / Codex",
+            "author_type": "system",
+            "kind": "comment",
+            "body": "[STATUS 2026-07-21 · ALOHA SOP] Boris confirmed that the Songling ALOHA power-cycle and onsite demo handoff SOP TODO is complete. Marked done; this supersedes the 2026-07-11 active-state note.",
+            "created_at": "2026-07-21T08:49:25.649Z"
           }
         ],
-        "updated_at": "2026-07-11T00:49:18.548Z"
+        "updated_at": "2026-07-21T08:49:25.649Z",
+        "completed_at": "2026-07-21",
+        "completed_at_time": "2026-07-21T08:49:25.649Z"
       },
       {
         "task_id": "task_urdf_embodiment_prior_world_model_idea_novelty_matrix_urdf_x_action_x_dynamic_camera_20260711",
@@ -18255,7 +18437,7 @@ export default {
         "task_id": "task_umi_world_model_x2sam_roboseg_cloak_vla_umi_wrist_view_masks_20260713",
         "project_id": "umi-world-model",
         "title": "比较 X2SAM、RoboSeg 与 Cloak-VLA 的 UMI / wrist-view masks",
-        "description": "在同一批真实 UMI / wrist-view egocentric 数据上，对 X2SAM、RoboSeg/RobotSeg 与 Cloak mask 路线做可复现比较。2026-07-13 ClawCross 群聊确认：X2SAM 尚未完成实测，Yongxi/Lai 继续负责官方 X2SAM 结果；不能因通用 benchmark 或群里出现视频文件就提前标 done。\n\n方法边界：1) X2SAM 官方仓库 https://github.com/wanghao9610/X2SAM 已开放 training/evaluation/visualization/demo；它支持 conversational instruction、visual prompt 和 Mask Memory，重点测试 UMI wrist-view 的 gripper、hand/end-effector、arm+gripper 时序 mask。2) RoboSeg/RobotSeg https://github.com/showlab/RobotSeg 作为 robot-specific baseline 与当前候选主线。3) Cloak https://tml.stanford.edu/cloak/ 依赖 robot geometry、joint state 与 wrist-camera extrinsics 渲染 end-effector mask，适合作 geometry oracle/control；缺 URDF/MJCF、joint state 或 extrinsics 时必须记 blocker，不能伪造 GT。Cloak 的训练代码/checkpoint 是否完整开放需按当前 upstream 再核验。\n\nAcceptance: 1) 至少 3 个真实 UMI/dual-wrist clips，每段 20-50 帧，覆盖黑色 gripper、快速运动、接触、遮挡和背景干扰；2) 统一输出 gripper-only、hand/end-effector、arm+gripper taxonomy，保存 binary mask、overlay、video、prompt/config/git SHA；3) X2SAM 比 text instruction 与 visual-prompt initialization，RoboSeg 用官方 checkpoint，Cloak 只在 metadata 足够时渲染；4) 少量人工 reference/consensus labels 上报告 IoU、Boundary-F、gripper recall、missing rate、false foreground、frame-to-frame IoU、bbox jitter、topology jump、propagation drift、runtime、VRAM 和人工修正成本；5) 输出同帧三路可视化、CSV/JSON 和 failure gallery；6) 给出明确主线：RoboSeg 是否保留 mainline，X2SAM 是否做语言/视觉提示 fallback，Cloak 是否做 geometry oracle/VLA ablation。",
+        "description": "在同一批真实 UMI / wrist-view egocentric 数据上，对 X2SAM、RoboSeg/RobotSeg 与 Cloak mask 路线做可复现比较。2026-07-13 ClawCross 群聊确认：X2SAM 尚未完成实测，Yongxi/Lai 继续负责官方 X2SAM 结果；不能因通用 benchmark 或群里出现视频文件就提前标 done。\n\n方法边界：1) X2SAM 官方仓库 https://github.com/wanghao9610/X2SAM 已开放 training/evaluation/visualization/demo；它支持 conversational instruction、visual prompt 和 Mask Memory，重点测试 UMI wrist-view 的 gripper、hand/end-effector、arm+gripper 时序 mask。2) RoboSeg/RobotSeg https://github.com/showlab/RobotSeg 作为 robot-specific baseline 与当前候选主线。3) Cloak https://tml.stanford.edu/cloak/ 依赖 robot geometry、joint state 与 wrist-camera extrinsics 渲染 end-effector mask，适合作 geometry oracle/control；缺 URDF/MJCF、joint state 或 extrinsics 时必须记 blocker，不能伪造 GT。Cloak 的训练代码/checkpoint 是否完整开放需按当前 upstream 再核验。\n\nAcceptance: 1) 至少 3 个真实 UMI/dual-wrist clips，每段 20-50 帧，覆盖黑色 gripper、快速运动、接触、遮挡和背景干扰；2) 统一输出 gripper-only、hand/end-effector、arm+gripper taxonomy，保存 binary mask、overlay、video、prompt/config/git SHA；3) X2SAM 比 text instruction 与 visual-prompt initialization，RoboSeg 用官方 checkpoint，Cloak 只在 metadata 足够时渲染；4) 少量人工 reference/consensus labels 上报告 IoU、Boundary-F、gripper recall、missing rate、false foreground、frame-to-frame IoU、bbox jitter、topology jump、propagation drift、runtime、VRAM 和人工修正成本；5) 输出同帧三路可视化、CSV/JSON 和 failure gallery；6) 给出明确主线：RoboSeg 是否保留 mainline，X2SAM 是否做语言/视觉提示 fallback，Cloak 是否做 geometry oracle/VLA ablation。\n\n【2026-07-21 当前证据更正】\n以 2026-07-21 Boris 提供的与 NUS-赖咏曦最新确认记录为准，并覆盖同日更早的宽泛路由表述：当前实际只完成了 UMI 腕部/第一人称输入上的比较，X2SAM 在这批已测输入上表现更好。第三人称对比尚未完成，计划随后补测，因此目前不得把“RoboSeg 对第三人称更好”写成已验证结论，只能保留为待验证候选。Cloak-VLA 的 mask 处理管线未开源，当前无法复现或测试；这是可用性 blocker，不是模型效果负结论。戴盟数据集是否也做 layered decomposition 尚未定案：在主数据管线分层质量不足时把它作为高优先级补充/交叉验证数据，不宣称已经完成分层。\n【/2026-07-21 当前证据更正】",
         "status": "active",
         "priority": "high",
         "assignee": "Lai / Yongxi / Seb.M / Boris",
@@ -18269,9 +18451,27 @@ export default {
             "kind": "comment",
             "body": "ClawCross sync 2026-07-13: X2SAM had not been tried when asked; Yongxi/Lai were assigned https://github.com/wanghao9610/X2SAM.git. Later shared videos are not treated as X2SAM completion until model/config/input and same-input RoboSeg comparison are attached.",
             "created_at": "2026-07-13T13:50:24.533Z"
+          },
+          {
+            "comment_id": "comment_umi_mask_comparison_yongxi_clarification_20260721",
+            "task_id": "task_umi_world_model_x2sam_roboseg_cloak_vla_umi_wrist_view_masks_20260713",
+            "author": "Boris / Codex",
+            "author_type": "system",
+            "kind": "comment",
+            "body": "[USER-PROVIDED CHAT CLARIFICATION 2026-07-21] 以 2026-07-21 Boris 提供的与 NUS-赖咏曦最新确认记录为准，并覆盖同日更早的宽泛路由表述：当前实际只完成了 UMI 腕部/第一人称输入上的比较，X2SAM 在这批已测输入上表现更好。第三人称对比尚未完成，计划随后补测，因此目前不得把“RoboSeg 对第三人称更好”写成已验证结论，只能保留为待验证候选。Cloak-VLA 的 mask 处理管线未开源，当前无法复现或测试；这是可用性 blocker，不是模型效果负结论。戴盟数据集是否也做 layered decomposition 尚未定案：在主数据管线分层质量不足时把它作为高优先级补充/交叉验证数据，不宣称已经完成分层。",
+            "created_at": "2026-07-21T09:52:09.165Z"
+          },
+          {
+            "comment_id": "comment_umi_mask_comparison_yongxi_full_context_20260721",
+            "task_id": "task_umi_world_model_x2sam_roboseg_cloak_vla_umi_wrist_view_masks_20260713",
+            "author": "Boris / Codex",
+            "author_type": "system",
+            "kind": "comment",
+            "body": "[USER-PROVIDED YONGXI CHAT 2026-07-21] Current comparison evidence remains limited to UMI wrist/first-person inputs, where X2SAM performed better; the third-person same-input comparison is still pending and must not be reported as a verified RoboSeg win. Cloak-VLA's mask-processing pipeline is not open sourced, so it cannot be tested. DaiMeng data layered decomposition remains a higher-priority conditional input if the current pipeline quality is insufficient; it has not been completed. Haoyu has Alibaba Cloud full access and is asked to help transfer a subset to Yongxi's AutoDL host or a lab workstation; no account, token, signed URL or credential belongs in Dashboard state.",
+            "created_at": "2026-07-21T10:43:25.017Z"
           }
         ],
-        "updated_at": "2026-07-13T13:50:24.533Z",
+        "updated_at": "2026-07-21T10:43:25.017Z",
         "due_at": "2026-07-20",
         "completed_at": null,
         "completed_at_time": null
@@ -18326,7 +18526,7 @@ export default {
         "project_id": "umi-world-model",
         "title": "Boris：收口 action-conditioned teacher/student 与多视角噪声实验",
         "description": "把本次会议中的 Stage 1 训练结果和下周实验从 Intro 拆成可验收 TODO。当前实现：teacher 以 first frame + 完整 10D action sequence（6D rotation + 3D translation + gripper width）生成完整 rollout；causal/streaming student 通过 distillation 做流式推理。会议报告的 preliminary evidence 是 action swap 会改变生成结果，zero-action/freeze 会生成近静止画面；这些必须附同输入对照、seed、checkpoint 和 metric 才能算正式结论。\n\n未完成问题：Stage 3 DMD 尚未收口；手/夹爪生成崩坏；当前数据质量一般；是否升级 13B 尚无成本收益证据。数据侧在深圳黑棚尝试采集约 5 m 高质量序列，但必须先定义相机、动作同步、曝光/噪声和验收，而不是只记录总长度。\n\n下周核心实验：1) 在两个视角交汇区域测噪声/误差相关性；2) 比较 independent noise、shared noise、overlap-only shared noise、pose-conditioned noise；3) 相机内外参/TF 作为已知条件和扰动变量分开记录；4) 检查 pose condition 是否提高 overlap consistency 而不损害单视角质量；5) 继续 MSE student -> DMD 路线，先用官方 RynnWorld-Teleop streaming/DMD 实现作代码参考。\n\nAcceptance: 1) actual/zero/wrong/shuffled action 四组同 seed 生成和 metric，报告 motion magnitude、action-video alignment、contact/object outcome、background drift；2) teacher vs streaming student 报告 fidelity、latency、throughput、VRAM、cache length；3) overlap/noise ablation 报告重叠区 photometric/feature/geometry consistency 与非重叠区质量；4) hand/gripper collapse failure gallery 与可定位原因；5) Stage 3 DMD 最小命令、checkpoint lineage、critic/student 初始化和失败日志；6) 黑棚数据记录 schema、样本质量、同步与 reject ratio；7) 只有 5B 路线被瓶颈证据否定后才评估 13B；8) 所有文档、图表、视频和结果索引提交 GitHub。",
-        "status": "active",
+        "status": "done",
         "priority": "urgent",
         "assignee": "Boris / Haoyu",
         "result": null,
@@ -18348,10 +18548,21 @@ export default {
             "kind": "comment",
             "body": "[MEETING 2026-07-20] Stage 1 进展与实验决策：双视角 teacher/student 路线已有初步结果，会议口头反馈 student 在当前测试上优于 teacher，但第三步 streaming / true-flow 出现尾影或 ghosting；正式结论需补同输入、同 seed、同 checkpoint 与量化指标。保留当前双 agent / 双 token 解码结构作为 baseline，Haoyu 在此基础上对比 independent noise、common/shared noise 与 overlap-only shared noise；噪声改动和结构改动分开做单变量消融，并同时检查 action-video 联合分布、共视区一致性与非共视区质量。当前先用全量约 900 小时数据的既定 split 做离线/合成验证，后续再补真机验证。会议转写中的 Devon / true-flow 等名称暂按待核对记录，不覆盖正式模型字段。",
             "created_at": "2026-07-20T14:00:52.150Z"
+          },
+          {
+            "comment_id": "comment_d24189cd-ccab-42db-b498-6ad2a690b26e",
+            "task_id": "task_umi_world_model_boris_action_conditioned_teacher_student_20260713",
+            "author": "Boris / Codex",
+            "author_type": "system",
+            "kind": "comment",
+            "body": "[COMPLETION 2026-07-21] Stage 1 teacher/student 与 Stage 3 few-step 基线已完成收口。详细评测与可视化：https://claude.ai/code/artifact/87a3b809-c651-4ff2-91ea-651b50b83348?org=2087c33c-8d08-424e-898b-8e3bd7866711&open_in_browser=1\n\n评测设置：使用最新 stage checkpoints（S1 teacher@3000、S2 causal student@6400、S3 DMD@2350），6 个任务 × 189 帧；每个 clip 输入首帧双视角 hstack、189×10 EE action sequence 与 text prompt。指标为 PSNR/SSIM（越高越好）及 LPIPS（越低越好），结果文件为 eval_robot_cmp/metrics_3stage.json。\n\n核心结论：\n1) S2 causal / KV-cache / action-conditioned student 在 6/6 clips 的总体指标上不弱于 teacher，aggregate 为 PSNR 14.81 vs 14.03 dB、SSIM 0.500 vs 0.479、LPIPS 0.379 vs 0.409。说明本轮 distillation 未造成质量下降，S2 作为主质量基线。\n2) S3 DMD 4-step（[1000,750,500,250]）将 sampling 从约 305 s 降至约 28 s（10.9×），峰值 VRAM 从 74G 降至 28G（2.6×），但 aggregate PSNR 降至 11.46 dB、LPIPS 升至 0.588；6 个 clip 均在约 30–60 帧后出现结构性崩坏/颜色涂抹，不是轻微模糊，因此当前 S3 不可作为可发布质量 checkpoint。\n3) f0 三阶段均约 34–38 dB；末帧 Teacher/S2 约 13 dB，S3 约 10.7 dB。三者均存在长时漂移，S3 最严重；窗口式 rollout 部署需丢弃窗口尾帧或重新锚定。\n4) “latest != best”：S3@2350 属于未完成的 v2 re-distillation，在 towel/chess/cups 三个共享 clips 上平均 11.95 dB，低于已完成 v1@2000 的 13.05 dB。后续 checkpoint 必须通过 held-out eval gate 选择，不能只看 training loss 或 latest；S2 3000≈6400，已基本饱和。\n\nDecision：本 TODO 标记 done。S2 作为 teacher/student 主质量基线；S3@2350 仅保留为 4-step 速度/失效基线，不进入 release。CameraNoise E1（world-locked noise fine-tune）及跨视角噪声消融作为针对 S3 rollout collapse 的后续实验单独跟踪，不再阻塞本 TODO。",
+            "created_at": "2026-07-21T08:32:58.564Z"
           }
         ],
-        "updated_at": "2026-07-20T14:00:52.150Z",
-        "due_at": "2026-07-20"
+        "updated_at": "2026-07-21T08:32:58.564Z",
+        "due_at": "2026-07-20",
+        "completed_at": "2026-07-21",
+        "completed_at_time": "2026-07-21T08:32:58.564Z"
       },
       {
         "task_id": "task_self_improving_agents_robotwin_scenegen_stage_0_1_scenespec_20260714",
@@ -18777,8 +18988,8 @@ export default {
       {
         "task_id": "task_real_robot_demos_ego2dex_lfd_baseline_20260718",
         "project_id": "real-robot-demos",
-        "title": "Yutao：到线下前跑通 Ego2Dex / LfD 手物重建 baseline",
-        "description": "在同一组 2-3 段单目 ego 手物交互视频上，优先审计并跑通 EgoEngine、Do-As-I-Do、VideoManip、EasyHOI；HandFlow 作为 4D MANO/手部时序恢复候选加入手重建对比。不要用每篇论文自己的 demo 直接横向下结论。\n\n统一输入与输出：冻结原始视频、帧率、裁剪、相机约定和对象；每条路线记录 upstream git SHA、checkpoint、环境、命令、runtime/VRAM 与人工干预。统一导出 camera intrinsics/extrinsics or gravity frame、metric depth/pointmap、hand MANO/keypoints/mesh、object mask/mesh/scale/6D pose trajectory、contact/penetration sidecar、retargeted robot wrist/finger trajectory，以及可复现 manifest。若某仓库或权重未开放，记录缺口并用可替换模块完成同接口 smoke，不得伪造复现完成。\n\nAcceptance A（到线下前）：至少 2 段共享视频、四条主路线的 availability/reproduction matrix、至少两条可运行 end-to-end 路线、HandFlow 对 HaWoR/HaMeR 类手轨迹的同输入比较；报告 hand reprojection/world-space error、acceleration/jitter、object pose drift、scale error、contact precision/recall、penetration、temporal consistency、runtime/VRAM/manual steps，并提交 failure gallery。Acceptance B（到线下后）：选择一条 pipeline，把可执行 retargeted trajectory 接到一个现有真机 demo 的仿真/read-only/低速安全流程；由 Haoming 协助数据与硬件接口，保留 E-stop watcher、workspace/joint limits 和完整日志。",
+        "title": "Yutao：跑通 Ego2Dex / LfD baseline，并在 Franka + Wuji 验证 Do-As-I-Do + tactile",
+        "description": "目标：用统一输入与评测协议审计 ego/LfD 手物重建路线，并把其中可行的一条真正接到 Franka + Wuji，而不是用各论文自己的 demo 横向下结论。在线下前，使用同一组 2-3 段单目 ego 手物交互视频，优先审计并跑通 EgoEngine、Do-As-I-Do、VideoManip、EasyHOI；HandFlow 作为 4D MANO/手部时序恢复候选加入手重建对比。Do-As-I-Do 参考：https://do-as-i-do.com/ ，arXiv 2606.19333，代码：https://github.com/malik-group/do-as-i-do 。\n\n统一输入与输出：冻结原始视频、帧率、裁剪、相机约定和对象；每条路线记录 upstream git SHA、checkpoint、环境、命令、runtime/VRAM 与人工干预。统一导出 camera intrinsics/extrinsics or gravity frame、metric depth/pointmap、hand MANO/keypoints/mesh、object mask/mesh/scale/6D pose trajectory、contact/penetration sidecar、retargeted robot wrist/finger trajectory，以及可复现 manifest。若某仓库或权重未开放，记录缺口并用可替换模块完成同接口 smoke，不得伪造复现完成。\n\nAcceptance A（到线下前，重建/retarget baseline）：1) 至少 2 段共享视频、四条主路线的 availability/reproduction matrix，至少两条可运行 end-to-end 路线；2) HandFlow 对 HaWoR/HaMeR 类手轨迹的同输入比较；3) 报告 hand reprojection/world-space error、acceleration/jitter、object pose drift、scale error、contact precision/recall、penetration、temporal consistency、runtime/VRAM/manual steps，并提交 failure gallery。\n\nAcceptance B（到线下后，Franka + Wuji 真机与触觉价值）：1) 从上述路线中选择 Do-As-I-Do 或等价 pipeline，完成“monocular human video -> hand-object reconstruction -> robot retargeting -> executable manipulation data”；2) 选 3-5 个 Wuji 可执行短任务，至少包含一种刚体 grasp/manipulation 和一种接触敏感任务；3) 先跑仿真/read-only/低速安全流程，再做 sim/real playback，保留 E-stop watcher、workspace/joint limits 和完整日志；4) 统一记录 Franka arm pose、Wuji joint/action、Wuji tactile、RGB/Depth/外参与对象状态；5) 做 no-tactile、tactile-observed、tactile-feedback 三组对照，比较成功率、接触时序、滑移/掉落、过大接触力、regrasp 次数与 trajectory deviation；6) 明确触觉作为 logging/evaluation、policy input、online correction 或 retarget optimization constraint 时各自的增益与边界；7) 输出失败样例与 adopt/reject 结论，并回流到 Tactile-WAM / VTLA，判断触觉是否值得进入 video-to-touch / WAM 训练目标。Haoming 协助数据与硬件接口。",
         "status": "todo",
         "priority": "high",
         "assignee": "Yutao / Haoming / Boris",
@@ -18801,9 +19012,18 @@ export default {
             "kind": "comment",
             "body": "Added HandFlow (arXiv:2607.11221) to the hand-reconstruction comparison. Evaluate its full-window MANO recovery and temporal smoothness on the same clips; do not treat its paper metrics as local evidence until the code/checkpoint and local run artifacts are verified.",
             "created_at": "2026-07-18T03:53:00.469Z"
+          },
+          {
+            "comment_id": "comment_3a4d6319-7549-4954-a869-9670ac8580af",
+            "task_id": "task_real_robot_demos_ego2dex_lfd_baseline_20260718",
+            "author": "Boris / Codex",
+            "author_type": "system",
+            "kind": "comment",
+            "body": "[MERGE 2026-07-21] 已将重复任务 task_real_robot_demo_do_as_i_do_franka_wuji_tactile 的独有范围并入本任务：Franka + Wuji 上的 Do-As-I-Do/等价链路、3-5 个真机短任务、统一 robot/tactile/vision schema，以及 no-tactile / tactile-observed / tactile-feedback 三组消融。后续进展统一记录在本任务；原任务仅因去重归档，不代表实验已完成。",
+            "created_at": "2026-07-21T08:44:21.685Z"
           }
         ],
-        "updated_at": "2026-07-19T01:56:26.790Z",
+        "updated_at": "2026-07-21T08:44:21.685Z",
         "due_at": "",
         "completed_at": null
       },
@@ -18811,25 +19031,37 @@ export default {
         "task_id": "task_umi_aliyun_dataset_access_lai_5090_20260720",
         "project_id": "umi-world-model",
         "title": "为 Lai 开通阿里云数据集读取权限并完成 5090 拉取 smoke",
-        "description": "[MEETING 2026-07-20] Boris 配置 Lai 的阿里云数据集最小必要只读权限；Lai 验证可列出目标数据并先向 5090 服务器拉取一个小样本，再完成所需数据同步。验收：记录正式数据集名称与范围、目标目录、文件数/大小/校验结果、5090 存储余量和传输失败重试；Dashboard、评论和仓库中不得记录账号、Token、签名 URL 或其他凭据。权限开通并完成读取 smoke 后从 needs_user 转 active。",
+        "description": "[MEETING 2026-07-20] Boris 配置 Lai 的阿里云数据集最小必要只读权限；Lai 验证可列出目标数据并先向 5090 服务器拉取一个小样本，再完成所需数据同步。验收：记录正式数据集名称与范围、目标目录、文件数/大小/校验结果、5090 存储余量和传输失败重试；Dashboard、评论和仓库中不得记录账号、Token、签名 URL 或其他凭据。权限开通并完成读取 smoke 后从 needs_user 转 active。\n\n【2026-07-21 权限与传输状态】\nHaoyu 已获得阿里云 full access，并被安排协助 Yongxi 将一部分数据传到 Yongxi 的 AutoDL 主机或实验室 workstation。这只证明协助者具备访问条件，不证明 Lai/Yongxi 的正式数据范围、目标目录或 5090/AutoDL/workstation 拉取 smoke 已完成，因此本任务继续保持 needs_user。下一步需确认正式数据集名称与子集、目标主机和目录、文件数/大小/校验、存储余量与失败重试；不得在 Dashboard、评论或仓库中写入账号、Token、签名 URL 或其他凭据。\n【/2026-07-21 权限与传输状态】",
         "status": "needs_user",
         "priority": "high",
-        "assignee": "Boris / Lai",
+        "assignee": "Boris / Lai / Yongxi / Haoyu",
         "result": null,
-        "comments": [],
-        "updated_at": "2026-07-20T14:04:15.608Z"
+        "comments": [
+          {
+            "comment_id": "comment_umi_aliyun_haoyu_full_access_transfer_assist_20260721",
+            "task_id": "task_umi_aliyun_dataset_access_lai_5090_20260720",
+            "author": "Boris / Codex",
+            "author_type": "system",
+            "kind": "comment",
+            "body": "[USER-PROVIDED YONGXI CHAT 2026-07-21] Haoyu has Alibaba Cloud full access and will assist Yongxi with transferring a subset to AutoDL or a lab workstation. Keep needs_user until the exact dataset/subset, destination path, file count/size/checksums, storage headroom and a real transfer smoke are recorded. Do not store any credential material.",
+            "created_at": "2026-07-21T10:43:25.017Z"
+          }
+        ],
+        "updated_at": "2026-07-21T10:43:25.017Z"
       },
       {
         "task_id": "task_umi_stage_groups_weekly_sync_onboarding_20260720",
         "project_id": "umi-world-model",
         "title": "建立 UMI Stage 分组同步、周一代表汇报与新人 onboarding",
         "description": "[MEETING 2026-07-20] 建立分 Stage 的轻量同步机制：1) Boris 创建 Stage 1 专用小群并加入 Jack、罗涛及相关成员，用于模型、实验和数据问题的高频同步；2) Stage 2 与 Stage 3 分别建立内部同步群，每周推选一名代表在周一 20:00 项目会上汇报进展、阻塞和下一步；3) 群内形成的技术决定回写到对应 Dashboard 任务评论；4) 为全体新成员明确实验室参观、onboarding 和首次聚餐安排。验收只记录群组已建立、代表与安排状态，不在 Dashboard 中保存个人联系方式。",
-        "status": "todo",
+        "status": "done",
         "priority": "medium",
         "assignee": "Boris / Stage 1-3 leads",
         "result": null,
         "comments": [],
-        "updated_at": "2026-07-20T14:04:47.617Z"
+        "updated_at": "2026-07-21T08:35:32.788Z",
+        "completed_at": "2026-07-21",
+        "completed_at_time": "2026-07-21T08:35:32.788Z"
       },
       {
         "task_id": "task_self_improving_hu_repo_backend_onboarding_20260720",
@@ -18843,6 +19075,40 @@ export default {
         "comments": [],
         "updated_at": "2026-07-20T14:30:46.476Z",
         "due_at": "2026-07-27"
+      },
+      {
+        "task_id": "task_real_robot_infra_hillside_robot_relocation_procurement_coordination_20260721",
+        "project_id": "real-robot-infra",
+        "title": "敲定山上实验室机器人/光学桌采购与搬迁计划",
+        "description": "[USER-PROVIDED LV-ROBOTICS LAB CHAT 2026-07-21] 周老师在催光学桌；ME 已无多余空间，机器人和桌子计划迁往山上 KR4/一楼，设备不到位就无法从 ME 搬机器人。当前范围包括 Romoya 转发的 KING xArm7 + FACTR + 光学桌组合报价、Dongyi 光学桌 + phone booth 替代报价，以及周老师可能贡献的一套松灵四臂平台/一对双臂（提议，未确认）。采购主体是公司、SoC 还是校方设施路线尚未确定，计划周四与老颜确认。\n\nAcceptance: 1) 刷新已于 2026-06-23 失效的 KING 2026050801 报价，并解释 DDP 与 NUS importer 字段、USD 321.40 的“1% payment on account”、卸货/安装范围；2) 将 KING 与有效至约 2026-08-17 的 Dongyi DY-NUS-20260718 按同一 landed-cost/安装口径比较，明确只采购一对光学桌，不重复计数；3) 冻结 xArm7/FACTR/光学桌数量、技术规格、控制器/软件/安全附件和山上一楼落点；4) 确认采购主体、PO owner、预算、审批链、收货地址、服务电梯/搬运路线、楼板/门宽/电源网络和安装验收；5) 确认拟贡献松灵平台的资产归属、配置、交接与搬迁责任；6) 输出可执行采购与 ME→KR4 搬迁排期。未取得刷新报价、书面审批和 PO 前不得标 ordered。",
+        "status": "active",
+        "priority": "high",
+        "assignee": "Boris / Yuhang / Leilei / Zhou / SoC facilities",
+        "result": null,
+        "comments": [
+          {
+            "comment_id": "comment_hillside_procurement_group_context_20260721",
+            "task_id": "task_real_robot_infra_hillside_robot_relocation_procurement_coordination_20260721",
+            "author": "Boris / Codex",
+            "author_type": "system",
+            "kind": "comment",
+            "body": "The supplied LV-Robotics Lab excerpt says two optical tables are intended for the first floor/hillside lab, the Romoya xArm quote should be discussed together, ME has no remaining space, and the purchase/renovation route (company vs SoC/facilities) remains unresolved for Thursday discussion. This is active coordination, not a completed purchase.",
+            "created_at": "2026-07-21T10:43:25.017Z"
+          }
+        ],
+        "updated_at": "2026-07-21T10:43:25.017Z"
+      },
+      {
+        "task_id": "task_real_robot_infra_tailscale_10t_nas_centralized_storage_rollout_20260721",
+        "project_id": "real-robot-infra",
+        "title": "接入组内 Tailscale 与 10T NAS，固化数采PC→NAS集中数据路径",
+        "description": "[USER-PROVIDED LV-ROBOTICS LAB CHAT 2026-07-21] Boris 已搭建自建 Tailscale 网络供组内工作电脑互联，管理员操作由 Boris 处理；回到新加坡后计划把 10T NAS 接入自组网。数据策略不是让不同主机各自做分布式存储，而是在数采 PC 完成处理后统一写入 NAS。VPS 报销需与老颜另行确认，尚未批准。\n\nAcceptance: 1) 只纳入工作电脑，建立设备命名、owner、ACL、offboarding 与密钥轮换策略，Dashboard 不记录 auth key；2) 明确 NAS 主机/IP、磁盘/文件系统、SMART/容量、SMB/NFS 路径、用户组权限、只读/读写边界和备份/恢复；3) 固化数采 PC staging→处理→NAS archive 的目录、manifest、checksum、重试与空间告警；4) 至少三台工作电脑完成连接、权限隔离和读写/吞吐/断线恢复 smoke；5) 明确是否需要 VPS、费用与报销 owner；6) 记录 10T NAS 接入时间、维护责任和故障回退。本任务是已完成 10T NAS 决策任务的后继 rollout，不改写旧验收。",
+        "status": "active",
+        "priority": "high",
+        "assignee": "Boris / lab operations",
+        "result": null,
+        "comments": [],
+        "updated_at": "2026-07-21T10:43:25.017Z"
       }
     ]
   },

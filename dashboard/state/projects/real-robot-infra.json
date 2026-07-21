@@ -4,7 +4,7 @@
   "title": "Real-Robot Lab Infra",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-07-16T02:37:43.644Z",
+  "updated_at": "2026-07-21T10:43:25.017Z",
   "description": "Engineering stack for teleoperation, data collection, and robot-side validation",
   "summary": "",
   "asset": "dashboard/assets/real-robot-infra-data-collection-architecture-20260622.png",
@@ -45,7 +45,9 @@
     "task_hardware_six_dof_tactile_calibration_platform",
     "task_general_head_mounted_phone_holder_procurement",
     "task_general_pico_body_tracker_procurement",
-    "task_general_back_to_school_mac_replacement_config"
+    "task_general_back_to_school_mac_replacement_config",
+    "task_real_robot_infra_hillside_robot_relocation_procurement_coordination_20260721",
+    "task_real_robot_infra_tailscale_10t_nas_centralized_storage_rollout_20260721"
   ],
   "risks_decisions": [
     "Intro summary moved 2026-07-07: Real-Robot Infra now tracks both the runnable architecture and the asset table: hardware config feeds tactile, camera, robot, and gripper lifecycle modules, then pedal-gated ROS2 publish/domain-isolation records synchronized MP4, pickle, and per-timestamp sensor data. The canonical hardware inventory still tracks location, owner, and readiness state for lab robot/data-collection assets, including the FSR tactile glove + Ray-Ban human-centric collection asset. General-card TODO ownership has been folded into this infra card; the separate Procurement Table now only tracks editable live purchasing rows.",
