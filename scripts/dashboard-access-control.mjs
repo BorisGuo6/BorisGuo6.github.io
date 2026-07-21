@@ -4,6 +4,7 @@ import {
   scryptSync,
   timingSafeEqual,
 } from "node:crypto";
+import { normalizeBlobEtag } from "./dashboard-vercel-store.mjs";
 
 export const dashboardAccessSchemaVersion = "dashboard-access.v1";
 export const defaultDashboardAccessBlobPath = "dashboard-access/access-control.json";
@@ -239,7 +240,10 @@ export function createDashboardAccessUser(document, input, options = {}) {
   if (normalizedViewerKey(viewer) === normalizedViewerKey(options.adminViewer || "jingxiang")) {
     throw new Error("Invalid viewer: the administrator identity is reserved");
   }
-  if (normalized.users.some((user) => normalizedViewerKey(user.viewer) === normalizedViewerKey(viewer))) {
+  if (
+    normalized.users.some((user) => normalizedViewerKey(user.viewer) === normalizedViewerKey(viewer))
+    || (options.reservedViewers || []).some((candidate) => normalizedViewerKey(candidate) === normalizedViewerKey(viewer))
+  ) {
     throw new Error(`Access user already exists: ${viewer}`);
   }
   const material = makeTokenMaterial(options);
@@ -280,9 +284,15 @@ export function updateDashboardAccessUser(document, userId, patch, options = {})
   if (normalizedViewerKey(viewer) === normalizedViewerKey(options.adminViewer || "jingxiang")) {
     throw new Error("Invalid viewer: the administrator identity is reserved");
   }
-  if (normalized.users.some((user, candidateIndex) => (
-    candidateIndex !== index && normalizedViewerKey(user.viewer) === normalizedViewerKey(viewer)
-  ))) {
+  if (
+    normalized.users.some((user, candidateIndex) => (
+      candidateIndex !== index && normalizedViewerKey(user.viewer) === normalizedViewerKey(viewer)
+    ))
+    || (
+      normalizedViewerKey(viewer) !== normalizedViewerKey(current.viewer)
+      && (options.reservedViewers || []).some((candidate) => normalizedViewerKey(candidate) === normalizedViewerKey(viewer))
+    )
+  ) {
     throw new Error(`Access user already exists: ${viewer}`);
   }
   const updated = {
@@ -302,6 +312,22 @@ export function updateDashboardAccessUser(document, userId, patch, options = {})
   return {
     document: { ...normalized, updated_at: now.toISOString(), users },
     user: publicAccessUser(updated),
+  };
+}
+
+export function deleteDashboardAccessUser(document, userId, options = {}) {
+  const now = options.now || new Date();
+  const normalized = normalizeDashboardAccessControl(document, { now });
+  const targetId = requireUserId(userId);
+  const index = normalized.users.findIndex((user) => user.user_id === targetId);
+  if (index < 0) throw new Error(`Access user not found: ${targetId}`);
+  const [deleted] = normalized.users.splice(index, 1);
+  return {
+    document: {
+      ...normalized,
+      updated_at: now.toISOString(),
+    },
+    user: publicAccessUser(deleted),
   };
 }
 
@@ -503,13 +529,14 @@ export async function writeDashboardAccessControl(document, options = {}) {
   const pathname = options.pathname || dashboardAccessBlobPath(env);
   const blobApi = options.blobApi || await blobClient();
   const normalized = normalizeDashboardAccessControl(document, options);
+  const ifMatch = normalizeBlobEtag(options.ifMatch);
   return blobApi.put(pathname, `${JSON.stringify(normalized, null, 2)}\n`, {
     access: "private",
     addRandomSuffix: false,
-    allowOverwrite: options.ifMatch ? true : options.allowOverwrite === true,
+    allowOverwrite: ifMatch ? true : options.allowOverwrite === true,
     cacheControlMaxAge: 60,
     contentType: "application/json",
-    ...(options.ifMatch ? { ifMatch: options.ifMatch } : {}),
+    ...(ifMatch ? { ifMatch } : {}),
     token,
   });
 }

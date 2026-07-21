@@ -50,8 +50,10 @@ evidence as Stage 1 input, but should not own those operational TODOs.
 Hosted writes require `DASHBOARD_WRITE_TOKEN`. Do not print, commit, or paste the token into comments. Send it as `x-dashboard-token: $DASHBOARD_WRITE_TOKEN` or `Authorization: Bearer $DASHBOARD_WRITE_TOKEN`.
 
 Provision new viewers through the administrator-only Settings dialog, or through the unified
-`DASHBOARD_WRITE_TOKEN_USERS` JSON map when Vercel environment credentials are required. New tokens are shown once and
-stored as salted hashes in a private Blob; never put token values in Git, dashboard state, logs, comments, or chat.
+`DASHBOARD_WRITE_TOKEN_USERS` JSON map when Vercel environment credentials are required. Dashboard-managed tokens are
+shown once and stored as salted hashes in a private Blob. Environment-managed viewer tokens may be copied only through
+the authenticated administrator Settings action, which reads the Vercel runtime without persisting the value in
+dashboard state or browser storage. Never put token values in Git, dashboard state, logs, comments, or chat.
 `DASHBOARD_WRITE_TOKEN_<VIEWER>` variables are legacy compatibility only; do not create new standalone per-user Vercel
 variables such as `DASHBOARD_WRITE_TOKEN_YANXIANG`. Viewers may mutate visible cards, but every task/project mutation
 must reject resources outside the viewer's visibility. The bootstrap `DASHBOARD_WRITE_TOKEN` belongs only to the

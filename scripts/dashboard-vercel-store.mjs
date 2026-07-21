@@ -28,7 +28,7 @@ export function vercelBlobReadUrl(blob) {
   return blob?.downloadUrl || blob?.url;
 }
 
-function normalizeBlobEtag(etag) {
+export function normalizeBlobEtag(etag) {
   return String(etag || "").trim().replace(/^W\//i, "");
 }
 

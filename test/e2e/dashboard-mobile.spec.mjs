@@ -49,7 +49,7 @@ async function mockDashboardApi(page, mutateSnapshot = null, options = {}) {
     user_id: "env_ziyang_browser",
     viewer: "Ziyang",
     role: "viewer",
-    enabled: true,
+    enabled: options.environmentEnabled !== false,
     visibility: { bucket_ids: ["research"], include_project_ids: [], exclude_project_ids: [] },
     token_fingerprint: "sha256:ziyangbrowser12",
     token_hint: "Environment credential",
@@ -58,8 +58,25 @@ async function mockDashboardApi(page, mutateSnapshot = null, options = {}) {
     rotated_at: null,
     managed_by: "environment",
     editable: true,
-    token_copy_mode: "environment-hidden",
+    token_copy_mode: "environment-copyable",
   }];
+  if (options.includeManagedDuplicate) {
+    accessUsers.push({
+      user_id: "user_ziyang_duplicate",
+      viewer: "Ziyang",
+      role: "viewer",
+      enabled: true,
+      visibility: { bucket_ids: ["research"], include_project_ids: [], exclude_project_ids: [] },
+      token_fingerprint: "sha256:duplicate123456",
+      token_hint: "dash_duplic...",
+      created_at: "2026-07-18T08:00:00.000Z",
+      updated_at: "2026-07-18T08:00:00.000Z",
+      rotated_at: "2026-07-18T08:00:00.000Z",
+      managed_by: "dashboard",
+      editable: true,
+    });
+  }
+  const environmentToken = "environment_browser_test_token_1234567890";
 
   await page.route("**/api/dashboard/**", async (route) => {
     const request = route.request();
@@ -208,7 +225,24 @@ async function mockDashboardApi(page, mutateSnapshot = null, options = {}) {
         return;
       }
       const body = request.postDataJSON();
-      if (request.method() === "POST" && body.action !== "rotate") {
+      if (request.method() === "POST" && body.action === "copy") {
+        const user = accessUsers.find((candidate) => candidate.user_id === body.user_id);
+        await route.fulfill({
+          contentType: "application/json",
+          body: JSON.stringify({ ok: true, user, token: environmentToken }),
+        });
+        return;
+      }
+      if (request.method() === "POST" && body.action === "delete") {
+        const index = accessUsers.findIndex((candidate) => candidate.user_id === body.user_id);
+        const [user] = index >= 0 ? accessUsers.splice(index, 1) : [null];
+        await route.fulfill({
+          contentType: "application/json",
+          body: JSON.stringify({ ok: true, user, deleted: true }),
+        });
+        return;
+      }
+      if (request.method() === "POST" && !body.action) {
         const user = {
           user_id: "user_browser_created",
           viewer: body.viewer,
@@ -407,7 +441,17 @@ test("admin settings creates a one-time viewer token without persisting it", asy
   await expect(settings).toBeFocused();
 });
 
-test("admin settings can rescope environment viewer tokens without exposing secrets", async ({ page }) => {
+test("admin settings can copy and rescope environment viewer tokens without browser persistence", async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, "clipboard", {
+      configurable: true,
+      value: {
+        writeText: async (text) => {
+          window.__dashboardCopiedText = text;
+        },
+      },
+    });
+  });
   await mockDashboardApi(page);
   await unlockDashboard(page);
 
@@ -432,9 +476,13 @@ test("admin settings can rescope environment viewer tokens without exposing secr
     if (!add || !list) return false;
     return add.getBoundingClientRect().bottom <= list.getBoundingClientRect().top;
   })).toBe(true);
-  await expect(editForm.getByText("The current environment token value is encrypted outside the dashboard and cannot be copied from Settings.")).toBeVisible();
+  await expect(editForm.getByText("This token stays in the Vercel runtime environment. An authenticated administrator can copy it without storing it in dashboard state or browser storage.")).toBeVisible();
   await expect(editForm.getByRole("textbox", { name: "Name" })).toBeDisabled();
   await expect(editForm.getByRole("button", { name: "Regenerate & copy token" })).toHaveCount(0);
+  await editForm.getByRole("button", { name: "Copy token", exact: true }).click();
+  await expect(dialog.getByRole("textbox", { name: "New dashboard access token" })).toHaveValue("environment_browser_test_token_1234567890");
+  expect(await page.evaluate(() => window.__dashboardCopiedText || "")).toBe("environment_browser_test_token_1234567890");
+  expect(await page.evaluate(() => JSON.stringify({ ...localStorage, ...sessionStorage }))).not.toContain("environment_browser_test_token_1234567890");
 
   await editForm.evaluate((form) => {
     const research = form.querySelector('input[name="bucket_research"]');
@@ -463,6 +511,41 @@ test("admin settings can rescope environment viewer tokens without exposing secr
     exclude_project_ids: [],
   });
   expect(JSON.stringify(updatedAccess)).not.toContain("dashboard-audit-token");
+  await dialog.getByRole("button", { name: "Close dashboard access settings" }).click();
+  await expect(page.locator("[data-access-token-value]")).toHaveValue("");
+});
+
+test("disabled environment viewers do not expose a copy action", async ({ page }) => {
+  await mockDashboardApi(page, null, { environmentEnabled: false });
+  await unlockDashboard(page);
+
+  await page.getByRole("button", { name: "Settings" }).click();
+  const dialog = page.getByRole("dialog", { name: "Dashboard access" });
+  await dialog.locator('.access-user-item[data-access-user-id="env_ziyang_browser"]').click();
+  const editForm = dialog.locator("[data-access-user-edit]");
+  await expect(editForm.getByRole("checkbox", { name: "Access enabled" })).not.toBeChecked();
+  await expect(editForm.getByRole("button", { name: "Copy token", exact: true })).toHaveCount(0);
+});
+
+test("admin can permanently remove a managed duplicate and keep the environment credential", async ({ page }) => {
+  await mockDashboardApi(page, null, { includeManagedDuplicate: true });
+  await unlockDashboard(page);
+
+  await page.getByRole("button", { name: "Settings" }).click();
+  const dialog = page.getByRole("dialog", { name: "Dashboard access" });
+  await dialog.locator('[data-access-user-id="user_ziyang_duplicate"]').click();
+  const editForm = dialog.locator("[data-access-user-edit]");
+  await expect(editForm.getByRole("button", { name: "Delete user permanently" })).toBeVisible();
+  page.once("dialog", async (confirmation) => { await confirmation.accept(); });
+  await editForm.getByRole("button", { name: "Delete user permanently" }).click();
+
+  await expect.poll(async () => page.evaluate(async () => {
+    const response = await fetch("/api/dashboard/access-users");
+    const data = await response.json();
+    return data.users.filter((user) => user.viewer === "Ziyang").map((user) => user.managed_by);
+  })).toEqual(["environment"]);
+  await expect(dialog.locator('.access-user-item[data-access-user-id="env_ziyang_browser"]')).toBeVisible();
+  await expect(editForm.getByRole("button", { name: "Copy token", exact: true })).toBeVisible();
 });
 
 test("viewer can write visible cards but cannot open settings or write hidden cards", async ({ page }) => {
@@ -514,11 +597,13 @@ test("viewer can write visible cards but cannot open settings or write hidden ca
     return [
       await request("GET"),
       await request("POST", { viewer: "Nope" }),
+      await request("POST", { action: "copy", user_id: "env_ziyang_browser" }),
+      await request("POST", { action: "delete", user_id: "user_browser_viewer" }),
       await request("PATCH", { user_id: "env_ziyang_browser", visibility: { bucket_ids: ["archive"], include_project_ids: [], exclude_project_ids: [] } }),
       await request("DELETE", { user_id: "env_ziyang_browser" }),
     ];
   });
-  expect(forbiddenStatuses).toEqual([403, 403, 403, 403]);
+  expect(forbiddenStatuses).toEqual([403, 403, 403, 403, 403, 403]);
 });
 
 test("server session survives reload without leaking the bearer token", async ({ page }) => {

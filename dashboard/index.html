@@ -157,9 +157,9 @@
 
             <section class="access-token-reveal" data-access-token-reveal hidden aria-live="polite">
               <div>
-                <span class="label">Shown once</span>
+                <span class="label" data-access-token-mode>Shown once</span>
                 <strong data-access-token-owner>New viewer token</strong>
-                <p>Copy it now. Existing token secrets cannot be recovered after this panel closes.</p>
+                <p data-access-token-note>Copy it now. Existing token secrets cannot be recovered after this panel closes.</p>
               </div>
               <div class="access-token-copy-row">
                 <input type="text" readonly data-access-token-value aria-label="New dashboard access token">
@@ -1108,7 +1108,11 @@
           const tokenNote = document.createElement("p");
           tokenNote.className = "access-token-note";
           tokenNote.textContent = user.managed_by === "environment"
-            ? "The current environment token value is encrypted outside the dashboard and cannot be copied from Settings. Scope changes saved here still apply to that token."
+            ? (user.enabled === false
+              ? "This environment credential is disabled. Enable and save access before copying it."
+              : user.token_copy_mode === "environment-copyable"
+              ? "This token stays in the Vercel runtime environment. An authenticated administrator can copy it without storing it in dashboard state or browser storage."
+              : "This environment token mapping is duplicated or ambiguous. Consolidate the Vercel credentials before copying a token.")
             : "The current token value is not stored. Regenerate to show and copy a replacement token once.";
           const revoke = document.createElement("button");
           revoke.type = "button";
@@ -1123,6 +1127,19 @@
             rotate.dataset.accessRotate = user.user_id;
             rotate.textContent = "Regenerate & copy token";
             actions.append(rotate);
+            const remove = document.createElement("button");
+            remove.type = "button";
+            remove.className = "danger";
+            remove.dataset.accessDelete = user.user_id;
+            remove.textContent = "Delete user permanently";
+            actions.append(remove);
+          }
+          if (user.token_copy_mode === "environment-copyable" && user.enabled !== false) {
+            const copy = document.createElement("button");
+            copy.type = "button";
+            copy.dataset.accessEnvironmentCopy = user.user_id;
+            copy.textContent = "Copy token";
+            actions.append(copy);
           }
           actions.append(revoke);
           const status = document.createElement("p");
@@ -1132,13 +1149,19 @@
           form.replaceChildren(heading, meta, tokenNote, nameLabel, enabledLabel, scope, actions, status);
         }
 
-        function revealAccessToken(token, viewer) {
+        function revealAccessToken(token, viewer, options = {}) {
           const reveal = document.querySelector("[data-access-token-reveal]");
           const value = document.querySelector("[data-access-token-value]");
           const owner = document.querySelector("[data-access-token-owner]");
-          if (!reveal || !value || !owner) return;
+          const mode = document.querySelector("[data-access-token-mode]");
+          const note = document.querySelector("[data-access-token-note]");
+          if (!reveal || !value || !owner || !mode || !note) return;
           value.value = token;
-          owner.textContent = `${viewer} · new token`;
+          owner.textContent = options.environment ? `${viewer} · Vercel environment token` : `${viewer} · new token`;
+          mode.textContent = options.environment ? "Remote credential" : "Shown once";
+          note.textContent = options.environment
+            ? "Copied from the Vercel runtime for this administrator request. It is not stored in dashboard state or browser storage."
+            : "Copy it now. Existing token secrets cannot be recovered after this panel closes.";
           reveal.hidden = false;
           value.focus();
           value.select();
@@ -4536,6 +4559,38 @@
             return;
           }
 
+          const environmentTokenCopy = event.target.closest?.("[data-access-environment-copy]");
+          if (environmentTokenCopy) {
+            const user = accessSettingsUsers.find((candidate) => candidate.user_id === environmentTokenCopy.dataset.accessEnvironmentCopy);
+            if (!user || user.managed_by !== "environment") return;
+            environmentTokenCopy.disabled = true;
+            accessSettingsApi("POST", { action: "copy", user_id: user.user_id }).then(async (result) => {
+              revealAccessToken(result.token, result.user.viewer, { environment: true });
+              const status = document.querySelector("[data-access-edit-status]");
+              try {
+                await copyTextToClipboard(result.token);
+                if (status) {
+                  status.textContent = "Environment token copied. It was read from the Vercel runtime and was not saved in browser storage.";
+                  status.dataset.state = "success";
+                }
+              } catch (error) {
+                if (status) {
+                  status.textContent = "Environment token loaded. Copy it from the field above before closing.";
+                  status.dataset.state = "success";
+                }
+              }
+            }).catch((error) => {
+              const status = document.querySelector("[data-access-edit-status]");
+              if (status) {
+                status.textContent = error.message || "Unable to copy environment token";
+                status.dataset.state = "error";
+              }
+            }).finally(() => {
+              environmentTokenCopy.disabled = false;
+            });
+            return;
+          }
+
           const rotateToken = event.target.closest?.("[data-access-rotate]");
           if (rotateToken) {
             const user = accessSettingsUsers.find((candidate) => candidate.user_id === rotateToken.dataset.accessRotate);
@@ -4566,6 +4621,38 @@
               }
             }).finally(() => {
               rotateToken.disabled = false;
+            });
+            return;
+          }
+
+          const deleteAccess = event.target.closest?.("[data-access-delete]");
+          if (deleteAccess) {
+            const user = accessSettingsUsers.find((candidate) => candidate.user_id === deleteAccess.dataset.accessDelete);
+            if (!user || user.managed_by !== "dashboard") return;
+            if (!window.confirm(`Permanently delete ${user.viewer}? Their current token and sessions will stop working immediately.`)) return;
+            deleteAccess.disabled = true;
+            accessSettingsApi("POST", { action: "delete", user_id: user.user_id }).then(async () => {
+              clearAccessTokenReveal();
+              await loadAccessSettings();
+              const replacement = accessSettingsUsers.find((candidate) => (
+                candidate.viewer.toLocaleLowerCase("en-US") === user.viewer.toLocaleLowerCase("en-US")
+                && candidate.managed_by === "environment"
+              ));
+              if (replacement) {
+                selectedAccessUserId = replacement.user_id;
+                accessSettingsMode = "edit";
+                renderAccessUserList();
+                renderAccessUserEditor();
+                renderAccessSettingsMode();
+              }
+            }).catch((error) => {
+              const status = document.querySelector("[data-access-edit-status]");
+              if (status) {
+                status.textContent = error.message || "Unable to delete dashboard user";
+                status.dataset.state = "error";
+              }
+            }).finally(() => {
+              deleteAccess.disabled = false;
             });
             return;
           }

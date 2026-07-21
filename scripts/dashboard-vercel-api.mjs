@@ -20,6 +20,7 @@ import {
   assertDashboardProjectWriteScope,
   assertDashboardTaskWriteScope,
   createDashboardAccessUser,
+  deleteDashboardAccessUser,
   applyDashboardEnvironmentOverride,
   dashboardEnvironmentOverrideForViewer,
   dashboardProjectOptions,
@@ -923,7 +924,7 @@ export async function handleDashboardAuditLog(request, response) {
   });
 }
 
-function dashboardEnvironmentAccessUsers(env = process.env, document = null) {
+function dashboardEnvironmentAccessCredentials(env = process.env, document = null) {
   const credentials = [];
   const adminToken = optionalString(env.DASHBOARD_WRITE_TOKEN);
   if (adminToken) {
@@ -935,6 +936,13 @@ function dashboardEnvironmentAccessUsers(env = process.env, document = null) {
   }
   dashboardMappedWriteTokens(env).forEach((credential) => credentials.push({ ...credential, role: "viewer" }));
   dashboardIndividualWriteTokens(env).forEach((credential) => credentials.push({ ...credential, role: "viewer" }));
+  const principalsByToken = new Map();
+  credentials.forEach((credential) => {
+    const principalKey = `${credential.role}:${credential.viewer.toLocaleLowerCase("en-US")}`;
+    const principals = principalsByToken.get(credential.token) || new Set();
+    principals.add(principalKey);
+    principalsByToken.set(credential.token, principals);
+  });
   const users = new Map();
   credentials.forEach((credential) => {
     const key = `${credential.role}:${credential.viewer.toLocaleLowerCase("en-US")}`;
@@ -943,30 +951,69 @@ function dashboardEnvironmentAccessUsers(env = process.env, document = null) {
       : null;
     const existing = users.get(key);
     if (existing) {
-      existing.credential_count += 1;
+      existing.user.credential_count += 1;
       return;
     }
     const authCredential = override
       ? { ...credential, visibility: override.visibility }
       : credential;
     users.set(key, {
-      user_id: `env_${shortHash(key)}`,
-      viewer: credential.viewer,
-      role: credential.role,
-      enabled: override ? override.enabled !== false : true,
-      visibility: dashboardAuthEnvelope(credential.viewer, authCredential).visibility,
-      token_fingerprint: dashboardTokenFingerprint(credential.token),
-      token_hint: override ? "Environment credential · Settings scope" : "Environment credential",
-      created_at: null,
-      updated_at: override?.updated_at || null,
-      rotated_at: null,
-      managed_by: "environment",
-      editable: credential.role !== "admin",
-      token_copy_mode: credential.role === "admin" ? "none" : "environment-hidden",
-      credential_count: 1,
+      token: credential.token,
+      user: {
+        user_id: `env_${shortHash(key)}`,
+        viewer: credential.viewer,
+        role: credential.role,
+        enabled: override ? override.enabled !== false : true,
+        visibility: dashboardAuthEnvelope(credential.viewer, authCredential).visibility,
+        token_fingerprint: dashboardTokenFingerprint(credential.token),
+        token_hint: override ? "Environment credential · Settings scope" : "Environment credential",
+        created_at: null,
+        updated_at: override?.updated_at || null,
+        rotated_at: null,
+        managed_by: "environment",
+        editable: credential.role !== "admin",
+        token_copy_mode: credential.role === "admin" ? "none" : "environment-copyable",
+        credential_count: 1,
+      },
     });
   });
-  return [...users.values()];
+  return [...users.values()].map((credential) => {
+    const principalKey = `${credential.user.role}:${credential.user.viewer.toLocaleLowerCase("en-US")}`;
+    const resolvedCredential = dashboardEnvironmentCredentialForToken(credential.token, env);
+    const resolvedPrincipalKey = resolvedCredential
+      ? `${resolvedCredential.role}:${resolvedCredential.viewer.toLocaleLowerCase("en-US")}`
+      : "";
+    const tokenPrincipals = principalsByToken.get(credential.token);
+    if (
+      credential.user.role !== "admin"
+      && (
+        credential.user.credential_count !== 1
+        || tokenPrincipals?.size !== 1
+        || resolvedPrincipalKey !== principalKey
+      )
+    ) {
+      credential.user.token_copy_mode = "environment-ambiguous";
+    }
+    return credential;
+  });
+}
+
+export function dashboardEnvironmentAccessUsers(env = process.env, document = null) {
+  return dashboardEnvironmentAccessCredentials(env, document).map(({ user }) => user);
+}
+
+export function dashboardEnvironmentTokenForAdminCopy(userId, env = process.env, document = null) {
+  const targetId = optionalString(userId);
+  const credential = dashboardEnvironmentAccessCredentials(env, document)
+    .find(({ user }) => user.user_id === targetId);
+  if (!credential) throw new Error(`Access user not found: ${targetId}`);
+  if (credential.user.role === "admin" || credential.user.enabled === false) {
+    throw new Error("Invalid access token copy target");
+  }
+  if (credential.user.token_copy_mode !== "environment-copyable") {
+    throw new Error("Invalid access token copy target: ambiguous environment credential");
+  }
+  return credential;
 }
 
 export async function handleDashboardAccessUsers(request, response) {
@@ -994,6 +1041,23 @@ export async function handleDashboardAccessUsers(request, response) {
   }
 
   const body = await readJsonBody(request);
+  if (request.method === "POST" && optionalString(body.action) === "copy") {
+    const userId = requireString(body.user_id, "user_id");
+    if (!userId.startsWith("env_")) throw new Error("Invalid access token copy target");
+    const { document, meta } = await loadDashboardAccessControl();
+    const result = dashboardEnvironmentTokenForAdminCopy(userId, process.env, document);
+    return sendJson(response, 200, {
+      ok: true,
+      user: result.user,
+      token: result.token,
+      token_notice: "Copied from the Vercel runtime environment for this administrator request only.",
+      meta: {
+        storage: meta.storage,
+        updated_at: document.updated_at,
+        viewer: auth.viewer,
+      },
+    });
+  }
   if (request.method === "POST" && optionalString(body.action) === "rotate") {
     const userId = requireString(body.user_id, "user_id");
     const result = await persistAccessMutation((document) => rotateDashboardAccessToken(document, userId));
@@ -1005,10 +1069,24 @@ export async function handleDashboardAccessUsers(request, response) {
       meta: result.meta,
     });
   }
+  if (request.method === "POST" && optionalString(body.action) === "delete") {
+    const userId = requireString(body.user_id, "user_id");
+    if (userId.startsWith("env_")) throw new Error("Invalid access user deletion target");
+    const result = await persistAccessMutation((document) => deleteDashboardAccessUser(document, userId));
+    return sendJson(response, 200, {
+      ok: true,
+      user: result.user,
+      deleted: true,
+      meta: result.meta,
+    });
+  }
   if (request.method === "POST") {
+    const viewer = requireString(body.viewer, "viewer");
     const result = await persistAccessMutation((document) => createDashboardAccessUser(document, {
-      viewer: requireString(body.viewer, "viewer"),
+      viewer,
       visibility: body.visibility,
+    }, {
+      reservedViewers: dashboardEnvironmentAccessUsers(process.env, document).map((user) => user.viewer),
     }));
     return sendJson(response, 201, {
       ok: true,
@@ -1041,7 +1119,9 @@ export async function handleDashboardAccessUsers(request, response) {
         .find((candidate) => candidate.user_id === userId);
       return sendJson(response, 200, { ok: true, user: updatedUser, meta: result.meta });
     }
-    const result = await persistAccessMutation((document) => updateDashboardAccessUser(document, userId, patch));
+    const result = await persistAccessMutation((document) => updateDashboardAccessUser(document, userId, patch, {
+      reservedViewers: dashboardEnvironmentAccessUsers(process.env, document).map((user) => user.viewer),
+    }));
     return sendJson(response, 200, { ok: true, user: result.user, meta: result.meta });
   }
 

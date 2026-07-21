@@ -6,6 +6,8 @@ import {
   assertDashboardTaskWriteScope,
   createDashboardAccessUser,
   dashboardEnvironmentOverrideForViewer,
+  defaultDashboardVisibility,
+  deleteDashboardAccessUser,
   emptyDashboardAccessControl,
   filterDashboardSnapshotForAuth,
   listDashboardAccessUsers,
@@ -18,7 +20,10 @@ import {
 } from "../scripts/dashboard-access-control.mjs";
 import {
   createDashboardSession,
+  dashboardEnvironmentAccessUsers,
+  dashboardEnvironmentTokenForAdminCopy,
   dashboardRequestAuth,
+  sendJson,
 } from "../scripts/dashboard-vercel-api.mjs";
 
 function deterministicRandom(start = 0) {
@@ -73,6 +78,15 @@ const baseSnapshot = {
 };
 
 const now = new Date("2026-07-18T08:00:00.000Z");
+const responseHeaders = new Map();
+const responseProbe = {
+  setHeader(name, value) { responseHeaders.set(name.toLocaleLowerCase("en-US"), value); },
+  status(value) { this.statusCode = value; return this; },
+  json(value) { this.body = value; return value; },
+};
+sendJson(responseProbe, 200, { ok: true });
+assert.equal(responseHeaders.get("cache-control"), "no-store");
+assert.equal(responseProbe.statusCode, 200);
 const created = createDashboardAccessUser(emptyDashboardAccessControl({ now }), {
   viewer: "Ada Lovelace",
 }, {
@@ -93,6 +107,37 @@ assert.deepEqual(publicUsers[0].visibility, {
   include_project_ids: [],
   exclude_project_ids: [],
 });
+const deletedAccessUser = deleteDashboardAccessUser(created.document, created.user.user_id, {
+  now: new Date("2026-07-18T08:01:00.000Z"),
+});
+assert.equal(deletedAccessUser.document.users.length, 0);
+assert.equal(deletedAccessUser.user.viewer, "Ada Lovelace");
+assert.equal(verifyDashboardAccessToken(deletedAccessUser.document, created.token), null);
+assert.throws(
+  () => deleteDashboardAccessUser(deletedAccessUser.document, created.user.user_id, { now }),
+  /Access user not found/,
+);
+assert.throws(
+  () => createDashboardAccessUser(created.document, { viewer: "Yanxiang" }, {
+    now,
+    randomBytes: deterministicRandom(),
+    reservedViewers: ["YANXIANG"],
+  }),
+  /Access user already exists: Yanxiang/,
+);
+assert.throws(
+  () => updateDashboardAccessUser(created.document, created.user.user_id, { viewer: "Yanxiang" }, {
+    now,
+    reservedViewers: ["yanxiang"],
+  }),
+  /Access user already exists: Yanxiang/,
+);
+assert.doesNotThrow(() => updateDashboardAccessUser(created.document, created.user.user_id, {
+  visibility: defaultDashboardVisibility,
+}, {
+  now,
+  reservedViewers: ["Ada Lovelace"],
+}));
 
 const environmentOverride = updateDashboardEnvironmentOverride(created.document, "Ziyang", {
   visibility: {
@@ -208,6 +253,89 @@ const envOverride = updateDashboardEnvironmentOverride(rotated.document, "Agent 
     exclude_project_ids: [],
   },
 }, { now: new Date("2026-07-18T08:25:00.000Z") });
+const environmentUsers = dashboardEnvironmentAccessUsers(envMappedAuthEnv, envOverride.document);
+const copyableEnvironmentUser = environmentUsers.find((user) => user.viewer === "Agent A");
+assert.ok(copyableEnvironmentUser);
+assert.equal(copyableEnvironmentUser.token_copy_mode, "environment-copyable");
+assert.equal(JSON.stringify(copyableEnvironmentUser).includes("mapped-token"), false);
+const copiedEnvironmentCredential = dashboardEnvironmentTokenForAdminCopy(
+  copyableEnvironmentUser.user_id,
+  envMappedAuthEnv,
+  envOverride.document,
+);
+assert.equal(copiedEnvironmentCredential.token, "mapped-token");
+assert.equal(copiedEnvironmentCredential.user.viewer, "Agent A");
+const ambiguousEnvironment = {
+  ...envMappedAuthEnv,
+  DASHBOARD_WRITE_TOKEN_AGENT_A: "second-mapped-token",
+};
+assert.equal(
+  dashboardEnvironmentAccessUsers(ambiguousEnvironment, envOverride.document)
+    .find((user) => user.viewer === "Agent A")?.token_copy_mode,
+  "environment-ambiguous",
+);
+assert.throws(
+  () => dashboardEnvironmentTokenForAdminCopy(
+    copyableEnvironmentUser.user_id,
+    ambiguousEnvironment,
+    envOverride.document,
+  ),
+  /ambiguous environment credential/,
+);
+const crossViewerAliasEnvironment = {
+  ...envMappedAuthEnv,
+  DASHBOARD_WRITE_TOKEN_AGENT_B: "mapped-token",
+};
+const aliasedEnvironmentUsers = dashboardEnvironmentAccessUsers(
+  crossViewerAliasEnvironment,
+  envOverride.document,
+);
+assert.equal(
+  aliasedEnvironmentUsers.find((user) => user.viewer === "Agent A")?.token_copy_mode,
+  "environment-ambiguous",
+);
+assert.equal(
+  aliasedEnvironmentUsers.find((user) => user.viewer === "agent b")?.token_copy_mode,
+  "environment-ambiguous",
+);
+assert.throws(
+  () => dashboardEnvironmentTokenForAdminCopy(
+    aliasedEnvironmentUsers.find((user) => user.viewer === "Agent A")?.user_id,
+    crossViewerAliasEnvironment,
+    envOverride.document,
+  ),
+  /ambiguous environment credential/,
+);
+const environmentWithAdmin = {
+  ...envMappedAuthEnv,
+  DASHBOARD_WRITE_TOKEN: "administrator-token",
+};
+const environmentAdmin = dashboardEnvironmentAccessUsers(environmentWithAdmin, envOverride.document)
+  .find((user) => user.role === "admin");
+assert.ok(environmentAdmin);
+assert.throws(
+  () => dashboardEnvironmentTokenForAdminCopy(
+    environmentAdmin.user_id,
+    environmentWithAdmin,
+    envOverride.document,
+  ),
+  /Invalid access token copy target/,
+);
+const adminAliasEnvironment = {
+  ...envMappedAuthEnv,
+  DASHBOARD_WRITE_TOKEN: "mapped-token",
+};
+const adminAliasedViewer = dashboardEnvironmentAccessUsers(adminAliasEnvironment, envOverride.document)
+  .find((user) => user.viewer === "Agent A");
+assert.equal(adminAliasedViewer?.token_copy_mode, "environment-ambiguous");
+assert.throws(
+  () => dashboardEnvironmentTokenForAdminCopy(
+    adminAliasedViewer.user_id,
+    adminAliasEnvironment,
+    envOverride.document,
+  ),
+  /ambiguous environment credential/,
+);
 const environmentAuth = await dashboardRequestAuth({
   headers: { "x-dashboard-token": "mapped-token" },
 }, envMappedAuthEnv, {
@@ -238,6 +366,14 @@ assert.deepEqual((await dashboardRequestAuth(environmentSessionRequest, envMappe
 const disabledEnvOverride = updateDashboardEnvironmentOverride(envOverride.document, "Agent A", {
   enabled: false,
 }, { now: new Date("2026-07-18T08:26:00.000Z") });
+assert.throws(
+  () => dashboardEnvironmentTokenForAdminCopy(
+    copyableEnvironmentUser.user_id,
+    envMappedAuthEnv,
+    disabledEnvOverride.document,
+  ),
+  /Invalid access token copy target/,
+);
 assert.deepEqual(await dashboardRequestAuth(environmentSessionRequest, envMappedAuthEnv, {
   now: new Date("2099-07-18T00:00:30.000Z"),
   loadAccess: async () => ({ document: disabledEnvOverride.document }),
@@ -262,6 +398,7 @@ assert.deepEqual(await dashboardRequestAuth(sessionRequest, authEnv, {
 const privateBlobWrites = [];
 await writeDashboardAccessControl(rotated.document, {
   env: { BLOB_READ_WRITE_TOKEN: "blob" },
+  ifMatch: 'W/"access-etag"',
   blobApi: {
     async put(pathname, body, options) {
       privateBlobWrites.push({ pathname, body, options });
@@ -270,6 +407,7 @@ await writeDashboardAccessControl(rotated.document, {
   },
 });
 assert.equal(privateBlobWrites[0].options.access, "private");
+assert.equal(privateBlobWrites[0].options.ifMatch, '"access-etag"');
 assert.equal(privateBlobWrites[0].body.includes(rotated.token), false);
 const loaded = await loadDashboardAccessControl({
   env: { BLOB_READ_WRITE_TOKEN: "blob" },
