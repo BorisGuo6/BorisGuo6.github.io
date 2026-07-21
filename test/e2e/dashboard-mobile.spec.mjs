@@ -442,6 +442,7 @@ test("admin settings creates a one-time viewer token without persisting it", asy
 });
 
 test("admin settings can copy and rescope environment viewer tokens without browser persistence", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
   await page.addInitScript(() => {
     Object.defineProperty(navigator, "clipboard", {
       configurable: true,
@@ -464,12 +465,16 @@ test("admin settings can copy and rescope environment viewer tokens without brow
   await expect(editForm).toBeVisible();
   await expect(createForm).toBeHidden();
   await expect(dialog.getByRole("button", { name: "Add dashboard user" })).toBeVisible();
-  await expect.poll(async () => dialog.locator(".access-user-list").evaluate((element) => (
+  await expect.poll(async () => dialog.locator(".access-user-list").evaluate((element) => ({
+    x: getComputedStyle(element).overflowX,
+    y: getComputedStyle(element).overflowY,
+  }))).toEqual({ x: "auto", y: "hidden" });
+  await expect.poll(async () => dialog.locator(".access-settings-layout").evaluate((element) => (
     getComputedStyle(element).overflowY
   ))).toBe("auto");
   await expect.poll(async () => dialog.locator(".access-settings-workspace").evaluate((element) => (
     getComputedStyle(element).overflowY
-  ))).toBe("auto");
+  ))).toBe("visible");
   expect(await dialog.evaluate(() => {
     const add = document.querySelector("[data-access-user-create-open]");
     const list = document.querySelector("[data-access-user-list]");
