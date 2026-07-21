@@ -167,7 +167,7 @@ async function mockDashboardApi(page, mutateSnapshot = null, options = {}) {
       return;
     }
 
-    if (url.pathname === "/api/dashboard/passkey-options") {
+    if (url.pathname === "/api/dashboard/passkeys" && url.searchParams.get("action") === "options") {
       if (request.method() === "GET") {
         await route.fulfill({
           contentType: "application/json",
@@ -201,7 +201,11 @@ async function mockDashboardApi(page, mutateSnapshot = null, options = {}) {
       }
     }
 
-    if (request.method() === "POST" && url.pathname === "/api/dashboard/passkey-verify") {
+    if (
+      request.method() === "POST"
+      && url.pathname === "/api/dashboard/passkeys"
+      && url.searchParams.get("action") === "verify"
+    ) {
       const body = request.postDataJSON();
       passkeyState.requests.push(body);
       if (body.ceremony === "registration") {
@@ -242,7 +246,7 @@ async function mockDashboardApi(page, mutateSnapshot = null, options = {}) {
       return;
     }
 
-    if (url.pathname === "/api/dashboard/passkeys") {
+    if (url.pathname === "/api/dashboard/passkeys" && !url.searchParams.has("action")) {
       if (!sessionActive || role !== "admin") {
         await route.fulfill({
           status: sessionActive ? 403 : 401,

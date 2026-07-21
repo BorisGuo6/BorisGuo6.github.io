@@ -784,7 +784,7 @@
             return false;
           }
           try {
-            const response = await fetch(`${vercelApiBase}/passkey-options`, {
+            const response = await fetch(`${vercelApiBase}/passkeys?action=options`, {
               method: "GET",
               cache: "no-store",
             });
@@ -911,14 +911,14 @@
           if (!dashboardPasskeySupported()) {
             throw new Error("Passkeys are not supported in this browser.");
           }
-          const ceremony = await dashboardPasskeyRequest("passkey-options", "POST", {
+          const ceremony = await dashboardPasskeyRequest("passkeys?action=options", "POST", {
             ceremony: "authentication",
           });
           const credential = await navigator.credentials.get({
             publicKey: passkeyRequestOptionsFromJson(ceremony.options),
           });
           if (!credential) throw new Error("No Passkey credential was returned.");
-          const result = await dashboardPasskeyRequest("passkey-verify", "POST", {
+          const result = await dashboardPasskeyRequest("passkeys?action=verify", "POST", {
             ceremony: "authentication",
             ceremony_id: ceremony.ceremony_id,
             response: passkeyCredentialToJson(credential),
@@ -1143,14 +1143,14 @@
           if (!dashboardPasskeySupported()) {
             throw new Error("Passkeys are not supported in this browser.");
           }
-          const ceremony = await dashboardPasskeyRequest("passkey-options", "POST", {
+          const ceremony = await dashboardPasskeyRequest("passkeys?action=options", "POST", {
             ceremony: "registration",
           });
           const credential = await navigator.credentials.create({
             publicKey: passkeyCreationOptionsFromJson(ceremony.options),
           });
           if (!credential) throw new Error("No Passkey credential was returned.");
-          const result = await dashboardPasskeyRequest("passkey-verify", "POST", {
+          const result = await dashboardPasskeyRequest("passkeys?action=verify", "POST", {
             ceremony: "registration",
             ceremony_id: ceremony.ceremony_id,
             response: passkeyCredentialToJson(credential),

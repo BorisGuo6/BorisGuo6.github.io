@@ -91,6 +91,6 @@ Supported hosted mutations:
 - `POST /api/dashboard/task-comment`
 - `POST /api/dashboard/task-comment-delete`
 - `GET|POST|PATCH|DELETE /api/dashboard/access-users` (administrator only)
-- `GET|POST /api/dashboard/passkey-options`
-- `POST /api/dashboard/passkey-verify`
+- `GET|POST /api/dashboard/passkeys?action=options`
+- `POST /api/dashboard/passkeys?action=verify`
 - `GET|PATCH|DELETE /api/dashboard/passkeys` (administrator only)
