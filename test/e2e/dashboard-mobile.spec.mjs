@@ -77,6 +77,35 @@ async function mockDashboardApi(page, mutateSnapshot = null, options = {}) {
     });
   }
   const environmentToken = "environment_browser_test_token_1234567890";
+  const passkeyState = {
+    passkeys: Array.isArray(options.initialPasskeys) ? [...options.initialPasskeys] : [],
+    requests: [],
+  };
+  const passkeyRegistrationOptions = {
+    challenge: "cmVnaXN0cmF0aW9uLWNoYWxsZW5nZQ",
+    rp: { id: "127.0.0.1", name: "Dashboard browser test" },
+    user: {
+      id: "YnJvd3Nlci10ZXN0LWFkbWlu",
+      name: "jingxiang",
+      displayName: "Jingxiang Guo",
+    },
+    pubKeyCredParams: [{ type: "public-key", alg: -7 }],
+    timeout: 300000,
+    attestation: "none",
+    excludeCredentials: [],
+    authenticatorSelection: { residentKey: "required", userVerification: "required" },
+  };
+  const passkeyAuthenticationOptions = {
+    challenge: "YXV0aGVudGljYXRpb24tY2hhbGxlbmdl",
+    rpId: "127.0.0.1",
+    timeout: 300000,
+    userVerification: "required",
+    allowCredentials: [{
+      id: "YnJvd3Nlci1wYXNza2V5LWNyZWRlbnRpYWw",
+      type: "public-key",
+      transports: ["internal"],
+    }],
+  };
 
   await page.route("**/api/dashboard/**", async (route) => {
     const request = route.request();
@@ -133,6 +162,117 @@ async function mockDashboardApi(page, mutateSnapshot = null, options = {}) {
               ? auth
               : { ok: false, error: "Invalid dashboard write token" })
             : null,
+        }),
+      });
+      return;
+    }
+
+    if (url.pathname === "/api/dashboard/passkey-options") {
+      if (request.method() === "GET") {
+        await route.fulfill({
+          contentType: "application/json",
+          body: JSON.stringify({
+            ok: true,
+            available: Boolean(options.passkeyAvailable || passkeyState.passkeys.length),
+          }),
+        });
+        return;
+      }
+      if (request.method() === "POST") {
+        const body = request.postDataJSON();
+        if (body.ceremony === "registration" && (!sessionActive || role !== "admin")) {
+          await route.fulfill({
+            status: sessionActive ? 403 : 401,
+            contentType: "application/json",
+            body: JSON.stringify({ ok: false, error: "Administrator session required" }),
+          });
+          return;
+        }
+        const registration = body.ceremony === "registration";
+        await route.fulfill({
+          contentType: "application/json",
+          body: JSON.stringify({
+            ok: true,
+            ceremony_id: registration ? "cmVnaXN0cmF0aW9uLWlk" : "YXV0aGVudGljYXRpb24taWQ",
+            options: registration ? passkeyRegistrationOptions : passkeyAuthenticationOptions,
+          }),
+        });
+        return;
+      }
+    }
+
+    if (request.method() === "POST" && url.pathname === "/api/dashboard/passkey-verify") {
+      const body = request.postDataJSON();
+      passkeyState.requests.push(body);
+      if (body.ceremony === "registration") {
+        if (!sessionActive || role !== "admin") {
+          await route.fulfill({
+            status: sessionActive ? 403 : 401,
+            contentType: "application/json",
+            body: JSON.stringify({ ok: false, error: "Administrator session required" }),
+          });
+          return;
+        }
+        const passkey = {
+          credential_id: body.response.id,
+          counter: 0,
+          transports: body.response.response.transports || ["internal"],
+          device_type: "multiDevice",
+          backed_up: true,
+          label: body.label || "Passkey",
+          created_at: "2026-07-21T04:00:00.000Z",
+          last_used_at: null,
+        };
+        passkeyState.passkeys.push(passkey);
+        await route.fulfill({
+          status: 201,
+          contentType: "application/json",
+          body: JSON.stringify({ ok: true, passkey }),
+        });
+        return;
+      }
+      sessionActive = true;
+      await route.fulfill({
+        contentType: "application/json",
+        headers: {
+          "set-cookie": "dashboard_session=browser-passkey-test; Path=/api/dashboard; HttpOnly; SameSite=Strict",
+        },
+        body: JSON.stringify({ ok: true, write_auth: auth }),
+      });
+      return;
+    }
+
+    if (url.pathname === "/api/dashboard/passkeys") {
+      if (!sessionActive || role !== "admin") {
+        await route.fulfill({
+          status: sessionActive ? 403 : 401,
+          contentType: "application/json",
+          body: JSON.stringify({ ok: false, error: "Administrator session required" }),
+        });
+        return;
+      }
+      if (request.method() === "GET") {
+        await route.fulfill({
+          contentType: "application/json",
+          body: JSON.stringify({
+            ok: true,
+            passkeys: passkeyState.passkeys,
+            recovery: { token_login_available: true },
+          }),
+        });
+        return;
+      }
+      const body = request.postDataJSON();
+      const index = passkeyState.passkeys.findIndex((candidate) => candidate.credential_id === body.credential_id);
+      const passkey = index >= 0 ? passkeyState.passkeys[index] : null;
+      if (request.method() === "PATCH" && passkey) passkey.label = body.label;
+      if (request.method() === "DELETE" && index >= 0) passkeyState.passkeys.splice(index, 1);
+      await route.fulfill({
+        contentType: "application/json",
+        body: JSON.stringify({
+          ok: true,
+          passkey,
+          ...(request.method() === "DELETE" ? { deleted: true } : {}),
         }),
       });
       return;
@@ -286,7 +426,7 @@ async function mockDashboardApi(page, mutateSnapshot = null, options = {}) {
     });
   });
 
-  return { snapshot };
+  return { snapshot, passkeyState };
 }
 
 async function unlockDashboard(page) {
@@ -295,6 +435,59 @@ async function unlockDashboard(page) {
   await page.getByRole("button", { name: "Unlock" }).click();
   await expect(page.locator("body")).not.toHaveClass(/dashboard-locked/);
   await expect(page.getByRole("heading", { name: "Embodied AI Project Dashboard" })).toBeVisible();
+}
+
+async function stubPasskeyCredentials(page) {
+  await page.addInitScript(() => {
+    const bytes = (value) => new TextEncoder().encode(value).buffer;
+    const credentialId = "YnJvd3Nlci1wYXNza2V5LWNyZWRlbnRpYWw";
+    if (!window.PublicKeyCredential) window.PublicKeyCredential = class PublicKeyCredential {};
+    Object.defineProperty(navigator, "credentials", {
+      configurable: true,
+      value: {
+        create: async ({ publicKey }) => {
+          window.__dashboardPasskeyCreateConverted = Boolean(
+            publicKey.challenge instanceof ArrayBuffer
+            && publicKey.user?.id instanceof ArrayBuffer,
+          );
+          return {
+            id: credentialId,
+            rawId: bytes("browser-passkey-credential"),
+            type: "public-key",
+            authenticatorAttachment: "platform",
+            response: {
+              attestationObject: bytes("registration-attestation-private-marker"),
+              clientDataJSON: bytes("registration-client-data-private-marker"),
+              getTransports: () => ["internal"],
+              getPublicKeyAlgorithm: () => -7,
+              getPublicKey: () => bytes("registration-public-key-marker"),
+              getAuthenticatorData: () => bytes("registration-authenticator-data-marker"),
+            },
+            getClientExtensionResults: () => ({}),
+          };
+        },
+        get: async ({ publicKey }) => {
+          window.__dashboardPasskeyGetConverted = Boolean(
+            publicKey.challenge instanceof ArrayBuffer
+            && publicKey.allowCredentials?.[0]?.id instanceof ArrayBuffer,
+          );
+          return {
+            id: credentialId,
+            rawId: bytes("browser-passkey-credential"),
+            type: "public-key",
+            authenticatorAttachment: "platform",
+            response: {
+              authenticatorData: bytes("authentication-authenticator-private-marker"),
+              clientDataJSON: bytes("authentication-client-data-private-marker"),
+              signature: bytes("authentication-signature-private-marker"),
+              userHandle: null,
+            },
+            getClientExtensionResults: () => ({}),
+          };
+        },
+      },
+    });
+  });
 }
 
 test("expanded project content stays inside its card on a phone", async ({ page }) => {
@@ -397,6 +590,75 @@ test("unlock never persists the bearer token in browser storage", async ({ page 
   }));
 
   expect(JSON.stringify(storage)).not.toContain(auditToken);
+});
+
+test("Passkey login unlocks the dashboard on a phone without persisting credential data", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await stubPasskeyCredentials(page);
+  const { passkeyState } = await mockDashboardApi(page, null, { passkeyAvailable: true });
+  await page.goto("/dashboard/");
+
+  const passkeyButton = page.getByRole("button", { name: "Use Passkey" });
+  await expect(passkeyButton).toBeVisible();
+  await expect(page.getByRole("textbox", { name: "Dashboard Token" })).toBeVisible();
+  await passkeyButton.click();
+  await expect(page.locator("body")).not.toHaveClass(/dashboard-locked/);
+  await expect(page.getByRole("heading", { name: "Embodied AI Project Dashboard" })).toBeVisible();
+
+  expect(await page.evaluate(() => window.__dashboardPasskeyGetConverted)).toBe(true);
+  expect(passkeyState.requests).toHaveLength(1);
+  expect(passkeyState.requests[0]).toMatchObject({
+    ceremony: "authentication",
+    ceremony_id: "YXV0aGVudGljYXRpb24taWQ",
+    response: {
+      id: "YnJvd3Nlci1wYXNza2V5LWNyZWRlbnRpYWw",
+      type: "public-key",
+    },
+  });
+  const storage = await page.evaluate(() => JSON.stringify({
+    local: { ...localStorage },
+    session: { ...sessionStorage },
+  }));
+  expect(storage).not.toContain("YnJvd3Nlci1wYXNza2V5LWNyZWRlbnRpYWw");
+  expect(storage).not.toContain("authentication-signature-private-marker");
+});
+
+test("admin can add, rename, and remove a Passkey from Settings on a phone", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await stubPasskeyCredentials(page);
+  const { passkeyState } = await mockDashboardApi(page);
+  await unlockDashboard(page);
+
+  await page.getByRole("button", { name: "Settings" }).click();
+  const dialog = page.getByRole("dialog", { name: "Dashboard access" });
+  const passkeySection = dialog.locator("[data-access-passkey-settings]");
+  await expect(passkeySection).toBeVisible();
+  await passkeySection.getByRole("textbox", { name: "Label (optional)" }).fill("iPhone");
+  await passkeySection.getByRole("button", { name: "Add Passkey" }).click();
+  await expect(passkeySection.getByRole("textbox", { name: "Passkey label for iPhone" })).toHaveValue("iPhone");
+  expect(await page.evaluate(() => window.__dashboardPasskeyCreateConverted)).toBe(true);
+  expect(passkeyState.passkeys).toHaveLength(1);
+
+  const passkeyItem = passkeySection.locator("[data-access-passkey-rename]");
+  const labelInput = passkeyItem.getByRole("textbox", { name: "Passkey label for iPhone" });
+  await labelInput.fill("Personal iPhone");
+  await passkeyItem.getByRole("button", { name: "Rename" }).click();
+  await expect(passkeySection.getByRole("textbox", { name: "Passkey label for Personal iPhone" })).toHaveValue("Personal iPhone");
+
+  page.once("dialog", async (confirmation) => { await confirmation.accept(); });
+  await passkeySection.getByRole("button", { name: "Remove" }).click();
+  await expect(passkeySection.getByText("No Passkeys yet.")).toBeVisible();
+  expect(passkeyState.passkeys).toHaveLength(0);
+
+  const bounds = await passkeySection.evaluate((element) => {
+    const rect = element.getBoundingClientRect();
+    return { left: rect.left, right: rect.right, viewport: document.documentElement.clientWidth };
+  });
+  expect(bounds.left).toBeGreaterThanOrEqual(0);
+  expect(bounds.right).toBeLessThanOrEqual(bounds.viewport + 1);
+  const storage = await page.evaluate(() => JSON.stringify({ ...localStorage, ...sessionStorage }));
+  expect(storage).not.toContain("YnJvd3Nlci1wYXNza2V5LWNyZWRlbnRpYWw");
+  expect(storage).not.toContain("registration-attestation-private-marker");
 });
 
 test("admin settings creates a one-time viewer token without persisting it", async ({ page }) => {

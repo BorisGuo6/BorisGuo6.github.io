@@ -226,6 +226,34 @@ body.dashboard-locked .page {
   cursor: wait;
 }
 
+.dashboard-access-card button[type="submit"] {
+  background: #fff;
+  color: var(--accent);
+}
+
+.dashboard-access-divider {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.dashboard-access-divider::before,
+.dashboard-access-divider::after {
+  content: "";
+  flex: 1 1 auto;
+  height: 1px;
+  background: #d7e0e4;
+}
+
+.dashboard-access-divider[hidden] {
+  display: none;
+}
+
 .dashboard-access-status {
   min-height: 18px;
   margin: 0;
@@ -292,6 +320,8 @@ body.dashboard-locked .page {
 .access-settings-close,
 .access-user-create button,
 .access-user-edit-actions button,
+.access-passkey-register button,
+.access-passkey-actions button,
 .access-token-copy-row button {
   min-height: 34px;
   padding: 7px 12px;
@@ -308,6 +338,8 @@ body.dashboard-locked .page {
 .access-settings-close:hover,
 .access-user-create button:hover,
 .access-user-edit-actions button:hover,
+.access-passkey-register button:hover,
+.access-passkey-actions button:hover,
 .access-token-copy-row button:hover {
   border-color: var(--accent);
   transform: translateY(-1px);
@@ -454,6 +486,7 @@ body.dashboard-locked .page {
 
 .access-user-create,
 .access-token-reveal,
+.access-passkey-settings,
 .access-user-editor > form,
 .access-editor-empty {
   padding: 16px;
@@ -491,6 +524,7 @@ body.dashboard-locked .page {
 
 .access-user-create input[type="text"],
 .access-user-editor input[type="text"],
+.access-passkey-settings input[type="text"],
 .access-token-copy-row input {
   width: 100%;
   min-height: 40px;
@@ -621,6 +655,92 @@ body.dashboard-locked .page {
 
 .access-form-status[data-state="error"] {
   color: #9b4b2c;
+}
+
+.access-form-status[data-state="success"] {
+  color: #236b62;
+}
+
+.access-passkey-settings {
+  border-color: #9fc8c2;
+  background: linear-gradient(135deg, rgba(232, 247, 243, 0.96), rgba(255, 255, 255, 0.9));
+}
+
+.access-passkey-note {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.access-passkey-register {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.access-passkey-register label,
+.access-passkey-item label {
+  min-width: 0;
+  display: grid;
+  gap: 5px;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.access-passkey-register button {
+  min-height: 40px;
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #fff;
+}
+
+.access-passkey-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.access-passkey-empty {
+  margin: 0;
+  padding: 10px;
+  border: 1px dashed #b8c9cf;
+  border-radius: 10px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.access-passkey-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 7px 10px;
+  padding: 10px;
+  border: 1px solid #c8d9d8;
+  border-radius: 11px;
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.access-passkey-item > p {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.access-passkey-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.access-passkey-actions .danger {
+  border-color: #c9a89b;
+  color: #8b452d;
 }
 
 .access-token-reveal {
@@ -798,6 +918,19 @@ body.dashboard-scoped-viewer [data-agent-prompt-status] {
 
   .access-token-copy-row {
     grid-template-columns: 1fr;
+  }
+
+  .access-passkey-register,
+  .access-passkey-item {
+    grid-template-columns: 1fr;
+  }
+
+  .access-passkey-item > p {
+    grid-column: 1;
+  }
+
+  .access-passkey-actions {
+    justify-content: flex-start;
   }
 }
 

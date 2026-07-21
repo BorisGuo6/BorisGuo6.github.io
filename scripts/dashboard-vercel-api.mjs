@@ -1,5 +1,11 @@
 import { createHash, createHmac, timingSafeEqual } from "node:crypto";
 import {
+  generateAuthenticationOptions as defaultGenerateAuthenticationOptions,
+  generateRegistrationOptions as defaultGenerateRegistrationOptions,
+  verifyAuthenticationResponse as defaultVerifyAuthenticationResponse,
+  verifyRegistrationResponse as defaultVerifyRegistrationResponse,
+} from "@simplewebauthn/server";
+import {
   appendSnapshotAuditEvent,
   applySnapshotProjectTableRowUpdate,
   applySnapshotTaskComment,
@@ -35,9 +41,22 @@ import {
   verifyDashboardAccessToken,
   writeDashboardAccessControl,
 } from "./dashboard-access-control.mjs";
+import {
+  completeDashboardPasskeyAuthentication,
+  completeDashboardPasskeyRegistration,
+  createDashboardPasskeyChallenge,
+  deleteDashboardPasskeyCredential,
+  findDashboardPasskeyCredential,
+  listDashboardPasskeyCredentials,
+  loadDashboardPasskeyStore,
+  readDashboardPasskeyChallenge,
+  renameDashboardPasskeyCredential,
+  writeDashboardPasskeyStore,
+} from "./dashboard-passkeys.mjs";
 
 let mutationQueue = Promise.resolve();
 let accessMutationQueue = Promise.resolve();
+let passkeyMutationQueue = Promise.resolve();
 export const dashboardSessionCookieName = "dashboard_session";
 export const dashboardSessionMaxAgeSeconds = 7 * 24 * 60 * 60;
 
@@ -60,6 +79,24 @@ export function dashboardErrorResponse(error) {
   }
   if (isBlobPreconditionFailedError(error)) {
     return { status: 409, error: "Dashboard state changed; retry the request" };
+  }
+  if (message === "Invalid dashboard Passkey relying-party configuration") {
+    return { status: 503, error: "Dashboard Passkey is unavailable" };
+  }
+  if (/^Duplicate Passkey credential:/.test(message)) {
+    return { status: 409, error: "Passkey credential already exists" };
+  }
+  if (/^Passkey credential not found:/.test(message)) {
+    return { status: 404, error: "Passkey not found" };
+  }
+  if (/^(Passkey challenge not found:|Expired Passkey challenge|Invalid Passkey challenge ceremony)/.test(message)) {
+    return { status: 400, error: "Passkey ceremony is invalid or expired" };
+  }
+  if (/^(Invalid Passkey label|Missing Passkey label)/.test(message)) {
+    return { status: 400, error: message };
+  }
+  if (/^Invalid Passkey/.test(message)) {
+    return { status: 400, error: "Invalid Passkey request" };
   }
   if (message === "Request body is too large") {
     return { status: 413, error: message };
@@ -494,6 +531,109 @@ function requireString(value, name) {
   return value.trim();
 }
 
+const dashboardPasskeyDefaultRpId = "jingxiangguo.com";
+const dashboardPasskeyDefaultOrigin = "https://jingxiangguo.com";
+const dashboardPasskeyRpName = "Jingxiang Guo Dashboard";
+const dashboardPasskeyAllowedTransports = new Set([
+  "usb",
+  "nfc",
+  "ble",
+  "cable",
+  "smart-card",
+  "hybrid",
+  "internal",
+]);
+
+function dashboardPasskeyLoopbackHost(hostname) {
+  const normalized = optionalString(hostname).toLocaleLowerCase("en-US");
+  return normalized === "localhost"
+    || normalized === "::1"
+    || normalized === "[::1]"
+    || /^127(?:\.[0-9]{1,3}){3}$/.test(normalized);
+}
+
+function dashboardPasskeyValidRpId(value) {
+  const normalized = optionalString(value).toLocaleLowerCase("en-US");
+  if (dashboardPasskeyLoopbackHost(normalized)) return true;
+  if (!normalized || normalized.length > 253 || /^\d+(?:\.\d+){3}$/.test(normalized)) return false;
+  return normalized.split(".").every((label) => (
+    label.length > 0
+    && label.length <= 63
+    && /^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/.test(label)
+  ));
+}
+
+export function dashboardPasskeyRpConfig(env = process.env) {
+  const rpID = optionalString(env.DASHBOARD_PASSKEY_RP_ID) || dashboardPasskeyDefaultRpId;
+  const configuredOrigin = optionalString(env.DASHBOARD_PASSKEY_ORIGIN) || dashboardPasskeyDefaultOrigin;
+  let rpUrl;
+  let origin;
+  try {
+    rpUrl = new URL(`https://${rpID}`);
+    origin = new URL(configuredOrigin);
+  } catch (error) {
+    throw new Error("Invalid dashboard Passkey relying-party configuration");
+  }
+  const normalizedRpID = rpID.toLocaleLowerCase("en-US");
+  const originHost = origin.hostname.toLocaleLowerCase("en-US");
+  const validRpID = rpID === normalizedRpID
+    && dashboardPasskeyValidRpId(normalizedRpID)
+    && rpUrl.hostname === normalizedRpID
+    && rpUrl.host === normalizedRpID
+    && rpUrl.pathname === "/"
+    && !rpUrl.username
+    && !rpUrl.password
+    && !rpUrl.search
+    && !rpUrl.hash;
+  const exactOrigin = configuredOrigin === origin.origin
+    && origin.pathname === "/"
+    && !origin.username
+    && !origin.password
+    && !origin.search
+    && !origin.hash;
+  const rpMatchesOrigin = originHost === normalizedRpID || originHost.endsWith(`.${normalizedRpID}`);
+  const productionEnvironment = env.VERCEL_ENV === "production" || env.NODE_ENV === "production";
+  const insecureDevelopmentOrigin = origin.protocol === "http:"
+    && dashboardPasskeyLoopbackHost(origin.hostname)
+    && !productionEnvironment;
+  if (
+    !validRpID
+    || !exactOrigin
+    || !rpMatchesOrigin
+    || (productionEnvironment && dashboardPasskeyLoopbackHost(normalizedRpID))
+    || (origin.protocol !== "https:" && !insecureDevelopmentOrigin)
+  ) {
+    throw new Error("Invalid dashboard Passkey relying-party configuration");
+  }
+  return {
+    rpID: normalizedRpID,
+    origin: origin.origin,
+    rpName: dashboardPasskeyRpName,
+  };
+}
+
+function dashboardPasskeyTransports(value) {
+  if (!Array.isArray(value)) return [];
+  return [...new Set(value.filter((transport) => dashboardPasskeyAllowedTransports.has(transport)))];
+}
+
+function dashboardPasskeyStoreOptions(options = {}, env = process.env) {
+  return {
+    ...(options.passkeyStoreOptions || {}),
+    env,
+    ...(options.now ? { now: options.now } : {}),
+  };
+}
+
+function dashboardPasskeyWebAuthn(options = {}) {
+  return {
+    generateAuthenticationOptions: options.generateAuthenticationOptions || defaultGenerateAuthenticationOptions,
+    generateRegistrationOptions: options.generateRegistrationOptions || defaultGenerateRegistrationOptions,
+    verifyAuthenticationResponse: options.verifyAuthenticationResponse || defaultVerifyAuthenticationResponse,
+    verifyRegistrationResponse: options.verifyRegistrationResponse || defaultVerifyRegistrationResponse,
+  };
+}
+
 async function loadWritableSnapshot() {
   if (!isVercelBlobConfigured()) {
     throw new Error("BLOB_READ_WRITE_TOKEN is not configured");
@@ -583,6 +723,44 @@ async function persistAccessMutation(mutation, options = {}) {
   return run;
 }
 
+async function persistPasskeyMutation(mutation, options = {}) {
+  const env = options.env || process.env;
+  const loadPasskeyStore = options.loadPasskeyStore || loadDashboardPasskeyStore;
+  const writePasskeyStore = options.writePasskeyStore || writeDashboardPasskeyStore;
+  const storeOptions = dashboardPasskeyStoreOptions(options, env);
+  const run = passkeyMutationQueue.catch(() => undefined).then(async () => {
+    for (let attempt = 1; attempt <= 3; attempt += 1) {
+      const { document, meta } = await loadPasskeyStore(storeOptions);
+      const result = await mutation(document);
+      try {
+        const blob = await writePasskeyStore(result.document, {
+          ...storeOptions,
+          ifMatch: meta.etag || undefined,
+          allowOverwrite: false,
+        });
+        return {
+          ...result,
+          meta: {
+            storage: "vercel-blob-private",
+            blob_path: blob.pathname,
+            blob_etag: blob.etag,
+            updated_at: result.document.updated_at,
+            mutation_attempt: attempt,
+          },
+        };
+      } catch (error) {
+        const isConflict = isBlobPreconditionFailedError(error)
+          || error?.name === "BlobAlreadyExistsError"
+          || error?.constructor?.name === "BlobAlreadyExistsError";
+        if (!isConflict || attempt === 3) throw error;
+      }
+    }
+    throw new Error("Dashboard Passkey mutation retries exhausted");
+  });
+  passkeyMutationQueue = run.catch(() => undefined);
+  return run;
+}
+
 function dashboardWriteAuthorization(auth) {
   if (!auth?.ok) return auth || { ok: false, status: 401, error: "Dashboard authentication required" };
   if (!auth.permissions?.can_write) {
@@ -667,6 +845,288 @@ export async function handleDashboardSession(request, response) {
   return sendJson(response, 200, {
     ok: true,
     write_auth: publicDashboardAuth(auth),
+  });
+}
+
+function requireDashboardPasskeyCeremony(value) {
+  const ceremony = optionalString(value);
+  if (!new Set(["registration", "authentication"]).has(ceremony)) {
+    throw new Error("Invalid Passkey ceremony");
+  }
+  return ceremony;
+}
+
+function requireDashboardPasskeyResponse(value) {
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
+    throw new Error("Missing Passkey response");
+  }
+  return value;
+}
+
+function dashboardPasskeyAdminSessionAuth(request, env = process.env, options = {}) {
+  return dashboardAdminAuthorization(dashboardSessionAuth(request, env, options));
+}
+
+function dashboardPasskeyCeremonyFailed(error) {
+  const message = error instanceof Error ? error.message : String(error || "");
+  return /^(Passkey challenge not found:|Expired Passkey challenge|Invalid Passkey challenge ceremony|Invalid Passkey counter progression)/.test(message);
+}
+
+export async function handleDashboardPasskeyOptions(request, response, options = {}) {
+  const env = options.env || process.env;
+  const loadPasskeyStore = options.loadPasskeyStore || loadDashboardPasskeyStore;
+  const storeOptions = dashboardPasskeyStoreOptions(options, env);
+  if (request.method === "GET") {
+    try {
+      const { document } = await loadPasskeyStore(storeOptions);
+      return sendJson(response, 200, {
+        ok: true,
+        available: listDashboardPasskeyCredentials(document, storeOptions).length > 0,
+      });
+    } catch (error) {
+      return sendJson(response, 200, { ok: true, available: false });
+    }
+  }
+  if (request.method !== "POST") return methodNotAllowed(response, ["GET", "POST"]);
+  const body = await readJsonBody(request);
+  const ceremony = requireDashboardPasskeyCeremony(body.ceremony);
+  const rp = dashboardPasskeyRpConfig(env);
+  const webauthn = dashboardPasskeyWebAuthn(options);
+
+  if (ceremony === "registration") {
+    const auth = dashboardPasskeyAdminSessionAuth(request, env, options);
+    if (!auth.ok) return sendJson(response, auth.status, { ok: false, error: auth.error });
+    const result = await persistPasskeyMutation(async (document) => {
+      const credentials = listDashboardPasskeyCredentials(document, storeOptions);
+      const registrationOptions = await webauthn.generateRegistrationOptions({
+        rpName: rp.rpName,
+        rpID: rp.rpID,
+        userName: dashboardAdminViewer(),
+        userDisplayName: "Jingxiang Guo",
+        userID: Buffer.from(document.admin_user_id, "base64url"),
+        timeout: 5 * 60 * 1000,
+        attestationType: "none",
+        excludeCredentials: credentials.map((credential) => ({
+          id: credential.credential_id,
+          transports: dashboardPasskeyTransports(credential.transports),
+        })),
+        authenticatorSelection: {
+          residentKey: "required",
+          userVerification: "required",
+        },
+      });
+      const created = createDashboardPasskeyChallenge(document, {
+        ceremony,
+        challenge: registrationOptions.challenge,
+      }, storeOptions);
+      return { ...created, options: registrationOptions };
+    }, options);
+    return sendJson(response, 200, {
+      ok: true,
+      ceremony_id: result.challenge.challenge_id,
+      options: result.options,
+    });
+  }
+
+  try {
+    const result = await persistPasskeyMutation(async (document) => {
+      const credentials = listDashboardPasskeyCredentials(document, storeOptions);
+      if (!credentials.length) throw new Error("Passkey sign-in is unavailable");
+      const authenticationOptions = await webauthn.generateAuthenticationOptions({
+        rpID: rp.rpID,
+        timeout: 5 * 60 * 1000,
+        userVerification: "required",
+        allowCredentials: credentials.map((credential) => ({
+          id: credential.credential_id,
+          transports: dashboardPasskeyTransports(credential.transports),
+        })),
+      });
+      const created = createDashboardPasskeyChallenge(document, {
+        ceremony,
+        challenge: authenticationOptions.challenge,
+      }, storeOptions);
+      return { ...created, options: authenticationOptions };
+    }, options);
+    return sendJson(response, 200, {
+      ok: true,
+      ceremony_id: result.challenge.challenge_id,
+      options: result.options,
+    });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error || "");
+    const status = message === "Passkey sign-in is unavailable" ? 404 : 503;
+    return sendJson(response, status, { ok: false, error: "Passkey sign-in is unavailable" });
+  }
+}
+
+export async function handleDashboardPasskeyVerify(request, response, options = {}) {
+  if (request.method !== "POST") return methodNotAllowed(response, ["POST"]);
+  const env = options.env || process.env;
+  const body = await readJsonBody(request);
+  const ceremony = requireDashboardPasskeyCeremony(body.ceremony);
+  const ceremonyId = requireString(body.ceremony_id, "ceremony_id");
+  const credentialResponse = requireDashboardPasskeyResponse(body.response);
+  const rp = dashboardPasskeyRpConfig(env);
+  const webauthn = dashboardPasskeyWebAuthn(options);
+  const loadPasskeyStore = options.loadPasskeyStore || loadDashboardPasskeyStore;
+  const storeOptions = dashboardPasskeyStoreOptions(options, env);
+
+  if (ceremony === "registration") {
+    const auth = dashboardPasskeyAdminSessionAuth(request, env, options);
+    if (!auth.ok) return sendJson(response, auth.status, { ok: false, error: auth.error });
+    const { document } = await loadPasskeyStore(storeOptions);
+    let verification;
+    try {
+      const challenge = readDashboardPasskeyChallenge(document, ceremonyId, ceremony, storeOptions);
+      verification = await webauthn.verifyRegistrationResponse({
+        response: credentialResponse,
+        expectedChallenge: challenge.challenge,
+        expectedOrigin: rp.origin,
+        expectedRPID: rp.rpID,
+        expectedType: "webauthn.create",
+        requireUserPresence: true,
+        requireUserVerification: true,
+      });
+    } catch (error) {
+      return sendJson(response, 400, { ok: false, error: "Passkey registration failed" });
+    }
+    if (!verification?.verified || !verification.registrationInfo) {
+      return sendJson(response, 400, { ok: false, error: "Passkey registration failed" });
+    }
+    const { credential, credentialDeviceType, credentialBackedUp } = verification.registrationInfo;
+    try {
+      const result = await persistPasskeyMutation((document) => completeDashboardPasskeyRegistration(
+        document,
+        ceremonyId,
+        {
+          credential_id: credential.id,
+          public_key: Buffer.from(credential.publicKey).toString("base64url"),
+          counter: credential.counter,
+          transports: dashboardPasskeyTransports(credential.transports),
+          device_type: credentialDeviceType,
+          backed_up: credentialBackedUp,
+          label: optionalString(body.label) || "Passkey",
+        },
+        storeOptions,
+      ), options);
+      return sendJson(response, 201, { ok: true, passkey: result.credential });
+    } catch (error) {
+      if (dashboardPasskeyCeremonyFailed(error)) {
+        return sendJson(response, 400, { ok: false, error: "Passkey registration failed" });
+      }
+      throw error;
+    }
+  }
+
+  let document;
+  try {
+    ({ document } = await loadPasskeyStore(storeOptions));
+  } catch (error) {
+    return sendJson(response, 503, { ok: false, error: "Passkey sign-in is unavailable" });
+  }
+  let storedCredential;
+  let verification;
+  try {
+    const challenge = readDashboardPasskeyChallenge(document, ceremonyId, ceremony, storeOptions);
+    storedCredential = findDashboardPasskeyCredential(document, credentialResponse.id, storeOptions);
+    if (!storedCredential) throw new Error("Passkey credential not found");
+    verification = await webauthn.verifyAuthenticationResponse({
+      response: credentialResponse,
+      expectedChallenge: challenge.challenge,
+      expectedOrigin: rp.origin,
+      expectedRPID: rp.rpID,
+      expectedType: "webauthn.get",
+      credential: {
+        id: storedCredential.credential_id,
+        publicKey: Buffer.from(storedCredential.public_key, "base64url"),
+        counter: storedCredential.counter,
+        transports: dashboardPasskeyTransports(storedCredential.transports),
+      },
+      requireUserVerification: true,
+    });
+  } catch (error) {
+    return sendJson(response, 401, { ok: false, error: "Passkey authentication failed" });
+  }
+  if (!verification?.verified || !verification.authenticationInfo) {
+    return sendJson(response, 401, { ok: false, error: "Passkey authentication failed" });
+  }
+  try {
+    await persistPasskeyMutation((document) => completeDashboardPasskeyAuthentication(
+      document,
+      ceremonyId,
+      {
+        credential_id: storedCredential.credential_id,
+        counter: verification.authenticationInfo.newCounter,
+        transports: storedCredential.transports,
+        device_type: verification.authenticationInfo.credentialDeviceType,
+        backed_up: verification.authenticationInfo.credentialBackedUp,
+      },
+      storeOptions,
+    ), options);
+  } catch (error) {
+    if (dashboardPasskeyCeremonyFailed(error) || /^Passkey credential not found:/.test(error?.message || "")) {
+      return sendJson(response, 401, { ok: false, error: "Passkey authentication failed" });
+    }
+    throw error;
+  }
+  const auth = dashboardAuthEnvelope(dashboardAdminViewer(), {
+    role: "admin",
+    source: "passkey",
+  });
+  const session = createDashboardSession(auth, env, options);
+  response.setHeader("set-cookie", dashboardSessionCookie(request, session, dashboardSessionMaxAgeSeconds));
+  return sendJson(response, 200, {
+    ok: true,
+    write_auth: publicDashboardAuth(auth),
+  });
+}
+
+export async function handleDashboardPasskeys(request, response, options = {}) {
+  if (!["GET", "PATCH", "DELETE"].includes(request.method)) {
+    return methodNotAllowed(response, ["GET", "PATCH", "DELETE"]);
+  }
+  const env = options.env || process.env;
+  const auth = dashboardAdminAuthorization(await dashboardRequestAuth(request, env, options.authOptions || {}));
+  if (!auth.ok) return sendJson(response, auth.status, { ok: false, error: auth.error });
+  const loadPasskeyStore = options.loadPasskeyStore || loadDashboardPasskeyStore;
+  const storeOptions = dashboardPasskeyStoreOptions(options, env);
+
+  if (request.method === "GET") {
+    const { document, meta } = await loadPasskeyStore(storeOptions);
+    return sendJson(response, 200, {
+      ok: true,
+      passkeys: listDashboardPasskeyCredentials(document, storeOptions),
+      recovery: {
+        token_login_available: Boolean(optionalString(env.DASHBOARD_WRITE_TOKEN)),
+      },
+      meta: {
+        storage: meta.storage,
+        updated_at: document.updated_at,
+        viewer: auth.viewer,
+      },
+    });
+  }
+
+  const body = await readJsonBody(request);
+  const credentialId = requireString(body.credential_id, "credential_id");
+  if (request.method === "PATCH") {
+    const label = requireString(body.label, "label");
+    const result = await persistPasskeyMutation(
+      (document) => renameDashboardPasskeyCredential(document, credentialId, label, storeOptions),
+      options,
+    );
+    return sendJson(response, 200, { ok: true, passkey: result.credential });
+  }
+
+  const result = await persistPasskeyMutation(
+    (document) => deleteDashboardPasskeyCredential(document, credentialId, storeOptions),
+    options,
+  );
+  return sendJson(response, 200, {
+    ok: true,
+    passkey: result.credential,
+    deleted: true,
+    recovery_notice: "The administrator token remains available as the recovery sign-in method.",
   });
 }
 

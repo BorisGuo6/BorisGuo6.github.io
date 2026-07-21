@@ -14,6 +14,10 @@ Required Vercel environment variables for hosted writes:
   `dashboard-state-private/embodied-ai-dashboard.json`.
 - `DASHBOARD_ACCESS_BLOB_PATH`: private token registry path; defaults to
   `dashboard-access/access-control.json`.
+- `DASHBOARD_PASSKEY_BLOB_PATH`: private Passkey public-key/challenge registry path; defaults to
+  `dashboard-access/passkeys.json`.
+- `DASHBOARD_PASSKEY_RP_ID`: optional WebAuthn relying-party ID; defaults to `jingxiangguo.com`.
+- `DASHBOARD_PASSKEY_ORIGIN`: optional exact WebAuthn origin; defaults to `https://jingxiangguo.com`.
 - `DASHBOARD_WRITE_TOKEN_USERS`: optional JSON map from private random tokens to viewer names; use this for Vercel-managed
   viewer credentials instead of standalone per-user variables.
 - `DASHBOARD_WRITE_TOKEN_<VIEWER>`: legacy sensitive per-user token compatibility only. Do not create new standalone
@@ -29,6 +33,12 @@ values are never written to dashboard state or browser storage. Dashboard-manage
 the private registry stores only salted hashes and fingerprints. Viewer names are unique across both credential sources.
 Viewers can read and mutate only their visible cards: Research cards are visible by default, and per-card
 includes/excludes are enforced on both state reads and every mutation.
+
+The administrator can enroll multiple Passkeys from Settings after first signing in with the bootstrap token. WebAuthn
+private keys remain in the device or synced password manager; the private Blob stores only credential IDs, public keys,
+signature counters, device metadata, and short-lived one-time challenges. Passkey verification issues the same seven-day
+HttpOnly session used by token login. Keep `DASHBOARD_WRITE_TOKEN` as the break-glass recovery method, especially until a
+second Passkey has been enrolled on another device.
 
 Production builds intentionally omit `dashboard/state/**`. The `?json=1` static fallback is restricted to localhost,
 so production visibility cannot be bypassed through the bundled JSON mirror. The source repository still contains the
@@ -52,7 +62,8 @@ BLOB_READ_WRITE_TOKEN=... npm run vercel:seed-blob:force
 ```
 
 5. Deploy the site. Open `/dashboard/`; use the `Unlock` field with `DASHBOARD_WRITE_TOKEN`, then open Settings to
-   provision viewer tokens.
+   provision viewer tokens and enroll the first administrator Passkey with the device's Face ID, Touch ID, PIN, or
+   security key prompt.
 
 Daily dashboard workflow is remote-first. Vercel Blob is the mutable source of truth; local JSON is a mirror for Git
 history and static fallback. Before editing `dashboard/state/*.json`, pull the hosted snapshot:
@@ -80,3 +91,6 @@ Supported hosted mutations:
 - `POST /api/dashboard/task-comment`
 - `POST /api/dashboard/task-comment-delete`
 - `GET|POST|PATCH|DELETE /api/dashboard/access-users` (administrator only)
+- `GET|POST /api/dashboard/passkey-options`
+- `POST /api/dashboard/passkey-verify`
+- `GET|PATCH|DELETE /api/dashboard/passkeys` (administrator only)

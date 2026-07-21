@@ -113,9 +113,11 @@
       </figure>
     </div>
 
-    <div class="dashboard-access-gate" data-dashboard-access-gate role="dialog" aria-modal="true" aria-label="Dashboard token login">
+    <div class="dashboard-access-gate" data-dashboard-access-gate role="dialog" aria-modal="true" aria-label="Dashboard login">
       <form class="dashboard-access-card" data-dashboard-access-form>
         <div class="dashboard-access-icon" aria-hidden="true"></div>
+        <button class="dashboard-passkey-login" type="button" data-dashboard-passkey-login hidden>Use Passkey</button>
+        <div class="dashboard-access-divider" data-dashboard-passkey-divider hidden><span>or use recovery token</span></div>
         <label>
           <span>Dashboard Token</span>
           <input type="password" name="token" placeholder="Paste token" autocomplete="off" required>
@@ -147,6 +149,25 @@
           </aside>
 
           <div class="access-settings-workspace" data-access-settings-workspace>
+            <section class="access-passkey-settings" data-access-passkey-settings>
+              <div class="access-form-heading">
+                <div>
+                  <span class="label">Passwordless administrator login</span>
+                  <strong>Passkeys</strong>
+                </div>
+              </div>
+              <p class="access-passkey-note">Add a Passkey for Face ID, Touch ID, your device PIN, or a security key. The administrator token remains available for recovery.</p>
+              <form class="access-passkey-register" data-access-passkey-register>
+                <label>
+                  <span>Label (optional)</span>
+                  <input type="text" name="label" maxlength="80" autocomplete="off" placeholder="e.g. iPhone or MacBook">
+                </label>
+                <button type="submit">Add Passkey</button>
+              </form>
+              <div class="access-passkey-list" data-access-passkey-list aria-live="polite"></div>
+              <p class="access-form-status" data-access-passkey-status aria-live="polite"></p>
+            </section>
+
             <section class="access-user-editor" data-access-user-editor>
               <div class="access-editor-empty" data-access-editor-empty>
                 <strong>Select a person</strong>
@@ -262,6 +283,7 @@
         let dashboardVisibility = { bucket_ids: ["research"], include_project_ids: [], exclude_project_ids: [] };
         let accessSettingsUsers = [];
         let accessSettingsProjects = [];
+        let accessSettingsPasskeys = [];
         let selectedAccessUserId = "";
         let accessSettingsMode = "edit";
         let accessSettingsLastFocus = null;
@@ -739,6 +761,176 @@
           status.dataset.state = state;
         }
 
+        function dashboardPasskeySupported() {
+          return Boolean(
+            window.isSecureContext
+            && window.PublicKeyCredential
+            && navigator.credentials?.create
+            && navigator.credentials?.get
+          );
+        }
+
+        function renderDashboardPasskeyAvailability(available) {
+          const button = document.querySelector("[data-dashboard-passkey-login]");
+          const divider = document.querySelector("[data-dashboard-passkey-divider]");
+          const visible = dashboardPasskeySupported() && Boolean(available);
+          if (button) button.hidden = !visible;
+          if (divider) divider.hidden = !visible;
+        }
+
+        async function refreshDashboardPasskeyAvailability() {
+          if (!dashboardPasskeySupported()) {
+            renderDashboardPasskeyAvailability(false);
+            return false;
+          }
+          try {
+            const response = await fetch(`${vercelApiBase}/passkey-options`, {
+              method: "GET",
+              cache: "no-store",
+            });
+            const result = response.ok ? await response.json() : null;
+            const available = Boolean(response.ok && result?.ok && result.available);
+            renderDashboardPasskeyAvailability(available);
+            return available;
+          } catch (error) {
+            renderDashboardPasskeyAvailability(false);
+            return false;
+          }
+        }
+
+        function arrayBufferFromBase64url(value) {
+          if (typeof value !== "string" || !value) {
+            throw new Error("Invalid Passkey binary value");
+          }
+          const base64 = value.replaceAll("-", "+").replaceAll("_", "/")
+            .padEnd(Math.ceil(value.length / 4) * 4, "=");
+          const binary = window.atob(base64);
+          const bytes = new Uint8Array(binary.length);
+          for (let index = 0; index < binary.length; index += 1) {
+            bytes[index] = binary.charCodeAt(index);
+          }
+          return bytes.buffer;
+        }
+
+        function base64urlFromArrayBuffer(value) {
+          const bytes = value instanceof ArrayBuffer
+            ? new Uint8Array(value)
+            : new Uint8Array(value.buffer, value.byteOffset, value.byteLength);
+          let binary = "";
+          for (let offset = 0; offset < bytes.length; offset += 0x8000) {
+            binary += String.fromCharCode(...bytes.subarray(offset, offset + 0x8000));
+          }
+          return window.btoa(binary).replaceAll("+", "-").replaceAll("/", "_").replace(/=+$/u, "");
+        }
+
+        function passkeyCredentialDescriptorsFromJson(descriptors) {
+          if (!Array.isArray(descriptors)) return descriptors;
+          return descriptors.map((descriptor) => ({
+            ...descriptor,
+            id: arrayBufferFromBase64url(descriptor.id),
+          }));
+        }
+
+        function passkeyCreationOptionsFromJson(options) {
+          return {
+            ...options,
+            challenge: arrayBufferFromBase64url(options.challenge),
+            user: {
+              ...options.user,
+              id: arrayBufferFromBase64url(options.user.id),
+            },
+            excludeCredentials: passkeyCredentialDescriptorsFromJson(options.excludeCredentials),
+          };
+        }
+
+        function passkeyRequestOptionsFromJson(options) {
+          return {
+            ...options,
+            challenge: arrayBufferFromBase64url(options.challenge),
+            allowCredentials: passkeyCredentialDescriptorsFromJson(options.allowCredentials),
+          };
+        }
+
+        function passkeyCredentialToJson(credential) {
+          const response = {
+            clientDataJSON: base64urlFromArrayBuffer(credential.response.clientDataJSON),
+          };
+          if ("attestationObject" in credential.response) {
+            response.attestationObject = base64urlFromArrayBuffer(credential.response.attestationObject);
+            const transports = credential.response.getTransports?.();
+            if (Array.isArray(transports)) response.transports = transports;
+            const publicKey = credential.response.getPublicKey?.();
+            if (publicKey) response.publicKey = base64urlFromArrayBuffer(publicKey);
+            const publicKeyAlgorithm = credential.response.getPublicKeyAlgorithm?.();
+            if (Number.isInteger(publicKeyAlgorithm)) response.publicKeyAlgorithm = publicKeyAlgorithm;
+            const authenticatorData = credential.response.getAuthenticatorData?.();
+            if (authenticatorData) response.authenticatorData = base64urlFromArrayBuffer(authenticatorData);
+          } else {
+            response.authenticatorData = base64urlFromArrayBuffer(credential.response.authenticatorData);
+            response.signature = base64urlFromArrayBuffer(credential.response.signature);
+            if (credential.response.userHandle) {
+              response.userHandle = base64urlFromArrayBuffer(credential.response.userHandle);
+            }
+          }
+          return {
+            id: credential.id,
+            rawId: base64urlFromArrayBuffer(credential.rawId),
+            response,
+            type: credential.type,
+            clientExtensionResults: credential.getClientExtensionResults?.() || {},
+            authenticatorAttachment: credential.authenticatorAttachment || undefined,
+          };
+        }
+
+        async function dashboardPasskeyRequest(path, method = "GET", payload = null) {
+          const response = await fetch(`${vercelApiBase}/${path}`, {
+            method,
+            headers: payload ? { "content-type": "application/json" } : undefined,
+            body: payload ? JSON.stringify(payload) : undefined,
+            cache: "no-store",
+          });
+          const text = await response.text();
+          const result = text ? JSON.parse(text) : {};
+          if (!response.ok || !result?.ok) {
+            throw new Error(result?.error || `Passkey request returned ${response.status}`);
+          }
+          return result;
+        }
+
+        function dashboardPasskeyErrorMessage(error, fallback) {
+          if (["AbortError", "NotAllowedError"].includes(error?.name)) {
+            return "Passkey request cancelled.";
+          }
+          if (error?.name === "InvalidStateError") {
+            return "This Passkey is already registered.";
+          }
+          return error?.message || fallback;
+        }
+
+        async function authenticateDashboardWithPasskey() {
+          if (!dashboardPasskeySupported()) {
+            throw new Error("Passkeys are not supported in this browser.");
+          }
+          const ceremony = await dashboardPasskeyRequest("passkey-options", "POST", {
+            ceremony: "authentication",
+          });
+          const credential = await navigator.credentials.get({
+            publicKey: passkeyRequestOptionsFromJson(ceremony.options),
+          });
+          if (!credential) throw new Error("No Passkey credential was returned.");
+          const result = await dashboardPasskeyRequest("passkey-verify", "POST", {
+            ceremony: "authentication",
+            ceremony_id: ceremony.ceremony_id,
+            response: passkeyCredentialToJson(credential),
+          });
+          const auth = result.write_auth;
+          if (!auth?.ok) throw new Error("Passkey authentication failed.");
+          applyDashboardAuth(auth);
+          unlockDashboardView();
+          setSyncStatus("Vercel loading", "loading");
+          await initDashboardState();
+        }
+
         function updateDashboardWatermark() {
           const watermark = document.querySelector("[data-dashboard-watermark]");
           if (!watermark) {
@@ -799,12 +991,14 @@
 
         async function initDashboardAccessGate() {
           const tokenInput = document.querySelector("[data-dashboard-access-form] input[name='token']");
+          const passkeyAvailability = refreshDashboardPasskeyAvailability();
           setDashboardAccessStatus("正在检查登录状态...", "loading");
           try {
             const response = await fetch(`${vercelApiBase}/health`, { cache: "no-store" });
             const result = response.ok ? await response.json() : null;
             const auth = result?.write_auth;
             if (!response.ok || !result?.ok || !auth?.ok) {
+              await passkeyAvailability;
               setDashboardAccessStatus("", "");
               tokenInput?.focus();
               return;
@@ -872,6 +1066,99 @@
             throw new Error(result?.error || `Access settings returned ${response.status}`);
           }
           return result;
+        }
+
+        function setAccessPasskeyStatus(label, state = "") {
+          const status = document.querySelector("[data-access-passkey-status]");
+          if (!status) return;
+          status.textContent = label;
+          status.dataset.state = state;
+        }
+
+        function renderAccessPasskeys() {
+          const list = document.querySelector("[data-access-passkey-list]");
+          if (!list) return;
+          if (!accessSettingsPasskeys.length) {
+            const empty = document.createElement("p");
+            empty.className = "access-passkey-empty";
+            empty.textContent = "No Passkeys yet. Add one before relying on passwordless sign-in.";
+            list.replaceChildren(empty);
+            return;
+          }
+          const items = accessSettingsPasskeys.map((passkey) => {
+            const form = document.createElement("form");
+            form.className = "access-passkey-item";
+            form.dataset.accessPasskeyRename = passkey.credential_id;
+
+            const label = document.createElement("label");
+            const labelText = document.createElement("span");
+            labelText.textContent = "Passkey label";
+            const input = document.createElement("input");
+            input.type = "text";
+            input.name = "label";
+            input.maxLength = 80;
+            input.required = true;
+            input.autocomplete = "off";
+            input.value = passkey.label || "Passkey";
+            input.setAttribute("aria-label", `Passkey label for ${passkey.label || "Passkey"}`);
+            label.append(labelText, input);
+
+            const meta = document.createElement("p");
+            const kind = passkey.device_type === "multiDevice" || passkey.backed_up
+              ? "Synced Passkey"
+              : "Device Passkey";
+            const created = passkey.created_at
+              ? dateTimeFormatter.format(new Date(passkey.created_at))
+              : "Unknown date";
+            const lastUsed = passkey.last_used_at
+              ? ` · last used ${dateTimeFormatter.format(new Date(passkey.last_used_at))}`
+              : "";
+            meta.textContent = `${kind} · added ${created}${lastUsed}`;
+
+            const actions = document.createElement("div");
+            actions.className = "access-passkey-actions";
+            const rename = document.createElement("button");
+            rename.type = "submit";
+            rename.textContent = "Rename";
+            const remove = document.createElement("button");
+            remove.type = "button";
+            remove.className = "danger";
+            remove.dataset.accessPasskeyDelete = passkey.credential_id;
+            remove.textContent = "Remove";
+            actions.append(rename, remove);
+            form.append(label, meta, actions);
+            return form;
+          });
+          list.replaceChildren(...items);
+        }
+
+        async function loadAccessPasskeys() {
+          if (!dashboardPermissions.can_manage_access) return;
+          const result = await dashboardPasskeyRequest("passkeys", "GET");
+          accessSettingsPasskeys = Array.isArray(result.passkeys) ? result.passkeys : [];
+          renderAccessPasskeys();
+        }
+
+        async function registerDashboardPasskey(label = "") {
+          if (!dashboardPasskeySupported()) {
+            throw new Error("Passkeys are not supported in this browser.");
+          }
+          const ceremony = await dashboardPasskeyRequest("passkey-options", "POST", {
+            ceremony: "registration",
+          });
+          const credential = await navigator.credentials.create({
+            publicKey: passkeyCreationOptionsFromJson(ceremony.options),
+          });
+          if (!credential) throw new Error("No Passkey credential was returned.");
+          const result = await dashboardPasskeyRequest("passkey-verify", "POST", {
+            ceremony: "registration",
+            ceremony_id: ceremony.ceremony_id,
+            response: passkeyCredentialToJson(credential),
+            ...(label ? { label } : {}),
+          });
+          renderDashboardPasskeyAvailability(true);
+          await loadAccessPasskeys();
+          return result.passkey;
         }
 
         function accessVisibilityForForm(form) {
@@ -1205,6 +1492,14 @@
           panel.focus();
           try {
             await loadAccessSettings();
+            try {
+              await loadAccessPasskeys();
+              setAccessPasskeyStatus("", "");
+            } catch (error) {
+              accessSettingsPasskeys = [];
+              renderAccessPasskeys();
+              setAccessPasskeyStatus(error.message || "Unable to load Passkeys", "error");
+            }
           } catch (error) {
             const status = document.querySelector("[data-access-create-status]");
             status.textContent = error.message || "Unable to load access settings";
@@ -4293,6 +4588,51 @@
         });
 
         document.addEventListener("submit", (event) => {
+          const passkeyRegisterForm = event.target.closest?.("[data-access-passkey-register]");
+          if (passkeyRegisterForm) {
+            event.preventDefault();
+            const button = passkeyRegisterForm.querySelector("button[type='submit']");
+            const label = passkeyRegisterForm.elements.label.value.trim();
+            button.disabled = true;
+            setAccessPasskeyStatus("Waiting for your device...", "loading");
+            registerDashboardPasskey(label).then((passkey) => {
+              passkeyRegisterForm.reset();
+              setAccessPasskeyStatus(`${passkey?.label || "Passkey"} added. You can now use it from the login screen.`, "success");
+            }).catch((error) => {
+              const cancelled = ["AbortError", "NotAllowedError"].includes(error?.name);
+              setAccessPasskeyStatus(
+                dashboardPasskeyErrorMessage(error, "Unable to add Passkey"),
+                cancelled ? "" : "error",
+              );
+            }).finally(() => {
+              button.disabled = false;
+            });
+            return;
+          }
+
+          const passkeyRenameForm = event.target.closest?.("[data-access-passkey-rename]");
+          if (passkeyRenameForm) {
+            event.preventDefault();
+            const button = passkeyRenameForm.querySelector("button[type='submit']");
+            const credentialId = passkeyRenameForm.dataset.accessPasskeyRename;
+            const label = passkeyRenameForm.elements.label.value.trim();
+            if (!label) return;
+            button.disabled = true;
+            setAccessPasskeyStatus("Renaming Passkey...", "loading");
+            dashboardPasskeyRequest("passkeys", "PATCH", {
+              credential_id: credentialId,
+              label,
+            }).then(async () => {
+              await loadAccessPasskeys();
+              setAccessPasskeyStatus("Passkey renamed.", "success");
+            }).catch((error) => {
+              setAccessPasskeyStatus(error.message || "Unable to rename Passkey", "error");
+            }).finally(() => {
+              button.disabled = false;
+            });
+            return;
+          }
+
           const accessCreateForm = event.target.closest?.("[data-access-user-create]");
           if (accessCreateForm) {
             event.preventDefault();
@@ -4505,6 +4845,24 @@
         });
 
         document.addEventListener("click", (event) => {
+          const passkeyLogin = event.target.closest?.("[data-dashboard-passkey-login]");
+          if (passkeyLogin) {
+            passkeyLogin.disabled = true;
+            setDashboardAccessStatus("Waiting for your Passkey...", "loading");
+            authenticateDashboardWithPasskey().then(() => {
+              setDashboardAccessStatus("", "");
+            }).catch((error) => {
+              const cancelled = ["AbortError", "NotAllowedError"].includes(error?.name);
+              setDashboardAccessStatus(
+                dashboardPasskeyErrorMessage(error, "Passkey sign-in failed."),
+                cancelled ? "" : "error",
+              );
+            }).finally(() => {
+              passkeyLogin.disabled = false;
+            });
+            return;
+          }
+
           const settingsOpen = event.target.closest?.("[data-access-settings-open]");
           if (settingsOpen) {
             openAccessSettings(settingsOpen);
@@ -4555,6 +4913,28 @@
               window.setTimeout(() => { accessTokenCopy.textContent = "Copy token"; }, 1600);
             }).catch(() => {
               accessTokenCopy.textContent = "Copy failed";
+            });
+            return;
+          }
+
+          const passkeyDelete = event.target.closest?.("[data-access-passkey-delete]");
+          if (passkeyDelete) {
+            const passkey = accessSettingsPasskeys.find((candidate) => (
+              candidate.credential_id === passkeyDelete.dataset.accessPasskeyDelete
+            ));
+            if (!passkey || !window.confirm(`Remove ${passkey.label || "this Passkey"}? The administrator token will remain available for recovery.`)) return;
+            passkeyDelete.disabled = true;
+            setAccessPasskeyStatus("Removing Passkey...", "loading");
+            dashboardPasskeyRequest("passkeys", "DELETE", {
+              credential_id: passkey.credential_id,
+            }).then(async () => {
+              await loadAccessPasskeys();
+              renderDashboardPasskeyAvailability(accessSettingsPasskeys.length > 0);
+              setAccessPasskeyStatus("Passkey removed. Recovery token login is still available.", "success");
+            }).catch((error) => {
+              setAccessPasskeyStatus(error.message || "Unable to remove Passkey", "error");
+            }).finally(() => {
+              passkeyDelete.disabled = false;
             });
             return;
           }

@@ -1,0 +1,3 @@
+import { handleDashboardPasskeyVerify, withDashboardApiErrors } from "../../scripts/dashboard-vercel-api.mjs";
+
+export default withDashboardApiErrors(handleDashboardPasskeyVerify);
