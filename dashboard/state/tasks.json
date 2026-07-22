@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-07-22T02:53:50.821Z",
+  "updated_at": "2026-07-22T03:55:52.479Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -9508,7 +9508,7 @@
       "project_id": "real-robot-infra",
       "title": "API 中转站采购查询",
       "description": "查询 API 中转站采购方案，重点看能否走 NUS / 组内报销、稳定性、模型覆盖、企业用户支持、价格和风险。候选：DMXAPI https://www.dmxapi.com；文档 https://doc.dmxapi.cn/kaishi.html；报价页 https://www.dmxapi.cn/rmb。聊天记录信息：对方称企业用户，注册给用户名可送体验金；GPT / Claude / Gemini 基本按官方 6.8 折；开通 GPT 等模型需要给用户名。验收：Karen 确认是否可报销；列出官方 Max/Team vs 中转站的成本和稳定性对比；确认充值/发票/合同/账号归属；小额试用通过；明确不在 dashboard 保存 API key、账号密码、付款信息。",
-      "status": "todo",
+      "status": "active",
       "priority": "high",
       "assignee": "Boris / Karen / Yuhang",
       "due_at": "",
@@ -9527,9 +9527,20 @@
           "body": "Moved from previous Real-Robot Infra intro: Placement update 2026-06-12: shared NAS, USB/camera mounting consumables, Claude Code account separation, API gateway procurement query, and ME Control Lab anti-vibration table assembly live here as lab infrastructure/tooling work.",
           "created_at": "2026-06-12T15:39:17+08:00",
           "kind": "comment"
+        },
+        {
+          "comment_id": "comment_api_gateway_procurement_ongoing_20260722",
+          "task_id": "task_general_api_gateway_procurement_query",
+          "author": "Boris / Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[USER UPDATE 2026-07-22] API gateway procurement research remains ongoing. Continue reimbursement, invoice/contract, account ownership, model coverage, stability, pricing and small-trial verification; do not store API keys, passwords or payment details in the dashboard.",
+          "created_at": "2026-07-22T03:55:52.479Z"
         }
       ],
-      "updated_at": "2026-06-12T15:39:17+08:00"
+      "updated_at": "2026-07-22T03:55:52.479Z",
+      "completed_at": null,
+      "completed_at_time": null
     },
     {
       "task_id": "task_general_me_control_lab_anti_vibration_table_assembly",
@@ -12443,7 +12454,7 @@
       "project_id": "real-robot-infra",
       "title": "重画 Franka 相机支架并对齐自带螺栓孔重新打印",
       "description": "FYI from Boris/Wuhao: current Franka camera bracket should be revised to reuse the built-in Franka bolt holes visible around the flange instead of relying on the current clamp-only geometry. Action: draw a bolt-hole-aligned version of the Franka camera mount, preserve the intended camera pose, and reprint a test part. Acceptance: confirm the real Franka bolt-hole pattern from official CAD/manual or direct caliper measurement rather than inferring dimensions from the chat photo; produce CAD/STL/print files; verify screw size/thread engagement, flange clearance, camera FOV, cable routing, and no interference with Wuji hand / end-effector / robot motion envelope; perform a dry fit with robot motion disabled before any live test.",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignee": "Wuhao / Boris",
       "result": null,
@@ -12456,16 +12467,27 @@
           "kind": "comment",
           "body": "ClawCross WeChat sync from Dexterous Data Collection on 2026-07-08: Wuhao sent `Franka 相机固定支架1.STL` and noted he has added holes, but the manual does not specify the real screw dimensions. Next step is for Haoming/Jingru to learn/use the 3D printer, print the candidate, remove or measure the actual Franka flange screws if possible, dry-fit with robot motion disabled, then feed back screw size, clearance, camera FOV, cable routing, and interference issues to Wuhao.",
           "created_at": "2026-07-09T16:30:00+08:00"
+        },
+        {
+          "comment_id": "comment_franka_camera_mount_user_closed_20260722",
+          "task_id": "task_real_robot_infra_franka_camera_mount_bolt_hole_reprint",
+          "author": "Boris / Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[USER CONFIRMATION 2026-07-22] The user confirmed that the Franka bolt-hole-aligned camera-bracket redesign and reprint TODO can be closed. No new CAD/print artifact was supplied in this update, so the status records the user's direct project update without adding unverified measurements.",
+          "created_at": "2026-07-22T03:55:52.479Z"
         }
       ],
-      "updated_at": "2026-07-09T16:30:00+08:00"
+      "updated_at": "2026-07-22T03:55:52.479Z",
+      "completed_at": "2026-07-22",
+      "completed_at_time": "2026-07-22T03:55:52.479Z"
     },
     {
       "task_id": "task_real_robot_infra_nero_daimon_gripper_camera_adapters",
       "project_id": "real-robot-infra",
       "title": "设计并打印戴盟夹爪接松灵 Nero 的转接件和 camera 转接件",
       "description": "Dexterous Data Collection 2026-07-09 update: Lingxin dexterous hand has been sent back for after-sales service; Boris will bring the Daimon gripper on Monday. Need Jingru/Wuhao to align the Daimon gripper with the Songling Nero wrist interface and draw/print the adapter, plus a camera adapter for the same setup. Jingru noted the Songling Nero wrist interface is the same as the previous one. Acceptance: 1) confirm Songling Nero wrist bolt pattern/interface and Daimon gripper mounting pattern from manual/CAD or direct measurement; 2) produce CAD/STL/print files for gripper adapter and camera adapter; 3) verify screw size, thread engagement, flange clearance, camera FOV, cable routing, mass/torque safety, and no collision with Nero motion envelope; 4) dry-fit with robot powered off, then low-speed pose check; 5) update Hardware Resource Center with files, measurements, and print notes.",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignee": "Jingru / Wuhao / Boris",
       "result": null,
@@ -12487,9 +12509,20 @@
           "kind": "comment",
           "body": "ClawCross WeChat tail 2026-07-09 15:16-15:54: Lingxin dexterous hand is back for after-sales service; Boris will bring the Daimon gripper on Monday; Jingru confirmed the Songling Nero wrist interface is the same as the previous one, and a camera adapter is also needed. Use the gripper manual shared in chat plus the Hardware Resource Center before CAD; do not infer bolt patterns, screw size, or camera clearance from chat photos alone. Gripper manual link from chat: https://drive.google.com/file/d/1ukiZnlci47TVv3UMDqnITE9h7Lg9u4_t/view?usp=drivesdk.",
           "created_at": "2026-07-09T21:44:00+08:00"
+        },
+        {
+          "comment_id": "comment_nero_daimon_adapters_installed_user_confirmed_20260722",
+          "task_id": "task_real_robot_infra_nero_daimon_gripper_camera_adapters",
+          "author": "Boris / Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[USER CONFIRMATION 2026-07-22] Jingru confirmed that the camera adapter connects the Lingxin six-DoF dexterous hand to the Songling Nero arm, and that both the gripper adapter and camera adapter have been installed. Closed by the user on this direct installation confirmation; this update does not independently re-inspect CAD/print files or safety-test artifacts.",
+          "created_at": "2026-07-22T03:55:52.479Z"
         }
       ],
-      "updated_at": "2026-07-09T21:44:00+08:00"
+      "updated_at": "2026-07-22T03:55:52.479Z",
+      "completed_at": "2026-07-22",
+      "completed_at_time": "2026-07-22T03:55:52.479Z"
     },
     {
       "task_id": "task_real_robot_infra_wuji_mf287_flexible_sensor_haptic_module_eval",
