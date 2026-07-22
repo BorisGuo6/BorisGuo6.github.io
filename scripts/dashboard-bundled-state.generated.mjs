@@ -1,7 +1,7 @@
 export default {
   "schema_version": "dashboard-state.v1",
   "source": "bundled-json-generated",
-  "updated_at": "2026-07-22T02:12:59.539Z",
+  "updated_at": "2026-07-22T02:53:50.821Z",
   "portfolio": {
     "schema_version": "portfolio.v1",
     "portfolio_id": "embodied-ai-dashboard",
@@ -1581,7 +1581,7 @@ export default {
       "title": "Self-Improving Agents for Physical AI",
       "bucket": "research",
       "status": "ongoing",
-      "updated_at": "2026-07-17T13:47:56.859Z",
+      "updated_at": "2026-07-22T02:53:50.821Z",
       "description": "[KNOWN] [CONFIDENCE: HIGH] Agentic environment-generation harness for Physical AI: route text requests, image/video anchors, internet asset and dataset retrieval, and cross-simulator migration through reusable Skills and MCP tools, preferring verified asset reuse and parameter filling before rigid or articulated 3D generation.",
       "summary": "[KNOWN] [CONFIDENCE: HIGH] The four V1 workflows retain bounded acceptance evidence: Text2Env Stage 0-5, image/video Anchor2Env, verified asset discovery/import, and Open-X-Sim L0-L3 transfer. [KNOWN] [CONFIDENCE: HIGH] The current phase integrates them into one agentic harness with reusable Skill/MCP contracts, a selection-first asset route, a learned rigid/articulated 3D-generation fallback, and regression-gated cross-simulator compilation. [KNOWN] [CONFIDENCE: HIGH] Higher-fidelity open-world generation and policy/controller equivalence remain open.",
       "asset": "dashboard/assets/self-improving-embodied-harness-loop-20260707.png",
@@ -1631,10 +1631,11 @@ export default {
         "task_self_improving_rlbench_isaacsim_pilot_gate",
         "task_self_improving_dual_sim_robotwin_isaacsim_merge",
         "task_self_improving_contact_curriculum_bridge",
+        "task_self_improving_hu_repo_backend_onboarding_20260720",
         "task_self_improving_agents_phase_2_harness_build_reusable_skill_mcp_registr_20260717",
         "task_self_improving_agents_phase_2_1_4_text2env_wrap_deterministic_text2env_20260717",
-        "task_self_improving_agents_phase_2_2_4_anchor2env_wrap_image_video_conditio_20260717",
         "task_self_improving_agents_phase_2_3a_4_asset_reuse_retrieve_match_select_a_20260717",
+        "task_self_improving_agents_phase_2_2_4_anchor2env_wrap_image_video_conditio_20260717",
         "task_self_improving_agents_embodiedgen_v2_self_improving_harness_gen_env_20260713",
         "task_self_improving_agents_phase_2_4_4_transfer_package_cross_simulator_mig_20260717"
       ],
@@ -1886,7 +1887,8 @@ export default {
         "RATs adoption decision 2026-06-21: use RATs as the reference for autonomous play and persistent callable code skills, but keep our acceptance stricter: skills must be linked to simulator state, failure taxonomy, verifier evidence, task-pack provenance, and downstream policy/eval deltas, not only reusable Code-as-Policy snippets.",
         "PhyAgentOS boundary 2026-06-21: useful for transparent cognitive-physical decoupling and file/protocol-mediated hardware execution. It should inform our runtime/control-plane design, but it is not enough for the current proposal unless paired with AgenticSim environment generation, policy training/evaluation hooks, and failure-to-data-requirement loops.",
         "Execution routing 2026-06-05: Skill World Model work is the SkillCall memory gate; RLBench->IsaacSim work is the AgenticSim Isaac verifier pilot.",
-        "Bridge boundary 2026-06-05: contact-rich VTLA/UMI traces can drive curriculum and failure-memory design, but Self-improving should not depend on tactile hardware until the sim-first oracle or available sensor path is verified."
+        "Bridge boundary 2026-06-05: contact-rich VTLA/UMI traces can drive curriculum and failure-memory design, but Self-improving should not depend on tactile hardware until the sim-first oracle or available sensor path is verified.",
+        "[USER-SUPPLIED PHASE 2 PLAN 2026-07-22] Rewrote the seven existing environment-generation TODOs instead of creating duplicates. Primary owners: Hu = Onboarding/Harness/Transfer; Zheng Ye = Text2Env/Anchor2Env; Shao Gujie = Asset reuse/Generation fallback. Dependency chain: Onboarding -> public interfaces + Harness -> Text2Env and Asset reuse -> Anchor2Env and Generation fallback -> Transfer -> full regression. Still pending team confirmation: shared simulator backend and second adapter, interface freeze date, and first end-to-end integration date."
       ],
       "timeline": {
         "badges": [
@@ -5672,7 +5674,7 @@ export default {
   ],
   "taskDoc": {
     "schema_version": "tasks.v1",
-    "updated_at": "2026-07-22T02:12:59.539Z",
+    "updated_at": "2026-07-22T02:53:50.821Z",
     "owner": "dashboard",
     "tasks": [
       {
@@ -18488,11 +18490,11 @@ export default {
       {
         "task_id": "task_self_improving_agents_embodiedgen_v2_self_improving_harness_gen_env_20260713",
         "project_id": "self-improving-agents",
-        "title": "[Phase 2 3B/4 Generation fallback] Benchmark rigid and articulated 3D generation backends",
-        "description": "[KNOWN] [CONFIDENCE: HIGH] EmbodiedGen V2 is the first pinned candidate, but the harness route must remain backend-agnostic; current project discussion also names Meshy, Tripo and SAM3-style reconstruction or generation as candidates. Scope: invoke direct 3D generation only when retrieval, matching and parameter filling cannot satisfy the scene constraints; benchmark rigid and articulated objects separately; require visual and collision geometry, units, axes, scale, materials, mass and inertia, stable poses, joint topology, limits and drives, provenance and hashes; compile into SAPIEN plus one second backend. Acceptance: at least 3 rigid and 3 articulated cases preserve prompts, config, seed, model version, output hashes and failure artifacts; compare task fit, geometry, collision, scale, physics settling, articulation validity, determinism, retry count, latency, peak VRAM and API cost; produce an adopt, cherry-pick, research-reference or reject decision for each backend; no credentials or restricted payloads enter dashboard state or logs.",
+        "title": "[Phase 2 / Route 3B Generation fallback] Shao Gujie：评测刚体/关节物体 3D 生成后端",
+        "description": "[PHASE 2 PLAN 2026-07-21 · USER-SUPPLIED 2026-07-22] 主负责人：Shao Gujie；Hu 负责 Harness/Transfer 接口 review。仅当 Asset reuse 的检索、匹配与参数补全无法满足场景条件时触发。\n\n目标：评测刚体与关节物体的直接 3D 生成后端，同时保持 Harness 与具体供应商/模型解耦。首个固定候选为 EmbodiedGen V2，可比较 Meshy、Tripo 与 SAM3 类方案。\n\n主要工作：检查视觉/碰撞几何、单位、坐标轴、尺度、材质、质量、惯量、稳定姿态、关节拓扑、限位和驱动；保存 provenance 与哈希；把结果编译到 SAPIEN 和第二后端。\n\n验收：至少测试 3 个刚体和 3 个关节物体；保存 prompt、配置、seed、模型版本、输出哈希与失败产物；比较任务匹配度、几何、碰撞、尺度、物理稳定性、关节有效性、确定性、重试次数、延迟、峰值显存和 API 成本；对每个后端给出 adopt、partial、research-only 或 reject 结论。\n\n安全边界：密钥和受限数据不得进入 Dashboard、日志或产物；复用尚可满足约束时不得绕过 selection-first 路由。",
         "status": "todo",
         "priority": "high",
-        "assignee": "Jingxiang / Zheng Ye / Environment Generation team",
+        "assignee": "Shao Gujie",
         "result": null,
         "comments": [
           {
@@ -18503,9 +18505,19 @@ export default {
             "kind": "comment",
             "body": "[MEETING 2026-07-20] Generation fallback alignment：只有在已验证资产复用无法满足约束时，才使用参考图/视频、开源视频重建或 3D 生成路线补齐缺失资产。输出必须是 robot-training-ready / sim-ready package，包含尺度、碰撞、质量/惯性、关节与限制、材质、provenance，以及物理合理性 auditor 的通过证据或 typed blocker。",
             "created_at": "2026-07-20T14:28:48.296Z"
+          },
+          {
+            "comment_id": "comment_phase2_plan_rewrite_generation_fallback_20260722",
+            "task_id": "task_self_improving_agents_embodiedgen_v2_self_improving_harness_gen_env_20260713",
+            "author": "Boris / Codex",
+            "author_type": "system",
+            "kind": "comment",
+            "body": "[USER-SUPPLIED PHASE 2 PLAN 2026-07-22] Rewritten from the internal 2026-07-21 Phase 2 environment-generation assignment plan. One primary owner is kept on this card; reviewers and adapter contributors are recorded in the description. The seven existing cards form one dependency chain and were updated in place rather than duplicated.",
+            "created_at": "2026-07-22T02:53:50.821Z"
           }
         ],
-        "updated_at": "2026-07-20T14:28:48.296Z"
+        "updated_at": "2026-07-22T02:53:50.821Z",
+        "completed_at": null
       },
       {
         "task_id": "task_umi_world_model_ziyang_meng_mimic_video_robot_layer_action_idm_20260713",
@@ -18887,11 +18899,11 @@ export default {
       {
         "task_id": "task_self_improving_agents_phase_2_harness_build_reusable_skill_mcp_registr_20260717",
         "project_id": "self-improving-agents",
-        "title": "[Phase 2 / Harness] Build reusable Skill + MCP registry for agentic environment generation",
-        "description": "[KNOWN] [CONFIDENCE: HIGH] The four V1 environment-generation routes have bounded acceptance evidence and remain closed as historical milestones. Phase 2 must integrate them into one reusable agentic harness rather than reopen those acceptance claims. Scope: define a capability registry and typed contracts for discover, match, fill, generate, compile, validate and transfer; record tool version, dependencies and side-effect boundaries; implement selection-first routing, bounded retries, run_state, events, artifact manifests, typed blockers and rollback; expose four golden flows for Text2Env, Anchor2Env, internet asset intake and cross-simulator transfer. Acceptance: every route is callable as a versioned Skill or MCP tool with deterministic fixtures; every run preserves seed, model and adapter versions, provenance and hashes, rejected candidates, verifier results and failure codes; regression gates block promotion on schema, provenance, physics, replay or migration-loss failures.",
-        "status": "active",
+        "title": "[Phase 2 / Core Harness] Hu：冻结公共接口并搭建 Skill/MCP Harness",
+        "description": "[PHASE 2 PLAN 2026-07-21 · USER-SUPPLIED 2026-07-22] 主负责人：Hu。Zheng Ye 与 Shao Gujie 分别提供输入路线和资产路线 adapter/fixture，并以 reviewer 身份协作。\n\n目标：把 V1 已验收的 Text2Env、Anchor2Env、互联网资产导入和 Open-X-Sim 迁移封装成统一、可复用的 Skill/MCP Harness；不重新证明 V1。\n\n前置：Onboarding 完成后，三人共同冻结 SceneSpec、AssetManifest、EnvironmentPackage、provenance/source、错误码和随机种子规则；Hu 搭建 registry 与运行骨架。\n\n主要工作：为 discover、match、parameter fill、generate、compile、validate、replay 和 transfer 定义版本化类型接口；记录工具版本、依赖和副作用边界；实现 selection-first、有限重试、run_state、events、artifact manifest、typed blocker、rollback、CI 与回归门禁。\n\n验收：四条路线均能作为带版本号的 Skill/MCP 调用并拥有确定性 fixture；每次运行保留种子、模型/adapter 版本、来源与哈希、淘汰候选、验证结果和错误码；Schema、来源、物理、回放或迁移损失不合格时禁止发布。\n\n待确认：共用模拟器后端与第二 adapter、公共接口冻结时间、第一轮端到端联调日期。",
+        "status": "todo",
         "priority": "urgent",
-        "assignee": "Jingxiang / Zheng Ye / Environment Generation team",
+        "assignee": "Hu",
         "result": null,
         "comments": [
           {
@@ -18902,18 +18914,28 @@ export default {
             "kind": "comment",
             "body": "[MEETING 2026-07-20] Robot Harness 继续作为总闭环：环境生成 → 数据采集 → 训练 → 诊断 → 自评估；当前 sprint 聚焦环境生成。Immediate gate：先将现有仓库和 text-to-test-environment golden path 可复现跑通，再扩展四条路线；同时增加物理合理性 self-auditor。Boris 在群内补充论文、demo 与 ACDC（名称待确认）资料；团队成员在独立分支开发，并在 2026-07-27 周会前形成可合并集成。后端不在本条评论中改名：会议转写 “asag based / cpin” 需由 Hu 对照现有 RoboTwin/SAPIEN-v0 与 Isaac adapter 决策后确认。",
             "created_at": "2026-07-20T14:26:20.766Z"
+          },
+          {
+            "comment_id": "comment_phase2_plan_rewrite_harness_20260722",
+            "task_id": "task_self_improving_agents_phase_2_harness_build_reusable_skill_mcp_registr_20260717",
+            "author": "Boris / Codex",
+            "author_type": "system",
+            "kind": "comment",
+            "body": "[USER-SUPPLIED PHASE 2 PLAN 2026-07-22] Rewritten from the internal 2026-07-21 Phase 2 environment-generation assignment plan. One primary owner is kept on this card; reviewers and adapter contributors are recorded in the description. The seven existing cards form one dependency chain and were updated in place rather than duplicated.",
+            "created_at": "2026-07-22T02:53:50.821Z"
           }
         ],
-        "updated_at": "2026-07-20T14:26:20.766Z"
+        "updated_at": "2026-07-22T02:53:50.821Z",
+        "completed_at": null
       },
       {
         "task_id": "task_self_improving_agents_phase_2_1_4_text2env_wrap_deterministic_text2env_20260717",
         "project_id": "self-improving-agents",
-        "title": "[Phase 2 1/4 Text2Env] Wrap deterministic Text2Env as a reusable Skill/MCP route",
-        "description": "[KNOWN] [CONFIDENCE: HIGH] RoboTwin SceneGen Stage 0-5 remains the accepted V1 backend; this task packages it for the harness rather than redoing scene generation. Scope: map a text request into typed SceneSpec, AssetManifest, ResolvedSceneSpec, simulator package and validation report; forbid arbitrary generated code, asset paths, final poses or quaternions from the language model; expose compile, validate and replay as versioned Skill/MCP calls with bounded repair. Acceptance: bilingual golden prompts and negative cases pass; fixed input, config and seed replay to the same resolved package; provenance, rejected candidates and typed blockers are retained; RoboTwin plus one adapter target pass runtime gates; promotion is regression-gated.",
+        "title": "[Phase 2 / Route 1 Text2Env] Zheng Ye：封装确定性文字生成环境路线",
+        "description": "[PHASE 2 PLAN 2026-07-21 · USER-SUPPLIED 2026-07-22] 主负责人：Zheng Ye；Hu 负责 Harness 接口 review。该路线在公共接口冻结后与 Asset reuse 并行，且先于 Anchor2Env。\n\n目标：复用已验收的 RoboTwin SceneGen Stage 0-5，把文字生成流程封装进统一 Harness，而不是重做场景生成。\n\n主要工作：将文字请求转换为 SceneSpec、AssetManifest、ResolvedSceneSpec、模拟器 EnvironmentPackage 和验证报告；禁止语言模型任意生成代码、资产路径、最终位置或四元数；把 compile、validate 和 replay 暴露为版本化 Skill/MCP，并只允许有限次数修复。\n\n验收：准备一个中文和一个英文固定案例及负向案例；相同输入、配置与种子可回放到同一最终环境包；保留来源、淘汰候选和 typed blocker；RoboTwin 与第二 adapter 通过运行门禁，回归失败不得发布。\n\n交付：版本号、固定输入/配置/seed、预期产物、失败案例、最小回归测试，以及供 Transfer 使用的输入路线 adapter。",
         "status": "todo",
         "priority": "high",
-        "assignee": "Zheng Ye / Environment Generation team",
+        "assignee": "Zheng Ye",
         "result": null,
         "comments": [
           {
@@ -18924,18 +18946,28 @@ export default {
             "kind": "comment",
             "body": "[MEETING 2026-07-20] Scope boundary：会议所说“纯文本到测试环境的第一部分已完成”对应已经验收的 Text2Env V1；本 TODO 仍只负责把该 golden path 包装成可复用、可版本化的 Skill/MCP 路线，不重做 V1，也不据此提前标记 Phase 2 为完成。",
             "created_at": "2026-07-20T14:27:57.234Z"
+          },
+          {
+            "comment_id": "comment_phase2_plan_rewrite_text2env_20260722",
+            "task_id": "task_self_improving_agents_phase_2_1_4_text2env_wrap_deterministic_text2env_20260717",
+            "author": "Boris / Codex",
+            "author_type": "system",
+            "kind": "comment",
+            "body": "[USER-SUPPLIED PHASE 2 PLAN 2026-07-22] Rewritten from the internal 2026-07-21 Phase 2 environment-generation assignment plan. One primary owner is kept on this card; reviewers and adapter contributors are recorded in the description. The seven existing cards form one dependency chain and were updated in place rather than duplicated.",
+            "created_at": "2026-07-22T02:53:50.821Z"
           }
         ],
-        "updated_at": "2026-07-20T14:27:57.234Z"
+        "updated_at": "2026-07-22T02:53:50.821Z",
+        "completed_at": null
       },
       {
         "task_id": "task_self_improving_agents_phase_2_2_4_anchor2env_wrap_image_video_conditio_20260717",
         "project_id": "self-improving-agents",
-        "title": "[Phase 2 2/4 Anchor2Env] Wrap image/video-conditioned generation as a reusable Skill/MCP route",
-        "description": "[KNOWN] [CONFIDENCE: HIGH] The accepted Anchor2Env V1 proves a bounded image/video path; Phase 2 must expose it through the common harness contract. Scope: accept an image or short video plus optional text, preserve source frames and camera assumptions, separate observed, estimated, retrieved and generated content, emit typed uncertainty, and compile through the same EnvironmentPackage used by Text2Env. Acceptance: at least one image and one video golden flow invoke the versioned Skill/MCP route; fixed media, config and seed are deterministic; no asset provenance is fabricated; asset misses route into reuse-first retrieval and then generation fallback; source/reconstruction/segmentation/replay evidence and typed failure cases are regression-tested.",
+        "title": "[Phase 2 / Route 2 Anchor2Env] Zheng Ye：封装图片/视频条件环境生成路线",
+        "description": "[PHASE 2 PLAN 2026-07-21 · USER-SUPPLIED 2026-07-22] 主负责人：Zheng Ye；Hu 提供 Harness review，Shao Gujie 提供资产复用/生成 adapter。执行顺序为 Text2Env 之后。\n\n目标：把 Anchor2Env V1 的图片/短视频能力接入共同 Harness，并输出与 Text2Env 相同的 EnvironmentPackage。\n\n主要工作：接收一张图片或短视频及可选文字，保存原始帧和相机假设；明确区分 observed、estimated、retrieved 与 generated 内容并输出 typed uncertainty；资产缺失时先调用 Asset reuse，复用失败后再调用 Generation fallback。\n\n验收：准备一张图片和一个短视频固定案例并各跑通一条流程；固定媒体、配置和 seed 后结果可复现；不得编造资产来源；原始输入、重建、分割、回放证据、物理验证和结构化失败案例全部进入回归测试。\n\n交付：版本化 Anchor2Env adapter、固定 fixture、EnvironmentPackage、provenance/uncertainty 记录、failure gallery，以及供 Transfer 使用的路线样例。",
         "status": "todo",
         "priority": "high",
-        "assignee": "Zheng Ye / Environment Generation team",
+        "assignee": "Zheng Ye",
         "result": null,
         "comments": [
           {
@@ -18946,18 +18978,28 @@ export default {
             "kind": "comment",
             "body": "[MEETING 2026-07-20] Scope confirmation：用户提供的参考图像或视频应作为重建/生成 sim-ready 资产与环境的 anchor；交付必须保留输入、相机假设、分割/重建证据、provenance、不确定性、replay 和物理有效性验证，不能只提交视觉结果。",
             "created_at": "2026-07-20T14:28:33.531Z"
+          },
+          {
+            "comment_id": "comment_phase2_plan_rewrite_anchor2env_20260722",
+            "task_id": "task_self_improving_agents_phase_2_2_4_anchor2env_wrap_image_video_conditio_20260717",
+            "author": "Boris / Codex",
+            "author_type": "system",
+            "kind": "comment",
+            "body": "[USER-SUPPLIED PHASE 2 PLAN 2026-07-22] Rewritten from the internal 2026-07-21 Phase 2 environment-generation assignment plan. One primary owner is kept on this card; reviewers and adapter contributors are recorded in the description. The seven existing cards form one dependency chain and were updated in place rather than duplicated.",
+            "created_at": "2026-07-22T02:53:50.821Z"
           }
         ],
-        "updated_at": "2026-07-20T14:28:33.531Z"
+        "updated_at": "2026-07-22T02:53:50.821Z",
+        "completed_at": null
       },
       {
         "task_id": "task_self_improving_agents_phase_2_3a_4_asset_reuse_retrieve_match_select_a_20260717",
         "project_id": "self-improving-agents",
-        "title": "[Phase 2 3A/4 Asset reuse] Retrieve, match, select and parameterize internet assets/datasets",
-        "description": "[KNOWN] [CONFIDENCE: HIGH] Asset reuse is a separate path from 3D generation and must be attempted first when a verified candidate can satisfy the scene constraints. Scope: search official repositories, dataset catalogs and project pages; rank top-k candidates with rejection reasons; capture license, source, version and hashes; normalize units, axes, scale, pose, materials, collision, mass and inertia; map rigid-body and articulated-joint metadata; preserve typed unknowns rather than invent values. Acceptance: rigid and articulated examples complete query to ranked candidates to import to settle/render/collision QA; parameter filling is machine-readable and reproducible; SAPIEN plus one second backend load the selected assets; every rejected or conditional asset has an explicit reason and provenance record.",
+        "title": "[Phase 2 / Route 3A Asset reuse] Shao Gujie：检索、匹配并参数化可复用资产",
+        "description": "[PHASE 2 PLAN 2026-07-21 · USER-SUPPLIED 2026-07-22] 主负责人：Shao Gujie；Hu 负责 Harness/Transfer 接口 review。该路线在公共接口冻结后与 Text2Env 并行，并且必须先于直接 3D 生成。\n\n目标：当已验证资产能够满足场景约束时，优先复用现有资产；复用失败后才允许进入 Generation fallback。\n\n主要工作：搜索官方仓库、数据集目录与项目页面；排序 Top-K 候选并记录淘汰原因；保存 license、provenance、版本和文件哈希；统一单位、坐标轴、缩放、姿态、材质、碰撞、质量与惯量；映射刚体和关节物体元数据，未知参数保留为结构化未知值。\n\n验收：先准备一个刚体和一个关节资产固定样例；两类资产均完成搜索、排序、导入、稳定性/渲染/碰撞检查；参数补全机器可读、可复现；SAPIEN 与第二后端都能加载选定资产；每个淘汰或有条件使用候选都有原因与来源。\n\n交付：版本化 asset adapter、固定查询/配置/seed、accepted/rejected manifest、转换与 QA 报告，以及供 Anchor2Env 和 Transfer 调用的接口。",
         "status": "todo",
         "priority": "high",
-        "assignee": "Jingxiang / Environment Generation team",
+        "assignee": "Shao Gujie",
         "result": null,
         "comments": [
           {
@@ -18968,18 +19010,28 @@ export default {
             "kind": "comment",
             "body": "[MEETING 2026-07-20] Scope confirmation：本路线同时覆盖现有资产的选择/配置，以及从公开数据集或项目页自主搜索、导入和参数化；继续执行 reuse-first，并保留来源、许可、转换记录、hash 与 simulator QA。",
             "created_at": "2026-07-20T14:28:40.135Z"
+          },
+          {
+            "comment_id": "comment_phase2_plan_rewrite_asset_reuse_20260722",
+            "task_id": "task_self_improving_agents_phase_2_3a_4_asset_reuse_retrieve_match_select_a_20260717",
+            "author": "Boris / Codex",
+            "author_type": "system",
+            "kind": "comment",
+            "body": "[USER-SUPPLIED PHASE 2 PLAN 2026-07-22] Rewritten from the internal 2026-07-21 Phase 2 environment-generation assignment plan. One primary owner is kept on this card; reviewers and adapter contributors are recorded in the description. The seven existing cards form one dependency chain and were updated in place rather than duplicated.",
+            "created_at": "2026-07-22T02:53:50.821Z"
           }
         ],
-        "updated_at": "2026-07-20T14:28:40.135Z"
+        "updated_at": "2026-07-22T02:53:50.821Z",
+        "completed_at": null
       },
       {
         "task_id": "task_self_improving_agents_phase_2_4_4_transfer_package_cross_simulator_mig_20260717",
         "project_id": "self-improving-agents",
-        "title": "[Phase 2 4/4 Transfer] Package cross-simulator migration as a reusable Skill/MCP route",
-        "description": "[KNOWN] [CONFIDENCE: HIGH] Open-X-Sim V1 retains bounded L0-L3 transfer evidence; Phase 2 must turn that compiler and validator into a reusable harness route. Scope: accept generated, anchor-conditioned or imported environments; compile one versioned interchange bundle into source and target adapters; record adapter versions and hashes; map geometry, transforms, articulation, collision, materials, mass and inertia, cameras, physics, reset and task predicates; emit unsupported and lossy records instead of silent degradation. Acceptance: at least three upstream environment or format families invoke the Skill/MCP route; rigid, articulated and camera-sensitive cases replay from one bundle; migration-loss reports are quantitative and regression-gated; contact, controller, rendering and task-outcome equivalence are claimed only when their explicit tolerances pass.",
+        "title": "[Phase 2 / Route 4 Transfer] Hu：封装跨模拟器迁移与损失门禁",
+        "description": "[PHASE 2 PLAN 2026-07-21 · USER-SUPPLIED 2026-07-22] 主负责人：Hu；Zheng Ye 与 Shao Gujie 为各自输入/资产路线提供迁移 adapter 和固定测试样例。仅在上游 EnvironmentPackage 稳定后启动。\n\n目标：把 Open-X-Sim V1 的编译与验证能力包装成统一迁移路线，使 Text2Env、Anchor2Env 和外部导入环境可可靠迁移到目标模拟器。\n\n主要工作：先编译为带版本的中间交换包，再进入源/目标 adapter；记录 adapter 版本与哈希；转换 geometry、坐标、关节、碰撞、材质、质量/惯量、相机、物理、reset 条件和任务判定；对不支持或有损转换生成显式记录，不得静默降级。\n\n验收：至少支持三类上游环境或格式；刚体、关节物体和相机敏感案例能从同一交换包回放；迁移损失必须量化并进入回归门禁；只有 contact、control、rendering 和 task outcome 达到明确容差，才能声称迁移前后等价。\n\n最终交付：版本化 source/target adapters、loss report、固定 fixtures、失败案例与 CI gate；三人共同完成端到端回归，Schema、来源、物理、回放或迁移损失不合格时禁止发布。",
         "status": "todo",
         "priority": "high",
-        "assignee": "Jingxiang / Zheng Ye / Environment Generation team",
+        "assignee": "Hu",
         "result": null,
         "comments": [
           {
@@ -18990,9 +19042,19 @@ export default {
             "kind": "comment",
             "body": "[MEETING 2026-07-20] Scope confirmation：开源环境复用既可以是单个资产，也可以是整个环境；whole-environment reuse 归入 cross-simulator transfer 路线，必须记录物理引擎、renderer、资产格式、材质、reset/step/verifier 兼容性及迁移损失，不能默认等价。",
             "created_at": "2026-07-20T14:28:55.609Z"
+          },
+          {
+            "comment_id": "comment_phase2_plan_rewrite_transfer_20260722",
+            "task_id": "task_self_improving_agents_phase_2_4_4_transfer_package_cross_simulator_mig_20260717",
+            "author": "Boris / Codex",
+            "author_type": "system",
+            "kind": "comment",
+            "body": "[USER-SUPPLIED PHASE 2 PLAN 2026-07-22] Rewritten from the internal 2026-07-21 Phase 2 environment-generation assignment plan. One primary owner is kept on this card; reviewers and adapter contributors are recorded in the description. The seven existing cards form one dependency chain and were updated in place rather than duplicated.",
+            "created_at": "2026-07-22T02:53:50.821Z"
           }
         ],
-        "updated_at": "2026-07-20T14:28:55.609Z"
+        "updated_at": "2026-07-22T02:53:50.821Z",
+        "completed_at": null
       },
       {
         "task_id": "task_real_robot_demos_ego2dex_lfd_baseline_20260718",
@@ -19085,15 +19147,26 @@ export default {
       {
         "task_id": "task_self_improving_hu_repo_backend_onboarding_20260720",
         "project_id": "self-improving-agents",
-        "title": "[Phase 2 / Onboarding] Hu: run the environment-generation repo and confirm the shared simulator backend",
-        "description": "[MEETING 2026-07-20] Scope：在独立分支检出当前共享仓库，复现现有 text-to-test-environment golden path，记录完整安装命令、依赖、runtime blocker 与 artifacts；对照现有 RoboTwin/SAPIEN-v0 决策和 Isaac adapter path，确认团队共用的仿真后端；阅读 Boris 分享的论文/demo/ACDC（名称待确认）资料；会后与 Zheng Ye 同步并形成可合并 handoff。Acceptance：记录 repo commit、环境版本和命令；至少一条可复现 end-to-end run，或带日志的 typed blocker；一份简短 backend decision memo；参考资料清单；branch/commit 与 test report 在下次周会前 merge-ready。会议转写 “asag based / cpin”、ACDC 和中文姓名字形均不得在未确认时静默规范化。",
-        "status": "todo",
-        "priority": "high",
+        "title": "[Phase 2 / Gate 0 Onboarding] Hu：跑通仓库并锁定共用仿真后端",
+        "description": "[PHASE 2 PLAN 2026-07-21 · USER-SUPPLIED 2026-07-22] 主负责人：Hu。本卡是 Phase 2 的 Gate 0；Zheng Ye 与 Shao Gujie 仅作为 handoff/reviewer，不与主负责人重叠。\n\n目标：证明共享环境生成仓库能在独立分支可复现运行，并为三人团队锁定统一模拟器后端与开发基线。\n\n主要工作：1) 检出共享仓库，复现现有 text-to-test-environment golden path；2) 完整记录 repo commit、环境版本、安装/运行命令、依赖、阻塞与生成产物；3) 对比 RoboTwin/SAPIEN-v0、Isaac Adapter 等候选，阅读相关论文、Demo 与 ACDC 资料，形成后端选型与交接。\n\n验收：至少一次可复现端到端运行；失败则提交带完整日志和错误码的 typed blocker。提交后端选型 memo、参考资料清单、branch/commit 与测试报告，并在 2026-07-27 前达到 merge-ready。\n\n依赖与输出：本卡完成后才能冻结公共接口并正式启动 Harness；会后向 Zheng Ye 同步当前仓库、运行证据与后端决定。",
+        "status": "active",
+        "priority": "urgent",
         "assignee": "Hu",
         "result": null,
-        "comments": [],
-        "updated_at": "2026-07-20T14:30:46.476Z",
-        "due_at": "2026-07-27"
+        "comments": [
+          {
+            "comment_id": "comment_phase2_plan_rewrite_onboarding_20260722",
+            "task_id": "task_self_improving_hu_repo_backend_onboarding_20260720",
+            "author": "Boris / Codex",
+            "author_type": "system",
+            "kind": "comment",
+            "body": "[USER-SUPPLIED PHASE 2 PLAN 2026-07-22] Rewritten from the internal 2026-07-21 Phase 2 environment-generation assignment plan. One primary owner is kept on this card; reviewers and adapter contributors are recorded in the description. The seven existing cards form one dependency chain and were updated in place rather than duplicated.",
+            "created_at": "2026-07-22T02:53:50.821Z"
+          }
+        ],
+        "updated_at": "2026-07-22T02:53:50.821Z",
+        "due_at": "2026-07-27",
+        "completed_at": null
       },
       {
         "task_id": "task_real_robot_infra_hillside_robot_relocation_procurement_coordination_20260721",

@@ -4,7 +4,7 @@
   "title": "Self-Improving Agents for Physical AI",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-07-17T13:47:56.859Z",
+  "updated_at": "2026-07-22T02:53:50.821Z",
   "description": "[KNOWN] [CONFIDENCE: HIGH] Agentic environment-generation harness for Physical AI: route text requests, image/video anchors, internet asset and dataset retrieval, and cross-simulator migration through reusable Skills and MCP tools, preferring verified asset reuse and parameter filling before rigid or articulated 3D generation.",
   "summary": "[KNOWN] [CONFIDENCE: HIGH] The four V1 workflows retain bounded acceptance evidence: Text2Env Stage 0-5, image/video Anchor2Env, verified asset discovery/import, and Open-X-Sim L0-L3 transfer. [KNOWN] [CONFIDENCE: HIGH] The current phase integrates them into one agentic harness with reusable Skill/MCP contracts, a selection-first asset route, a learned rigid/articulated 3D-generation fallback, and regression-gated cross-simulator compilation. [KNOWN] [CONFIDENCE: HIGH] Higher-fidelity open-world generation and policy/controller equivalence remain open.",
   "asset": "dashboard/assets/self-improving-embodied-harness-loop-20260707.png",
@@ -54,10 +54,11 @@
     "task_self_improving_rlbench_isaacsim_pilot_gate",
     "task_self_improving_dual_sim_robotwin_isaacsim_merge",
     "task_self_improving_contact_curriculum_bridge",
+    "task_self_improving_hu_repo_backend_onboarding_20260720",
     "task_self_improving_agents_phase_2_harness_build_reusable_skill_mcp_registr_20260717",
     "task_self_improving_agents_phase_2_1_4_text2env_wrap_deterministic_text2env_20260717",
-    "task_self_improving_agents_phase_2_2_4_anchor2env_wrap_image_video_conditio_20260717",
     "task_self_improving_agents_phase_2_3a_4_asset_reuse_retrieve_match_select_a_20260717",
+    "task_self_improving_agents_phase_2_2_4_anchor2env_wrap_image_video_conditio_20260717",
     "task_self_improving_agents_embodiedgen_v2_self_improving_harness_gen_env_20260713",
     "task_self_improving_agents_phase_2_4_4_transfer_package_cross_simulator_mig_20260717"
   ],
@@ -309,7 +310,8 @@
     "RATs adoption decision 2026-06-21: use RATs as the reference for autonomous play and persistent callable code skills, but keep our acceptance stricter: skills must be linked to simulator state, failure taxonomy, verifier evidence, task-pack provenance, and downstream policy/eval deltas, not only reusable Code-as-Policy snippets.",
     "PhyAgentOS boundary 2026-06-21: useful for transparent cognitive-physical decoupling and file/protocol-mediated hardware execution. It should inform our runtime/control-plane design, but it is not enough for the current proposal unless paired with AgenticSim environment generation, policy training/evaluation hooks, and failure-to-data-requirement loops.",
     "Execution routing 2026-06-05: Skill World Model work is the SkillCall memory gate; RLBench->IsaacSim work is the AgenticSim Isaac verifier pilot.",
-    "Bridge boundary 2026-06-05: contact-rich VTLA/UMI traces can drive curriculum and failure-memory design, but Self-improving should not depend on tactile hardware until the sim-first oracle or available sensor path is verified."
+    "Bridge boundary 2026-06-05: contact-rich VTLA/UMI traces can drive curriculum and failure-memory design, but Self-improving should not depend on tactile hardware until the sim-first oracle or available sensor path is verified.",
+    "[USER-SUPPLIED PHASE 2 PLAN 2026-07-22] Rewrote the seven existing environment-generation TODOs instead of creating duplicates. Primary owners: Hu = Onboarding/Harness/Transfer; Zheng Ye = Text2Env/Anchor2Env; Shao Gujie = Asset reuse/Generation fallback. Dependency chain: Onboarding -> public interfaces + Harness -> Text2Env and Asset reuse -> Anchor2Env and Generation fallback -> Transfer -> full regression. Still pending team confirmation: shared simulator backend and second adapter, interface freeze date, and first end-to-end integration date."
   ],
   "timeline": {
     "badges": [
