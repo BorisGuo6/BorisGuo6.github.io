@@ -1,7 +1,7 @@
 export default {
   "schema_version": "dashboard-state.v1",
   "source": "bundled-json-generated",
-  "updated_at": "2026-07-21T10:49:09.986Z",
+  "updated_at": "2026-07-22T02:12:59.539Z",
   "portfolio": {
     "schema_version": "portfolio.v1",
     "portfolio_id": "embodied-ai-dashboard",
@@ -5672,7 +5672,7 @@ export default {
   ],
   "taskDoc": {
     "schema_version": "tasks.v1",
-    "updated_at": "2026-07-21T10:49:09.986Z",
+    "updated_at": "2026-07-22T02:12:59.539Z",
     "owner": "dashboard",
     "tasks": [
       {
@@ -18438,10 +18438,10 @@ export default {
         "project_id": "umi-world-model",
         "title": "比较 X2SAM、RoboSeg 与 Cloak-VLA 的 UMI / wrist-view masks",
         "description": "在同一批真实 UMI / wrist-view egocentric 数据上，对 X2SAM、RoboSeg/RobotSeg 与 Cloak mask 路线做可复现比较。2026-07-13 ClawCross 群聊确认：X2SAM 尚未完成实测，Yongxi/Lai 继续负责官方 X2SAM 结果；不能因通用 benchmark 或群里出现视频文件就提前标 done。\n\n方法边界：1) X2SAM 官方仓库 https://github.com/wanghao9610/X2SAM 已开放 training/evaluation/visualization/demo；它支持 conversational instruction、visual prompt 和 Mask Memory，重点测试 UMI wrist-view 的 gripper、hand/end-effector、arm+gripper 时序 mask。2) RoboSeg/RobotSeg https://github.com/showlab/RobotSeg 作为 robot-specific baseline 与当前候选主线。3) Cloak https://tml.stanford.edu/cloak/ 依赖 robot geometry、joint state 与 wrist-camera extrinsics 渲染 end-effector mask，适合作 geometry oracle/control；缺 URDF/MJCF、joint state 或 extrinsics 时必须记 blocker，不能伪造 GT。Cloak 的训练代码/checkpoint 是否完整开放需按当前 upstream 再核验。\n\nAcceptance: 1) 至少 3 个真实 UMI/dual-wrist clips，每段 20-50 帧，覆盖黑色 gripper、快速运动、接触、遮挡和背景干扰；2) 统一输出 gripper-only、hand/end-effector、arm+gripper taxonomy，保存 binary mask、overlay、video、prompt/config/git SHA；3) X2SAM 比 text instruction 与 visual-prompt initialization，RoboSeg 用官方 checkpoint，Cloak 只在 metadata 足够时渲染；4) 少量人工 reference/consensus labels 上报告 IoU、Boundary-F、gripper recall、missing rate、false foreground、frame-to-frame IoU、bbox jitter、topology jump、propagation drift、runtime、VRAM 和人工修正成本；5) 输出同帧三路可视化、CSV/JSON 和 failure gallery；6) 给出明确主线：RoboSeg 是否保留 mainline，X2SAM 是否做语言/视觉提示 fallback，Cloak 是否做 geometry oracle/VLA ablation。\n\n【2026-07-21 当前证据更正】\n以 2026-07-21 Boris 提供的与 NUS-赖咏曦最新确认记录为准，并覆盖同日更早的宽泛路由表述：当前实际只完成了 UMI 腕部/第一人称输入上的比较，X2SAM 在这批已测输入上表现更好。第三人称对比尚未完成，计划随后补测，因此目前不得把“RoboSeg 对第三人称更好”写成已验证结论，只能保留为待验证候选。Cloak-VLA 的 mask 处理管线未开源，当前无法复现或测试；这是可用性 blocker，不是模型效果负结论。戴盟数据集是否也做 layered decomposition 尚未定案：在主数据管线分层质量不足时把它作为高优先级补充/交叉验证数据，不宣称已经完成分层。\n【/2026-07-21 当前证据更正】",
-        "status": "active",
+        "status": "done",
         "priority": "high",
         "assignee": "Lai / Yongxi / Seb.M / Boris",
-        "result": null,
+        "result": "Boris confirmed this comparison task complete on 2026-07-22. Existing evidence notes remain authoritative; no additional unprovided third-person metrics or Cloak-VLA reproduction result is inferred.",
         "comments": [
           {
             "comment_id": "comment_ca1dcc55-d97d-4c2b-a644-028c096655c8",
@@ -18469,11 +18469,20 @@ export default {
             "kind": "comment",
             "body": "[USER-PROVIDED YONGXI CHAT 2026-07-21] Current comparison evidence remains limited to UMI wrist/first-person inputs, where X2SAM performed better; the third-person same-input comparison is still pending and must not be reported as a verified RoboSeg win. Cloak-VLA's mask-processing pipeline is not open sourced, so it cannot be tested. DaiMeng data layered decomposition remains a higher-priority conditional input if the current pipeline quality is insufficient; it has not been completed. Haoyu has Alibaba Cloud full access and is asked to help transfer a subset to Yongxi's AutoDL host or a lab workstation; no account, token, signed URL or credential belongs in Dashboard state.",
             "created_at": "2026-07-21T10:43:25.017Z"
+          },
+          {
+            "comment_id": "comment_umi_mask_comparison_done_user_confirmation_20260722",
+            "task_id": "task_umi_world_model_x2sam_roboseg_cloak_vla_umi_wrist_view_masks_20260713",
+            "author": "Boris / Codex",
+            "author_type": "system",
+            "kind": "comment",
+            "body": "[USER CONFIRMATION 2026-07-22] Boris confirmed this comparison task can be closed. Marked done. The prior evidence notes remain the authoritative experimental record; this closure does not invent unprovided third-person metrics or a Cloak-VLA reproduction result.",
+            "created_at": "2026-07-22T02:06:45.338Z"
           }
         ],
-        "updated_at": "2026-07-21T10:43:25.017Z",
+        "updated_at": "2026-07-22T02:06:45.338Z",
         "due_at": "2026-07-20",
-        "completed_at": null,
+        "completed_at": "2026-07-22T02:06:45.338Z",
         "completed_at_time": null
       },
       {
@@ -19030,12 +19039,12 @@ export default {
       {
         "task_id": "task_umi_aliyun_dataset_access_lai_5090_20260720",
         "project_id": "umi-world-model",
-        "title": "为 Lai 开通阿里云数据集读取权限并完成 5090 拉取 smoke",
-        "description": "[MEETING 2026-07-20] Boris 配置 Lai 的阿里云数据集最小必要只读权限；Lai 验证可列出目标数据并先向 5090 服务器拉取一个小样本，再完成所需数据同步。验收：记录正式数据集名称与范围、目标目录、文件数/大小/校验结果、5090 存储余量和传输失败重试；Dashboard、评论和仓库中不得记录账号、Token、签名 URL 或其他凭据。权限开通并完成读取 smoke 后从 needs_user 转 active。\n\n【2026-07-21 权限与传输状态】\nHaoyu 已获得阿里云 full access，并被安排协助 Yongxi 将一部分数据传到 Yongxi 的 AutoDL 主机或实验室 workstation。这只证明协助者具备访问条件，不证明 Lai/Yongxi 的正式数据范围、目标目录或 5090/AutoDL/workstation 拉取 smoke 已完成，因此本任务继续保持 needs_user。下一步需确认正式数据集名称与子集、目标主机和目录、文件数/大小/校验、存储余量与失败重试；不得在 Dashboard、评论或仓库中写入账号、Token、签名 URL 或其他凭据。\n【/2026-07-21 权限与传输状态】",
-        "status": "needs_user",
+        "title": "为 Lai 安排阿里云数据集读取权限（Haoyu 接手）",
+        "description": "[MEETING 2026-07-20] Boris 配置 Lai 的阿里云数据集最小必要只读权限；Lai 验证可列出目标数据并先向 5090 服务器拉取一个小样本，再完成所需数据同步。验收：记录正式数据集名称与范围、目标目录、文件数/大小/校验结果、5090 存储余量和传输失败重试；Dashboard、评论和仓库中不得记录账号、Token、签名 URL 或其他凭据。权限开通并完成读取 smoke 后从 needs_user 转 active。\n\n【2026-07-21 权限与传输状态】\nHaoyu 已获得阿里云 full access，并被安排协助 Yongxi 将一部分数据传到 Yongxi 的 AutoDL 主机或实验室 workstation。这只证明协助者具备访问条件，不证明 Lai/Yongxi 的正式数据范围、目标目录或 5090/AutoDL/workstation 拉取 smoke 已完成，因此本任务继续保持 needs_user。下一步需确认正式数据集名称与子集、目标主机和目录、文件数/大小/校验、存储余量与失败重试；不得在 Dashboard、评论或仓库中写入账号、Token、签名 URL 或其他凭据。\n【/2026-07-21 权限与传输状态】\n\n【2026-07-22 关闭说明】\nBoris 确认本条以 Haoyu 接手并为 Lai 配置阿里云数据访问权限为完成标准，任务标记 done。此前标题中的 5090 拉取 smoke 未在本次更新中提供独立证据，因此不写成已验证结果；如果后续仍需核验实际传输，应另建带明确数据子集、目标主机、校验与存储余量的 smoke TODO。\n【/2026-07-22 关闭说明】",
+        "status": "done",
         "priority": "high",
         "assignee": "Boris / Lai / Yongxi / Haoyu",
-        "result": null,
+        "result": "Closed on 2026-07-22 after Boris assigned Haoyu to grant Lai the Alibaba Cloud dataset access. This records the ownership handoff; a 5090 transfer smoke was not separately evidenced in the supplied update.",
         "comments": [
           {
             "comment_id": "comment_umi_aliyun_haoyu_full_access_transfer_assist_20260721",
@@ -19045,9 +19054,19 @@ export default {
             "kind": "comment",
             "body": "[USER-PROVIDED YONGXI CHAT 2026-07-21] Haoyu has Alibaba Cloud full access and will assist Yongxi with transferring a subset to AutoDL or a lab workstation. Keep needs_user until the exact dataset/subset, destination path, file count/size/checksums, storage headroom and a real transfer smoke are recorded. Do not store any credential material.",
             "created_at": "2026-07-21T10:43:25.017Z"
+          },
+          {
+            "comment_id": "comment_umi_aliyun_access_done_haoyu_handoff_20260722",
+            "task_id": "task_umi_aliyun_dataset_access_lai_5090_20260720",
+            "author": "Boris / Codex",
+            "author_type": "system",
+            "kind": "comment",
+            "body": "[USER CONFIRMATION 2026-07-22] Boris asked to mark this task done because Haoyu will grant Lai the required access. The verified completion signal is the ownership handoff to Haoyu. No credential material is stored, and an actual 5090 transfer smoke is not independently evidenced here.",
+            "created_at": "2026-07-22T02:06:45.338Z"
           }
         ],
-        "updated_at": "2026-07-21T10:43:25.017Z"
+        "updated_at": "2026-07-22T02:12:59.539Z",
+        "completed_at": "2026-07-22T02:06:45.338Z"
       },
       {
         "task_id": "task_umi_stage_groups_weekly_sync_onboarding_20260720",
