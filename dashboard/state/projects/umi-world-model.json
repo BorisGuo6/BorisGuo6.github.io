@@ -4,15 +4,15 @@
   "title": "UMI Image Layered World Model",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-07-19T04:07:37.092Z",
+  "updated_at": "2026-07-23T10:40:55.469Z",
   "description": "UMI Image Layered World Model: three linked papers covering multi-view robot video world modeling, manipulation-video dynamics decomposition into reusable layers, and layered data as a downstream VLA/IDM/reward training interface.",
-  "summary": "UMI World Model is a three-paper program with one shared data substrate: Stage 1 trains a streaming multi-view pose/action-conditioned robot world model and now owns the URDF/FK/action/camera Robot Layer branch; Stage 2 turns manipulation videos into reusable scene, object/contact, occluder/tool, and robot/actor layers; Stage 3 tests whether those layers improve manipulation and video-model training. This intro is architecture/status framing only; execution lives in TODOs and task comments.",
+  "summary": "UMI World Model is a three-paper program with one shared data substrate. Stage 1 mainline uses synchronized multi-view RGB/history, 10-D numeric action/state, calibrated camera K/T and shared-world communication; WM-T -> WM-C is the quality path and WM-F/Drift is the fast rollout branch, while DMD-4 is a frozen baseline. URDF/FK/MVA visual control is an optional fixed-exo-first ablation and is visibility-gated for wrist/head views. Stage 2 produces reusable layers; Stage 3 tests downstream utility.",
   "subprojects": [
     {
       "label": "A",
       "title": "Stage 1: Streaming Multi-View UMI World Model",
-      "body": "Paper 1 learns a shared-scene, multi-view robot world model from synchronized wrist/head/fixed views and pose/action sidecars. The Robot Layer branch imports URDF/FK, commanded/measured motion, skeleton/mesh controls, and calibrated third-person/wrist cameras as explicit action-conditioned references inside UMI, not as a standalone Research card. Durable data context: DaiMeng/Jingdu-style material has roughly 943 usable dual-arm hours after filtering single-arm episodes.",
-      "output": "Durable output: multi-view robot-video rollout metrics, the Stage 1 evaluation protocol, and controlled comparisons between compact pose/action sidecars and explicit URDF/camera/Robot Layer reference bundles."
+      "body": "Paper 1 learns a shared-scene multi-view robot world model from synchronized wrist/head/fixed RGB histories, 10-D numeric action/state and calibrated per-view camera K/T. WM-T -> WM-C is the high-quality path; WM-F/Drift is a parallel fast-rollout branch. URDF/FK/MVA view-conditioned robot rendering remains an optional fixed-exo-first ablation and does not block the mainline; wrist/head use it only when hand-eye calibration and visibility are valid.",
+      "output": "Durable output: multi-view robot-video rollout metrics, the Stage 1 evaluation protocol, and controlled comparisons between the required numeric-action/camera contract and optional explicit URDF/MVA view-conditioned control."
     },
     {
       "label": "B",
@@ -29,7 +29,7 @@
   ],
   "asset": "dashboard/assets/umi-shared-backbone-dual-branch-wan-20260617.jpg",
   "asset_alt": "Shared-Backbone Dual-Branch Wan architecture diagram for UMI, showing left and right gripper camera histories, shared video VAE/tokenizer, condition encoder, view embeddings, shared Wan backbone, dual prediction heads, and training objectives.",
-  "asset_caption": "Shared-Backbone Dual-Branch Wan: UMI Stage 1 architecture for separate left/right wrist video latents, view embeddings, shared Wan backbone, dual decoded outputs, and cross-view / temporal / state-action consistency losses.",
+  "asset_caption": "Legacy Shared-Backbone Dual-Branch Wan baseline diagram for separate left/right wrist latents, shared backbone and dual prediction heads. The authoritative current Stage 1 pipeline is WM-T -> WM-C for quality plus a parallel WM-F/Drift fast-rollout branch; URDF/MVA control is optional.",
   "visual": {
     "layout": "standard"
   },
@@ -53,8 +53,8 @@
     "rows": [
       {
         "stage": "Stage 1 / 1B",
-        "interface": "Streaming multi-view robot WM + URDF/action/camera Robot Layer control",
-        "status_frame": "Stage 1 treats synchronized wrist/head/fixed views as one shared scene with pose/action sidecars. The URDF/FK/action/camera branch is now inside UMI as Robot Layer interaction control: URDF skeleton/mesh + commanded/measured action + third-person/wrist camera TF. RynnWorld-Teleop remains a compact-control reference: https://alibaba-damo-academy.github.io/RynnWorld-Teleop.github.io/. CameraNoise is the noise-space camera-control reference: https://gulucaptain.github.io/CameraNoise/. BridgeV2W/Kinema4D/OSCAR/SimDist are novelty gates, so the claim must go beyond URDF + action + camera alone."
+        "interface": "Shared-world streaming WM: synchronized RGB/history + 10-D action/state + calibrated camera K/T",
+        "status_frame": "The required contract is synchronized wrist/head/fixed RGB history, 10-D commanded/measured action/state and per-view calibrated K/T, with action/state injected before shared-world communication. WM-T -> WM-C is the quality path; WM-F/Drift is the parallel fast-rollout branch; DMD-4 is a frozen speed/failure baseline. URDF/FK/MVA control is an optional fixed-exo-first ablation; wrist/head enable it only with valid hand-eye/K/T and robot visibility."
       },
       {
         "stage": "Stage 2",
@@ -279,11 +279,13 @@
   "details": [
     "Dashboard hygiene rule 2026-07-07: the UMI intro carries architecture and durable status framing only; task-level execution evidence belongs in TODOs or task comments, and DaiMeng/Daimon training gates belong under the DaiMeng VTAM / Tactile-WAM card.",
     "Three-paper split: Stage 1 is the streaming multi-view pose/action-conditioned UMI World Model; Stage 2 is VDDM for reusable manipulation layers; Stage 3 is the downstream VLA/IDM/reward paper proving layered data changes learning and evaluation.",
-    "Stage 1 acceptance: generated robot-camera videos must share scene, object, contact, and action consequences across views instead of drifting as independent clips. Evaluation must include copy/hold, retrieval, wrist-only/main-view-only, action-swapped, shared-world teacher/ranker, and generic interactive-world-model negative baselines.",
     "Stage 2 acceptance: every layer batch must preserve raster truth and structure through masks, RGBA/video, inpainted background, optional SVG/contact metadata, layer_manifest.json, temporal consistency, motion-residue checks, and recomposition QA.",
     "Stage 3 acceptance: compare flat RGB, mask-only/SAM, and full layered data on the same tasks before claiming gains in IDM, FoundationPose/pose extraction, sparse value/process reward, background augmentation, policy training, or PhysisForcing-style supervision.",
     "Shared preprocessing architecture decision 2026-07-07: use one layer_manifest-compatible pipeline from robot video to scene/background, object/contact, robot/actor, pose-sidecar, and QA/retry outputs so the three paper lanes do not fork their data interface.",
-    "Data substrate status: raw Jingdu/DaiMeng-style material remains much larger than the filtered dual-arm training subset; operational counters are task-level state."
+    "Data substrate status: raw Jingdu/DaiMeng-style material remains much larger than the filtered dual-arm training subset; operational counters are task-level state.",
+    "Stage 1 acceptance: the required input contract is synchronized multi-view RGB/history, 10-D numeric action/state, per-view calibrated K/T or trajectory, and shared-world communication. Generated views must share scene, object, contact and action consequences. Evaluation includes copy/hold, retrieval, wrist-only/main-view-only and action-swapped controls; URDF/MVA is not an acceptance prerequisite.",
+    "Stage 1 internal model naming: WM-T is the high-quality shared-world teacher, WM-C is the high-quality causal/KV-cache model, and WM-F is the lightweight Drift fast-rollout branch. DMD-4 is retained only as the 4-step speed and long-horizon failure baseline; these names avoid collision with the three-paper Stage 1/2/3 program.",
+    "URDF/MVA scope decision: keep the URDF/FK compiler and view-conditioned robot raster as an optional ablation. Fixed external views receive the strongest Robot Layer condition; wrist/head views gate it by calibration and visibility, while numeric action/state and camera K/T remain mandatory."
   ],
   "task_ids": [
     "task_umi_wan21_dual_wrist_structure_20260617",
@@ -755,7 +757,7 @@
       "title": "RynnWorld-Teleop official code",
       "url": "https://github.com/alibaba-damo-academy/RynnWorld-Teleop",
       "submitted_at": "2026-07-13",
-      "notes": "Implementation base for the Jiahao/Davide layered-video branch: Wan2.2-TI2V-5B, control-conditioned LoRA/SFT, MSE-to-DMD streaming distillation, public checkpoints, sample data, and inference entrypoints."
+      "notes": "Implementation reference for the Jiahao/Davide layered-video branch: Wan2.2-TI2V-5B, control-conditioned LoRA/SFT, MSE warm-up, causal cache, DMD distillation, public checkpoints, sample data and inference entrypoints. Reuse its SFT/control/cache interfaces, but treat DMD only as the frozen DMD-4 speed/failure baseline; UMI's mainline is WM-T -> WM-C with a separate WM-F/Drift fast-rollout branch."
     },
     {
       "title": "mimic-video official code",
@@ -861,12 +863,36 @@
       "arxiv_id": "2505.09723",
       "submitted_at": "2025-05-14",
       "notes": "Robot world-model baseline for multi-level action conditioning, dynamic multi-view ray maps, failure trajectories and policy evaluation."
+    },
+    {
+      "title": "Masked Visual Actions for Unified World Modeling",
+      "url": "https://masked-visual-actions.github.io/",
+      "arxiv_id": "2607.19343",
+      "submitted_at": "2026-07-21",
+      "notes": "Optional Stage 1 visual-control ablation and Stage 3 utility reference. MVA fine-tunes Wan2.2-Fun-A14B-Control with LoRA and conditions on a first real frame plus a pixel-aligned masked control video; URDF/FK rendering is one way to create that video, while segmentation is another. Its strongest training evidence uses DROID external cameras. The appendix calibrates wrist and external cameras and can project URDF geometry into both, but reports no wrist-only action-control ablation or synchronized shared-world metric. In UMI, use full MVA robot rasters first for fixed exo views; wrist/head enable visible robot/tool rasters only when hand-eye/K/T and visibility are valid. MVA does not replace mandatory 10-D numeric action/state, explicit camera trajectory, PRoPE/Patch Memory or shared-world communication. Forward rollouts remain useful for planning/evaluation and object-motion masks for inverse modeling. Paper: https://arxiv.org/abs/2607.19343 ; code: https://github.com/HadiZayer/masked-visual-actions"
+    },
+    {
+      "title": "DriftWorld: Fast World Modeling through Drifting",
+      "url": "https://susie-lu.github.io/driftworld/",
+      "arxiv_id": "2607.15065",
+      "submitted_at": "2026-07-16",
+      "notes": "Primary WM-F fast-rollout reference, not a plug-in sampler for existing Matrix/Wan checkpoints. DriftWorld learns an action-conditioned drifting field during training and generates each next frame or short chunk in one network forward; the authors report 30+ fps and 17x average speedup on one H100. UMI should first test a 74-160M low-resolution latent student with 8/16 negatives, required numeric action/camera inputs, actual/zero/wrong/shuffled action gates, dual-view shared bottleneck and 16/64/189-frame self-forcing. WM-T/WM-C remain the quality teacher/verifier path; DMD-4 remains the frozen speed/failure baseline. Boundary: public multi-view evidence is limited, training negatives are memory-heavy, and the public repo currently exposes only Push-T. Paper: https://arxiv.org/abs/2607.15065 ; code: https://github.com/Susie-Lu/driftworld"
+    },
+    {
+      "title": "Matrix-Game 3.5: Enhancing Real-Time Streaming Interactive World Models with Patch Memory",
+      "url": "https://matrix-game-v3-5.github.io/",
+      "notes": "Stage 1 camera/geometry candidate built on Wan2.2-TI2V-5B. PRoPE folds the world-to-image projection matrix into spatiotemporal RoPE; Patch Memory back-projects history into metric 3D, reprojects visible patches into the target view, and uses Warped PRoPE coordinates. This branch complements the required 10-D numeric action/state and shared-world branches. Optional URDF/MVA visual control remains an independent fixed-exo-first ablation rather than a prerequisite. The released first/third-person 5B checkpoints are bidirectional base models; real-time autoregressive weights remain unavailable. Code: https://github.com/Riemann-Dynamics/Matrix-Game-3.5"
+    },
+    {
+      "title": "Wan2.2-Fun-A14B-Control-Camera: released camera-control checkpoint",
+      "url": "https://huggingface.co/alibaba-pai/Wan2.2-Fun-A14B-Control-Camera",
+      "notes": "Stage 1 camera-only base-model candidate, fine-tuned from Wan2.2-I2V-A14B and released under Apache-2.0. The official model zoo lists 512/768/1024 prediction support and an 81-frame, 16-fps training regime; treat 64 GB as checkpoint storage/download size, not GPU-memory or latency evidence, and do not read 16 fps as real-time inference throughput. The public DiffSynth route turns camera direction, speed and origin into a programmatic linear trajectory, encodes it as per-pixel Plücker rays, and adds a learned adapter output to the DiT embedding. Official demos cover pan, diagonal pan and zoom, not an arbitrary calibrated 6-DoF trajectory-upload contract. This makes it a useful learned camera-adapter comparison to Matrix-Game 3.5's parameter-free PRoPE, but it does not replace UMI's calibrated wrist/head/fixed-camera trajectories, commanded/measured robot-action branch, shared-scene multi-view consistency or long-term memory. First gate: reproduce fixed-seed official controls, log code SHA, offload/quantization mode, peak VRAM and wall time, then implement and validate UMI TF-to-Plücker input before promoting it to the main base model. ModelScope: https://modelscope.cn/models/PAI/Wan2.2-Fun-A14B-Control-Camera ; implementation: https://github.com/modelscope/DiffSynth-Studio/blob/main/examples/wanvideo/model_inference/Wan2.2-Fun-A14B-Control-Camera.py ; toolkit: https://github.com/aigc-apps/VideoX-Fun"
     }
   ],
   "risks_decisions": [
     "Keep conversion/download gating conservative after iter_800: 10Kh remains the only external downloader, non-10Kh downloaders are 0, scheduler is waiting_10kh with xrzero-g0-3k next, and post-download conversion eligible_count remains 0 until downloads complete and route-specific validators pass.",
     "Keep one research card with three stages: UMI Ego World, Robot Video Layers, and Layered Data Utility.",
-    "Robot layer is not only a mask: it must carry enough temporal/kinematic signal for pose, state, inverse dynamics, or wrist-camera egomotion.",
+    "Stage 2 robot/actor output layers are not only masks: they should preserve temporal and kinematic signals useful for pose, state and inverse dynamics. This downstream layer requirement does not make URDF/MVA rendering a mandatory Stage 1 control input.",
     "Object/contact layer is the reward/process layer: preserve identity, contact, 6D motion, and task progress rather than foreground pixels only.",
     "Background/scene layer is an adaptation handle: background replacement must not corrupt robot/object labels or dynamics.",
     "Qwen Image-Layered and RevealLayer are negative/direct-layer references for current robot scenes; the practical v0 route is mask tracking plus inpaint/VACE plus SVG sidecars.",
@@ -879,7 +905,7 @@
     "Action-guidance multi-row decision 2026-06-22: current row5 checkpoint plus AG x3 is positive but not sufficient. It passes rows 5 and 7 only; row0 is quality-preserving but lacks wrong-row separation, while rows 1 and 11 fail. Treat 2/5 as the new baseline, not success. The next checkpoint must be trained on multi-row metadata and evaluated with the same base/zero/wrong-row action-guided gate before claiming true action-conditioned dual-view UMI.",
     "Wan2.2 adapter-sweep decision 2026-06-22: the 8-card agdir scan did not improve beyond the 2/5 baseline, so do not spend the next cycle on another small scalar sweep of preserve weight, contrast weight, or action-guidance scale. For true action-conditioned dual-view UMI, the next meaningful implementation should change the interface: build a Wan2.1/Gamma-style bidirectional multi-view teacher with explicit view/action/camera tokens and shared scene hub, or add an independently verifiable state/action prediction head whose output must predict future object/contact state before it is allowed to steer video sampling.",
     "Shared-world teacher decision 2026-06-22: keep the low-res 8-card teacher as the positive architectural seed. It proves the desired interface can be made action-conditioned when action/state enters before shared-view communication and decoding. The next step is not more overfit proof; scale this teacher to more clips / held-out rows, add a head/fixed third view when available, and then distill or graft its shared hub/action representation into Wan2.1 or Gamma-style video generation.",
-    "Terminology guardrail: write WAN2.2 and do not use the old mistaken One spelling. Keep exact model names where needed: Wan2.2-TI2V-5B-Diffusers, Wan2.2-A14B, Cosmos-Predict2.5, nvidia/Cosmos3-Nano-Policy-DROID.",
+    "Terminology guardrail: write WAN2.2 and do not use the old mistaken One spelling. Keep exact model names where needed: Wan2.2-TI2V-5B-Diffusers, Wan2.2-A14B, Wan2.2-Fun-A14B-Control-Camera, Cosmos-Predict2.5, nvidia/Cosmos3-Nano-Policy-DROID. Control-Camera means camera-only conditioning and must not be described as commanded/measured robot-action control.",
     "WAN2.2 action-control risk: high-noise expert must receive action/control signal early enough; output-head-only conditioning is too late. Any future WAN2.2 run must report base preservation plus actual/zero/wrong-row action gates, not only reconstruction MAE/MA.",
     "Closed-loop validation guardrail 2026-06-28: do not justify Stage 1 only by saying no public interactive wrist-view robot world model exists. That is a positioning fact, not a metric. The dashboard success gate should report same-episode rollout quality, cross-view consistency, action counterfactual separation, downstream planner/reward utility, and cross-dataset generalization from DaiMeng/JianZhi/AGI-World splits.",
     "Layering risk: SAM3/SAM2.1 masks and VACE/FLUX.fill/LaMa inpaint should preserve canvas size and coordinates so layers can be overlaid without manual alignment. If inpaint shifts geometry, the result is not acceptable even if the hole looks plausible.",
@@ -960,7 +986,10 @@
     "Training gate decision 2026-07-07 02:16 +0800: keep conversion and non-10Kh downloads held. The training checkpoint stream is healthy, but the next required action is to inspect the iter_800 checkpoint when it appears and later inspect final logs/checkpoints after training exits before releasing conversion work.",
     "Training gate decision 2026-07-07 06:11 +0800: iter_000001200 is stable and latest_checkpoint.txt points to it, but causal_robot_daimon is still active and 10Kh remains the sole external download. Keep batch74, metadata/action_stats writers, loader smoke, full_auto, XRZero resume, ABC/HIW probes, source Daimon materialization, and non-10Kh download starts held until training exits or the user explicitly accepts mixed load.",
     "Scope boundary 2026-07-18: human egocentric hand-object reconstruction, contact/trajectory refinement, retargeting, human-video VLA pretraining, and physical LfD acceptance moved to Research / Ego2Dex Human Demonstration / LfD. UMI may consume validated camera/depth/pose/contact/layer_manifest sidecars, but does not own their full implementation queue.",
-    "Scope update 2026-07-18: URDF/FK/action/camera is no longer a standalone Research card. It is the UMI Robot Layer interaction branch: import URDF skeleton/mesh, inject commanded/measured actions, project through calibrated third-person/wrist cameras, and test whether this improves layer-aware world-model rollouts beyond BridgeV2W, Kinema4D, OSCAR, and SimDist."
+    "Scope update 2026-07-18, superseded 2026-07-23: URDF/FK rendering remains inside UMI as an optional Stage 1 embodiment-control ablation rather than a standalone Research card or mandatory mainline. It projects skeleton/mesh through calibrated views and tests incremental value beyond BridgeV2W, Kinema4D, OSCAR, SimDist and MVA; fixed-exo is the first gate, while wrist/head are visibility-gated.",
+    "Stage 1 training-pipeline decision 2026-07-23: use WM-T -> WM-C as the high-quality path and train WM-F/Drift as a parallel lightweight fast-rollout branch. Freeze DMD-4 as the 4-step speed/long-horizon-failure baseline; do not require another DMD re-distillation before WM-F experiments.",
+    "Stage 1 required-conditioning decision 2026-07-23: the minimum mainline contract is synchronized multi-view RGB/history, 10-D commanded/measured numeric action/state, per-view calibrated camera K/T or trajectory, and shared-world communication before decoding. These inputs cannot be replaced by a rendered Robot Layer.",
+    "URDF/MVA scope decision 2026-07-23: the URDF/FK compiler and MVA-style view-conditioned robot raster are optional Stage 1 ablations, not training prerequisites. Validate fixed external views first; wrist/head enable the raster only with valid hand-eye/K/T and sufficient robot visibility, while PRoPE/Patch Memory handles camera motion and scene reveal. Failure of this branch must not block WM-T, WM-C or WM-F."
   ],
   "timeline": {
     "target_venue": "ICLR",

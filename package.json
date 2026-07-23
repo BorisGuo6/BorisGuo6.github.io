@@ -23,7 +23,7 @@
     "gate:isaacsim-oss": "node scripts/generate-isaacsim-open-source-gate.mjs",
     "plan:isaacsim-intake": "node scripts/generate-isaacsim-benchmark-intake-plan.mjs",
     "verify:isaacsim-catalog": "node scripts/verify-isaacsim-benchmark-catalog.mjs",
-    "test:dashboard:unit": "node test/dashboard-state-lib.test.mjs && node test/dashboard-access-control.test.mjs && node test/dashboard-passkeys.test.mjs && node test/dashboard-passkey-api.test.mjs && node test/dashboard-mutate.test.mjs",
+    "test:dashboard:unit": "node test/dashboard-state-lib.test.mjs && node test/dashboard-access-control.test.mjs && node test/dashboard-passkeys.test.mjs && node test/dashboard-passkey-api.test.mjs && node test/dashboard-project-update-api.test.mjs && node test/dashboard-mutate.test.mjs",
     "test:dashboard:e2e": "playwright test",
     "test:assets": "node scripts/audit-site-assets.mjs",
     "test:dist": "node scripts/audit-site-assets.mjs --root dist",

@@ -4,7 +4,7 @@
   "title": "Self-Improving Agents for Physical AI",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-07-22T02:53:50.821Z",
+  "updated_at": "2026-07-23T07:50:05.000Z",
   "description": "[KNOWN] [CONFIDENCE: HIGH] Agentic environment-generation harness for Physical AI: route text requests, image/video anchors, internet asset and dataset retrieval, and cross-simulator migration through reusable Skills and MCP tools, preferring verified asset reuse and parameter filling before rigid or articulated 3D generation.",
   "summary": "[KNOWN] [CONFIDENCE: HIGH] The four V1 workflows retain bounded acceptance evidence: Text2Env Stage 0-5, image/video Anchor2Env, verified asset discovery/import, and Open-X-Sim L0-L3 transfer. [KNOWN] [CONFIDENCE: HIGH] The current phase integrates them into one agentic harness with reusable Skill/MCP contracts, a selection-first asset route, a learned rigid/articulated 3D-generation fallback, and regression-gated cross-simulator compilation. [KNOWN] [CONFIDENCE: HIGH] Higher-fidelity open-world generation and policy/controller equivalence remain open.",
   "asset": "dashboard/assets/self-improving-embodied-harness-loop-20260707.png",
@@ -179,6 +179,13 @@
       "notes": "Real2Sim2Real reference for turning one human manipulation video into an executable robot skill. Useful pieces for AgenticSim: foundation-model digital-twin reconstruction, robot/object motion priors, object-centric keyframe anchor optimization, IL-based recalibration from noisy real point clouds, residual RL for finger-level contact adaptation, and CuRobo-style collision-aware spatial generalization."
     },
     {
+      "title": "Agentic Real2Sim: Physics-based World Modeling with Vision-Language Agents",
+      "url": "https://agentic-real2sim.github.io/",
+      "arxiv_id": "2607.19190",
+      "submitted_at": "2026-07-21",
+      "notes": "Direct episode-level Real2Sim reference for PEARL `/gen-env -> /collect`: it converts a synchronized interaction recording into a replayable episode twin that binds observations, actors/end effectors, geometry and appearance, time-indexed simulator states, physical/alignment parameters, a simulator backend, and acceptance traces. Map it into the existing Anchor2Env `interaction_episode` adapter and EnvironmentPackage/CollectionBundle lineage rather than creating a new command; reuse its pattern of bounded VLM orchestration, deterministic perception/simulation tools, critics, and limited retries. Current boundary: the site still marks code as coming soon; rigid DROID-100 reports 48 success, 8 partial, and 44 failure for the open 31B backend under a VLM-judge success-finder heuristic, deformable/humanoid evidence is qualitative, and downstream policy-learning/evaluation benefit remains future work."
+    },
+    {
       "title": "video2sim-forge: RGB-D/video-to-sim asset forge",
       "url": "https://github.com/Marvelousp4/video2sim-forge",
       "submitted_at": "2026-07-06",
@@ -209,6 +216,13 @@
       "url": "https://allenai.org/blog/molmoact2",
       "submitted_at": "2026-05-05",
       "notes": "Candidate open reasoning VLA base. MolmoAct 2 frames itself as an Action Reasoning Model that reasons in 3D before acting, releases models/data/code/training recipes, integrates with LeRobot, and includes the 720-hour bimanual YAM dataset. Important for a self-improving direction because it gives an inspectable reasoning/action backbone rather than a closed VLA."
+    },
+    {
+      "title": "vla-eval: A Unified Evaluation Harness for Vision-Language-Action Models",
+      "url": "https://github.com/allenai/vla-evaluation-harness",
+      "arxiv_id": "2603.13966",
+      "submitted_at": "2026-07-23",
+      "notes": "Primary open implementation reference for PEARL `/evaluate`, reviewed at upstream commit `37cac713` after the v0.4.0 release. It decouples containerized robot-simulation benchmarks from standalone model servers through a WebSocket/msgpack protocol, Benchmark and EpisodeRunner adapters, sync/live execution, action chunking, episode sharding plus batched inference, SQLite step/episode recording, deterministic merge, structured failures, and versioned configs/results. Adopt it as a VLA evaluator-provider layer under PEARL rather than as the whole self-improving loop: PEARL must still own run_state/events, dense diagnosis, Trace-to-Memory, next-data requirements, self-evolving test generation, regression/promotion gates, rollback, and real-robot verification. Preserve the upstream status distinction between reproduced, integrated-awaiting-reproduction, partial, and planned support; RoboTwin integration is not yet a reproduced model score, live continuous-inference paths remain experimental, and simulation scores do not establish cross-backend equivalence or sim-to-real gains."
     },
     {
       "title": "SmolVLA: A Vision-Language-Action Model for Affordable and Efficient Robotics",

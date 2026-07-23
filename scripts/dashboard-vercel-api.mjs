@@ -7,6 +7,7 @@ import {
 } from "@simplewebauthn/server";
 import {
   appendSnapshotAuditEvent,
+  applySnapshotProjectUpdate,
   applySnapshotProjectTableRowUpdate,
   applySnapshotTaskComment,
   applySnapshotTaskCommentDelete,
@@ -1250,6 +1251,46 @@ export async function handleDashboardTaskUpdate(request, response) {
     ok: true,
     task_id: taskId,
     task: result.task,
+    update: result.update,
+    meta: result.meta,
+  });
+}
+
+export async function handleDashboardProjectUpdate(request, response, options = {}) {
+  if (request.method !== "POST") return methodNotAllowed(response, ["POST"]);
+  const env = options.env || process.env;
+  const providedToken = dashboardProvidedWriteToken(request);
+  const auth = dashboardWriteAuthorization(
+    await dashboardRequestAuth(request, env, options.authOptions || {}),
+  );
+  if (!auth.ok) return sendJson(response, auth.status, { ok: false, error: auth.error });
+  const body = await readJsonBody(request);
+  const projectId = requireString(body.project_id, "project_id");
+  const patch = body.patch;
+  if (!patch || typeof patch !== "object" || Array.isArray(patch)) {
+    throw new Error("Missing project patch");
+  }
+  const persist = options.persistMutation || persistMutation;
+  const result = await persist((snapshot) => {
+    assertDashboardProjectWriteScope(snapshot, auth, projectId);
+    return applySnapshotProjectUpdate(snapshot, projectId, patch, {
+      source: "vercel-blob",
+    });
+  }, {
+    request,
+    auth,
+    token: providedToken,
+    action: "project-update",
+    payload: (mutationResult) => ({
+      project_id: projectId,
+      changed_fields: mutationResult.update?.changed_fields || [],
+      changed_ref_fields: mutationResult.update?.changed_ref_fields || [],
+    }),
+  });
+  return sendJson(response, 200, {
+    ok: true,
+    project_id: projectId,
+    project: result.project,
     update: result.update,
     meta: result.meta,
   });

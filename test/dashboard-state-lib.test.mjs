@@ -954,6 +954,11 @@ assert.match(
 );
 assert.match(
   dashboardSource,
+  /project-update/,
+  "dashboard should include project-update in the copied agent prompt",
+);
+assert.match(
+  dashboardSource,
   /task-comment-delete/,
   "dashboard should route comment deletion through a hosted/local API endpoint",
 );
@@ -1197,6 +1202,11 @@ assert.match(
   agentsSource,
   /DASHBOARD_WRITE_TOKEN[\s\S]+task-update[\s\S]+task-status[\s\S]+task-comment/,
   "AGENTS.md should document token-gated task update, status, and comment writes",
+);
+assert.match(
+  agentsSource,
+  /project-update[\s\S]+field names rather than patch contents in the audit log/,
+  "AGENTS.md should document scoped project-card updates and metadata-only auditing",
 );
 assert.match(
   JSON.parse(await readFile(new URL("../package.json", import.meta.url), "utf8")).scripts["vercel:seed-blob"],

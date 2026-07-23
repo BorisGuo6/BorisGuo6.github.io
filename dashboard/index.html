@@ -713,11 +713,12 @@
           return [
             "# Dashboard Backend Write Token",
             "- 更新时间：2026-06-18 20:30 Asia/Shanghai",
-            `- 用途：\`${origin}/dashboard\` 的 Vercel API 写入权限，用于 agent 更新 TODO 状态、留言、创建任务、删除评论。`,
+            `- 用途：\`${origin}/dashboard\` 的 Vercel API 写入权限，用于 agent 更新项目卡、TODO 状态、留言、创建任务、删除评论。`,
             `- \`${dashboardAccessTokenName}\`：\`${token}\``,
             `- 读状态：\`${origin}/api/dashboard/state\``,
             `- 健康检查：\`${origin}/api/dashboard/health\``,
             `- 更新任务字段 endpoint：\`POST ${origin}/api/dashboard/task-update\``,
+            `- 更新项目卡 endpoint：\`POST ${origin}/api/dashboard/project-update\`（body: \`{"project_id":"PROJECT_ID","patch":{...}}\`）`,
             `- 更新状态 endpoint：\`POST ${origin}/api/dashboard/task-status\``,
             `- 留评论 endpoint：\`POST ${origin}/api/dashboard/task-comment\``,
             `- 新建任务 endpoint：\`POST ${origin}/api/dashboard/task-create\``,

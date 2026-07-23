@@ -276,7 +276,9 @@ function sanitizeProjectPatch(patch) {
   }
   const nextPatch = {};
   for (const [field, value] of Object.entries(patch)) {
-    if (!projectPatchFields.has(field)) continue;
+    if (!projectPatchFields.has(field)) {
+      throw new Error(`Invalid project update field: ${field}`);
+    }
     const normalizedValue = typeof value === "string" ? value.trim() : cloneJson(value);
     if (["title", "bucket", "status"].includes(field) && !normalizedValue) {
       throw new Error(`Missing project ${field}`);
