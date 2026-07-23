@@ -7,6 +7,12 @@
       "maxDuration": 30
     }
   },
+  "rewrites": [
+    {
+      "source": "/api/dashboard/project-update",
+      "destination": "/api/dashboard/project-table-row?operation=project-update"
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",
