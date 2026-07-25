@@ -4,14 +4,14 @@
   "title": "UMI Image Layered World Model",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-07-25T09:43:05.321Z",
+  "updated_at": "2026-07-25T10:10:23.818Z",
   "description": "UMI Image Layered World Model: three linked papers covering multi-view robot video world modeling, manipulation-video dynamics decomposition into reusable layers, and layered data as a downstream VLA/IDM/reward training interface.",
   "summary": "UMI World Model is a three-paper program with one shared data substrate. Stage 1 (Streaming Multi-View UMI World Model) now lives in the GammaWorld Training Atlas artifact - the single source of truth for its decisions, data contract, training stages, WAM and gates; the dashboard keeps only this preview pointer. Latest: full 44,806-clip relative V2 materialized + full preflight complete (2026-07-25). Stage 2 produces reusable manipulation layers (VDDM); Stage 3 tests whether layered data changes downstream learning (VLA/IDM/reward).",
   "subprojects": [
     {
       "label": "A",
       "title": "Stage 1: Streaming Multi-View UMI World Model",
-      "body": "Stage-1 detail has moved to the GammaWorld Training Atlas artifact (preview link: first entry under References). The Atlas is the single source of truth for locked decisions, the C1/C2 data contract, V0-V4 training stages, dual-lane conditioning, memory modules, WAM action recovery, G1-G5 gates, and the migrated dashboard Stage-1 archive (acceptance protocol, WM-T/WM-C/WM-F naming, URDF/MVA scope, Gamma/Wan action-conditioning lessons). Latest: full 44,806-clip relative V2 materialized + full preflight complete (2026-07-25); formal run pends quarantine-review policy and train-split stats verification.",
+      "body": "Stage-1 detail has moved to the GammaWorld Training Atlas artifact (preview link: first entry under References). The Atlas is the single source of truth for locked decisions, the C1/C2 data contract, V0-V4 training stages, dual-lane conditioning, memory modules, WAM action recovery, G1-G5 gates, and the migrated dashboard Stage-1 archive (acceptance protocol, WM-T/WM-C naming and route, URDF/MVA scope, Gamma/Wan action-conditioning lessons). Latest: full 44,806-clip relative V2 materialized + full preflight complete (2026-07-25); formal run pends quarantine-review policy and train-split stats verification.",
       "output": "Preview: https://claude.ai/code/artifact/87a3b809-c651-4ff2-91ea-651b50b83348"
     },
     {
@@ -29,7 +29,7 @@
   ],
   "asset": "dashboard/assets/umi-shared-backbone-dual-branch-wan-20260617.jpg",
   "asset_alt": "Shared-Backbone Dual-Branch Wan architecture diagram for UMI, showing left and right gripper camera histories, shared video VAE/tokenizer, condition encoder, view embeddings, shared Wan backbone, dual prediction heads, and training objectives.",
-  "asset_caption": "Legacy Shared-Backbone Dual-Branch Wan baseline diagram for separate left/right wrist latents, shared backbone and dual prediction heads. The authoritative current Stage 1 pipeline is WM-T -> WM-C for quality plus a parallel WM-F/Drift fast-rollout branch; URDF/MVA control is optional.",
+  "asset_caption": "Legacy Shared-Backbone Dual-Branch Wan baseline diagram for separate left/right wrist latents, shared backbone and dual prediction heads. The authoritative current Stage 1 pipeline is WM-T -> WM-C only (the planned WM-F/Drift parallel branch was cancelled 2026-07-25); URDF/MVA control is optional.",
   "visual": {
     "layout": "standard"
   },
@@ -283,7 +283,7 @@
     "Stage 3 acceptance: compare flat RGB, mask-only/SAM, and full layered data on the same tasks before claiming gains in IDM, FoundationPose/pose extraction, sparse value/process reward, background augmentation, policy training, or PhysisForcing-style supervision.",
     "Shared preprocessing architecture decision 2026-07-07: use one layer_manifest-compatible pipeline from robot video to scene/background, object/contact, robot/actor, pose-sidecar, and QA/retry outputs so the three paper lanes do not fork their data interface.",
     "Data substrate status: raw Jingdu/DaiMeng-style material remains much larger than the filtered dual-arm training subset; operational counters are task-level state.",
-    "Stage-1 migration 2026-07-25: Stage 1 acceptance, internal model naming, URDF/MVA scope, action-conditioning lessons, and Stage-1 references moved to the GammaWorld Training Atlas artifact (first entry under References). The Atlas is the Stage-1 single source of truth; this card keeps only the preview pointer."
+    "Stage-1 migration 2026-07-25: Stage 1 acceptance, internal model naming, URDF/MVA scope, action-conditioning lessons, and Stage-1 references moved to the GammaWorld Training Atlas artifact (first entry under References). The Atlas is the Stage-1 single source of truth; this card keeps only the preview pointer. Route update 2026-07-25: the planned WM-F/Drift parallel fast-rollout branch is cancelled; the Stage-1 mainline is WM-T -> WM-C only (see the Atlas naming card)."
   ],
   "task_ids": [
     "task_umi_wan21_dual_wrist_structure_20260617",
@@ -732,7 +732,7 @@
       "title": "RynnWorld-Teleop official code",
       "url": "https://github.com/alibaba-damo-academy/RynnWorld-Teleop",
       "submitted_at": "2026-07-13",
-      "notes": "Implementation reference for the Jiahao/Davide layered-video branch: Wan2.2-TI2V-5B, control-conditioned LoRA/SFT, MSE warm-up, causal cache, DMD distillation, public checkpoints, sample data and inference entrypoints. Reuse its SFT/control/cache interfaces, but treat DMD only as the frozen DMD-4 speed/failure baseline; UMI's mainline is WM-T -> WM-C with a separate WM-F/Drift fast-rollout branch."
+      "notes": "Implementation reference for the Jiahao/Davide layered-video branch: Wan2.2-TI2V-5B, control-conditioned LoRA/SFT, MSE warm-up, causal cache, DMD distillation, public checkpoints, sample data and inference entrypoints. Reuse its SFT/control/cache interfaces, but treat DMD only as the frozen DMD-4 speed/failure baseline; UMI's mainline is WM-T -> WM-C (the WM-F/Drift branch was cancelled 2026-07-25)."
     },
     {
       "title": "mimic-video official code",
@@ -825,13 +825,6 @@
       "arxiv_id": "2607.19343",
       "submitted_at": "2026-07-21",
       "notes": "Optional Stage 1 visual-control ablation and Stage 3 utility reference. MVA fine-tunes Wan2.2-Fun-A14B-Control with LoRA and conditions on a first real frame plus a pixel-aligned masked control video; URDF/FK rendering is one way to create that video, while segmentation is another. Its strongest training evidence uses DROID external cameras. The appendix calibrates wrist and external cameras and can project URDF geometry into both, but reports no wrist-only action-control ablation or synchronized shared-world metric. In UMI, use full MVA robot rasters first for fixed exo views; wrist/head enable visible robot/tool rasters only when hand-eye/K/T and visibility are valid. MVA does not replace mandatory 10-D numeric action/state, explicit camera trajectory, PRoPE/Patch Memory or shared-world communication. Forward rollouts remain useful for planning/evaluation and object-motion masks for inverse modeling. Paper: https://arxiv.org/abs/2607.19343 ; code: https://github.com/HadiZayer/masked-visual-actions"
-    },
-    {
-      "title": "DriftWorld: Fast World Modeling through Drifting",
-      "url": "https://susie-lu.github.io/driftworld/",
-      "arxiv_id": "2607.15065",
-      "submitted_at": "2026-07-16",
-      "notes": "Primary WM-F fast-rollout reference, not a plug-in sampler for existing Matrix/Wan checkpoints. DriftWorld learns an action-conditioned drifting field during training and generates each next frame or short chunk in one network forward; the authors report 30+ fps and 17x average speedup on one H100. UMI should first test a 74-160M low-resolution latent student with 8/16 negatives, required numeric action/camera inputs, actual/zero/wrong/shuffled action gates, dual-view shared bottleneck and 16/64/189-frame self-forcing. WM-T/WM-C remain the quality teacher/verifier path; DMD-4 remains the frozen speed/failure baseline. Boundary: public multi-view evidence is limited, training negatives are memory-heavy, and the public repo currently exposes only Push-T. Paper: https://arxiv.org/abs/2607.15065 ; code: https://github.com/Susie-Lu/driftworld"
     },
     {
       "title": "DreamX-World 1.0: A General-Purpose Interactive World Model",
