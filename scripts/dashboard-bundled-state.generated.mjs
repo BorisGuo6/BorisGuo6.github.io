@@ -1,7 +1,7 @@
 export default {
   "schema_version": "dashboard-state.v1",
   "source": "bundled-json-generated",
-  "updated_at": "2026-07-26T09:15:57.364Z",
+  "updated_at": "2026-07-26T09:57:18.536Z",
   "portfolio": {
     "schema_version": "portfolio.v1",
     "portfolio_id": "embodied-ai-dashboard",
@@ -229,7 +229,7 @@ export default {
         "src": "dashboard/assets/tactile-wam-pipeline.svg",
         "alt": "Tactile-WAM video-to-touch world action model pipeline connecting human motion, robot video generation, tactile prediction, and executable actions.",
         "caption": "Tactile-WAM proposal: retarget human motion into robot arm-hand video, predict contact, pressure, and slip from the rollout, then train a joint video-tactile world-action head that emits executable actions.",
-        "source": "DaiMeng VTAM / Tactile-WAM",
+        "source": "Daimon VTAM / Tactile-WAM",
         "added_at": "2026-06-19"
       },
       {
@@ -271,28 +271,28 @@ export default {
         "src": "dashboard/assets/tactile-ml-sensor-mechanoluminescent-skin-20260717.png",
         "alt": "Mechanoluminescent flexible tactile sensor design, CMOS readout mechanism, force image outputs, handwriting recognition, and Pac-Man and Minecraft interaction demonstrations",
         "caption": "[KNOWN][HIGH] ML-sensor converts normal-force-induced mechanoluminescence into 640 x 480 CMOS tactile images; the corresponding paper was published in Advanced Science in 2026, so the slide footer saying submitted in 2025 is stale. [INFERRED][HIGH] Keep it as a vision-native tactile representation reference for VTAM, not as evidence of shear sensing or robot-policy gains.",
-        "source": "DaiMeng VTAM / Yu Feng et al., Advanced Science 2026",
+        "source": "Daimon VTAM / Yu Feng et al., Advanced Science 2026",
         "added_at": "2026-07-17"
       },
       {
         "src": "dashboard/assets/tactile-robotac-skin-design-20260717.png",
         "alt": "RoboTac Skin design comparing human skin receptors with a flexible ionic conductive film and FPCB electrode stack deployed on a robot gripper",
         "caption": "[KNOWN][HIGH] The supplied 2025 RoboTac Skin slide proposes a thin ionic-conductive-film sandwich with FPCB and Au/Cu electrodes for conformable robot deployment; no public DOI, preprint, or project page was located in the 2026-07-17 audit. [INFERRED][HIGH] Keep it as sensor-stack and deployment context, not peer-reviewed performance or policy evidence.",
-        "source": "DaiMeng VTAM / user-provided research presentation capture",
+        "source": "Daimon VTAM / user-provided research presentation capture",
         "added_at": "2026-07-17"
       },
       {
         "src": "dashboard/assets/tactile-ther-tac-material-identification-20260717.png",
         "alt": "Ther-Tac active thermal tactile sensor design, pulse-heating and cooling mechanism, material response curves, clustering, and robot material-identification validation",
         "caption": "[KNOWN][HIGH] The supplied Ther-Tac slide describes pulse heating plus transient cooling for effusivity-based in-grasp material identification and labels the work under review in 2025; no public DOI, preprint, or project page was located in the 2026-07-17 audit. [INFERRED][HIGH] Its durable value is a nonvisual material-identity channel, not evidence of force control or action learning.",
-        "source": "DaiMeng VTAM / user-provided research presentation capture",
+        "source": "Daimon VTAM / user-provided research presentation capture",
         "added_at": "2026-07-17"
       },
       {
         "src": "dashboard/assets/tactile-mc-tac-contact-ring-placement-20260718.png",
         "alt": "MC-Tac magnetic tactile prototype contact-response traces for x, y, and z interactions and a robot ring-placement task",
         "caption": "[KNOWN][HIGH] The supplied MC-Tac slide shows Bx/By/Bz response traces under x/y/z contact and a robot ring-placement demonstration. Targeted search found no matching public paper record as of 2026-07-18; the published 2023 MC-Tac is a different camera-based modular sensor. [INFERRED][HIGH] Keep this single task-level slide as an in-progress magnetic-contact-sensor reference, not peer-reviewed performance evidence.",
-        "source": "DaiMeng VTAM / user-provided research presentation capture",
+        "source": "Daimon VTAM / user-provided research presentation capture",
         "added_at": "2026-07-18"
       }
     ],
@@ -359,7 +359,7 @@ export default {
       },
       {
         "project_id": "tactile-wam",
-        "title": "DaiMeng VTAM / Tactile-WAM: Predictive Contact Intelligence",
+        "title": "Daimon VTAM / Tactile-WAM: Predictive Contact Intelligence",
         "bucket": "survey",
         "status": "survey",
         "state_path": "dashboard/state/projects/tactile-wam.json"
@@ -560,7 +560,7 @@ export default {
       "title": "UMI Image Layered World Model",
       "bucket": "research",
       "status": "ongoing",
-      "updated_at": "2026-07-26T09:26:17.169Z",
+      "updated_at": "2026-07-26T09:57:18.536Z",
       "description": "UMI Image Layered World Model: three linked papers covering multi-view robot video world modeling, manipulation-video dynamics decomposition into reusable layers, and layered data as a downstream VLA/IDM/reward training interface.",
       "summary": "UMI is a three-stage program over one shared layer_manifest substrate: Stage 1 learns streaming multi-view world dynamics, Stage 2 decomposes manipulation video into reusable layers, and Stage 3 turns those layers into motion state, reward and robot utility. Stage 1 and Stage 3 specifications live in the GammaWorld Training Atlas; the dashboard tracks execution tasks and evidence.",
       "subprojects": [
@@ -1163,6 +1163,13 @@ export default {
           "submitted_at": "2026-06-30",
           "type": "reference only / marketing-grade",
           "notes": "Reference-only from the 2026-07-25 interactive-WM comparison; treat every claim as marketing-grade because the report contains zero quantitative numbers (no params, fps, data scale, or benchmark scores -- only a 1,000-sample GSB human eval on their own Vivix-Bench) and the model is commercial-API-only. Architecture claims worth keeping: real-time full-duplex streaming that emits small multimodal segments incrementally, sink tokens + reference anchors for long-horizon stability, a Director Agent for higher-level reasoning, and distillation ('Multidimensional Joint Distillation' + self-distribution consistency) down to 2-step inference. Use only as feasibility evidence that 2-step streaming students and sink-token identity anchors work at production scale; do not cite numbers from it. Character-level action space (audio/text/visual reference -> full-body motion), single-view."
+        },
+        {
+          "title": "N(0)-TWAM: tactile-native world-action training reference",
+          "url": "https://research.neoteai.com/n0-twam/",
+          "submitted_at": "2026-07-25",
+          "category": "stage1-tactile-extension",
+          "notes": "Gated Stage 1 extension reference, not a Matrix 3.5 replacement: align multi-view RGB, per-finger tactile and canonical bimanual 20D action; pretrain future-touch prediction before enabling current-touch conditioning; test missing-tactile fallback and asymmetric expert caching. Keep the verified sampler-time SE(3) action contract rather than N(0)-TWAM's reported element-wise rot6d subtraction. Code and weights remain scheduled for 2026-07-31."
         }
       ],
       "risks_decisions": [
@@ -1179,7 +1186,7 @@ export default {
         "Layering risk: SAM3/SAM2.1 masks and VACE/FLUX.fill/LaMa inpaint should preserve canvas size and coordinates so layers can be overlaid without manual alignment. If inpaint shifts geometry, the result is not acceptable even if the hole looks plausible.",
         "Stage 3 utility decision: scene layer validation targets RoboEngine-style augmentation; rigid/articulated object validation targets FoundationPose, Fast-FoundationStereoPhysics, Orient-Anything, and Any6D; deformable object validation targets AllTracker plus Video Depth Anything, D4RT, CoTracker, and Any4D; robot layer validation targets Dr. Robot and wrist-view ORB-SLAM3 / VGGT-SLAM. FoundationPose remains a baseline, not the whole validation plan.",
         "Risk 2026-06-27: the three stages can blur together. Keep Stage 1 about shared-view world modeling, Stage 2 about decomposition/reconstruction interfaces, and Stage 3 about downstream VLA/IDM/reward utility; avoid moving training logs into the intro.",
-        "Dataset-source guardrail 2026-06-28: Datasets Bot can seed Stage 2/3 candidate data, including datasets already used by this project, but it is not an automatic allowlist. Candidate rows must be re-audited for license, physical/sim split, camera/action schema, task overlap with current Hoi/MolmoAct/RealOmni/AGI-World/DaiMeng splits, and downstream leakage before training or reporting.",
+        "Dataset-source guardrail 2026-06-28: Datasets Bot can seed Stage 2/3 candidate data, including datasets already used by this project, but it is not an automatic allowlist. Candidate rows must be re-audited for license, physical/sim split, camera/action schema, task overlap with current Hoi/MolmoAct/RealOmni/AGI-World/Daimon splits, and downstream leakage before training or reporting.",
         "Training-data guardrail 2026-06-27: treat data_umi_robot189_10k as 10,000 total loader-visible clips, not automatically 10,000 train examples under val_holdout_frac=0.06. New Gamma/Wan/Cosmos ablations must log the data_root override and whether controlled duplicates are included.",
         "Gamma-UMI action-schema guardrail 2026-06-27: future Gamma robot routes should normalize continuous pose/rot6d action dimensions if action_stats.json is present, but keep gripper raw unless a separate gripper ablation proves normalization helps. Current running Stage3 predates this change; new 10k early-teacher / DMD ablations explicitly set normalize_gripper=false.",
         "Robot189 validator guardrail 2026-07-05: keep fixed-189 validation as the default for 10Kh/XRZero-style sampled roots, but validate data_umi_robot189_daimon_materialized with --allow-variable-action-frames --min-action-frames 189 --check-lr-same-length. Otherwise Daimon variable-length actions are misclassified as partial even though Gamma loader smoke can sample 189 frames successfully.",
@@ -1997,12 +2004,12 @@ export default {
     {
       "schema_version": "project.v1",
       "project_id": "tactile-wam",
-      "title": "DaiMeng VTAM / Tactile-WAM: Predictive Contact Intelligence",
+      "title": "Daimon VTAM / Tactile-WAM: Predictive Contact Intelligence",
       "bucket": "survey",
       "status": "survey",
-      "updated_at": "2026-07-18T02:13:56.589Z",
-      "description": "DaiMeng internship research project: merge VTLA tactile-intuition survey and VTAM/Tactile-WAM proposal into one active Predictive Contact Intelligence track for dexterous manipulation.",
-      "summary": "DaiMeng VTAM turns the VTLA tactile-intuition survey into an active internship project: From Reactive Manipulation to Proactive Manipulation. The merged track treats future tactile/contact latents as an Internal Contact Model and builds a Vision-Tactile-Action World Model with a Temporal Action-Token Shared-World architecture rather than simple vision/tactile feature concatenation. Fast contact/action rollout, visual/layer latent cache, contact-triggered sparse compute, and System-0/System-1 control are the execution path; validation is contact timing, slip/contact risk, actual/zero/wrong-action separation, latency/Hz/VRAM, and contact-rich task success.",
+      "updated_at": "2026-07-26T09:57:18.536Z",
+      "description": "Daimon internship research project: merge VTLA tactile-intuition survey and VTAM/Tactile-WAM proposal into one active Predictive Contact Intelligence track for dexterous manipulation.",
+      "summary": "Daimon VTAM turns the VTLA tactile-intuition survey into an active internship project: From Reactive Manipulation to Proactive Manipulation. The merged track treats future tactile/contact latents as an Internal Contact Model and builds a Vision-Tactile-Action World Model with a Temporal Action-Token Shared-World architecture rather than simple vision/tactile feature concatenation. Fast contact/action rollout, visual/layer latent cache, contact-triggered sparse compute, and System-0/System-1 control are the execution path; validation is contact timing, slip/contact risk, actual/zero/wrong-action separation, latency/Hz/VRAM, and contact-rich task success.",
       "subprojects": [
         {
           "id": "universal-tactile-encoder",
@@ -2030,7 +2037,7 @@ export default {
         },
         {
           "id": "contact-rich-benchmark",
-          "name": "DaiMeng contact-rich benchmark",
+          "name": "Daimon contact-rich benchmark",
           "status": "planned",
           "summary": "Evaluate stable grasp/slip suppression, in-hand adjustment, plug/pin insertion, card sliding, wiping, tool use, disturbance recovery, safety force, smoothness, and cross-object generalization."
         },
@@ -2042,13 +2049,13 @@ export default {
         }
       ],
       "asset": "dashboard/assets/umi-three-system-vtam-architecture-20260629.png",
-      "asset_alt": "Three-system UMI World Model and VTAM architecture: System 2 UMI World Simulator, System 1 layered world action model, and System 0 DaiMeng VTLA contact servo.",
-      "asset_caption": "Three-system VTAM architecture: DaiMeng VTAM owns the System-0 high-frequency tactile servo and its interface to System-1 layered world-action refinement and System-2 UMI world simulation.",
+      "asset_alt": "Three-system UMI World Model and VTAM architecture: System 2 UMI World Simulator, System 1 layered world action model, and System 0 Daimon VTLA contact servo.",
+      "asset_caption": "Three-system VTAM architecture: Daimon VTAM owns the System-0 high-frequency tactile servo and its interface to System-1 layered world-action refinement and System-2 UMI world simulation.",
       "visual": {
         "layout": "standard"
       },
       "details": [
-        "Dashboard routing rule 2026-07-07: causal_robot_daimon checkpoint smoke, DaiMeng materialized robot189/Gamma roots, and Daimon queue/load gates are tracked here; UMI World Model should only consume their summarized evidence as Stage 1 input.",
+        "Dashboard routing rule 2026-07-07: causal_robot_daimon checkpoint smoke, Daimon materialized robot189/Gamma roots, and Daimon queue/load gates are tracked here; UMI World Model should only consume their summarized evidence as Stage 1 input.",
         "GE-Sim 2.0 reproduction path 2026-06-27: use the released GE-Sim-V2 repo and Genie-Envisioner-Sim v2.0 checkpoint as the first reproducible base for VTAM. Baseline goal is action-conditioned multi-view robot video rollout; VTAM extension adds contact/tactile latent prediction, pseudo tactile labels from contact/mask/proprio/object-slip signals, and a WAM state/action/contact rollout with actual/zero/wrong-action and contact-timing gates.",
         "Origin: this was discussed with the Wuji team on 2026-06-11 as a Tactile-WAM proposal. The key shift is to stop treating tactile as only another observation channel; tactile should become the contact-grounding signal that turns video imagination into action-capable prediction.",
         "Demo 3 first: use an external camera to observe human hand / arm motion, retarget that motion into the video model, and generate a robot arm + dexterous hand performing the same interaction. This should be a video-model demo, not necessarily immediate real-robot control.",
@@ -2058,20 +2065,20 @@ export default {
         "Why this relates to Tri-View / Image-Layered IDM: the robot arm/hand video generator and layer decomposition provide the visual state backbone. Tactile-WAM adds a contact-state head and then an action head, especially for tasks where visual evidence alone cannot determine contact.",
         "Why this relates to DexGello: DexGello can provide aligned real data for arm/hand/finger state, while Wuji tactile / glove streams can provide tactile supervision. Tactile-WAM can use that data to train video-to-touch and touch-to-action components.",
         "Good first benchmark families: pressing, wiping, grasping, in-hand adjustment, cutting/peeling, and assembly/insertion. Choose tasks where tactile is genuinely necessary: occlusion, slip, force threshold, contact/no-contact ambiguity, or object deformation.",
-        "DaiMeng proposal update 2026-06-27: promote this card from Survey to ongoing Research because VTAM is now a live proposal/project track. The dashboard framing should use VTAM as the proposal name and Tactile-WAM as the technical mechanism: video-to-touch prediction plus action decoding for contact-rich manipulation.",
+        "Daimon proposal update 2026-06-27: promote this card from Survey to ongoing Research because VTAM is now a live proposal/project track. The dashboard framing should use VTAM as the proposal name and Tactile-WAM as the technical mechanism: video-to-touch prediction plus action decoding for contact-rich manipulation.",
         "Ongoing execution scope: build data alignment first (external/RGB-D video, wrist/hand video, Wuji qpos/tactile streams, robot state/action, timestamps, calibration snapshot), then run the three-stage demo: retargeted robot video generation, video-to-tactile/contact prediction, and action-head / WAM decoding.",
-        "DaiMeng proposal extraction 2026-06-27: the updated 2026-06-26 proposal is titled “面向灵巧操作的预测式接触智能研究 / From Reactive Manipulation to Proactive Manipulation / 基于 Vision-Tactile-Action World Model 的主动接触操作框架.” It reframes VTAM as predictive contact intelligence: future tactile latent is the Internal Contact Model, not an auxiliary sensor feature.",
+        "Daimon proposal extraction 2026-06-27: the updated 2026-06-26 proposal is titled “面向灵巧操作的预测式接触智能研究 / From Reactive Manipulation to Proactive Manipulation / 基于 Vision-Tactile-Action World Model 的主动接触操作框架.” It reframes VTAM as predictive contact intelligence: future tactile latent is the Internal Contact Model, not an auxiliary sensor feature.",
         "Proposal technical core 2026-06-27: high-efficiency VTAM should be a Temporal Action-Token Shared-World Model, not generic vision/tactile feature concatenation or a plain video-model finetune. Token streams: visual tokens, tactile/contact tokens, temporal action tokens, and shared-world tokens. The model predicts future tactile/contact latent trajectories, contact risk, action latent/action chunks, and optional video rollout.",
         "Proposal acceleration path 2026-06-27: use a fast contact/action path. Visual features or robot/object/background layer latents are cached at low frequency; tactile/contact latents and temporal action tokens roll out at higher frequency; heavy video/high-dimensional tactile decoders are used only for training supervision, visualization, or key planning branches. Add contact-triggered sparse compute and teacher-student distillation.",
         "Proposal control architecture 2026-06-27: System-1 is the low-frequency contact world model, planned at roughly 5-20 Hz, predicting future tactile/contact state, risk, and action chunks. System-0 is a high-frequency tactile servo, roughly 50-100 Hz or higher, comparing observed tactile latent with predicted target tactile latent and outputting residual corrections such as finger micro-motion, normal-force adjustment, tangential slip compensation, or insertion alignment.",
         "Proposal prior-work chain 2026-06-27: OmniViTac establishes large-scale vision-tactile-action data and tactile locality/contact-triggered value; OmniVTA shows future touch as predictive contact representation with TactileVAE and visuo-tactile world modeling; TacForeSight shows future touch as action guidance through force-conditioned tactile latent prediction and predictive tactile-conditioned policy. VTAM is the next step: an internal contact model plus active control loop.",
         "Proposal evaluation update 2026-06-27: evaluation must go beyond task success and visual plausibility. Required metrics include tactile prediction error, contact timing error, slip/contact risk error, actual/zero/wrong-action gate, latency per step, control Hz, VRAM, teacher-student error, disturbance recovery time, slip count, safe force thresholds, action smoothness, and cross-object/position/tool generalization.",
-        "Merge decision (2026-06-27): Merge the old VTLA / Tactile Intuition survey card into DaiMeng VTAM/Tactile-WAM. VTLA remains the representation and benchmark substrate; the active Research card is the DaiMeng internship project focused on predictive contact intelligence.",
+        "Merge decision (2026-06-27): Merge the old VTLA / Tactile Intuition survey card into Daimon VTAM/Tactile-WAM. VTLA remains the representation and benchmark substrate; the active Research card is the Daimon internship project focused on predictive contact intelligence.",
         "Proposal core: The proposal goal is a Vision-Tactile-Action World Model that predicts future tactile/contact latents and action chunks before contact failure happens. The important design choice is a Temporal Action-Token Shared-World Model, not just concatenating vision and touch features or finetuning a video generator.",
         "Deployment contract: The fast path should roll out low-dimensional contact/action/tactile latents; heavyweight video generation stays as supervision, visualization, or selected planning branches. A pass requires latency/memory reporting, actual-vs-zero-vs-wrong-action gates, contact timing, slip/contact risk, and task-level manipulation success.",
         "System-0 / System-1 loop: System-1 runs predictive VTAM at planning frequency, while System-0 runs high-frequency tactile servo control by comparing predicted tactile latent with current tactile latent and emitting residual corrections for slip, overload, misalignment, or impending contact failure.",
         "World-model-guided VLA refinement update 2026-06-29: the BAAI seminar slide is effectively the policy-improvement loop version of VTAM. For contact-rich insertion, pressing, screwing, and assembly, let the pretrained VLA provide semantic/coarse motion, use a reward/contact model to detect the contact-rich phase, sample multiple candidate contact trajectories, score them through imagined VTAM/world-model rollouts, then stitch the selected segment back into the trajectory as post-training data. This should be tracked as an evaluation and refinement protocol, not just as a visual rollout demo.",
-        "UMI2Render2Real subproject 2026-06-30: from the personal presentation UMI2Render2Real pages, the intended loop is: large UMI-device datasets -> scan object -> scan scene -> retarget UMI trajectory -> render robot data with LeHome-style household/cooking scenes -> apply to the real robot while explicitly modeling the Render2Real gap. In DaiMeng VTAM this becomes the sixth subproject: a local-workstation pipeline for producing semi-teleop robot data and testing whether rendered trajectories plus tactile/contact supervision improve predictive contact intelligence.",
+        "UMI2Render2Real subproject 2026-06-30: from the personal presentation UMI2Render2Real pages, the intended loop is: large UMI-device datasets -> scan object -> scan scene -> retarget UMI trajectory -> render robot data with LeHome-style household/cooking scenes -> apply to the real robot while explicitly modeling the Render2Real gap. In Daimon VTAM this becomes the sixth subproject: a local-workstation pipeline for producing semi-teleop robot data and testing whether rendered trajectories plus tactile/contact supervision improve predictive contact intelligence.",
         {
           "text": "[KNOWN][HIGH] OSMO is the direct prior for the shared tactile-carrier idea: the same stretchable magnetic tactile glove is worn by the human demonstrator and a biomimetic robot hand, reducing both visual and tactile embodiment gaps while transferring continuous normal and shear signals. Its wiping policy is trained only on 140 human demonstrations (about two hours, no real-robot training data) and reports 71.69% mean task completion versus 55.75% for vision plus proprioception over 12 rollouts. [INFERRED][HIGH] For VTAM, this validates matched sensor topology as a data-collection primitive but closes the novelty of \"human and robot wear the same glove\" by itself; the defensible extension is cross-device tactile latents, predictive contact/action modeling, and multi-task transfer beyond one matched human/robot glove and one wiping setup.",
           "links": [
@@ -2093,8 +2100,8 @@ export default {
             }
           ]
         },
-        "[KNOWN][HIGH] Event-camera cross-reference updated 2026-07-15: detailed evidence now lives in Survey: Event-Camera VLA / World Model Sensor Survey. [INFERRED][HIGH] DaiMeng VTAM should consume synchronized event features only after the Survey shows marginal value over 120 fps RGB, pseudo-events, and existing tactile streams; event hardware is not a VTAM mainline dependency yet.",
-        "[KNOWN][HIGH] SpikingTac cross-reference 2026-07-15: the Event-Camera Survey now tracks a separate neuromorphic visuotactile branch using a sealed marker-and-gel optical stack for 1000 Hz contact transients and 350 Hz marker tracking. [INFERRED][HIGH] DaiMeng VTAM may consume this as a candidate high-frequency contact stream only after independent reproduction against high-FPS RGB visuotactile and existing tactile/force baselines; this cross-reference does not reopen completed VTAM TODOs.",
+        "[KNOWN][HIGH] Event-camera cross-reference updated 2026-07-15: detailed evidence now lives in Survey: Event-Camera VLA / World Model Sensor Survey. [INFERRED][HIGH] Daimon VTAM should consume synchronized event features only after the Survey shows marginal value over 120 fps RGB, pseudo-events, and existing tactile streams; event hardware is not a VTAM mainline dependency yet.",
+        "[KNOWN][HIGH] SpikingTac cross-reference 2026-07-15: the Event-Camera Survey now tracks a separate neuromorphic visuotactile branch using a sealed marker-and-gel optical stack for 1000 Hz contact transients and 350 Hz marker tracking. [INFERRED][HIGH] Daimon VTAM may consume this as a candidate high-frequency contact stream only after independent reproduction against high-FPS RGB visuotactile and existing tactile/force baselines; this cross-reference does not reopen completed VTAM TODOs.",
         {
           "text": "[KNOWN][HIGH] 2026-07-17 soft-sensor paper audit: E-slime is a published 2024 Advanced Functional Materials epidermal strain-sensing material, but the supplied image is a mixed research-trajectory slide rather than a clean paper figure. ML-sensor is now the published 2026 Advanced Science paper A Soft Mechanoluminescent Skin for High-Resolution Optical Tactile Sensing in Human-Machine Interaction. [KNOWN][HIGH] No retrievable DOI, preprint, or public project page was located for the supplied RoboTac Skin or Ther-Tac / T-Tac labels as of this audit; their high-information design slides remain useful as explicitly labeled presentation context, not published-paper evidence. [INFERRED][HIGH] For VTAM, the three retained slides span conformable contact skin, active thermal material sensing, and vision-native normal-force imaging, but none alone establishes predictive action or robot-policy gains.",
           "links": [
@@ -2120,6 +2127,27 @@ export default {
               "url": "https://doi.org/10.1007/978-981-99-6495-6_15"
             }
           ]
+        },
+        {
+          "text": "[KNOWN][HIGH] N(0)-TWAM transfer decision 2026-07-26: the technical report is the closest direct external reference for Daimon VTAM / Tactile-WAM. It jointly predicts future video, tactile and action with asymmetric video/tactile/action experts connected by shared attention; separates predicted future touch from observed current-touch conditioning; uses tactile-event punctuation for long-horizon stages; and caches the expensive predicted branches while re-running a slim action expert. The report describes a 7.16B model, 30,000 pre-training steps at effective batch 512 on 128 H800 GPUs, so full from-scratch reproduction is not the near-term plan. [INFERRED][HIGH] Adopt the structure through a small matched probe: RGB/action baseline, +future-touch expert, +current-touch pathway, and dual pathway, with identical data/compute and quality, actual/zero/wrong-action, latency, VRAM and missing-sensor gates. Preserve lossless typed tactile sidecars and use absent-token dropout rather than zero-image placeholders. [GUARDRAIL][HIGH] Do not replace the validated sampler-time relative SE(3) contract with the report's element-wise rot6d subtraction; do not copy its exact 387-frame/10fps window or 1:1:1 loss weights without an ablation; and do not call the model open-source until the promised code and weights are actually published and provenance-checked.",
+          "links": [
+            {
+              "label": "N(0)-Foundation",
+              "url": "https://research.neoteai.com/n0-foundation/"
+            },
+            {
+              "label": "OpenNeoData",
+              "url": "https://huggingface.co/datasets/NeoteAIEmbodied/OpenNeoData"
+            },
+            {
+              "label": "N(0)-VTLA",
+              "url": "https://research.neoteai.com/n0-vtla/"
+            },
+            {
+              "label": "N(0)-TWAM",
+              "url": "https://research.neoteai.com/n0-twam/"
+            }
+          ]
         }
       ],
       "task_ids": [
@@ -2140,7 +2168,8 @@ export default {
         "task_hardware_psa_three_finger_gripper",
         "task_hardware_manus_two_finger_retargeting",
         "task_hardware_two_finger_tactile_gripper_platform",
-        "task_hardware_six_dof_tactile_calibration_platform"
+        "task_hardware_six_dof_tactile_calibration_platform",
+        "task_tactile_wam_n0_release_audit_20260726"
       ],
       "references": [
         {
@@ -2248,7 +2277,7 @@ export default {
           "arxiv_id": "2606.16370",
           "category": "data-capture",
           "kb_path": "papers/paper-art-glove-articulated-tactile-glove-for-contact-grounded-dexterous-interaction-capture-bddc933c.md",
-          "notes": "Relevant for human-side tactile/dexterous interaction capture and for designing DaiMeng/Wuji dataset synchronization fields."
+          "notes": "Relevant for human-side tactile/dexterous interaction capture and for designing Daimon/Wuji dataset synchronization fields."
         },
         {
           "title": "TacVerse: A Multi-Sensor Dataset and Benchmark for Cross-Sensor Vision-Based Tactile Perception",
@@ -2322,7 +2351,7 @@ export default {
           "notes": "Industry reference for deriving robot actions from text-conditioned video generation; useful framing for video-model-to-action conversion."
         },
         {
-          "title": "DaiMeng VTAM proposal update, 2026-06-26",
+          "title": "Daimon VTAM proposal update, 2026-06-26",
           "notes": "Local DOCX extracted on 2026-06-27. Key additions: Temporal Action-Token Shared-World Model, fast contact/action path, System-0/System-1 active contact control, and explicit latency/action-gate/contact-risk evaluation."
         },
         {
@@ -2384,6 +2413,34 @@ export default {
           "doi": "10.1007/978-981-99-6495-6_15",
           "category": "citation-disambiguation",
           "notes": "[KNOWN][HIGH] Published ICIRA 2023 sensor with modular sense, receptor, and adapter modules around camera-based gel tactile sensing. Same acronym, different hardware and contribution from the magnetic MC-Tac presentation prototype."
+        },
+        {
+          "title": "N(0)-Foundation: Towards the Age of Tactile Intelligence",
+          "url": "https://research.neoteai.com/n0-foundation/",
+          "submitted_at": "2026-07-26",
+          "category": "tactile-foundation",
+          "notes": "Primary report for NeoData, the released 5,000-hour OpenNeoData subset, N(0)-TacUMI, the NeoForce three-axis force-field representation, and NeoReal/NeoSim evaluation. OpenNeoData is released; NeoForce code and weights are still scheduled for 2026-07-31."
+        },
+        {
+          "title": "OpenNeoData",
+          "url": "https://huggingface.co/datasets/NeoteAIEmbodied/OpenNeoData",
+          "submitted_at": "2026-07-26",
+          "category": "visuo-tactile-dataset",
+          "notes": "Released 5,000-hour subset spanning six embodiments, 250+ tasks and 200+ skills. Use as a data-schema and benchmark reference; do not silently mix it into the current pure-UMI Stage 1 corpus."
+        },
+        {
+          "title": "N(0)-VTLA: Scaling Vision-Tactile-Language-Action Model with Latent Tactile Tokens",
+          "url": "https://research.neoteai.com/n0-vtla/",
+          "submitted_at": "2026-07-26",
+          "category": "vision-tactile-language-action",
+          "notes": "Reference for predicting future tactile latents, staged tactile-pathway integration, and ALTER deployment-failure/progress learning. The repository is currently a release stub; model code and weights are scheduled for 2026-07-31."
+        },
+        {
+          "title": "N(0)-TWAM: Scaling Tactile-Native World Action Model",
+          "url": "https://research.neoteai.com/n0-twam/",
+          "submitted_at": "2026-07-25",
+          "category": "tactile-world-action-model",
+          "notes": "Closest large-scale architecture reference for Daimon Tactile-WAM: video, tactile and action experts share attention; future vision and tactile are co-generated before action; observed touch separately conditions action; caching and asynchronous execution keep the action loop light. The repository is currently a report/README stub, with code and weights scheduled for 2026-07-31."
         }
       ],
       "risks_decisions": [
@@ -2392,18 +2449,18 @@ export default {
         "Action-decoding risk: a WAM head must be evaluated on executable actions, not only video fidelity. The acceptance metric should include action plausibility, robot limits, contact success, and rollout consistency.",
         "Data-alignment risk: tactile is high-frequency and local, while video is lower-frequency and global. The logger must preserve timestamps, calibration, contact frames, and sensor metadata.",
         "Novelty boundary: VT-WM and OmniVTA already cover visuo-tactile world models. The differentiator should be external-camera retargeted robot-video generation plus tactile-grounded WAM action output.",
-        "Status decision 2026-06-27: move VTAM / Tactile-WAM from Survey to ongoing Research. It should now be tracked as an active DaiMeng/Wuji proposal project rather than only a tactile representation idea.",
+        "Status decision 2026-06-27: move VTAM / Tactile-WAM from Survey to ongoing Research. It should now be tracked as an active Daimon/Wuji proposal project rather than only a tactile representation idea.",
         "Proposal decision 2026-06-27: dashboard should track this as VTAM / Predictive Contact Intelligence, with Tactile-WAM as the video-to-touch-to-action path. The contribution claim is proactive contact manipulation through future tactile/contact latent prediction and fast action rollout, not only tactile sensing or multimodal fusion.",
         "Architecture boundary 2026-06-27: avoid a video-first architecture where every control step decodes full future frames. Online control should use low-dimensional contact/action latents; video rollout is optional for training, visualization, and audit.",
         "Acceptance boundary 2026-06-27: do not accept demos based only on pretty video or qualitative tactile maps. A passing VTAM demo must separate actual actions from zero/wrong actions, predict contact timing/slip risk, show latency/Hz/VRAM numbers, and improve at least one contact-rich manipulation task under perturbation.",
-        "Decision: retire separate VTLA Survey card: Keep one live card under Research. The merged card owns VTLA representation work, Wuji/Franka/HOI benchmark selection, VTAM architecture, and DaiMeng internship deliverables.",
+        "Decision: retire separate VTLA Survey card: Keep one live card under Research. The merged card owns VTLA representation work, Wuji/Franka/HOI benchmark selection, VTAM architecture, and Daimon internship deliverables.",
         "Risk: visual quality alone is the wrong success metric: The proposal should not pass because generated video looks plausible. It must pass contact prediction, action separation, latency, memory, servo stability, and contact-rich task success metrics.",
         "[KNOWN][HIGH] OSMO novelty boundary 2026-07-17: a shared glove on the human and robot, direct transfer of normal/shear tactile signals, and policy training without robot demonstrations are already demonstrated. [INFERRED][HIGH] VTAM must not claim the matched glove alone; require cross-device or cross-morphology tactile normalization, predictive contact/action utility, and gains across multiple contact-rich tasks or unseen objects, with an ablation against unmatched sensor layouts.",
         "Refinement decision 2026-06-29: BAAI-style imagined trajectory scoring belongs inside VTAM as a contact-rich policy refinement protocol. The reward/contact model must explicitly identify contact phase entry; otherwise the loop degenerates into generic video rollout ranking.",
         "[KNOWN][HIGH] Image Context decision 2026-07-18: retain the RoboTac Skin, Ther-Tac and ML-sensor design/application slides, and add one MC-Tac task-level slide showing contact-response traces and ring placement. Skip the mixed E-slime/RoboTac/T-Tac roadmap slide because it is a temporary composite, and skip the MC-Tac modeling slide because the retained task slide already covers the same prototype more directly. [INFERRED][HIGH] MC-Tac remains presentation evidence with unresolved publication identity; do not map either the 2023 camera-based MC-Tac or the related 2026 magnetic-cilia paper onto it."
       ],
       "timeline": {
-        "target_cycle": "DaiMeng VTAM internship project",
+        "target_cycle": "Daimon VTAM internship project",
         "target_note": "Phase 0-3 path from offline VTAM/Tactile-WAM data preparation to temporal action-token model, fast rollout, and System-0 tactile servo validation.",
         "milestones": [
           {
@@ -2881,9 +2938,9 @@ export default {
       "title": "Procurement Table",
       "bucket": "engineering",
       "status": "ongoing",
-      "updated_at": "2026-07-21T10:43:25.017Z",
+      "updated_at": "2026-07-26T09:36:47.978Z",
       "description": "Editable lab procurement and equipment-loan register for cross-project hardware",
-      "summary": "Editable register for lab purchases and equipment loans. Quoted packages cover Flexiv Rizon 4s x2, xArm7 x2, optical tables x2, FACTR-Franka x2, one Wuji Hand2 left/right pair with a Wuji motion-capture glove pair, a RealMan RM75-B-V bimanual package at USD 25,500, and a Tianji Marvin-M6-CCS 696 bimanual package at USD 33,300. The bimanual base remains RealMan x2 versus Tianji CCS 696 x2; compare normalized landed cost because the quotes use different Incoterms. An additional open-source dexterous-hand pair is ROBOTIS HX5 versus MIDAS Hand. Three DaiMeng loan bundles are planned for Singapore: a DM-DataMaster teleoperation set, a new-generation UMI DM-DataClaw/DM-DataPacket set, and a DM-DateDex glove pair. Quote PDFs and loan documents stay private and are referenced only by safe inventory details. Rows are sorted by status first and then by last update; received items remain behind the bottom archive toggle.",
+      "summary": "Editable register for lab purchases and equipment loans. Quoted packages cover Flexiv Rizon 4s x2, xArm7 x2, optical tables x2, FACTR-Franka x2, one Wuji Hand2 left/right pair with a Wuji motion-capture glove pair, a RealMan RM75-B-V bimanual package at USD 25,500, and a Tianji Marvin-M6-CCS 696 bimanual package at USD 33,300. The bimanual base remains RealMan x2 versus Tianji CCS 696 x2; compare normalized landed cost because the quotes use different Incoterms. An additional open-source dexterous-hand pair is ROBOTIS HX5 versus MIDAS Hand. Three Daimon loan bundles are planned for Singapore: a DM-DataMaster teleoperation set, a new-generation UMI DM-DataClaw/DM-DataPacket set, and a DM-DateDex glove pair. Quote PDFs and loan documents stay private and are referenced only by safe inventory details. Rows are sorted by status first and then by last update; received items remain behind the bottom archive toggle.",
       "intro_table": {
         "kind": "procurement_table",
         "caption": "Editable purchase and equipment-loan register · blank pending, dash ordered/loan confirmed, check arrived",
@@ -2922,6 +2979,15 @@ export default {
         ],
         "rows": [
           {
+            "row_id": "proc_kr4_yadea_foldable_e_bike_candidate_20260721",
+            "updated_at": "2026-07-26T09:36:47.978Z",
+            "item": "JI-MOVE / JIMOVE folding PAB — lower-cost YADEA replacement candidate / 捷行折叠电助力车（雅迪低成本替代）",
+            "status": "",
+            "route": "Teacher rejected YADEA on cost · prefer a locally registered used JI-MOVE with LTA seal",
+            "url": "https://jimove.sg/collections/electric-bicycles",
+            "notes": "Not ordered. Decision update 2026-07-26: the teacher considers the YADEA proposal too expensive, so the shortlist switches to a lower-cost JI-MOVE/JIMOVE candidate. User-provided evidence includes a compact JIMOVE cargo/folding reference bike and Xianyu examples advertised at CNY 980-2,000; those prices and seller claims are market leads only, not a selected unit, verified specification, landed quote or approval. The LTA approved-model list dated 2026-01-01 includes JI-MOVE MC, MC-PRO, MC-PRO 2.0 and MC-PRO 3.0, but approval is retailer/model-specific. Prefer an already Singapore-registered used unit with the serialized orange LTA seal and valid ownership transfer. Do not import or order a Xianyu unit until exact model, seal/registration path, approved battery specification, original SAFETY-Mark charger, battery health, brakes/tyres, repair support, shipping/landed cost, KR4 hill suitability, and NUS parking/indoor charging rules are verified. Keep YADEA only as the rejected high-cost comparison."
+          },
+          {
             "row_id": "proc_factr_low_cost_force_feedback_teleoperation_hardware",
             "updated_at": "2026-07-21T10:43:25.017Z",
             "item": "2x FACTR-Franka low-cost force-feedback teleoperation hardware / FACTR-Franka ×2",
@@ -2945,15 +3011,6 @@ export default {
             "status": "",
             "route": "KING Technology quote 2026050801 · expired, refresh required · hillside KR4 destination",
             "notes": "Quote received: Quotation xarm7+tables+ Factr v2.pdf, dated 2026-05-08 with validity through 2026-06-23, so a refreshed quotation is required. Scope: xArm7 x2 at USD 8,950 each, USD 17,900 total; stated lead time 4-6 weeks and one-year warranty. The combined DDP package also contains FACTR-Franka x2 and two optical tables. Keep unpurchased until the refreshed quote confirms controllers, software licenses, end-effector interfaces, safety accessories, table bolt patterns and the final purchasing entity.\n\n【2026-07-21 群聊与报价复核】\nKING quotation 2026050801 is written as 8/5/2026 and expired 2026-06-23. xArm7 x2 remains USD 8,950 each / USD 17,900 total with 4-6 week lead; combined package total is USD 32,461.80 including the listed USD 2,645 shared shipping, USD 2,435.40 GST and unexplained USD 321.40 '1% payment on account' line. Refresh before PO and reconcile DDP with the quotation also naming NUS as importer. LV-Robotics Lab chat says the intended destination is the hillside/KR4 lab because ME has no remaining space; procurement owner/company-vs-SoC route and move schedule remain unresolved for Thursday discussion. Not ordered.\n【/2026-07-21 群聊与报价复核】"
-          },
-          {
-            "row_id": "proc_kr4_yadea_foldable_e_bike_candidate_20260721",
-            "updated_at": "2026-07-21T10:43:25.017Z",
-            "item": "YADEA 20-inch folding e-bike — user preferred, compliance-blocked / 雅迪折叠电助力车（用户首选、合规阻塞）",
-            "status": "",
-            "route": "User chose foldable e-bike over scooter · do not order exact model pending LTA/NUS clearance",
-            "url": "https://www.lazada.sg/products/electric-folding-commuter-bike-20-inch-i13738552291-s124681339678.html",
-            "notes": "Not ordered. User decision 2026-07-21: do not buy a scooter; use a foldable electric-assist form factor, with this YADEA listing as the preferred reference. The group asked for opinions because KR4 is uphill and more than ten minutes from the nearest shuttle stop, and indoor folding/storage/charging is desired; no team feedback was present in the supplied excerpt. The listing is high-confidence matched to YADEA Innovator and was observed at about SGD 896.01 with 350 W mid-drive, 36 V 12 Ah battery and listed 60 km range. Published 350 W / about 23.8 kg exceeds Singapore PAB 250 W continuous-power / 20 kg unladen-weight limits, and the model was not found in the current LTA approved list. Keep as a requirements/comparison reference; shortlist a similar LTA-approved foldable model and confirm NUS route, parking, indoor charging/fire policy and written private-property exception if the exact item is still proposed."
           },
           {
             "row_id": "proc_2x_soundproof_phone_booths_dongyi_quote_20260718",
@@ -2988,35 +3045,27 @@ export default {
             "notes": "Quote received: RM Quotation For新加坡国际大学_260716.xls. Mutually exclusive bimanual-base option A; purchase either this RealMan pair or the Tianji CCS 696 pair, not both. Scope: 2x RM75-B-V 7-DoF visual-version arms, 5 kg payload each, discounted from USD 15,900 to USD 12,000 per arm (USD 24,000 total); one dual-arm mounting bracket at USD 700; shipping at USD 800; quoted package total USD 25,500. Terms: full payment by wire transfer once the order is confirmed, CFR Incoterm, 15 working days lead time after payment receipt, 12-month warranty from shipment, and one-week quotation validity from 2026-07-16. Before selection, compare against Tianji CCS 696 on reach, controller/SDK openness, force-control and synchronization support, bracket footprint, collision and E-stop setup, landed import cost, local support and acceptance owner."
           },
           {
-            "row_id": "loan_daimeng_gripper_singapore_archive",
-            "updated_at": "2026-07-16T05:54:52Z",
-            "item": "DaiMeng gripper / 戴盟夹爪",
-            "status": "Arrived",
-            "route": "DaiMeng loan · already in Singapore",
-            "notes": "Archive-only availability record. The DaiMeng gripper has already been borrowed and is in Singapore; do not include it in active procurement or the planned 2026-08-05 loan request. Keep exact asset or serial number, condition, lender/borrower owners and return terms in the private loan ledger rather than this dashboard."
-          },
-          {
             "row_id": "loan_daimeng_dataclaw_datapacket_umi_set_20260805",
             "updated_at": "2026-07-16T05:15:26Z",
-            "item": "Planned DaiMeng loan: 2x DM-DataClaw + DM-DataPacket / 戴盟新版 UMI 借测套装",
+            "item": "Planned Daimon loan: 2x DM-DataClaw + DM-DataPacket / 戴盟新版 UMI 借测套装",
             "status": "",
-            "route": "DaiMeng loan · confirm handover scope before possible Singapore hand-carry on 2026-08-05",
-            "notes": "Purpose: update the existing Singapore V1 UMI setup with the newer DaiMeng collection hardware. Requested inventory: DM25DA03G000 DM-DataClaw x2 and DM25DA03P000 DM-DataPacket x1. Confirm both grippers, backpack/packet unit, batteries and chargers, storage media, cables, mounts, spare consumables, firmware/SDK, calibration files, synchronization path and V1 data/schema compatibility. Record asset or serial numbers, a pre-handover capture smoke test, customs or temporary-loan paperwork, transport restrictions, responsible owners, handover date and return terms."
+            "route": "Daimon loan · confirm handover scope before possible Singapore hand-carry on 2026-08-05",
+            "notes": "Purpose: update the existing Singapore V1 UMI setup with the newer Daimon collection hardware. Requested inventory: DM25DA03G000 DM-DataClaw x2 and DM25DA03P000 DM-DataPacket x1. Confirm both grippers, backpack/packet unit, batteries and chargers, storage media, cables, mounts, spare consumables, firmware/SDK, calibration files, synchronization path and V1 data/schema compatibility. Record asset or serial numbers, a pre-handover capture smoke test, customs or temporary-loan paperwork, transport restrictions, responsible owners, handover date and return terms."
           },
           {
             "row_id": "loan_daimeng_datedex_glove_pair_20260805",
             "updated_at": "2026-07-16T05:15:26Z",
-            "item": "Planned DaiMeng loan: 2x DM-DateDex data-collection gloves / 戴盟无本体数采手套一对",
+            "item": "Planned Daimon loan: 2x DM-DateDex data-collection gloves / 戴盟无本体数采手套一对",
             "status": "",
-            "route": "DaiMeng loan · confirm handover scope before possible Singapore hand-carry on 2026-08-05",
+            "route": "Daimon loan · confirm handover scope before possible Singapore hand-carry on 2026-08-05",
             "notes": "Purpose: collect dexterous-hand tactile data in Singapore. Requested inventory: DM26DA04H000 DM-DateDex x2, treated as one glove pair. Confirm left/right configuration, glove sizes, tactile and pose channels, raw-data access, sampling and synchronization interfaces, controller/receiver, batteries and chargers, cables, software, calibration files and one acquisition smoke test. Record asset or serial numbers, working-condition evidence, customs or temporary-loan paperwork, transport restrictions, responsible owners, handover date and return terms."
           },
           {
             "row_id": "loan_daimeng_datamaster_teleop_set_20260805",
             "updated_at": "2026-07-16T05:15:26Z",
-            "item": "Planned DaiMeng loan: DM-DataMaster Hand + DM-DataMaster Station / 戴盟遥操作设备借测套装",
+            "item": "Planned Daimon loan: DM-DataMaster Hand + DM-DataMaster Station / 戴盟遥操作设备借测套装",
             "status": "",
-            "route": "DaiMeng loan · confirm handover scope before possible Singapore hand-carry on 2026-08-05",
+            "route": "Daimon loan · confirm handover scope before possible Singapore hand-carry on 2026-08-05",
             "notes": "Purpose: reproduce the teleoperation and test platform in Singapore. Requested inventory: DM25TO02H000 DM-DataMaster Hand x1 and DM25TO02S000 DM-DataMaster Station (stand version) x1. Before the handover is marked confirmed, freeze the complete packing list: gloves, station/stand, controllers, power supplies, chargers, cables, mounting hardware, calibration files, firmware/SDK and operating instructions. Record asset or serial numbers, working-condition evidence, lender/borrower owners, customs or temporary-loan paperwork, transport restrictions, handover date and return date; do not store signatures or private documents in the dashboard."
           },
           {
@@ -3314,14 +3363,6 @@ export default {
             "notes": "Excel rows include Dupont jumper wires x2, ESP32 Type-C board with expansion board, Mega2560 Pro Type-C boards x2, 0603 resistor and capacitor sample books, 30AWG five-color wire kits x2, and XGSP80 183C solder paste/flux. Use for lab wiring, embedded prototypes, and repair bench stock; after arrival inventory quantities and keep solder paste/flux labeled."
           },
           {
-            "row_id": "proc_a3_carbon_steel_hollow_tube_spacer",
-            "updated_at": "2026-07-07T20:59:00+08:00",
-            "item": "A3 carbon-steel hollow tube spacer / 碳钢铁 A3 空心套管通孔圆柱",
-            "status": "Arrived",
-            "route": "Taobao · 大鼎五金",
-            "notes": "Boris Taobao screenshot at 2026-07-07 20:59 shows this low-cost A3 carbon-steel hollow tube / through-hole round standoff row as 交易成功, visible price RMB 2.4. Screenshot is partially cropped; after receipt verify dimensions, bore, wall thickness, corrosion, and sharp edges before fixture use."
-          },
-          {
             "row_id": "proc_banfully_gray_cuttable_leather_desk_mat",
             "updated_at": "2026-07-07T20:59:00+08:00",
             "item": "BANFULLY gray cuttable leather desk mat / 灰色可裁剪皮革桌垫",
@@ -3354,15 +3395,6 @@ export default {
             "notes": "Boris Taobao screenshot at 2026-07-07 20:59: 2m x 1m x 1.0cm high-density sponge/foam sheet, paid RMB 29.8, status 待发货, seller expected to ship before 2026-07-09 21:00. Use as soft padding / fixture / scene material; after arrival verify thickness, density, flatness, shedding, and compression under robot contact."
           },
           {
-            "row_id": "proc_10x_3m_usb_3_0_extension_cables_3m_usb3_0",
-            "updated_at": "2026-07-07T17:45:18+08:00",
-            "item": "10x 3m USB 3.0 extension cables / 3m USB3.0延长线",
-            "status": "Ordered · buyer paid 2026-07-07",
-            "route": "Taobao · 仁朝数码旗舰店 · 订单数据.xlsx",
-            "notes": "Excel order 3311159846118004652: 10 pieces of 3m straight USB 3.0 male-to-female extension cable, nickel-plated anti-slip SKU. Paid RMB 205.99. After arrival verify USB 3.0 bandwidth, cable stiffness, and camera/sensor stability.",
-            "url": "https://item.taobao.com/item.htm?id=816560886724&mi_id=0000DCtLolnVtG14mHcP6OiP-jzY28MB8D9X9OPhq2ZEuho"
-          },
-          {
             "row_id": "proc_2x_1_to_3_usb_c_data_charging_cables",
             "updated_at": "2026-07-07T17:45:18+08:00",
             "item": "2x 1-to-3 USB-C data/charging cables / 数据线",
@@ -3379,6 +3411,15 @@ export default {
             "route": "Taobao · 明丽摄像头工厂店 · 订单数据.xlsx",
             "notes": "Excel order 3311589289721122681: four IMX415 wide-angle 4K / 8MP USB driverless camera modules, 120-degree no-distortion lens with 1m cable. Paid RMB 1028.97. After arrival verify USB bandwidth, frame rate, exposure controls, lens FOV, mounting, and synchronization feasibility.",
             "url": "https://item.taobao.com/item.htm?id=912787221463&mi_id=00003c9tOOZ3LIRG5x6Ds4UMyPSgRktPH3aOoPx2U7k9vHE"
+          },
+          {
+            "row_id": "proc_10x_3m_usb_3_0_extension_cables_3m_usb3_0",
+            "updated_at": "2026-07-07T17:45:18+08:00",
+            "item": "10x 3m USB 3.0 extension cables / 3m USB3.0延长线",
+            "status": "Ordered · buyer paid 2026-07-07",
+            "route": "Taobao · 仁朝数码旗舰店 · 订单数据.xlsx",
+            "notes": "Excel order 3311159846118004652: 10 pieces of 3m straight USB 3.0 male-to-female extension cable, nickel-plated anti-slip SKU. Paid RMB 205.99. After arrival verify USB 3.0 bandwidth, cable stiffness, and camera/sensor stability.",
+            "url": "https://item.taobao.com/item.htm?id=816560886724&mi_id=0000DCtLolnVtG14mHcP6OiP-jzY28MB8D9X9OPhq2ZEuho"
           },
           {
             "row_id": "proc_digital_caliper_150mm",
@@ -3579,6 +3620,22 @@ export default {
             "route": "Zheng Yuhang · Taobao",
             "notes": "User-provided Taobao candidate marked 假一赔四: Unitree SV1-25 small / mini embodied stereo binocular camera, RGB global-shutter USB camera. ClawCross WeChat evidence from Zheng Yuhang private chat: Boris asked Zheng to place the Taobao order on 2026-07-04, and Zheng replied that the camera would be ordered that day. Next verify tracking, arrival, SDK/driver availability, resolution/FPS, stereo calibration support, ROS/ROS2 or Python access, USB bandwidth, mount compatibility, cable length, and whether it fits wrist/head/fixed-view robot data collection.",
             "url": "https://e.tb.cn/h.RDPhRlxsna7j6Kg?tk=9lHzglSbASl"
+          },
+          {
+            "row_id": "loan_daimeng_gripper_singapore_archive",
+            "updated_at": "2026-07-16T05:54:52Z",
+            "item": "Daimon gripper / 戴盟夹爪",
+            "status": "Arrived",
+            "route": "Daimon loan · already in Singapore",
+            "notes": "Archive-only availability record. The Daimon gripper has already been borrowed and is in Singapore; do not include it in active procurement or the planned 2026-08-05 loan request. Keep exact asset or serial number, condition, lender/borrower owners and return terms in the private loan ledger rather than this dashboard."
+          },
+          {
+            "row_id": "proc_a3_carbon_steel_hollow_tube_spacer",
+            "updated_at": "2026-07-07T20:59:00+08:00",
+            "item": "A3 carbon-steel hollow tube spacer / 碳钢铁 A3 空心套管通孔圆柱",
+            "status": "Arrived",
+            "route": "Taobao · 大鼎五金",
+            "notes": "Boris Taobao screenshot at 2026-07-07 20:59 shows this low-cost A3 carbon-steel hollow tube / through-hole round standoff row as 交易成功, visible price RMB 2.4. Screenshot is partially cropped; after receipt verify dimensions, bore, wall thickness, corrosion, and sharp edges before fixture use."
           },
           {
             "row_id": "proc_hig_gesture_recognition_data_glove",
@@ -3785,7 +3842,7 @@ export default {
           ]
         },
         "[INFERRED][HIGH] Priority robot use cases are fast wrist motion, tool impact, contact onset, slip and vibration, insertion transients, fast point tracking, and moving-object separation after ego-motion compensation. [INFERRED][HIGH] Static scene understanding, color or texture semantics, slow quasi-static manipulation, and language grounding remain poor reasons to add an event camera.",
-        "[INFERRED][HIGH] Promotion gate: require synchronized evidence that real events beat both 120 fps RGB and frame-difference pseudo-events on at least one robot metric, with acceptable calibration burden, event bandwidth, compute, power, and mounting cost. [INFERRED][HIGH] Until then, keep this in Survey and do not make it a dependency of DaiMeng VTAM, UMI World Model, or Real-Robot Infra.",
+        "[INFERRED][HIGH] Promotion gate: require synchronized evidence that real events beat both 120 fps RGB and frame-difference pseudo-events on at least one robot metric, with acceptable calibration burden, event bandwidth, compute, power, and mounting cost. [INFERRED][HIGH] Until then, keep this in Survey and do not make it a dependency of Daimon VTAM, UMI World Model, or Real-Robot Infra.",
         {
           "text": "[KNOWN][HIGH] SpikingTac is a 22 x 22 x 19 mm event-based optical tactile sensor with a 20.6 x 20.6 mm sensing area, controlled LED illumination, opaque optical shielding, silicone layers, and an 8 x 8 white-marker grid. Its event stream encodes marker displacement for force vectors, slip, and contact geometry. The paper reports total material cost below USD 150, 1000 Hz transient perception, 350 Hz marker tracking, 100% return-to-origin in ten tested sequences with 0.8039-pixel mean bias, 6.2 mm maximum collision overshoot, 0.0952 mm localization RMSE, and 0.0452 mm radius RMSE. [INFERRED][HIGH] These are paper results to reproduce, not accepted specifications for a lab deployment.",
           "links": [
@@ -5425,7 +5482,7 @@ export default {
   ],
   "taskDoc": {
     "schema_version": "tasks.v1",
-    "updated_at": "2026-07-26T09:15:57.364Z",
+    "updated_at": "2026-07-26T09:57:18.536Z",
     "owner": "dashboard",
     "tasks": [
       {
@@ -14177,7 +14234,7 @@ export default {
             "author": "Codex dashboard",
             "author_type": "system",
             "kind": "comment",
-            "body": "Marked done on 2026-06-30 per Boris direction: the Stage 3 layer-utility tool map has been promoted into the UMI intro/layer-utility framing. The remaining work should be narrower DaiMeng-data-backed experiments, not this broad FoundationPose/geometry/retargeting scoping TODO.",
+            "body": "Marked done on 2026-06-30 per Boris direction: the Stage 3 layer-utility tool map has been promoted into the UMI intro/layer-utility framing. The remaining work should be narrower Daimon-data-backed experiments, not this broad FoundationPose/geometry/retargeting scoping TODO.",
             "created_at": "2026-06-30T01:01:25.960Z"
           },
           {
@@ -15464,7 +15521,7 @@ export default {
             "author": "Boris / Codex",
             "author_type": "system",
             "kind": "comment",
-            "body": "[USER-PROVIDED YONGXI CHAT 2026-07-21] Current comparison evidence remains limited to UMI wrist/first-person inputs, where X2SAM performed better; the third-person same-input comparison is still pending and must not be reported as a verified RoboSeg win. Cloak-VLA's mask-processing pipeline is not open sourced, so it cannot be tested. DaiMeng data layered decomposition remains a higher-priority conditional input if the current pipeline quality is insufficient; it has not been completed. Haoyu has Alibaba Cloud full access and is asked to help transfer a subset to Yongxi's AutoDL host or a lab workstation; no account, token, signed URL or credential belongs in Dashboard state.",
+            "body": "[USER-PROVIDED YONGXI CHAT 2026-07-21] Current comparison evidence remains limited to UMI wrist/first-person inputs, where X2SAM performed better; the third-person same-input comparison is still pending and must not be reported as a verified RoboSeg win. Cloak-VLA's mask-processing pipeline is not open sourced, so it cannot be tested. Daimon data layered decomposition remains a higher-priority conditional input if the current pipeline quality is insufficient; it has not been completed. Haoyu has Alibaba Cloud full access and is asked to help transfer a subset to Yongxi's AutoDL host or a lab workstation; no account, token, signed URL or credential belongs in Dashboard state.",
             "created_at": "2026-07-21T10:43:25.017Z"
           }
         ],
@@ -16967,7 +17024,7 @@ export default {
         "description": "基于 2026-06-26 戴盟 VTAM proposal，先实现可插拔 Universal Tactile Encoder：输入 Marker Flow / tactile image / 多指触觉序列，输出统一 z_tac latent。Acceptance: 数据 schema、训练配置、模型权重或最小 checkpoint、finger identity/contact-region positional encoding、future latent prediction/reconstruction 指标、slip/contact stability 相关性、可接入 VTAM/System-0 的推理接口。",
         "status": "done",
         "priority": "high",
-        "assignee": "Boris / DaiMeng VTAM / Wuji",
+        "assignee": "Boris / Daimon VTAM / Wuji",
         "result": null,
         "comments": [],
         "updated_at": "2026-06-29T15:51:17.975Z",
@@ -16981,7 +17038,7 @@ export default {
         "description": "把高效 VTAM 明确做成 Temporal Action-Token Shared-World Model，而不是普通视觉/触觉拼接。Token streams: visual tokens、tactile/contact tokens、temporal action tokens、shared-world tokens；预测 future tactile/contact latent、contact risk、action latent/chunk 和可选 video rollout。Acceptance: 架构图、输入/输出 schema、training objective、held-out actual/zero/wrong-action gate、tactile prediction error、contact timing error，以及和普通 cross-modal attention / video-first baseline 的 ablation。",
         "status": "done",
         "priority": "urgent",
-        "assignee": "Boris / DaiMeng VTAM",
+        "assignee": "Boris / Daimon VTAM",
         "result": null,
         "comments": [],
         "updated_at": "2026-06-29T15:50:52.550Z",
@@ -16995,7 +17052,7 @@ export default {
         "description": "按照 proposal 的 fast contact/action path：在线阶段不在每个 planning/control step 生成完整视频，优先预测 tactile/contact latent 与 action latent；复用 visual/layer latent cache，在 contact event / slip risk / force jump 附近触发 sparse compute，并尝试 teacher-student distillation。Acceptance: ms/step、Hz、VRAM、cache hit/encoder time、compute per contact event、teacher-student error、actual/zero/wrong-action gate、任务成功率或 contact-risk 精度损失表。",
         "status": "done",
         "priority": "high",
-        "assignee": "Boris / DaiMeng VTAM",
+        "assignee": "Boris / Daimon VTAM",
         "result": null,
         "comments": [
           {
@@ -17004,7 +17061,7 @@ export default {
             "author": "Codex dashboard",
             "author_type": "system",
             "kind": "comment",
-            "body": "Marked done on 2026-06-30 per Boris direction: close all current DaiMeng VTAM / Tactile-WAM TODOs for now; Boris will manually add the next active TODOs after deciding the new work breakdown.",
+            "body": "Marked done on 2026-06-30 per Boris direction: close all current Daimon VTAM / Tactile-WAM TODOs for now; Boris will manually add the next active TODOs after deciding the new work breakdown.",
             "created_at": "2026-06-30T01:46:09.602Z"
           }
         ],
@@ -17019,7 +17076,7 @@ export default {
         "description": "构建 proposal 里的双系统主动接触控制：System-1 以约 5-20 Hz 预测未来触觉/contact state、risk 和 action chunk；System-0 以 50-100 Hz 或更高频读取当前 tactile latent，对比目标 tactile latent 并输出 residual action，例如手指微位移、法向压力调节、切向滑移补偿、插接对准修正。Acceptance: 控制接口、latency/Hz 记录、安全力阈值、扰动恢复实验、滑移次数、恢复时间、任务成功率、失败案例。",
         "status": "done",
         "priority": "high",
-        "assignee": "Boris / DaiMeng VTAM / real robot owner",
+        "assignee": "Boris / Daimon VTAM / real robot owner",
         "result": null,
         "comments": [
           {
@@ -17028,7 +17085,7 @@ export default {
             "author": "Codex dashboard",
             "author_type": "system",
             "kind": "comment",
-            "body": "Marked done on 2026-06-30 per Boris direction: close all current DaiMeng VTAM / Tactile-WAM TODOs for now; Boris will manually add the next active TODOs after deciding the new work breakdown.",
+            "body": "Marked done on 2026-06-30 per Boris direction: close all current Daimon VTAM / Tactile-WAM TODOs for now; Boris will manually add the next active TODOs after deciding the new work breakdown.",
             "created_at": "2026-06-30T01:46:09.602Z"
           }
         ],
@@ -17043,7 +17100,7 @@ export default {
         "description": "按 proposal 建立多层次评估：稳定抓握与滑移抑制、在手姿态调整、插头/销钉插接、卡片滑动、表面擦拭、工具使用、扰动后的接触恢复。Acceptance: 任务列表、数据采集/标注 schema、动态扰动设置、contact timing/slip/contact-risk 指标、跨物体/位置/工具泛化、actual/zero/wrong-action gate、最终 go/no-go 表。",
         "status": "done",
         "priority": "high",
-        "assignee": "Boris / DaiMeng VTAM",
+        "assignee": "Boris / Daimon VTAM",
         "result": null,
         "comments": [],
         "updated_at": "2026-06-29T15:51:38.214Z",
@@ -17136,7 +17193,7 @@ export default {
         "task_id": "task_umi_physisforcing_layer_state_video_probe_20260701",
         "project_id": "umi-world-model",
         "title": "Stage 3 PhysisForcing：把 VDDM 分层结果变成物理约束视频生成监督",
-        "description": "把 PhysisForcing (https://dagroup-pku.github.io/PhysisForcing.github.io/) 明确接到 UMI Stage 3：不是把分层结果只当可视化标签，而是把 Stage 2/VDDM 输出的 scene/object-contact/robot layers 转成训练时的 physics_forcing sidecar，用来让 Wan/Cosmos/Gamma-style 视频 world model 生成更符合物理实际的机器人操作视频。\n\n核心想法：PhysisForcing 通过 physics-informative regions 上的 pixel-level point trajectory alignment 和 semantic-level inter-region relation alignment 来减少物体变形、轨迹跳变、robot-object interaction 不一致。UMI 的优势是 VDDM 分层已经显式给出 robot mask/state/keypoints、object/contact mask/pose/point-flow/contact events、scene depth/camera/gravity priors 和 inter-layer relations，因此比整帧 RGB 或 mask-only 更适合构造 PhysisForcing 的监督区域与关系目标。\n\nphysics_forcing sidecar schema: 每个 clip/frame 输出 physics_mask(robot/object/contact/moved-object/static-scene)、point_tracks_2d/3d、object_state(pose/velocity/point_flow/confidence)、robot_state(keypoints/eef/gripper/pose/confidence)、contact_events(onset/maintain/release/confidence)、scene_priors(depth/pointmap/camera/gravity)、relation_graph(gripper-object coupling, pushed-object motion, object-scene support, occluder relation)、loss_weights 和 confidence_gate。低置信度 pose/flow/contact 不得强行作为 ground truth，只能降权或进入 failure gallery。\n\nTraining probe: 在同一视频 backbone / 同一 train-test split 下比较 4 条路线：1) whole-frame finetune；2) mask-only weighted loss；3) raw tracker/depth forcing without layers；4) VDDM layer+state forcing。PhysisForcing-style loss 先以离线特征/小规模 adapter 形式验证：pixel trajectory alignment 监督 DiT / video-token 局部运动连续性；semantic relation alignment 对齐 robot-object/contact/scene token relation，鼓励 grasped object 跟 gripper 保持耦合、pushed object 沿接触方向移动、scene/background 不漂移。\n\nAcceptance: 1) 选 3-5 个 UMI/MolmoAct/RoboTwin/DaiMeng clips，复用 Stage 2 layer_manifest 并导出 physics_forcing sidecar；2) 写清 sidecar JSON schema、坐标系、confidence gate、loss weight 与失败条件；3) 跑一个最小同 backbone 消融或给出可运行训练配置，至少包含 whole-frame、mask-only、raw-tracker、VDDM layer+state 四组；4) 指标包含 object deformation / discontinuous trajectory、contact consistency、object pose/velocity outcome、robot-object coupling、background stability、action actual-vs-wrong separation、IDM/planner/reward utility；5) 输出对比视频、metric table、failure gallery、训练/评估命令、显存/速度/成本；6) 结论必须回答分层 sidecar 是否比 raw tracker/depth 或 mask-only 更适合作为 physics forcing，不允许只凭定性样例宣传。",
+        "description": "把 PhysisForcing (https://dagroup-pku.github.io/PhysisForcing.github.io/) 明确接到 UMI Stage 3：不是把分层结果只当可视化标签，而是把 Stage 2/VDDM 输出的 scene/object-contact/robot layers 转成训练时的 physics_forcing sidecar，用来让 Wan/Cosmos/Gamma-style 视频 world model 生成更符合物理实际的机器人操作视频。\n\n核心想法：PhysisForcing 通过 physics-informative regions 上的 pixel-level point trajectory alignment 和 semantic-level inter-region relation alignment 来减少物体变形、轨迹跳变、robot-object interaction 不一致。UMI 的优势是 VDDM 分层已经显式给出 robot mask/state/keypoints、object/contact mask/pose/point-flow/contact events、scene depth/camera/gravity priors 和 inter-layer relations，因此比整帧 RGB 或 mask-only 更适合构造 PhysisForcing 的监督区域与关系目标。\n\nphysics_forcing sidecar schema: 每个 clip/frame 输出 physics_mask(robot/object/contact/moved-object/static-scene)、point_tracks_2d/3d、object_state(pose/velocity/point_flow/confidence)、robot_state(keypoints/eef/gripper/pose/confidence)、contact_events(onset/maintain/release/confidence)、scene_priors(depth/pointmap/camera/gravity)、relation_graph(gripper-object coupling, pushed-object motion, object-scene support, occluder relation)、loss_weights 和 confidence_gate。低置信度 pose/flow/contact 不得强行作为 ground truth，只能降权或进入 failure gallery。\n\nTraining probe: 在同一视频 backbone / 同一 train-test split 下比较 4 条路线：1) whole-frame finetune；2) mask-only weighted loss；3) raw tracker/depth forcing without layers；4) VDDM layer+state forcing。PhysisForcing-style loss 先以离线特征/小规模 adapter 形式验证：pixel trajectory alignment 监督 DiT / video-token 局部运动连续性；semantic relation alignment 对齐 robot-object/contact/scene token relation，鼓励 grasped object 跟 gripper 保持耦合、pushed object 沿接触方向移动、scene/background 不漂移。\n\nAcceptance: 1) 选 3-5 个 UMI/MolmoAct/RoboTwin/Daimon clips，复用 Stage 2 layer_manifest 并导出 physics_forcing sidecar；2) 写清 sidecar JSON schema、坐标系、confidence gate、loss weight 与失败条件；3) 跑一个最小同 backbone 消融或给出可运行训练配置，至少包含 whole-frame、mask-only、raw-tracker、VDDM layer+state 四组；4) 指标包含 object deformation / discontinuous trajectory、contact consistency、object pose/velocity outcome、robot-object coupling、background stability、action actual-vs-wrong separation、IDM/planner/reward utility；5) 输出对比视频、metric table、failure gallery、训练/评估命令、显存/速度/成本；6) 结论必须回答分层 sidecar 是否比 raw tracker/depth 或 mask-only 更适合作为 physics forcing，不允许只凭定性样例宣传。",
         "status": "done",
         "priority": "high",
         "assignee": "Boris / Haoyu / Ziyang",
@@ -17171,10 +17228,10 @@ export default {
         "task_id": "task_tactile_wam_reproduce_gesim2_tactile_wam_20260627",
         "project_id": "tactile-wam",
         "title": "复现 GE-Sim 2.0，并设计触觉生成 / Tactile-WAM 化路径",
-        "description": "GE-Sim 2.0 已开源，先作为 DaiMeng VTAM / Tactile-WAM 的第一条复现任务。Step 1: 跑通官方 GE-Sim-V2 repo、HuggingFace agibot-world/Genie-Envisioner-Sim-v2.0 checkpoint 和至少 1 个 G01 / OmniPicker-style action-conditioned multi-view rollout；记录环境、权重、显存、速度、输入动作格式、proprioceptive state expert、world judge 和 closed-loop rollout 是否可复现。Step 2: 思考并做最小 tactile extension：在 GE-Sim 的视觉/动作/本体状态 token 上增加 contact/tactile latent head，用 contact mask、gripper opening、force/torque、object pose/slip 或仿真 contact event 生成 pseudo tactile labels，预测 future tactile/contact latent、contact timing、slip/contact risk。Step 3: WAM 化：把输出从 video-only rollout 扩展成 <multi-view RGB/video latent, action tokens, proprio state, contact/tactile latent, world tokens> 的 state-action-contact rollout，并接 actual/zero/wrong-action gate 与 action head。Acceptance: 复现命令/配置、可运行 demo 或明确 blocker、1 页架构改造图、触觉 label schema、tactile/contact head loss、WAM state/action schema、actual/zero/wrong-action + contact timing + slip risk QA，以及和原 GE-Sim video-only baseline 的对照。",
+        "description": "GE-Sim 2.0 已开源，先作为 Daimon VTAM / Tactile-WAM 的第一条复现任务。Step 1: 跑通官方 GE-Sim-V2 repo、HuggingFace agibot-world/Genie-Envisioner-Sim-v2.0 checkpoint 和至少 1 个 G01 / OmniPicker-style action-conditioned multi-view rollout；记录环境、权重、显存、速度、输入动作格式、proprioceptive state expert、world judge 和 closed-loop rollout 是否可复现。Step 2: 思考并做最小 tactile extension：在 GE-Sim 的视觉/动作/本体状态 token 上增加 contact/tactile latent head，用 contact mask、gripper opening、force/torque、object pose/slip 或仿真 contact event 生成 pseudo tactile labels，预测 future tactile/contact latent、contact timing、slip/contact risk。Step 3: WAM 化：把输出从 video-only rollout 扩展成 <multi-view RGB/video latent, action tokens, proprio state, contact/tactile latent, world tokens> 的 state-action-contact rollout，并接 actual/zero/wrong-action gate 与 action head。Acceptance: 复现命令/配置、可运行 demo 或明确 blocker、1 页架构改造图、触觉 label schema、tactile/contact head loss、WAM state/action schema、actual/zero/wrong-action + contact timing + slip risk QA，以及和原 GE-Sim video-only baseline 的对照。",
         "status": "done",
         "priority": "urgent",
-        "assignee": "Boris / DaiMeng VTAM",
+        "assignee": "Boris / Daimon VTAM",
         "result": null,
         "due_at": "2026-06-27",
         "comments": [
@@ -17200,7 +17257,7 @@ export default {
             "author": "Codex dashboard",
             "author_type": "system",
             "kind": "comment",
-            "body": "Marked done on 2026-06-30 per Boris direction: close all current DaiMeng VTAM / Tactile-WAM TODOs for now; Boris will manually add the next active TODOs after deciding the new work breakdown.",
+            "body": "Marked done on 2026-06-30 per Boris direction: close all current Daimon VTAM / Tactile-WAM TODOs for now; Boris will manually add the next active TODOs after deciding the new work breakdown.",
             "created_at": "2026-06-30T01:46:09.602Z"
           },
           {
@@ -17411,11 +17468,11 @@ export default {
       {
         "task_id": "task_umi_stage1_closed_loop_eval_split_20260628",
         "project_id": "umi-world-model",
-        "title": "定义 Stage 1 闭环验证与 DaiMeng / AGI-World 混合 split",
+        "title": "定义 Stage 1 闭环验证与 Daimon / AGI-World 混合 split",
         "status": "done",
         "priority": "urgent",
         "assignee": "Boris / Gaochen / Haoyu",
-        "description": "根据 2026-06-28 与高晨的讨论，Stage 1 不能继续只按“再训练一个更大 shared-world / WAN / Gamma route”推进；算力和数据选择成本很高，下一步先把可反驳的闭环验证协议定义清楚。数据面：混合 DaiMeng UMI-style 数据、AGI-World，以及之前选用的 JianZhi / UMI 类数据，显式按 task、object、scene、embodiment、camera setup 拆 train / val / test，避免同任务近邻泄漏。验证面：明确在哪里比、和谁比、怎样算赢。Baseline 至少包括 copy-last-frame / first-frame hold、nearest-neighbor retrieval、wrist-only 或 D435-only predictive baseline、当前 best shared-world teacher / ranker、action-swapped counterfactual、generic interactive world model 直接喂 UMI 首帧的 negative baseline；不能只用“公开 interactive robot wrist world model 不存在”当成功证据。闭环指标：same-episode rollout fidelity、cross-view consistency、object/contact state prediction、action actual-vs-zero/wrong/nearest separation、planner/reward/IDM utility、以及跨 DaiMeng / AGI-World / JianZhi split 的 generalization。UMI 的跨本体优势假设要单独记录：视觉差距主要是夹爪 jaw / end-effector gap，且 wrist view 下 jaw 位置相对固定，所以可做 embodiment-gap ablation。",
+        "description": "根据 2026-06-28 与高晨的讨论，Stage 1 不能继续只按“再训练一个更大 shared-world / WAN / Gamma route”推进；算力和数据选择成本很高，下一步先把可反驳的闭环验证协议定义清楚。数据面：混合 Daimon UMI-style 数据、AGI-World，以及之前选用的 JianZhi / UMI 类数据，显式按 task、object、scene、embodiment、camera setup 拆 train / val / test，避免同任务近邻泄漏。验证面：明确在哪里比、和谁比、怎样算赢。Baseline 至少包括 copy-last-frame / first-frame hold、nearest-neighbor retrieval、wrist-only 或 D435-only predictive baseline、当前 best shared-world teacher / ranker、action-swapped counterfactual、generic interactive world model 直接喂 UMI 首帧的 negative baseline；不能只用“公开 interactive robot wrist world model 不存在”当成功证据。闭环指标：same-episode rollout fidelity、cross-view consistency、object/contact state prediction、action actual-vs-zero/wrong/nearest separation、planner/reward/IDM utility、以及跨 Daimon / AGI-World / JianZhi split 的 generalization。UMI 的跨本体优势假设要单独记录：视觉差距主要是夹爪 jaw / end-effector gap，且 wrist view 下 jaw 位置相对固定，所以可做 embodiment-gap ablation。",
         "result": null,
         "due_at": "2026-06-30",
         "comments": [
@@ -17425,7 +17482,7 @@ export default {
             "author": "Codex / ClawCross wx sync",
             "author_type": "system",
             "kind": "comment",
-            "body": "ClawCross 读取到 2026-06-28 高晨私聊更新：高晨提醒这个方向 cost 很高；如果目标只是提高 cross view，也可以在真机上先做；Boris 当前想先验证可行性，并计划混合 DaiMeng 数据集、AGI-World 和此前 JianZhi 数据，重新划分测试集和训练集。高晨指出闭环验证麻烦，核心是“怎么对比效果，在哪里比，baseline 是啥”。Boris 的假设是 UMI 跨本体相对容易，因为主要差异是夹爪 jaw 的 visual gap，且 jaw 在画面中位置固定；公开 interactive world model 直接喂 UMI 首帧会崩，但这应作为 negative baseline，而不是唯一成功标准。",
+            "body": "ClawCross 读取到 2026-06-28 高晨私聊更新：高晨提醒这个方向 cost 很高；如果目标只是提高 cross view，也可以在真机上先做；Boris 当前想先验证可行性，并计划混合 Daimon 数据集、AGI-World 和此前 JianZhi 数据，重新划分测试集和训练集。高晨指出闭环验证麻烦，核心是“怎么对比效果，在哪里比，baseline 是啥”。Boris 的假设是 UMI 跨本体相对容易，因为主要差异是夹爪 jaw 的 visual gap，且 jaw 在画面中位置固定；公开 interactive world model 直接喂 UMI 首帧会崩，但这应作为 negative baseline，而不是唯一成功标准。",
             "created_at": "2026-06-28T10:18:18+08:00"
           },
           {
@@ -17434,13 +17491,13 @@ export default {
             "author": "Codex dashboard",
             "author_type": "system",
             "kind": "comment",
-            "body": "Marked done on 2026-06-30 per Boris direction: Stage 1 will mainly use DaiMeng's own dataset as the core data substrate, so the DaiMeng / AGI-World / JianZhi mixed-split TODO is no longer an open execution gate. Keep the closed-loop validation and baseline list as intro-level framing; future dataset work should be spawned around DaiMeng-specific splits and eval.",
+            "body": "Marked done on 2026-06-30 per Boris direction: Stage 1 will mainly use Daimon's own dataset as the core data substrate, so the Daimon / AGI-World / JianZhi mixed-split TODO is no longer an open execution gate. Keep the closed-loop validation and baseline list as intro-level framing; future dataset work should be spawned around Daimon-specific splits and eval.",
             "created_at": "2026-06-30T01:01:25.960Z"
           },
           {
             "comment_id": "clawcross_25818251efc8",
             "author": "Host verification",
-            "body": "Local Codex host review accepted this TODO.\n本机 dashboard 已有 Boris direction 的完成记录，说明该 TODO 已被范围变更关闭，不应退回远端 worker。\nEvidence: /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json 中 task_umi_stage1_closed_loop_eval_split_20260628 当前 status=done，completed_at=2026-06-30; tasks.json 评论 comment_b3314eef-305b-4628-801d-8f9c60b0af8a：Marked done on 2026-06-30 per Boris direction，说明 DaiMeng/AGI-World/JianZhi mixed-split 不再是 open execution gate，后续应另开 DaiMeng-specific splits and eval; /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/projects/umi-world-model.json 已保留 closed-loop validation guardrail、baseline list、mixed split framing 与后续 DaiMeng-specific 方向; 远端 SSH 验证尝试失败：ssh: connect to host 100.112.245.1 port 22: Operation not permitted；但该 TODO 的关闭依据来自本机 dashboard 的 Boris direction，而非远端 worker 产物\nCommands: test -f /Users/boris/.claude/AGENTS.md && sed -n '1,220p' /Users/boris/.claude/AGENTS.md || true; sed -n '1,220p' /Users/boris/.shared-agent-memory/skills/clawcross/SKILL.md; sed -n '1,220p' docs/repo-index.md; jq '.tasks[]? // empty | select(.task_id==\"task_umi_stage1_closed_loop_eval_split_20260628\")' /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json; rg -n \"task_umi_stage1_closed_loop_eval_split_20260628|Stage 1 闭环|closed_loop_eval|DaiMeng|AGI-World\" /Users/boris/workspace/BorisGuo6.github.io /Users/boris/workspace/ClawCross -S; ssh -o BatchMode=yes -o ConnectTimeout=8 jingxiang@100.112.245.1 'pwd; test -d /home/jingxiang/workspace/das-data/.claude/worktrees/umi-vbench-eval && find /home/jingxiang/workspace/das-data/.claude/worktrees/umi-vbench-eval -maxdepth 4 -type f \\( -iname \"*stage*\" -o -iname \"*split*\" -o -iname \"*eval*\" -o -iname \"*closed*\" -o -iname \"*.md\" -o -iname \"*.json\" \\) | sed -n \"1,200p\"'\nReason: 虽然当前 review payload 里没有 worker run_id 或 verifier，但本机 dashboard 源文件显示该 TODO 已按 Boris 明确方向关闭：原 mixed-split 执行门槛被取消，只保留为 intro framing，后续工作应拆成新的 DaiMeng-specific eval TODO；因此无需退回离线远端 worker 补实验产物。",
+            "body": "Local Codex host review accepted this TODO.\n本机 dashboard 已有 Boris direction 的完成记录，说明该 TODO 已被范围变更关闭，不应退回远端 worker。\nEvidence: /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json 中 task_umi_stage1_closed_loop_eval_split_20260628 当前 status=done，completed_at=2026-06-30; tasks.json 评论 comment_b3314eef-305b-4628-801d-8f9c60b0af8a：Marked done on 2026-06-30 per Boris direction，说明 Daimon/AGI-World/JianZhi mixed-split 不再是 open execution gate，后续应另开 Daimon-specific splits and eval; /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/projects/umi-world-model.json 已保留 closed-loop validation guardrail、baseline list、mixed split framing 与后续 Daimon-specific 方向; 远端 SSH 验证尝试失败：ssh: connect to host 100.112.245.1 port 22: Operation not permitted；但该 TODO 的关闭依据来自本机 dashboard 的 Boris direction，而非远端 worker 产物\nCommands: test -f /Users/boris/.claude/AGENTS.md && sed -n '1,220p' /Users/boris/.claude/AGENTS.md || true; sed -n '1,220p' /Users/boris/.shared-agent-memory/skills/clawcross/SKILL.md; sed -n '1,220p' docs/repo-index.md; jq '.tasks[]? // empty | select(.task_id==\"task_umi_stage1_closed_loop_eval_split_20260628\")' /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json; rg -n \"task_umi_stage1_closed_loop_eval_split_20260628|Stage 1 闭环|closed_loop_eval|Daimon|AGI-World\" /Users/boris/workspace/BorisGuo6.github.io /Users/boris/workspace/ClawCross -S; ssh -o BatchMode=yes -o ConnectTimeout=8 jingxiang@100.112.245.1 'pwd; test -d /home/jingxiang/workspace/das-data/.claude/worktrees/umi-vbench-eval && find /home/jingxiang/workspace/das-data/.claude/worktrees/umi-vbench-eval -maxdepth 4 -type f \\( -iname \"*stage*\" -o -iname \"*split*\" -o -iname \"*eval*\" -o -iname \"*closed*\" -o -iname \"*.md\" -o -iname \"*.json\" \\) | sed -n \"1,200p\"'\nReason: 虽然当前 review payload 里没有 worker run_id 或 verifier，但本机 dashboard 源文件显示该 TODO 已按 Boris 明确方向关闭：原 mixed-split 执行门槛被取消，只保留为 intro framing，后续工作应拆成新的 Daimon-specific eval TODO；因此无需退回离线远端 worker 补实验产物。",
             "created_at": "2026-06-30T11:57:53+08:00",
             "kind": "host_verified"
           }
@@ -17452,8 +17509,8 @@ export default {
       {
         "task_id": "task_umi_stage1_daimon_post2000_smoke_20260707",
         "project_id": "tactile-wam",
-        "title": "DaiMeng causal_robot iter-2000 后 smoke / eval gate",
-        "description": "从 UMI 卡迁到 DaiMeng VTAM / Tactile-WAM：这个 TODO 的执行对象是 causal_robot_daimon、DaiMeng materialized robot189/Gamma root、post-2000 checkpoint smoke 和 10Kh/download gate，而不是 UMI project intro 本身。等 causal_robot_daimon 出现 iter_000002000 或更新 checkpoint 后，按 post2000 smoke command plan 跑最小 loader/inference/eval；确认训练实际使用的是 DaiMeng materialized robot189/Gamma root，而不是 10Kh/AgiBot queued datasets；记录 latest checkpoint、launcher/GPU 形态、action dims、report path/SHA、smoke 命令、生成视频可读性、failure/blocker，以及 10Kh 下载 gate 是否仍阻止后续队列。UMI World Model 只消费这个任务的 smoke/eval 结论作为 Stage 1 数据/训练证据。",
+        "title": "Daimon causal_robot iter-2000 后 smoke / eval gate",
+        "description": "从 UMI 卡迁到 Daimon VTAM / Tactile-WAM：这个 TODO 的执行对象是 causal_robot_daimon、Daimon materialized robot189/Gamma root、post-2000 checkpoint smoke 和 10Kh/download gate，而不是 UMI project intro 本身。等 causal_robot_daimon 出现 iter_000002000 或更新 checkpoint 后，按 post2000 smoke command plan 跑最小 loader/inference/eval；确认训练实际使用的是 Daimon materialized robot189/Gamma root，而不是 10Kh/AgiBot queued datasets；记录 latest checkpoint、launcher/GPU 形态、action dims、report path/SHA、smoke 命令、生成视频可读性、failure/blocker，以及 10Kh 下载 gate 是否仍阻止后续队列。UMI World Model 只消费这个任务的 smoke/eval 结论作为 Stage 1 数据/训练证据。",
         "status": "done",
         "priority": "high",
         "assignee": "Boris / Haoyu",
@@ -17466,7 +17523,7 @@ export default {
             "author": "Codex / dashboard intro cleanup",
             "author_type": "system",
             "kind": "comment",
-            "body": "Seeded from UMI intro cleanup: latest intro logs said the post-2000 smoke plan/precheck were ready but waiting for checkpoint, causal_robot_daimon was a single-process torch.distributed.run job on DaiMeng materialized robot189/Gamma data, and 10Kh queue/download state should remain telemetry evidence rather than project intro prose.",
+            "body": "Seeded from UMI intro cleanup: latest intro logs said the post-2000 smoke plan/precheck were ready but waiting for checkpoint, causal_robot_daimon was a single-process torch.distributed.run job on Daimon materialized robot189/Gamma data, and 10Kh queue/download state should remain telemetry evidence rather than project intro prose.",
             "created_at": "2026-07-07T20:45:00+08:00"
           },
           {
@@ -17475,7 +17532,7 @@ export default {
             "author": "Codex / dashboard routing cleanup",
             "author_type": "system",
             "kind": "comment",
-            "body": "Routing cleanup 2026-07-07: moved this TODO from UMI Image Layered World Model to DaiMeng VTAM / Tactile-WAM because it tracks causal_robot_daimon checkpoint smoke, DaiMeng materialized robot189/Gamma data, and queue/load gates. UMI should link to the resulting evidence, not own the operational training gate.",
+            "body": "Routing cleanup 2026-07-07: moved this TODO from UMI Image Layered World Model to Daimon VTAM / Tactile-WAM because it tracks causal_robot_daimon checkpoint smoke, Daimon materialized robot189/Gamma data, and queue/load gates. UMI should link to the resulting evidence, not own the operational training gate.",
             "created_at": "2026-07-07T22:36:38+08:00"
           }
         ],
@@ -18106,8 +18163,8 @@ export default {
       {
         "task_id": "task_real_robot_infra_hillside_commute_option_decision_20260711",
         "project_id": "real-robot-infra",
-        "title": "KR4 通勤：不买 scooter，筛选合规折叠电助力车",
-        "description": "ClawCross 读取 2026-07-10 与刘磊磊的沟通：山上联合实验室的日常通勤仍需在 scooter 与电助力折叠自行车之间做方案选择；当前只是决策项，不应直接进入采购。验收：1) 记录实际起终点、坡度、距离、雨天和室内外搬运约束；2) 核对 NUS 场地政策与新加坡适用的道路、路径、停放和充电规则；3) 对比安全、制动与坡道能力、续航、重量和折叠尺寸、充电与电池存放、防雨、维修、保险和总拥有成本；4) 明确使用人、停放点、充电点、PPE 与事故处理要求；5) 做出 scooter、电助力折叠自行车或不采购的书面结论，选型确定后再新增采购行。\n\n【2026-07-21 用户决策与合规边界】\n用户决定不购买 scooter，通勤形态收敛为可折叠电助力车，并明确偏好已分享的 YADEA 20-inch 商品。群聊中已征集意见，动机是 KR4 上坡且距离最近校车站仍需步行十几分钟，折叠后希望室内存放/充电；截至所提供聊天片段，团队尚未反馈。该具体商品高置信匹配 YADEA Innovator，公开规格 350 W、约 23.8 kg，超过新加坡 PAB 250 W 连续功率和 20 kg 空载重量门槛，且未在当前 LTA approved-model list 中找到。因此记录为用户首选但合规阻塞，不标可下单；优先筛同类折叠且 LTA-approved 的替代型号。只有在路线完全属于封闭私人场地且取得 NUS 书面存放/充电/使用许可时，才另行评估原商品。\n【/2026-07-21 用户决策与合规边界】",
+        "title": "KR4 通勤：改用 JIMOVE 低成本候选并核验合规与车况",
+        "description": "通勤形态维持“不要 scooter、选择折叠/紧凑型电助力车”。2026-07-26 方案变更：老师认为原 YADEA 方案太贵，停止以雅迪为首选，改筛 JI-MOVE/JIMOVE 低成本候选。用户提供的实车参考图与闲鱼搜索图显示二手挂牌约人民币 980-2,000，但这些仅是市场线索，不是最终型号、成交价或可进口结论。\n\n验收：1) 锁定具体 JI-MOVE 型号、车架号、卖家和购买渠道；2) 优先选择新加坡本地已注册、带序列化橙色 LTA seal 且可完成 ownership transfer 的二手车，境外闲鱼车辆不得假设自动继承合规；3) 核对车辆型号与 LTA approved-model list、原配电池规格、原装 SAFETY-Mark 充电器、无改装/油门绕过；4) 现场检查电池健康、充电记录、车架、折叠锁止、制动、轮胎、灯具和雨天状态；5) 把运费、进口/审批、潜在换电池、维修和注册费用计入 landed cost，再与 YADEA 历史方案比较；6) 确认 KR4 坡道、载物、停车以及 NUS 室内存放/充电要求后再下单。",
         "status": "active",
         "priority": "medium",
         "assignee": "Boris / Liu Leilei / lab operations",
@@ -18130,9 +18187,18 @@ export default {
             "kind": "comment",
             "body": "[USER DECISION 2026-07-21] Do not buy a scooter; proceed with a foldable pedal-assist form factor. The shared YADEA item remains the user's preferred reference, but it is compliance-blocked rather than purchase-approved because its published 350 W / about 23.8 kg specification exceeds Singapore PAB limits. Team feedback was still pending in the supplied LV-Robotics Lab excerpt. Screen an LTA-approved foldable alternative and confirm NUS indoor storage/charging policy before PO.",
             "created_at": "2026-07-21T10:43:25.017Z"
+          },
+          {
+            "comment_id": "comment_real_robot_kr4_jimove_cost_switch_20260726",
+            "task_id": "task_real_robot_infra_hillside_commute_option_decision_20260711",
+            "author": "Boris / Codex",
+            "author_type": "system",
+            "kind": "comment",
+            "body": "[USER + TEACHER DECISION / IMAGE EVIDENCE 2026-07-26] The teacher judged the YADEA proposal too expensive, so JI-MOVE/JIMOVE replaces it as the preferred lower-cost candidate. The supplied photos show a compact JIMOVE cargo/folding reference build and Xianyu search results advertised around CNY 980-2,000; these are market examples only, not verified specs or a purchase quote. LTA's approved-model list as at 2026-01-01 includes JI-MOVE MC, MC-PRO, MC-PRO 2.0 and MC-PRO 3.0, while LTA states approval is retailer/model-specific and second-hand registration must be transferred. Therefore prefer a locally registered used unit with the serialized orange LTA seal. An imported Xianyu unit does not automatically inherit approval and remains blocked until type approval/sealing, matching original battery and SAFETY-Mark charger, condition, landed cost and NUS storage/charging are verified. Task stays active; no order was placed. Sources: https://onemotoring.lta.gov.sg/content/dam/onemotoring/Buying/PDF/PAB/List_of_Approved_PAB_Models.pdf ; https://onemotoring.lta.gov.sg/content/onemotoring/home/buying/vehicle-types-and-registrations/active-mobility-devices/PAB.html ; https://jimove.sg/collections/electric-bicycles",
+            "created_at": "2026-07-26T09:36:47.978Z"
           }
         ],
-        "updated_at": "2026-07-21T10:43:25.017Z",
+        "updated_at": "2026-07-26T09:36:47.978Z",
         "completed_at": null,
         "completed_at_time": null
       },
@@ -18318,7 +18384,7 @@ export default {
             "author": "Boris / Codex",
             "author_type": "system",
             "kind": "comment",
-            "body": "[USER-PROVIDED YONGXI CHAT 2026-07-21] Current comparison evidence remains limited to UMI wrist/first-person inputs, where X2SAM performed better; the third-person same-input comparison is still pending and must not be reported as a verified RoboSeg win. Cloak-VLA's mask-processing pipeline is not open sourced, so it cannot be tested. DaiMeng data layered decomposition remains a higher-priority conditional input if the current pipeline quality is insufficient; it has not been completed. Haoyu has Alibaba Cloud full access and is asked to help transfer a subset to Yongxi's AutoDL host or a lab workstation; no account, token, signed URL or credential belongs in Dashboard state.",
+            "body": "[USER-PROVIDED YONGXI CHAT 2026-07-21] Current comparison evidence remains limited to UMI wrist/first-person inputs, where X2SAM performed better; the third-person same-input comparison is still pending and must not be reported as a verified RoboSeg win. Cloak-VLA's mask-processing pipeline is not open sourced, so it cannot be tested. Daimon data layered decomposition remains a higher-priority conditional input if the current pipeline quality is insufficient; it has not been completed. Haoyu has Alibaba Cloud full access and is asked to help transfer a subset to Yongxi's AutoDL host or a lab workstation; no account, token, signed URL or credential belongs in Dashboard state.",
             "created_at": "2026-07-21T10:43:25.017Z"
           },
           {
@@ -19095,6 +19161,19 @@ export default {
         "result": null,
         "comments": [],
         "updated_at": "2026-07-21T10:43:25.017Z"
+      },
+      {
+        "task_id": "task_tactile_wam_n0_release_audit_20260726",
+        "project_id": "tactile-wam",
+        "title": "复核 N(0)-TWAM / VTLA 发布，并做 Daimon VTAM 最小迁移消融",
+        "description": "截至 2026-07-26，OpenNeoData 已发布，但 N(0)-VTLA / N(0)-TWAM 的 GitHub 仓库仍只有 README 与 diagrams；官方路线图把 model code、pretrained weights、finetune code 和 task weights 排到 2026-07-31。先把它们当 technical-report / release-stub reference，不写成已可复现模型。\n\n验收：1) 2026-07-31 后核对实际代码、权重、许可证、checkpoint hash、训练/推理入口与硬件需求；2) 映射 OpenNeoData / N(0) 的 multi-view RGB、逐指触觉、language、canonical bimanual 20D action、contact-event 与 missing-modality schema 到 Daimon VTAM 和 UMI Stage 1；3) 在同一小数据 split、同一视频主干和同一训练预算下比较 RGB/action baseline、+predicted future tactile、+observed current tactile、dual pathway 四组；4) 报 video/base quality、future-tactile error、contact timing、actual/zero/wrong-action separation、sensor-missing degradation、latency、Hz 和 VRAM；5) 只迁移通过验证的 staged training、asymmetric expert、cache/async 与 absent-token dropout，不照抄 element-wise rot6d subtraction、387-frame/10fps window 或 1:1:1 loss；6) 将 Stage 1 结论同步到 GammaWorld Training Atlas，Daimon 触觉主线留在本项目。",
+        "status": "todo",
+        "priority": "high",
+        "assignee": "Boris / Daimon VTAM / UMI Stage 1",
+        "result": null,
+        "comments": [],
+        "updated_at": "2026-07-26T09:57:18.536Z",
+        "due_at": "2026-08-01"
       }
     ]
   },

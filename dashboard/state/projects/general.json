@@ -4,9 +4,9 @@
   "title": "Procurement Table",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-07-21T10:43:25.017Z",
+  "updated_at": "2026-07-26T09:36:47.978Z",
   "description": "Editable lab procurement and equipment-loan register for cross-project hardware",
-  "summary": "Editable register for lab purchases and equipment loans. Quoted packages cover Flexiv Rizon 4s x2, xArm7 x2, optical tables x2, FACTR-Franka x2, one Wuji Hand2 left/right pair with a Wuji motion-capture glove pair, a RealMan RM75-B-V bimanual package at USD 25,500, and a Tianji Marvin-M6-CCS 696 bimanual package at USD 33,300. The bimanual base remains RealMan x2 versus Tianji CCS 696 x2; compare normalized landed cost because the quotes use different Incoterms. An additional open-source dexterous-hand pair is ROBOTIS HX5 versus MIDAS Hand. Three DaiMeng loan bundles are planned for Singapore: a DM-DataMaster teleoperation set, a new-generation UMI DM-DataClaw/DM-DataPacket set, and a DM-DateDex glove pair. Quote PDFs and loan documents stay private and are referenced only by safe inventory details. Rows are sorted by status first and then by last update; received items remain behind the bottom archive toggle.",
+  "summary": "Editable register for lab purchases and equipment loans. Quoted packages cover Flexiv Rizon 4s x2, xArm7 x2, optical tables x2, FACTR-Franka x2, one Wuji Hand2 left/right pair with a Wuji motion-capture glove pair, a RealMan RM75-B-V bimanual package at USD 25,500, and a Tianji Marvin-M6-CCS 696 bimanual package at USD 33,300. The bimanual base remains RealMan x2 versus Tianji CCS 696 x2; compare normalized landed cost because the quotes use different Incoterms. An additional open-source dexterous-hand pair is ROBOTIS HX5 versus MIDAS Hand. Three Daimon loan bundles are planned for Singapore: a DM-DataMaster teleoperation set, a new-generation UMI DM-DataClaw/DM-DataPacket set, and a DM-DateDex glove pair. Quote PDFs and loan documents stay private and are referenced only by safe inventory details. Rows are sorted by status first and then by last update; received items remain behind the bottom archive toggle.",
   "intro_table": {
     "kind": "procurement_table",
     "caption": "Editable purchase and equipment-loan register · blank pending, dash ordered/loan confirmed, check arrived",
@@ -45,6 +45,15 @@
     ],
     "rows": [
       {
+        "row_id": "proc_kr4_yadea_foldable_e_bike_candidate_20260721",
+        "updated_at": "2026-07-26T09:36:47.978Z",
+        "item": "JI-MOVE / JIMOVE folding PAB — lower-cost YADEA replacement candidate / 捷行折叠电助力车（雅迪低成本替代）",
+        "status": "",
+        "route": "Teacher rejected YADEA on cost · prefer a locally registered used JI-MOVE with LTA seal",
+        "url": "https://jimove.sg/collections/electric-bicycles",
+        "notes": "Not ordered. Decision update 2026-07-26: the teacher considers the YADEA proposal too expensive, so the shortlist switches to a lower-cost JI-MOVE/JIMOVE candidate. User-provided evidence includes a compact JIMOVE cargo/folding reference bike and Xianyu examples advertised at CNY 980-2,000; those prices and seller claims are market leads only, not a selected unit, verified specification, landed quote or approval. The LTA approved-model list dated 2026-01-01 includes JI-MOVE MC, MC-PRO, MC-PRO 2.0 and MC-PRO 3.0, but approval is retailer/model-specific. Prefer an already Singapore-registered used unit with the serialized orange LTA seal and valid ownership transfer. Do not import or order a Xianyu unit until exact model, seal/registration path, approved battery specification, original SAFETY-Mark charger, battery health, brakes/tyres, repair support, shipping/landed cost, KR4 hill suitability, and NUS parking/indoor charging rules are verified. Keep YADEA only as the rejected high-cost comparison."
+      },
+      {
         "row_id": "proc_factr_low_cost_force_feedback_teleoperation_hardware",
         "updated_at": "2026-07-21T10:43:25.017Z",
         "item": "2x FACTR-Franka low-cost force-feedback teleoperation hardware / FACTR-Franka ×2",
@@ -68,15 +77,6 @@
         "status": "",
         "route": "KING Technology quote 2026050801 · expired, refresh required · hillside KR4 destination",
         "notes": "Quote received: Quotation xarm7+tables+ Factr v2.pdf, dated 2026-05-08 with validity through 2026-06-23, so a refreshed quotation is required. Scope: xArm7 x2 at USD 8,950 each, USD 17,900 total; stated lead time 4-6 weeks and one-year warranty. The combined DDP package also contains FACTR-Franka x2 and two optical tables. Keep unpurchased until the refreshed quote confirms controllers, software licenses, end-effector interfaces, safety accessories, table bolt patterns and the final purchasing entity.\n\n【2026-07-21 群聊与报价复核】\nKING quotation 2026050801 is written as 8/5/2026 and expired 2026-06-23. xArm7 x2 remains USD 8,950 each / USD 17,900 total with 4-6 week lead; combined package total is USD 32,461.80 including the listed USD 2,645 shared shipping, USD 2,435.40 GST and unexplained USD 321.40 '1% payment on account' line. Refresh before PO and reconcile DDP with the quotation also naming NUS as importer. LV-Robotics Lab chat says the intended destination is the hillside/KR4 lab because ME has no remaining space; procurement owner/company-vs-SoC route and move schedule remain unresolved for Thursday discussion. Not ordered.\n【/2026-07-21 群聊与报价复核】"
-      },
-      {
-        "row_id": "proc_kr4_yadea_foldable_e_bike_candidate_20260721",
-        "updated_at": "2026-07-21T10:43:25.017Z",
-        "item": "YADEA 20-inch folding e-bike — user preferred, compliance-blocked / 雅迪折叠电助力车（用户首选、合规阻塞）",
-        "status": "",
-        "route": "User chose foldable e-bike over scooter · do not order exact model pending LTA/NUS clearance",
-        "url": "https://www.lazada.sg/products/electric-folding-commuter-bike-20-inch-i13738552291-s124681339678.html",
-        "notes": "Not ordered. User decision 2026-07-21: do not buy a scooter; use a foldable electric-assist form factor, with this YADEA listing as the preferred reference. The group asked for opinions because KR4 is uphill and more than ten minutes from the nearest shuttle stop, and indoor folding/storage/charging is desired; no team feedback was present in the supplied excerpt. The listing is high-confidence matched to YADEA Innovator and was observed at about SGD 896.01 with 350 W mid-drive, 36 V 12 Ah battery and listed 60 km range. Published 350 W / about 23.8 kg exceeds Singapore PAB 250 W continuous-power / 20 kg unladen-weight limits, and the model was not found in the current LTA approved list. Keep as a requirements/comparison reference; shortlist a similar LTA-approved foldable model and confirm NUS route, parking, indoor charging/fire policy and written private-property exception if the exact item is still proposed."
       },
       {
         "row_id": "proc_2x_soundproof_phone_booths_dongyi_quote_20260718",
@@ -111,35 +111,27 @@
         "notes": "Quote received: RM Quotation For新加坡国际大学_260716.xls. Mutually exclusive bimanual-base option A; purchase either this RealMan pair or the Tianji CCS 696 pair, not both. Scope: 2x RM75-B-V 7-DoF visual-version arms, 5 kg payload each, discounted from USD 15,900 to USD 12,000 per arm (USD 24,000 total); one dual-arm mounting bracket at USD 700; shipping at USD 800; quoted package total USD 25,500. Terms: full payment by wire transfer once the order is confirmed, CFR Incoterm, 15 working days lead time after payment receipt, 12-month warranty from shipment, and one-week quotation validity from 2026-07-16. Before selection, compare against Tianji CCS 696 on reach, controller/SDK openness, force-control and synchronization support, bracket footprint, collision and E-stop setup, landed import cost, local support and acceptance owner."
       },
       {
-        "row_id": "loan_daimeng_gripper_singapore_archive",
-        "updated_at": "2026-07-16T05:54:52Z",
-        "item": "DaiMeng gripper / 戴盟夹爪",
-        "status": "Arrived",
-        "route": "DaiMeng loan · already in Singapore",
-        "notes": "Archive-only availability record. The DaiMeng gripper has already been borrowed and is in Singapore; do not include it in active procurement or the planned 2026-08-05 loan request. Keep exact asset or serial number, condition, lender/borrower owners and return terms in the private loan ledger rather than this dashboard."
-      },
-      {
         "row_id": "loan_daimeng_dataclaw_datapacket_umi_set_20260805",
         "updated_at": "2026-07-16T05:15:26Z",
-        "item": "Planned DaiMeng loan: 2x DM-DataClaw + DM-DataPacket / 戴盟新版 UMI 借测套装",
+        "item": "Planned Daimon loan: 2x DM-DataClaw + DM-DataPacket / 戴盟新版 UMI 借测套装",
         "status": "",
-        "route": "DaiMeng loan · confirm handover scope before possible Singapore hand-carry on 2026-08-05",
-        "notes": "Purpose: update the existing Singapore V1 UMI setup with the newer DaiMeng collection hardware. Requested inventory: DM25DA03G000 DM-DataClaw x2 and DM25DA03P000 DM-DataPacket x1. Confirm both grippers, backpack/packet unit, batteries and chargers, storage media, cables, mounts, spare consumables, firmware/SDK, calibration files, synchronization path and V1 data/schema compatibility. Record asset or serial numbers, a pre-handover capture smoke test, customs or temporary-loan paperwork, transport restrictions, responsible owners, handover date and return terms."
+        "route": "Daimon loan · confirm handover scope before possible Singapore hand-carry on 2026-08-05",
+        "notes": "Purpose: update the existing Singapore V1 UMI setup with the newer Daimon collection hardware. Requested inventory: DM25DA03G000 DM-DataClaw x2 and DM25DA03P000 DM-DataPacket x1. Confirm both grippers, backpack/packet unit, batteries and chargers, storage media, cables, mounts, spare consumables, firmware/SDK, calibration files, synchronization path and V1 data/schema compatibility. Record asset or serial numbers, a pre-handover capture smoke test, customs or temporary-loan paperwork, transport restrictions, responsible owners, handover date and return terms."
       },
       {
         "row_id": "loan_daimeng_datedex_glove_pair_20260805",
         "updated_at": "2026-07-16T05:15:26Z",
-        "item": "Planned DaiMeng loan: 2x DM-DateDex data-collection gloves / 戴盟无本体数采手套一对",
+        "item": "Planned Daimon loan: 2x DM-DateDex data-collection gloves / 戴盟无本体数采手套一对",
         "status": "",
-        "route": "DaiMeng loan · confirm handover scope before possible Singapore hand-carry on 2026-08-05",
+        "route": "Daimon loan · confirm handover scope before possible Singapore hand-carry on 2026-08-05",
         "notes": "Purpose: collect dexterous-hand tactile data in Singapore. Requested inventory: DM26DA04H000 DM-DateDex x2, treated as one glove pair. Confirm left/right configuration, glove sizes, tactile and pose channels, raw-data access, sampling and synchronization interfaces, controller/receiver, batteries and chargers, cables, software, calibration files and one acquisition smoke test. Record asset or serial numbers, working-condition evidence, customs or temporary-loan paperwork, transport restrictions, responsible owners, handover date and return terms."
       },
       {
         "row_id": "loan_daimeng_datamaster_teleop_set_20260805",
         "updated_at": "2026-07-16T05:15:26Z",
-        "item": "Planned DaiMeng loan: DM-DataMaster Hand + DM-DataMaster Station / 戴盟遥操作设备借测套装",
+        "item": "Planned Daimon loan: DM-DataMaster Hand + DM-DataMaster Station / 戴盟遥操作设备借测套装",
         "status": "",
-        "route": "DaiMeng loan · confirm handover scope before possible Singapore hand-carry on 2026-08-05",
+        "route": "Daimon loan · confirm handover scope before possible Singapore hand-carry on 2026-08-05",
         "notes": "Purpose: reproduce the teleoperation and test platform in Singapore. Requested inventory: DM25TO02H000 DM-DataMaster Hand x1 and DM25TO02S000 DM-DataMaster Station (stand version) x1. Before the handover is marked confirmed, freeze the complete packing list: gloves, station/stand, controllers, power supplies, chargers, cables, mounting hardware, calibration files, firmware/SDK and operating instructions. Record asset or serial numbers, working-condition evidence, lender/borrower owners, customs or temporary-loan paperwork, transport restrictions, handover date and return date; do not store signatures or private documents in the dashboard."
       },
       {
@@ -437,14 +429,6 @@
         "notes": "Excel rows include Dupont jumper wires x2, ESP32 Type-C board with expansion board, Mega2560 Pro Type-C boards x2, 0603 resistor and capacitor sample books, 30AWG five-color wire kits x2, and XGSP80 183C solder paste/flux. Use for lab wiring, embedded prototypes, and repair bench stock; after arrival inventory quantities and keep solder paste/flux labeled."
       },
       {
-        "row_id": "proc_a3_carbon_steel_hollow_tube_spacer",
-        "updated_at": "2026-07-07T20:59:00+08:00",
-        "item": "A3 carbon-steel hollow tube spacer / 碳钢铁 A3 空心套管通孔圆柱",
-        "status": "Arrived",
-        "route": "Taobao · 大鼎五金",
-        "notes": "Boris Taobao screenshot at 2026-07-07 20:59 shows this low-cost A3 carbon-steel hollow tube / through-hole round standoff row as 交易成功, visible price RMB 2.4. Screenshot is partially cropped; after receipt verify dimensions, bore, wall thickness, corrosion, and sharp edges before fixture use."
-      },
-      {
         "row_id": "proc_banfully_gray_cuttable_leather_desk_mat",
         "updated_at": "2026-07-07T20:59:00+08:00",
         "item": "BANFULLY gray cuttable leather desk mat / 灰色可裁剪皮革桌垫",
@@ -477,15 +461,6 @@
         "notes": "Boris Taobao screenshot at 2026-07-07 20:59: 2m x 1m x 1.0cm high-density sponge/foam sheet, paid RMB 29.8, status 待发货, seller expected to ship before 2026-07-09 21:00. Use as soft padding / fixture / scene material; after arrival verify thickness, density, flatness, shedding, and compression under robot contact."
       },
       {
-        "row_id": "proc_10x_3m_usb_3_0_extension_cables_3m_usb3_0",
-        "updated_at": "2026-07-07T17:45:18+08:00",
-        "item": "10x 3m USB 3.0 extension cables / 3m USB3.0延长线",
-        "status": "Ordered · buyer paid 2026-07-07",
-        "route": "Taobao · 仁朝数码旗舰店 · 订单数据.xlsx",
-        "notes": "Excel order 3311159846118004652: 10 pieces of 3m straight USB 3.0 male-to-female extension cable, nickel-plated anti-slip SKU. Paid RMB 205.99. After arrival verify USB 3.0 bandwidth, cable stiffness, and camera/sensor stability.",
-        "url": "https://item.taobao.com/item.htm?id=816560886724&mi_id=0000DCtLolnVtG14mHcP6OiP-jzY28MB8D9X9OPhq2ZEuho"
-      },
-      {
         "row_id": "proc_2x_1_to_3_usb_c_data_charging_cables",
         "updated_at": "2026-07-07T17:45:18+08:00",
         "item": "2x 1-to-3 USB-C data/charging cables / 数据线",
@@ -502,6 +477,15 @@
         "route": "Taobao · 明丽摄像头工厂店 · 订单数据.xlsx",
         "notes": "Excel order 3311589289721122681: four IMX415 wide-angle 4K / 8MP USB driverless camera modules, 120-degree no-distortion lens with 1m cable. Paid RMB 1028.97. After arrival verify USB bandwidth, frame rate, exposure controls, lens FOV, mounting, and synchronization feasibility.",
         "url": "https://item.taobao.com/item.htm?id=912787221463&mi_id=00003c9tOOZ3LIRG5x6Ds4UMyPSgRktPH3aOoPx2U7k9vHE"
+      },
+      {
+        "row_id": "proc_10x_3m_usb_3_0_extension_cables_3m_usb3_0",
+        "updated_at": "2026-07-07T17:45:18+08:00",
+        "item": "10x 3m USB 3.0 extension cables / 3m USB3.0延长线",
+        "status": "Ordered · buyer paid 2026-07-07",
+        "route": "Taobao · 仁朝数码旗舰店 · 订单数据.xlsx",
+        "notes": "Excel order 3311159846118004652: 10 pieces of 3m straight USB 3.0 male-to-female extension cable, nickel-plated anti-slip SKU. Paid RMB 205.99. After arrival verify USB 3.0 bandwidth, cable stiffness, and camera/sensor stability.",
+        "url": "https://item.taobao.com/item.htm?id=816560886724&mi_id=0000DCtLolnVtG14mHcP6OiP-jzY28MB8D9X9OPhq2ZEuho"
       },
       {
         "row_id": "proc_digital_caliper_150mm",
@@ -702,6 +686,22 @@
         "route": "Zheng Yuhang · Taobao",
         "notes": "User-provided Taobao candidate marked 假一赔四: Unitree SV1-25 small / mini embodied stereo binocular camera, RGB global-shutter USB camera. ClawCross WeChat evidence from Zheng Yuhang private chat: Boris asked Zheng to place the Taobao order on 2026-07-04, and Zheng replied that the camera would be ordered that day. Next verify tracking, arrival, SDK/driver availability, resolution/FPS, stereo calibration support, ROS/ROS2 or Python access, USB bandwidth, mount compatibility, cable length, and whether it fits wrist/head/fixed-view robot data collection.",
         "url": "https://e.tb.cn/h.RDPhRlxsna7j6Kg?tk=9lHzglSbASl"
+      },
+      {
+        "row_id": "loan_daimeng_gripper_singapore_archive",
+        "updated_at": "2026-07-16T05:54:52Z",
+        "item": "Daimon gripper / 戴盟夹爪",
+        "status": "Arrived",
+        "route": "Daimon loan · already in Singapore",
+        "notes": "Archive-only availability record. The Daimon gripper has already been borrowed and is in Singapore; do not include it in active procurement or the planned 2026-08-05 loan request. Keep exact asset or serial number, condition, lender/borrower owners and return terms in the private loan ledger rather than this dashboard."
+      },
+      {
+        "row_id": "proc_a3_carbon_steel_hollow_tube_spacer",
+        "updated_at": "2026-07-07T20:59:00+08:00",
+        "item": "A3 carbon-steel hollow tube spacer / 碳钢铁 A3 空心套管通孔圆柱",
+        "status": "Arrived",
+        "route": "Taobao · 大鼎五金",
+        "notes": "Boris Taobao screenshot at 2026-07-07 20:59 shows this low-cost A3 carbon-steel hollow tube / through-hole round standoff row as 交易成功, visible price RMB 2.4. Screenshot is partially cropped; after receipt verify dimensions, bore, wall thickness, corrosion, and sharp edges before fixture use."
       },
       {
         "row_id": "proc_hig_gesture_recognition_data_glove",

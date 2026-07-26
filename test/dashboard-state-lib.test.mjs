@@ -695,7 +695,7 @@ for (const project of state.projects) {
 const umiProject = state.projects.find((project) => project.doc.project_id === "umi-world-model")?.doc;
 assert.ok(umiProject, "UMI World Model project must stay mounted in dashboard state");
 const tactileWamProject = state.projects.find((project) => project.doc.project_id === "tactile-wam")?.doc;
-assert.ok(tactileWamProject, "DaiMeng VTAM / Tactile-WAM project must stay mounted in dashboard state");
+assert.ok(tactileWamProject, "Daimon VTAM / Tactile-WAM project must stay mounted in dashboard state");
 const realRobotInfraProject = state.projects.find((project) => project.doc.project_id === "real-robot-infra")?.doc;
 assert.ok(realRobotInfraProject, "Real-Robot Lab Infra project must stay mounted in dashboard state");
 assert.equal(realRobotInfraProject.summary || "", "", "Real-Robot Lab Infra intro summary should stay empty");
@@ -748,6 +748,49 @@ assert.ok(
     (reference) => reference?.url === "https://gammaworld-training-atlas.linslabnus.chatgpt.site/stage-3",
   ),
   "UMI references must retain the published Stage 3 report link",
+);
+assert.ok(
+  (umiProject.references || []).some(
+    (reference) => reference?.url === "https://research.neoteai.com/n0-twam/",
+  ),
+  "UMI references must retain N(0)-TWAM as a gated Stage 1 tactile-extension reference",
+);
+assert.equal(
+  tactileWamProject.title,
+  "Daimon VTAM / Tactile-WAM: Predictive Contact Intelligence",
+  "the project title must use the canonical Daimon spelling",
+);
+for (const url of [
+  "https://research.neoteai.com/n0-foundation/",
+  "https://huggingface.co/datasets/NeoteAIEmbodied/OpenNeoData",
+  "https://research.neoteai.com/n0-vtla/",
+  "https://research.neoteai.com/n0-twam/",
+]) {
+  assert.ok(
+    (tactileWamProject.references || []).some((reference) => reference?.url === url),
+    `Daimon VTAM must retain the N(0) reference ${url}`,
+  );
+}
+assert.ok(
+  (tactileWamProject.details || []).some((detail) =>
+    String(typeof detail === "string" ? detail : detail?.text).includes("N(0)-TWAM transfer decision 2026-07-26")),
+  "Daimon VTAM must retain the reviewed N(0)-TWAM transfer decision",
+);
+const n0ReleaseAuditTaskId = "task_tactile_wam_n0_release_audit_20260726";
+const n0ReleaseAuditTask = state.tasks.find((task) => task.task_id === n0ReleaseAuditTaskId);
+assert.equal(n0ReleaseAuditTask?.project_id, "tactile-wam");
+assert.equal(n0ReleaseAuditTask?.status, "todo");
+assert.equal(n0ReleaseAuditTask?.priority, "high");
+assert.equal(n0ReleaseAuditTask?.due_at, "2026-08-01");
+assert.equal(tactileWamProject.task_ids?.includes(n0ReleaseAuditTaskId), true);
+assert.doesNotMatch(
+  JSON.stringify({
+    portfolio: state.portfolio,
+    projects: state.projects.map((project) => project.doc),
+    tasks: state.tasks,
+  }),
+  /DaiMeng/,
+  "dashboard display text must not reintroduce the incorrect DaiMeng spelling",
 );
 const umiIntroTableExecutionFields = new Set([
   "owner",
@@ -876,19 +919,19 @@ const daimonPost2000Task = state.tasks.find((task) => task.task_id === daimonPos
 assert.equal(
   daimonPost2000Task?.project_id,
   "tactile-wam",
-  "DaiMeng causal_robot post-2000 smoke TODO belongs under DaiMeng VTAM / Tactile-WAM, not UMI",
+  "Daimon causal_robot post-2000 smoke TODO belongs under Daimon VTAM / Tactile-WAM, not UMI",
 );
 assert.equal(
   umiProject.task_ids?.includes(daimonPost2000TaskId),
   false,
-  "UMI project task_ids must not include the DaiMeng causal_robot post-2000 smoke TODO",
+  "UMI project task_ids must not include the Daimon causal_robot post-2000 smoke TODO",
 );
 assert.equal(
   tactileWamProject.task_ids?.includes(daimonPost2000TaskId),
   true,
-  "DaiMeng VTAM / Tactile-WAM task_ids should include the causal_robot post-2000 smoke TODO",
+  "Daimon VTAM / Tactile-WAM task_ids should include the causal_robot post-2000 smoke TODO",
 );
-const daimonOperationalPattern = /causal_robot_daimon|DaiMeng materialized|daimon_materialized|Daimon materialization|\/mnt\/data\/datasets\/daimon|post-2000 smoke|iter_000002000|10Kh queue\/download gate/i;
+const daimonOperationalPattern = /causal_robot_daimon|Daimon materialized|daimon_materialized|Daimon materialization|\/mnt\/data\/datasets\/daimon|post-2000 smoke|iter_000002000|10Kh queue\/download gate/i;
 for (const task of state.tasks.filter((candidate) => candidate.project_id === "umi-world-model" && candidate.status !== "done")) {
   const taskText = [
     task.title,

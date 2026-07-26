@@ -4,7 +4,7 @@
   "title": "UMI Image Layered World Model",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-07-26T09:26:17.169Z",
+  "updated_at": "2026-07-26T09:57:18.536Z",
   "description": "UMI Image Layered World Model: three linked papers covering multi-view robot video world modeling, manipulation-video dynamics decomposition into reusable layers, and layered data as a downstream VLA/IDM/reward training interface.",
   "summary": "UMI is a three-stage program over one shared layer_manifest substrate: Stage 1 learns streaming multi-view world dynamics, Stage 2 decomposes manipulation video into reusable layers, and Stage 3 turns those layers into motion state, reward and robot utility. Stage 1 and Stage 3 specifications live in the GammaWorld Training Atlas; the dashboard tracks execution tasks and evidence.",
   "subprojects": [
@@ -607,6 +607,13 @@
       "submitted_at": "2026-06-30",
       "type": "reference only / marketing-grade",
       "notes": "Reference-only from the 2026-07-25 interactive-WM comparison; treat every claim as marketing-grade because the report contains zero quantitative numbers (no params, fps, data scale, or benchmark scores -- only a 1,000-sample GSB human eval on their own Vivix-Bench) and the model is commercial-API-only. Architecture claims worth keeping: real-time full-duplex streaming that emits small multimodal segments incrementally, sink tokens + reference anchors for long-horizon stability, a Director Agent for higher-level reasoning, and distillation ('Multidimensional Joint Distillation' + self-distribution consistency) down to 2-step inference. Use only as feasibility evidence that 2-step streaming students and sink-token identity anchors work at production scale; do not cite numbers from it. Character-level action space (audio/text/visual reference -> full-body motion), single-view."
+    },
+    {
+      "title": "N(0)-TWAM: tactile-native world-action training reference",
+      "url": "https://research.neoteai.com/n0-twam/",
+      "submitted_at": "2026-07-25",
+      "category": "stage1-tactile-extension",
+      "notes": "Gated Stage 1 extension reference, not a Matrix 3.5 replacement: align multi-view RGB, per-finger tactile and canonical bimanual 20D action; pretrain future-touch prediction before enabling current-touch conditioning; test missing-tactile fallback and asymmetric expert caching. Keep the verified sampler-time SE(3) action contract rather than N(0)-TWAM's reported element-wise rot6d subtraction. Code and weights remain scheduled for 2026-07-31."
     }
   ],
   "risks_decisions": [
@@ -623,7 +630,7 @@
     "Layering risk: SAM3/SAM2.1 masks and VACE/FLUX.fill/LaMa inpaint should preserve canvas size and coordinates so layers can be overlaid without manual alignment. If inpaint shifts geometry, the result is not acceptable even if the hole looks plausible.",
     "Stage 3 utility decision: scene layer validation targets RoboEngine-style augmentation; rigid/articulated object validation targets FoundationPose, Fast-FoundationStereoPhysics, Orient-Anything, and Any6D; deformable object validation targets AllTracker plus Video Depth Anything, D4RT, CoTracker, and Any4D; robot layer validation targets Dr. Robot and wrist-view ORB-SLAM3 / VGGT-SLAM. FoundationPose remains a baseline, not the whole validation plan.",
     "Risk 2026-06-27: the three stages can blur together. Keep Stage 1 about shared-view world modeling, Stage 2 about decomposition/reconstruction interfaces, and Stage 3 about downstream VLA/IDM/reward utility; avoid moving training logs into the intro.",
-    "Dataset-source guardrail 2026-06-28: Datasets Bot can seed Stage 2/3 candidate data, including datasets already used by this project, but it is not an automatic allowlist. Candidate rows must be re-audited for license, physical/sim split, camera/action schema, task overlap with current Hoi/MolmoAct/RealOmni/AGI-World/DaiMeng splits, and downstream leakage before training or reporting.",
+    "Dataset-source guardrail 2026-06-28: Datasets Bot can seed Stage 2/3 candidate data, including datasets already used by this project, but it is not an automatic allowlist. Candidate rows must be re-audited for license, physical/sim split, camera/action schema, task overlap with current Hoi/MolmoAct/RealOmni/AGI-World/Daimon splits, and downstream leakage before training or reporting.",
     "Training-data guardrail 2026-06-27: treat data_umi_robot189_10k as 10,000 total loader-visible clips, not automatically 10,000 train examples under val_holdout_frac=0.06. New Gamma/Wan/Cosmos ablations must log the data_root override and whether controlled duplicates are included.",
     "Gamma-UMI action-schema guardrail 2026-06-27: future Gamma robot routes should normalize continuous pose/rot6d action dimensions if action_stats.json is present, but keep gripper raw unless a separate gripper ablation proves normalization helps. Current running Stage3 predates this change; new 10k early-teacher / DMD ablations explicitly set normalize_gripper=false.",
     "Robot189 validator guardrail 2026-07-05: keep fixed-189 validation as the default for 10Kh/XRZero-style sampled roots, but validate data_umi_robot189_daimon_materialized with --allow-variable-action-frames --min-action-frames 189 --check-lr-same-length. Otherwise Daimon variable-length actions are misclassified as partial even though Gamma loader smoke can sample 189 frames successfully.",

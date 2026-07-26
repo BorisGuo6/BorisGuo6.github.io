@@ -1,12 +1,12 @@
 {
   "schema_version": "project.v1",
   "project_id": "tactile-wam",
-  "title": "DaiMeng VTAM / Tactile-WAM: Predictive Contact Intelligence",
+  "title": "Daimon VTAM / Tactile-WAM: Predictive Contact Intelligence",
   "bucket": "survey",
   "status": "survey",
-  "updated_at": "2026-07-18T02:13:56.589Z",
-  "description": "DaiMeng internship research project: merge VTLA tactile-intuition survey and VTAM/Tactile-WAM proposal into one active Predictive Contact Intelligence track for dexterous manipulation.",
-  "summary": "DaiMeng VTAM turns the VTLA tactile-intuition survey into an active internship project: From Reactive Manipulation to Proactive Manipulation. The merged track treats future tactile/contact latents as an Internal Contact Model and builds a Vision-Tactile-Action World Model with a Temporal Action-Token Shared-World architecture rather than simple vision/tactile feature concatenation. Fast contact/action rollout, visual/layer latent cache, contact-triggered sparse compute, and System-0/System-1 control are the execution path; validation is contact timing, slip/contact risk, actual/zero/wrong-action separation, latency/Hz/VRAM, and contact-rich task success.",
+  "updated_at": "2026-07-26T09:57:18.536Z",
+  "description": "Daimon internship research project: merge VTLA tactile-intuition survey and VTAM/Tactile-WAM proposal into one active Predictive Contact Intelligence track for dexterous manipulation.",
+  "summary": "Daimon VTAM turns the VTLA tactile-intuition survey into an active internship project: From Reactive Manipulation to Proactive Manipulation. The merged track treats future tactile/contact latents as an Internal Contact Model and builds a Vision-Tactile-Action World Model with a Temporal Action-Token Shared-World architecture rather than simple vision/tactile feature concatenation. Fast contact/action rollout, visual/layer latent cache, contact-triggered sparse compute, and System-0/System-1 control are the execution path; validation is contact timing, slip/contact risk, actual/zero/wrong-action separation, latency/Hz/VRAM, and contact-rich task success.",
   "subprojects": [
     {
       "id": "universal-tactile-encoder",
@@ -34,7 +34,7 @@
     },
     {
       "id": "contact-rich-benchmark",
-      "name": "DaiMeng contact-rich benchmark",
+      "name": "Daimon contact-rich benchmark",
       "status": "planned",
       "summary": "Evaluate stable grasp/slip suppression, in-hand adjustment, plug/pin insertion, card sliding, wiping, tool use, disturbance recovery, safety force, smoothness, and cross-object generalization."
     },
@@ -46,13 +46,13 @@
     }
   ],
   "asset": "dashboard/assets/umi-three-system-vtam-architecture-20260629.png",
-  "asset_alt": "Three-system UMI World Model and VTAM architecture: System 2 UMI World Simulator, System 1 layered world action model, and System 0 DaiMeng VTLA contact servo.",
-  "asset_caption": "Three-system VTAM architecture: DaiMeng VTAM owns the System-0 high-frequency tactile servo and its interface to System-1 layered world-action refinement and System-2 UMI world simulation.",
+  "asset_alt": "Three-system UMI World Model and VTAM architecture: System 2 UMI World Simulator, System 1 layered world action model, and System 0 Daimon VTLA contact servo.",
+  "asset_caption": "Three-system VTAM architecture: Daimon VTAM owns the System-0 high-frequency tactile servo and its interface to System-1 layered world-action refinement and System-2 UMI world simulation.",
   "visual": {
     "layout": "standard"
   },
   "details": [
-    "Dashboard routing rule 2026-07-07: causal_robot_daimon checkpoint smoke, DaiMeng materialized robot189/Gamma roots, and Daimon queue/load gates are tracked here; UMI World Model should only consume their summarized evidence as Stage 1 input.",
+    "Dashboard routing rule 2026-07-07: causal_robot_daimon checkpoint smoke, Daimon materialized robot189/Gamma roots, and Daimon queue/load gates are tracked here; UMI World Model should only consume their summarized evidence as Stage 1 input.",
     "GE-Sim 2.0 reproduction path 2026-06-27: use the released GE-Sim-V2 repo and Genie-Envisioner-Sim v2.0 checkpoint as the first reproducible base for VTAM. Baseline goal is action-conditioned multi-view robot video rollout; VTAM extension adds contact/tactile latent prediction, pseudo tactile labels from contact/mask/proprio/object-slip signals, and a WAM state/action/contact rollout with actual/zero/wrong-action and contact-timing gates.",
     "Origin: this was discussed with the Wuji team on 2026-06-11 as a Tactile-WAM proposal. The key shift is to stop treating tactile as only another observation channel; tactile should become the contact-grounding signal that turns video imagination into action-capable prediction.",
     "Demo 3 first: use an external camera to observe human hand / arm motion, retarget that motion into the video model, and generate a robot arm + dexterous hand performing the same interaction. This should be a video-model demo, not necessarily immediate real-robot control.",
@@ -62,20 +62,20 @@
     "Why this relates to Tri-View / Image-Layered IDM: the robot arm/hand video generator and layer decomposition provide the visual state backbone. Tactile-WAM adds a contact-state head and then an action head, especially for tasks where visual evidence alone cannot determine contact.",
     "Why this relates to DexGello: DexGello can provide aligned real data for arm/hand/finger state, while Wuji tactile / glove streams can provide tactile supervision. Tactile-WAM can use that data to train video-to-touch and touch-to-action components.",
     "Good first benchmark families: pressing, wiping, grasping, in-hand adjustment, cutting/peeling, and assembly/insertion. Choose tasks where tactile is genuinely necessary: occlusion, slip, force threshold, contact/no-contact ambiguity, or object deformation.",
-    "DaiMeng proposal update 2026-06-27: promote this card from Survey to ongoing Research because VTAM is now a live proposal/project track. The dashboard framing should use VTAM as the proposal name and Tactile-WAM as the technical mechanism: video-to-touch prediction plus action decoding for contact-rich manipulation.",
+    "Daimon proposal update 2026-06-27: promote this card from Survey to ongoing Research because VTAM is now a live proposal/project track. The dashboard framing should use VTAM as the proposal name and Tactile-WAM as the technical mechanism: video-to-touch prediction plus action decoding for contact-rich manipulation.",
     "Ongoing execution scope: build data alignment first (external/RGB-D video, wrist/hand video, Wuji qpos/tactile streams, robot state/action, timestamps, calibration snapshot), then run the three-stage demo: retargeted robot video generation, video-to-tactile/contact prediction, and action-head / WAM decoding.",
-    "DaiMeng proposal extraction 2026-06-27: the updated 2026-06-26 proposal is titled “面向灵巧操作的预测式接触智能研究 / From Reactive Manipulation to Proactive Manipulation / 基于 Vision-Tactile-Action World Model 的主动接触操作框架.” It reframes VTAM as predictive contact intelligence: future tactile latent is the Internal Contact Model, not an auxiliary sensor feature.",
+    "Daimon proposal extraction 2026-06-27: the updated 2026-06-26 proposal is titled “面向灵巧操作的预测式接触智能研究 / From Reactive Manipulation to Proactive Manipulation / 基于 Vision-Tactile-Action World Model 的主动接触操作框架.” It reframes VTAM as predictive contact intelligence: future tactile latent is the Internal Contact Model, not an auxiliary sensor feature.",
     "Proposal technical core 2026-06-27: high-efficiency VTAM should be a Temporal Action-Token Shared-World Model, not generic vision/tactile feature concatenation or a plain video-model finetune. Token streams: visual tokens, tactile/contact tokens, temporal action tokens, and shared-world tokens. The model predicts future tactile/contact latent trajectories, contact risk, action latent/action chunks, and optional video rollout.",
     "Proposal acceleration path 2026-06-27: use a fast contact/action path. Visual features or robot/object/background layer latents are cached at low frequency; tactile/contact latents and temporal action tokens roll out at higher frequency; heavy video/high-dimensional tactile decoders are used only for training supervision, visualization, or key planning branches. Add contact-triggered sparse compute and teacher-student distillation.",
     "Proposal control architecture 2026-06-27: System-1 is the low-frequency contact world model, planned at roughly 5-20 Hz, predicting future tactile/contact state, risk, and action chunks. System-0 is a high-frequency tactile servo, roughly 50-100 Hz or higher, comparing observed tactile latent with predicted target tactile latent and outputting residual corrections such as finger micro-motion, normal-force adjustment, tangential slip compensation, or insertion alignment.",
     "Proposal prior-work chain 2026-06-27: OmniViTac establishes large-scale vision-tactile-action data and tactile locality/contact-triggered value; OmniVTA shows future touch as predictive contact representation with TactileVAE and visuo-tactile world modeling; TacForeSight shows future touch as action guidance through force-conditioned tactile latent prediction and predictive tactile-conditioned policy. VTAM is the next step: an internal contact model plus active control loop.",
     "Proposal evaluation update 2026-06-27: evaluation must go beyond task success and visual plausibility. Required metrics include tactile prediction error, contact timing error, slip/contact risk error, actual/zero/wrong-action gate, latency per step, control Hz, VRAM, teacher-student error, disturbance recovery time, slip count, safe force thresholds, action smoothness, and cross-object/position/tool generalization.",
-    "Merge decision (2026-06-27): Merge the old VTLA / Tactile Intuition survey card into DaiMeng VTAM/Tactile-WAM. VTLA remains the representation and benchmark substrate; the active Research card is the DaiMeng internship project focused on predictive contact intelligence.",
+    "Merge decision (2026-06-27): Merge the old VTLA / Tactile Intuition survey card into Daimon VTAM/Tactile-WAM. VTLA remains the representation and benchmark substrate; the active Research card is the Daimon internship project focused on predictive contact intelligence.",
     "Proposal core: The proposal goal is a Vision-Tactile-Action World Model that predicts future tactile/contact latents and action chunks before contact failure happens. The important design choice is a Temporal Action-Token Shared-World Model, not just concatenating vision and touch features or finetuning a video generator.",
     "Deployment contract: The fast path should roll out low-dimensional contact/action/tactile latents; heavyweight video generation stays as supervision, visualization, or selected planning branches. A pass requires latency/memory reporting, actual-vs-zero-vs-wrong-action gates, contact timing, slip/contact risk, and task-level manipulation success.",
     "System-0 / System-1 loop: System-1 runs predictive VTAM at planning frequency, while System-0 runs high-frequency tactile servo control by comparing predicted tactile latent with current tactile latent and emitting residual corrections for slip, overload, misalignment, or impending contact failure.",
     "World-model-guided VLA refinement update 2026-06-29: the BAAI seminar slide is effectively the policy-improvement loop version of VTAM. For contact-rich insertion, pressing, screwing, and assembly, let the pretrained VLA provide semantic/coarse motion, use a reward/contact model to detect the contact-rich phase, sample multiple candidate contact trajectories, score them through imagined VTAM/world-model rollouts, then stitch the selected segment back into the trajectory as post-training data. This should be tracked as an evaluation and refinement protocol, not just as a visual rollout demo.",
-    "UMI2Render2Real subproject 2026-06-30: from the personal presentation UMI2Render2Real pages, the intended loop is: large UMI-device datasets -> scan object -> scan scene -> retarget UMI trajectory -> render robot data with LeHome-style household/cooking scenes -> apply to the real robot while explicitly modeling the Render2Real gap. In DaiMeng VTAM this becomes the sixth subproject: a local-workstation pipeline for producing semi-teleop robot data and testing whether rendered trajectories plus tactile/contact supervision improve predictive contact intelligence.",
+    "UMI2Render2Real subproject 2026-06-30: from the personal presentation UMI2Render2Real pages, the intended loop is: large UMI-device datasets -> scan object -> scan scene -> retarget UMI trajectory -> render robot data with LeHome-style household/cooking scenes -> apply to the real robot while explicitly modeling the Render2Real gap. In Daimon VTAM this becomes the sixth subproject: a local-workstation pipeline for producing semi-teleop robot data and testing whether rendered trajectories plus tactile/contact supervision improve predictive contact intelligence.",
     {
       "text": "[KNOWN][HIGH] OSMO is the direct prior for the shared tactile-carrier idea: the same stretchable magnetic tactile glove is worn by the human demonstrator and a biomimetic robot hand, reducing both visual and tactile embodiment gaps while transferring continuous normal and shear signals. Its wiping policy is trained only on 140 human demonstrations (about two hours, no real-robot training data) and reports 71.69% mean task completion versus 55.75% for vision plus proprioception over 12 rollouts. [INFERRED][HIGH] For VTAM, this validates matched sensor topology as a data-collection primitive but closes the novelty of \"human and robot wear the same glove\" by itself; the defensible extension is cross-device tactile latents, predictive contact/action modeling, and multi-task transfer beyond one matched human/robot glove and one wiping setup.",
       "links": [
@@ -97,8 +97,8 @@
         }
       ]
     },
-    "[KNOWN][HIGH] Event-camera cross-reference updated 2026-07-15: detailed evidence now lives in Survey: Event-Camera VLA / World Model Sensor Survey. [INFERRED][HIGH] DaiMeng VTAM should consume synchronized event features only after the Survey shows marginal value over 120 fps RGB, pseudo-events, and existing tactile streams; event hardware is not a VTAM mainline dependency yet.",
-    "[KNOWN][HIGH] SpikingTac cross-reference 2026-07-15: the Event-Camera Survey now tracks a separate neuromorphic visuotactile branch using a sealed marker-and-gel optical stack for 1000 Hz contact transients and 350 Hz marker tracking. [INFERRED][HIGH] DaiMeng VTAM may consume this as a candidate high-frequency contact stream only after independent reproduction against high-FPS RGB visuotactile and existing tactile/force baselines; this cross-reference does not reopen completed VTAM TODOs.",
+    "[KNOWN][HIGH] Event-camera cross-reference updated 2026-07-15: detailed evidence now lives in Survey: Event-Camera VLA / World Model Sensor Survey. [INFERRED][HIGH] Daimon VTAM should consume synchronized event features only after the Survey shows marginal value over 120 fps RGB, pseudo-events, and existing tactile streams; event hardware is not a VTAM mainline dependency yet.",
+    "[KNOWN][HIGH] SpikingTac cross-reference 2026-07-15: the Event-Camera Survey now tracks a separate neuromorphic visuotactile branch using a sealed marker-and-gel optical stack for 1000 Hz contact transients and 350 Hz marker tracking. [INFERRED][HIGH] Daimon VTAM may consume this as a candidate high-frequency contact stream only after independent reproduction against high-FPS RGB visuotactile and existing tactile/force baselines; this cross-reference does not reopen completed VTAM TODOs.",
     {
       "text": "[KNOWN][HIGH] 2026-07-17 soft-sensor paper audit: E-slime is a published 2024 Advanced Functional Materials epidermal strain-sensing material, but the supplied image is a mixed research-trajectory slide rather than a clean paper figure. ML-sensor is now the published 2026 Advanced Science paper A Soft Mechanoluminescent Skin for High-Resolution Optical Tactile Sensing in Human-Machine Interaction. [KNOWN][HIGH] No retrievable DOI, preprint, or public project page was located for the supplied RoboTac Skin or Ther-Tac / T-Tac labels as of this audit; their high-information design slides remain useful as explicitly labeled presentation context, not published-paper evidence. [INFERRED][HIGH] For VTAM, the three retained slides span conformable contact skin, active thermal material sensing, and vision-native normal-force imaging, but none alone establishes predictive action or robot-policy gains.",
       "links": [
@@ -124,6 +124,27 @@
           "url": "https://doi.org/10.1007/978-981-99-6495-6_15"
         }
       ]
+    },
+    {
+      "text": "[KNOWN][HIGH] N(0)-TWAM transfer decision 2026-07-26: the technical report is the closest direct external reference for Daimon VTAM / Tactile-WAM. It jointly predicts future video, tactile and action with asymmetric video/tactile/action experts connected by shared attention; separates predicted future touch from observed current-touch conditioning; uses tactile-event punctuation for long-horizon stages; and caches the expensive predicted branches while re-running a slim action expert. The report describes a 7.16B model, 30,000 pre-training steps at effective batch 512 on 128 H800 GPUs, so full from-scratch reproduction is not the near-term plan. [INFERRED][HIGH] Adopt the structure through a small matched probe: RGB/action baseline, +future-touch expert, +current-touch pathway, and dual pathway, with identical data/compute and quality, actual/zero/wrong-action, latency, VRAM and missing-sensor gates. Preserve lossless typed tactile sidecars and use absent-token dropout rather than zero-image placeholders. [GUARDRAIL][HIGH] Do not replace the validated sampler-time relative SE(3) contract with the report's element-wise rot6d subtraction; do not copy its exact 387-frame/10fps window or 1:1:1 loss weights without an ablation; and do not call the model open-source until the promised code and weights are actually published and provenance-checked.",
+      "links": [
+        {
+          "label": "N(0)-Foundation",
+          "url": "https://research.neoteai.com/n0-foundation/"
+        },
+        {
+          "label": "OpenNeoData",
+          "url": "https://huggingface.co/datasets/NeoteAIEmbodied/OpenNeoData"
+        },
+        {
+          "label": "N(0)-VTLA",
+          "url": "https://research.neoteai.com/n0-vtla/"
+        },
+        {
+          "label": "N(0)-TWAM",
+          "url": "https://research.neoteai.com/n0-twam/"
+        }
+      ]
     }
   ],
   "task_ids": [
@@ -144,7 +165,8 @@
     "task_hardware_psa_three_finger_gripper",
     "task_hardware_manus_two_finger_retargeting",
     "task_hardware_two_finger_tactile_gripper_platform",
-    "task_hardware_six_dof_tactile_calibration_platform"
+    "task_hardware_six_dof_tactile_calibration_platform",
+    "task_tactile_wam_n0_release_audit_20260726"
   ],
   "references": [
     {
@@ -252,7 +274,7 @@
       "arxiv_id": "2606.16370",
       "category": "data-capture",
       "kb_path": "papers/paper-art-glove-articulated-tactile-glove-for-contact-grounded-dexterous-interaction-capture-bddc933c.md",
-      "notes": "Relevant for human-side tactile/dexterous interaction capture and for designing DaiMeng/Wuji dataset synchronization fields."
+      "notes": "Relevant for human-side tactile/dexterous interaction capture and for designing Daimon/Wuji dataset synchronization fields."
     },
     {
       "title": "TacVerse: A Multi-Sensor Dataset and Benchmark for Cross-Sensor Vision-Based Tactile Perception",
@@ -326,7 +348,7 @@
       "notes": "Industry reference for deriving robot actions from text-conditioned video generation; useful framing for video-model-to-action conversion."
     },
     {
-      "title": "DaiMeng VTAM proposal update, 2026-06-26",
+      "title": "Daimon VTAM proposal update, 2026-06-26",
       "notes": "Local DOCX extracted on 2026-06-27. Key additions: Temporal Action-Token Shared-World Model, fast contact/action path, System-0/System-1 active contact control, and explicit latency/action-gate/contact-risk evaluation."
     },
     {
@@ -388,6 +410,34 @@
       "doi": "10.1007/978-981-99-6495-6_15",
       "category": "citation-disambiguation",
       "notes": "[KNOWN][HIGH] Published ICIRA 2023 sensor with modular sense, receptor, and adapter modules around camera-based gel tactile sensing. Same acronym, different hardware and contribution from the magnetic MC-Tac presentation prototype."
+    },
+    {
+      "title": "N(0)-Foundation: Towards the Age of Tactile Intelligence",
+      "url": "https://research.neoteai.com/n0-foundation/",
+      "submitted_at": "2026-07-26",
+      "category": "tactile-foundation",
+      "notes": "Primary report for NeoData, the released 5,000-hour OpenNeoData subset, N(0)-TacUMI, the NeoForce three-axis force-field representation, and NeoReal/NeoSim evaluation. OpenNeoData is released; NeoForce code and weights are still scheduled for 2026-07-31."
+    },
+    {
+      "title": "OpenNeoData",
+      "url": "https://huggingface.co/datasets/NeoteAIEmbodied/OpenNeoData",
+      "submitted_at": "2026-07-26",
+      "category": "visuo-tactile-dataset",
+      "notes": "Released 5,000-hour subset spanning six embodiments, 250+ tasks and 200+ skills. Use as a data-schema and benchmark reference; do not silently mix it into the current pure-UMI Stage 1 corpus."
+    },
+    {
+      "title": "N(0)-VTLA: Scaling Vision-Tactile-Language-Action Model with Latent Tactile Tokens",
+      "url": "https://research.neoteai.com/n0-vtla/",
+      "submitted_at": "2026-07-26",
+      "category": "vision-tactile-language-action",
+      "notes": "Reference for predicting future tactile latents, staged tactile-pathway integration, and ALTER deployment-failure/progress learning. The repository is currently a release stub; model code and weights are scheduled for 2026-07-31."
+    },
+    {
+      "title": "N(0)-TWAM: Scaling Tactile-Native World Action Model",
+      "url": "https://research.neoteai.com/n0-twam/",
+      "submitted_at": "2026-07-25",
+      "category": "tactile-world-action-model",
+      "notes": "Closest large-scale architecture reference for Daimon Tactile-WAM: video, tactile and action experts share attention; future vision and tactile are co-generated before action; observed touch separately conditions action; caching and asynchronous execution keep the action loop light. The repository is currently a report/README stub, with code and weights scheduled for 2026-07-31."
     }
   ],
   "risks_decisions": [
@@ -396,18 +446,18 @@
     "Action-decoding risk: a WAM head must be evaluated on executable actions, not only video fidelity. The acceptance metric should include action plausibility, robot limits, contact success, and rollout consistency.",
     "Data-alignment risk: tactile is high-frequency and local, while video is lower-frequency and global. The logger must preserve timestamps, calibration, contact frames, and sensor metadata.",
     "Novelty boundary: VT-WM and OmniVTA already cover visuo-tactile world models. The differentiator should be external-camera retargeted robot-video generation plus tactile-grounded WAM action output.",
-    "Status decision 2026-06-27: move VTAM / Tactile-WAM from Survey to ongoing Research. It should now be tracked as an active DaiMeng/Wuji proposal project rather than only a tactile representation idea.",
+    "Status decision 2026-06-27: move VTAM / Tactile-WAM from Survey to ongoing Research. It should now be tracked as an active Daimon/Wuji proposal project rather than only a tactile representation idea.",
     "Proposal decision 2026-06-27: dashboard should track this as VTAM / Predictive Contact Intelligence, with Tactile-WAM as the video-to-touch-to-action path. The contribution claim is proactive contact manipulation through future tactile/contact latent prediction and fast action rollout, not only tactile sensing or multimodal fusion.",
     "Architecture boundary 2026-06-27: avoid a video-first architecture where every control step decodes full future frames. Online control should use low-dimensional contact/action latents; video rollout is optional for training, visualization, and audit.",
     "Acceptance boundary 2026-06-27: do not accept demos based only on pretty video or qualitative tactile maps. A passing VTAM demo must separate actual actions from zero/wrong actions, predict contact timing/slip risk, show latency/Hz/VRAM numbers, and improve at least one contact-rich manipulation task under perturbation.",
-    "Decision: retire separate VTLA Survey card: Keep one live card under Research. The merged card owns VTLA representation work, Wuji/Franka/HOI benchmark selection, VTAM architecture, and DaiMeng internship deliverables.",
+    "Decision: retire separate VTLA Survey card: Keep one live card under Research. The merged card owns VTLA representation work, Wuji/Franka/HOI benchmark selection, VTAM architecture, and Daimon internship deliverables.",
     "Risk: visual quality alone is the wrong success metric: The proposal should not pass because generated video looks plausible. It must pass contact prediction, action separation, latency, memory, servo stability, and contact-rich task success metrics.",
     "[KNOWN][HIGH] OSMO novelty boundary 2026-07-17: a shared glove on the human and robot, direct transfer of normal/shear tactile signals, and policy training without robot demonstrations are already demonstrated. [INFERRED][HIGH] VTAM must not claim the matched glove alone; require cross-device or cross-morphology tactile normalization, predictive contact/action utility, and gains across multiple contact-rich tasks or unseen objects, with an ablation against unmatched sensor layouts.",
     "Refinement decision 2026-06-29: BAAI-style imagined trajectory scoring belongs inside VTAM as a contact-rich policy refinement protocol. The reward/contact model must explicitly identify contact phase entry; otherwise the loop degenerates into generic video rollout ranking.",
     "[KNOWN][HIGH] Image Context decision 2026-07-18: retain the RoboTac Skin, Ther-Tac and ML-sensor design/application slides, and add one MC-Tac task-level slide showing contact-response traces and ring placement. Skip the mixed E-slime/RoboTac/T-Tac roadmap slide because it is a temporary composite, and skip the MC-Tac modeling slide because the retained task slide already covers the same prototype more directly. [INFERRED][HIGH] MC-Tac remains presentation evidence with unresolved publication identity; do not map either the 2023 camera-based MC-Tac or the related 2026 magnetic-cilia paper onto it."
   ],
   "timeline": {
-    "target_cycle": "DaiMeng VTAM internship project",
+    "target_cycle": "Daimon VTAM internship project",
     "target_note": "Phase 0-3 path from offline VTAM/Tactile-WAM data preparation to temporal action-token model, fast rollout, and System-0 tactile servo validation.",
     "milestones": [
       {

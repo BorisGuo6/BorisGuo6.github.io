@@ -170,7 +170,7 @@ async function main() {
     if (item.label !== "A") return item;
     return {
       ...item,
-      body: "Paper 1 learns a shared-scene, multi-view robot world model from synchronized wrist/head/fixed views and pose/action sidecars. The Robot Layer branch imports URDF/FK, commanded/measured motion, skeleton/mesh controls, and calibrated third-person/wrist cameras as explicit action-conditioned references inside UMI, not as a standalone Research card. Durable data context: DaiMeng/Jingdu-style material has roughly 943 usable dual-arm hours after filtering single-arm episodes.",
+      body: "Paper 1 learns a shared-scene, multi-view robot world model from synchronized wrist/head/fixed views and pose/action sidecars. The Robot Layer branch imports URDF/FK, commanded/measured motion, skeleton/mesh controls, and calibrated third-person/wrist cameras as explicit action-conditioned references inside UMI, not as a standalone Research card. Durable data context: Daimon/Jingdu-style material has roughly 943 usable dual-arm hours after filtering single-arm episodes.",
       output: "Durable output: multi-view robot-video rollout metrics, the Stage 1 evaluation protocol, and controlled comparisons between compact pose/action sidecars and explicit URDF/camera/Robot Layer reference bundles.",
     };
   });

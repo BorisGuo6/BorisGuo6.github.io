@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-07-26T09:15:57.364Z",
+  "updated_at": "2026-07-26T09:57:18.536Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -8752,7 +8752,7 @@
           "author": "Codex dashboard",
           "author_type": "system",
           "kind": "comment",
-          "body": "Marked done on 2026-06-30 per Boris direction: the Stage 3 layer-utility tool map has been promoted into the UMI intro/layer-utility framing. The remaining work should be narrower DaiMeng-data-backed experiments, not this broad FoundationPose/geometry/retargeting scoping TODO.",
+          "body": "Marked done on 2026-06-30 per Boris direction: the Stage 3 layer-utility tool map has been promoted into the UMI intro/layer-utility framing. The remaining work should be narrower Daimon-data-backed experiments, not this broad FoundationPose/geometry/retargeting scoping TODO.",
           "created_at": "2026-06-30T01:01:25.960Z"
         },
         {
@@ -10039,7 +10039,7 @@
           "author": "Boris / Codex",
           "author_type": "system",
           "kind": "comment",
-          "body": "[USER-PROVIDED YONGXI CHAT 2026-07-21] Current comparison evidence remains limited to UMI wrist/first-person inputs, where X2SAM performed better; the third-person same-input comparison is still pending and must not be reported as a verified RoboSeg win. Cloak-VLA's mask-processing pipeline is not open sourced, so it cannot be tested. DaiMeng data layered decomposition remains a higher-priority conditional input if the current pipeline quality is insufficient; it has not been completed. Haoyu has Alibaba Cloud full access and is asked to help transfer a subset to Yongxi's AutoDL host or a lab workstation; no account, token, signed URL or credential belongs in Dashboard state.",
+          "body": "[USER-PROVIDED YONGXI CHAT 2026-07-21] Current comparison evidence remains limited to UMI wrist/first-person inputs, where X2SAM performed better; the third-person same-input comparison is still pending and must not be reported as a verified RoboSeg win. Cloak-VLA's mask-processing pipeline is not open sourced, so it cannot be tested. Daimon data layered decomposition remains a higher-priority conditional input if the current pipeline quality is insufficient; it has not been completed. Haoyu has Alibaba Cloud full access and is asked to help transfer a subset to Yongxi's AutoDL host or a lab workstation; no account, token, signed URL or credential belongs in Dashboard state.",
           "created_at": "2026-07-21T10:43:25.017Z"
         }
       ],
@@ -11542,7 +11542,7 @@
       "description": "基于 2026-06-26 戴盟 VTAM proposal，先实现可插拔 Universal Tactile Encoder：输入 Marker Flow / tactile image / 多指触觉序列，输出统一 z_tac latent。Acceptance: 数据 schema、训练配置、模型权重或最小 checkpoint、finger identity/contact-region positional encoding、future latent prediction/reconstruction 指标、slip/contact stability 相关性、可接入 VTAM/System-0 的推理接口。",
       "status": "done",
       "priority": "high",
-      "assignee": "Boris / DaiMeng VTAM / Wuji",
+      "assignee": "Boris / Daimon VTAM / Wuji",
       "result": null,
       "comments": [],
       "updated_at": "2026-06-29T15:51:17.975Z",
@@ -11556,7 +11556,7 @@
       "description": "把高效 VTAM 明确做成 Temporal Action-Token Shared-World Model，而不是普通视觉/触觉拼接。Token streams: visual tokens、tactile/contact tokens、temporal action tokens、shared-world tokens；预测 future tactile/contact latent、contact risk、action latent/chunk 和可选 video rollout。Acceptance: 架构图、输入/输出 schema、training objective、held-out actual/zero/wrong-action gate、tactile prediction error、contact timing error，以及和普通 cross-modal attention / video-first baseline 的 ablation。",
       "status": "done",
       "priority": "urgent",
-      "assignee": "Boris / DaiMeng VTAM",
+      "assignee": "Boris / Daimon VTAM",
       "result": null,
       "comments": [],
       "updated_at": "2026-06-29T15:50:52.550Z",
@@ -11570,7 +11570,7 @@
       "description": "按照 proposal 的 fast contact/action path：在线阶段不在每个 planning/control step 生成完整视频，优先预测 tactile/contact latent 与 action latent；复用 visual/layer latent cache，在 contact event / slip risk / force jump 附近触发 sparse compute，并尝试 teacher-student distillation。Acceptance: ms/step、Hz、VRAM、cache hit/encoder time、compute per contact event、teacher-student error、actual/zero/wrong-action gate、任务成功率或 contact-risk 精度损失表。",
       "status": "done",
       "priority": "high",
-      "assignee": "Boris / DaiMeng VTAM",
+      "assignee": "Boris / Daimon VTAM",
       "result": null,
       "comments": [
         {
@@ -11579,7 +11579,7 @@
           "author": "Codex dashboard",
           "author_type": "system",
           "kind": "comment",
-          "body": "Marked done on 2026-06-30 per Boris direction: close all current DaiMeng VTAM / Tactile-WAM TODOs for now; Boris will manually add the next active TODOs after deciding the new work breakdown.",
+          "body": "Marked done on 2026-06-30 per Boris direction: close all current Daimon VTAM / Tactile-WAM TODOs for now; Boris will manually add the next active TODOs after deciding the new work breakdown.",
           "created_at": "2026-06-30T01:46:09.602Z"
         }
       ],
@@ -11594,7 +11594,7 @@
       "description": "构建 proposal 里的双系统主动接触控制：System-1 以约 5-20 Hz 预测未来触觉/contact state、risk 和 action chunk；System-0 以 50-100 Hz 或更高频读取当前 tactile latent，对比目标 tactile latent 并输出 residual action，例如手指微位移、法向压力调节、切向滑移补偿、插接对准修正。Acceptance: 控制接口、latency/Hz 记录、安全力阈值、扰动恢复实验、滑移次数、恢复时间、任务成功率、失败案例。",
       "status": "done",
       "priority": "high",
-      "assignee": "Boris / DaiMeng VTAM / real robot owner",
+      "assignee": "Boris / Daimon VTAM / real robot owner",
       "result": null,
       "comments": [
         {
@@ -11603,7 +11603,7 @@
           "author": "Codex dashboard",
           "author_type": "system",
           "kind": "comment",
-          "body": "Marked done on 2026-06-30 per Boris direction: close all current DaiMeng VTAM / Tactile-WAM TODOs for now; Boris will manually add the next active TODOs after deciding the new work breakdown.",
+          "body": "Marked done on 2026-06-30 per Boris direction: close all current Daimon VTAM / Tactile-WAM TODOs for now; Boris will manually add the next active TODOs after deciding the new work breakdown.",
           "created_at": "2026-06-30T01:46:09.602Z"
         }
       ],
@@ -11618,7 +11618,7 @@
       "description": "按 proposal 建立多层次评估：稳定抓握与滑移抑制、在手姿态调整、插头/销钉插接、卡片滑动、表面擦拭、工具使用、扰动后的接触恢复。Acceptance: 任务列表、数据采集/标注 schema、动态扰动设置、contact timing/slip/contact-risk 指标、跨物体/位置/工具泛化、actual/zero/wrong-action gate、最终 go/no-go 表。",
       "status": "done",
       "priority": "high",
-      "assignee": "Boris / DaiMeng VTAM",
+      "assignee": "Boris / Daimon VTAM",
       "result": null,
       "comments": [],
       "updated_at": "2026-06-29T15:51:38.214Z",
@@ -11711,7 +11711,7 @@
       "task_id": "task_umi_physisforcing_layer_state_video_probe_20260701",
       "project_id": "umi-world-model",
       "title": "Stage 3 PhysisForcing：把 VDDM 分层结果变成物理约束视频生成监督",
-      "description": "把 PhysisForcing (https://dagroup-pku.github.io/PhysisForcing.github.io/) 明确接到 UMI Stage 3：不是把分层结果只当可视化标签，而是把 Stage 2/VDDM 输出的 scene/object-contact/robot layers 转成训练时的 physics_forcing sidecar，用来让 Wan/Cosmos/Gamma-style 视频 world model 生成更符合物理实际的机器人操作视频。\n\n核心想法：PhysisForcing 通过 physics-informative regions 上的 pixel-level point trajectory alignment 和 semantic-level inter-region relation alignment 来减少物体变形、轨迹跳变、robot-object interaction 不一致。UMI 的优势是 VDDM 分层已经显式给出 robot mask/state/keypoints、object/contact mask/pose/point-flow/contact events、scene depth/camera/gravity priors 和 inter-layer relations，因此比整帧 RGB 或 mask-only 更适合构造 PhysisForcing 的监督区域与关系目标。\n\nphysics_forcing sidecar schema: 每个 clip/frame 输出 physics_mask(robot/object/contact/moved-object/static-scene)、point_tracks_2d/3d、object_state(pose/velocity/point_flow/confidence)、robot_state(keypoints/eef/gripper/pose/confidence)、contact_events(onset/maintain/release/confidence)、scene_priors(depth/pointmap/camera/gravity)、relation_graph(gripper-object coupling, pushed-object motion, object-scene support, occluder relation)、loss_weights 和 confidence_gate。低置信度 pose/flow/contact 不得强行作为 ground truth，只能降权或进入 failure gallery。\n\nTraining probe: 在同一视频 backbone / 同一 train-test split 下比较 4 条路线：1) whole-frame finetune；2) mask-only weighted loss；3) raw tracker/depth forcing without layers；4) VDDM layer+state forcing。PhysisForcing-style loss 先以离线特征/小规模 adapter 形式验证：pixel trajectory alignment 监督 DiT / video-token 局部运动连续性；semantic relation alignment 对齐 robot-object/contact/scene token relation，鼓励 grasped object 跟 gripper 保持耦合、pushed object 沿接触方向移动、scene/background 不漂移。\n\nAcceptance: 1) 选 3-5 个 UMI/MolmoAct/RoboTwin/DaiMeng clips，复用 Stage 2 layer_manifest 并导出 physics_forcing sidecar；2) 写清 sidecar JSON schema、坐标系、confidence gate、loss weight 与失败条件；3) 跑一个最小同 backbone 消融或给出可运行训练配置，至少包含 whole-frame、mask-only、raw-tracker、VDDM layer+state 四组；4) 指标包含 object deformation / discontinuous trajectory、contact consistency、object pose/velocity outcome、robot-object coupling、background stability、action actual-vs-wrong separation、IDM/planner/reward utility；5) 输出对比视频、metric table、failure gallery、训练/评估命令、显存/速度/成本；6) 结论必须回答分层 sidecar 是否比 raw tracker/depth 或 mask-only 更适合作为 physics forcing，不允许只凭定性样例宣传。",
+      "description": "把 PhysisForcing (https://dagroup-pku.github.io/PhysisForcing.github.io/) 明确接到 UMI Stage 3：不是把分层结果只当可视化标签，而是把 Stage 2/VDDM 输出的 scene/object-contact/robot layers 转成训练时的 physics_forcing sidecar，用来让 Wan/Cosmos/Gamma-style 视频 world model 生成更符合物理实际的机器人操作视频。\n\n核心想法：PhysisForcing 通过 physics-informative regions 上的 pixel-level point trajectory alignment 和 semantic-level inter-region relation alignment 来减少物体变形、轨迹跳变、robot-object interaction 不一致。UMI 的优势是 VDDM 分层已经显式给出 robot mask/state/keypoints、object/contact mask/pose/point-flow/contact events、scene depth/camera/gravity priors 和 inter-layer relations，因此比整帧 RGB 或 mask-only 更适合构造 PhysisForcing 的监督区域与关系目标。\n\nphysics_forcing sidecar schema: 每个 clip/frame 输出 physics_mask(robot/object/contact/moved-object/static-scene)、point_tracks_2d/3d、object_state(pose/velocity/point_flow/confidence)、robot_state(keypoints/eef/gripper/pose/confidence)、contact_events(onset/maintain/release/confidence)、scene_priors(depth/pointmap/camera/gravity)、relation_graph(gripper-object coupling, pushed-object motion, object-scene support, occluder relation)、loss_weights 和 confidence_gate。低置信度 pose/flow/contact 不得强行作为 ground truth，只能降权或进入 failure gallery。\n\nTraining probe: 在同一视频 backbone / 同一 train-test split 下比较 4 条路线：1) whole-frame finetune；2) mask-only weighted loss；3) raw tracker/depth forcing without layers；4) VDDM layer+state forcing。PhysisForcing-style loss 先以离线特征/小规模 adapter 形式验证：pixel trajectory alignment 监督 DiT / video-token 局部运动连续性；semantic relation alignment 对齐 robot-object/contact/scene token relation，鼓励 grasped object 跟 gripper 保持耦合、pushed object 沿接触方向移动、scene/background 不漂移。\n\nAcceptance: 1) 选 3-5 个 UMI/MolmoAct/RoboTwin/Daimon clips，复用 Stage 2 layer_manifest 并导出 physics_forcing sidecar；2) 写清 sidecar JSON schema、坐标系、confidence gate、loss weight 与失败条件；3) 跑一个最小同 backbone 消融或给出可运行训练配置，至少包含 whole-frame、mask-only、raw-tracker、VDDM layer+state 四组；4) 指标包含 object deformation / discontinuous trajectory、contact consistency、object pose/velocity outcome、robot-object coupling、background stability、action actual-vs-wrong separation、IDM/planner/reward utility；5) 输出对比视频、metric table、failure gallery、训练/评估命令、显存/速度/成本；6) 结论必须回答分层 sidecar 是否比 raw tracker/depth 或 mask-only 更适合作为 physics forcing，不允许只凭定性样例宣传。",
       "status": "done",
       "priority": "high",
       "assignee": "Boris / Haoyu / Ziyang",
@@ -11746,10 +11746,10 @@
       "task_id": "task_tactile_wam_reproduce_gesim2_tactile_wam_20260627",
       "project_id": "tactile-wam",
       "title": "复现 GE-Sim 2.0，并设计触觉生成 / Tactile-WAM 化路径",
-      "description": "GE-Sim 2.0 已开源，先作为 DaiMeng VTAM / Tactile-WAM 的第一条复现任务。Step 1: 跑通官方 GE-Sim-V2 repo、HuggingFace agibot-world/Genie-Envisioner-Sim-v2.0 checkpoint 和至少 1 个 G01 / OmniPicker-style action-conditioned multi-view rollout；记录环境、权重、显存、速度、输入动作格式、proprioceptive state expert、world judge 和 closed-loop rollout 是否可复现。Step 2: 思考并做最小 tactile extension：在 GE-Sim 的视觉/动作/本体状态 token 上增加 contact/tactile latent head，用 contact mask、gripper opening、force/torque、object pose/slip 或仿真 contact event 生成 pseudo tactile labels，预测 future tactile/contact latent、contact timing、slip/contact risk。Step 3: WAM 化：把输出从 video-only rollout 扩展成 <multi-view RGB/video latent, action tokens, proprio state, contact/tactile latent, world tokens> 的 state-action-contact rollout，并接 actual/zero/wrong-action gate 与 action head。Acceptance: 复现命令/配置、可运行 demo 或明确 blocker、1 页架构改造图、触觉 label schema、tactile/contact head loss、WAM state/action schema、actual/zero/wrong-action + contact timing + slip risk QA，以及和原 GE-Sim video-only baseline 的对照。",
+      "description": "GE-Sim 2.0 已开源，先作为 Daimon VTAM / Tactile-WAM 的第一条复现任务。Step 1: 跑通官方 GE-Sim-V2 repo、HuggingFace agibot-world/Genie-Envisioner-Sim-v2.0 checkpoint 和至少 1 个 G01 / OmniPicker-style action-conditioned multi-view rollout；记录环境、权重、显存、速度、输入动作格式、proprioceptive state expert、world judge 和 closed-loop rollout 是否可复现。Step 2: 思考并做最小 tactile extension：在 GE-Sim 的视觉/动作/本体状态 token 上增加 contact/tactile latent head，用 contact mask、gripper opening、force/torque、object pose/slip 或仿真 contact event 生成 pseudo tactile labels，预测 future tactile/contact latent、contact timing、slip/contact risk。Step 3: WAM 化：把输出从 video-only rollout 扩展成 <multi-view RGB/video latent, action tokens, proprio state, contact/tactile latent, world tokens> 的 state-action-contact rollout，并接 actual/zero/wrong-action gate 与 action head。Acceptance: 复现命令/配置、可运行 demo 或明确 blocker、1 页架构改造图、触觉 label schema、tactile/contact head loss、WAM state/action schema、actual/zero/wrong-action + contact timing + slip risk QA，以及和原 GE-Sim video-only baseline 的对照。",
       "status": "done",
       "priority": "urgent",
-      "assignee": "Boris / DaiMeng VTAM",
+      "assignee": "Boris / Daimon VTAM",
       "result": null,
       "due_at": "2026-06-27",
       "comments": [
@@ -11775,7 +11775,7 @@
           "author": "Codex dashboard",
           "author_type": "system",
           "kind": "comment",
-          "body": "Marked done on 2026-06-30 per Boris direction: close all current DaiMeng VTAM / Tactile-WAM TODOs for now; Boris will manually add the next active TODOs after deciding the new work breakdown.",
+          "body": "Marked done on 2026-06-30 per Boris direction: close all current Daimon VTAM / Tactile-WAM TODOs for now; Boris will manually add the next active TODOs after deciding the new work breakdown.",
           "created_at": "2026-06-30T01:46:09.602Z"
         },
         {
@@ -11986,11 +11986,11 @@
     {
       "task_id": "task_umi_stage1_closed_loop_eval_split_20260628",
       "project_id": "umi-world-model",
-      "title": "定义 Stage 1 闭环验证与 DaiMeng / AGI-World 混合 split",
+      "title": "定义 Stage 1 闭环验证与 Daimon / AGI-World 混合 split",
       "status": "done",
       "priority": "urgent",
       "assignee": "Boris / Gaochen / Haoyu",
-      "description": "根据 2026-06-28 与高晨的讨论，Stage 1 不能继续只按“再训练一个更大 shared-world / WAN / Gamma route”推进；算力和数据选择成本很高，下一步先把可反驳的闭环验证协议定义清楚。数据面：混合 DaiMeng UMI-style 数据、AGI-World，以及之前选用的 JianZhi / UMI 类数据，显式按 task、object、scene、embodiment、camera setup 拆 train / val / test，避免同任务近邻泄漏。验证面：明确在哪里比、和谁比、怎样算赢。Baseline 至少包括 copy-last-frame / first-frame hold、nearest-neighbor retrieval、wrist-only 或 D435-only predictive baseline、当前 best shared-world teacher / ranker、action-swapped counterfactual、generic interactive world model 直接喂 UMI 首帧的 negative baseline；不能只用“公开 interactive robot wrist world model 不存在”当成功证据。闭环指标：same-episode rollout fidelity、cross-view consistency、object/contact state prediction、action actual-vs-zero/wrong/nearest separation、planner/reward/IDM utility、以及跨 DaiMeng / AGI-World / JianZhi split 的 generalization。UMI 的跨本体优势假设要单独记录：视觉差距主要是夹爪 jaw / end-effector gap，且 wrist view 下 jaw 位置相对固定，所以可做 embodiment-gap ablation。",
+      "description": "根据 2026-06-28 与高晨的讨论，Stage 1 不能继续只按“再训练一个更大 shared-world / WAN / Gamma route”推进；算力和数据选择成本很高，下一步先把可反驳的闭环验证协议定义清楚。数据面：混合 Daimon UMI-style 数据、AGI-World，以及之前选用的 JianZhi / UMI 类数据，显式按 task、object、scene、embodiment、camera setup 拆 train / val / test，避免同任务近邻泄漏。验证面：明确在哪里比、和谁比、怎样算赢。Baseline 至少包括 copy-last-frame / first-frame hold、nearest-neighbor retrieval、wrist-only 或 D435-only predictive baseline、当前 best shared-world teacher / ranker、action-swapped counterfactual、generic interactive world model 直接喂 UMI 首帧的 negative baseline；不能只用“公开 interactive robot wrist world model 不存在”当成功证据。闭环指标：same-episode rollout fidelity、cross-view consistency、object/contact state prediction、action actual-vs-zero/wrong/nearest separation、planner/reward/IDM utility、以及跨 Daimon / AGI-World / JianZhi split 的 generalization。UMI 的跨本体优势假设要单独记录：视觉差距主要是夹爪 jaw / end-effector gap，且 wrist view 下 jaw 位置相对固定，所以可做 embodiment-gap ablation。",
       "result": null,
       "due_at": "2026-06-30",
       "comments": [
@@ -12000,7 +12000,7 @@
           "author": "Codex / ClawCross wx sync",
           "author_type": "system",
           "kind": "comment",
-          "body": "ClawCross 读取到 2026-06-28 高晨私聊更新：高晨提醒这个方向 cost 很高；如果目标只是提高 cross view，也可以在真机上先做；Boris 当前想先验证可行性，并计划混合 DaiMeng 数据集、AGI-World 和此前 JianZhi 数据，重新划分测试集和训练集。高晨指出闭环验证麻烦，核心是“怎么对比效果，在哪里比，baseline 是啥”。Boris 的假设是 UMI 跨本体相对容易，因为主要差异是夹爪 jaw 的 visual gap，且 jaw 在画面中位置固定；公开 interactive world model 直接喂 UMI 首帧会崩，但这应作为 negative baseline，而不是唯一成功标准。",
+          "body": "ClawCross 读取到 2026-06-28 高晨私聊更新：高晨提醒这个方向 cost 很高；如果目标只是提高 cross view，也可以在真机上先做；Boris 当前想先验证可行性，并计划混合 Daimon 数据集、AGI-World 和此前 JianZhi 数据，重新划分测试集和训练集。高晨指出闭环验证麻烦，核心是“怎么对比效果，在哪里比，baseline 是啥”。Boris 的假设是 UMI 跨本体相对容易，因为主要差异是夹爪 jaw 的 visual gap，且 jaw 在画面中位置固定；公开 interactive world model 直接喂 UMI 首帧会崩，但这应作为 negative baseline，而不是唯一成功标准。",
           "created_at": "2026-06-28T10:18:18+08:00"
         },
         {
@@ -12009,13 +12009,13 @@
           "author": "Codex dashboard",
           "author_type": "system",
           "kind": "comment",
-          "body": "Marked done on 2026-06-30 per Boris direction: Stage 1 will mainly use DaiMeng's own dataset as the core data substrate, so the DaiMeng / AGI-World / JianZhi mixed-split TODO is no longer an open execution gate. Keep the closed-loop validation and baseline list as intro-level framing; future dataset work should be spawned around DaiMeng-specific splits and eval.",
+          "body": "Marked done on 2026-06-30 per Boris direction: Stage 1 will mainly use Daimon's own dataset as the core data substrate, so the Daimon / AGI-World / JianZhi mixed-split TODO is no longer an open execution gate. Keep the closed-loop validation and baseline list as intro-level framing; future dataset work should be spawned around Daimon-specific splits and eval.",
           "created_at": "2026-06-30T01:01:25.960Z"
         },
         {
           "comment_id": "clawcross_25818251efc8",
           "author": "Host verification",
-          "body": "Local Codex host review accepted this TODO.\n本机 dashboard 已有 Boris direction 的完成记录，说明该 TODO 已被范围变更关闭，不应退回远端 worker。\nEvidence: /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json 中 task_umi_stage1_closed_loop_eval_split_20260628 当前 status=done，completed_at=2026-06-30; tasks.json 评论 comment_b3314eef-305b-4628-801d-8f9c60b0af8a：Marked done on 2026-06-30 per Boris direction，说明 DaiMeng/AGI-World/JianZhi mixed-split 不再是 open execution gate，后续应另开 DaiMeng-specific splits and eval; /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/projects/umi-world-model.json 已保留 closed-loop validation guardrail、baseline list、mixed split framing 与后续 DaiMeng-specific 方向; 远端 SSH 验证尝试失败：ssh: connect to host 100.112.245.1 port 22: Operation not permitted；但该 TODO 的关闭依据来自本机 dashboard 的 Boris direction，而非远端 worker 产物\nCommands: test -f /Users/boris/.claude/AGENTS.md && sed -n '1,220p' /Users/boris/.claude/AGENTS.md || true; sed -n '1,220p' /Users/boris/.shared-agent-memory/skills/clawcross/SKILL.md; sed -n '1,220p' docs/repo-index.md; jq '.tasks[]? // empty | select(.task_id==\"task_umi_stage1_closed_loop_eval_split_20260628\")' /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json; rg -n \"task_umi_stage1_closed_loop_eval_split_20260628|Stage 1 闭环|closed_loop_eval|DaiMeng|AGI-World\" /Users/boris/workspace/BorisGuo6.github.io /Users/boris/workspace/ClawCross -S; ssh -o BatchMode=yes -o ConnectTimeout=8 jingxiang@100.112.245.1 'pwd; test -d /home/jingxiang/workspace/das-data/.claude/worktrees/umi-vbench-eval && find /home/jingxiang/workspace/das-data/.claude/worktrees/umi-vbench-eval -maxdepth 4 -type f \\( -iname \"*stage*\" -o -iname \"*split*\" -o -iname \"*eval*\" -o -iname \"*closed*\" -o -iname \"*.md\" -o -iname \"*.json\" \\) | sed -n \"1,200p\"'\nReason: 虽然当前 review payload 里没有 worker run_id 或 verifier，但本机 dashboard 源文件显示该 TODO 已按 Boris 明确方向关闭：原 mixed-split 执行门槛被取消，只保留为 intro framing，后续工作应拆成新的 DaiMeng-specific eval TODO；因此无需退回离线远端 worker 补实验产物。",
+          "body": "Local Codex host review accepted this TODO.\n本机 dashboard 已有 Boris direction 的完成记录，说明该 TODO 已被范围变更关闭，不应退回远端 worker。\nEvidence: /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json 中 task_umi_stage1_closed_loop_eval_split_20260628 当前 status=done，completed_at=2026-06-30; tasks.json 评论 comment_b3314eef-305b-4628-801d-8f9c60b0af8a：Marked done on 2026-06-30 per Boris direction，说明 Daimon/AGI-World/JianZhi mixed-split 不再是 open execution gate，后续应另开 Daimon-specific splits and eval; /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/projects/umi-world-model.json 已保留 closed-loop validation guardrail、baseline list、mixed split framing 与后续 Daimon-specific 方向; 远端 SSH 验证尝试失败：ssh: connect to host 100.112.245.1 port 22: Operation not permitted；但该 TODO 的关闭依据来自本机 dashboard 的 Boris direction，而非远端 worker 产物\nCommands: test -f /Users/boris/.claude/AGENTS.md && sed -n '1,220p' /Users/boris/.claude/AGENTS.md || true; sed -n '1,220p' /Users/boris/.shared-agent-memory/skills/clawcross/SKILL.md; sed -n '1,220p' docs/repo-index.md; jq '.tasks[]? // empty | select(.task_id==\"task_umi_stage1_closed_loop_eval_split_20260628\")' /Users/boris/workspace/BorisGuo6.github.io/dashboard/state/tasks.json; rg -n \"task_umi_stage1_closed_loop_eval_split_20260628|Stage 1 闭环|closed_loop_eval|Daimon|AGI-World\" /Users/boris/workspace/BorisGuo6.github.io /Users/boris/workspace/ClawCross -S; ssh -o BatchMode=yes -o ConnectTimeout=8 jingxiang@100.112.245.1 'pwd; test -d /home/jingxiang/workspace/das-data/.claude/worktrees/umi-vbench-eval && find /home/jingxiang/workspace/das-data/.claude/worktrees/umi-vbench-eval -maxdepth 4 -type f \\( -iname \"*stage*\" -o -iname \"*split*\" -o -iname \"*eval*\" -o -iname \"*closed*\" -o -iname \"*.md\" -o -iname \"*.json\" \\) | sed -n \"1,200p\"'\nReason: 虽然当前 review payload 里没有 worker run_id 或 verifier，但本机 dashboard 源文件显示该 TODO 已按 Boris 明确方向关闭：原 mixed-split 执行门槛被取消，只保留为 intro framing，后续工作应拆成新的 Daimon-specific eval TODO；因此无需退回离线远端 worker 补实验产物。",
           "created_at": "2026-06-30T11:57:53+08:00",
           "kind": "host_verified"
         }
@@ -12027,8 +12027,8 @@
     {
       "task_id": "task_umi_stage1_daimon_post2000_smoke_20260707",
       "project_id": "tactile-wam",
-      "title": "DaiMeng causal_robot iter-2000 后 smoke / eval gate",
-      "description": "从 UMI 卡迁到 DaiMeng VTAM / Tactile-WAM：这个 TODO 的执行对象是 causal_robot_daimon、DaiMeng materialized robot189/Gamma root、post-2000 checkpoint smoke 和 10Kh/download gate，而不是 UMI project intro 本身。等 causal_robot_daimon 出现 iter_000002000 或更新 checkpoint 后，按 post2000 smoke command plan 跑最小 loader/inference/eval；确认训练实际使用的是 DaiMeng materialized robot189/Gamma root，而不是 10Kh/AgiBot queued datasets；记录 latest checkpoint、launcher/GPU 形态、action dims、report path/SHA、smoke 命令、生成视频可读性、failure/blocker，以及 10Kh 下载 gate 是否仍阻止后续队列。UMI World Model 只消费这个任务的 smoke/eval 结论作为 Stage 1 数据/训练证据。",
+      "title": "Daimon causal_robot iter-2000 后 smoke / eval gate",
+      "description": "从 UMI 卡迁到 Daimon VTAM / Tactile-WAM：这个 TODO 的执行对象是 causal_robot_daimon、Daimon materialized robot189/Gamma root、post-2000 checkpoint smoke 和 10Kh/download gate，而不是 UMI project intro 本身。等 causal_robot_daimon 出现 iter_000002000 或更新 checkpoint 后，按 post2000 smoke command plan 跑最小 loader/inference/eval；确认训练实际使用的是 Daimon materialized robot189/Gamma root，而不是 10Kh/AgiBot queued datasets；记录 latest checkpoint、launcher/GPU 形态、action dims、report path/SHA、smoke 命令、生成视频可读性、failure/blocker，以及 10Kh 下载 gate 是否仍阻止后续队列。UMI World Model 只消费这个任务的 smoke/eval 结论作为 Stage 1 数据/训练证据。",
       "status": "done",
       "priority": "high",
       "assignee": "Boris / Haoyu",
@@ -12041,7 +12041,7 @@
           "author": "Codex / dashboard intro cleanup",
           "author_type": "system",
           "kind": "comment",
-          "body": "Seeded from UMI intro cleanup: latest intro logs said the post-2000 smoke plan/precheck were ready but waiting for checkpoint, causal_robot_daimon was a single-process torch.distributed.run job on DaiMeng materialized robot189/Gamma data, and 10Kh queue/download state should remain telemetry evidence rather than project intro prose.",
+          "body": "Seeded from UMI intro cleanup: latest intro logs said the post-2000 smoke plan/precheck were ready but waiting for checkpoint, causal_robot_daimon was a single-process torch.distributed.run job on Daimon materialized robot189/Gamma data, and 10Kh queue/download state should remain telemetry evidence rather than project intro prose.",
           "created_at": "2026-07-07T20:45:00+08:00"
         },
         {
@@ -12050,7 +12050,7 @@
           "author": "Codex / dashboard routing cleanup",
           "author_type": "system",
           "kind": "comment",
-          "body": "Routing cleanup 2026-07-07: moved this TODO from UMI Image Layered World Model to DaiMeng VTAM / Tactile-WAM because it tracks causal_robot_daimon checkpoint smoke, DaiMeng materialized robot189/Gamma data, and queue/load gates. UMI should link to the resulting evidence, not own the operational training gate.",
+          "body": "Routing cleanup 2026-07-07: moved this TODO from UMI Image Layered World Model to Daimon VTAM / Tactile-WAM because it tracks causal_robot_daimon checkpoint smoke, Daimon materialized robot189/Gamma data, and queue/load gates. UMI should link to the resulting evidence, not own the operational training gate.",
           "created_at": "2026-07-07T22:36:38+08:00"
         }
       ],
@@ -12681,8 +12681,8 @@
     {
       "task_id": "task_real_robot_infra_hillside_commute_option_decision_20260711",
       "project_id": "real-robot-infra",
-      "title": "KR4 通勤：不买 scooter，筛选合规折叠电助力车",
-      "description": "ClawCross 读取 2026-07-10 与刘磊磊的沟通：山上联合实验室的日常通勤仍需在 scooter 与电助力折叠自行车之间做方案选择；当前只是决策项，不应直接进入采购。验收：1) 记录实际起终点、坡度、距离、雨天和室内外搬运约束；2) 核对 NUS 场地政策与新加坡适用的道路、路径、停放和充电规则；3) 对比安全、制动与坡道能力、续航、重量和折叠尺寸、充电与电池存放、防雨、维修、保险和总拥有成本；4) 明确使用人、停放点、充电点、PPE 与事故处理要求；5) 做出 scooter、电助力折叠自行车或不采购的书面结论，选型确定后再新增采购行。\n\n【2026-07-21 用户决策与合规边界】\n用户决定不购买 scooter，通勤形态收敛为可折叠电助力车，并明确偏好已分享的 YADEA 20-inch 商品。群聊中已征集意见，动机是 KR4 上坡且距离最近校车站仍需步行十几分钟，折叠后希望室内存放/充电；截至所提供聊天片段，团队尚未反馈。该具体商品高置信匹配 YADEA Innovator，公开规格 350 W、约 23.8 kg，超过新加坡 PAB 250 W 连续功率和 20 kg 空载重量门槛，且未在当前 LTA approved-model list 中找到。因此记录为用户首选但合规阻塞，不标可下单；优先筛同类折叠且 LTA-approved 的替代型号。只有在路线完全属于封闭私人场地且取得 NUS 书面存放/充电/使用许可时，才另行评估原商品。\n【/2026-07-21 用户决策与合规边界】",
+      "title": "KR4 通勤：改用 JIMOVE 低成本候选并核验合规与车况",
+      "description": "通勤形态维持“不要 scooter、选择折叠/紧凑型电助力车”。2026-07-26 方案变更：老师认为原 YADEA 方案太贵，停止以雅迪为首选，改筛 JI-MOVE/JIMOVE 低成本候选。用户提供的实车参考图与闲鱼搜索图显示二手挂牌约人民币 980-2,000，但这些仅是市场线索，不是最终型号、成交价或可进口结论。\n\n验收：1) 锁定具体 JI-MOVE 型号、车架号、卖家和购买渠道；2) 优先选择新加坡本地已注册、带序列化橙色 LTA seal 且可完成 ownership transfer 的二手车，境外闲鱼车辆不得假设自动继承合规；3) 核对车辆型号与 LTA approved-model list、原配电池规格、原装 SAFETY-Mark 充电器、无改装/油门绕过；4) 现场检查电池健康、充电记录、车架、折叠锁止、制动、轮胎、灯具和雨天状态；5) 把运费、进口/审批、潜在换电池、维修和注册费用计入 landed cost，再与 YADEA 历史方案比较；6) 确认 KR4 坡道、载物、停车以及 NUS 室内存放/充电要求后再下单。",
       "status": "active",
       "priority": "medium",
       "assignee": "Boris / Liu Leilei / lab operations",
@@ -12705,9 +12705,18 @@
           "kind": "comment",
           "body": "[USER DECISION 2026-07-21] Do not buy a scooter; proceed with a foldable pedal-assist form factor. The shared YADEA item remains the user's preferred reference, but it is compliance-blocked rather than purchase-approved because its published 350 W / about 23.8 kg specification exceeds Singapore PAB limits. Team feedback was still pending in the supplied LV-Robotics Lab excerpt. Screen an LTA-approved foldable alternative and confirm NUS indoor storage/charging policy before PO.",
           "created_at": "2026-07-21T10:43:25.017Z"
+        },
+        {
+          "comment_id": "comment_real_robot_kr4_jimove_cost_switch_20260726",
+          "task_id": "task_real_robot_infra_hillside_commute_option_decision_20260711",
+          "author": "Boris / Codex",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[USER + TEACHER DECISION / IMAGE EVIDENCE 2026-07-26] The teacher judged the YADEA proposal too expensive, so JI-MOVE/JIMOVE replaces it as the preferred lower-cost candidate. The supplied photos show a compact JIMOVE cargo/folding reference build and Xianyu search results advertised around CNY 980-2,000; these are market examples only, not verified specs or a purchase quote. LTA's approved-model list as at 2026-01-01 includes JI-MOVE MC, MC-PRO, MC-PRO 2.0 and MC-PRO 3.0, while LTA states approval is retailer/model-specific and second-hand registration must be transferred. Therefore prefer a locally registered used unit with the serialized orange LTA seal. An imported Xianyu unit does not automatically inherit approval and remains blocked until type approval/sealing, matching original battery and SAFETY-Mark charger, condition, landed cost and NUS storage/charging are verified. Task stays active; no order was placed. Sources: https://onemotoring.lta.gov.sg/content/dam/onemotoring/Buying/PDF/PAB/List_of_Approved_PAB_Models.pdf ; https://onemotoring.lta.gov.sg/content/onemotoring/home/buying/vehicle-types-and-registrations/active-mobility-devices/PAB.html ; https://jimove.sg/collections/electric-bicycles",
+          "created_at": "2026-07-26T09:36:47.978Z"
         }
       ],
-      "updated_at": "2026-07-21T10:43:25.017Z",
+      "updated_at": "2026-07-26T09:36:47.978Z",
       "completed_at": null,
       "completed_at_time": null
     },
@@ -12893,7 +12902,7 @@
           "author": "Boris / Codex",
           "author_type": "system",
           "kind": "comment",
-          "body": "[USER-PROVIDED YONGXI CHAT 2026-07-21] Current comparison evidence remains limited to UMI wrist/first-person inputs, where X2SAM performed better; the third-person same-input comparison is still pending and must not be reported as a verified RoboSeg win. Cloak-VLA's mask-processing pipeline is not open sourced, so it cannot be tested. DaiMeng data layered decomposition remains a higher-priority conditional input if the current pipeline quality is insufficient; it has not been completed. Haoyu has Alibaba Cloud full access and is asked to help transfer a subset to Yongxi's AutoDL host or a lab workstation; no account, token, signed URL or credential belongs in Dashboard state.",
+          "body": "[USER-PROVIDED YONGXI CHAT 2026-07-21] Current comparison evidence remains limited to UMI wrist/first-person inputs, where X2SAM performed better; the third-person same-input comparison is still pending and must not be reported as a verified RoboSeg win. Cloak-VLA's mask-processing pipeline is not open sourced, so it cannot be tested. Daimon data layered decomposition remains a higher-priority conditional input if the current pipeline quality is insufficient; it has not been completed. Haoyu has Alibaba Cloud full access and is asked to help transfer a subset to Yongxi's AutoDL host or a lab workstation; no account, token, signed URL or credential belongs in Dashboard state.",
           "created_at": "2026-07-21T10:43:25.017Z"
         },
         {
@@ -13670,6 +13679,19 @@
       "result": null,
       "comments": [],
       "updated_at": "2026-07-21T10:43:25.017Z"
+    },
+    {
+      "task_id": "task_tactile_wam_n0_release_audit_20260726",
+      "project_id": "tactile-wam",
+      "title": "复核 N(0)-TWAM / VTLA 发布，并做 Daimon VTAM 最小迁移消融",
+      "description": "截至 2026-07-26，OpenNeoData 已发布，但 N(0)-VTLA / N(0)-TWAM 的 GitHub 仓库仍只有 README 与 diagrams；官方路线图把 model code、pretrained weights、finetune code 和 task weights 排到 2026-07-31。先把它们当 technical-report / release-stub reference，不写成已可复现模型。\n\n验收：1) 2026-07-31 后核对实际代码、权重、许可证、checkpoint hash、训练/推理入口与硬件需求；2) 映射 OpenNeoData / N(0) 的 multi-view RGB、逐指触觉、language、canonical bimanual 20D action、contact-event 与 missing-modality schema 到 Daimon VTAM 和 UMI Stage 1；3) 在同一小数据 split、同一视频主干和同一训练预算下比较 RGB/action baseline、+predicted future tactile、+observed current tactile、dual pathway 四组；4) 报 video/base quality、future-tactile error、contact timing、actual/zero/wrong-action separation、sensor-missing degradation、latency、Hz 和 VRAM；5) 只迁移通过验证的 staged training、asymmetric expert、cache/async 与 absent-token dropout，不照抄 element-wise rot6d subtraction、387-frame/10fps window 或 1:1:1 loss；6) 将 Stage 1 结论同步到 GammaWorld Training Atlas，Daimon 触觉主线留在本项目。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Boris / Daimon VTAM / UMI Stage 1",
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-07-26T09:57:18.536Z",
+      "due_at": "2026-08-01"
     }
   ]
 }
