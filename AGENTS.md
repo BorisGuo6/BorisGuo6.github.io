@@ -35,11 +35,12 @@ before the task list; for UMI-style project cards, prefer a short stage summary
 plus durable acceptance guardrails, and route all meeting action items into
 `tasks.json`.
 For the UMI card specifically, `npm run test:dashboard` enforces the guardrail:
-summary <= 700 characters, details <= 12 entries, intro table <= 8 rows, and no
-execution-field keys such as `owner`, `due`, `next_step`, `command`, `result`,
-`verification`, `resource`, or telemetry-style fields in intro surfaces. If a
-meeting note does not fit that budget, create or update a TODO instead of
-expanding the intro.
+summary <= 450 characters, exactly three concise stage cards, details <= 1
+durable utility guardrail, no duplicate intro table, and no execution-field keys
+such as `owner`, `due`, `next_step`, `command`, `result`, `verification`,
+`resource`, or telemetry-style fields in intro surfaces. Stage 1 and Stage 3
+detail belongs in their Atlas webpages. If a meeting note does not fit that
+budget, create or update a TODO instead of expanding the intro.
 DaiMeng/Daimon operational gates belong under `tactile-wam`, not
 `umi-world-model`: causal_robot_daimon checkpoints, DaiMeng materialized
 robot189/Gamma roots, `/mnt/data/datasets/daimon` materialization, post-2000

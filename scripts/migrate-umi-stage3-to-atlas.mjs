@@ -21,61 +21,39 @@ if (project.project_id !== "umi-world-model") {
 
 const subprojects = Array.isArray(project.subprojects) ? project.subprojects : [];
 const stage1 = subprojects.find((entry) => entry?.label === "A");
+const stage2 = subprojects.find((entry) => entry?.label === "B");
 const stage3 = subprojects.find((entry) => entry?.label === "C");
-if (!stage1 || !stage3) {
-  throw new Error("Expected Stage 1 and Stage 3 subproject cards");
+if (!stage1 || !stage2 || !stage3) {
+  throw new Error("Expected Stage 1, Stage 2 and Stage 3 subproject cards");
 }
 
 project.summary =
-  "UMI World Model is a three-paper program with one shared data substrate. Stage 1 and Stage 3 now live in the GammaWorld Training Atlas: Stage 1 owns the streaming multi-view world-model, data and WAM contract; Stage 3 owns the Motion-State Decoder → calibrated process reward → robot-utility evaluation program. The dashboard keeps concise launch pointers and task execution state. Stage 2 remains VDDM, producing reusable scene, object and robot layers with QA manifests.";
+  "UMI is a three-stage program over one shared layer_manifest substrate: Stage 1 learns streaming multi-view world dynamics, Stage 2 decomposes manipulation video into reusable layers, and Stage 3 turns those layers into motion state, reward and robot utility. Stage 1 and Stage 3 specifications live in the GammaWorld Training Atlas; the dashboard tracks execution tasks and evidence.";
 
 Object.assign(stage1, {
   body:
-    "Stage 1 detail lives in the GammaWorld Training Atlas. It is the single source of truth for the data contract, V0-V4 training stages, dual-lane conditioning, memory modules, WAM action recovery and G1-G5 gates; task-level execution evidence remains in dashboard TODOs and comments.",
+    "Streaming multi-view world modeling for dual-wrist UMI. The full data, training, conditioning, memory, WAM and gate contract lives in the Atlas.",
   output: "Open Stage 1 webpage ↗",
   output_url: stage1Url,
+});
+
+Object.assign(stage2, {
+  body:
+    "VDDM decomposes robot manipulation video into scene/background, object/contact, occluder/tool and robot/end-effector layers under one layer_manifest-compatible schema.",
+  output: "Output: validated layer packages + QA.",
 });
 
 Object.assign(stage3, {
   title: "Stage 3: Motion → Reward → Utility",
   body:
-    "Stage 3 detail has moved to the Atlas Stage 3 webpage. It is the single source of truth for the Motion-State Decoder, hybrid process reward, preference and failure ranking, Fast-WAM/IDM ablations and downstream robot-utility gates; task-level results remain in dashboard TODOs and comments.",
+    "Motion-State Decoder → calibrated process reward → robot utility. The full design, ablations, metrics and stop conditions live in the Atlas.",
   output: "Open Stage 3 webpage ↗",
   output_url: stage3Url,
 });
 
-const introRows = project.intro_table?.rows;
-if (!Array.isArray(introRows)) {
-  throw new Error("Expected UMI intro_table rows");
-}
-const stage1Row = introRows.find((row) => String(row?.stage || "").startsWith("Stage 1"));
-const stage3Row = introRows.find((row) => row?.stage === "Stage 3");
-if (!stage1Row || !stage3Row) {
-  throw new Error("Expected Stage 1 and Stage 3 intro rows");
-}
-
-Object.assign(stage1Row, {
-  interface: "Streaming multi-view WM - full blueprint lives in the GammaWorld Training Atlas",
-  status_frame:
-    "Moved to the Atlas Stage 1 webpage. The dashboard keeps the launch pointer and execution tasks; the webpage owns the durable architecture, data, training, WAM and gate contract.",
-});
-
-Object.assign(stage3Row, {
-  interface: "Motion-state decoding, calibrated process reward and robot utility",
-  status_frame:
-    "Moved to the Atlas Stage 3 webpage. The dashboard keeps the launch pointer and execution tasks; the webpage owns the research design, literature map, ablations, metrics and stop conditions.",
-});
-
-const details = Array.isArray(project.details) ? project.details : [];
+project.intro_table = null;
 project.details = [
-  ...details.filter(
-    (entry) =>
-      !String(entry).startsWith("Stage 3 acceptance:")
-      && !String(entry).startsWith("Stage-1 migration ")
-      && !String(entry).startsWith("Stage-3 migration "),
-  ),
-  `Stage-1 migration 2026-07-25: the complete streaming multi-view world-model blueprint lives at ${stage1Url}; the dashboard keeps only the launch pointer and task execution state.`,
-  `Stage-3 migration 2026-07-26: the complete Motion → Reward → Utility report lives at ${stage3Url}. Its acceptance guardrail remains flat RGB vs mask-only vs full layered data on matched tasks before any IDM, reward, pose, policy or physics-forcing utility claim.`,
+  "Utility guardrail: compare flat RGB, mask-only and full layered data on matched tasks before any pose, IDM, reward, policy or physics-forcing claim.",
 ];
 
 project.layer_utility = null;
@@ -114,6 +92,7 @@ console.log(
     project_id: project.project_id,
     subprojects: project.subprojects.length,
     details: project.details.length,
+    intro_table: project.intro_table,
     references: project.references.length,
     layer_utility: project.layer_utility,
     stage1_url: stage1Url,

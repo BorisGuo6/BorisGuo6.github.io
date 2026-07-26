@@ -707,17 +707,25 @@ assert.ok(
   "Real-Robot Lab Infra asset inventory context should live in Risks / Decisions",
 );
 assert.ok(
-  (umiProject.summary || "").length <= 700,
-  "UMI intro summary must stay under 700 characters; move meeting notes into TODOs or task comments",
+  (umiProject.summary || "").length <= 450,
+  "UMI intro summary must stay under 450 characters; move detail into the Atlas or task comments",
 );
 assert.ok(
-  (umiProject.details || []).length <= 12,
-  "UMI details must stay under 12 durable guardrail entries; move execution logs into TODOs or task comments",
+  (umiProject.details || []).length <= 1,
+  "UMI details must stay to one durable guardrail; keep the stage overview in the three cards",
 );
-assert.ok(
-  (umiProject.intro_table?.rows || []).length <= 8,
-  "UMI intro table must stay compact; move per-owner execution tracking into TODOs or task comments",
+assert.equal(
+  umiProject.intro_table,
+  null,
+  "UMI stage framing belongs in the three cards; do not restore the duplicate intro table",
 );
+assert.equal(umiProject.subprojects?.length, 3, "UMI intro must keep exactly the three stage cards");
+for (const stageCard of umiProject.subprojects || []) {
+  assert.ok(
+    String(stageCard?.body || "").length <= 220,
+    `UMI ${stageCard?.label || "stage"} card must stay concise; move full detail into the Atlas`,
+  );
+}
 const umiStage1Card = (umiProject.subprojects || []).find((entry) => entry?.label === "A");
 const umiStage3Card = (umiProject.subprojects || []).find((entry) => entry?.label === "C");
 assert.equal(

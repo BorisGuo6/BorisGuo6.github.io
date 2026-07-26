@@ -1027,17 +1027,16 @@ test("failed local comments survive a hosted reload until reconciled", async ({ 
   await expect(page.locator("[data-sync-status]")).not.toContainText("pending local");
 });
 
-test("collapsed project intros use a separate accessible toggle", async ({ page }) => {
+test("concise UMI intro stays directly visible without a collapse toggle", async ({ page }) => {
   await mockDashboardApi(page);
   await unlockDashboard(page);
 
   const project = page.locator('details.project-detail[data-project-id="umi-world-model"]');
   const intro = project.locator(".project-intro");
   const toggle = project.locator(".project-intro-toggle");
-  await expect(toggle).toHaveCount(1);
-  await expect(toggle).toHaveAttribute("aria-expanded", "false");
+  await expect(toggle).toHaveCount(0);
   await expect(intro).not.toHaveAttribute("role", "button");
-  expect(await intro.evaluate((element) => element.inert)).toBe(true);
+  expect(await intro.evaluate((element) => element.inert)).toBe(false);
 
   await intro.evaluate((element) => {
     const link = document.createElement("a");
@@ -1046,12 +1045,6 @@ test("collapsed project intros use a separate accessible toggle", async ({ page 
     element.append(link);
   });
   const firstLink = intro.locator("a", { hasText: "Injected intro reference" });
-  await firstLink.focus();
-  expect(await intro.evaluate((element) => element.contains(document.activeElement))).toBe(false);
-
-  await toggle.click();
-  await expect(toggle).toHaveAttribute("aria-expanded", "true");
-  expect(await intro.evaluate((element) => element.inert)).toBe(false);
   await firstLink.focus();
   expect(await intro.evaluate((element) => element.contains(document.activeElement))).toBe(true);
 });

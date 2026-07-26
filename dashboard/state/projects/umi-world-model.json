@@ -4,27 +4,27 @@
   "title": "UMI Image Layered World Model",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-07-26T08:13:39.517Z",
+  "updated_at": "2026-07-26T09:26:17.169Z",
   "description": "UMI Image Layered World Model: three linked papers covering multi-view robot video world modeling, manipulation-video dynamics decomposition into reusable layers, and layered data as a downstream VLA/IDM/reward training interface.",
-  "summary": "UMI World Model is a three-paper program with one shared data substrate. Stage 1 and Stage 3 now live in the GammaWorld Training Atlas: Stage 1 owns the streaming multi-view world-model, data and WAM contract; Stage 3 owns the Motion-State Decoder → calibrated process reward → robot-utility evaluation program. The dashboard keeps concise launch pointers and task execution state. Stage 2 remains VDDM, producing reusable scene, object and robot layers with QA manifests.",
+  "summary": "UMI is a three-stage program over one shared layer_manifest substrate: Stage 1 learns streaming multi-view world dynamics, Stage 2 decomposes manipulation video into reusable layers, and Stage 3 turns those layers into motion state, reward and robot utility. Stage 1 and Stage 3 specifications live in the GammaWorld Training Atlas; the dashboard tracks execution tasks and evidence.",
   "subprojects": [
     {
       "label": "A",
       "title": "Stage 1: Streaming Multi-View UMI World Model",
-      "body": "Stage 1 detail lives in the GammaWorld Training Atlas. It is the single source of truth for the data contract, V0-V4 training stages, dual-lane conditioning, memory modules, WAM action recovery and G1-G5 gates; task-level execution evidence remains in dashboard TODOs and comments.",
+      "body": "Streaming multi-view world modeling for dual-wrist UMI. The full data, training, conditioning, memory, WAM and gate contract lives in the Atlas.",
       "output": "Open Stage 1 webpage ↗",
       "output_url": "https://gammaworld-training-atlas.linslabnus.chatgpt.site/"
     },
     {
       "label": "B",
       "title": "Stage 2: Video Dynamics Decomposition Model",
-      "body": "Paper 2 is VDDM: a model/data interface for decomposing robot manipulation video into scene/background, object/contact, occluder/tool, and robot/end-effector layers with manifests and QA. Human ego hand-object reconstruction is evaluated in Research / Ego2Dex Human Demonstration / LfD and returns only validated sidecars when needed.",
-      "output": "Durable output: layer_manifest-compatible VDDM layer packages and QA criteria."
+      "body": "VDDM decomposes robot manipulation video into scene/background, object/contact, occluder/tool and robot/end-effector layers under one layer_manifest-compatible schema.",
+      "output": "Output: validated layer packages + QA."
     },
     {
       "label": "C",
       "title": "Stage 3: Motion → Reward → Utility",
-      "body": "Stage 3 detail has moved to the Atlas Stage 3 webpage. It is the single source of truth for the Motion-State Decoder, hybrid process reward, preference and failure ranking, Fast-WAM/IDM ablations and downstream robot-utility gates; task-level results remain in dashboard TODOs and comments.",
+      "body": "Motion-State Decoder → calibrated process reward → robot utility. The full design, ablations, metrics and stop conditions live in the Atlas.",
       "output": "Open Stage 3 webpage ↗",
       "output_url": "https://gammaworld-training-atlas.linslabnus.chatgpt.site/stage-3"
     }
@@ -35,55 +35,10 @@
   "visual": {
     "layout": "standard"
   },
-  "intro_table": {
-    "kind": "architecture_status_table",
-    "caption": "UMI architecture and status framing",
-    "columns": [
-      {
-        "key": "stage",
-        "label": "Stage"
-      },
-      {
-        "key": "interface",
-        "label": "Interface"
-      },
-      {
-        "key": "status_frame",
-        "label": "Status frame"
-      }
-    ],
-    "rows": [
-      {
-        "stage": "Stage 1 / 1B",
-        "interface": "Streaming multi-view WM - full blueprint lives in the GammaWorld Training Atlas",
-        "status_frame": "Moved to the Atlas Stage 1 webpage. The dashboard keeps the launch pointer and execution tasks; the webpage owns the durable architecture, data, training, WAM and gate contract."
-      },
-      {
-        "stage": "Stage 2",
-        "interface": "Video Dynamics Decomposition Model",
-        "status_frame": "Robot manipulation video is decomposed into scene/background, object/contact, occluder/tool, and robot/end-effector layers with one manifest schema. Human Ego2Dex reconstruction is a linked Research evaluation lane, not another UMI subproject."
-      },
-      {
-        "stage": "Stage 3",
-        "interface": "Motion-state decoding, calibrated process reward and robot utility",
-        "status_frame": "Moved to the Atlas Stage 3 webpage. The dashboard keeps the launch pointer and execution tasks; the webpage owns the research design, literature map, ablations, metrics and stop conditions."
-      },
-      {
-        "stage": "Shared substrate",
-        "interface": "Single video -> multi-layer package",
-        "status_frame": "All three stages consume the same scene, object/contact, robot/actor, pose/camera-sidecar, and QA/retry outputs instead of separate preprocessing stacks."
-      }
-    ]
-  },
+  "intro_table": null,
   "layer_utility": null,
   "details": [
-    "Dashboard hygiene rule 2026-07-07: the UMI intro carries architecture and durable status framing only; task-level execution evidence belongs in TODOs or task comments, and DaiMeng/Daimon training gates belong under the DaiMeng VTAM / Tactile-WAM card.",
-    "Three-paper split: Stage 1 is the streaming multi-view pose/action-conditioned UMI World Model; Stage 2 is VDDM for reusable manipulation layers; Stage 3 is the downstream VLA/IDM/reward paper proving layered data changes learning and evaluation.",
-    "Stage 2 acceptance: every layer batch must preserve raster truth and structure through masks, RGBA/video, inpainted background, optional SVG/contact metadata, layer_manifest.json, temporal consistency, motion-residue checks, and recomposition QA.",
-    "Shared preprocessing architecture decision 2026-07-07: use one layer_manifest-compatible pipeline from robot video to scene/background, object/contact, robot/actor, pose-sidecar, and QA/retry outputs so the three paper lanes do not fork their data interface.",
-    "Data substrate status: raw Jingdu/DaiMeng-style material remains much larger than the filtered dual-arm training subset; operational counters are task-level state.",
-    "Stage-1 migration 2026-07-25: the complete streaming multi-view world-model blueprint lives at https://gammaworld-training-atlas.linslabnus.chatgpt.site/; the dashboard keeps only the launch pointer and task execution state.",
-    "Stage-3 migration 2026-07-26: the complete Motion → Reward → Utility report lives at https://gammaworld-training-atlas.linslabnus.chatgpt.site/stage-3. Its acceptance guardrail remains flat RGB vs mask-only vs full layered data on matched tasks before any IDM, reward, pose, policy or physics-forcing utility claim."
+    "Utility guardrail: compare flat RGB, mask-only and full layered data on matched tasks before any pose, IDM, reward, policy or physics-forcing claim."
   ],
   "task_ids": [
     "task_umi_wan21_dual_wrist_structure_20260617",
