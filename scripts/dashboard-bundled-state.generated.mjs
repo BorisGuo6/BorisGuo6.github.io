@@ -1,7 +1,7 @@
 export default {
   "schema_version": "dashboard-state.v1",
   "source": "bundled-json-generated",
-  "updated_at": "2026-07-23T10:40:55.469Z",
+  "updated_at": "2026-07-26T09:15:57.364Z",
   "portfolio": {
     "schema_version": "portfolio.v1",
     "portfolio_id": "embodied-ai-dashboard",
@@ -5470,7 +5470,7 @@ export default {
   ],
   "taskDoc": {
     "schema_version": "tasks.v1",
-    "updated_at": "2026-07-23T10:40:55.469Z",
+    "updated_at": "2026-07-26T09:15:57.364Z",
     "owner": "dashboard",
     "tasks": [
       {
@@ -17182,7 +17182,7 @@ export default {
         "project_id": "umi-world-model",
         "title": "Stage 3 PhysisForcing：把 VDDM 分层结果变成物理约束视频生成监督",
         "description": "把 PhysisForcing (https://dagroup-pku.github.io/PhysisForcing.github.io/) 明确接到 UMI Stage 3：不是把分层结果只当可视化标签，而是把 Stage 2/VDDM 输出的 scene/object-contact/robot layers 转成训练时的 physics_forcing sidecar，用来让 Wan/Cosmos/Gamma-style 视频 world model 生成更符合物理实际的机器人操作视频。\n\n核心想法：PhysisForcing 通过 physics-informative regions 上的 pixel-level point trajectory alignment 和 semantic-level inter-region relation alignment 来减少物体变形、轨迹跳变、robot-object interaction 不一致。UMI 的优势是 VDDM 分层已经显式给出 robot mask/state/keypoints、object/contact mask/pose/point-flow/contact events、scene depth/camera/gravity priors 和 inter-layer relations，因此比整帧 RGB 或 mask-only 更适合构造 PhysisForcing 的监督区域与关系目标。\n\nphysics_forcing sidecar schema: 每个 clip/frame 输出 physics_mask(robot/object/contact/moved-object/static-scene)、point_tracks_2d/3d、object_state(pose/velocity/point_flow/confidence)、robot_state(keypoints/eef/gripper/pose/confidence)、contact_events(onset/maintain/release/confidence)、scene_priors(depth/pointmap/camera/gravity)、relation_graph(gripper-object coupling, pushed-object motion, object-scene support, occluder relation)、loss_weights 和 confidence_gate。低置信度 pose/flow/contact 不得强行作为 ground truth，只能降权或进入 failure gallery。\n\nTraining probe: 在同一视频 backbone / 同一 train-test split 下比较 4 条路线：1) whole-frame finetune；2) mask-only weighted loss；3) raw tracker/depth forcing without layers；4) VDDM layer+state forcing。PhysisForcing-style loss 先以离线特征/小规模 adapter 形式验证：pixel trajectory alignment 监督 DiT / video-token 局部运动连续性；semantic relation alignment 对齐 robot-object/contact/scene token relation，鼓励 grasped object 跟 gripper 保持耦合、pushed object 沿接触方向移动、scene/background 不漂移。\n\nAcceptance: 1) 选 3-5 个 UMI/MolmoAct/RoboTwin/DaiMeng clips，复用 Stage 2 layer_manifest 并导出 physics_forcing sidecar；2) 写清 sidecar JSON schema、坐标系、confidence gate、loss weight 与失败条件；3) 跑一个最小同 backbone 消融或给出可运行训练配置，至少包含 whole-frame、mask-only、raw-tracker、VDDM layer+state 四组；4) 指标包含 object deformation / discontinuous trajectory、contact consistency、object pose/velocity outcome、robot-object coupling、background stability、action actual-vs-wrong separation、IDM/planner/reward utility；5) 输出对比视频、metric table、failure gallery、训练/评估命令、显存/速度/成本；6) 结论必须回答分层 sidecar 是否比 raw tracker/depth 或 mask-only 更适合作为 physics forcing，不允许只凭定性样例宣传。",
-        "status": "active",
+        "status": "done",
         "priority": "high",
         "assignee": "Boris / Haoyu / Ziyang",
         "result": null,
@@ -17195,11 +17195,22 @@ export default {
             "kind": "comment",
             "body": "Seeded from Boris 2026-07-01 direction: use layered results to make video generation more physically realistic via PhysisForcing. Project page notes PhysisForcing is a training-time framework with physics-informative regions, pixel-level point-trajectory alignment, and semantic inter-region relation alignment; UMI should map VDDM layers into cleaner object/robot/contact/scene sidecars and compare same-backbone ablations instead of claiming an automatic gain.",
             "created_at": "2026-07-01T11:32:00+08:00"
+          },
+          {
+            "comment_id": "comment_59970ed2-d435-4ee7-a5d8-d290caa36630",
+            "task_id": "task_umi_physisforcing_layer_state_video_probe_20260701",
+            "author": "Codex / Stage 3 migration",
+            "author_type": "system",
+            "kind": "comment",
+            "body": "2026-07-26 迁移闭环：GammaWorld Training Atlas Stage 3 v1.3 已新增独立 PhysisForcing Branch，并部署到 https://gammaworld-training-atlas.linslabnus.chatgpt.site/stage-3 。报告已完整承接 confidence-gated physics_forcing sidecar schema、PF-BASE / PF-VDDM / PF-STATE 三层设计、whole-frame / mask-only / raw tracker-depth PF / VDDM layer-state PF 同预算消融、video-physics 与 sidecar-cost 指标、3–5 clip probe、mean-threshold vs top-K 复现歧义、旧 UMI 仅单腕局部 forcing 的坐标边界，以及禁止同一 teacher 自教自评的独立评测门槛。此 TODO 因方案迁入 Stage 3 单一事实源而关闭；不据此声称 UMI 上已完成 PhysisForcing 训练复现或获得实验增益，后续执行仍按报告 roadmap 与 Gate A–E 推进。",
+            "created_at": "2026-07-26T09:15:57.363Z"
           }
         ],
-        "updated_at": "2026-07-01T11:32:00+08:00",
+        "updated_at": "2026-07-26T09:15:57.364Z",
         "created_at": "2026-07-01T11:32:00+08:00",
-        "due_at": "2026-07-14"
+        "due_at": "2026-07-14",
+        "completed_at": "2026-07-26",
+        "completed_at_time": "2026-07-26T09:15:57.364Z"
       },
       {
         "task_id": "task_tactile_wam_reproduce_gesim2_tactile_wam_20260627",
