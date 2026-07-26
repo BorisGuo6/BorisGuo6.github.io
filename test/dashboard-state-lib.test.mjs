@@ -739,9 +739,19 @@ assert.equal(
   "UMI Stage 3 card must link to the published Atlas subpage",
 );
 assert.equal(
-  umiProject.layer_utility,
-  null,
-  "the migrated Stage 3 layer-utility dossier must not remain duplicated in the dashboard intro",
+  umiProject.layer_utility?.title,
+  "Layered Data Utility",
+  "the dashboard must retain the durable Layered Data Utility map beside the UMI visual",
+);
+assert.deepEqual(
+  (umiProject.layer_utility?.layers || []).map((layer) => layer?.name),
+  ["Scene / Background", "Object(s) / Contact", "Robot(s) / End-Effector"],
+  "the Layered Data Utility map must retain all three recomposable layers",
+);
+assert.equal(
+  umiProject.layer_utility?.layers?.[2]?.target,
+  "State / Action Check",
+  "the robot layer must support WAM state/action consistency without restoring IDM as the Stage 3 identity",
 );
 assert.ok(
   (umiProject.references || []).some(

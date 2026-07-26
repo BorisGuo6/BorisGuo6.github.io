@@ -28,7 +28,7 @@ if (!stage1 || !stage2 || !stage3) {
 }
 
 project.summary =
-  "UMI is a three-stage program over one shared layer_manifest substrate: Stage 1 learns streaming multi-view world dynamics, Stage 2 decomposes manipulation video into reusable layers, and Stage 3 turns those layers into motion state, reward and robot utility. Stage 1 and Stage 3 specifications live in the GammaWorld Training Atlas; the dashboard tracks execution tasks and evidence.";
+  "UMI is a three-stage program over one shared layer_manifest substrate: Stage 1 learns streaming multi-view world dynamics, Stage 2 decomposes manipulation video into reusable layers, and Stage 3 turns WAM rollouts into calibrated process reward and reward-guided optimization. Stage 1 and Stage 3 specifications live in the GammaWorld Training Atlas.";
 
 Object.assign(stage1, {
   body:
@@ -44,19 +44,20 @@ Object.assign(stage2, {
 });
 
 Object.assign(stage3, {
-  title: "Stage 3: Motion → Reward → Utility",
+  title: "Stage 3: RL for WAM Infrastructure",
   body:
-    "Motion-State Decoder → calibrated process reward → robot utility. The full design, ablations, metrics and stop conditions live in the Atlas.",
+    "WAM video+action rollouts → VDDM layers → state/relations → calibrated process reward → offline preference and gated online RL. The full contract lives in the Atlas.",
   output: "Open Stage 3 webpage ↗",
   output_url: stage3Url,
 });
 
 project.intro_table = null;
 project.details = [
-  "Utility guardrail: compare flat RGB, mask-only and full layered data on matched tasks before any pose, IDM, reward, policy or physics-forcing claim.",
+  "Utility guardrail: compare flat RGB, mask-only and full layered data on matched tasks before any pose, state/action consistency, reward, policy or physics-forcing claim.",
 ];
 
-project.layer_utility = null;
+// Keep the large Layered Data Utility map in the dashboard. It is a durable
+// interface map, while the Atlas owns the detailed Stage 3 training contract.
 
 const references = Array.isArray(project.references) ? project.references : [];
 const retainedReferences = references.filter((reference) => {
@@ -74,10 +75,10 @@ project.references = [
       "Stage 1 single source of truth for the streaming multi-view world-model architecture, data contract, training stages, conditioning, memory, WAM and acceptance gates.",
   },
   {
-    title: "GammaWorld Training Atlas - Stage 3 Motion → Reward → Utility",
+    title: "GammaWorld Training Atlas - Stage 3 RL for WAM Infrastructure",
     url: stage3Url,
     notes:
-      "Stage 3 single source of truth for motion-state decoding, calibrated process reward, offline preference and failure ranking, Fast-WAM/IDM ablations, downstream utility experiments and stop conditions.",
+      "Stage 3 single source of truth for WAM rollout adapters, VDDM layering, state/relation extraction, calibrated process reward, offline preference optimization, gated online RL, and closed-loop evaluation.",
   },
   ...retainedReferences,
 ];

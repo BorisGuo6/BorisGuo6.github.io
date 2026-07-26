@@ -546,6 +546,27 @@ test("UMI Stage 1 and Stage 3 cards open their published Atlas pages", async ({ 
   await expect(stage3Link).toHaveAttribute("rel", "noopener noreferrer");
 });
 
+test("UMI retains the large Layered Data Utility map beside its visual", async ({ page }) => {
+  await mockDashboardApi(page);
+  await unlockDashboard(page);
+
+  const project = page.locator('details.project-detail[data-project-id="umi-world-model"]');
+  if (!await project.evaluate((element) => element.open)) {
+    await project.locator(":scope > summary").click();
+  }
+
+  const utility = project.locator(".layer-utility-card");
+  await expect(utility).toBeVisible();
+  await expect(utility.locator("h4")).toHaveText("Layered Data Utility");
+  await expect(utility.locator(".layer-utility-diagram-svg")).toHaveCount(1);
+  await expect(utility.locator(".layer-reference-card")).toHaveCount(3);
+  await expect(utility).toContainText("Scene / Background");
+  await expect(utility).toContainText("Object(s) / Contact");
+  await expect(utility).toContainText("Robot(s) / End-Effector");
+  await expect(utility).toContainText("State / Action Check");
+  await expect(utility).not.toContainText("Inverse Dynamic Model");
+});
+
 test("procurement stays readable on a phone", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await mockDashboardApi(page);
