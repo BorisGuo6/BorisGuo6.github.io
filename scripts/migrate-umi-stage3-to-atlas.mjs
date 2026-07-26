@@ -56,8 +56,8 @@ project.details = [
   "Utility guardrail: compare flat RGB, mask-only and full layered data on matched tasks before any pose, state/action consistency, reward, policy or physics-forcing claim.",
 ];
 
-// Keep the large Layered Data Utility map in the dashboard. It is a durable
-// interface map, while the Atlas owns the detailed Stage 3 training contract.
+// Keep the Layered Data Utility diagram and link index in the dashboard.
+// The Atlas owns all method assumptions, evidence contracts and experiment prose.
 
 const references = Array.isArray(project.references) ? project.references : [];
 const retainedReferences = references.filter((reference) => {

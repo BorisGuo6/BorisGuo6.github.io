@@ -741,7 +741,7 @@ assert.equal(
 assert.equal(
   umiProject.layer_utility?.title,
   "Layered Data Utility",
-  "the dashboard must retain the durable Layered Data Utility map beside the UMI visual",
+  "the dashboard must retain the durable Layered Data Utility map in the UMI intro",
 );
 assert.deepEqual(
   (umiProject.layer_utility?.layers || []).map((layer) => layer?.name),
@@ -753,6 +753,20 @@ assert.equal(
   "State / Action Check",
   "the robot layer must support WAM state/action consistency without restoring IDM as the Stage 3 identity",
 );
+assert.equal(
+  umiProject.layer_utility?.caption,
+  undefined,
+  "Layered Data Utility prose belongs on the Atlas rather than below dashboard links",
+);
+for (const layer of umiProject.layer_utility?.layers || []) {
+  assert.equal(layer?.summary, undefined, `${layer?.layer || "layer"} dashboard card must not duplicate Atlas prose`);
+  for (const group of layer?.groups || []) {
+    assert.equal(group?.note, undefined, `${group?.label || "group"} dashboard group must remain link-only`);
+    for (const repository of group?.repositories || []) {
+      assert.equal(repository?.note, undefined, `${repository?.label || "repository"} dashboard link must remain link-only`);
+    }
+  }
+}
 assert.ok(
   (umiProject.references || []).some(
     (reference) => reference?.url === "https://gammaworld-training-atlas.linslabnus.chatgpt.site/stage-3",

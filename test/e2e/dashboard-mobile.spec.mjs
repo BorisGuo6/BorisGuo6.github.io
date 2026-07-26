@@ -546,7 +546,7 @@ test("UMI Stage 1 and Stage 3 cards open their published Atlas pages", async ({ 
   await expect(stage3Link).toHaveAttribute("rel", "noopener noreferrer");
 });
 
-test("UMI retains the large Layered Data Utility map beside its visual", async ({ page }) => {
+test("UMI keeps its layer diagram in the right column and collapses the reference index", async ({ page }) => {
   await mockDashboardApi(page);
   await unlockDashboard(page);
 
@@ -555,15 +555,24 @@ test("UMI retains the large Layered Data Utility map beside its visual", async (
     await project.locator(":scope > summary").click();
   }
 
-  const utility = project.locator(".layer-utility-card");
+  const bodyColumn = project.locator(":scope > .project-body > div");
+  const utility = bodyColumn.locator(":scope > .layer-utility-card");
+  const references = utility.locator(".layer-reference-grid");
+  const toggle = bodyColumn.locator(":scope > .project-intro-toggle");
   await expect(utility).toBeVisible();
+  await expect(project.locator(".project-body figure .layer-utility-card")).toHaveCount(0);
   await expect(utility.locator("h4")).toHaveText("Layered Data Utility");
   await expect(utility.locator(".layer-utility-diagram-svg")).toHaveCount(1);
   await expect(utility.locator(".layer-reference-card")).toHaveCount(3);
-  await expect(utility).toContainText("Scene / Background");
-  await expect(utility).toContainText("Object(s) / Contact");
-  await expect(utility).toContainText("Robot(s) / End-Effector");
+  await expect(references).toBeHidden();
+  await expect(toggle).toHaveAttribute("aria-expanded", "false");
+  await toggle.click();
+  await expect(references).toBeVisible();
+  await expect(references).toContainText("Scene / Background");
+  await expect(references).toContainText("Object(s) / Contact");
+  await expect(references).toContainText("Robot(s) / End-Effector");
   await expect(utility).toContainText("State / Action Check");
+  await expect(utility.locator(".layer-reference-card p, .layer-utility-caption")).toHaveCount(0);
   await expect(utility).not.toContainText("Inverse Dynamic Model");
 });
 
@@ -1048,16 +1057,26 @@ test("failed local comments survive a hosted reload until reconciled", async ({ 
   await expect(page.locator("[data-sync-status]")).not.toContainText("pending local");
 });
 
-test("concise UMI intro stays directly visible without a collapse toggle", async ({ page }) => {
+test("UMI intro and linked method index default to the automatic collapsed state", async ({ page }) => {
   await mockDashboardApi(page);
   await unlockDashboard(page);
 
   const project = page.locator('details.project-detail[data-project-id="umi-world-model"]');
   const intro = project.locator(".project-intro");
   const toggle = project.locator(".project-intro-toggle");
-  await expect(toggle).toHaveCount(0);
+  const references = project.locator(".layer-reference-grid");
+  await expect(toggle).toHaveCount(1);
+  await expect(toggle).toHaveAttribute("aria-expanded", "false");
   await expect(intro).not.toHaveAttribute("role", "button");
+  await expect(intro).toHaveAttribute("aria-hidden", "true");
+  expect(await intro.evaluate((element) => element.inert)).toBe(true);
+  await expect(references).toBeHidden();
+
+  await toggle.click();
+  await expect(toggle).toHaveAttribute("aria-expanded", "true");
+  await expect(intro).toHaveAttribute("aria-hidden", "false");
   expect(await intro.evaluate((element) => element.inert)).toBe(false);
+  await expect(references).toBeVisible();
 
   await intro.evaluate((element) => {
     const link = document.createElement("a");

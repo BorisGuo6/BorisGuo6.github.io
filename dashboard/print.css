@@ -1643,8 +1643,8 @@ td small {
   display: none;
 }
 
-.project-body figure > .layer-utility-card {
-  margin-top: 0;
+.project-body > div > .layer-utility-card {
+  margin-top: 4px;
 }
 
 .layer-utility-card h4 {
@@ -1670,6 +1670,10 @@ td small {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 8px;
+}
+
+.layer-reference-grid[hidden] {
+  display: none;
 }
 
 .layer-reference-card {
@@ -1711,13 +1715,6 @@ td small {
   font-weight: 800;
 }
 
-.layer-reference-card p {
-  margin: 0;
-  color: var(--muted);
-  font-size: 11px;
-  line-height: 1.32;
-}
-
 .layer-repo-group {
   display: grid;
   gap: 5px;
@@ -1756,13 +1753,6 @@ td small {
 .layer-repo-chip:hover {
   border-color: var(--accent);
   background: #e7f4f3;
-}
-
-.layer-utility-caption {
-  margin: 0;
-  color: var(--muted);
-  font-size: 11px;
-  line-height: 1.35;
 }
 
 figcaption {

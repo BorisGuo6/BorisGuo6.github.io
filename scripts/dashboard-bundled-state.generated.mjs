@@ -560,7 +560,7 @@ export default {
       "title": "UMI Image Layered World Model",
       "bucket": "research",
       "status": "ongoing",
-      "updated_at": "2026-07-26T11:01:20.828Z",
+      "updated_at": "2026-07-26T11:27:51.916Z",
       "description": "UMI Image Layered World Model: three linked papers covering multi-view robot video world modeling, manipulation-video dynamics decomposition into reusable layers, and layered data as a general reward and RL interface for WAMs.",
       "summary": "UMI is a three-stage program over one shared layer_manifest substrate: Stage 1 learns streaming multi-view world dynamics, Stage 2 decomposes manipulation video into reusable layers, and Stage 3 turns WAM rollouts into calibrated process reward and reward-guided optimization. Stage 1 and Stage 3 specifications live in the GammaWorld Training Atlas.",
       "subprojects": [
@@ -595,13 +595,11 @@ export default {
       "layer_utility": {
         "title": "Layered Data Utility",
         "aria_label": "Image-layered robot data utility map linking scene, object/contact, and robot/end-effector layers to downstream reward and world-model infrastructure.",
-        "caption": "Layer order follows recomposition: robot and object layers overlay upward onto the scene layer. Each layer is a reusable measurement interface for the general RL-for-WAM loop: scene context and augmentation, object/contact state and process reward, and robot/end-effector state-action consistency. Compare raw RGB, mask-only, and complete layered packages on matched rollouts before claiming a gain.",
         "layers": [
           {
             "layer": "Layer 0",
             "name": "Scene / Background",
             "target": "Data Augmentation",
-            "summary": "Use the scene/background layer as stable physical context for background replacement, camera/depth/gravity estimation, and task-aware augmentation.",
             "groups": [
               {
                 "label": "Scene replacement / augmentation",
@@ -617,16 +615,13 @@ export default {
                 "repositories": [
                   {
                     "label": "MoGe",
-                    "url": "https://github.com/microsoft/moge",
-                    "note": "Monocular geometry for metric point maps, depth, normals, and camera FOV."
+                    "url": "https://github.com/microsoft/moge"
                   },
                   {
                     "label": "GeoCalib",
-                    "url": "https://github.com/cvg/GeoCalib",
-                    "note": "Single-image intrinsics and gravity-direction calibration."
+                    "url": "https://github.com/cvg/GeoCalib"
                   }
-                ],
-                "note": "The scene layer provides the geometric frame for object pose, point-flow lifting, and wrist/head-view alignment. If estimated geometry disagrees with real calibration, use it only as a prior."
+                ]
               }
             ]
           },
@@ -634,31 +629,26 @@ export default {
             "layer": "Layer 1",
             "name": "Object(s) / Contact",
             "target": "Process Reward",
-            "summary": "Use object/contact layers for masks, 3D shape, pose, point flow, contact relations, process-reward evidence, and optional physics-forcing supervision.",
             "groups": [
               {
                 "label": "2D mask / region tracking",
                 "repositories": [
                   {
                     "label": "SAM3",
-                    "url": "https://github.com/facebookresearch/sam3",
-                    "note": "Promptable image/video segmentation and tracking for task-relevant objects."
+                    "url": "https://github.com/facebookresearch/sam3"
                   }
-                ],
-                "note": "Use object IDs and contact-patch masks as Stage 3 measurement inputs, and check them against layer recomposition rather than treating segmentation output as ground truth."
+                ]
               },
               {
                 "label": "3D shape + 6-DoF / pose",
                 "repositories": [
                   {
                     "label": "SAM 3D Objects",
-                    "url": "https://github.com/facebookresearch/sam-3d-objects",
-                    "note": "Single-image masked object to 3D model with pose, shape, texture, and layout."
+                    "url": "https://github.com/facebookresearch/sam-3d-objects"
                   },
                   {
                     "label": "Fast-SAM3D",
-                    "url": "https://github.com/wlfeng0509/Fast-SAM3D",
-                    "note": "Acceleration route for SAM3D-style single-view 3D reconstruction."
+                    "url": "https://github.com/wlfeng0509/Fast-SAM3D"
                   },
                   {
                     "label": "FoundationPose",
@@ -674,19 +664,16 @@ export default {
                   },
                   {
                     "label": "Any6D",
-                    "url": "https://github.com/taeyeopl/Any6D",
-                    "note": "Model-free route for novel rigid objects. Its released path depends on an RGB-D anchor, masks, and camera intrinsics, so treat it as a calibrated oracle rather than the default generated-video route."
+                    "url": "https://github.com/taeyeopl/Any6D"
                   }
-                ],
-                "note": "Separate sensor-ground-truth, calibrated-oracle, and estimated-depth variants. The reward infrastructure must record which geometric evidence each state estimate consumed."
+                ]
               },
               {
                 "label": "Object point flow / motion",
                 "repositories": [
                   {
                     "label": "BootsTAPIR / TAPNet",
-                    "url": "https://github.com/google-deepmind/tapnet",
-                    "note": "Point tracking for object-surface motion and contact-adjacent trajectories."
+                    "url": "https://github.com/google-deepmind/tapnet"
                   },
                   {
                     "label": "BootsTAP project",
@@ -712,16 +699,14 @@ export default {
                     "label": "Any4D",
                     "url": "https://github.com/Any-4D/Any4D"
                   }
-                ],
-                "note": "For cloth, fluid, and deformable objects, report 2D tracks and lifted 3D point-cloud flow separately; depth and calibration uncertainty remain part of QA."
+                ]
               },
               {
                 "label": "Video-model physics forcing",
                 "repositories": [
                   {
                     "label": "PhysisForcing project",
-                    "url": "https://dagroup-pku.github.io/PhysisForcing.github.io/",
-                    "note": "Region-focused hierarchical physics alignment for manipulation video generation."
+                    "url": "https://dagroup-pku.github.io/PhysisForcing.github.io/"
                   },
                   {
                     "label": "PhysisForcing arXiv",
@@ -731,8 +716,7 @@ export default {
                     "label": "PhysisForcing code",
                     "url": "https://github.com/dagroup-pku/PhysisForcing"
                   }
-                ],
-                "note": "Map confidence-gated VDDM sidecars to physics-informative masks, trajectories, contact patches, and inter-layer relations. Keep this as an optional same-backbone ablation."
+                ]
               }
             ]
           },
@@ -740,43 +724,35 @@ export default {
             "layer": "Layer 2",
             "name": "Robot(s) / End-Effector",
             "target": "State / Action Check",
-            "summary": "Use robot/end-effector layers for robot pose, wrist/head ego-motion, state recovery, and consistency checks between a WAM's generated video and native action trajectory.",
             "groups": [
               {
                 "label": "Image robot pose",
                 "repositories": [
                   {
                     "label": "DREAM",
-                    "url": "https://github.com/NVlabs/DREAM",
-                    "note": "Known-state camera-to-robot baseline using RGB keypoints, forward kinematics, and PnP."
+                    "url": "https://github.com/NVlabs/DREAM"
                   },
                   {
                     "label": "CtRNet",
-                    "url": "https://github.com/ucsdarclab/CtRNet-robot-pose-estimation",
-                    "note": "Markerless camera-to-robot baseline whose released path consumes image and joint state."
+                    "url": "https://github.com/ucsdarclab/CtRNet-robot-pose-estimation"
                   },
                   {
                     "label": "CtRNet-X",
-                    "url": "https://github.com/darthandvader/CtRNet-X",
-                    "note": "CtRNet extension for partially visible manipulators, with optional RGB-D refinement."
+                    "url": "https://github.com/darthandvader/CtRNet-X"
                   },
                   {
                     "label": "RoboPose",
-                    "url": "https://github.com/yannlabb/robopose",
-                    "note": "Single-RGB render-and-compare baseline for joint angles and 6D camera-to-robot pose."
+                    "url": "https://github.com/yannlabb/robopose"
                   },
                   {
                     "label": "HoRoPose",
-                    "url": "https://github.com/Oliverbansk/Holistic-Robot-Pose-Estimation",
-                    "note": "Real-time RGB robot-pose baseline for unknown robot states; requires an explicit robot and camera-model audit."
+                    "url": "https://github.com/Oliverbansk/Holistic-Robot-Pose-Estimation"
                   },
                   {
                     "label": "Dr. Robot",
-                    "url": "https://github.com/cvlab-columbia/drrobot",
-                    "note": "Differentiable render-and-compare probe for robot state and camera pose."
+                    "url": "https://github.com/cvlab-columbia/drrobot"
                   }
-                ],
-                "note": "Keep known-state, unknown-state, and differentiable-rendering regimes separate. Every run must declare URDF, joint-state, intrinsics, depth, mask, and visibility inputs so oracle calibration is not mistaken for layer utility."
+                ]
               },
               {
                 "label": "Wrist-view VO / SLAM",

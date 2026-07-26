@@ -2898,15 +2898,12 @@
           const chip = url ? createExternalLink(url, label) : document.createElement("span");
           chip.className = "layer-repo-chip";
           chip.textContent = label;
-          if (repo?.note) {
-            chip.title = repo.note;
-          }
           return chip;
         }
 
         function createLayerRepoGroup(group) {
           const repositories = Array.isArray(group?.repositories) ? group.repositories : [];
-          if (!group?.label && repositories.length === 0 && !group?.note) {
+          if (!group?.label && repositories.length === 0) {
             return null;
           }
           const section = document.createElement("div");
@@ -2921,11 +2918,6 @@
             chips.className = "layer-repo-chips";
             repositories.map(createLayerRepoChip).filter(Boolean).forEach((chip) => chips.append(chip));
             section.append(chips);
-          }
-          if (group?.note) {
-            const note = document.createElement("p");
-            note.textContent = group.note;
-            section.append(note);
           }
           return section;
         }
@@ -3053,12 +3045,6 @@
           header.append(badge, title, target);
           card.append(header);
 
-          if (layer.summary) {
-            const summary = document.createElement("p");
-            summary.textContent = layer.summary;
-            card.append(summary);
-          }
-
           (Array.isArray(layer.groups) ? layer.groups : [])
             .map(createLayerRepoGroup)
             .filter(Boolean)
@@ -3083,13 +3069,6 @@
           references.className = "layer-reference-grid";
           layers.map(createLayerUtilityReferenceCard).forEach((card) => references.append(card));
           section.append(references);
-
-          if (config.caption) {
-            const caption = document.createElement("p");
-            caption.className = "layer-utility-caption";
-            caption.textContent = config.caption;
-            section.append(caption);
-          }
           return section;
         }
 
@@ -3125,19 +3104,22 @@
         }
 
         function renderProjectLayerUtility(projectElement, projectDoc) {
-          const figure = projectElement.querySelector(".project-body figure");
-          if (!figure) {
+          const bodyColumn = projectElement.querySelector(".project-body > div");
+          projectElement
+            .querySelectorAll(".project-body > .layer-utility-card, .project-body figure > .layer-utility-card, .project-body > div > .layer-utility-card")
+            .forEach((element) => element.remove());
+          if (!bodyColumn) {
             return;
           }
-          projectElement
-            .querySelectorAll(".project-body > .layer-utility-card, .project-body figure > .layer-utility-card")
-            .forEach((element) => element.remove());
           const layerUtility = createProjectLayerUtility(projectDoc.layer_utility);
           if (!layerUtility) {
             return;
           }
-          layerUtility.dataset.introCollapseKey = `project:${projectDoc.project_id}:intro`;
-          figure.append(layerUtility);
+          const references = layerUtility.querySelector(".layer-reference-grid");
+          if (references) {
+            references.dataset.introCollapseKey = `project:${projectDoc.project_id}:intro`;
+          }
+          bodyColumn.append(layerUtility);
         }
 
         function createTimelineChip(label, value) {
@@ -3315,7 +3297,8 @@
           intro.hidden = false;
           const textLength = `${richTextPlainText(projectDoc.summary || "")} ${projectIntroTablePlainText(projectDoc.intro_table)} ${details.map(richTextPlainText).join(" ")}`.length;
           const tableOnlyIntro = Boolean(projectDoc.intro_table) && details.length === 0;
-          const shouldCollapse = !tableOnlyIntro && (textLength > 620 || details.length > 4);
+          const hasLinkedIntroContent = Boolean(projectDoc.layer_utility);
+          const shouldCollapse = !tableOnlyIntro && (hasLinkedIntroContent || textLength > 620 || details.length > 4);
           if (!shouldCollapse) {
             intro.classList.remove("is-collapsible", "is-expanded", "is-collapse-hidden");
             delete intro.dataset.collapsedLabel;
