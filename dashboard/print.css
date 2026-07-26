@@ -2535,6 +2535,19 @@ summary.bucket-title::-webkit-details-marker {
   text-transform: uppercase;
 }
 
+.subproject-card .subproject-link {
+  color: inherit;
+  text-decoration-color: color-mix(in srgb, currentColor 48%, transparent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.subproject-card .subproject-link:hover,
+.subproject-card .subproject-link:focus-visible {
+  color: var(--ink);
+  text-decoration-color: currentColor;
+}
+
 .project-body ul {
   margin: 0;
   padding-left: 18px;

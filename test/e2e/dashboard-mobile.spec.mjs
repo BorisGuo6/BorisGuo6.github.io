@@ -526,6 +526,26 @@ test("expanded project content stays inside its card on a phone", async ({ page 
   expect(summaryDimensions.summaryWidth).toBeGreaterThanOrEqual(summaryDimensions.projectWidth * 0.65);
 });
 
+test("UMI Stage 1 and Stage 3 cards open their published Atlas pages", async ({ page }) => {
+  await mockDashboardApi(page);
+  await unlockDashboard(page);
+
+  const project = page.locator('details.project-detail[data-project-id="umi-world-model"]');
+  const stage1Link = project.locator(
+    '.subproject-link[href="https://gammaworld-training-atlas.linslabnus.chatgpt.site/"]',
+  );
+  const stage3Link = project.locator(
+    '.subproject-link[href="https://gammaworld-training-atlas.linslabnus.chatgpt.site/stage-3"]',
+  );
+
+  await expect(stage1Link).toHaveCount(1);
+  await expect(stage1Link).toHaveText("Open Stage 1 webpage ↗");
+  await expect(stage1Link).toHaveAttribute("rel", "noopener noreferrer");
+  await expect(stage3Link).toHaveCount(1);
+  await expect(stage3Link).toHaveText("Open Stage 3 webpage ↗");
+  await expect(stage3Link).toHaveAttribute("rel", "noopener noreferrer");
+});
+
 test("procurement stays readable on a phone", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await mockDashboardApi(page);

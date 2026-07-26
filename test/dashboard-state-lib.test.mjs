@@ -718,6 +718,29 @@ assert.ok(
   (umiProject.intro_table?.rows || []).length <= 8,
   "UMI intro table must stay compact; move per-owner execution tracking into TODOs or task comments",
 );
+const umiStage1Card = (umiProject.subprojects || []).find((entry) => entry?.label === "A");
+const umiStage3Card = (umiProject.subprojects || []).find((entry) => entry?.label === "C");
+assert.equal(
+  umiStage1Card?.output_url,
+  "https://gammaworld-training-atlas.linslabnus.chatgpt.site/",
+  "UMI Stage 1 card must link to the published Atlas webpage",
+);
+assert.equal(
+  umiStage3Card?.output_url,
+  "https://gammaworld-training-atlas.linslabnus.chatgpt.site/stage-3",
+  "UMI Stage 3 card must link to the published Atlas subpage",
+);
+assert.equal(
+  umiProject.layer_utility,
+  null,
+  "the migrated Stage 3 layer-utility dossier must not remain duplicated in the dashboard intro",
+);
+assert.ok(
+  (umiProject.references || []).some(
+    (reference) => reference?.url === "https://gammaworld-training-atlas.linslabnus.chatgpt.site/stage-3",
+  ),
+  "UMI references must retain the published Stage 3 report link",
+);
 const umiIntroTableExecutionFields = new Set([
   "owner",
   "assignee",
@@ -1031,6 +1054,11 @@ assert.match(
   dashboardSource,
   /subproject\.title, subproject\.name, subproject\.id[\s\S]+subproject\.body, subproject\.summary, subproject\.note[\s\S]+subproject\.output, subproject\.deliverable, subproject\.status/,
   "dashboard subproject cards should support current name/summary/status fields, not only legacy title/body/output fields",
+);
+assert.match(
+  dashboardSource,
+  /subproject\.output_url, subproject\.url[\s\S]+createExternalLink\(outputUrl, outputText\)[\s\S]+subproject-link/,
+  "dashboard subproject cards should render explicit webpage outputs as safe links",
 );
 assert.match(
   dashboardSource,

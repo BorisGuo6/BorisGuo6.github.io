@@ -4,15 +4,16 @@
   "title": "UMI Image Layered World Model",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-07-25T10:10:23.818Z",
+  "updated_at": "2026-07-26T08:13:39.517Z",
   "description": "UMI Image Layered World Model: three linked papers covering multi-view robot video world modeling, manipulation-video dynamics decomposition into reusable layers, and layered data as a downstream VLA/IDM/reward training interface.",
-  "summary": "UMI World Model is a three-paper program with one shared data substrate. Stage 1 (Streaming Multi-View UMI World Model) now lives in the GammaWorld Training Atlas artifact - the single source of truth for its decisions, data contract, training stages, WAM and gates; the dashboard keeps only this preview pointer. Latest: full 44,806-clip relative V2 materialized + full preflight complete (2026-07-25). Stage 2 produces reusable manipulation layers (VDDM); Stage 3 tests whether layered data changes downstream learning (VLA/IDM/reward).",
+  "summary": "UMI World Model is a three-paper program with one shared data substrate. Stage 1 and Stage 3 now live in the GammaWorld Training Atlas: Stage 1 owns the streaming multi-view world-model, data and WAM contract; Stage 3 owns the Motion-State Decoder → calibrated process reward → robot-utility evaluation program. The dashboard keeps concise launch pointers and task execution state. Stage 2 remains VDDM, producing reusable scene, object and robot layers with QA manifests.",
   "subprojects": [
     {
       "label": "A",
       "title": "Stage 1: Streaming Multi-View UMI World Model",
-      "body": "Stage-1 detail has moved to the GammaWorld Training Atlas artifact (preview link: first entry under References). The Atlas is the single source of truth for locked decisions, the C1/C2 data contract, V0-V4 training stages, dual-lane conditioning, memory modules, WAM action recovery, G1-G5 gates, and the migrated dashboard Stage-1 archive (acceptance protocol, WM-T/WM-C naming and route, URDF/MVA scope, Gamma/Wan action-conditioning lessons). Latest: full 44,806-clip relative V2 materialized + full preflight complete (2026-07-25); formal run pends quarantine-review policy and train-split stats verification.",
-      "output": "Preview: https://claude.ai/code/artifact/87a3b809-c651-4ff2-91ea-651b50b83348"
+      "body": "Stage 1 detail lives in the GammaWorld Training Atlas. It is the single source of truth for the data contract, V0-V4 training stages, dual-lane conditioning, memory modules, WAM action recovery and G1-G5 gates; task-level execution evidence remains in dashboard TODOs and comments.",
+      "output": "Open Stage 1 webpage ↗",
+      "output_url": "https://gammaworld-training-atlas.linslabnus.chatgpt.site/"
     },
     {
       "label": "B",
@@ -22,9 +23,10 @@
     },
     {
       "label": "C",
-      "title": "Stage 3: Layered Data Utility for VLA",
-      "body": "Paper 3 tests whether layered data changes downstream learning, not just visual quality. Utility claims must be measured through pose/flow, sparse value or process-reward signals, IDM/reward/eval, augmentation, and PhysisForcing-style supervision against raw-RGB and mask-only baselines.",
-      "output": "Durable output: downstream utility ablations for pose, reward/eval, IDM, policy, and physics-forcing signals."
+      "title": "Stage 3: Motion → Reward → Utility",
+      "body": "Stage 3 detail has moved to the Atlas Stage 3 webpage. It is the single source of truth for the Motion-State Decoder, hybrid process reward, preference and failure ranking, Fast-WAM/IDM ablations and downstream robot-utility gates; task-level results remain in dashboard TODOs and comments.",
+      "output": "Open Stage 3 webpage ↗",
+      "output_url": "https://gammaworld-training-atlas.linslabnus.chatgpt.site/stage-3"
     }
   ],
   "asset": "dashboard/assets/umi-shared-backbone-dual-branch-wan-20260617.jpg",
@@ -53,8 +55,8 @@
     "rows": [
       {
         "stage": "Stage 1 / 1B",
-        "interface": "Streaming multi-view WM - full blueprint lives in the GammaWorld Training Atlas (Stage 1 preview card / first reference)",
-        "status_frame": "Moved to the Atlas. Current: full 44,806-clip relative V2 materialized + full preflight done 2026-07-25 (27,982 pass / 16,824 quarantine-review / 0 hard reject); formal run pends quarantine policy and train-split stats verification."
+        "interface": "Streaming multi-view WM - full blueprint lives in the GammaWorld Training Atlas",
+        "status_frame": "Moved to the Atlas Stage 1 webpage. The dashboard keeps the launch pointer and execution tasks; the webpage owns the durable architecture, data, training, WAM and gate contract."
       },
       {
         "stage": "Stage 2",
@@ -63,8 +65,8 @@
       },
       {
         "stage": "Stage 3",
-        "interface": "Layered data utility",
-        "status_frame": "The research claim is downstream utility: compare layer packages against raw RGB and mask-only baselines for pose, reward, IDM, policy, and physics-forcing signals."
+        "interface": "Motion-state decoding, calibrated process reward and robot utility",
+        "status_frame": "Moved to the Atlas Stage 3 webpage. The dashboard keeps the launch pointer and execution tasks; the webpage owns the research design, literature map, ablations, metrics and stop conditions."
       },
       {
         "stage": "Shared substrate",
@@ -73,217 +75,15 @@
       }
     ]
   },
-  "layer_utility": {
-    "title": "Layer utility map",
-    "aria_label": "Image-layered robot data utility map linking scene, object, and robot layers to downstream model families and third-party visual processing tools.",
-    "caption": "Layer order follows recomposition: robot/object layers overlay upward onto the scene layer. Stage 3 treats each robot-data layer as an interface to external vision/geometry tools, then checks whether the resulting signals improve IDM, reward, pose/flow, augmentation, and PhysisForcing-style video-model physics alignment beyond raw RGB and mask-only baselines. Human Ego2Dex reconstruction and LfD execution live in Research / Ego2Dex Human Demonstration / LfD.",
-    "layers": [
-      {
-        "layer": "Layer 0",
-        "name": "Scene / Background",
-        "target": "Data Augmentation",
-        "summary": "Use the scene/background layer as stable physical context: background replacement, camera/depth/gravity estimation, and task-aware augmentation.",
-        "groups": [
-          {
-            "label": "Scene replacement / augmentation",
-            "repositories": [
-              {
-                "label": "RoboEngine",
-                "url": "https://roboengine.github.io"
-              }
-            ]
-          },
-          {
-            "label": "Depth / camera / gravity calibration",
-            "repositories": [
-              {
-                "label": "MoGe",
-                "url": "https://github.com/microsoft/moge",
-                "note": "Monocular geometry for metric point maps, depth, normals, and camera FOV."
-              },
-              {
-                "label": "GeoCalib",
-                "url": "https://github.com/cvg/GeoCalib",
-                "note": "Single-image intrinsics and gravity-direction calibration."
-              }
-            ],
-            "note": "Scene layer should provide the metric/geometric frame for object 3D pose, point flow lifting, and wrist/head-view alignment; if MoGe/GeoCalib disagree with real calibration, use them only as priors."
-          }
-        ]
-      },
-      {
-        "layer": "Layer 1",
-        "name": "Object(s) / Contact",
-        "target": "Reward Model",
-        "summary": "Use object/contact layers for masks, 3D shape, 6-DoF/object pose, point flow, process-reward evidence, and physics-forcing supervision for video world models.",
-        "groups": [
-          {
-            "label": "2D mask / region tracking",
-            "repositories": [
-              {
-                "label": "SAM3",
-                "url": "https://github.com/facebookresearch/sam3",
-                "note": "Promptable image/video segmentation and tracking for task-relevant objects."
-              }
-            ],
-            "note": "Keep SAM3 here as a Stage 3 measurement input as well as a Stage 2 mask source: object IDs, contact patch masks, and failure cases should be checked against layer recomposition."
-          },
-          {
-            "label": "3D shape + 6-DoF / pose",
-            "repositories": [
-              {
-                "label": "SAM 3D Objects",
-                "url": "https://github.com/facebookresearch/sam-3d-objects",
-                "note": "Single-image masked object -> 3D model with pose, shape, texture, and layout."
-              },
-              {
-                "label": "Fast-SAM3D",
-                "url": "https://github.com/wlfeng0509/Fast-SAM3D",
-                "note": "Acceleration route for SAM3D-style single-view 3D reconstruction."
-              },
-              {
-                "label": "FoundationPose",
-                "url": "https://github.com/NVlabs/FoundationPose.git"
-              },
-              {
-                "label": "Fast-FoundationStereoPhysics",
-                "url": "https://github.com/Vector-Wangel/Fast-FoundationStereoPhysics.git"
-              },
-              {
-                "label": "Orient-Anything",
-                "url": "https://github.com/SpatialVision/Orient-Anything"
-              },
-              {
-                "label": "Any6D",
-                "url": "https://github.com/taeyeopl/Any6D",
-                "note": "Official CVPR 2025 model-free route for novel rigid objects. The released pipeline is RGB-D and calibration dependent, using a single RGB-D anchor plus masks/camera intrinsics; treat it as a calibrated rigid-object oracle, not the default generated-video route."
-              }
-            ],
-            "note": "Split the benchmark by available evidence. Use FoundationPose-family methods when CAD/template or calibrated RGB-D is available; use Any6D for novel rigid objects only when its RGB-D anchor, masks, and camera intrinsics can be supplied. Use SAM 3D Objects/Fast-SAM3D as single-image shape/layout probes, and report estimated-depth/calibration variants separately from sensor-ground-truth runs."
-          },
-          {
-            "label": "Object point flow / motion",
-            "repositories": [
-              {
-                "label": "BootsTAPIR / TAPNet",
-                "url": "https://github.com/google-deepmind/tapnet",
-                "note": "TAPIR/BootsTAPIR point tracking for object surface motion and contact-adjacent trajectories."
-              },
-              {
-                "label": "BootsTAP project",
-                "url": "https://bootstap.github.io/"
-              },
-              {
-                "label": "AllTracker",
-                "url": "https://github.com/aharley/alltracker"
-              },
-              {
-                "label": "Video Depth Anything",
-                "url": "https://github.com/DepthAnything/Video-Depth-Anything"
-              },
-              {
-                "label": "D4RT",
-                "url": "https://github.com/MasahiroOgawa/D4RT_MasImpl.git"
-              },
-              {
-                "label": "CoTracker",
-                "url": "https://github.com/facebookresearch/co-tracker"
-              },
-              {
-                "label": "Any4D",
-                "url": "https://github.com/Any-4D/Any4D"
-              }
-            ],
-            "note": "For cloth/fluid/deformable objects, report 2D tracks and lifted 3D point-cloud flow separately; depth/calibration uncertainty should be part of QA."
-          },
-          {
-            "label": "Video-model physics forcing",
-            "repositories": [
-              {
-                "label": "PhysisForcing project",
-                "url": "https://dagroup-pku.github.io/PhysisForcing.github.io/",
-                "note": "Region-focused hierarchical physics alignment for manipulation video generation."
-              },
-              {
-                "label": "PhysisForcing arXiv",
-                "url": "https://arxiv.org/abs/2606.28128"
-              },
-              {
-                "label": "PhysisForcing code",
-                "url": "https://github.com/dagroup-pku/PhysisForcing"
-              }
-            ],
-            "note": "Map VDDM sidecars to PhysisForcing-style training signals: physics-informative masks, point trajectories, object/robot state, contact patches, and inter-layer relation targets. Treat as a same-backbone ablation against whole-frame finetuning, mask-only weighting, and raw tracker/depth forcing."
-          }
-        ]
-      },
-      {
-        "layer": "Layer 2",
-        "name": "Robot(s) / End-Effector",
-        "target": "Inverse Dynamic Model",
-        "summary": "Use robot/end-effector layers for robot pose, wrist/head ego-motion, state recovery, action prediction, and IDM supervision.",
-        "groups": [
-          {
-            "label": "Image robot pose",
-            "repositories": [
-              {
-                "label": "DREAM",
-                "url": "https://github.com/NVlabs/DREAM",
-                "note": "Known-state camera-to-robot baseline: detects robot keypoints in RGB and combines them with robot forward kinematics through PnP."
-              },
-              {
-                "label": "CtRNet",
-                "url": "https://github.com/ucsdarclab/CtRNet-robot-pose-estimation",
-                "note": "Markerless camera-to-robot baseline whose released ROS path consumes image and joint-state topics and publishes robot pose."
-              },
-              {
-                "label": "CtRNet-X",
-                "url": "https://github.com/darthandvader/CtRNet-X",
-                "note": "CtRNet extension for partially visible manipulators; useful for cropped wrist/third-person clips, with RGB-D refinement available as an optional branch."
-              },
-              {
-                "label": "RoboPose",
-                "url": "https://github.com/yannlabb/robopose",
-                "note": "Single-RGB render-and-compare baseline that estimates joint angles and 6D camera-to-robot pose, with a known-joint variant also available."
-              },
-              {
-                "label": "HoRoPose",
-                "url": "https://github.com/Oliverbansk/Holistic-Robot-Pose-Estimation",
-                "note": "Real-time RGB robot-pose baseline for unknown robot states; requires the robot URDF/model and an explicit camera-model audit."
-              },
-              {
-                "label": "Dr. Robot",
-                "url": "https://github.com/cvlab-columbia/drrobot",
-                "note": "Differentiable-rendering probe for optimizing robot state/camera pose against pixels; Ziyang's current finding is that Franka support is not plug-and-play."
-              }
-            ],
-            "note": "Keep three supervision regimes separate: DREAM/CtRNet/CtRNet-X estimate camera-to-robot pose with robot-state/kinematic support; RoboPose/HoRoPose estimate unknown robot state from RGB; Dr. Robot is a differentiable render-and-compare route. Every run must declare URDF, joint-state, intrinsics, depth, mask, and visibility inputs so oracle calibration is not mistaken for Robot Layer utility."
-          },
-          {
-            "label": "Wrist-view VO / SLAM",
-            "repositories": [
-              {
-                "label": "ORB-SLAM3",
-                "url": "https://github.com/UZ-SLAMLab/ORB_SLAM3.git"
-              },
-              {
-                "label": "VGGT-SLAM",
-                "url": "https://github.com/MIT-SPARK/VGGT-SLAM.git"
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  },
+  "layer_utility": null,
   "details": [
     "Dashboard hygiene rule 2026-07-07: the UMI intro carries architecture and durable status framing only; task-level execution evidence belongs in TODOs or task comments, and DaiMeng/Daimon training gates belong under the DaiMeng VTAM / Tactile-WAM card.",
     "Three-paper split: Stage 1 is the streaming multi-view pose/action-conditioned UMI World Model; Stage 2 is VDDM for reusable manipulation layers; Stage 3 is the downstream VLA/IDM/reward paper proving layered data changes learning and evaluation.",
     "Stage 2 acceptance: every layer batch must preserve raster truth and structure through masks, RGBA/video, inpainted background, optional SVG/contact metadata, layer_manifest.json, temporal consistency, motion-residue checks, and recomposition QA.",
-    "Stage 3 acceptance: compare flat RGB, mask-only/SAM, and full layered data on the same tasks before claiming gains in IDM, FoundationPose/pose extraction, sparse value/process reward, background augmentation, policy training, or PhysisForcing-style supervision.",
     "Shared preprocessing architecture decision 2026-07-07: use one layer_manifest-compatible pipeline from robot video to scene/background, object/contact, robot/actor, pose-sidecar, and QA/retry outputs so the three paper lanes do not fork their data interface.",
     "Data substrate status: raw Jingdu/DaiMeng-style material remains much larger than the filtered dual-arm training subset; operational counters are task-level state.",
-    "Stage-1 migration 2026-07-25: Stage 1 acceptance, internal model naming, URDF/MVA scope, action-conditioning lessons, and Stage-1 references moved to the GammaWorld Training Atlas artifact (first entry under References). The Atlas is the Stage-1 single source of truth; this card keeps only the preview pointer. Route update 2026-07-25: the planned WM-F/Drift parallel fast-rollout branch is cancelled; the Stage-1 mainline is WM-T -> WM-C only (see the Atlas naming card)."
+    "Stage-1 migration 2026-07-25: the complete streaming multi-view world-model blueprint lives at https://gammaworld-training-atlas.linslabnus.chatgpt.site/; the dashboard keeps only the launch pointer and task execution state.",
+    "Stage-3 migration 2026-07-26: the complete Motion → Reward → Utility report lives at https://gammaworld-training-atlas.linslabnus.chatgpt.site/stage-3. Its acceptance guardrail remains flat RGB vs mask-only vs full layered data on matched tasks before any IDM, reward, pose, policy or physics-forcing utility claim."
   ],
   "task_ids": [
     "task_umi_wan21_dual_wrist_structure_20260617",
@@ -316,9 +116,14 @@
   ],
   "references": [
     {
-      "title": "GammaWorld Training Atlas - Stage 1 full blueprint (preview)",
-      "url": "https://claude.ai/code/artifact/87a3b809-c651-4ff2-91ea-651b50b83348",
-      "notes": "Stage-1 single source of truth: locked decisions, C1/C2 data contract, V0-V4 stages, dual conditioning, memory modules, WAM, G1-G5 gates, plus the migrated dashboard Stage-1 archive and Stage-1 references. Status 2026-07-25: full 44,806-clip relative V2 materialized + full preflight complete."
+      "title": "GammaWorld Training Atlas - Stage 1 full blueprint",
+      "url": "https://gammaworld-training-atlas.linslabnus.chatgpt.site/",
+      "notes": "Stage 1 single source of truth for the streaming multi-view world-model architecture, data contract, training stages, conditioning, memory, WAM and acceptance gates."
+    },
+    {
+      "title": "GammaWorld Training Atlas - Stage 3 Motion → Reward → Utility",
+      "url": "https://gammaworld-training-atlas.linslabnus.chatgpt.site/stage-3",
+      "notes": "Stage 3 single source of truth for motion-state decoding, calibrated process reward, offline preference and failure ranking, Fast-WAM/IDM ablations, downstream utility experiments and stop conditions."
     },
     {
       "title": "Dashboard asset: world-model taxonomy",

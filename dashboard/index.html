@@ -3223,7 +3223,17 @@
           const outputText = firstText(subproject.output, subproject.deliverable, subproject.status);
           if (outputText) {
             const output = document.createElement("em");
-            output.textContent = outputText;
+            const outputUrl = firstText(subproject.output_url, subproject.url)
+              || outputText.match(/https?:\/\/[^\s]+/u)?.[0]
+              || "";
+            if (outputUrl) {
+              const link = createExternalLink(outputUrl, outputText);
+              link.classList.add("subproject-link");
+              output.append(link);
+              card.classList.add("has-link");
+            } else {
+              output.textContent = outputText;
+            }
             card.append(output);
           }
           return card;
