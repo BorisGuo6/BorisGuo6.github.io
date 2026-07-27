@@ -546,7 +546,7 @@ test("UMI Stage 1 and Stage 3 cards open their published Atlas pages", async ({ 
   await expect(stage3Link).toHaveAttribute("rel", "noopener noreferrer");
 });
 
-test("UMI keeps the layer diagram atop the right column and stacks methods under the left figure", async ({ page }) => {
+test("UMI presents equal dual hero visuals and stacks methods under the left figure", async ({ page }) => {
   await mockDashboardApi(page);
   await unlockDashboard(page);
 
@@ -561,6 +561,7 @@ test("UMI keeps the layer diagram atop the right column and stacks methods under
   const utility = bodyColumn.locator(":scope > .layer-utility-card");
   const references = visualColumn.locator(":scope > .layer-reference-grid");
   const toggle = bodyColumn.locator(":scope > .project-intro-toggle");
+  const architectureImage = visualColumn.locator(":scope > figure img");
   await expect(visualColumn.locator(":scope > figure")).toHaveCount(1);
   await expect(visualColumn.locator(":scope > figure + .layer-reference-grid")).toHaveCount(1);
   await expect(utility).toBeVisible();
@@ -568,6 +569,27 @@ test("UMI keeps the layer diagram atop the right column and stacks methods under
   await expect(bodyColumn.locator(":scope > .layer-utility-card + .project-intro")).toHaveCount(1);
   await expect(utility.locator("h4")).toHaveText("Layered Data Utility");
   await expect(utility.locator(".layer-utility-diagram-svg")).toHaveCount(1);
+  const [architectureBox, utilityBox, diagramBox] = await Promise.all([
+    architectureImage.boundingBox(),
+    utility.boundingBox(),
+    utility.locator(".layer-utility-diagram-svg").boundingBox(),
+  ]);
+  expect(architectureBox).not.toBeNull();
+  expect(utilityBox).not.toBeNull();
+  expect(diagramBox).not.toBeNull();
+  expect(Math.abs(architectureBox.y - utilityBox.y)).toBeLessThanOrEqual(1);
+  expect(Math.abs(architectureBox.height - utilityBox.height)).toBeLessThanOrEqual(2);
+  expect(diagramBox.y).toBeGreaterThanOrEqual(utilityBox.y);
+  expect(diagramBox.y + diagramBox.height).toBeLessThanOrEqual(utilityBox.y + utilityBox.height + 1);
+  const heroStyles = await architectureImage.evaluate((element) => {
+    const styles = getComputedStyle(element);
+    return {
+      aspectRatio: styles.aspectRatio,
+      objectFit: styles.objectFit,
+    };
+  });
+  expect(heroStyles.aspectRatio).toBe("16 / 9");
+  expect(heroStyles.objectFit).toBe("cover");
   await expect(references.locator(".layer-reference-card")).toHaveCount(3);
   await expect(references).toBeHidden();
   await expect(toggle).toHaveAttribute("aria-expanded", "false");
@@ -583,6 +605,19 @@ test("UMI keeps the layer diagram atop the right column and stacks methods under
   await expect(references).toContainText("State / Action Check");
   await expect(references.locator(".layer-reference-card p, .layer-utility-caption")).toHaveCount(0);
   await expect(references).not.toContainText("Inverse Dynamic Model");
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  const mobileColumns = await projectBody.evaluate((element) =>
+    getComputedStyle(element).gridTemplateColumns.split(" ").filter(Boolean).length
+  );
+  expect(mobileColumns).toBe(1);
+  const [mobileUtilityBox, mobileDiagramBox] = await Promise.all([
+    utility.boundingBox(),
+    utility.locator(".layer-utility-diagram-svg").boundingBox(),
+  ]);
+  expect(mobileDiagramBox.y + mobileDiagramBox.height).toBeLessThanOrEqual(
+    mobileUtilityBox.y + mobileUtilityBox.height + 1
+  );
 });
 
 test("procurement stays readable on a phone", async ({ page }) => {

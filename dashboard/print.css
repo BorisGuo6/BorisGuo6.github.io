@@ -1648,7 +1648,14 @@ td small {
 }
 
 .project-body.umi-layer-split {
+  --umi-dual-hero-aspect: 16 / 9;
   align-items: start;
+}
+
+@media screen and (min-width: 821px) {
+  .project-body.umi-layer-split {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 .project-visual-column {
@@ -1662,8 +1669,33 @@ td small {
   width: 100%;
 }
 
+.project-body.umi-layer-split .project-visual-column > figure {
+  gap: 10px;
+}
+
+.project-body.umi-layer-split .project-visual-column > figure img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: var(--umi-dual-hero-aspect);
+  object-fit: cover;
+  object-position: center;
+}
+
 .project-body.umi-layer-split > div > .layer-utility-diagram-card {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  aspect-ratio: var(--umi-dual-hero-aspect);
   margin: 0 0 10px;
+  padding: 0;
+  overflow: hidden;
+}
+
+.project-body.umi-layer-split > div > .layer-utility-diagram-card .layer-utility-diagram-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .layer-reference-grid.layer-reference-stack {
