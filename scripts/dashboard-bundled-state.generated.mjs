@@ -560,7 +560,7 @@ export default {
       "title": "UMI Image Layered World Model",
       "bucket": "research",
       "status": "ongoing",
-      "updated_at": "2026-07-27T02:45:56.956Z",
+      "updated_at": "2026-07-27T03:00:17.074Z",
       "description": "UMI Image Layered World Model: three linked papers covering multi-view robot video world modeling, manipulation-video dynamics decomposition into reusable layers, and layered data as a general reward and RL interface for WAMs.",
       "summary": "UMI is a three-stage program over one shared layer_manifest substrate: Stage 1 learns streaming multi-view world dynamics, Stage 2 decomposes manipulation video into reusable layers, and Stage 3 turns WAM rollouts into calibrated process reward and reward-guided optimization. Stage 1 and Stage 3 specifications live in the GammaWorld Training Atlas.",
       "subprojects": [
