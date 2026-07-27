@@ -60,6 +60,26 @@ a:focus, a:hover {
   text-decoration: none;
 }
 
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid #005ea8;
+  outline-offset: 3px;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
 /* ===== Heading Styles ===== */
 h2 {
   margin: 0;
@@ -189,6 +209,10 @@ h3 {
   background-color: rgba(0, 0, 0, 0.5);
 }
 
+.modal[aria-hidden="false"] {
+  display: block;
+}
+
 .modal-content {
   margin: 10% auto;
   padding: 20px;
@@ -199,12 +223,24 @@ h3 {
   max-width: 400px;
 }
 
+.academic-links-content {
+  text-align: left;
+}
+
 .close {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
   color: #aaa;
   float: right;
   font-size: 28px;
   font-weight: bold;
   cursor: pointer;
+  line-height: 1;
 }
 
 .close:hover, .close:focus {
@@ -313,7 +349,13 @@ details summary:hover {
   text-decoration: none;
   margin-right: 3px;
   margin-bottom: 3px;
-  transition: all 0.3s ease;
+  cursor: pointer;
+  font-family: inherit;
+  line-height: inherit;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease,
+    transform 140ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .btn-sm.badge-button:hover {
@@ -708,7 +750,10 @@ a:active {
   text-decoration: none;
   margin-right: 2px;
   margin-bottom: 2px;
-  transition: all 0.3s ease;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease,
+    transform 140ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .paper-link-btn:hover {
@@ -770,6 +815,10 @@ a:active {
   color: #153449;
   cursor: pointer;
   font: 700 15px/1.2 Arial, Helvetica, sans-serif;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease,
+    transform 140ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .robot-demo-launch-button:hover,
@@ -777,6 +826,16 @@ a:active {
   border-color: #3f88ad;
   outline: 3px solid rgba(63, 136, 173, 0.22);
   outline-offset: 2px;
+}
+
+.btn-sm.badge-button:active,
+.paper-link-btn:active,
+.link-button:active,
+.link-button-small:active,
+.robot-demo-launch-button:active,
+#togglePapers:active,
+.close:active {
+  transform: scale(0.97);
 }
 
 .robot-demo-runtime-frame {
@@ -927,5 +986,35 @@ a:active {
 
   .org-entre-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  details summary::before,
+  .btn-sm.badge-button,
+  .paper-link-btn,
+  .link-button,
+  .link-button-small,
+  .hoverZoomLink,
+  .robot-demo-launch-button,
+  #togglePapers,
+  .close {
+    transition-property: background-color, color, border-color, filter;
+    transition-duration: 160ms;
+  }
+
+  details[open] summary::before,
+  .btn-sm.badge-button:active,
+  .paper-link-btn:active,
+  .link-button:active,
+  .link-button-small:active,
+  .robot-demo-launch-button:active,
+  #togglePapers:active,
+  .close:active {
+    transform: none;
   }
 }

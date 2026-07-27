@@ -546,7 +546,7 @@ test("UMI Stage 1 and Stage 3 cards open their published Atlas pages", async ({ 
   await expect(stage3Link).toHaveAttribute("rel", "noopener noreferrer");
 });
 
-test("UMI keeps its layer diagram in the right column and collapses the reference index", async ({ page }) => {
+test("UMI keeps the layer diagram atop the right column and stacks methods under the left figure", async ({ page }) => {
   await mockDashboardApi(page);
   await unlockDashboard(page);
 
@@ -555,25 +555,34 @@ test("UMI keeps its layer diagram in the right column and collapses the referenc
     await project.locator(":scope > summary").click();
   }
 
-  const bodyColumn = project.locator(":scope > .project-body > div");
+  const projectBody = project.locator(":scope > .project-body");
+  const bodyColumn = projectBody.locator(":scope > div");
+  const visualColumn = projectBody.locator(":scope > .project-visual-column");
   const utility = bodyColumn.locator(":scope > .layer-utility-card");
-  const references = utility.locator(".layer-reference-grid");
+  const references = visualColumn.locator(":scope > .layer-reference-grid");
   const toggle = bodyColumn.locator(":scope > .project-intro-toggle");
+  await expect(visualColumn.locator(":scope > figure")).toHaveCount(1);
+  await expect(visualColumn.locator(":scope > figure + .layer-reference-grid")).toHaveCount(1);
   await expect(utility).toBeVisible();
   await expect(project.locator(".project-body figure .layer-utility-card")).toHaveCount(0);
+  await expect(bodyColumn.locator(":scope > .layer-utility-card + .project-intro")).toHaveCount(1);
   await expect(utility.locator("h4")).toHaveText("Layered Data Utility");
   await expect(utility.locator(".layer-utility-diagram-svg")).toHaveCount(1);
-  await expect(utility.locator(".layer-reference-card")).toHaveCount(3);
+  await expect(references.locator(".layer-reference-card")).toHaveCount(3);
   await expect(references).toBeHidden();
   await expect(toggle).toHaveAttribute("aria-expanded", "false");
   await toggle.click();
   await expect(references).toBeVisible();
+  const referenceColumns = await references.evaluate((element) =>
+    getComputedStyle(element).gridTemplateColumns.split(" ").filter(Boolean).length
+  );
+  expect(referenceColumns).toBe(1);
   await expect(references).toContainText("Scene / Background");
   await expect(references).toContainText("Object(s) / Contact");
   await expect(references).toContainText("Robot(s) / End-Effector");
-  await expect(utility).toContainText("State / Action Check");
-  await expect(utility.locator(".layer-reference-card p, .layer-utility-caption")).toHaveCount(0);
-  await expect(utility).not.toContainText("Inverse Dynamic Model");
+  await expect(references).toContainText("State / Action Check");
+  await expect(references.locator(".layer-reference-card p, .layer-utility-caption")).toHaveCount(0);
+  await expect(references).not.toContainText("Inverse Dynamic Model");
 });
 
 test("procurement stays readable on a phone", async ({ page }) => {

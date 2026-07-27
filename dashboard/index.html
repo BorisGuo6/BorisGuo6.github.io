@@ -3104,11 +3104,12 @@
         }
 
         function renderProjectLayerUtility(projectElement, projectDoc) {
+          const projectBody = projectElement.querySelector(".project-body");
           const bodyColumn = projectElement.querySelector(".project-body > div");
           projectElement
-            .querySelectorAll(".project-body > .layer-utility-card, .project-body figure > .layer-utility-card, .project-body > div > .layer-utility-card")
+            .querySelectorAll(".project-body .layer-utility-card, .project-body .layer-reference-grid")
             .forEach((element) => element.remove());
-          if (!bodyColumn) {
+          if (!projectBody || !bodyColumn) {
             return;
           }
           const layerUtility = createProjectLayerUtility(projectDoc.layer_utility);
@@ -3119,6 +3120,33 @@
           if (references) {
             references.dataset.introCollapseKey = `project:${projectDoc.project_id}:intro`;
           }
+
+          if (projectDoc.layer_utility?.layout === "split-visual-methods") {
+            projectBody.classList.add("umi-layer-split");
+            let visualColumn = projectBody.querySelector(":scope > .project-visual-column");
+            if (!visualColumn) {
+              visualColumn = document.createElement("aside");
+              visualColumn.className = "project-visual-column";
+              visualColumn.setAttribute("aria-label", "UMI architecture and layered method references");
+              const figure = projectBody.querySelector(":scope > figure");
+              if (figure) {
+                figure.before(visualColumn);
+                visualColumn.append(figure);
+              } else {
+                projectBody.prepend(visualColumn);
+              }
+            }
+
+            layerUtility.classList.add("layer-utility-diagram-card");
+            if (references) {
+              references.classList.add("layer-reference-stack");
+              references.setAttribute("aria-label", "Layered Data Utility methods");
+              visualColumn.append(references);
+            }
+            bodyColumn.prepend(layerUtility);
+            return;
+          }
+
           bodyColumn.append(layerUtility);
         }
 

@@ -84,42 +84,66 @@ function ptMeasure(text, font, maxW, lineH) {
   } catch (e) { return null; }
 }
 
-// Estimate total pixel height of all hidden paper rows using pretext.
-// Used by togglePapers() to animate the expand/collapse height precisely.
-function ptEstimateHiddenPapersHeight() {
-  const papers = window._cachedPublications;
-  if (!papers || !window._pt) return null;
-  const tbody = document.getElementById('publications-tbody');
-  const contentW = tbody ? Math.max(tbody.offsetWidth * 0.60 - 20, 200) : 460;
-  let total = 0;
-  papers.filter(function (p) { return p.display === 'hidden'; }).forEach(function (p) {
-    const r = ptMeasure(p.title, 'bold 15px sans-serif', contentW, 22);
-    const titleH = r ? r.height : 44;
-    total += Math.max(titleH + 95, 160) + 20; // title + authors/venue/links + row padding
+// ============================================================================
+// Dialog Functions
+// ============================================================================
+var activeDialog = null;
+var dialogReturnFocus = null;
+
+function getDialogFocusableElements(dialog) {
+  if (!dialog) return [];
+  return Array.from(dialog.querySelectorAll(
+    'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+  )).filter(function (element) {
+    return element.getClientRects().length > 0 && element.getAttribute('aria-hidden') !== 'true';
   });
-  return Math.ceil(total);
+}
+
+function openDialog(dialog) {
+  if (!dialog) return;
+  if (activeDialog && activeDialog !== dialog) closeDialog(activeDialog, false);
+
+  dialogReturnFocus = document.activeElement;
+  activeDialog = dialog;
+  dialog.setAttribute('aria-hidden', 'false');
+
+  requestAnimationFrame(function () {
+    const focusable = getDialogFocusableElements(dialog);
+    if (focusable.length) focusable[0].focus();
+  });
+}
+
+function closeDialog(dialog, restoreFocus) {
+  if (!dialog) return;
+  dialog.setAttribute('aria-hidden', 'true');
+  if (activeDialog === dialog) activeDialog = null;
+
+  if (restoreFocus !== false && dialogReturnFocus && typeof dialogReturnFocus.focus === 'function') {
+    dialogReturnFocus.focus();
+  }
+  dialogReturnFocus = null;
 }
 
 // ============================================================================
 // Academic Links Modal Functions
 // ============================================================================
 function openAcademicLinks() {
-  document.getElementById("AcademicLinksModal").style.display = "block";
+  openDialog(document.getElementById("AcademicLinksModal"));
 }
 
 function closeAcademicLinks() {
-  document.getElementById("AcademicLinksModal").style.display = "none";
+  closeDialog(document.getElementById("AcademicLinksModal"));
 }
 
 // ============================================================================
 // WeChat Modal Functions
 // ============================================================================
 function openWeChatModal() {
-  document.getElementById("WeChatModal").style.display = "block";
+  openDialog(document.getElementById("WeChatModal"));
 }
 
 function closeWeChatModal() {
-  document.getElementById("WeChatModal").style.display = "none";
+  closeDialog(document.getElementById("WeChatModal"));
 }
 
 // ============================================================================
@@ -148,7 +172,7 @@ function openAward(imagePath, imageAlt, personalPath, teamPath) {
     img.alt = imageAlt;
   }
 
-  modal.style.display = "block";
+  openDialog(modal);
 }
 
 function switchAward(type) {
@@ -165,6 +189,8 @@ function switchAward(type) {
     personalBtn.style.color = "white";
     teamBtn.style.backgroundColor = "#cccccc";
     teamBtn.style.color = "#666666";
+    personalBtn.setAttribute('aria-pressed', 'true');
+    teamBtn.setAttribute('aria-pressed', 'false');
     credentialLink.style.display = "block";
   } else {
     img.src = awardImages.team;
@@ -173,12 +199,14 @@ function switchAward(type) {
     teamBtn.style.color = "white";
     personalBtn.style.backgroundColor = "#cccccc";
     personalBtn.style.color = "#666666";
+    personalBtn.setAttribute('aria-pressed', 'false');
+    teamBtn.setAttribute('aria-pressed', 'true');
     credentialLink.style.display = "none";
   }
 }
 
 function closeAward() {
-  document.getElementById("AwardModal").style.display = "none";
+  closeDialog(document.getElementById("AwardModal"));
 }
 
 // Full-size preview for paper thumbnails, profile photo, org logos (same modal as certificates).
@@ -195,64 +223,29 @@ function togglePapers() {
   const highlightPapersLight = document.querySelectorAll('.highlight-paper-light');
   const toggleText = document.getElementById('togglePapersText');
   const toggleIcon = document.getElementById('togglePapersIcon');
+  const toggleButton = document.getElementById('togglePapers');
   const titleElement = document.querySelector('#publications-title');
   const highlightNote = document.querySelector('#highlight-note');
-  const wrap = document.getElementById('publications-wrap');
   if (!hiddenPapers.length) return;
   const isHidden = hiddenPapers[0].style.display === 'none';
 
-  if (wrap) {
-    // Pin current height so the transition has a start point
-    wrap.style.height = wrap.scrollHeight + 'px';
-  }
-
   if (isHidden) {
-    // Expanding: show rows, then animate to full height
     hiddenPapers.forEach(function (paper) { paper.style.display = 'table-row'; });
     highlightPapers.forEach(function (paper) { paper.style.backgroundColor = 'rgba(102, 192, 255, 0.2)'; });
     highlightPapersLight.forEach(function (paper) { paper.style.backgroundColor = 'rgba(102, 192, 255, 0.15)'; });
     if (highlightNote) highlightNote.style.display = 'inline';
     if (toggleText) toggleText.textContent = 'Show Selected Publications';
     if (toggleIcon) toggleIcon.textContent = '▲';
+    if (toggleButton) toggleButton.setAttribute('aria-expanded', 'true');
     if (titleElement) titleElement.textContent = 'Publications';
-
-    if (wrap) {
-      // Use pretext estimate first; refine with scrollHeight once rows are laid out
-      const ptEstimate = ptEstimateHiddenPapersHeight();
-      const target = ptEstimate ? wrap.scrollHeight + ptEstimate : wrap.scrollHeight;
-      requestAnimationFrame(function () {
-        wrap.style.height = (wrap.scrollHeight || target) + 'px';
-        wrap.addEventListener('transitionend', function onEnd() {
-          wrap.style.height = '';  // Let it flow naturally after animation
-          wrap.removeEventListener('transitionend', onEnd);
-        }, { once: true });
-      });
-    }
   } else {
-    // Collapsing: animate down to selected-only height
-    const selectedH = Array.from(document.querySelectorAll('.highlight-paper, .highlight-paper-light'))
-      .reduce(function (sum, r) { return sum + r.offsetHeight; }, 0);
-
-    if (wrap) {
-      requestAnimationFrame(function () {
-        wrap.style.height = selectedH + 'px';
-        wrap.addEventListener('transitionend', function onEnd() {
-          hiddenPapers.forEach(function (paper) { paper.style.display = 'none'; });
-          highlightPapers.forEach(function (paper) { paper.style.backgroundColor = ''; });
-          highlightPapersLight.forEach(function (paper) { paper.style.backgroundColor = ''; });
-          if (highlightNote) highlightNote.style.display = 'none';
-          wrap.style.height = '';
-          wrap.removeEventListener('transitionend', onEnd);
-        }, { once: true });
-      });
-    } else {
-      hiddenPapers.forEach(function (paper) { paper.style.display = 'none'; });
-      highlightPapers.forEach(function (paper) { paper.style.backgroundColor = ''; });
-      highlightPapersLight.forEach(function (paper) { paper.style.backgroundColor = ''; });
-      if (highlightNote) highlightNote.style.display = 'none';
-    }
+    hiddenPapers.forEach(function (paper) { paper.style.display = 'none'; });
+    highlightPapers.forEach(function (paper) { paper.style.backgroundColor = ''; });
+    highlightPapersLight.forEach(function (paper) { paper.style.backgroundColor = ''; });
+    if (highlightNote) highlightNote.style.display = 'none';
     if (toggleText) toggleText.textContent = 'Show All Publications';
     if (toggleIcon) toggleIcon.textContent = '▼';
+    if (toggleButton) toggleButton.setAttribute('aria-expanded', 'false');
     if (titleElement) titleElement.textContent = 'Selected Publications';
   }
 }
@@ -955,10 +948,6 @@ document.addEventListener('DOMContentLoaded', function () {
 // Global Event Listeners
 // ============================================================================
 window.onload = function () {
-  var wechatModal = document.getElementById("WeChatModal");
-  var awardModal = document.getElementById("AwardModal");
-  if (wechatModal) wechatModal.style.display = "none";
-  if (awardModal) awardModal.style.display = "none";
   initVisitorMapFallback();
   loadDeferredThirdPartyScripts();
 
@@ -970,13 +959,33 @@ window.onload = function () {
   }
 };
 
-window.onclick = function (event) {
-  var academicModal = document.getElementById("AcademicLinksModal");
-  if (event.target == academicModal) academicModal.style.display = "none";
+document.addEventListener('click', function (event) {
+  if (activeDialog && event.target === activeDialog) closeDialog(activeDialog);
+});
 
-  var wechatModal = document.getElementById("WeChatModal");
-  if (event.target == wechatModal) wechatModal.style.display = "none";
+document.addEventListener('keydown', function (event) {
+  if (!activeDialog) return;
 
-  var awardModal = document.getElementById("AwardModal");
-  if (event.target == awardModal) awardModal.style.display = "none";
-};
+  if (event.key === 'Escape') {
+    event.preventDefault();
+    closeDialog(activeDialog);
+    return;
+  }
+
+  if (event.key !== 'Tab') return;
+  const focusable = getDialogFocusableElements(activeDialog);
+  if (!focusable.length) {
+    event.preventDefault();
+    return;
+  }
+
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+  if (event.shiftKey && document.activeElement === first) {
+    event.preventDefault();
+    last.focus();
+  } else if (!event.shiftKey && document.activeElement === last) {
+    event.preventDefault();
+    first.focus();
+  }
+});

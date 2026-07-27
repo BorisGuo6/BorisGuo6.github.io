@@ -39,18 +39,6 @@
         font-size: 16px;
         font-weight: bold;
       }
-      .academic-links {
-        display: none;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: white;
-        padding: 20px;
-        border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.3);
-        z-index: 20000;
-      }
     </style>
   </head>
 
@@ -86,41 +74,45 @@
                       <a id="cv-link" href="latex/CV.pdf" class="btn-sm badge-button">CV</a> &nbsp;/&nbsp;  
                       <a href="https://github.com/BorisGuo6" class="btn-sm badge-button">GitHub</a> &nbsp;/&nbsp;
                       <a href="https://scholar.google.com/citations?user=JEjiaq0AAAAJ" class="btn-sm badge-button">Google Scholar</a> &nbsp;/&nbsp;
-                      <span id="more-academic-links-wrap"><a href="javascript:void(0)" onclick="openAcademicLinks()" class="btn-sm badge-button">More Academic Links</a> &nbsp;/&nbsp;</span>
-                      <a href="javascript:void(0)" onclick="openWeChatModal()" class="btn-sm badge-button">WeChat</a>
+                      <span id="more-academic-links-wrap"><button type="button" onclick="openAcademicLinks()" class="btn-sm badge-button" aria-haspopup="dialog" aria-controls="AcademicLinksModal">More Academic Links</button> &nbsp;/&nbsp;</span>
+                      <button type="button" onclick="openWeChatModal()" class="btn-sm badge-button" aria-haspopup="dialog" aria-controls="WeChatModal">WeChat</button>
                     </p>
 
                     <!-- Academic Links Modal -->
-                    <div id="AcademicLinksModal" class="academic-links">
-                      <span class="close" onclick="closeAcademicLinks()">&times;</span>
-                      <h3>Academic Links</h3>
-                      <p>
-                        <a href="https://ieeexplore.ieee.org/author/37089341227">IEEE Xplore</a><br>
-                        <a href="https://www.semanticscholar.org/author/Jingxiang-Guo/2307562741">Semantic Scholar</a><br>
-                        <a href="https://dblp.org/pid/386/2489.html">dblp</a><br>
-                        <a href="https://www.scopus.com/authid/detail.uri?authorId=59210015500">Scopus</a><br>
-                        <a href="https://www.researchgate.net/profile/Jingxiang-Guo-2">ResearchGate</a><br>
-                        <a href="https://www.linkedin.com/in/borisguo">LinkedIn</a><br>
-                        <a href="https://borisguo.link/">Gravatar</a><br>
-                        <a href="https://orcid.org/my-orcid?orcid=0009-0009-2314-6911">ORCID</a>
-                      </p>
+                    <div id="AcademicLinksModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="academic-links-title" aria-hidden="true">
+                      <div class="modal-content academic-links-content">
+                        <button class="close" type="button" onclick="closeAcademicLinks()" aria-label="Close Academic Links">&times;</button>
+                        <h3 id="academic-links-title">Academic Links</h3>
+                        <p>
+                          <a href="https://ieeexplore.ieee.org/author/37089341227">IEEE Xplore</a><br>
+                          <a href="https://www.semanticscholar.org/author/Jingxiang-Guo/2307562741">Semantic Scholar</a><br>
+                          <a href="https://dblp.org/pid/386/2489.html">dblp</a><br>
+                          <a href="https://www.scopus.com/authid/detail.uri?authorId=59210015500">Scopus</a><br>
+                          <a href="https://www.researchgate.net/profile/Jingxiang-Guo-2">ResearchGate</a><br>
+                          <a href="https://www.linkedin.com/in/borisguo">LinkedIn</a><br>
+                          <a href="https://borisguo.link/">Gravatar</a><br>
+                          <a href="https://orcid.org/my-orcid?orcid=0009-0009-2314-6911">ORCID</a>
+                        </p>
+                      </div>
                     </div>
 
 
                     <!-- WeChat image function -->
-                    <div id="WeChatModal" class="modal">
+                    <div id="WeChatModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="wechat-modal-title" aria-hidden="true">
                       <div class="modal-content">
-                        <span class="close" onclick="closeWeChatModal()">&times;</span>
+                        <button class="close" type="button" onclick="closeWeChatModal()" aria-label="Close WeChat QR code">&times;</button>
+                        <h2 id="wechat-modal-title" class="visually-hidden">WeChat QR code</h2>
                         <img src="assets/img/site/wechat.jpg" alt="WeChat QR Code" style="width: 100%;">
                       </div>
                     </div>
 
-                    <div id="AwardModal" class="modal">
+                    <div id="AwardModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="award-modal-title" aria-hidden="true">
                       <div class="modal-content" style="width: 50%; max-width: 800px; margin-top: 8%;">
-                        <span class="close" onclick="closeAward()">&times;</span>
+                        <button class="close" type="button" onclick="closeAward()" aria-label="Close award preview">&times;</button>
+                        <h2 id="award-modal-title" class="visually-hidden">Award preview</h2>
                         <div id="awardToggleButtons" style="text-align: center; margin-bottom: 10px; display: none;">
-                          <button id="personalAwardBtn" onclick="switchAward('personal')" style="background-color: #77BBDD; color: white; border: none; padding: 8px 16px; margin: 0 5px; border-radius: 4px; cursor: pointer;">Individual Certificate</button>
-                          <button id="teamAwardBtn" onclick="switchAward('team')" style="background-color: #cccccc; color: #666666; border: none; padding: 8px 16px; margin: 0 5px; border-radius: 4px; cursor: pointer;">Group Certificate</button>
+                          <button id="personalAwardBtn" type="button" onclick="switchAward('personal')" aria-pressed="true" style="background-color: #77BBDD; color: white; border: none; padding: 8px 16px; margin: 0 5px; border-radius: 4px; cursor: pointer;">Individual Certificate</button>
+                          <button id="teamAwardBtn" type="button" onclick="switchAward('team')" aria-pressed="false" style="background-color: #cccccc; color: #666666; border: none; padding: 8px 16px; margin: 0 5px; border-radius: 4px; cursor: pointer;">Group Certificate</button>
                         </div>
                         <img id="awardImage" src="" alt="" style="width: 100%;">
                         <div id="credentialLink" style="text-align: center; margin-top: 10px; display: none;">
@@ -223,7 +215,7 @@
               </tbody>
             </table>
 
-            <div id="publications-wrap" style="overflow:hidden; transition: height 0.4s cubic-bezier(0.4,0,0.2,1);">
+            <div id="publications-wrap" style="overflow:hidden;">
             <table style="width:100%; border:0px; border-spacing:0px; border-collapse:separate; margin-left:auto; margin-right:auto;">
               <tbody id="publications-tbody">
               </tbody>
@@ -236,9 +228,9 @@
                 <tr>
                   <td style="padding-top: 0px; padding-bottom: 0px; padding-left: 20px; padding-right: 20px; width:100%; vertical-align:middle">
                     <div style="text-align: center; margin-top: 10px;">
-                      <button id="togglePapers" onclick="togglePapers()" style="background-color: #cccccc; color: #666666; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 14px; position: relative;">
+                      <button id="togglePapers" type="button" onclick="togglePapers()" aria-expanded="false" aria-controls="publications-wrap" style="background-color: #cccccc; color: #666666; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 14px; position: relative;">
                         <span id="togglePapersText">Show All Publications</span>
-                        <span id="togglePapersIcon" style="display: inline-block; margin-left: 5px; transition: transform 0.3s;">▼</span>
+                        <span id="togglePapersIcon" style="display: inline-block; margin-left: 5px;">▼</span>
                       </button>
                     </div>
                   </td>

@@ -1647,6 +1647,29 @@ td small {
   margin-top: 4px;
 }
 
+.project-body.umi-layer-split {
+  align-items: start;
+}
+
+.project-visual-column {
+  display: grid;
+  align-self: start;
+  gap: 10px;
+  min-width: 0;
+}
+
+.project-visual-column > figure {
+  width: 100%;
+}
+
+.project-body.umi-layer-split > div > .layer-utility-diagram-card {
+  margin: 0 0 10px;
+}
+
+.layer-reference-grid.layer-reference-stack {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 .layer-utility-card h4 {
   position: absolute;
   width: 1px;

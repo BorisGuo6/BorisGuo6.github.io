@@ -595,6 +595,7 @@ export default {
       "layer_utility": {
         "title": "Layered Data Utility",
         "aria_label": "Image-layered robot data utility map linking scene, object/contact, and robot/end-effector layers to downstream reward and world-model infrastructure.",
+        "layout": "split-visual-methods",
         "layers": [
           {
             "layer": "Layer 0",
