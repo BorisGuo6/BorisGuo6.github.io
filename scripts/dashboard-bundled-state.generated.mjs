@@ -9,7 +9,7 @@ export default {
     "subtitle": "World models, self-improving simulators, teleop acceleration, and robotics + 3D printing",
     "week": "2026-W24",
     "date": "2026-06-12",
-    "updated_at": "2026-07-19T01:56:26.790Z",
+    "updated_at": "2026-07-27T10:30:57.049Z",
     "state_root": "dashboard/state",
     "summary": {
       "focus": "Research 主线保持 Tri-View/Image-Layered IDM、Self-Improving Agents 和 DexGello；Survey TODO 已统一 inactive/archived，不再显示为当前执行队列。",
@@ -370,6 +370,13 @@ export default {
         "bucket": "survey",
         "status": "survey",
         "state_path": "dashboard/state/projects/dex-gello.json"
+      },
+      {
+        "project_id": "dexora-rl100-dexhand",
+        "title": "Dexora + RL-100: Real-World DexHand RL",
+        "bucket": "survey",
+        "status": "survey",
+        "state_path": "dashboard/state/projects/dexora-rl100-dexhand.json"
       },
       {
         "project_id": "real-robot-infra",
@@ -2816,6 +2823,78 @@ export default {
         "milestones": []
       },
       "asset_added_at": "2026-06-19"
+    },
+    {
+      "schema_version": "project.v1",
+      "project_id": "dexora-rl100-dexhand",
+      "title": "Dexora + RL-100: Real-World DexHand RL",
+      "bucket": "survey",
+      "status": "survey",
+      "description": "Survey and prototype a Dexora + RL-100 path for real-world dexterous-hand offline-to-online reinforcement learning.",
+      "summary": "Use Dexora as the dexterous demonstration/data source and port RL-100’s BC, offline RL, real-robot rollout, online RL, and data-merge loop to DexHand. First verify the observation/action adapter and one reproducible real-robot task, then add DexHand-specific reward, safety, reset, correction data, and high-DoF control optimization.",
+      "subprojects": [
+        {
+          "label": "A",
+          "title": "Dexora adapter",
+          "body": "Verify observation/action semantics, timing, camera alignment, and conversion into the RL-100 training and replay format.",
+          "output": "Validated data contract"
+        },
+        {
+          "label": "B",
+          "title": "RL-100 reproduction",
+          "body": "Run BC → offline RL → real rollout → online RL → data merge on one bounded DexHand task.",
+          "output": "End-to-end baseline"
+        },
+        {
+          "label": "C",
+          "title": "DexHand optimization",
+          "body": "Add high-DoF action structure, contact-aware reward, correction data, safe exploration, and reliable reset/recovery.",
+          "output": "DexHand-specific improvements"
+        }
+      ],
+      "visual": {
+        "layout": "standard"
+      },
+      "task_ids": [],
+      "references": [
+        {
+          "title": "Dexora",
+          "url": "https://github.com/ZZongzheng0918/Dexora",
+          "notes": "Dexterous real-world dataset and embodiment reference."
+        },
+        {
+          "title": "RL-100",
+          "url": "https://github.com/Lei-Kun/RL-100",
+          "notes": "Offline-to-online RL and data-flywheel baseline."
+        }
+      ],
+      "risks_decisions": [
+        "Treat Dexora-to-RL-100 compatibility as a hypothesis until action semantics, timing, and dataset conversion are verified.",
+        "Do not start online real-robot RL before reward/success, reset, joint/workspace limits, intervention, and E-stop gates pass.",
+        "The contribution should come from the DexHand-specific real-world flywheel and optimization, not from a repository-level port alone."
+      ],
+      "timeline": {
+        "badges": [
+          {
+            "label": "Data",
+            "value": "Dexora"
+          },
+          {
+            "label": "RL baseline",
+            "value": "RL-100"
+          },
+          {
+            "label": "Robot",
+            "value": "DexHand"
+          }
+        ],
+        "target_cycle": "survey / compatibility prototype",
+        "target_note": "Promote after one verified adapter and one bounded real-robot baseline.",
+        "sprint_start": "2026-07-27",
+        "sprint_due": null,
+        "milestones": []
+      },
+      "updated_at": "2026-07-27T10:30:57.049Z"
     },
     {
       "schema_version": "project.v1",

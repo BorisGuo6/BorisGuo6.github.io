@@ -1,0 +1,72 @@
+{
+  "schema_version": "project.v1",
+  "project_id": "dexora-rl100-dexhand",
+  "title": "Dexora + RL-100: Real-World DexHand RL",
+  "bucket": "survey",
+  "status": "survey",
+  "description": "Survey and prototype a Dexora + RL-100 path for real-world dexterous-hand offline-to-online reinforcement learning.",
+  "summary": "Use Dexora as the dexterous demonstration/data source and port RL-100’s BC, offline RL, real-robot rollout, online RL, and data-merge loop to DexHand. First verify the observation/action adapter and one reproducible real-robot task, then add DexHand-specific reward, safety, reset, correction data, and high-DoF control optimization.",
+  "subprojects": [
+    {
+      "label": "A",
+      "title": "Dexora adapter",
+      "body": "Verify observation/action semantics, timing, camera alignment, and conversion into the RL-100 training and replay format.",
+      "output": "Validated data contract"
+    },
+    {
+      "label": "B",
+      "title": "RL-100 reproduction",
+      "body": "Run BC → offline RL → real rollout → online RL → data merge on one bounded DexHand task.",
+      "output": "End-to-end baseline"
+    },
+    {
+      "label": "C",
+      "title": "DexHand optimization",
+      "body": "Add high-DoF action structure, contact-aware reward, correction data, safe exploration, and reliable reset/recovery.",
+      "output": "DexHand-specific improvements"
+    }
+  ],
+  "visual": {
+    "layout": "standard"
+  },
+  "task_ids": [],
+  "references": [
+    {
+      "title": "Dexora",
+      "url": "https://github.com/ZZongzheng0918/Dexora",
+      "notes": "Dexterous real-world dataset and embodiment reference."
+    },
+    {
+      "title": "RL-100",
+      "url": "https://github.com/Lei-Kun/RL-100",
+      "notes": "Offline-to-online RL and data-flywheel baseline."
+    }
+  ],
+  "risks_decisions": [
+    "Treat Dexora-to-RL-100 compatibility as a hypothesis until action semantics, timing, and dataset conversion are verified.",
+    "Do not start online real-robot RL before reward/success, reset, joint/workspace limits, intervention, and E-stop gates pass.",
+    "The contribution should come from the DexHand-specific real-world flywheel and optimization, not from a repository-level port alone."
+  ],
+  "timeline": {
+    "badges": [
+      {
+        "label": "Data",
+        "value": "Dexora"
+      },
+      {
+        "label": "RL baseline",
+        "value": "RL-100"
+      },
+      {
+        "label": "Robot",
+        "value": "DexHand"
+      }
+    ],
+    "target_cycle": "survey / compatibility prototype",
+    "target_note": "Promote after one verified adapter and one bounded real-robot baseline.",
+    "sprint_start": "2026-07-27",
+    "sprint_due": null,
+    "milestones": []
+  },
+  "updated_at": "2026-07-27T10:30:57.049Z"
+}
