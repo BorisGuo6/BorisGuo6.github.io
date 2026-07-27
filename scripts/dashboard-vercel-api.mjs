@@ -7,6 +7,7 @@ import {
 } from "@simplewebauthn/server";
 import {
   appendSnapshotAuditEvent,
+  applySnapshotProjectCreate,
   applySnapshotProjectUpdate,
   applySnapshotProjectTableRowUpdate,
   applySnapshotTaskComment,
@@ -86,6 +87,9 @@ export function dashboardErrorResponse(error) {
   }
   if (/^Duplicate Passkey credential:/.test(message)) {
     return { status: 409, error: "Passkey credential already exists" };
+  }
+  if (/^Project already exists:/.test(message)) {
+    return { status: 409, error: message };
   }
   if (/^Passkey credential not found:/.test(message)) {
     return { status: 404, error: "Passkey not found" };
@@ -1290,6 +1294,45 @@ export async function handleDashboardProjectUpdate(request, response, options = 
   return sendJson(response, 200, {
     ok: true,
     project_id: projectId,
+    project: result.project,
+    update: result.update,
+    meta: result.meta,
+  });
+}
+
+export async function handleDashboardProjectCreate(request, response, options = {}) {
+  if (request.method !== "POST") return methodNotAllowed(response, ["POST"]);
+  const env = options.env || process.env;
+  const providedToken = dashboardProvidedWriteToken(request);
+  const auth = dashboardAdminAuthorization(
+    await dashboardRequestAuth(request, env, options.authOptions || {}),
+  );
+  if (!auth.ok) return sendJson(response, auth.status, { ok: false, error: auth.error });
+  const body = await readJsonBody(request);
+  if (!body.project || typeof body.project !== "object" || Array.isArray(body.project)) {
+    throw new Error("Missing project");
+  }
+  const project = {
+    ...body.project,
+    ...(optionalString(body.insert_after) ? { insert_after: optionalString(body.insert_after) } : {}),
+  };
+  const persist = options.persistMutation || persistMutation;
+  const result = await persist((snapshot) => applySnapshotProjectCreate(snapshot, project, {
+    source: "vercel-blob",
+  }), {
+    request,
+    auth,
+    token: providedToken,
+    action: "project-create",
+    payload: (mutationResult) => ({
+      project_id: mutationResult.project.project_id,
+      bucket: mutationResult.project.bucket,
+      inserted_after: mutationResult.update.inserted_after,
+    }),
+  });
+  return sendJson(response, 201, {
+    ok: true,
+    project_id: result.project.project_id,
     project: result.project,
     update: result.update,
     meta: result.meta,

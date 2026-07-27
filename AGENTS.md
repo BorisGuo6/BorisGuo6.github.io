@@ -85,6 +85,11 @@ curl -fsS -X POST https://jingxiangguo.com/api/dashboard/project-update \
   -H "content-type: application/json" \
   -H "x-dashboard-token: $DASHBOARD_WRITE_TOKEN" \
   --data '{"project_id":"project_example","patch":{"summary":"Updated durable project framing."}}'
+
+curl -fsS -X POST https://jingxiangguo.com/api/dashboard/project-create \
+  -H "content-type: application/json" \
+  -H "x-dashboard-token: $DASHBOARD_WRITE_TOKEN" \
+  --data '{"insert_after":"project_anchor","project":{"project_id":"project_example","title":"New project","bucket":"survey","status":"survey","summary":"Durable project framing."}}'
 ```
 
 For routine hosted dashboard mutations, prefer the local wrapper instead of
@@ -108,6 +113,9 @@ For durable project-card framing, use `POST /api/dashboard/project-update` with
 `project_id` and a `patch` object. The endpoint accepts only the project fields
 defined by the dashboard snapshot schema, enforces the caller's project
 visibility, and records field names rather than patch contents in the audit log.
+Use `POST /api/dashboard/project-create` for a new card. It is administrator-only,
+accepts the same project fields plus an optional `insert_after`, and never accepts
+secret or arbitrary fields.
 
 ### Triage labels
 

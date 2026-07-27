@@ -556,6 +556,94 @@ export function applySnapshotProjectUpdate(snapshot, projectId, patch, options =
   };
 }
 
+export function applySnapshotProjectCreate(snapshot, input, options = {}) {
+  const next = cloneMutableSnapshot(snapshot);
+  if (!input || typeof input !== "object" || Array.isArray(input)) {
+    throw new Error("Missing project");
+  }
+  const projectId = String(input.project_id || "").trim();
+  if (!/^[a-z0-9](?:[a-z0-9-]{0,62}[a-z0-9])?$/.test(projectId)) {
+    throw new Error("Invalid project_id");
+  }
+  if (findProject(next, projectId)) {
+    throw new Error(`Project already exists: ${projectId}`);
+  }
+
+  const {
+    project_id: ignoredProjectId,
+    insert_after: ignoredInsertAfter,
+    schema_version: ignoredSchemaVersion,
+    updated_at: ignoredUpdatedAt,
+    ...rawPatch
+  } = input;
+  const nextPatch = sanitizeProjectPatch(rawPatch);
+  for (const field of ["title", "bucket", "status"]) {
+    if (!nextPatch[field]) {
+      throw new Error(`Missing project ${field}`);
+    }
+  }
+  const buckets = new Set((next.portfolio.project_buckets || []).map((entry) => entry?.bucket));
+  if (!buckets.has(nextPatch.bucket)) {
+    throw new Error(`Invalid project bucket: ${nextPatch.bucket}`);
+  }
+
+  const now = (options.now || new Date()).toISOString();
+  const project = {
+    schema_version: "project.v1",
+    project_id: projectId,
+    ...cloneJson(nextPatch),
+    updated_at: now,
+  };
+  if (!Array.isArray(project.task_ids)) {
+    project.task_ids = [];
+  }
+  const projectRef = {
+    project_id: projectId,
+    title: project.title,
+    bucket: project.bucket,
+    status: project.status,
+    state_path: `dashboard/state/projects/${projectId}.json`,
+  };
+
+  const requestedInsertAfter = String(input.insert_after || options.insertAfter || "").trim();
+  let insertAt = next.portfolio.projects.length;
+  let insertedAfter = null;
+  if (requestedInsertAfter) {
+    const anchorIndex = next.portfolio.projects.findIndex(
+      (entry) => entry?.project_id === requestedInsertAfter,
+    );
+    if (anchorIndex < 0) {
+      throw new Error(`Project not found: ${requestedInsertAfter}`);
+    }
+    insertAt = anchorIndex + 1;
+    insertedAfter = requestedInsertAfter;
+  } else {
+    for (let index = next.portfolio.projects.length - 1; index >= 0; index -= 1) {
+      if (next.portfolio.projects[index]?.bucket === project.bucket) {
+        insertAt = index + 1;
+        insertedAfter = next.portfolio.projects[index]?.project_id || null;
+        break;
+      }
+    }
+  }
+
+  next.projects.push(project);
+  next.portfolio.projects.splice(insertAt, 0, projectRef);
+  next.portfolio.updated_at = now;
+  next.updated_at = now;
+  next.source = options.source || next.source;
+  return {
+    snapshot: next,
+    project,
+    projectRef,
+    update: {
+      project_id: projectId,
+      inserted_after: insertedAfter,
+      updated_at: now,
+    },
+  };
+}
+
 export function applySnapshotPortfolioUpdate(snapshot, patch, options = {}) {
   const next = cloneMutableSnapshot(snapshot);
   const nextPatch = sanitizePortfolioPatch(patch);

@@ -87,6 +87,7 @@ npm run vercel:pull-blob -- --dry-run
 Supported hosted mutations:
 
 - `POST /api/dashboard/task-create`
+- `POST /api/dashboard/project-create` (administrator only)
 - `POST /api/dashboard/task-status`
 - `POST /api/dashboard/task-comment`
 - `POST /api/dashboard/task-comment-delete`

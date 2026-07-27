@@ -1,4 +1,5 @@
 import {
+  handleDashboardProjectCreate,
   handleDashboardProjectTableRowUpdate,
   handleDashboardProjectUpdate,
   withDashboardApiErrors,
@@ -10,6 +11,9 @@ export function handleDashboardProjectMutation(request, response) {
     : request.query?.operation;
   if (operation === "project-update") {
     return handleDashboardProjectUpdate(request, response);
+  }
+  if (operation === "project-create") {
+    return handleDashboardProjectCreate(request, response);
   }
   return handleDashboardProjectTableRowUpdate(request, response);
 }

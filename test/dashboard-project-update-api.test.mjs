@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import {
+  handleDashboardProjectCreate,
   handleDashboardProjectUpdate,
   withDashboardApiErrors,
 } from "../scripts/dashboard-vercel-api.mjs";
@@ -70,6 +71,15 @@ async function invoke(request, options = {}) {
   const response = responseProbe();
   const handler = withDashboardApiErrors(
     (nextRequest, nextResponse) => handleDashboardProjectUpdate(nextRequest, nextResponse, options),
+  );
+  await handler({ headers: {}, ...request }, response);
+  return response;
+}
+
+async function invokeCreate(request, options = {}) {
+  const response = responseProbe();
+  const handler = withDashboardApiErrors(
+    (nextRequest, nextResponse) => handleDashboardProjectCreate(nextRequest, nextResponse, options),
   );
   await handler({ headers: {}, ...request }, response);
   return response;
@@ -203,5 +213,119 @@ assert.equal(invalidField.statusCode, 400);
 assert.match(invalidField.body.error, /Invalid project update field: private_token/);
 assert.equal(invalidStore.snapshot().projects[0].summary, "Original summary");
 assert.equal(invalidStore.audits.length, 0);
+
+const nonAdminCreateStore = inMemoryStore();
+const nonAdminCreate = await invokeCreate({
+  method: "POST",
+  headers: { "x-dashboard-token": "viewer-token" },
+  body: {
+    project: {
+      project_id: "survey-new",
+      title: "Survey New",
+      bucket: "research",
+      status: "survey",
+    },
+  },
+}, {
+  env: {
+    BLOB_READ_WRITE_TOKEN: "blob-token",
+    DASHBOARD_WRITE_TOKEN_USERS: JSON.stringify({ "viewer-token": "Research Viewer" }),
+  },
+  authOptions: {
+    loadAccess: async () => {
+      throw new Error("No access override in this test");
+    },
+  },
+  persistMutation: nonAdminCreateStore.persistMutation,
+});
+assert.equal(nonAdminCreate.statusCode, 403);
+assert.match(nonAdminCreate.body.error, /administrator role/i);
+assert.equal(nonAdminCreateStore.snapshot().projects.length, 2);
+
+const createStore = inMemoryStore();
+const sensitiveCreateSummary = "Create framing that must not appear in the audit payload";
+const created = await invokeCreate({
+  method: "POST",
+  headers: { "x-dashboard-token": "admin-token" },
+  body: {
+    insert_after: "research-a",
+    project: {
+      project_id: "survey-new",
+      title: "Survey New",
+      bucket: "research",
+      status: "survey",
+      summary: sensitiveCreateSummary,
+      task_ids: [],
+    },
+  },
+}, {
+  env: {
+    BLOB_READ_WRITE_TOKEN: "blob-token",
+    DASHBOARD_WRITE_TOKEN: "admin-token",
+  },
+  persistMutation: createStore.persistMutation,
+});
+assert.equal(created.statusCode, 201);
+assert.equal(created.body.ok, true);
+assert.equal(created.body.project.project_id, "survey-new");
+assert.deepEqual(
+  createStore.snapshot().portfolio.projects.map((project) => project.project_id),
+  ["research-a", "survey-new", "engineering-a"],
+);
+assert.deepEqual(createStore.audits, [{
+  action: "project-create",
+  payload: {
+    project_id: "survey-new",
+    bucket: "research",
+    inserted_after: "research-a",
+  },
+}]);
+assert.equal(JSON.stringify(createStore.audits).includes(sensitiveCreateSummary), false);
+
+const duplicateCreate = await invokeCreate({
+  method: "POST",
+  headers: { "x-dashboard-token": "admin-token" },
+  body: {
+    project: {
+      project_id: "research-a",
+      title: "Duplicate",
+      bucket: "research",
+      status: "survey",
+    },
+  },
+}, {
+  env: {
+    BLOB_READ_WRITE_TOKEN: "blob-token",
+    DASHBOARD_WRITE_TOKEN: "admin-token",
+  },
+  persistMutation: inMemoryStore().persistMutation,
+});
+assert.equal(duplicateCreate.statusCode, 409);
+assert.match(duplicateCreate.body.error, /already exists/i);
+
+const invalidCreateStore = inMemoryStore();
+const invalidCreate = await invokeCreate({
+  method: "POST",
+  headers: { "x-dashboard-token": "admin-token" },
+  body: {
+    project: {
+      project_id: "survey-new",
+      title: "Survey New",
+      bucket: "research",
+      status: "survey",
+      private_token: "must-not-be-accepted",
+    },
+  },
+}, {
+  env: {
+    BLOB_READ_WRITE_TOKEN: "blob-token",
+    DASHBOARD_WRITE_TOKEN: "admin-token",
+  },
+  persistMutation: invalidCreateStore.persistMutation,
+});
+assert.equal(invalidCreate.statusCode, 400);
+assert.match(invalidCreate.body.error, /Invalid project update field: private_token/);
+assert.equal(invalidCreateStore.snapshot().projects.length, 2);
+assert.equal(invalidCreateStore.audits.length, 0);
 
 console.log("dashboard project-update API tests passed");
