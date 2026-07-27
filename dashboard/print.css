@@ -2492,6 +2492,12 @@ summary.bucket-title::-webkit-details-marker {
   margin: 8px 0 10px;
 }
 
+.timeline-strip[hidden],
+.subproject-grid[hidden],
+.project-intro > ul[hidden] {
+  display: none;
+}
+
 .timeline-strip span,
 .task-meta span {
   display: inline-flex;

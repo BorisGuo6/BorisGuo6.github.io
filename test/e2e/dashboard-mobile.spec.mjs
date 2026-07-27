@@ -1109,18 +1109,29 @@ test("UMI intro and linked method index default to the automatic collapsed state
   const intro = project.locator(".project-intro");
   const toggle = project.locator(".project-intro-toggle");
   const references = project.locator(".layer-reference-grid");
+  const timeline = intro.locator(":scope > .timeline-strip");
+  const subprojects = intro.locator(":scope > .subproject-grid");
+  const details = intro.locator(":scope > ul");
   await expect(toggle).toHaveCount(1);
   await expect(toggle).toHaveAttribute("aria-expanded", "false");
   await expect(intro).not.toHaveAttribute("role", "button");
   await expect(intro).toHaveAttribute("aria-hidden", "true");
   expect(await intro.evaluate((element) => element.inert)).toBe(true);
   await expect(references).toBeHidden();
+  await expect(timeline).toBeHidden();
+  await expect(timeline).toHaveAttribute("aria-hidden", "true");
+  await expect(subprojects).toBeHidden();
+  await expect(details).toBeHidden();
 
   await toggle.click();
   await expect(toggle).toHaveAttribute("aria-expanded", "true");
   await expect(intro).toHaveAttribute("aria-hidden", "false");
   expect(await intro.evaluate((element) => element.inert)).toBe(false);
   await expect(references).toBeVisible();
+  await expect(timeline).toBeVisible();
+  await expect(timeline).toHaveAttribute("aria-hidden", "false");
+  await expect(subprojects).toBeVisible();
+  await expect(details).toBeVisible();
 
   await intro.evaluate((element) => {
     const link = document.createElement("a");
@@ -1131,6 +1142,13 @@ test("UMI intro and linked method index default to the automatic collapsed state
   const firstLink = intro.locator("a", { hasText: "Injected intro reference" });
   await firstLink.focus();
   expect(await intro.evaluate((element) => element.contains(document.activeElement))).toBe(true);
+
+  await toggle.click();
+  await expect(toggle).toHaveAttribute("aria-expanded", "false");
+  await expect(references).toBeHidden();
+  await expect(timeline).toBeHidden();
+  await expect(subprojects).toBeHidden();
+  await expect(details).toBeHidden();
 });
 
 test("status menus and procurement editors restore keyboard focus", async ({ page }) => {

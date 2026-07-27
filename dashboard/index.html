@@ -3318,6 +3318,11 @@
           const details = Array.isArray(projectDoc.details) ? projectDoc.details : [];
           const stateKey = `project:${projectDoc.project_id}:intro`;
           intro.dataset.textCollapseKey = stateKey;
+          intro
+            .querySelectorAll(":scope > .timeline-strip, :scope > .subproject-grid, :scope > ul")
+            .forEach((element) => {
+              element.dataset.introCollapseKey = stateKey;
+            });
           let toggle = intro.parentElement?.querySelector(":scope > .project-intro-toggle");
           const collapseConfig = projectDoc.intro_collapse && typeof projectDoc.intro_collapse === "object"
             ? projectDoc.intro_collapse
