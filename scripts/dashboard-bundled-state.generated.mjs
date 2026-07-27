@@ -1,7 +1,7 @@
 export default {
   "schema_version": "dashboard-state.v1",
   "source": "bundled-json-generated",
-  "updated_at": "2026-07-26T09:57:18.536Z",
+  "updated_at": "2026-07-27T12:08:38.636Z",
   "portfolio": {
     "schema_version": "portfolio.v1",
     "portfolio_id": "embodied-ai-dashboard",
@@ -5740,7 +5740,7 @@ export default {
   ],
   "taskDoc": {
     "schema_version": "tasks.v1",
-    "updated_at": "2026-07-26T09:57:18.536Z",
+    "updated_at": "2026-07-27T12:08:38.636Z",
     "owner": "dashboard",
     "tasks": [
       {
@@ -14366,7 +14366,7 @@ export default {
         "description": "当前收敛结论：采用 iterative segment + inpaint 的 v0 global layered dataset 路线，而不是直接依赖端到端 layer decomposition。处理顺序先 robot-first，再 object/contact/occluder-next，最后 scene/background-final：先用 SAM3/SAM2 或 mask tracking 分割 robot layer，生成 robot mask/rgba/video/SVG sidecar；再用 FLUX.fill、VACE、LaMa 或同类 inpaint 模型把 robot 从原视频中抹掉并补全被遮挡区域。随后按 task-relevant object/contact/occluder 逐个 object layer 迭代：每次 segment 一个对象/接触区域，导出该层 mask/rgba/video/SVG sidecar，再对剩余视频做 inpaint，直到得到 scene/background layer。背景层优先面向第三人称或固定机位视频，预期随时间变化很小；wrist/ego view 背景变化较大，需要单独标记 temporal consistency 风险。2026-06-24 ClawCross 同步 Layered Image Policy 最新进度：SAM-HQ robot mask review 结果不如 SAM3，SAM-HQ 暂时排除；SAM3/SAM2 对 gripper mask 仍有问题，下一步测试 prompt `robot arm with black gripper` 与更低 probability-map threshold；LaMa 结果未出；RoboTwin2.0 dataset (https://huggingface.co/datasets/TianxingChen/RoboTwin2.0/tree/main/dataset) 可用于仿真 GT 分图层验证。候选方法仍作为组件或对照保留：SAM3+GPT inpaint、VACE/VAC/VAS video inpaint、FLUX.fill/LaMa still or video-adapted inpaint、RevealLayer/Qwen 负样例参考、RoboTwin synthetic masks、MaskWAM-style VLM->SAM3->human-verification mask propagation、SuperSVG/LIVE/SAM-contour SVG sidecar，StarVector/OmniSVG 作为可选 SVG probe。参考 MaskWAM 数据处理管线：language annotation / VLM 提取 task-relevant objects，用 SAM3 text/point condition 传播 mask sequence，多轮 human verification 只修正失败/歧义 round，最后写入 labeled episodes；UMI 需要把这个单 mask pipeline 扩展成 robot、object/contact、occluder、scene/background 的多层 pseudo-label，并保留 mask.png / rgba.png / video / inpainted_background.png / SVG sidecar / layer_manifest.json。Acceptance: iterative pipeline 的方法矩阵、每轮输入/输出 schema、速度/成本、人为标注需求、temporal consistency、recomposition QA、FoundationPose/IDM/reward utility、失败样例；给出 v0 dataset 构建决策、robot-first/object-next/background-final 的处理顺序、下一批 episode/image/video 清单。",
         "status": "done",
         "priority": "urgent",
-        "assignee": "Boris / Haoyu / Lai / Ziyang",
+        "assignee": "Boris / Haoyu / Yongxi Lai / Ziyang Meng",
         "result": null,
         "comments": [
           {
@@ -14427,7 +14427,7 @@ export default {
             "created_at": "2026-06-29T23:20:00+08:00"
           }
         ],
-        "updated_at": "2026-06-29T23:20:00+08:00",
+        "updated_at": "2026-07-27T12:08:33.836Z",
         "due_at": "",
         "completed_at": "2026-06-24"
       },
@@ -15661,8 +15661,8 @@ export default {
         "title": "落地 X2SAM/RoboSeg + VACE 共享分层数据管线（第三人称对比待补）",
         "status": "active",
         "priority": "urgent",
-        "assignee": "Lai / Yongxi / Ziyang / Meng / Jiahao / Boris",
-        "description": "把 Lai、Ziyang/Meng、Jiahao/Davide 三条论文线收敛到同一个 single-video-to-multilayer preprocessing contract，不允许各自维护不兼容的数据格式。\n\n已验证并锁定的路线（2026-07-21）：按视角选择 robot-layer segmentation，而不是继续把 X2SAM 与 RoboSeg 当成未决的二选一比较。UMI wrist/ego/第一人称视频使用 X2SAM；固定外部相机/第三人称视频使用 RoboSeg。两条入口必须使用同一套 robot/gripper/object taxonomy、同一 layer_manifest 和同一 QA contract。VACE 作为两次 video inpainting 的主线。\n\nYongxi 确认的 canonical pipeline（图：dashboard/assets/umi-layered-preprocessing-pipeline-20260715.png）：\n1) 输入 full video = robot layer + object layer + background/global source。\n2) 第一次分割提取 robot layer：根据 viewpoint router 选择 X2SAM（UMI 第一人称）或 RoboSeg（第三人称）；记录所用 checkpoint、prompt、tracking/SAM2/VSAM 相关配置与 git SHA。\n3) 第一次 VACE inpainting 去除 robot，得到 object layer + background；并行保存 robot mask/RGBA/layer video。Robot branch 对齐 robot state/action，并执行缺失 action 补全。\n4) agent 检查第一次 inpainting 的残影、遮挡、时序漂移与未遮罩区域保持；失败则修改 robot mask、prompt 或 tracking 配置并重试，不把坏结果送入下一阶段。\n5) 对 object + background 做第二次分割：SAM3 提取 object/contact/tool layer；第二次 VACE inpainting 去除 object，得到 pure background。\n6) agent + VLM 检查 object recognition。若对象识别错误，则修改 segmentation model prompt（可退化为颜色、形状、相对位置提示）并回到第二次分割；识别正确后进入 rigid/soft gate。\n7) rigid/articulated object 输出 pose/trajectory/contact sidecar；soft/deformable object 输出 flow/keypoints/deformation sidecar，分别进入对应处理方法。\n8) 最后执行 pure-background motion-residue QA、逐层重组与 source 对齐；失败 clip 进入 retry/drop log，合格样本导出统一 layer package。\n\nCanonical outputs：source/global video；robot/actor、object/contact/tool、scene/background 的 mask、RGBA、layer video；layer_manifest；robot pose/state/action；rigid pose 或 deformable flow/keypoints；camera/depth metadata 与 confidence；inpainting/recognition/recomposition QA；所有失败、重试与 drop 原因。图、配置、git SHA、可视化和 benchmark 表统一归档到 GitHub data-processing-pipeline 目录。\n\n剩余工程化验收：1) 至少覆盖 UMI 第一人称与第三人称真实 clips，每类不少于 3 段、每段 20-50 帧或等长短视频；2) 验证 viewpoint router 命中正确，不再重复做开放式模型选型；3) segmentation 报告 mask IoU、Boundary-F、gripper recall、jitter/drift、runtime/VRAM；4) VACE 报告 masked temporal consistency、unmasked preservation、moving-pixel residue 与重组质量；5) VLM retry loop、rigid/soft 分流和 action 补全均写入 manifest；6) 逐层文件可独立加载并可重组；7) Jiahao 的 RynnWorld 三层模型与 Ziyang 的 MIMIC-Video IDM 直接消费同一 manifest。任务保持 active，后续目标是批量化与 downstream 接入，不再把 X2SAM/RoboSeg 的视角分工视为 blocker。\n\n【2026-07-21 当前证据更正】\n以 2026-07-21 Boris 提供的与 NUS-赖咏曦最新确认记录为准，并覆盖同日更早的宽泛路由表述：当前实际只完成了 UMI 腕部/第一人称输入上的比较，X2SAM 在这批已测输入上表现更好。第三人称对比尚未完成，计划随后补测，因此目前不得把“RoboSeg 对第三人称更好”写成已验证结论，只能保留为待验证候选。Cloak-VLA 的 mask 处理管线未开源，当前无法复现或测试；这是可用性 blocker，不是模型效果负结论。戴盟数据集是否也做 layered decomposition 尚未定案：在主数据管线分层质量不足时把它作为高优先级补充/交叉验证数据，不宣称已经完成分层。\n【/2026-07-21 当前证据更正】",
+        "assignee": "Ziyang Meng / Yongxi Lai",
+        "description": "把 Yongxi Lai、Ziyang Meng、Davide Jiahao Chen 三条论文线收敛到同一个 single-video-to-multilayer preprocessing contract，不允许各自维护不兼容的数据格式。\n\n已验证并锁定的路线（2026-07-21）：按视角选择 robot-layer segmentation，而不是继续把 X2SAM 与 RoboSeg 当成未决的二选一比较。UMI wrist/ego/第一人称视频使用 X2SAM；固定外部相机/第三人称视频使用 RoboSeg。两条入口必须使用同一套 robot/gripper/object taxonomy、同一 layer_manifest 和同一 QA contract。VACE 作为两次 video inpainting 的主线。\n\nYongxi 确认的 canonical pipeline（图：dashboard/assets/umi-layered-preprocessing-pipeline-20260715.png）：\n1) 输入 full video = robot layer + object layer + background/global source。\n2) 第一次分割提取 robot layer：根据 viewpoint router 选择 X2SAM（UMI 第一人称）或 RoboSeg（第三人称）；记录所用 checkpoint、prompt、tracking/SAM2/VSAM 相关配置与 git SHA。\n3) 第一次 VACE inpainting 去除 robot，得到 object layer + background；并行保存 robot mask/RGBA/layer video。Robot branch 对齐 robot state/action，并执行缺失 action 补全。\n4) agent 检查第一次 inpainting 的残影、遮挡、时序漂移与未遮罩区域保持；失败则修改 robot mask、prompt 或 tracking 配置并重试，不把坏结果送入下一阶段。\n5) 对 object + background 做第二次分割：SAM3 提取 object/contact/tool layer；第二次 VACE inpainting 去除 object，得到 pure background。\n6) agent + VLM 检查 object recognition。若对象识别错误，则修改 segmentation model prompt（可退化为颜色、形状、相对位置提示）并回到第二次分割；识别正确后进入 rigid/soft gate。\n7) rigid/articulated object 输出 pose/trajectory/contact sidecar；soft/deformable object 输出 flow/keypoints/deformation sidecar，分别进入对应处理方法。\n8) 最后执行 pure-background motion-residue QA、逐层重组与 source 对齐；失败 clip 进入 retry/drop log，合格样本导出统一 layer package。\n\nCanonical outputs：source/global video；robot/actor、object/contact/tool、scene/background 的 mask、RGBA、layer video；layer_manifest；robot pose/state/action；rigid pose 或 deformable flow/keypoints；camera/depth metadata 与 confidence；inpainting/recognition/recomposition QA；所有失败、重试与 drop 原因。图、配置、git SHA、可视化和 benchmark 表统一归档到 GitHub data-processing-pipeline 目录。\n\n剩余工程化验收：1) 至少覆盖 UMI 第一人称与第三人称真实 clips，每类不少于 3 段、每段 20-50 帧或等长短视频；2) 验证 viewpoint router 命中正确，不再重复做开放式模型选型；3) segmentation 报告 mask IoU、Boundary-F、gripper recall、jitter/drift、runtime/VRAM；4) VACE 报告 masked temporal consistency、unmasked preservation、moving-pixel residue 与重组质量；5) VLM retry loop、rigid/soft 分流和 action 补全均写入 manifest；6) 逐层文件可独立加载并可重组；7) Davide Jiahao Chen 的 RynnWorld 三层模型与 Ziyang Meng 的 MIMIC-Video IDM 直接消费同一 manifest。任务保持 active，后续目标是批量化与 downstream 接入，不再把 X2SAM/RoboSeg 的视角分工视为 blocker。\n\n【2026-07-21 当前证据更正】\n以 2026-07-21 Boris 提供的与 NUS-赖咏曦最新确认记录为准，并覆盖同日更早的宽泛路由表述：当前实际只完成了 UMI 腕部/第一人称输入上的比较，X2SAM 在这批已测输入上表现更好。第三人称对比尚未完成，计划随后补测，因此目前不得把“RoboSeg 对第三人称更好”写成已验证结论，只能保留为待验证候选。Cloak-VLA 的 mask 处理管线未开源，当前无法复现或测试；这是可用性 blocker，不是模型效果负结论。戴盟数据集是否也做 layered decomposition 尚未定案：在主数据管线分层质量不足时把它作为高优先级补充/交叉验证数据，不宣称已经完成分层。\n【/2026-07-21 当前证据更正】",
         "result": null,
         "comments": [
           {
@@ -15784,7 +15784,7 @@ export default {
           }
         ],
         "completed_at": null,
-        "updated_at": "2026-07-21T10:49:09.986Z",
+        "updated_at": "2026-07-27T12:08:38.031Z",
         "due_at": "2026-07-14"
       },
       {
@@ -15793,7 +15793,7 @@ export default {
         "title": "已暂停：RoboSeg → SAM3 微调路线",
         "status": "done",
         "priority": "medium",
-        "assignee": "Lai / Yongxi / Boris",
+        "assignee": "Yongxi Lai / Boris",
         "due_at": "2026-07-14",
         "description": "2026-07-13 UMI 会议决策：暂停 SAM3 fine-tuning，继续使用原版稳定分割模型并把当前 SAM3 adapter 实验作为负结果归档。现有 fine-tuned SAM3 未超过 SAM2.5/SAM2.1 baseline；会议给出的可能原因包括语义对齐问题、模块实现粗糙和训练不足，但这些只是待验证解释，不再自动触发更多训练。\n\n收口要求：1) 保存最后一个 SAM3 adapter 的代码/git SHA、配置、checkpoint、A100/5090 日志和同输入可视化；2) 用同一批 clips 报告相对 baseline 的 gripper recall、IoU/edge、时序 drift、runtime/VRAM；3) 把失败原因分成已证实与假设；4) 在 GitHub 留一页 stop decision，说明为何暂时不进入共享 pipeline；5) 当前主线转到 RobotSeg/RoboSeg、X2SAM、STAM/原版 tracking 的同输入比较。只有当这些路线出现明确 blocker，且提出可反驳的新 SAM3 假设与预算时，才另开新 TODO；不得直接重新激活本任务。",
         "result": null,
@@ -15836,7 +15836,7 @@ export default {
           }
         ],
         "completed_at": "2026-07-13",
-        "updated_at": "2026-07-13T13:45:23.029Z",
+        "updated_at": "2026-07-27T12:08:34.817Z",
         "completed_at_time": "2026-07-13T13:45:23.029Z"
       },
       {
@@ -17437,11 +17437,11 @@ export default {
           }
         ],
         "created_at": "2026-06-27T05:42:22.606Z",
-        "updated_at": "2026-07-19T01:56:26.790Z",
+        "updated_at": "2026-07-27T12:08:35.491Z",
         "task_id": "task_umi_stage2_vddm_human_ego_probe_20260627",
         "project_id": "real-robot-demos",
         "title": "Ego2Dex archive: human-hand manipulation decomposition sidecars",
-        "assignee": "Boris / Ziyang / Lai",
+        "assignee": "Boris / Ziyang Meng / Yongxi Lai",
         "due_at": "2026-07-10",
         "description": "Completed cross-domain probe retained as Engineering evidence. It established a common actor/object/contact/occluder/scene layer package for egocentric human-hand clips, with masks, RGBA/layer videos, depth/pointmaps, optional mesh/pose, tracks, contact events, and layer_manifest.json. Current reproduction and retargeting work continues in the Yutao Ego2Dex baseline task; UMI World Model only consumes sidecars that pass this interface and no longer owns the human-video execution queue.",
         "completed_at": "2026-06-29",
@@ -17537,7 +17537,7 @@ export default {
         "description": "把 Gemini-Omni video editing 加入 UMI Stage 2 分层补全对照，专门测试“物品层移除 / object inpaint / contact-region completion”的效果。输入：3-5 个 MolmoAct / HOI / UMI-style clips，优先使用 RobotSeg/RoboSeg-first masks，并附带 SAM3/SAM2 tracked masks 与 layer_manifest。实验：对 object/contact layer 做 masked video editing，分别测试 object removal、object background completion、robot-object contact region completion；同一输入与 VACE、FLUX.fill still inpaint、LaMa、GPT/ChatGPT still edit baseline 对比。2026-06-29 最新同步：VACE 当前测下来 inpaint 不稳定，Gemini-Omni 结果要作为是否能替代或补充 VACE 的关键 qualitative probe，而不是另一个孤立 demo。Acceptance: 记录模型入口/API或网页流程、prompt/mask/reference 设置、输入视频+mask、输出视频、与 layer_manifest 对齐方式、masked-region temporal consistency、unmasked-region preservation、recomposition QA、物体边界/contact patch 失败样例、速度/成本/人工操作量；明确 Gemini-Omni 是否只适合作为 quick qualitative probe、是否能作为 VACE fallback、以及是否可进入 global layered dataset pipeline。",
         "status": "done",
         "priority": "high",
-        "assignee": "Boris / Ziyang / Lai",
+        "assignee": "Boris / Ziyang Meng / Yongxi Lai",
         "due_at": "2026-06-30",
         "result": null,
         "comments": [
@@ -17719,7 +17719,7 @@ export default {
             "kind": "comment"
           }
         ],
-        "updated_at": "2026-07-03T10:06:20+08:00",
+        "updated_at": "2026-07-27T12:08:36.173Z",
         "completed_at": "2026-06-30",
         "completed_at_time": "2026-06-30T12:02:58.036Z"
       },
@@ -17969,12 +17969,12 @@ export default {
       {
         "task_id": "task_umi_davide_multilayer_video_model_architecture_20260707",
         "project_id": "umi-world-model",
-        "title": "Jiahao / Davide：复现 RynnWorld-Teleop 并设计三层视频模型",
+        "title": "Davide Jiahao Chen：复现 RynnWorld-Teleop 并设计三层视频模型",
         "status": "active",
         "priority": "high",
-        "assignee": "Jiahao / Davide / Boris / Lai",
+        "assignee": "Davide Jiahao Chen / Boris / Yongxi Lai",
         "due_at": "2026-07-21",
-        "description": "以官方代码库 https://github.com/alibaba-damo-academy/RynnWorld-Teleop 为直接基线，先复现再改三层输出。该仓库基于 Wan2.2-TI2V-5B，公开了 Stage 0 ego-video SFT、Stage 1 control-conditioned LoRA/SFT、Stage 2 MSE warm-up + DMD causal streaming distillation，以及 SFT/LoRA/streaming inference；不要另起一个无法复用官方 checkpoint、数据格式和控制注入路径的骨架。\n\nUMI 改造目标：保留 first-frame / original-video / action-or-control condition，把单一 RGB denoising head 扩展为 background/scene、object/contact、robot/actor 三层输出，并与 Lai/Ziyang/Jiahao 共用 layer_manifest。先并行设计两种最小接口：A) 三层 VAE latent 按通道拼接；B) token fusion + layer embedding。两者必须输出可重组 RGB、逐层 mask/RGBA/video、置信度与 manifest，而不是只展示三张定性图。\n\n执行顺序：1) 固定 upstream git SHA、Wan2.2-TI2V-5B base、公开 RynnWorld checkpoint、环境和 seeds，跑通官方 sample / inference_user.py / inference_streaming.py；2) 记录 Stage 1 control injection、control_patch_embedding、control_scale、causal cache、MSE/DMD 训练入口中可复用模块；3) 在 1-3 个共享分层 robot clips 上完成 dataloader + reconstruction smoke；4) 再做三层 decoder/latent ablation；5) smoke 通过后才申请 32×A800 微调，2-4 GPU 先用于推理和结构验证。\n\nAcceptance: 1) GitHub 提交复现文档、命令、环境、git SHA、checkpoint、输入输出和可视化；2) 官方 8-case 或等价最小样例至少跑通 1 个 SFT 与 1 个 streaming case；3) 给出通道拼接 vs layer embedding 的 tensor shape、loss、显存和速度；4) 逐层报告 mask/recomposition、temporal consistency、unmasked-region preservation、layer leakage、object/robot motion fidelity；5) 用 VBench 只评整帧视频质量，同时增加 layer IoU/Boundary-F、recomposition、contact/pose/action utility 等项目指标；6) 明确 physics forcing 如何接入每层，而不是先假定有效；7) 形成 adopt/cherry-pick/reject RynnWorld 模块的工程结论。",
+        "description": "以官方代码库 https://github.com/alibaba-damo-academy/RynnWorld-Teleop 为直接基线，先复现再改三层输出。该仓库基于 Wan2.2-TI2V-5B，公开了 Stage 0 ego-video SFT、Stage 1 control-conditioned LoRA/SFT、Stage 2 MSE warm-up + DMD causal streaming distillation，以及 SFT/LoRA/streaming inference；不要另起一个无法复用官方 checkpoint、数据格式和控制注入路径的骨架。\n\nUMI 改造目标：保留 first-frame / original-video / action-or-control condition，把单一 RGB denoising head 扩展为 background/scene、object/contact、robot/actor 三层输出，并与 Yongxi Lai、Ziyang Meng、Davide Jiahao Chen 共用 layer_manifest。先并行设计两种最小接口：A) 三层 VAE latent 按通道拼接；B) token fusion + layer embedding。两者必须输出可重组 RGB、逐层 mask/RGBA/video、置信度与 manifest，而不是只展示三张定性图。\n\n执行顺序：1) 固定 upstream git SHA、Wan2.2-TI2V-5B base、公开 RynnWorld checkpoint、环境和 seeds，跑通官方 sample / inference_user.py / inference_streaming.py；2) 记录 Stage 1 control injection、control_patch_embedding、control_scale、causal cache、MSE/DMD 训练入口中可复用模块；3) 在 1-3 个共享分层 robot clips 上完成 dataloader + reconstruction smoke；4) 再做三层 decoder/latent ablation；5) smoke 通过后才申请 32×A800 微调，2-4 GPU 先用于推理和结构验证。\n\nAcceptance: 1) GitHub 提交复现文档、命令、环境、git SHA、checkpoint、输入输出和可视化；2) 官方 8-case 或等价最小样例至少跑通 1 个 SFT 与 1 个 streaming case；3) 给出通道拼接 vs layer embedding 的 tensor shape、loss、显存和速度；4) 逐层报告 mask/recomposition、temporal consistency、unmasked-region preservation、layer leakage、object/robot motion fidelity；5) 用 VBench 只评整帧视频质量，同时增加 layer IoU/Boundary-F、recomposition、contact/pose/action utility 等项目指标；6) 明确 physics forcing 如何接入每层，而不是先假定有效；7) 形成 adopt/cherry-pick/reject RynnWorld 模块的工程结论。",
         "result": null,
         "comments": [
           {
@@ -18051,15 +18051,15 @@ export default {
           }
         ],
         "created_at": "2026-07-07T12:00:00+08:00",
-        "updated_at": "2026-07-23T10:40:55.469Z"
+        "updated_at": "2026-07-27T12:08:38.636Z"
       },
       {
         "task_id": "task_umi_ziyang_object_layer_pose_value_benchmark_20260707",
         "project_id": "umi-world-model",
-        "title": "Ziyang / Meng：Object Layer pose / flow / value 路由验证",
+        "title": "Ziyang Meng：Object Layer pose / flow / value 路由验证",
         "status": "active",
         "priority": "high",
-        "assignee": "Ziyang / Meng / jiayi / Boris",
+        "assignee": "Ziyang Meng / Jiayi Qiao / Boris",
         "due_at": "2026-07-20",
         "description": "目标是证明 Object Layer 对 manipulation 的实际价值，并按物体类型选择状态表示，而不是把所有对象都塞进一个密集 3D renderer。\n\n路线决策：刚体/关节物体优先走 6D pose；柔性物体、布料、电缆、流体或无可靠 CAD 的对象走 optical flow + keypoint/track 表示。会议正文写 ANeXy，但方法对比表又写 Any6D，ClawCross 群聊未找到可消歧原文；第一道 gate 必须确认准确项目名、代码库、模型输入和许可，禁止把两个名称当同一实现。若刚体后端需要 depth/intrinsics，则在数据生成或前处理阶段固定并记录相机内参，必要时接 DepthAnything 类 depth estimate，并对估计误差做敏感性测试。\n\nObject3D 当前约 1 min/batch、约 32GB、偏离线高斯输出，不应作为实时密集依赖；先把 object pose/flow/contact/state 作为稀疏 value/process-reward sidecar。柔性路线重点验证 flow/keypoint 是否能提供过程奖励、失败定位和任务进度，而不只生成漂亮光流图。\n\nAcceptance: 1) 明确 ANeXy/Any6D 名称歧义并附官方 repo/paper；2) 在同一组 rigid/articulated 与 deformable clips 上跑 pose 与 flow/keypoint 两路，保存命令、git SHA、输入输出、runtime、VRAM；3) 报告 rigid pose error/track stability，deformable endpoint/keypoint/flow consistency、contact timing 和 process-reward separability；4) 对 raw RGB、mask-only、object layer、object+background、recomposed clip 做同输入消融；5) 选择至少一个 RoboMimic/真实 robot benchmark smoke，不能只在本地人机环境展示；6) 输出 occlusion、fast motion、textureless object、cloth fold、cable crossing、pose/flow drift failure gallery；7) 在 GitHub 共享文档、表格和可视化，并给出按 object type 自动分流的 schema 与 fallback。",
         "result": null,
@@ -18120,7 +18120,7 @@ export default {
           }
         ],
         "created_at": "2026-07-07T12:00:00+08:00",
-        "updated_at": "2026-07-22T11:29:36.000Z"
+        "updated_at": "2026-07-27T12:02:30.363Z"
       },
       {
         "task_id": "task_umi_user_tokens_autodl_resource_governance_20260707",
@@ -18128,7 +18128,7 @@ export default {
         "title": "UMI 共享资源治理：user-specific dashboard token / AutoDL / >8GPU 报备",
         "status": "done",
         "priority": "medium",
-        "assignee": "Boris / Lai",
+        "assignee": "Boris / Yongxi Lai",
         "due_at": "2026-07-10",
         "description": "把 2026-07-07 会议里的资源和权限流程固化到 dashboard 操作规则。Dashboard 写权限从公共 token 改成 user-specific token；token 应使用随机字节再 Base64url/等价编码生成，前端水印根据后端 token->viewer 绑定显示，禁止把真实 token 写入公开 state。AutoDL 账号由 Lai/yongxi 管理，jiahao 和 ziyang 需要训练时联系 Lai/yongxi 开通；使用后 Lai/yongxi 检查 GPU 使用率，空闲后通知并关闭实例。AutoDL 只能做 <=8 GPU / 单节点架构测试；8 卡以上或大存储需求必须提前向 Boris 报备，由 Boris 协调华为云/阿里云/dev-team 资源。Acceptance: 1) Dashboard access 名单至少覆盖 Lai/yongxi、ziyang、jiahao、haoyu、yubo、jiayi、yanxiang 等需要访问的成员；仅记录 viewer 名称和已开通状态，不公开 token；2) 在 dashboard/AGENTS 或项目说明里写明 viewer 由 token 绑定返回，不由请求体伪造；3) 写 AutoDL 使用流程：申请、启动、训练、GPU 利用率检查、关闭；4) 写 >8GPU/大存储报备规则；5) 不泄露账号、密码、token、账单或供应商敏感信息。",
         "result": null,
@@ -18153,7 +18153,7 @@ export default {
           }
         ],
         "created_at": "2026-07-07T12:00:00+08:00",
-        "updated_at": "2026-07-19T06:35:07.493Z",
+        "updated_at": "2026-07-27T12:08:36.794Z",
         "completed_at": "2026-07-07",
         "completed_at_time": "2026-07-07T15:44:38.777Z"
       },
@@ -18523,7 +18523,7 @@ export default {
         "description": "定义并实现显式 3D reference compiler。输入：URDF visual/collision mesh、q_cmd/q_meas/q_sim 及硬件时间戳、固定第三人称与随 link 运动的腕部相机内外参/畸变。输出：每相机 robot RGB render、skeleton、silhouette/link-ID、depth/normal/pointmap/flow/ray map、可见性和 layer manifest。验收：同一条 Franka 轨迹可重复生成两视角时间对齐 control bundle，并能反投影检查。",
         "status": "done",
         "priority": "urgent",
-        "assignee": "Boris / Jiahao / Image Layered Policy",
+        "assignee": "Boris / Davide Jiahao Chen / Image Layered Policy",
         "result": null,
         "comments": [
           {
@@ -18535,7 +18535,7 @@ export default {
             "created_at": "2026-07-19T01:50:33.491Z"
           }
         ],
-        "updated_at": "2026-07-19T01:56:26.790Z",
+        "updated_at": "2026-07-27T12:02:31.654Z",
         "completed_at": "2026-07-16",
         "completed_at_time": "2026-07-16T13:49:22.820Z"
       },
@@ -18569,7 +18569,7 @@ export default {
         "description": "选一条短操作轨迹，用同一 world-frame robot trajectory 同时生成固定第三人称与动态腕部 control bundle，再驱动视频生成。Seedance 2.0 仅作为 reference-video 能力探针；生成后端必须可替换，并保留 Cosmos-Transfer / WAN-VACE 类开源路径。验收：两路同步视频、输入 bundle、生成配置、action/camera adherence 对比齐全；Seedance 2.5 在官方版本/API 核验前不得写成依赖。",
         "status": "done",
         "priority": "high",
-        "assignee": "Boris / Jiahao / Image Layered Policy",
+        "assignee": "Boris / Davide Jiahao Chen / Image Layered Policy",
         "result": null,
         "comments": [
           {
@@ -18581,7 +18581,7 @@ export default {
             "created_at": "2026-07-19T01:50:33.491Z"
           }
         ],
-        "updated_at": "2026-07-19T01:56:26.790Z",
+        "updated_at": "2026-07-27T12:02:32.290Z",
         "completed_at": "2026-07-16",
         "completed_at_time": "2026-07-16T13:52:03.033Z"
       },
@@ -18592,7 +18592,7 @@ export default {
         "description": "做 morphology x action x camera 因子消融，并比较 text-only、raw sim RGB、2D skeleton、mask、pointmap、full mesh/depth/normal/layer bundle。拆分 held-out topology、link geometry、DoF、robot family、camera 与 scene；加入同动作不同相机/同相机不同动作。评测 link reprojection、silhouette IoU、EEF/joint/inverse-action recovery、多视角几何、contact/scene reaction，并将生成视频反演动作后在 real-to-sim 重放检查可执行性。",
         "status": "done",
         "priority": "high",
-        "assignee": "Boris / Jiahao / Image Layered Policy",
+        "assignee": "Boris / Davide Jiahao Chen / Image Layered Policy",
         "result": null,
         "comments": [
           {
@@ -18604,7 +18604,7 @@ export default {
             "created_at": "2026-07-19T01:50:33.491Z"
           }
         ],
-        "updated_at": "2026-07-19T01:56:26.790Z",
+        "updated_at": "2026-07-27T12:02:32.994Z",
         "completed_at": "2026-07-16",
         "completed_at_time": "2026-07-16T13:52:49.757Z"
       },
@@ -18615,7 +18615,7 @@ export default {
         "description": "在同一批真实 UMI / wrist-view egocentric 数据上，对 X2SAM、RoboSeg/RobotSeg 与 Cloak mask 路线做可复现比较。2026-07-13 ClawCross 群聊确认：X2SAM 尚未完成实测，Yongxi/Lai 继续负责官方 X2SAM 结果；不能因通用 benchmark 或群里出现视频文件就提前标 done。\n\n方法边界：1) X2SAM 官方仓库 https://github.com/wanghao9610/X2SAM 已开放 training/evaluation/visualization/demo；它支持 conversational instruction、visual prompt 和 Mask Memory，重点测试 UMI wrist-view 的 gripper、hand/end-effector、arm+gripper 时序 mask。2) RoboSeg/RobotSeg https://github.com/showlab/RobotSeg 作为 robot-specific baseline 与当前候选主线。3) Cloak https://tml.stanford.edu/cloak/ 依赖 robot geometry、joint state 与 wrist-camera extrinsics 渲染 end-effector mask，适合作 geometry oracle/control；缺 URDF/MJCF、joint state 或 extrinsics 时必须记 blocker，不能伪造 GT。Cloak 的训练代码/checkpoint 是否完整开放需按当前 upstream 再核验。\n\nAcceptance: 1) 至少 3 个真实 UMI/dual-wrist clips，每段 20-50 帧，覆盖黑色 gripper、快速运动、接触、遮挡和背景干扰；2) 统一输出 gripper-only、hand/end-effector、arm+gripper taxonomy，保存 binary mask、overlay、video、prompt/config/git SHA；3) X2SAM 比 text instruction 与 visual-prompt initialization，RoboSeg 用官方 checkpoint，Cloak 只在 metadata 足够时渲染；4) 少量人工 reference/consensus labels 上报告 IoU、Boundary-F、gripper recall、missing rate、false foreground、frame-to-frame IoU、bbox jitter、topology jump、propagation drift、runtime、VRAM 和人工修正成本；5) 输出同帧三路可视化、CSV/JSON 和 failure gallery；6) 给出明确主线：RoboSeg 是否保留 mainline，X2SAM 是否做语言/视觉提示 fallback，Cloak 是否做 geometry oracle/VLA ablation。\n\n【2026-07-21 当前证据更正】\n以 2026-07-21 Boris 提供的与 NUS-赖咏曦最新确认记录为准，并覆盖同日更早的宽泛路由表述：当前实际只完成了 UMI 腕部/第一人称输入上的比较，X2SAM 在这批已测输入上表现更好。第三人称对比尚未完成，计划随后补测，因此目前不得把“RoboSeg 对第三人称更好”写成已验证结论，只能保留为待验证候选。Cloak-VLA 的 mask 处理管线未开源，当前无法复现或测试；这是可用性 blocker，不是模型效果负结论。戴盟数据集是否也做 layered decomposition 尚未定案：在主数据管线分层质量不足时把它作为高优先级补充/交叉验证数据，不宣称已经完成分层。\n【/2026-07-21 当前证据更正】",
         "status": "done",
         "priority": "high",
-        "assignee": "Lai / Yongxi / Seb.M / Boris",
+        "assignee": "Yongxi Lai / Ziyang Meng / Boris",
         "result": "Boris confirmed this comparison task complete on 2026-07-22. Existing evidence notes remain authoritative; no additional unprovided third-person metrics or Cloak-VLA reproduction result is inferred.",
         "comments": [
           {
@@ -18655,7 +18655,7 @@ export default {
             "created_at": "2026-07-22T02:06:45.338Z"
           }
         ],
-        "updated_at": "2026-07-22T02:06:45.338Z",
+        "updated_at": "2026-07-27T12:02:33.686Z",
         "due_at": "2026-07-20",
         "completed_at": "2026-07-22T02:06:45.338Z",
         "completed_at_time": null
@@ -18695,11 +18695,11 @@ export default {
       {
         "task_id": "task_umi_world_model_ziyang_meng_mimic_video_robot_layer_action_idm_20260713",
         "project_id": "umi-world-model",
-        "title": "Ziyang / Meng：评估 MIMIC-Video 的 Robot Layer → action IDM",
+        "title": "Ziyang Meng：评估 MIMIC-Video 的 Robot Layer → action IDM",
         "description": "评估 https://mimic-video.github.io/ 与官方代码 https://github.com/mimic-video/mimic-video 是否能把 UMI Robot Layer 转成可用 action。技术边界：MIMIC-Video 不是 mask-to-action 黑盒；其 flow-matching action decoder 由预训练视频模型的 latent visual plan 和 proprioceptive state 条件化，作为 IDM 预测 action trajectory。UMI 必须验证 Robot Layer 表示是否保留视频 backbone/decoder 需要的动态信息。\n\n执行顺序：1) 先按会议要求用默认设置做 global-layer + initial robot state -> future delta-action baseline；2) 再比较 robot RGB/RGBA layer、robot mask video、global+robot fusion 三种输入；3) 固定相机 pose 的场景先做，不把未知 camera calibration 当成已解决；4) 对接官方 Cosmos-Predict2 2B + action decoder 路径，优先跑公开 Bridge/LIBERO checkpoint/eval smoke，再替换成 UMI 数据；5) 测试 Euler pose、quaternion pose、10D action 等表示，并明确 gripper width、frame rate、normalization 和 action chunk 对齐。\n\nAcceptance: 1) 固定官方 git SHA、checkpoint、环境、数据 schema 和复现命令；2) 跑通至少一个官方 inference/eval，再跑同一批 UMI clips 的 global、robot-only、global+robot 三路；3) 报告 action L2/rotation/translation/gripper error、trajectory drift、chunk latency、VRAM、actual-vs-zero/wrong-action separation 和可用时的 rollout success；4) 明确 mask-only 是否信息不足、robot RGBA 是否需要重训 video backbone、initial state/proprioception 如何注入；5) 输出 predicted-vs-GT action plot、reconstructed/denoised plan video、failure gallery；6) 与简单 CNN/ViT robot-layer IDM 和 global-layer baseline 比较，不能只复现论文数字；7) GitHub 共享文档和可视化，并给出 adopt/cherry-pick/reject MIMIC-Video action decoder 的结论。",
         "status": "active",
         "priority": "high",
-        "assignee": "Ziyang / Meng / Seb.M / Boris",
+        "assignee": "Ziyang Meng / Boris",
         "result": null,
         "comments": [
           {
@@ -18712,7 +18712,7 @@ export default {
             "created_at": "2026-07-13T13:49:07.260Z"
           }
         ],
-        "updated_at": "2026-07-13T13:49:07.260Z",
+        "updated_at": "2026-07-27T12:02:31.040Z",
         "due_at": "2026-07-20"
       },
       {
@@ -19030,9 +19030,9 @@ export default {
         "project_id": "umi-world-model",
         "title": "测试 cuVSLAM：在移除 robot/object 后的 UMI wrist view 上跑 VO/SLAM",
         "description": "把 NVIDIA cuVSLAM / Isaac ROS Visual SLAM 加入 UMI Stage 2/3 的 wrist-view geometry probe。先确认 UMI 数据能否满足 cuVSLAM 的输入约束（支持模式、成对相机/时间同步、内参、畸变与 rectification；不要默认左右腕相机就是有效 stereo pair）。为同一批 3-5 个 UMI clips 制作三种输入：raw wrist view、robot removed/inpainted、robot + manipulated object removed/inpainted；保持相同裁剪、时间戳与相机参数。分别运行 cuVSLAM，并以 ORB-SLAM3、VGGT-SLAM 为对照，记录初始化/跟踪成功率、lost/restart 次数、valid-pose ratio、轨迹平滑度、ATE/RPE 或无 GT 时的循环/重投影代理、速度、VRAM 与失败样例。核心检验不是“去掉前景一定更好”，而是量化动态 robot/object 像素与 inpainting temporal artifacts 对 VO/SLAM 的净影响。验收：提供可复查命令/配置、输入与 mask/layer_manifest、三路轨迹叠加或可视化、指标表和明确 go/no-go 结论；若输入模式不兼容，写明最小采集/标定改造。参考：https://github.com/nvidia-isaac/cuVSLAM 和 https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_visual_slam。",
-        "status": "todo",
+        "status": "active",
         "priority": "high",
-        "assignee": "Ziyang (Seb.M) / jiayi",
+        "assignee": "Jiayi Qiao",
         "result": null,
         "comments": [
           {
@@ -19045,15 +19045,17 @@ export default {
             "created_at": "2026-07-16T13:58:59.096Z"
           }
         ],
-        "updated_at": "2026-07-16T13:58:59.096Z",
-        "due_at": "2026-07-20"
+        "updated_at": "2026-07-27T12:02:28.006Z",
+        "due_at": "2026-07-20",
+        "completed_at": null,
+        "completed_at_time": null
       },
       {
         "task_id": "task_urdf_embodiment_prior_world_model_idea_yubo_bridgev2w_kinema4d_oscar_urdf_world_model_n_20260716",
         "project_id": "umi-world-model",
         "title": "yubo：评估可选 URDF/MVA visual-control 支线（BridgeV2W / Kinema4D / OSCAR / SimDist）",
         "description": "将本任务收口为 UMI Stage 1 的可选 embodiment-control ablation，不作为 WM-T、WM-C 或 WM-F 的训练前置条件。主线始终使用同步多视角 RGB/history、10-D numeric action/state、每视角 calibrated K/T 与 shared-world communication。第一组先在固定外部相机上比较 numeric-action-only、+URDF/MVA masked robot raster、BridgeV2W、Kinema4D、OSCAR 与 SimDist；使用同一 1-2 条轨迹、相机、首帧与目标视频，记录控制表示、URDF/renderer/IK依赖、action adherence、object/contact outcome、embodiment transfer、runtime/VRAM、代码/权重可用性与失败样例。只有 fixed-exo 分支通过后，才在 wrist/head 视角加入 hand-eye/FK-derived camera trajectory，并按 robot visibility gate 启用可见 gripper/tool raster；PRoPE/Patch Memory负责动态相机背景视差与新区域显露。UMI只有 EE action 时，必须显式记录 current q + IK/controller rollout -> q[t:t+T]，不能假设 10-D EE action唯一确定完整URDF姿态。Novelty gate：URDF + action + camera或rendered control video本身不是新颖性；仅当该支线相对必需主线在held-out embodiment、robot pose、object/contact response或data efficiency上产生稳定增益，才考虑晋级为默认条件。参考：https://arxiv.org/abs/2602.03793 ；https://arxiv.org/abs/2603.16669 ；https://arxiv.org/abs/2606.04463 ；https://sim-dist.github.io ；https://masked-visual-actions.github.io/",
-        "status": "todo",
+        "status": "active",
         "priority": "high",
         "assignee": "yubo",
         "result": null,
@@ -19094,7 +19096,9 @@ export default {
             "created_at": "2026-07-23T10:40:55.469Z"
           }
         ],
-        "updated_at": "2026-07-23T10:40:55.469Z"
+        "updated_at": "2026-07-27T11:45:40.267Z",
+        "completed_at": null,
+        "completed_at_time": null
       },
       {
         "task_id": "task_self_improving_agents_phase_2_harness_build_reusable_skill_mcp_registr_20260717",
@@ -19319,11 +19323,11 @@ export default {
       {
         "task_id": "task_umi_aliyun_dataset_access_lai_5090_20260720",
         "project_id": "umi-world-model",
-        "title": "为 Lai 安排阿里云数据集读取权限（Haoyu 接手）",
+        "title": "为 Yongxi Lai 安排阿里云数据集读取权限（Haoyu 接手）",
         "description": "[MEETING 2026-07-20] Boris 配置 Lai 的阿里云数据集最小必要只读权限；Lai 验证可列出目标数据并先向 5090 服务器拉取一个小样本，再完成所需数据同步。验收：记录正式数据集名称与范围、目标目录、文件数/大小/校验结果、5090 存储余量和传输失败重试；Dashboard、评论和仓库中不得记录账号、Token、签名 URL 或其他凭据。权限开通并完成读取 smoke 后从 needs_user 转 active。\n\n【2026-07-21 权限与传输状态】\nHaoyu 已获得阿里云 full access，并被安排协助 Yongxi 将一部分数据传到 Yongxi 的 AutoDL 主机或实验室 workstation。这只证明协助者具备访问条件，不证明 Lai/Yongxi 的正式数据范围、目标目录或 5090/AutoDL/workstation 拉取 smoke 已完成，因此本任务继续保持 needs_user。下一步需确认正式数据集名称与子集、目标主机和目录、文件数/大小/校验、存储余量与失败重试；不得在 Dashboard、评论或仓库中写入账号、Token、签名 URL 或其他凭据。\n【/2026-07-21 权限与传输状态】\n\n【2026-07-22 关闭说明】\nBoris 确认本条以 Haoyu 接手并为 Lai 配置阿里云数据访问权限为完成标准，任务标记 done。此前标题中的 5090 拉取 smoke 未在本次更新中提供独立证据，因此不写成已验证结果；如果后续仍需核验实际传输，应另建带明确数据子集、目标主机、校验与存储余量的 smoke TODO。\n【/2026-07-22 关闭说明】",
         "status": "done",
         "priority": "high",
-        "assignee": "Boris / Lai / Yongxi / Haoyu",
+        "assignee": "Boris / Yongxi Lai / Haoyu",
         "result": "Closed on 2026-07-22 after Boris assigned Haoyu to grant Lai the Alibaba Cloud dataset access. This records the ownership handoff; a 5090 transfer smoke was not separately evidenced in the supplied update.",
         "comments": [
           {
@@ -19345,7 +19349,7 @@ export default {
             "created_at": "2026-07-22T02:06:45.338Z"
           }
         ],
-        "updated_at": "2026-07-22T02:12:59.539Z",
+        "updated_at": "2026-07-27T12:08:37.399Z",
         "completed_at": "2026-07-22T02:06:45.338Z"
       },
       {
