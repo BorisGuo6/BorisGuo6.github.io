@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-07-28T12:14:18.747Z",
+  "updated_at": "2026-07-28T12:36:03.729Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -13416,7 +13416,7 @@
       "project_id": "self-improving-agents",
       "title": "[Phase 2 / Route 1 Text2Env] Zheng Ye：封装确定性文字生成环境路线",
       "description": "[PHASE 2 PLAN 2026-07-21 · USER-SUPPLIED 2026-07-22] 主负责人：Zheng Ye；Hu 负责 Harness 接口 review。该路线在公共接口冻结后与 Asset reuse 并行，且先于 Anchor2Env。\n\n目标：复用已验收的 RoboTwin SceneGen Stage 0-5，把文字生成流程封装进统一 Harness，而不是重做场景生成。\n\n主要工作：将文字请求转换为 SceneSpec、AssetManifest、ResolvedSceneSpec、模拟器 EnvironmentPackage 和验证报告；禁止语言模型任意生成代码、资产路径、最终位置或四元数；把 compile、validate 和 replay 暴露为版本化 Skill/MCP，并只允许有限次数修复。\n\n验收：准备一个中文和一个英文固定案例及负向案例；相同输入、配置与种子可回放到同一最终环境包；保留来源、淘汰候选和 typed blocker；RoboTwin 与第二 adapter 通过运行门禁，回归失败不得发布。\n\n交付：版本号、固定输入/配置/seed、预期产物、失败案例、最小回归测试，以及供 Transfer 使用的输入路线 adapter。",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignee": "Zheng Ye",
       "result": null,
@@ -13440,17 +13440,18 @@
           "created_at": "2026-07-22T02:53:50.821Z"
         },
         {
-          "comment_id": "comment_fbc274f9-4c41-4e9b-8417-7e773697c357",
+          "comment_id": "comment_b351da2a-bd34-4f99-8473-0245aa3186d7",
           "task_id": "task_self_improving_agents_phase_2_1_4_text2env_wrap_deterministic_text2env_20260717",
           "author": "jingxiang",
           "author_type": "system",
-          "kind": "evidence_update",
-          "body": "[PROGRESS 2026-07-28 · REPORT REVIEWED] Text2Env 已完成 VLM scene critic 的定性原型闭环：文本任务先生成物理可行候选布局，再由视觉常识判别器检查并反馈修正，使场景从“无碰撞”进一步走向“符合人类摆放常识”。报告中的笔记本—遥控器对照显示：未加 VLM 时虽然没有明显穿透/碰撞，笔记本接近竖立且遥控器相对位置不自然；VLM 修正后笔记本平放、遥控器位于右侧，并提供了当前端到端物理交互视频。报告：https://vlm-scene-report-2026.yezheng04123.chatgpt.site/\n\n[BOUNDARY] 该页面只提供一组定性案例，未报告样本量、成功率、延迟、VLM 型号/checkpoint/prompt、评价协议或可复现实验配置；交互视频仍有不自然动作，尚需区分物理交互模块限制与任务轨迹定义问题。因此本 Phase 2 TODO 保持 todo，不把“VLM scene critic 原型完成”写成“Text2Env / Harness 已完成”。下一步门禁：1) 交互异常归因；2) 量化 VLM 对语义合理性的提升；3) 将 critic 结果转成显式轨迹规划约束；4) 完成版本化 Skill/MCP、固定中英文/负例 fixture、同输入/config/seed 可回放、第二 adapter 与回归门禁。",
-          "created_at": "2026-07-28T12:14:18.747Z"
+          "kind": "comment",
+          "body": "[PROGRESS 2026-07-28 · REPORT REVIEWED · STATUS CORRECTED] Text2Env 新增 VLM scene critic 的定性原型闭环：文本任务先生成物理可行候选布局，再由视觉常识判别器检查并反馈修正，使场景从“无碰撞”进一步走向“符合人类摆放常识”。报告中的笔记本—遥控器对照显示：未加 VLM 时虽然没有明显穿透/碰撞，笔记本接近竖立且遥控器相对位置不自然；VLM 修正后笔记本平放、遥控器位于右侧，并提供当前端到端物理交互视频。报告：https://vlm-scene-report-2026.yezheng04123.chatgpt.site/\n\n[STATUS] 本卡已于 2026-07-27 基于独立的 Phase 2 路线封装验收证据标为 done；本报告是新增研究进展，不是该完成状态的依据，也不代表整个 Self-Improving Harness 已完成。\n\n[BOUNDARY / NEXT] 页面只提供一组定性案例，未报告样本量、成功率、延迟、VLM 型号/checkpoint/prompt、评价协议或可复现实验配置；交互视频仍有不自然动作，尚需区分物理交互模块限制与任务轨迹定义问题。后续研究门禁仍包括：1) 交互异常归因；2) 量化 VLM 对语义合理性的提升；3) 将 critic 结果转成显式轨迹规划约束；4) 在总 Harness 层继续第二 adapter 与回归验证。",
+          "created_at": "2026-07-28T12:36:03.729Z"
         }
       ],
-      "updated_at": "2026-07-28T12:14:18.747Z",
-      "completed_at": null
+      "updated_at": "2026-07-28T12:36:03.729Z",
+      "completed_at": "2026-07-27",
+      "completed_at_time": "2026-07-27T13:27:08.436Z"
     },
     {
       "task_id": "task_self_improving_agents_phase_2_2_4_anchor2env_wrap_image_video_conditio_20260717",
