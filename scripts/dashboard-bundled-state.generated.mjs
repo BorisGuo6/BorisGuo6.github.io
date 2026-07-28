@@ -1,7 +1,7 @@
 export default {
   "schema_version": "dashboard-state.v1",
   "source": "bundled-json-generated",
-  "updated_at": "2026-07-28T07:38:12.871Z",
+  "updated_at": "2026-07-28T12:14:18.747Z",
   "portfolio": {
     "schema_version": "portfolio.v1",
     "portfolio_id": "embodied-ai-dashboard",
@@ -1519,7 +1519,7 @@ export default {
       "title": "Self-Improving Agents for Physical AI",
       "bucket": "research",
       "status": "ongoing",
-      "updated_at": "2026-07-23T07:50:05.000Z",
+      "updated_at": "2026-07-28T12:14:04.785Z",
       "description": "[KNOWN] [CONFIDENCE: HIGH] Agentic environment-generation harness for Physical AI: route text requests, image/video anchors, internet asset and dataset retrieval, and cross-simulator migration through reusable Skills and MCP tools, preferring verified asset reuse and parameter filling before rigid or articulated 3D generation.",
       "summary": "[KNOWN] [CONFIDENCE: HIGH] The four V1 workflows retain bounded acceptance evidence: Text2Env Stage 0-5, image/video Anchor2Env, verified asset discovery/import, and Open-X-Sim L0-L3 transfer. [KNOWN] [CONFIDENCE: HIGH] The current phase integrates them into one agentic harness with reusable Skill/MCP contracts, a selection-first asset route, a learned rigid/articulated 3D-generation fallback, and regression-gated cross-simulator compilation. [KNOWN] [CONFIDENCE: HIGH] Higher-fidelity open-world generation and policy/controller equivalence remain open.",
       "asset": "dashboard/assets/self-improving-embodied-harness-loop-20260707.png",
@@ -1527,6 +1527,7 @@ export default {
       "asset_caption": "[FRAME] Phase 2 harness: orchestrate reusable Skills/MCP around four routes, reuse and parameterize verified assets first, fall back to rigid or articulated 3D generation when needed, then compile, validate, replay and transfer with regression gates.",
       "details": [
         "[KNOWN] [CONFIDENCE: HIGH] Four user-facing routes define the current environment-generation scope: Text2Env, image/video Anchor2Env, automatic internet asset or dataset retrieval, and cross-simulator environment migration.",
+        "[KNOWN] [CONFIDENCE: MEDIUM] Text2Env now has a qualitative VLM scene-critic loop: text task -> physically feasible candidate layout -> visual common-sense critique and bounded correction -> task-ready scene. The current report shows one laptop/remote-control comparison and an end-to-end interaction video; interaction-failure attribution, quantitative semantic-layout evaluation, planning-constraint linkage, and Phase 2 Skill/MCP packaging remain open.",
         "[FRAME] The orchestrator follows a selection-first policy: discover, match, select and fill parameters for verified existing assets before invoking a generative fallback.",
         "[FRAME] The asset-reuse branch records candidate ranking, rejected candidates, license and provenance, hashes, units, axes, scale, visual and collision geometry, material, mass and inertia, stable poses, and joint metadata or typed unknowns.",
         "[FRAME] The generation branch handles rigid and articulated objects separately and must emit simulator-ready visual and collision geometry, scale, physics metadata, joint topology and limits, provenance, hashes, and validation evidence.",
@@ -1801,9 +1802,16 @@ export default {
           "url": "dashboard/assets/self-improving-embodied-harness-loop-20260707.png",
           "submitted_at": "2026-07-07",
           "notes": "User-provided harness concept figure. Use it as image context for the Self-Improving / PEARL article positioning: current harness h_t runs embodied tasks; weakness mining clusters execution failures; the harness proposes edits over prompts/tools/memory/policies/validators; proposal validation accepts only regression-tested candidates; accepted edits update h_{t+1} while the embodied model/policy remains the measured object."
+        },
+        {
+          "title": "Text2Environment: VLM scene-critic progress report",
+          "url": "https://vlm-scene-report-2026.yezheng04123.chatgpt.site/",
+          "submitted_at": "2026-07-28",
+          "notes": "Latest Text2Env progress artifact. It demonstrates a qualitative scene-critic loop from a physically feasible candidate layout through VLM common-sense critique and correction to a task-ready scene, with a laptop/remote-control comparison and an end-to-end interaction video. Evidence boundary: the page reports one qualitative case and does not provide a sample count, success rate, latency, model/checkpoint/prompt, evaluation protocol, or reproducibility bundle. Do not use it to close Phase 2; the next gates are interaction-failure attribution, quantitative semantic-layout evaluation, scene-critic linkage to planning constraints, and versioned Skill/MCP packaging with second-adapter regression."
         }
       ],
       "risks_decisions": [
+        "[KNOWN] [CONFIDENCE: MEDIUM] 2026-07-28 Text2Env VLM scene-critic update: the prototype closes a qualitative loop from a physically valid layout to a visually common-sense corrected scene and provides an end-to-end interaction video. Keep the result as progress evidence, not a quantitative promotion gate: the report contains one laptop/remote-control comparison and no reported model/checkpoint/prompt, sample count, success rate, latency, or reproducibility protocol. Phase 2 remains open for interaction anomaly attribution, semantic-layout metrics, planning-constraint integration, deterministic packaging, and second-adapter regression.",
         "[KNOWN][HIGH] 2026-07-14 diagnosis evidence: 20 place_container_plate rollouts on the RTX 4090 workstation reached 65% success with 7 failures; the next-step deck calls for deterministic failure metrics and video temporal analysis instead of isolated-keyframe diagnosis.",
         "[INFERRED][HIGH] 2026-07-15 scope decision: keep two collaborating workstreams rather than calling both teams generic agent groups. Policy Improvement & Diagnosis owns data/training/evaluation/diagnosis; Environment Generation & Simulation Interoperability owns Text2Env, Anchor2Env, autonomous asset discovery/import, and Open-X-Sim. The /collect and /diagnose contracts remain joint interface surfaces.",
         "Gen-env route contract update 2026-07-09: Alchedata workspace `/home/jingxiang/workspace/alchedata-self-improving-agents` on `jingxiang-b850m-c` now has a unified `/gen-env` route schema at `schemas/gen_env.schema.json`, validated by three contract examples under `artifacts/gen_env_contract/`: `selection2env_route_sample.json`, `forge_fallback_route_blocker.json`, and `material_sidecar_route_blocker.json`. Remote verification passes with `docs=8 static_runs=4 asset_smoke_runs=3 basetask_smoke_runs=3 collect_dry_runs=3 official_rollouts=3 generated_rollouts=2 generated_collections=2 articraft_assets=9996 articraft_archive_passes=3 articraft_collision_blockers=2 act_hdf5=6 act_train=pass_act_train_smoke policy_probe=blocked_policy_train_eval_not_wired gen_env_contracts=3 fallback_blockers=2 artifacts=4`. This covers the schema requirement for selection2env, video2sim-forge fallback, and NeuMaTeX-style material-sidecar routes; it still does not claim actual forge/material execution or generated-task policy evaluation. Commits: local `ea5d211`, remote `86e97f1`.",
@@ -1899,7 +1907,7 @@ export default {
           "id": "text2env",
           "name": "1. Text2Env",
           "status": "done",
-          "summary": "[COMPUTED] [CONFIDENCE: HIGH] The bounded V1 Stage 0-5 gate passes; Phase 2 adapter packaging is tracked separately and does not reopen the historical acceptance evidence."
+          "summary": "[COMPUTED] [CONFIDENCE: HIGH] The bounded V1 Stage 0-5 gate passes. [KNOWN] [CONFIDENCE: MEDIUM] A later VLM scene-critic report adds one qualitative laptop/remote-control correction and an end-to-end interaction artifact. Phase 2 adapter packaging, quantitative semantic-layout evaluation, interaction-failure attribution, and second-adapter regression remain separate active work."
         },
         {
           "id": "anchor2env",
@@ -5748,7 +5756,7 @@ export default {
   ],
   "taskDoc": {
     "schema_version": "tasks.v1",
-    "updated_at": "2026-07-28T07:38:12.871Z",
+    "updated_at": "2026-07-28T12:14:18.747Z",
     "owner": "dashboard",
     "tasks": [
       {
@@ -19186,9 +19194,18 @@ export default {
             "kind": "comment",
             "body": "[USER-SUPPLIED PHASE 2 PLAN 2026-07-22] Rewritten from the internal 2026-07-21 Phase 2 environment-generation assignment plan. One primary owner is kept on this card; reviewers and adapter contributors are recorded in the description. The seven existing cards form one dependency chain and were updated in place rather than duplicated.",
             "created_at": "2026-07-22T02:53:50.821Z"
+          },
+          {
+            "comment_id": "comment_fbc274f9-4c41-4e9b-8417-7e773697c357",
+            "task_id": "task_self_improving_agents_phase_2_1_4_text2env_wrap_deterministic_text2env_20260717",
+            "author": "jingxiang",
+            "author_type": "system",
+            "kind": "evidence_update",
+            "body": "[PROGRESS 2026-07-28 · REPORT REVIEWED] Text2Env 已完成 VLM scene critic 的定性原型闭环：文本任务先生成物理可行候选布局，再由视觉常识判别器检查并反馈修正，使场景从“无碰撞”进一步走向“符合人类摆放常识”。报告中的笔记本—遥控器对照显示：未加 VLM 时虽然没有明显穿透/碰撞，笔记本接近竖立且遥控器相对位置不自然；VLM 修正后笔记本平放、遥控器位于右侧，并提供了当前端到端物理交互视频。报告：https://vlm-scene-report-2026.yezheng04123.chatgpt.site/\n\n[BOUNDARY] 该页面只提供一组定性案例，未报告样本量、成功率、延迟、VLM 型号/checkpoint/prompt、评价协议或可复现实验配置；交互视频仍有不自然动作，尚需区分物理交互模块限制与任务轨迹定义问题。因此本 Phase 2 TODO 保持 todo，不把“VLM scene critic 原型完成”写成“Text2Env / Harness 已完成”。下一步门禁：1) 交互异常归因；2) 量化 VLM 对语义合理性的提升；3) 将 critic 结果转成显式轨迹规划约束；4) 完成版本化 Skill/MCP、固定中英文/负例 fixture、同输入/config/seed 可回放、第二 adapter 与回归门禁。",
+            "created_at": "2026-07-28T12:14:18.747Z"
           }
         ],
-        "updated_at": "2026-07-22T02:53:50.821Z",
+        "updated_at": "2026-07-28T12:14:18.747Z",
         "completed_at": null
       },
       {
