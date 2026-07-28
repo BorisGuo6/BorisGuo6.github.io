@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-07-27T12:08:38.636Z",
+  "updated_at": "2026-07-28T07:38:12.871Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -9918,11 +9918,11 @@
     {
       "task_id": "task_umi_layered_pipeline_sam_vace_flux_lama_automation_20260622",
       "project_id": "umi-world-model",
-      "title": "落地 X2SAM/RoboSeg + VACE 共享分层数据管线（第三人称对比待补）",
-      "status": "active",
+      "title": "确定并冻结 MolmoAct Episode Processing Pipeline（RobotSeg + VACE + SAM3 + QA）",
+      "status": "done",
       "priority": "urgent",
       "assignee": "Ziyang Meng / Yongxi Lai",
-      "description": "把 Yongxi Lai、Ziyang Meng、Davide Jiahao Chen 三条论文线收敛到同一个 single-video-to-multilayer preprocessing contract，不允许各自维护不兼容的数据格式。\n\n已验证并锁定的路线（2026-07-21）：按视角选择 robot-layer segmentation，而不是继续把 X2SAM 与 RoboSeg 当成未决的二选一比较。UMI wrist/ego/第一人称视频使用 X2SAM；固定外部相机/第三人称视频使用 RoboSeg。两条入口必须使用同一套 robot/gripper/object taxonomy、同一 layer_manifest 和同一 QA contract。VACE 作为两次 video inpainting 的主线。\n\nYongxi 确认的 canonical pipeline（图：dashboard/assets/umi-layered-preprocessing-pipeline-20260715.png）：\n1) 输入 full video = robot layer + object layer + background/global source。\n2) 第一次分割提取 robot layer：根据 viewpoint router 选择 X2SAM（UMI 第一人称）或 RoboSeg（第三人称）；记录所用 checkpoint、prompt、tracking/SAM2/VSAM 相关配置与 git SHA。\n3) 第一次 VACE inpainting 去除 robot，得到 object layer + background；并行保存 robot mask/RGBA/layer video。Robot branch 对齐 robot state/action，并执行缺失 action 补全。\n4) agent 检查第一次 inpainting 的残影、遮挡、时序漂移与未遮罩区域保持；失败则修改 robot mask、prompt 或 tracking 配置并重试，不把坏结果送入下一阶段。\n5) 对 object + background 做第二次分割：SAM3 提取 object/contact/tool layer；第二次 VACE inpainting 去除 object，得到 pure background。\n6) agent + VLM 检查 object recognition。若对象识别错误，则修改 segmentation model prompt（可退化为颜色、形状、相对位置提示）并回到第二次分割；识别正确后进入 rigid/soft gate。\n7) rigid/articulated object 输出 pose/trajectory/contact sidecar；soft/deformable object 输出 flow/keypoints/deformation sidecar，分别进入对应处理方法。\n8) 最后执行 pure-background motion-residue QA、逐层重组与 source 对齐；失败 clip 进入 retry/drop log，合格样本导出统一 layer package。\n\nCanonical outputs：source/global video；robot/actor、object/contact/tool、scene/background 的 mask、RGBA、layer video；layer_manifest；robot pose/state/action；rigid pose 或 deformable flow/keypoints；camera/depth metadata 与 confidence；inpainting/recognition/recomposition QA；所有失败、重试与 drop 原因。图、配置、git SHA、可视化和 benchmark 表统一归档到 GitHub data-processing-pipeline 目录。\n\n剩余工程化验收：1) 至少覆盖 UMI 第一人称与第三人称真实 clips，每类不少于 3 段、每段 20-50 帧或等长短视频；2) 验证 viewpoint router 命中正确，不再重复做开放式模型选型；3) segmentation 报告 mask IoU、Boundary-F、gripper recall、jitter/drift、runtime/VRAM；4) VACE 报告 masked temporal consistency、unmasked preservation、moving-pixel residue 与重组质量；5) VLM retry loop、rigid/soft 分流和 action 补全均写入 manifest；6) 逐层文件可独立加载并可重组；7) Davide Jiahao Chen 的 RynnWorld 三层模型与 Ziyang Meng 的 MIMIC-Video IDM 直接消费同一 manifest。任务保持 active，后续目标是批量化与 downstream 接入，不再把 X2SAM/RoboSeg 的视角分工视为 blocker。\n\n【2026-07-21 当前证据更正】\n以 2026-07-21 Boris 提供的与 NUS-赖咏曦最新确认记录为准，并覆盖同日更早的宽泛路由表述：当前实际只完成了 UMI 腕部/第一人称输入上的比较，X2SAM 在这批已测输入上表现更好。第三人称对比尚未完成，计划随后补测，因此目前不得把“RoboSeg 对第三人称更好”写成已验证结论，只能保留为待验证候选。Cloak-VLA 的 mask 处理管线未开源，当前无法复现或测试；这是可用性 blocker，不是模型效果负结论。戴盟数据集是否也做 layered decomposition 尚未定案：在主数据管线分层质量不足时把它作为高优先级补充/交叉验证数据，不宣称已经完成分层。\n【/2026-07-21 当前证据更正】",
+      "description": "本任务按“离线 episode 处理 / 分层物化管线契约冻结”关闭，不代表大规模物化、第三人称同输入 benchmark、VDDM、reward 或 downstream 训练已经完成。\n\nCanonical flow：每个 MolmoAct episode 只读取一次并物化 first_view / second_view；RobotSeg 做 whole-robot segmentation；Robot mask QA 对 missing_robot_part 启动 arm + gripper fallback，并 union masks 后有限重试；accepted 后由 VACE 移除 robot，再做 robot-inpainting QA；随后从任务中提取 active object，SAM3 做 object segmentation；Object mask QA + GPT identity check 对 prompt failure 执行 bounded prompt rewrite；accepted 后由 VACE 移除 object，最后执行 background QA。可重试质量失败回到对应节点；达到重试上限或证据不确定时进入 needs_review；只有全部 QA accepted 的 episode 才进入 completed。\n\nCanonical outputs、模型与 prompt provenance、QA 置信度、retry 轨迹、needs_review 原因继续写入统一 layer_manifest。后续批量物化、质量指标、第三人称比较和 downstream consumption 如需执行，应建立独立 TODO。",
       "result": null,
       "comments": [
         {
@@ -10041,11 +10041,21 @@
           "kind": "comment",
           "body": "[USER-PROVIDED YONGXI CHAT 2026-07-21] Current comparison evidence remains limited to UMI wrist/first-person inputs, where X2SAM performed better; the third-person same-input comparison is still pending and must not be reported as a verified RoboSeg win. Cloak-VLA's mask-processing pipeline is not open sourced, so it cannot be tested. Daimon data layered decomposition remains a higher-priority conditional input if the current pipeline quality is insufficient; it has not been completed. Haoyu has Alibaba Cloud full access and is asked to help transfer a subset to Yongxi's AutoDL host or a lab workstation; no account, token, signed URL or credential belongs in Dashboard state.",
           "created_at": "2026-07-21T10:43:25.017Z"
+        },
+        {
+          "comment_id": "comment_4589d8fd-eed8-4d8d-a868-aec282a8eef2",
+          "task_id": "task_umi_layered_pipeline_sam_vace_flux_lama_automation_20260622",
+          "author": "jingxiang",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[PIPELINE CLOSED 2026-07-28] 用户确认 MolmoAct Episode Processing Pipeline 为当前 UMI 共享离线 episode 物化主线。固定流程：episode 单次读取 → first_view / second_view 物化 → RobotSeg whole-robot segmentation → robot mask QA；missing_robot_part 走 arm + gripper fallback / mask union 后有限重试；accepted 后进入 VACE robot removal → robot inpainting QA → 从 task 提取 active object → SAM3 object segmentation → object mask QA + GPT identity check；prompt failure 只允许 bounded prompt rewrite 后重试；accepted 后进入 VACE object removal → final background QA。任一 QA 的 limit / uncertainty 都 fail-closed 到 needs_review，只有全部 accepted 才标 completed。新图取代 2026-07-15 临时流程图，并同步到 Atlas Stage 3 与 Dashboard Image Context。这里的 completed 只表示 episode sidecar 物化通过，不表示 VDDM、reward 或 RL 已完成；未来 VDDM 只替换 materializer 后端，不改变 layer_manifest / reward API 边界。",
+          "created_at": "2026-07-28T07:33:56.369Z"
         }
       ],
-      "completed_at": null,
-      "updated_at": "2026-07-27T12:08:38.031Z",
-      "due_at": "2026-07-14"
+      "completed_at": "2026-07-28",
+      "updated_at": "2026-07-28T07:38:12.871Z",
+      "due_at": "2026-07-14",
+      "completed_at_time": "2026-07-28T07:33:59.712Z"
     },
     {
       "task_id": "task_umi_roboseg_sam3_backend_migration_p3_20260701",

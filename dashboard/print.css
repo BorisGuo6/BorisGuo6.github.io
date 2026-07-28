@@ -1557,6 +1557,19 @@ td small {
   object-position: center top;
 }
 
+.image-context-card.fit-contain {
+  aspect-ratio: 0.72;
+}
+
+.image-context-card.fit-contain .image-context-media {
+  bottom: 54px;
+}
+
+.image-context-media.is-contain img {
+  object-fit: contain;
+  object-position: center top;
+}
+
 .image-context-card figcaption {
   position: absolute;
   right: 0;
@@ -1577,6 +1590,12 @@ td small {
   min-height: 2.4em;
   background: linear-gradient(rgba(16, 24, 34, 0), rgba(16, 24, 34, 0.92) 76%);
   color: #ffffff;
+}
+
+.image-context-card.fit-contain figcaption {
+  max-height: 54px;
+  padding: 8px;
+  background: #101822;
 }
 
 .rate-curve-figure {

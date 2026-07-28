@@ -5,7 +5,7 @@
   "subtitle": "World models, self-improving simulators, teleop acceleration, and robotics + 3D printing",
   "week": "2026-W24",
   "date": "2026-06-12",
-  "updated_at": "2026-07-27T10:30:57.049Z",
+  "updated_at": "2026-07-28T07:40:00.000Z",
   "state_root": "dashboard/state",
   "summary": {
     "focus": "Research 主线保持 Tri-View/Image-Layered IDM、Self-Improving Agents 和 DexGello；Survey TODO 已统一 inactive/archived，不再显示为当前执行队列。",
@@ -196,9 +196,17 @@
     {
       "src": "dashboard/assets/umi-layered-preprocessing-pipeline-20260715.png",
       "alt": "UMI World Model layered preprocessing pipeline separating robot, object, and background layers with segmentation, inpainting, agent QA, and rigid versus deformable routing.",
-      "caption": "UMI layered preprocessing flow: remove the robot, recover object plus background with VACE, segment the object, validate inpainting and recognition with agents, then route rigid and deformable objects to separate downstream processing.",
+      "caption": "Earlier UMI layered preprocessing flow retained for context: remove the robot, recover object plus background with VACE, segment the object, validate inpainting and recognition with agents, then route rigid and deformable objects to separate downstream processing.",
       "source": "UMI Image Layered World Model",
       "added_at": "2026-07-15"
+    },
+    {
+      "src": "dashboard/assets/umi-molmoact-episode-processing-pipeline-20260728.png",
+      "alt": "MolmoAct episode processing pipeline with RobotSeg, VACE, SAM3, bounded QA retries, completed, and needs_review outcomes.",
+      "caption": "Confirmed UMI / MolmoAct offline episode materializer: read each episode once, materialize both views, segment and QA robot and active-object layers, retry recoverable failures, and route unresolved uncertainty to needs_review.",
+      "source": "UMI Image Layered World Model",
+      "added_at": "2026-07-28",
+      "fit": "contain"
     },
     {
       "src": "dashboard/assets/event-camera-speck-overview-20260715.png",

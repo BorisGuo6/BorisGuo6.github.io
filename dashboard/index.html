@@ -2585,9 +2585,15 @@
             figure.className = "figure-card image-context-card";
             const media = document.createElement("div");
             media.className = "image-context-media";
+            if (reference.fit === "contain") {
+              figure.classList.add("fit-contain");
+              media.classList.add("is-contain");
+            }
             const image = document.createElement("img");
             image.src = assetFileUrl(reference.src);
             image.alt = reference.alt || reference.caption || "Dashboard image";
+            image.loading = "lazy";
+            image.decoding = "async";
             image.addEventListener("load", () => {
               const ratio = image.naturalWidth && image.naturalHeight ? image.naturalWidth / image.naturalHeight : 1;
               media.classList.toggle("is-wide", ratio >= 1.55);
