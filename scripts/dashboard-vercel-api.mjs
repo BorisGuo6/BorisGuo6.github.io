@@ -1091,7 +1091,11 @@ export async function handleDashboardPasskeys(request, response, options = {}) {
     return methodNotAllowed(response, ["GET", "PATCH", "DELETE"]);
   }
   const env = options.env || process.env;
-  const auth = dashboardAdminAuthorization(await dashboardRequestAuth(request, env, options.authOptions || {}));
+  const authOptions = {
+    ...(options.authOptions || {}),
+    ...(options.now !== undefined && options.authOptions?.now === undefined ? { now: options.now } : {}),
+  };
+  const auth = dashboardAdminAuthorization(await dashboardRequestAuth(request, env, authOptions));
   if (!auth.ok) return sendJson(response, auth.status, { ok: false, error: auth.error });
   const loadPasskeyStore = options.loadPasskeyStore || loadDashboardPasskeyStore;
   const storeOptions = dashboardPasskeyStoreOptions(options, env);
