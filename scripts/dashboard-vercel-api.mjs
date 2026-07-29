@@ -8,6 +8,7 @@ import {
 import {
   appendSnapshotAuditEvent,
   applySnapshotProjectCreate,
+  applySnapshotProjectDelete,
   applySnapshotProjectUpdate,
   applySnapshotProjectTableRowUpdate,
   applySnapshotTaskComment,
@@ -89,6 +90,9 @@ export function dashboardErrorResponse(error) {
     return { status: 409, error: "Passkey credential already exists" };
   }
   if (/^Project already exists:/.test(message)) {
+    return { status: 409, error: message };
+  }
+  if (/^Project task set changed:/.test(message)) {
     return { status: 409, error: message };
   }
   if (/^Passkey credential not found:/.test(message)) {
@@ -1338,6 +1342,60 @@ export async function handleDashboardProjectCreate(request, response, options = 
     ok: true,
     project_id: result.project.project_id,
     project: result.project,
+    update: result.update,
+    meta: result.meta,
+  });
+}
+
+export async function handleDashboardProjectDelete(request, response, options = {}) {
+  if (request.method !== "POST") return methodNotAllowed(response, ["POST"]);
+  const env = options.env || process.env;
+  const providedToken = dashboardProvidedWriteToken(request);
+  const auth = dashboardAdminAuthorization(
+    await dashboardRequestAuth(request, env, options.authOptions || {}),
+  );
+  if (!auth.ok) return sendJson(response, auth.status, { ok: false, error: auth.error });
+  const body = await readJsonBody(request);
+  const projectId = requireString(body.project_id, "project_id");
+  const taskAction = requireString(body.task_action, "task_action");
+  if (!["delete", "migrate"].includes(taskAction)) {
+    throw new Error("Invalid task_action");
+  }
+  if (!Array.isArray(body.expected_task_ids)) {
+    throw new Error("Missing expected_task_ids");
+  }
+  if (taskAction === "delete" && optionalString(body.target_project_id)) {
+    throw new Error("Invalid target_project_id");
+  }
+  const targetProjectId = taskAction === "migrate"
+    ? requireString(body.target_project_id, "target_project_id")
+    : null;
+  const persist = options.persistMutation || persistMutation;
+  const result = await persist((snapshot) => applySnapshotProjectDelete(snapshot, projectId, {
+    task_action: taskAction,
+    target_project_id: targetProjectId,
+    expected_task_ids: body.expected_task_ids,
+  }, {
+    source: "vercel-blob",
+  }), {
+    request,
+    auth,
+    token: providedToken,
+    action: "project-delete",
+    payload: (mutationResult) => ({
+      project_id: projectId,
+      task_action: taskAction,
+      target_project_id: mutationResult.update.target_project_id,
+      task_count: mutationResult.update.affected_task_ids.length,
+    }),
+  });
+  return sendJson(response, 200, {
+    ok: true,
+    project_id: projectId,
+    deleted: true,
+    task_action: taskAction,
+    target_project_id: result.update.target_project_id,
+    affected_task_ids: result.update.affected_task_ids,
     update: result.update,
     meta: result.meta,
   });

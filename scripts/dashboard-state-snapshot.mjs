@@ -644,6 +644,127 @@ export function applySnapshotProjectCreate(snapshot, input, options = {}) {
   };
 }
 
+function normalizeExpectedTaskIds(value) {
+  if (!Array.isArray(value)) {
+    throw new Error("Missing expected_task_ids");
+  }
+  const result = value.map((taskId) => {
+    const normalized = String(taskId || "").trim();
+    if (!normalized) {
+      throw new Error("Invalid expected_task_ids");
+    }
+    return normalized;
+  });
+  if (new Set(result).size !== result.length) {
+    throw new Error("Invalid expected_task_ids");
+  }
+  return result.sort();
+}
+
+export function applySnapshotProjectDelete(snapshot, projectId, input, options = {}) {
+  const next = cloneMutableSnapshot(snapshot);
+  const targetProjectId = String(projectId || "").trim();
+  if (!targetProjectId) {
+    throw new Error("Missing project_id");
+  }
+  const projectIndex = next.projects.findIndex(
+    (project) => String(project?.project_id || "") === targetProjectId,
+  );
+  if (projectIndex < 0) {
+    throw new Error(`Project not found: ${targetProjectId}`);
+  }
+  const projectRefIndex = (next.portfolio.projects || []).findIndex(
+    (projectRef) => String(projectRef?.project_id || "") === targetProjectId,
+  );
+  if (projectRefIndex < 0) {
+    throw new Error(`Portfolio project not found: ${targetProjectId}`);
+  }
+
+  const taskAction = String(input?.task_action || "").trim();
+  if (!["delete", "migrate"].includes(taskAction)) {
+    throw new Error("Invalid task_action");
+  }
+  const expectedTaskIds = normalizeExpectedTaskIds(input?.expected_task_ids);
+  const affectedTasks = next.taskDoc.tasks.filter(
+    (task) => String(task?.project_id || "") === targetProjectId,
+  );
+  const affectedTaskIds = affectedTasks.map((task) => String(task.task_id)).sort();
+  if (!jsonValuesEqual(affectedTaskIds, expectedTaskIds)) {
+    throw new Error(`Project task set changed: ${targetProjectId}`);
+  }
+
+  const affectedTaskIdSet = new Set(affectedTaskIds);
+  const updatedAt = (options.now || new Date()).toISOString();
+  let migrationTarget = null;
+  let migrationTargetId = null;
+
+  if (taskAction === "delete") {
+    if (String(input?.target_project_id || "").trim()) {
+      throw new Error("Invalid target_project_id");
+    }
+    next.taskDoc.tasks = next.taskDoc.tasks.filter(
+      (task) => String(task?.project_id || "") !== targetProjectId,
+    );
+  } else {
+    migrationTargetId = String(input?.target_project_id || "").trim();
+    if (!migrationTargetId) {
+      throw new Error("Missing target_project_id");
+    }
+    if (migrationTargetId === targetProjectId) {
+      throw new Error("Invalid target_project_id");
+    }
+    migrationTarget = findProject(next, migrationTargetId);
+    if (!migrationTarget) {
+      throw new Error(`Project not found: ${migrationTargetId}`);
+    }
+    for (const task of affectedTasks) {
+      task.project_id = migrationTargetId;
+      task.updated_at = updatedAt;
+    }
+  }
+
+  for (const candidate of next.projects) {
+    if (candidate.project_id === targetProjectId) continue;
+    const currentTaskIds = Array.isArray(candidate.task_ids) ? candidate.task_ids : [];
+    const nextTaskIds = currentTaskIds.filter((taskId) => !affectedTaskIdSet.has(taskId));
+    if (candidate.project_id === migrationTargetId) {
+      for (const taskId of affectedTaskIds) {
+        if (!nextTaskIds.includes(taskId)) {
+          nextTaskIds.push(taskId);
+        }
+      }
+    }
+    if (!jsonValuesEqual(currentTaskIds, nextTaskIds)) {
+      candidate.task_ids = nextTaskIds;
+      candidate.updated_at = updatedAt;
+    }
+  }
+
+  const [project] = next.projects.splice(projectIndex, 1);
+  const [projectRef] = next.portfolio.projects.splice(projectRefIndex, 1);
+  if (affectedTaskIds.length) {
+    next.taskDoc.updated_at = updatedAt;
+  }
+  next.portfolio.updated_at = updatedAt;
+  next.updated_at = updatedAt;
+  next.source = options.source || next.source;
+  validateDashboardSnapshot(next);
+  return {
+    snapshot: next,
+    project,
+    projectRef,
+    tasks: affectedTasks,
+    targetProject: migrationTarget,
+    update: {
+      project_id: targetProjectId,
+      task_action: taskAction,
+      target_project_id: migrationTargetId,
+      affected_task_ids: affectedTaskIds,
+      updated_at: updatedAt,
+    },
+  };
+}
+
 export function applySnapshotPortfolioUpdate(snapshot, patch, options = {}) {
   const next = cloneMutableSnapshot(snapshot);
   const nextPatch = sanitizePortfolioPatch(patch);

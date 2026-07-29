@@ -526,6 +526,57 @@ test("expanded project content stays inside its card on a phone", async ({ page 
   expect(summaryDimensions.summaryWidth).toBeGreaterThanOrEqual(summaryDimensions.projectWidth * 0.65);
 });
 
+test("projects without hero visuals use a full-width text column on desktop", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await mockDashboardApi(page, (snapshot) => {
+    const standardLayout = snapshot.projects.find(
+      (project) => project.project_id === "dexora-rl100-dexhand",
+    );
+    const defaultLayout = snapshot.projects.find(
+      (project) => project.project_id === "archive-agent-society-world-model",
+    );
+    if (standardLayout) {
+      delete standardLayout.asset;
+      standardLayout.visual = { layout: "standard" };
+    }
+    if (defaultLayout) {
+      delete defaultLayout.asset;
+      delete defaultLayout.visual;
+    }
+  });
+  await unlockDashboard(page);
+
+  for (const projectId of [
+    "dexora-rl100-dexhand",
+    "archive-agent-society-world-model",
+  ]) {
+    const project = page.locator(`details.project-detail[data-project-id="${projectId}"]`);
+    if (!await project.evaluate((element) => element.open)) {
+      await project.locator(":scope > summary").click();
+    }
+    const body = project.locator(":scope > .project-body");
+    await expect(body).toHaveClass(/\bsingle-column\b/);
+    await expect(body).not.toHaveClass(/\bcompact\b/);
+    await expect(body.locator(":scope > figure, :scope > .project-visual-column")).toHaveCount(0);
+    const layout = await body.evaluate((element) => ({
+      columnCount: getComputedStyle(element).gridTemplateColumns.split(" ").filter(Boolean).length,
+      bodyContentWidth: element.clientWidth
+        - Number.parseFloat(getComputedStyle(element).paddingLeft)
+        - Number.parseFloat(getComputedStyle(element).paddingRight),
+      textWidth: element.querySelector(":scope > div")?.getBoundingClientRect().width || 0,
+    }));
+    expect(layout.columnCount).toBe(1);
+    expect(Math.abs(layout.bodyContentWidth - layout.textWidth)).toBeLessThanOrEqual(1);
+  }
+
+  const visualProject = page.locator(
+    'details.project-detail[data-project-id="umi-world-model"]',
+  );
+  const visualBody = visualProject.locator(":scope > .project-body");
+  await expect(visualBody.locator(":scope > figure, :scope > .project-visual-column")).toHaveCount(1);
+  await expect(visualBody).not.toHaveClass(/\bsingle-column\b/);
+});
+
 test("UMI Stage 1 and Stage 3 cards open their published Atlas pages", async ({ page }) => {
   await mockDashboardApi(page);
   await unlockDashboard(page);

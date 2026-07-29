@@ -3521,6 +3521,13 @@
           }
           renderProjectFigure(projectElement, projectDoc);
           renderProjectLayerUtility(projectElement, projectDoc);
+          const hasLeadingVisual = projectBody?.querySelector(
+            ":scope > figure, :scope > .project-visual-column",
+          );
+          if (projectBody && !hasLeadingVisual) {
+            projectBody.classList.remove("compact");
+            projectBody.classList.add("single-column");
+          }
           if (!hideIntro) {
             renderProjectTimeline(projectElement, projectDoc.timeline);
             renderProjectIntroTable(projectElement, projectDoc.intro_table, projectDoc.project_id);
