@@ -551,9 +551,13 @@ test("projects without hero visuals use a full-width text column on desktop", as
     "archive-agent-society-world-model",
   ]) {
     const project = page.locator(`details.project-detail[data-project-id="${projectId}"]`);
-    if (!await project.evaluate((element) => element.open)) {
-      await project.locator(":scope > summary").click();
-    }
+    await project.evaluate((element) => {
+      let current = element;
+      while (current) {
+        if (current.tagName === "DETAILS") current.open = true;
+        current = current.parentElement;
+      }
+    });
     const body = project.locator(":scope > .project-body");
     await expect(body).toHaveClass(/\bsingle-column\b/);
     await expect(body).not.toHaveClass(/\bcompact\b/);
@@ -575,6 +579,69 @@ test("projects without hero visuals use a full-width text column on desktop", as
   const visualBody = visualProject.locator(":scope > .project-body");
   await expect(visualBody.locator(":scope > figure, :scope > .project-visual-column")).toHaveCount(1);
   await expect(visualBody).not.toHaveClass(/\bsingle-column\b/);
+});
+
+test("wide project intro tables scroll inside the card on mobile", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await mockDashboardApi(page, (snapshot) => {
+    const project = snapshot.projects.find(
+      (candidate) => candidate.project_id === "dexora-rl100-dexhand",
+    );
+    if (!project) return;
+    project.asset = "dashboard/assets/robotics-3d-printing-platform.png";
+    project.visual = { layout: "standard" };
+    project.intro_table = {
+      kind: "architecture_status_table",
+      caption: "Wide mobile table",
+      columns: [
+        { key: "lane", label: "Lane" },
+        { key: "design_variables", label: "Joint design variables" },
+        { key: "representative_work", label: "Representative work" },
+        { key: "gate", label: "Required gate" },
+      ],
+      rows: [{
+        lane: "Product / object retrofit",
+        design_variables: "Attachment, handle, fixture, material and affordance",
+        representative_work: "Object Adaptation",
+        gate: "Printability, tolerance and held-out validation",
+      }],
+    };
+  });
+  await unlockDashboard(page);
+  await page.setViewportSize({ width: 390, height: 844 });
+
+  const project = page.locator(
+    'details.project-detail[data-project-id="dexora-rl100-dexhand"]',
+  );
+  await project.evaluate((element) => {
+    let current = element;
+    while (current) {
+      if (current.tagName === "DETAILS") current.open = true;
+      current = current.parentElement;
+    }
+  });
+  const dimensions = await project.evaluate((element) => {
+    const body = element.querySelector(":scope > .project-body");
+    const bodyColumn = body?.querySelector(":scope > div");
+    const tableWrap = body?.querySelector(".project-intro-table-wrap");
+    return {
+      projectWidth: element.getBoundingClientRect().width,
+      bodyWidth: body?.getBoundingClientRect().width || 0,
+      bodyColumnWidth: bodyColumn?.getBoundingClientRect().width || 0,
+      tableClientWidth: tableWrap?.clientWidth || 0,
+      tableScrollWidth: tableWrap?.scrollWidth || 0,
+      viewportWidth: document.documentElement.clientWidth,
+      documentOverflow: document.documentElement.scrollWidth
+        - document.documentElement.clientWidth,
+    };
+  });
+
+  expect(dimensions.projectWidth).toBeLessThanOrEqual(dimensions.viewportWidth - 20);
+  expect(dimensions.bodyWidth).toBeLessThanOrEqual(dimensions.projectWidth + 1);
+  expect(dimensions.bodyColumnWidth).toBeLessThanOrEqual(dimensions.bodyWidth + 1);
+  expect(dimensions.tableClientWidth).toBeLessThanOrEqual(dimensions.bodyColumnWidth + 1);
+  expect(dimensions.tableScrollWidth).toBeGreaterThan(dimensions.tableClientWidth);
+  expect(dimensions.documentOverflow).toBeLessThanOrEqual(1);
 });
 
 test("UMI Stage 1 and Stage 3 cards open their published Atlas pages", async ({ page }) => {
