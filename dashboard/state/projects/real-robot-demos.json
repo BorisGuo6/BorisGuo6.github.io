@@ -4,7 +4,7 @@
   "title": "Ego2Dex Human Demonstration / LfD",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-07-19T01:56:26.790Z",
+  "updated_at": "2026-07-29T03:24:47.126Z",
   "description": "Research track for human/ego demonstration reconstruction, contact-aware retargeting, and matched real-robot validation",
   "summary": "Research track for Ego2Dex / Learning-from-Demonstration: monocular ego or human-video hand-object reconstruction, contact-aware trajectory cleanup, human-to-robot retargeting, and matched real-robot validation. Physical demo tasks remain here only as acceptance surfaces for the LfD claim, while hardware readiness stays in Real-Robot Infra.",
   "visual": {
@@ -52,11 +52,23 @@
   },
   "details": [
     {
-      "text": "Ownership update 2026-07-18: Yutao owns the pre-onsite Ego2Dex reproduction matrix and coordinates onsite data/hardware integration with Haoming. The comparison starts with EgoEngine, Do-As-I-Do, VideoManip, and EasyHOI; HandFlow is added to the hand-reconstruction lane.",
+      "text": "Phase 1 is now a small, unassigned reproduction queue: one TODO each for EgoEngine, Do-As-I-Do, VideoManip, EasyHOI, and HandFlow. All runs use the same frozen clips, camera/coordinate conventions, manifest, provenance, metrics, and failure reporting.",
       "links": [
+        {
+          "label": "EgoEngine",
+          "url": "https://egoengine.github.io/"
+        },
         {
           "label": "Do-As-I-Do",
           "url": "https://do-as-i-do.com/"
+        },
+        {
+          "label": "VideoManip",
+          "url": "https://videomanip.github.io/"
+        },
+        {
+          "label": "EasyHOI",
+          "url": "https://lym29.github.io/EasyHOI-page/"
         },
         {
           "label": "HandFlow",
@@ -70,6 +82,10 @@
   ],
   "task_ids": [
     "task_real_robot_demos_ego2dex_lfd_baseline_20260718",
+    "task_real_robot_demos_ego2dex_baseline_reproduction_20260729",
+    "task_real_robot_demos_ego2dex_franka_wuji_sim_gate_20260729",
+    "task_real_robot_demos_ego2dex_tactile_ablation_20260729",
+    "task_real_robot_demos_ego2dex_hand_contact_benchmark_20260729",
     "task_umi_stage2_vddm_human_ego_probe_20260627",
     "task_real_robot_infra_wuji_franka_slime_cut_demo",
     "task_general_tactile_stacking_pilot",
@@ -230,16 +246,16 @@
         "value": "real robot + Ego2Dex LfD"
       },
       {
-        "label": "Owners",
-        "value": "Yutao / Haoming / Boris"
+        "label": "Status",
+        "value": "phase-1 baseline queue"
       },
       {
-        "label": "Status",
-        "value": "matched-baseline queue"
+        "label": "Assignment",
+        "value": "Unassigned"
       }
     ],
-    "target_cycle": "Ego2Dex baseline -> retargeting -> one real-robot demo",
-    "target_note": "Keep reconstruction evidence and physical execution on one card, while retaining independent safety/acceptance for each demo task.",
+    "target_cycle": "Shared clips → EgoEngine / Do-As-I-Do / VideoManip / EasyHOI / HandFlow",
+    "target_note": "Each repository is an independent TODO. Reproduction requires local artifacts under the shared input/output contract; unavailable code or weights remain an explicit blocker, not a completed result.",
     "sprint_start": "2026-06-13",
     "sprint_due": null,
     "milestones": []
