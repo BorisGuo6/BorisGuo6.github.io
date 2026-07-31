@@ -1185,14 +1185,6 @@ assert.deepEqual(
   },
   "project-update should reuse the existing project mutation function on the Vercel Hobby function budget",
 );
-assert.deepEqual(
-  vercelConfig.rewrites?.find((rewrite) => rewrite.source === "/api/dashboard/project-delete"),
-  {
-    source: "/api/dashboard/project-delete",
-    destination: "/api/dashboard/project-table-row?operation=project-delete",
-  },
-  "project-delete should reuse the existing project mutation function on the Vercel Hobby function budget",
-);
 assert.equal(
   (await readdir(new URL("../api/dashboard", import.meta.url)))
     .filter((name) => name.endsWith(".js"))

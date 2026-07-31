@@ -1,7 +1,4 @@
 import {
-  handleDashboardPortfolioUpdate,
-  handleDashboardProjectCreate,
-  handleDashboardProjectDelete,
   handleDashboardProjectTableRowUpdate,
   handleDashboardProjectUpdate,
   withDashboardApiErrors,
@@ -14,18 +11,6 @@ export function handleDashboardProjectMutation(request, response) {
   if (operation === "project-update") {
     return handleDashboardProjectUpdate(request, response);
   }
-  if (operation === "project-create") {
-    return handleDashboardProjectCreate(request, response);
-  }
-  if (operation === "project-delete") {
-    return handleDashboardProjectDelete(request, response);
-  }
-<<<<<<< Updated upstream
-  if (operation === "portfolio-update") {
-    return handleDashboardPortfolioUpdate(request, response);
-  }
-=======
->>>>>>> Stashed changes
   return handleDashboardProjectTableRowUpdate(request, response);
 }
 
