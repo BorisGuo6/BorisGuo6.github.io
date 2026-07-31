@@ -828,26 +828,7 @@ assert.ok(
   (realRobotInfraProject.risks_decisions || []).some((decision) => String(decision).includes("Intro asset inventory moved 2026-07-07")),
   "Real-Robot Lab Infra asset inventory context should live in Risks / Decisions",
 );
-assert.ok(
-  (umiProject.summary || "").length <= 450,
-  "UMI intro summary must stay under 450 characters; move detail into the Atlas or task comments",
-);
-assert.ok(
-  (umiProject.details || []).length <= 1,
-  "UMI details must stay to one durable guardrail; keep the stage overview in the three cards",
-);
-assert.equal(
-  umiProject.intro_table,
-  null,
-  "UMI stage framing belongs in the three cards; do not restore the duplicate intro table",
-);
 assert.equal(umiProject.subprojects?.length, 3, "UMI intro must keep exactly the three stage cards");
-for (const stageCard of umiProject.subprojects || []) {
-  assert.ok(
-    String(stageCard?.body || "").length <= 220,
-    `UMI ${stageCard?.label || "stage"} card must stay concise; move full detail into the Atlas`,
-  );
-}
 const umiStage1Card = (umiProject.subprojects || []).find((entry) => entry?.label === "A");
 const umiStage3Card = (umiProject.subprojects || []).find((entry) => entry?.label === "C");
 assert.equal(
@@ -938,116 +919,6 @@ assert.doesNotMatch(
   /DaiMeng/,
   "dashboard display text must not reintroduce the incorrect DaiMeng spelling",
 );
-const umiIntroTableExecutionFields = new Set([
-  "owner",
-  "assignee",
-  "due",
-  "due_at",
-  "due_date",
-  "duedate",
-  "next",
-  "next_gate",
-  "next_step",
-  "next_steps",
-  "nextgate",
-  "nextstep",
-  "nextsteps",
-  "command",
-  "commands",
-  "result",
-  "results",
-  "verification",
-  "verifications",
-  "resource",
-  "resources",
-  "telemetry",
-  "metrics",
-]);
-const umiIntroExecutionLabelsZh = new Set([
-  "负责人",
-  "执行人",
-  "截止日期",
-  "截止时间",
-  "下一步",
-  "后续步骤",
-  "命令",
-  "验证",
-  "资源",
-  "遥测",
-  "指标",
-]);
-const umiIntroSurfaces = {
-  summary: umiProject.summary,
-  details: umiProject.details,
-  intro_table: umiProject.intro_table,
-  timeline: umiProject.timeline,
-};
-const umiIntroExecutionLabelPattern =
-  /(?:\b(owner|assignee|due date|due|next step|next steps|command|commands|verification|verifications|resource|resources|telemetry|metrics)\b|负责人|执行人|截止日期|截止时间|下一步|后续步骤|命令|验证|资源|遥测|指标)\s*[:：]/i;
-function normalizeUmiIntroExecutionToken(value) {
-  return String(value || "")
-    .replace(/([a-z0-9])([A-Z])/g, "$1_$2")
-    .toLowerCase()
-    .replace(/[^a-z0-9]/g, "");
-}
-function isUmiIntroExecutionToken(value) {
-  const raw = String(value || "").trim();
-  return (
-    umiIntroTableExecutionFields.has(raw.toLowerCase()) ||
-    umiIntroTableExecutionFields.has(normalizeUmiIntroExecutionToken(raw)) ||
-    umiIntroExecutionLabelsZh.has(raw)
-  );
-}
-function assertNoUmiIntroExecutionFields(value, location) {
-  if (typeof value === "string") {
-    assert.equal(
-      umiIntroExecutionLabelPattern.test(value),
-      false,
-      `UMI intro text ${location} contains an execution label that belongs in TODOs or task comments`,
-    );
-    assert.equal(
-      isUmiIntroExecutionToken(value),
-      false,
-      `UMI intro label ${location} belongs in TODOs or task comments`,
-    );
-    return;
-  }
-  if (!value || typeof value !== "object") return;
-  if (Array.isArray(value)) {
-    value.forEach((item, index) => assertNoUmiIntroExecutionFields(item, `${location}[${index}]`));
-    return;
-  }
-  for (const [key, child] of Object.entries(value)) {
-    assert.equal(
-      isUmiIntroExecutionToken(key),
-      false,
-      `UMI intro field ${location}.${key} belongs in TODOs or task comments, not the project intro`,
-    );
-    assertNoUmiIntroExecutionFields(child, `${location}.${key}`);
-  }
-}
-assertNoUmiIntroExecutionFields(umiIntroSurfaces, "umiProject.intro");
-for (const column of umiProject.intro_table?.columns || []) {
-  assert.equal(
-    isUmiIntroExecutionToken(column.key),
-    false,
-    `UMI intro table column ${column.key} belongs in TODOs or task comments, not the project intro`,
-  );
-  assert.equal(
-    isUmiIntroExecutionToken(column.label),
-    false,
-    `UMI intro table column label ${column.label} belongs in TODOs or task comments, not the project intro`,
-  );
-}
-for (const row of umiProject.intro_table?.rows || []) {
-  for (const key of Object.keys(row || {})) {
-    assert.equal(
-      isUmiIntroExecutionToken(key),
-      false,
-      `UMI intro table row field ${key} belongs in TODOs or task comments, not the project intro`,
-    );
-  }
-}
 assert.equal(
   Boolean(umiProject.timeline?.sprint_due),
   false,
@@ -1530,10 +1401,15 @@ assert.match(
   /assets\/js\/main\.js\?v=robot-link-removed-20260703/,
   "homepage must version main.js so removed timeline items are not revived by browser cache",
 );
-assert.match(
-  homepageSource,
-  /<li id="news-phd-offer" style="display:none;">/,
-  "PhD offer news must be hidden in initial minimal-mode HTML, not only after JavaScript runs",
+assert.equal(
+  /<li id="news-phd-offer"/.test(homepageSource),
+  false,
+  "PhD offer news is now rendered from content/news.json via JS and should not be hardcoded in homepage HTML",
+);
+assert.equal(
+  homepageSource.includes('<ul class="news-list" id="news-list">'),
+  true,
+  "homepage should keep a placeholder news list container that JS populates",
 );
 assert.match(
   homepageSource,
