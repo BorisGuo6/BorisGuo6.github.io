@@ -4,13 +4,14 @@
   "title": "Self-Improving Agents for Physical AI",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-07-23T07:50:05.000Z",
+  "updated_at": "2026-07-31T13:24:28.000Z",
   "description": "[KNOWN] [CONFIDENCE: HIGH] Agentic environment-generation harness for Physical AI: route text requests, image/video anchors, internet asset and dataset retrieval, and cross-simulator migration through reusable Skills and MCP tools, preferring verified asset reuse and parameter filling before rigid or articulated 3D generation.",
-  "summary": "[KNOWN] [CONFIDENCE: HIGH] The four V1 workflows retain bounded acceptance evidence: Text2Env Stage 0-5, image/video Anchor2Env, verified asset discovery/import, and Open-X-Sim L0-L3 transfer. [KNOWN] [CONFIDENCE: HIGH] The current phase integrates them into one agentic harness with reusable Skill/MCP contracts, a selection-first asset route, a learned rigid/articulated 3D-generation fallback, and regression-gated cross-simulator compilation. [KNOWN] [CONFIDENCE: HIGH] Higher-fidelity open-world generation and policy/controller equivalence remain open.",
+  "summary": "[KNOWN] [CONFIDENCE: HIGH] Phase-2 task board check: 0/21 TODOs currently active, no completed TODO in the current rollout table yet. [KNOWN] [CONFIDENCE: HIGH] The four V1 workflows retain bounded acceptance evidence: Text2Env Stage 0-5, image/video Anchor2Env, verified asset discovery/import, and Open-X-Sim L0-L3 transfer. [KNOWN] [CONFIDENCE: HIGH] The current phase integrates them into one agentic harness with reusable Skill/MCP contracts, a selection-first asset route, a learned rigid/articulated 3D-generation fallback, and regression-gated cross-simulator compilation. [KNOWN] [CONFIDENCE: HIGH] Higher-fidelity open-world generation and policy/controller equivalence remain open.",
   "asset": "dashboard/assets/dualsim-wx-01.png",
   "asset_alt": "Dual-Sim 项目参考图：多版本迁移与 sim-to-real 任务适配脉络",
   "asset_caption": "Dual-Sim 头图：来自微信下载素材，作为 Self-Improving Agents 中 Dual-Sim 方向的首张项目头图。",
   "details": [
+    "[KNOWN] [CONFIDENCE: HIGH] 2026-07-31 Task board sync: Phase-2 has 0/21 TODOs complete (0% progress) with dependency chain Onboarding -> Public interfaces + Harness -> Text2Env/Asset reuse -> Anchor2Env/Generation fallback -> Transfer -> full regression.",
     "[KNOWN] [CONFIDENCE: HIGH] Four user-facing routes define the current environment-generation scope: Text2Env, image/video Anchor2Env, automatic internet asset or dataset retrieval, and cross-simulator environment migration.",
     "[KNOWN] [CONFIDENCE: MEDIUM] Text2Env now has a qualitative VLM scene-critic loop: text task -> physically feasible candidate layout -> visual common-sense critique and bounded correction -> task-ready scene. The current report shows one laptop/remote-control comparison and an end-to-end interaction video; interaction-failure attribution, quantitative semantic-layout evaluation, planning-constraint linkage, and Phase 2 Skill/MCP packaging remain open.",
     "[FRAME] The orchestrator follows a selection-first policy: discover, match, select and fill parameters for verified existing assets before invoking a generative fallback.",
@@ -64,6 +65,12 @@
     "task_self_improving_agents_phase_2_4_4_transfer_package_cross_simulator_mig_20260717"
   ],
   "references": [
+    {
+      "title": "Phase-2 self-improving task board",
+      "url": "https://phase2-task-board.yezheng04123.chatgpt.site/",
+      "submitted_at": "2026-07-31",
+      "notes": "Live board state used for this sync: 0/21 TODOs completed (0%) in the current Phase-2 env-gen lane. Dependency chain: Onboarding -> public interfaces -> Harness -> Text2Env/Asset reuse -> Anchor2Env/Generation fallback -> Transfer. Owner labels remain Hu, Zheng Ye, and Shao Gujie for the corresponding lanes; shared simulator backend + second adapter + interface freeze + first end-to-end integration remain open."
+    },
     {
       "title": "Drift: robotics-native simulation engineering agent",
       "url": "https://www.godrift.ai",
@@ -340,7 +347,7 @@
     "PhyAgentOS boundary 2026-06-21: useful for transparent cognitive-physical decoupling and file/protocol-mediated hardware execution. It should inform our runtime/control-plane design, but it is not enough for the current proposal unless paired with AgenticSim environment generation, policy training/evaluation hooks, and failure-to-data-requirement loops.",
     "Execution routing 2026-06-05: Skill World Model work is the SkillCall memory gate; RLBench->IsaacSim work is the AgenticSim Isaac verifier pilot.",
     "Bridge boundary 2026-06-05: contact-rich VTLA/UMI traces can drive curriculum and failure-memory design, but Self-improving should not depend on tactile hardware until the sim-first oracle or available sensor path is verified.",
-    "[USER-SUPPLIED PHASE 2 PLAN 2026-07-22] Rewrote the seven existing environment-generation TODOs instead of creating duplicates. Primary owners: Hu = Onboarding/Harness/Transfer; Zheng Ye = Text2Env/Anchor2Env; Shao Gujie = Asset reuse/Generation fallback. Dependency chain: Onboarding -> public interfaces + Harness -> Text2Env and Asset reuse -> Anchor2Env and Generation fallback -> Transfer -> full regression. Still pending team confirmation: shared simulator backend and second adapter, interface freeze date, and first end-to-end integration date."
+    "[USER-SUPPLIED PHASE 2 PLAN 2026-07-22][UPDATE 2026-07-31] Rewrote the seven existing environment-generation TODOs instead of creating duplicates. Board-confirmed owners: Hu = Onboarding/Harness/Transfer; Zheng Ye = Text2Env/Anchor2Env; Shao Gujie = Asset reuse/Generation fallback; public interfaces listed separately in board metadata. Dependency chain: Onboarding -> public interfaces + Harness -> Text2Env and Asset reuse -> Anchor2Env and Generation fallback -> Transfer -> full regression. Still pending team confirmation: shared simulator backend + second adapter, interface freeze date, and first end-to-end integration date."
   ],
   "timeline": {
     "badges": [
@@ -358,7 +365,15 @@
       },
       {
         "label": "Env owners",
-        "value": "Jingxiang + Zheng Ye"
+        "value": "Hu / Shao Gujie / Zheng Ye / Jingxiang"
+      },
+      {
+        "label": "Phase 2 board",
+        "value": "0/21 TODO completed (0%)"
+      },
+      {
+        "label": "Dependency",
+        "value": "Onboarding -> Public interfaces -> Harness -> Text2Env/Asset reuse -> Anchor2Env/Generation fallback -> Transfer"
       },
       {
         "label": "Phase",
