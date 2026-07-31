@@ -1570,6 +1570,27 @@ td small {
   object-position: center top;
 }
 
+.image-context-card.fit-landscape-contain {
+  aspect-ratio: 16 / 9;
+  grid-column: span 2;
+}
+
+.image-context-card.fit-landscape-contain .image-context-media {
+  bottom: 54px;
+}
+
+.image-context-media.is-landscape-contain::after {
+  opacity: 0;
+}
+
+.image-context-media.is-landscape-contain img {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+
 .image-context-card figcaption {
   position: absolute;
   right: 0;
@@ -1593,6 +1614,12 @@ td small {
 }
 
 .image-context-card.fit-contain figcaption {
+  max-height: 54px;
+  padding: 8px;
+  background: #101822;
+}
+
+.image-context-card.fit-landscape-contain figcaption {
   max-height: 54px;
   padding: 8px;
   background: #101822;
@@ -4234,5 +4261,9 @@ body.lightbox-open {
   .visual-grid {
     grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
     gap: 8px;
+  }
+
+  .image-context-card.fit-landscape-contain {
+    grid-column: 1 / -1;
   }
 }

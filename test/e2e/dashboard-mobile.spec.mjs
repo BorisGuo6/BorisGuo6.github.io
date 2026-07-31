@@ -581,6 +581,81 @@ test("projects without hero visuals use a full-width text column on desktop", as
   await expect(visualBody).not.toHaveClass(/\bsingle-column\b/);
 });
 
+test("editorial evidence markers stay out of rendered dashboard copy", async ({ page }) => {
+  await mockDashboardApi(page, (snapshot) => {
+    const project = snapshot.projects.find(
+      (candidate) => candidate.project_id === "human-intention-sensorium-survey",
+    );
+    if (!project) return;
+    project.description = "[KNOWN] [CONFIDENCE: HIGH] Visible project description.";
+    project.summary = "[INFERRED][HIGH] Visible project summary.";
+    project.details = [{
+      text: "[COMPUTED] [CONFIDENCE: MEDIUM] Visible project detail.",
+    }];
+    project.risks_decisions = [
+      "[GUARDRAIL][MED] Visible decision.",
+      "[MEETING 2026-07-20] Provenance label remains.",
+    ];
+    project.references = [{
+      title: "Evidence reference",
+      url: "https://example.com/evidence",
+      notes: "[KNOWN][HIGH] Visible reference notes.",
+    }];
+
+    const task = snapshot.taskDoc.tasks.find(
+      (candidate) => candidate.project_id === project.project_id,
+    );
+    if (!task) return;
+    task.description = "[INFERRED] [CONFIDENCE: HIGH] Visible task description.";
+    task.comments = [{
+      comment_id: "review-marker-comment",
+      body: "[COMPUTED][HIGH] Visible task comment.",
+      author: "Audit",
+      created_at: "2026-07-30T00:00:00.000Z",
+    }];
+  });
+  await unlockDashboard(page);
+
+  const project = page.locator(
+    'details.project-detail[data-project-id="human-intention-sensorium-survey"]',
+  );
+  await expect(project).toContainText("Visible project description.");
+  await expect(project).toContainText("Visible project summary.");
+  await expect(project).toContainText("Visible task description.");
+  await expect(project).toContainText("Visible task comment.");
+  await expect(project).toContainText("[MEETING 2026-07-20] Provenance label remains.");
+  await expect(project).not.toContainText(
+    /\[(?:KNOWN|INFERRED|COMPUTED|GUARDRAIL|CONFIDENCE:\s*(?:HIGH|MEDIUM|MED|LOW)|HIGH|MEDIUM|MED|LOW)\]/i,
+  );
+});
+
+test("landscape Image Context references stay uncropped", async ({ page }) => {
+  await mockDashboardApi(page, (snapshot) => {
+    snapshot.portfolio.visual_references = [{
+      src: "dashboard/assets/robot4robot-r4r-01-semantic-3d-pipeline-20260731.jpg",
+      alt: "Robot4Robot semantic 3D scene pipeline",
+      caption: "Robot4Robot semantic 3D scene pipeline.",
+      source: "Robot4Robot",
+      added_at: "2026-07-31",
+      fit: "landscape-contain",
+    }];
+  });
+  await unlockDashboard(page);
+
+  const card = page.locator("[data-image-context-grid] .image-context-card").first();
+  const media = card.locator(".image-context-media");
+  const image = media.locator("img");
+  await expect(card).toHaveClass(/\bfit-landscape-contain\b/);
+  await expect(media).toHaveClass(/\bis-landscape-contain\b/);
+  await expect(image).toHaveCSS("object-fit", "contain");
+  await page.setViewportSize({ width: 390, height: 844 });
+  const widths = await card.evaluate((element) => ({
+    card: element.getBoundingClientRect().width,
+    grid: element.parentElement?.getBoundingClientRect().width || 0,
+  }));
+  expect(widths.card / widths.grid).toBeGreaterThan(0.9);
+});
+
 test("wide project intro tables scroll inside the card on mobile", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await mockDashboardApi(page, (snapshot) => {

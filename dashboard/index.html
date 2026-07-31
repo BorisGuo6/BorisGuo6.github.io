@@ -2316,6 +2316,30 @@
           parent.append(document.createTextNode(text.slice(cursor)));
         }
 
+        function stripDashboardReviewMarkers(value) {
+          return String(value || "")
+            .replace(
+              /\[(?:KNOWN|INFERRED|COMPUTED|GUARDRAIL|CONFIDENCE\s*:\s*(?:HIGH|MEDIUM|MED|LOW)|HIGH|MEDIUM|MED|LOW)\]\s*/gi,
+              "",
+            )
+            .replace(/^[ \t]+/gm, "")
+            .replace(/[ \t]{2,}/g, " ");
+        }
+
+        function stripRenderedDashboardReviewMarkers(root = document.querySelector("main")) {
+          if (!root) {
+            return;
+          }
+          root.querySelectorAll("*").forEach((element) => {
+            element.childNodes.forEach((node) => {
+              if (node.nodeType !== Node.TEXT_NODE || !node.nodeValue?.includes("[")) {
+                return;
+              }
+              node.nodeValue = stripDashboardReviewMarkers(node.nodeValue);
+            });
+          });
+        }
+
         function shouldCollapseText(text, options = {}) {
           const value = String(text || "");
           const maxLength = options.maxLength ?? 260;
@@ -2508,6 +2532,7 @@
             caption: reference.caption || reference.asset_caption || reference.title || fallbackSource || src,
             source: reference.source || fallbackSource,
             added_at: reference.added_at || reference.submitted_at || reference.created_at || reference.updated_at || "",
+            fit: reference.fit || "",
             order,
           });
         }
@@ -2588,6 +2613,10 @@
             if (reference.fit === "contain") {
               figure.classList.add("fit-contain");
               media.classList.add("is-contain");
+            }
+            if (reference.fit === "landscape-contain") {
+              figure.classList.add("fit-landscape-contain");
+              media.classList.add("is-landscape-contain");
             }
             const image = document.createElement("img");
             image.src = assetFileUrl(reference.src);
@@ -3921,11 +3950,13 @@
 
         function renderAllProjects() {
           if (!taskDoc?.tasks) {
+            stripRenderedDashboardReviewMarkers();
             return;
           }
           document.querySelectorAll("[data-project-id]").forEach((projectElement) => {
             renderProject(projectElement, taskDoc.tasks);
           });
+          stripRenderedDashboardReviewMarkers();
         }
 
         async function initTaskBoard() {
