@@ -629,6 +629,7 @@ test("editorial evidence markers stay out of rendered dashboard copy", async ({ 
   );
 });
 
+<<<<<<< Updated upstream
 test("landscape Image Context references stay uncropped", async ({ page }) => {
   await mockDashboardApi(page, (snapshot) => {
     snapshot.portfolio.visual_references = [{
@@ -656,6 +657,8 @@ test("landscape Image Context references stay uncropped", async ({ page }) => {
   expect(widths.card / widths.grid).toBeGreaterThan(0.9);
 });
 
+=======
+>>>>>>> Stashed changes
 test("wide project intro tables scroll inside the card on mobile", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await mockDashboardApi(page, (snapshot) => {

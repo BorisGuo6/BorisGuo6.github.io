@@ -259,6 +259,7 @@ const projectPatchFields = new Set([
   "asset_alt",
   "asset_caption",
   "asset_added_at",
+  "hide_intro",
 ]);
 
 const portfolioPatchFields = new Set([
@@ -282,6 +283,9 @@ function sanitizeProjectPatch(patch) {
     const normalizedValue = typeof value === "string" ? value.trim() : cloneJson(value);
     if (["title", "bucket", "status"].includes(field) && !normalizedValue) {
       throw new Error(`Missing project ${field}`);
+    }
+    if (field === "hide_intro" && typeof normalizedValue !== "boolean") {
+      throw new Error("Project hide_intro must be boolean");
     }
     nextPatch[field] = normalizedValue;
   }
@@ -406,9 +410,19 @@ export function appendSnapshotAuditEvent(snapshot, event, options = {}) {
 export function applySnapshotTaskCreate(snapshot, input, options = {}) {
   const next = cloneMutableSnapshot(snapshot);
   const now = options.now || new Date();
+  const projectId = String(input?.project_id || "").trim();
+  const project = findProject(next, projectId);
+  if (!project) {
+    throw new Error(`Project not found: ${projectId}`);
+  }
   const existingIds = new Set(next.taskDoc.tasks.map((task) => task?.task_id).filter(Boolean));
   const task = makeTask(input, existingIds, now);
   next.taskDoc.tasks.push(task);
+  project.task_ids = Array.isArray(project.task_ids) ? project.task_ids : [];
+  if (!project.task_ids.includes(task.task_id)) {
+    project.task_ids.push(task.task_id);
+  }
+  project.updated_at = task.updated_at;
   next.taskDoc.updated_at = task.updated_at;
   next.updated_at = task.updated_at;
   next.source = options.source || next.source;
@@ -434,10 +448,36 @@ export function applySnapshotTaskUpdate(snapshot, taskId, patch, options = {}) {
   if (!task) {
     throw new Error(`Task not found: ${taskId}`);
   }
+  const previousProjectId = String(task.project_id || "").trim();
+  if (Object.prototype.hasOwnProperty.call(patch || {}, "project_id")) {
+    const targetProjectId = String(patch.project_id || "").trim();
+    if (!findProject(next, targetProjectId)) {
+      throw new Error(`Project not found: ${targetProjectId}`);
+    }
+  }
   const update = applyTaskPatch(task, patch, options.now || new Date());
   if (update.changed_fields.length) {
     next.taskDoc.updated_at = update.updated_at;
     next.updated_at = update.updated_at;
+  }
+  if (update.changed_fields.includes("project_id")) {
+    const targetProjectId = String(task.project_id || "").trim();
+    for (const project of next.projects) {
+      const existingTaskIds = Array.isArray(project.task_ids) ? project.task_ids : [];
+      const filteredTaskIds = existingTaskIds.filter((candidate) => candidate !== taskId);
+      const ownsMovedTask = project.project_id === targetProjectId;
+      if (ownsMovedTask) {
+        filteredTaskIds.push(taskId);
+      }
+      if (
+        project.project_id === previousProjectId
+        || ownsMovedTask
+        || filteredTaskIds.length !== existingTaskIds.length
+      ) {
+        project.task_ids = filteredTaskIds;
+        project.updated_at = update.updated_at;
+      }
+    }
   }
   next.source = options.source || next.source;
   return { snapshot: next, task, update };

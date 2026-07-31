@@ -4,12 +4,12 @@
   "title": "Self-Improving Agents for Physical AI",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-07-28T12:14:04.785Z",
+  "updated_at": "2026-07-31T10:06:15.348Z",
   "description": "[KNOWN] [CONFIDENCE: HIGH] Agentic environment-generation harness for Physical AI: route text requests, image/video anchors, internet asset and dataset retrieval, and cross-simulator migration through reusable Skills and MCP tools, preferring verified asset reuse and parameter filling before rigid or articulated 3D generation.",
   "summary": "[KNOWN] [CONFIDENCE: HIGH] The four V1 workflows retain bounded acceptance evidence: Text2Env Stage 0-5, image/video Anchor2Env, verified asset discovery/import, and Open-X-Sim L0-L3 transfer. [KNOWN] [CONFIDENCE: HIGH] The current phase integrates them into one agentic harness with reusable Skill/MCP contracts, a selection-first asset route, a learned rigid/articulated 3D-generation fallback, and regression-gated cross-simulator compilation. [KNOWN] [CONFIDENCE: HIGH] Higher-fidelity open-world generation and policy/controller equivalence remain open.",
-  "asset": "dashboard/assets/self-improving-embodied-harness-loop-20260707.png",
-  "asset_alt": "Agentic Physical AI harness loop with reusable environment-generation Skills and MCP tools for text, visual anchors, asset reuse or generation, validation, and cross-simulator transfer.",
-  "asset_caption": "[FRAME] Phase 2 harness: orchestrate reusable Skills/MCP around four routes, reuse and parameterize verified assets first, fall back to rigid or articulated 3D generation when needed, then compile, validate, replay and transfer with regression gates.",
+  "asset": "dashboard/assets/dualsim-wx-01.png",
+  "asset_alt": "Dual-Sim 项目参考图：多版本迁移与 sim-to-real 任务适配脉络",
+  "asset_caption": "Dual-Sim 头图：来自微信下载素材，作为 Self-Improving Agents 中 Dual-Sim 方向的首张项目头图。",
   "details": [
     "[KNOWN] [CONFIDENCE: HIGH] Four user-facing routes define the current environment-generation scope: Text2Env, image/video Anchor2Env, automatic internet asset or dataset retrieval, and cross-simulator environment migration.",
     "[KNOWN] [CONFIDENCE: MEDIUM] Text2Env now has a qualitative VLM scene-critic loop: text task -> physically feasible candidate layout -> visual common-sense critique and bounded correction -> task-ready scene. The current report shows one laptop/remote-control comparison and an end-to-end interaction video; interaction-failure attribution, quantitative semantic-layout evaluation, planning-constraint linkage, and Phase 2 Skill/MCP packaging remain open.",
@@ -293,6 +293,13 @@
       "url": "https://vlm-scene-report-2026.yezheng04123.chatgpt.site/",
       "submitted_at": "2026-07-28",
       "notes": "Latest Text2Env progress artifact. It demonstrates a qualitative scene-critic loop from a physically feasible candidate layout through VLM common-sense critique and correction to a task-ready scene, with a laptop/remote-control comparison and an end-to-end interaction video. Evidence boundary: the page reports one qualitative case and does not provide a sample count, success rate, latency, model/checkpoint/prompt, evaluation protocol, or reproducibility bundle. Do not use it to close Phase 2; the next gates are interaction-failure attribution, quantitative semantic-layout evaluation, scene-critic linkage to planning constraints, and versioned Skill/MCP packaging with second-adapter regression."
+    },
+    {
+      "title": "VideoCoCo: Code-as-CoT for Physically-Consistent Video Generation",
+      "url": "https://arxiv.org/abs/2607.27380",
+      "arxiv_id": "2607.27380",
+      "submitted_at": "2026-07-29",
+      "notes": "User-flagged architecture reference for AgenticSim / Environment Generation. VideoCoCo uses a coding agent to emit executable Blender code as an inspectable process-level chain of thought, runs it to obtain a deterministic spatiotemporal draft, then uses a draft-conditioned generative video editor for photorealistic realization. The key inspiration is the dual-engine split: let an executable simulator or compiler own temporal logic and physical constraints, while a generative model owns appearance. For our harness, evaluate this as SceneSpec to executable program to verified rollout/draft to photorealistic rendering, keeping collision, contact, scale, and task-verifier gates authoritative rather than treating the final video alone as proof of physical validity."
     }
   ],
   "risks_decisions": [
@@ -380,7 +387,7 @@
     ],
     "target_note": "[FRAME] Current target: make all four routes callable through the same versioned harness, preserve reuse-versus-generation decisions and typed evidence, and block promotion when provenance, physics, replay or migration-loss gates fail."
   },
-  "asset_added_at": "2026-06-26",
+  "asset_added_at": "2026-07-31",
   "subprojects": [
     {
       "id": "agentic-harness",

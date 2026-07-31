@@ -27,6 +27,7 @@ import {
 } from "../scripts/dashboard-task-store.mjs";
 import {
   appendSnapshotAuditEvent,
+  applySnapshotProjectDelete,
   applySnapshotProjectTableRowUpdate,
   applySnapshotTaskComment,
   applySnapshotTaskCommentDelete,
@@ -234,6 +235,127 @@ assert.equal(patchedSnapshot.task.title, "Updated dashboard task title");
 assert.equal(patchedSnapshot.task.description, "Updated dashboard task description");
 assert.equal(patchedSnapshot.task.priority, "high");
 assert.equal(patchedSnapshot.snapshot.taskDoc.updated_at, "2026-06-18T01:00:00.000Z");
+const movableTask = bundledSnapshot.taskDoc.tasks[0];
+const sourceProject = bundledSnapshot.projects.find(
+  (project) => project.project_id === movableTask.project_id,
+);
+const targetProject = bundledSnapshot.projects.find(
+  (project) => project.project_id !== movableTask.project_id,
+);
+assert.ok(sourceProject, "move test requires the source project");
+assert.ok(targetProject, "move test requires a second project");
+const moveSnapshot = applySnapshotTaskUpdate(bundledSnapshot, movableTask.task_id, {
+  project_id: targetProject.project_id,
+}, {
+  now: new Date("2026-06-18T01:30:00.000Z"),
+  source: "test",
+});
+assert.deepEqual(moveSnapshot.update.changed_fields, ["project_id"]);
+assert.equal(moveSnapshot.task.project_id, targetProject.project_id);
+assert.equal(
+  moveSnapshot.snapshot.projects
+    .find((project) => project.project_id === sourceProject.project_id)
+    .task_ids.includes(movableTask.task_id),
+  false,
+);
+assert.equal(
+  moveSnapshot.snapshot.projects
+    .find((project) => project.project_id === targetProject.project_id)
+    .task_ids.includes(movableTask.task_id),
+  true,
+);
+const projectDeleteBase = normalizeDashboardSnapshot({
+  updated_at: "2026-06-18T00:00:00.000Z",
+  portfolio: {
+    portfolio_id: "project-delete-test",
+    projects: [
+      { project_id: "source-project" },
+      { project_id: "target-project" },
+    ],
+  },
+  projects: [
+    {
+      project_id: "source-project",
+      task_ids: ["task-listed"],
+    },
+    {
+      project_id: "target-project",
+      task_ids: ["task-target", "task-listed"],
+    },
+  ],
+  taskDoc: {
+    updated_at: "2026-06-18T00:00:00.000Z",
+    tasks: [
+      {
+        task_id: "task-listed",
+        project_id: "source-project",
+        title: "Listed source task",
+        status: "done",
+        priority: "medium",
+      },
+      {
+        task_id: "task-unlisted",
+        project_id: "source-project",
+        title: "Unlisted source task",
+        status: "done",
+        priority: "medium",
+      },
+      {
+        task_id: "task-target",
+        project_id: "target-project",
+        title: "Existing target task",
+        status: "todo",
+        priority: "high",
+      },
+    ],
+  },
+});
+assert.throws(
+  () => applySnapshotProjectDelete(projectDeleteBase, "source-project", {
+    task_action: "delete",
+    expected_task_ids: ["task-listed"],
+  }),
+  /Project task set changed: source-project/,
+  "project deletion must fail closed when the live task set differs from the caller's expectation",
+);
+const deletedProjectSnapshot = applySnapshotProjectDelete(projectDeleteBase, "source-project", {
+  task_action: "delete",
+  expected_task_ids: ["task-unlisted", "task-listed"],
+}, {
+  now: new Date("2026-06-18T02:00:00.000Z"),
+  source: "test",
+});
+assert.deepEqual(deletedProjectSnapshot.update.affected_task_ids, ["task-listed", "task-unlisted"]);
+assert.deepEqual(
+  deletedProjectSnapshot.snapshot.projects.map((project) => project.project_id),
+  ["target-project"],
+);
+assert.deepEqual(
+  deletedProjectSnapshot.snapshot.portfolio.projects.map((project) => project.project_id),
+  ["target-project"],
+);
+assert.deepEqual(
+  deletedProjectSnapshot.snapshot.taskDoc.tasks.map((task) => task.task_id),
+  ["task-target"],
+);
+assert.deepEqual(deletedProjectSnapshot.snapshot.projects[0].task_ids, ["task-target"]);
+const migratedProjectSnapshot = applySnapshotProjectDelete(projectDeleteBase, "source-project", {
+  task_action: "migrate",
+  target_project_id: "target-project",
+  expected_task_ids: ["task-listed", "task-unlisted"],
+}, {
+  now: new Date("2026-06-18T03:00:00.000Z"),
+  source: "test",
+});
+assert.deepEqual(
+  migratedProjectSnapshot.snapshot.taskDoc.tasks.map((task) => task.project_id),
+  ["target-project", "target-project", "target-project"],
+);
+assert.deepEqual(
+  migratedProjectSnapshot.snapshot.projects[0].task_ids,
+  ["task-target", "task-listed", "task-unlisted"],
+);
+assert.equal(migratedProjectSnapshot.snapshot.taskDoc.updated_at, "2026-06-18T03:00:00.000Z");
 const projectTableSnapshot = normalizeDashboardSnapshot({
   portfolio: { portfolio_id: "test", projects: [] },
   projects: [{
@@ -1062,6 +1184,14 @@ assert.deepEqual(
     destination: "/api/dashboard/project-table-row?operation=project-update",
   },
   "project-update should reuse the existing project mutation function on the Vercel Hobby function budget",
+);
+assert.deepEqual(
+  vercelConfig.rewrites?.find((rewrite) => rewrite.source === "/api/dashboard/project-delete"),
+  {
+    source: "/api/dashboard/project-delete",
+    destination: "/api/dashboard/project-table-row?operation=project-delete",
+  },
+  "project-delete should reuse the existing project mutation function on the Vercel Hobby function budget",
 );
 assert.equal(
   (await readdir(new URL("../api/dashboard", import.meta.url)))

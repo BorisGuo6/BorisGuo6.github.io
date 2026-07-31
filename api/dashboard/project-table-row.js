@@ -20,9 +20,12 @@ export function handleDashboardProjectMutation(request, response) {
   if (operation === "project-delete") {
     return handleDashboardProjectDelete(request, response);
   }
+<<<<<<< Updated upstream
   if (operation === "portfolio-update") {
     return handleDashboardPortfolioUpdate(request, response);
   }
+=======
+>>>>>>> Stashed changes
   return handleDashboardProjectTableRowUpdate(request, response);
 }
 

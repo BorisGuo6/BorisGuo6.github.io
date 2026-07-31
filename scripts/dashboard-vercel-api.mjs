@@ -1229,15 +1229,18 @@ export async function handleDashboardTaskCreate(request, response) {
   });
 }
 
-export async function handleDashboardTaskUpdate(request, response) {
+export async function handleDashboardTaskUpdate(request, response, options = {}) {
   if (request.method !== "POST") return methodNotAllowed(response, ["POST"]);
+  const env = options.env || process.env;
   const providedToken = dashboardProvidedWriteToken(request);
-  const auth = dashboardWriteAuthorization(await dashboardRequestAuth(request));
+  const auth = dashboardWriteAuthorization(
+    await dashboardRequestAuth(request, env, options.authOptions || {}),
+  );
   if (!auth.ok) return sendJson(response, auth.status, { ok: false, error: auth.error });
   const body = await readJsonBody(request);
   const taskId = requireString(body.task_id, "task_id");
   const patch = {};
-  for (const field of ["title", "description", "priority", "assignee", "due_at"]) {
+  for (const field of ["project_id", "title", "description", "priority", "assignee", "due_at"]) {
     if (Object.prototype.hasOwnProperty.call(body, field)) {
       patch[field] = body[field];
     }
@@ -1245,8 +1248,12 @@ export async function handleDashboardTaskUpdate(request, response) {
   if (!Object.keys(patch).length) {
     throw new Error("Missing update fields");
   }
-  const result = await persistMutation((snapshot) => {
+  const persist = options.persistMutation || persistMutation;
+  const result = await persist((snapshot) => {
     assertDashboardTaskWriteScope(snapshot, auth, taskId);
+    if (Object.prototype.hasOwnProperty.call(patch, "project_id")) {
+      assertDashboardProjectWriteScope(snapshot, auth, patch.project_id);
+    }
     return applySnapshotTaskUpdate(snapshot, taskId, patch, {
       source: "vercel-blob",
     });
@@ -1348,6 +1355,7 @@ export async function handleDashboardProjectCreate(request, response, options = 
   });
 }
 
+<<<<<<< Updated upstream
 export async function handleDashboardPortfolioUpdate(request, response, options = {}) {
   if (request.method !== "POST") return methodNotAllowed(response, ["POST"]);
   const env = options.env || process.env;
@@ -1387,6 +1395,8 @@ export async function handleDashboardPortfolioUpdate(request, response, options 
   });
 }
 
+=======
+>>>>>>> Stashed changes
 export async function handleDashboardProjectDelete(request, response, options = {}) {
   if (request.method !== "POST") return methodNotAllowed(response, ["POST"]);
   const env = options.env || process.env;

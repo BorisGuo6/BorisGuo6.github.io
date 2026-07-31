@@ -1,188 +1,374 @@
 {
   "schema_version": "project.v1",
   "project_id": "human-intention-sensorium-survey",
-  "title": "Human Intention Data Collection Proposal",
-  "bucket": "survey",
-  "status": "survey",
-  "updated_at": "2026-07-15T06:39:40.474Z",
-  "description": "Keep in Survey as a full data-collection proposal: build an intention-first human-data stack whose ordered signals eventually feed an XLA model that can fuse all usable human, contact, embodiment, and environment channels.",
-  "summary": "Proposal-stage survey for collecting human demonstrations as intention-rich multimodal episodes. The priority order follows Boris' list: eye tracking, EMG, EEG, wrist muscle ultrasound, wrist cameras, tactile, whole-body pose, proximity, temperature, vibration, multichannel audio / source localization, and finally smell or taste when the task justifies it. P2GI now anchors the proximity case: pre-contact hand-object relation can drive grasp-posture selection before touch, not merely annotate contact after the fact. The end goal is an XLA-style cross-modal latent action / intention model that consumes all aligned signals and predicts target, affordance, contact onset, force direction, hesitation, correction, and failure evidence for robot learning.",
-  "asset": "dashboard/assets/survey-human-intention-sensorium.svg",
+  "title": "OmniEgo: 多传感器的人类为中心数采方案",
+  "bucket": "research",
+  "status": "ongoing",
+  "updated_at": "2026-07-30T05:50:54.864Z",
+  "description": "基于 Quest 3S VR 与其他可捕捉人类意图的可穿戴、环境及对象侧传感器，建立可验证、可筛选、可迁移的人类中心数采方案。",
+  "summary": "OmniEgo 以 Quest 3S 的第一视角 RGB 与系统手部追踪作为 v0 采集入口，逐步接入眼动、面捕、肌电、肌肉形变、皮肤电、脑电、触觉/压力、阵列麦克风与气味等候选模态。先审计同步、信噪比、缺失率、跨个体稳定性和机器人任务边际增益，筛出 3–5 个值得深挖的通道；再比较带标签 encoding 与 VQ-VAE / 聚类的意图 token，并连接 Ego2Dex 的手物重建、接触恢复和人到机器人迁移。对象表面共形触点、跨本体同物同任务与力闭合操纵数据集作为独立研究支线。",
+  "asset": "dashboard/assets/omniego-multisensor-human-intention.svg",
   "details": [
     {
-      "text": "Proposal objective: collect human data for robot learning by preserving intention before it becomes visible action. Eye tracking is the first-priority signal because gaze often identifies target, affordance, hesitation, and object of attention before the hand moves. The data format should therefore store every episode as an intention-to-interaction trace: intended target, attention path, action onset, contact onset, force/contact evolution, correction, and outcome.",
+      "text": "Quest 3S replaces Project Aria only as the first deployable capture backend, not as a sensor-equivalent device. The v0 adapter may use its forward-facing RGB cameras and system hand tracking, but it must validate camera-to-hand latency, joint mapping, calibration, coordinate frames, occlusion dropouts and long-recording stability. Eye and face signals come from the separately ordered CYMPLE Quest 3S kit; its arrival, fit, HUB, raw PC export, timestamp semantics and synchronization still require verification, so Aria-specific eye tracking and hardware synchronization cannot be inherited.",
       "links": [
         {
-          "label": "HoloAssist",
-          "url": "https://openaccess.thecvf.com/content/ICCV2023/papers/Wang_HoloAssist_an_Egocentric_Human_Interaction_Dataset_for_Interactive_AI_Assistants_ICCV_2023_paper.pdf"
+          "label": "Quest Passthrough Camera API",
+          "url": "https://developers.meta.com/horizon/documentation/unity/unity-pca-overview/"
         },
         {
-          "label": "HOT3D",
-          "url": "https://facebookresearch.github.io/projectaria_tools/docs/open_datasets/hot3d"
+          "label": "Meta OpenXR SDK",
+          "url": "https://github.com/meta-quest/Meta-OpenXR-SDK"
+        },
+        {
+          "label": "Aria Gen 2 hardware",
+          "url": "https://facebookresearch.github.io/projectaria_tools/gen2/technical-specs/device/hardware"
         }
       ]
     },
     {
-      "text": "Signal priority 1 to 4: eye tracking, EMG, EEG, and wrist muscle ultrasound. Treat these as pre-action intention channels, not as auxiliary labels. EMG plus vision/gaze already has direct evidence for grasp-intent fusion; EEG may capture high-level intent but is noisy and high-friction; ultrasound / sonomyography can observe deep muscle activity before motion but needs a practical wearable form factor. This is the main requirement to discuss with hardware partners: expose synchronized raw streams plus confidence/quality metadata, not only postprocessed gestures.",
+      "text": "The supplied order workbook confirms shipped candidates including Hall-effect muscle deformation, dual-channel sEMG, pressure/tactile arrays, data gloves and a MEMS microphone-array kit; the dashboard procurement table separately records the CYMPLE Quest 3S 面捕眼追套装（包含 HUB） as ordered. Screenshots add GSR, EEG, flex, e-nose and haptic candidates but do not prove purchase or signal quality by themselves. bHaptics wearables are actuators for controlled feedback experiments, not passive intention sensors. Every candidate enters the same repeated-task quality screen before model work.",
+      "links": []
+    },
+    {
+      "text": "Ego2Dex becomes OmniEgo's reconstruction and transfer lane. Conservative interfaces are: EgoEngine for Aria-based ego RGB/hand keys plus depth, masks and known-mesh object pose; Do-As-I-Do for monocular segmentation/geometry/hand-object reconstruction and retargeting; VideoManip for metric hand-object alignment, contact optimization and demonstration synthesis; EasyHOI for single-image reconstruction/contact refinement; HandFlow as a temporal hand-recovery component. Shared inputs, frames, scale, metrics, runtime, interventions and failure galleries are mandatory.",
       "links": [
         {
-          "label": "EMG + vision grasp intent",
-          "url": "https://arxiv.org/abs/2104.03893"
+          "label": "EgoEngine",
+          "url": "https://egoengine.github.io/"
         },
         {
-          "label": "Peripheral bio-signal fusion survey",
-          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9460678/"
+          "label": "Do-As-I-Do",
+          "url": "https://do-as-i-do.com/"
         },
         {
-          "label": "Wearable motion intent survey",
-          "url": "https://www.nature.com/articles/s44387-026-00083-5"
+          "label": "VideoManip",
+          "url": "https://videomanip.github.io/"
+        },
+        {
+          "label": "EasyHOI",
+          "url": "https://lym29.github.io/EasyHOI-page/"
+        },
+        {
+          "label": "HandFlow",
+          "url": "https://arxiv.org/abs/2607.11221"
         }
       ]
     },
     {
-      "text": "Signal priority 5 to 7: wrist cameras, tactile, and whole-body pose. Wrist cameras preserve the local manipulation geometry that head/ego views miss; tactile grounds contact, pressure, and force; whole-body pose matters because HOI is not only hand motion. EgoVerse, EgoTouch/TouchAnything, and Hoi! show the direction: synchronized ego/wrist views plus pose/tactile/force are closer to robot-usable data than vision-only human video.",
+      "text": "Representation is a hypothesis after the quality gate. Compare supervised intention/contact/action encoders with per-modality encoders, late fusion, clustering and VQ-VAE tokens. A useful token must remain stable across people and days, tolerate missing channels, predict held-out intent/contact/action outcomes, and improve a robot-learning consumer; compact reconstruction alone is insufficient."
+    },
+    {
+      "text": "The object-side branch is inspired by surface-conforming mutual-capacitance layouts on scanned rigid objects. That paper localizes touch on four rigid geometries; it does not measure force, shear, friction or force closure and does not validate robot or deformable-object manipulation. Our proposed dataset must add independent force/pressure/shear ground truth, object pose and outcome labels, then collect the same object/task across human hand, gripper and dexterous hand. Deformable objects remain a later materials, strain-durability and re-registration study.",
       "links": [
         {
-          "label": "EgoVerse",
-          "url": "https://egoverse.ai/"
-        },
-        {
-          "label": "TouchAnything / EgoTouch",
-          "url": "https://arxiv.org/abs/2605.13083"
-        },
-        {
-          "label": "Hoi!",
-          "url": "https://timengelbracht.github.io/Hoi-Dataset-Website/"
+          "label": "Surface-conforming capacitive sensing",
+          "url": "https://arxiv.org/abs/2607.16739"
         }
       ]
-    },
-    {
-      "text": "Signal priority 8 to 12: proximity, temperature, vibration, multichannel audio / source localization, and smell/taste. These should be task-gated but not dismissed. Proximity helps pre-contact approach; temperature helps food/material tasks; vibration and audio capture contact events that may be invisible; multichannel audio can localize impacts, scraping, pouring, or tool-object contact; smell/taste become relevant only for food, liquid, chemical, contamination, or quality-control tasks.",
-      "links": [
-        {
-          "label": "See, Hear, and Feel",
-          "url": "https://arxiv.org/abs/2212.03858"
-        },
-        {
-          "label": "FingerEye archive boundary",
-          "url": "https://nus-lins-lab.github.io/FingerEyeWeb/"
-        }
-      ]
-    },
-    {
-      "text": "Proximity update 2026-06-15: KAIST P2GI is the strongest concrete reference so far for proximity as an actionable pre-contact signal. Palmar proximity sensors on a dexterous prosthetic hand scan an object point cloud during approach, then infer grasp posture, object size, and object center before a simple EMG grasp command triggers the planned finger motion. For our Ray-Ban + FSR glove and robot-demo stack, the takeaway is to log pre-contact hand-object relation, not only pressure after touch; proximity can become an early target / affordance / contact-onset label for XLA and a stage-importance feature for dexterous failure learning.",
-      "links": [
-        {
-          "label": "KAIST publication page",
-          "url": "https://pure.kaist.ac.kr/en/publications/proximity-perception-based-grasping-intelligence-toward-the-seaml/"
-        },
-        {
-          "label": "KAIST MatriX highlight",
-          "url": "https://kmatrix.kaist.ac.kr/proximity-perception-based-grasping-intelligence-toward-the-seamless-control-of-a-dexterous-prosthetic-hand/"
-        }
-      ]
-    },
-    {
-      "text": "XLA target: define a unified multimodal episode schema and model interface where every channel is time-aligned into latent intention/action tokens. XLA should be able to accept partial observations at train or test time: gaze+EMG for early intent, wrist+tactile for contact, whole-body pose for HOI context, audio/vibration/proximity for hidden events, and optional temperature/smell/taste for task-specific physical evidence."
-    },
-    {
-      "text": "Data-source philosophy note: robot learning should be extremely pragmatic about data. We should use LLMs, VLMs, video generation models, human ego data, UMI, teleoperation, simulation, wearable capture, and even broad YouTube-scale video when they provide useful labels, priors, failures, or coverage. The missing piece is not another isolated source; it is human-robot collaboration data: shared episodes where humans and robots perceive together, communicate intent, hand over control, correct mistakes, intervene, recover, and co-complete tasks."
-    },
-    {
-      "text": "External partner angle: after visiting Zhiyuan, discuss requirements with Mifeng Tech / MEgo-style data-capture hardware. Their MEgo View and MEgo Gripper direction already covers head/wrist views, depth, IMU, trajectory, tactile, gripper state, and tight synchronization. Our proposal should ask whether their stack can expose or integrate eye tracking, EMG/EEG, wrist ultrasound, whole-body pose, multichannel audio, and raw synchronized streams for XLA training.",
-      "links": [
-        {
-          "label": "MEgo release summary",
-          "url": "https://www.jixin.tech/mobile/show.php?bclassid=0&cid=1&classid=1&cpage=0&id=7447&style=0"
-        }
-      ]
-    },
-    {
-      "text": "Dashboard placement: keep this as a proposal-oriented Survey card feeding UMI / Tri-View, VTLA, Self-Improving Agents, and Real-Robot Infra. UMI gets intention and cross-view labels; VTLA gets contact/force/tactile supervision; Self-Improving gets failure and curriculum traces; Real-Robot Infra only receives engineering tasks after the proposal chooses a concrete v0 rig and partner discussion checklist."
-    },
-    "[KNOWN][HIGH] Event-camera ego-data cross-reference updated 2026-07-15: detailed evidence now lives in Survey: Event-Camera VLA / World Model Sensor Survey. [INFERRED][HIGH] Human-intention collection should add event streams only after synchronized RGB-event-pose tests show a concrete gain over high-FPS RGB and pseudo-events."
+    }
   ],
   "task_ids": [
-    "task_human_intention_sensorium_xla_proposal"
+    "task_human_intention_sensorium_xla_proposal",
+    "task_real_robot_demos_ego2dex_lfd_baseline_20260718",
+    "task_real_robot_demos_ego2dex_baseline_reproduction_20260729",
+    "task_real_robot_demos_ego2dex_franka_wuji_sim_gate_20260729",
+    "task_real_robot_demos_ego2dex_tactile_ablation_20260729",
+    "task_real_robot_demos_ego2dex_hand_contact_benchmark_20260729",
+    "task_umi_stage2_vddm_human_ego_probe_20260627",
+    "task_hoi_pnp_calibration",
+    "task_hoi_collection_matrix",
+    "task_hoi_sensor_validation",
+    "task_hoi_object_tracking",
+    "task_hoi_schema_model_target",
+    "task_hoi_retargeting_baselines",
+    "task_hoi_contact_annotation_pack",
+    "task_hoi_isaac_retargeting_verifier_v0",
+    "task_hoi_two_modality_capture_smoke",
+    "task_real_robot_demo_do_as_i_do_franka_wuji_tactile",
+    "task_omniego_quest3s_multisensor_v0_rig_20260729",
+    "task_omniego_sensor_quality_marginal_value_screen_20260729",
+    "task_omniego_vqvae_intention_encoding_20260729",
+    "task_omniego_object_surface_tactile_force_closure_dataset_20260729"
   ],
   "risks_decisions": [
-    "The sensor list is ordered by intended importance, not random breadth. Keep that order visible in the proposal: gaze, EMG, EEG, wrist ultrasound, wrist camera, tactile, whole-body pose, proximity, temperature, vibration, audio, smell/taste.",
-    "Do not let this become an all-sensor shopping list. The first deliverable is a marginal-value table: what each modality predicts, how early it predicts it, what it costs to collect, and which robot-learning label it improves.",
-    "More modalities can make data worse if synchronization, calibration, privacy, or human burden breaks collection. Timestamping and schema design are as important as sensor choice.",
-    "The strongest framing is intention-to-interaction labels and XLA training: intended target, affordance, contact onset, force direction, failure/hesitation, correction signal, and modality confidence. Raw sensor channels alone are not the contribution.",
-    "Data-source decision 2026-06-09: do not rank data sources by aesthetic purity. Human ego, UMI, teleop, simulation, YouTube-scale video, LLM/VLM/video-model priors, and wearable signals are all admissible if they contribute usable labels or coverage. The explicit portfolio gap is human-robot collaboration data.",
-    "Human-robot collaboration data should be treated as a distinct missing dataset type, not as a subset of human-only wearable data or robot-only teleop data. It needs labels for shared perception, instruction, intent transfer, intervention, correction, handoff, and recovery.",
-    "Partner discussion decision 2026-06-09: after visiting Zhiyuan, talk to Mifeng Tech if possible. The ask is not generic hardware procurement; it is synchronized raw-stream access and expansion paths for gaze, EMG/EEG, wrist ultrasound, whole-body pose, audio arrays, and XLA-ready schema.",
-    "Survey decision 2026-06-09: keep as a new proposal-oriented Survey card, not archive and not VTLA-only. VTLA owns tactile/contact representation; this card owns the broader human-intention data-collection proposal and XLA signal-fusion target.",
-    "Proximity decision 2026-06-15: P2GI shows proximity can drive shared-autonomy grasp selection, but this does not automatically become an immediate hardware purchase. First decide whether Ray-Ban video + FSR glove data can infer enough pre-contact relation, then consider a small fingertip/palmar proximity add-on only if the marginal label value is clear."
+    "Research decision 2026-07-29: OmniEgo is Research, not a shopping-list Survey. The first deliverable is a quality and marginal-value matrix; model training starts only after the sensor gate.",
+    "Quest 3S plus the ordered CYMPLE face/eye kit is the v0 capture backend, not an Aria Gen 2 equivalent. Do not copy Aria-specific eye tracking, 21-point hand-key contracts or hardware synchronization claims into Quest recordings without measured Quest and CYMPLE adapter contracts.",
+    "EMG, EEG, GSR and muscle-deformation signals may have large cross-person and cross-day shifts. Use subject-held-out evaluation, calibration burden and repeated-session stability as first-class metrics.",
+    "bHaptics devices are feedback actuators. They can support controlled stimulus or closed-loop studies, but they are not counted as passive intention channels.",
+    "VQ-VAE, clustering and labeled encoding are competing hypotheses, not current results. Do not publish stable intent tokens until they survive held-out people, days, tasks and missing modalities.",
+    "The surface-capacitive paper supports touch-location sensing on scanned rigid objects only. Force-closure, cross-embodiment manipulation, dense force maps and deformable-object sensing require new hardware, calibration and outcome evidence.",
+    "Human-video pretraining and reconstructed trajectories do not prove robot executability. Every transfer path needs a declared mapping/IK/retargeting interface plus simulation/read-only validation before low-speed physical execution.",
+    "Do not publish the unsupported exact numbers from the draft technical report, including claimed millimeter errors, segmentation percentages, runtime, contact-force reductions or Tesla success rates, unless each is recovered from a primary source and reproduced under the shared protocol.",
+    "Raw physiological data, camera streams, audio and face/eye signals require consent, data minimization, access controls and a stated retention policy before collection."
   ],
-  "asset_alt": "Human intention data collection proposal diagram linking ordered sensing modalities to synchronized XLA training signals and robot-learning consumers",
-  "asset_caption": "Proposal diagram: ordered human-intention signals become synchronized XLA inputs, not a generic sensor checklist.",
+  "asset_alt": "OmniEgo pipeline from Quest 3S and candidate human-intention sensors through signal-quality screening, encoding, Ego2Dex reconstruction, and object-instrumented manipulation",
+  "asset_caption": "OmniEgo 的顺序是先同步和筛选，再编码与迁移；对象侧触点是独立证据支线。",
   "references": [
     {
-      "title": "EgoVerse",
-      "url": "https://egoverse.ai/",
-      "submitted_at": "2026",
-      "notes": "Living egocentric human-data ecosystem for robot learning with camera pose, 3D head tracking, language annotation, broad task coverage, and human-to-robot transfer framing."
+      "title": "Meta Quest Passthrough Camera API",
+      "url": "https://developers.meta.com/horizon/documentation/unity/unity-pca-overview/",
+      "notes": "Official Quest 3/3S forward-camera access contract and operational constraints; use as the v0 RGB capture reference, not as evidence of Aria-equivalent sensing."
     },
     {
-      "title": "TouchAnything: A Dataset and Framework for Bimanual Tactile Estimation from Egocentric Video",
-      "url": "https://arxiv.org/abs/2605.13083",
-      "arxiv_id": "2605.13083",
-      "submitted_at": "2026",
-      "notes": "EgoTouch provides synchronized head-mounted egocentric RGB, dual wrist cameras, 3D hand pose, and continuous wearable tactile pressure maps across bimanual manipulation tasks."
+      "title": "Project Aria Gen 2 hardware specification",
+      "url": "https://facebookresearch.github.io/projectaria_tools/gen2/technical-specs/device/hardware",
+      "notes": "Official Aria sensor inventory used to make the non-equivalence boundary explicit."
     },
     {
-      "title": "HoloAssist: an Egocentric Human Interaction Dataset for Interactive AI Assistants",
+      "title": "EgoEngine: From Egocentric Human Videos to High-Fidelity Dexterous Robot Demonstrations",
+      "url": "https://arxiv.org/abs/2606.12604",
+      "arxiv_id": "2606.12604",
+      "submitted_at": "2026",
+      "notes": "Aria-based ego reconstruction and robot-demonstration baseline; public code and checkpoint availability must be audited before claiming reproduction."
+    },
+    {
+      "title": "Do-As-I-Do: Learning Robot Actions from Human Videos",
+      "url": "https://arxiv.org/abs/2606.19333",
+      "arxiv_id": "2606.19333",
+      "submitted_at": "2026",
+      "notes": "Monocular human-video hand-object reconstruction and robot retargeting baseline."
+    },
+    {
+      "title": "VideoManip: Dexterous Manipulation Policies from RGB Human Videos",
+      "url": "https://arxiv.org/abs/2602.09013",
+      "arxiv_id": "2602.09013",
+      "submitted_at": "2026",
+      "notes": "Metric hand/object alignment, ContactOpt refinement, retargeting and demonstration-synthesis baseline."
+    },
+    {
+      "title": "EasyHOI",
+      "url": "https://arxiv.org/abs/2411.14280",
+      "arxiv_id": "2411.14280",
+      "submitted_at": "2024",
+      "notes": "Single-image hand-object reconstruction and image/geometry/contact refinement baseline."
+    },
+    {
+      "title": "ContactOpt",
+      "url": "https://arxiv.org/abs/2104.07267",
+      "arxiv_id": "2104.07267",
+      "submitted_at": "2021",
+      "notes": "Predicted surface-contact maps plus differentiable geometric pose refinement; it is not a measured contact-force field."
+    },
+    {
+      "title": "TOCH",
+      "url": "https://arxiv.org/abs/2205.07982",
+      "arxiv_id": "2205.07982",
+      "submitted_at": "2022",
+      "notes": "Object-centric correspondence field and temporal denoising reference for hand-motion refinement."
+    },
+    {
+      "title": "GeneOH Diffusion",
+      "url": "https://arxiv.org/abs/2402.14810",
+      "arxiv_id": "2402.14810",
+      "submitted_at": "2024",
+      "notes": "Three-stage interaction-trajectory denoising reference; it does not recover physical force."
+    },
+    {
+      "title": "HOLD",
+      "url": "https://arxiv.org/abs/2311.18448",
+      "arxiv_id": "2311.18448",
+      "submitted_at": "2023",
+      "notes": "Joint hand and unknown-object reconstruction from monocular video using articulated implicit models."
+    },
+    {
+      "title": "GHOST",
+      "url": "https://arxiv.org/abs/2603.18912",
+      "arxiv_id": "2603.18912",
+      "submitted_at": "2026",
+      "notes": "Monocular hand-object reconstruction comparison using geometry priors, grasp-aware alignment and hand-aware background loss."
+    },
+    {
+      "title": "Being-H0",
+      "url": "https://arxiv.org/abs/2507.15597",
+      "arxiv_id": "2507.15597",
+      "submitted_at": "2025",
+      "notes": "Human-video VLA pretraining, physical-space alignment and robot post-training reference."
+    },
+    {
+      "title": "EgoScale",
+      "url": "https://arxiv.org/abs/2602.16710",
+      "arxiv_id": "2602.16710",
+      "submitted_at": "2026",
+      "notes": "Human-data scaling and aligned human–robot mid-training reference with retargeted dexterous-hand actions."
+    },
+    {
+      "title": "VITRA",
+      "url": "https://arxiv.org/abs/2510.21571",
+      "arxiv_id": "2510.21571",
+      "submitted_at": "2025",
+      "notes": "Human wrist and MANO-style action representation plus robot adaptation reference."
+    },
+    {
+      "title": "EgoVLA",
+      "url": "https://arxiv.org/abs/2507.12440",
+      "arxiv_id": "2507.12440",
+      "submitted_at": "2025",
+      "notes": "Human wrist/MANO prediction and fingertip-to-robot mapping reference; not evidence of zero-shot physical executability."
+    },
+    {
+      "title": "METIS",
+      "url": "https://arxiv.org/abs/2511.17366",
+      "arxiv_id": "2511.17366",
+      "submitted_at": "2025",
+      "notes": "Unified wrist-pose and fingertip action representation with target-robot IK."
+    },
+    {
+      "title": "HoloAssist",
       "url": "https://openaccess.thecvf.com/content/ICCV2023/papers/Wang_HoloAssist_an_Egocentric_Human_Interaction_Dataset_for_Interactive_AI_Assistants_ICCV_2023_paper.pdf",
       "submitted_at": "2023",
-      "notes": "Records RGB, depth, head pose, 3D hand pose, eye gaze, audio, and IMU for real-world object-centric tasks with instruction, mistake, and intervention annotations."
+      "notes": "Egocentric multimodal interaction data with instruction, mistake and intervention annotations."
     },
     {
       "title": "HOT3D Dataset",
       "url": "https://facebookresearch.github.io/projectaria_tools/docs/open_datasets/hot3d",
       "submitted_at": "2024",
-      "notes": "Egocentric 3D hand-object tracking dataset with synchronized multi-view headset video, object/hand pose, 3D models, eye gaze, and scene point-cloud signals."
+      "notes": "Synchronized multi-view headset video, hand/object pose, eye gaze and scene signals."
     },
     {
-      "title": "Hoi!: A Multimodal Dataset for Force-Grounded, Cross-View Articulated Manipulation",
+      "title": "TouchAnything / EgoTouch",
+      "url": "https://arxiv.org/abs/2605.13083",
+      "arxiv_id": "2605.13083",
+      "submitted_at": "2026",
+      "notes": "Ego RGB, wrist cameras, 3D hand pose and wearable tactile-pressure reference."
+    },
+    {
+      "title": "Hoi!: force-grounded cross-view articulated manipulation",
       "url": "https://timengelbracht.github.io/Hoi-Dataset-Website/",
       "arxiv_id": "2512.04884",
       "submitted_at": "2025",
-      "notes": "Force-grounded articulated manipulation dataset across human hand, wrist camera, UMI gripper, and custom gripper, with egocentric, wrist, exocentric, force, tactile, and spatial alignment signals."
+      "notes": "Cross-view human and robot manipulation with force/tactile signals and spatial alignment."
     },
     {
       "title": "Multimodal Fusion of EMG and Vision for Human Grasp Intent Inference",
       "url": "https://arxiv.org/abs/2104.03893",
       "arxiv_id": "2104.03893",
       "submitted_at": "2021",
-      "notes": "Shows complementary evidence from forearm EMG, eye-view video, and gaze for grasp-intent inference."
+      "notes": "Direct reference for complementary EMG, eye-view video and gaze evidence in grasp-intent inference."
     },
     {
-      "title": "觅蜂科技 MEgo data-capture release",
-      "url": "https://www.jixin.tech/mobile/show.php?bclassid=0&cid=1&classid=1&cpage=0&id=7447&style=0",
-      "submitted_at": "2026",
-      "notes": "Reported MEgo View / MEgo Gripper direction: head and wrist views, depth, IMU, motion trajectory, multidimensional tactile signals, gripper state, and tight wireless synchronization. Useful partner reference for the proposal requirements discussion."
-    },
-    {
-      "title": "A Systematic Review of Sensor Fusion Methods Using Peripheral Bio-Signals for Human Intention Decoding",
+      "title": "Peripheral bio-signal fusion survey",
       "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9460678/",
       "submitted_at": "2022",
-      "notes": "Useful modality tradeoff source for EMG, MMG, ultrasound / sonomyography, NIRS, accelerometers, IMU, and optical sensing in intention decoding."
+      "notes": "Modality and fusion tradeoffs for EMG, MMG, ultrasound, NIRS, IMU and optical sensing."
     },
     {
-      "title": "Recent advances in intelligent wearable systems: from multiscale biomechanical features towards human motion intent prediction",
-      "url": "https://www.nature.com/articles/s44387-026-00083-5",
+      "title": "Retrofitting Existing 3D Objects with Surface-Conforming Capacitive Sensing",
+      "url": "https://arxiv.org/abs/2607.16739",
+      "arxiv_id": "2607.16739",
       "submitted_at": "2026",
-      "notes": "Survey framing for wearable multimodal human motion intent prediction, including physiological and motion signals plus limits from heterogeneity, redundancy, and computational complexity."
+      "notes": "SIGGRAPH 2026 object-surface mutual-capacitance layout and touch-localization reference. It does not measure force, shear, friction or force closure."
     },
     {
-      "title": "Proximity Perception-Based Grasping Intelligence: Toward the Seamless Control of a Dexterous Prosthetic Hand",
-      "url": "https://pure.kaist.ac.kr/en/publications/proximity-perception-based-grasping-intelligence-toward-the-seaml/",
-      "doi": "10.1109/TMECH.2023.3324051",
-      "submitted_at": "2024",
-      "notes": "KAIST P2GI reference: palmar proximity sensors scan object point clouds during approach, infer grasp posture / object size / center, and enable shared-autonomy prosthetic grasping with a single-channel EMG command. Key relevance: proximity is a pre-contact object-relation signal for intention, affordance, contact-onset, and DexGello failure-phase metrics."
+      "title": "Jiachen Li / Trustworthy Autonomous Systems Lab",
+      "url": "https://jiachenli94.github.io/",
+      "notes": "Potential HRI, control and embodied-learning collaboration reference only; no public commitment and no claimed authorship of the surface-capacitive paper."
     }
   ],
-  "asset_added_at": "2026-06-19"
+  "asset_added_at": "2026-07-29",
+  "visual": {
+    "layout": "standard"
+  },
+  "intro_table": {
+    "kind": "architecture_status_table",
+    "caption": "OmniEgo research contract",
+    "columns": [
+      {
+        "key": "lane",
+        "label": "Lane"
+      },
+      {
+        "key": "inputs_outputs",
+        "label": "Inputs -> outputs"
+      },
+      {
+        "key": "acceptance",
+        "label": "Acceptance"
+      }
+    ],
+    "rows": [
+      {
+        "lane": "Capture",
+        "inputs_outputs": "Quest 3S ego RGB + hand/controller pose + wearable/environment/object-side streams -> synchronized raw episode",
+        "acceptance": "Document camera/pose timestamps, calibration, dropped frames and privacy. Integrate the ordered CYMPLE Quest 3S face/eye kit only after fit, raw-export, timestamp and synchronization checks pass."
+      },
+      {
+        "lane": "Validate",
+        "inputs_outputs": "Repeated scripted tasks across people and days -> modality quality and marginal-value matrix",
+        "acceptance": "Measure timestamp skew, SNR/repeatability, missingness, drift, cross-subject shift, burden and downstream task gain; retain only 3–5 useful channels."
+      },
+      {
+        "lane": "Encode",
+        "inputs_outputs": "Validated multimodal windows + intent/contact/action labels -> supervised embeddings or discrete VQ-VAE tokens",
+        "acceptance": "Use subject-held-out splits, missing-modality masks and label/token stability; compare against single-modality and late-fusion baselines."
+      },
+      {
+        "lane": "Reconstruct + transfer",
+        "inputs_outputs": "Ego video and hand-object state -> metric HOI trajectory, contact refinement and target-robot action",
+        "acceptance": "Run EgoEngine / Do-As-I-Do / VideoManip / EasyHOI / HandFlow under one manifest, then gate retargeting in simulation/read-only before physical execution."
+      },
+      {
+        "lane": "Instrument objects",
+        "inputs_outputs": "Surface-conforming touch layout + independent force/pose ground truth -> cross-embodiment same-object/task episodes",
+        "acceptance": "Capacitive touch is contact-location evidence only; force-closure claims require pressure/shear or 6D force sensing, calibration and real manipulation outcomes."
+      }
+    ]
+  },
+  "timeline": {
+    "badges": [
+      {
+        "label": "Bucket",
+        "value": "Research"
+      },
+      {
+        "label": "Backbone",
+        "value": "Quest 3S + external sensors"
+      },
+      {
+        "label": "Gate",
+        "value": "quality before encoding"
+      },
+      {
+        "label": "Target",
+        "value": "3–5 useful modalities"
+      }
+    ],
+    "target_cycle": "capture adapter -> quality screen -> encoding benchmark -> Ego2Dex transfer -> object-side pilot",
+    "target_note": "Every lane reports failure and uncertainty; proposals remain hypotheses until measured on shared episodes.",
+    "sprint_start": "2026-07-29",
+    "sprint_due": null,
+    "milestones": []
+  },
+  "subprojects": [
+    {
+      "label": "A",
+      "title": "Quest 3S capture and synchronization",
+      "body": "Build the first reproducible human-centered rig around ego RGB, system hand/controller pose and the ordered CYMPLE face/eye kit, then add other external sensors through one clock and calibration contract.",
+      "output": "Durable output: raw synchronized episodes, adapter manifest, latency/dropout audit and privacy boundary."
+    },
+    {
+      "label": "B",
+      "title": "Sensor quality and marginal value",
+      "body": "Test gaze, face, EMG, muscle deformation, GSR, EEG, flex/pose, tactile, audio and e-nose candidates on repeated tasks across people and days.",
+      "output": "Durable output: quality matrix and a justified 3–5-modality shortlist."
+    },
+    {
+      "label": "C",
+      "title": "Intent encoding",
+      "body": "Compare labels, per-modality encoders, late fusion, clustering and VQ-VAE tokens with missing-modality and cross-subject evaluation.",
+      "output": "Durable output: an interpretable representation benchmark, not merely reconstruction loss."
+    },
+    {
+      "label": "D",
+      "title": "Ego2Dex reconstruction and transfer",
+      "body": "Standardize hand-object reconstruction, contact refinement and human-to-robot mappings under shared clips, frames, manifests and failure metrics.",
+      "output": "Durable output: one selected reconstruction-to-retargeting path with explicit physical gates."
+    },
+    {
+      "label": "E",
+      "title": "Object-instrumented manipulation",
+      "body": "Prototype surface-conforming touch on rigid objects, add independent force/pose truth, then compare the same object and task across human and robot embodiments.",
+      "output": "Durable output: a bounded contact/force-closure dataset pilot with evidence boundaries."
+    }
+  ]
 }

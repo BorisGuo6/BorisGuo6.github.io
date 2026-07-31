@@ -1,0 +1,396 @@
+{
+  "schema_version": "project.v1",
+  "project_id": "product-robot-codesign-simulation-survey",
+  "title": "Simulation-Based Product–Robot Co-Design",
+  "bucket": "survey",
+  "status": "survey",
+  "description": "Survey a three-variable physical co-design loop that jointly optimizes product, tool or environment interface P; robot embodiment or end-effector R; and policy or trajectory π under simulation, calibration, manufacturability and sim-to-real gates.",
+  "summary": "Branched from Self-Improving Agents: agents may propose physical design changes, but this card owns the evidence contract for changing persistent physical artifacts. The gap is not generic morphology optimization: prior work mostly covers P + π or R + π. The research question is when full P × R × π co-design beats fixed-product, fixed-robot and control-only baselines across a task distribution while remaining manufacturable, human-usable, robust to contact and material uncertainty, and predictive of real hardware.",
+  "details": [
+    {
+      "text": "Research unit: optimize (P, R, π) over a task and physics distribution, not one nominal scene. P includes product geometry, handles, fixtures, interfaces, materials and compliance; R includes link and mount geometry, gripper or hand shape, stiffness, actuation and sensing; π includes grasp pose, trajectory, controller and task policy. Utility must subtract fabrication cost, iteration time and safety risk, and real data should update the simulator or surrogate rather than merely decorate a simulation result.",
+      "links": [
+        {
+          "label": "Transformer Transformer",
+          "url": "https://transformer-transformer.github.io/"
+        },
+        {
+          "label": "Object Adaptation",
+          "url": "https://object-adaptation.github.io/"
+        }
+      ]
+    },
+    {
+      "text": "Seed-paper readout: Transformer Transformer is the strongest full-robot R + π seed and can generate links, joints, motors, inertial properties and a cross-embodiment controller from target motion, but its current scene and geometry scope excludes arbitrary product meshes and contact targets. Fit2Form and DGDM generate task-specific gripper or manipulator geometry for fixed products. PaperBot is deliberately 100% real-world and therefore belongs as a reality-gap fallback, not as simulation evidence.",
+      "links": [
+        {
+          "label": "Fit2Form",
+          "url": "https://fit2form.cs.columbia.edu/"
+        },
+        {
+          "label": "PaperBot",
+          "url": "https://paperbot.cs.columbia.edu/"
+        },
+        {
+          "label": "DGDM",
+          "url": "https://dgdm-robot.github.io/"
+        }
+      ]
+    },
+    {
+      "text": "Product-side novelty boundary: Robot Factors treats hardware as something designed for robot manipulability; Object Adaptation jointly learns 3D-printable object attachments and robot control; Toussaint et al. already co-optimize robot, environment and tool parameters with manipulation trajectories. A new project cannot claim novelty merely by renaming end-effector or morphology optimization as product–robot co-design.",
+      "links": [
+        {
+          "label": "Robot Factors, IROS 2022",
+          "url": "https://people.seas.harvard.edu/~jkwerfel/iros22melenbrink.pdf"
+        },
+        {
+          "label": "Co-Optimizing Robot, Environment, and Tool Design, ICRA 2021",
+          "url": "https://argmin.lis.tu-berlin.de/papers/21-toussaint-ICRA.pdf"
+        }
+      ]
+    },
+    {
+      "text": "Method taxonomy: parameterized CAD, printable attachment libraries, voxels, meshes, SDFs, URDF or graph grammars and learned latent shapes can be searched by constrained trajectory optimization, RL or bilevel optimization, CMA-ES or Bayesian optimization, differentiable simulation, learned neural-physics surrogates, diffusion guidance, or VLM agents that propose geometry and actions before simulator critique. Rigid contact, tactile or elastic contact, deformables, fragile materials, fluids and aerodynamics require separate fidelity claims.",
+      "links": [
+        {
+          "label": "Co-Design of Soft Gripper with Neural Physics",
+          "url": "https://yswhynot.github.io/codesign-soft/"
+        },
+        {
+          "label": "VLMgineer",
+          "url": "https://vlmgineer.github.io/"
+        },
+        {
+          "label": "RobotSmith",
+          "url": "https://umass-embodied-agi.github.io/RobotSmith/"
+        }
+      ]
+    },
+    {
+      "text": "Open-source readiness: the best first runnable chain is Soft Gripper Co-Design for a bundled material-distribution plus grasp-pose simulation and fabrication artifact, followed by Transformer Transformer for a modern motion-conditioned robot baseline. DGDM and Fit2Form expose pretrained or evaluation paths but need dependency and license auditing. DiffTactile and WarpDiffRobot are enabling layers for contact-aware differentiable physics and simulator calibration. PaperBot publishes a website repository, not the algorithmic real-robot training stack.",
+      "links": [
+        {
+          "label": "Soft Gripper code",
+          "url": "https://github.com/yswhynot/codesign-soft-gripper"
+        },
+        {
+          "label": "Transformer Transformer code",
+          "url": "https://github.com/real-stanford/transformer-transformer"
+        },
+        {
+          "label": "DiffTactile code",
+          "url": "https://github.com/Genesis-Embodied-AI/DiffTactile"
+        },
+        {
+          "label": "WarpDiffRobot code",
+          "url": "https://github.com/MediosZ/WarpDiffRobot"
+        }
+      ]
+    },
+    {
+      "text": "Evidence ladder: nominal simulation is only Stage 0. Stage 1 adds matched-compute ablations; Stage 2 holds out tasks, objects and target motions; Stage 3 perturbs contact, friction, mass, material, geometry tolerance and sensor or actuation error; Stage 4 fabricates the selected product or robot part; Stage 5 compares predicted and real rankings plus task success, force, energy, damage and failure modes. A sim-to-real claim requires fabricated or real-robot evidence, not a renderer video."
+    },
+    {
+      "text": "Decision gate: count a result as Product–Robot Co-Design only when at least two of P, R and π are optimized and the unchanged-product and unchanged-robot baselines are reported. The strongest publishable gap is a learned or generative P × R × π interface that generalizes across a task distribution, respects fabrication and human-use constraints, and closes the loop with calibrated real evidence."
+    },
+    {
+      "text": "Inherited PoD fabrication lane: calibrated object intake and user demand -> metric design specification -> constrained programmatic CAD with part and joint semantics -> printability and tolerance checks -> same-plate jigs or tools -> slicer and queue artifacts -> robot takeout and assembly plan. Dated May 2026 software probes produced validated URDF, STL, GLB and manifest artifacts for a butt hinge, Mac mini extender and cable clip, and favored an Articraft-style SDK with CadQuery as the geometric escape hatch. These are implementation evidence for the product variable P, not proof of full P × R × π co-design; commercial generator comparisons were API-blocked and the printer cell never reached physical execution.",
+      "links": [
+        {
+          "label": "Articraft",
+          "url": "https://articraft3d.github.io/"
+        },
+        {
+          "label": "Allo",
+          "url": "https://allotech-ai.com/creating/home"
+        },
+        {
+          "label": "Blueprint",
+          "url": "https://www.blueprint.am/"
+        }
+      ]
+    },
+    "Portfolio boundary: Self-Improving Agents owns environment or asset generation, simulator interoperability, policy improvement and evaluation harnesses. This Survey owns persistent physical design variables and their co-design evidence. The former Robotics + 3D Printing card is consolidated here as the downstream P -> hardware lane: calibrated intake, editable CAD, printability and tolerance, jigs, slicing, takeout and assembly. Generic CAD generation or printer automation alone does not satisfy the P × R × π claim."
+  ],
+  "intro_table": {
+    "kind": "architecture_status_table",
+    "caption": "Product–robot co-design surface and evidence gate",
+    "columns": [
+      {
+        "key": "lane",
+        "label": "Lane"
+      },
+      {
+        "key": "design_variables",
+        "label": "Joint design variables"
+      },
+      {
+        "key": "representative_work",
+        "label": "Representative work"
+      },
+      {
+        "key": "gate",
+        "label": "Required gate"
+      }
+    ],
+    "rows": [
+      {
+        "lane": "Product / object retrofit",
+        "design_variables": "Attachment, handle, fixture, material or affordance P + fixed robot policy π",
+        "representative_work": "Robot Factors; Object Adaptation",
+        "gate": "Human usability, printability and tolerance; no-adapter, P-only and P + π comparison"
+      },
+      {
+        "lane": "Tool / end-effector",
+        "design_variables": "Finger geometry, stiffness, contact surface or sensor placement R + grasp or controller π",
+        "representative_work": "Fit2Form; DGDM; Soft Gripper; Latent Diffeomorphic Co-Design",
+        "gate": "R-only, π-only and joint ablations; contact/material perturbations; fabricated result"
+      },
+      {
+        "lane": "Full robot embodiment",
+        "design_variables": "Links, joints, motors, inertia, mount and workspace R + cross-embodiment controller π",
+        "representative_work": "Transformer Transformer; Cross-Embodied Co-Design",
+        "gate": "Manufacturable grammar, held-out task distribution, controller self-validation and real hardware"
+      },
+      {
+        "lane": "Robot + environment / station",
+        "design_variables": "Robot kinematics or mount R + station, bin, product interface or tool P + trajectory π",
+        "representative_work": "Toussaint et al.; MoMa-CoDesign",
+        "gate": "Optimize across a task ensemble and compare fixed-P, fixed-R and joint solutions under equal compute"
+      },
+      {
+        "lane": "Reality correction",
+        "design_variables": "Physical design and action sequence updated from real measurements when simulation is unreliable",
+        "representative_work": "PaperBot; WarpDiffRobot; sim + real hybrid search",
+        "gate": "Report real trials, cost and calibration; do not relabel a real-only loop as simulation evidence"
+      }
+    ]
+  },
+  "risks_decisions": [
+    "Survey decision 2026-07-29: use the tri-design unit P × R × π. A paper that only changes the controller, retrieves an existing tool, generates a scene, or optimizes robot morphology against a fixed product is adjacent work, not full Product–Robot Co-Design.",
+    "Require matched-compute fixed/fixed, P-only, R-only, π-only, P + π, R + π and full P × R × π ablations where the design space permits them. Otherwise a claimed co-design gain can be a search-budget or controller advantage.",
+    "Optimize across a task distribution and held-out objects, motions or goals. A custom geometry that overfits one object pose or one trajectory is a fixture, not evidence of general co-design.",
+    "Treat simulator exploitation as a primary failure mode. Contact, friction, compliance, material damage, sensor placement, motor saturation, aerodynamics and deformables need uncertainty sweeps and a stated simulator-validity envelope.",
+    "Manufacturability is part of the objective: tolerance, collision clearance, minimum feature size, material availability, wiring, actuator limits, assembly time, cost, repairability, safety and continued human usability must be checked before fabrication.",
+    "A simulation result promotes only after rank correlation or agreement against fabricated or real candidates is measured. Success on one selected hardware design cannot establish that the simulator ranked the design space correctly.",
+    "Novelty boundary: Co-Optimizing Robot, Environment, and Tool Design already covers joint static design and trajectory optimization; Object Adaptation already covers product attachment plus control. A new contribution needs learned or generative joint representation, broader task generalization, improved physics calibration, or a materially stronger fabrication-to-real loop.",
+    "PaperBot is a negative boundary and fallback: it learns 100% in the real world because aerodynamics and friction are hard to simulate. Do not list it as a runnable simulation baseline or infer released training code from its website repository.",
+    "Open-source claims are repository-specific. Record commit SHA, dependency lock, checkpoint and data availability, license of code and assets, minimum hardware, measured runtime and the exact reproduced command before assigning a runnable tier.",
+    "Keep this card separate from Self-Improving Agents until a bounded co-design pilot wins a preregistered gate. The agentic project may later supply proposal, simulation and diagnosis tools, but it should not absorb the physical-design claim in advance.",
+    "A single object image is not a metric product specification: require scale or reference dimensions, calibration markers where applicable, contact surfaces, load and material constraints, printer envelope, and human or robot assembly intent before optimizing P.",
+    "Printer handoff and robot takeout are a separate automation boundary: watertightness, wall thickness, overhang and support, tolerance, material and stiffness, bed adhesion and temperature, failed-print sensing, collision recovery, reset safety, and same-plate jig strength must be explicit. A CAD artifact or dry-run cell is not real P × R × π hardware evidence."
+  ],
+  "references": [
+    {
+      "title": "Transformer Transformer: A Unified Model for Motion-Conditioned Robot Co-design",
+      "url": "https://transformer-transformer.github.io/",
+      "submitted_at": "2026",
+      "notes": "Full-robot R + π seed. Generates embodiment and controller from target motion; reports 73% lower tracking error and 30% lower peak joint speed on fabricated ALOHA cloth flinging. Current limitation: primitive geometry, no arbitrary meshes, deformables, surrounding scene or contact targets."
+    },
+    {
+      "title": "Transformer Transformer official code",
+      "url": "https://github.com/real-stanford/transformer-transformer",
+      "submitted_at": "2026-07",
+      "notes": "Best modern runnable baseline: RoboTokens, procedural design spaces, MuJoCo/MJX, Mink/RL data generation, checkpoints, training, co-design inference and CMA-ES. Repository is mostly MIT, but derived DiT files remain Attribution-NonCommercial and robot assets retain upstream licenses."
+    },
+    {
+      "title": "Fit2Form: 3D Generative Model for Robot Gripper Form Design",
+      "url": "https://fit2form.cs.columbia.edu/",
+      "arxiv_id": "2011.06498",
+      "submitted_at": "2020",
+      "notes": "R + task-object seed: learns a fitness model and generator for parallel-jaw finger geometry, with simulation and real-robot evidence; product stays fixed."
+    },
+    {
+      "title": "Fit2Form official code",
+      "url": "https://github.com/real-stanford/fit2form",
+      "submitted_at": "2020",
+      "notes": "Provides conda setup, pretrained evaluation and the full ShapeNet simulation-data and training pipeline. Legacy dependency stack and no explicit repository license visible at review; treat as reproducible only after a pinned smoke test."
+    },
+    {
+      "title": "PaperBot: Learning to Design Real-World Tools Using Paper",
+      "url": "https://paperbot.cs.columbia.edu/",
+      "arxiv_id": "2403.09566",
+      "submitted_at": "2024",
+      "notes": "P_tool + π reality-gap fallback for paper airplanes and kirigami grippers. Learning is explicitly 100% in the real world; rendering is visualization only; gripper adaptation is reported in about 50 trials."
+    },
+    {
+      "title": "PaperBot website repository",
+      "url": "https://github.com/cvlab-columbia/paperbot",
+      "submitted_at": "2024",
+      "notes": "Repository contains the project website and paper assets, not the robot training, surrogate optimization or experiment stack. Do not schedule it as a runnable simulation baseline."
+    },
+    {
+      "title": "Dynamics-Guided Diffusion Model for Sensor-less Robot Manipulator Design",
+      "url": "https://dgdm-robot.github.io/",
+      "arxiv_id": "2402.15038",
+      "submitted_at": "2024",
+      "notes": "R-side seed: geometric diffusion plus task-agnostic learned dynamics guidance for open-loop sensorless manipulators. Reports 31.5% relative average success improvement over optimization and 45.3% over unguided diffusion, with 0.8 s design generation."
+    },
+    {
+      "title": "DGDM official code",
+      "url": "https://github.com/real-stanford/dgdm",
+      "submitted_at": "2024",
+      "notes": "Provides 2D/3D simulation data generation, training, pretrained checkpoints and guided sampling. CPU Ray/V-HACD data generation can produce qhull/time-out failures; no explicit repository license visible at review."
+    },
+    {
+      "title": "A Robot Factors Approach to Designing Modular Hardware",
+      "url": "https://people.seas.harvard.edu/~jkwerfel/iros22melenbrink.pdf",
+      "submitted_at": "2022",
+      "notes": "Product-side design principles for robot-compatible modular hardware: constrained motion, mass support, handle placement, mechanical advantage, compliance and chamfers. Important P-side framing; no official code located."
+    },
+    {
+      "title": "Learning to Design 3D Printable Adaptations on Everyday Objects for Robot Manipulation",
+      "url": "https://object-adaptation.github.io/",
+      "submitted_at": "2024",
+      "notes": "Strongest direct P + π reference: dual-MDP RL jointly designs printable object attachments and control, validated on Franka. Official page exposes paper/video but no code link."
+    },
+    {
+      "title": "Co-Optimizing Robot, Environment, and Tool Design via Joint Manipulation Planning",
+      "url": "https://argmin.lis.tu-berlin.de/papers/21-toussaint-ICRA.pdf",
+      "submitted_at": "2021",
+      "notes": "Direct novelty boundary: constrained joint optimization over static robot, environment and tool design plus manipulation trajectories across task instances. Not a learned generative method."
+    },
+    {
+      "title": "Physical Simulation with Force Feedback Aids Robot Factors Design",
+      "url": "https://del.seas.harvard.edu/publication/physical-simulation-force-feedback-aids-robot-factors-design",
+      "submitted_at": "2025",
+      "notes": "Human-in-the-loop product-design reference using Unity rigid-body simulation and force-feedback hardware before fabrication. No public code located and specialized haptic hardware is required."
+    },
+    {
+      "title": "VLMgineer",
+      "url": "https://vlmgineer.github.io/",
+      "submitted_at": "2026",
+      "notes": "P_tool + π agentic reference: VLM proposes programmatic tools and actions, then PyBullet evolutionary refinement evaluates them. Useful bridge from Self-Improving Agents to physical design."
+    },
+    {
+      "title": "VLMgineer official code",
+      "url": "https://github.com/vlmgineer/vlmgineer",
+      "submitted_at": "2026",
+      "notes": "Runnable one-task candidate, but requires Gemini 2.5 Pro API and incurs multi-agent sampling cost; no explicit repository license visible at review."
+    },
+    {
+      "title": "RobotSmith",
+      "url": "https://umass-embodied-agi.github.io/RobotSmith/",
+      "submitted_at": "2025",
+      "notes": "Multi-agent tool and trajectory generation with Genesis simulation and CMA-ES across rigid, flexible and fluid tasks, plus real-world experiments."
+    },
+    {
+      "title": "RobotSmith official code",
+      "url": "https://github.com/UMass-Embodied-AGI/RobotSmith/tree/master",
+      "submitted_at": "2025",
+      "notes": "Nine task folders are present, but the stack requires OpenAI/Meshy APIs, Genesis and OMPL and retains machine-specific placeholders. Second-stage candidate, not the first turnkey probe."
+    },
+    {
+      "title": "Co-Design of Soft Gripper with Neural Physics",
+      "url": "https://yswhynot.github.io/codesign-soft/",
+      "arxiv_id": "2505.20404",
+      "submitted_at": "2025",
+      "notes": "R_material + π reference: simulation-trained differentiable neural-physics surrogate jointly optimizes block-wise stiffness and grasp pose, followed by 3D printing and hardware validation."
+    },
+    {
+      "title": "Co-Design of Soft Gripper official code",
+      "url": "https://github.com/yswhynot/codesign-soft-gripper",
+      "submitted_at": "2025",
+      "notes": "Best first runnable baseline. MIT; Python 3.10 and Warp; GPU optional; includes a YCB mustard-bottle quick simulation, trained model, hardware models, assembly notes and motor-control scripts."
+    },
+    {
+      "title": "Robust Co-Design of Robot Morphology and Control (CageCoOpt)",
+      "url": "https://sites.google.com/view/robust-codesign/",
+      "arxiv_id": "2409.11113",
+      "submitted_at": "2025",
+      "notes": "R + π Bayesian morphology/control optimization with contact-robustness energy; paper/video available, no official code located."
+    },
+    {
+      "title": "Latent Diffeomorphic Co-Design of End-Effectors and Policies for Deformable Object Manipulation",
+      "url": "https://arxiv.org/abs/2602.17921",
+      "arxiv_id": "2602.17921",
+      "submitted_at": "2026",
+      "notes": "R + π reference for fragile/deformable food: latent end-effector shape, stress-aware bilevel optimization and policy distillation with sim-to-real. No official code located at review."
+    },
+    {
+      "title": "HandCDO official code",
+      "url": "https://github.com/aminmirz/HandCDO",
+      "submitted_at": "2026",
+      "notes": "MIT robot-hand contact-design baseline using Isaac-based wrench-space evaluation and Bayesian/TPE search. Source is available but end-to-end environment setup still needs engineering."
+    },
+    {
+      "title": "MoMa-CoDesign code",
+      "url": "https://github.com/robot-learning-freiburg/mobile-rl/tree/moma-codesign",
+      "submitted_at": "2025",
+      "notes": "Mobile-manipulator morphology and multi-task RL baseline with ROS/Gazebo/devcontainer support. Full search is reported as long-running and is unsuitable for the first quick probe."
+    },
+    {
+      "title": "DiffTactile official code",
+      "url": "https://github.com/Genesis-Embodied-AI/DiffTactile",
+      "submitted_at": "2024",
+      "notes": "MIT differentiable tactile/contact simulator covering rigid, elastic/plastic and cable interactions plus system identification. Useful infrastructure for geometry, compliance and contact-aware design; not itself a product co-design method."
+    },
+    {
+      "title": "WarpDiffRobot official code",
+      "url": "https://github.com/MediosZ/WarpDiffRobot",
+      "submitted_at": "2025",
+      "notes": "Differentiable simulator-calibration layer for estimating mass, inertia and elastic parameters from robot-object interaction. Useful before trusting design rankings; no explicit repository license visible at review."
+    },
+    {
+      "title": "DiffuseBot: Breeding Soft Robots with Physics-Augmented Generative Diffusion Models",
+      "url": "https://diffusebot.github.io/",
+      "submitted_at": "2023",
+      "notes": "Method ancestor for generative geometry, material, actuation and control co-design with differentiable simulation. Product/environment fixed and project page still marks code as to be released."
+    },
+    {
+      "title": "SoftZoo official code",
+      "url": "https://github.com/zswang666/softzoo",
+      "submitted_at": "2023",
+      "notes": "Open differentiable soft-robot morphology/control benchmark. Useful method baseline, but it optimizes the robot against a fixed environment rather than product × robot."
+    },
+    {
+      "title": "Evolution Gym official code",
+      "url": "https://github.com/EvolutionGym/evogym",
+      "submitted_at": "2021",
+      "notes": "Open voxel-soft-robot morphology/control benchmark and evolutionary baseline; adjacent infrastructure, not direct product design."
+    },
+    {
+      "title": "RoboGrammar: Graph Grammar for Terrain-Optimized Robot Design",
+      "url": "https://people.csail.mit.edu/jiex/papers/robogrammar/index.html",
+      "submitted_at": "2020",
+      "notes": "Grammar plus search ancestor for manufacturable robot structure and controller optimization. Useful representation/search baseline; product and task environment stay fixed."
+    },
+    {
+      "title": "Articraft: An Agentic System for Scalable Articulated 3D Asset Generation",
+      "url": "https://articraft3d.github.io/",
+      "submitted_at": "2025",
+      "notes": "Fabrication-layer inspiration for code-first parts, joints, URDF-style structure and geometry validation. Treat as editable-CAD and assembly-metadata evidence, not a joint product–robot simulation baseline."
+    },
+    {
+      "title": "Allo AI-assisted creation",
+      "url": "https://allotech-ai.com/creating/home",
+      "submitted_at": "2026-05",
+      "notes": "Product-creation interaction reference retained from the former PoD card; not research or simulation evidence."
+    },
+    {
+      "title": "Blueprint AI hardware design tool",
+      "url": "https://www.blueprint.am/",
+      "submitted_at": "2026-05",
+      "notes": "Prompt-to-hardware planning reference for diagrams, BOM and assembly guidance; not an open co-design baseline."
+    }
+  ],
+  "task_ids": [
+    "task_product_robot_codesign_reproduce_open_baselines_20260729",
+    "task_product_robot_codesign_joint_pilot_20260729",
+    "task_pod_3d_engine_benchmark",
+    "task_pod_agent_pipeline",
+    "task_pod_articraft_probe",
+    "task_pod_cad_stack",
+    "task_pod_cell_driver_skeleton",
+    "task_pod_demo_viewer",
+    "task_pod_input_schema",
+    "task_pod_printer_farm_cell",
+    "task_pod_retrofit_demo",
+    "task_pod_second_retrofit_product"
+  ],
+  "updated_at": "2026-07-29T08:19:49.942Z",
+  "asset": "dashboard/assets/robotics-3d-printing-platform.png",
+  "asset_alt": "AI-assisted product design and printable assembly workflow used as the fabrication handoff for product–robot co-design",
+  "asset_caption": "Inherited PoD reference: generated product geometry becomes editable CAD, printable parts, jigs and robot-operable assembly artifacts; simulation evidence still requires P × R × π ablations."
+}

@@ -5,7 +5,7 @@
   "subtitle": "World models, self-improving simulators, teleop acceleration, and robotics + 3D printing",
   "week": "2026-W24",
   "date": "2026-06-12",
-  "updated_at": "2026-07-28T07:40:00.000Z",
+  "updated_at": "2026-07-31T10:16:17.765Z",
   "state_root": "dashboard/state",
   "summary": {
     "focus": "Research 主线保持 Tri-View/Image-Layered IDM、Self-Improving Agents 和 DexGello；Survey TODO 已统一 inactive/archived，不再显示为当前执行队列。",
@@ -196,36 +196,28 @@
     {
       "src": "dashboard/assets/umi-layered-preprocessing-pipeline-20260715.png",
       "alt": "UMI World Model layered preprocessing pipeline separating robot, object, and background layers with segmentation, inpainting, agent QA, and rigid versus deformable routing.",
-      "caption": "Earlier UMI layered preprocessing flow retained for context: remove the robot, recover object plus background with VACE, segment the object, validate inpainting and recognition with agents, then route rigid and deformable objects to separate downstream processing.",
+      "caption": "UMI layered preprocessing flow: remove the robot, recover object plus background with VACE, segment the object, validate inpainting and recognition with agents, then route rigid and deformable objects to separate downstream processing.",
       "source": "UMI Image Layered World Model",
       "added_at": "2026-07-15"
     },
     {
-      "src": "dashboard/assets/umi-molmoact-episode-processing-pipeline-20260728.png",
-      "alt": "MolmoAct episode processing pipeline with RobotSeg, VACE, SAM3, bounded QA retries, completed, and needs_review outcomes.",
-      "caption": "Confirmed UMI / MolmoAct offline episode materializer: read each episode once, materialize both views, segment and QA robot and active-object layers, retry recoverable failures, and route unresolved uncertainty to needs_review.",
-      "source": "UMI Image Layered World Model",
-      "added_at": "2026-07-28",
-      "fit": "contain"
-    },
-    {
       "src": "dashboard/assets/event-camera-speck-overview-20260715.png",
       "alt": "Daniel Gehrig event-camera overview slide with standard camera and DVS outputs plus compact SynSense Speck hardware",
-      "caption": "[KNOWN][HIGH] Seminar framing: event cameras report scene-motion-induced brightness changes as sparse events; the compact Speck module illustrates the form-factor opportunity. [INFERRED][HIGH] Treat it as an auxiliary wrist or always-on sensor candidate, not an RGB substitute.",
+      "caption": "Seminar framing: event cameras report scene-motion-induced brightness changes as sparse events; the compact Speck module illustrates the form-factor opportunity. Treat it as an auxiliary wrist or always-on sensor candidate, not an RGB substitute.",
       "source": "Daniel Gehrig seminar / user-provided capture",
       "added_at": "2026-07-15"
     },
     {
       "src": "dashboard/assets/event-camera-rgb-events-50ms-20260715.png",
       "alt": "Standard RGB image beside positive and negative event measurements aggregated over 50 milliseconds",
-      "caption": "[KNOWN][HIGH] Events aggregated over 50 ms expose changing edges and polarity but omit full static appearance. [INFERRED][HIGH] This is why RGB-event fusion is the default architecture for VLA and world-model experiments.",
+      "caption": "Events aggregated over 50 ms expose changing edges and polarity but omit full static appearance. This is why RGB-event fusion is the default architecture for VLA and world-model experiments.",
       "source": "Daniel Gehrig seminar / user-provided capture",
       "added_at": "2026-07-15"
     },
     {
       "src": "dashboard/assets/event-camera-moving-object-detection-20260715.png",
       "alt": "Moving-object detection slide showing known robot ego-motion, observed events, and motion-compensated object segmentation",
-      "caption": "[KNOWN][HIGH] Moving cameras generate background events from ego-motion. [INFERRED][HIGH] Robot joint state and wrist-camera TF should condition motion compensation so residual event sharpness isolates independently moving objects and contacts.",
+      "caption": "Moving cameras generate background events from ego-motion. Robot joint state and wrist-camera TF should condition motion compensation so residual event sharpness isolates independently moving objects and contacts.",
       "source": "Daniel Gehrig seminar / user-provided capture",
       "added_at": "2026-07-15"
     },
@@ -274,28 +266,28 @@
     {
       "src": "dashboard/assets/tactile-ml-sensor-mechanoluminescent-skin-20260717.png",
       "alt": "Mechanoluminescent flexible tactile sensor design, CMOS readout mechanism, force image outputs, handwriting recognition, and Pac-Man and Minecraft interaction demonstrations",
-      "caption": "[KNOWN][HIGH] ML-sensor converts normal-force-induced mechanoluminescence into 640 x 480 CMOS tactile images; the corresponding paper was published in Advanced Science in 2026, so the slide footer saying submitted in 2025 is stale. [INFERRED][HIGH] Keep it as a vision-native tactile representation reference for VTAM, not as evidence of shear sensing or robot-policy gains.",
+      "caption": "ML-sensor converts normal-force-induced mechanoluminescence into 640 x 480 CMOS tactile images; the corresponding paper was published in Advanced Science in 2026, so the slide footer saying submitted in 2025 is stale. Keep it as a vision-native tactile representation reference for VTAM, not as evidence of shear sensing or robot-policy gains.",
       "source": "Daimon VTAM / Yu Feng et al., Advanced Science 2026",
       "added_at": "2026-07-17"
     },
     {
       "src": "dashboard/assets/tactile-robotac-skin-design-20260717.png",
       "alt": "RoboTac Skin design comparing human skin receptors with a flexible ionic conductive film and FPCB electrode stack deployed on a robot gripper",
-      "caption": "[KNOWN][HIGH] The supplied 2025 RoboTac Skin slide proposes a thin ionic-conductive-film sandwich with FPCB and Au/Cu electrodes for conformable robot deployment; no public DOI, preprint, or project page was located in the 2026-07-17 audit. [INFERRED][HIGH] Keep it as sensor-stack and deployment context, not peer-reviewed performance or policy evidence.",
+      "caption": "The supplied 2025 RoboTac Skin slide proposes a thin ionic-conductive-film sandwich with FPCB and Au/Cu electrodes for conformable robot deployment; no public DOI, preprint, or project page was located in the 2026-07-17 audit. Keep it as sensor-stack and deployment context, not peer-reviewed performance or policy evidence.",
       "source": "Daimon VTAM / user-provided research presentation capture",
       "added_at": "2026-07-17"
     },
     {
       "src": "dashboard/assets/tactile-ther-tac-material-identification-20260717.png",
       "alt": "Ther-Tac active thermal tactile sensor design, pulse-heating and cooling mechanism, material response curves, clustering, and robot material-identification validation",
-      "caption": "[KNOWN][HIGH] The supplied Ther-Tac slide describes pulse heating plus transient cooling for effusivity-based in-grasp material identification and labels the work under review in 2025; no public DOI, preprint, or project page was located in the 2026-07-17 audit. [INFERRED][HIGH] Its durable value is a nonvisual material-identity channel, not evidence of force control or action learning.",
+      "caption": "The supplied Ther-Tac slide describes pulse heating plus transient cooling for effusivity-based in-grasp material identification and labels the work under review in 2025; no public DOI, preprint, or project page was located in the 2026-07-17 audit. Its durable value is a nonvisual material-identity channel, not evidence of force control or action learning.",
       "source": "Daimon VTAM / user-provided research presentation capture",
       "added_at": "2026-07-17"
     },
     {
       "src": "dashboard/assets/tactile-mc-tac-contact-ring-placement-20260718.png",
       "alt": "MC-Tac magnetic tactile prototype contact-response traces for x, y, and z interactions and a robot ring-placement task",
-      "caption": "[KNOWN][HIGH] The supplied MC-Tac slide shows Bx/By/Bz response traces under x/y/z contact and a robot ring-placement demonstration. Targeted search found no matching public paper record as of 2026-07-18; the published 2023 MC-Tac is a different camera-based modular sensor. [INFERRED][HIGH] Keep this single task-level slide as an in-progress magnetic-contact-sensor reference, not peer-reviewed performance evidence.",
+      "caption": "The supplied MC-Tac slide shows Bx/By/Bz response traces under x/y/z contact and a robot ring-placement demonstration. Targeted search found no matching public paper record as of 2026-07-18; the published 2023 MC-Tac is a different camera-based modular sensor. Keep this single task-level slide as an in-progress magnetic-contact-sensor reference, not peer-reviewed performance evidence.",
       "source": "Daimon VTAM / user-provided research presentation capture",
       "added_at": "2026-07-18"
     },
@@ -354,6 +346,30 @@
       "source": "Robot4Robot / collaboration concept diagram",
       "added_at": "2026-07-31",
       "fit": "landscape-contain"
+<<<<<<< Updated upstream
+=======
+    },
+    {
+      "src": "dashboard/assets/dualsim-wx-01.png",
+      "alt": "Dual-Sim 微信图 01：多版本迁移与 sim-to-real 任务适配脉络",
+      "caption": "Dual-Sim 来源截图 01：用于展示多版本迁移与 sim-to-real 任务适配脉络。",
+      "source": "Self-Improving Agents / User-provided 微信素材",
+      "added_at": "2026-07-31"
+    },
+    {
+      "src": "dashboard/assets/dualsim-wx-02.png",
+      "alt": "Dual-Sim 微信图 02",
+      "caption": "Dual-Sim 来源截图 02：用于拓展 Dual-Sim / AgenticSim 任务迁移对比的参考图。",
+      "source": "Self-Improving Agents / User-provided 微信素材",
+      "added_at": "2026-07-31"
+    },
+    {
+      "src": "dashboard/assets/dualsim-wx-03.png",
+      "alt": "Dual-Sim 微信图 03",
+      "caption": "Dual-Sim 来源截图 03：用于补充 Dual-Sim 相关对比与设计讨论的 Image Context 参考。",
+      "source": "Self-Improving Agents / User-provided 微信素材",
+      "added_at": "2026-07-31"
+>>>>>>> Stashed changes
     }
   ],
   "weekly_briefs": [
@@ -410,9 +426,16 @@
       "state_path": "dashboard/state/projects/self-improving-agents.json"
     },
     {
-      "project_id": "real-robot-demos",
-      "title": "Ego2Dex Human Demonstration / LfD",
+      "project_id": "robot4robot",
+      "title": "Robot4Robot / 特权感知与主动机器人教学",
       "bucket": "research",
+      "status": "ongoing",
+      "state_path": "dashboard/state/projects/robot4robot.json"
+    },
+    {
+      "project_id": "real-robot-demos",
+      "title": "Real-Robot Demos",
+      "bucket": "engineering",
       "status": "ongoing",
       "state_path": "dashboard/state/projects/real-robot-demos.json",
       "summary": "Research track for Ego2Dex / Learning-from-Demonstration: monocular ego or human-video hand-object reconstruction, contact-aware trajectory cleanup, human-to-robot retargeting, and matched real-robot validation. Physical demo tasks remain here only as acceptance surfaces for the LfD claim, while hardware readiness stays in Real-Robot Infra."
@@ -423,6 +446,13 @@
       "bucket": "survey",
       "status": "survey",
       "state_path": "dashboard/state/projects/tactile-wam.json"
+    },
+    {
+      "project_id": "video-generation-conditioning-survey",
+      "title": "Archive: Video Generation Conditioning Survey",
+      "bucket": "survey",
+      "status": "survey",
+      "state_path": "dashboard/state/projects/video-generation-conditioning-survey.json"
     },
     {
       "project_id": "dex-gello",
@@ -474,13 +504,6 @@
       "state_path": "dashboard/state/projects/drag-demo-video-editing.json"
     },
     {
-      "project_id": "robotics-3d-printing",
-      "title": "Archive: Robotics + 3D Printing",
-      "bucket": "archive",
-      "status": "archived",
-      "state_path": "dashboard/state/projects/robotics-3d-printing.json"
-    },
-    {
       "project_id": "model-assisted-teleop-survey",
       "title": "Archive: Model-Assisted Teleoperation",
       "bucket": "archive",
@@ -496,9 +519,9 @@
     },
     {
       "project_id": "human-intention-sensorium-survey",
-      "title": "Human Intention Data Collection Proposal",
-      "bucket": "survey",
-      "status": "survey",
+      "title": "OmniEgo: 多传感器的人类为中心数采方案",
+      "bucket": "research",
+      "status": "ongoing",
       "state_path": "dashboard/state/projects/human-intention-sensorium-survey.json"
     },
     {
@@ -507,6 +530,20 @@
       "bucket": "survey",
       "status": "survey",
       "state_path": "dashboard/state/projects/online-sensor-calibration-survey.json"
+    },
+    {
+      "project_id": "product-robot-codesign-simulation-survey",
+      "title": "Simulation-Based Product–Robot Co-Design",
+      "bucket": "survey",
+      "status": "survey",
+      "state_path": "dashboard/state/projects/product-robot-codesign-simulation-survey.json"
+    },
+    {
+      "project_id": "optical-fountain-handoff-survey",
+      "title": "Optical Fountain Handoff / 多机器人主动视觉通信",
+      "bucket": "survey",
+      "status": "survey",
+      "state_path": "dashboard/state/projects/optical-fountain-handoff-survey.json"
     },
     {
       "project_id": "cross-embodiment-representations-survey",
@@ -531,9 +568,9 @@
     },
     {
       "project_id": "open-hardware-mobile-collection-survey",
-      "title": "Open-Hardware Mobile Collection",
-      "bucket": "survey",
-      "status": "survey",
+      "title": "Archive: Open-Hardware Mobile Collection",
+      "bucket": "archive",
+      "status": "archived",
       "state_path": "dashboard/state/projects/open-hardware-mobile-collection-survey.json"
     },
     {

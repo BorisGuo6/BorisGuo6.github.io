@@ -33,7 +33,7 @@ function usage() {
     "Usage:",
     "  npm run dashboard:mutate -- status --task-id ID --status done [--pull] [--force-pull]",
     "  npm run dashboard:mutate -- comment --task-id ID --body TEXT [--author NAME] [--pull]",
-    "  npm run dashboard:mutate -- update --task-id ID [--title TEXT] [--description TEXT] [--priority P] [--assignee NAME] [--due-at YYYY-MM-DD] [--pull]",
+    "  npm run dashboard:mutate -- update --task-id ID [--project-id ID] [--title TEXT] [--description TEXT] [--priority P] [--assignee NAME] [--due-at YYYY-MM-DD] [--pull]",
     "  npm run dashboard:mutate -- create --project-id ID --title TEXT [--description TEXT] [--priority P] [--status S] [--assignee NAME] [--due-at YYYY-MM-DD] [--pull]",
     "  npm run dashboard:mutate -- project-update --project-id ID --patch-file FILE [--pull] [--force-pull]",
     "  npm run dashboard:mutate -- portfolio-update --patch-file FILE [--pull] [--force-pull]",
@@ -160,6 +160,8 @@ export function parseMutationArgs(argv) {
       const [value, next] = takeValue(args, idx, "--project-id");
       if (action === "project-update") {
         mutation.projectId = value;
+      } else if (action === "update") {
+        patch.project_id = value;
       } else {
         createInput = { ...(createInput || {}), project_id: value };
       }

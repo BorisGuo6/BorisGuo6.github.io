@@ -1,0 +1,96 @@
+{
+  "schema_version": "project.v1",
+  "project_id": "robot4robot",
+  "title": "Robot4Robot / 特权感知与主动机器人教学",
+  "bucket": "research",
+  "status": "ongoing",
+  "description": "由赵浩宇（博浩）主导的长期合作项目：先构建训练期“上帝视角”特权视觉感知系统，再引入实体教师机器人，通过跨视角蒸馏、诊断、示范和必要干预提升本体学习者的任务泛化与学习效率。",
+  "summary": "Robot4Robot 按两阶段推进。Stage I 将多视角 RGB-D、点云、机器人状态、末端轨迹与接触信息融合为动态语义 3D 场景模型，研究如何把训练期全局状态、表征、价值、奖励或策略监督迁移给部署时仅使用本体视角的 Student。Stage II 在 PPS 之上加入可物理交互的 Teacher Robot，根据学生能力、不确定性、任务阶段、风险与预期学习收益，在观察、提示、示范、纠正、介入和保持沉默之间主动选择，形成跨本体教学与迭代学习闭环。会议给出的预期周期为 1–2 年，当前仍是合作方案与研究路线，不是已完成系统或性能结论。",
+  "details": [
+    {
+      "text": "合作边界：项目由赵浩宇（博浩）主导，研究方向包括多视角协同感知、跨视角特征学习与基于物理交互的多机联动。参与者应先通过一对一沟通确认适合的研究路线、第一阶段责任边界与个人长期规划；论文产出是目标，不是预先保证。"
+    },
+    {
+      "text": "Stage I — Privileged Perception System：用经过标定和时间同步的多视角 RGB/RGB-D、点云与机器人状态构建可持续更新的语义 3D 场景表示，显式描述对象与属性、空间关系、可供性、动态状态和风险。第一项科学问题不是“重建看起来好不好”，而是哪些特权变量能在 held-out 对象、场景与任务上稳定提升 ego-only Student。",
+      "links": [
+        {
+          "label": "Multi-camera to single-camera distillation",
+          "url": "https://arxiv.org/abs/2303.07026"
+        },
+        {
+          "label": "AAWR active perception",
+          "url": "https://penn-pal-lab.github.io/aawr/"
+        }
+      ]
+    },
+    {
+      "text": "Stage II — Active Robot Teacher：在 Stage I 的全局观测和状态诊断之上，教师机器人根据 Student 的能力边界、不确定性、任务进度与风险选择教学动作和时机。核心对照不是“有 Teacher 对没有 Teacher”，而是 scripted、阈值式和 learned teacher 在学习收益、干预成本、安全性、最终成功率与跨本体迁移上的差异。",
+      "links": [
+        {
+          "label": "Robot Trains Robot",
+          "url": "https://proceedings.mlr.press/v305/hu25a.html"
+        }
+      ]
+    },
+    {
+      "text": "与其他 Dashboard 项目的边界：Self-Improving Agents 管环境、Harness、评测和失败回放的自改进；Optical Fountain Survey 研究无持续组网时的可选光学传输。Robot4Robot 的主张是特权感知、跨视角/跨本体迁移与主动实体教学。未来光学链路可以承载低频、可验证的交接信息，但不得成为实时控制或安全信号通道。"
+    },
+    {
+      "text": "证据状态：截至 2026-07-31 未找到可核验的 Robot4Robot 公开项目页、论文或代码库。Image Context 中的七张图统一标为合作概念图；相关工作只用于确定基线与新颖性边界，不能替代本项目的真实实验、消融、失败样例和复现材料。"
+    }
+  ],
+  "references": [
+    {
+      "title": "Robot Trains Robot: Automatic Real-World Policy Adaptation and Learning for Humanoids",
+      "url": "https://proceedings.mlr.press/v305/hu25a.html",
+      "submitted_at": "2025",
+      "notes": "最接近的实体机器人教师先例；已包含主动课程、奖励、扰动、失败检测与自动复位。Robot4Robot 必须在特权视觉、教学动作选择、操作任务与跨本体评测上给出清晰增量。"
+    },
+    {
+      "title": "Visual-Policy Learning through Multi-Camera View to Single-Camera View Knowledge Distillation",
+      "url": "https://arxiv.org/abs/2303.07026",
+      "arxiv_id": "2303.07026",
+      "submitted_at": "2023",
+      "notes": "Stage I 的直接基线：多相机 Teacher 向单相机 Student 蒸馏视觉策略。"
+    },
+    {
+      "title": "Real World Reinforcement Learning of Active Perception Behaviors",
+      "url": "https://penn-pal-lab.github.io/aawr/",
+      "submitted_at": "2025",
+      "notes": "训练期特权传感器驱动真实机器人主动感知的直接基线。"
+    },
+    {
+      "title": "Scaling Cross-Embodied Learning",
+      "url": "https://proceedings.mlr.press/v270/doshi25a.html",
+      "submitted_at": "2024",
+      "notes": "跨本体策略学习基线；跨本体本身不能单独作为 Robot4Robot 的新颖性。"
+    },
+    {
+      "title": "CEI: A Unified Interface for Cross-Embodiment Visuomotor Policy Learning",
+      "url": "https://cross-embodiment-interface.github.io/",
+      "submitted_at": "2024",
+      "notes": "跨本体示范与统一接口基线，用于约束 Teacher 到 Student 的动作、接触与语义映射。"
+    }
+  ],
+  "risks_decisions": [
+    "Research decision 2026-07-31：Robot4Robot 作为独立 Research 卡放在 Self-Improving Agents 之后，不并入 Optical Fountain Survey；两者只保留可选通信侧链关系。",
+    "当前状态是 ongoing collaboration / proposed system。七张图是方案上下文，不是系统已经部署、指标已经复现或论文已经产出的证据。",
+    "Stage I 的部署契约必须是 Student 仅依赖本体视角与本体状态；任何训练期 PPS 信息泄漏到评测或部署输入都会使结论失效。",
+    "新颖性不能只写“机器人教机器人”“多相机蒸馏”“特权感知”或“跨本体”。可信边界是全局特权视觉的实体 Teacher 根据能力、不确定性、风险和预期学习收益主动选择教学动作与时机。",
+    "Stage II 在 Stage I 的标定、时间同步、语义状态质量、ego-only 基线和特权增益消融通过前不启动大规模实体交互。",
+    "Teacher 必须同时报告学习收益、干预次数/时长、危险事件、恢复率与最终 Student 成功率；更多示范或更多介入不自动等于更好的教学策略。",
+    "跨本体教学需要显式的对象/任务语义、接触事件、坐标系和低层动作映射；Teacher 轨迹不能直接视为 Student 可执行动作。",
+    "Optical Fountain 只能作为未来低频、可验证的传输备选，不能承载实时控制、紧急停止、碰撞规避或其他安全关键闭环。",
+    "会议给出的 1–2 年周期用于资源与个人规划，不构成论文数量、发表时间或个人职业结果的保证。",
+    "不要与 Self-Improving Agents 中已完成的 Robot-for-Robot output-format 任务混淆；该任务只定义环境生成输出格式，不是本项目。"
+  ],
+  "task_ids": [
+    "task_robot4robot_participation_lane_alignment_20260731",
+    "task_robot4robot_stage1_privileged_perception_contract_20260731",
+    "task_robot4robot_stage2_active_teacher_benchmark_20260731"
+  ],
+  "visual": {
+    "layout": "single-column"
+  },
+  "updated_at": "2026-07-31T08:26:28.652Z"
+}

@@ -21,6 +21,36 @@ function hasFlag(name) {
   return process.argv.includes(name);
 }
 
+async function loadDashboardSnapshotFromApi(env) {
+  const token = String(env.DASHBOARD_WRITE_TOKEN || "").trim();
+  if (!token) {
+    throw new Error("Missing DASHBOARD_WRITE_TOKEN for --api pull.");
+  }
+  const baseUrl = String(env.DASHBOARD_PUBLIC_URL || "https://jingxiangguo.com").replace(/\/+$/, "");
+  const response = await fetch(`${baseUrl}/api/dashboard/state`, {
+    headers: {
+      "x-dashboard-token": token,
+    },
+  });
+  if (!response.ok) {
+    throw new Error(`Dashboard state API returned ${response.status}.`);
+  }
+  const body = await response.json();
+  const snapshot = normalizeDashboardSnapshot({
+    ...body,
+    source: body.meta?.source || "dashboard-state-api",
+    updated_at: body.meta?.updated_at || body.taskDoc?.updated_at,
+  });
+  return {
+    snapshot,
+    meta: {
+      storage: body.meta?.storage || "dashboard-state-api",
+      blob_path: body.meta?.blob_path || null,
+      blob_etag: body.meta?.blob_etag || null,
+    },
+  };
+}
+
 async function maybeLoadEnvFile(filePath) {
   try {
     return loadEnv(await readFile(filePath, "utf8"));
@@ -95,11 +125,13 @@ async function main() {
   }
 
   const env = await loadLocalEnv();
-  if (!env.BLOB_READ_WRITE_TOKEN) {
+  if (!hasFlag("--api") && !env.BLOB_READ_WRITE_TOKEN) {
     throw new Error("Missing BLOB_READ_WRITE_TOKEN. Run `vercel env pull .env.local --yes` first.");
   }
 
-  const { snapshot, meta } = await loadVercelDashboardSnapshot({ env });
+  const { snapshot, meta } = hasFlag("--api")
+    ? await loadDashboardSnapshotFromApi(env)
+    : await loadVercelDashboardSnapshot({ env });
   if (meta.storage !== "vercel-blob") {
     throw new Error(`Hosted dashboard state is not backed by Vercel Blob (storage=${meta.storage}). Refusing to mirror fallback JSON.`);
   }

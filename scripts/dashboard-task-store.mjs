@@ -117,6 +117,14 @@ function hasOwn(value, key) {
 
 export function applyTaskPatch(task, patch, now = new Date()) {
   const changedFields = [];
+  if (hasOwn(patch, "project_id")) {
+    const projectId = optionalString(patch.project_id);
+    if (!projectId) throw new Error("Missing project_id");
+    if (task.project_id !== projectId) {
+      task.project_id = projectId;
+      changedFields.push("project_id");
+    }
+  }
   if (hasOwn(patch, "title")) {
     const title = optionalString(patch.title);
     if (!title) throw new Error("Missing title");

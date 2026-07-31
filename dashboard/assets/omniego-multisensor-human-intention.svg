@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" width="1200" height="760" role="img" aria-labelledby="title desc">
+  <title id="title">OmniEgo multisensor human-intention data pipeline</title>
+  <desc id="desc">Quest 3S and candidate sensors flow through synchronization and quality screening into intention encoding, Ego2Dex transfer, and an independent object-instrumented manipulation branch.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#eef7ff"/>
+      <stop offset="0.55" stop-color="#f7f5ff"/>
+      <stop offset="1" stop-color="#fff8ee"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#2563eb"/>
+      <stop offset="0.5" stop-color="#7c3aed"/>
+      <stop offset="1" stop-color="#ea580c"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#172554" flood-opacity="0.12"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 10 5 0 10Z" fill="#64748b"/>
+    </marker>
+    <style>
+      .sans{font-family:"Avenir Next","PingFang SC","Helvetica Neue",Arial,sans-serif}
+      .label{font-size:16px;font-weight:800;letter-spacing:.08em}
+      .title{font-size:34px;font-weight:850;fill:#172033}
+      .card-title{font-size:22px;font-weight:800;fill:#172033}
+      .body{font-size:16px;font-weight:550;fill:#55657a}
+      .small{font-size:14px;font-weight:650;fill:#64748b}
+    </style>
+  </defs>
+  <rect width="1200" height="760" fill="url(#bg)"/>
+  <rect x="42" y="40" width="1116" height="680" rx="28" fill="#ffffff" stroke="#dbe4f0" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="42" y="40" width="1116" height="9" rx="5" fill="url(#accent)"/>
+
+  <text x="82" y="92" class="sans label" fill="#5b21b6">OMNIEGO · RESEARCH CONTRACT</text>
+  <text x="82" y="139" class="sans title">多传感器的人类为中心数采方案</text>
+  <text x="82" y="171" class="sans body">Capture broadly · validate rigorously · keep only signals that transfer</text>
+
+  <rect x="82" y="214" width="230" height="188" rx="18" fill="#eff6ff" stroke="#60a5fa" stroke-width="2"/>
+  <circle cx="118" cy="251" r="18" fill="#2563eb"/>
+  <text x="118" y="257" text-anchor="middle" class="sans label" fill="#fff">1</text>
+  <text x="148" y="258" class="sans card-title">CAPTURE</text>
+  <text x="106" y="299" class="sans body">Quest 3S ego RGB</text>
+  <text x="106" y="327" class="sans body">hand / controller pose</text>
+  <text x="106" y="355" class="sans body">wearable + environment</text>
+  <text x="106" y="383" class="sans small">CYMPLE face / eye kit ordered</text>
+
+  <line x1="326" y1="309" x2="370" y2="309" stroke="#64748b" stroke-width="4" marker-end="url(#arrow)"/>
+
+  <rect x="384" y="214" width="230" height="188" rx="18" fill="#f5f3ff" stroke="#a78bfa" stroke-width="2"/>
+  <circle cx="420" cy="251" r="18" fill="#7c3aed"/>
+  <text x="420" y="257" text-anchor="middle" class="sans label" fill="#fff">2</text>
+  <text x="450" y="258" class="sans card-title">VALIDATE</text>
+  <text x="408" y="299" class="sans body">sync · SNR · missingness</text>
+  <text x="408" y="327" class="sans body">drift · cross-subject shift</text>
+  <text x="408" y="355" class="sans body">burden · task marginal gain</text>
+  <rect x="408" y="374" width="176" height="26" rx="13" fill="#ede9fe"/>
+  <text x="496" y="392" text-anchor="middle" class="sans small" fill="#6d28d9">retain 3–5 modalities</text>
+
+  <line x1="628" y1="309" x2="672" y2="309" stroke="#64748b" stroke-width="4" marker-end="url(#arrow)"/>
+
+  <rect x="686" y="214" width="190" height="188" rx="18" fill="#ecfdf5" stroke="#34d399" stroke-width="2"/>
+  <circle cx="722" cy="251" r="18" fill="#059669"/>
+  <text x="722" y="257" text-anchor="middle" class="sans label" fill="#fff">3</text>
+  <text x="752" y="258" class="sans card-title">ENCODE</text>
+  <text x="710" y="299" class="sans body">labeled encoding</text>
+  <text x="710" y="327" class="sans body">VQ-VAE tokens</text>
+  <text x="710" y="355" class="sans body">clustering + masks</text>
+  <text x="710" y="383" class="sans small">subject-held-out gate</text>
+
+  <line x1="890" y1="309" x2="934" y2="309" stroke="#64748b" stroke-width="4" marker-end="url(#arrow)"/>
+
+  <rect x="948" y="214" width="170" height="188" rx="18" fill="#fff7ed" stroke="#fb923c" stroke-width="2"/>
+  <circle cx="984" cy="251" r="18" fill="#ea580c"/>
+  <text x="984" y="257" text-anchor="middle" class="sans label" fill="#fff">4</text>
+  <text x="1014" y="258" class="sans card-title">TRANSFER</text>
+  <text x="972" y="299" class="sans body">Ego2Dex HOI</text>
+  <text x="972" y="327" class="sans body">contact refine</text>
+  <text x="972" y="355" class="sans body">retarget / IK</text>
+  <text x="972" y="383" class="sans small">sim → read-only → real</text>
+
+  <path d="M499 416 V464 H250 V500" fill="none" stroke="#64748b" stroke-width="4" stroke-dasharray="8 7" marker-end="url(#arrow)"/>
+  <rect x="82" y="510" width="1036" height="154" rx="20" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/>
+  <circle cx="124" cy="551" r="18" fill="#334155"/>
+  <text x="124" y="557" text-anchor="middle" class="sans label" fill="#fff">5</text>
+  <text x="156" y="558" class="sans card-title">OBJECT-INSTRUMENTED MANIPULATION · independent evidence branch</text>
+  <text x="106" y="600" class="sans body">surface-conforming capacitive touch  +  pressure / shear / 6D force truth  +  object pose / outcome</text>
+  <text x="106" y="631" class="sans body">same object &amp; task across human hand, gripper and dexterous hand · rigid first, deformable later</text>
+  <rect x="867" y="584" width="224" height="52" rx="14" fill="#fff1f2" stroke="#fb7185"/>
+  <text x="979" y="606" text-anchor="middle" class="sans small" fill="#be123c">touch ≠ force closure</text>
+  <text x="979" y="626" text-anchor="middle" class="sans small" fill="#be123c">new calibration required</text>
+
+  <text x="82" y="697" class="sans small">Known hardware facts, measured quality, and research hypotheses remain explicitly separated.</text>
+</svg>

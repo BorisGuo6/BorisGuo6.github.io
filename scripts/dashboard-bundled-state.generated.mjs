@@ -1,7 +1,7 @@
 export default {
   "schema_version": "dashboard-state.v1",
   "source": "bundled-json-generated",
-  "updated_at": "2026-07-29T04:01:45.520Z",
+  "updated_at": "2026-07-29T08:28:06.679Z",
   "portfolio": {
     "schema_version": "portfolio.v1",
     "portfolio_id": "embodied-ai-dashboard",
@@ -9,7 +9,7 @@ export default {
     "subtitle": "World models, self-improving simulators, teleop acceleration, and robotics + 3D printing",
     "week": "2026-W24",
     "date": "2026-06-12",
-    "updated_at": "2026-07-28T07:40:00.000Z",
+    "updated_at": "2026-07-29T08:19:49.942Z",
     "state_root": "dashboard/state",
     "summary": {
       "focus": "Research 主线保持 Tri-View/Image-Layered IDM、Self-Improving Agents 和 DexGello；Survey TODO 已统一 inactive/archived，不再显示为当前执行队列。",
@@ -200,7 +200,7 @@ export default {
       {
         "src": "dashboard/assets/umi-layered-preprocessing-pipeline-20260715.png",
         "alt": "UMI World Model layered preprocessing pipeline separating robot, object, and background layers with segmentation, inpainting, agent QA, and rigid versus deformable routing.",
-        "caption": "Earlier UMI layered preprocessing flow retained for context: remove the robot, recover object plus background with VACE, segment the object, validate inpainting and recognition with agents, then route rigid and deformable objects to separate downstream processing.",
+        "caption": "UMI layered preprocessing flow: remove the robot, recover object plus background with VACE, segment the object, validate inpainting and recognition with agents, then route rigid and deformable objects to separate downstream processing.",
         "source": "UMI Image Layered World Model",
         "added_at": "2026-07-15"
       },
@@ -415,8 +415,8 @@ export default {
       },
       {
         "project_id": "real-robot-demos",
-        "title": "Ego2Dex Human Demonstration / LfD",
-        "bucket": "research",
+        "title": "Real-Robot Demos",
+        "bucket": "engineering",
         "status": "ongoing",
         "state_path": "dashboard/state/projects/real-robot-demos.json",
         "summary": "Research track for Ego2Dex / Learning-from-Demonstration: monocular ego or human-video hand-object reconstruction, contact-aware trajectory cleanup, human-to-robot retargeting, and matched real-robot validation. Physical demo tasks remain here only as acceptance surfaces for the LfD claim, while hardware readiness stays in Real-Robot Infra."
@@ -478,13 +478,6 @@ export default {
         "state_path": "dashboard/state/projects/drag-demo-video-editing.json"
       },
       {
-        "project_id": "robotics-3d-printing",
-        "title": "Archive: Robotics + 3D Printing",
-        "bucket": "archive",
-        "status": "archived",
-        "state_path": "dashboard/state/projects/robotics-3d-printing.json"
-      },
-      {
         "project_id": "model-assisted-teleop-survey",
         "title": "Archive: Model-Assisted Teleoperation",
         "bucket": "archive",
@@ -500,9 +493,9 @@ export default {
       },
       {
         "project_id": "human-intention-sensorium-survey",
-        "title": "Human Intention Data Collection Proposal",
-        "bucket": "survey",
-        "status": "survey",
+        "title": "OmniEgo: 多传感器的人类为中心数采方案",
+        "bucket": "research",
+        "status": "ongoing",
         "state_path": "dashboard/state/projects/human-intention-sensorium-survey.json"
       },
       {
@@ -511,6 +504,13 @@ export default {
         "bucket": "survey",
         "status": "survey",
         "state_path": "dashboard/state/projects/online-sensor-calibration-survey.json"
+      },
+      {
+        "project_id": "product-robot-codesign-simulation-survey",
+        "title": "Simulation-Based Product–Robot Co-Design",
+        "bucket": "survey",
+        "status": "survey",
+        "state_path": "dashboard/state/projects/product-robot-codesign-simulation-survey.json"
       },
       {
         "project_id": "cross-embodiment-representations-survey",
@@ -535,9 +535,9 @@ export default {
       },
       {
         "project_id": "open-hardware-mobile-collection-survey",
-        "title": "Open-Hardware Mobile Collection",
-        "bucket": "survey",
-        "status": "survey",
+        "title": "Archive: Open-Hardware Mobile Collection",
+        "bucket": "archive",
+        "status": "archived",
         "state_path": "dashboard/state/projects/open-hardware-mobile-collection-survey.json"
       },
       {
@@ -1988,107 +1988,24 @@ export default {
     {
       "schema_version": "project.v1",
       "project_id": "real-robot-demos",
-      "title": "Ego2Dex Human Demonstration / LfD",
-      "bucket": "research",
+      "title": "Real-Robot Demos",
+      "bucket": "engineering",
       "status": "ongoing",
-      "updated_at": "2026-07-29T03:24:47.126Z",
-      "description": "Research track for human/ego demonstration reconstruction, contact-aware retargeting, and matched real-robot validation",
-      "summary": "Research track for Ego2Dex / Learning-from-Demonstration: monocular ego or human-video hand-object reconstruction, contact-aware trajectory cleanup, human-to-robot retargeting, and matched real-robot validation. Physical demo tasks remain here only as acceptance surfaces for the LfD claim, while hardware readiness stays in Real-Robot Infra.",
+      "updated_at": "2026-07-29T08:29:11.952Z",
+      "description": "真机 demo queue for Wuji / Franka / dexterous-hand experiments",
+      "summary": "真机场景、物体与耗材、安全门控、同步记录和验收证据的唯一归属。DexGello 与 Real-Robot Infra 提供控制、日志和硬件依赖，但不接管 demo 场景；Ego2Dex 重建、接触恢复与人到机器人迁移已经归入 OmniEgo。",
       "visual": {
         "layout": "single-column"
       },
-      "intro_table": {
-        "kind": "architecture_status_table",
-        "caption": "Ego2Dex / LfD engineering contract",
-        "columns": [
-          {
-            "key": "lane",
-            "label": "Lane"
-          },
-          {
-            "key": "inputs_outputs",
-            "label": "Inputs -> outputs"
-          },
-          {
-            "key": "acceptance",
-            "label": "Acceptance"
-          }
-        ],
-        "rows": [
-          {
-            "lane": "Reconstruct",
-            "inputs_outputs": "Shared ego RGB clips -> camera/depth + MANO/hand mesh + object mesh/scale/6D pose",
-            "acceptance": "Same-input EgoEngine / Do-As-I-Do / VideoManip / EasyHOI comparison; HandFlow added for temporal 4D hand recovery."
-          },
-          {
-            "lane": "Refine",
-            "inputs_outputs": "Noisy hand-object trajectory -> contact-consistent, low-penetration, temporally smooth trajectory",
-            "acceptance": "Before/after reprojection, contact precision/recall, penetration, jitter/acceleration, object drift, runtime, and failure gallery."
-          },
-          {
-            "lane": "Transfer",
-            "inputs_outputs": "Human hand/wrist/object state -> target robot wrist/finger actions",
-            "acceptance": "Compare learned mapping, optimization-based retargeting, and IK under identical target embodiment and task state."
-          },
-          {
-            "lane": "Execute",
-            "inputs_outputs": "Selected trajectory + real-robot state/logging -> one physical demo episode",
-            "acceptance": "Simulation/read-only first, then low-speed run with limits, E-stop watcher, synchronized logs, and phase-level pass/fail evidence."
-          }
-        ]
-      },
-      "details": [
-        {
-          "text": "Phase 1 is now a small, unassigned reproduction queue: one TODO each for EgoEngine, Do-As-I-Do, VideoManip, EasyHOI, and HandFlow. All runs use the same frozen clips, camera/coordinate conventions, manifest, provenance, metrics, and failure reporting.",
-          "links": [
-            {
-              "label": "EgoEngine",
-              "url": "https://egoengine.github.io/"
-            },
-            {
-              "label": "Do-As-I-Do",
-              "url": "https://do-as-i-do.com/"
-            },
-            {
-              "label": "VideoManip",
-              "url": "https://videomanip.github.io/"
-            },
-            {
-              "label": "EasyHOI",
-              "url": "https://lym29.github.io/EasyHOI-page/"
-            },
-            {
-              "label": "HandFlow",
-              "url": "https://arxiv.org/abs/2607.11221"
-            }
-          ]
-        },
-        "Scope boundary: this Research card owns human/ego reconstruction, contact cleanup, retargeting, same-task HOI schema, and physical acceptance. UMI World Model may consume validated layer_manifest sidecars, but it no longer owns the full Ego2Dex/LfD implementation queue.",
-        "Comparison rule: freeze clips and coordinate conventions first. A paper-specific qualitative demo is not evidence of a better pipeline; every baseline must expose the same manifest fields, metrics, runtime, manual intervention, and failures.",
-        "Human data is a scalable pretraining source, not proof of robot control. Promotion requires a target-embodiment mapping plus simulation/read-only validation and a logged low-speed physical run."
-      ],
+      "intro_table": null,
+      "details": [],
       "task_ids": [
-        "task_real_robot_demos_ego2dex_lfd_baseline_20260718",
-        "task_real_robot_demos_ego2dex_baseline_reproduction_20260729",
-        "task_real_robot_demos_ego2dex_franka_wuji_sim_gate_20260729",
-        "task_real_robot_demos_ego2dex_tactile_ablation_20260729",
-        "task_real_robot_demos_ego2dex_hand_contact_benchmark_20260729",
-        "task_umi_stage2_vddm_human_ego_probe_20260627",
         "task_real_robot_infra_wuji_franka_slime_cut_demo",
         "task_general_tactile_stacking_pilot",
         "task_real_robot_demo_wuji_plastic_bag_rubbing",
         "task_real_robot_demo_changliu_lego_tool_manipulation",
         "task_real_robot_demo_broom_dustpan_long_horizon",
-        "task_real_robot_demo_two_90_cube_turns",
-        "task_hoi_pnp_calibration",
-        "task_hoi_collection_matrix",
-        "task_hoi_sensor_validation",
-        "task_hoi_object_tracking",
-        "task_hoi_schema_model_target",
-        "task_hoi_retargeting_baselines",
-        "task_hoi_contact_annotation_pack",
-        "task_hoi_isaac_retargeting_verifier_v0",
-        "task_hoi_two_modality_capture_smoke"
+        "task_real_robot_demo_two_90_cube_turns"
       ],
       "references": [
         {
@@ -2105,122 +2022,14 @@ export default {
           "title": "Taobao Lego / MOC blocks and baseplates order",
           "url": "https://item.taobao.com/item.htm?id=815763462697&mi_id=00001-7hkO4DH32JHtLLjzOo_qRrRZ8YgWcNKNeD0QDwZXQ",
           "notes": "Buyer-paid in 订单数据.xlsx on 2026-07-07: two small-particle baseplates plus 1000g mixed block pack. Verify whether it satisfies first-round large-particle requirements."
-        },
-        {
-          "title": "EgoEngine: From Egocentric Human Videos to High-Fidelity Dexterous Robot Demonstrations",
-          "url": "https://egoengine.github.io/",
-          "arxiv_id": "2606.12604",
-          "submitted_at": "2026-06-10",
-          "notes": "Primary scalable Ego2Dex baseline: egocentric RGB -> robot observation video plus feasible robot action trajectory. Audit public code/checkpoint availability before claiming reproduction."
-        },
-        {
-          "title": "Do-As-I-Do: Learning Robot Actions from Human Videos",
-          "url": "https://do-as-i-do.com/",
-          "notes": "Primary reconstruction/retargeting baseline using segmentation, monocular geometry, hand tracking, object reconstruction/tracking, and robot retargeting."
-        },
-        {
-          "title": "Do-As-I-Do code",
-          "url": "https://github.com/malik-group/do-as-i-do",
-          "notes": "Implementation reference for the human-video-to-robot action pipeline."
-        },
-        {
-          "title": "VideoManip: Dexterous Manipulation Policies from RGB Human Videos",
-          "url": "https://videomanip.github.io/",
-          "arxiv_id": "2602.09013",
-          "submitted_at": "2026-02-09",
-          "notes": "Explicit monocular hand/object trajectory reconstruction, metric alignment, contact optimization, retargeting, demonstration synthesis, and policy training baseline."
-        },
-        {
-          "title": "EasyHOI",
-          "url": "https://lym29.github.io/EasyHOI-page/",
-          "arxiv_id": "2411.14280",
-          "notes": "Single-view hand-object reconstruction baseline combining segmentation, inpainting, hand/object reconstruction, and image/physics-guided contact optimization."
-        },
-        {
-          "title": "HandFlow: Fully Generative 4D Hand Recovery with Flow Matching",
-          "url": "https://arxiv.org/abs/2607.11221",
-          "arxiv_id": "2607.11221",
-          "submitted_at": "2026-07-13",
-          "notes": "Hand-reconstruction candidate for temporally coherent MANO recovery from monocular video; compare world-space error, acceleration/jitter, throughput, and robustness to occlusion/motion blur on shared clips."
-        },
-        {
-          "title": "HaWoR: World-Space Hand Motion Reconstruction from Egocentric Videos",
-          "url": "https://hawor-project.github.io/",
-          "notes": "World-space egocentric hand-motion baseline and component candidate for the common hand trajectory interface."
-        },
-        {
-          "title": "ContactOpt: Optimizing Contact to Improve Grasps",
-          "url": "https://arxiv.org/abs/2104.07267",
-          "arxiv_id": "2104.07267",
-          "notes": "Static/contact refinement baseline using predicted surface contact and differentiable pose optimization."
-        },
-        {
-          "title": "TOCH: Spatio-Temporal Object-to-Hand Correspondence for Motion Refinement",
-          "url": "https://arxiv.org/abs/2205.07982",
-          "arxiv_id": "2205.07982",
-          "notes": "Temporal HOI refinement baseline with an object-centric correspondence field and learned plausible-interaction manifold."
-        },
-        {
-          "title": "GeneOH Diffusion",
-          "url": "https://meowuu7.github.io/GeneOH-Diffusion/",
-          "arxiv_id": "2402.14810",
-          "notes": "Contact-centric diffusion baseline for denoising erroneous hand-object trajectories across interaction and noise domains."
-        },
-        {
-          "title": "GHOST: Gaussian Hand-Object Splatting",
-          "url": "https://ataboukhadra.github.io/ghost/",
-          "arxiv_id": "2603.18912",
-          "notes": "Video HOI reconstruction comparison with object completion, grasp-aware hand/object alignment, object-scale refinement, and hand-aware background loss."
-        },
-        {
-          "title": "Being-H0",
-          "url": "https://beingbeyond.github.io/Being-H0/",
-          "arxiv_id": "2507.15597",
-          "notes": "Human-video VLA pretraining and robot physical-alignment baseline for the human-to-robot learning lane."
-        },
-        {
-          "title": "EgoScale",
-          "url": "https://research.nvidia.com/labs/gear/egoscale/",
-          "notes": "Human egocentric data scaling and robot-alignment reference; use its retargeted action representation and scaling analysis as comparison points."
-        },
-        {
-          "title": "VITRA",
-          "url": "https://github.com/microsoft/VITRA",
-          "notes": "Human-video VLA implementation reference for aligned hand/wrist action representations and robot adaptation."
-        },
-        {
-          "title": "EgoVLA",
-          "url": "https://rchalyang.github.io/EgoVLA/",
-          "notes": "Egocentric human-video VLA and hand-to-robot mapping reference, retained here instead of a standalone archive card."
-        },
-        {
-          "title": "METIS",
-          "url": "https://aureleopku.github.io/METIS/",
-          "notes": "Human/robot action-alignment reference that predicts hand targets and resolves target robot commands through IK."
-        },
-        {
-          "title": "ConTrack",
-          "url": "https://arxiv.org/abs/2606.03177",
-          "arxiv_id": "2606.03177",
-          "notes": "Migrated from the same-task HOI card: prioritize object-trajectory fidelity while preserving feasible hand/contact motion."
-        },
-        {
-          "title": "TopoRetarget",
-          "url": "https://arxiv.org/abs/2606.16272",
-          "arxiv_id": "2606.16272",
-          "notes": "Migrated interaction-preserving retargeting reference for object/contact-centric cross-embodiment labels."
         }
       ],
       "risks_decisions": [
-        "Ego2Dex/LfD ownership is consolidated here. Do not recreate standalone EgoVLA, Diverse Same-Task Dataset, or human-ego reconstruction cards unless a new claim has a distinct owner, dataset, and acceptance surface.",
-        "Metric depth, camera convention, object scale, MANO frame, and robot base frame must be explicit in every manifest; silent frame/scale mismatch can make a visually plausible trajectory physically unusable.",
-        "Contact refinement is downstream of hand/object geometry quality. Report whether a method repairs geometry or merely pulls meshes together despite wrong scale, pose, or occlusion.",
-        "Human-video pretraining gains do not establish target-robot executability. Promotion requires a declared mapping/IK/retargeting path and matched robot-side validation.",
+        "Do not let demo ownership drift back into DexGello or OmniEgo. Those projects may provide dependencies and candidate trajectories, but this Engineering card owns physical scenarios and open demo TODOs.",
         "Plastic-bag rubbing depends on choosing a safe 3M anti-slip tape placement that improves grip without damaging Wuji fingertips, blocking sensors, or snagging cables.",
         "Lego / tool-manipulation procurement is buyer-paid, but the actual block order appears to be small-particle baseplates and a mixed block pack. Do not treat the large-particle requirement as satisfied until arrival and fit check confirm it.",
-        "Long-horizon failure-data demos should not be judged only by final success. They need per-stage labels so DexGello can learn useful pre-failure segments without imitating the actual failed action.",
-        "All demos need explicit low-speed safety gates, workspace limits, cable routing, object fixture cleanup, and logged pass/fail evidence before being treated as done.",
-        "Scope boundary: this Research card owns human/ego reconstruction, contact cleanup, retargeting, same-task HOI schema, and physical acceptance. UMI World Model may consume validated layer_manifest sidecars, but it should not own the full Ego2Dex/LfD implementation queue."
+        "Long-horizon failure-data demos should not be judged only by final success. They need per-stage labels so downstream learning can use pre-failure segments without imitating the failed action.",
+        "All demos need explicit low-speed safety gates, workspace limits, cable routing, object fixture cleanup, synchronized robot/video/contact logs, and phase-level pass/fail evidence before being treated as done."
       ],
       "timeline": {
         "badges": [
@@ -2230,50 +2039,25 @@ export default {
           },
           {
             "label": "Mode",
-            "value": "real robot + Ego2Dex LfD"
+            "value": "real robot demos"
+          },
+          {
+            "label": "Hardware",
+            "value": "Franka + Wuji / dex hands"
           },
           {
             "label": "Status",
-            "value": "phase-1 baseline queue"
-          },
-          {
-            "label": "Assignment",
-            "value": "Unassigned"
+            "value": "open queue"
           }
         ],
-        "target_cycle": "Shared clips → EgoEngine / Do-As-I-Do / VideoManip / EasyHOI / HandFlow",
-        "target_note": "Each repository is an independent TODO. Reproduction requires local artifacts under the shared input/output contract; unavailable code or weights remain an explicit blocker, not a completed result.",
+        "target_cycle": "v0 true-robot demo queue",
+        "target_note": "Keep every physical scenario independently trackable; research baselines and sensor hypotheses stay in OmniEgo.",
         "sprint_start": "2026-06-13",
         "sprint_due": null,
         "milestones": []
       },
-      "hide_intro": false,
-      "subprojects": [
-        {
-          "label": "A",
-          "title": "Physical real-robot demos",
-          "body": "Wuji / Franka / dexterous-hand scenarios remain independent TODOs with fixtures, low-speed safety gates, synchronized video/state/contact logs, stage labels, and failure evidence.",
-          "output": "Durable output: reproducible physical episodes and per-stage pass/fail evidence."
-        },
-        {
-          "label": "B",
-          "title": "Ego2Dex hand-object reconstruction",
-          "body": "Convert monocular ego RGB into a common metric 3D state: camera/depth, MANO or hand keypoints/mesh, object mesh/scale/6D trajectory, contact sidecars, and a versioned manifest. Compare EgoEngine, Do-As-I-Do, VideoManip, EasyHOI, HaWoR/HaMeR, and HandFlow on shared clips.",
-          "output": "Durable output: common-format hand/object trajectories with uncertainty and failure cases."
-        },
-        {
-          "label": "C",
-          "title": "Contact and trajectory refinement",
-          "body": "Use ContactOpt/DiffContact, TOCH, GeneOH Diffusion, EasyHOI-style image constraints, and GHOST/HOLD-style reconstruction as explicit alternatives. Refinement must reduce penetration and missing contact without destroying image agreement or temporal smoothness.",
-          "output": "Durable output: before/after geometry, contact, penetration, temporal, and runtime metrics."
-        },
-        {
-          "label": "D",
-          "title": "Human-to-robot learning and execution",
-          "body": "Treat Being-H0, EgoScale, VITRA, EgoVLA, and METIS as transfer baselines: human data supplies visual-language-action and hand-motion priors; robot data binds them to the target wrist/finger interface through learned mapping, retargeting, or IK.",
-          "output": "Durable output: one selected reconstruction-to-retargeting path validated in simulation/read-only and then a low-speed real-robot demo."
-        }
-      ]
+      "hide_intro": true,
+      "subprojects": []
     },
     {
       "schema_version": "project.v1",
@@ -4450,69 +4234,6 @@ export default {
     },
     {
       "schema_version": "project.v1",
-      "project_id": "robotics-3d-printing",
-      "title": "Archive: Robotics + 3D Printing",
-      "bucket": "archive",
-      "status": "archived",
-      "updated_at": "2026-06-09T02:39:11+08:00",
-      "description": "Archived on the dashboard: the PoD / robotics + 3D-printing line is paused, with useful references retained but no current owner bandwidth.",
-      "summary": "Survey-stage Product-on-Demand robotics + 3D printing track; paused as an active track, with shaol released for other work as of 2026-05-29.",
-      "asset": "dashboard/assets/robotics-3d-printing-platform.png",
-      "asset_alt": "Allo-style generated product design exported to a 3D printing workflow",
-      "asset_caption": "Reference video: generated structure moves toward an STL / 3D-printing handoff.",
-      "details": [
-        "Survey status for summer: Romeo is too busy during the summer, so keep this as the last survey / scoping item until collaboration bandwidth returns.",
-        "Target is existing-object modification plus robot-operable fabrication, not generic decorative text-to-3D.",
-        "Pipeline: VLM object analysis -> design spec -> concept / asset generation -> code-controlled CAD cleanup -> printability checks -> same-plate jigs / tools -> slicer / printer queue -> robot takeout and assembly plan.",
-        {
-          "text": "Articraft suggests a useful direction for the asset layer: a constrained agent harness that writes object-construction code, defines parts / joints, exports URDF-style structure, and validates geometry with tests. Treat it as inspiration for editable CAD and robot assembly metadata, not as a direct 3D-printing solution.",
-          "links": [
-            {
-              "label": "Articraft",
-              "url": "https://articraft3d.github.io/"
-            }
-          ]
-        },
-        {
-          "text": "Allo suggests the interaction pattern for AI-assisted creation; Blueprint suggests prompt-to-hardware planning with generated diagrams, BOM, and assembly guides.",
-          "links": [
-            {
-              "label": "Allo",
-              "url": "https://allotech-ai.com/creating/home"
-            },
-            {
-              "label": "Blueprint",
-              "url": "https://www.blueprint.am/"
-            }
-          ]
-        }
-      ],
-      "task_ids": [
-        "task_pod_3d_engine_benchmark",
-        "task_pod_articraft_probe",
-        "task_pod_cad_stack",
-        "task_pod_input_schema",
-        "task_pod_agent_pipeline",
-        "task_pod_printer_farm_cell",
-        "task_pod_retrofit_demo"
-      ],
-      "risks_decisions": [
-        "Text/image-to-3D often returns meshes, but the product needs editable, manufacturable CAD and print-ready geometry.",
-        "Single real-object images usually miss metric scale; need reference dimensions, calibration markers, or manual dimension entry.",
-        "Blender MCP needs precise coordinates and operation-level commands for reliable edits; open-ended correction is likely too brittle.",
-        "Direct printer handoff needs checks for watertight meshes, wall thickness, overhang/support, material constraints, queueing, and safety.",
-        "Robot takeout is a separate automation problem: bed adhesion, failed prints, hot surfaces, collision recovery, and printer reset need explicit sensing and safety states.",
-        "Same-plate printed tools are promising, but they need tolerance, stiffness, material, and contamination checks before relying on them for assembly.",
-        "The core value should be retrofit + printer-farm assembly for real objects, not another standalone text-to-3D model generator.",
-        "Status decision: pause Robotics + 3D Printing as an active track because Romeo is overloaded this summer; keep only survey-level references and revisit when collaboration bandwidth returns.",
-        "2026-05-29 routing update: shaol@100.96.228.8 is no longer assigned to this paused 3D printing track; keep the project as survey/reference only.",
-        "Survey disposition 2026-05-31: keep in Survey rather than Archive, because the product-on-demand loop is paused for bandwidth, not externally completed or disproven.",
-        "No worker should stay bound to this paused card. Reopen only when Romeo/collaboration bandwidth returns or when a concrete retrofit-product demo needs CAD/print/robot-takeout work.",
-        "Archive threshold: move to Archive only if we decide printer-farm takeout/retrofit CAD is no longer part of the embodied-AI portfolio."
-      ]
-    },
-    {
-      "schema_version": "project.v1",
       "project_id": "model-assisted-teleop-survey",
       "title": "Archive: Model-Assisted Teleoperation",
       "bucket": "archive",
@@ -4752,190 +4473,376 @@ export default {
     {
       "schema_version": "project.v1",
       "project_id": "human-intention-sensorium-survey",
-      "title": "Human Intention Data Collection Proposal",
-      "bucket": "survey",
-      "status": "survey",
-      "updated_at": "2026-07-15T06:39:40.474Z",
-      "description": "Keep in Survey as a full data-collection proposal: build an intention-first human-data stack whose ordered signals eventually feed an XLA model that can fuse all usable human, contact, embodiment, and environment channels.",
-      "summary": "Proposal-stage survey for collecting human demonstrations as intention-rich multimodal episodes. The priority order follows Boris' list: eye tracking, EMG, EEG, wrist muscle ultrasound, wrist cameras, tactile, whole-body pose, proximity, temperature, vibration, multichannel audio / source localization, and finally smell or taste when the task justifies it. P2GI now anchors the proximity case: pre-contact hand-object relation can drive grasp-posture selection before touch, not merely annotate contact after the fact. The end goal is an XLA-style cross-modal latent action / intention model that consumes all aligned signals and predicts target, affordance, contact onset, force direction, hesitation, correction, and failure evidence for robot learning.",
-      "asset": "dashboard/assets/survey-human-intention-sensorium.svg",
+      "title": "OmniEgo: 多传感器的人类为中心数采方案",
+      "bucket": "research",
+      "status": "ongoing",
+      "updated_at": "2026-07-30T05:50:54.864Z",
+      "description": "基于 Quest 3S VR 与其他可捕捉人类意图的可穿戴、环境及对象侧传感器，建立可验证、可筛选、可迁移的人类中心数采方案。",
+      "summary": "OmniEgo 以 Quest 3S 的第一视角 RGB 与系统手部追踪作为 v0 采集入口，逐步接入眼动、面捕、肌电、肌肉形变、皮肤电、脑电、触觉/压力、阵列麦克风与气味等候选模态。先审计同步、信噪比、缺失率、跨个体稳定性和机器人任务边际增益，筛出 3–5 个值得深挖的通道；再比较带标签 encoding 与 VQ-VAE / 聚类的意图 token，并连接 Ego2Dex 的手物重建、接触恢复和人到机器人迁移。对象表面共形触点、跨本体同物同任务与力闭合操纵数据集作为独立研究支线。",
+      "asset": "dashboard/assets/omniego-multisensor-human-intention.svg",
       "details": [
         {
-          "text": "Proposal objective: collect human data for robot learning by preserving intention before it becomes visible action. Eye tracking is the first-priority signal because gaze often identifies target, affordance, hesitation, and object of attention before the hand moves. The data format should therefore store every episode as an intention-to-interaction trace: intended target, attention path, action onset, contact onset, force/contact evolution, correction, and outcome.",
+          "text": "Quest 3S replaces Project Aria only as the first deployable capture backend, not as a sensor-equivalent device. The v0 adapter may use its forward-facing RGB cameras and system hand tracking, but it must validate camera-to-hand latency, joint mapping, calibration, coordinate frames, occlusion dropouts and long-recording stability. Eye and face signals come from the separately ordered CYMPLE Quest 3S kit; its arrival, fit, HUB, raw PC export, timestamp semantics and synchronization still require verification, so Aria-specific eye tracking and hardware synchronization cannot be inherited.",
           "links": [
             {
-              "label": "HoloAssist",
-              "url": "https://openaccess.thecvf.com/content/ICCV2023/papers/Wang_HoloAssist_an_Egocentric_Human_Interaction_Dataset_for_Interactive_AI_Assistants_ICCV_2023_paper.pdf"
+              "label": "Quest Passthrough Camera API",
+              "url": "https://developers.meta.com/horizon/documentation/unity/unity-pca-overview/"
             },
             {
-              "label": "HOT3D",
-              "url": "https://facebookresearch.github.io/projectaria_tools/docs/open_datasets/hot3d"
+              "label": "Meta OpenXR SDK",
+              "url": "https://github.com/meta-quest/Meta-OpenXR-SDK"
+            },
+            {
+              "label": "Aria Gen 2 hardware",
+              "url": "https://facebookresearch.github.io/projectaria_tools/gen2/technical-specs/device/hardware"
             }
           ]
         },
         {
-          "text": "Signal priority 1 to 4: eye tracking, EMG, EEG, and wrist muscle ultrasound. Treat these as pre-action intention channels, not as auxiliary labels. EMG plus vision/gaze already has direct evidence for grasp-intent fusion; EEG may capture high-level intent but is noisy and high-friction; ultrasound / sonomyography can observe deep muscle activity before motion but needs a practical wearable form factor. This is the main requirement to discuss with hardware partners: expose synchronized raw streams plus confidence/quality metadata, not only postprocessed gestures.",
+          "text": "The supplied order workbook confirms shipped candidates including Hall-effect muscle deformation, dual-channel sEMG, pressure/tactile arrays, data gloves and a MEMS microphone-array kit; the dashboard procurement table separately records the CYMPLE Quest 3S 面捕眼追套装（包含 HUB） as ordered. Screenshots add GSR, EEG, flex, e-nose and haptic candidates but do not prove purchase or signal quality by themselves. bHaptics wearables are actuators for controlled feedback experiments, not passive intention sensors. Every candidate enters the same repeated-task quality screen before model work.",
+          "links": []
+        },
+        {
+          "text": "Ego2Dex becomes OmniEgo's reconstruction and transfer lane. Conservative interfaces are: EgoEngine for Aria-based ego RGB/hand keys plus depth, masks and known-mesh object pose; Do-As-I-Do for monocular segmentation/geometry/hand-object reconstruction and retargeting; VideoManip for metric hand-object alignment, contact optimization and demonstration synthesis; EasyHOI for single-image reconstruction/contact refinement; HandFlow as a temporal hand-recovery component. Shared inputs, frames, scale, metrics, runtime, interventions and failure galleries are mandatory.",
           "links": [
             {
-              "label": "EMG + vision grasp intent",
-              "url": "https://arxiv.org/abs/2104.03893"
+              "label": "EgoEngine",
+              "url": "https://egoengine.github.io/"
             },
             {
-              "label": "Peripheral bio-signal fusion survey",
-              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9460678/"
+              "label": "Do-As-I-Do",
+              "url": "https://do-as-i-do.com/"
             },
             {
-              "label": "Wearable motion intent survey",
-              "url": "https://www.nature.com/articles/s44387-026-00083-5"
+              "label": "VideoManip",
+              "url": "https://videomanip.github.io/"
+            },
+            {
+              "label": "EasyHOI",
+              "url": "https://lym29.github.io/EasyHOI-page/"
+            },
+            {
+              "label": "HandFlow",
+              "url": "https://arxiv.org/abs/2607.11221"
             }
           ]
         },
         {
-          "text": "Signal priority 5 to 7: wrist cameras, tactile, and whole-body pose. Wrist cameras preserve the local manipulation geometry that head/ego views miss; tactile grounds contact, pressure, and force; whole-body pose matters because HOI is not only hand motion. EgoVerse, EgoTouch/TouchAnything, and Hoi! show the direction: synchronized ego/wrist views plus pose/tactile/force are closer to robot-usable data than vision-only human video.",
+          "text": "Representation is a hypothesis after the quality gate. Compare supervised intention/contact/action encoders with per-modality encoders, late fusion, clustering and VQ-VAE tokens. A useful token must remain stable across people and days, tolerate missing channels, predict held-out intent/contact/action outcomes, and improve a robot-learning consumer; compact reconstruction alone is insufficient."
+        },
+        {
+          "text": "The object-side branch is inspired by surface-conforming mutual-capacitance layouts on scanned rigid objects. That paper localizes touch on four rigid geometries; it does not measure force, shear, friction or force closure and does not validate robot or deformable-object manipulation. Our proposed dataset must add independent force/pressure/shear ground truth, object pose and outcome labels, then collect the same object/task across human hand, gripper and dexterous hand. Deformable objects remain a later materials, strain-durability and re-registration study.",
           "links": [
             {
-              "label": "EgoVerse",
-              "url": "https://egoverse.ai/"
-            },
-            {
-              "label": "TouchAnything / EgoTouch",
-              "url": "https://arxiv.org/abs/2605.13083"
-            },
-            {
-              "label": "Hoi!",
-              "url": "https://timengelbracht.github.io/Hoi-Dataset-Website/"
+              "label": "Surface-conforming capacitive sensing",
+              "url": "https://arxiv.org/abs/2607.16739"
             }
           ]
-        },
-        {
-          "text": "Signal priority 8 to 12: proximity, temperature, vibration, multichannel audio / source localization, and smell/taste. These should be task-gated but not dismissed. Proximity helps pre-contact approach; temperature helps food/material tasks; vibration and audio capture contact events that may be invisible; multichannel audio can localize impacts, scraping, pouring, or tool-object contact; smell/taste become relevant only for food, liquid, chemical, contamination, or quality-control tasks.",
-          "links": [
-            {
-              "label": "See, Hear, and Feel",
-              "url": "https://arxiv.org/abs/2212.03858"
-            },
-            {
-              "label": "FingerEye archive boundary",
-              "url": "https://nus-lins-lab.github.io/FingerEyeWeb/"
-            }
-          ]
-        },
-        {
-          "text": "Proximity update 2026-06-15: KAIST P2GI is the strongest concrete reference so far for proximity as an actionable pre-contact signal. Palmar proximity sensors on a dexterous prosthetic hand scan an object point cloud during approach, then infer grasp posture, object size, and object center before a simple EMG grasp command triggers the planned finger motion. For our Ray-Ban + FSR glove and robot-demo stack, the takeaway is to log pre-contact hand-object relation, not only pressure after touch; proximity can become an early target / affordance / contact-onset label for XLA and a stage-importance feature for dexterous failure learning.",
-          "links": [
-            {
-              "label": "KAIST publication page",
-              "url": "https://pure.kaist.ac.kr/en/publications/proximity-perception-based-grasping-intelligence-toward-the-seaml/"
-            },
-            {
-              "label": "KAIST MatriX highlight",
-              "url": "https://kmatrix.kaist.ac.kr/proximity-perception-based-grasping-intelligence-toward-the-seamless-control-of-a-dexterous-prosthetic-hand/"
-            }
-          ]
-        },
-        {
-          "text": "XLA target: define a unified multimodal episode schema and model interface where every channel is time-aligned into latent intention/action tokens. XLA should be able to accept partial observations at train or test time: gaze+EMG for early intent, wrist+tactile for contact, whole-body pose for HOI context, audio/vibration/proximity for hidden events, and optional temperature/smell/taste for task-specific physical evidence."
-        },
-        {
-          "text": "Data-source philosophy note: robot learning should be extremely pragmatic about data. We should use LLMs, VLMs, video generation models, human ego data, UMI, teleoperation, simulation, wearable capture, and even broad YouTube-scale video when they provide useful labels, priors, failures, or coverage. The missing piece is not another isolated source; it is human-robot collaboration data: shared episodes where humans and robots perceive together, communicate intent, hand over control, correct mistakes, intervene, recover, and co-complete tasks."
-        },
-        {
-          "text": "External partner angle: after visiting Zhiyuan, discuss requirements with Mifeng Tech / MEgo-style data-capture hardware. Their MEgo View and MEgo Gripper direction already covers head/wrist views, depth, IMU, trajectory, tactile, gripper state, and tight synchronization. Our proposal should ask whether their stack can expose or integrate eye tracking, EMG/EEG, wrist ultrasound, whole-body pose, multichannel audio, and raw synchronized streams for XLA training.",
-          "links": [
-            {
-              "label": "MEgo release summary",
-              "url": "https://www.jixin.tech/mobile/show.php?bclassid=0&cid=1&classid=1&cpage=0&id=7447&style=0"
-            }
-          ]
-        },
-        {
-          "text": "Dashboard placement: keep this as a proposal-oriented Survey card feeding UMI / Tri-View, VTLA, Self-Improving Agents, and Real-Robot Infra. UMI gets intention and cross-view labels; VTLA gets contact/force/tactile supervision; Self-Improving gets failure and curriculum traces; Real-Robot Infra only receives engineering tasks after the proposal chooses a concrete v0 rig and partner discussion checklist."
-        },
-        "[KNOWN][HIGH] Event-camera ego-data cross-reference updated 2026-07-15: detailed evidence now lives in Survey: Event-Camera VLA / World Model Sensor Survey. [INFERRED][HIGH] Human-intention collection should add event streams only after synchronized RGB-event-pose tests show a concrete gain over high-FPS RGB and pseudo-events."
+        }
       ],
       "task_ids": [
-        "task_human_intention_sensorium_xla_proposal"
+        "task_human_intention_sensorium_xla_proposal",
+        "task_real_robot_demos_ego2dex_lfd_baseline_20260718",
+        "task_real_robot_demos_ego2dex_baseline_reproduction_20260729",
+        "task_real_robot_demos_ego2dex_franka_wuji_sim_gate_20260729",
+        "task_real_robot_demos_ego2dex_tactile_ablation_20260729",
+        "task_real_robot_demos_ego2dex_hand_contact_benchmark_20260729",
+        "task_umi_stage2_vddm_human_ego_probe_20260627",
+        "task_hoi_pnp_calibration",
+        "task_hoi_collection_matrix",
+        "task_hoi_sensor_validation",
+        "task_hoi_object_tracking",
+        "task_hoi_schema_model_target",
+        "task_hoi_retargeting_baselines",
+        "task_hoi_contact_annotation_pack",
+        "task_hoi_isaac_retargeting_verifier_v0",
+        "task_hoi_two_modality_capture_smoke",
+        "task_real_robot_demo_do_as_i_do_franka_wuji_tactile",
+        "task_omniego_quest3s_multisensor_v0_rig_20260729",
+        "task_omniego_sensor_quality_marginal_value_screen_20260729",
+        "task_omniego_vqvae_intention_encoding_20260729",
+        "task_omniego_object_surface_tactile_force_closure_dataset_20260729"
       ],
       "risks_decisions": [
-        "The sensor list is ordered by intended importance, not random breadth. Keep that order visible in the proposal: gaze, EMG, EEG, wrist ultrasound, wrist camera, tactile, whole-body pose, proximity, temperature, vibration, audio, smell/taste.",
-        "Do not let this become an all-sensor shopping list. The first deliverable is a marginal-value table: what each modality predicts, how early it predicts it, what it costs to collect, and which robot-learning label it improves.",
-        "More modalities can make data worse if synchronization, calibration, privacy, or human burden breaks collection. Timestamping and schema design are as important as sensor choice.",
-        "The strongest framing is intention-to-interaction labels and XLA training: intended target, affordance, contact onset, force direction, failure/hesitation, correction signal, and modality confidence. Raw sensor channels alone are not the contribution.",
-        "Data-source decision 2026-06-09: do not rank data sources by aesthetic purity. Human ego, UMI, teleop, simulation, YouTube-scale video, LLM/VLM/video-model priors, and wearable signals are all admissible if they contribute usable labels or coverage. The explicit portfolio gap is human-robot collaboration data.",
-        "Human-robot collaboration data should be treated as a distinct missing dataset type, not as a subset of human-only wearable data or robot-only teleop data. It needs labels for shared perception, instruction, intent transfer, intervention, correction, handoff, and recovery.",
-        "Partner discussion decision 2026-06-09: after visiting Zhiyuan, talk to Mifeng Tech if possible. The ask is not generic hardware procurement; it is synchronized raw-stream access and expansion paths for gaze, EMG/EEG, wrist ultrasound, whole-body pose, audio arrays, and XLA-ready schema.",
-        "Survey decision 2026-06-09: keep as a new proposal-oriented Survey card, not archive and not VTLA-only. VTLA owns tactile/contact representation; this card owns the broader human-intention data-collection proposal and XLA signal-fusion target.",
-        "Proximity decision 2026-06-15: P2GI shows proximity can drive shared-autonomy grasp selection, but this does not automatically become an immediate hardware purchase. First decide whether Ray-Ban video + FSR glove data can infer enough pre-contact relation, then consider a small fingertip/palmar proximity add-on only if the marginal label value is clear."
+        "Research decision 2026-07-29: OmniEgo is Research, not a shopping-list Survey. The first deliverable is a quality and marginal-value matrix; model training starts only after the sensor gate.",
+        "Quest 3S plus the ordered CYMPLE face/eye kit is the v0 capture backend, not an Aria Gen 2 equivalent. Do not copy Aria-specific eye tracking, 21-point hand-key contracts or hardware synchronization claims into Quest recordings without measured Quest and CYMPLE adapter contracts.",
+        "EMG, EEG, GSR and muscle-deformation signals may have large cross-person and cross-day shifts. Use subject-held-out evaluation, calibration burden and repeated-session stability as first-class metrics.",
+        "bHaptics devices are feedback actuators. They can support controlled stimulus or closed-loop studies, but they are not counted as passive intention channels.",
+        "VQ-VAE, clustering and labeled encoding are competing hypotheses, not current results. Do not publish stable intent tokens until they survive held-out people, days, tasks and missing modalities.",
+        "The surface-capacitive paper supports touch-location sensing on scanned rigid objects only. Force-closure, cross-embodiment manipulation, dense force maps and deformable-object sensing require new hardware, calibration and outcome evidence.",
+        "Human-video pretraining and reconstructed trajectories do not prove robot executability. Every transfer path needs a declared mapping/IK/retargeting interface plus simulation/read-only validation before low-speed physical execution.",
+        "Do not publish the unsupported exact numbers from the draft technical report, including claimed millimeter errors, segmentation percentages, runtime, contact-force reductions or Tesla success rates, unless each is recovered from a primary source and reproduced under the shared protocol.",
+        "Raw physiological data, camera streams, audio and face/eye signals require consent, data minimization, access controls and a stated retention policy before collection."
       ],
-      "asset_alt": "Human intention data collection proposal diagram linking ordered sensing modalities to synchronized XLA training signals and robot-learning consumers",
-      "asset_caption": "Proposal diagram: ordered human-intention signals become synchronized XLA inputs, not a generic sensor checklist.",
+      "asset_alt": "OmniEgo pipeline from Quest 3S and candidate human-intention sensors through signal-quality screening, encoding, Ego2Dex reconstruction, and object-instrumented manipulation",
+      "asset_caption": "OmniEgo 的顺序是先同步和筛选，再编码与迁移；对象侧触点是独立证据支线。",
       "references": [
         {
-          "title": "EgoVerse",
-          "url": "https://egoverse.ai/",
-          "submitted_at": "2026",
-          "notes": "Living egocentric human-data ecosystem for robot learning with camera pose, 3D head tracking, language annotation, broad task coverage, and human-to-robot transfer framing."
+          "title": "Meta Quest Passthrough Camera API",
+          "url": "https://developers.meta.com/horizon/documentation/unity/unity-pca-overview/",
+          "notes": "Official Quest 3/3S forward-camera access contract and operational constraints; use as the v0 RGB capture reference, not as evidence of Aria-equivalent sensing."
         },
         {
-          "title": "TouchAnything: A Dataset and Framework for Bimanual Tactile Estimation from Egocentric Video",
-          "url": "https://arxiv.org/abs/2605.13083",
-          "arxiv_id": "2605.13083",
-          "submitted_at": "2026",
-          "notes": "EgoTouch provides synchronized head-mounted egocentric RGB, dual wrist cameras, 3D hand pose, and continuous wearable tactile pressure maps across bimanual manipulation tasks."
+          "title": "Project Aria Gen 2 hardware specification",
+          "url": "https://facebookresearch.github.io/projectaria_tools/gen2/technical-specs/device/hardware",
+          "notes": "Official Aria sensor inventory used to make the non-equivalence boundary explicit."
         },
         {
-          "title": "HoloAssist: an Egocentric Human Interaction Dataset for Interactive AI Assistants",
+          "title": "EgoEngine: From Egocentric Human Videos to High-Fidelity Dexterous Robot Demonstrations",
+          "url": "https://arxiv.org/abs/2606.12604",
+          "arxiv_id": "2606.12604",
+          "submitted_at": "2026",
+          "notes": "Aria-based ego reconstruction and robot-demonstration baseline; public code and checkpoint availability must be audited before claiming reproduction."
+        },
+        {
+          "title": "Do-As-I-Do: Learning Robot Actions from Human Videos",
+          "url": "https://arxiv.org/abs/2606.19333",
+          "arxiv_id": "2606.19333",
+          "submitted_at": "2026",
+          "notes": "Monocular human-video hand-object reconstruction and robot retargeting baseline."
+        },
+        {
+          "title": "VideoManip: Dexterous Manipulation Policies from RGB Human Videos",
+          "url": "https://arxiv.org/abs/2602.09013",
+          "arxiv_id": "2602.09013",
+          "submitted_at": "2026",
+          "notes": "Metric hand/object alignment, ContactOpt refinement, retargeting and demonstration-synthesis baseline."
+        },
+        {
+          "title": "EasyHOI",
+          "url": "https://arxiv.org/abs/2411.14280",
+          "arxiv_id": "2411.14280",
+          "submitted_at": "2024",
+          "notes": "Single-image hand-object reconstruction and image/geometry/contact refinement baseline."
+        },
+        {
+          "title": "ContactOpt",
+          "url": "https://arxiv.org/abs/2104.07267",
+          "arxiv_id": "2104.07267",
+          "submitted_at": "2021",
+          "notes": "Predicted surface-contact maps plus differentiable geometric pose refinement; it is not a measured contact-force field."
+        },
+        {
+          "title": "TOCH",
+          "url": "https://arxiv.org/abs/2205.07982",
+          "arxiv_id": "2205.07982",
+          "submitted_at": "2022",
+          "notes": "Object-centric correspondence field and temporal denoising reference for hand-motion refinement."
+        },
+        {
+          "title": "GeneOH Diffusion",
+          "url": "https://arxiv.org/abs/2402.14810",
+          "arxiv_id": "2402.14810",
+          "submitted_at": "2024",
+          "notes": "Three-stage interaction-trajectory denoising reference; it does not recover physical force."
+        },
+        {
+          "title": "HOLD",
+          "url": "https://arxiv.org/abs/2311.18448",
+          "arxiv_id": "2311.18448",
+          "submitted_at": "2023",
+          "notes": "Joint hand and unknown-object reconstruction from monocular video using articulated implicit models."
+        },
+        {
+          "title": "GHOST",
+          "url": "https://arxiv.org/abs/2603.18912",
+          "arxiv_id": "2603.18912",
+          "submitted_at": "2026",
+          "notes": "Monocular hand-object reconstruction comparison using geometry priors, grasp-aware alignment and hand-aware background loss."
+        },
+        {
+          "title": "Being-H0",
+          "url": "https://arxiv.org/abs/2507.15597",
+          "arxiv_id": "2507.15597",
+          "submitted_at": "2025",
+          "notes": "Human-video VLA pretraining, physical-space alignment and robot post-training reference."
+        },
+        {
+          "title": "EgoScale",
+          "url": "https://arxiv.org/abs/2602.16710",
+          "arxiv_id": "2602.16710",
+          "submitted_at": "2026",
+          "notes": "Human-data scaling and aligned human–robot mid-training reference with retargeted dexterous-hand actions."
+        },
+        {
+          "title": "VITRA",
+          "url": "https://arxiv.org/abs/2510.21571",
+          "arxiv_id": "2510.21571",
+          "submitted_at": "2025",
+          "notes": "Human wrist and MANO-style action representation plus robot adaptation reference."
+        },
+        {
+          "title": "EgoVLA",
+          "url": "https://arxiv.org/abs/2507.12440",
+          "arxiv_id": "2507.12440",
+          "submitted_at": "2025",
+          "notes": "Human wrist/MANO prediction and fingertip-to-robot mapping reference; not evidence of zero-shot physical executability."
+        },
+        {
+          "title": "METIS",
+          "url": "https://arxiv.org/abs/2511.17366",
+          "arxiv_id": "2511.17366",
+          "submitted_at": "2025",
+          "notes": "Unified wrist-pose and fingertip action representation with target-robot IK."
+        },
+        {
+          "title": "HoloAssist",
           "url": "https://openaccess.thecvf.com/content/ICCV2023/papers/Wang_HoloAssist_an_Egocentric_Human_Interaction_Dataset_for_Interactive_AI_Assistants_ICCV_2023_paper.pdf",
           "submitted_at": "2023",
-          "notes": "Records RGB, depth, head pose, 3D hand pose, eye gaze, audio, and IMU for real-world object-centric tasks with instruction, mistake, and intervention annotations."
+          "notes": "Egocentric multimodal interaction data with instruction, mistake and intervention annotations."
         },
         {
           "title": "HOT3D Dataset",
           "url": "https://facebookresearch.github.io/projectaria_tools/docs/open_datasets/hot3d",
           "submitted_at": "2024",
-          "notes": "Egocentric 3D hand-object tracking dataset with synchronized multi-view headset video, object/hand pose, 3D models, eye gaze, and scene point-cloud signals."
+          "notes": "Synchronized multi-view headset video, hand/object pose, eye gaze and scene signals."
         },
         {
-          "title": "Hoi!: A Multimodal Dataset for Force-Grounded, Cross-View Articulated Manipulation",
+          "title": "TouchAnything / EgoTouch",
+          "url": "https://arxiv.org/abs/2605.13083",
+          "arxiv_id": "2605.13083",
+          "submitted_at": "2026",
+          "notes": "Ego RGB, wrist cameras, 3D hand pose and wearable tactile-pressure reference."
+        },
+        {
+          "title": "Hoi!: force-grounded cross-view articulated manipulation",
           "url": "https://timengelbracht.github.io/Hoi-Dataset-Website/",
           "arxiv_id": "2512.04884",
           "submitted_at": "2025",
-          "notes": "Force-grounded articulated manipulation dataset across human hand, wrist camera, UMI gripper, and custom gripper, with egocentric, wrist, exocentric, force, tactile, and spatial alignment signals."
+          "notes": "Cross-view human and robot manipulation with force/tactile signals and spatial alignment."
         },
         {
           "title": "Multimodal Fusion of EMG and Vision for Human Grasp Intent Inference",
           "url": "https://arxiv.org/abs/2104.03893",
           "arxiv_id": "2104.03893",
           "submitted_at": "2021",
-          "notes": "Shows complementary evidence from forearm EMG, eye-view video, and gaze for grasp-intent inference."
+          "notes": "Direct reference for complementary EMG, eye-view video and gaze evidence in grasp-intent inference."
         },
         {
-          "title": "觅蜂科技 MEgo data-capture release",
-          "url": "https://www.jixin.tech/mobile/show.php?bclassid=0&cid=1&classid=1&cpage=0&id=7447&style=0",
-          "submitted_at": "2026",
-          "notes": "Reported MEgo View / MEgo Gripper direction: head and wrist views, depth, IMU, motion trajectory, multidimensional tactile signals, gripper state, and tight wireless synchronization. Useful partner reference for the proposal requirements discussion."
-        },
-        {
-          "title": "A Systematic Review of Sensor Fusion Methods Using Peripheral Bio-Signals for Human Intention Decoding",
+          "title": "Peripheral bio-signal fusion survey",
           "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9460678/",
           "submitted_at": "2022",
-          "notes": "Useful modality tradeoff source for EMG, MMG, ultrasound / sonomyography, NIRS, accelerometers, IMU, and optical sensing in intention decoding."
+          "notes": "Modality and fusion tradeoffs for EMG, MMG, ultrasound, NIRS, IMU and optical sensing."
         },
         {
-          "title": "Recent advances in intelligent wearable systems: from multiscale biomechanical features towards human motion intent prediction",
-          "url": "https://www.nature.com/articles/s44387-026-00083-5",
+          "title": "Retrofitting Existing 3D Objects with Surface-Conforming Capacitive Sensing",
+          "url": "https://arxiv.org/abs/2607.16739",
+          "arxiv_id": "2607.16739",
           "submitted_at": "2026",
-          "notes": "Survey framing for wearable multimodal human motion intent prediction, including physiological and motion signals plus limits from heterogeneity, redundancy, and computational complexity."
+          "notes": "SIGGRAPH 2026 object-surface mutual-capacitance layout and touch-localization reference. It does not measure force, shear, friction or force closure."
         },
         {
-          "title": "Proximity Perception-Based Grasping Intelligence: Toward the Seamless Control of a Dexterous Prosthetic Hand",
-          "url": "https://pure.kaist.ac.kr/en/publications/proximity-perception-based-grasping-intelligence-toward-the-seaml/",
-          "doi": "10.1109/TMECH.2023.3324051",
-          "submitted_at": "2024",
-          "notes": "KAIST P2GI reference: palmar proximity sensors scan object point clouds during approach, infer grasp posture / object size / center, and enable shared-autonomy prosthetic grasping with a single-channel EMG command. Key relevance: proximity is a pre-contact object-relation signal for intention, affordance, contact-onset, and DexGello failure-phase metrics."
+          "title": "Jiachen Li / Trustworthy Autonomous Systems Lab",
+          "url": "https://jiachenli94.github.io/",
+          "notes": "Potential HRI, control and embodied-learning collaboration reference only; no public commitment and no claimed authorship of the surface-capacitive paper."
         }
       ],
-      "asset_added_at": "2026-06-19"
+      "asset_added_at": "2026-07-29",
+      "visual": {
+        "layout": "standard"
+      },
+      "intro_table": {
+        "kind": "architecture_status_table",
+        "caption": "OmniEgo research contract",
+        "columns": [
+          {
+            "key": "lane",
+            "label": "Lane"
+          },
+          {
+            "key": "inputs_outputs",
+            "label": "Inputs -> outputs"
+          },
+          {
+            "key": "acceptance",
+            "label": "Acceptance"
+          }
+        ],
+        "rows": [
+          {
+            "lane": "Capture",
+            "inputs_outputs": "Quest 3S ego RGB + hand/controller pose + wearable/environment/object-side streams -> synchronized raw episode",
+            "acceptance": "Document camera/pose timestamps, calibration, dropped frames and privacy. Integrate the ordered CYMPLE Quest 3S face/eye kit only after fit, raw-export, timestamp and synchronization checks pass."
+          },
+          {
+            "lane": "Validate",
+            "inputs_outputs": "Repeated scripted tasks across people and days -> modality quality and marginal-value matrix",
+            "acceptance": "Measure timestamp skew, SNR/repeatability, missingness, drift, cross-subject shift, burden and downstream task gain; retain only 3–5 useful channels."
+          },
+          {
+            "lane": "Encode",
+            "inputs_outputs": "Validated multimodal windows + intent/contact/action labels -> supervised embeddings or discrete VQ-VAE tokens",
+            "acceptance": "Use subject-held-out splits, missing-modality masks and label/token stability; compare against single-modality and late-fusion baselines."
+          },
+          {
+            "lane": "Reconstruct + transfer",
+            "inputs_outputs": "Ego video and hand-object state -> metric HOI trajectory, contact refinement and target-robot action",
+            "acceptance": "Run EgoEngine / Do-As-I-Do / VideoManip / EasyHOI / HandFlow under one manifest, then gate retargeting in simulation/read-only before physical execution."
+          },
+          {
+            "lane": "Instrument objects",
+            "inputs_outputs": "Surface-conforming touch layout + independent force/pose ground truth -> cross-embodiment same-object/task episodes",
+            "acceptance": "Capacitive touch is contact-location evidence only; force-closure claims require pressure/shear or 6D force sensing, calibration and real manipulation outcomes."
+          }
+        ]
+      },
+      "timeline": {
+        "badges": [
+          {
+            "label": "Bucket",
+            "value": "Research"
+          },
+          {
+            "label": "Backbone",
+            "value": "Quest 3S + external sensors"
+          },
+          {
+            "label": "Gate",
+            "value": "quality before encoding"
+          },
+          {
+            "label": "Target",
+            "value": "3–5 useful modalities"
+          }
+        ],
+        "target_cycle": "capture adapter -> quality screen -> encoding benchmark -> Ego2Dex transfer -> object-side pilot",
+        "target_note": "Every lane reports failure and uncertainty; proposals remain hypotheses until measured on shared episodes.",
+        "sprint_start": "2026-07-29",
+        "sprint_due": null,
+        "milestones": []
+      },
+      "subprojects": [
+        {
+          "label": "A",
+          "title": "Quest 3S capture and synchronization",
+          "body": "Build the first reproducible human-centered rig around ego RGB, system hand/controller pose and the ordered CYMPLE face/eye kit, then add other external sensors through one clock and calibration contract.",
+          "output": "Durable output: raw synchronized episodes, adapter manifest, latency/dropout audit and privacy boundary."
+        },
+        {
+          "label": "B",
+          "title": "Sensor quality and marginal value",
+          "body": "Test gaze, face, EMG, muscle deformation, GSR, EEG, flex/pose, tactile, audio and e-nose candidates on repeated tasks across people and days.",
+          "output": "Durable output: quality matrix and a justified 3–5-modality shortlist."
+        },
+        {
+          "label": "C",
+          "title": "Intent encoding",
+          "body": "Compare labels, per-modality encoders, late fusion, clustering and VQ-VAE tokens with missing-modality and cross-subject evaluation.",
+          "output": "Durable output: an interpretable representation benchmark, not merely reconstruction loss."
+        },
+        {
+          "label": "D",
+          "title": "Ego2Dex reconstruction and transfer",
+          "body": "Standardize hand-object reconstruction, contact refinement and human-to-robot mappings under shared clips, frames, manifests and failure metrics.",
+          "output": "Durable output: one selected reconstruction-to-retargeting path with explicit physical gates."
+        },
+        {
+          "label": "E",
+          "title": "Object-instrumented manipulation",
+          "body": "Prototype surface-conforming touch on rigid objects, add independent force/pose truth, then compare the same object and task across human and robot embodiments.",
+          "output": "Durable output: a bounded contact/force-closure dataset pilot with evidence boundaries."
+        }
+      ]
     },
     {
       "schema_version": "project.v1",
@@ -5130,6 +5037,402 @@ export default {
         }
       ],
       "asset_added_at": "2026-06-19"
+    },
+    {
+      "schema_version": "project.v1",
+      "project_id": "product-robot-codesign-simulation-survey",
+      "title": "Simulation-Based Product–Robot Co-Design",
+      "bucket": "survey",
+      "status": "survey",
+      "description": "Survey a three-variable physical co-design loop that jointly optimizes product, tool or environment interface P; robot embodiment or end-effector R; and policy or trajectory π under simulation, calibration, manufacturability and sim-to-real gates.",
+      "summary": "Branched from Self-Improving Agents: agents may propose physical design changes, but this card owns the evidence contract for changing persistent physical artifacts. The gap is not generic morphology optimization: prior work mostly covers P + π or R + π. The research question is when full P × R × π co-design beats fixed-product, fixed-robot and control-only baselines across a task distribution while remaining manufacturable, human-usable, robust to contact and material uncertainty, and predictive of real hardware.",
+      "details": [
+        {
+          "text": "Research unit: optimize (P, R, π) over a task and physics distribution, not one nominal scene. P includes product geometry, handles, fixtures, interfaces, materials and compliance; R includes link and mount geometry, gripper or hand shape, stiffness, actuation and sensing; π includes grasp pose, trajectory, controller and task policy. Utility must subtract fabrication cost, iteration time and safety risk, and real data should update the simulator or surrogate rather than merely decorate a simulation result.",
+          "links": [
+            {
+              "label": "Transformer Transformer",
+              "url": "https://transformer-transformer.github.io/"
+            },
+            {
+              "label": "Object Adaptation",
+              "url": "https://object-adaptation.github.io/"
+            }
+          ]
+        },
+        {
+          "text": "Seed-paper readout: Transformer Transformer is the strongest full-robot R + π seed and can generate links, joints, motors, inertial properties and a cross-embodiment controller from target motion, but its current scene and geometry scope excludes arbitrary product meshes and contact targets. Fit2Form and DGDM generate task-specific gripper or manipulator geometry for fixed products. PaperBot is deliberately 100% real-world and therefore belongs as a reality-gap fallback, not as simulation evidence.",
+          "links": [
+            {
+              "label": "Fit2Form",
+              "url": "https://fit2form.cs.columbia.edu/"
+            },
+            {
+              "label": "PaperBot",
+              "url": "https://paperbot.cs.columbia.edu/"
+            },
+            {
+              "label": "DGDM",
+              "url": "https://dgdm-robot.github.io/"
+            }
+          ]
+        },
+        {
+          "text": "Product-side novelty boundary: Robot Factors treats hardware as something designed for robot manipulability; Object Adaptation jointly learns 3D-printable object attachments and robot control; Toussaint et al. already co-optimize robot, environment and tool parameters with manipulation trajectories. A new project cannot claim novelty merely by renaming end-effector or morphology optimization as product–robot co-design.",
+          "links": [
+            {
+              "label": "Robot Factors, IROS 2022",
+              "url": "https://people.seas.harvard.edu/~jkwerfel/iros22melenbrink.pdf"
+            },
+            {
+              "label": "Co-Optimizing Robot, Environment, and Tool Design, ICRA 2021",
+              "url": "https://argmin.lis.tu-berlin.de/papers/21-toussaint-ICRA.pdf"
+            }
+          ]
+        },
+        {
+          "text": "Method taxonomy: parameterized CAD, printable attachment libraries, voxels, meshes, SDFs, URDF or graph grammars and learned latent shapes can be searched by constrained trajectory optimization, RL or bilevel optimization, CMA-ES or Bayesian optimization, differentiable simulation, learned neural-physics surrogates, diffusion guidance, or VLM agents that propose geometry and actions before simulator critique. Rigid contact, tactile or elastic contact, deformables, fragile materials, fluids and aerodynamics require separate fidelity claims.",
+          "links": [
+            {
+              "label": "Co-Design of Soft Gripper with Neural Physics",
+              "url": "https://yswhynot.github.io/codesign-soft/"
+            },
+            {
+              "label": "VLMgineer",
+              "url": "https://vlmgineer.github.io/"
+            },
+            {
+              "label": "RobotSmith",
+              "url": "https://umass-embodied-agi.github.io/RobotSmith/"
+            }
+          ]
+        },
+        {
+          "text": "Open-source readiness: the best first runnable chain is Soft Gripper Co-Design for a bundled material-distribution plus grasp-pose simulation and fabrication artifact, followed by Transformer Transformer for a modern motion-conditioned robot baseline. DGDM and Fit2Form expose pretrained or evaluation paths but need dependency and license auditing. DiffTactile and WarpDiffRobot are enabling layers for contact-aware differentiable physics and simulator calibration. PaperBot publishes a website repository, not the algorithmic real-robot training stack.",
+          "links": [
+            {
+              "label": "Soft Gripper code",
+              "url": "https://github.com/yswhynot/codesign-soft-gripper"
+            },
+            {
+              "label": "Transformer Transformer code",
+              "url": "https://github.com/real-stanford/transformer-transformer"
+            },
+            {
+              "label": "DiffTactile code",
+              "url": "https://github.com/Genesis-Embodied-AI/DiffTactile"
+            },
+            {
+              "label": "WarpDiffRobot code",
+              "url": "https://github.com/MediosZ/WarpDiffRobot"
+            }
+          ]
+        },
+        {
+          "text": "Evidence ladder: nominal simulation is only Stage 0. Stage 1 adds matched-compute ablations; Stage 2 holds out tasks, objects and target motions; Stage 3 perturbs contact, friction, mass, material, geometry tolerance and sensor or actuation error; Stage 4 fabricates the selected product or robot part; Stage 5 compares predicted and real rankings plus task success, force, energy, damage and failure modes. A sim-to-real claim requires fabricated or real-robot evidence, not a renderer video."
+        },
+        {
+          "text": "Decision gate: count a result as Product–Robot Co-Design only when at least two of P, R and π are optimized and the unchanged-product and unchanged-robot baselines are reported. The strongest publishable gap is a learned or generative P × R × π interface that generalizes across a task distribution, respects fabrication and human-use constraints, and closes the loop with calibrated real evidence."
+        },
+        {
+          "text": "Inherited PoD fabrication lane: calibrated object intake and user demand -> metric design specification -> constrained programmatic CAD with part and joint semantics -> printability and tolerance checks -> same-plate jigs or tools -> slicer and queue artifacts -> robot takeout and assembly plan. Dated May 2026 software probes produced validated URDF, STL, GLB and manifest artifacts for a butt hinge, Mac mini extender and cable clip, and favored an Articraft-style SDK with CadQuery as the geometric escape hatch. These are implementation evidence for the product variable P, not proof of full P × R × π co-design; commercial generator comparisons were API-blocked and the printer cell never reached physical execution.",
+          "links": [
+            {
+              "label": "Articraft",
+              "url": "https://articraft3d.github.io/"
+            },
+            {
+              "label": "Allo",
+              "url": "https://allotech-ai.com/creating/home"
+            },
+            {
+              "label": "Blueprint",
+              "url": "https://www.blueprint.am/"
+            }
+          ]
+        },
+        "Portfolio boundary: Self-Improving Agents owns environment or asset generation, simulator interoperability, policy improvement and evaluation harnesses. This Survey owns persistent physical design variables and their co-design evidence. The former Robotics + 3D Printing card is consolidated here as the downstream P -> hardware lane: calibrated intake, editable CAD, printability and tolerance, jigs, slicing, takeout and assembly. Generic CAD generation or printer automation alone does not satisfy the P × R × π claim."
+      ],
+      "intro_table": {
+        "kind": "architecture_status_table",
+        "caption": "Product–robot co-design surface and evidence gate",
+        "columns": [
+          {
+            "key": "lane",
+            "label": "Lane"
+          },
+          {
+            "key": "design_variables",
+            "label": "Joint design variables"
+          },
+          {
+            "key": "representative_work",
+            "label": "Representative work"
+          },
+          {
+            "key": "gate",
+            "label": "Required gate"
+          }
+        ],
+        "rows": [
+          {
+            "lane": "Product / object retrofit",
+            "design_variables": "Attachment, handle, fixture, material or affordance P + fixed robot policy π",
+            "representative_work": "Robot Factors; Object Adaptation",
+            "gate": "Human usability, printability and tolerance; no-adapter, P-only and P + π comparison"
+          },
+          {
+            "lane": "Tool / end-effector",
+            "design_variables": "Finger geometry, stiffness, contact surface or sensor placement R + grasp or controller π",
+            "representative_work": "Fit2Form; DGDM; Soft Gripper; Latent Diffeomorphic Co-Design",
+            "gate": "R-only, π-only and joint ablations; contact/material perturbations; fabricated result"
+          },
+          {
+            "lane": "Full robot embodiment",
+            "design_variables": "Links, joints, motors, inertia, mount and workspace R + cross-embodiment controller π",
+            "representative_work": "Transformer Transformer; Cross-Embodied Co-Design",
+            "gate": "Manufacturable grammar, held-out task distribution, controller self-validation and real hardware"
+          },
+          {
+            "lane": "Robot + environment / station",
+            "design_variables": "Robot kinematics or mount R + station, bin, product interface or tool P + trajectory π",
+            "representative_work": "Toussaint et al.; MoMa-CoDesign",
+            "gate": "Optimize across a task ensemble and compare fixed-P, fixed-R and joint solutions under equal compute"
+          },
+          {
+            "lane": "Reality correction",
+            "design_variables": "Physical design and action sequence updated from real measurements when simulation is unreliable",
+            "representative_work": "PaperBot; WarpDiffRobot; sim + real hybrid search",
+            "gate": "Report real trials, cost and calibration; do not relabel a real-only loop as simulation evidence"
+          }
+        ]
+      },
+      "risks_decisions": [
+        "Survey decision 2026-07-29: use the tri-design unit P × R × π. A paper that only changes the controller, retrieves an existing tool, generates a scene, or optimizes robot morphology against a fixed product is adjacent work, not full Product–Robot Co-Design.",
+        "Require matched-compute fixed/fixed, P-only, R-only, π-only, P + π, R + π and full P × R × π ablations where the design space permits them. Otherwise a claimed co-design gain can be a search-budget or controller advantage.",
+        "Optimize across a task distribution and held-out objects, motions or goals. A custom geometry that overfits one object pose or one trajectory is a fixture, not evidence of general co-design.",
+        "Treat simulator exploitation as a primary failure mode. Contact, friction, compliance, material damage, sensor placement, motor saturation, aerodynamics and deformables need uncertainty sweeps and a stated simulator-validity envelope.",
+        "Manufacturability is part of the objective: tolerance, collision clearance, minimum feature size, material availability, wiring, actuator limits, assembly time, cost, repairability, safety and continued human usability must be checked before fabrication.",
+        "A simulation result promotes only after rank correlation or agreement against fabricated or real candidates is measured. Success on one selected hardware design cannot establish that the simulator ranked the design space correctly.",
+        "Novelty boundary: Co-Optimizing Robot, Environment, and Tool Design already covers joint static design and trajectory optimization; Object Adaptation already covers product attachment plus control. A new contribution needs learned or generative joint representation, broader task generalization, improved physics calibration, or a materially stronger fabrication-to-real loop.",
+        "PaperBot is a negative boundary and fallback: it learns 100% in the real world because aerodynamics and friction are hard to simulate. Do not list it as a runnable simulation baseline or infer released training code from its website repository.",
+        "Open-source claims are repository-specific. Record commit SHA, dependency lock, checkpoint and data availability, license of code and assets, minimum hardware, measured runtime and the exact reproduced command before assigning a runnable tier.",
+        "Keep this card separate from Self-Improving Agents until a bounded co-design pilot wins a preregistered gate. The agentic project may later supply proposal, simulation and diagnosis tools, but it should not absorb the physical-design claim in advance.",
+        "A single object image is not a metric product specification: require scale or reference dimensions, calibration markers where applicable, contact surfaces, load and material constraints, printer envelope, and human or robot assembly intent before optimizing P.",
+        "Printer handoff and robot takeout are a separate automation boundary: watertightness, wall thickness, overhang and support, tolerance, material and stiffness, bed adhesion and temperature, failed-print sensing, collision recovery, reset safety, and same-plate jig strength must be explicit. A CAD artifact or dry-run cell is not real P × R × π hardware evidence."
+      ],
+      "references": [
+        {
+          "title": "Transformer Transformer: A Unified Model for Motion-Conditioned Robot Co-design",
+          "url": "https://transformer-transformer.github.io/",
+          "submitted_at": "2026",
+          "notes": "Full-robot R + π seed. Generates embodiment and controller from target motion; reports 73% lower tracking error and 30% lower peak joint speed on fabricated ALOHA cloth flinging. Current limitation: primitive geometry, no arbitrary meshes, deformables, surrounding scene or contact targets."
+        },
+        {
+          "title": "Transformer Transformer official code",
+          "url": "https://github.com/real-stanford/transformer-transformer",
+          "submitted_at": "2026-07",
+          "notes": "Best modern runnable baseline: RoboTokens, procedural design spaces, MuJoCo/MJX, Mink/RL data generation, checkpoints, training, co-design inference and CMA-ES. Repository is mostly MIT, but derived DiT files remain Attribution-NonCommercial and robot assets retain upstream licenses."
+        },
+        {
+          "title": "Fit2Form: 3D Generative Model for Robot Gripper Form Design",
+          "url": "https://fit2form.cs.columbia.edu/",
+          "arxiv_id": "2011.06498",
+          "submitted_at": "2020",
+          "notes": "R + task-object seed: learns a fitness model and generator for parallel-jaw finger geometry, with simulation and real-robot evidence; product stays fixed."
+        },
+        {
+          "title": "Fit2Form official code",
+          "url": "https://github.com/real-stanford/fit2form",
+          "submitted_at": "2020",
+          "notes": "Provides conda setup, pretrained evaluation and the full ShapeNet simulation-data and training pipeline. Legacy dependency stack and no explicit repository license visible at review; treat as reproducible only after a pinned smoke test."
+        },
+        {
+          "title": "PaperBot: Learning to Design Real-World Tools Using Paper",
+          "url": "https://paperbot.cs.columbia.edu/",
+          "arxiv_id": "2403.09566",
+          "submitted_at": "2024",
+          "notes": "P_tool + π reality-gap fallback for paper airplanes and kirigami grippers. Learning is explicitly 100% in the real world; rendering is visualization only; gripper adaptation is reported in about 50 trials."
+        },
+        {
+          "title": "PaperBot website repository",
+          "url": "https://github.com/cvlab-columbia/paperbot",
+          "submitted_at": "2024",
+          "notes": "Repository contains the project website and paper assets, not the robot training, surrogate optimization or experiment stack. Do not schedule it as a runnable simulation baseline."
+        },
+        {
+          "title": "Dynamics-Guided Diffusion Model for Sensor-less Robot Manipulator Design",
+          "url": "https://dgdm-robot.github.io/",
+          "arxiv_id": "2402.15038",
+          "submitted_at": "2024",
+          "notes": "R-side seed: geometric diffusion plus task-agnostic learned dynamics guidance for open-loop sensorless manipulators. Reports 31.5% relative average success improvement over optimization and 45.3% over unguided diffusion, with 0.8 s design generation."
+        },
+        {
+          "title": "DGDM official code",
+          "url": "https://github.com/real-stanford/dgdm",
+          "submitted_at": "2024",
+          "notes": "Provides 2D/3D simulation data generation, training, pretrained checkpoints and guided sampling. CPU Ray/V-HACD data generation can produce qhull/time-out failures; no explicit repository license visible at review."
+        },
+        {
+          "title": "A Robot Factors Approach to Designing Modular Hardware",
+          "url": "https://people.seas.harvard.edu/~jkwerfel/iros22melenbrink.pdf",
+          "submitted_at": "2022",
+          "notes": "Product-side design principles for robot-compatible modular hardware: constrained motion, mass support, handle placement, mechanical advantage, compliance and chamfers. Important P-side framing; no official code located."
+        },
+        {
+          "title": "Learning to Design 3D Printable Adaptations on Everyday Objects for Robot Manipulation",
+          "url": "https://object-adaptation.github.io/",
+          "submitted_at": "2024",
+          "notes": "Strongest direct P + π reference: dual-MDP RL jointly designs printable object attachments and control, validated on Franka. Official page exposes paper/video but no code link."
+        },
+        {
+          "title": "Co-Optimizing Robot, Environment, and Tool Design via Joint Manipulation Planning",
+          "url": "https://argmin.lis.tu-berlin.de/papers/21-toussaint-ICRA.pdf",
+          "submitted_at": "2021",
+          "notes": "Direct novelty boundary: constrained joint optimization over static robot, environment and tool design plus manipulation trajectories across task instances. Not a learned generative method."
+        },
+        {
+          "title": "Physical Simulation with Force Feedback Aids Robot Factors Design",
+          "url": "https://del.seas.harvard.edu/publication/physical-simulation-force-feedback-aids-robot-factors-design",
+          "submitted_at": "2025",
+          "notes": "Human-in-the-loop product-design reference using Unity rigid-body simulation and force-feedback hardware before fabrication. No public code located and specialized haptic hardware is required."
+        },
+        {
+          "title": "VLMgineer",
+          "url": "https://vlmgineer.github.io/",
+          "submitted_at": "2026",
+          "notes": "P_tool + π agentic reference: VLM proposes programmatic tools and actions, then PyBullet evolutionary refinement evaluates them. Useful bridge from Self-Improving Agents to physical design."
+        },
+        {
+          "title": "VLMgineer official code",
+          "url": "https://github.com/vlmgineer/vlmgineer",
+          "submitted_at": "2026",
+          "notes": "Runnable one-task candidate, but requires Gemini 2.5 Pro API and incurs multi-agent sampling cost; no explicit repository license visible at review."
+        },
+        {
+          "title": "RobotSmith",
+          "url": "https://umass-embodied-agi.github.io/RobotSmith/",
+          "submitted_at": "2025",
+          "notes": "Multi-agent tool and trajectory generation with Genesis simulation and CMA-ES across rigid, flexible and fluid tasks, plus real-world experiments."
+        },
+        {
+          "title": "RobotSmith official code",
+          "url": "https://github.com/UMass-Embodied-AGI/RobotSmith/tree/master",
+          "submitted_at": "2025",
+          "notes": "Nine task folders are present, but the stack requires OpenAI/Meshy APIs, Genesis and OMPL and retains machine-specific placeholders. Second-stage candidate, not the first turnkey probe."
+        },
+        {
+          "title": "Co-Design of Soft Gripper with Neural Physics",
+          "url": "https://yswhynot.github.io/codesign-soft/",
+          "arxiv_id": "2505.20404",
+          "submitted_at": "2025",
+          "notes": "R_material + π reference: simulation-trained differentiable neural-physics surrogate jointly optimizes block-wise stiffness and grasp pose, followed by 3D printing and hardware validation."
+        },
+        {
+          "title": "Co-Design of Soft Gripper official code",
+          "url": "https://github.com/yswhynot/codesign-soft-gripper",
+          "submitted_at": "2025",
+          "notes": "Best first runnable baseline. MIT; Python 3.10 and Warp; GPU optional; includes a YCB mustard-bottle quick simulation, trained model, hardware models, assembly notes and motor-control scripts."
+        },
+        {
+          "title": "Robust Co-Design of Robot Morphology and Control (CageCoOpt)",
+          "url": "https://sites.google.com/view/robust-codesign/",
+          "arxiv_id": "2409.11113",
+          "submitted_at": "2025",
+          "notes": "R + π Bayesian morphology/control optimization with contact-robustness energy; paper/video available, no official code located."
+        },
+        {
+          "title": "Latent Diffeomorphic Co-Design of End-Effectors and Policies for Deformable Object Manipulation",
+          "url": "https://arxiv.org/abs/2602.17921",
+          "arxiv_id": "2602.17921",
+          "submitted_at": "2026",
+          "notes": "R + π reference for fragile/deformable food: latent end-effector shape, stress-aware bilevel optimization and policy distillation with sim-to-real. No official code located at review."
+        },
+        {
+          "title": "HandCDO official code",
+          "url": "https://github.com/aminmirz/HandCDO",
+          "submitted_at": "2026",
+          "notes": "MIT robot-hand contact-design baseline using Isaac-based wrench-space evaluation and Bayesian/TPE search. Source is available but end-to-end environment setup still needs engineering."
+        },
+        {
+          "title": "MoMa-CoDesign code",
+          "url": "https://github.com/robot-learning-freiburg/mobile-rl/tree/moma-codesign",
+          "submitted_at": "2025",
+          "notes": "Mobile-manipulator morphology and multi-task RL baseline with ROS/Gazebo/devcontainer support. Full search is reported as long-running and is unsuitable for the first quick probe."
+        },
+        {
+          "title": "DiffTactile official code",
+          "url": "https://github.com/Genesis-Embodied-AI/DiffTactile",
+          "submitted_at": "2024",
+          "notes": "MIT differentiable tactile/contact simulator covering rigid, elastic/plastic and cable interactions plus system identification. Useful infrastructure for geometry, compliance and contact-aware design; not itself a product co-design method."
+        },
+        {
+          "title": "WarpDiffRobot official code",
+          "url": "https://github.com/MediosZ/WarpDiffRobot",
+          "submitted_at": "2025",
+          "notes": "Differentiable simulator-calibration layer for estimating mass, inertia and elastic parameters from robot-object interaction. Useful before trusting design rankings; no explicit repository license visible at review."
+        },
+        {
+          "title": "DiffuseBot: Breeding Soft Robots with Physics-Augmented Generative Diffusion Models",
+          "url": "https://diffusebot.github.io/",
+          "submitted_at": "2023",
+          "notes": "Method ancestor for generative geometry, material, actuation and control co-design with differentiable simulation. Product/environment fixed and project page still marks code as to be released."
+        },
+        {
+          "title": "SoftZoo official code",
+          "url": "https://github.com/zswang666/softzoo",
+          "submitted_at": "2023",
+          "notes": "Open differentiable soft-robot morphology/control benchmark. Useful method baseline, but it optimizes the robot against a fixed environment rather than product × robot."
+        },
+        {
+          "title": "Evolution Gym official code",
+          "url": "https://github.com/EvolutionGym/evogym",
+          "submitted_at": "2021",
+          "notes": "Open voxel-soft-robot morphology/control benchmark and evolutionary baseline; adjacent infrastructure, not direct product design."
+        },
+        {
+          "title": "RoboGrammar: Graph Grammar for Terrain-Optimized Robot Design",
+          "url": "https://people.csail.mit.edu/jiex/papers/robogrammar/index.html",
+          "submitted_at": "2020",
+          "notes": "Grammar plus search ancestor for manufacturable robot structure and controller optimization. Useful representation/search baseline; product and task environment stay fixed."
+        },
+        {
+          "title": "Articraft: An Agentic System for Scalable Articulated 3D Asset Generation",
+          "url": "https://articraft3d.github.io/",
+          "submitted_at": "2025",
+          "notes": "Fabrication-layer inspiration for code-first parts, joints, URDF-style structure and geometry validation. Treat as editable-CAD and assembly-metadata evidence, not a joint product–robot simulation baseline."
+        },
+        {
+          "title": "Allo AI-assisted creation",
+          "url": "https://allotech-ai.com/creating/home",
+          "submitted_at": "2026-05",
+          "notes": "Product-creation interaction reference retained from the former PoD card; not research or simulation evidence."
+        },
+        {
+          "title": "Blueprint AI hardware design tool",
+          "url": "https://www.blueprint.am/",
+          "submitted_at": "2026-05",
+          "notes": "Prompt-to-hardware planning reference for diagrams, BOM and assembly guidance; not an open co-design baseline."
+        }
+      ],
+      "task_ids": [
+        "task_product_robot_codesign_reproduce_open_baselines_20260729",
+        "task_product_robot_codesign_joint_pilot_20260729",
+        "task_pod_3d_engine_benchmark",
+        "task_pod_agent_pipeline",
+        "task_pod_articraft_probe",
+        "task_pod_cad_stack",
+        "task_pod_cell_driver_skeleton",
+        "task_pod_demo_viewer",
+        "task_pod_input_schema",
+        "task_pod_printer_farm_cell",
+        "task_pod_retrofit_demo",
+        "task_pod_second_retrofit_product"
+      ],
+      "updated_at": "2026-07-29T08:19:49.942Z",
+      "asset": "dashboard/assets/robotics-3d-printing-platform.png",
+      "asset_alt": "AI-assisted product design and printable assembly workflow used as the fabrication handoff for product–robot co-design",
+      "asset_caption": "Inherited PoD reference: generated product geometry becomes editable CAD, printable parts, jigs and robot-operable assembly artifacts; simulation evidence still requires P × R × π ablations."
     },
     {
       "schema_version": "project.v1",
@@ -5359,12 +5662,12 @@ export default {
     {
       "schema_version": "project.v1",
       "project_id": "open-hardware-mobile-collection-survey",
-      "title": "Open-Hardware Mobile Collection",
-      "bucket": "survey",
-      "status": "survey",
-      "updated_at": "2026-06-05T00:18:00+02:00",
-      "description": "Keep in Survey: the open-hardware question is a data-value-per-setup-hour decision, not a build commitment.",
-      "summary": "Survey-stage consolidation of Notion open-hardware and mobile data-collection ideas: decide which low-cost robot arms, hands, mobile bases, and sensing rigs can become a realistic collection platform rather than a hardware distraction.",
+      "title": "Archive: Open-Hardware Mobile Collection",
+      "bucket": "archive",
+      "status": "archived",
+      "updated_at": "2026-07-29T06:49:47.538Z",
+      "description": "Archived on 2026-07-29: this standalone open-hardware/mobile collection track is no longer active.",
+      "summary": "Archived reference material for previously surveyed low-cost arms, hands, mobile bases, and sensing rigs. Reopen only if a concrete owner, platform, dataset objective, and build/validation plan are established.",
       "asset": "dashboard/assets/survey-open-hardware-mobile-collection.svg",
       "details": [
         {
@@ -5596,7 +5899,7 @@ export default {
       "schema_version": "project.v1",
       "bucket": "archive",
       "status": "archived",
-      "updated_at": "2026-07-08T00:20:00+08:00",
+      "updated_at": "2026-07-29T07:47:49.563Z",
       "visual": {
         "layout": "single_column"
       },
@@ -5620,13 +5923,13 @@ export default {
             }
           ]
         },
-        "Moved-out live work: if Robotics + 3D Printing reopens, use aesthetic checks as a secondary product-quality metric, not a standalone Survey project.",
+        "Moved-out live work: if Simulation-Based Product–Robot Co-Design reaches fabrication, use aesthetic checks as a secondary product-quality metric, not a standalone Survey project.",
         "Archive decision: no open TODO until tied to a specific product/CAD/demo acceptance gate."
       ],
       "risks_decisions": [
         "Archived 2026-05-31 after per-project survey audit.",
         "Reason type: externally covered and not currently connected to embodied data/model/robot execution.",
-        "Reopen condition: generated robot assets or PoD products need a measurable aesthetic/utility scoring pipeline."
+        "Reopen condition: generated robot assets or product–robot co-design artifacts need a measurable aesthetic/utility scoring pipeline."
       ]
     },
     {
@@ -5828,7 +6131,7 @@ export default {
   ],
   "taskDoc": {
     "schema_version": "tasks.v1",
-    "updated_at": "2026-07-29T04:01:45.520Z",
+    "updated_at": "2026-07-29T08:28:06.679Z",
     "owner": "dashboard",
     "tasks": [
       {
@@ -8942,7 +9245,7 @@ export default {
       },
       {
         "task_id": "task_pod_3d_engine_benchmark",
-        "project_id": "robotics-3d-printing",
+        "project_id": "product-robot-codesign-simulation-survey",
         "title": "Benchmark photo / text-to-3D engines",
         "description": "Use one reference object image to compare Tripo AI 3.1, Hunyuan 3D 3.1, Meshy 6, and an Articraft-style programmatic asset route; record geometry quality, printability, editability, and whether part / joint metadata survives into CAD or URDF-style outputs.",
         "status": "done",
@@ -8972,13 +9275,13 @@ export default {
             "kind": "host_verified"
           }
         ],
-        "updated_at": "2026-05-22T02:14:04+08:00",
+        "updated_at": "2026-07-29T08:19:49.942Z",
         "completed_at": "2026-05-22",
         "due_at": ""
       },
       {
         "task_id": "task_pod_articraft_probe",
-        "project_id": "robotics-3d-printing",
+        "project_id": "product-robot-codesign-simulation-survey",
         "title": "Try Articraft-style articulated asset harness",
         "description": "Study https://articraft3d.github.io/ and run a small probe around one printable articulated object or helper tool: generate via code, inspect parts / joints / tests, and decide whether the constrained SDK + validation harness idea can become the editable CAD / robot-assembly metadata layer.",
         "status": "done",
@@ -9001,13 +9304,13 @@ export default {
             "kind": "host_verified"
           }
         ],
-        "updated_at": "2026-05-22T02:14:04+08:00",
+        "updated_at": "2026-07-29T08:19:49.942Z",
         "completed_at": "2026-05-22",
         "due_at": ""
       },
       {
         "task_id": "task_pod_cad_stack",
-        "project_id": "robotics-3d-printing",
+        "project_id": "product-robot-codesign-simulation-survey",
         "title": "Evaluate code-controllable CAD stack",
         "description": "Blender MCP seems practical for boolean cuts, scale edits, coordinates, and simple text insertion; compare with parametric options such as CadQuery / OpenSCAD / FreeCAD, plus an Articraft-like SDK harness, for more reliable manufacturing constraints and part-level semantics.",
         "status": "done",
@@ -9030,13 +9333,13 @@ export default {
             "kind": "host_verified"
           }
         ],
-        "updated_at": "2026-05-22T02:14:04+08:00",
+        "updated_at": "2026-07-29T08:19:49.942Z",
         "completed_at": "2026-05-22",
         "due_at": ""
       },
       {
         "task_id": "task_pod_input_schema",
-        "project_id": "robotics-3d-printing",
+        "project_id": "product-robot-codesign-simulation-survey",
         "title": "Define PoD input schema",
         "description": "Text demand, object images, rough dimensions, contact surfaces, load/material constraints, printer type, bed / removal constraints, same-plate helper tooling, and desired human / robot assembly behavior.",
         "status": "done",
@@ -9059,13 +9362,13 @@ export default {
             "kind": "host_verified"
           }
         ],
-        "updated_at": "2026-05-22T02:14:04+08:00",
+        "updated_at": "2026-07-29T08:19:49.942Z",
         "completed_at": "2026-05-22",
         "due_at": ""
       },
       {
         "task_id": "task_pod_agent_pipeline",
-        "project_id": "robotics-3d-printing",
+        "project_id": "product-robot-codesign-simulation-survey",
         "title": "Prototype the agent pipeline",
         "description": "Analyze object + demand, write design prompt, generate concept / asset, clean part and helper jigs in CAD, export STL / 3MF, then generate printer-farm takeout and robot / human assembly instruction prompts.",
         "status": "done",
@@ -9095,13 +9398,13 @@ export default {
             "kind": "comment"
           }
         ],
-        "updated_at": "2026-05-29T00:58:32+08:00",
+        "updated_at": "2026-07-29T08:19:49.942Z",
         "completed_at": "2026-05-22",
         "due_at": ""
       },
       {
         "task_id": "task_pod_printer_farm_cell",
-        "project_id": "robotics-3d-printing",
+        "project_id": "product-robot-codesign-simulation-survey",
         "title": "Scope robotic printer-farm takeout and assembly cell",
         "description": "Define the first automation cell: a robot arm removes finished prints from the printer, clears or resets the build plate, sorts parts, and assembles them using helper jigs or end-effector tools printed on the same build plate.",
         "status": "done",
@@ -9131,13 +9434,13 @@ export default {
             "kind": "comment"
           }
         ],
-        "updated_at": "2026-05-29T00:39:50+08:00",
+        "updated_at": "2026-07-29T08:19:49.942Z",
         "due_at": "",
         "completed_at": "2026-05-29"
       },
       {
         "task_id": "task_pod_retrofit_demo",
-        "project_id": "robotics-3d-printing",
+        "project_id": "product-robot-codesign-simulation-survey",
         "title": "Build one retrofit demo",
         "description": "Start from a MakerLab-style PoD case such as a Mac mini top power-button extender, then extend it into a mini printer-farm demo: printable product part plus same-plate fixture / tool and a simple takeout or assembly script.",
         "status": "done",
@@ -9167,7 +9470,7 @@ export default {
             "kind": "comment"
           }
         ],
-        "updated_at": "2026-05-29T00:58:32+08:00",
+        "updated_at": "2026-07-29T08:19:49.942Z",
         "completed_at": "2026-05-22",
         "due_at": ""
       },
@@ -10230,7 +10533,7 @@ export default {
       },
       {
         "task_id": "task_hoi_pnp_calibration",
-        "project_id": "real-robot-demos",
+        "project_id": "human-intention-sensorium-survey",
         "title": "Add PnP calibration layer for camera extrinsics",
         "description": "Extra calibration support was added to help 2077AI stabilize camera extrinsics after sensor synchronization took longer than expected.",
         "status": "done",
@@ -10277,11 +10580,11 @@ export default {
             "created_at": "2026-07-18T03:53:00.469Z"
           }
         ],
-        "updated_at": "2026-07-19T01:56:26.790Z"
+        "updated_at": "2026-07-29T08:27:56.344Z"
       },
       {
         "task_id": "task_hoi_collection_matrix",
-        "project_id": "real-robot-demos",
+        "project_id": "human-intention-sensorium-survey",
         "title": "Freeze the same-task collection matrix",
         "description": "Define the identical task across glove, UMI, ALOHA, drag demonstration, and teleoperation, with human-centric and robot-centric camera views.",
         "status": "done",
@@ -10315,12 +10618,12 @@ export default {
             "created_at": "2026-07-18T03:53:00.469Z"
           }
         ],
-        "updated_at": "2026-07-19T01:56:26.790Z",
+        "updated_at": "2026-07-29T08:27:56.938Z",
         "completed_at": "2026-05-22"
       },
       {
         "task_id": "task_hoi_sensor_validation",
-        "project_id": "real-robot-demos",
+        "project_id": "human-intention-sensorium-survey",
         "title": "Validate synchronized sensor package",
         "description": "Confirm hand pose, ego camera, and z16-encoded depth are aligned well enough for HOI supervision; z16 replaces depth heatmaps for better metric accuracy.",
         "status": "done",
@@ -10361,12 +10664,12 @@ export default {
             "created_at": "2026-07-18T03:53:00.469Z"
           }
         ],
-        "updated_at": "2026-07-19T01:56:26.790Z",
+        "updated_at": "2026-07-29T08:27:57.538Z",
         "completed_at": "2026-05-22"
       },
       {
         "task_id": "task_hoi_object_tracking",
-        "project_id": "real-robot-demos",
+        "project_id": "human-intention-sensorium-survey",
         "title": "Add object tracking with the same mechanism as hand tracking",
         "description": "The object tracker should share the same tracking / calibration assumptions as the hand tracker rather than creating a separate data path.",
         "status": "done",
@@ -10400,12 +10703,12 @@ export default {
             "created_at": "2026-07-18T03:53:00.469Z"
           }
         ],
-        "updated_at": "2026-07-19T01:56:26.790Z",
+        "updated_at": "2026-07-29T08:27:58.183Z",
         "completed_at": "2026-05-22"
       },
       {
         "task_id": "task_hoi_schema_model_target",
-        "project_id": "real-robot-demos",
+        "project_id": "human-intention-sensorium-survey",
         "title": "Define unified HOI schema and baseline model target",
         "description": "Specify common timestamps, camera extrinsics, hand / object state, robot embodiment metadata, and the prediction target for the HOI base model / world model. The retargeting label should be object-centric: same object trajectory, contact sequence, grasp / tool-use mode, and task result across human hand and robot hand, not raw joint-angle similarity.",
         "status": "done",
@@ -10437,13 +10740,13 @@ export default {
             "created_at": "2026-07-18T03:53:00.469Z"
           }
         ],
-        "updated_at": "2026-07-19T01:56:26.790Z",
+        "updated_at": "2026-07-29T08:27:58.793Z",
         "completed_at": "2026-05-22",
         "due_at": ""
       },
       {
         "task_id": "task_hoi_retargeting_baselines",
-        "project_id": "real-robot-demos",
+        "project_id": "human-intention-sensorium-survey",
         "title": "Connect retargeting baselines",
         "description": "Use the HOI Retargeting notes to compare Manus glove -> LEAP / Isaac Sim retargeting, object-centric / functional retargeting baselines such as HOP, Object-Centric Dexterous Manipulation, DexMachina, DexFlow, and GenHand, plus object sim2real alignment ideas such as FoundationPose. Isaac Sim should score whether the robot reproduces the same object-state transition and contact result.",
         "status": "done",
@@ -10489,7 +10792,7 @@ export default {
             "created_at": "2026-07-18T03:53:00.469Z"
           }
         ],
-        "updated_at": "2026-07-19T01:56:26.790Z",
+        "updated_at": "2026-07-29T08:28:00.637Z",
         "completed_at": "2026-05-22",
         "due_at": ""
       },
@@ -10787,7 +11090,7 @@ export default {
       },
       {
         "task_id": "task_pod_cell_driver_skeleton",
-        "project_id": "robotics-3d-printing",
+        "project_id": "product-robot-codesign-simulation-survey",
         "title": "把 takeout runbook 接成 Piper-X / printer cell driver skeleton",
         "description": "Why now: printer_farm_cell scope 已完成，下一步要把 printed artifacts 接到真机控制边界。Deliverable: cell_driver/ skeleton，含 printer status adapter、bed perception placeholder、Piper-X pick/place API stub、安全 state machine。Acceptance: 用 assembly_plan.json dry-run 走完整状态机，输出每步 command envelope 和 fail-safe path。",
         "status": "done",
@@ -10824,13 +11127,13 @@ export default {
             "kind": "comment"
           }
         ],
-        "updated_at": "2026-05-29T01:09:21+08:00",
+        "updated_at": "2026-07-29T08:19:49.942Z",
         "due_at": "2026-05-28",
         "completed_at": "2026-05-29"
       },
       {
         "task_id": "task_pod_demo_viewer",
-        "project_id": "robotics-3d-printing",
+        "project_id": "product-robot-codesign-simulation-survey",
         "title": "把 PoD retrofit demo 做成可展示 viewer",
         "description": "Why now: retrofit_extender 已能生成 STLs/URDF/GLB/runbook，但展示仍是文件列表和命令行。Deliverable: 一个本地可开的 demo viewer，展示 GLB、build plate、四个 STL、7-step robot/printer runbook。Acceptance: 一条命令启动 viewer；README 里写明 URL 和 demo flow；重新跑 run_demo.py 后 viewer 自动读取 out/。",
         "status": "done",
@@ -10867,13 +11170,13 @@ export default {
             "kind": "comment"
           }
         ],
-        "updated_at": "2026-05-29T01:09:21+08:00",
+        "updated_at": "2026-07-29T08:19:49.942Z",
         "due_at": "2026-05-26",
         "completed_at": "2026-05-23"
       },
       {
         "task_id": "task_pod_second_retrofit_product",
-        "project_id": "robotics-3d-printing",
+        "project_id": "product-robot-codesign-simulation-survey",
         "title": "新增第二个 PoD retrofit 产品验证泛化",
         "description": "Why now: Mac-mini extender 证明了单例闭环，但 schema/pipeline 泛化还没验证。Deliverable: 一个不同接触/安装形态的第二产品（如 cable clip、drawer latch、tool holder），走 input_schema -> agent_pipeline -> STLs/URDF/jigs/runbook。Acceptance: 与 extender 共享同一 pipeline，无硬编码路径；validation_report ok。",
         "status": "done",
@@ -10896,7 +11199,7 @@ export default {
             "kind": "comment"
           }
         ],
-        "updated_at": "2026-05-29T01:09:21+08:00",
+        "updated_at": "2026-07-29T08:19:49.942Z",
         "due_at": "2026-05-30",
         "completed_at": "2026-05-23"
       },
@@ -11319,7 +11622,7 @@ export default {
       },
       {
         "task_id": "task_hoi_contact_annotation_pack",
-        "project_id": "real-robot-demos",
+        "project_id": "human-intention-sensorium-survey",
         "title": "定义 object/contact annotation pack 并标注样例",
         "description": "Why now: HOI retargeting 目标不是关节相似，而是 object trajectory/contact/task result。Deliverable: contact patch、contact normal、grasp/tool-use mode、object pose trajectory 的 label spec + 5 个样例。Acceptance: 标注能喂给 retargeting baseline 或 Isaac verifier。",
         "status": "done",
@@ -11365,13 +11668,13 @@ export default {
             "created_at": "2026-07-18T03:53:00.469Z"
           }
         ],
-        "updated_at": "2026-07-19T01:56:26.790Z",
+        "updated_at": "2026-07-29T08:28:01.407Z",
         "due_at": "2026-05-28",
         "completed_at": "2026-05-23"
       },
       {
         "task_id": "task_hoi_isaac_retargeting_verifier_v0",
-        "project_id": "real-robot-demos",
+        "project_id": "human-intention-sensorium-survey",
         "title": "做 Isaac retargeting verifier v0",
         "description": "Why now: 已经决定要用 Isaac 判断机器人是否复现同一 object-state transition。Deliverable: 一个 v0 verifier，输入 human HOI label + robot candidate trajectory，输出 object pose/contact/joint-limit/collision/failure report。Acceptance: 能在 mock scene 上跑通，并给出可解释 reject reason。",
         "status": "done",
@@ -11431,13 +11734,13 @@ export default {
             "created_at": "2026-07-18T03:53:00.469Z"
           }
         ],
-        "updated_at": "2026-07-19T01:56:26.790Z",
+        "updated_at": "2026-07-29T08:28:02.097Z",
         "due_at": "2026-05-30",
         "completed_at": "2026-05-23"
       },
       {
         "task_id": "task_hoi_two_modality_capture_smoke",
-        "project_id": "real-robot-demos",
+        "project_id": "human-intention-sensorium-survey",
         "title": "同一任务跑两个采集模态 smoke",
         "description": "Why now: collection matrix/schema 都完成了，下一步要证明同一任务能跨模态对齐。Deliverable: 选一个 manipulation task，至少 glove/UMI 或 teleop/drag 两个模态各出 1 条样例。Acceptance: 两条样例共享 task_id/object_id/timestamps/camera metadata，并能在同一 schema validator 中通过。",
         "status": "done",
@@ -11497,7 +11800,7 @@ export default {
             "created_at": "2026-07-18T03:53:00.469Z"
           }
         ],
-        "updated_at": "2026-07-19T01:56:26.790Z",
+        "updated_at": "2026-07-29T08:28:02.860Z",
         "due_at": "2026-05-27",
         "completed_at": "2026-05-23"
       },
@@ -17351,7 +17654,7 @@ export default {
       },
       {
         "task_id": "task_real_robot_demo_do_as_i_do_franka_wuji_tactile",
-        "project_id": "real-robot-demos",
+        "project_id": "human-intention-sensorium-survey",
         "title": "Reproduce Do-As-I-Do on Franka + Wuji and test tactile value",
         "description": "把 Do-As-I-Do 作为真机 Engineering 复现实验，而不是只放 Survey：在 Franka + Wuji Hand 上复现“monocular human video -> hand-object reconstruction -> robot retargeting -> executable manipulation data”的链路，并专门做 tactile ablation，回答触觉在整条数据生成/retarget/执行链路中到底提供什么增益。\n\nReference: https://do-as-i-do.com/ ; arXiv 2606.19333 ; code: https://github.com/malik-group/do-as-i-do 。项目页面描述的核心步骤是从日常单目 RGB 人类视频重建 hand-object interaction，再用 sampling-based optimization retarget 到多指机器人手；我们的复现目标是把它落到 Franka + Wuji，而不是只停留在网页调研。\n\nAcceptance: 1) 选 3-5 个可在 Wuji 上完成的短任务，至少包含一种刚体 grasp/manipulation 和一种接触敏感任务；2) 跑通 Do-As-I-Do 或等价 pipeline 的视频输入、3D object/hand reconstruction、retarget action、sim/real playback；3) 记录 Franka arm pose、Wuji joint/action、Wuji tactile、RGB/Depth/外参和对象状态的统一 schema；4) 做 no-tactile / tactile-observed / tactile-feedback 三组对照，比较成功率、接触时序、滑移/掉落、过大接触力、regrasp 次数、trajectory deviation；5) 明确触觉只作为 logging/evaluation、policy input、online correction、还是 retarget optimization constraint 时分别有什么价值；6) 输出失败样例和结论，回流到 Tactile-WAM / VTLA：触觉是否值得进入 video-to-touch / WAM 训练目标。",
         "status": "done",
@@ -17369,7 +17672,7 @@ export default {
             "created_at": "2026-07-21T08:44:21.685Z"
           }
         ],
-        "updated_at": "2026-07-21T08:44:21.685Z",
+        "updated_at": "2026-07-29T08:28:03.494Z",
         "completed_at": "2026-07-21",
         "completed_at_time": "2026-07-21T08:44:21.685Z"
       },
@@ -17535,9 +17838,9 @@ export default {
           }
         ],
         "created_at": "2026-06-27T05:42:22.606Z",
-        "updated_at": "2026-07-27T12:08:35.491Z",
+        "updated_at": "2026-07-29T08:27:55.531Z",
         "task_id": "task_umi_stage2_vddm_human_ego_probe_20260627",
-        "project_id": "real-robot-demos",
+        "project_id": "human-intention-sensorium-survey",
         "title": "Ego2Dex archive: human-hand manipulation decomposition sidecars",
         "assignee": "Boris / Ziyang Meng / Yongxi Lai",
         "due_at": "2026-07-10",
@@ -18155,7 +18458,7 @@ export default {
         "task_id": "task_umi_ziyang_object_layer_pose_value_benchmark_20260707",
         "project_id": "umi-world-model",
         "title": "Ziyang Meng：Object Layer pose / flow / value 路由验证",
-        "status": "active",
+        "status": "done",
         "priority": "high",
         "assignee": "Ziyang Meng / Jiayi Qiao / Boris",
         "due_at": "2026-07-20",
@@ -18218,7 +18521,9 @@ export default {
           }
         ],
         "created_at": "2026-07-07T12:00:00+08:00",
-        "updated_at": "2026-07-27T12:02:30.363Z"
+        "updated_at": "2026-07-27T13:18:58.723Z",
+        "completed_at": "2026-07-27",
+        "completed_at_time": "2026-07-27T13:18:58.723Z"
       },
       {
         "task_id": "task_umi_user_tokens_autodl_resource_governance_20260707",
@@ -18763,7 +19068,7 @@ export default {
         "project_id": "self-improving-agents",
         "title": "[Phase 2 / Route 3B Generation fallback] Shao Gujie：评测刚体/关节物体 3D 生成后端",
         "description": "[PHASE 2 PLAN 2026-07-21 · USER-SUPPLIED 2026-07-22] 主负责人：Shao Gujie；Hu 负责 Harness/Transfer 接口 review。仅当 Asset reuse 的检索、匹配与参数补全无法满足场景条件时触发。\n\n目标：评测刚体与关节物体的直接 3D 生成后端，同时保持 Harness 与具体供应商/模型解耦。首个固定候选为 EmbodiedGen V2，可比较 Meshy、Tripo 与 SAM3 类方案。\n\n主要工作：检查视觉/碰撞几何、单位、坐标轴、尺度、材质、质量、惯量、稳定姿态、关节拓扑、限位和驱动；保存 provenance 与哈希；把结果编译到 SAPIEN 和第二后端。\n\n验收：至少测试 3 个刚体和 3 个关节物体；保存 prompt、配置、seed、模型版本、输出哈希与失败产物；比较任务匹配度、几何、碰撞、尺度、物理稳定性、关节有效性、确定性、重试次数、延迟、峰值显存和 API 成本；对每个后端给出 adopt、partial、research-only 或 reject 结论。\n\n安全边界：密钥和受限数据不得进入 Dashboard、日志或产物；复用尚可满足约束时不得绕过 selection-first 路由。",
-        "status": "todo",
+        "status": "done",
         "priority": "high",
         "assignee": "Shao Gujie",
         "result": null,
@@ -18787,15 +19092,16 @@ export default {
             "created_at": "2026-07-22T02:53:50.821Z"
           }
         ],
-        "updated_at": "2026-07-22T02:53:50.821Z",
-        "completed_at": null
+        "updated_at": "2026-07-27T13:27:13.656Z",
+        "completed_at": "2026-07-27",
+        "completed_at_time": "2026-07-27T13:27:13.656Z"
       },
       {
         "task_id": "task_umi_world_model_ziyang_meng_mimic_video_robot_layer_action_idm_20260713",
         "project_id": "umi-world-model",
         "title": "Ziyang Meng：评估 MIMIC-Video 的 Robot Layer → action IDM",
         "description": "评估 https://mimic-video.github.io/ 与官方代码 https://github.com/mimic-video/mimic-video 是否能把 UMI Robot Layer 转成可用 action。技术边界：MIMIC-Video 不是 mask-to-action 黑盒；其 flow-matching action decoder 由预训练视频模型的 latent visual plan 和 proprioceptive state 条件化，作为 IDM 预测 action trajectory。UMI 必须验证 Robot Layer 表示是否保留视频 backbone/decoder 需要的动态信息。\n\n执行顺序：1) 先按会议要求用默认设置做 global-layer + initial robot state -> future delta-action baseline；2) 再比较 robot RGB/RGBA layer、robot mask video、global+robot fusion 三种输入；3) 固定相机 pose 的场景先做，不把未知 camera calibration 当成已解决；4) 对接官方 Cosmos-Predict2 2B + action decoder 路径，优先跑公开 Bridge/LIBERO checkpoint/eval smoke，再替换成 UMI 数据；5) 测试 Euler pose、quaternion pose、10D action 等表示，并明确 gripper width、frame rate、normalization 和 action chunk 对齐。\n\nAcceptance: 1) 固定官方 git SHA、checkpoint、环境、数据 schema 和复现命令；2) 跑通至少一个官方 inference/eval，再跑同一批 UMI clips 的 global、robot-only、global+robot 三路；3) 报告 action L2/rotation/translation/gripper error、trajectory drift、chunk latency、VRAM、actual-vs-zero/wrong-action separation 和可用时的 rollout success；4) 明确 mask-only 是否信息不足、robot RGBA 是否需要重训 video backbone、initial state/proprioception 如何注入；5) 输出 predicted-vs-GT action plot、reconstructed/denoised plan video、failure gallery；6) 与简单 CNN/ViT robot-layer IDM 和 global-layer baseline 比较，不能只复现论文数字；7) GitHub 共享文档和可视化，并给出 adopt/cherry-pick/reject MIMIC-Video action decoder 的结论。",
-        "status": "active",
+        "status": "done",
         "priority": "high",
         "assignee": "Ziyang Meng / Boris",
         "result": null,
@@ -18810,8 +19116,10 @@ export default {
             "created_at": "2026-07-13T13:49:07.260Z"
           }
         ],
-        "updated_at": "2026-07-27T12:02:31.040Z",
-        "due_at": "2026-07-20"
+        "updated_at": "2026-07-27T13:19:00.658Z",
+        "due_at": "2026-07-20",
+        "completed_at": "2026-07-27",
+        "completed_at_time": "2026-07-27T13:19:00.658Z"
       },
       {
         "task_id": "task_umi_world_model_boris_action_conditioned_teacher_student_20260713",
@@ -19128,7 +19436,7 @@ export default {
         "project_id": "umi-world-model",
         "title": "测试 cuVSLAM：在移除 robot/object 后的 UMI wrist view 上跑 VO/SLAM",
         "description": "把 NVIDIA cuVSLAM / Isaac ROS Visual SLAM 加入 UMI Stage 2/3 的 wrist-view geometry probe。先确认 UMI 数据能否满足 cuVSLAM 的输入约束（支持模式、成对相机/时间同步、内参、畸变与 rectification；不要默认左右腕相机就是有效 stereo pair）。为同一批 3-5 个 UMI clips 制作三种输入：raw wrist view、robot removed/inpainted、robot + manipulated object removed/inpainted；保持相同裁剪、时间戳与相机参数。分别运行 cuVSLAM，并以 ORB-SLAM3、VGGT-SLAM 为对照，记录初始化/跟踪成功率、lost/restart 次数、valid-pose ratio、轨迹平滑度、ATE/RPE 或无 GT 时的循环/重投影代理、速度、VRAM 与失败样例。核心检验不是“去掉前景一定更好”，而是量化动态 robot/object 像素与 inpainting temporal artifacts 对 VO/SLAM 的净影响。验收：提供可复查命令/配置、输入与 mask/layer_manifest、三路轨迹叠加或可视化、指标表和明确 go/no-go 结论；若输入模式不兼容，写明最小采集/标定改造。参考：https://github.com/nvidia-isaac/cuVSLAM 和 https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_visual_slam。",
-        "status": "active",
+        "status": "done",
         "priority": "high",
         "assignee": "Jiayi Qiao",
         "result": null,
@@ -19143,17 +19451,17 @@ export default {
             "created_at": "2026-07-16T13:58:59.096Z"
           }
         ],
-        "updated_at": "2026-07-27T12:02:28.006Z",
+        "updated_at": "2026-07-27T13:19:02.280Z",
         "due_at": "2026-07-20",
-        "completed_at": null,
-        "completed_at_time": null
+        "completed_at": "2026-07-27",
+        "completed_at_time": "2026-07-27T13:19:02.280Z"
       },
       {
         "task_id": "task_urdf_embodiment_prior_world_model_idea_yubo_bridgev2w_kinema4d_oscar_urdf_world_model_n_20260716",
         "project_id": "umi-world-model",
         "title": "yubo：评估可选 URDF/MVA visual-control 支线（BridgeV2W / Kinema4D / OSCAR / SimDist）",
         "description": "将本任务收口为 UMI Stage 1 的可选 embodiment-control ablation，不作为 WM-T、WM-C 或 WM-F 的训练前置条件。主线始终使用同步多视角 RGB/history、10-D numeric action/state、每视角 calibrated K/T 与 shared-world communication。第一组先在固定外部相机上比较 numeric-action-only、+URDF/MVA masked robot raster、BridgeV2W、Kinema4D、OSCAR 与 SimDist；使用同一 1-2 条轨迹、相机、首帧与目标视频，记录控制表示、URDF/renderer/IK依赖、action adherence、object/contact outcome、embodiment transfer、runtime/VRAM、代码/权重可用性与失败样例。只有 fixed-exo 分支通过后，才在 wrist/head 视角加入 hand-eye/FK-derived camera trajectory，并按 robot visibility gate 启用可见 gripper/tool raster；PRoPE/Patch Memory负责动态相机背景视差与新区域显露。UMI只有 EE action 时，必须显式记录 current q + IK/controller rollout -> q[t:t+T]，不能假设 10-D EE action唯一确定完整URDF姿态。Novelty gate：URDF + action + camera或rendered control video本身不是新颖性；仅当该支线相对必需主线在held-out embodiment、robot pose、object/contact response或data efficiency上产生稳定增益，才考虑晋级为默认条件。参考：https://arxiv.org/abs/2602.03793 ；https://arxiv.org/abs/2603.16669 ；https://arxiv.org/abs/2606.04463 ；https://sim-dist.github.io ；https://masked-visual-actions.github.io/",
-        "status": "active",
+        "status": "done",
         "priority": "high",
         "assignee": "yubo",
         "result": null,
@@ -19194,16 +19502,16 @@ export default {
             "created_at": "2026-07-23T10:40:55.469Z"
           }
         ],
-        "updated_at": "2026-07-27T11:45:40.267Z",
-        "completed_at": null,
-        "completed_at_time": null
+        "updated_at": "2026-07-27T13:18:49.737Z",
+        "completed_at": "2026-07-27",
+        "completed_at_time": "2026-07-27T13:18:49.737Z"
       },
       {
         "task_id": "task_self_improving_agents_phase_2_harness_build_reusable_skill_mcp_registr_20260717",
         "project_id": "self-improving-agents",
         "title": "[Phase 2 / Core Harness] Hu：冻结公共接口并搭建 Skill/MCP Harness",
         "description": "[PHASE 2 PLAN 2026-07-21 · USER-SUPPLIED 2026-07-22] 主负责人：Hu。Zheng Ye 与 Shao Gujie 分别提供输入路线和资产路线 adapter/fixture，并以 reviewer 身份协作。\n\n目标：把 V1 已验收的 Text2Env、Anchor2Env、互联网资产导入和 Open-X-Sim 迁移封装成统一、可复用的 Skill/MCP Harness；不重新证明 V1。\n\n前置：Onboarding 完成后，三人共同冻结 SceneSpec、AssetManifest、EnvironmentPackage、provenance/source、错误码和随机种子规则；Hu 搭建 registry 与运行骨架。\n\n主要工作：为 discover、match、parameter fill、generate、compile、validate、replay 和 transfer 定义版本化类型接口；记录工具版本、依赖和副作用边界；实现 selection-first、有限重试、run_state、events、artifact manifest、typed blocker、rollback、CI 与回归门禁。\n\n验收：四条路线均能作为带版本号的 Skill/MCP 调用并拥有确定性 fixture；每次运行保留种子、模型/adapter 版本、来源与哈希、淘汰候选、验证结果和错误码；Schema、来源、物理、回放或迁移损失不合格时禁止发布。\n\n待确认：共用模拟器后端与第二 adapter、公共接口冻结时间、第一轮端到端联调日期。",
-        "status": "todo",
+        "status": "done",
         "priority": "urgent",
         "assignee": "Hu",
         "result": null,
@@ -19236,8 +19544,9 @@ export default {
             "created_at": "2026-07-23T07:50:05.000Z"
           }
         ],
-        "updated_at": "2026-07-23T07:50:05.000Z",
-        "completed_at": null
+        "updated_at": "2026-07-27T13:27:05.820Z",
+        "completed_at": "2026-07-27",
+        "completed_at_time": "2026-07-27T13:27:05.820Z"
       },
       {
         "task_id": "task_self_improving_agents_phase_2_1_4_text2env_wrap_deterministic_text2env_20260717",
@@ -19286,7 +19595,7 @@ export default {
         "project_id": "self-improving-agents",
         "title": "[Phase 2 / Route 2 Anchor2Env] Zheng Ye：封装图片/视频条件环境生成路线",
         "description": "[PHASE 2 PLAN 2026-07-21 · USER-SUPPLIED 2026-07-22] 主负责人：Zheng Ye；Hu 提供 Harness review，Shao Gujie 提供资产复用/生成 adapter。执行顺序为 Text2Env 之后。\n\n目标：把 Anchor2Env V1 的图片/短视频能力接入共同 Harness，并输出与 Text2Env 相同的 EnvironmentPackage。\n\n主要工作：接收一张图片或短视频及可选文字，保存原始帧和相机假设；明确区分 observed、estimated、retrieved 与 generated 内容并输出 typed uncertainty；资产缺失时先调用 Asset reuse，复用失败后再调用 Generation fallback。\n\n验收：准备一张图片和一个短视频固定案例并各跑通一条流程；固定媒体、配置和 seed 后结果可复现；不得编造资产来源；原始输入、重建、分割、回放证据、物理验证和结构化失败案例全部进入回归测试。\n\n交付：版本化 Anchor2Env adapter、固定 fixture、EnvironmentPackage、provenance/uncertainty 记录、failure gallery，以及供 Transfer 使用的路线样例。",
-        "status": "todo",
+        "status": "done",
         "priority": "high",
         "assignee": "Zheng Ye",
         "result": null,
@@ -19319,15 +19628,16 @@ export default {
             "created_at": "2026-07-23T07:50:05.000Z"
           }
         ],
-        "updated_at": "2026-07-23T07:50:05.000Z",
-        "completed_at": null
+        "updated_at": "2026-07-27T13:27:10.077Z",
+        "completed_at": "2026-07-27",
+        "completed_at_time": "2026-07-27T13:27:10.077Z"
       },
       {
         "task_id": "task_self_improving_agents_phase_2_3a_4_asset_reuse_retrieve_match_select_a_20260717",
         "project_id": "self-improving-agents",
         "title": "[Phase 2 / Route 3A Asset reuse] Shao Gujie：检索、匹配并参数化可复用资产",
         "description": "[PHASE 2 PLAN 2026-07-21 · USER-SUPPLIED 2026-07-22] 主负责人：Shao Gujie；Hu 负责 Harness/Transfer 接口 review。该路线在公共接口冻结后与 Text2Env 并行，并且必须先于直接 3D 生成。\n\n目标：当已验证资产能够满足场景约束时，优先复用现有资产；复用失败后才允许进入 Generation fallback。\n\n主要工作：搜索官方仓库、数据集目录与项目页面；排序 Top-K 候选并记录淘汰原因；保存 license、provenance、版本和文件哈希；统一单位、坐标轴、缩放、姿态、材质、碰撞、质量与惯量；映射刚体和关节物体元数据，未知参数保留为结构化未知值。\n\n验收：先准备一个刚体和一个关节资产固定样例；两类资产均完成搜索、排序、导入、稳定性/渲染/碰撞检查；参数补全机器可读、可复现；SAPIEN 与第二后端都能加载选定资产；每个淘汰或有条件使用候选都有原因与来源。\n\n交付：版本化 asset adapter、固定查询/配置/seed、accepted/rejected manifest、转换与 QA 报告，以及供 Anchor2Env 和 Transfer 调用的接口。",
-        "status": "todo",
+        "status": "done",
         "priority": "high",
         "assignee": "Shao Gujie",
         "result": null,
@@ -19351,15 +19661,16 @@ export default {
             "created_at": "2026-07-22T02:53:50.821Z"
           }
         ],
-        "updated_at": "2026-07-22T02:53:50.821Z",
-        "completed_at": null
+        "updated_at": "2026-07-27T13:27:11.446Z",
+        "completed_at": "2026-07-27",
+        "completed_at_time": "2026-07-27T13:27:11.446Z"
       },
       {
         "task_id": "task_self_improving_agents_phase_2_4_4_transfer_package_cross_simulator_mig_20260717",
         "project_id": "self-improving-agents",
         "title": "[Phase 2 / Route 4 Transfer] Hu：封装跨模拟器迁移与损失门禁",
         "description": "[PHASE 2 PLAN 2026-07-21 · USER-SUPPLIED 2026-07-22] 主负责人：Hu；Zheng Ye 与 Shao Gujie 为各自输入/资产路线提供迁移 adapter 和固定测试样例。仅在上游 EnvironmentPackage 稳定后启动。\n\n目标：把 Open-X-Sim V1 的编译与验证能力包装成统一迁移路线，使 Text2Env、Anchor2Env 和外部导入环境可可靠迁移到目标模拟器。\n\n主要工作：先编译为带版本的中间交换包，再进入源/目标 adapter；记录 adapter 版本与哈希；转换 geometry、坐标、关节、碰撞、材质、质量/惯量、相机、物理、reset 条件和任务判定；对不支持或有损转换生成显式记录，不得静默降级。\n\n验收：至少支持三类上游环境或格式；刚体、关节物体和相机敏感案例能从同一交换包回放；迁移损失必须量化并进入回归门禁；只有 contact、control、rendering 和 task outcome 达到明确容差，才能声称迁移前后等价。\n\n最终交付：版本化 source/target adapters、loss report、固定 fixtures、失败案例与 CI gate；三人共同完成端到端回归，Schema、来源、物理、回放或迁移损失不合格时禁止发布。",
-        "status": "todo",
+        "status": "done",
         "priority": "high",
         "assignee": "Hu",
         "result": null,
@@ -19383,12 +19694,13 @@ export default {
             "created_at": "2026-07-22T02:53:50.821Z"
           }
         ],
-        "updated_at": "2026-07-22T02:53:50.821Z",
-        "completed_at": null
+        "updated_at": "2026-07-27T13:27:15.263Z",
+        "completed_at": "2026-07-27",
+        "completed_at_time": "2026-07-27T13:27:15.263Z"
       },
       {
         "task_id": "task_real_robot_demos_ego2dex_lfd_baseline_20260718",
-        "project_id": "real-robot-demos",
+        "project_id": "human-intention-sensorium-survey",
         "title": "[Ego2Dex baseline] 跑通 EgoEngine",
         "description": "在项目 intro 约定的同一组 2–3 段单目 ego 手物视频上审计并跑通 EgoEngine。先核实代码、checkpoint 与 license/availability；若未开放，只记录 blocker 和接口兼容 smoke，不宣称复现完成。\n\n验收：记录 upstream SHA、checkpoint、环境、命令、runtime/VRAM 与人工干预；导出可获得的 camera/depth、hand、object、contact/penetration、robot trajectory 与可复现 manifest；提交成功样例、failure gallery 和缺失字段。输入视频、帧率、裁剪、对象与坐标约定必须与其他 Ego2Dex baseline 一致。\n\n参考：https://egoengine.github.io/",
         "status": "todo",
@@ -19396,57 +19708,9 @@ export default {
         "assignee": null,
         "result": null,
         "comments": [],
-        "updated_at": "2026-07-29T04:01:45.520Z",
+        "updated_at": "2026-07-29T08:27:52.223Z",
         "due_at": "",
         "completed_at": null
-      },
-      {
-        "task_id": "task_real_robot_demos_ego2dex_baseline_reproduction_20260729",
-        "project_id": "real-robot-demos",
-        "title": "[Ego2Dex baseline] 跑通 Do-As-I-Do",
-        "description": "在项目 intro 约定的同一组 2–3 段单目 ego 手物视频上跑通 Do-As-I-Do，覆盖 segmentation、单目几何、hand/object reconstruction/tracking 与 robot retargeting 的实际可用链路。\n\n验收：记录 upstream SHA、checkpoint、环境、命令、runtime/VRAM 与人工干预；统一导出 camera/depth、hand MANO/keypoints/mesh、object mask/mesh/scale/6D trajectory、contact/penetration、retargeted wrist/finger trajectory 与 manifest；提交至少两段共享视频的结果和 failure gallery。未开放组件只能标 blocker 或替换模块 smoke。\n\n参考：https://do-as-i-do.com/\n代码：https://github.com/malik-group/do-as-i-do",
-        "status": "todo",
-        "priority": "high",
-        "assignee": null,
-        "result": null,
-        "comments": [],
-        "updated_at": "2026-07-29T03:24:38.914Z"
-      },
-      {
-        "task_id": "task_real_robot_demos_ego2dex_franka_wuji_sim_gate_20260729",
-        "project_id": "real-robot-demos",
-        "title": "[Ego2Dex baseline] 跑通 VideoManip",
-        "description": "在相同共享 clips 上审计并跑通 VideoManip，重点验证 monocular hand/object trajectory reconstruction、metric alignment、contact optimization、retargeting 与 demonstration synthesis 是否能按统一接口导出。\n\n验收：记录 upstream SHA、checkpoint、环境、命令、runtime/VRAM 与人工干预；导出统一 manifest；报告 hand/object trajectory、scale、contact/penetration、temporal consistency 与失败样例。论文或项目页结果不能替代本地同输入运行；代码或权重缺失时明确标 blocker。\n\n参考：https://videomanip.github.io/",
-        "status": "todo",
-        "priority": "high",
-        "assignee": null,
-        "result": null,
-        "comments": [],
-        "updated_at": "2026-07-29T03:24:39.566Z"
-      },
-      {
-        "task_id": "task_real_robot_demos_ego2dex_tactile_ablation_20260729",
-        "project_id": "real-robot-demos",
-        "title": "[Ego2Dex baseline] 跑通 EasyHOI",
-        "description": "在相同共享 clips 上审计并跑通 EasyHOI，验证 segmentation、inpainting、hand/object reconstruction 以及 image/physics-guided contact optimization；若原方法以单帧为主，需要明确逐帧运行与视频时序封装的边界。\n\n验收：记录 upstream SHA、checkpoint、环境、命令、runtime/VRAM 与人工干预；统一导出 hand/object geometry、scale/6D pose、contact/penetration 与 manifest；报告 before/after image agreement、penetration、missing contact、jitter 和 failure gallery。缺少代码或权重时只记录 blocker/同接口 smoke。\n\n参考：https://lym29.github.io/EasyHOI-page/",
-        "status": "todo",
-        "priority": "high",
-        "assignee": null,
-        "result": null,
-        "comments": [],
-        "updated_at": "2026-07-29T03:24:40.248Z"
-      },
-      {
-        "task_id": "task_real_robot_demos_ego2dex_hand_contact_benchmark_20260729",
-        "project_id": "real-robot-demos",
-        "title": "[Ego2Dex baseline] 跑通 HandFlow",
-        "description": "在相同共享 clips 上跑通 HandFlow，作为 4D MANO / 手部时序恢复候选；它只负责 hand reconstruction，不把缺失的 object/contact/retargeting 能力写成已覆盖。\n\n验收：与 HaWoR/HaMeR 类手轨迹做同输入比较；记录 upstream SHA、checkpoint、环境、命令、runtime/VRAM 与人工干预；报告 hand reprojection/world-space error、acceleration/jitter、temporal consistency、遮挡/运动模糊失败样例，并按统一 manifest 导出 MANO/keypoints/mesh 与置信度。\n\n参考：https://arxiv.org/abs/2607.11221",
-        "status": "todo",
-        "priority": "high",
-        "assignee": null,
-        "result": null,
-        "comments": [],
-        "updated_at": "2026-07-29T03:24:40.958Z"
       },
       {
         "task_id": "task_umi_aliyun_dataset_access_lai_5090_20260720",
@@ -19499,7 +19763,7 @@ export default {
         "project_id": "self-improving-agents",
         "title": "[Phase 2 / Gate 0 Onboarding] Hu：跑通仓库并锁定共用仿真后端",
         "description": "[PHASE 2 PLAN 2026-07-21 · USER-SUPPLIED 2026-07-22] 主负责人：Hu。本卡是 Phase 2 的 Gate 0；Zheng Ye 与 Shao Gujie 仅作为 handoff/reviewer，不与主负责人重叠。\n\n目标：证明共享环境生成仓库能在独立分支可复现运行，并为三人团队锁定统一模拟器后端与开发基线。\n\n主要工作：1) 检出共享仓库，复现现有 text-to-test-environment golden path；2) 完整记录 repo commit、环境版本、安装/运行命令、依赖、阻塞与生成产物；3) 对比 RoboTwin/SAPIEN-v0、Isaac Adapter 等候选，阅读相关论文、Demo 与 ACDC 资料，形成后端选型与交接。\n\n验收：至少一次可复现端到端运行；失败则提交带完整日志和错误码的 typed blocker。提交后端选型 memo、参考资料清单、branch/commit 与测试报告，并在 2026-07-27 前达到 merge-ready。\n\n依赖与输出：本卡完成后才能冻结公共接口并正式启动 Harness；会后向 Zheng Ye 同步当前仓库、运行证据与后端决定。",
-        "status": "active",
+        "status": "done",
         "priority": "urgent",
         "assignee": "Hu",
         "result": null,
@@ -19514,9 +19778,10 @@ export default {
             "created_at": "2026-07-22T02:53:50.821Z"
           }
         ],
-        "updated_at": "2026-07-22T02:53:50.821Z",
+        "updated_at": "2026-07-27T13:27:04.482Z",
         "due_at": "2026-07-27",
-        "completed_at": null
+        "completed_at": "2026-07-27",
+        "completed_at_time": "2026-07-27T13:27:04.482Z"
       },
       {
         "task_id": "task_real_robot_infra_hillside_robot_relocation_procurement_coordination_20260721",
@@ -19564,6 +19829,138 @@ export default {
         "comments": [],
         "updated_at": "2026-07-26T09:57:18.536Z",
         "due_at": "2026-08-01"
+      },
+      {
+        "task_id": "task_real_robot_demos_ego2dex_baseline_reproduction_20260729",
+        "project_id": "human-intention-sensorium-survey",
+        "title": "[Ego2Dex baseline] 跑通 Do-As-I-Do",
+        "description": "在项目 intro 约定的同一组 2–3 段单目 ego 手物视频上跑通 Do-As-I-Do，覆盖 segmentation、单目几何、hand/object reconstruction/tracking 与 robot retargeting 的实际可用链路。\n\n验收：记录 upstream SHA、checkpoint、环境、命令、runtime/VRAM 与人工干预；统一导出 camera/depth、hand MANO/keypoints/mesh、object mask/mesh/scale/6D trajectory、contact/penetration、retargeted wrist/finger trajectory 与 manifest；提交至少两段共享视频的结果和 failure gallery。未开放组件只能标 blocker 或替换模块 smoke。\n\n参考：https://do-as-i-do.com/\n代码：https://github.com/malik-group/do-as-i-do",
+        "status": "todo",
+        "priority": "high",
+        "assignee": null,
+        "result": null,
+        "comments": [],
+        "updated_at": "2026-07-29T08:27:53.000Z"
+      },
+      {
+        "task_id": "task_real_robot_demos_ego2dex_hand_contact_benchmark_20260729",
+        "project_id": "human-intention-sensorium-survey",
+        "title": "[Ego2Dex baseline] 跑通 HandFlow",
+        "description": "在相同共享 clips 上跑通 HandFlow，作为 4D MANO / 手部时序恢复候选；它只负责 hand reconstruction，不把缺失的 object/contact/retargeting 能力写成已覆盖。\n\n验收：与 HaWoR/HaMeR 类手轨迹做同输入比较；记录 upstream SHA、checkpoint、环境、命令、runtime/VRAM 与人工干预；报告 hand reprojection/world-space error、acceleration/jitter、temporal consistency、遮挡/运动模糊失败样例，并按统一 manifest 导出 MANO/keypoints/mesh 与置信度。\n\n参考：https://arxiv.org/abs/2607.11221",
+        "status": "todo",
+        "priority": "high",
+        "assignee": null,
+        "result": null,
+        "comments": [],
+        "updated_at": "2026-07-29T08:27:54.921Z"
+      },
+      {
+        "task_id": "task_real_robot_demos_ego2dex_franka_wuji_sim_gate_20260729",
+        "project_id": "human-intention-sensorium-survey",
+        "title": "[Ego2Dex baseline] 跑通 VideoManip",
+        "description": "在相同共享 clips 上审计并跑通 VideoManip，重点验证 monocular hand/object trajectory reconstruction、metric alignment、contact optimization、retargeting 与 demonstration synthesis 是否能按统一接口导出。\n\n验收：记录 upstream SHA、checkpoint、环境、命令、runtime/VRAM 与人工干预；导出统一 manifest；报告 hand/object trajectory、scale、contact/penetration、temporal consistency 与失败样例。论文或项目页结果不能替代本地同输入运行；代码或权重缺失时明确标 blocker。\n\n参考：https://videomanip.github.io/",
+        "status": "todo",
+        "priority": "high",
+        "assignee": null,
+        "result": null,
+        "comments": [],
+        "updated_at": "2026-07-29T08:27:53.638Z"
+      },
+      {
+        "task_id": "task_real_robot_demos_ego2dex_tactile_ablation_20260729",
+        "project_id": "human-intention-sensorium-survey",
+        "title": "[Ego2Dex baseline] 跑通 EasyHOI",
+        "description": "在相同共享 clips 上审计并跑通 EasyHOI，验证 segmentation、inpainting、hand/object reconstruction 以及 image/physics-guided contact optimization；若原方法以单帧为主，需要明确逐帧运行与视频时序封装的边界。\n\n验收：记录 upstream SHA、checkpoint、环境、命令、runtime/VRAM 与人工干预；统一导出 hand/object geometry、scale/6D pose、contact/penetration 与 manifest；报告 before/after image agreement、penetration、missing contact、jitter 和 failure gallery。缺少代码或权重时只记录 blocker/同接口 smoke。\n\n参考：https://lym29.github.io/EasyHOI-page/",
+        "status": "todo",
+        "priority": "high",
+        "assignee": null,
+        "result": null,
+        "comments": [],
+        "updated_at": "2026-07-29T08:27:54.292Z"
+      },
+      {
+        "task_id": "task_umi_yubo_single_image_layer_decomposition_survey_probe_20260729",
+        "project_id": "umi-world-model",
+        "title": "Yubo：Single-image Layer Decomposition 文献调研与开源复现",
+        "description": "目标：把 single-image / amodal RGBA layer decomposition 作为 UMI Stage 2 的 still-image teacher、pseudo-labeler、inpaint initializer 或 negative control；不得直接替换 RobotSeg + VACE + SAM3 视频物化管线，也不得把 anime body-part taxonomy 等同于 robot / object-contact / occluder-tool / scene-background taxonomy。Seed paper: See-through: https://arxiv.org/abs/2602.03749\n\n调研结果（2026-07-29）：\nA. 首选可运行：See-through 官方仓库 https://github.com/shitagaki-lab/see-through 。单张 anime/VTuber RGB 可输出完整遮挡补全的语义 RGBA layers、PSD、mask 和 pseudo-depth/drawing order；当前仓库 V3 最多约 23 层。代码 Apache-2.0，依赖权重许可证需另核。默认 BF16 1280 约 12–16 GB VRAM，--group_offload 约 10 GB，官方 NF4 quantized / block-swap 路线约 8 GB。pseudo-depth 只是绘制顺序，不是 metric geometry；对机器人域属于强 domain shift。正式基线用官方 CLI，不用第三方封装替代。\nB. 可选 GUI smoke：ComfyUI-See-through https://github.com/jtydhr88/ComfyUI-See-through 。适合已有 ComfyUI 环境快速看 PSD，但复现、benchmark 和交付仍以官方 CLI 为准；当前 wrapper 的 issue / LICENSE 完整性需要单独核验。\nC. 低成本 sanity baseline：LayerD https://github.com/CyberAgentAILab/LayerD 。约 0.2B，可 CPU 跑并导出 RGBA/PSD/SVG；训练域是 poster/raster graphic design，核心偏 iterative matting，不具备可靠机器人语义或遮挡补全，只用于检验基础分层接口。\nD. 条件式自然图研究对照：RevealLayer https://github.com/360CVGroup/RevealLayer 。输入还需 bbox/region guidance，能补全 hidden RGBA，但依赖 FLUX.1-dev、flash-attn 和定制 diffusers，部署重且许可证链需要核验。站内旧 robot probe 已不可用；只有新 V2/region-guided 代码和可下载权重相对旧版本有实质变化时才重跑。\nE. 不重复跑的已有负基线：Qwen-Image-Layered https://github.com/QwenLM/Qwen-Image-Layered 。官方支持可变数量 RGBA，但模型约 58 GB；站内 RTX 5090 sequential CPU offload 约 6m30/image，robot-still scene max-IoU 0.92、object_contact 0.21、robot_ego 0.14，说明重组强但机器人语义分层弱。只复用已有输出做同输入对照，不再下载/重跑。\nF. 目前只能 watch、不得写成可运行 repo：RLD / Referring Layer Decomposition https://yaojie-shen.github.io/project/RLD/ 仍为 code coming soon；From Inpainting to Layer Decomposition https://arxiv.org/abs/2511.20996 未找到完整官方推理仓库；LayerDecomp https://rayjryang.github.io/LayerDecomp/ 未开放可运行代码；DiffDecompose https://github.com/Wangzt1121/DiffDecompose 仍是占位仓库；OmniPSD https://github.com/showlab/OmniPSD 的 image-to-PSD 权重/入口不完整；LayerDiffuse https://github.com/lllyasviel/LayerDiffuse 是透明扩散底座而非 RGB 自动语义拆层成品。Generative Omnimatte https://gen-omnimatte.github.io/ 只作为 video temporal 邻接参考。\n\nYubo 运行顺序与命令：\n1) 固定 See-through git SHA、checkpoint、Python 3.12 / PyTorch-CUDA、GPU、seed。先跑官方 anime sample：python inference/scripts/inference_psd.py --srcp /abs/path/input.png --save_to_psd --group_offload；8 GB 路线：python inference/scripts/inference_psd_quantized.py --srcp /abs/path/input.png --save_to_psd --resolution 1024。先不训练。\n2) 在同一批 5–10 张 UMI/MolmoAct stills 上跑；能取得时加入 1 个 RoboTwin synthetic-GT 样本。随后只加 LayerD CPU smoke；RevealLayer 按上述新版本门槛决定是否运行。\n3) 导出 PSD、逐层 RGBA/mask、pseudo-depth/z-order、中间 segmentation、recomposition 与 failure gallery。接入 layer_manifest 时保留 source tag 和 mapping_status；无法对应 UMI taxonomy 必须标 unmapped，禁止强行改名。\n4) 与已有 Qwen robot-still 负基线和 canonical segment+inpaint 做同输入比较，报告 recomposition L1/SSIM/LPIPS、visible-region preservation、robot/object/background semantic purity/IoU、duplicate/missing/leakage、occluded-region completion、z-order、runtime、peak VRAM 和人工修正成本。\n5) 用 3–5 个连续帧只测 flicker / identity drift，不能据此宣称视频一致性。最终给出 adopt / cherry-pick data-engine or consistency-module ideas / reject off-the-shelf；只有 zero-shot gate 明确有价值后才提出 robot-specific fine-tune，并单列算力与数据需求。",
+        "status": "todo",
+        "priority": "high",
+        "assignee": "yubo",
+        "result": null,
+        "comments": [],
+        "updated_at": "2026-07-29T05:55:24.826Z"
+      },
+      {
+        "task_id": "task_product_robot_codesign_reproduce_open_baselines_20260729",
+        "project_id": "product-robot-codesign-simulation-survey",
+        "title": "Reproduce open co-design baselines and publish a runnable matrix",
+        "description": "Pin commit SHA, license, dependency lock, data/checkpoint source and minimum hardware for every attempted repository. Tier A: run the bundled Co-Design Soft Gripper mustard-bottle simulation and fabrication-artifact path; run Transformer Transformer CPU RoboToken tests plus the smallest documented pretrained control/co-design evaluation when a compatible NVIDIA environment is available. Tier B: attempt DGDM guided sampling and Fit2Form pretrained evaluation; add one DiffTactile contact example and one bounded VLMgineer PyBullet task if their dependencies and API budget are approved. Treat PaperBot as a real-only comparator and its website repo as non-runnable. Acceptance: checked commands, logs, output images/metrics, commit/license table, measured CPU/GPU/RAM/storage/runtime and API cost, exact blockers, and a verdict of turnkey / runnable-with-repair / code-only / unavailable for each repo.\n\nInherited fabrication audit: inspect the retained robotics-3d-printing artifacts and logs for the Articraft-style SDK plus CadQuery decision, input schema, URDF/STL/GLB/manifest outputs and dry-run cell limits. Record them as dated local engineering evidence; do not treat them as a commercial-generator benchmark or physical printer-cell reproduction.",
+        "status": "todo",
+        "priority": "high",
+        "assignee": null,
+        "result": null,
+        "comments": [],
+        "updated_at": "2026-07-29T07:47:43.983Z"
+      },
+      {
+        "task_id": "task_product_robot_codesign_joint_pilot_20260729",
+        "project_id": "product-robot-codesign-simulation-survey",
+        "title": "Design a bounded P × R × π simulation pilot with matched ablations",
+        "description": "After the baseline probe, specify one small manipulation task distribution with at least one product/interface variable P (for example adapter, handle, ramp, fixture geometry or compliance), one robot/tool variable R (finger geometry, stiffness, link/mount parameter or sensor placement), and controller/grasp/trajectory π. Pre-register matched-compute fixed/fixed, P-only, R-only, π-only, P + π, R + π and full P × R × π comparisons plus random/CMA-ES where applicable. Hold out objects or target motions and perturb friction, mass, contact, geometry tolerance, material and actuation. Report success, force/torque/stress or damage, energy/time, collisions, robustness, printability/tolerance/cost, optimization runtime and predicted-vs-simulator reward. End with go / hold / reject, required fabrication and sim-to-real handoff, and resource estimate; do not claim physical or active-research success before these gates pass.\n\nReuse the inherited product intake and fabrication contract where useful: metric dimensions, contact/load/material constraints, editable part and joint semantics, printability and tolerance checks, same-plate jig or grasp features, and an explicit safe takeout and assembly handoff.",
+        "status": "todo",
+        "priority": "high",
+        "assignee": null,
+        "result": null,
+        "comments": [],
+        "updated_at": "2026-07-29T07:47:45.659Z"
+      },
+      {
+        "task_id": "task_omniego_quest3s_multisensor_v0_rig_20260729",
+        "project_id": "human-intention-sensorium-survey",
+        "title": "OmniEgo v0：Quest 3S + CYMPLE 眼捕多传感器数采架",
+        "description": "把 Quest 3S 作为 ego RGB 与系统 hand/controller pose 主干，把已下单的 CYMPLE Quest 3S 面捕眼追套装（含 HUB）作为独立眼动/面部通道，再接入首批外部生理、动作、触觉和音频传感器。CYMPLE 采购状态以 General procurement row 为准：已下单；当前仍需复核到货、Quest 3S 适配、HUB、PC/raw stream 导出和 SDK。\n\n验收：1) 固定 Quest/Horizon OS、OpenXR/Camera API、CYMPLE SDK/firmware 和采集代码版本；2) 记录左右 RGB、hand joints/controller、gaze/face、外部传感器各自的原始 timestamp、host receipt time、frame id 和 confidence；3) 标定坐标系与 camera/hand/gaze mapping，测 RGB–hand–gaze 延迟、漂移、掉帧、遮挡丢手和连续 30 分钟记录稳定性；4) 输出统一 episode manifest、时钟/触发拓扑、校准文件、隐私/同意与数据保留规则；5) 明确 Quest 3S + CYMPLE 不是 Aria Gen 2 的传感器等价替代，不沿用 Aria 的眼动或硬件同步声明。",
+        "status": "todo",
+        "priority": "high",
+        "assignee": null,
+        "result": null,
+        "comments": [],
+        "updated_at": "2026-07-29T08:28:04.606Z"
+      },
+      {
+        "task_id": "task_omniego_sensor_quality_marginal_value_screen_20260729",
+        "project_id": "human-intention-sensorium-survey",
+        "title": "OmniEgo：筛选 3–5 个高价值意图传感器",
+        "description": "不要先训练一个全传感器模型。以同一组短时抓取、工具使用、犹豫/纠正和接触任务，对候选模态逐个做数据质量与边际价值审计。订单表 2026-07-14 快照已列出并标为卖家发货的候选包括飞马座霍尔肌肉形变、双通道 sEMG、ElastremeSense 数据手套、柔性压力/触觉阵列与 MEMS 麦克风阵列；General procurement 另有已下单的 CYMPLE 面捕眼追。截图中的 GSR、EEG、flex、电子鼻和 bHaptics 只作为候选证据，未核实订单状态前不写成到货。bHaptics 按反馈执行器而不是被动意图传感器评估。\n\n验收：每模态报告采样率/位宽、timestamp skew、SNR 或可重复性 proxy、缺失/饱和、跨人/跨日漂移、校准时间、佩戴负担、隐私和成本；使用 subject-held-out split 比较目标/动作阶段/接触起点/犹豫纠正/结果预测的单模态增益，并做错误对齐和随机信号负对照。最终给出 keep / conditional / reject 矩阵，只保留 3–5 个能稳定提升机器人学习标签或预测的通道。",
+        "status": "todo",
+        "priority": "high",
+        "assignee": null,
+        "result": null,
+        "comments": [],
+        "updated_at": "2026-07-29T08:28:05.374Z"
+      },
+      {
+        "task_id": "task_omniego_vqvae_intention_encoding_20260729",
+        "project_id": "human-intention-sensorium-survey",
+        "title": "OmniEgo：VQ-VAE、聚类与带标签意图 encoding 对照",
+        "description": "只在传感器质量 gate 完成后启动。为入选的 3–5 个模态建立独立 encoder、时间窗和 missing-modality mask，比较 supervised intent/contact/action embedding、late fusion、无监督 clustering 与 VQ-VAE 离散 token。避免把跨个体噪声聚成看似稳定的意图类别。\n\n验收：以人和日期为 held-out split，报告 reconstruction、codebook usage/collapse、token 跨 session 稳定性、cluster-label alignment、intent/action/contact/outcome prediction、missing/wrong-modality robustness，以及对一个 Ego2Dex/robot-learning consumer 的真实增益。加入 RGB/hand-only、最佳单模态、简单 early/late fusion 和随机 token 基线；输出可解释 token 样例与失败簇，无法超过简单监督基线则拒绝 VQ-VAE 路线。",
+        "status": "todo",
+        "priority": "medium",
+        "assignee": null,
+        "result": null,
+        "comments": [],
+        "updated_at": "2026-07-29T08:28:06.029Z"
+      },
+      {
+        "task_id": "task_omniego_object_surface_tactile_force_closure_dataset_20260729",
+        "project_id": "human-intention-sensorium-survey",
+        "title": "OmniEgo：对象表面触点与跨本体力闭合数据集 pilot",
+        "description": "以 arXiv:2607.16739 的刚性物体表面共形互电容触点布局为 seed，先在 1–2 个可复现刚性几何上建立 contact-location prototype，再额外加入压力/剪切或 6D force-torque、物体 6D pose、手/机器人状态与结果真值。论文只支持触点定位，不支持 force、friction、力闭合、跨本体数据集或可变形物体；这些都是本任务的新假设。\n\n验收：1) 同一物体/任务用人手、平行夹爪与一个灵巧手采集，冻结对象、初始状态、目标、视角、contact schema 和 outcome；2) 至少包含一个形闭合基线和一个依赖摩擦/力闭合的候选抓取，报告接触位置、法/切向力或可用 proxy、滑移、掉落、对象轨迹与成功；3) 做 surface-touch-only、+force/pressure、+pose 的消融，证明哪些标签可识别力闭合而不只是接触存在；4) 输出电极布局、控制器、校准、同步、耐久性和失败样例。可变形物体只在刚性 pilot 通过后进入，另验 strain durability、几何重登记和 shear/force calibration。",
+        "status": "todo",
+        "priority": "high",
+        "assignee": null,
+        "result": null,
+        "comments": [],
+        "updated_at": "2026-07-29T08:28:06.679Z"
       }
     ]
   },

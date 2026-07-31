@@ -1,0 +1,90 @@
+{
+  "schema_version": "project.v1",
+  "project_id": "optical-fountain-handoff-survey",
+  "title": "Optical Fountain Handoff / 多机器人主动视觉通信",
+  "bucket": "survey",
+  "status": "survey",
+  "description": "Keep in Survey: use screen–camera or LED–camera links as an intermittent robot-to-robot optical broadcast channel without persistent RF/IP networking, then jointly plan gaze, relative pose, and decoding progress. Optical coordination is established prior art; the open contribution is rateless high-payload handoff plus coding-aware active vision.",
+  "summary": "Treat inter-robot visibility as both a perception constraint and a communication channel. A sender continuously broadcasts rateless fountain symbols; receivers can join late, tolerate dropped or out-of-order frames, and resume across intermittent encounters without a persistent network. The research question is whether robots can actively turn, reposition, or relay to maximize scene information and expected decoding progress while preserving task performance. Target payloads are bounded map patches, object memory, trajectories, or skill latents—not high-rate control or safety traffic.",
+  "visual": {
+    "layout": "single-column"
+  },
+  "details": [
+    {
+      "text": "Transport mechanism: QR error correction handles damage within a readable frame, while LT fountain coding turns unreadable or dropped frames into erasures. Each receiver can collect distinct equations in any order and keep decoding as visibility returns; the Decimen implementation is the mechanism reference, not the finished robot protocol.",
+      "links": [
+        {
+          "label": "Decimen Optical Transfer",
+          "url": "https://github.com/bashalarmistalt/decimen-optical-transfer"
+        }
+      ]
+    },
+    "Active-vision hypothesis: relative pose, field of view, occlusion, motion blur, and lighting jointly determine perception quality and optical channel success. The view policy should trade scene information gain against expected reduction in undecoded source blocks, motion and energy cost, and task disruption. Raw QR frame count is insufficient because only useful new equations advance the decoder.",
+    "Intermittent topology: optical broadcast supports one-to-many reception, late join, and repeated encounters without maintaining a common network session. A robot that finishes decoding can store, carry, and display the artifact to another robot. No persistent RF/IP network does not mean coordination-free: visual rendezvous, sender identity, multiple-access scheduling, collision handling, and bounded session semantics remain required.",
+    {
+      "text": "Prior-work boundary: robot optical wireless communication and active viewing already exist, including learned visual-direction control for multi-agent OWC, event-camera VLC for identity and cooperation, and active viewpoint selection for cross-agent localization. The contribution cannot be “robots use light”; it must be rateless larger-payload transfer, coding-aware gaze or pose planning, intermittent relay, and matched real-robot evaluation.",
+      "links": [
+        {
+          "label": "Multi-Agent Visual Coordination using OWC",
+          "url": "https://doi.org/10.1109/LRA.2023.3304905"
+        },
+        {
+          "label": "Event-camera VLC for multi-agent communication",
+          "url": "https://arxiv.org/abs/2402.05619"
+        },
+        {
+          "label": "Active Visual Localization for Multi-Agent Collaboration",
+          "url": "https://arxiv.org/abs/2310.02650"
+        }
+      ]
+    },
+    "System boundary: suitable payloads include signed discovery or key material, task summaries, bounded map or object-memory patches, trajectories, and skill latents. Closed-loop control, collision avoidance, and emergency stop must remain local or use an independent fail-safe channel; optical artifact delivery may only improve degraded coordination.",
+    "Current evidence boundary: Decimen defaults to a 1,465-byte QR frame at 24 fps, for about 28.7 KiB/s theoretical payload goodput before camera loss. Its 1.15×K completion point is probabilistic, its current UI sends only two bundled PNGs, and its receiver app/WASM is loaded over LAN. The public-printer scenario remains a secondary application with its own trusted-decoder and spool-security requirements."
+  ],
+  "references": [
+    {
+      "title": "Decimen Optical Transfer at audited commit 13e86c2",
+      "url": "https://github.com/bashalarmistalt/decimen-optical-transfer/tree/13e86c26a187882637015b9267bb0361d67f1033",
+      "notes": "Animated QR plus LT fountain-code proof of concept; useful as the rateless screen-to-camera mechanism reference, not a production robot communication stack."
+    },
+    {
+      "title": "LT Codes",
+      "url": "https://doi.org/10.1109/SFCS.2002.1181950",
+      "notes": "Michael Luby’s original rateless erasure-code construction underlying the fountain-code layer."
+    },
+    {
+      "title": "Multi-Agent Visual Coordination Using Optical Wireless Communication",
+      "url": "https://doi.org/10.1109/LRA.2023.3304905",
+      "notes": "Direct prior art: learned visual-direction control under limited-FOV optical wireless communication, evaluated in multi-agent tasks and on physical mobile robots."
+    },
+    {
+      "title": "Linking Vision and Multi-Agent Communication through Visible Light Communication using Event Cameras",
+      "url": "https://arxiv.org/abs/2402.05619",
+      "notes": "AAMAS 2024 follow-up combining LED/event-camera identity and communication with cooperative real-robot behavior; reports 99.1% communication success in its three-agent setup."
+    },
+    {
+      "title": "Active Visual Localization for Multi-Agent Collaboration",
+      "url": "https://arxiv.org/abs/2310.02650",
+      "notes": "Active viewpoint-selection baseline for localizing across maps and agents under large viewpoint differences; relevant perception objective, not an optical transport system."
+    },
+    {
+      "title": "Decimen issue #1: malformed header can request a multi-gigabyte allocation",
+      "url": "https://github.com/bashalarmistalt/decimen-optical-transfer/issues/1",
+      "notes": "Open parser and resource-limit issue that blocks exposing the current receiver to untrusted robot or public optical input."
+    }
+  ],
+  "risks_decisions": [
+    "Survey decision 2026-07-31: expand the card from public-device handoff to multi-robot active optical communication, but keep it in Survey until a two-robot benchmark demonstrates value beyond fixed-view optical transfer.",
+    "Novelty boundary: optical multi-robot coordination and active visual-direction control are prior art. A publishable claim must isolate rateless high-payload transfer, coding-aware view planning, intermittent encounters, or optical store-carry-display relay.",
+    "No persistent RF/IP network does not mean coordination-free. The system still needs discovery, identity, rendezvous behavior, sender arbitration or spatial separation, duplicate/session handling, and recovery when no line of sight exists.",
+    "One-way optical broadcast is not private or authenticated. Nearby cameras can record the stream, and malicious displays can inject it; sensitive artifacts require receiver-bound encryption and signed metadata.",
+    "Do not route high-rate feedback control, collision avoidance, or emergency stop through this channel. Every robot must remain safe and locally operable when no optical packet completes.",
+    "The current Decimen receiver uses 32-bit FNV-1a, allows a hash mismatch to reach completion, and lacks hard metadata or memory bounds. Protocol hardening is a prerequisite for untrusted multi-robot input.",
+    "Do not quote 1.15×K as a guarantee or the parent experiment’s 128 KB/s as Decimen’s default throughput. Report completion distributions and verified goodput under real distance, angle, blur, occlusion, and lighting conditions.",
+    "Multiple simultaneous senders introduce optical collisions and attention contention. Compare time division, spatially separated regions, sender tracking, and collision-as-erasure behavior before claiming swarm scalability."
+  ],
+  "task_ids": [
+    "task_optical_multi_robot_active_vision_v0_20260731"
+  ],
+  "updated_at": "2026-07-31T07:16:57.626Z"
+}
