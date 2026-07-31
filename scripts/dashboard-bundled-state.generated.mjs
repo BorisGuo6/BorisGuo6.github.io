@@ -3305,6 +3305,339 @@ export default {
         ],
         "rows": [
           {
+            "row_id": "proc_t_xyz",
+            "updated_at": "2026-07-30T16:50:16+08:00",
+            "item": "微型直线步进电机丝杆滑台套装模组小型十字行程T型XYZ三轴线轨",
+            "status": "Ordered · buyer paid 2026-07-30",
+            "route": "Taobao · UMOT优摩特旗舰店",
+            "url": "https://item.taobao.com/item.htm?id=793849399571&mi_id=0000Mnimytn_iaF9zL5--QuCu0pcjxIh4FRVHJ9VYNqNg1A",
+            "notes": "订单号:5127062653377025932；店铺:UMOT优摩特旗舰店；型号/款式:模组龙门三轴；状态来源:订单列表；订单提交:2026-07-30 16:50:16；来源:订单数据.xlsx"
+          },
+          {
+            "row_id": "proc_2026_3_37l_50_7_37_5_29cm",
+            "updated_at": "2026-07-30T16:42:20+08:00",
+            "item": "得力收纳箱大容量家用超大衣服玩具2026新款衣服储物箱箱子收纳盒",
+            "status": "Shipped",
+            "route": "Taobao · 得力官方旗舰店",
+            "url": "https://item.taobao.com/item.htm?id=1007375766776&mi_id=0000-so7Z3BdleLhwpQpdcv_TC9Xz-qkPEkIUmOsTGVRxTs",
+            "notes": "订单号:5126737718314035114；店铺:得力官方旗舰店；型号/款式:3件-特大号37L【长50.7*宽37.5*高29cm】；状态来源:订单列表；物流:极兔速递；运单:JT3172143049285；订单提交:2026-07-30 16:42:20；来源:订单数据.xlsx"
+          },
+          {
+            "row_id": "proc_m2m3m4mm_m2_0",
+            "updated_at": "2026-07-30T16:42:20+08:00",
+            "item": "铜柱主板盒装螺丝单头双通六角尼龙柱电脑机箱隔离柱套装M2M3M4mm",
+            "status": "Shipped",
+            "route": "Taobao · 天卓五金官方旗舰店",
+            "url": "https://item.taobao.com/item.htm?id=601243756363&mi_id=0000IuagTRDVoIFgrICYc2Yfhwq15GJwQdnDAi8w2YYbcK8",
+            "notes": "订单号:5126737718314061942；店铺:天卓五金官方旗舰店；型号/款式:【圆形】单头铜柱 M2.0套装；状态来源:订单列表；物流:极兔速递；运单:JT3172145292111；订单提交:2026-07-30 16:42:20；来源:订单数据.xlsx"
+          },
+          {
+            "row_id": "proc_m2m3m4mm_m2_0_2",
+            "updated_at": "2026-07-30T16:42:20+08:00",
+            "item": "铜柱主板盒装螺丝单头双通六角尼龙柱电脑机箱隔离柱套装M2M3M4mm",
+            "status": "Shipped",
+            "route": "Taobao · 天卓五金官方旗舰店",
+            "url": "https://item.taobao.com/item.htm?id=601243756363&mi_id=0000IuagTRDVoIFgrICYc2Yfhwq15GJwQdnDAi8w2YYbcK8",
+            "notes": "订单号:5126737718314061942；店铺:天卓五金官方旗舰店；型号/款式:【圆形】双通铜柱 M2.0套装；状态来源:订单列表；物流:极兔速递；运单:JT3172145292111；订单提交:2026-07-30 16:42:20；来源:订单数据.xlsx"
+          },
+          {
+            "row_id": "proc_0_3_0_4_0_5_0_6mm_304_0_4_10_15_10",
+            "updated_at": "2026-07-30T16:42:20+08:00",
+            "item": "线径0.3 0.4 0.5 0.6mm 304不锈钢压簧弹簧压缩簧压力大小减震簧",
+            "status": "Shipped",
+            "route": "Taobao · 天卓五金官方旗舰店",
+            "url": "https://item.taobao.com/item.htm?id=857544834967&mi_id=00005JlHSN3PlwVUfJphlqER27euYwUIy59SWKPALyB3gxo",
+            "notes": "订单号:5126737718314061942；店铺:天卓五金官方旗舰店；型号/款式:0.4*10*15【10个】；状态来源:订单列表；物流:极兔速递；运单:JT3172145292111；订单提交:2026-07-30 16:42:20；来源:订单数据.xlsx"
+          },
+          {
+            "row_id": "proc_t5_3d",
+            "updated_at": "2026-07-30T16:42:20+08:00",
+            "item": "梯型丝杆T5微型丝杆电机丝杆导轨丝杆3D打印机丝杆螺母",
+            "status": "Shipped",
+            "route": "Taobao · 鼎典尚品家居旗舰店",
+            "url": "https://item.taobao.com/item.htm?id=1055171278832&mi_id=0000u4xY9XHO2CV9O5e2mvUh5X7rZ2AZKy0ktd7AX_IpRvA",
+            "notes": "订单号:5126737718314153143；店铺:鼎典尚品家居旗舰店；型号/款式:单只螺母；状态来源:订单列表；物流:圆通速递；运单:YT7635843685701；订单提交:2026-07-30 16:42:20；来源:订单数据.xlsx"
+          },
+          {
+            "row_id": "proc_1_5_2_3_4_5_6_7_8_9_10_12_9_14_4_5_s",
+            "updated_at": "2026-07-30T16:42:20+08:00",
+            "item": "进口微型小轴承型号大全迷你内径1.5 2 3 4 5 6 7 8 9 10 12 高速",
+            "status": "Shipped",
+            "route": "Taobao · UBY五金旗舰店",
+            "url": "https://item.taobao.com/item.htm?id=776243805054&mi_id=00001xr8KoE-N20VWisZeznqbowlnHes1pMuo5EcYhq0hDI",
+            "notes": "订单号:5126737718314162325；店铺:UBY五金旗舰店；型号/款式:9*14*4.5带密封【精密级(S)】；状态来源:订单列表；物流:中通快递；运单:79022380854868；订单提交:2026-07-30 16:42:20；来源:订单数据.xlsx"
+          },
+          {
+            "row_id": "proc_1_5_2_3_4_5_6_7_8_9_10_12_3_6_2_5_s_2",
+            "updated_at": "2026-07-30T16:42:20+08:00",
+            "item": "进口微型小轴承型号大全迷你内径1.5 2 3 4 5 6 7 8 9 10 12 高速",
+            "status": "Shipped",
+            "route": "Taobao · UBY五金旗舰店",
+            "url": "https://item.taobao.com/item.htm?id=776243805054&mi_id=00001xr8KoE-N20VWisZeznqbowlnHes1pMuo5EcYhq0hDI",
+            "notes": "订单号:5126737718314162325；店铺:UBY五金旗舰店；型号/款式:3*6*2.5带密封【德国级(S)】；状态来源:订单列表；物流:中通快递；运单:79022380854868；订单提交:2026-07-30 16:42:20；来源:订单数据.xlsx"
+          },
+          {
+            "row_id": "proc_1_5_2_3_4_5_6_7_8_9_10_12_2_4_2_3",
+            "updated_at": "2026-07-30T16:42:20+08:00",
+            "item": "进口微型小轴承型号大全迷你内径1.5 2 3 4 5 6 7 8 9 10 12 高速",
+            "status": "Shipped",
+            "route": "Taobao · UBY五金旗舰店",
+            "url": "https://item.taobao.com/item.htm?id=776243805054&mi_id=00001xr8KoE-N20VWisZeznqbowlnHes1pMuo5EcYhq0hDI",
+            "notes": "订单号:5126737718314162325；店铺:UBY五金旗舰店；型号/款式:2*4*2带密封【德国级】；状态来源:订单列表；物流:中通快递；运单:79022380854868；订单提交:2026-07-30 16:42:20；来源:订单数据.xlsx"
+          },
+          {
+            "row_id": "proc_1",
+            "updated_at": "2026-07-30T16:42:20+08:00",
+            "item": "桌面吸尘器大吸力家用桌子灰尘清理神器橡皮屑手持小型无线便携式",
+            "status": "Shipped",
+            "route": "Taobao · helloleiboo徕本旗舰店",
+            "url": "https://item.taobao.com/item.htm?id=953462978229&mi_id=0000CWhoQWmOcj5xlnS1sLXRE9AQMhrxMxMXbRy3m1m6f30",
+            "notes": "订单号:5126737718314244344；店铺:helloleiboo徕本旗舰店；型号/款式:神秘黑【旗舰款】变频电机/超级快充/赠滤芯*1；状态来源:订单列表；物流:申通快递；运单:773434343041842；订单提交:2026-07-30 16:42:20；来源:订单数据.xlsx"
+          },
+          {
+            "row_id": "proc_qgg_qkg_vsd_234568_qgg63_2_5_0_003",
+            "updated_at": "2026-07-30T16:42:20+08:00",
+            "item": "高精密平口钳小型台钳QGG手动磨床固定钳QKG/VSD快动虎钳234568寸",
+            "status": "Shipped",
+            "route": "Taobao · 上海德优数控刀具商城",
+            "url": "https://item.taobao.com/item.htm?id=966260725127&mi_id=0000ap-57cff1eOeSkDuDhmIsaGglH_5XGDid6q9K-pZHdo",
+            "notes": "订单号:5126737718314253526；店铺:上海德优数控刀具商城；型号/款式:高精合金钢款QGG63-手动2.5寸（送扳手0.003 ）；状态来源:订单列表；物流:申通快递；运单:773434378699489；订单提交:2026-07-30 16:42:20；来源:订单数据.xlsx"
+          },
+          {
+            "row_id": "proc_42_3d_a4988_tmc2209_x42s_v1_0_ttl",
+            "updated_at": "2026-07-30T16:42:20+08:00",
+            "item": "42步进闭环电机驱动器模块3d打印机控制器A4988替换TMC2209超静音",
+            "status": "Shipped",
+            "route": "Taobao · 张大头闭环伺服",
+            "url": "https://item.taobao.com/item.htm?id=635439412574&mi_id=00003KWk-xjxQhOZr8KObQYUWswEPH0noH1hwERTsI5Xv-Q",
+            "notes": "订单号:5126737718314262708；店铺:张大头闭环伺服；型号/款式:X42S_V1.0 主板套餐(TTL)；状态来源:订单列表；物流:申通快递；运单:773434401261379；订单提交:2026-07-30 16:42:20；来源:订单数据.xlsx"
+          },
+          {
+            "row_id": "proc_8_semg_pro_8",
+            "updated_at": "2026-07-30T16:42:20+08:00",
+            "item": "8通道sEMG PRO肌电传感器臂环 智能手势训练 可穿戴 可开发",
+            "status": "Shipped",
+            "route": "Taobao · 大脑实验室",
+            "url": "https://item.taobao.com/item.htm?id=724051385391&mi_id=0000iZ2CdFvLKzYQEsz7Dl3gQRCKlOjFL_aEH4Og3dHuhaQ",
+            "notes": "订单号:5126737718314299535；店铺:大脑实验室；型号/款式:8通道肌肉电臂环[硬核开发版]；状态来源:订单列表；物流:韵达快递；运单:435292087353238；订单提交:2026-07-30 16:42:20；来源:订单数据.xlsx"
+          },
+          {
+            "row_id": "proc_sichiray_gsr_v2_arduino_gsr_v2_arduino",
+            "updated_at": "2026-07-30T16:42:20+08:00",
+            "item": "Sichiray GSR皮肤电传感器V2升级版 可检测皮肤电阻电流Arduino",
+            "status": "Shipped",
+            "route": "Taobao · 大脑实验室",
+            "url": "https://item.taobao.com/item.htm?id=897953740162&mi_id=0000ZrIga5Z9eOINnFQXnApQtTO-1K28AkQFviX5BBddy84",
+            "notes": "订单号:5126737718314299535；店铺:大脑实验室；型号/款式:GSR皮肤电传感器V2 Arduino套件；状态来源:订单列表；物流:韵达快递；运单:435292087353238；订单提交:2026-07-30 16:42:20；来源:订单数据.xlsx"
+          },
+          {
+            "row_id": "proc_3d_arduino_3d",
+            "updated_at": "2026-07-30T16:42:20+08:00",
+            "item": "3D体感非接触式手势识别传感器 运动轨迹方向检测树莓派 arduino",
+            "status": "Shipped",
+            "route": "Taobao · 大脑实验室",
+            "url": "https://item.taobao.com/item.htm?id=741102021967&mi_id=0000nTD5p7BdOneHne6NnaxRBkvfzevEkMYNVyEivTbhER8",
+            "notes": "订单号:5126737718314299535；店铺:大脑实验室；型号/款式:3D手势模组；状态来源:订单列表；物流:韵达快递；运单:435292087353238；订单提交:2026-07-30 16:42:20；来源:订单数据.xlsx"
+          },
+          {
+            "row_id": "proc_ga12_n20_3v6v12v_m3m4_ga12_n20_m3_34mm_12v_30",
+            "updated_at": "2026-07-30T16:42:20+08:00",
+            "item": "GA12-N20微型直流减速电机3V6V12V全金属齿轮低速小马达m3m4螺杆",
+            "status": "Ordered · buyer paid 2026-07-30",
+            "route": "Taobao · 琪笌旗舰店",
+            "url": "https://item.taobao.com/item.htm?id=1033156527167&mi_id=0000Rm-bEIYNm7u0Z4dTN6DJV9ACF-lXsRUW6cdfe308GJQ",
+            "notes": "订单号:5126737718314353909；店铺:琪笌旗舰店；型号/款式:GA12-N20(M3*34mm轴长)、12v、30转/分钟；状态来源:订单列表；物流:韵达快递；运单:435292087353238；订单提交:2026-07-30 16:42:20；来源:订单数据.xlsx"
+          },
+          {
+            "row_id": "proc_flex_sensor_51_stm32_4_5",
+            "updated_at": "2026-07-30T16:42:20+08:00",
+            "item": "弯曲传感器模块 FLEX sensor 弯曲度检测 智能手套 51/stm32例程",
+            "status": "Shipped",
+            "route": "Taobao · 冠拓电子科技有限公司",
+            "url": "https://item.taobao.com/item.htm?id=817856254846&mi_id=00003vXwppkuqj8gKAx3QGCYCMlK9eDw3iA0fmihb4B5T3k",
+            "notes": "订单号:5126737718314380737；店铺:冠拓电子科技有限公司；型号/款式:4.5传感器+模块 组装好 焊排针；状态来源:订单列表；物流:申通快递；运单:773434336381000；订单提交:2026-07-30 16:42:20；来源:订单数据.xlsx"
+          },
+          {
+            "row_id": "proc_o_o",
+            "updated_at": "2026-07-30T16:42:20+08:00",
+            "item": "密封圈O型圈耐高温〇型硅胶圈氟橡胶油封大全丁晴圆形垫圈垫片o形",
+            "status": "Shipped",
+            "route": "Taobao · yck五金旗舰店",
+            "url": "https://item.taobao.com/item.htm?id=646478415229&mi_id=0000cdPNj0Ef9osxmgCi_-lHrLeE0I8_b0qFebpb5jNIi7w",
+            "notes": "订单号:5126737718314399918；店铺:yck五金旗舰店；型号/款式:黑盒+红盒+白盒+绿盒；状态来源:订单列表；物流:申通快递；运单:773434392280292；订单提交:2026-07-30 16:42:20；来源:订单数据.xlsx"
+          },
+          {
+            "row_id": "proc_gmet_l_200w_100w70cm",
+            "updated_at": "2026-07-30T16:42:20+08:00",
+            "item": "GMETΛL 200W直播补光灯主播专用全套直播间球形美颜灯光摄影拍照",
+            "status": "Shipped",
+            "route": "Taobao · 直播背景幕摄影灯光店",
+            "url": "https://item.taobao.com/item.htm?id=1050194618129&mi_id=0000Yr8Yy-tn_EXL78zJU9OTnNCFY2XfBQ7KJYI56gCZLGA",
+            "notes": "订单号:5126737718314409100；店铺:直播背景幕摄影灯光店；型号/款式:100W70CM深口格栅套装【主光优选/深度大 光线聚集 补光更立体】；状态来源:订单列表；物流:韵达快递；运单:435292458369102；订单提交:2026-07-30 16:42:20；来源:订单数据.xlsx"
+          },
+          {
+            "row_id": "proc_500",
+            "updated_at": "2026-07-30T16:42:20+08:00",
+            "item": "手机维修主板洗板水环保无铅电路清洗剂洗液清洗松香除胶剂除锈剂",
+            "status": "Shipped",
+            "route": "Taobao · 佛山盈讯科技",
+            "url": "https://item.taobao.com/item.htm?id=852211561135&mi_id=0000-YSewNt2gdtG2GgxRHyuVCvA0hHQQaRd1_un3TJxu6g",
+            "notes": "订单号:5126737718314426746；店铺:佛山盈讯科技；型号/款式:【500毫升铁瓶装】配刷子；状态来源:订单列表；物流:韵达快递；运单:435292091668772；订单提交:2026-07-30 16:42:20；来源:订单数据.xlsx"
+          },
+          {
+            "row_id": "proc_250g",
+            "updated_at": "2026-07-30T16:42:20+08:00",
+            "item": "橡胶密封矽脂气缸卡钳活塞水龙头密封圈防水专用润滑脂真空矽油",
+            "status": "Shipped",
+            "route": "Taobao · 铜人王旗舰店",
+            "url": "https://item.taobao.com/item.htm?id=1056477639584&mi_id=00003u6hxb9HgHsZ-a0bzuRM9B5Ns1KJG7XG8xEVpd28akk",
+            "notes": "订单号:5126737718314435928；店铺:铜人王旗舰店；型号/款式:橡胶密封矽脂250g；状态来源:订单列表；物流:申通快递；运单:773434368169641；订单提交:2026-07-30 16:42:20；来源:订单数据.xlsx"
+          },
+          {
+            "row_id": "proc_0_5mm_2_5_10",
+            "updated_at": "2026-07-30T16:42:20+08:00",
+            "item": "硅胶管 硅胶毛细管软管硅橡管0.5mm串钩防缠绕胶管毛细管保护套管",
+            "status": "Shipped",
+            "route": "Taobao · 道冠橡塑",
+            "url": "https://item.taobao.com/item.htm?id=719240026270&mi_id=00008yQQsnRCZ_1wAdnaxsARkRPW4avxH-f_NZu2Pm50yY0",
+            "notes": "订单号:5126737718314445110；店铺:道冠橡塑；型号/款式:2*5毫米（10米价）；状态来源:订单列表；物流:中通快递；运单:79022376292586；订单提交:2026-07-30 16:42:20；来源:订单数据.xlsx"
+          },
+          {
+            "row_id": "proc_0_5mm_2_4_10_2",
+            "updated_at": "2026-07-30T16:42:20+08:00",
+            "item": "硅胶管 硅胶毛细管软管硅橡管0.5mm串钩防缠绕胶管毛细管保护套管",
+            "status": "Shipped",
+            "route": "Taobao · 道冠橡塑",
+            "url": "https://item.taobao.com/item.htm?id=719240026270&mi_id=00008yQQsnRCZ_1wAdnaxsARkRPW4avxH-f_NZu2Pm50yY0",
+            "notes": "订单号:5126737718314445110；店铺:道冠橡塑；型号/款式:2*4毫米（10米价）；状态来源:订单列表；物流:中通快递；运单:79022376292586；订单提交:2026-07-30 16:42:20；来源:订单数据.xlsx"
+          },
+          {
+            "row_id": "proc_mq_2_mq_131_3_4_5_6_7_8_9_mq_9",
+            "updated_at": "2026-07-30T16:42:20+08:00",
+            "item": "MQ-2 MQ-131 3/4/5/6/7/8/9烟雾酒精一氧化碳可燃气体传感器模块",
+            "status": "Shipped",
+            "route": "Taobao · 深圳市优信电子科技有限公司",
+            "url": "https://item.taobao.com/item.htm?id=950995888454&mi_id=0000CKvLCOQHKER8h5FfWHoOKNNYn8EWiC4P3U9U0ddzoHc",
+            "notes": "订单号:5126737718314490302；店铺:深圳市优信电子科技有限公司；型号/款式:MQ-9模块[检测一氧化碳、可燃气体]；状态来源:订单列表；物流:圆通速递；运单:YT7635729478182；订单提交:2026-07-30 16:42:20；来源:订单数据.xlsx"
+          },
+          {
+            "row_id": "proc_mq_2_mq_131_3_4_5_6_7_8_9_mq_136_2",
+            "updated_at": "2026-07-30T16:42:20+08:00",
+            "item": "MQ-2 MQ-131 3/4/5/6/7/8/9烟雾酒精一氧化碳可燃气体传感器模块",
+            "status": "Shipped",
+            "route": "Taobao · 深圳市优信电子科技有限公司",
+            "url": "https://item.taobao.com/item.htm?id=950995888454&mi_id=0000CKvLCOQHKER8h5FfWHoOKNNYn8EWiC4P3U9U0ddzoHc",
+            "notes": "订单号:5126737718314490302；店铺:深圳市优信电子科技有限公司；型号/款式:MQ-136模块[检测硫化物]；状态来源:订单列表；物流:圆通速递；运单:YT7635729478182；订单提交:2026-07-30 16:42:20；来源:订单数据.xlsx"
+          },
+          {
+            "row_id": "proc_jlink_v9_arm_v12_stm32_v8v11_v9_7",
+            "updated_at": "2026-07-30T16:42:20+08:00",
+            "item": "JLINK V9 ARM仿真器下载器V12 STM32单片机开发板V8V11烧录编程器",
+            "status": "Shipped",
+            "route": "Taobao · 开发板研发者",
+            "url": "https://item.taobao.com/item.htm?id=721901341127&mi_id=0000oXijb6ErxhR5oJis6hgWmpnOrcX6sBns1c6tpT3xsXM",
+            "notes": "订单号:5126737718314536311；店铺:开发板研发者；型号/款式:V9高速版标配+转接板+7根排线（带缓冲）；状态来源:订单列表；物流:中通快递；运单:79022391551221；订单提交:2026-07-30 16:42:20；来源:订单数据.xlsx"
+          },
+          {
+            "row_id": "proc_veml3328_smd_4p_i2c_r_g_b_c_ir_ic_veml3328_smd_4p",
+            "updated_at": "2026-07-30T16:42:20+08:00",
+            "item": "全新原装 VEML3328 SMD-4P 具有I2C接口的R,G,B,C,IR颜色传感器ic",
+            "status": "Shipped",
+            "route": "Taobao · 芯豪电子",
+            "url": "https://item.taobao.com/item.htm?id=1061322542552&mi_id=00005-f3nYv66OTF6UCHFBMNYsBjBz0g3zmXEZ2aXACn1nQ",
+            "notes": "订单号:5126737718314563139；店铺:芯豪电子；型号/款式:全新原装 VEML3328 SMD-4P；状态来源:订单列表；物流:申通快递；运单:773434466609513；订单提交:2026-07-30 16:42:20；来源:订单数据.xlsx"
+          },
+          {
+            "row_id": "proc_anyskin_eflesh_reskin_4600_adafruit_qt_py_samd21_u",
+            "updated_at": "2026-07-30T16:42:20+08:00",
+            "item": "低成本智能触觉皮肤/触觉感知/磁力电路板 AnySkin/eFlesh/Reskin",
+            "status": "Shipped",
+            "route": "Taobao · 智信安",
+            "url": "https://item.taobao.com/item.htm?id=978539771559&mi_id=0000IyQF9Z1cwLPX1iig7Fs2k71ybl9aLeMYB8pDmTSNIqo",
+            "notes": "订单号:5126737718314572321；店铺:智信安；型号/款式:主控4600 Adafruit QT Py - SAMD21含usb数据线，4p连接线；状态来源:订单列表；物流:圆通速递；运单:YT2545988263090；订单提交:2026-07-30 16:42:20；来源:订单数据.xlsx"
+          },
+          {
+            "row_id": "proc_anyskin_eflesh_reskin_eflesh_mini_2",
+            "updated_at": "2026-07-30T16:42:20+08:00",
+            "item": "低成本智能触觉皮肤/触觉感知/磁力电路板 AnySkin/eFlesh/Reskin",
+            "status": "Shipped",
+            "route": "Taobao · 智信安",
+            "url": "https://item.taobao.com/item.htm?id=978539771559&mi_id=0000IyQF9Z1cwLPX1iig7Fs2k71ybl9aLeMYB8pDmTSNIqo",
+            "notes": "订单号:5126737718314572321；店铺:智信安；型号/款式:eflesh-mini+硅胶测试套件；状态来源:订单列表；物流:圆通速递；运单:YT2545988263090；订单提交:2026-07-30 16:42:20；来源:订单数据.xlsx"
+          },
+          {
+            "row_id": "proc_anyskin_eflesh_reskin_eflesh_tpu95_n52_3",
+            "updated_at": "2026-07-30T16:42:20+08:00",
+            "item": "低成本智能触觉皮肤/触觉感知/磁力电路板 AnySkin/eFlesh/Reskin",
+            "status": "Shipped",
+            "route": "Taobao · 智信安",
+            "url": "https://item.taobao.com/item.htm?id=978539771559&mi_id=0000IyQF9Z1cwLPX1iig7Fs2k71ybl9aLeMYB8pDmTSNIqo",
+            "notes": "订单号:5126737718314572321；店铺:智信安；型号/款式:eFlesh底座+TPU95结构件(含N52磁铁/磁层；状态来源:订单列表；物流:圆通速递；运单:YT2545988263090；订单提交:2026-07-30 16:42:20；来源:订单数据.xlsx"
+          },
+          {
+            "row_id": "proc_sts3032_360_4_5kg_st_3032_c036",
+            "updated_at": "2026-07-30T16:42:20+08:00",
+            "item": "飞特STS3032双轴金属360度磁编码4.5kg高精度四足机器人总线舵机",
+            "status": "Shipped",
+            "route": "Taobao · 深圳飞特舵机工厂店",
+            "url": "https://item.taobao.com/item.htm?id=766174013981&mi_id=0000DCBnYVlfORjcs_ftABu1wwa7FrMhHhlkVR2KtZNvJm8",
+            "notes": "订单号:5126737718314627512；店铺:深圳飞特舵机工厂店；型号/款式:ST-3032-C036[(双轴）]；状态来源:订单列表；物流:中通快递；运单:73719886257106；订单提交:2026-07-30 16:42:20；来源:订单数据.xlsx"
+          },
+          {
+            "row_id": "proc_6",
+            "updated_at": "2026-07-30T16:42:20+08:00",
+            "item": "日本厨房整理盒零食收纳盒抽屉储物收纳柜宿舍家用杂物桌面收纳筐",
+            "status": "Shipped",
+            "route": "Taobao · 吱凡旗舰店",
+            "url": "https://item.taobao.com/item.htm?id=720889455316&mi_id=0000friFo98VLU4lEbu1bb6w6gHfkQLm57PvI3dZBXCBFOo",
+            "notes": "订单号:5126737718314654340；店铺:吱凡旗舰店；型号/款式:✅【6个大号】无盖【特厚】；状态来源:订单列表；物流:极兔速递；运单:JT3172143944423；订单提交:2026-07-30 16:42:20；来源:订单数据.xlsx"
+          },
+          {
+            "row_id": "proc_13",
+            "updated_at": "2026-07-30T16:42:20+08:00",
+            "item": "绿林麻花钻头套装不锈钢合金钢铁高硬度含钴手电钻转打孔专用大全",
+            "status": "Shipped",
+            "route": "Taobao · 绿林官方旗舰店",
+            "url": "https://item.taobao.com/item.htm?id=557061845116&mi_id=0000-ynHe_rMnyI3IZqWjMbPPJoOM-6V5TuLwRoGt2_Rrd4",
+            "notes": "订单号:5126737718314709531；店铺:绿林官方旗舰店；型号/款式:绿林小钻筒【13件套】；状态来源:订单列表；物流:极兔速递；运单:JT3172146160006；订单提交:2026-07-30 16:42:20；来源:订单数据.xlsx"
+          },
+          {
+            "row_id": "proc_mgc3130_3d_sen0202",
+            "updated_at": "2026-07-30T16:42:20+08:00",
+            "item": "MGC3130 3D手势识别迷你传感器   运动跟踪 交互式传感器SEN0202",
+            "status": "Shipped",
+            "route": "Taobao · DFRobot官方品牌店",
+            "url": "https://item.taobao.com/item.htm?id=558330975889&mi_id=0000nxnwdC5C6leKh-UbVD-GleFHSz4maZ8DGP0PZSncAhM",
+            "notes": "订单号:5126737718314718713；店铺:DFRobot官方品牌店；型号/款式:暂无；状态来源:订单列表；物流:韵达快递；运单:313074246332547；订单提交:2026-07-30 16:42:20；来源:订单数据.xlsx"
+          },
+          {
+            "row_id": "proc_acasis_usb_usb_hub_1m_usb3_2_16_96w",
+            "updated_at": "2026-07-30T16:42:20+08:00",
+            "item": "acasis阿卡西斯电脑usb扩展器一拖多集线器多孔插座独立供电USB接口扩展坞hub台式拓展坞桌面手机充电器电源",
+            "status": "Shipped",
+            "route": "Taobao · ACASIS皓之鑫专卖店",
+            "url": "https://item.taobao.com/item.htm?id=857712138972&mi_id=0000eCC2EkZVgkU3QZc_eNuQ6aKmuhjnjaxxgHIIR_4WiCM",
+            "notes": "订单号:5126737718314745541；店铺:ACASIS皓之鑫专卖店；型号/款式:1m;【升级款USB3.2❌16口】金属灰色|配96W电源|独立开关和指示灯；状态来源:订单列表；物流:申通快递；运单:773434335667177；订单提交:2026-07-30 16:42:20；来源:订单数据.xlsx"
+          },
+          {
+            "row_id": "proc_gfy9030_c80h60_xy_10kg_20",
+            "updated_at": "2026-07-30T16:40:54+08:00",
+            "item": "手动角度倾斜角微调位台相机光学调整架实验弧形滑台大台面",
+            "status": "Shipped",
+            "route": "Taobao · 米思自动化",
+            "url": "https://item.taobao.com/item.htm?id=599816381595&mi_id=0000yosy4MuUXztayIRYsctTo8GK5N_vnenS5Yn8uUvyVWs",
+            "notes": "订单号:5126999868871035114；店铺:米思自动化；型号/款式:GFY9030-C80H60※XY双倾斜[※负载10kg ±20°]；状态来源:订单列表；物流:联昊通；运单:801826545280；订单提交:2026-07-30 16:40:54；来源:订单数据.xlsx"
+          },
+          {
+            "row_id": "proc_r_rsp90_l_90_25_360_5",
+            "updated_at": "2026-07-30T16:40:54+08:00",
+            "item": "手动旋转微调角度平台r轴分度盘滑台转盘精密位移调节器调整",
+            "status": "Shipped",
+            "route": "Taobao · 米思自动化",
+            "url": "https://item.taobao.com/item.htm?id=586169374673&mi_id=0000ezmlcKvzi_Wha_RD3L7lEnT2GlmoieP3AyzVmS7i0S0",
+            "notes": "订单号:5126999868871035114；店铺:米思自动化；型号/款式:RSP90-L※台面：Ø90 高：25※左[手动360º 精调±5º]；状态来源:订单列表；物流:联昊通；运单:801826545280；订单提交:2026-07-30 16:40:54；来源:订单数据.xlsx"
+          },
+          {
             "row_id": "proc_kr4_yadea_foldable_e_bike_candidate_20260721",
             "updated_at": "2026-07-26T09:36:47.978Z",
             "item": "JI-MOVE / JIMOVE folding PAB — lower-cost YADEA replacement candidate / 捷行折叠电助力车（雅迪低成本替代）",
