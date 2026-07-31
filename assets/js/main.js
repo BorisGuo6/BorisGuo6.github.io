@@ -26,7 +26,7 @@ function handleProfileClick() {
 function applyMode(full) {
   window.siteFullMode = full;
   var hideInMinimal = [
-    'more-academic-links-wrap', 'news-phd-offer',
+    'more-academic-links-wrap',
     'section-toggle-papers',
     'section-toggle-awards', 'section-talks', 'section-org-entre'
   ];
@@ -46,7 +46,9 @@ function applyMode(full) {
   });
   var cvLink = document.getElementById('cv-link');
   if (cvLink) cvLink.href = full ? 'latex/CV-full.pdf' : 'latex/CV.pdf';
-  if (window._cachedPublications) renderNews(window._cachedPublications);
+  if (window._cachedPublications || window._cachedNews) {
+    renderNews(window._cachedPublications, window._cachedNews);
+  }
   if (window._cachedSections) renderSiteAwards(window._cachedSections.awards);
 }
 
@@ -673,41 +675,28 @@ function renderPublications(papers) {
 }
 
 // ============================================================================
-// News Rendering (auto-generated from content/publications.json)
+// News Rendering (accepted papers + content/news.json)
 // ============================================================================
 function buildNewsFromPublications(papers) {
   const rawItems = [];
 
-  papers.forEach(paper => {
+  (papers || []).forEach(paper => {
     // Find best URL for this paper (first link with a URL)
-    const firstLink = paper.links.find(l => l.url);
+    const firstLink = paper.links && paper.links.find(l => l.url);
     const paperUrl = firstLink ? firstLink.url : null;
 
-    paper.venues.forEach(venue => {
+    (paper.venues || []).forEach(venue => {
       if (!venue.newsDate) return;
+      if (venue.type !== 'accepted') return;
 
-      if (venue.type === 'accepted') {
-        rawItems.push({
-          date: venue.newsDate,
-          type: 'acceptance',
-          paperTitle: paper.newsShort || paper.title,
-          paperUrl: paperUrl,
-          venue: venue.label,
-          note: venue.newsNote || null
-        });
-      } else if (venue.type === 'award' || venue.type === 'award-multi') {
-        rawItems.push({
-          date: venue.newsDate,
-          type: 'award',
-          paperTitle: venue.newsTitle || paper.newsShort || paper.title,
-          paperUrl: paperUrl,
-          award: venue.newsAward || venue.label,
-          event: venue.newsEvent || null,
-          eventUrl: venue.newsEventUrl || null,
-          bold: venue.newsBold || false,
-          paperDisplay: paper.display
-        });
-      }
+      rawItems.push({
+        date: venue.newsDate,
+        type: 'acceptance',
+        paperTitle: paper.newsShort || paper.title,
+        paperUrl: paperUrl,
+        venue: venue.label,
+        note: venue.newsNote || null
+      });
     });
   });
 
@@ -719,22 +708,41 @@ function buildNewsFromPublications(papers) {
   const acceptMap = {};
 
   rawItems.forEach(item => {
-    if (item.type === 'acceptance') {
-      const key = `${item.date}|${item.venue}`;
-      if (!acceptMap[key]) {
-        const entry = { date: item.date, type: 'acceptance', papers: [], venue: item.venue, note: item.note };
-        acceptMap[key] = entry;
-        grouped.push(entry);
-      }
-      acceptMap[key].papers.push({ title: item.paperTitle, url: item.paperUrl });
-    } else {
-      grouped.push(item);
+    const key = `${item.date}|${item.venue}`;
+    if (!acceptMap[key]) {
+      const entry = { date: item.date, type: 'acceptance', papers: [], venue: item.venue, note: item.note };
+      acceptMap[key] = entry;
+      grouped.push(entry);
     }
+    acceptMap[key].papers.push({ title: item.paperTitle, url: item.paperUrl });
   });
 
   // Re-sort after grouping
   grouped.sort((a, b) => b.date.localeCompare(a.date));
   return grouped;
+}
+
+function buildNewsFromNewsItems(newsItems) {
+  return (newsItems || []).map(function (item) {
+    return {
+      date: item.date,
+      type: item.type || 'announcement',
+      text: item.text || '',
+      url: item.url || item.newsUrl || null,
+      links: item.links || [],
+      details: item.details || '',
+      showInMinimal: item.showInMinimal !== false,
+      icon: item.icon || '📣',
+      paperDisplay: item.display || 'hidden'
+    };
+  }).filter(function (item) {
+    return !!item.date && !!item.text;
+  });
+}
+
+function buildNewsItemDetails(details) {
+  if (!details) return '';
+  return '<details style="display:inline; margin-left:4px;"><summary style="cursor:pointer; display:inline; vertical-align:middle;"></summary>' + details + '</details>';
 }
 
 function buildNewsItemHtml(item, minimal) {
@@ -754,6 +762,12 @@ function buildNewsItemHtml(item, minimal) {
     const note = item.note ? ' as ' + item.note : '';
     return `[${item.date}] 🎉 ${papersHtml} ${verb} accepted to ${item.venue}${note}!`;
   }
+  if (item.type === 'announcement' || item.type === 'news') {
+    const text = item.url ? `<a href="${item.url}">${item.text}</a>` : item.text;
+    const links = buildBtnLinksRow(item.links);
+    const details = buildNewsItemDetails(item.details);
+    return `[${item.date}] ${item.icon} ${text}${links}${details}`;
+  }
   if (item.type === 'award') {
     const titleInner = item.bold ? `<b>${item.paperTitle}</b>` : item.paperTitle;
     const paperHtml = item.paperUrl ? `<a href="${item.paperUrl}">${titleInner}</a>` : titleInner;
@@ -766,17 +780,18 @@ function buildNewsItemHtml(item, minimal) {
   return '';
 }
 
-function renderNews(papers) {
+function renderNews(papers, newsItems) {
   const ul = document.getElementById('news-list');
   if (!ul) return;
-  while (ul.children.length > 1) {
+  while (ul.children.length > 0) {
     ul.removeChild(ul.lastChild);
   }
   const minimal = !window.siteFullMode;
-  let items = buildNewsFromPublications(papers);
+  let items = buildNewsFromPublications(papers).concat(buildNewsFromNewsItems(newsItems || window._cachedNews));
+  items.sort((a, b) => b.date.localeCompare(a.date));
   if (minimal) {
     items = items.filter(function (item) {
-      if (item.type !== 'award') return true;
+      if (item.type !== 'award') return item.showInMinimal !== false;
       return item.paperDisplay === 'highlight' || item.paperDisplay === 'highlight-light';
     });
   }
@@ -928,17 +943,20 @@ document.addEventListener('DOMContentLoaded', function () {
   Promise.all([
     fetchJsonSafe('content/timeline.json'),
     fetchJsonSafe('content/publications.json'),
-    fetchJsonSafe('content/site-sections.json')
+    fetchJsonSafe('content/site-sections.json'),
+    fetchJsonSafe('content/news.json')
   ])
     .then(function (results) {
       window._cachedTimeline = results[0];
       window._cachedPublications = results[1];
       window._cachedSections = results[2];
+      window._cachedNews = results[3];
       if (results[0]) initTimeline(results[0]);
       if (results[1]) {
         renderPublications(results[1]);
-        renderNews(results[1]);
+        renderNews(results[1], results[3]);
       }
+      if (!results[1] && results[3]) renderNews([], results[3]);
       if (results[2]) renderSiteSections(results[2]);
       applyMode(false);
     });
