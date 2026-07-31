@@ -1,4 +1,5 @@
 import {
+  handleDashboardPortfolioUpdate,
   handleDashboardProjectCreate,
   handleDashboardProjectDelete,
   handleDashboardProjectTableRowUpdate,
@@ -18,6 +19,9 @@ export function handleDashboardProjectMutation(request, response) {
   }
   if (operation === "project-delete") {
     return handleDashboardProjectDelete(request, response);
+  }
+  if (operation === "portfolio-update") {
+    return handleDashboardPortfolioUpdate(request, response);
   }
   return handleDashboardProjectTableRowUpdate(request, response);
 }

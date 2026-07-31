@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import {
+  handleDashboardPortfolioUpdate,
   handleDashboardProjectCreate,
   handleDashboardProjectUpdate,
   withDashboardApiErrors,
@@ -80,6 +81,15 @@ async function invokeCreate(request, options = {}) {
   const response = responseProbe();
   const handler = withDashboardApiErrors(
     (nextRequest, nextResponse) => handleDashboardProjectCreate(nextRequest, nextResponse, options),
+  );
+  await handler({ headers: {}, ...request }, response);
+  return response;
+}
+
+async function invokePortfolio(request, options = {}) {
+  const response = responseProbe();
+  const handler = withDashboardApiErrors(
+    (nextRequest, nextResponse) => handleDashboardPortfolioUpdate(nextRequest, nextResponse, options),
   );
   await handler({ headers: {}, ...request }, response);
   return response;
@@ -327,5 +337,71 @@ assert.equal(invalidCreate.statusCode, 400);
 assert.match(invalidCreate.body.error, /Invalid project update field: private_token/);
 assert.equal(invalidCreateStore.snapshot().projects.length, 2);
 assert.equal(invalidCreateStore.audits.length, 0);
+
+const nonAdminPortfolioStore = inMemoryStore();
+const nonAdminPortfolio = await invokePortfolio({
+  method: "POST",
+  headers: { "x-dashboard-token": "viewer-token" },
+  body: {
+    visual_references: [{ src: "dashboard/assets/private.png" }],
+  },
+}, {
+  env: {
+    BLOB_READ_WRITE_TOKEN: "blob-token",
+    DASHBOARD_WRITE_TOKEN_USERS: JSON.stringify({ "viewer-token": "Research Viewer" }),
+  },
+  authOptions: {
+    loadAccess: async () => {
+      throw new Error("No access override in this test");
+    },
+  },
+  persistMutation: nonAdminPortfolioStore.persistMutation,
+});
+assert.equal(nonAdminPortfolio.statusCode, 403);
+assert.match(nonAdminPortfolio.body.error, /administrator role/i);
+assert.equal(nonAdminPortfolioStore.audits.length, 0);
+
+const portfolioStore = inMemoryStore();
+const portfolioReferences = [{
+  src: "dashboard/assets/robot4robot-overview.jpg",
+  caption: "Sensitive caption stays out of the audit payload.",
+  fit: "landscape-contain",
+}];
+const portfolioUpdate = await invokePortfolio({
+  method: "POST",
+  headers: { "x-dashboard-token": "admin-token" },
+  body: { visual_references: portfolioReferences },
+}, {
+  env: {
+    BLOB_READ_WRITE_TOKEN: "blob-token",
+    DASHBOARD_WRITE_TOKEN: "admin-token",
+  },
+  persistMutation: portfolioStore.persistMutation,
+});
+assert.equal(portfolioUpdate.statusCode, 200);
+assert.equal(portfolioUpdate.body.ok, true);
+assert.deepEqual(portfolioStore.snapshot().portfolio.visual_references, portfolioReferences);
+assert.deepEqual(portfolioStore.audits, [{
+  action: "portfolio-update",
+  payload: {
+    changed_fields: ["visual_references"],
+    visual_reference_count: 1,
+  },
+}]);
+assert.equal(JSON.stringify(portfolioStore.audits).includes("Sensitive caption"), false);
+
+const missingPortfolioPatch = await invokePortfolio({
+  method: "POST",
+  headers: { "x-dashboard-token": "admin-token" },
+  body: {},
+}, {
+  env: {
+    BLOB_READ_WRITE_TOKEN: "blob-token",
+    DASHBOARD_WRITE_TOKEN: "admin-token",
+  },
+  persistMutation: inMemoryStore().persistMutation,
+});
+assert.equal(missingPortfolioPatch.statusCode, 400);
+assert.match(missingPortfolioPatch.body.error, /Missing portfolio patch/);
 
 console.log("dashboard project-update API tests passed");

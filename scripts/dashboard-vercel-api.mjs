@@ -7,6 +7,7 @@ import {
 } from "@simplewebauthn/server";
 import {
   appendSnapshotAuditEvent,
+  applySnapshotPortfolioUpdate,
   applySnapshotProjectCreate,
   applySnapshotProjectDelete,
   applySnapshotProjectUpdate,
@@ -1342,6 +1343,45 @@ export async function handleDashboardProjectCreate(request, response, options = 
     ok: true,
     project_id: result.project.project_id,
     project: result.project,
+    update: result.update,
+    meta: result.meta,
+  });
+}
+
+export async function handleDashboardPortfolioUpdate(request, response, options = {}) {
+  if (request.method !== "POST") return methodNotAllowed(response, ["POST"]);
+  const env = options.env || process.env;
+  const providedToken = dashboardProvidedWriteToken(request);
+  const auth = dashboardAdminAuthorization(
+    await dashboardRequestAuth(request, env, options.authOptions || {}),
+  );
+  if (!auth.ok) return sendJson(response, auth.status, { ok: false, error: auth.error });
+  const body = await readJsonBody(request);
+  let patch = null;
+  if (body.patch && typeof body.patch === "object" && !Array.isArray(body.patch)) {
+    patch = body.patch;
+  } else if (Object.prototype.hasOwnProperty.call(body, "visual_references")) {
+    patch = { visual_references: body.visual_references };
+  }
+  if (!patch) {
+    throw new Error("Missing portfolio patch");
+  }
+  const persist = options.persistMutation || persistMutation;
+  const result = await persist((snapshot) => applySnapshotPortfolioUpdate(snapshot, patch, {
+    source: "vercel-blob",
+  }), {
+    request,
+    auth,
+    token: providedToken,
+    action: "portfolio-update",
+    payload: (mutationResult) => ({
+      changed_fields: mutationResult.update?.changed_fields || [],
+      visual_reference_count: mutationResult.portfolio?.visual_references?.length || 0,
+    }),
+  });
+  return sendJson(response, 200, {
+    ok: true,
+    portfolio: result.portfolio,
     update: result.update,
     meta: result.meta,
   });
