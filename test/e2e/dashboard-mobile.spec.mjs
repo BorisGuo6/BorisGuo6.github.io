@@ -656,6 +656,34 @@ test("landscape Image Context references stay uncropped", async ({ page }) => {
   expect(widths.card / widths.grid).toBeGreaterThan(0.9);
 });
 
+test("Dual-Sim renders as a standalone Survey card with its three method figures", async ({ page }) => {
+  await mockDashboardApi(page);
+  await unlockDashboard(page);
+
+  const dualSim = page.locator(
+    'details.project-detail[data-project-id="dual-sim-video-guidance-survey"]',
+  );
+  await expect(dualSim).toHaveAttribute("data-bucket", "survey");
+  await expect(dualSim).toContainText("Dual-Sim / Sim-Video-Guided World Model");
+  await expect(dualSim.locator(".project-body img")).toHaveAttribute(
+    "src",
+    /dualsim-wx-01\.png$/,
+  );
+
+  const selfImproving = page.locator(
+    'details.project-detail[data-project-id="self-improving-agents"]',
+  );
+  await expect(selfImproving.locator(".project-body img")).toHaveAttribute(
+    "src",
+    /self-improving-embodied-harness-loop-20260707\.png$/,
+  );
+
+  const imageContext = page.locator("[data-image-context-grid]");
+  await expect(imageContext.locator('img[src$="dualsim-wx-01.png"]')).toHaveCount(1);
+  await expect(imageContext.locator('img[src$="dualsim-wx-02.png"]')).toHaveCount(1);
+  await expect(imageContext.locator('img[src$="dualsim-wx-03.png"]')).toHaveCount(1);
+});
+
 test("wide project intro tables scroll inside the card on mobile", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await mockDashboardApi(page, (snapshot) => {

@@ -1,0 +1,83 @@
+{
+  "schema_version": "project.v1",
+  "project_id": "dual-sim-video-guidance-survey",
+  "title": "Dual-Sim / Sim-Video-Guided World Model",
+  "bucket": "survey",
+  "status": "survey",
+  "updated_at": "2026-08-02T07:14:55.000Z",
+  "description": "Survey a sim-video-guided world model that uses executable simulator rollouts as embodiment and motion priors while preserving real-scene appearance from the initial observation.",
+  "summary": "Dual-Sim does not ask a video model to copy simulator pixels. It lets the simulator constrain robot geometry and motion, while the real initial frame remains responsible for background, texture, lighting and interaction appearance. The three current figures define one trainable masked-attention route and two training-free guidance variants; they are design proposals, not validated results.",
+  "asset": "dashboard/assets/dualsim-wx-01.png",
+  "asset_alt": "Dual-Sim trainable masked-attention architecture using multi-view simulation video as a read-only robot-motion condition",
+  "asset_caption": "路线 A：在 EasyControl-style DiT 中加入非对称 Attention Mask；背景不读取 sim-video，本体区域可以读取其几何与运动先验，sim tokens 始终保持只读。",
+  "details": [
+    {
+      "text": "Trainable route: encode multi-view initial frames, future actions, optional robot state and embodiment/URDF together with a fixed multi-view sim-video condition. Background tokens may attend only to real-image context; robot tokens may additionally attend to sim-video; sim tokens neither read from nor get updated by generated tokens. The intended separation is simulator-owned motion and embodiment versus foundation-model-owned appearance."
+    },
+    {
+      "text": "Training-free route B1: freeze GE-Sim V2, extract motion with temporal differences plus spatial low-pass filtering, compare predicted and simulator motion representations, and backpropagate the resulting energy only through the sampling latent. It avoids a robot mask, but assumes the motion representation suppresses appearance strongly enough."
+    },
+    {
+      "text": "Training-free route B2: freeze the base world model and minimize latent distance to the sim-video only inside a robot-region mask. A timestep-adaptive schedule warms up the constraint, keeps it strong through the structure-and-motion phase, then decays it so the base model can recover realistic materials, lighting and contact details."
+    },
+    {
+      "text": "The first useful comparison is route A versus B1 versus B2 on identical initial frames, actions and simulator rollouts. Report motion/pose fidelity, background leakage, appearance preservation, contact and object-state consistency, temporal flicker, runtime, peak memory and robustness to camera, embodiment and sim-to-real mismatch."
+    }
+  ],
+  "task_ids": [
+    "task_self_improving_dual_sim_robotwin_isaacsim_merge"
+  ],
+  "references": [
+    {
+      "title": "Dual-Sim architecture overview: masked sim-video conditioning",
+      "url": "dashboard/assets/dualsim-wx-01.png",
+      "submitted_at": "2026-07-31",
+      "notes": "User-provided concept figure for the trainable EasyControl-style DiT route with asymmetric attention access across background, embodiment and fixed sim-video tokens."
+    },
+    {
+      "title": "Dual-Sim training-free motion-representation guidance",
+      "url": "dashboard/assets/dualsim-wx-02.png",
+      "submitted_at": "2026-07-31",
+      "notes": "User-provided concept figure for timestep-adaptive guidance from temporal-difference and spatially low-pass-filtered sim-motion energy, without a robot mask."
+    },
+    {
+      "title": "Dual-Sim training-free masked latent guidance",
+      "url": "dashboard/assets/dualsim-wx-03.png",
+      "submitted_at": "2026-07-31",
+      "notes": "User-provided concept figure for robot-region sim-latent alignment with a warm-up, strong middle phase and low-noise decay schedule."
+    },
+    {
+      "title": "Dual-Sim task-porting implementation reference",
+      "url": "https://github.com/chengaopro/Dual-Sim",
+      "submitted_at": "2026-06-11",
+      "notes": "Separate implementation lane for RoboTwin-to-IsaacSim task migration. It supplies simulator/task infrastructure but does not by itself validate the GE-Sim V2 video-guidance proposal shown in the three concept figures."
+    }
+  ],
+  "risks_decisions": [
+    "Keep this as a standalone Survey card. Self-Improving Agents owns environment-generation Harness and regression-gated workflow evolution; Dual-Sim owns the narrower hypothesis that simulator motion priors can guide realistic robot-video prediction.",
+    "The three figures are architecture proposals only. Do not claim training success, better video quality, motion fidelity or sim-to-real benefit until matched baselines and ablations are reported.",
+    "The main technical risk is control leakage: too little guidance loses robot kinematics, while too much copies simulator appearance or damages contact and scene consistency. Measure both robot-region fidelity and non-robot-region preservation.",
+    "B1 and B2 are alternatives, not cumulative evidence. B1 depends on motion features being appearance-invariant; B2 depends on reliable robot masks and aligned simulator/real latent coordinates.",
+    "The public chengaopro/Dual-Sim repository name collides with this broader video-guidance concept. Keep task-porting evidence and method-validation evidence labeled separately."
+  ],
+  "timeline": {
+    "badges": [
+      {
+        "label": "Route A",
+        "value": "Trainable masked DiT"
+      },
+      {
+        "label": "Route B1",
+        "value": "Training-free motion energy"
+      },
+      {
+        "label": "Route B2",
+        "value": "Training-free masked latent"
+      },
+      {
+        "label": "Evidence",
+        "value": "Concept figures; benchmark pending"
+      }
+    ]
+  }
+}

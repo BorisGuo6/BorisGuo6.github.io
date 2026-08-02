@@ -361,23 +361,23 @@ export default {
       },
       {
         "src": "dashboard/assets/dualsim-wx-01.png",
-        "alt": "Dual-Sim 微信图 01：多版本迁移与 sim-to-real 任务适配脉络",
-        "caption": "Dual-Sim 来源截图 01：用于展示多版本迁移与 sim-to-real 任务适配脉络。",
-        "source": "Self-Improving Agents / User-provided 微信素材",
+        "alt": "Dual-Sim architecture with trainable masked attention over initial-frame, embodiment, action-state, and fixed multi-view simulation-video tokens",
+        "caption": "Dual-Sim 路线 A：EasyControl-style DiT 通过非对称 Attention Mask 隔离背景与仿真条件；本体 token 可读取多视角 sim-video 的几何和运动先验，背景 token 不能读取，sim token 始终是只读固定条件。",
+        "source": "Dual-Sim / Sim-Video-Guided World Model",
         "added_at": "2026-07-31"
       },
       {
         "src": "dashboard/assets/dualsim-wx-02.png",
-        "alt": "Dual-Sim 微信图 02",
-        "caption": "Dual-Sim 来源截图 02：用于拓展 Dual-Sim / AgenticSim 任务迁移对比的参考图。",
-        "source": "Self-Improving Agents / User-provided 微信素材",
+        "alt": "Training-free timestep-adaptive sim-motion guidance using a frozen GE-Sim V2 world model and motion-representation energy",
+        "caption": "Dual-Sim 路线 B1：冻结 GE-Sim V2，用时间差分与空间低通构造运动表征，在去噪时最小化真实预测与 sim-video 的运动能量差；引导强度按时间步先升高、中段维持、后段衰减。",
+        "source": "Dual-Sim / Sim-Video-Guided World Model",
         "added_at": "2026-07-31"
       },
       {
         "src": "dashboard/assets/dualsim-wx-03.png",
-        "alt": "Dual-Sim 微信图 03",
-        "caption": "Dual-Sim 来源截图 03：用于补充 Dual-Sim 相关对比与设计讨论的 Image Context 参考。",
-        "source": "Self-Improving Agents / User-provided 微信素材",
+        "alt": "Training-free robot-region sim-latent guidance using a robot mask and timestep-adaptive denoising schedule",
+        "caption": "Dual-Sim 路线 B2：冻结基础 World Model，仅在机器人 mask 内把预测 clean latent 对齐到 sim latent；前期约束结构与运动，后期降低 guidance，让基础模型恢复真实材质、光照和交互细节。",
+        "source": "Dual-Sim / Sim-Video-Guided World Model",
         "added_at": "2026-07-31"
       }
     ],
@@ -462,6 +462,13 @@ export default {
         "bucket": "survey",
         "status": "survey",
         "state_path": "dashboard/state/projects/video-generation-conditioning-survey.json"
+      },
+      {
+        "project_id": "dual-sim-video-guidance-survey",
+        "title": "Dual-Sim / Sim-Video-Guided World Model",
+        "bucket": "survey",
+        "status": "survey",
+        "state_path": "dashboard/state/projects/dual-sim-video-guidance-survey.json"
       },
       {
         "project_id": "dex-gello",
@@ -1617,13 +1624,14 @@ export default {
       "title": "Self-Improving Agents for Physical AI",
       "bucket": "research",
       "status": "ongoing",
-      "updated_at": "2026-07-23T07:50:05.000Z",
+      "updated_at": "2026-08-02T07:14:55.000Z",
       "description": "[KNOWN] [CONFIDENCE: HIGH] Agentic environment-generation harness for Physical AI: route text requests, image/video anchors, internet asset and dataset retrieval, and cross-simulator migration through reusable Skills and MCP tools, preferring verified asset reuse and parameter filling before rigid or articulated 3D generation.",
-      "summary": "[KNOWN] [CONFIDENCE: HIGH] The four V1 workflows retain bounded acceptance evidence: Text2Env Stage 0-5, image/video Anchor2Env, verified asset discovery/import, and Open-X-Sim L0-L3 transfer. [KNOWN] [CONFIDENCE: HIGH] The current phase integrates them into one agentic harness with reusable Skill/MCP contracts, a selection-first asset route, a learned rigid/articulated 3D-generation fallback, and regression-gated cross-simulator compilation. [KNOWN] [CONFIDENCE: HIGH] Higher-fidelity open-world generation and policy/controller equivalence remain open.",
-      "asset": "dashboard/assets/dualsim-wx-01.png",
-      "asset_alt": "Dual-Sim 项目参考图：多版本迁移与 sim-to-real 任务适配脉络",
-      "asset_caption": "Dual-Sim 头图：来自微信下载素材，作为 Self-Improving Agents 中 Dual-Sim 方向的首张项目头图。",
+      "summary": "[KNOWN] [CONFIDENCE: HIGH] Phase-2 task board check: 0/21 TODOs currently active, no completed TODO in the current rollout table yet. [KNOWN] [CONFIDENCE: HIGH] The four V1 workflows retain bounded acceptance evidence: Text2Env Stage 0-5, image/video Anchor2Env, verified asset discovery/import, and Open-X-Sim L0-L3 transfer. [KNOWN] [CONFIDENCE: HIGH] The current phase integrates them into one agentic harness with reusable Skill/MCP contracts, a selection-first asset route, a learned rigid/articulated 3D-generation fallback, and regression-gated cross-simulator compilation. [KNOWN] [CONFIDENCE: HIGH] Higher-fidelity open-world generation and policy/controller equivalence remain open.",
+      "asset": "dashboard/assets/self-improving-embodied-harness-loop-20260707.png",
+      "asset_alt": "Self-Improving embodied harness loop：从执行轨迹挖掘弱点、提出修改并经回归门禁更新 harness",
+      "asset_caption": "Self-Improving / PEARL 主循环：执行具身任务、聚类失败模式、提出 Harness 修改，并只晋升通过回归验证的候选。",
       "details": [
+        "[KNOWN] [CONFIDENCE: HIGH] 2026-07-31 Task board sync: Phase-2 has 0/21 TODOs complete (0% progress) with dependency chain Onboarding -> Public interfaces + Harness -> Text2Env/Asset reuse -> Anchor2Env/Generation fallback -> Transfer -> full regression.",
         "[KNOWN] [CONFIDENCE: HIGH] Four user-facing routes define the current environment-generation scope: Text2Env, image/video Anchor2Env, automatic internet asset or dataset retrieval, and cross-simulator environment migration.",
         "[KNOWN] [CONFIDENCE: MEDIUM] Text2Env now has a qualitative VLM scene-critic loop: text task -> physically feasible candidate layout -> visual common-sense critique and bounded correction -> task-ready scene. The current report shows one laptop/remote-control comparison and an end-to-end interaction video; interaction-failure attribution, quantitative semantic-layout evaluation, planning-constraint linkage, and Phase 2 Skill/MCP packaging remain open.",
         "[FRAME] The orchestrator follows a selection-first policy: discover, match, select and fill parameters for verified existing assets before invoking a generative fallback.",
@@ -1666,7 +1674,6 @@ export default {
         "task_self_improving_test_genesis_world",
         "task_self_improving_skill_api_memory_gate",
         "task_self_improving_rlbench_isaacsim_pilot_gate",
-        "task_self_improving_dual_sim_robotwin_isaacsim_merge",
         "task_self_improving_contact_curriculum_bridge",
         "task_self_improving_hu_repo_backend_onboarding_20260720",
         "task_self_improving_agents_phase_2_harness_build_reusable_skill_mcp_registr_20260717",
@@ -1677,6 +1684,12 @@ export default {
         "task_self_improving_agents_phase_2_4_4_transfer_package_cross_simulator_mig_20260717"
       ],
       "references": [
+        {
+          "title": "Phase-2 self-improving task board",
+          "url": "https://phase2-task-board.yezheng04123.chatgpt.site/",
+          "submitted_at": "2026-07-31",
+          "notes": "Live board state used for this sync: 0/21 TODOs completed (0%) in the current Phase-2 env-gen lane. Dependency chain: Onboarding -> public interfaces -> Harness -> Text2Env/Asset reuse -> Anchor2Env/Generation fallback -> Transfer. Owner labels remain Hu, Zheng Ye, and Shao Gujie for the corresponding lanes; shared simulator backend + second adapter + interface freeze + first end-to-end integration remain open."
+        },
         {
           "title": "Drift: robotics-native simulation engineering agent",
           "url": "https://www.godrift.ai",
@@ -1759,12 +1772,6 @@ export default {
           "url": "https://github.com/RoboTwin-Platform/RoboTwin",
           "submitted_at": "2025-06-22",
           "notes": "Active near-term demo base for Self-Improving Agents: build the tabletop Text2Env demo, API list, manual-program new-task path, data collection dry run, and Pi / OpenVLA-OFT training/evaluation hooks before treating it as a broader AgenticSim backend."
-        },
-        {
-          "title": "Dual-Sim: RoboTwin tasks migrated to IsaacSim",
-          "url": "https://github.com/chengaopro/Dual-Sim",
-          "submitted_at": "2026-06-11",
-          "notes": "User-provided implementation reference for bringing RoboTwin-style tasks into IsaacSim. Public fetch returned 404 during this dashboard update, so the first TODO step is to confirm access/clone; if available, use its task conversion, asset, reset/step, and verifier structure as a concrete merge path into AgenticSim."
         },
         {
           "title": "SceneSmith: Agentic Generation of Simulation-Ready Indoor Scenes",
@@ -1931,7 +1938,6 @@ export default {
         "Scope decision: simulation-first MVP; external validation comes after the executable sim loop has gates and replayable reports.",
         "Benchmark decision: start from the completed 129-environment AgenticSim foundation.",
         "Candidate-base decision: mention Genesis World 1.0 and RoboTwin 2.0 as future simulator / benchmark bases, but keep them explicitly separate from the implemented LeHome / RoboLab foundation until adapters and verifier contracts are built.",
-        "Dual-Sim access note 2026-06-11: https://github.com/chengaopro/Dual-Sim was user-provided but publicly returned 404 during this update. Treat it as a high-value private/soon-to-open adapter reference; first acceptance step is access confirmation before claiming any code-level merge.",
         "Execution risk: generated scenes and ArtiCraft3D-style generated assets must be executable, reproducible, physically plausible, and gated by verifier / novelty / difficulty checks; TTT must improve held-out accepted scenes rather than overfit one generated scene.",
         "Video2Sim2Real adoption decision 2026-06-09: borrow its object-centric anchor and sim2real adaptation decomposition, but do not make the whole project depend on dexterous-hand demonstrations. AgenticSim should first implement the interface contract on one tabletop task: video/digital-twin manifest, object-keyframe anchors, robot-anchor optimization, recalibration dataset, residual adaptation hook, and real/sim verifier outputs.",
         "SceneSmith-lite decision 2026-06-13: do not attempt full-room SceneSmith first. The current target is a RoboTwin2 tabletop Text2Env demo; done means executable task program, verifier-readable env description, simulator smoke, data-collection dry run, and Pi / OpenVLA-OFT train/eval hook, not a pretty scene-only asset.",
@@ -1953,7 +1959,7 @@ export default {
         "PhyAgentOS boundary 2026-06-21: useful for transparent cognitive-physical decoupling and file/protocol-mediated hardware execution. It should inform our runtime/control-plane design, but it is not enough for the current proposal unless paired with AgenticSim environment generation, policy training/evaluation hooks, and failure-to-data-requirement loops.",
         "Execution routing 2026-06-05: Skill World Model work is the SkillCall memory gate; RLBench->IsaacSim work is the AgenticSim Isaac verifier pilot.",
         "Bridge boundary 2026-06-05: contact-rich VTLA/UMI traces can drive curriculum and failure-memory design, but Self-improving should not depend on tactile hardware until the sim-first oracle or available sensor path is verified.",
-        "[USER-SUPPLIED PHASE 2 PLAN 2026-07-22] Rewrote the seven existing environment-generation TODOs instead of creating duplicates. Primary owners: Hu = Onboarding/Harness/Transfer; Zheng Ye = Text2Env/Anchor2Env; Shao Gujie = Asset reuse/Generation fallback. Dependency chain: Onboarding -> public interfaces + Harness -> Text2Env and Asset reuse -> Anchor2Env and Generation fallback -> Transfer -> full regression. Still pending team confirmation: shared simulator backend and second adapter, interface freeze date, and first end-to-end integration date."
+        "[USER-SUPPLIED PHASE 2 PLAN 2026-07-22][UPDATE 2026-07-31] Rewrote the seven existing environment-generation TODOs instead of creating duplicates. Board-confirmed owners: Hu = Onboarding/Harness/Transfer; Zheng Ye = Text2Env/Anchor2Env; Shao Gujie = Asset reuse/Generation fallback; public interfaces listed separately in board metadata. Dependency chain: Onboarding -> public interfaces + Harness -> Text2Env and Asset reuse -> Anchor2Env and Generation fallback -> Transfer -> full regression. Still pending team confirmation: shared simulator backend + second adapter, interface freeze date, and first end-to-end integration date."
       ],
       "timeline": {
         "badges": [
@@ -1971,7 +1977,15 @@ export default {
           },
           {
             "label": "Env owners",
-            "value": "Jingxiang + Zheng Ye"
+            "value": "Hu / Shao Gujie / Zheng Ye / Jingxiang"
+          },
+          {
+            "label": "Phase 2 board",
+            "value": "0/21 TODO completed (0%)"
+          },
+          {
+            "label": "Dependency",
+            "value": "Onboarding -> Public interfaces -> Harness -> Text2Env/Asset reuse -> Anchor2Env/Generation fallback -> Transfer"
           },
           {
             "label": "Phase",
@@ -2740,6 +2754,89 @@ export default {
         "If sim-video becomes too slow as a full condition, use it as high-confidence draft guidance only and keep appearance-only branch lightweight for fast previews."
       ],
       "updated_at": "2026-07-31T09:58:02.510Z"
+    },
+    {
+      "schema_version": "project.v1",
+      "project_id": "dual-sim-video-guidance-survey",
+      "title": "Dual-Sim / Sim-Video-Guided World Model",
+      "bucket": "survey",
+      "status": "survey",
+      "updated_at": "2026-08-02T07:14:55.000Z",
+      "description": "Survey a sim-video-guided world model that uses executable simulator rollouts as embodiment and motion priors while preserving real-scene appearance from the initial observation.",
+      "summary": "Dual-Sim does not ask a video model to copy simulator pixels. It lets the simulator constrain robot geometry and motion, while the real initial frame remains responsible for background, texture, lighting and interaction appearance. The three current figures define one trainable masked-attention route and two training-free guidance variants; they are design proposals, not validated results.",
+      "asset": "dashboard/assets/dualsim-wx-01.png",
+      "asset_alt": "Dual-Sim trainable masked-attention architecture using multi-view simulation video as a read-only robot-motion condition",
+      "asset_caption": "路线 A：在 EasyControl-style DiT 中加入非对称 Attention Mask；背景不读取 sim-video，本体区域可以读取其几何与运动先验，sim tokens 始终保持只读。",
+      "details": [
+        {
+          "text": "Trainable route: encode multi-view initial frames, future actions, optional robot state and embodiment/URDF together with a fixed multi-view sim-video condition. Background tokens may attend only to real-image context; robot tokens may additionally attend to sim-video; sim tokens neither read from nor get updated by generated tokens. The intended separation is simulator-owned motion and embodiment versus foundation-model-owned appearance."
+        },
+        {
+          "text": "Training-free route B1: freeze GE-Sim V2, extract motion with temporal differences plus spatial low-pass filtering, compare predicted and simulator motion representations, and backpropagate the resulting energy only through the sampling latent. It avoids a robot mask, but assumes the motion representation suppresses appearance strongly enough."
+        },
+        {
+          "text": "Training-free route B2: freeze the base world model and minimize latent distance to the sim-video only inside a robot-region mask. A timestep-adaptive schedule warms up the constraint, keeps it strong through the structure-and-motion phase, then decays it so the base model can recover realistic materials, lighting and contact details."
+        },
+        {
+          "text": "The first useful comparison is route A versus B1 versus B2 on identical initial frames, actions and simulator rollouts. Report motion/pose fidelity, background leakage, appearance preservation, contact and object-state consistency, temporal flicker, runtime, peak memory and robustness to camera, embodiment and sim-to-real mismatch."
+        }
+      ],
+      "task_ids": [
+        "task_self_improving_dual_sim_robotwin_isaacsim_merge"
+      ],
+      "references": [
+        {
+          "title": "Dual-Sim architecture overview: masked sim-video conditioning",
+          "url": "dashboard/assets/dualsim-wx-01.png",
+          "submitted_at": "2026-07-31",
+          "notes": "User-provided concept figure for the trainable EasyControl-style DiT route with asymmetric attention access across background, embodiment and fixed sim-video tokens."
+        },
+        {
+          "title": "Dual-Sim training-free motion-representation guidance",
+          "url": "dashboard/assets/dualsim-wx-02.png",
+          "submitted_at": "2026-07-31",
+          "notes": "User-provided concept figure for timestep-adaptive guidance from temporal-difference and spatially low-pass-filtered sim-motion energy, without a robot mask."
+        },
+        {
+          "title": "Dual-Sim training-free masked latent guidance",
+          "url": "dashboard/assets/dualsim-wx-03.png",
+          "submitted_at": "2026-07-31",
+          "notes": "User-provided concept figure for robot-region sim-latent alignment with a warm-up, strong middle phase and low-noise decay schedule."
+        },
+        {
+          "title": "Dual-Sim task-porting implementation reference",
+          "url": "https://github.com/chengaopro/Dual-Sim",
+          "submitted_at": "2026-06-11",
+          "notes": "Separate implementation lane for RoboTwin-to-IsaacSim task migration. It supplies simulator/task infrastructure but does not by itself validate the GE-Sim V2 video-guidance proposal shown in the three concept figures."
+        }
+      ],
+      "risks_decisions": [
+        "Keep this as a standalone Survey card. Self-Improving Agents owns environment-generation Harness and regression-gated workflow evolution; Dual-Sim owns the narrower hypothesis that simulator motion priors can guide realistic robot-video prediction.",
+        "The three figures are architecture proposals only. Do not claim training success, better video quality, motion fidelity or sim-to-real benefit until matched baselines and ablations are reported.",
+        "The main technical risk is control leakage: too little guidance loses robot kinematics, while too much copies simulator appearance or damages contact and scene consistency. Measure both robot-region fidelity and non-robot-region preservation.",
+        "B1 and B2 are alternatives, not cumulative evidence. B1 depends on motion features being appearance-invariant; B2 depends on reliable robot masks and aligned simulator/real latent coordinates.",
+        "The public chengaopro/Dual-Sim repository name collides with this broader video-guidance concept. Keep task-porting evidence and method-validation evidence labeled separately."
+      ],
+      "timeline": {
+        "badges": [
+          {
+            "label": "Route A",
+            "value": "Trainable masked DiT"
+          },
+          {
+            "label": "Route B1",
+            "value": "Training-free motion energy"
+          },
+          {
+            "label": "Route B2",
+            "value": "Training-free masked latent"
+          },
+          {
+            "label": "Evidence",
+            "value": "Concept figures; benchmark pending"
+          }
+        ]
+      }
     },
     {
       "schema_version": "project.v1",
@@ -15056,8 +15153,8 @@ export default {
       },
       {
         "task_id": "task_self_improving_dual_sim_robotwin_isaacsim_merge",
-        "project_id": "self-improving-agents",
-        "title": "参考 Dual-Sim 把 RoboTwin 任务迁移进 AgenticSim / IsaacSim",
+        "project_id": "dual-sim-video-guidance-survey",
+        "title": "Dual-Sim 基础：把 RoboTwin 任务迁移进 AgenticSim / IsaacSim",
         "description": "参考 chengaopro/Dual-Sim 中 RoboTwin tasks -> IsaacSim 的迁移实现，把可复用部分 merge 进 AgenticSim。第一步先确认仓库访问/clone，因为公开页面在本次更新时返回 404；拿到代码后重点抽取 task schema、asset/USD/URDF 转换、reset/step API、robot/action adapter、observation/reward/verifier 结构，并和现有 RLBench->IsaacSim verifier gate 对齐。Acceptance: 1) 记录 Dual-Sim 可访问 commit 或访问 blocker；2) 写出 RoboTwin task 到 AgenticSim task registry 的字段映射；3) 选 1 个 RoboTwin task 做 IsaacSim smoke/verifier plan；4) 给出 merge patch 或明确 blocker。",
         "status": "done",
         "priority": "high",

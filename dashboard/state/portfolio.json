@@ -357,23 +357,23 @@
     },
     {
       "src": "dashboard/assets/dualsim-wx-01.png",
-      "alt": "Dual-Sim 微信图 01：多版本迁移与 sim-to-real 任务适配脉络",
-      "caption": "Dual-Sim 来源截图 01：用于展示多版本迁移与 sim-to-real 任务适配脉络。",
-      "source": "Self-Improving Agents / User-provided 微信素材",
+      "alt": "Dual-Sim architecture with trainable masked attention over initial-frame, embodiment, action-state, and fixed multi-view simulation-video tokens",
+      "caption": "Dual-Sim 路线 A：EasyControl-style DiT 通过非对称 Attention Mask 隔离背景与仿真条件；本体 token 可读取多视角 sim-video 的几何和运动先验，背景 token 不能读取，sim token 始终是只读固定条件。",
+      "source": "Dual-Sim / Sim-Video-Guided World Model",
       "added_at": "2026-07-31"
     },
     {
       "src": "dashboard/assets/dualsim-wx-02.png",
-      "alt": "Dual-Sim 微信图 02",
-      "caption": "Dual-Sim 来源截图 02：用于拓展 Dual-Sim / AgenticSim 任务迁移对比的参考图。",
-      "source": "Self-Improving Agents / User-provided 微信素材",
+      "alt": "Training-free timestep-adaptive sim-motion guidance using a frozen GE-Sim V2 world model and motion-representation energy",
+      "caption": "Dual-Sim 路线 B1：冻结 GE-Sim V2，用时间差分与空间低通构造运动表征，在去噪时最小化真实预测与 sim-video 的运动能量差；引导强度按时间步先升高、中段维持、后段衰减。",
+      "source": "Dual-Sim / Sim-Video-Guided World Model",
       "added_at": "2026-07-31"
     },
     {
       "src": "dashboard/assets/dualsim-wx-03.png",
-      "alt": "Dual-Sim 微信图 03",
-      "caption": "Dual-Sim 来源截图 03：用于补充 Dual-Sim 相关对比与设计讨论的 Image Context 参考。",
-      "source": "Self-Improving Agents / User-provided 微信素材",
+      "alt": "Training-free robot-region sim-latent guidance using a robot mask and timestep-adaptive denoising schedule",
+      "caption": "Dual-Sim 路线 B2：冻结基础 World Model，仅在机器人 mask 内把预测 clean latent 对齐到 sim latent；前期约束结构与运动，后期降低 guidance，让基础模型恢复真实材质、光照和交互细节。",
+      "source": "Dual-Sim / Sim-Video-Guided World Model",
       "added_at": "2026-07-31"
     }
   ],
@@ -458,6 +458,13 @@
       "bucket": "survey",
       "status": "survey",
       "state_path": "dashboard/state/projects/video-generation-conditioning-survey.json"
+    },
+    {
+      "project_id": "dual-sim-video-guidance-survey",
+      "title": "Dual-Sim / Sim-Video-Guided World Model",
+      "bucket": "survey",
+      "status": "survey",
+      "state_path": "dashboard/state/projects/dual-sim-video-guidance-survey.json"
     },
     {
       "project_id": "dex-gello",

@@ -4,12 +4,12 @@
   "title": "Self-Improving Agents for Physical AI",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-07-31T13:24:28.000Z",
+  "updated_at": "2026-08-02T07:14:55.000Z",
   "description": "[KNOWN] [CONFIDENCE: HIGH] Agentic environment-generation harness for Physical AI: route text requests, image/video anchors, internet asset and dataset retrieval, and cross-simulator migration through reusable Skills and MCP tools, preferring verified asset reuse and parameter filling before rigid or articulated 3D generation.",
   "summary": "[KNOWN] [CONFIDENCE: HIGH] Phase-2 task board check: 0/21 TODOs currently active, no completed TODO in the current rollout table yet. [KNOWN] [CONFIDENCE: HIGH] The four V1 workflows retain bounded acceptance evidence: Text2Env Stage 0-5, image/video Anchor2Env, verified asset discovery/import, and Open-X-Sim L0-L3 transfer. [KNOWN] [CONFIDENCE: HIGH] The current phase integrates them into one agentic harness with reusable Skill/MCP contracts, a selection-first asset route, a learned rigid/articulated 3D-generation fallback, and regression-gated cross-simulator compilation. [KNOWN] [CONFIDENCE: HIGH] Higher-fidelity open-world generation and policy/controller equivalence remain open.",
-  "asset": "dashboard/assets/dualsim-wx-01.png",
-  "asset_alt": "Dual-Sim 项目参考图：多版本迁移与 sim-to-real 任务适配脉络",
-  "asset_caption": "Dual-Sim 头图：来自微信下载素材，作为 Self-Improving Agents 中 Dual-Sim 方向的首张项目头图。",
+  "asset": "dashboard/assets/self-improving-embodied-harness-loop-20260707.png",
+  "asset_alt": "Self-Improving embodied harness loop：从执行轨迹挖掘弱点、提出修改并经回归门禁更新 harness",
+  "asset_caption": "Self-Improving / PEARL 主循环：执行具身任务、聚类失败模式、提出 Harness 修改，并只晋升通过回归验证的候选。",
   "details": [
     "[KNOWN] [CONFIDENCE: HIGH] 2026-07-31 Task board sync: Phase-2 has 0/21 TODOs complete (0% progress) with dependency chain Onboarding -> Public interfaces + Harness -> Text2Env/Asset reuse -> Anchor2Env/Generation fallback -> Transfer -> full regression.",
     "[KNOWN] [CONFIDENCE: HIGH] Four user-facing routes define the current environment-generation scope: Text2Env, image/video Anchor2Env, automatic internet asset or dataset retrieval, and cross-simulator environment migration.",
@@ -54,7 +54,6 @@
     "task_self_improving_test_genesis_world",
     "task_self_improving_skill_api_memory_gate",
     "task_self_improving_rlbench_isaacsim_pilot_gate",
-    "task_self_improving_dual_sim_robotwin_isaacsim_merge",
     "task_self_improving_contact_curriculum_bridge",
     "task_self_improving_hu_repo_backend_onboarding_20260720",
     "task_self_improving_agents_phase_2_harness_build_reusable_skill_mcp_registr_20260717",
@@ -153,12 +152,6 @@
       "url": "https://github.com/RoboTwin-Platform/RoboTwin",
       "submitted_at": "2025-06-22",
       "notes": "Active near-term demo base for Self-Improving Agents: build the tabletop Text2Env demo, API list, manual-program new-task path, data collection dry run, and Pi / OpenVLA-OFT training/evaluation hooks before treating it as a broader AgenticSim backend."
-    },
-    {
-      "title": "Dual-Sim: RoboTwin tasks migrated to IsaacSim",
-      "url": "https://github.com/chengaopro/Dual-Sim",
-      "submitted_at": "2026-06-11",
-      "notes": "User-provided implementation reference for bringing RoboTwin-style tasks into IsaacSim. Public fetch returned 404 during this dashboard update, so the first TODO step is to confirm access/clone; if available, use its task conversion, asset, reset/step, and verifier structure as a concrete merge path into AgenticSim."
     },
     {
       "title": "SceneSmith: Agentic Generation of Simulation-Ready Indoor Scenes",
@@ -325,7 +318,6 @@
     "Scope decision: simulation-first MVP; external validation comes after the executable sim loop has gates and replayable reports.",
     "Benchmark decision: start from the completed 129-environment AgenticSim foundation.",
     "Candidate-base decision: mention Genesis World 1.0 and RoboTwin 2.0 as future simulator / benchmark bases, but keep them explicitly separate from the implemented LeHome / RoboLab foundation until adapters and verifier contracts are built.",
-    "Dual-Sim access note 2026-06-11: https://github.com/chengaopro/Dual-Sim was user-provided but publicly returned 404 during this update. Treat it as a high-value private/soon-to-open adapter reference; first acceptance step is access confirmation before claiming any code-level merge.",
     "Execution risk: generated scenes and ArtiCraft3D-style generated assets must be executable, reproducible, physically plausible, and gated by verifier / novelty / difficulty checks; TTT must improve held-out accepted scenes rather than overfit one generated scene.",
     "Video2Sim2Real adoption decision 2026-06-09: borrow its object-centric anchor and sim2real adaptation decomposition, but do not make the whole project depend on dexterous-hand demonstrations. AgenticSim should first implement the interface contract on one tabletop task: video/digital-twin manifest, object-keyframe anchors, robot-anchor optimization, recalibration dataset, residual adaptation hook, and real/sim verifier outputs.",
     "SceneSmith-lite decision 2026-06-13: do not attempt full-room SceneSmith first. The current target is a RoboTwin2 tabletop Text2Env demo; done means executable task program, verifier-readable env description, simulator smoke, data-collection dry run, and Pi / OpenVLA-OFT train/eval hook, not a pretty scene-only asset.",
