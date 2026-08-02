@@ -1,5 +1,6 @@
 import {
   handleDashboardProjectCreate,
+  handleDashboardPortfolioUpdate,
   handleDashboardProjectTableRowUpdate,
   handleDashboardProjectUpdate,
   withDashboardApiErrors,
@@ -14,6 +15,9 @@ export function handleDashboardProjectMutation(request, response) {
   }
   if (operation === "project-create") {
     return handleDashboardProjectCreate(request, response);
+  }
+  if (operation === "portfolio-update") {
+    return handleDashboardPortfolioUpdate(request, response);
   }
   return handleDashboardProjectTableRowUpdate(request, response);
 }

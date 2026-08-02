@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import {
   handleDashboardProjectCreate,
+  handleDashboardPortfolioUpdate,
   handleDashboardProjectUpdate,
   withDashboardApiErrors,
 } from "../scripts/dashboard-vercel-api.mjs";
@@ -80,6 +81,15 @@ async function invokeCreate(request, options = {}) {
   const response = responseProbe();
   const handler = withDashboardApiErrors(
     (nextRequest, nextResponse) => handleDashboardProjectCreate(nextRequest, nextResponse, options),
+  );
+  await handler({ headers: {}, ...request }, response);
+  return response;
+}
+
+async function invokePortfolioUpdate(request, options = {}) {
+  const response = responseProbe();
+  const handler = withDashboardApiErrors(
+    (nextRequest, nextResponse) => handleDashboardPortfolioUpdate(nextRequest, nextResponse, options),
   );
   await handler({ headers: {}, ...request }, response);
   return response;
@@ -275,5 +285,31 @@ const viewerCreate = await invokeCreate({
 });
 assert.equal(viewerCreate.statusCode, 403);
 assert.match(viewerCreate.body.error, /administrator role/i);
+
+const portfolioStore = inMemoryStore();
+const portfolioUpdated = await invokePortfolioUpdate({
+  method: "POST",
+  headers: { "x-dashboard-token": "admin-token" },
+  body: {
+    patch: {
+      visual_references: [{ src: "dashboard/assets/example.png", caption: "Example" }],
+    },
+  },
+}, {
+  env: {
+    BLOB_READ_WRITE_TOKEN: "blob-token",
+    DASHBOARD_WRITE_TOKEN: "admin-token",
+  },
+  persistMutation: portfolioStore.persistMutation,
+});
+assert.equal(portfolioUpdated.statusCode, 200);
+assert.equal(portfolioUpdated.body.ok, true);
+assert.deepEqual(portfolioStore.snapshot().portfolio.visual_references, [
+  { src: "dashboard/assets/example.png", caption: "Example" },
+]);
+assert.deepEqual(portfolioStore.audits, [{
+  action: "portfolio-update",
+  payload: { changed_fields: ["visual_references"] },
+}]);
 
 console.log("dashboard project create/update API tests passed");

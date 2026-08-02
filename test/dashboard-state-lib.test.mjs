@@ -1064,6 +1064,14 @@ assert.deepEqual(
   },
   "project-create should reuse the existing project mutation function on the Vercel Hobby function budget",
 );
+assert.deepEqual(
+  vercelConfig.rewrites?.find((rewrite) => rewrite.source === "/api/dashboard/portfolio-update"),
+  {
+    source: "/api/dashboard/portfolio-update",
+    destination: "/api/dashboard/project-table-row?operation=portfolio-update",
+  },
+  "portfolio-update should reuse the existing project mutation function on the Vercel Hobby function budget",
+);
 assert.equal(
   (await readdir(new URL("../api/dashboard", import.meta.url)))
     .filter((name) => name.endsWith(".js"))

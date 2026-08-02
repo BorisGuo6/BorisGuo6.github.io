@@ -7,6 +7,7 @@ import {
 } from "@simplewebauthn/server";
 import {
   appendSnapshotAuditEvent,
+  applySnapshotPortfolioUpdate,
   applySnapshotProjectCreate,
   applySnapshotProjectUpdate,
   applySnapshotProjectTableRowUpdate,
@@ -1349,6 +1350,39 @@ export async function handleDashboardProjectCreate(request, response, options = 
     project_id: result.project.project_id,
     project: result.project,
     project_ref: result.projectRef,
+    update: result.update,
+    meta: result.meta,
+  });
+}
+
+export async function handleDashboardPortfolioUpdate(request, response, options = {}) {
+  if (request.method !== "POST") return methodNotAllowed(response, ["POST"]);
+  const env = options.env || process.env;
+  const providedToken = dashboardProvidedWriteToken(request);
+  const auth = dashboardAdminAuthorization(
+    await dashboardRequestAuth(request, env, options.authOptions || {}),
+  );
+  if (!auth.ok) return sendJson(response, auth.status, { ok: false, error: auth.error });
+  const body = await readJsonBody(request);
+  const patch = body.patch;
+  if (!patch || typeof patch !== "object" || Array.isArray(patch)) {
+    throw new Error("Missing portfolio patch");
+  }
+  const persist = options.persistMutation || persistMutation;
+  const result = await persist((snapshot) => applySnapshotPortfolioUpdate(snapshot, patch, {
+    source: "vercel-blob",
+  }), {
+    request,
+    auth,
+    token: providedToken,
+    action: "portfolio-update",
+    payload: (mutationResult) => ({
+      changed_fields: mutationResult.update?.changed_fields || [],
+    }),
+  });
+  return sendJson(response, 200, {
+    ok: true,
+    portfolio: result.portfolio,
     update: result.update,
     meta: result.meta,
   });
