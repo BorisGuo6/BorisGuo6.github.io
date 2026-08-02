@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-07-23T10:40:55.469Z",
+  "updated_at": "2026-08-02T08:47:23.507Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -8346,7 +8346,7 @@
           "created_at": "2026-06-24T23:09:30+08:00"
         }
       ],
-      "updated_at": "2026-06-24T23:09:30+08:00",
+      "updated_at": "2026-08-02T08:47:23.507Z",
       "completed_at": "2026-06-22"
     },
     {
@@ -12321,7 +12321,7 @@
         }
       ],
       "created_at": "2026-07-07T12:00:00+08:00",
-      "updated_at": "2026-07-23T10:40:55.469Z"
+      "updated_at": "2026-07-27T12:08:38.636Z"
     },
     {
       "task_id": "task_umi_ziyang_object_layer_pose_value_benchmark_20260707",
@@ -12390,7 +12390,9 @@
         }
       ],
       "created_at": "2026-07-07T12:00:00+08:00",
-      "updated_at": "2026-07-22T11:29:36.000Z"
+      "updated_at": "2026-07-27T13:18:58.723Z",
+      "completed_at": "2026-07-27",
+      "completed_at_time": "2026-07-27T13:18:58.723Z"
     },
     {
       "task_id": "task_umi_user_tokens_autodl_resource_governance_20260707",
@@ -13328,7 +13330,7 @@
       "project_id": "umi-world-model",
       "title": "yubo：评估可选 URDF/MVA visual-control 支线（BridgeV2W / Kinema4D / OSCAR / SimDist）",
       "description": "将本任务收口为 UMI Stage 1 的可选 embodiment-control ablation，不作为 WM-T、WM-C 或 WM-F 的训练前置条件。主线始终使用同步多视角 RGB/history、10-D numeric action/state、每视角 calibrated K/T 与 shared-world communication。第一组先在固定外部相机上比较 numeric-action-only、+URDF/MVA masked robot raster、BridgeV2W、Kinema4D、OSCAR 与 SimDist；使用同一 1-2 条轨迹、相机、首帧与目标视频，记录控制表示、URDF/renderer/IK依赖、action adherence、object/contact outcome、embodiment transfer、runtime/VRAM、代码/权重可用性与失败样例。只有 fixed-exo 分支通过后，才在 wrist/head 视角加入 hand-eye/FK-derived camera trajectory，并按 robot visibility gate 启用可见 gripper/tool raster；PRoPE/Patch Memory负责动态相机背景视差与新区域显露。UMI只有 EE action 时，必须显式记录 current q + IK/controller rollout -> q[t:t+T]，不能假设 10-D EE action唯一确定完整URDF姿态。Novelty gate：URDF + action + camera或rendered control video本身不是新颖性；仅当该支线相对必需主线在held-out embodiment、robot pose、object/contact response或data efficiency上产生稳定增益，才考虑晋级为默认条件。参考：https://arxiv.org/abs/2602.03793 ；https://arxiv.org/abs/2603.16669 ；https://arxiv.org/abs/2606.04463 ；https://sim-dist.github.io ；https://masked-visual-actions.github.io/",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignee": "yubo",
       "result": null,
@@ -13369,7 +13371,9 @@
           "created_at": "2026-07-23T10:40:55.469Z"
         }
       ],
-      "updated_at": "2026-07-23T10:40:55.469Z"
+      "updated_at": "2026-07-27T13:18:49.737Z",
+      "completed_at": "2026-07-27",
+      "completed_at_time": "2026-07-27T13:18:49.737Z"
     },
     {
       "task_id": "task_self_improving_agents_phase_2_harness_build_reusable_skill_mcp_registr_20260717",
@@ -13409,8 +13413,9 @@
           "created_at": "2026-07-23T07:50:05.000Z"
         }
       ],
-      "updated_at": "2026-07-23T07:50:05.000Z",
-      "completed_at": null
+      "updated_at": "2026-07-27T13:27:05.820Z",
+      "completed_at": "2026-07-27",
+      "completed_at_time": "2026-07-27T13:27:05.820Z"
     },
     {
       "task_id": "task_self_improving_agents_phase_2_1_4_text2env_wrap_deterministic_text2env_20260717",
@@ -13492,8 +13497,9 @@
           "created_at": "2026-07-23T07:50:05.000Z"
         }
       ],
-      "updated_at": "2026-07-23T07:50:05.000Z",
-      "completed_at": null
+      "updated_at": "2026-07-27T13:27:10.077Z",
+      "completed_at": "2026-07-27",
+      "completed_at_time": "2026-07-27T13:27:10.077Z"
     },
     {
       "task_id": "task_self_improving_agents_phase_2_3a_4_asset_reuse_retrieve_match_select_a_20260717",

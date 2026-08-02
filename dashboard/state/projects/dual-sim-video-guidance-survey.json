@@ -4,7 +4,6 @@
   "title": "Dual-Sim / Sim-Video-Guided World Model",
   "bucket": "survey",
   "status": "survey",
-  "updated_at": "2026-08-02T07:14:55.000Z",
   "description": "Survey a sim-video-guided world model that uses executable simulator rollouts as embodiment and motion priors while preserving real-scene appearance from the initial observation.",
   "summary": "Dual-Sim does not ask a video model to copy simulator pixels. It lets the simulator constrain robot geometry and motion, while the real initial frame remains responsible for background, texture, lighting and interaction appearance. The three current figures define one trainable masked-attention route and two training-free guidance variants; they are design proposals, not validated results.",
   "asset": "dashboard/assets/dualsim-wx-01.png",
@@ -79,5 +78,6 @@
         "value": "Concept figures; benchmark pending"
       }
     ]
-  }
+  },
+  "updated_at": "2026-08-02T08:47:23.507Z"
 }

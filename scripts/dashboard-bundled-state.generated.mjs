@@ -1,7 +1,7 @@
 export default {
   "schema_version": "dashboard-state.v1",
   "source": "bundled-json-generated",
-  "updated_at": "2026-07-23T10:40:55.469Z",
+  "updated_at": "2026-08-02T08:47:23.507Z",
   "portfolio": {
     "schema_version": "portfolio.v1",
     "portfolio_id": "embodied-ai-dashboard",
@@ -9,7 +9,7 @@ export default {
     "subtitle": "World models, self-improving simulators, teleop acceleration, and robotics + 3D printing",
     "week": "2026-W24",
     "date": "2026-06-12",
-    "updated_at": "2026-07-31T10:16:17.765Z",
+    "updated_at": "2026-08-02T09:03:45.730Z",
     "state_root": "dashboard/state",
     "summary": {
       "focus": "Research 主线保持 Tri-View/Image-Layered IDM、Self-Improving Agents 和 DexGello；Survey TODO 已统一 inactive/archived，不再显示为当前执行队列。",
@@ -1624,7 +1624,7 @@ export default {
       "title": "Self-Improving Agents for Physical AI",
       "bucket": "research",
       "status": "ongoing",
-      "updated_at": "2026-08-02T07:14:55.000Z",
+      "updated_at": "2026-08-02T09:03:44.670Z",
       "description": "[KNOWN] [CONFIDENCE: HIGH] Agentic environment-generation harness for Physical AI: route text requests, image/video anchors, internet asset and dataset retrieval, and cross-simulator migration through reusable Skills and MCP tools, preferring verified asset reuse and parameter filling before rigid or articulated 3D generation.",
       "summary": "[KNOWN] [CONFIDENCE: HIGH] Phase-2 task board check: 0/21 TODOs currently active, no completed TODO in the current rollout table yet. [KNOWN] [CONFIDENCE: HIGH] The four V1 workflows retain bounded acceptance evidence: Text2Env Stage 0-5, image/video Anchor2Env, verified asset discovery/import, and Open-X-Sim L0-L3 transfer. [KNOWN] [CONFIDENCE: HIGH] The current phase integrates them into one agentic harness with reusable Skill/MCP contracts, a selection-first asset route, a learned rigid/articulated 3D-generation fallback, and regression-gated cross-simulator compilation. [KNOWN] [CONFIDENCE: HIGH] Higher-fidelity open-world generation and policy/controller equivalence remain open.",
       "asset": "dashboard/assets/self-improving-embodied-harness-loop-20260707.png",
@@ -2761,7 +2761,6 @@ export default {
       "title": "Dual-Sim / Sim-Video-Guided World Model",
       "bucket": "survey",
       "status": "survey",
-      "updated_at": "2026-08-02T07:14:55.000Z",
       "description": "Survey a sim-video-guided world model that uses executable simulator rollouts as embodiment and motion priors while preserving real-scene appearance from the initial observation.",
       "summary": "Dual-Sim does not ask a video model to copy simulator pixels. It lets the simulator constrain robot geometry and motion, while the real initial frame remains responsible for background, texture, lighting and interaction appearance. The three current figures define one trainable masked-attention route and two training-free guidance variants; they are design proposals, not validated results.",
       "asset": "dashboard/assets/dualsim-wx-01.png",
@@ -2836,7 +2835,8 @@ export default {
             "value": "Concept figures; benchmark pending"
           }
         ]
-      }
+      },
+      "updated_at": "2026-08-02T08:47:23.507Z"
     },
     {
       "schema_version": "project.v1",
@@ -3361,7 +3361,7 @@ export default {
       "title": "Procurement Table",
       "bucket": "engineering",
       "status": "ongoing",
-      "updated_at": "2026-07-26T09:36:47.978Z",
+      "updated_at": "2026-08-02T09:03:43.334Z",
       "description": "Editable lab procurement and equipment-loan register for cross-project hardware",
       "summary": "Editable register for lab purchases and equipment loans. Quoted packages cover Flexiv Rizon 4s x2, xArm7 x2, optical tables x2, FACTR-Franka x2, one Wuji Hand2 left/right pair with a Wuji motion-capture glove pair, a RealMan RM75-B-V bimanual package at USD 25,500, and a Tianji Marvin-M6-CCS 696 bimanual package at USD 33,300. The bimanual base remains RealMan x2 versus Tianji CCS 696 x2; compare normalized landed cost because the quotes use different Incoterms. An additional open-source dexterous-hand pair is ROBOTIS HX5 versus MIDAS Hand. Three Daimon loan bundles are planned for Singapore: a DM-DataMaster teleoperation set, a new-generation UMI DM-DataClaw/DM-DataPacket set, and a DM-DateDex glove pair. Quote PDFs and loan documents stay private and are referenced only by safe inventory details. Rows are sorted by status first and then by last update; received items remain behind the bottom archive toggle.",
       "intro_table": {
@@ -6847,7 +6847,7 @@ export default {
   ],
   "taskDoc": {
     "schema_version": "tasks.v1",
-    "updated_at": "2026-07-23T10:40:55.469Z",
+    "updated_at": "2026-08-02T08:47:23.507Z",
     "owner": "dashboard",
     "tasks": [
       {
@@ -15193,7 +15193,7 @@ export default {
             "created_at": "2026-06-24T23:09:30+08:00"
           }
         ],
-        "updated_at": "2026-06-24T23:09:30+08:00",
+        "updated_at": "2026-08-02T08:47:23.507Z",
         "completed_at": "2026-06-22"
       },
       {
@@ -19168,7 +19168,7 @@ export default {
           }
         ],
         "created_at": "2026-07-07T12:00:00+08:00",
-        "updated_at": "2026-07-23T10:40:55.469Z"
+        "updated_at": "2026-07-27T12:08:38.636Z"
       },
       {
         "task_id": "task_umi_ziyang_object_layer_pose_value_benchmark_20260707",
@@ -19237,7 +19237,9 @@ export default {
           }
         ],
         "created_at": "2026-07-07T12:00:00+08:00",
-        "updated_at": "2026-07-22T11:29:36.000Z"
+        "updated_at": "2026-07-27T13:18:58.723Z",
+        "completed_at": "2026-07-27",
+        "completed_at_time": "2026-07-27T13:18:58.723Z"
       },
       {
         "task_id": "task_umi_user_tokens_autodl_resource_governance_20260707",
@@ -20175,7 +20177,7 @@ export default {
         "project_id": "umi-world-model",
         "title": "yubo：评估可选 URDF/MVA visual-control 支线（BridgeV2W / Kinema4D / OSCAR / SimDist）",
         "description": "将本任务收口为 UMI Stage 1 的可选 embodiment-control ablation，不作为 WM-T、WM-C 或 WM-F 的训练前置条件。主线始终使用同步多视角 RGB/history、10-D numeric action/state、每视角 calibrated K/T 与 shared-world communication。第一组先在固定外部相机上比较 numeric-action-only、+URDF/MVA masked robot raster、BridgeV2W、Kinema4D、OSCAR 与 SimDist；使用同一 1-2 条轨迹、相机、首帧与目标视频，记录控制表示、URDF/renderer/IK依赖、action adherence、object/contact outcome、embodiment transfer、runtime/VRAM、代码/权重可用性与失败样例。只有 fixed-exo 分支通过后，才在 wrist/head 视角加入 hand-eye/FK-derived camera trajectory，并按 robot visibility gate 启用可见 gripper/tool raster；PRoPE/Patch Memory负责动态相机背景视差与新区域显露。UMI只有 EE action 时，必须显式记录 current q + IK/controller rollout -> q[t:t+T]，不能假设 10-D EE action唯一确定完整URDF姿态。Novelty gate：URDF + action + camera或rendered control video本身不是新颖性；仅当该支线相对必需主线在held-out embodiment、robot pose、object/contact response或data efficiency上产生稳定增益，才考虑晋级为默认条件。参考：https://arxiv.org/abs/2602.03793 ；https://arxiv.org/abs/2603.16669 ；https://arxiv.org/abs/2606.04463 ；https://sim-dist.github.io ；https://masked-visual-actions.github.io/",
-        "status": "todo",
+        "status": "done",
         "priority": "high",
         "assignee": "yubo",
         "result": null,
@@ -20216,7 +20218,9 @@ export default {
             "created_at": "2026-07-23T10:40:55.469Z"
           }
         ],
-        "updated_at": "2026-07-23T10:40:55.469Z"
+        "updated_at": "2026-07-27T13:18:49.737Z",
+        "completed_at": "2026-07-27",
+        "completed_at_time": "2026-07-27T13:18:49.737Z"
       },
       {
         "task_id": "task_self_improving_agents_phase_2_harness_build_reusable_skill_mcp_registr_20260717",
@@ -20256,8 +20260,9 @@ export default {
             "created_at": "2026-07-23T07:50:05.000Z"
           }
         ],
-        "updated_at": "2026-07-23T07:50:05.000Z",
-        "completed_at": null
+        "updated_at": "2026-07-27T13:27:05.820Z",
+        "completed_at": "2026-07-27",
+        "completed_at_time": "2026-07-27T13:27:05.820Z"
       },
       {
         "task_id": "task_self_improving_agents_phase_2_1_4_text2env_wrap_deterministic_text2env_20260717",
@@ -20339,8 +20344,9 @@ export default {
             "created_at": "2026-07-23T07:50:05.000Z"
           }
         ],
-        "updated_at": "2026-07-23T07:50:05.000Z",
-        "completed_at": null
+        "updated_at": "2026-07-27T13:27:10.077Z",
+        "completed_at": "2026-07-27",
+        "completed_at_time": "2026-07-27T13:27:10.077Z"
       },
       {
         "task_id": "task_self_improving_agents_phase_2_3a_4_asset_reuse_retrieve_match_select_a_20260717",
