@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import {
+  handleDashboardProjectCreate,
   handleDashboardProjectUpdate,
   withDashboardApiErrors,
 } from "../scripts/dashboard-vercel-api.mjs";
@@ -70,6 +71,15 @@ async function invoke(request, options = {}) {
   const response = responseProbe();
   const handler = withDashboardApiErrors(
     (nextRequest, nextResponse) => handleDashboardProjectUpdate(nextRequest, nextResponse, options),
+  );
+  await handler({ headers: {}, ...request }, response);
+  return response;
+}
+
+async function invokeCreate(request, options = {}) {
+  const response = responseProbe();
+  const handler = withDashboardApiErrors(
+    (nextRequest, nextResponse) => handleDashboardProjectCreate(nextRequest, nextResponse, options),
   );
   await handler({ headers: {}, ...request }, response);
   return response;
@@ -204,4 +214,66 @@ assert.match(invalidField.body.error, /Invalid project update field: private_tok
 assert.equal(invalidStore.snapshot().projects[0].summary, "Original summary");
 assert.equal(invalidStore.audits.length, 0);
 
-console.log("dashboard project-update API tests passed");
+const createStore = inMemoryStore();
+const created = await invokeCreate({
+  method: "POST",
+  headers: { "x-dashboard-token": "admin-token" },
+  body: {
+    insert_after: "research-a",
+    project: {
+      project_id: "survey-new",
+      title: "New Survey",
+      bucket: "research",
+      status: "survey",
+      summary: "A bounded new project.",
+      task_ids: [],
+    },
+  },
+}, {
+  env: {
+    BLOB_READ_WRITE_TOKEN: "blob-token",
+    DASHBOARD_WRITE_TOKEN: "admin-token",
+  },
+  persistMutation: createStore.persistMutation,
+});
+assert.equal(created.statusCode, 200);
+assert.equal(created.body.ok, true);
+assert.equal(created.body.project_id, "survey-new");
+assert.equal(createStore.snapshot().projects.at(-1).project_id, "survey-new");
+assert.equal(createStore.snapshot().portfolio.projects[1].project_id, "survey-new");
+assert.deepEqual(createStore.audits, [{
+  action: "project-create",
+  payload: {
+    project_id: "survey-new",
+    bucket: "research",
+    inserted_after: "research-a",
+  },
+}]);
+
+const viewerCreate = await invokeCreate({
+  method: "POST",
+  headers: { "x-dashboard-token": "viewer-token" },
+  body: {
+    project: {
+      project_id: "viewer-project",
+      title: "Viewer Project",
+      bucket: "research",
+      status: "survey",
+    },
+  },
+}, {
+  env: {
+    BLOB_READ_WRITE_TOKEN: "blob-token",
+    DASHBOARD_WRITE_TOKEN_USERS: JSON.stringify({ "viewer-token": "Research Viewer" }),
+  },
+  authOptions: {
+    loadAccess: async () => {
+      throw new Error("No access override in this test");
+    },
+  },
+  persistMutation: inMemoryStore().persistMutation,
+});
+assert.equal(viewerCreate.statusCode, 403);
+assert.match(viewerCreate.body.error, /administrator role/i);
+
+console.log("dashboard project create/update API tests passed");

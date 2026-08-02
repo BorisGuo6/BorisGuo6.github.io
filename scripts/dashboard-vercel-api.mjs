@@ -7,6 +7,7 @@ import {
 } from "@simplewebauthn/server";
 import {
   appendSnapshotAuditEvent,
+  applySnapshotProjectCreate,
   applySnapshotProjectUpdate,
   applySnapshotProjectTableRowUpdate,
   applySnapshotTaskComment,
@@ -1308,6 +1309,46 @@ export async function handleDashboardProjectUpdate(request, response, options = 
     ok: true,
     project_id: projectId,
     project: result.project,
+    update: result.update,
+    meta: result.meta,
+  });
+}
+
+export async function handleDashboardProjectCreate(request, response, options = {}) {
+  if (request.method !== "POST") return methodNotAllowed(response, ["POST"]);
+  const env = options.env || process.env;
+  const providedToken = dashboardProvidedWriteToken(request);
+  const auth = dashboardAdminAuthorization(
+    await dashboardRequestAuth(request, env, options.authOptions || {}),
+  );
+  if (!auth.ok) return sendJson(response, auth.status, { ok: false, error: auth.error });
+  const body = await readJsonBody(request);
+  const input = body.project;
+  if (!input || typeof input !== "object" || Array.isArray(input)) {
+    throw new Error("Missing project");
+  }
+  const persist = options.persistMutation || persistMutation;
+  const result = await persist((snapshot) => applySnapshotProjectCreate(snapshot, {
+    ...input,
+    ...(body.insert_after ? { insert_after: body.insert_after } : {}),
+  }, {
+    source: "vercel-blob",
+  }), {
+    request,
+    auth,
+    token: providedToken,
+    action: "project-create",
+    payload: (mutationResult) => ({
+      project_id: mutationResult.project.project_id,
+      bucket: mutationResult.project.bucket,
+      inserted_after: mutationResult.update?.inserted_after || null,
+    }),
+  });
+  return sendJson(response, 200, {
+    ok: true,
+    project_id: result.project.project_id,
+    project: result.project,
+    project_ref: result.projectRef,
     update: result.update,
     meta: result.meta,
   });
