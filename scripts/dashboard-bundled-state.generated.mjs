@@ -1,7 +1,7 @@
 export default {
   "schema_version": "dashboard-state.v1",
   "source": "bundled-json-generated",
-  "updated_at": "2026-08-02T08:47:23.507Z",
+  "updated_at": "2026-08-03T10:18:15.645Z",
   "portfolio": {
     "schema_version": "portfolio.v1",
     "portfolio_id": "embodied-ai-dashboard",
@@ -673,7 +673,7 @@ export default {
       "title": "UMI Image Layered World Model",
       "bucket": "research",
       "status": "ongoing",
-      "updated_at": "2026-07-27T03:00:17.074Z",
+      "updated_at": "2026-08-03T10:18:15.638Z",
       "description": "UMI Image Layered World Model: three linked papers covering multi-view robot video world modeling, manipulation-video dynamics decomposition into reusable layers, and layered data as a general reward and RL interface for WAMs.",
       "summary": "UMI is a three-stage program over one shared layer_manifest substrate: Stage 1 learns streaming multi-view world dynamics, Stage 2 decomposes manipulation video into reusable layers, and Stage 3 turns WAM rollouts into calibrated process reward and reward-guided optimization. Stage 1 and Stage 3 specifications live in the GammaWorld Training Atlas.",
       "subprojects": [
@@ -915,7 +915,8 @@ export default {
         "task_urdf_embodiment_prior_world_model_idea_camera_action_factorization_gate_x_20260711",
         "task_urdf_embodiment_prior_world_model_idea_film_space_style_two_view_generation_probe_20260711",
         "task_urdf_embodiment_prior_world_model_idea_held_out_urdf_factorial_ablation_executable_eval_20260711",
-        "task_urdf_embodiment_prior_world_model_idea_yubo_bridgev2w_kinema4d_oscar_urdf_world_model_n_20260716"
+        "task_urdf_embodiment_prior_world_model_idea_yubo_bridgev2w_kinema4d_oscar_urdf_world_model_n_20260716",
+        "task_umi_world_model_stage3_todo_board_20260803"
       ],
       "references": [
         {
@@ -1462,6 +1463,12 @@ export default {
           "submitted_at": "2026-07-25",
           "category": "stage1-tactile-extension",
           "notes": "Gated Stage 1 extension reference, not a Matrix 3.5 replacement: align multi-view RGB, per-finger tactile and canonical bimanual 20D action; pretrain future-touch prediction before enabling current-touch conditioning; test missing-tactile fallback and asymmetric expert caching. Keep the verified sampler-time SE(3) action contract rather than N(0)-TWAM's reported element-wise rot6d subtraction. Code and weights remain scheduled for 2026-07-31."
+        },
+        {
+          "title": "UMI World Model Stage 3 TODO board",
+          "url": "https://sketchline-stage3-todo-2026.mengziyang168.chatgpt.site",
+          "submitted_at": "2026-08-03",
+          "notes": "Current Stage 3 execution roadmap, updated 2026-07-31. Short-term lanes cover Any6D on UMI/MolmoAct, optical flow, object contact and semantic-progress evaluation, RoboPEPP, and WAM integration; long-term lanes cover UMI data integration, robot-layer/action-token alignment, and the Stage 3 WAM training paradigm. Treat this page as TODO state, not completed evidence."
         }
       ],
       "risks_decisions": [
@@ -1617,7 +1624,7 @@ export default {
       "title": "Self-Improving Agents for Physical AI",
       "bucket": "research",
       "status": "ongoing",
-      "updated_at": "2026-08-02T09:03:44.670Z",
+      "updated_at": "2026-08-03T10:18:15.645Z",
       "description": "[KNOWN] [CONFIDENCE: HIGH] Agentic environment-generation harness for Physical AI: route text requests, image/video anchors, internet asset and dataset retrieval, and cross-simulator migration through reusable Skills and MCP tools, preferring verified asset reuse and parameter filling before rigid or articulated 3D generation.",
       "summary": "[KNOWN] [CONFIDENCE: HIGH] Phase-2 task board check: 0/21 TODOs currently active, no completed TODO in the current rollout table yet. [KNOWN] [CONFIDENCE: HIGH] The four V1 workflows retain bounded acceptance evidence: Text2Env Stage 0-5, image/video Anchor2Env, verified asset discovery/import, and Open-X-Sim L0-L3 transfer. [KNOWN] [CONFIDENCE: HIGH] The current phase integrates them into one agentic harness with reusable Skill/MCP contracts, a selection-first asset route, a learned rigid/articulated 3D-generation fallback, and regression-gated cross-simulator compilation. [KNOWN] [CONFIDENCE: HIGH] Higher-fidelity open-world generation and policy/controller equivalence remain open.",
       "asset": "dashboard/assets/self-improving-embodied-harness-loop-20260707.png",
@@ -1674,14 +1681,15 @@ export default {
         "task_self_improving_agents_phase_2_3a_4_asset_reuse_retrieve_match_select_a_20260717",
         "task_self_improving_agents_phase_2_2_4_anchor2env_wrap_image_video_conditio_20260717",
         "task_self_improving_agents_embodiedgen_v2_self_improving_harness_gen_env_20260713",
-        "task_self_improving_agents_phase_2_4_4_transfer_package_cross_simulator_mig_20260717"
+        "task_self_improving_agents_phase_2_4_4_transfer_package_cross_simulator_mig_20260717",
+        "task_self_improving_agents_gen_env_todo_board_20260803"
       ],
       "references": [
         {
-          "title": "Phase-2 self-improving task board",
+          "title": "Self-Improving Agents · gen-env Phase 2 TODO board",
           "url": "https://phase2-task-board.yezheng04123.chatgpt.site/",
-          "submitted_at": "2026-07-31",
-          "notes": "Live board state used for this sync: 0/21 TODOs completed (0%) in the current Phase-2 env-gen lane. Dependency chain: Onboarding -> public interfaces -> Harness -> Text2Env/Asset reuse -> Anchor2Env/Generation fallback -> Transfer. Owner labels remain Hu, Zheng Ye, and Shao Gujie for the corresponding lanes; shared simulator backend + second adapter + interface freeze + first end-to-end integration remain open."
+          "submitted_at": "2026-08-03",
+          "notes": "Current shared gen-env execution board. Snapshot on 2026-08-03: 0/21 TODOs completed (0%). Dependency chain: Onboarding -> Harness -> Text2Env / Asset reuse -> Anchor2Env / Generation fallback -> Transfer. Keep its current progress separate from historical dashboard tasks that were completed under earlier scopes."
         },
         {
           "title": "Drift: robotics-native simulation engineering agent",
@@ -6789,7 +6797,7 @@ export default {
   ],
   "taskDoc": {
     "schema_version": "tasks.v1",
-    "updated_at": "2026-08-02T08:47:23.507Z",
+    "updated_at": "2026-08-03T10:18:15.645Z",
     "owner": "dashboard",
     "tasks": [
       {
@@ -20667,6 +20675,31 @@ export default {
         "result": null,
         "comments": [],
         "updated_at": "2026-07-31T08:25:31.961Z"
+      },
+      {
+        "task_id": "task_umi_world_model_stage3_todo_board_20260803",
+        "project_id": "umi-world-model",
+        "title": "Stage 3：跟进 Sketchline TODO 路线图",
+        "description": "当前执行看板：https://sketchline-stage3-todo-2026.mengziyang168.chatgpt.site\n\n短期节点（5/10 Aug 2026）：Any6D 在 UMI/MolmoAct 上的泛化、Optical Flow、object contact/semantic progress 评估、RoboPEPP，以及 WAM 接入方案。长期节点：对接 UMI 数据、robot layer 与 WAM action token 对齐、Stage 3 WAM 训练范式。该页面是 TODO 入口，不代表这些事项已经完成。",
+        "status": "todo",
+        "priority": "high",
+        "assignee": null,
+        "result": null,
+        "comments": [],
+        "updated_at": "2026-08-03T10:18:15.638Z",
+        "due_at": "2026-08-10"
+      },
+      {
+        "task_id": "task_self_improving_agents_gen_env_todo_board_20260803",
+        "project_id": "self-improving-agents",
+        "title": "[gen-env] 跟进 Phase 2 共享 TODO 看板",
+        "description": "当前执行看板：https://phase2-task-board.yezheng04123.chatgpt.site/\n\n2026-08-03 快照为 0/21（0%）。依赖顺序：Onboarding -> Harness -> Text2Env / Asset reuse -> Anchor2Env / Generation fallback -> Transfer。以该看板作为当前 gen-env 进度入口；历史 Phase 2 任务的 done 状态不替代这 21 项的当前执行状态。",
+        "status": "todo",
+        "priority": "high",
+        "assignee": null,
+        "result": null,
+        "comments": [],
+        "updated_at": "2026-08-03T10:18:15.645Z"
       }
     ]
   },

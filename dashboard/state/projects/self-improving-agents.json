@@ -4,7 +4,7 @@
   "title": "Self-Improving Agents for Physical AI",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-08-02T09:03:44.670Z",
+  "updated_at": "2026-08-03T10:18:15.645Z",
   "description": "[KNOWN] [CONFIDENCE: HIGH] Agentic environment-generation harness for Physical AI: route text requests, image/video anchors, internet asset and dataset retrieval, and cross-simulator migration through reusable Skills and MCP tools, preferring verified asset reuse and parameter filling before rigid or articulated 3D generation.",
   "summary": "[KNOWN] [CONFIDENCE: HIGH] Phase-2 task board check: 0/21 TODOs currently active, no completed TODO in the current rollout table yet. [KNOWN] [CONFIDENCE: HIGH] The four V1 workflows retain bounded acceptance evidence: Text2Env Stage 0-5, image/video Anchor2Env, verified asset discovery/import, and Open-X-Sim L0-L3 transfer. [KNOWN] [CONFIDENCE: HIGH] The current phase integrates them into one agentic harness with reusable Skill/MCP contracts, a selection-first asset route, a learned rigid/articulated 3D-generation fallback, and regression-gated cross-simulator compilation. [KNOWN] [CONFIDENCE: HIGH] Higher-fidelity open-world generation and policy/controller equivalence remain open.",
   "asset": "dashboard/assets/self-improving-embodied-harness-loop-20260707.png",
@@ -61,14 +61,15 @@
     "task_self_improving_agents_phase_2_3a_4_asset_reuse_retrieve_match_select_a_20260717",
     "task_self_improving_agents_phase_2_2_4_anchor2env_wrap_image_video_conditio_20260717",
     "task_self_improving_agents_embodiedgen_v2_self_improving_harness_gen_env_20260713",
-    "task_self_improving_agents_phase_2_4_4_transfer_package_cross_simulator_mig_20260717"
+    "task_self_improving_agents_phase_2_4_4_transfer_package_cross_simulator_mig_20260717",
+    "task_self_improving_agents_gen_env_todo_board_20260803"
   ],
   "references": [
     {
-      "title": "Phase-2 self-improving task board",
+      "title": "Self-Improving Agents · gen-env Phase 2 TODO board",
       "url": "https://phase2-task-board.yezheng04123.chatgpt.site/",
-      "submitted_at": "2026-07-31",
-      "notes": "Live board state used for this sync: 0/21 TODOs completed (0%) in the current Phase-2 env-gen lane. Dependency chain: Onboarding -> public interfaces -> Harness -> Text2Env/Asset reuse -> Anchor2Env/Generation fallback -> Transfer. Owner labels remain Hu, Zheng Ye, and Shao Gujie for the corresponding lanes; shared simulator backend + second adapter + interface freeze + first end-to-end integration remain open."
+      "submitted_at": "2026-08-03",
+      "notes": "Current shared gen-env execution board. Snapshot on 2026-08-03: 0/21 TODOs completed (0%). Dependency chain: Onboarding -> Harness -> Text2Env / Asset reuse -> Anchor2Env / Generation fallback -> Transfer. Keep its current progress separate from historical dashboard tasks that were completed under earlier scopes."
     },
     {
       "title": "Drift: robotics-native simulation engineering agent",
