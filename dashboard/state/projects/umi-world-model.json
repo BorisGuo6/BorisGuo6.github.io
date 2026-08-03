@@ -4,7 +4,7 @@
   "title": "UMI Image Layered World Model",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-08-03T10:18:15.638Z",
+  "updated_at": "2026-08-03T10:30:49.574Z",
   "description": "UMI Image Layered World Model: three linked papers covering multi-view robot video world modeling, manipulation-video dynamics decomposition into reusable layers, and layered data as a general reward and RL interface for WAMs.",
   "summary": "UMI is a three-stage program over one shared layer_manifest substrate: Stage 1 learns streaming multi-view world dynamics, Stage 2 decomposes manipulation video into reusable layers, and Stage 3 turns WAM rollouts into calibrated process reward and reward-guided optimization. Stage 1 and Stage 3 specifications live in the GammaWorld Training Atlas.",
   "subprojects": [
@@ -800,6 +800,12 @@
       "url": "https://sketchline-stage3-todo-2026.mengziyang168.chatgpt.site",
       "submitted_at": "2026-08-03",
       "notes": "Current Stage 3 execution roadmap, updated 2026-07-31. Short-term lanes cover Any6D on UMI/MolmoAct, optical flow, object contact and semantic-progress evaluation, RoboPEPP, and WAM integration; long-term lanes cover UMI data integration, robot-layer/action-token alignment, and the Stage 3 WAM training paradigm. Treat this page as TODO state, not completed evidence."
+    },
+    {
+      "title": "UMI World Model Stage 2 · Layer Decomposition Benchmark",
+      "url": "https://wam-layer-benchmark.leitherdo.chatgpt.site/",
+      "submitted_at": "2026-08-03",
+      "notes": "Current Stage 2 backbone/benchmark review for robot, manipulated-object, and background layer decomposition. Decision: run See-through first, use LayerD as the low-cost sanity lower bound, rerun RevealLayer only after a substantive V2, and retain Qwen-Image-Layered as a negative baseline without repeating it. Evidence boundary: RobotSeg retry currently repeats nearly identical false-positive masks, and the Cosmos Predict 2.5 Gate is blocked before inference by external authentication; this page is planning and preflight evidence, not a completed Stage 2 result."
     }
   ],
   "risks_decisions": [

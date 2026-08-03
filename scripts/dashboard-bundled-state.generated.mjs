@@ -1,7 +1,7 @@
 export default {
   "schema_version": "dashboard-state.v1",
   "source": "bundled-json-generated",
-  "updated_at": "2026-08-03T10:18:15.645Z",
+  "updated_at": "2026-08-03T10:30:49.584Z",
   "portfolio": {
     "schema_version": "portfolio.v1",
     "portfolio_id": "embodied-ai-dashboard",
@@ -673,7 +673,7 @@ export default {
       "title": "UMI Image Layered World Model",
       "bucket": "research",
       "status": "ongoing",
-      "updated_at": "2026-08-03T10:18:15.638Z",
+      "updated_at": "2026-08-03T10:30:49.574Z",
       "description": "UMI Image Layered World Model: three linked papers covering multi-view robot video world modeling, manipulation-video dynamics decomposition into reusable layers, and layered data as a general reward and RL interface for WAMs.",
       "summary": "UMI is a three-stage program over one shared layer_manifest substrate: Stage 1 learns streaming multi-view world dynamics, Stage 2 decomposes manipulation video into reusable layers, and Stage 3 turns WAM rollouts into calibrated process reward and reward-guided optimization. Stage 1 and Stage 3 specifications live in the GammaWorld Training Atlas.",
       "subprojects": [
@@ -1469,6 +1469,12 @@ export default {
           "url": "https://sketchline-stage3-todo-2026.mengziyang168.chatgpt.site",
           "submitted_at": "2026-08-03",
           "notes": "Current Stage 3 execution roadmap, updated 2026-07-31. Short-term lanes cover Any6D on UMI/MolmoAct, optical flow, object contact and semantic-progress evaluation, RoboPEPP, and WAM integration; long-term lanes cover UMI data integration, robot-layer/action-token alignment, and the Stage 3 WAM training paradigm. Treat this page as TODO state, not completed evidence."
+        },
+        {
+          "title": "UMI World Model Stage 2 · Layer Decomposition Benchmark",
+          "url": "https://wam-layer-benchmark.leitherdo.chatgpt.site/",
+          "submitted_at": "2026-08-03",
+          "notes": "Current Stage 2 backbone/benchmark review for robot, manipulated-object, and background layer decomposition. Decision: run See-through first, use LayerD as the low-cost sanity lower bound, rerun RevealLayer only after a substantive V2, and retain Qwen-Image-Layered as a negative baseline without repeating it. Evidence boundary: RobotSeg retry currently repeats nearly identical false-positive masks, and the Cosmos Predict 2.5 Gate is blocked before inference by external authentication; this page is planning and preflight evidence, not a completed Stage 2 result."
         }
       ],
       "risks_decisions": [
@@ -6797,7 +6803,7 @@ export default {
   ],
   "taskDoc": {
     "schema_version": "tasks.v1",
-    "updated_at": "2026-08-03T10:18:15.645Z",
+    "updated_at": "2026-08-03T10:30:49.584Z",
     "owner": "dashboard",
     "tasks": [
       {
@@ -20553,8 +20559,18 @@ export default {
         "priority": "high",
         "assignee": "yubo",
         "result": null,
-        "comments": [],
-        "updated_at": "2026-07-29T05:55:24.826Z"
+        "comments": [
+          {
+            "comment_id": "comment_48ae9797-632a-438c-9fd7-58f4ffd04a2e",
+            "task_id": "task_umi_yubo_single_image_layer_decomposition_survey_probe_20260729",
+            "author": "Codex dashboard",
+            "author_type": "system",
+            "kind": "comment",
+            "body": "Stage 2 benchmark / decision page: https://wam-layer-benchmark.leitherdo.chatgpt.site/\n\nCurrent routing: See-through = primary candidate; LayerD = low-cost sanity lower bound; RevealLayer = wait for substantive V2; Qwen-Image-Layered = retained negative baseline, no repeat run.\n\nEvidence boundary: the RobotSeg data-agent audit reports systematic false positives and q0-q3 retry masks that are nearly unchanged (episodes 1-9 IoU 0.9966-0.9992); only 2/20 views reached VACE. Cosmos Predict 2.5 completed preflight but is blocked before inference by invalid external HF authentication, so there is no generated result or suitability decision yet.\n\nNext gate: curate 12-20 robot images, run See-through and LayerD on identical inputs, score robot/object/background masks, recomposition, hidden plausibility, runtime/VRAM, then stress adjacent-frame flicker, cross-view correspondence, and occlusion topology before any video-level claim.",
+            "created_at": "2026-08-03T10:30:49.584Z"
+          }
+        ],
+        "updated_at": "2026-08-03T10:30:49.584Z"
       },
       {
         "task_id": "task_product_robot_codesign_reproduce_open_baselines_20260729",

@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-08-03T10:18:15.645Z",
+  "updated_at": "2026-08-03T10:30:49.584Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -13756,8 +13756,18 @@
       "priority": "high",
       "assignee": "yubo",
       "result": null,
-      "comments": [],
-      "updated_at": "2026-07-29T05:55:24.826Z"
+      "comments": [
+        {
+          "comment_id": "comment_48ae9797-632a-438c-9fd7-58f4ffd04a2e",
+          "task_id": "task_umi_yubo_single_image_layer_decomposition_survey_probe_20260729",
+          "author": "Codex dashboard",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "Stage 2 benchmark / decision page: https://wam-layer-benchmark.leitherdo.chatgpt.site/\n\nCurrent routing: See-through = primary candidate; LayerD = low-cost sanity lower bound; RevealLayer = wait for substantive V2; Qwen-Image-Layered = retained negative baseline, no repeat run.\n\nEvidence boundary: the RobotSeg data-agent audit reports systematic false positives and q0-q3 retry masks that are nearly unchanged (episodes 1-9 IoU 0.9966-0.9992); only 2/20 views reached VACE. Cosmos Predict 2.5 completed preflight but is blocked before inference by invalid external HF authentication, so there is no generated result or suitability decision yet.\n\nNext gate: curate 12-20 robot images, run See-through and LayerD on identical inputs, score robot/object/background masks, recomposition, hidden plausibility, runtime/VRAM, then stress adjacent-frame flicker, cross-view correspondence, and occlusion topology before any video-level claim.",
+          "created_at": "2026-08-03T10:30:49.584Z"
+        }
+      ],
+      "updated_at": "2026-08-03T10:30:49.584Z"
     },
     {
       "task_id": "task_product_robot_codesign_reproduce_open_baselines_20260729",
