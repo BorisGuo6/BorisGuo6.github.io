@@ -9,7 +9,7 @@ export default {
     "subtitle": "World models, self-improving simulators, teleop acceleration, and robotics + 3D printing",
     "week": "2026-W24",
     "date": "2026-06-12",
-    "updated_at": "2026-08-02T09:03:45.730Z",
+    "updated_at": "2026-08-03T08:38:05.647Z",
     "state_root": "dashboard/state",
     "summary": {
       "focus": "Research 主线保持 Tri-View/Image-Layered IDM、Self-Improving Agents 和 DexGello；Survey TODO 已统一 inactive/archived，不再显示为当前执行队列。",
@@ -455,13 +455,6 @@ export default {
         "bucket": "survey",
         "status": "survey",
         "state_path": "dashboard/state/projects/tactile-wam.json"
-      },
-      {
-        "project_id": "video-generation-conditioning-survey",
-        "title": "Archive: Video Generation Conditioning Survey",
-        "bucket": "survey",
-        "status": "survey",
-        "state_path": "dashboard/state/projects/video-generation-conditioning-survey.json"
       },
       {
         "project_id": "dual-sim-video-guidance-survey",
@@ -2703,57 +2696,6 @@ export default {
         ]
       },
       "asset_added_at": "2026-06-29"
-    },
-    {
-      "schema_version": "project.v1",
-      "project_id": "video-generation-conditioning-survey",
-      "title": "Archive: Video Generation Conditioning Survey",
-      "bucket": "survey",
-      "status": "survey",
-      "description": "Survey card for language / action / sim-video conditioned generation routes in physical robot workflows.",
-      "summary": "Cross-condition references for physically grounded video generation: language prompts, robot action trajectories, masked control videos, and execution-like simulation drafts, with MoE-style routing across modality experts.",
-      "details": [
-        {
-          "text": "Core framing: treat external simulation draft or action-conditioned renderings as the route constraints, and keep the physical/roboticity checks in verifier gates that own correctness. For this card, MoE means each condition channel can be a dedicated expert and a router combines them by reliability and missing-condition availability."
-        },
-        {
-          "text": "Use-case for robotic workflows: language-conditioned task intent, low-dimensional robot action/state signals, and simulated-trajectory drafts can be injected as separate condition branches. This allows long-term planning, short-term motion continuity, and collision/contact checks to stay separable while sharing one shared world-state backbone."
-        },
-        {
-          "text": "Architectural takeaway: do not force one branch to own all geometry and appearance. A dual-engine split—executable symbolic/program channel for temporal causality plus generative appearance channel—keeps physical validity testable and recoverable under ambiguity."
-        }
-      ],
-      "task_ids": [],
-      "references": [
-        {
-          "title": "Masked Visual Actions for Unified World Modeling",
-          "url": "https://masked-visual-actions.github.io/",
-          "arxiv_id": "2607.19343",
-          "submitted_at": "2026-07-21",
-          "notes": "Fine-tunes a control-conditioned latent video model with masked first-frame + masked control-video input. Useful for masked action/trajectory conditioning and control raster generation experiments where robot kinematics are represented as condition channels rather than only free-form text."
-        },
-        {
-          "title": "Worldscape-MoE",
-          "url": "https://worldscape-moe.com/",
-          "submitted_at": "2026-07-31",
-          "notes": "Worldscape-MoE framing supports language and action conditioning variants plus dedicated simulation/video-condition branches. Good match for separate expert routing by condition modality, and for adding sim-video injection as a first-class conditioning expert.",
-          "type": "inference architecture reference"
-        },
-        {
-          "title": "VideoCoCo: Code-as-CoT for Physically-Consistent Video Generation",
-          "url": "https://arxiv.org/abs/2607.27380",
-          "arxiv_id": "2607.27380",
-          "submitted_at": "2026-07-29",
-          "notes": "Uses a code-emission expert as process-level chain-of-thought to build deterministic, physically-anchored drafts before full generative appearance completion. For video generation in embodied simulation, this suggests dual-engine composition where shared-world constraints are checked before final appearance synthesis."
-        }
-      ],
-      "risks_decisions": [
-        "MoE routing should be condition-aware: route high-reliability channels (language/action) through robust branches and fall back safely when sim video is missing or low-confidence.",
-        "Do not use the generated final video alone as verification. Physical validity is owned by verifier gates: collision, contact, scale, object state continuity, and task success.",
-        "Keep the shared world-state representation explicit across branches so branch disagreement can be diagnosed before policy training.",
-        "If sim-video becomes too slow as a full condition, use it as high-confidence draft guidance only and keep appearance-only branch lightweight for fast previews."
-      ],
-      "updated_at": "2026-07-31T09:58:02.510Z"
     },
     {
       "schema_version": "project.v1",
