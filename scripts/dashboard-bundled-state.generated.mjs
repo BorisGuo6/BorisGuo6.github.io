@@ -1,7 +1,7 @@
 export default {
   "schema_version": "dashboard-state.v1",
   "source": "bundled-json-generated",
-  "updated_at": "2026-08-03T10:30:49.584Z",
+  "updated_at": "2026-08-04T01:47:04.609Z",
   "portfolio": {
     "schema_version": "portfolio.v1",
     "portfolio_id": "embodied-ai-dashboard",
@@ -1630,7 +1630,7 @@ export default {
       "title": "Self-Improving Agents for Physical AI",
       "bucket": "research",
       "status": "ongoing",
-      "updated_at": "2026-08-03T10:18:15.645Z",
+      "updated_at": "2026-08-04T01:47:04.596Z",
       "description": "[KNOWN] [CONFIDENCE: HIGH] Agentic environment-generation harness for Physical AI: route text requests, image/video anchors, internet asset and dataset retrieval, and cross-simulator migration through reusable Skills and MCP tools, preferring verified asset reuse and parameter filling before rigid or articulated 3D generation.",
       "summary": "[KNOWN] [CONFIDENCE: HIGH] Phase-2 task board check: 0/21 TODOs currently active, no completed TODO in the current rollout table yet. [KNOWN] [CONFIDENCE: HIGH] The four V1 workflows retain bounded acceptance evidence: Text2Env Stage 0-5, image/video Anchor2Env, verified asset discovery/import, and Open-X-Sim L0-L3 transfer. [KNOWN] [CONFIDENCE: HIGH] The current phase integrates them into one agentic harness with reusable Skill/MCP contracts, a selection-first asset route, a learned rigid/articulated 3D-generation fallback, and regression-gated cross-simulator compilation. [KNOWN] [CONFIDENCE: HIGH] Higher-fidelity open-world generation and policy/controller equivalence remain open.",
       "asset": "dashboard/assets/self-improving-embodied-harness-loop-20260707.png",
@@ -1927,6 +1927,24 @@ export default {
           "arxiv_id": "2607.27380",
           "submitted_at": "2026-07-29",
           "notes": "User-flagged architecture reference for AgenticSim / Environment Generation. VideoCoCo uses a coding agent to emit executable Blender code as an inspectable process-level chain of thought, runs it to obtain a deterministic spatiotemporal draft, then uses a draft-conditioned generative video editor for photorealistic realization. The key inspiration is the dual-engine split: let an executable simulator or compiler own temporal logic and physical constraints, while a generative model owns appearance. For our harness, evaluate this as SceneSpec to executable program to verified rollout/draft to photorealistic rendering, keeping collision, contact, scale, and task-verifier gates authoritative rather than treating the final video alone as proof of physical validity."
+        },
+        {
+          "title": "Asset reuse pipeline · RoboTwin / Isaac conversion report",
+          "url": "https://claude.ai/code/artifact/b247b3c4-bbdc-4926-b1d3-abce70528850",
+          "submitted_at": "2026-08-04",
+          "notes": "Self-Improving Agents Asset reuse report and Transfer interface evidence. The report states that four asset-level conversion directions were exercised across rigid and articulated objects, 25 assets were trial-imported and 18 accepted, and seven external-asset categories can populate scenes. Boundary: seven cylindrical/source-coordinate cases remain rejected, redistribution licenses still need review, and full-scene Isaac migration is explicitly deferred to Transfer task 4.7; do not interpret asset interoperability as completed environment migration."
+        },
+        {
+          "title": "X2Env architecture · Text2Env and Anchor2Env",
+          "url": "https://x2env-architecture-deck.aaaa123450615.chatgpt.site/",
+          "submitted_at": "2026-08-04",
+          "notes": "Architecture deck for Text2Env plus image/video Anchor2Env. Text, picture, and video frontends normalize evidence into objects, attributes, relations, confidence, and provenance before compilation. The per-entity router prioritizes functionally correct Digital Cousins for articulated objects, OpenReal2Sim-style reconstruction for rigid objects, and generative completion only as a fallback; observed trajectories remain evidence rather than robot-control commands."
+        },
+        {
+          "title": "OpenReal2Sim · image/video real-to-sim reconstruction toolbox",
+          "url": "https://github.com/PointsCoder/OpenReal2Sim",
+          "submitted_at": "2026-08-04",
+          "notes": "High-fidelity reconstruction reference for the rigid-object branch of Anchor2Env. The official repository supports real-to-sim asset reconstruction from images and generated videos plus IsaacLab scenario import, camera setup, and same-view rendering. Its trajectory generation from video, ManiSkill support, and MuJoCo support are explicitly preliminary. Treat it as geometry/appearance and collision-proxy reconstruction rather than proof of articulation, contact-rich interaction, controller equivalence, or robust cross-simulator migration."
         }
       ],
       "risks_decisions": [
@@ -6803,7 +6821,7 @@ export default {
   ],
   "taskDoc": {
     "schema_version": "tasks.v1",
-    "updated_at": "2026-08-03T10:30:49.584Z",
+    "updated_at": "2026-08-04T01:47:04.609Z",
     "owner": "dashboard",
     "tasks": [
       {
@@ -20714,8 +20732,18 @@ export default {
         "priority": "high",
         "assignee": null,
         "result": null,
-        "comments": [],
-        "updated_at": "2026-08-03T10:18:15.645Z"
+        "comments": [
+          {
+            "comment_id": "comment_c4a9bd47-4dec-4a12-8ef3-f9790cc3acf5",
+            "task_id": "task_self_improving_agents_gen_env_todo_board_20260803",
+            "author": "Codex dashboard",
+            "author_type": "system",
+            "kind": "comment",
+            "body": "2026-08-04 route mapping:\n\n1) Asset reuse + Transfer interface: https://claude.ai/code/artifact/b247b3c4-bbdc-4926-b1d3-abce70528850\n- Reported asset-level evidence: rigid/articulated conversions across RoboTwin and Isaac-related formats, 25 trial imports / 18 accepted, and 7 external-only asset categories.\n- Boundary: full Isaac whole-scene migration is still Transfer task 4.7; rejected coordinate cases and redistribution-license review remain open.\n\n2) Text2Env + Anchor2Env architecture: https://x2env-architecture-deck.aaaa123450615.chatgpt.site/\n- Text/Picture/Video inputs normalize to shared scene facts, confidence, and provenance; route articulated entities to Digital Cousins, rigid entities to OpenReal2Sim-style reconstruction, and incomplete cases to generative fallback.\n\n3) OpenReal2Sim implementation reference: https://github.com/PointsCoder/OpenReal2Sim\n- Use for high-fidelity rigid asset reconstruction from images or generated videos plus IsaacLab import/camera/rendering.\n- Interaction boundary: video trajectory transfer, ManiSkill, and MuJoCo are preliminary; this does not yet prove contact-rich interaction, articulation, controller equivalence, or cross-simulator environment equivalence.\n\nStatus rule: keep the current gen-env board open. These artifacts refine Asset reuse, Text2Env, Anchor2Env, and Transfer routing but do not replace the current 0/21 task state.",
+            "created_at": "2026-08-04T01:47:04.609Z"
+          }
+        ],
+        "updated_at": "2026-08-04T01:47:04.609Z"
       }
     ]
   },
