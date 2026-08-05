@@ -9,7 +9,7 @@ export default {
     "subtitle": "World models, self-improving simulators, teleop acceleration, and robotics + 3D printing",
     "week": "2026-W24",
     "date": "2026-06-12",
-    "updated_at": "2026-08-03T08:38:05.647Z",
+    "updated_at": "2026-08-05T13:53:19.006Z",
     "state_root": "dashboard/state",
     "summary": {
       "focus": "Research 主线保持 Tri-View/Image-Layered IDM、Self-Improving Agents 和 DexGello；Survey TODO 已统一 inactive/archived，不再显示为当前执行队列。",
@@ -437,8 +437,8 @@ export default {
       {
         "project_id": "robot4robot",
         "title": "Robot4Robot / 特权感知与主动机器人教学",
-        "bucket": "research",
-        "status": "ongoing",
+        "bucket": "survey",
+        "status": "survey",
         "state_path": "dashboard/state/projects/robot4robot.json"
       },
       {
@@ -2077,8 +2077,8 @@ export default {
       "schema_version": "project.v1",
       "project_id": "robot4robot",
       "title": "Robot4Robot / 特权感知与主动机器人教学",
-      "bucket": "research",
-      "status": "ongoing",
+      "bucket": "survey",
+      "status": "survey",
       "description": "由赵浩宇（博浩）主导的长期合作项目：先构建训练期“上帝视角”特权视觉感知系统，再引入实体教师机器人，通过跨视角蒸馏、诊断、示范和必要干预提升本体学习者的任务泛化与学习效率。",
       "summary": "Robot4Robot 按两阶段推进。Stage I 将多视角 RGB-D、点云、机器人状态、末端轨迹与接触信息融合为动态语义 3D 场景模型，研究如何把训练期全局状态、表征、价值、奖励或策略监督迁移给部署时仅使用本体视角的 Student。Stage II 在 PPS 之上加入可物理交互的 Teacher Robot，根据学生能力、不确定性、任务阶段、风险与预期学习收益，在观察、提示、示范、纠正、介入和保持沉默之间主动选择，形成跨本体教学与迭代学习闭环。会议给出的预期周期为 1–2 年，当前仍是合作方案与研究路线，不是已完成系统或性能结论。",
       "details": [
@@ -2148,7 +2148,7 @@ export default {
         }
       ],
       "risks_decisions": [
-        "Research decision 2026-07-31：Robot4Robot 作为独立 Research 卡放在 Self-Improving Agents 之后，不并入 Optical Fountain Survey；两者只保留可选通信侧链关系。",
+        "Survey decision 2026-08-05：Robot4Robot 转入 Survey，作为特权感知、跨视角/跨本体迁移与主动实体机器人教学的研究调查卡；现阶段不作为独立 Research execution track。与 Optical Fountain Survey 仅保留可选通信侧链关系。",
         "当前状态是 ongoing collaboration / proposed system。七张图是方案上下文，不是系统已经部署、指标已经复现或论文已经产出的证据。",
         "Stage I 的部署契约必须是 Student 仅依赖本体视角与本体状态；任何训练期 PPS 信息泄漏到评测或部署输入都会使结论失效。",
         "新颖性不能只写“机器人教机器人”“多相机蒸馏”“特权感知”或“跨本体”。可信边界是全局特权视觉的实体 Teacher 根据能力、不确定性、风险和预期学习收益主动选择教学动作与时机。",
@@ -2167,7 +2167,7 @@ export default {
       "visual": {
         "layout": "single-column"
       },
-      "updated_at": "2026-07-31T08:26:28.652Z"
+      "updated_at": "2026-08-05T13:53:19.006Z"
     },
     {
       "schema_version": "project.v1",
