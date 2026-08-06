@@ -4,7 +4,7 @@
   "title": "UMI Image Layered World Model",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-08-03T10:30:49.574Z",
+  "updated_at": "2026-08-06T08:45:02.289Z",
   "description": "UMI Image Layered World Model: three linked papers covering multi-view robot video world modeling, manipulation-video dynamics decomposition into reusable layers, and layered data as a general reward and RL interface for WAMs.",
   "summary": "UMI is a three-stage program over one shared layer_manifest substrate: Stage 1 learns streaming multi-view world dynamics, Stage 2 decomposes manipulation video into reusable layers, and Stage 3 turns WAM rollouts into calibrated process reward and reward-guided optimization. Stage 1 and Stage 3 specifications live in the GammaWorld Training Atlas.",
   "subprojects": [
@@ -247,7 +247,8 @@
     "task_urdf_embodiment_prior_world_model_idea_film_space_style_two_view_generation_probe_20260711",
     "task_urdf_embodiment_prior_world_model_idea_held_out_urdf_factorial_ablation_executable_eval_20260711",
     "task_urdf_embodiment_prior_world_model_idea_yubo_bridgev2w_kinema4d_oscar_urdf_world_model_n_20260716",
-    "task_umi_world_model_stage3_todo_board_20260803"
+    "task_umi_world_model_stage3_todo_board_20260803",
+    "task_umi_shadowdancer_shadow_pair_v3w_probe_20260806"
   ],
   "references": [
     {
@@ -806,6 +807,21 @@
       "url": "https://wam-layer-benchmark.leitherdo.chatgpt.site/",
       "submitted_at": "2026-08-03",
       "notes": "Current Stage 2 backbone/benchmark review for robot, manipulated-object, and background layer decomposition. Decision: run See-through first, use LayerD as the low-cost sanity lower bound, rerun RevealLayer only after a substantive V2, and retain Qwen-Image-Layered as a negative baseline without repeating it. Evidence boundary: RobotSeg retry currently repeats nearly identical false-positive masks, and the Cosmos Predict 2.5 Gate is blocked before inference by external authentication; this page is planning and preflight evidence, not a completed Stage 2 result."
+    },
+    {
+      "title": "ShadowDancer: Teaching Video World Models Any Action by Learning Unified Dynamics Representations from a Video and Its Shadow",
+      "url": "https://shadowdancer-1.github.io/",
+      "arxiv_id": "2607.28362",
+      "submitted_at": "2026-07-30",
+      "notes": "Shadow-pair representation-learning reference for Stage 1. It replays the same frame-synchronized dynamics under independently resampled appearance, trains a cross-shadow latent action model with factor-selective camera/dynamics/full heads, then conditions a block-causal video world model on the learned latent trajectory and source-detail assets. For UMI, evaluate only as an optional V3-W dynamics-invariance auxiliary: retain synchronized multi-view RGB, calibrated K/T and numeric 2x10D dual-arm action as the authoritative simulator inputs. Raw left/right wrist views are not valid shadow pairs, the learned z is not executable dual-arm action and does not replace IDM, and the paper does not solve language-only Predictor control. Evidence boundary: robot pairs/evaluation are ManiSkill-based, real OpenX clips enter as self-pairs, no UMI or real-robot execution success is reported, and the public repo states code/weights are still under internal review as of 2026-08-06."
+    },
+    {
+      "title": "UniWorld-Design: From Pixel Generation to Layer-Native Design",
+      "url": "https://arxiv.org/abs/2608.03971",
+      "arxiv_id": "2608.03971",
+      "submitted_at": "2026-08-04",
+      "type": "Stage 2 layer-native architecture / metric reference",
+      "notes": "Stage 2 still-image teacher and architecture/metric reference, not a replacement for the robot-video materialization pipeline. Its I2L model jointly predicts ordered, complete semantic RGBA layers from a composite image, a global instruction and per-layer prompts; layer-instruction binding and layer-indexed rotary coordinates are useful references for UMI scene/background, object/contact, occluder/tool and robot/end-effector slots. Designer-authored PSD supervision preserves amodal hidden content, while per-layer RGB L1, Alpha Soft IoU, blank/glazed/bad-layer and alpha-cleanliness metrics strengthen the Stage 2 gate. Scope boundary: design-graphics still images only; no temporal or cross-view consistency, robot taxonomy, action/state/contact conditioning, WAM/IDM evidence or real-robot evaluation. As of 2026-08-06 no official code or model release was found."
     }
   ],
   "risks_decisions": [

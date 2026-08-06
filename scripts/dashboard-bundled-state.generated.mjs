@@ -1,7 +1,7 @@
 export default {
   "schema_version": "dashboard-state.v1",
   "source": "bundled-json-generated",
-  "updated_at": "2026-08-04T01:47:04.609Z",
+  "updated_at": "2026-08-06T08:45:06.007Z",
   "portfolio": {
     "schema_version": "portfolio.v1",
     "portfolio_id": "embodied-ai-dashboard",
@@ -673,7 +673,7 @@ export default {
       "title": "UMI Image Layered World Model",
       "bucket": "research",
       "status": "ongoing",
-      "updated_at": "2026-08-03T10:30:49.574Z",
+      "updated_at": "2026-08-06T08:45:02.289Z",
       "description": "UMI Image Layered World Model: three linked papers covering multi-view robot video world modeling, manipulation-video dynamics decomposition into reusable layers, and layered data as a general reward and RL interface for WAMs.",
       "summary": "UMI is a three-stage program over one shared layer_manifest substrate: Stage 1 learns streaming multi-view world dynamics, Stage 2 decomposes manipulation video into reusable layers, and Stage 3 turns WAM rollouts into calibrated process reward and reward-guided optimization. Stage 1 and Stage 3 specifications live in the GammaWorld Training Atlas.",
       "subprojects": [
@@ -916,7 +916,8 @@ export default {
         "task_urdf_embodiment_prior_world_model_idea_film_space_style_two_view_generation_probe_20260711",
         "task_urdf_embodiment_prior_world_model_idea_held_out_urdf_factorial_ablation_executable_eval_20260711",
         "task_urdf_embodiment_prior_world_model_idea_yubo_bridgev2w_kinema4d_oscar_urdf_world_model_n_20260716",
-        "task_umi_world_model_stage3_todo_board_20260803"
+        "task_umi_world_model_stage3_todo_board_20260803",
+        "task_umi_shadowdancer_shadow_pair_v3w_probe_20260806"
       ],
       "references": [
         {
@@ -1475,6 +1476,21 @@ export default {
           "url": "https://wam-layer-benchmark.leitherdo.chatgpt.site/",
           "submitted_at": "2026-08-03",
           "notes": "Current Stage 2 backbone/benchmark review for robot, manipulated-object, and background layer decomposition. Decision: run See-through first, use LayerD as the low-cost sanity lower bound, rerun RevealLayer only after a substantive V2, and retain Qwen-Image-Layered as a negative baseline without repeating it. Evidence boundary: RobotSeg retry currently repeats nearly identical false-positive masks, and the Cosmos Predict 2.5 Gate is blocked before inference by external authentication; this page is planning and preflight evidence, not a completed Stage 2 result."
+        },
+        {
+          "title": "ShadowDancer: Teaching Video World Models Any Action by Learning Unified Dynamics Representations from a Video and Its Shadow",
+          "url": "https://shadowdancer-1.github.io/",
+          "arxiv_id": "2607.28362",
+          "submitted_at": "2026-07-30",
+          "notes": "Shadow-pair representation-learning reference for Stage 1. It replays the same frame-synchronized dynamics under independently resampled appearance, trains a cross-shadow latent action model with factor-selective camera/dynamics/full heads, then conditions a block-causal video world model on the learned latent trajectory and source-detail assets. For UMI, evaluate only as an optional V3-W dynamics-invariance auxiliary: retain synchronized multi-view RGB, calibrated K/T and numeric 2x10D dual-arm action as the authoritative simulator inputs. Raw left/right wrist views are not valid shadow pairs, the learned z is not executable dual-arm action and does not replace IDM, and the paper does not solve language-only Predictor control. Evidence boundary: robot pairs/evaluation are ManiSkill-based, real OpenX clips enter as self-pairs, no UMI or real-robot execution success is reported, and the public repo states code/weights are still under internal review as of 2026-08-06."
+        },
+        {
+          "title": "UniWorld-Design: From Pixel Generation to Layer-Native Design",
+          "url": "https://arxiv.org/abs/2608.03971",
+          "arxiv_id": "2608.03971",
+          "submitted_at": "2026-08-04",
+          "type": "Stage 2 layer-native architecture / metric reference",
+          "notes": "Stage 2 still-image teacher and architecture/metric reference, not a replacement for the robot-video materialization pipeline. Its I2L model jointly predicts ordered, complete semantic RGBA layers from a composite image, a global instruction and per-layer prompts; layer-instruction binding and layer-indexed rotary coordinates are useful references for UMI scene/background, object/contact, occluder/tool and robot/end-effector slots. Designer-authored PSD supervision preserves amodal hidden content, while per-layer RGB L1, Alpha Soft IoU, blank/glazed/bad-layer and alpha-cleanliness metrics strengthen the Stage 2 gate. Scope boundary: design-graphics still images only; no temporal or cross-view consistency, robot taxonomy, action/state/contact conditioning, WAM/IDM evidence or real-robot evaluation. As of 2026-08-06 no official code or model release was found."
         }
       ],
       "risks_decisions": [
@@ -6884,7 +6900,7 @@ export default {
   ],
   "taskDoc": {
     "schema_version": "tasks.v1",
-    "updated_at": "2026-08-04T01:47:04.609Z",
+    "updated_at": "2026-08-06T08:45:06.007Z",
     "owner": "dashboard",
     "tasks": [
       {
@@ -20649,9 +20665,18 @@ export default {
             "kind": "comment",
             "body": "Stage 2 benchmark / decision page: https://wam-layer-benchmark.leitherdo.chatgpt.site/\n\nCurrent routing: See-through = primary candidate; LayerD = low-cost sanity lower bound; RevealLayer = wait for substantive V2; Qwen-Image-Layered = retained negative baseline, no repeat run.\n\nEvidence boundary: the RobotSeg data-agent audit reports systematic false positives and q0-q3 retry masks that are nearly unchanged (episodes 1-9 IoU 0.9966-0.9992); only 2/20 views reached VACE. Cosmos Predict 2.5 completed preflight but is blocked before inference by invalid external HF authentication, so there is no generated result or suitability decision yet.\n\nNext gate: curate 12-20 robot images, run See-through and LayerD on identical inputs, score robot/object/background masks, recomposition, hidden plausibility, runtime/VRAM, then stress adjacent-frame flicker, cross-view correspondence, and occlusion topology before any video-level claim.",
             "created_at": "2026-08-03T10:30:49.584Z"
+          },
+          {
+            "comment_id": "comment_0e506325-4df7-4a5c-a209-b8edf4881e8d",
+            "task_id": "task_umi_yubo_single_image_layer_decomposition_survey_probe_20260729",
+            "author": "jingxiang",
+            "author_type": "system",
+            "kind": "comment",
+            "body": "UniWorld-Design source review added: https://arxiv.org/abs/2608.03971\n\nStage 2 fit: use it as a still-image semantic-RGBA teacher / architecture and metric reference. The most transferable pieces are (1) global instruction plus per-layer prompt binding, (2) ordered layer-indexed rotary coordinates, (3) complete/amodal RGBA targets derived from designer PSD trees, and (4) alpha-specific failure gates. The paper's I2L result on 512 fixed-seed Crello designs improves per-layer RGB L1 from 0.2014 to 0.1264 and Alpha Soft IoU from 0.5454 to 0.7325 versus Qwen-Image-Layered, but alpha cleanliness remains worse in the VLM evaluation (2.90 vs 3.33). Its failed distribution-matching distillation also warns that opacity, RGB/alpha alignment and semantic binding must be gated separately.\n\nMatched UMI probe, only after an official reproducible release exists: run the same 12-20 robot stills through See-through, LayerD, retained Qwen outputs and UniWorld-I2L with four requested slots—scene/background, object/contact, occluder/tool, robot/end-effector. Compare recomposition L1/SSIM/LPIPS; per-layer RGB L1 and Alpha Soft IoU; semantic purity/IoU; blank, glazed, duplicate, missing and leaking layers; hidden-content plausibility; order; runtime/VRAM. Test top-level decomposition, targeted extraction and recursive decomposition separately; use 3-5 adjacent frames and two views only as stress tests, never as video evidence.\n\nBoundary: this paper trains on designer-authored PSD documents and evaluates still graphics. It does not establish robot-domain generalization, temporal/cross-view consistency, action/pose/contact/state conditioning, WAM/IDM quality or downstream execution. As of 2026-08-06, the arXiv/project page exposes no official runnable GitHub or Hugging Face release, so the current action is watch + cherry-pick the interface/metrics—not replace RobotSeg + VACE/SAM3 or the existing See-through-first plan.",
+            "created_at": "2026-08-06T08:45:06.007Z"
           }
         ],
-        "updated_at": "2026-08-03T10:30:49.584Z"
+        "updated_at": "2026-08-06T08:45:06.007Z"
       },
       {
         "task_id": "task_product_robot_codesign_reproduce_open_baselines_20260729",
@@ -20816,6 +20841,18 @@ export default {
           }
         ],
         "updated_at": "2026-08-06T02:11:12.414Z"
+      },
+      {
+        "task_id": "task_umi_shadowdancer_shadow_pair_v3w_probe_20260806",
+        "project_id": "umi-world-model",
+        "title": "Stage 1 / V3-W：ShadowDancer shadow-pair dynamics-invariance probe",
+        "description": "目标：评估 ShadowDancer 的 shadow-pair / cross-shadow prediction，是否能作为 UMI Stage 1 在 V2 通过后的可选 V3-W dynamics-invariance 辅助目标或 IDM 表征预训练；不得替换当前纯视频世界模型、Simulator 的数值 action 主线或独立 IDM。\n\n硬边界：\n1) Simulator 的权威控制仍是同步多视角 RGB/history + calibrated K/T + action [B,2,T,10]；learned z 只能是辅助 representation，不能成为绕过 numeric action 的第二条控制捷径。\n2) 原始左/右腕同步视频不等于 shadow pair：两路没有独立重采样 appearance，而且共享场景/物体身份会让 z 泄漏内容。有效 pair 必须逐帧复用同一被选 dynamics，并独立重渲染其他因素。\n3) 保持 robot/object/contact 物理轨迹时只能换纹理、背景、光照或协议指定的 camera/actor 因素；改变质量、摩擦、控制器或导致接触结果变化就不再是同一 dynamics。\n4) ShadowDancer LAM 从视频转移到 latent z，不输出可执行 2x10D action，因此不是 UMI IDM；最多为 X2SAM/VGGT/Gripper Transformer IDM 提供 motion representation 预训练。它的离散命令依赖预先提取的 action asset，也不替代 language-only TI2V Predictor。\n\nPilot 数据与结构：\n- 在 RoboTwin/ManiSkill 或现有可重放轨迹上构造不少于 100 条 frame-synchronized true-shadow pilots；同一 state/action trajectory 至少渲染两种独立 appearance。\n- 先复现论文 cam / dyn / full 三头；UMI 扩展只作为后续 ablation：camera、left arm、right arm、shared object/contact、full。现有真实 UMI clip 只能以 self-pair 增加视觉支持，不能提供 dynamics-identification 正样本。\n- 冻结小型 LAM 后再测试接入 WM-T；V2 action attribution gate 之前不混入，V3-L、V3-M、V3-J 顺序不因该实验改变。\n\nMatched ablation：A0 当前 numeric-action WM；A1 self-pair LAM；A2 raw left/right cross-view 假 shadow（负对照）；A3 true-shadow LAM；A4 true-shadow LAM + numeric-action-to-z alignment。所有组固定首帧、action、K/T、checkpoint、sampler 与 seed。\n\nAcceptance：\n1) representation probe 报告 cross/self transfer ratio、2x10D action/EE-motion 可预测性，以及 scene、texture、object identity、camera leakage；\n2) 生成 probe 包含 actual/zero/wrong/shuffled action、camera swap、left/right arm swap，报告 action-video alignment、EE/object/contact state、跨视角一致性、LPIPS/FVD 和长时漂移；\n3) 只有 A3/A4 在 held-out appearance/camera/object 上稳定优于 A0/A1/A2，且不降低 numeric-action counterfactual sensitivity，才允许作为 V3-W 辅助目标；否则只保留为负结果；\n4) 固定论文、项目页和 GitHub revision，并记录当前 blocker：截至 2026-08-06 公共仓库只有 README/assets，代码、权重和许可证尚未发布。\n\nSources: https://shadowdancer-1.github.io/ ; https://arxiv.org/abs/2607.28362 ; https://github.com/AlayaLab/ShadowDancer",
+        "status": "todo",
+        "priority": "high",
+        "assignee": null,
+        "result": null,
+        "comments": [],
+        "updated_at": "2026-08-06T04:25:48.860Z"
       }
     ]
   },
