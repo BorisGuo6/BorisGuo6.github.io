@@ -13920,9 +13920,18 @@
           "kind": "comment",
           "body": "2026-08-04 route mapping:\n\n1) Asset reuse + Transfer interface: https://claude.ai/code/artifact/b247b3c4-bbdc-4926-b1d3-abce70528850\n- Reported asset-level evidence: rigid/articulated conversions across RoboTwin and Isaac-related formats, 25 trial imports / 18 accepted, and 7 external-only asset categories.\n- Boundary: full Isaac whole-scene migration is still Transfer task 4.7; rejected coordinate cases and redistribution-license review remain open.\n\n2) Text2Env + Anchor2Env architecture: https://x2env-architecture-deck.aaaa123450615.chatgpt.site/\n- Text/Picture/Video inputs normalize to shared scene facts, confidence, and provenance; route articulated entities to Digital Cousins, rigid entities to OpenReal2Sim-style reconstruction, and incomplete cases to generative fallback.\n\n3) OpenReal2Sim implementation reference: https://github.com/PointsCoder/OpenReal2Sim\n- Use for high-fidelity rigid asset reconstruction from images or generated videos plus IsaacLab import/camera/rendering.\n- Interaction boundary: video trajectory transfer, ManiSkill, and MuJoCo are preliminary; this does not yet prove contact-rich interaction, articulation, controller equivalence, or cross-simulator environment equivalence.\n\nStatus rule: keep the current gen-env board open. These artifacts refine Asset reuse, Text2Env, Anchor2Env, and Transfer routing but do not replace the current 0/21 task state.",
           "created_at": "2026-08-04T01:47:04.609Z"
+        },
+        {
+          "comment_id": "comment_869ec5fd-de83-4dba-9ba4-1c98f73355f0",
+          "task_id": "task_self_improving_agents_gen_env_todo_board_20260803",
+          "author": "jingxiang",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "[REVIEW] [CONFIDENCE: HIGH] 2026-08-06 Pre-R2S2R pack review completed (24 papers + synthesis deck). This does not change the current Phase-2 board status and does not claim new implementation. It refines the open `/gen-env` acceptance contract: (1) Text2Env, Anchor2Env, reuse, reconstruction and generation must emit one versioned EnvironmentPackage; (2) package adds canonical world frame, typed SceneGraph, visual/collision separation, provenance, calibration, physical-parameter source/confidence, backend compile outputs, task/reset/action contract, replay traces, edit log and rollback; (3) harness uses Parse -> Ground -> deterministic Invoke -> preflight -> atomic Commit, with bounded VLM routing/critique and no state mutation on failed calls; (4) candidate cascade is verified reuse -> reconstruction -> rigid/articulated generation -> active system-ID/human escalation; (5) promotion is scene-ready -> sim-ready -> task-ready -> benchmark-ready, with static/import/scale/collision/settling/contact/task replay/fixed-seed/cross-backend/sim-real gates; (6) digital cousins are typed affordance-preserving diffs; (7) failure memory separates perception/asset/geometry/layout/physics/task/policy repairs and stores prior-success state + failed trace + corrective rollout; (8) MVP remains one rigid-tabletop end-to-end path on RoboTwin/SAPIEN plus one secondary compiler contract. VLM/learned mass, friction and COM remain weak priors, not measured truth. Primary references were added to the project card: SimFoundry, EmbodiedGen V2, RoboSnap, TwinAligner, GSWorld, Real2Render2Real and PhysX-Anything.",
+          "created_at": "2026-08-06T02:11:12.414Z"
         }
       ],
-      "updated_at": "2026-08-04T01:47:04.609Z"
+      "updated_at": "2026-08-06T02:11:12.414Z"
     }
   ]
 }

@@ -1630,9 +1630,9 @@ export default {
       "title": "Self-Improving Agents for Physical AI",
       "bucket": "research",
       "status": "ongoing",
-      "updated_at": "2026-08-04T01:47:04.596Z",
+      "updated_at": "2026-08-06T02:17:37.093Z",
       "description": "[KNOWN] [CONFIDENCE: HIGH] Agentic environment-generation harness for Physical AI: route text requests, image/video anchors, internet asset and dataset retrieval, and cross-simulator migration through reusable Skills and MCP tools, preferring verified asset reuse and parameter filling before rigid or articulated 3D generation.",
-      "summary": "[KNOWN] [CONFIDENCE: HIGH] Phase-2 task board check: 0/21 TODOs currently active, no completed TODO in the current rollout table yet. [KNOWN] [CONFIDENCE: HIGH] The four V1 workflows retain bounded acceptance evidence: Text2Env Stage 0-5, image/video Anchor2Env, verified asset discovery/import, and Open-X-Sim L0-L3 transfer. [KNOWN] [CONFIDENCE: HIGH] The current phase integrates them into one agentic harness with reusable Skill/MCP contracts, a selection-first asset route, a learned rigid/articulated 3D-generation fallback, and regression-gated cross-simulator compilation. [KNOWN] [CONFIDENCE: HIGH] Higher-fidelity open-world generation and policy/controller equivalence remain open.",
+      "summary": "[KNOWN] [CONFIDENCE: HIGH] Phase-2 shared board remains the current execution source; its 2026-08-03 snapshot is 0/21, separate from earlier bounded V1 acceptances. [REVIEW] [CONFIDENCE: HIGH] The Pre-R2S2R research pack (24 papers plus synthesis deck) reinforces one architecture: `/gen-env` should be a verified, stateful environment compiler, not a single 3D generator. Text, image/video anchors, asset reuse, reconstruction and generation must converge on one versioned EnvironmentPackage, then pass deterministic compile, physics, replay and migration gates before promotion. [FRAME] Reuse first; reconstruct or generate only on catalog miss; treat VLM physical values as priors with provenance and confidence, not measured truth. [BOUNDARY] Visual plausibility is only scene-ready; sim-ready, task-ready and benchmark-ready are separate acceptance levels.",
       "asset": "dashboard/assets/self-improving-embodied-harness-loop-20260707.png",
       "asset_alt": "Self-Improving embodied harness loop：从执行轨迹挖掘弱点、提出修改并经回归门禁更新 harness",
       "asset_caption": "Self-Improving / PEARL 主循环：执行具身任务、聚类失败模式、提出 Harness 修改，并只晋升通过回归验证的候选。",
@@ -1644,7 +1644,13 @@ export default {
         "[FRAME] The asset-reuse branch records candidate ranking, rejected candidates, license and provenance, hashes, units, axes, scale, visual and collision geometry, material, mass and inertia, stable poses, and joint metadata or typed unknowns.",
         "[FRAME] The generation branch handles rigid and articulated objects separately and must emit simulator-ready visual and collision geometry, scale, physics metadata, joint topology and limits, provenance, hashes, and validation evidence.",
         "[FRAME] The reusable Skill/MCP layer exposes discover, match, fill, generate, compile, validate and transfer through typed contracts with versioned dependencies, bounded retries, run_state, events, artifact manifests, failure codes and rollback.",
-        "[KNOWN] [CONFIDENCE: HIGH] Cross-simulator reuse only claims a declared common subset plus measured migration losses; contact, rendering, controller behavior and task outcomes are not equivalent unless their explicit gates pass."
+        "[KNOWN] [CONFIDENCE: HIGH] Cross-simulator reuse only claims a declared common subset plus measured migration losses; contact, rendering, controller behavior and task outcomes are not equivalent unless their explicit gates pass.",
+        "[REVIEW] [CONFIDENCE: HIGH] Pre-R2S2R synthesis: use a canonical EnvironmentPackage as the only promoted artifact. It should bind immutable input provenance and calibration, a typed SceneGraph in one canonical world frame, per-asset visual and collision geometry, semantics and affordances, physical parameters with value/source/confidence/identified_from, backend-specific compile outputs, task/reset/action contracts, validation traces, edit history and rollback lineage.",
+        "[FRAME] Make `/gen-env` a stateful compiler: parse -> ground -> invoke deterministic skill -> preflight -> atomic commit. The LLM/VLM may route, disambiguate and critique through schemas and bounded retries; deterministic tools must own units, frames, pose solving, mesh repair, convex decomposition, URDF/USD/MJCF export, simulator rollout and metrics. A failed call must not mutate the accepted world state.",
+        "[FRAME] Use a confidence-aware route cascade: verified retrieval/reuse -> scene-specific reconstruction -> rigid/articulated generation fallback -> active calibration or human escalation. Digital cousins are typed, affordance-preserving diffs with declared invariants, not unconstrained visual variants.",
+        "[FRAME] Separate four promotion levels: scene-ready means geometry/semantics can be inspected; sim-ready additionally passes schema, import, scale, collision, settling and contact gates; task-ready adds reset, action semantics, reachability and success-verifier replay; benchmark-ready additionally requires fixed-seed regression, cross-backend divergence reporting and measured sim-real ranking/correlation evidence.",
+        "[FRAME] Close the self-improving loop at the environment level: classify failures as perception, asset, geometry, layout, physics, task or policy; keep environment repairs distinct from policy repairs; save the prior successful state, failed trace and corrective rollout; promote learned corrections only after the same regression suite passes.",
+        "[SCOPE] Keep rigid tabletop as the first full promotion path. Articulated and deformable worlds should share the package, replay and metric interfaces but use typed domain adapters and distinct state/refinement variables; do not force them through one physics schema or claim soft-body readiness from a rigid-object smoke."
       ],
       "task_ids": [
         "task_self_improving_prepare_proposal",
@@ -1945,6 +1951,55 @@ export default {
           "url": "https://github.com/PointsCoder/OpenReal2Sim",
           "submitted_at": "2026-08-04",
           "notes": "High-fidelity reconstruction reference for the rigid-object branch of Anchor2Env. The official repository supports real-to-sim asset reconstruction from images and generated videos plus IsaacLab scenario import, camera setup, and same-view rendering. Its trajectory generation from video, ManiSkill support, and MuJoCo support are explicitly preliminary. Treat it as geometry/appearance and collision-proxy reconstruction rather than proof of articulation, contact-rich interaction, controller equivalence, or robust cross-simulator migration."
+        },
+        {
+          "title": "SimFoundry: Modular and Automated Scene Generation for Policy Learning and Evaluation",
+          "url": "https://arxiv.org/abs/2606.28276",
+          "arxiv_id": "2606.28276",
+          "submitted_at": "2026-06-30",
+          "notes": "Reference for modular extraction -> generation -> augmentation, separated scene/object/task cousins, collision compilation and simulator-based acceptance. Adopt typed affordance-preserving cousin deltas and measured sim-real evaluation; retain its reported tabletop/foundation-model limitations."
+        },
+        {
+          "title": "EmbodiedGen V2: An Agentic, Simulation-Ready 3D World Engine for Embodied AI",
+          "url": "https://arxiv.org/abs/2607.07459",
+          "arxiv_id": "2607.07459",
+          "submitted_at": "2026-07-09",
+          "notes": "Primary harness-design reference: typed Scene Graph plus asset bundle, pluggable asset skills, shared world state, Parse-Ground-Invoke-Commit, bounded atomic deltas, persistent edit history, deterministic tool execution and cross-simulator export. Map these ideas into the existing EnvironmentPackage rather than creating a parallel artifact."
+        },
+        {
+          "title": "RoboSnap: One-Shot Real-to-Sim Scene Generation for Generalizable Robot Learning and Evaluation",
+          "url": "https://arxiv.org/abs/2607.06699",
+          "arxiv_id": "2607.06699",
+          "submitted_at": "2026-07-09",
+          "notes": "Reference for a layered scene representation: physics-critical foreground collision assets plus Gaussian-splat visual context, one world frame, support/contact scene graph, stability rollout, trajectory replay and source-scene traceability. Its physical parameters remain prior-based and replay is evaluation rather than automatic repair."
+        },
+        {
+          "title": "TwinAligner: Visual-Dynamic Alignment Empowers Physics-aware Real2Sim2Real",
+          "url": "https://arxiv.org/abs/2512.19390",
+          "arxiv_id": "2512.19390",
+          "submitted_at": "2025-12-22",
+          "notes": "Reference for escalating uncertain mass, friction, center of mass and controller parameters from visual/VLM priors to interaction-based system identification using matched real/sim controls and pose trajectories. Keep this as an active-calibration lane, not a mandatory input for every scene."
+        },
+        {
+          "title": "GSWorld: Closed-Loop Photo-Realistic Simulation Suite for Robotic Manipulation",
+          "url": "https://arxiv.org/abs/2510.20813",
+          "arxiv_id": "2510.20813",
+          "submitted_at": "2025-10-23",
+          "notes": "Reference for environment-level failure replay and corrective-data loops: retain the previous solvable state, failure trace and corrective trajectory. This informs `/diagnose -> /gen-env` and regression artifacts but does not by itself prove autonomous environment repair."
+        },
+        {
+          "title": "Real2Render2Real: Scaling Robot Data Without Dynamics Simulation or Robot Hardware",
+          "url": "https://arxiv.org/abs/2505.09601",
+          "arxiv_id": "2505.09601",
+          "submitted_at": "2025-05-14",
+          "notes": "Useful data-generation counterpoint: kinematic rendering can scale paired image-action data while deliberately avoiding contact dynamics. Treat it as a render/data route, not a substitute for sim-ready contact, friction, collision or benchmark gates."
+        },
+        {
+          "title": "PhysX-Anything: Simulation-Ready Physical 3D Assets from Single Image",
+          "url": "https://arxiv.org/abs/2511.13648",
+          "arxiv_id": "2511.13648",
+          "submitted_at": "2025-11-17",
+          "notes": "Candidate asset-generation fallback for image-conditioned articulated geometry, physical attributes and URDF/XML export. Generated physical attributes are learned priors and must keep provenance/confidence plus import, collision, settling and active-identification gates."
         }
       ],
       "risks_decisions": [
@@ -1984,7 +2039,11 @@ export default {
         "PhyAgentOS boundary 2026-06-21: useful for transparent cognitive-physical decoupling and file/protocol-mediated hardware execution. It should inform our runtime/control-plane design, but it is not enough for the current proposal unless paired with AgenticSim environment generation, policy training/evaluation hooks, and failure-to-data-requirement loops.",
         "Execution routing 2026-06-05: Skill World Model work is the SkillCall memory gate; RLBench->IsaacSim work is the AgenticSim Isaac verifier pilot.",
         "Bridge boundary 2026-06-05: contact-rich VTLA/UMI traces can drive curriculum and failure-memory design, but Self-improving should not depend on tactile hardware until the sim-first oracle or available sensor path is verified.",
-        "[USER-SUPPLIED PHASE 2 PLAN 2026-07-22][UPDATE 2026-07-31] Rewrote the seven existing environment-generation TODOs instead of creating duplicates. Board-confirmed owners: Hu = Onboarding/Harness/Transfer; Zheng Ye = Text2Env/Anchor2Env; Shao Gujie = Asset reuse/Generation fallback; public interfaces listed separately in board metadata. Dependency chain: Onboarding -> public interfaces + Harness -> Text2Env and Asset reuse -> Anchor2Env and Generation fallback -> Transfer -> full regression. Still pending team confirmation: shared simulator backend + second adapter, interface freeze date, and first end-to-end integration date."
+        "[USER-SUPPLIED PHASE 2 PLAN 2026-07-22][UPDATE 2026-07-31] Rewrote the seven existing environment-generation TODOs instead of creating duplicates. Board-confirmed owners: Hu = Onboarding/Harness/Transfer; Zheng Ye = Text2Env/Anchor2Env; Shao Gujie = Asset reuse/Generation fallback; public interfaces listed separately in board metadata. Dependency chain: Onboarding -> public interfaces + Harness -> Text2Env and Asset reuse -> Anchor2Env and Generation fallback -> Transfer -> full regression. Still pending team confirmation: shared simulator backend + second adapter, interface freeze date, and first end-to-end integration date.",
+        "[REVIEW DECISION] 2026-08-06: preserve the existing EnvironmentPackage direction and strengthen it into a verified stateful compiler. Do not replace Text2Env/Anchor2Env/asset reuse/transfer with a monolithic Real2Sim model; all routes must emit the same canonical package and validation lineage.",
+        "[REVIEW DECISION] 2026-08-06: physical parameters carry `value`, `source`, `confidence` and `identified_from`. VLM guesses and learned asset priors are initialization only; low-confidence task-critical mass, friction, center of mass or controller properties must trigger active system identification or block benchmark promotion.",
+        "[REVIEW DECISION] 2026-08-06: simulator feedback is a repair signal, not only a final screenshot. Static, geometry, settling/contact, task replay, fixed-seed regression, cross-backend divergence and sim-real correlation are separate gates; every repair is an atomic versioned delta with rollback.",
+        "[SCOPE DECISION] 2026-08-06: do not over-expand the Phase-2 MVP. First close one rigid-tabletop path end to end on RoboTwin/SAPIEN plus one secondary compiler contract. Keep articulated and deformable support behind typed adapters and explicit unsupported/blocker outputs until their own gates pass."
       ],
       "timeline": {
         "badges": [
@@ -2035,9 +2094,13 @@ export default {
           {
             "label": "Baseline",
             "value": "RoboTwin/SAPIEN + Open-X-Sim"
+          },
+          {
+            "label": "Promotion ladder",
+            "value": "Scene -> Sim -> Task -> Benchmark"
           }
         ],
-        "target_note": "[FRAME] Current target: make all four routes callable through the same versioned harness, preserve reuse-versus-generation decisions and typed evidence, and block promotion when provenance, physics, replay or migration-loss gates fail."
+        "target_note": "[FRAME] Current target: converge every `/gen-env` route on one immutable EnvironmentPackage revision, apply atomic state deltas, and promote only through scene-ready -> sim-ready -> task-ready -> benchmark-ready gates. Failures must retain replay traces, provenance, confidence and rollback pointers; low-confidence physics escalates to active system identification instead of silent acceptance."
       },
       "asset_added_at": "2026-07-31",
       "subprojects": [
@@ -20741,9 +20804,18 @@ export default {
             "kind": "comment",
             "body": "2026-08-04 route mapping:\n\n1) Asset reuse + Transfer interface: https://claude.ai/code/artifact/b247b3c4-bbdc-4926-b1d3-abce70528850\n- Reported asset-level evidence: rigid/articulated conversions across RoboTwin and Isaac-related formats, 25 trial imports / 18 accepted, and 7 external-only asset categories.\n- Boundary: full Isaac whole-scene migration is still Transfer task 4.7; rejected coordinate cases and redistribution-license review remain open.\n\n2) Text2Env + Anchor2Env architecture: https://x2env-architecture-deck.aaaa123450615.chatgpt.site/\n- Text/Picture/Video inputs normalize to shared scene facts, confidence, and provenance; route articulated entities to Digital Cousins, rigid entities to OpenReal2Sim-style reconstruction, and incomplete cases to generative fallback.\n\n3) OpenReal2Sim implementation reference: https://github.com/PointsCoder/OpenReal2Sim\n- Use for high-fidelity rigid asset reconstruction from images or generated videos plus IsaacLab import/camera/rendering.\n- Interaction boundary: video trajectory transfer, ManiSkill, and MuJoCo are preliminary; this does not yet prove contact-rich interaction, articulation, controller equivalence, or cross-simulator environment equivalence.\n\nStatus rule: keep the current gen-env board open. These artifacts refine Asset reuse, Text2Env, Anchor2Env, and Transfer routing but do not replace the current 0/21 task state.",
             "created_at": "2026-08-04T01:47:04.609Z"
+          },
+          {
+            "comment_id": "comment_869ec5fd-de83-4dba-9ba4-1c98f73355f0",
+            "task_id": "task_self_improving_agents_gen_env_todo_board_20260803",
+            "author": "jingxiang",
+            "author_type": "system",
+            "kind": "comment",
+            "body": "[REVIEW] [CONFIDENCE: HIGH] 2026-08-06 Pre-R2S2R pack review completed (24 papers + synthesis deck). This does not change the current Phase-2 board status and does not claim new implementation. It refines the open `/gen-env` acceptance contract: (1) Text2Env, Anchor2Env, reuse, reconstruction and generation must emit one versioned EnvironmentPackage; (2) package adds canonical world frame, typed SceneGraph, visual/collision separation, provenance, calibration, physical-parameter source/confidence, backend compile outputs, task/reset/action contract, replay traces, edit log and rollback; (3) harness uses Parse -> Ground -> deterministic Invoke -> preflight -> atomic Commit, with bounded VLM routing/critique and no state mutation on failed calls; (4) candidate cascade is verified reuse -> reconstruction -> rigid/articulated generation -> active system-ID/human escalation; (5) promotion is scene-ready -> sim-ready -> task-ready -> benchmark-ready, with static/import/scale/collision/settling/contact/task replay/fixed-seed/cross-backend/sim-real gates; (6) digital cousins are typed affordance-preserving diffs; (7) failure memory separates perception/asset/geometry/layout/physics/task/policy repairs and stores prior-success state + failed trace + corrective rollout; (8) MVP remains one rigid-tabletop end-to-end path on RoboTwin/SAPIEN plus one secondary compiler contract. VLM/learned mass, friction and COM remain weak priors, not measured truth. Primary references were added to the project card: SimFoundry, EmbodiedGen V2, RoboSnap, TwinAligner, GSWorld, Real2Render2Real and PhysX-Anything.",
+            "created_at": "2026-08-06T02:11:12.414Z"
           }
         ],
-        "updated_at": "2026-08-04T01:47:04.609Z"
+        "updated_at": "2026-08-06T02:11:12.414Z"
       }
     ]
   },
