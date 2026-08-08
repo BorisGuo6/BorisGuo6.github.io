@@ -12,6 +12,7 @@ if (updatedAt && Number.isNaN(Date.parse(updatedAt))) {
 }
 
 const stage1Url = "https://gammaworld-training-atlas.linslabnus.chatgpt.site/";
+const stage2Url = "https://wam-layer-benchmark.leitherdo.chatgpt.site/";
 const stage3Url = `${stage1Url}stage-3`;
 
 const project = JSON.parse(await readFile(projectPath, "utf8"));
@@ -40,7 +41,8 @@ Object.assign(stage1, {
 Object.assign(stage2, {
   body:
     "VDDM decomposes robot manipulation video into scene/background, object/contact, occluder/tool and robot/end-effector layers under one layer_manifest-compatible schema.",
-  output: "Output: validated layer packages + QA.",
+  output: "Open Stage 2 webpage ↗",
+  output_url: stage2Url,
 });
 
 Object.assign(stage3, {
@@ -97,6 +99,7 @@ console.log(
     references: project.references.length,
     layer_utility: project.layer_utility,
     stage1_url: stage1Url,
+    stage2_url: stage2Url,
     stage3_url: stage3Url,
   }),
 );

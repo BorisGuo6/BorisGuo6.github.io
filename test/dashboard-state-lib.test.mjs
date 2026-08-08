@@ -830,11 +830,17 @@ assert.ok(
 );
 assert.equal(umiProject.subprojects?.length, 3, "UMI intro must keep exactly the three stage cards");
 const umiStage1Card = (umiProject.subprojects || []).find((entry) => entry?.label === "A");
+const umiStage2Card = (umiProject.subprojects || []).find((entry) => entry?.label === "B");
 const umiStage3Card = (umiProject.subprojects || []).find((entry) => entry?.label === "C");
 assert.equal(
   umiStage1Card?.output_url,
   "https://gammaworld-training-atlas.linslabnus.chatgpt.site/",
   "UMI Stage 1 card must link to the published Atlas webpage",
+);
+assert.equal(
+  umiStage2Card?.output_url,
+  "https://wam-layer-benchmark.leitherdo.chatgpt.site/",
+  "UMI Stage 2 card must link to the published layer decomposition webpage",
 );
 assert.equal(
   umiStage3Card?.output_url,

@@ -747,13 +747,16 @@ test("wide project intro tables scroll inside the card on mobile", async ({ page
   expect(dimensions.documentOverflow).toBeLessThanOrEqual(1);
 });
 
-test("UMI Stage 1 and Stage 3 cards open their published Atlas pages", async ({ page }) => {
+test("UMI Stage 1, Stage 2 and Stage 3 cards open their published webpages", async ({ page }) => {
   await mockDashboardApi(page);
   await unlockDashboard(page);
 
   const project = page.locator('details.project-detail[data-project-id="umi-world-model"]');
   const stage1Link = project.locator(
     '.subproject-link[href="https://gammaworld-training-atlas.linslabnus.chatgpt.site/"]',
+  );
+  const stage2Link = project.locator(
+    '.subproject-link[href="https://wam-layer-benchmark.leitherdo.chatgpt.site/"]',
   );
   const stage3Link = project.locator(
     '.subproject-link[href="https://gammaworld-training-atlas.linslabnus.chatgpt.site/stage-3"]',
@@ -762,6 +765,9 @@ test("UMI Stage 1 and Stage 3 cards open their published Atlas pages", async ({ 
   await expect(stage1Link).toHaveCount(1);
   await expect(stage1Link).toHaveText("Open Stage 1 webpage ↗");
   await expect(stage1Link).toHaveAttribute("rel", "noopener noreferrer");
+  await expect(stage2Link).toHaveCount(1);
+  await expect(stage2Link).toHaveText("Open Stage 2 webpage ↗");
+  await expect(stage2Link).toHaveAttribute("rel", "noopener noreferrer");
   await expect(stage3Link).toHaveCount(1);
   await expect(stage3Link).toHaveText("Open Stage 3 webpage ↗");
   await expect(stage3Link).toHaveAttribute("rel", "noopener noreferrer");
