@@ -2,16 +2,16 @@
   "schema_version": "portfolio.v1",
   "portfolio_id": "embodied-ai-dashboard",
   "title": "Embodied AI Project Dashboard",
-  "subtitle": "World models, self-improving simulators, teleop acceleration, and robotics + 3D printing",
-  "week": "2026-W24",
-  "date": "2026-06-12",
-  "updated_at": "2026-08-10T04:19:33.983Z",
+  "subtitle": "World models, self-improving agents, and five ongoing real-robot research projects",
+  "week": "2026-W33",
+  "date": "2026-08-10",
+  "updated_at": "2026-08-10T09:35:08.000Z",
   "state_root": "dashboard/state",
   "summary": {
-    "focus": "Research 主线保持 Tri-View/Image-Layered IDM、Self-Improving Agents 和 DexGello；Survey TODO 已统一 inactive/archived，不再显示为当前执行队列。",
-    "progress": "Survey cleanup: 所有 Survey 下的未完成 TODO 已标记 inactive/archived；Model-Assisted Teleoperation 根据 ICRA 2026 Foundational World Models failure-detection poster移入 Archive。",
-    "blockers": "关键风险从“能不能生成视频”升级为“分层数据是否稳定、可重组、可用于 IDM / reward / policy ablation”。",
-    "next": "当前执行重点回到 Research / Engineering：Tri-View layered-data utility、DexGello 数据采集/控制栈、Real-Robot Demos 的真机场景表、Real-Robot Infra 的可用性和安全门控。"
+    "focus": "Research 主线包括 UMI World Model、Self-Improving Agents，以及真机组五个 ongoing 项目：DexGELLO、OmniEgo、RoboDojo-Tac、HiFi-TacUMI、Robot4Robot。",
+    "progress": "Real-Robot Part.pptx 的项目定义、硬件组合与一句话叙事已映射为五张独立 Research 卡；旧的 DexGELLO / Robot4Robot Survey 分类被当前项目规划取代。",
+    "blockers": "五张卡片记录的是当前项目路线，不等于实机闭环已经完成。共同门槛仍是同步与标定、数据 schema、触觉质量、跨本体映射、guarded execution，以及可复现的 sim/real 评测。",
+    "next": "为五个项目分别冻结第一版接口与验收证据：DexGELLO episode replay、OmniEgo synchronized episode、RoboDojo-Tac matched sim/real task、HiFi-TacUMI ratio ablation、Robot4Robot ego-only transfer gate。"
   },
   "storyline": {
     "summary": "How real-robot infra, human demonstrations, video world models, simulators, and physical outputs form one loop.",
@@ -36,6 +36,35 @@
             "eyebrow": "Outputs",
             "title": "Self-Improving Sim + Physical Products",
             "body": "Agentic Real2Sim2Real-VLA evaluation, generated assets, household tasks, simulator rollouts, robot evaluation, and language / image-to-CAD design close the loop back into real-world experiments."
+          }
+        ],
+        "connectors": [
+          "->",
+          "->"
+        ]
+      },
+      {
+        "eyebrow": "Real-Robot group",
+        "title": "Five projects from data collection to cross-embodiment teaching",
+        "aria_label": "Real-Robot five-project program",
+        "nodes": [
+          {
+            "role": "primary",
+            "eyebrow": "Collect",
+            "title": "DexGELLO + OmniEgo",
+            "body": "DexGELLO captures high-fidelity isomorphic arm-hand demonstrations; OmniEgo captures synchronized first-person, hand/tactile, gaze/face, audio and EMG data from natural human interaction."
+          },
+          {
+            "role": "primary",
+            "eyebrow": "Train + Evaluate",
+            "title": "HiFi-TacUMI + RoboDojo-Tac",
+            "body": "HiFi-TacUMI mixes scalable tactile UMI data with a small teleoperation anchor; RoboDojo-Tac measures visuotactile policies under matched sim-and-real contact-rich tasks."
+          },
+          {
+            "role": "outcome",
+            "eyebrow": "Transfer",
+            "title": "Robot4Robot",
+            "body": "A privileged-perception teacher converts semantic scene, trajectory and contact knowledge into cross-embodiment supervision for a different learner robot."
           }
         ],
         "connectors": [
@@ -80,6 +109,62 @@
       "alt": "Real-robot lab infrastructure hardware collage",
       "caption": "Real-robot infra: ARX, Franka + Wuji Hand, UMI, Linker Hand, gloves, and VIVE Tracker.",
       "added_at": "2026-06-19"
+    },
+    {
+      "src": "dashboard/assets/real-robot-dexgello-20260810.png",
+      "alt": "DexGELLO project slide with a GELLO and MANUS operator interface and a Franka Research 3 with Wuji Hand.",
+      "caption": "Real-Robot Project 1 — DexGELLO: isomorphic leader-arm + dexterous-hand teleoperation and synchronized demonstration collection. Project framing only; live hardware evidence remains in tasks and run artifacts.",
+      "source": "Real-Robot Part.pptx",
+      "added_at": "2026-08-10",
+      "fit": "landscape-contain"
+    },
+    {
+      "src": "dashboard/assets/dex-gello-decoupled-teleop.svg",
+      "alt": "Historical DexGELLO arm, hand-root and finger-channel architecture diagram.",
+      "caption": "Historical DexGELLO Image Context: the earlier q_arm / T_hand / q_finger decomposition is retained as an ablation and logging reference; the current core operator interface is GELLO + MANUS, with hand-root tracking optional.",
+      "source": "DexGELLO dashboard design archive",
+      "added_at": "2026-08-10",
+      "fit": "landscape-contain"
+    },
+    {
+      "src": "dashboard/assets/real-robot-omniego-20260810.png",
+      "alt": "OmniEgo project slide with ego cameras, instrumented gloves, eye and face tracking, microphone arrays, and EMG.",
+      "caption": "Real-Robot Project 2 — OmniEgo: synchronized Ego Data, Hand Data and Omni-modal Data for robot-ready human demonstrations. Listed devices are the intended modular stack, not proof of availability or signal quality.",
+      "source": "Real-Robot Part.pptx",
+      "added_at": "2026-08-10",
+      "fit": "landscape-contain"
+    },
+    {
+      "src": "dashboard/assets/omniego-multisensor-human-intention.svg",
+      "alt": "Detailed OmniEgo synchronization, quality-screening, encoding and transfer pipeline.",
+      "caption": "Detailed OmniEgo Image Context retained behind the three-lane project summary: synchronization and sensor-quality gates precede representation learning, Ego2Dex transfer and object-instrumented studies.",
+      "source": "OmniEgo dashboard design archive",
+      "added_at": "2026-08-10",
+      "fit": "landscape-contain"
+    },
+    {
+      "src": "dashboard/assets/real-robot-robodojo-tac-20260810.png",
+      "alt": "RoboDojo-Tac project slide with COBOT Magic, Daimon tactile sensing, contact-rich tasks, and global evaluation.",
+      "caption": "Real-Robot Project 3 — RoboDojo-Tac: unified sim-and-real visuotactile benchmark for contact-rich manipulation and cross-scenario generalization. The slide defines scope; it does not claim a benchmark score.",
+      "source": "Real-Robot Part.pptx",
+      "added_at": "2026-08-10",
+      "fit": "landscape-contain"
+    },
+    {
+      "src": "dashboard/assets/real-robot-hifi-tacumi-20260810.png",
+      "alt": "HiFi-TacUMI project slide with a TacUMI-majority and teleoperation-minority training recipe for NERO and Daimon tactile grippers.",
+      "caption": "Real-Robot Project 4 — HiFi-TacUMI: current v0 recipe uses approximately 90% TacUMI and 10% teleoperation data before guarded NERO + Daimon deployment. The ratio is a hypothesis pending matched ablation.",
+      "source": "Real-Robot Part.pptx",
+      "added_at": "2026-08-10",
+      "fit": "landscape-contain"
+    },
+    {
+      "src": "dashboard/assets/real-robot-robot4robot-20260810.png",
+      "alt": "Robot4Robot project slide with a PiPER and LinkerHand teacher, privileged semantic 3D perception, and an SO101 and AmazingHand learner.",
+      "caption": "Real-Robot Project 5 — Robot4Robot: privileged semantic scene, trajectory and contact supervision for cross-embodiment robot teaching. This is an ongoing architecture, not a completed transfer result.",
+      "source": "Real-Robot Part.pptx",
+      "added_at": "2026-08-10",
+      "fit": "landscape-contain"
     },
     {
       "src": "dashboard/assets/layered-world-model.png",
@@ -487,10 +572,38 @@
       "state_path": "dashboard/state/projects/self-improving-agents.json"
     },
     {
+      "project_id": "dex-gello",
+      "title": "DexGELLO: Isomorphic Arm–Hand Teleoperation",
+      "bucket": "research",
+      "status": "ongoing",
+      "state_path": "dashboard/state/projects/dex-gello.json"
+    },
+    {
+      "project_id": "human-intention-sensorium-survey",
+      "title": "OmniEgo: Human-Centered Multisensor Data Collection",
+      "bucket": "research",
+      "status": "ongoing",
+      "state_path": "dashboard/state/projects/human-intention-sensorium-survey.json"
+    },
+    {
+      "project_id": "robodojo-tac",
+      "title": "RoboDojo-Tac: Sim-and-Real Tactile Manipulation Benchmark",
+      "bucket": "research",
+      "status": "ongoing",
+      "state_path": "dashboard/state/projects/robodojo-tac.json"
+    },
+    {
+      "project_id": "hifi-tacumi",
+      "title": "HiFi-TacUMI: High-Fidelity Tactile UMI Policy Learning",
+      "bucket": "research",
+      "status": "ongoing",
+      "state_path": "dashboard/state/projects/hifi-tacumi.json"
+    },
+    {
       "project_id": "robot4robot",
-      "title": "Robot4Robot / 特权感知与主动机器人教学",
-      "bucket": "survey",
-      "status": "survey",
+      "title": "Robot4Robot: Privileged-Perception Cross-Embodiment Teaching",
+      "bucket": "research",
+      "status": "ongoing",
       "state_path": "dashboard/state/projects/robot4robot.json"
     },
     {
@@ -514,13 +627,6 @@
       "bucket": "survey",
       "status": "survey",
       "state_path": "dashboard/state/projects/dual-sim-video-guidance-survey.json"
-    },
-    {
-      "project_id": "dex-gello",
-      "title": "DexGello Arm-Hand Decoupled Teleoperation",
-      "bucket": "survey",
-      "status": "survey",
-      "state_path": "dashboard/state/projects/dex-gello.json"
     },
     {
       "project_id": "dexora-rl100-dexhand",
@@ -577,13 +683,6 @@
       "bucket": "archive",
       "status": "archived",
       "state_path": "dashboard/state/projects/skill-world-model-survey.json"
-    },
-    {
-      "project_id": "human-intention-sensorium-survey",
-      "title": "OmniEgo: 多传感器的人类为中心数采方案",
-      "bucket": "research",
-      "status": "ongoing",
-      "state_path": "dashboard/state/projects/human-intention-sensorium-survey.json"
     },
     {
       "project_id": "online-sensor-calibration-survey",

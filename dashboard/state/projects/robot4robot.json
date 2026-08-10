@@ -1,11 +1,34 @@
 {
   "schema_version": "project.v1",
   "project_id": "robot4robot",
-  "title": "Robot4Robot / 特权感知与主动机器人教学",
-  "bucket": "survey",
-  "status": "survey",
-  "description": "由赵浩宇（博浩）主导的长期合作项目：先构建训练期“上帝视角”特权视觉感知系统，再引入实体教师机器人，通过跨视角蒸馏、诊断、示范和必要干预提升本体学习者的任务泛化与学习效率。",
-  "summary": "Robot4Robot 按两阶段推进。Stage I 将多视角 RGB-D、点云、机器人状态、末端轨迹与接触信息融合为动态语义 3D 场景模型，研究如何把训练期全局状态、表征、价值、奖励或策略监督迁移给部署时仅使用本体视角的 Student。Stage II 在 PPS 之上加入可物理交互的 Teacher Robot，根据学生能力、不确定性、任务阶段、风险与预期学习收益，在观察、提示、示范、纠正、介入和保持沉默之间主动选择，形成跨本体教学与迭代学习闭环。会议给出的预期周期为 1–2 年，当前仍是合作方案与研究路线，不是已完成系统或性能结论。",
+  "title": "Robot4Robot: Privileged-Perception Cross-Embodiment Teaching",
+  "bucket": "research",
+  "status": "ongoing",
+  "description": "A cross-embodiment robot-teaching framework in which a privileged-perception teacher captures semantic scene, trajectory, and contact information to transfer manipulation skills to a different learner robot.",
+  "summary": "Robot4Robot 以 AgileX PiPER + LinkerHand 作为 Teacher、SO101 + AmazingHand 作为 Learner，并用多视角 RGB-D、点云、机器人状态、末端轨迹和接触信息构建 Privileged Perception System。Stage I 研究训练期全局语义 3D 状态如何迁移给部署时只使用本体观测的 Student；Stage II 再让实体 Teacher 根据能力、不确定性、任务阶段和风险选择示范、纠正或介入，形成跨本体教学闭环。",
+  "asset": "dashboard/assets/real-robot-robot4robot-20260810.png",
+  "asset_alt": "Robot4Robot project slide showing an AgileX PiPER arm with LinkerHand teaching an SO101 arm with AmazingHand through a privileged semantic 3D perception system.",
+  "asset_caption": "Robot4Robot project framing from Real-Robot Part.pptx: PiPER + LinkerHand teacher -> privileged semantic scene/trajectory/contact representation -> SO101 + AmazingHand learner. This is an ongoing research architecture, not a completed transfer result.",
+  "subprojects": [
+    {
+      "label": "A",
+      "title": "Robot Teacher",
+      "body": "AgileX PiPER + LinkerHand supplies demonstrations, corrections and contact-rich teaching interactions.",
+      "output": "Teacher trajectories, state, contact and intervention records"
+    },
+    {
+      "label": "B",
+      "title": "Privileged Perception System",
+      "body": "Calibrated multi-view RGB-D, point clouds and robot state produce a semantic 3D scene model with objects, relations, affordances, dynamics and risk.",
+      "output": "Training-only scene, trajectory and contact supervision"
+    },
+    {
+      "label": "C",
+      "title": "Cross-Embodiment Learner",
+      "body": "SO101 + AmazingHand learns from the teacher through explicit semantic, contact, coordinate-frame and action mappings while retaining an ego-only deployment contract.",
+      "output": "Learner policy and measured transfer gain under held-out tasks"
+    }
+  ],
   "details": [
     {
       "text": "合作边界：项目由赵浩宇（博浩）主导，研究方向包括多视角协同感知、跨视角特征学习与基于物理交互的多机联动。参与者应先通过一对一沟通确认适合的研究路线、第一阶段责任边界与个人长期规划；论文产出是目标，不是预先保证。"
@@ -73,7 +96,7 @@
     }
   ],
   "risks_decisions": [
-    "Survey decision 2026-08-05：Robot4Robot 转入 Survey，作为特权感知、跨视角/跨本体迁移与主动实体机器人教学的研究调查卡；现阶段不作为独立 Research execution track。与 Optical Fountain Survey 仅保留可选通信侧链关系。",
+    "Status decision 2026-08-10: the Real-Robot Part deck defines Robot4Robot as one of the five ongoing Research projects. The earlier Survey classification is superseded, while the existing evidence boundary and gated Stage I -> Stage II execution order remain in force.",
     "当前状态是 ongoing collaboration / proposed system。七张图是方案上下文，不是系统已经部署、指标已经复现或论文已经产出的证据。",
     "Stage I 的部署契约必须是 Student 仅依赖本体视角与本体状态；任何训练期 PPS 信息泄漏到评测或部署输入都会使结论失效。",
     "新颖性不能只写“机器人教机器人”“多相机蒸馏”“特权感知”或“跨本体”。可信边界是全局特权视觉的实体 Teacher 根据能力、不确定性、风险和预期学习收益主动选择教学动作与时机。",
@@ -92,5 +115,26 @@
   "visual": {
     "layout": "single-column"
   },
-  "updated_at": "2026-08-05T13:53:19.006Z"
+  "timeline": {
+    "badges": [
+      {
+        "label": "Teacher",
+        "value": "PiPER + LinkerHand"
+      },
+      {
+        "label": "Learner",
+        "value": "SO101 + AmazingHand"
+      },
+      {
+        "label": "Core",
+        "value": "Privileged Perception"
+      }
+    ],
+    "target_cycle": "PPS contract -> ego-only distillation -> teacher action benchmark -> cross-embodiment transfer",
+    "target_note": "Stage II physical teaching starts only after Stage I calibration, leakage and privileged-gain gates pass.",
+    "sprint_start": "2026-07-31",
+    "sprint_due": null,
+    "milestones": []
+  },
+  "updated_at": "2026-08-10T09:35:08.000Z"
 }

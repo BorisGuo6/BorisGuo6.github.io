@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-08-06T08:45:06.007Z",
+  "updated_at": "2026-08-10T09:35:08.000Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -13953,6 +13953,42 @@
       "result": null,
       "comments": [],
       "updated_at": "2026-08-06T04:25:48.860Z"
+    },
+    {
+      "task_id": "task_dex_gello_end_to_end_replay_gate_20260810",
+      "project_id": "dex-gello",
+      "title": "DexGELLO：打通 GELLO + MANUS → Franka + Wuji 的单集回放门",
+      "description": "冻结当前核心接口：GELLO 同构臂输出、固定在末端的 MANUS 手套、Franka Research 3 与 Wuji Hand 映射、统一时钟和 calibration snapshot。先录制一个低速、非接触或软物体 episode，再在禁止直接真机发送的 replay verifier 中重建 arm/hand trajectory。\n\n验收：输出版本化 episode manifest、q_arm/hand-root/q_finger/robot observation/action schema、timestamp skew、frame graph、joint/velocity limits、回放轨迹误差和失败视频；只有时间同步、映射、限位、急停与 read-only replay 全部通过，才进入受监护的低速真机复现。VIVE 仅作为可选 hand-root verifier，不是核心控制依赖。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": null,
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-08-10T09:35:08.000Z"
+    },
+    {
+      "task_id": "task_robodojo_tac_sim_real_contract_v0_20260810",
+      "project_id": "robodojo-tac",
+      "title": "RoboDojo-Tac：冻结第一个 matched sim/real 触觉任务契约",
+      "description": "从 PPT 的六类任务中选择一个触觉真正影响决策、且能在 PiPER X + Daimon 上安全复现的 v0 任务，冻结 sim 和 real 共用的对象/初态/随机化、观测/动作字段、reset、成功条件、触觉标定、失败标签和 evaluator。\n\n验收：同一任务给出 simulation manifest 与 real-robot manifest，至少比较 vision-only、visuotactile 和 state/oracle baseline，分别报告 sim/real 成功、接触时序、滑移/过载、恢复、延迟和干预；不得先合并成一个 Global Eval 分数。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": null,
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-08-10T09:35:08.000Z"
+    },
+    {
+      "task_id": "task_hifi_tacumi_mixed_ratio_ablation_spec_20260810",
+      "project_id": "hifi-tacumi",
+      "title": "HiFi-TacUMI：冻结 TacUMI / teleop 混训 schema 与比例消融",
+      "description": "把 Daimon TacUMI v1/v2 与 DM-DataMaster teleoperation episode 对齐到同一 camera、pose/action、tactile/contact、robot state、timestamp、calibration、task/outcome schema；在启动大训练前冻结 TacUMI-only、teleop-only、当前约 90/10 mix 与至少一个 ratio sweep。\n\n验收：每组固定任务 split、场景/对象去泄漏规则、训练 compute、seed 和 NERO + Daimon 评测协议；输出 manifest lineage、finite-loss smoke、checkpoint、离线指标和 guarded hardware plan。90/10 只有在 matched real-robot evaluation 优于主要基线后才能写成推荐比例。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": null,
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-08-10T09:35:08.000Z"
     }
   ]
 }

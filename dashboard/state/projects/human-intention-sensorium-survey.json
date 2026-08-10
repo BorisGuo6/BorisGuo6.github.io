@@ -1,13 +1,13 @@
 {
   "schema_version": "project.v1",
   "project_id": "human-intention-sensorium-survey",
-  "title": "OmniEgo: 多传感器的人类为中心数采方案",
+  "title": "OmniEgo: Human-Centered Multisensor Data Collection",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-07-30T05:50:54.864Z",
-  "description": "基于 Quest 3S VR 与其他可捕捉人类意图的可穿戴、环境及对象侧传感器，建立可验证、可筛选、可迁移的人类中心数采方案。",
-  "summary": "OmniEgo 以 Quest 3S 的第一视角 RGB 与系统手部追踪作为 v0 采集入口，逐步接入眼动、面捕、肌电、肌肉形变、皮肤电、脑电、触觉/压力、阵列麦克风与气味等候选模态。先审计同步、信噪比、缺失率、跨个体稳定性和机器人任务边际增益，筛出 3–5 个值得深挖的通道；再比较带标签 encoding 与 VQ-VAE / 聚类的意图 token，并连接 Ego2Dex 的手物重建、接触恢复和人到机器人迁移。对象表面共形触点、跨本体同物同任务与力闭合操纵数据集作为独立研究支线。",
-  "asset": "dashboard/assets/omniego-multisensor-human-intention.svg",
+  "updated_at": "2026-08-10T09:35:08.000Z",
+  "description": "A human-centered, modular egocentric data-acquisition platform that synchronizes first-person vision, gaze and facial cues, hand motion and dense tactile sensing, audio, and EMG to transform natural human interactions into robot-ready multimodal demonstrations.",
+  "summary": "OmniEgo 将自然人类交互拆成三条同步数据通道：Quest 3S、Ray-Ban Meta 与 Across Glasses 提供第一视角视觉；Wuji、UDCAP 与 HiGVR gloves 提供手部运动与触觉；眼动/面捕、麦克风阵列和 EMG 提供注意、声学环境与肌肉意图。核心不是堆传感器，而是在统一时钟、标定、缺失模态与质量门下，把可规模化的人类行为转换为可用于机器人学习的多模态 demonstrations。",
+  "asset": "dashboard/assets/real-robot-omniego-20260810.png",
   "details": [
     {
       "text": "Quest 3S replaces Project Aria only as the first deployable capture backend, not as a sensor-equivalent device. The v0 adapter may use its forward-facing RGB cameras and system hand tracking, but it must validate camera-to-hand latency, joint mapping, calibration, coordinate frames, occlusion dropouts and long-recording stability. Eye and face signals come from the separately ordered CYMPLE Quest 3S kit; its arrival, fit, HUB, raw PC export, timestamp semantics and synchronization still require verification, so Aria-specific eye tracking and hardware synchronization cannot be inherited.",
@@ -102,8 +102,8 @@
     "Do not publish the unsupported exact numbers from the draft technical report, including claimed millimeter errors, segmentation percentages, runtime, contact-force reductions or Tesla success rates, unless each is recovered from a primary source and reproduced under the shared protocol.",
     "Raw physiological data, camera streams, audio and face/eye signals require consent, data minimization, access controls and a stated retention policy before collection."
   ],
-  "asset_alt": "OmniEgo pipeline from Quest 3S and candidate human-intention sensors through signal-quality screening, encoding, Ego2Dex reconstruction, and object-instrumented manipulation",
-  "asset_caption": "OmniEgo 的顺序是先同步和筛选，再编码与迁移；对象侧触点是独立证据支线。",
+  "asset_alt": "OmniEgo project slide grouping ego devices, instrumented gloves, eye and face tracking, microphone arrays, and EMG sensors into three synchronized data lanes.",
+  "asset_caption": "OmniEgo project framing from Real-Robot Part.pptx: Ego Data + Hand Data + Omni-modal Data. Device images show the intended modular sensor set; availability and measured signal quality remain separate gates.",
   "references": [
     {
       "title": "Meta Quest Passthrough Camera API",
@@ -322,7 +322,7 @@
       },
       {
         "label": "Backbone",
-        "value": "Quest 3S + external sensors"
+        "value": "Ego + hand + omni-modal sensors"
       },
       {
         "label": "Gate",
@@ -333,8 +333,8 @@
         "value": "3–5 useful modalities"
       }
     ],
-    "target_cycle": "capture adapter -> quality screen -> encoding benchmark -> Ego2Dex transfer -> object-side pilot",
-    "target_note": "Every lane reports failure and uncertainty; proposals remain hypotheses until measured on shared episodes.",
+    "target_cycle": "rig integration -> synchronization/calibration -> quality screen -> robot-ready episode export -> transfer evaluation",
+    "target_note": "Every modality reports latency, dropout, calibration and marginal value; the PPT device set is a project design, not proof that every sensor has passed the gate.",
     "sprint_start": "2026-07-29",
     "sprint_due": null,
     "milestones": []
@@ -342,33 +342,21 @@
   "subprojects": [
     {
       "label": "A",
-      "title": "Quest 3S capture and synchronization",
-      "body": "Build the first reproducible human-centered rig around ego RGB, system hand/controller pose and the ordered CYMPLE face/eye kit, then add other external sensors through one clock and calibration contract.",
-      "output": "Durable output: raw synchronized episodes, adapter manifest, latency/dropout audit and privacy boundary."
+      "title": "Ego Data",
+      "body": "Quest 3S, Ray-Ban Meta and Across Glasses capture complementary first-person visual context under a shared timestamp and privacy contract.",
+      "output": "Synchronized ego video, calibration metadata and hand/controller pose when available."
     },
     {
       "label": "B",
-      "title": "Sensor quality and marginal value",
-      "body": "Test gaze, face, EMG, muscle deformation, GSR, EEG, flex/pose, tactile, audio and e-nose candidates on repeated tasks across people and days.",
-      "output": "Durable output: quality matrix and a justified 3–5-modality shortlist."
+      "title": "Hand Data",
+      "body": "Wuji, UDCAP and HiGVR gloves cover hand pose, articulation and tactile/contact cues across complementary capture setups.",
+      "output": "Aligned hand motion, finger state and dense tactile/contact observations."
     },
     {
       "label": "C",
-      "title": "Intent encoding",
-      "body": "Compare labels, per-modality encoders, late fusion, clustering and VQ-VAE tokens with missing-modality and cross-subject evaluation.",
-      "output": "Durable output: an interpretable representation benchmark, not merely reconstruction loss."
-    },
-    {
-      "label": "D",
-      "title": "Ego2Dex reconstruction and transfer",
-      "body": "Standardize hand-object reconstruction, contact refinement and human-to-robot mappings under shared clips, frames, manifests and failure metrics.",
-      "output": "Durable output: one selected reconstruction-to-retargeting path with explicit physical gates."
-    },
-    {
-      "label": "E",
-      "title": "Object-instrumented manipulation",
-      "body": "Prototype surface-conforming touch on rigid objects, add independent force/pose truth, then compare the same object and task across human and robot embodiments.",
-      "output": "Durable output: a bounded contact/force-closure dataset pilot with evidence boundaries."
+      "title": "Omni-modal Data",
+      "body": "Eye/face tracking, microphone arrays and EMG add gaze, facial, acoustic and muscle-intent context to the same natural interaction episode.",
+      "output": "Robot-ready multimodal demonstrations with per-modality quality and missing-data metadata."
     }
   ]
 }
