@@ -4,7 +4,7 @@
   "title": "UMI Image Layered World Model",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-08-10T04:00:24.984Z",
+  "updated_at": "2026-08-10T04:07:28.152Z",
   "description": "UMI Image Layered World Model: Stage 1 separates a shared dual-mode video world model (VM/Predictor and DM/Simulator) from an independent visual IDM; Stage 2 decomposes reusable layers; Stage 3 turns layered rollouts into reward and optimization interfaces.",
   "summary": "UMI shares one layer_manifest across three stages. Stage 1 uses one video backbone in two modes: VM/Predictor imagines futures from observations and task/language; DM/Simulator rolls futures from observations and actions. An independent IDM recovers dual-arm actions from visual transitions. VM → IDM → DM Action Forcing adds a physics-consistency loop without merging the modules. Stage 2 decomposes layers; Stage 3 turns rollouts into reward.",
   "subprojects": [
@@ -12,7 +12,7 @@
       "label": "A",
       "title": "Stage 1: Dual-Mode Streaming Multi-View World Model",
       "body": "One shared video backbone has two functional modes: VM / Predictor proposes future observations from history plus task or language context; DM / Simulator rolls the scene forward from history plus explicit dual-arm action. A separate IDM recovers action from visual transitions. The VM → IDM → DM Action-Forcing cycle corrects physically inconsistent imagination without folding IDM into the world model.",
-      "output": "Open Stage 1 VM / IDM / DM blueprint ↗",
+      "output": "Open Stage 1 webpage ↗",
       "output_url": "https://gammaworld-training-atlas.linslabnus.chatgpt.site/"
     },
     {
