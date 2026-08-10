@@ -1,7 +1,7 @@
 // Main JavaScript file for BorisGuo6.github.io
 // Contains all interactive functionality for the personal website
 
-var SITE_ASSET_VERSION = 'robot-link-removed-20260703';
+var SITE_ASSET_VERSION = 'news-awards-restored-20260810';
 var _deferredThirdPartyLoaded = false;
 
 // ============================================================================
@@ -687,16 +687,29 @@ function buildNewsFromPublications(papers) {
 
     (paper.venues || []).forEach(venue => {
       if (!venue.newsDate) return;
-      if (venue.type !== 'accepted') return;
 
-      rawItems.push({
-        date: venue.newsDate,
-        type: 'acceptance',
-        paperTitle: paper.newsShort || paper.title,
-        paperUrl: paperUrl,
-        venue: venue.label,
-        note: venue.newsNote || null
-      });
+      if (venue.type === 'accepted') {
+        rawItems.push({
+          date: venue.newsDate,
+          type: 'acceptance',
+          paperTitle: paper.newsShort || paper.title,
+          paperUrl: paperUrl,
+          venue: venue.label,
+          note: venue.newsNote || null
+        });
+      } else if (venue.type === 'award' || venue.type === 'award-multi') {
+        rawItems.push({
+          date: venue.newsDate,
+          type: 'award',
+          paperTitle: venue.newsTitle || paper.newsShort || paper.title,
+          paperUrl: paperUrl,
+          award: venue.newsAward || venue.label,
+          event: venue.newsEvent || null,
+          eventUrl: venue.newsEventUrl || null,
+          bold: venue.newsBold || false,
+          paperDisplay: paper.display
+        });
+      }
     });
   });
 
@@ -708,13 +721,17 @@ function buildNewsFromPublications(papers) {
   const acceptMap = {};
 
   rawItems.forEach(item => {
-    const key = `${item.date}|${item.venue}`;
-    if (!acceptMap[key]) {
-      const entry = { date: item.date, type: 'acceptance', papers: [], venue: item.venue, note: item.note };
-      acceptMap[key] = entry;
-      grouped.push(entry);
+    if (item.type === 'acceptance') {
+      const key = `${item.date}|${item.venue}`;
+      if (!acceptMap[key]) {
+        const entry = { date: item.date, type: 'acceptance', papers: [], venue: item.venue, note: item.note };
+        acceptMap[key] = entry;
+        grouped.push(entry);
+      }
+      acceptMap[key].papers.push({ title: item.paperTitle, url: item.paperUrl });
+    } else {
+      grouped.push(item);
     }
-    acceptMap[key].papers.push({ title: item.paperTitle, url: item.paperUrl });
   });
 
   // Re-sort after grouping
