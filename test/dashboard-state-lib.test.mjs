@@ -849,7 +849,7 @@ assert.match(
 );
 assert.equal(
   umiStage2Card?.output_url,
-  "https://wam-layer-benchmark.leitherdo.chatgpt.site/",
+  "https://layered-video-benchmark.leitherdo.chatgpt.site/",
   "UMI Stage 2 card must link to the published layer decomposition webpage",
 );
 assert.equal(

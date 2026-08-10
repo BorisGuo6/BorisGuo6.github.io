@@ -760,7 +760,7 @@ test("UMI Stage 1, Stage 2 and Stage 3 cards open their published webpages", asy
     '.subproject-link[href="https://umi-world-model-atlas-2026.lv-robotics-la140577.chatgpt.site/"]',
   );
   const stage2Link = project.locator(
-    '.subproject-link[href="https://wam-layer-benchmark.leitherdo.chatgpt.site/"]',
+    '.subproject-link[href="https://layered-video-benchmark.leitherdo.chatgpt.site/"]',
   );
   const stage3Link = project.locator(
     '.subproject-link[href="https://gammaworld-training-atlas.linslabnus.chatgpt.site/stage-3"]',
@@ -770,7 +770,7 @@ test("UMI Stage 1, Stage 2 and Stage 3 cards open their published webpages", asy
   await expect(stage1Link).toHaveText("Open UMI World Model Atlas 2026 ↗");
   await expect(stage1Link).toHaveAttribute("rel", "noopener noreferrer");
   await expect(stage2Link).toHaveCount(1);
-  await expect(stage2Link).toHaveText("Open Stage 2 webpage ↗");
+  await expect(stage2Link).toHaveText("Open Stage 2 benchmark ↗");
   await expect(stage2Link).toHaveAttribute("rel", "noopener noreferrer");
   await expect(stage3Link).toHaveCount(1);
   await expect(stage3Link).toHaveText("Open Stage 3 webpage ↗");

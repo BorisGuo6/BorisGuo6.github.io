@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-08-10T09:35:08.000Z",
+  "updated_at": "2026-08-10T12:52:27.056Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -12318,10 +12318,19 @@
           "kind": "decision",
           "body": "[DECISION 2026-07-23] Stage 1 training source-of-truth: rename the internal model chain to WM-T (high-quality shared-world teacher), WM-C (high-quality causal/KV-cache model) and WM-F (lightweight Drift fast-rollout branch). WM-T -> WM-C remains the quality path; WM-F is trained as a parallel one-forward candidate generator and uses WM-C for guidance/verification. Freeze the existing 4-step route as DMD-4 speed/long-horizon-failure baseline; do not require another DMD re-distillation before the WM-F PoC. Required mainline inputs are synchronized multi-view RGB/history, 10-D commanded/measured numeric action/state, per-view calibrated camera K/T or trajectory, and shared-world communication before decoding. This explicitly supersedes the 2026-07-22 wording that commanded/measured action would be injected by Robot Layer alone. URDF/FK/MVA rendered visual control is fixed-exo-first and optional; wrist/head enable it only with valid hand-eye/K/T and sufficient robot visibility. Its failure must not block WM-T, WM-C or WM-F.",
           "created_at": "2026-07-23T10:40:55.469Z"
+        },
+        {
+          "comment_id": "comment_b4bcab9d-aa7a-40e6-9a29-1f45e00a8bb8",
+          "task_id": "task_umi_davide_multilayer_video_model_architecture_20260707",
+          "author": "jingxiang",
+          "author_type": "system",
+          "kind": "comment",
+          "body": "进展页（2026-08-10）：https://davidechen135.github.io/RynnWorld-Teleop/\n\n本轮结论不是“LoRA 微调已成功”。在 three-layer-transform / Wan2.2-TI2V-5B-Diffusers / 2×H20 上，357 单集与 362 多集共四轮微调均未在未见 episode 上得到可用 rollout；362 held-out 从约第 2 帧开始塌缩，10 帧内损失约 97% 空间细节，detail ratio 约 0.63–0.66。官方 SFT 权重在同一批自制 AgiBot 输入上也塌缩，因此当前证据更指向数据/控制几何，而不是 LoRA、训练步数或数据量。\n\n正向对照：官方 SFT + 官方骨架控制/文本嵌入，只替换自拍首帧，pick_place 与 fold_unfold_paper 两个 81 帧 rollout 均未塌缩（detail ratio 1.047 / 1.031）。已修复 control_patch_embedding/control_scale 未从 SFT 热启动的 harness 缺陷，但修复后塌缩仍在。\n\n下一道判别 gate：先做官方骨架 vs 自渲染骨架的关键点语义、拓扑和投影位置对齐；再做“官方骨架 + AgiBot 首帧”的交叉测试。通过后才继续扩数据或测试多层重复控制注入，避免用更多训练掩盖上游几何错误。",
+          "created_at": "2026-08-10T12:52:20.170Z"
         }
       ],
       "created_at": "2026-07-07T12:00:00+08:00",
-      "updated_at": "2026-07-27T12:08:38.636Z"
+      "updated_at": "2026-08-10T12:52:20.170Z"
     },
     {
       "task_id": "task_umi_ziyang_object_layer_pose_value_benchmark_20260707",
@@ -13901,15 +13910,17 @@
     {
       "task_id": "task_umi_world_model_stage3_todo_board_20260803",
       "project_id": "umi-world-model",
-      "title": "Stage 3：跟进 Sketchline TODO 路线图",
-      "description": "当前执行看板：https://sketchline-stage3-todo-2026.mengziyang168.chatgpt.site\n\n短期节点（5/10 Aug 2026）：Any6D 在 UMI/MolmoAct 上的泛化、Optical Flow、object contact/semantic progress 评估、RoboPEPP，以及 WAM 接入方案。长期节点：对接 UMI 数据、robot layer 与 WAM action token 对齐、Stage 3 WAM 训练范式。该页面是 TODO 入口，不代表这些事项已经完成。",
-      "status": "todo",
+      "title": "Stage 3：Object pose / flow / process-reward 路由",
+      "description": "当前执行看板：https://sketchline-stage3-todo-2026.mengziyang168.chatgpt.site/\n\n2026-08-10 用户提供的测试结论：Any6D 在当前目标数据上不能承担连续 tracking，实时性也不满足需求；保留为校准条件下的单帧/稀疏刚体 pose baseline，不再把它写成 Stage 3 tracking 主线。该结论需在统一 benchmark 中保存命令、输入条件、runtime 和失败样例后再成为正式量化结果。\n\n下一候选：FoundationPose++ https://github.com/teal024/FoundationPose-plus-plus （固定 HEAD 58aa7154de23ae86d542366858fc6bcca3b747b0）。仓库把 FoundationPose、2D tracker、Kalman Filter 和可选 amodal completion 组合为 6D object-pose tracker；输入需要 RGB-D 序列、物体 mesh、相机内参和首帧 mask。它是工程预览仓库、当前无论文，仓库自报实时性不能替代本组实测。\n\n测试协议：\n1) 只测试 object pose，不混入 robot pose/camera-extrinsic 任务；rigid/articulated object 与 deformable flow 路线分开。\n2) 同一批 UMI/MolmoAct 刚体片段比较 Any6D 单帧、原始 FoundationPose tracking、FoundationPose++ tracking；固定 RGB-D、K、mesh、首帧 mask、尺度和可见区间。\n3) FoundationPose++ 至少测试一个轻量 2D tracker，并分别打开/关闭 Kalman Filter；amodal completion 单列，因为仓库明确仍有速度和兼容性问题。\n4) 指标：ADD/ADD-S、平移/旋转误差、track survival、漂移率、遮挡后恢复/重初始化、pose jitter、ID switch、端到端 FPS/latency/VRAM，以及 pose sidecar 对 object/contact process reward 的可分性。\n5) Failure gallery 覆盖遮挡、快速运动、motion blur、无纹理/对称物体、深度空洞和出画重入；不得只展示仓库 demo。\n\n验收：固定 repo/checkpoint/env；至少 3 类物体、10 条 clips；导出 pose.npy/可视化/逐帧指标与 profiler；给出 FoundationPose++ 是否进入 Stage 3 object-pose sidecar 的 go/no-go。长期 WAM 接入仍要求 layer_manifest、robot layer 与 action token 对齐，不因 tracker 替换而省略。",
+      "status": "active",
       "priority": "high",
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-08-03T10:18:15.638Z",
-      "due_at": "2026-08-10"
+      "updated_at": "2026-08-10T12:52:27.056Z",
+      "due_at": "2026-08-10",
+      "completed_at": null,
+      "completed_at_time": null
     },
     {
       "task_id": "task_self_improving_agents_gen_env_todo_board_20260803",
@@ -13989,6 +14000,18 @@
       "result": null,
       "comments": [],
       "updated_at": "2026-08-10T09:35:08.000Z"
+    },
+    {
+      "task_id": "task_umi_stage2_backbone_sim_layered_v2v_20260810",
+      "project_id": "umi-world-model",
+      "title": "Stage 2：收口分层视频 backbone、仿真数据管线与 V2V 训练协议",
+      "description": "当前评测页：https://layered-video-benchmark.leitherdo.chatgpt.site/\n\n现状：已在 4 个正式候选、34 个用例和 2 个真实 MolmoAct 片段上形成第一轮评测。Cosmos3-Nano 暂列主干候选，物体永久性与综合遮挡补全最好，但机器人运动过冲且缺少原生 arbitrary-mask 局部重绘；Predict2.5 的交互相对误差和时序残差较低，但机器人运动明显不足；LayerFlow 适合作分层架构探针但前景召回低；DreamDojo 当前不推荐。没有候选同时满足身份保持、物理耦合和严格只修补隐藏区域，因此这不是最终 backbone 决策。\n\n执行工作包：\n1) Backbone 收口：在同一 clips、first frame、action/control、seed 和输出长度下，对 Cosmos3-Nano、Predict2.5、LayerFlow 与 DreamDojo 做分协议评测；因果预测、对齐分解和压力测试不得折成一个总分。\n2) 仿真器直出分层视频：验证是否能从 renderer 同步导出 scene/background、object/contact、occluder/tool、robot/end-effector 的 RGB/RGBA、mask、depth、instance/semantic ID、visibility/z-order、6D pose/contact、action 和相机 K/T；所有流写入同一 layer_manifest，并能无损重组原始帧。\n3) 数据管线：统一 sim/real clip schema、时间戳、坐标系、遮挡关系、版本/来源/checksum 与 QA；仿真 GT 和真实 pseudo-label 分开标记。\n4) Metric：整帧质量仅作辅助；主指标覆盖 layer purity/IoU/Boundary-F、recomposition、duplicate/missing/leakage、hidden-region completion、identity persistence、pose/trajectory/contact、temporal flicker、cross-view consistency、runtime/VRAM。\n5) V2V 训练：比较单一合成 RGB teacher、逐层独立分支、共享 backbone 多头、layer token/cross-attention 四类接口；固定数据、控制和采样条件，报告逐层 loss、重组质量、控制遵循与下游 pose/IDM/reward utility。\n\n验收：输出 backbone adopt/cherry-pick/reject 决策表；跑通 1 组仿真器直出 layer_manifest → loader → recomposition；完成一个小规模 V2V training smoke；在 held-out real+sim clips 上生成指标表和 failure gallery。任何“分层有效”结论都必须同时超过 flat RGB、mask-only 和 segment+inpaint 基线。",
+      "status": "active",
+      "priority": "high",
+      "assignee": null,
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-08-10T12:52:23.099Z"
     }
   ]
 }

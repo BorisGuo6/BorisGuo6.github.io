@@ -4,7 +4,7 @@
   "title": "UMI Image Layered World Model",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-08-10T04:43:55.061Z",
+  "updated_at": "2026-08-10T12:52:32.235Z",
   "description": "UMI Stage 1 first learns controllable future video as DM/Simulator (action→video), then adds task-directed VM/Predictor (language→video) in the same backbone. A separate visual IDM recovers dual-arm actions, and DM replays them for VM→IDM→DM Action Forcing. Stage 2 decomposes layers; Stage 3 turns rollouts into reward and optimization interfaces.",
   "summary": "Stage 1 starts from control: V1–V2 train DM/Simulator on action→video. V3-L adds VM/Predictor for task/language→video while V3-W→V3-M adds shared geometry and memory; V3-J joins both modes before V4/V5 causalization and distillation. The world model outputs video only. An independent IDM recovers dual-arm actions from VM transitions; DM replays them as VM→IDM→DM Action Forcing. Disagreement means correct or replan—not “physics solved.”",
   "subprojects": [
@@ -18,9 +18,9 @@
     {
       "label": "B",
       "title": "Stage 2: Video Dynamics Decomposition Model",
-      "body": "VDDM decomposes robot manipulation video into scene/background, object/contact, occluder/tool and robot/end-effector layers under one layer_manifest-compatible schema.",
-      "output": "Open Stage 2 webpage ↗",
-      "output_url": "https://wam-layer-benchmark.leitherdo.chatgpt.site/"
+      "body": "Stage 2 benchmarks and trains scene/background, object/contact, occluder/tool and robot/end-effector video layers under one layer_manifest-compatible schema.",
+      "output": "Open Stage 2 benchmark ↗",
+      "output_url": "https://layered-video-benchmark.leitherdo.chatgpt.site/"
     },
     {
       "label": "C",
@@ -249,7 +249,8 @@
     "task_urdf_embodiment_prior_world_model_idea_held_out_urdf_factorial_ablation_executable_eval_20260711",
     "task_urdf_embodiment_prior_world_model_idea_yubo_bridgev2w_kinema4d_oscar_urdf_world_model_n_20260716",
     "task_umi_world_model_stage3_todo_board_20260803",
-    "task_umi_shadowdancer_shadow_pair_v3w_probe_20260806"
+    "task_umi_shadowdancer_shadow_pair_v3w_probe_20260806",
+    "task_umi_stage2_backbone_sim_layered_v2v_20260810"
   ],
   "references": [
     {
@@ -841,6 +842,21 @@
       "url": "dashboard/assets/umi-physical-hallucination-action-forcing-explainer-20260810.jpg",
       "submitted_at": "2026-08-10",
       "notes": "Narrative context for long-horizon physical hallucination: error compounds across imagined futures, motivating an IDM-to-DM correction loop. This user-provided excerpt is problem framing, not verified evidence for Poke or the current UMI implementation."
+    },
+    {
+      "title": "RynnWorld-Teleop UMI fine-tuning progress report",
+      "url": "https://davidechen135.github.io/RynnWorld-Teleop/",
+      "notes": "Current Stage 1 engineering report for control-conditioned RynnWorld fine-tuning, held-out collapse diagnosis, harness correction and custom-first-frame controls. Treat it as experiment evidence, not a successful model release."
+    },
+    {
+      "title": "Layered robot-video backbone benchmark",
+      "url": "https://layered-video-benchmark.leitherdo.chatgpt.site/",
+      "notes": "Current Stage 2 benchmark surface for backbone ranking, occlusion/identity checks, layer failure analysis and protocol boundaries. The ranking is provisional until simulator-direct layers and matched training/evaluation pass."
+    },
+    {
+      "title": "FoundationPose++: object 6D pose tracking candidate",
+      "url": "https://github.com/teal024/FoundationPose-plus-plus",
+      "notes": "Stage 3 candidate combining FoundationPose, a 2D tracker and Kalman filtering. Requires RGB-D, object mesh, camera intrinsics and an initial mask; benchmark independently before using it as an object-pose sidecar."
     }
   ],
   "risks_decisions": [
