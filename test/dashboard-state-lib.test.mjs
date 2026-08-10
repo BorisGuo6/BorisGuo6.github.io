@@ -834,8 +834,18 @@ const umiStage2Card = (umiProject.subprojects || []).find((entry) => entry?.labe
 const umiStage3Card = (umiProject.subprojects || []).find((entry) => entry?.label === "C");
 assert.equal(
   umiStage1Card?.output_url,
-  "https://gammaworld-training-atlas.linslabnus.chatgpt.site/",
+  "https://umi-world-model-atlas-2026.lv-robotics-la140577.chatgpt.site/",
   "UMI Stage 1 card must link to the published Atlas webpage",
+);
+assert.match(
+  umiProject.summary || "",
+  /world model outputs video only/i,
+  "UMI Stage 1 framing must keep video generation separate from action recovery",
+);
+assert.match(
+  umiStage1Card?.body || "",
+  /independent visual IDM/i,
+  "UMI Stage 1 card must keep IDM independent from the dual-mode world model",
 );
 assert.equal(
   umiStage2Card?.output_url,
@@ -876,6 +886,12 @@ for (const layer of umiProject.layer_utility?.layers || []) {
     }
   }
 }
+assert.ok(
+  (umiProject.references || []).some(
+    (reference) => reference?.url === "https://umi-world-model-atlas-2026.lv-robotics-la140577.chatgpt.site/",
+  ),
+  "UMI references must retain the published Stage 1 Atlas link",
+);
 assert.ok(
   (umiProject.references || []).some(
     (reference) => reference?.url === "https://gammaworld-training-atlas.linslabnus.chatgpt.site/stage-3",

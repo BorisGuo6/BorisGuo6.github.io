@@ -729,16 +729,16 @@ export default {
       "title": "UMI Image Layered World Model",
       "bucket": "research",
       "status": "ongoing",
-      "updated_at": "2026-08-10T04:07:28.152Z",
-      "description": "UMI Image Layered World Model: Stage 1 separates a shared dual-mode video world model (VM/Predictor and DM/Simulator) from an independent visual IDM; Stage 2 decomposes reusable layers; Stage 3 turns layered rollouts into reward and optimization interfaces.",
-      "summary": "UMI shares one layer_manifest across three stages. Stage 1 uses one video backbone in two modes: VM/Predictor imagines futures from observations and task/language; DM/Simulator rolls futures from observations and actions. An independent IDM recovers dual-arm actions from visual transitions. VM → IDM → DM Action Forcing adds a physics-consistency loop without merging the modules. Stage 2 decomposes layers; Stage 3 turns rollouts into reward.",
+      "updated_at": "2026-08-10T04:43:55.061Z",
+      "description": "UMI Stage 1 first learns controllable future video as DM/Simulator (action→video), then adds task-directed VM/Predictor (language→video) in the same backbone. A separate visual IDM recovers dual-arm actions, and DM replays them for VM→IDM→DM Action Forcing. Stage 2 decomposes layers; Stage 3 turns rollouts into reward and optimization interfaces.",
+      "summary": "Stage 1 starts from control: V1–V2 train DM/Simulator on action→video. V3-L adds VM/Predictor for task/language→video while V3-W→V3-M adds shared geometry and memory; V3-J joins both modes before V4/V5 causalization and distillation. The world model outputs video only. An independent IDM recovers dual-arm actions from VM transitions; DM replays them as VM→IDM→DM Action Forcing. Disagreement means correct or replan—not “physics solved.”",
       "subprojects": [
         {
           "label": "A",
-          "title": "Stage 1: Dual-Mode Streaming Multi-View World Model",
-          "body": "One shared video backbone has two functional modes: VM / Predictor proposes future observations from history plus task or language context; DM / Simulator rolls the scene forward from history plus explicit dual-arm action. A separate IDM recovers action from visual transitions. The VM → IDM → DM Action-Forcing cycle corrects physically inconsistent imagination without folding IDM into the world model.",
-          "output": "Open Stage 1 webpage ↗",
-          "output_url": "https://gammaworld-training-atlas.linslabnus.chatgpt.site/"
+          "title": "Stage 1: Dual-Mode World Model + Independent IDM",
+          "body": "Prediction alone can look plausible yet ignore control; simulation alone needs an action and cannot propose one. V1–V2 first establish DM/Simulator (action→video). V3-L adds VM/Predictor (task/language→video), while V3-W→V3-M adds geometry and memory; V3-J/V4/V5 join, causalize and distill the two modes. The world model still outputs video only. An independent visual IDM converts VM transitions into dual-arm actions, and DM replays them. VM→IDM→DM disagreement becomes Action-Forcing correction or a reject/replan signal.",
+          "output": "Open UMI World Model Atlas 2026 ↗",
+          "output_url": "https://umi-world-model-atlas-2026.lv-robotics-la140577.chatgpt.site/"
         },
         {
           "label": "B",
@@ -978,9 +978,9 @@ export default {
       ],
       "references": [
         {
-          "title": "GammaWorld Training Atlas - Stage 1 full blueprint",
-          "url": "https://gammaworld-training-atlas.linslabnus.chatgpt.site/",
-          "notes": "Stage 1 single source of truth for the streaming multi-view world-model architecture, data contract, training stages, conditioning, memory, WAM and acceptance gates."
+          "title": "UMI World Model Atlas 2026 - Stage 1 blueprint",
+          "url": "https://umi-world-model-atlas-2026.lv-robotics-la140577.chatgpt.site/",
+          "notes": "Stage 1 single source of truth for the V1–V5 capability ladder, view/action-axis contract, DM/Simulator and VM/Predictor modes, independent geometric IDM, Action-Forcing/replay loop, causal streaming and acceptance gates."
         },
         {
           "title": "GammaWorld Training Atlas - Stage 3 RL for WAM Infrastructure",
