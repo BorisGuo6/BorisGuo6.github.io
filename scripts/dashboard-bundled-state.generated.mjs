@@ -387,6 +387,14 @@ export default {
         "source": "UMI Image Layered World Model / user-provided whiteboard",
         "added_at": "2026-08-10",
         "fit": "landscape-contain"
+      },
+      {
+        "src": "dashboard/assets/self-improving-agentic-system2-tool-contract-board-20260810.png",
+        "alt": "Agentic System 2 board for embodied cooking showing stable tool contracts, VLA and analytic control options, deployment perturbations, shared world state, a planner, skill interface, and embodied execution.",
+        "caption": "Self-Improving Agents 架构启发：Harness 维护可信 world state，System 2 负责长时规划与失败恢复，并通过稳定 Tool/Skill contract 调用解析 primitive、contact-rich controller、VLA/WAM 或 simulator。每次调用必须返回 ToolResult、state delta、diagnostics、trusted receipt 与 fresh observation，才能形成可回放、可诊断、可晋升的闭环。",
+        "source": "Self-Improving Agents / user-provided Agentic Robotics board",
+        "added_at": "2026-08-10",
+        "fit": "landscape-contain"
       }
     ],
     "weekly_briefs": [
@@ -1655,14 +1663,14 @@ export default {
       "title": "Self-Improving Agents for Physical AI",
       "bucket": "research",
       "status": "ongoing",
-      "updated_at": "2026-08-06T02:17:37.093Z",
-      "description": "[KNOWN] [CONFIDENCE: HIGH] Agentic environment-generation harness for Physical AI: route text requests, image/video anchors, internet asset and dataset retrieval, and cross-simulator migration through reusable Skills and MCP tools, preferring verified asset reuse and parameter filling before rigid or articulated 3D generation.",
-      "summary": "[KNOWN] [CONFIDENCE: HIGH] Phase-2 shared board remains the current execution source; its 2026-08-03 snapshot is 0/21, separate from earlier bounded V1 acceptances. [REVIEW] [CONFIDENCE: HIGH] The Pre-R2S2R research pack (24 papers plus synthesis deck) reinforces one architecture: `/gen-env` should be a verified, stateful environment compiler, not a single 3D generator. Text, image/video anchors, asset reuse, reconstruction and generation must converge on one versioned EnvironmentPackage, then pass deterministic compile, physics, replay and migration gates before promotion. [FRAME] Reuse first; reconstruct or generate only on catalog miss; treat VLM physical values as priors with provenance and confidence, not measured truth. [BOUNDARY] Visual plausibility is only scene-ready; sim-ready, task-ready and benchmark-ready are separate acceptance levels.",
+      "updated_at": "2026-08-10T03:44:32.458Z",
+      "description": "[FRAME] Self-improving Physical-AI harness that separates System 2 planning and failure recovery from System 1/0 skill execution, using stable tool contracts, shared world state, receipts, replay, and promotion gates across /gen-env, /collect, /train, /evaluate, simulation, and real-robot execution.",
+      "summary": "[FRAME] PEARL is an Agentic System 2 harness for Physical AI, not a monolithic VLA: a planner reasons over trusted world state, selects versioned Skills/MCP tools, and dispatches execution to analytic primitives, contact-rich controllers, VLA/WAM backends, or simulators. Every call must return ToolResult + state delta + diagnostics + trusted receipt + fresh observation; failures become typed evidence for replay, repair, evaluation expansion, and regression-gated promotion. [BOUNDARY] The card combines bounded V1 route evidence with a Phase-2 architecture; it does not claim a deployed closed-loop robot system.",
       "asset": "dashboard/assets/self-improving-embodied-harness-loop-20260707.png",
       "asset_alt": "Self-Improving embodied harness loop：从执行轨迹挖掘弱点、提出修改并经回归门禁更新 harness",
       "asset_caption": "Self-Improving / PEARL 主循环：执行具身任务、聚类失败模式、提出 Harness 修改，并只晋升通过回归验证的候选。",
       "details": [
-        "[KNOWN] [CONFIDENCE: HIGH] 2026-07-31 Task board sync: Phase-2 has 0/21 TODOs complete (0% progress) with dependency chain Onboarding -> Public interfaces + Harness -> Text2Env/Asset reuse -> Anchor2Env/Generation fallback -> Transfer -> full regression.",
+        "[FRAME] Agentic execution contract: System 2 may dispatch an analytic primitive, contact-rich controller, VLA/WAM backend, or simulator skill, but every tool remains replaceable behind a versioned contract and must return ToolResult, typed state delta, diagnostics, trusted receipt, and fresh observation before the shared world state advances.",
         "[KNOWN] [CONFIDENCE: HIGH] Four user-facing routes define the current environment-generation scope: Text2Env, image/video Anchor2Env, automatic internet asset or dataset retrieval, and cross-simulator environment migration.",
         "[KNOWN] [CONFIDENCE: MEDIUM] Text2Env now has a qualitative VLM scene-critic loop: text task -> physically feasible candidate layout -> visual common-sense critique and bounded correction -> task-ready scene. The current report shows one laptop/remote-control comparison and an end-to-end interaction video; interaction-failure attribution, quantitative semantic-layout evaluation, planning-constraint linkage, and Phase 2 Skill/MCP packaging remain open.",
         "[FRAME] The orchestrator follows a selection-first policy: discover, match, select and fill parameters for verified existing assets before invoking a generative fallback.",
@@ -1947,6 +1955,12 @@ export default {
           "notes": "User-provided harness concept figure. Use it as image context for the Self-Improving / PEARL article positioning: current harness h_t runs embodied tasks; weakness mining clusters execution failures; the harness proposes edits over prompts/tools/memory/policies/validators; proposal validation accepts only regression-tested candidates; accepted edits update h_{t+1} while the embodied model/policy remains the measured object."
         },
         {
+          "title": "Agentic System 2 embodied-cooking and Harness tool-contract board",
+          "url": "dashboard/assets/self-improving-agentic-system2-tool-contract-board-20260810.png",
+          "submitted_at": "2026-08-10",
+          "notes": "User-provided Agentic Robotics board used as architecture context. It separates a System 2 planner and shared world state from System 1/0 execution, treats analytic primitives, contact-rich controllers and VLA/WAM backends as replaceable tools, and requires ToolResult + state delta + diagnostics + trusted receipt + fresh observation. Use this as a framing reference, not evidence that the depicted closed-loop cooking system is deployed."
+        },
+        {
           "title": "Text2Environment: VLM scene-critic progress report",
           "url": "https://vlm-scene-report-2026.yezheng04123.chatgpt.site/",
           "submitted_at": "2026-07-28",
@@ -2133,7 +2147,7 @@ export default {
           "id": "agentic-harness",
           "name": "Phase 2. Agentic Harness / Skills + MCP",
           "status": "ongoing",
-          "summary": "[FRAME] Integrate the four accepted V1 routes behind a reusable, versioned Skill/MCP registry with selection-first asset routing, rigid/articulated generation fallback, typed artifacts, bounded repair and regression-gated promotion."
+          "summary": "[FRAME] Build an Agentic System 2 loop over trusted world state: select a versioned Skill/MCP contract; dispatch an analytic primitive, contact-rich controller, VLA/WAM backend, or simulator; accept only typed ToolResult, state delta, diagnostics, trusted receipt, and fresh observation; promote harness changes only after replay and regression gates."
         },
         {
           "id": "text2env",
