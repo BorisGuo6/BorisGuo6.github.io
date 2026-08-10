@@ -5,7 +5,7 @@
   "subtitle": "World models, self-improving simulators, teleop acceleration, and robotics + 3D printing",
   "week": "2026-W24",
   "date": "2026-06-12",
-  "updated_at": "2026-08-10T04:00:26.351Z",
+  "updated_at": "2026-08-10T04:19:33.983Z",
   "state_root": "dashboard/state",
   "summary": {
     "focus": "Research 主线保持 Tri-View/Image-Layered IDM、Self-Improving Agents 和 DexGello；Survey TODO 已统一 inactive/archived，不再显示为当前执行队列。",
@@ -415,6 +415,22 @@
       "source": "UMI Image Layered World Model / user-provided Action Forcing explainer",
       "added_at": "2026-08-10",
       "fit": "contain"
+    },
+    {
+      "src": "dashboard/assets/dualsim-dual-simulation-core-architecture-20260810.png",
+      "alt": "Dual-Sim dual-simulation architecture with a physics simulator producing kinematic trajectory, unified robot-motion video, and proprioception for a photorealistic world-model simulator.",
+      "caption": "Dual-Sim 总架构：Physics Simulator 负责不同本体的运动学/动力学，并输出运动学轨迹、统一 robot-motion video 与 proprioception；World-Model Simulator 结合初始图像/状态生成真实感未来视频和未来机器人状态。它提出了跨本体统一输入与 VLA 闭环核验接口，但图中能力仍需实验验证。",
+      "source": "Dual-Sim / user-provided dual-simulation architecture overview",
+      "added_at": "2026-08-10",
+      "fit": "landscape-contain"
+    },
+    {
+      "src": "dashboard/assets/dualsim-sim-context-tower-residual-injection-20260810.png",
+      "alt": "Dual-Sim trainable Sim Context Tower using a frozen VAE, sim-only LoRA, zero-initialized projections, and pixel-aligned residual injection into a frozen GE-Sim V2 Video DiT.",
+      "caption": "Dual-Sim 可训练 adapter 路线：simulator video 经 Frozen VAE 与 Sim Context Tower 编码；共享冻结 block 权重，只训练 sim-only LoRA，并通过 zero-init projection 在多层向冻结的 GE-Sim V2 Video DiT 注入 pixel-aligned residual。原始 27-channel 输入路径保持不变；该图是实现方案，不代表训练或质量门已经通过。",
+      "source": "Dual-Sim / user-provided Sim Context Tower diagram",
+      "added_at": "2026-08-10",
+      "fit": "landscape-contain"
     }
   ],
   "weekly_briefs": [

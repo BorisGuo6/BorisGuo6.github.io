@@ -656,7 +656,7 @@ test("landscape Image Context references stay uncropped", async ({ page }) => {
   expect(widths.card / widths.grid).toBeGreaterThan(0.9);
 });
 
-test("Dual-Sim renders as a standalone Survey card with its three method figures", async ({ page }) => {
+test("Dual-Sim renders as one Survey card with its overview and five context figures", async ({ page }) => {
   await mockDashboardApi(page);
   await unlockDashboard(page);
 
@@ -667,7 +667,7 @@ test("Dual-Sim renders as a standalone Survey card with its three method figures
   await expect(dualSim).toContainText("Dual-Sim / Sim-Video-Guided World Model");
   await expect(dualSim.locator(".project-body img")).toHaveAttribute(
     "src",
-    /dualsim-wx-01\.png$/,
+    /dualsim-dual-simulation-core-architecture-20260810\.png$/,
   );
 
   const selfImproving = page.locator(
@@ -682,6 +682,8 @@ test("Dual-Sim renders as a standalone Survey card with its three method figures
   await expect(imageContext.locator('img[src$="dualsim-wx-01.png"]')).toHaveCount(1);
   await expect(imageContext.locator('img[src$="dualsim-wx-02.png"]')).toHaveCount(1);
   await expect(imageContext.locator('img[src$="dualsim-wx-03.png"]')).toHaveCount(1);
+  await expect(imageContext.locator('img[src$="dualsim-dual-simulation-core-architecture-20260810.png"]')).toHaveCount(1);
+  await expect(imageContext.locator('img[src$="dualsim-sim-context-tower-residual-injection-20260810.png"]')).toHaveCount(1);
 });
 
 test("wide project intro tables scroll inside the card on mobile", async ({ page }) => {

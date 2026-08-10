@@ -9,7 +9,7 @@ export default {
     "subtitle": "World models, self-improving simulators, teleop acceleration, and robotics + 3D printing",
     "week": "2026-W24",
     "date": "2026-06-12",
-    "updated_at": "2026-08-10T04:00:26.351Z",
+    "updated_at": "2026-08-10T04:19:33.983Z",
     "state_root": "dashboard/state",
     "summary": {
       "focus": "Research 主线保持 Tri-View/Image-Layered IDM、Self-Improving Agents 和 DexGello；Survey TODO 已统一 inactive/archived，不再显示为当前执行队列。",
@@ -419,6 +419,22 @@ export default {
         "source": "UMI Image Layered World Model / user-provided Action Forcing explainer",
         "added_at": "2026-08-10",
         "fit": "contain"
+      },
+      {
+        "src": "dashboard/assets/dualsim-dual-simulation-core-architecture-20260810.png",
+        "alt": "Dual-Sim dual-simulation architecture with a physics simulator producing kinematic trajectory, unified robot-motion video, and proprioception for a photorealistic world-model simulator.",
+        "caption": "Dual-Sim 总架构：Physics Simulator 负责不同本体的运动学/动力学，并输出运动学轨迹、统一 robot-motion video 与 proprioception；World-Model Simulator 结合初始图像/状态生成真实感未来视频和未来机器人状态。它提出了跨本体统一输入与 VLA 闭环核验接口，但图中能力仍需实验验证。",
+        "source": "Dual-Sim / user-provided dual-simulation architecture overview",
+        "added_at": "2026-08-10",
+        "fit": "landscape-contain"
+      },
+      {
+        "src": "dashboard/assets/dualsim-sim-context-tower-residual-injection-20260810.png",
+        "alt": "Dual-Sim trainable Sim Context Tower using a frozen VAE, sim-only LoRA, zero-initialized projections, and pixel-aligned residual injection into a frozen GE-Sim V2 Video DiT.",
+        "caption": "Dual-Sim 可训练 adapter 路线：simulator video 经 Frozen VAE 与 Sim Context Tower 编码；共享冻结 block 权重，只训练 sim-only LoRA，并通过 zero-init projection 在多层向冻结的 GE-Sim V2 Video DiT 注入 pixel-aligned residual。原始 27-channel 输入路径保持不变；该图是实现方案，不代表训练或质量门已经通过。",
+        "source": "Dual-Sim / user-provided Sim Context Tower diagram",
+        "added_at": "2026-08-10",
+        "fit": "landscape-contain"
       }
     ],
     "weekly_briefs": [
@@ -2886,12 +2902,18 @@ export default {
       "title": "Dual-Sim / Sim-Video-Guided World Model",
       "bucket": "survey",
       "status": "survey",
-      "description": "Survey a sim-video-guided world model that uses executable simulator rollouts as embodiment and motion priors while preserving real-scene appearance from the initial observation.",
-      "summary": "Dual-Sim does not ask a video model to copy simulator pixels. It lets the simulator constrain robot geometry and motion, while the real initial frame remains responsible for background, texture, lighting and interaction appearance. The three current figures define one trainable masked-attention route and two training-free guidance variants; they are design proposals, not validated results.",
-      "asset": "dashboard/assets/dualsim-wx-01.png",
-      "asset_alt": "Dual-Sim trainable masked-attention architecture using multi-view simulation video as a read-only robot-motion condition",
-      "asset_caption": "路线 A：在 EasyControl-style DiT 中加入非对称 Attention Mask；背景不读取 sim-video，本体区域可以读取其几何与运动先验，sim tokens 始终保持只读。",
+      "description": "Survey a dual-simulation architecture in which a physics-based simulator supplies cross-embodiment kinematics, motion video and proprioception, while a diffusion/transformer world-model simulator preserves real-scene appearance and predicts future video plus robot state.",
+      "summary": "Dual-Sim couples two simulators rather than asking one video model to learn every embodiment mapping. The physics simulator converts task and action into kinematic trajectory, standardized robot-motion video and proprioception; the world-model simulator combines them with the real initial image/state to predict photorealistic future video and robot state. The overview, sim-context adapter and A/B1/B2 figures are design proposals, not validated results.",
+      "asset": "dashboard/assets/dualsim-dual-simulation-core-architecture-20260810.png",
+      "asset_alt": "Dual-Sim overview separating a physics-based simulator for cross-embodiment kinematics, robot-motion video, and proprioception from a world-model simulator for photorealistic future video and robot state.",
+      "asset_caption": "总览：Physics Simulator 将任务与动作变成运动学轨迹、统一机器人运动视频和本体状态；World-Model Simulator 再结合初始图像与状态生成真实感未来视频和未来机器人状态。跨本体泛化与 VLA 闭环核验仍是待验证假设。",
       "details": [
+        {
+          "text": "Core dual-simulation split: the physics-based simulator owns embodiment-specific kinematics and dynamics, and emits a kinematic trajectory, standardized robot-motion video, and proprioception state. The world-model simulator combines those conditions with the real initial image/state to generate photorealistic future video plus future robot state. This is the proposed cross-embodiment interface; it still needs matched embodiment, state-accuracy and closed-loop VLA validation."
+        },
+        {
+          "text": "Trainable sim-context adapter: encode simulator video with a frozen VAE, then pass sim tokens through a context tower that reuses frozen GE-Sim block weights with sim-only LoRA. Full-zero projections inject pixel-aligned residuals into the frozen GE-Sim V2 Video DiT at depths 2, 6, 10, 14, 18, 22 and 26, while the original 27-channel input path and pretrained backbone stay frozen. Validate alignment, adapter capacity and sim-appearance leakage before treating this as a working route."
+        },
         {
           "text": "Trainable route: encode multi-view initial frames, future actions, optional robot state and embodiment/URDF together with a fixed multi-view sim-video condition. Background tokens may attend only to real-image context; robot tokens may additionally attend to sim-video; sim tokens neither read from nor get updated by generated tokens. The intended separation is simulator-owned motion and embodiment versus foundation-model-owned appearance."
         },
@@ -2932,11 +2954,23 @@ export default {
           "url": "https://github.com/chengaopro/Dual-Sim",
           "submitted_at": "2026-06-11",
           "notes": "Separate implementation lane for RoboTwin-to-IsaacSim task migration. It supplies simulator/task infrastructure but does not by itself validate the GE-Sim V2 video-guidance proposal shown in the three concept figures."
+        },
+        {
+          "title": "Dual-Sim dual-simulation core architecture overview",
+          "url": "dashboard/assets/dualsim-dual-simulation-core-architecture-20260810.png",
+          "submitted_at": "2026-08-10",
+          "notes": "User-provided overview figure. It separates a physics simulator that produces kinematic trajectory, standardized robot-motion video and proprioception from a world-model simulator that produces photorealistic future video and future robot state. Keep cross-embodiment generalization and VLA closed-loop support as hypotheses until matched evaluations pass."
+        },
+        {
+          "title": "Dual-Sim Sim Context Tower and residual-injection adapter",
+          "url": "dashboard/assets/dualsim-sim-context-tower-residual-injection-20260810.png",
+          "submitted_at": "2026-08-10",
+          "notes": "User-provided trainable-route diagram. Simulator video is encoded by a frozen VAE; a frozen-weight context tower with sim-only LoRA produces full-zero-projected, pixel-aligned residuals for multiple depths of a frozen GE-Sim V2 Video DiT. Treat it as an architecture proposal until alignment, leakage, quality and action-following ablations pass."
         }
       ],
       "risks_decisions": [
         "Keep this as a standalone Survey card. Self-Improving Agents owns environment-generation Harness and regression-gated workflow evolution; Dual-Sim owns the narrower hypothesis that simulator motion priors can guide realistic robot-video prediction.",
-        "The three figures are architecture proposals only. Do not claim training success, better video quality, motion fidelity or sim-to-real benefit until matched baselines and ablations are reported.",
+        "The overview, sim-context adapter and three route figures are architecture proposals only. Do not claim training success, better video quality, motion fidelity or sim-to-real benefit until matched baselines and ablations are reported.",
         "The main technical risk is control leakage: too little guidance loses robot kinematics, while too much copies simulator appearance or damages contact and scene consistency. Measure both robot-region fidelity and non-robot-region preservation.",
         "B1 and B2 are alternatives, not cumulative evidence. B1 depends on motion features being appearance-invariant; B2 depends on reliable robot masks and aligned simulator/real latent coordinates.",
         "The public chengaopro/Dual-Sim repository name collides with this broader video-guidance concept. Keep task-porting evidence and method-validation evidence labeled separately."
@@ -2961,7 +2995,7 @@ export default {
           }
         ]
       },
-      "updated_at": "2026-08-02T08:47:23.507Z"
+      "updated_at": "2026-08-10T04:19:32.845Z"
     },
     {
       "schema_version": "project.v1",
