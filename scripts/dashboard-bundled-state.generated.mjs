@@ -379,6 +379,14 @@ export default {
         "caption": "Dual-Sim 路线 B2：冻结基础 World Model，仅在机器人 mask 内把预测 clean latent 对齐到 sim latent；前期约束结构与运动，后期降低 guidance，让基础模型恢复真实材质、光照和交互细节。",
         "source": "Dual-Sim / Sim-Video-Guided World Model",
         "added_at": "2026-07-31"
+      },
+      {
+        "src": "dashboard/assets/umi-world-model-wm-idm-action-forcing-whiteboard-20260810.jpg",
+        "alt": "Whiteboard diagram showing a world model imagining the next observation, an inverse dynamics model recovering the next action, and action forcing against future observations.",
+        "caption": "UMI World Model 文章叙事白板：WM 从 O_t 想象 O_hat_{t+1}，IDM 从预测视频恢复 a_hat_{t+1}，再通过 dynamics / action forcing 与未来观测和数据闭合。概念图用于说明方法分工，不代表端到端系统已训练完成。",
+        "source": "UMI Image Layered World Model / user-provided whiteboard",
+        "added_at": "2026-08-10",
+        "fit": "landscape-contain"
       }
     ],
     "weekly_briefs": [
