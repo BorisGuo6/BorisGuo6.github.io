@@ -642,7 +642,9 @@ test("landscape Image Context references stay uncropped", async ({ page }) => {
   });
   await unlockDashboard(page);
 
-  const card = page.locator("[data-image-context-grid] .image-context-card").first();
+  const card = page.locator("[data-image-context-grid] .image-context-card").filter({
+    has: page.locator('img[src$="robot4robot-r4r-01-semantic-3d-pipeline-20260731.jpg"]'),
+  });
   const media = card.locator(".image-context-media");
   const image = media.locator("img");
   await expect(card).toHaveClass(/\bfit-landscape-contain\b/);
