@@ -9,7 +9,7 @@ export default {
     "subtitle": "World models, self-improving simulators, teleop acceleration, and robotics + 3D printing",
     "week": "2026-W24",
     "date": "2026-06-12",
-    "updated_at": "2026-08-05T13:53:19.006Z",
+    "updated_at": "2026-08-10T04:00:26.351Z",
     "state_root": "dashboard/state",
     "summary": {
       "focus": "Research 主线保持 Tri-View/Image-Layered IDM、Self-Improving Agents 和 DexGello；Survey TODO 已统一 inactive/archived，不再显示为当前执行队列。",
@@ -382,8 +382,8 @@ export default {
       },
       {
         "src": "dashboard/assets/umi-world-model-wm-idm-action-forcing-whiteboard-20260810.jpg",
-        "alt": "Whiteboard diagram showing a world model imagining the next observation, an inverse dynamics model recovering the next action, and action forcing against future observations.",
-        "caption": "UMI World Model 文章叙事白板：WM 从 O_t 想象 O_hat_{t+1}，IDM 从预测视频恢复 a_hat_{t+1}，再通过 dynamics / action forcing 与未来观测和数据闭合。概念图用于说明方法分工，不代表端到端系统已训练完成。",
+        "alt": "Whiteboard diagram mapping UMI Stage 1 VM prediction, independent IDM action recovery, DM action-conditioned correction, and Action Forcing.",
+        "caption": "UMI Stage 1 结构映射：共享视频主干以 VM/Predictor 模式从观测与任务条件提出未来，以 DM/Simulator 模式从观测与动作生成受约束未来；独立 IDM 从视觉转移恢复动作。Action Forcing 用 VM → IDM → DM 循环约束物理一致性。概念图不代表各模块已训练完成。",
         "source": "UMI Image Layered World Model / user-provided whiteboard",
         "added_at": "2026-08-10",
         "fit": "landscape-contain"
@@ -401,6 +401,22 @@ export default {
         "alt": "Comparison table of CaP-X, Guava, ENPIRE, ASPIRE, Harness VLA, Thea, and OpenETA across tool contracts, observations, planners, control backends, VLA dependence, and returned execution evidence.",
         "caption": "Self-Improving Agents 对照框架：不要只比较是否使用 VLA；应同时比较 Tool contract、observation/state surface、planner/controller stack、VLA dependence，以及 primitive 执行后是否返回 post-condition、fresh observation、diagnostics、trace 与 trusted receipt。该表是架构研究语境，不是已核验的横向 benchmark 结果。",
         "source": "Self-Improving Agents / user-provided harness comparison board",
+        "added_at": "2026-08-10",
+        "fit": "contain"
+      },
+      {
+        "src": "dashboard/assets/umi-stage1-vm-idm-dm-action-forcing-20260810.jpg",
+        "alt": "Action Forcing diagram showing a current observation, VM future prediction, independent IDM action recovery, DM correction, and a cycle loss.",
+        "caption": "UMI Stage 1 的功能双模式对应图中的 VM 与 DM：VM/Predictor 先想象 O_hat_{t+1}，外部 IDM 反推动作 a_hat_t，DM/Simulator 再以该动作生成或修正下一观测；Action Forcing 对循环一致性施加约束。双模式共享视频主干，IDM 保持独立。",
+        "source": "UMI Image Layered World Model / user-provided Action Forcing diagram",
+        "added_at": "2026-08-10",
+        "fit": "landscape-contain"
+      },
+      {
+        "src": "dashboard/assets/umi-physical-hallucination-action-forcing-explainer-20260810.jpg",
+        "alt": "Chinese explanatory excerpt about long-horizon physical hallucination and Action Forcing with inverse dynamics and physical constraints.",
+        "caption": "物理幻觉来自长链预测误差累积；UMI 的应对不是让世界模型直接输出动作，而是用独立 IDM 把视觉转移还原为动作，再让 DM/Simulator 检查动作条件下的未来是否一致。该文字仅用于问题与方法叙事，不作为 Poke 或 UMI 实验结果证据。",
+        "source": "UMI Image Layered World Model / user-provided Action Forcing explainer",
         "added_at": "2026-08-10",
         "fit": "contain"
       }
@@ -697,15 +713,15 @@ export default {
       "title": "UMI Image Layered World Model",
       "bucket": "research",
       "status": "ongoing",
-      "updated_at": "2026-08-08T08:25:57.840Z",
-      "description": "UMI Image Layered World Model: three linked papers covering multi-view robot video world modeling, manipulation-video dynamics decomposition into reusable layers, and layered data as a general reward and RL interface for WAMs.",
-      "summary": "UMI is a three-stage program over one shared layer_manifest substrate: Stage 1 learns streaming multi-view world dynamics, Stage 2 decomposes manipulation video into reusable layers, and Stage 3 turns WAM rollouts into calibrated process reward and reward-guided optimization. Stage 1 and Stage 3 specifications live in the GammaWorld Training Atlas.",
+      "updated_at": "2026-08-10T04:00:24.984Z",
+      "description": "UMI Image Layered World Model: Stage 1 separates a shared dual-mode video world model (VM/Predictor and DM/Simulator) from an independent visual IDM; Stage 2 decomposes reusable layers; Stage 3 turns layered rollouts into reward and optimization interfaces.",
+      "summary": "UMI shares one layer_manifest across three stages. Stage 1 uses one video backbone in two modes: VM/Predictor imagines futures from observations and task/language; DM/Simulator rolls futures from observations and actions. An independent IDM recovers dual-arm actions from visual transitions. VM → IDM → DM Action Forcing adds a physics-consistency loop without merging the modules. Stage 2 decomposes layers; Stage 3 turns rollouts into reward.",
       "subprojects": [
         {
           "label": "A",
-          "title": "Stage 1: Streaming Multi-View UMI World Model",
-          "body": "Streaming multi-view world modeling for dual-wrist UMI. The full data, training, conditioning, memory, WAM and gate contract lives in the Atlas.",
-          "output": "Open Stage 1 webpage ↗",
+          "title": "Stage 1: Dual-Mode Streaming Multi-View World Model",
+          "body": "One shared video backbone has two functional modes: VM / Predictor proposes future observations from history plus task or language context; DM / Simulator rolls the scene forward from history plus explicit dual-arm action. A separate IDM recovers action from visual transitions. The VM → IDM → DM Action-Forcing cycle corrects physically inconsistent imagination without folding IDM into the world model.",
+          "output": "Open Stage 1 VM / IDM / DM blueprint ↗",
           "output_url": "https://gammaworld-training-atlas.linslabnus.chatgpt.site/"
         },
         {
@@ -725,7 +741,7 @@ export default {
       ],
       "asset": "dashboard/assets/umi-shared-backbone-dual-branch-wan-20260617.jpg",
       "asset_alt": "Shared-Backbone Dual-Branch Wan architecture diagram for UMI, showing left and right gripper camera histories, shared video VAE/tokenizer, condition encoder, view embeddings, shared Wan backbone, dual prediction heads, and training objectives.",
-      "asset_caption": "Legacy Shared-Backbone Dual-Branch Wan baseline diagram for separate left/right wrist latents, shared backbone and dual prediction heads. The authoritative current Stage 1 pipeline is WM-T -> WM-C only (the planned WM-F/Drift parallel branch was cancelled 2026-07-25); URDF/MVA control is optional.",
+      "asset_caption": "Legacy Shared-Backbone Dual-Branch Wan visualizes left/right wrist view branches; that view split is orthogonal to Stage 1 functional dual-mode. Current framing uses the shared video backbone as VM/Predictor and DM/Simulator, while action recovery remains a separate IDM.",
       "visual": {
         "layout": "standard"
       },
@@ -911,7 +927,7 @@ export default {
         ]
       },
       "details": [
-        "Utility guardrail: compare flat RGB, mask-only and full layered data on matched tasks before any pose, state/action consistency, reward, policy or physics-forcing claim."
+        "Utility guardrail: evaluate VM/Predictor imagination, standalone IDM action recovery and DM/Simulator action-conditioned correction separately, then test VM → IDM → DM cycle consistency and long-horizon drift; compare flat RGB, mask-only and layered data before any physics-forcing or closed-loop claim."
       ],
       "task_ids": [
         "task_umi_wan21_dual_wrist_structure_20260617",
@@ -1516,6 +1532,24 @@ export default {
           "submitted_at": "2026-08-04",
           "type": "Stage 2 layer-native architecture / metric reference",
           "notes": "Stage 2 still-image teacher and architecture/metric reference, not a replacement for the robot-video materialization pipeline. Its I2L model jointly predicts ordered, complete semantic RGBA layers from a composite image, a global instruction and per-layer prompts; layer-instruction binding and layer-indexed rotary coordinates are useful references for UMI scene/background, object/contact, occluder/tool and robot/end-effector slots. Designer-authored PSD supervision preserves amodal hidden content, while per-layer RGB L1, Alpha Soft IoU, blank/glazed/bad-layer and alpha-cleanliness metrics strengthen the Stage 2 gate. Scope boundary: design-graphics still images only; no temporal or cross-view consistency, robot taxonomy, action/state/contact conditioning, WAM/IDM evidence or real-robot evaluation. As of 2026-08-06 no official code or model release was found."
+        },
+        {
+          "title": "Dashboard asset: UMI Stage 1 VM / IDM / DM whiteboard",
+          "url": "dashboard/assets/umi-world-model-wm-idm-action-forcing-whiteboard-20260810.jpg",
+          "submitted_at": "2026-08-10",
+          "notes": "Architecture-story reference: Stage 1 maps its shared video backbone to VM/Predictor and DM/Simulator roles, while IDM remains an external action-recovery module. The whiteboard is framing, not evidence that the full cycle is trained or deployed."
+        },
+        {
+          "title": "Dashboard asset: VM → IDM → DM Action Forcing",
+          "url": "dashboard/assets/umi-stage1-vm-idm-dm-action-forcing-20260810.jpg",
+          "submitted_at": "2026-08-10",
+          "notes": "Direct functional mapping for Stage 1: VM/Predictor proposes a future observation, the independent IDM recovers a candidate action, and DM/Simulator generates or corrects the action-conditioned future. Use the cycle as a physics-consistency objective; validate each module separately before any closed-loop claim."
+        },
+        {
+          "title": "Dashboard asset: physical hallucination and Action Forcing motivation",
+          "url": "dashboard/assets/umi-physical-hallucination-action-forcing-explainer-20260810.jpg",
+          "submitted_at": "2026-08-10",
+          "notes": "Narrative context for long-horizon physical hallucination: error compounds across imagined futures, motivating an IDM-to-DM correction loop. This user-provided excerpt is problem framing, not verified evidence for Poke or the current UMI implementation."
         }
       ],
       "risks_decisions": [
@@ -1964,18 +1998,6 @@ export default {
           "notes": "User-provided harness concept figure. Use it as image context for the Self-Improving / PEARL article positioning: current harness h_t runs embodied tasks; weakness mining clusters execution failures; the harness proposes edits over prompts/tools/memory/policies/validators; proposal validation accepts only regression-tested candidates; accepted edits update h_{t+1} while the embodied model/policy remains the measured object."
         },
         {
-          "title": "Agentic System 2 embodied-cooking and Harness tool-contract board",
-          "url": "dashboard/assets/self-improving-agentic-system2-tool-contract-board-20260810.png",
-          "submitted_at": "2026-08-10",
-          "notes": "User-provided Agentic Robotics board used as architecture context. It separates a System 2 planner and shared world state from System 1/0 execution, treats analytic primitives, contact-rich controllers and VLA/WAM backends as replaceable tools, and requires ToolResult + state delta + diagnostics + trusted receipt + fresh observation. Use this as a framing reference, not evidence that the depicted closed-loop cooking system is deployed."
-        },
-        {
-          "title": "Embodied agent harness tool-contract comparison board",
-          "url": "dashboard/assets/self-improving-harness-tool-contract-comparison-20260810.png",
-          "submitted_at": "2026-08-10",
-          "notes": "User-provided comparison table covering CaP-X, Guava, ENPIRE, ASPIRE, Harness VLA, Thea and OpenETA. Use it to structure evaluation around tool contracts, observation/state inputs, planner/controller stacks, VLA dependence, and execution receipts or traces. It is architecture-comparison context, not a verified head-to-head benchmark result; source claims and implementation status still require individual audit."
-        },
-        {
           "title": "Text2Environment: VLM scene-critic progress report",
           "url": "https://vlm-scene-report-2026.yezheng04123.chatgpt.site/",
           "submitted_at": "2026-07-28",
@@ -2054,6 +2076,18 @@ export default {
           "arxiv_id": "2511.13648",
           "submitted_at": "2025-11-17",
           "notes": "Candidate asset-generation fallback for image-conditioned articulated geometry, physical attributes and URDF/XML export. Generated physical attributes are learned priors and must keep provenance/confidence plus import, collision, settling and active-identification gates."
+        },
+        {
+          "title": "Agentic System 2 embodied-cooking and Harness tool-contract board",
+          "url": "dashboard/assets/self-improving-agentic-system2-tool-contract-board-20260810.png",
+          "submitted_at": "2026-08-10",
+          "notes": "User-provided Agentic Robotics board used as architecture context. It separates a System 2 planner and shared world state from System 1/0 execution, treats analytic primitives, contact-rich controllers and VLA/WAM backends as replaceable tools, and requires ToolResult + state delta + diagnostics + trusted receipt + fresh observation. Use this as a framing reference, not evidence that the depicted closed-loop cooking system is deployed."
+        },
+        {
+          "title": "Embodied agent harness tool-contract comparison board",
+          "url": "dashboard/assets/self-improving-harness-tool-contract-comparison-20260810.png",
+          "submitted_at": "2026-08-10",
+          "notes": "User-provided comparison table covering CaP-X, Guava, ENPIRE, ASPIRE, Harness VLA, Thea and OpenETA. Use it to structure evaluation around tool contracts, observation/state inputs, planner/controller stacks, VLA dependence, and execution receipts or traces. It is architecture-comparison context, not a verified head-to-head benchmark result; source claims and implementation status still require individual audit."
         }
       ],
       "risks_decisions": [
