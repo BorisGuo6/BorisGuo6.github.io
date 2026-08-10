@@ -4,7 +4,7 @@
   "title": "Self-Improving Agents for Physical AI",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-08-10T03:44:32.458Z",
+  "updated_at": "2026-08-10T03:49:00.585Z",
   "description": "[FRAME] Self-improving Physical-AI harness that separates System 2 planning and failure recovery from System 1/0 skill execution, using stable tool contracts, shared world state, receipts, replay, and promotion gates across /gen-env, /collect, /train, /evaluate, simulation, and real-robot execution.",
   "summary": "[FRAME] PEARL is an Agentic System 2 harness for Physical AI, not a monolithic VLA: a planner reasons over trusted world state, selects versioned Skills/MCP tools, and dispatches execution to analytic primitives, contact-rich controllers, VLA/WAM backends, or simulators. Every call must return ToolResult + state delta + diagnostics + trusted receipt + fresh observation; failures become typed evidence for replay, repair, evaluation expansion, and regression-gated promotion. [BOUNDARY] The card combines bounded V1 route evidence with a Phase-2 architecture; it does not claim a deployed closed-loop robot system.",
   "asset": "dashboard/assets/self-improving-embodied-harness-loop-20260707.png",
@@ -12,6 +12,7 @@
   "asset_caption": "Self-Improving / PEARL 主循环：执行具身任务、聚类失败模式、提出 Harness 修改，并只晋升通过回归验证的候选。",
   "details": [
     "[FRAME] Agentic execution contract: System 2 may dispatch an analytic primitive, contact-rich controller, VLA/WAM backend, or simulator skill, but every tool remains replaceable behind a versioned contract and must return ToolResult, typed state delta, diagnostics, trusted receipt, and fresh observation before the shared world state advances.",
+    "[FRAME] Comparative harness matrix: compare CaP-X, Guava, ENPIRE, ASPIRE, Harness VLA, Thea and OpenETA across five axes—tool contract, observation/state surface, planner/controller stack, VLA dependence, and execution receipt/trace. Presence of a VLA is not the promotion criterion; stable contracts, postconditions, fresh observations, diagnostics and replayable evidence are.",
     "[KNOWN] [CONFIDENCE: HIGH] Four user-facing routes define the current environment-generation scope: Text2Env, image/video Anchor2Env, automatic internet asset or dataset retrieval, and cross-simulator environment migration.",
     "[KNOWN] [CONFIDENCE: MEDIUM] Text2Env now has a qualitative VLM scene-critic loop: text task -> physically feasible candidate layout -> visual common-sense critique and bounded correction -> task-ready scene. The current report shows one laptop/remote-control comparison and an end-to-end interaction video; interaction-failure attribution, quantitative semantic-layout evaluation, planning-constraint linkage, and Phase 2 Skill/MCP packaging remain open.",
     "[FRAME] The orchestrator follows a selection-first policy: discover, match, select and fill parameters for verified existing assets before invoking a generative fallback.",
@@ -300,6 +301,12 @@
       "url": "dashboard/assets/self-improving-agentic-system2-tool-contract-board-20260810.png",
       "submitted_at": "2026-08-10",
       "notes": "User-provided Agentic Robotics board used as architecture context. It separates a System 2 planner and shared world state from System 1/0 execution, treats analytic primitives, contact-rich controllers and VLA/WAM backends as replaceable tools, and requires ToolResult + state delta + diagnostics + trusted receipt + fresh observation. Use this as a framing reference, not evidence that the depicted closed-loop cooking system is deployed."
+    },
+    {
+      "title": "Embodied agent harness tool-contract comparison board",
+      "url": "dashboard/assets/self-improving-harness-tool-contract-comparison-20260810.png",
+      "submitted_at": "2026-08-10",
+      "notes": "User-provided comparison table covering CaP-X, Guava, ENPIRE, ASPIRE, Harness VLA, Thea and OpenETA. Use it to structure evaluation around tool contracts, observation/state inputs, planner/controller stacks, VLA dependence, and execution receipts or traces. It is architecture-comparison context, not a verified head-to-head benchmark result; source claims and implementation status still require individual audit."
     },
     {
       "title": "Text2Environment: VLM scene-critic progress report",
