@@ -851,9 +851,19 @@ test("UMI presents equal dual hero visuals and stacks methods under the left fig
   );
 });
 
-test("procurement stays readable on a phone", async ({ page }) => {
-  await page.setViewportSize({ width: 390, height: 844 });
+test("moved procurement project stays hidden from the dashboard", async ({ page }) => {
   await mockDashboardApi(page);
+  await unlockDashboard(page);
+
+  await expect(page.locator('details.project-detail[data-project-id="general"]')).toHaveCount(0);
+  await expect(page.getByText("Procurement Table", { exact: true })).toHaveCount(0);
+});
+
+test("procurement stays readable on a phone when an archived snapshot is explicitly shown", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await mockDashboardApi(page, (snapshot) => {
+    snapshot.projects.find((candidate) => candidate.project_id === "general").hidden = false;
+  });
   await unlockDashboard(page);
 
   const engineeringBucket = page.locator('details.status-column[data-bucket="engineering"]');
@@ -1145,7 +1155,9 @@ test("admin can permanently remove a managed duplicate and keep the environment 
 });
 
 test("viewer can write visible cards but cannot open settings or write hidden cards", async ({ page }) => {
-  const { snapshot } = await mockDashboardApi(page, null, {
+  const { snapshot } = await mockDashboardApi(page, (state) => {
+    state.projects.find((candidate) => candidate.project_id === "general").hidden = false;
+  }, {
     role: "viewer",
     visibility: {
       bucket_ids: ["research"],
@@ -1230,6 +1242,7 @@ test("unsafe procurement URLs render as text instead of executable links", async
   const unsafeRowId = "unsafe-procurement-url-test";
   await mockDashboardApi(page, (snapshot) => {
     const project = snapshot.projects.find((candidate) => candidate.project_id === "general");
+    project.hidden = false;
     project.intro_table.rows[0].row_id = unsafeRowId;
     project.intro_table.rows[0].url = "javascript:window.__unsafeProcurementLinkExecuted=true";
   });
@@ -1383,7 +1396,9 @@ test("UMI intro and linked method index default to the automatic collapsed state
 });
 
 test("status menus and procurement editors restore keyboard focus", async ({ page }) => {
-  await mockDashboardApi(page);
+  await mockDashboardApi(page, (snapshot) => {
+    snapshot.projects.find((candidate) => candidate.project_id === "general").hidden = false;
+  });
   await unlockDashboard(page);
 
   const statusButton = page.locator(".task-status-button").first();

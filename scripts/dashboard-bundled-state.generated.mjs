@@ -5278,7 +5278,8 @@ export default {
       "visual": {
         "layout": "single-column"
       },
-      "hide_workstream": true
+      "hide_workstream": true,
+      "hidden": true
     },
     {
       "schema_version": "project.v1",

@@ -2576,6 +2576,9 @@
             addImageContextReference(references, seen, reference, "Portfolio visual reference");
           });
           projectDocs.forEach((projectDoc) => {
+            if (projectDoc.hidden) {
+              return;
+            }
             addImageContextReference(
               references,
               seen,
@@ -2837,6 +2840,9 @@
             columnElements.push(column);
           });
           (portfolio.projects || []).forEach((projectRef) => {
+            if (isHiddenProject(projectRef)) {
+              return;
+            }
             const column = columns.get(projectRef.bucket) || columns.values().next().value;
             const bucketKey = columns.has(projectRef.bucket) ? projectRef.bucket : columns.keys().next().value;
             const projectElement = existingProjects.get(projectRef.project_id) || createProjectShell(projectRef);
@@ -3505,6 +3511,10 @@
 
         function findProjectDoc(projectId) {
           return projectDocs.find((project) => project.project_id === projectId) || null;
+        }
+
+        function isHiddenProject(projectRef) {
+          return Boolean(projectRef?.hidden || findProjectDoc(projectRef?.project_id)?.hidden);
         }
 
         function projectTasksFor(projectDoc, tasks) {

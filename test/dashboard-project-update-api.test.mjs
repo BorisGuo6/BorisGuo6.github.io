@@ -187,6 +187,32 @@ assert.deepEqual(validStore.audits, [{
 }]);
 assert.equal(JSON.stringify(validStore.audits).includes(sensitiveSummary), false);
 
+const hiddenStore = inMemoryStore();
+const hidden = await invoke({
+  method: "POST",
+  headers: { "x-dashboard-token": "admin-token" },
+  body: {
+    project_id: "engineering-a",
+    patch: { hidden: true },
+  },
+}, {
+  env: {
+    BLOB_READ_WRITE_TOKEN: "blob-token",
+    DASHBOARD_WRITE_TOKEN: "admin-token",
+  },
+  persistMutation: hiddenStore.persistMutation,
+});
+assert.equal(hidden.statusCode, 200);
+assert.equal(hiddenStore.snapshot().projects[1].hidden, true);
+assert.deepEqual(hiddenStore.audits, [{
+  action: "project-update",
+  payload: {
+    project_id: "engineering-a",
+    changed_fields: ["hidden"],
+    changed_ref_fields: [],
+  },
+}]);
+
 const missingPatch = await invoke({
   method: "POST",
   headers: { "x-dashboard-token": "admin-token" },

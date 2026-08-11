@@ -1302,6 +1302,16 @@ assert.match(
   "dashboard agent prompt should document the procurement table row update endpoint",
 );
 const procurementProject = state.projects.find((project) => project.doc.project_id === "general")?.doc;
+assert.equal(
+  procurementProject?.hidden,
+  true,
+  "The legacy procurement project should stay in state for history but remain hidden after moving to Notion",
+);
+assert.match(
+  dashboardSource,
+  /if \(isHiddenProject\(projectRef\)\) \{\s+return;\s+\}/,
+  "hidden projects should not render as dashboard cards or contribute to bucket counts",
+);
 assert.deepEqual(
   procurementProject?.intro_table?.status_options,
   ["", "Ordered", "Arrived"],

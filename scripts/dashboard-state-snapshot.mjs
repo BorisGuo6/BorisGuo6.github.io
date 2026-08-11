@@ -260,6 +260,7 @@ const projectPatchFields = new Set([
   "asset_caption",
   "asset_added_at",
   "hide_intro",
+  "hidden",
 ]);
 
 const portfolioPatchFields = new Set([
@@ -284,8 +285,8 @@ function sanitizeProjectPatch(patch) {
     if (["title", "bucket", "status"].includes(field) && !normalizedValue) {
       throw new Error(`Missing project ${field}`);
     }
-    if (field === "hide_intro" && typeof normalizedValue !== "boolean") {
-      throw new Error("Project hide_intro must be boolean");
+    if (["hide_intro", "hidden"].includes(field) && typeof normalizedValue !== "boolean") {
+      throw new Error(`Project ${field} must be boolean`);
     }
     nextPatch[field] = normalizedValue;
   }
