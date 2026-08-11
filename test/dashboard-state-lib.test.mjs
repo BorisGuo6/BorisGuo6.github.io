@@ -819,14 +819,52 @@ assert.ok(umiProject, "UMI World Model project must stay mounted in dashboard st
 const tactileWamProject = state.projects.find((project) => project.doc.project_id === "tactile-wam")?.doc;
 assert.ok(tactileWamProject, "Daimon VTAM / Tactile-WAM project must stay mounted in dashboard state");
 const realRobotInfraProject = state.projects.find((project) => project.doc.project_id === "real-robot-infra")?.doc;
-assert.ok(realRobotInfraProject, "Real-Robot Lab Infra project must stay mounted in dashboard state");
-assert.equal(realRobotInfraProject.summary || "", "", "Real-Robot Lab Infra intro summary should stay empty");
-assert.deepEqual(realRobotInfraProject.details || [], [], "Real-Robot Lab Infra intro details should stay empty");
-assert.equal(realRobotInfraProject.intro_table || null, null, "Real-Robot Lab Infra intro table should stay empty");
-assert.equal(realRobotInfraProject.hide_intro, true, "Real-Robot Lab Infra should hide its empty intro surface");
+assert.ok(realRobotInfraProject, "PrometheusV4 project must stay mounted in dashboard state");
+assert.match(realRobotInfraProject.title || "", /^PrometheusV4:/, "the former Infra card should use the PrometheusV4 title");
+assert.match(realRobotInfraProject.summary || "", /Franka \+ Wuji and Cobot Magic/, "PrometheusV4 should name both current hardware branches");
+assert.equal(realRobotInfraProject.details?.length, 3, "PrometheusV4 should retain three concise architecture details");
+assert.equal(realRobotInfraProject.intro_table || null, null, "PrometheusV4 should not duplicate its architecture in an intro table");
+assert.equal(realRobotInfraProject.hide_intro, false, "PrometheusV4 should expose its durable architecture intro");
 assert.ok(
-  (realRobotInfraProject.risks_decisions || []).some((decision) => String(decision).includes("Intro asset inventory moved 2026-07-07")),
-  "Real-Robot Lab Infra asset inventory context should live in Risks / Decisions",
+  (realRobotInfraProject.references || []).some((reference) => reference?.url === "https://github.com/LV-Robotics-Lab/PrometheusV4"),
+  "PrometheusV4 should link to its repository",
+);
+assert.ok(
+  (realRobotInfraProject.risks_decisions || []).some((decision) => String(decision).includes("legacy Real-Robot Lab Infra TODO set was closed")),
+  "PrometheusV4 should retain the legacy Infra closure boundary",
+);
+const realRobotInfraTaskIds = new Set([
+  ...(realRobotInfraProject.task_ids || []),
+  ...state.tasks.filter((task) => task.project_id === "real-robot-infra").map((task) => task.task_id),
+]);
+assert.equal(
+  state.tasks.filter((task) => realRobotInfraTaskIds.has(task.task_id) && task.status !== "done").length,
+  0,
+  "PrometheusV4 should have no open legacy Infra tasks after the formal transition",
+);
+const dexGelloProject = state.projects.find((project) => project.doc.project_id === "dex-gello")?.doc;
+const dexoraProject = state.projects.find((project) => project.doc.project_id === "dexora-rl100-dexhand")?.doc;
+assert.ok(dexGelloProject, "DexGELLO project must stay mounted in dashboard state");
+assert.equal(dexoraProject?.hidden, true, "the standalone Dexora survey card should be hidden after merging into DexGELLO");
+for (const url of ["https://github.com/ZZongzheng0918/Dexora", "https://github.com/Lei-Kun/RL-100"]) {
+  assert.ok(
+    (dexGelloProject.references || []).some((reference) => reference?.url === url),
+    `DexGELLO should retain the merged offline-to-online reference ${url}`,
+  );
+}
+const demoQueue = state.tasks
+  .filter((task) => task.project_id === "real-robot-demos" && /^Demo \d{2} ·/.test(task.title || ""))
+  .sort((left, right) => left.title.localeCompare(right.title));
+assert.equal(demoQueue.length, 9, "the real-robot demo queue should contain Demo 01 through Demo 09");
+assert.deepEqual(
+  demoQueue.map((task) => task.title.slice(0, 7)),
+  Array.from({ length: 9 }, (_, index) => `Demo ${String(index + 1).padStart(2, "0")}`),
+  "the real-robot demo queue should retain its authoritative order",
+);
+assert.deepEqual(
+  demoQueue.map((task) => task.status),
+  ["active", "active", "todo", "todo", "todo", "todo", "todo", "todo", "todo"],
+  "only the first two real-robot demos should be ongoing",
 );
 assert.equal(umiProject.subprojects?.length, 3, "UMI intro must keep exactly the three stage cards");
 const umiStage1Card = (umiProject.subprojects || []).find((entry) => entry?.label === "A");

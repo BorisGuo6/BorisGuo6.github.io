@@ -1,19 +1,23 @@
 {
   "schema_version": "project.v1",
   "project_id": "real-robot-infra",
-  "title": "Real-Robot Lab Infra",
+  "title": "PrometheusV4: Governed Robot Learning & Real-Time Execution",
   "bucket": "engineering",
   "status": "ongoing",
-  "updated_at": "2026-07-21T10:43:25.017Z",
-  "description": "Engineering stack for teleoperation, data collection, and robot-side validation",
-  "summary": "",
+  "updated_at": "2026-08-11T11:38:57.571Z",
+  "description": "Workflow-first runtime for robot data collection, policy training and inference, guarded action execution, replay, and DAgger.",
+  "summary": "PrometheusV4 is the shared real-robot execution foundation. It unifies Workflow, HardwareSession, DataSession, PolicySession/ActionChunk, ActionScheduler, and SafetyGate. Current hardware branches cover Franka + Wuji and Cobot Magic.",
   "asset": "dashboard/assets/real-robot-infra-data-collection-architecture-20260622.png",
   "asset_alt": "Real-robot infra system life cycle and data collection pipeline architecture",
   "asset_caption": "Real-robot infra architecture: hardware config drives tactile, camera, robot, and gripper lifecycle modules; pedal-gated ROS2 publish/domain isolation records synchronized MP4, pickle, visualization, and per-timestamp sensor data.",
   "visual": {
-    "layout": "single-column"
+    "layout": "standard"
   },
-  "details": [],
+  "details": [
+    "Franka + Wuji branch: 54D state/action with three RGB streams; collection and offline flow-matching paths exist, while direct live send remains guarded.",
+    "Cobot Magic branch: 14D joint-only state/action with three RGB streams; conversion, offline, and dry-run paths are integrated behind SafetyGate.",
+    "Runtime chain: Hydra workflow → Workflow → HardwareSession/DataSession → PolicySession + ActionChunk → ActionScheduler → SafetyGate → robot."
+  ],
   "task_ids": [
     "task_real_robot_infra_arx_setup",
     "task_real_robot_infra_inventory",
@@ -50,28 +54,9 @@
     "task_real_robot_infra_tailscale_10t_nas_centralized_storage_rollout_20260721"
   ],
   "risks_decisions": [
-    "Intro summary moved 2026-07-07: Real-Robot Infra now tracks both the runnable architecture and the asset table: hardware config feeds tactile, camera, robot, and gripper lifecycle modules, then pedal-gated ROS2 publish/domain-isolation records synchronized MP4, pickle, and per-timestamp sensor data. The canonical hardware inventory still tracks location, owner, and readiness state for lab robot/data-collection assets, including the FSR tactile glove + Ray-Ban human-centric collection asset. General-card TODO ownership has been folded into this infra card; the separate Procurement Table now only tracks editable live purchasing rows.",
-    "Intro detail moved 2026-07-07: Procurement archive moved from Procurement Table on 2026-07-07: Tracker quick-release / headset top fixed base; VIVE Tracker chest / thigh strap; PICO body-tracker kit / PICO 5-point full-body tracker; HIG gesture-recognition data glove; HIGVR haptic / vibration clothing module. Keep received-hardware fit checks, acceptance notes, and future maintenance under Real-Robot Lab Infra rather than the live purchasing table.",
-    "Intro asset inventory moved 2026-07-07: LV-ROB-001 / 灵足自制双臂 / lkrs73-i2：灵足V2版本机械臂 / COM2-01-06 / N.A.; LV-ROB-002 / 遥操作穿戴臂 / Linker TA (LTA1-02) / E2-01-04 / 搭建中; LV-ROB-003 / 力反馈手外骨骼 / Linker FFG(FFG1-01) / E2-01-04 / Ready; LV-ROB-004 / 手宇叠数据手套 / UDCAP智能超感数据手套 / E4-08-22 / Ready; GM-ROB-001 / 松灵Aloha 遥操臂平台 / 双臂遥控操作平台Cobot Magic（Piper-X版本） / E2-01-04 / Ready; LV-ROB-005 / 灵巧 6 自由度手 / Linker Hand L6 / E4-08-22 / Ready; LV-ROB-006 / 戴盟UMI采集系统 / Daimon UMI System / E2-01-04 / Ready; LV-ROB-007 / L515相机 / 数量:2 / E2-01-04 / Ready; LV-ROB-008 / D405相机 / 数量:8 / E2-01-04 / Ready; LV-ROB-009 / D435相机 / 数量:1 / E2-01-04 / Ready; GM-ROB-002 / Franka机械臂 / Franka Research 3 / E2-01-04 / Ready; GM-ROB-003 / Wuji灵巧手 / Wuji Hand 第一代 / E2-01-04 / Ready; GM-ROB-004 / Wuji手套 / 各装一个D405做数采 / E2-01-04 / Ready; LV-ROB-010 / 方舟无限臂 / 数量:4；拖拽示教 / E2-01-04 / Ready; LV-ROB-011 / YAM臂 / 数量:4；aloha系统 / E2-01-04 / 搭建中; LV-ROB-012 / FSR触觉数据手套 / 一对数据手套；手掌/手指 FSR tactile 阵列；配合 Ray-Ban 眼镜做 human-centric 数据采集 / E2-01-04（待确认） / 搭建中; GM-ROB-005 / Manus数据手套 / 一对Manus Gloves Pro / E2-01-04 / 搭建中; GM-ROB-006 / Vive Tracker / 数量:3；搭配基站 / E2-01-04 / 搭建中. Structured copy remains in asset_inventory_snapshot and the linked Real Robot Infra asset sheet.",
-    "不同设备的驱动、SDK、ROS topic 和日志格式需要尽早统一，否则后面每条数据都会带维护成本。",
-    "手套、VIVE、相机、机器人状态要共享时间同步和外参标定策略。",
-    "真机 infra 必须保留安全边界：限位、急停、低速验证、碰撞恢复和操作记录；后续真机调试至少两人在场，一人专门看急停。",
-    "Gello 是被动主臂，软件无法在主臂端实现真正的重力补偿；主臂失手下落可能把 Franka 带向桌面，需要机械重力补偿、阻尼 / 刹车或 FACTR 这类带力反馈的双边遥操作方案。",
-    "一次性丁腈手套和指套已经买好，可用于短 demo 防水保护；但 Franka 灵巧手做敲鸡蛋等测试前，仍必须先处理杂线、固定线缆、清空工作区，并在工作区外做防水。",
-    "ARX drag-teaching / teleoperation collection must use the SOP as an operation gate: secure base, gripper, controller, power, cameras, and connections; clear the work area; test slow response first; keep people outside the workspace; stop immediately on abnormal resistance, sound, vibration, communication delay, unstable control, or unexpected motion.",
-    "工程状态需要和研究项目解耦：infra 卡片只追踪设备可用性，算法结果留在各项目卡片里。",
-    "Real-Robot Demo safety: Wuji + Franka slime-clay cutting is no longer owned by Infra, but the hardware gate still requires toy knife first, fixture / dummy-material rehearsal, speed limits, blade-safe workspace, and explicit abort conditions; do not combine sharp-tool trials with single-person operation.",
-    "FACTR procurement is now tracked in Procurement Table as an unpurchased Taobao candidate because the Yuhang-side route cannot buy it; reopen a Real-Robot Infra TODO only after a buyer/procurement route is confirmed. Keep safety comparison around master-arm gravity compensation, damping / brake, and force-feedback value under infra risks/decisions.",
-    "VR teleoperation of Franka must be hardware-gated: start in simulation or read-only pose preview, then low-speed Cartesian control with workspace bounds, deadman switch, rate limiting, collision checks, and an E-stop operator before any live robot motion.",
-    "Every hardware TODO should cite its asset-table row and the corresponding Hardware Resource Center manual/SOP location before being marked done.",
-    "YAM ALOHA and Wuji glove capture both need a shared timestamp/schema path so their data can flow into the same real-robot dataset and replay verifier infrastructure.",
-    "FSR tactile glove + Ray-Ban human-centric collection should be treated as a paired wearable sensing asset: align egocentric video, FSR channels, timestamps, calibration, privacy/consent handling, and dataset schema before using it as training data.",
-    "Do not reopen separate Wuji Glove TODOs for network smoke or data wrapper; keep status, blockers, and evidence on the canonical Wuji Glove task.",
-    "Project boundary: Real Robot Infra keeps robot availability, shared safety gates, VR-control baseline, and purchase/setup work; DexGello owns reusable data/control dependencies; Real-Robot Demos owns concrete physical scenario rows and demo pass/fail evidence.",
-    "ME Control Lab two-host expansion was completed on 2026-06-12; keep future host changes as separate scaling or maintenance TODOs rather than reopening the original two-host blocker.",
-    "Lab ops/tooling boundary: account procurement, API gateway purchasing, shared storage, cables, camera screws, and ME Control Lab installation support are infrastructure records; General should only show the live procurement table.",
-    "Project boundary update: old General TODOs and received procurement archive now belong to Real-Robot Lab Infra; Procurement Table should stay as a live editable purchase register only.",
-    "Procurement window 2026-07-09: current Taobao purchase route has a single-order limit around SGD 2000 and a near-term expiry before 2026-07-16, so collect hardware needs early; do not store card, payment, or private procurement credentials in dashboard."
+    "Hardware adapter presence is not live-robot certification: checkpoint, schema, timing, bounds, and hardware evidence must be verified per rollout.",
+    "All command paths must pass SafetyGate; dry-run validates software flow but is not proof of physical safety.",
+    "The legacy Real-Robot Lab Infra TODO set was closed on 2026-08-11; historical tasks remain in Archive and new device work should be created as PrometheusV4 hardware-branch tasks."
   ],
   "external_resources": [
     {
@@ -289,6 +274,12 @@
   },
   "intro_table": null,
   "intro_collapse": null,
-  "hide_intro": true,
-  "asset_added_at": "2026-06-22"
+  "hide_intro": false,
+  "asset_added_at": "2026-06-22",
+  "references": [
+    {
+      "label": "PrometheusV4 repository",
+      "url": "https://github.com/LV-Robotics-Lab/PrometheusV4"
+    }
+  ]
 }

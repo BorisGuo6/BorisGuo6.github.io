@@ -530,7 +530,7 @@ test("projects without hero visuals use a full-width text column on desktop", as
   await page.setViewportSize({ width: 1440, height: 900 });
   await mockDashboardApi(page, (snapshot) => {
     const standardLayout = snapshot.projects.find(
-      (project) => project.project_id === "dexora-rl100-dexhand",
+      (project) => project.project_id === "real-robot-infra",
     );
     const defaultLayout = snapshot.projects.find(
       (project) => project.project_id === "archive-agent-society-world-model",
@@ -547,7 +547,7 @@ test("projects without hero visuals use a full-width text column on desktop", as
   await unlockDashboard(page);
 
   for (const projectId of [
-    "dexora-rl100-dexhand",
+    "real-robot-infra",
     "archive-agent-society-world-model",
   ]) {
     const project = page.locator(`details.project-detail[data-project-id="${projectId}"]`);
@@ -692,7 +692,7 @@ test("wide project intro tables scroll inside the card on mobile", async ({ page
   await page.setViewportSize({ width: 1440, height: 900 });
   await mockDashboardApi(page, (snapshot) => {
     const project = snapshot.projects.find(
-      (candidate) => candidate.project_id === "dexora-rl100-dexhand",
+      (candidate) => candidate.project_id === "real-robot-infra",
     );
     if (!project) return;
     project.asset = "dashboard/assets/robotics-3d-printing-platform.png";
@@ -718,7 +718,7 @@ test("wide project intro tables scroll inside the card on mobile", async ({ page
   await page.setViewportSize({ width: 390, height: 844 });
 
   const project = page.locator(
-    'details.project-detail[data-project-id="dexora-rl100-dexhand"]',
+    'details.project-detail[data-project-id="real-robot-infra"]',
   );
   await project.evaluate((element) => {
     let current = element;

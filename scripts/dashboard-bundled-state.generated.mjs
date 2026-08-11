@@ -1,7 +1,7 @@
 export default {
   "schema_version": "dashboard-state.v1",
   "source": "bundled-json-generated",
-  "updated_at": "2026-08-10T12:52:27.056Z",
+  "updated_at": "2026-08-11T11:39:03.668Z",
   "portfolio": {
     "schema_version": "portfolio.v1",
     "portfolio_id": "embodied-ai-dashboard",
@@ -641,7 +641,7 @@ export default {
       },
       {
         "project_id": "real-robot-infra",
-        "title": "Real-Robot Lab Infra",
+        "title": "PrometheusV4: Governed Robot Learning & Real-Time Execution",
         "bucket": "engineering",
         "status": "ongoing",
         "state_path": "dashboard/state/projects/real-robot-infra.json"
@@ -2361,9 +2361,9 @@ export default {
       "title": "DexGELLO: Isomorphic Arm–Hand Teleoperation",
       "bucket": "research",
       "status": "ongoing",
-      "updated_at": "2026-08-10T09:35:08.000Z",
+      "updated_at": "2026-08-11T11:38:44.161Z",
       "description": "A high-fidelity teleoperation and data-collection platform that couples an isomorphic leader arm with a dexterous hand to capture natural arm–hand manipulation demonstrations.",
-      "summary": "DexGELLO 将同构 GELLO 主臂与 MANUS 手套组合成一套臂—手协同遥操作与数采平台：GELLO 提供自然、低延迟的手臂运动，固定在末端的人手与 MANUS 捕捉腕部和手指动作，再映射到 Franka Research 3 + Wuji Hand，并把机器人观测、臂关节、手部姿态、手指关节与动作统一记录成可回放 demonstration。",
+      "summary": "GELLO + MANUS provide an isomorphic arm-hand teleoperation and data-collection path for Franka + Wuji. Dexora + RL-100 is folded into this card as the candidate real-robot offline-to-online RL lane.",
       "subprojects": [
         {
           "label": "A",
@@ -2397,7 +2397,8 @@ export default {
         "Episode contract: retain synchronized camera observations, timestamps, GELLO/Franka arm state, hand-root pose when available, MANUS articulation, Wuji state, commanded action and calibration snapshot so one demonstration can be replayed and audited.",
         "Optional VIVE lane: VIVE remains a verifier or ablation channel for independent hand-root pose; it is not the core operator interface shown in the current project framing.",
         "Research comparison: evaluate arm-only GELLO, GELLO + MANUS, and optional GELLO + MANUS + hand-root tracking on operator comfort, smoothness, contact timing, finger-pose quality, demonstration diversity and downstream policy performance.",
-        "Status update 2026-08-10: the Real-Robot Part deck supersedes the earlier paused-Survey classification and defines DexGELLO as one of the five ongoing real-robot projects. This status does not by itself certify a completed end-to-end hardware run."
+        "Status update 2026-08-10: the Real-Robot Part deck supersedes the earlier paused-Survey classification and defines DexGELLO as one of the five ongoing real-robot projects. This status does not by itself certify a completed end-to-end hardware run.",
+        "Offline-to-online learning lane: use Dexora demonstrations as the real-robot data source and evaluate RL-100-style BC, offline RL, guarded rollout, online RL, and replay-buffer merging behind the DexGELLO safety gates."
       ],
       "task_ids": [
         "task_dex_gello_end_to_end_replay_gate_20260810",
@@ -2457,6 +2458,14 @@ export default {
           "url": "https://pure.kaist.ac.kr/en/publications/proximity-perception-based-grasping-intelligence-toward-the-seaml/",
           "doi": "10.1109/TMECH.2023.3324051",
           "notes": "Reference for proximity-based shared-autonomy grasping. Use as a metric/design reference for pre-contact hand-object relation and stage importance; do not make additional proximity hardware mandatory for DexGello v0."
+        },
+        {
+          "label": "Dexora",
+          "url": "https://github.com/ZZongzheng0918/Dexora"
+        },
+        {
+          "label": "RL-100",
+          "url": "https://github.com/Lei-Kun/RL-100"
         }
       ],
       "risks_decisions": [
@@ -2472,7 +2481,8 @@ export default {
         "Demo boundary: slime-clay cutting, Jenga extraction, broom-to-dustpan sweeping, cube-turning, plastic-bag rubbing, and Lego tool manipulation are owned by Research / Ego2Dex Human Demonstration / LfD; DexGello contributes reusable logging, calibration, planning, and evaluation dependencies only. Safety gates still apply before any live run.",
         "cuRobo boundary: planning wrapper, collision scene, joint limits, and reusable planner integration belong in DexGello; concrete demo scenario ownership and pass/fail evidence live in Real-Robot Demos.",
         "Mounting dependency boundary: glove/camera adapters that affect MANUS, Wuji, VIVE, Franka, or DexGello episode replay belong in DexGello; shared robot availability and safety gates remain in Real-Robot Infra.",
-        "Status decision 2026-08-10: restore the card to Research / ongoing under the five-project Real-Robot program. Previously parked TODOs remain historical until explicitly reopened; project status must not be read as proof that calibration, logging or a live policy run has passed."
+        "Status decision 2026-08-10: restore the card to Research / ongoing under the five-project Real-Robot program. Previously parked TODOs remain historical until explicitly reopened; project status must not be read as proof that calibration, logging or a live policy run has passed.",
+        "Dexora + RL-100 is a candidate route, not a validated port: action schema, control rate, reward/reset design, joint limits, intervention, and E-stop behavior must be verified before online updates."
       ],
       "timeline": {
         "badges": [
@@ -3174,9 +3184,9 @@ export default {
       "title": "Real-Robot Demos",
       "bucket": "engineering",
       "status": "ongoing",
-      "updated_at": "2026-07-29T08:41:21.135Z",
-      "description": "真机 demo queue for Wuji / Franka / dexterous-hand experiments",
-      "summary": "真机场景、物体与耗材、安全门控、同步记录和验收证据的唯一归属。DexGello 与 Real-Robot Infra 提供控制、日志和硬件依赖，但不接管 demo 场景；Ego2Dex 重建、接触恢复与人到机器人迁移已经归入 OmniEgo。",
+      "updated_at": "2026-08-11T11:38:56.685Z",
+      "description": "Ordered real-robot demonstration queue across Franka + Wuji, Cobot Magic, Piper + Linkerhand, NERO + Daimon Gripper, and SO101.",
+      "summary": "Task titles encode the authoritative Demo 01→09 order and assigned embodiment; progress and acceptance evidence stay on the individual tasks.",
       "visual": {
         "layout": "single-column"
       },
@@ -3188,7 +3198,10 @@ export default {
         "task_real_robot_demo_wuji_plastic_bag_rubbing",
         "task_real_robot_demo_changliu_lego_tool_manipulation",
         "task_real_robot_demo_broom_dustpan_long_horizon",
-        "task_real_robot_demo_two_90_cube_turns"
+        "task_real_robot_demo_two_90_cube_turns",
+        "task_real_robot_demo_nero_daimon_pencil_case_writing_20260811",
+        "task_real_robot_demo_franka_wuji_gift_wrapping_20260811",
+        "task_real_robot_demo_nero_daimon_plug_cable_20260811"
       ],
       "references": [
         {
@@ -3836,7 +3849,7 @@ export default {
       "bucket": "survey",
       "status": "survey",
       "description": "Survey and prototype a Dexora + RL-100 path for real-world dexterous-hand offline-to-online reinforcement learning.",
-      "summary": "Use Dexora as the dexterous demonstration/data source and port RL-100’s BC, offline RL, real-robot rollout, online RL, and data-merge loop to DexHand. First verify the observation/action adapter and one reproducible real-robot task, then add DexHand-specific reward, safety, reset, correction data, and high-DoF control optimization.",
+      "summary": "Merged into DexGELLO on 2026-08-11 as its candidate offline-to-online dexterous-hand RL lane.",
       "subprojects": [
         {
           "label": "A",
@@ -3899,24 +3912,29 @@ export default {
         "sprint_due": null,
         "milestones": []
       },
-      "updated_at": "2026-07-27T10:30:57.049Z"
+      "updated_at": "2026-08-11T11:38:44.923Z",
+      "hidden": true
     },
     {
       "schema_version": "project.v1",
       "project_id": "real-robot-infra",
-      "title": "Real-Robot Lab Infra",
+      "title": "PrometheusV4: Governed Robot Learning & Real-Time Execution",
       "bucket": "engineering",
       "status": "ongoing",
-      "updated_at": "2026-07-21T10:43:25.017Z",
-      "description": "Engineering stack for teleoperation, data collection, and robot-side validation",
-      "summary": "",
+      "updated_at": "2026-08-11T11:38:57.571Z",
+      "description": "Workflow-first runtime for robot data collection, policy training and inference, guarded action execution, replay, and DAgger.",
+      "summary": "PrometheusV4 is the shared real-robot execution foundation. It unifies Workflow, HardwareSession, DataSession, PolicySession/ActionChunk, ActionScheduler, and SafetyGate. Current hardware branches cover Franka + Wuji and Cobot Magic.",
       "asset": "dashboard/assets/real-robot-infra-data-collection-architecture-20260622.png",
       "asset_alt": "Real-robot infra system life cycle and data collection pipeline architecture",
       "asset_caption": "Real-robot infra architecture: hardware config drives tactile, camera, robot, and gripper lifecycle modules; pedal-gated ROS2 publish/domain isolation records synchronized MP4, pickle, visualization, and per-timestamp sensor data.",
       "visual": {
-        "layout": "single-column"
+        "layout": "standard"
       },
-      "details": [],
+      "details": [
+        "Franka + Wuji branch: 54D state/action with three RGB streams; collection and offline flow-matching paths exist, while direct live send remains guarded.",
+        "Cobot Magic branch: 14D joint-only state/action with three RGB streams; conversion, offline, and dry-run paths are integrated behind SafetyGate.",
+        "Runtime chain: Hydra workflow → Workflow → HardwareSession/DataSession → PolicySession + ActionChunk → ActionScheduler → SafetyGate → robot."
+      ],
       "task_ids": [
         "task_real_robot_infra_arx_setup",
         "task_real_robot_infra_inventory",
@@ -3953,28 +3971,9 @@ export default {
         "task_real_robot_infra_tailscale_10t_nas_centralized_storage_rollout_20260721"
       ],
       "risks_decisions": [
-        "Intro summary moved 2026-07-07: Real-Robot Infra now tracks both the runnable architecture and the asset table: hardware config feeds tactile, camera, robot, and gripper lifecycle modules, then pedal-gated ROS2 publish/domain-isolation records synchronized MP4, pickle, and per-timestamp sensor data. The canonical hardware inventory still tracks location, owner, and readiness state for lab robot/data-collection assets, including the FSR tactile glove + Ray-Ban human-centric collection asset. General-card TODO ownership has been folded into this infra card; the separate Procurement Table now only tracks editable live purchasing rows.",
-        "Intro detail moved 2026-07-07: Procurement archive moved from Procurement Table on 2026-07-07: Tracker quick-release / headset top fixed base; VIVE Tracker chest / thigh strap; PICO body-tracker kit / PICO 5-point full-body tracker; HIG gesture-recognition data glove; HIGVR haptic / vibration clothing module. Keep received-hardware fit checks, acceptance notes, and future maintenance under Real-Robot Lab Infra rather than the live purchasing table.",
-        "Intro asset inventory moved 2026-07-07: LV-ROB-001 / 灵足自制双臂 / lkrs73-i2：灵足V2版本机械臂 / COM2-01-06 / N.A.; LV-ROB-002 / 遥操作穿戴臂 / Linker TA (LTA1-02) / E2-01-04 / 搭建中; LV-ROB-003 / 力反馈手外骨骼 / Linker FFG(FFG1-01) / E2-01-04 / Ready; LV-ROB-004 / 手宇叠数据手套 / UDCAP智能超感数据手套 / E4-08-22 / Ready; GM-ROB-001 / 松灵Aloha 遥操臂平台 / 双臂遥控操作平台Cobot Magic（Piper-X版本） / E2-01-04 / Ready; LV-ROB-005 / 灵巧 6 自由度手 / Linker Hand L6 / E4-08-22 / Ready; LV-ROB-006 / 戴盟UMI采集系统 / Daimon UMI System / E2-01-04 / Ready; LV-ROB-007 / L515相机 / 数量:2 / E2-01-04 / Ready; LV-ROB-008 / D405相机 / 数量:8 / E2-01-04 / Ready; LV-ROB-009 / D435相机 / 数量:1 / E2-01-04 / Ready; GM-ROB-002 / Franka机械臂 / Franka Research 3 / E2-01-04 / Ready; GM-ROB-003 / Wuji灵巧手 / Wuji Hand 第一代 / E2-01-04 / Ready; GM-ROB-004 / Wuji手套 / 各装一个D405做数采 / E2-01-04 / Ready; LV-ROB-010 / 方舟无限臂 / 数量:4；拖拽示教 / E2-01-04 / Ready; LV-ROB-011 / YAM臂 / 数量:4；aloha系统 / E2-01-04 / 搭建中; LV-ROB-012 / FSR触觉数据手套 / 一对数据手套；手掌/手指 FSR tactile 阵列；配合 Ray-Ban 眼镜做 human-centric 数据采集 / E2-01-04（待确认） / 搭建中; GM-ROB-005 / Manus数据手套 / 一对Manus Gloves Pro / E2-01-04 / 搭建中; GM-ROB-006 / Vive Tracker / 数量:3；搭配基站 / E2-01-04 / 搭建中. Structured copy remains in asset_inventory_snapshot and the linked Real Robot Infra asset sheet.",
-        "不同设备的驱动、SDK、ROS topic 和日志格式需要尽早统一，否则后面每条数据都会带维护成本。",
-        "手套、VIVE、相机、机器人状态要共享时间同步和外参标定策略。",
-        "真机 infra 必须保留安全边界：限位、急停、低速验证、碰撞恢复和操作记录；后续真机调试至少两人在场，一人专门看急停。",
-        "Gello 是被动主臂，软件无法在主臂端实现真正的重力补偿；主臂失手下落可能把 Franka 带向桌面，需要机械重力补偿、阻尼 / 刹车或 FACTR 这类带力反馈的双边遥操作方案。",
-        "一次性丁腈手套和指套已经买好，可用于短 demo 防水保护；但 Franka 灵巧手做敲鸡蛋等测试前，仍必须先处理杂线、固定线缆、清空工作区，并在工作区外做防水。",
-        "ARX drag-teaching / teleoperation collection must use the SOP as an operation gate: secure base, gripper, controller, power, cameras, and connections; clear the work area; test slow response first; keep people outside the workspace; stop immediately on abnormal resistance, sound, vibration, communication delay, unstable control, or unexpected motion.",
-        "工程状态需要和研究项目解耦：infra 卡片只追踪设备可用性，算法结果留在各项目卡片里。",
-        "Real-Robot Demo safety: Wuji + Franka slime-clay cutting is no longer owned by Infra, but the hardware gate still requires toy knife first, fixture / dummy-material rehearsal, speed limits, blade-safe workspace, and explicit abort conditions; do not combine sharp-tool trials with single-person operation.",
-        "FACTR procurement is now tracked in Procurement Table as an unpurchased Taobao candidate because the Yuhang-side route cannot buy it; reopen a Real-Robot Infra TODO only after a buyer/procurement route is confirmed. Keep safety comparison around master-arm gravity compensation, damping / brake, and force-feedback value under infra risks/decisions.",
-        "VR teleoperation of Franka must be hardware-gated: start in simulation or read-only pose preview, then low-speed Cartesian control with workspace bounds, deadman switch, rate limiting, collision checks, and an E-stop operator before any live robot motion.",
-        "Every hardware TODO should cite its asset-table row and the corresponding Hardware Resource Center manual/SOP location before being marked done.",
-        "YAM ALOHA and Wuji glove capture both need a shared timestamp/schema path so their data can flow into the same real-robot dataset and replay verifier infrastructure.",
-        "FSR tactile glove + Ray-Ban human-centric collection should be treated as a paired wearable sensing asset: align egocentric video, FSR channels, timestamps, calibration, privacy/consent handling, and dataset schema before using it as training data.",
-        "Do not reopen separate Wuji Glove TODOs for network smoke or data wrapper; keep status, blockers, and evidence on the canonical Wuji Glove task.",
-        "Project boundary: Real Robot Infra keeps robot availability, shared safety gates, VR-control baseline, and purchase/setup work; DexGello owns reusable data/control dependencies; Real-Robot Demos owns concrete physical scenario rows and demo pass/fail evidence.",
-        "ME Control Lab two-host expansion was completed on 2026-06-12; keep future host changes as separate scaling or maintenance TODOs rather than reopening the original two-host blocker.",
-        "Lab ops/tooling boundary: account procurement, API gateway purchasing, shared storage, cables, camera screws, and ME Control Lab installation support are infrastructure records; General should only show the live procurement table.",
-        "Project boundary update: old General TODOs and received procurement archive now belong to Real-Robot Lab Infra; Procurement Table should stay as a live editable purchase register only.",
-        "Procurement window 2026-07-09: current Taobao purchase route has a single-order limit around SGD 2000 and a near-term expiry before 2026-07-16, so collect hardware needs early; do not store card, payment, or private procurement credentials in dashboard."
+        "Hardware adapter presence is not live-robot certification: checkpoint, schema, timing, bounds, and hardware evidence must be verified per rollout.",
+        "All command paths must pass SafetyGate; dry-run validates software flow but is not proof of physical safety.",
+        "The legacy Real-Robot Lab Infra TODO set was closed on 2026-08-11; historical tasks remain in Archive and new device work should be created as PrometheusV4 hardware-branch tasks."
       ],
       "external_resources": [
         {
@@ -4192,8 +4191,14 @@ export default {
       },
       "intro_table": null,
       "intro_collapse": null,
-      "hide_intro": true,
-      "asset_added_at": "2026-06-22"
+      "hide_intro": false,
+      "asset_added_at": "2026-06-22",
+      "references": [
+        {
+          "label": "PrometheusV4 repository",
+          "url": "https://github.com/LV-Robotics-Lab/PrometheusV4"
+        }
+      ]
     },
     {
       "schema_version": "project.v1",
@@ -7314,7 +7319,7 @@ export default {
   ],
   "taskDoc": {
     "schema_version": "tasks.v1",
-    "updated_at": "2026-08-10T12:52:27.056Z",
+    "updated_at": "2026-08-11T11:39:03.668Z",
     "owner": "dashboard",
     "tasks": [
       {
@@ -7493,7 +7498,7 @@ export default {
         "project_id": "real-robot-infra",
         "title": "排查 Franka + Wuji 末端接近物体时的 IK 抖动并试 curobo",
         "description": "Dexterous Data Collection 2026-07-09 update: Haoming reported that when the end-effector approaches the object it enters an oscillatory / unstable state, possibly near the reachable boundary. Action: reproduce the video case, log commanded pose, solved joint targets, actual Franka state, distance-to-boundary / joint-limit metrics, control rate, and object-relative pose; compare current Pinocchio IK path with curobo or another faster IK/planning backend. Acceptance: 1) identify whether the jitter is reach-boundary, singularity/joint-limit, IK latency, controller gain, or frame-calibration related; 2) run a read-only replay and then low-speed live smoke with safety bounds; 3) report before/after trajectory smoothness, solve time, dropped frames, and abort conditions; 4) decide whether curobo becomes the default IK backend for this setup.\n\n【2026-07-21 Haoming 当前诊断】\n遥操效果已明显改善，系统较少进入 singularity，但仍存在抖动。Haoming 已把现象定位为输出端抖动，而非输入端抖动；当前仅怀疑 IK 解发生关节反转/分支跳变，根因尚未证实。cuRobo 路线正在尝试，改动量较大，尚未跑通或完成前后对照。下一步必须记录输入目标、IK branch/joint solution、输出关节命令、实际关节状态与奇异度/关节限位指标，确认是否真为解分支翻转。\n【/2026-07-21 Haoming 当前诊断】",
-        "status": "active",
+        "status": "done",
         "priority": "high",
         "assignee": "Haoming / Boris / real-robot",
         "result": null,
@@ -7535,9 +7540,9 @@ export default {
             "created_at": "2026-07-21T10:43:25.017Z"
           }
         ],
-        "updated_at": "2026-07-21T10:43:25.017Z",
-        "completed_at": null,
-        "completed_at_time": null
+        "updated_at": "2026-08-11T11:38:59.417Z",
+        "completed_at": "2026-08-11",
+        "completed_at_time": "2026-08-11T11:38:59.417Z"
       },
       {
         "task_id": "task_real_robot_infra_wuji_glove",
@@ -7834,7 +7839,7 @@ export default {
         "project_id": "real-robot-infra",
         "title": "为 MANUS 设计 Quest 手柄卡扣替代 VIVE Tracker",
         "description": "给 MANUS glove 设计一个能刚性卡住 Quest controller 的卡扣 / 转接件，用 Quest 手柄 pose 作为 VIVE Tracker 手背位姿路线的替代或对照。动机：VIVE 坐标系和外参路线目前让团队非常 struggle；Quest controller 可能更容易形成稳定、可复现的 operator hand pose 输入。HIGVR 转接件暂时没有 3D 模型，等 Boris 2026-07-17 到现场后先看实物转接件怎么固定、怎么避让手套和线缆，再决定手工测量、3D 扫描、建模打印或绑带式原型。验收：1) 现场拍照 / 测量 HIGVR 转接件和 MANUS 手套可用安装空间；2) 出一版 Quest controller 卡扣几何方案，明确固定点、释放方式、材料和是否需要 3D 打印；3) 不遮挡 MANUS 手指运动、腕部活动、线缆和相机视野；4) 完成 Quest pose 到 MANUS root / robot base 的最小标定方案；5) 记录至少 10 秒 Quest pose + MANUS stream + robot / GELLO reference 的同步日志；6) 给出是否继续用 Quest 替代 VIVE hand-back tracker 的 go/no-go。",
-        "status": "todo",
+        "status": "done",
         "priority": "high",
         "assignee": "Boris / real-robot",
         "result": null,
@@ -7867,7 +7872,9 @@ export default {
           }
         ],
         "created_at": "2026-07-08T17:28:20+08:00",
-        "updated_at": "2026-07-09T21:44:00+08:00"
+        "updated_at": "2026-08-11T11:39:00.030Z",
+        "completed_at": "2026-08-11",
+        "completed_at_time": "2026-08-11T11:39:00.030Z"
       },
       {
         "task_id": "task_real_robot_infra_vive_tracker_chest_mount",
@@ -7931,7 +7938,7 @@ export default {
         "project_id": "real-robot-infra",
         "title": "实现 VR 遥操作 Franka",
         "description": "Implement a VR teleoperation path for Franka real-robot debugging. Use SteamVR/OpenVR input from a VR controller, tracker, or headset as the operator pose source, map it into Franka Cartesian end-effector commands, and support a first minimal gripper/open-close intent path. Acceptance: list and pair VR devices; define T_world_vr / T_base_vr calibration; implement simulation or read-only pose preview first; then low-speed live Cartesian control with workspace bounds, velocity / acceleration limits, deadman switch, collision / E-stop procedure, and logging to the real_robot_record schema; run a verifier that records VR input pose, commanded EE pose, Franka state, dropped frames, control rate, and abort conditions.",
-        "status": "needs_user",
+        "status": "done",
         "priority": "high",
         "assignee": "Boris / real-robot",
         "result": null,
@@ -7984,7 +7991,9 @@ export default {
             "created_at": "2026-07-11T00:48:51.123Z"
           }
         ],
-        "updated_at": "2026-07-11T00:48:51.123Z"
+        "updated_at": "2026-08-11T11:39:00.810Z",
+        "completed_at": "2026-08-11",
+        "completed_at_time": "2026-08-11T11:39:00.810Z"
       },
       {
         "task_id": "task_real_robot_infra_safety_workspace",
@@ -13885,8 +13894,8 @@ export default {
       {
         "task_id": "task_general_tactile_stacking_pilot",
         "project_id": "real-robot-demos",
-        "title": "Real-Robot Demo: Jenga 抽积木塔 tactile pilot",
-        "description": "把 Jenga-style block extraction / 抽积木塔作为紧凑真机 demo：机器人从木块塔里推出或抽出指定木块，同时尽量不让塔倒。采购状态：订单数据.xlsx 确认 Jenga 72 块大号数字叠叠乐（带木锤和收纳袋）已于 2026-07-07 买家付款；仍需确认目标块标记材料（贴纸 / 彩色胶带）、防滑底座或防滑垫、负责人和戴盟触觉 gripper 到新加坡时间。用 q_arm、T_hand、q_finger 记录链路和 tactile/VTA/VLA 分析接触稳定、摩擦/滑移、侧向推力、塔体晃动和失败恢复；配一个可打印/定制的特殊 gripper，并接入戴盟触觉。目标是把 slip、contact stability、lateral force、tower wobble、tower collapse 等失败变成真机 demo 和评测样例。DexGello 可提供数据/控制依赖，但 demo 场景归 Real-Robot Demos 表格管理。\n\nReal-Robot Demos intro migration 2026-07-07:\n- Demo: Jenga-style block extraction tactile pilot\n- Owner / collab: Master student TBD / Zheng Yuhang for Daimon gripper timing\n- Hardware: Robot arm + printable or custom block-extraction gripper + Daimon tactile sensors\n- Object / setup: Jenga tower or custom block stack; target-block stickers / colored tape; non-slip base or anti-slip mat; tactile/VTA/VLA failure labels\n- Intro status: needs_user\n- Next TODO: Jenga 72-piece large numbered set with wooden hammer/storage bag is buyer-paid per 订单数据.xlsx. Still confirm target markers, non-slip base or anti-slip mat, owner assignment, and whether the Daimon-side gripper package is ready and when it can reach Singapore.\n- Notes / acceptance: Track slip, contact stability, lateral force, tower wobble, collapse risk, and recovery; keep as a compact true-robot benchmark.\n- Shared Real-Robot Demos rules:\n  - Scope rule: this card owns demo scenarios, physical objects, consumables, safety gates, and acceptance evidence. DexGello owns reusable data/control dependencies such as GELLO arm state, MANUS/Wuji finger state, VIVE hand pose, cuRobo planning, and episode logging.\n  - Procurement rule: Taobao/Lego/demo-kit candidate links are TODO evidence only. Do not mark procurement done until purchase route, delivery destination, receipt/procurement record, and arrival/fit check are recorded.\n  - Safety rule: every demo starts with read-only or simulation/dry-run, then low-speed robot motion with workspace limits, cable checks, and a dedicated E-stop watcher before collecting publishable evidence.\n  - Failure-data link 2026-06-13: broom-to-dustpan and two 90-degree cube-turn demos are added specifically as longer-horizon data sources for DexGello learn-from-failure metrics. They should log phase boundaries, intervention/takeover, object/contact progress, and which failed stages should not be imitated.\n  - Procurement update 2026-07-07: 订单数据.xlsx confirms buyer-paid rows for toy knife/cutting-board set, Jenga 72-piece set, Lego tools, Lego/MOC baseplates and mixed blocks, large Rubik-style cube, and two 1-to-3 USB-C-output data/charging cables for VIVE Tracker / MANUS. Slime clay shipped with ETA 2026-07-20 to 2026-07-23, and a second M&G 36-color clay pack is buyer-paid. The grey leather desktop mat was removed and should not be purchased; choose an existing or alternate surface if a demo still needs tabletop contrast or protection. Do not re-buy the existing COM2-seat props unless fit check fails.\n  - Existing-prop transfer note 2026-06-16: Boris has data-collection props at his COM2 seat, including a small broom/dustpan toy, cube, ping-pong paddle, and related toys. These need human transfer to ME; they are not procurement items.",
+        "title": "Demo 05 · Jenga 抽积木塔（NERO + Daimon Gripper）",
+        "description": "Queue order 05. Assigned platform: NERO + Daimon Gripper. Spreadsheet progress: queued. Original scope: 把 Jenga-style block extraction / 抽积木塔作为紧凑真机 demo：机器人从木块塔里推出或抽出指定木块，同时尽量不让塔倒。采购状态：订单数据.xlsx 确认 Jenga 72 块大号数字叠叠乐（带木锤和收纳袋）已于 2026-07-07 买家付款；仍需确认目标块标记材料（贴纸 / 彩色胶带）、防滑底座或防滑垫、负责人和戴盟触觉 gripper 到新加坡时间。用 q_arm、T_hand、q_finger 记录链路和 tactile/VTA/VLA 分析接触稳定、摩擦/滑移、侧向推力、塔体晃动和失败恢复；配一个可打印/定制的特殊 gripper，并接入戴盟触觉。目标是把 slip、contact stability、lateral force、tower wobble、tower collapse 等失败变成真机 demo 和评测样例。DexGello 可提供数据/控制依赖，但 demo 场景归 Real-Robot Demos 表格管理。\n\nReal-Robot Demos intro migration 2026-07-07:\n- Demo: Jenga-style block extraction tactile pilot\n- Owner / collab: Master student TBD / Zheng Yuhang for Daimon gripper timing\n- Hardware: Robot arm + printable or custom block-extraction gripper + Daimon tactile sensors\n- Object / setup: Jenga tower or custom block stack; target-block stickers / colored tape; non-slip base or anti-slip mat; tactile/VTA/VLA failure labels\n- Intro status: needs_user\n- Next TODO: Jenga 72-piece large numbered set with wooden hammer/storage bag is buyer-paid per 订单数据.xlsx. Still confirm target markers, non-slip base or anti-slip mat, owner assignment, and whether the Daimon-side gripper package is ready and when it can reach Singapore.\n- Notes / acceptance: Track slip, contact stability, lateral force, tower wobble, collapse risk, and recovery; keep as a compact true-robot benchmark.\n- Shared Real-Robot Demos rules:\n  - Scope rule: this card owns demo scenarios, physical objects, consumables, safety gates, and acceptance evidence. DexGello owns reusable data/control dependencies such as GELLO arm state, MANUS/Wuji finger state, VIVE hand pose, cuRobo planning, and episode logging.\n  - Procurement rule: Taobao/Lego/demo-kit candidate links are TODO evidence only. Do not mark procurement done until purchase route, delivery destination, receipt/procurement record, and arrival/fit check are recorded.\n  - Safety rule: every demo starts with read-only or simulation/dry-run, then low-speed robot motion with workspace limits, cable checks, and a dedicated E-stop watcher before collecting publishable evidence.\n  - Failure-data link 2026-06-13: broom-to-dustpan and two 90-degree cube-turn demos are added specifically as longer-horizon data sources for DexGello learn-from-failure metrics. They should log phase boundaries, intervention/takeover, object/contact progress, and which failed stages should not be imitated.\n  - Procurement update 2026-07-07: 订单数据.xlsx confirms buyer-paid rows for toy knife/cutting-board set, Jenga 72-piece set, Lego tools, Lego/MOC baseplates and mixed blocks, large Rubik-style cube, and two 1-to-3 USB-C-output data/charging cables for VIVE Tracker / MANUS. Slime clay shipped with ETA 2026-07-20 to 2026-07-23, and a second M&G 36-color clay pack is buyer-paid. The grey leather desktop mat was removed and should not be purchased; choose an existing or alternate surface if a demo still needs tabletop contrast or protection. Do not re-buy the existing COM2-seat props unless fit check fails.\n  - Existing-prop transfer note 2026-06-16: Boris has data-collection props at his COM2 seat, including a small broom/dustpan toy, cube, ping-pong paddle, and related toys. These need human transfer to ME; they are not procurement items.",
         "status": "todo",
         "priority": "medium",
         "assignee": "master student TBD / Zheng Yuhang for gripper timing",
@@ -13937,7 +13946,7 @@ export default {
             "kind": "comment"
           }
         ],
-        "updated_at": "2026-07-19T01:56:26.790Z",
+        "updated_at": "2026-08-11T11:38:51.675Z",
         "completed_at": null,
         "completed_at_time": null
       },
@@ -14403,9 +14412,9 @@ export default {
       {
         "task_id": "task_real_robot_infra_wuji_franka_slime_cut_demo",
         "project_id": "real-robot-demos",
-        "title": "Real-Robot Demo: Wuji + Franka 玩具刀切史莱姆泥",
-        "description": "把 Wuji Hand + Franka 的灵巧手切肉 demo 收敛到安全 Stage 0/1：仿真肉使用史莱姆泥，刀先使用玩具刀，不使用真刀或真实肉。采购状态：订单数据.xlsx 确认婴儿辅食刀/菜板套装已于 2026-07-07 买家付款；史莱姆泥已发货，预计 2026-07-20 至 2026-07-23 送达，另有晨光 36 色 360g 超轻黏土已买家付款；灰色皮革桌垫不买，仍需确认砧板、夹具/托盘和可清洁工作区。验收：准备固定史莱姆泥的夹具/托盘和可清洁工作区；确认玩具刀不会割伤手指/线缆/相机；设置 Franka 低速/力矩/工作空间限制、急停看护和 abort 条件；完成至少一次 read-only 或仿真轨迹预演；完成一次真实低速玩具刀切史莱姆泥 run；记录视频、q_arm、T_hand、q_finger、Wuji Hand command/state、相机视角、失败/成功判据和是否需要进入下一阶段。真实刀具、真实肉和高速切割必须另行审批。DexGello 提供数据/控制依赖，但 demo 场景归 Real-Robot Demos 表格管理。\n\nReal-Robot Demos intro migration 2026-07-07:\n- Demo: Wuji + Franka toy-knife slime-clay cutting\n- Owner / collab: Yuhang & Jingxiang / Boris / DexGello dependency support\n- Hardware: Franka Research 3 + Wuji Hand + toy knife; DexGello logger and cuRobo are dependencies\n- Object / setup: Slime clay as simulated meat; blunt-edge toy knife; cutting board; fixture or tray; existing washable work surface\n- Intro status: todo\n- Next TODO: Toy knife/cutting-board set is buyer-paid per 订单数据.xlsx; slime clay shipped with ETA 2026-07-20 to 2026-07-23 and an additional 36-color M&G pack is buyer-paid. Do not buy the grey leather desktop mat; confirm cutting board, fixture/tray, and washable work surface after arrival, then run low-speed Stage 0/1 with E-stop watcher, workspace limits, video, q_arm / T_hand / q_finger / Wuji state logging.\n- Notes / acceptance: No real knife, real meat, or high-speed cutting without separate approval. The demo row lives here; DexGello supplies the data/control stack.\n- Shared Real-Robot Demos rules:\n  - Scope rule: this card owns demo scenarios, physical objects, consumables, safety gates, and acceptance evidence. DexGello owns reusable data/control dependencies such as GELLO arm state, MANUS/Wuji finger state, VIVE hand pose, cuRobo planning, and episode logging.\n  - Procurement rule: Taobao/Lego/demo-kit candidate links are TODO evidence only. Do not mark procurement done until purchase route, delivery destination, receipt/procurement record, and arrival/fit check are recorded.\n  - Safety rule: every demo starts with read-only or simulation/dry-run, then low-speed robot motion with workspace limits, cable checks, and a dedicated E-stop watcher before collecting publishable evidence.\n  - Failure-data link 2026-06-13: broom-to-dustpan and two 90-degree cube-turn demos are added specifically as longer-horizon data sources for DexGello learn-from-failure metrics. They should log phase boundaries, intervention/takeover, object/contact progress, and which failed stages should not be imitated.\n  - Procurement update 2026-07-07: 订单数据.xlsx confirms buyer-paid rows for toy knife/cutting-board set, Jenga 72-piece set, Lego tools, Lego/MOC baseplates and mixed blocks, large Rubik-style cube, and two 1-to-3 USB-C-output data/charging cables for VIVE Tracker / MANUS. Slime clay shipped with ETA 2026-07-20 to 2026-07-23, and a second M&G 36-color clay pack is buyer-paid. The grey leather desktop mat was removed and should not be purchased; choose an existing or alternate surface if a demo still needs tabletop contrast or protection. Do not re-buy the existing COM2-seat props unless fit check fails.\n  - Existing-prop transfer note 2026-06-16: Boris has data-collection props at his COM2 seat, including a small broom/dustpan toy, cube, ping-pong paddle, and related toys. These need human transfer to ME; they are not procurement items.",
-        "status": "active",
+        "title": "Demo 03 · 玩具刀切软泥（Franka + Wuji）",
+        "description": "Queue order 03. Assigned platform: Franka + Wuji. Spreadsheet progress: queued. Original scope: 把 Wuji Hand + Franka 的灵巧手切肉 demo 收敛到安全 Stage 0/1：仿真肉使用史莱姆泥，刀先使用玩具刀，不使用真刀或真实肉。采购状态：订单数据.xlsx 确认婴儿辅食刀/菜板套装已于 2026-07-07 买家付款；史莱姆泥已发货，预计 2026-07-20 至 2026-07-23 送达，另有晨光 36 色 360g 超轻黏土已买家付款；灰色皮革桌垫不买，仍需确认砧板、夹具/托盘和可清洁工作区。验收：准备固定史莱姆泥的夹具/托盘和可清洁工作区；确认玩具刀不会割伤手指/线缆/相机；设置 Franka 低速/力矩/工作空间限制、急停看护和 abort 条件；完成至少一次 read-only 或仿真轨迹预演；完成一次真实低速玩具刀切史莱姆泥 run；记录视频、q_arm、T_hand、q_finger、Wuji Hand command/state、相机视角、失败/成功判据和是否需要进入下一阶段。真实刀具、真实肉和高速切割必须另行审批。DexGello 提供数据/控制依赖，但 demo 场景归 Real-Robot Demos 表格管理。\n\nReal-Robot Demos intro migration 2026-07-07:\n- Demo: Wuji + Franka toy-knife slime-clay cutting\n- Owner / collab: Yuhang & Jingxiang / Boris / DexGello dependency support\n- Hardware: Franka Research 3 + Wuji Hand + toy knife; DexGello logger and cuRobo are dependencies\n- Object / setup: Slime clay as simulated meat; blunt-edge toy knife; cutting board; fixture or tray; existing washable work surface\n- Intro status: todo\n- Next TODO: Toy knife/cutting-board set is buyer-paid per 订单数据.xlsx; slime clay shipped with ETA 2026-07-20 to 2026-07-23 and an additional 36-color M&G pack is buyer-paid. Do not buy the grey leather desktop mat; confirm cutting board, fixture/tray, and washable work surface after arrival, then run low-speed Stage 0/1 with E-stop watcher, workspace limits, video, q_arm / T_hand / q_finger / Wuji state logging.\n- Notes / acceptance: No real knife, real meat, or high-speed cutting without separate approval. The demo row lives here; DexGello supplies the data/control stack.\n- Shared Real-Robot Demos rules:\n  - Scope rule: this card owns demo scenarios, physical objects, consumables, safety gates, and acceptance evidence. DexGello owns reusable data/control dependencies such as GELLO arm state, MANUS/Wuji finger state, VIVE hand pose, cuRobo planning, and episode logging.\n  - Procurement rule: Taobao/Lego/demo-kit candidate links are TODO evidence only. Do not mark procurement done until purchase route, delivery destination, receipt/procurement record, and arrival/fit check are recorded.\n  - Safety rule: every demo starts with read-only or simulation/dry-run, then low-speed robot motion with workspace limits, cable checks, and a dedicated E-stop watcher before collecting publishable evidence.\n  - Failure-data link 2026-06-13: broom-to-dustpan and two 90-degree cube-turn demos are added specifically as longer-horizon data sources for DexGello learn-from-failure metrics. They should log phase boundaries, intervention/takeover, object/contact progress, and which failed stages should not be imitated.\n  - Procurement update 2026-07-07: 订单数据.xlsx confirms buyer-paid rows for toy knife/cutting-board set, Jenga 72-piece set, Lego tools, Lego/MOC baseplates and mixed blocks, large Rubik-style cube, and two 1-to-3 USB-C-output data/charging cables for VIVE Tracker / MANUS. Slime clay shipped with ETA 2026-07-20 to 2026-07-23, and a second M&G 36-color clay pack is buyer-paid. The grey leather desktop mat was removed and should not be purchased; choose an existing or alternate surface if a demo still needs tabletop contrast or protection. Do not re-buy the existing COM2-seat props unless fit check fails.\n  - Existing-prop transfer note 2026-06-16: Boris has data-collection props at his COM2 seat, including a small broom/dustpan toy, cube, ping-pong paddle, and related toys. These need human transfer to ME; they are not procurement items.",
+        "status": "todo",
         "priority": "high",
         "assignee": "Yuexi",
         "due_at": "",
@@ -14458,7 +14467,7 @@ export default {
             "created_at": "2026-07-21T10:43:25.017Z"
           }
         ],
-        "updated_at": "2026-07-21T10:43:25.017Z",
+        "updated_at": "2026-08-11T11:38:50.140Z",
         "completed_at": null,
         "completed_at_time": null
       },
@@ -16831,7 +16840,7 @@ export default {
         "project_id": "real-robot-infra",
         "title": "API 中转站采购查询",
         "description": "查询 API 中转站采购方案，重点看能否走 NUS / 组内报销、稳定性、模型覆盖、企业用户支持、价格和风险。候选：DMXAPI https://www.dmxapi.com；文档 https://doc.dmxapi.cn/kaishi.html；报价页 https://www.dmxapi.cn/rmb。聊天记录信息：对方称企业用户，注册给用户名可送体验金；GPT / Claude / Gemini 基本按官方 6.8 折；开通 GPT 等模型需要给用户名。验收：Karen 确认是否可报销；列出官方 Max/Team vs 中转站的成本和稳定性对比；确认充值/发票/合同/账号归属；小额试用通过；明确不在 dashboard 保存 API key、账号密码、付款信息。",
-        "status": "active",
+        "status": "done",
         "priority": "high",
         "assignee": "Boris / Karen / Yuhang",
         "due_at": "",
@@ -16861,9 +16870,9 @@ export default {
             "created_at": "2026-07-22T03:55:52.479Z"
           }
         ],
-        "updated_at": "2026-07-22T03:55:52.479Z",
-        "completed_at": null,
-        "completed_at_time": null
+        "updated_at": "2026-08-11T11:39:01.412Z",
+        "completed_at": "2026-08-11",
+        "completed_at_time": "2026-08-11T11:39:01.412Z"
       },
       {
         "task_id": "task_general_me_control_lab_anti_vibration_table_assembly",
@@ -16929,8 +16938,8 @@ export default {
       {
         "task_id": "task_real_robot_demo_wuji_plastic_bag_rubbing",
         "project_id": "real-robot-demos",
-        "title": "Wuji 灵巧手贴 3M 防滑胶带搓塑料袋 demo",
-        "description": "新增真机 demo：在 Wuji 灵巧手接触面贴 Aloha 同款或等效 3M 防滑胶带，做搓塑料袋 / rubbing plastic bag demo，讲从周老师之前夹爪结果迁移到灵巧手的跨本体大脑故事。准备状态：仍需确认 3M 防滑胶带是否已有或需补买，并选择已有或替代的高对比度桌面/背景表面；灰色皮革桌垫不买。验收：确认胶带型号、贴附位置、是否影响指尖/传感器/线缆和可清洁性；完成低速 read-only 或仿真预演；完成一次真实低速搓塑料袋 run；记录相机视频、Wuji command/state、接触区域、塑料袋形变、成功/失败判据和是否需要更换胶带或手指保护。参考 Xiaohongshu 链接写在 Real-Robot Demos project references。\n\nReal-Robot Demos intro migration 2026-07-07:\n- Demo: Wuji hand + Aloha-style 3M anti-slip tape rubbing plastic bag\n- Owner / collab: Zhou-teacher story / Yuhang & Jingxiang\n- Hardware: Wuji dexterous hand with Aloha-style 3M anti-slip tape on contact surfaces\n- Object / setup: Plastic bag rubbing task; 3M anti-slip tape if not already available; high-contrast tabletop/background mat; camera view should show contact patch and bag deformation\n- Intro status: todo\n- Next TODO: Confirm tape spec and placement, choose an existing or alternate high-contrast washable surface instead of buying the grey leather desktop mat, protect fingertips/cables, then run low-speed rubbing demo with video and state logs.\n- Notes / acceptance: Reference Xiaohongshu plastic-bag demo link is recorded in project references; goal is the cross-embodiment brain story from gripper to dexterous hand.\n- Shared Real-Robot Demos rules:\n  - Scope rule: this card owns demo scenarios, physical objects, consumables, safety gates, and acceptance evidence. DexGello owns reusable data/control dependencies such as GELLO arm state, MANUS/Wuji finger state, VIVE hand pose, cuRobo planning, and episode logging.\n  - Procurement rule: Taobao/Lego/demo-kit candidate links are TODO evidence only. Do not mark procurement done until purchase route, delivery destination, receipt/procurement record, and arrival/fit check are recorded.\n  - Safety rule: every demo starts with read-only or simulation/dry-run, then low-speed robot motion with workspace limits, cable checks, and a dedicated E-stop watcher before collecting publishable evidence.\n  - Failure-data link 2026-06-13: broom-to-dustpan and two 90-degree cube-turn demos are added specifically as longer-horizon data sources for DexGello learn-from-failure metrics. They should log phase boundaries, intervention/takeover, object/contact progress, and which failed stages should not be imitated.\n  - Procurement update 2026-07-07: 订单数据.xlsx confirms buyer-paid rows for toy knife/cutting-board set, Jenga 72-piece set, Lego tools, Lego/MOC baseplates and mixed blocks, large Rubik-style cube, and two 1-to-3 USB-C-output data/charging cables for VIVE Tracker / MANUS. Slime clay shipped with ETA 2026-07-20 to 2026-07-23, and a second M&G 36-color clay pack is buyer-paid. The grey leather desktop mat was removed and should not be purchased; choose an existing or alternate surface if a demo still needs tabletop contrast or protection. Do not re-buy the existing COM2-seat props unless fit check fails.\n  - Existing-prop transfer note 2026-06-16: Boris has data-collection props at his COM2 seat, including a small broom/dustpan toy, cube, ping-pong paddle, and related toys. These need human transfer to ME; they are not procurement items.",
+        "title": "Demo 06 · 手贴 3M 防滑胶带搓塑料袋（SO101）",
+        "description": "Queue order 06. Assigned platform: SO101. Spreadsheet progress: queued. Original scope: 新增真机 demo：在 Wuji 灵巧手接触面贴 Aloha 同款或等效 3M 防滑胶带，做搓塑料袋 / rubbing plastic bag demo，讲从周老师之前夹爪结果迁移到灵巧手的跨本体大脑故事。准备状态：仍需确认 3M 防滑胶带是否已有或需补买，并选择已有或替代的高对比度桌面/背景表面；灰色皮革桌垫不买。验收：确认胶带型号、贴附位置、是否影响指尖/传感器/线缆和可清洁性；完成低速 read-only 或仿真预演；完成一次真实低速搓塑料袋 run；记录相机视频、Wuji command/state、接触区域、塑料袋形变、成功/失败判据和是否需要更换胶带或手指保护。参考 Xiaohongshu 链接写在 Real-Robot Demos project references。\n\nReal-Robot Demos intro migration 2026-07-07:\n- Demo: Wuji hand + Aloha-style 3M anti-slip tape rubbing plastic bag\n- Owner / collab: Zhou-teacher story / Yuhang & Jingxiang\n- Hardware: Wuji dexterous hand with Aloha-style 3M anti-slip tape on contact surfaces\n- Object / setup: Plastic bag rubbing task; 3M anti-slip tape if not already available; high-contrast tabletop/background mat; camera view should show contact patch and bag deformation\n- Intro status: todo\n- Next TODO: Confirm tape spec and placement, choose an existing or alternate high-contrast washable surface instead of buying the grey leather desktop mat, protect fingertips/cables, then run low-speed rubbing demo with video and state logs.\n- Notes / acceptance: Reference Xiaohongshu plastic-bag demo link is recorded in project references; goal is the cross-embodiment brain story from gripper to dexterous hand.\n- Shared Real-Robot Demos rules:\n  - Scope rule: this card owns demo scenarios, physical objects, consumables, safety gates, and acceptance evidence. DexGello owns reusable data/control dependencies such as GELLO arm state, MANUS/Wuji finger state, VIVE hand pose, cuRobo planning, and episode logging.\n  - Procurement rule: Taobao/Lego/demo-kit candidate links are TODO evidence only. Do not mark procurement done until purchase route, delivery destination, receipt/procurement record, and arrival/fit check are recorded.\n  - Safety rule: every demo starts with read-only or simulation/dry-run, then low-speed robot motion with workspace limits, cable checks, and a dedicated E-stop watcher before collecting publishable evidence.\n  - Failure-data link 2026-06-13: broom-to-dustpan and two 90-degree cube-turn demos are added specifically as longer-horizon data sources for DexGello learn-from-failure metrics. They should log phase boundaries, intervention/takeover, object/contact progress, and which failed stages should not be imitated.\n  - Procurement update 2026-07-07: 订单数据.xlsx confirms buyer-paid rows for toy knife/cutting-board set, Jenga 72-piece set, Lego tools, Lego/MOC baseplates and mixed blocks, large Rubik-style cube, and two 1-to-3 USB-C-output data/charging cables for VIVE Tracker / MANUS. Slime clay shipped with ETA 2026-07-20 to 2026-07-23, and a second M&G 36-color clay pack is buyer-paid. The grey leather desktop mat was removed and should not be purchased; choose an existing or alternate surface if a demo still needs tabletop contrast or protection. Do not re-buy the existing COM2-seat props unless fit check fails.\n  - Existing-prop transfer note 2026-06-16: Boris has data-collection props at his COM2 seat, including a small broom/dustpan toy, cube, ping-pong paddle, and related toys. These need human transfer to ME; they are not procurement items.",
         "status": "todo",
         "priority": "high",
         "assignee": "Yuhang & Jingxiang / Boris",
@@ -16945,15 +16954,15 @@ export default {
             "kind": "comment"
           }
         ],
-        "updated_at": "2026-07-19T01:56:26.790Z",
+        "updated_at": "2026-08-11T11:38:52.211Z",
         "started_at": "2026-06-13",
         "completed_at": null
       },
       {
         "task_id": "task_real_robot_demo_changliu_lego_tool_manipulation",
         "project_id": "real-robot-demos",
-        "title": "Changliu 灵巧手 Lego tool manipulation demo",
-        "description": "新增 Changliu 合作真机 demo：用灵巧手做 tool manipulation 来拼拆乐高 / MOC 积木，目标是展示灵巧手使用 Lego 拆件器、安全塑料小工具（小锤子式工具、钳子式工具）进行 assemble / disassemble。采购状态：订单数据.xlsx 确认积木锤子/钳子/拆件器、8mm 四合一快拆钳、两块小颗粒底板和 1000g 混装积木包已于 2026-07-07 买家付款；注意这不等于“大颗粒 first-round”已满足，到货后要确认尺寸难度。验收：到货后完成工具/积木清点，验证工具尺寸、积木配合和抓取安全性；完成至少一次 pick-use-tool-assemble/disassemble 低速 demo，保留视频、机器人状态、失败/成功判据和下一步任务难度。\n\nReal-Robot Demos intro migration 2026-07-07:\n- Demo: Changliu dexterous-hand Lego tool manipulation\n- Owner / collab: Changliu collaboration / Boris & Yuhang\n- Hardware: Wuji or dexterous hand + Lego brick separator + safe plastic small tools + Lego/MOC pieces\n- Object / setup: Assemble / disassemble first-round Lego/MOC structures using ordered removal tools, baseplates, and mixed block pack; verify whether the actual small-particle order satisfies the intended first-round difficulty\n- Intro status: todo\n- Next TODO: Lego tool orders and Lego/MOC block/baseplate order are buyer-paid per 订单数据.xlsx. After arrival, verify tool size, brick fit, grip size, whether a separate large-particle set is still needed, and safe pick-use-tool-assemble/disassemble setup.\n- Notes / acceptance: Track both procurement and the first pick-use-tool-assemble/disassemble video/log evidence; do not mark done at link collection only.\n- Shared Real-Robot Demos rules:\n  - Scope rule: this card owns demo scenarios, physical objects, consumables, safety gates, and acceptance evidence. DexGello owns reusable data/control dependencies such as GELLO arm state, MANUS/Wuji finger state, VIVE hand pose, cuRobo planning, and episode logging.\n  - Procurement rule: Taobao/Lego/demo-kit candidate links are TODO evidence only. Do not mark procurement done until purchase route, delivery destination, receipt/procurement record, and arrival/fit check are recorded.\n  - Safety rule: every demo starts with read-only or simulation/dry-run, then low-speed robot motion with workspace limits, cable checks, and a dedicated E-stop watcher before collecting publishable evidence.\n  - Failure-data link 2026-06-13: broom-to-dustpan and two 90-degree cube-turn demos are added specifically as longer-horizon data sources for DexGello learn-from-failure metrics. They should log phase boundaries, intervention/takeover, object/contact progress, and which failed stages should not be imitated.\n  - Procurement update 2026-07-07: 订单数据.xlsx confirms buyer-paid rows for toy knife/cutting-board set, Jenga 72-piece set, Lego tools, Lego/MOC baseplates and mixed blocks, large Rubik-style cube, and two 1-to-3 USB-C-output data/charging cables for VIVE Tracker / MANUS. Slime clay shipped with ETA 2026-07-20 to 2026-07-23, and a second M&G 36-color clay pack is buyer-paid. The grey leather desktop mat was removed and should not be purchased; choose an existing or alternate surface if a demo still needs tabletop contrast or protection. Do not re-buy the existing COM2-seat props unless fit check fails.\n  - Existing-prop transfer note 2026-06-16: Boris has data-collection props at his COM2 seat, including a small broom/dustpan toy, cube, ping-pong paddle, and related toys. These need human transfer to ME; they are not procurement items.",
+        "title": "Demo 04 · Lego tool manipulation（Piper + Linkerhand）",
+        "description": "Queue order 04. Assigned platform: Piper + Linkerhand. Spreadsheet progress: queued. Original scope: 新增 Changliu 合作真机 demo：用灵巧手做 tool manipulation 来拼拆乐高 / MOC 积木，目标是展示灵巧手使用 Lego 拆件器、安全塑料小工具（小锤子式工具、钳子式工具）进行 assemble / disassemble。采购状态：订单数据.xlsx 确认积木锤子/钳子/拆件器、8mm 四合一快拆钳、两块小颗粒底板和 1000g 混装积木包已于 2026-07-07 买家付款；注意这不等于“大颗粒 first-round”已满足，到货后要确认尺寸难度。验收：到货后完成工具/积木清点，验证工具尺寸、积木配合和抓取安全性；完成至少一次 pick-use-tool-assemble/disassemble 低速 demo，保留视频、机器人状态、失败/成功判据和下一步任务难度。\n\nReal-Robot Demos intro migration 2026-07-07:\n- Demo: Changliu dexterous-hand Lego tool manipulation\n- Owner / collab: Changliu collaboration / Boris & Yuhang\n- Hardware: Wuji or dexterous hand + Lego brick separator + safe plastic small tools + Lego/MOC pieces\n- Object / setup: Assemble / disassemble first-round Lego/MOC structures using ordered removal tools, baseplates, and mixed block pack; verify whether the actual small-particle order satisfies the intended first-round difficulty\n- Intro status: todo\n- Next TODO: Lego tool orders and Lego/MOC block/baseplate order are buyer-paid per 订单数据.xlsx. After arrival, verify tool size, brick fit, grip size, whether a separate large-particle set is still needed, and safe pick-use-tool-assemble/disassemble setup.\n- Notes / acceptance: Track both procurement and the first pick-use-tool-assemble/disassemble video/log evidence; do not mark done at link collection only.\n- Shared Real-Robot Demos rules:\n  - Scope rule: this card owns demo scenarios, physical objects, consumables, safety gates, and acceptance evidence. DexGello owns reusable data/control dependencies such as GELLO arm state, MANUS/Wuji finger state, VIVE hand pose, cuRobo planning, and episode logging.\n  - Procurement rule: Taobao/Lego/demo-kit candidate links are TODO evidence only. Do not mark procurement done until purchase route, delivery destination, receipt/procurement record, and arrival/fit check are recorded.\n  - Safety rule: every demo starts with read-only or simulation/dry-run, then low-speed robot motion with workspace limits, cable checks, and a dedicated E-stop watcher before collecting publishable evidence.\n  - Failure-data link 2026-06-13: broom-to-dustpan and two 90-degree cube-turn demos are added specifically as longer-horizon data sources for DexGello learn-from-failure metrics. They should log phase boundaries, intervention/takeover, object/contact progress, and which failed stages should not be imitated.\n  - Procurement update 2026-07-07: 订单数据.xlsx confirms buyer-paid rows for toy knife/cutting-board set, Jenga 72-piece set, Lego tools, Lego/MOC baseplates and mixed blocks, large Rubik-style cube, and two 1-to-3 USB-C-output data/charging cables for VIVE Tracker / MANUS. Slime clay shipped with ETA 2026-07-20 to 2026-07-23, and a second M&G 36-color clay pack is buyer-paid. The grey leather desktop mat was removed and should not be purchased; choose an existing or alternate surface if a demo still needs tabletop contrast or protection. Do not re-buy the existing COM2-seat props unless fit check fails.\n  - Existing-prop transfer note 2026-06-16: Boris has data-collection props at his COM2 seat, including a small broom/dustpan toy, cube, ping-pong paddle, and related toys. These need human transfer to ME; they are not procurement items.",
         "status": "todo",
         "priority": "high",
         "assignee": "Changliu collaboration / Boris & Yuhang",
@@ -16968,7 +16977,7 @@ export default {
             "kind": "procurement"
           }
         ],
-        "updated_at": "2026-07-19T01:56:26.790Z",
+        "updated_at": "2026-08-11T11:38:50.762Z",
         "started_at": "2026-06-13",
         "completed_at": null
       },
@@ -17039,8 +17048,8 @@ export default {
       {
         "task_id": "task_real_robot_demo_broom_dustpan_long_horizon",
         "project_id": "real-robot-demos",
-        "title": "Long-horizon demo: 用扫帚把物体扫进撮箕",
-        "description": "为 DexGello / Learn-from-failure-data 准备一个较长 horizon 的真机 demo：机器人抓住小扫帚，把桌面上的轻物体 / debris proxy 扫进撮箕。前置采购 / 确认：桌面使用的小扫帚（软毛）和桌面使用的小撮箕。目标不是只看最终成功，而是产生可分阶段标注的成功/失败/接管轨迹，用来验证 phase-importance metric。建议阶段：approach broom、grasp broom、align with object、make contact、sweep toward dustpan、enter dustpan、settle / finish。验收：完成安全 tabletop setup 和物体/撮箕固定方案；完成 read-only 或仿真/dry-run；完成一次低速真机试验或明确硬件 blocker；记录视频、q_arm、T_hand、q_finger/Wuji state、object progress、contact/failure labels、human takeover/intervention；产出至少 1 条可用于 failure metric 离线打分的 episode。\n\nReal-Robot Demos intro migration 2026-07-07:\n- Demo: Long-horizon failure-data demo: sweep object into dustpan\n- Owner / collab: DexGello / Learn-from-failure-data support; Yuhang & Jingxiang\n- Hardware: Franka + Wuji or simpler dexterous-hand/gripper tool-holding setup; existing tabletop broom/dustpan toy from Boris' COM2 seat\n- Object / setup: Light tabletop object or debris proxy; existing small broom/dustpan toy to transfer from COM2 seat to ME; camera view of object progress and tool contact\n- Intro status: todo\n- Next TODO: Have a human transfer the existing small broom/dustpan toy from Boris' COM2 seat to ME; design safe setup, then run dry-run and low-speed robot trial with phase labels: grasp broom, align object, sweep, enter dustpan, settle.\n- Notes / acceptance: Primary value is long-horizon stage importance for failure-data learning: failed sweeps still contain learnable approach/grasp/alignment phases, while bad contact or missed dustpan stages should be low-weight failure evidence.\n- Shared Real-Robot Demos rules:\n  - Scope rule: this card owns demo scenarios, physical objects, consumables, safety gates, and acceptance evidence. DexGello owns reusable data/control dependencies such as GELLO arm state, MANUS/Wuji finger state, VIVE hand pose, cuRobo planning, and episode logging.\n  - Procurement rule: Taobao/Lego/demo-kit candidate links are TODO evidence only. Do not mark procurement done until purchase route, delivery destination, receipt/procurement record, and arrival/fit check are recorded.\n  - Safety rule: every demo starts with read-only or simulation/dry-run, then low-speed robot motion with workspace limits, cable checks, and a dedicated E-stop watcher before collecting publishable evidence.\n  - Failure-data link 2026-06-13: broom-to-dustpan and two 90-degree cube-turn demos are added specifically as longer-horizon data sources for DexGello learn-from-failure metrics. They should log phase boundaries, intervention/takeover, object/contact progress, and which failed stages should not be imitated.\n  - Procurement update 2026-07-07: 订单数据.xlsx confirms buyer-paid rows for toy knife/cutting-board set, Jenga 72-piece set, Lego tools, Lego/MOC baseplates and mixed blocks, large Rubik-style cube, and two 1-to-3 USB-C-output data/charging cables for VIVE Tracker / MANUS. Slime clay shipped with ETA 2026-07-20 to 2026-07-23, and a second M&G 36-color clay pack is buyer-paid. The grey leather desktop mat was removed and should not be purchased; choose an existing or alternate surface if a demo still needs tabletop contrast or protection. Do not re-buy the existing COM2-seat props unless fit check fails.\n  - Existing-prop transfer note 2026-06-16: Boris has data-collection props at his COM2 seat, including a small broom/dustpan toy, cube, ping-pong paddle, and related toys. These need human transfer to ME; they are not procurement items.",
+        "title": "Demo 02 · 用扫帚把物体扫进撮箕（Cobot Magic）",
+        "description": "Queue order 02. Assigned platform: Cobot Magic. Spreadsheet progress: ongoing. Original scope: 为 DexGello / Learn-from-failure-data 准备一个较长 horizon 的真机 demo：机器人抓住小扫帚，把桌面上的轻物体 / debris proxy 扫进撮箕。前置采购 / 确认：桌面使用的小扫帚（软毛）和桌面使用的小撮箕。目标不是只看最终成功，而是产生可分阶段标注的成功/失败/接管轨迹，用来验证 phase-importance metric。建议阶段：approach broom、grasp broom、align with object、make contact、sweep toward dustpan、enter dustpan、settle / finish。验收：完成安全 tabletop setup 和物体/撮箕固定方案；完成 read-only 或仿真/dry-run；完成一次低速真机试验或明确硬件 blocker；记录视频、q_arm、T_hand、q_finger/Wuji state、object progress、contact/failure labels、human takeover/intervention；产出至少 1 条可用于 failure metric 离线打分的 episode。\n\nReal-Robot Demos intro migration 2026-07-07:\n- Demo: Long-horizon failure-data demo: sweep object into dustpan\n- Owner / collab: DexGello / Learn-from-failure-data support; Yuhang & Jingxiang\n- Hardware: Franka + Wuji or simpler dexterous-hand/gripper tool-holding setup; existing tabletop broom/dustpan toy from Boris' COM2 seat\n- Object / setup: Light tabletop object or debris proxy; existing small broom/dustpan toy to transfer from COM2 seat to ME; camera view of object progress and tool contact\n- Intro status: todo\n- Next TODO: Have a human transfer the existing small broom/dustpan toy from Boris' COM2 seat to ME; design safe setup, then run dry-run and low-speed robot trial with phase labels: grasp broom, align object, sweep, enter dustpan, settle.\n- Notes / acceptance: Primary value is long-horizon stage importance for failure-data learning: failed sweeps still contain learnable approach/grasp/alignment phases, while bad contact or missed dustpan stages should be low-weight failure evidence.\n- Shared Real-Robot Demos rules:\n  - Scope rule: this card owns demo scenarios, physical objects, consumables, safety gates, and acceptance evidence. DexGello owns reusable data/control dependencies such as GELLO arm state, MANUS/Wuji finger state, VIVE hand pose, cuRobo planning, and episode logging.\n  - Procurement rule: Taobao/Lego/demo-kit candidate links are TODO evidence only. Do not mark procurement done until purchase route, delivery destination, receipt/procurement record, and arrival/fit check are recorded.\n  - Safety rule: every demo starts with read-only or simulation/dry-run, then low-speed robot motion with workspace limits, cable checks, and a dedicated E-stop watcher before collecting publishable evidence.\n  - Failure-data link 2026-06-13: broom-to-dustpan and two 90-degree cube-turn demos are added specifically as longer-horizon data sources for DexGello learn-from-failure metrics. They should log phase boundaries, intervention/takeover, object/contact progress, and which failed stages should not be imitated.\n  - Procurement update 2026-07-07: 订单数据.xlsx confirms buyer-paid rows for toy knife/cutting-board set, Jenga 72-piece set, Lego tools, Lego/MOC baseplates and mixed blocks, large Rubik-style cube, and two 1-to-3 USB-C-output data/charging cables for VIVE Tracker / MANUS. Slime clay shipped with ETA 2026-07-20 to 2026-07-23, and a second M&G 36-color clay pack is buyer-paid. The grey leather desktop mat was removed and should not be purchased; choose an existing or alternate surface if a demo still needs tabletop contrast or protection. Do not re-buy the existing COM2-seat props unless fit check fails.\n  - Existing-prop transfer note 2026-06-16: Boris has data-collection props at his COM2 seat, including a small broom/dustpan toy, cube, ping-pong paddle, and related toys. These need human transfer to ME; they are not procurement items.",
         "status": "active",
         "priority": "high",
         "assignee": "Yuhang & Jingxiang / DexGello",
@@ -17055,7 +17064,7 @@ export default {
             "kind": "comment"
           }
         ],
-        "updated_at": "2026-07-19T01:56:26.790Z",
+        "updated_at": "2026-08-11T11:38:47.613Z",
         "started_at": "2026-06-13",
         "completed_at": null,
         "completed_at_time": null
@@ -17063,8 +17072,8 @@ export default {
       {
         "task_id": "task_real_robot_demo_two_90_cube_turns",
         "project_id": "real-robot-demos",
-        "title": "Long-horizon demo: 魔方/方块连续拧两下 90 度",
-        "description": "为 DexGello / Learn-from-failure-data 准备一个紧凑但多阶段的灵巧手 demo：对低摩擦方块、带标记方块或安全 Rubik-style cube 连续完成两次 90 度转动。采购状态：订单数据.xlsx 确认大号三阶魔方已于 2026-07-07 买家付款；商品标题写超大号，SKU 写 7CM，到货后必须确认真实尺寸、低阻尼、视觉标记和安全 fixture。任务目标不是解魔方，而是制造可观测的长一点 horizon：pregrasp、first 90-degree turn、stabilize/regrasp、second 90-degree turn、final orientation check。验收：选择安全低阻尼 cube 或 fixture，确认不会过载 Wuji 指尖/关节；定义视觉 orientation labels 和每个 90 度阶段的成功/失败判据；完成 read-only 或仿真/dry-run；完成一次低速真机试验或明确硬件 blocker；记录视频、手指状态、接触/滑移/错位、human takeover/intervention 和每阶段 metric 打分样例。\n\nReal-Robot Demos intro migration 2026-07-07:\n- Demo: Long-horizon failure-data demo: two 90-degree cube turns\n- Owner / collab: DexGello / Learn-from-failure-data support; Yuhang & Jingxiang\n- Hardware: Wuji or dexterous hand; ordered large Rubik-style cube, or existing cube from Boris' COM2 seat if suitable\n- Object / setup: Large Rubik-style cube is buyer-paid per 订单数据.xlsx; product title says oversized cube while SKU says 7cm, so verify actual size on arrival. Existing cube can still be transferred from COM2 seat to ME if useful; stable table/fixture; camera view of finger contact and face orientation\n- Intro status: todo\n- Next TODO: After the buyer-paid large Rubik-style cube arrives, inspect actual size, friction/torque/markers and compare with any existing cube; then define two-step 90-degree turn task, safe force limits, orientation labels, and low-speed trial that records success/failure after each quarter-turn.\n- Notes / acceptance: Use this as a compact long-horizon manipulation sequence: pregrasp, first 90-degree turn, regrasp/stabilize, second 90-degree turn. Good for testing whether the metric separates useful early phases from failed final rotation.\n- Shared Real-Robot Demos rules:\n  - Scope rule: this card owns demo scenarios, physical objects, consumables, safety gates, and acceptance evidence. DexGello owns reusable data/control dependencies such as GELLO arm state, MANUS/Wuji finger state, VIVE hand pose, cuRobo planning, and episode logging.\n  - Procurement rule: Taobao/Lego/demo-kit candidate links are TODO evidence only. Do not mark procurement done until purchase route, delivery destination, receipt/procurement record, and arrival/fit check are recorded.\n  - Safety rule: every demo starts with read-only or simulation/dry-run, then low-speed robot motion with workspace limits, cable checks, and a dedicated E-stop watcher before collecting publishable evidence.\n  - Failure-data link 2026-06-13: broom-to-dustpan and two 90-degree cube-turn demos are added specifically as longer-horizon data sources for DexGello learn-from-failure metrics. They should log phase boundaries, intervention/takeover, object/contact progress, and which failed stages should not be imitated.\n  - Procurement update 2026-07-07: 订单数据.xlsx confirms buyer-paid rows for toy knife/cutting-board set, Jenga 72-piece set, Lego tools, Lego/MOC baseplates and mixed blocks, large Rubik-style cube, and two 1-to-3 USB-C-output data/charging cables for VIVE Tracker / MANUS. Slime clay shipped with ETA 2026-07-20 to 2026-07-23, and a second M&G 36-color clay pack is buyer-paid. The grey leather desktop mat was removed and should not be purchased; choose an existing or alternate surface if a demo still needs tabletop contrast or protection. Do not re-buy the existing COM2-seat props unless fit check fails.\n  - Existing-prop transfer note 2026-06-16: Boris has data-collection props at his COM2 seat, including a small broom/dustpan toy, cube, ping-pong paddle, and related toys. These need human transfer to ME; they are not procurement items.\n\n展示视频补充验收：为周建树老师展示剪一版效果更好的变速 / 加速视频，优先用今天 0:28 拧魔方素材，保留关键接触和 90 度转动瞬间，避免剪掉失败诊断所需的手指/方块姿态信息。",
+        "title": "Demo 01 · 魔方/方块连续拧两下 90 度（Franka + Wuji）",
+        "description": "Queue order 01. Assigned platform: Franka + Wuji. Spreadsheet progress: ongoing. Original scope: 为 DexGello / Learn-from-failure-data 准备一个紧凑但多阶段的灵巧手 demo：对低摩擦方块、带标记方块或安全 Rubik-style cube 连续完成两次 90 度转动。采购状态：订单数据.xlsx 确认大号三阶魔方已于 2026-07-07 买家付款；商品标题写超大号，SKU 写 7CM，到货后必须确认真实尺寸、低阻尼、视觉标记和安全 fixture。任务目标不是解魔方，而是制造可观测的长一点 horizon：pregrasp、first 90-degree turn、stabilize/regrasp、second 90-degree turn、final orientation check。验收：选择安全低阻尼 cube 或 fixture，确认不会过载 Wuji 指尖/关节；定义视觉 orientation labels 和每个 90 度阶段的成功/失败判据；完成 read-only 或仿真/dry-run；完成一次低速真机试验或明确硬件 blocker；记录视频、手指状态、接触/滑移/错位、human takeover/intervention 和每阶段 metric 打分样例。\n\nReal-Robot Demos intro migration 2026-07-07:\n- Demo: Long-horizon failure-data demo: two 90-degree cube turns\n- Owner / collab: DexGello / Learn-from-failure-data support; Yuhang & Jingxiang\n- Hardware: Wuji or dexterous hand; ordered large Rubik-style cube, or existing cube from Boris' COM2 seat if suitable\n- Object / setup: Large Rubik-style cube is buyer-paid per 订单数据.xlsx; product title says oversized cube while SKU says 7cm, so verify actual size on arrival. Existing cube can still be transferred from COM2 seat to ME if useful; stable table/fixture; camera view of finger contact and face orientation\n- Intro status: todo\n- Next TODO: After the buyer-paid large Rubik-style cube arrives, inspect actual size, friction/torque/markers and compare with any existing cube; then define two-step 90-degree turn task, safe force limits, orientation labels, and low-speed trial that records success/failure after each quarter-turn.\n- Notes / acceptance: Use this as a compact long-horizon manipulation sequence: pregrasp, first 90-degree turn, regrasp/stabilize, second 90-degree turn. Good for testing whether the metric separates useful early phases from failed final rotation.\n- Shared Real-Robot Demos rules:\n  - Scope rule: this card owns demo scenarios, physical objects, consumables, safety gates, and acceptance evidence. DexGello owns reusable data/control dependencies such as GELLO arm state, MANUS/Wuji finger state, VIVE hand pose, cuRobo planning, and episode logging.\n  - Procurement rule: Taobao/Lego/demo-kit candidate links are TODO evidence only. Do not mark procurement done until purchase route, delivery destination, receipt/procurement record, and arrival/fit check are recorded.\n  - Safety rule: every demo starts with read-only or simulation/dry-run, then low-speed robot motion with workspace limits, cable checks, and a dedicated E-stop watcher before collecting publishable evidence.\n  - Failure-data link 2026-06-13: broom-to-dustpan and two 90-degree cube-turn demos are added specifically as longer-horizon data sources for DexGello learn-from-failure metrics. They should log phase boundaries, intervention/takeover, object/contact progress, and which failed stages should not be imitated.\n  - Procurement update 2026-07-07: 订单数据.xlsx confirms buyer-paid rows for toy knife/cutting-board set, Jenga 72-piece set, Lego tools, Lego/MOC baseplates and mixed blocks, large Rubik-style cube, and two 1-to-3 USB-C-output data/charging cables for VIVE Tracker / MANUS. Slime clay shipped with ETA 2026-07-20 to 2026-07-23, and a second M&G 36-color clay pack is buyer-paid. The grey leather desktop mat was removed and should not be purchased; choose an existing or alternate surface if a demo still needs tabletop contrast or protection. Do not re-buy the existing COM2-seat props unless fit check fails.\n  - Existing-prop transfer note 2026-06-16: Boris has data-collection props at his COM2 seat, including a small broom/dustpan toy, cube, ping-pong paddle, and related toys. These need human transfer to ME; they are not procurement items.\n\n展示视频补充验收：为周建树老师展示剪一版效果更好的变速 / 加速视频，优先用今天 0:28 拧魔方素材，保留关键接触和 90 度转动瞬间，避免剪掉失败诊断所需的手指/方块姿态信息。",
         "status": "active",
         "priority": "high",
         "assignee": "Yuhang & Jingxiang / DexGello",
@@ -17097,7 +17106,7 @@ export default {
             "created_at": "2026-07-08T14:31:36.807Z"
           }
         ],
-        "updated_at": "2026-07-19T01:56:26.790Z",
+        "updated_at": "2026-08-11T11:38:46.959Z",
         "started_at": "2026-06-13",
         "completed_at": null,
         "completed_at_time": null
@@ -19929,7 +19938,7 @@ export default {
         "project_id": "real-robot-infra",
         "title": "评估 MF287 柔性薄膜抓握力传感器能否装到 Wuji 手并接入 haptic 模块",
         "description": "评估 2026-07-09 已下单的 MF287 手掌抓握力传感器 / 柔性薄膜压阻式触觉感应器是否能贴装或夹装到 Wuji 手上，并作为 haptic 模块的输入信号使用。采购表已更新为 Ordered；同批还包括单点 FSR402/400/406 类力敏模块、线性电压转换模块，以及 Arduino Mega 2560 / 扩展板 / TTL 线 / 9V 电源读出链路。验收：到货后确认 MF287 与 FSR 的真实尺寸、厚度、弯折半径、压阻量程、接线/连接器、电气接口和采样前端需求；确定贴装位置（掌心、指腹、侧面或外置夹具）不会妨碍 Wuji 关节、指尖接触、相机视野、线缆和安全工作区；先完成单点 FSR + 线性电压模块 + Arduino ADC/串口的 bench 测试（分压/ADC 读数、简单标定、滞后和重复性检查）；再决定 MF287 是否进入 Wuji 真机贴装；定义接入 haptic 模块的数据路径和隔离/限流保护。\n\n新增讨论结论：先用单点 FSR402/400/406 类力敏模块 + 线性电压转换模块做一指/一指节 haptic bench test；MF287/FPC 手套式传感器即使已下单，仍需与 Wuji Hand 1 / 灵心巧手几何对比，确认指节相对位置、侧摆和拇指自由度能否适配后再上手。",
-        "status": "todo",
+        "status": "done",
         "priority": "high",
         "assignee": "Boris / Wuhao / Yuhang & Jingxiang",
         "result": null,
@@ -19962,7 +19971,9 @@ export default {
             "created_at": "2026-07-09T17:10:00+08:00"
           }
         ],
-        "updated_at": "2026-07-09T17:10:00+08:00"
+        "updated_at": "2026-08-11T11:39:01.963Z",
+        "completed_at": "2026-08-11",
+        "completed_at_time": "2026-08-11T11:39:01.963Z"
       },
       {
         "task_id": "task_real_robot_infra_todo_20260711",
@@ -20018,7 +20029,7 @@ export default {
         "project_id": "real-robot-infra",
         "title": "KR4 通勤：改用 JIMOVE 低成本候选并核验合规与车况",
         "description": "通勤形态维持“不要 scooter、选择折叠/紧凑型电助力车”。2026-07-26 方案变更：老师认为原 YADEA 方案太贵，停止以雅迪为首选，改筛 JI-MOVE/JIMOVE 低成本候选。用户提供的实车参考图与闲鱼搜索图显示二手挂牌约人民币 980-2,000，但这些仅是市场线索，不是最终型号、成交价或可进口结论。\n\n验收：1) 锁定具体 JI-MOVE 型号、车架号、卖家和购买渠道；2) 优先选择新加坡本地已注册、带序列化橙色 LTA seal 且可完成 ownership transfer 的二手车，境外闲鱼车辆不得假设自动继承合规；3) 核对车辆型号与 LTA approved-model list、原配电池规格、原装 SAFETY-Mark 充电器、无改装/油门绕过；4) 现场检查电池健康、充电记录、车架、折叠锁止、制动、轮胎、灯具和雨天状态；5) 把运费、进口/审批、潜在换电池、维修和注册费用计入 landed cost，再与 YADEA 历史方案比较；6) 确认 KR4 坡道、载物、停车以及 NUS 室内存放/充电要求后再下单。",
-        "status": "active",
+        "status": "done",
         "priority": "medium",
         "assignee": "Boris / Liu Leilei / lab operations",
         "result": null,
@@ -20051,9 +20062,9 @@ export default {
             "created_at": "2026-07-26T09:36:47.978Z"
           }
         ],
-        "updated_at": "2026-07-26T09:36:47.978Z",
-        "completed_at": null,
-        "completed_at_time": null
+        "updated_at": "2026-08-11T11:39:02.524Z",
+        "completed_at": "2026-08-11",
+        "completed_at_time": "2026-08-11T11:39:02.524Z"
       },
       {
         "task_id": "task_real_robot_infra_songling_aloha_operator_handoff_sop_20260711",
@@ -20980,7 +20991,7 @@ export default {
         "project_id": "real-robot-infra",
         "title": "敲定山上实验室机器人/光学桌采购与搬迁计划",
         "description": "[USER-PROVIDED LV-ROBOTICS LAB CHAT 2026-07-21] 周老师在催光学桌；ME 已无多余空间，机器人和桌子计划迁往山上 KR4/一楼，设备不到位就无法从 ME 搬机器人。当前范围包括 Romoya 转发的 KING xArm7 + FACTR + 光学桌组合报价、Dongyi 光学桌 + phone booth 替代报价，以及周老师可能贡献的一套松灵四臂平台/一对双臂（提议，未确认）。采购主体是公司、SoC 还是校方设施路线尚未确定，计划周四与老颜确认。\n\nAcceptance: 1) 刷新已于 2026-06-23 失效的 KING 2026050801 报价，并解释 DDP 与 NUS importer 字段、USD 321.40 的“1% payment on account”、卸货/安装范围；2) 将 KING 与有效至约 2026-08-17 的 Dongyi DY-NUS-20260718 按同一 landed-cost/安装口径比较，明确只采购一对光学桌，不重复计数；3) 冻结 xArm7/FACTR/光学桌数量、技术规格、控制器/软件/安全附件和山上一楼落点；4) 确认采购主体、PO owner、预算、审批链、收货地址、服务电梯/搬运路线、楼板/门宽/电源网络和安装验收；5) 确认拟贡献松灵平台的资产归属、配置、交接与搬迁责任；6) 输出可执行采购与 ME→KR4 搬迁排期。未取得刷新报价、书面审批和 PO 前不得标 ordered。",
-        "status": "active",
+        "status": "done",
         "priority": "high",
         "assignee": "Boris / Yuhang / Leilei / Zhou / SoC facilities",
         "result": null,
@@ -20995,19 +21006,23 @@ export default {
             "created_at": "2026-07-21T10:43:25.017Z"
           }
         ],
-        "updated_at": "2026-07-21T10:43:25.017Z"
+        "updated_at": "2026-08-11T11:39:03.073Z",
+        "completed_at": "2026-08-11",
+        "completed_at_time": "2026-08-11T11:39:03.073Z"
       },
       {
         "task_id": "task_real_robot_infra_tailscale_10t_nas_centralized_storage_rollout_20260721",
         "project_id": "real-robot-infra",
         "title": "接入组内 Tailscale 与 10T NAS，固化数采PC→NAS集中数据路径",
         "description": "[USER-PROVIDED LV-ROBOTICS LAB CHAT 2026-07-21] Boris 已搭建自建 Tailscale 网络供组内工作电脑互联，管理员操作由 Boris 处理；回到新加坡后计划把 10T NAS 接入自组网。数据策略不是让不同主机各自做分布式存储，而是在数采 PC 完成处理后统一写入 NAS。VPS 报销需与老颜另行确认，尚未批准。\n\nAcceptance: 1) 只纳入工作电脑，建立设备命名、owner、ACL、offboarding 与密钥轮换策略，Dashboard 不记录 auth key；2) 明确 NAS 主机/IP、磁盘/文件系统、SMART/容量、SMB/NFS 路径、用户组权限、只读/读写边界和备份/恢复；3) 固化数采 PC staging→处理→NAS archive 的目录、manifest、checksum、重试与空间告警；4) 至少三台工作电脑完成连接、权限隔离和读写/吞吐/断线恢复 smoke；5) 明确是否需要 VPS、费用与报销 owner；6) 记录 10T NAS 接入时间、维护责任和故障回退。本任务是已完成 10T NAS 决策任务的后继 rollout，不改写旧验收。",
-        "status": "active",
+        "status": "done",
         "priority": "high",
         "assignee": "Boris / lab operations",
         "result": null,
         "comments": [],
-        "updated_at": "2026-07-21T10:43:25.017Z"
+        "updated_at": "2026-08-11T11:39:03.668Z",
+        "completed_at": "2026-08-11",
+        "completed_at_time": "2026-08-11T11:39:03.668Z"
       },
       {
         "task_id": "task_tactile_wam_n0_release_audit_20260726",
@@ -21326,6 +21341,42 @@ export default {
         "result": null,
         "comments": [],
         "updated_at": "2026-08-10T12:52:23.099Z"
+      },
+      {
+        "task_id": "task_real_robot_demo_nero_daimon_pencil_case_writing_20260811",
+        "project_id": "real-robot-demos",
+        "title": "Demo 07 · 打开笔袋拿出笔、拉上笔袋并开始写字（NERO + Daimon Gripper）",
+        "description": "Queue order 07. Assigned platform: NERO + Daimon Gripper. Acceptance: complete the long-horizon sequence, preserve object state across substeps, and retain synchronized video, robot-state, tactile/contact evidence, and failure labels.",
+        "status": "todo",
+        "priority": "medium",
+        "assignee": null,
+        "result": null,
+        "comments": [],
+        "updated_at": "2026-08-11T11:38:54.442Z"
+      },
+      {
+        "task_id": "task_real_robot_demo_franka_wuji_gift_wrapping_20260811",
+        "project_id": "real-robot-demos",
+        "title": "Demo 08 · 包装礼物并用胶带封口（Franka + Wuji）",
+        "description": "Queue order 08. Assigned platform: Franka + Wuji. Acceptance: wrap the object and close the package with tape while retaining synchronized video, robot-state, intervention, and failure evidence.",
+        "status": "todo",
+        "priority": "medium",
+        "assignee": null,
+        "result": null,
+        "comments": [],
+        "updated_at": "2026-08-11T11:38:55.073Z"
+      },
+      {
+        "task_id": "task_real_robot_demo_nero_daimon_plug_cable_20260811",
+        "project_id": "real-robot-demos",
+        "title": "Demo 09 · 插数据线（NERO + Daimon Gripper）",
+        "description": "Queue order 09. Assigned platform: NERO + Daimon Gripper. Acceptance: align and insert the data cable without damage, record contact/tactile signals and final insertion success, and preserve synchronized rollout evidence.",
+        "status": "todo",
+        "priority": "medium",
+        "assignee": null,
+        "result": null,
+        "comments": [],
+        "updated_at": "2026-08-11T11:38:55.663Z"
       }
     ]
   },
