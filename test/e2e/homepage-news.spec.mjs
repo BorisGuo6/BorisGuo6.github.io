@@ -12,3 +12,13 @@ test("homepage News includes publication awards in minimal and full modes", asyn
   await page.evaluate(() => window.applyMode(true));
   await expect(news).toContainText("SayWhen won the Best Demo Award Finalist");
 });
+
+test("homepage uses one heading weight and shows the updated advisor name", async ({ page }) => {
+  await page.goto("/");
+
+  await expect(page.locator("h2 b, h2 strong")).toHaveCount(0);
+
+  await page.evaluate(() => window.applyMode(true));
+  await expect(page.locator("#entre-entries")).toContainText("华智AI");
+  await expect(page.locator("#entre-entries")).not.toContainText("TBA");
+});
