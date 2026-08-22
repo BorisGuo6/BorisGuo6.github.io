@@ -9,7 +9,7 @@ export default {
     "subtitle": "World models, self-improving agents, and five ongoing real-robot research projects",
     "week": "2026-W33",
     "date": "2026-08-22",
-    "updated_at": "2026-08-22T08:52:58.070Z",
+    "updated_at": "2026-08-22T10:19:21.000Z",
     "state_root": "dashboard/state",
     "summary": {
       "focus": "Research 主线包括 UMI World Model、Self-Improving Agents，以及真机组五个 ongoing 项目：DexGELLO、OmniEgo、TacPoseBench、Tactile ICL、Robot4Robot。",
@@ -616,8 +616,8 @@ export default {
       {
         "project_id": "robot4robot",
         "title": "Robot4Robot: Privileged-Perception Cross-Embodiment Teaching",
-        "bucket": "research",
-        "status": "ongoing",
+        "bucket": "survey",
+        "status": "survey",
         "state_path": "dashboard/state/projects/robot4robot.json"
       },
       {
@@ -2958,8 +2958,8 @@ export default {
       "schema_version": "project.v1",
       "project_id": "robot4robot",
       "title": "Robot4Robot: Privileged-Perception Cross-Embodiment Teaching",
-      "bucket": "research",
-      "status": "ongoing",
+      "bucket": "survey",
+      "status": "survey",
       "description": "A cross-embodiment robot-teaching framework in which a privileged-perception teacher captures semantic scene, trajectory, and contact information to transfer manipulation skills to a different learner robot.",
       "summary": "Robot4Robot 以 AgileX PiPER + LinkerHand 作为 Teacher、SO101 + AmazingHand 作为 Learner，并用多视角 RGB-D、点云、机器人状态、末端轨迹和接触信息构建 Privileged Perception System。Stage I 研究训练期全局语义 3D 状态如何迁移给部署时只使用本体观测的 Student；Stage II 再让实体 Teacher 根据能力、不确定性、任务阶段和风险选择示范、纠正或介入，形成跨本体教学闭环。",
       "asset": "dashboard/assets/real-robot-robot4robot-20260810.png",
@@ -3092,7 +3092,7 @@ export default {
         "sprint_due": null,
         "milestones": []
       },
-      "updated_at": "2026-08-10T09:35:08.000Z"
+      "updated_at": "2026-08-22T10:19:21.000Z"
     },
     {
       "schema_version": "project.v1",
