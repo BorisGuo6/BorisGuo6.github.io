@@ -2439,7 +2439,7 @@ export default {
         },
         {
           "title": "RL-100",
-          "url": "https://lei-kun.github.io/RL-100/",
+          "url": "https://github.com/Lei-Kun/RL-100",
           "notes": "Real-robot reinforcement learning systems reference."
         },
         {
