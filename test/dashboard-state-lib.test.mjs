@@ -35,6 +35,7 @@ import {
   applySnapshotTaskStatus,
   applySnapshotTaskUpdate,
   dashboardStateToSnapshot,
+  dashboardStateUpdatedAt,
   normalizeDashboardSnapshot,
   serializeDashboardSnapshot,
   toDashboardStateResponse,
@@ -109,8 +110,8 @@ const bundledSnapshot = dashboardStateToSnapshot(state, {
 });
 assert.equal(
   bundledSnapshot.updated_at,
-  state.taskDoc.updated_at,
-  "bundled snapshots must use the data timestamp instead of the deployment build time",
+  dashboardStateUpdatedAt(state),
+  "bundled snapshots must use the latest data timestamp instead of the deployment build time",
 );
 assert.doesNotThrow(
   () => validateDashboardSnapshot(bundledSnapshot),

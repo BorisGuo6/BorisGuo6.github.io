@@ -203,7 +203,7 @@ export async function writeVercelBlobSnapshot(snapshot, options = {}) {
   } catch (error) {
     if (access !== "private" || !isPublicBlobStoreError(error)) throw error;
     access = "public";
-    pathname = options.publicPathname || legacyDashboardBlobPath(env);
+    pathname = options.publicPathname || pathname;
     blob = await blobApi.put(pathname, serializedSnapshot, {
       ...putOptions,
       access,
