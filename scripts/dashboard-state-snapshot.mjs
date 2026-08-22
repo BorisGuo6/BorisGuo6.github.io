@@ -19,6 +19,37 @@ function cloneJson(value) {
   return JSON.parse(JSON.stringify(value));
 }
 
+function latestIsoTimestamp(values, fallback) {
+  let latest = 0;
+  for (const value of values) {
+    const timestamp = Date.parse(value || "");
+    if (Number.isFinite(timestamp) && timestamp > latest) {
+      latest = timestamp;
+    }
+  }
+  return latest > 0 ? new Date(latest).toISOString() : fallback;
+}
+
+export function dashboardStateUpdatedAt(state, fallback = new Date().toISOString()) {
+  const projects = Array.isArray(state.projects)
+    ? state.projects.map((project) => project?.doc || project)
+    : [];
+  const tasks = Array.isArray(state.taskDoc?.tasks) ? state.taskDoc.tasks : [];
+  return latestIsoTimestamp([
+    state.portfolio?.updated_at,
+    state.taskDoc?.updated_at,
+    ...projects.map((project) => project?.updated_at),
+    ...tasks.flatMap((task) => [
+      task?.updated_at,
+      task?.completed_at_time,
+      task?.completed_at,
+      ...(Array.isArray(task?.comments)
+        ? task.comments.flatMap((comment) => [comment?.updated_at, comment?.created_at])
+        : []),
+    ]),
+  ], fallback);
+}
+
 function requiredId(value, label) {
   const id = String(value || "").trim();
   if (!id) throw new Error(`Missing ${label}`);
@@ -120,9 +151,7 @@ export function validateDashboardSnapshot(snapshot) {
 export function dashboardStateToSnapshot(state, options = {}) {
   const now = options.now || new Date();
   const updatedAt = options.updatedAt
-    || state.taskDoc?.updated_at
-    || state.portfolio?.updated_at
-    || now.toISOString();
+    || dashboardStateUpdatedAt(state, now.toISOString());
   const snapshot = {
     schema_version: dashboardSnapshotSchemaVersion,
     source: options.source || "dashboard/state",
@@ -167,7 +196,7 @@ export async function loadDashboardSnapshotFromFiles(options = {}) {
   return normalizeDashboardSnapshot({
     schema_version: dashboardSnapshotSchemaVersion,
     source: "dashboard/state",
-    updated_at: options.updatedAt || taskDoc.updated_at || new Date().toISOString(),
+    updated_at: options.updatedAt || dashboardStateUpdatedAt({ portfolio, projects, taskDoc }),
     portfolio,
     projects,
     taskDoc,

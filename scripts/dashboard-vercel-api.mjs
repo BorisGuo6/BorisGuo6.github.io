@@ -809,6 +809,9 @@ export async function getDashboardHealth(options = {}) {
   try {
     const { snapshot, meta } = await loadSnapshot({ env });
     const storage = meta?.storage || configuredStorage;
+    const latestDeploySync = [...(Array.isArray(snapshot?.audit_log) ? snapshot.audit_log : [])]
+      .reverse()
+      .find((event) => event?.action === "git-deploy-sync");
     const blobBackedRead = storage === "vercel-blob"
       || storage === "bundled-json-newer-than-blob"
       || storage === "bundled-json-blob-read-failed";
@@ -826,6 +829,8 @@ export async function getDashboardHealth(options = {}) {
         tasks: Array.isArray(snapshot?.taskDoc?.tasks) ? snapshot.taskDoc.tasks.length : 0,
         updated_at: snapshot?.updated_at || null,
         blob_etag: meta?.blob_etag || null,
+        git_commit: latestDeploySync?.payload?.git_commit || null,
+        synced_at: latestDeploySync?.created_at || null,
       },
     };
   } catch (error) {

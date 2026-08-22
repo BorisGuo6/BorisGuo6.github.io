@@ -1,7 +1,7 @@
 export default {
   "schema_version": "dashboard-state.v1",
   "source": "bundled-json-generated",
-  "updated_at": "2026-08-22T12:00:00.000Z",
+  "updated_at": "2026-08-22T14:00:00.000Z",
   "portfolio": {
     "schema_version": "portfolio.v1",
     "portfolio_id": "embodied-ai-dashboard",
@@ -9,10 +9,10 @@ export default {
     "subtitle": "World models, self-improving agents, and five ongoing real-robot research projects",
     "week": "2026-W33",
     "date": "2026-08-22",
-    "updated_at": "2026-08-22T12:00:00.000Z",
+    "updated_at": "2026-08-22T08:52:58.070Z",
     "state_root": "dashboard/state",
     "summary": {
-      "focus": "Research 主线包括 UMI World Model、Self-Improving Agents，以及真机组五个 ongoing 项目：DexGELLO、OmniEgo、RoboDojo-Tac、Tactile ICL、Robot4Robot。",
+      "focus": "Research 主线包括 UMI World Model、Self-Improving Agents，以及真机组五个 ongoing 项目：DexGELLO、OmniEgo、TacPoseBench、Tactile ICL、Robot4Robot。",
       "progress": "Real-Robot Part.pptx 的项目定义、硬件组合与一句话叙事已映射为五张独立 Research 卡；旧的 DexGELLO / Robot4Robot Survey 分类被当前项目规划取代。",
       "blockers": "五张卡片记录的是当前项目路线，不等于实机闭环已经完成。共同门槛仍是同步与标定、数据 schema、触觉质量、跨本体映射、guarded execution，以及可复现的 sim/real 评测。",
       "next": "为真机项目冻结第一版接口与验收证据；Tactile ICL 优先完成 Prompt Package v0、压力轨迹因果诊断和 mixed VTLA smoke checkpoint，再进入柔顺插接与线缆装配旗舰任务。"
@@ -61,8 +61,8 @@ export default {
             {
               "role": "primary",
               "eyebrow": "Train + Evaluate",
-              "title": "Tactile ICL + RoboDojo-Tac",
-              "body": "Tactile ICL turns one tactile-rich DataClaw demonstration into a skill prompt for a mixed-trained VTLA; RoboDojo-Tac measures visuotactile policies under matched sim-and-real contact-rich tasks."
+              "title": "Tactile ICL + TacPoseBench",
+              "body": "Tactile ICL turns one tactile-rich DataClaw demonstration into a skill prompt; TacPoseBench trains PosePlan-VTLA to forecast future in-gripper SE(2) motion and generate closed-loop extrinsic-contact actions."
             },
             {
               "role": "outcome",
@@ -147,11 +147,11 @@ export default {
         "fit": "landscape-contain"
       },
       {
-        "src": "dashboard/assets/real-robot-robodojo-tac-20260810.png",
-        "alt": "RoboDojo-Tac project slide with COBOT Magic, Daimon tactile sensing, contact-rich tasks, and global evaluation.",
-        "caption": "Real-Robot Project 3 — RoboDojo-Tac: unified sim-and-real visuotactile benchmark for contact-rich manipulation and cross-scenario generalization. The slide defines scope; it does not claim a benchmark score.",
-        "source": "Real-Robot Part.pptx",
-        "added_at": "2026-08-10",
+        "src": "dashboard/assets/tacposebench-system.svg",
+        "alt": "TacPoseBench architecture showing multimodal observations entering PosePlan-VTLA, future in-gripper SE2 pose planning, flow-matching action generation, and closed-loop extrinsic contact with the environment.",
+        "caption": "PosePlan-VTLA predicts how the object should move inside the gripper and the robot actions that realize that plan; new tactile evidence closes the loop across tables, edges, walls, objects and another gripper.",
+        "source": "TacPoseBench Idea Proposal",
+        "added_at": "2026-08-22",
         "fit": "landscape-contain"
       },
       {
@@ -577,24 +577,34 @@ export default {
       },
       {
         "project_id": "dex-gello",
-        "title": "DexGELLO: Isomorphic Arm–Hand Teleoperation",
+        "title": "DexTTT: Test-Time Training for Dexterous Arm-Hand Policies",
         "bucket": "research",
         "status": "ongoing",
-        "state_path": "dashboard/state/projects/dex-gello.json"
+        "state_path": "dashboard/state/projects/dex-gello.json",
+        "summary": "DexTTT combines a factorized 54D arm-hand policy, FoundationPose-conditioned Value/Q learning, targeted human intervention, and guarded test-time updates on Dual Franka + Dual Wuji."
+      },
+      {
+        "project_id": "active-dex",
+        "title": "ActiveDex: Environment-Aware Active Vision for Mobile Dexterous Manipulation",
+        "bucket": "research",
+        "status": "ongoing",
+        "state_path": "dashboard/state/projects/active-dex.json",
+        "summary": "ActiveDex jointly predicts differential-base, arm, and AmazingHand actions on XLeRobot. Environment memory and task-aware View Value turn base motion into an active sensing and manipulation capability for occluded retrieval, drawer search, and mobile handover."
       },
       {
         "project_id": "human-intention-sensorium-survey",
-        "title": "OmniEgo: Human-Centered Multisensor Data Collection",
+        "title": "EgoSensorium: Bidirectional Multimodal Human-Centered Data Collection",
         "bucket": "research",
         "status": "ongoing",
         "state_path": "dashboard/state/projects/human-intention-sensorium-survey.json"
       },
       {
         "project_id": "robodojo-tac",
-        "title": "RoboDojo-Tac: Sim-and-Real Tactile Manipulation Benchmark",
+        "title": "TacPoseBench: Future In-Gripper Pose Planning for Extrinsic Dexterity",
         "bucket": "research",
         "status": "ongoing",
-        "state_path": "dashboard/state/projects/robodojo-tac.json"
+        "state_path": "dashboard/state/projects/robodojo-tac.json",
+        "summary": "TacPoseBench 研究机器人抓住物体后如何把它调整到任务所需姿态。Tac2Pose Teacher 离线为真实触觉示范生成带置信度的 SE(2) pose sequence，并构造未来夹爪内位姿轨迹监督；PosePlan-VTLA 同时预测 Future SE(2) Pose Plan 与双臂 action chunk。策略通过桌面、桌沿、墙面、固定结构、其他物体或另一只机械手产生 extrinsic contact，在短时执行后读取新触觉并重新规划。Benchmark 统一评测 Future Pose Forecasting、Goal-Conditioned Regulation、Contact Generalization 与 Downstream Utility。"
       },
       {
         "project_id": "tactile-icl",
@@ -2358,47 +2368,48 @@ export default {
     {
       "schema_version": "project.v1",
       "project_id": "dex-gello",
-      "title": "DexGELLO: Isomorphic Arm–Hand Teleoperation",
+      "title": "DexTTT: Test-Time Training for Dexterous Arm-Hand Policies",
       "bucket": "research",
       "status": "ongoing",
-      "updated_at": "2026-08-11T11:38:44.161Z",
-      "description": "A high-fidelity teleoperation and data-collection platform that couples an isomorphic leader arm with a dexterous hand to capture natural arm–hand manipulation demonstrations.",
-      "summary": "GELLO + MANUS provide an isomorphic arm-hand teleoperation and data-collection path for Franka + Wuji. Dexora + RL-100 is folded into this card as the candidate real-robot offline-to-online RL lane.",
+      "updated_at": "2026-08-22T22:00:00+08:00",
+      "description": "A deployment-time learning framework for 54D bimanual dexterous policies that combines factorized arm-hand credit assignment, geometry-conditioned value learning, sparse human corrections, and guarded real-robot updates.",
+      "summary": "DexTTT enables Dual Franka + Dual Wuji policies to improve during real deployment. A factorized 14D arm head and 40D hand head share visual, proprioceptive, and task context while receiving separate intervention credit. FoundationPose-derived object-to-goal geometry enters the Value/Q Model, human takeover contributes targeted DAgger supervision, and autonomous rollouts contribute global return for safe test-time policy updates.",
       "subprojects": [
         {
           "label": "A",
-          "title": "Isomorphic leader arm",
-          "body": "GELLO mirrors the Franka arm kinematics so the operator can generate natural, low-latency arm trajectories.",
-          "output": "Leader-arm joints and target arm motion"
+          "title": "Factorized 54D policy",
+          "body": "Coupled arm and hand action heads share scene context while preserving independent update masks and advantage estimates.",
+          "output": "14D arm chunks + 40D hand chunks"
         },
         {
           "label": "B",
-          "title": "MANUS hand interface",
-          "body": "The operator's MANUS-gloved hand is fixed at the GELLO endpoint, replacing the original trigger interface and capturing wrist/finger intent.",
-          "output": "Hand root, finger articulation and retargeting signal"
+          "title": "Geometry-conditioned value",
+          "body": "A Value/Q branch combines RGB, proprioception, task phase, and FoundationPose object-to-goal geometry to estimate progress, success, uncertainty, and intervention need.",
+          "output": "V, Q, A_arm, A_hand, P_success and uncertainty"
         },
         {
           "label": "C",
-          "title": "Franka + Wuji execution",
-          "body": "Franka Research 3 reproduces the arm motion while Wuji Hand follows the retargeted dexterous-hand command under calibration and safety gates.",
-          "output": "Synchronized robot-ready arm–hand demonstrations"
+          "title": "Human-in-the-loop TTT",
+          "body": "FACTR-style quick-attach takeover and synchronized intervention masks turn deployment failures into targeted DAgger and advantage-conditioned updates.",
+          "output": "Guarded real-robot improvement loop"
         }
       ],
-      "asset": "dashboard/assets/real-robot-dexgello-20260810.png",
-      "asset_alt": "DexGELLO project slide showing a GELLO leader arm with a MANUS-gloved hand and a Franka Research 3 equipped with a Wuji dexterous hand.",
-      "asset_caption": "DexGELLO project framing from Real-Robot Part.pptx: GELLO + MANUS teleoperation mapped to Franka Research 3 + Wuji Hand. The slide is design context, not completed-system performance evidence.",
+      "asset": "dashboard/assets/dexttt-system.svg",
+      "asset_alt": "DexTTT system diagram linking a factorized arm-hand actor, geometry-conditioned value model, human intervention, and guarded deployment updates.",
+      "asset_caption": "DexTTT separates arm and hand credit while keeping their actions coupled, then combines human corrections and task return in a guarded deployment-learning loop.",
       "visual": {
         "layout": "standard"
       },
       "details": [
-        "Lead / ownership: Yongxi Lai leads this project; Boris provides dashboard / research organization and real-robot integration support.",
-        "Operator side: an isomorphic GELLO arm supplies the arm trajectory, while the MANUS-gloved human hand is mechanically located at the leader endpoint so arm, wrist and finger intent are captured together without the original trigger handle.",
-        "Robot side: Franka Research 3 executes the arm motion and Wuji Hand executes retargeted finger motion. Live use still depends on calibration, joint/velocity limits, collision checks, emergency stop and a hardware-validated replay gate.",
-        "Episode contract: retain synchronized camera observations, timestamps, GELLO/Franka arm state, hand-root pose when available, MANUS articulation, Wuji state, commanded action and calibration snapshot so one demonstration can be replayed and audited.",
-        "Optional VIVE lane: VIVE remains a verifier or ablation channel for independent hand-root pose; it is not the core operator interface shown in the current project framing.",
-        "Research comparison: evaluate arm-only GELLO, GELLO + MANUS, and optional GELLO + MANUS + hand-root tracking on operator comfort, smoothness, contact timing, finger-pose quality, demonstration diversity and downstream policy performance.",
-        "Status update 2026-08-10: the Real-Robot Part deck supersedes the earlier paused-Survey classification and defines DexGELLO as one of the five ongoing real-robot projects. This status does not by itself certify a completed end-to-end hardware run.",
-        "Offline-to-online learning lane: use Dexora demonstrations as the real-robot data source and evaluate RL-100-style BC, offline RL, guarded rollout, online RL, and replay-buffer merging behind the DexGELLO safety gates."
+        "Platform: Dual Franka arms and Dual Wuji dexterous hands form a 54D action space, observed through three RGB views and synchronized robot proprioception.",
+        "Actor: Dexora transfer fine-tuning is the primary policy route, with a morphology-matched 54D Flow Matching policy as the strong baseline. Both use coupled 14D arm and 40D hand action heads.",
+        "Value Model: FoundationPose supplies confidence-aware object-to-goal relative pose only to the Value/Q branch, where it supports progress estimation, candidate-action scoring, success prediction, uncertainty, and takeover suggestions.",
+        "Hand-only correction: the human hand action is positive supervision, the robot hand action immediately before takeover is negative evidence, and the simultaneous arm action continues to receive Value-based credit.",
+        "Arm-only correction changes arm advantage and supervision. Full takeover supervises both heads. Fully autonomous episodes use global return to evaluate the complete arm-hand behavior.",
+        "Deployment loop: offline initialization, guarded autonomous rollout, low-value or high-uncertainty takeover suggestion, human correction, replay-buffer aggregation, constrained update, evaluation gate, and rollback.",
+        "Human interface: a quick-attach FACTR-style leader mechanism lets the operator connect only when taking over. Aggregate hand force estimated from Wuji FSR patches or motor current drives one continuous weak-to-strong vibration motor on each MANUS glove.",
+        "Core task suite: pencil-case handover, two consecutive 90-degree cube turns, toy-knife cutting of soft clay, and gift wrapping with tape sealing.",
+        "Primary evaluation: success rate, online sample efficiency, intervention burden, arm/hand credit quality, value calibration, force safety, recovery performance, and OOD generalization."
       ],
       "task_ids": [
         "task_dex_gello_end_to_end_replay_gate_20260810",
@@ -2417,517 +2428,384 @@ export default {
       ],
       "references": [
         {
-          "title": "GELLO: A General, Low-Cost, and Intuitive Teleoperation Framework for Robot Manipulators",
-          "url": "https://wuphilipp.github.io/gello_site/",
-          "arxiv_id": "2309.13037",
-          "notes": "Primary arm-teleoperation reference. GELLO uses a kinematically equivalent low-cost leader arm for intuitive joint-space control and has demonstrated Franka / UR5 / xArm systems."
+          "title": "Dexora",
+          "url": "https://github.com/ZZongzheng0918/Dexora",
+          "notes": "Primary dexterous VLA transfer backbone and quality-aware post-training reference."
         },
         {
-          "title": "GELLO software",
-          "url": "https://github.com/wuphilipp/gello_software",
-          "notes": "Implementation reference for leader-arm robot control, calibration, and data-collection hooks."
+          "title": "RECAP",
+          "url": "https://arxiv.org/abs/2511.14759",
+          "notes": "Reference for combining demonstrations, on-policy experience, expert intervention, and advantage-conditioned real-world learning."
         },
         {
-          "title": "GELLO mechanical design",
-          "url": "https://github.com/wuphilipp/gello_mechanical",
-          "notes": "Hardware reference for low-cost leader construction and maintainable arm-teleop rigs."
+          "title": "RL-100",
+          "url": "https://lei-kun.github.io/RL-100/",
+          "notes": "Real-robot reinforcement learning systems reference."
         },
         {
-          "title": "DexUMI: Using Human Hand as the Universal Manipulation Interface for Dexterous Manipulation",
-          "url": "https://dex-umi.github.io/",
-          "arxiv_id": "2505.21864",
-          "notes": "Closest dexterous-data motivation reference: human-hand interface, visual adaptation, retargeting, tactile/haptic considerations, and downstream policy learning."
+          "title": "FACTR",
+          "url": "https://github.com/RaindragonD/factr/",
+          "notes": "Real-time leader-follower teleoperation and force-feedback reference for the quick-attach intervention interface."
         },
         {
-          "title": "MANUS robotics: high precision hand tracking for dexterous manipulation",
-          "url": "https://www.manus-meta.com/robotics",
-          "notes": "MANUS reference for high-DoF finger tracking, low-latency streaming, robot-hand teleoperation, and Isaac Lab / simulation integration."
+          "title": "FoundationPose",
+          "url": "https://github.com/NVlabs/FoundationPose",
+          "notes": "Object 6D pose tracking source for the geometry-conditioned Value/Q Model."
         },
         {
-          "title": "VIVE Wrist Tracker for developers",
-          "url": "https://developer.vive.com/us/hardware/wrist-tracker/",
-          "notes": "Tracker reference for lightweight wrist/object tracking, 6DoF pose, CAD/mounting, and OpenXR / OpenVR ecosystem considerations."
-        },
-        {
-          "title": "dex-teleop: VR-based teleoperation for dexterous manipulation",
-          "url": "https://github.com/GeneralTrajectory/dex-teleop",
-          "notes": "Engineering reference for VIVE Tracker + hand tracking + synchronized HDF5 recording. Use as a comparison point, but DexGello keeps GELLO as the arm-control channel."
-        },
-        {
-          "title": "Proximity Perception-Based Grasping Intelligence",
-          "url": "https://pure.kaist.ac.kr/en/publications/proximity-perception-based-grasping-intelligence-toward-the-seaml/",
-          "doi": "10.1109/TMECH.2023.3324051",
-          "notes": "Reference for proximity-based shared-autonomy grasping. Use as a metric/design reference for pre-contact hand-object relation and stage importance; do not make additional proximity hardware mandatory for DexGello v0."
-        },
-        {
-          "label": "Dexora",
-          "url": "https://github.com/ZZongzheng0918/Dexora"
-        },
-        {
-          "label": "RL-100",
-          "url": "https://github.com/Lei-Kun/RL-100"
+          "title": "PrometheusV4",
+          "url": "https://github.com/LV-Robotics-Lab/PrometheusV4",
+          "notes": "Current collection, training, and inference framework; the Franka-Wuji implementation lives on the hardware/franka-wuji line."
         }
       ],
       "risks_decisions": [
-        "Do not collapse the project into generic VR teleoperation. The novelty is the decoupled semantic record: q_arm from GELLO, T_hand from VIVE, and q_finger from MANUS.",
-        "Calibration risk: T_hand only becomes useful if VIVE world frame, Franka base, GELLO state, camera streams, and MANUS hand root share a reproducible time-sync and extrinsic-calibration procedure.",
-        "Mounting risk: a back-of-hand tracker must be rigid enough for pose analysis while not blocking MANUS glove motion, Wuji retargeting, camera mounts, cables, or emergency operation.",
-        "Information-overlap risk: VIVE hand pose may be redundant with GELLO end-effector pose for some tabletop tasks. The project needs explicit overlap metrics rather than assuming more sensors always help.",
-        "Live-update risk 2026-06-17: pure GELLO + MANUS is now a promising single-hand baseline, but it should not be promoted to the full v0 path until joint-behavior deviations, dual-hand calibration infeasibility, and safety staffing are addressed or explicitly scoped out.",
-        "Policy risk: downstream gains may appear only after enough dexterous tasks involve wrist roll, hand approach posture, or human finger pre-shaping. Choose tasks where the extra human-hand channel has a plausible role.",
-        "Failure-data risk: failed trajectories are not automatically useful. The metric must separate high-value pre-failure phases from the actual wrong action, otherwise imitation learning may amplify bad recovery/contact behavior.",
-        "Proximity/P2GI boundary: use P2GI as a design reference for pre-contact object-relation metrics. Adding proximity sensors to Wuji is a possible v1 experiment, not a prerequisite for the current GELLO + MANUS + VIVE logger.",
-        "DexGello input boundary: do not reintroduce GELLO trigger as the hand/finger control source. Keep arm control on GELLO, wrist/intent on ACE-style ring, and hand/finger retargeting on MANUS.",
-        "Demo boundary: slime-clay cutting, Jenga extraction, broom-to-dustpan sweeping, cube-turning, plastic-bag rubbing, and Lego tool manipulation are owned by Research / Ego2Dex Human Demonstration / LfD; DexGello contributes reusable logging, calibration, planning, and evaluation dependencies only. Safety gates still apply before any live run.",
-        "cuRobo boundary: planning wrapper, collision scene, joint limits, and reusable planner integration belong in DexGello; concrete demo scenario ownership and pass/fail evidence live in Real-Robot Demos.",
-        "Mounting dependency boundary: glove/camera adapters that affect MANUS, Wuji, VIVE, Franka, or DexGello episode replay belong in DexGello; shared robot availability and safety gates remain in Real-Robot Infra.",
-        "Status decision 2026-08-10: restore the card to Research / ongoing under the five-project Real-Robot program. Previously parked TODOs remain historical until explicitly reopened; project status must not be read as proof that calibration, logging or a live policy run has passed.",
-        "Dexora + RL-100 is a candidate route, not a validated port: action schema, control rate, reward/reset design, joint limits, intervention, and E-stop behavior must be verified before online updates."
+        "Every intervention requires synchronized arm-mask, hand-mask, takeover phase, pre-takeover robot action, corrected human action, and episode outcome.",
+        "Factorized heads remain mutually conditioned so local credit assignment preserves arm-hand coordination.",
+        "FoundationPose confidence and visibility gate geometric value features; pose uncertainty contributes directly to value uncertainty.",
+        "Online updates pass replay, joint-limit, collision, force, intervention-rate, and held-out success gates before deployment.",
+        "VLM criticism runs at low frequency for phase interpretation and takeover suggestion, while the high-rate actor and safety controller retain execution authority.",
+        "Haptic force feedback is an operator interface channel: aggregate FSR/current is mapped to per-hand vibration intensity during teleoperation."
       ],
       "timeline": {
         "badges": [
           {
-            "label": "Lead",
-            "value": "Yongxi Lai"
+            "label": "Platform",
+            "value": "Dual Franka + Dual Wuji"
           },
           {
-            "label": "Robot",
-            "value": "Franka + Wuji"
+            "label": "Action",
+            "value": "54D factorized"
           },
           {
-            "label": "Arm",
-            "value": "GELLO"
+            "label": "Learning",
+            "value": "DAgger + TTT"
           },
           {
-            "label": "Operator hand",
-            "value": "MANUS @ GELLO endpoint"
+            "label": "Geometry",
+            "value": "FoundationPose -> Value"
           },
           {
-            "label": "Fingers",
-            "value": "MANUS"
+            "label": "Tasks",
+            "value": "4 real-robot tasks"
           }
         ],
-        "target_cycle": "leader-arm integration -> arm/hand calibration -> synchronized logging -> replay gate -> policy evaluation",
-        "target_note": "Ongoing project framing; live success requires hardware-validated calibration, safety and replay evidence.",
-        "sprint_start": "2026-06-11",
+        "target_cycle": "BC initialization -> guarded rollout -> factorized intervention -> value/return labeling -> constrained update -> rollback gate",
+        "target_note": "The paper claim is safe deployment-time improvement of coupled, high-DoF arm-hand policies.",
+        "sprint_start": "2026-08-22",
         "sprint_due": null,
         "milestones": []
       },
-      "asset_added_at": "2026-08-10"
+      "asset_added_at": "2026-08-22"
+    },
+    {
+      "schema_version": "project.v1",
+      "project_id": "active-dex",
+      "title": "ActiveDex: Environment-Aware Active Vision for Mobile Dexterous Manipulation",
+      "bucket": "research",
+      "status": "ongoing",
+      "updated_at": "2026-08-22T22:00:00+08:00",
+      "description": "A joint mobile-manipulation policy that learns when and how to move a differential base to create better visual, reachable, and contact-ready conditions for dexterous manipulation.",
+      "summary": "ActiveDex uses XLeRobot + AmazingHand to study environment-aware active vision through a unified [v, omega, arm, hand] action chunk. A short-horizon environment memory and task-aware View Value guide base repositioning for visibility and reachability, while coupled base, arm, and hand heads execute occluded retrieval, drawer search-and-retrieve, and mobile fetch-and-handover. Cobot Magic provides an incremental embodiment-transfer experiment.",
+      "subprojects": [
+        {
+          "label": "A",
+          "title": "Joint embodied action",
+          "body": "The policy predicts differential-base velocity, arm motion, and AmazingHand commands in one mutually conditioned action chunk.",
+          "output": "[v, omega, arm, hand]"
+        },
+        {
+          "label": "B",
+          "title": "Task-aware active vision",
+          "body": "Environment memory and View Value score candidate motion by visibility, reachability, task progress, motion cost, and safety.",
+          "output": "Move-to-see and see-to-manipulate behavior"
+        },
+        {
+          "label": "C",
+          "title": "Contact-aware mobile dexterity",
+          "body": "The base remains part of manipulation during alignment, drawer opening, inspection, retrieval, transport, and handover.",
+          "output": "Closed-loop mobile dexterous skills"
+        }
+      ],
+      "asset": "dashboard/assets/active-dex-system.svg",
+      "asset_alt": "ActiveDex architecture diagram showing environment memory and view value driving coupled base, arm, and hand action heads.",
+      "asset_caption": "ActiveDex treats base motion as a task-level sensing and manipulation action, jointly coordinated with the SO101 arm stack and AmazingHand.",
+      "visual": {
+        "layout": "standard"
+      },
+      "details": [
+        "Primary platform: XLeRobot differential base, SO101 arm stack, AmazingHand, head-level scene camera, and wrist-level manipulation cameras.",
+        "Policy interface: a unified action chunk predicts linear velocity v, angular velocity omega, arm trajectory, and dexterous-hand command with cross-head conditioning.",
+        "Environment representation: a short temporal memory maintains target identity, occluders, furniture geometry, recent viewpoints, reachability, and contact phase across base motion.",
+        "View Value: candidate base motions are ranked by expected visibility gain, manipulator reachability, downstream task progress, travel cost, and collision risk.",
+        "Task A, Occluded Mobile Retrieval: reposition around clutter or shelving, reveal the target, form an AmazingHand grasp, and place the object in a carried basket or goal zone.",
+        "Task B, Mobile Drawer Search-and-Retrieve: search, align, establish handle contact, coordinate base retreat with arm motion to open the drawer, inspect the interior, retrieve the target, and deliver it.",
+        "Task C, Multi-location Fetch-and-Handover: locate and grasp an object in one region, transport it stably, then hand it to a person or place it in a remote goal region.",
+        "Training path: joint behavior cloning, view-value and environment-memory supervision, then closed-loop refinement with recovery demonstrations and autonomous rollouts.",
+        "Evaluation compares fixed-base, navigate-then-lock, joint BC, joint policy with memory, and full ActiveDex across task success, phase success, view efficiency, base-arm-hand coordination, manipulation quality, safety, and OOD layouts.",
+        "Embodiment extension: transfer the environment encoder and View Value to Cobot Magic with a newly adapted action head, reporting sample efficiency under 10, 25, and 50 demonstrations."
+      ],
+      "task_ids": [],
+      "references": [
+        {
+          "title": "AmazingHand documentation",
+          "url": "https://wiki.seeedstudio.com/hand_amazinghand",
+          "notes": "Dexterous-hand hardware and interface reference."
+        },
+        {
+          "title": "PrometheusV4",
+          "url": "https://github.com/LV-Robotics-Lab/PrometheusV4",
+          "notes": "Shared data collection, policy training, and deployment framework."
+        }
+      ],
+      "risks_decisions": [
+        "Active-view behavior is evaluated by downstream task success and action cost rather than visibility alone.",
+        "Base, arm, and hand heads are mutually conditioned to prevent contact loss during mobile manipulation.",
+        "Contact phases use lower base speed, tighter acceleration limits, dynamic collision envelopes, and high-rate replanning.",
+        "Environment memory uses confidence decay and visual relocalization to manage odometry drift.",
+        "Camera, odometry, arm, and hand streams share synchronized episode timestamps and calibration snapshots.",
+        "The Cobot Magic study measures transfer of environment representation and View Value as an additional embodiment experiment."
+      ],
+      "timeline": {
+        "badges": [
+          {
+            "label": "Platform",
+            "value": "XLeRobot + AmazingHand"
+          },
+          {
+            "label": "Action",
+            "value": "[v, omega, arm, hand]"
+          },
+          {
+            "label": "Core",
+            "value": "Active vision"
+          },
+          {
+            "label": "Flagship",
+            "value": "Drawer retrieval"
+          },
+          {
+            "label": "Transfer",
+            "value": "Cobot Magic"
+          }
+        ],
+        "target_cycle": "joint teleoperation -> memory BC -> View Value -> closed-loop recovery -> OOD evaluation",
+        "target_note": "The central claim is that task-aware base motion creates better observation and manipulation conditions.",
+        "sprint_start": "2026-08-22",
+        "sprint_due": null,
+        "milestones": []
+      },
+      "asset_added_at": "2026-08-22"
     },
     {
       "schema_version": "project.v1",
       "project_id": "human-intention-sensorium-survey",
-      "title": "OmniEgo: Human-Centered Multisensor Data Collection",
+      "title": "EgoSensorium: Bidirectional Multimodal Human-Centered Data Collection",
       "bucket": "research",
       "status": "ongoing",
-      "updated_at": "2026-08-10T09:35:08.000Z",
-      "description": "A human-centered, modular egocentric data-acquisition platform that synchronizes first-person vision, gaze and facial cues, hand motion and dense tactile sensing, audio, and EMG to transform natural human interactions into robot-ready multimodal demonstrations.",
-      "summary": "OmniEgo 将自然人类交互拆成三条同步数据通道：Quest 3S、Ray-Ban Meta 与 Across Glasses 提供第一视角视觉；Wuji、UDCAP 与 HiGVR gloves 提供手部运动与触觉；眼动/面捕、麦克风阵列和 EMG 提供注意、声学环境与肌肉意图。核心不是堆传感器，而是在统一时钟、标定、缺失模态与质量门下，把可规模化的人类行为转换为可用于机器人学习的多模态 demonstrations。",
-      "asset": "dashboard/assets/real-robot-omniego-20260810.png",
-      "details": [
-        {
-          "text": "Quest 3S replaces Project Aria only as the first deployable capture backend, not as a sensor-equivalent device. The v0 adapter may use its forward-facing RGB cameras and system hand tracking, but it must validate camera-to-hand latency, joint mapping, calibration, coordinate frames, occlusion dropouts and long-recording stability. Eye and face signals come from the separately ordered CYMPLE Quest 3S kit; its arrival, fit, HUB, raw PC export, timestamp semantics and synchronization still require verification, so Aria-specific eye tracking and hardware synchronization cannot be inherited.",
-          "links": [
-            {
-              "label": "Quest Passthrough Camera API",
-              "url": "https://developers.meta.com/horizon/documentation/unity/unity-pca-overview/"
-            },
-            {
-              "label": "Meta OpenXR SDK",
-              "url": "https://github.com/meta-quest/Meta-OpenXR-SDK"
-            },
-            {
-              "label": "Aria Gen 2 hardware",
-              "url": "https://facebookresearch.github.io/projectaria_tools/gen2/technical-specs/device/hardware"
-            }
-          ]
-        },
-        {
-          "text": "The supplied order workbook confirms shipped candidates including Hall-effect muscle deformation, dual-channel sEMG, pressure/tactile arrays, data gloves and a MEMS microphone-array kit; the dashboard procurement table separately records the CYMPLE Quest 3S 面捕眼追套装（包含 HUB） as ordered. Screenshots add GSR, EEG, flex, e-nose and haptic candidates but do not prove purchase or signal quality by themselves. bHaptics wearables are actuators for controlled feedback experiments, not passive intention sensors. Every candidate enters the same repeated-task quality screen before model work.",
-          "links": []
-        },
-        {
-          "text": "Ego2Dex becomes OmniEgo's reconstruction and transfer lane. Conservative interfaces are: EgoEngine for Aria-based ego RGB/hand keys plus depth, masks and known-mesh object pose; Do-As-I-Do for monocular segmentation/geometry/hand-object reconstruction and retargeting; VideoManip for metric hand-object alignment, contact optimization and demonstration synthesis; EasyHOI for single-image reconstruction/contact refinement; HandFlow as a temporal hand-recovery component. Shared inputs, frames, scale, metrics, runtime, interventions and failure galleries are mandatory.",
-          "links": [
-            {
-              "label": "EgoEngine",
-              "url": "https://egoengine.github.io/"
-            },
-            {
-              "label": "Do-As-I-Do",
-              "url": "https://do-as-i-do.com/"
-            },
-            {
-              "label": "VideoManip",
-              "url": "https://videomanip.github.io/"
-            },
-            {
-              "label": "EasyHOI",
-              "url": "https://lym29.github.io/EasyHOI-page/"
-            },
-            {
-              "label": "HandFlow",
-              "url": "https://arxiv.org/abs/2607.11221"
-            }
-          ]
-        },
-        {
-          "text": "Representation is a hypothesis after the quality gate. Compare supervised intention/contact/action encoders with per-modality encoders, late fusion, clustering and VQ-VAE tokens. A useful token must remain stable across people and days, tolerate missing channels, predict held-out intent/contact/action outcomes, and improve a robot-learning consumer; compact reconstruction alone is insufficient."
-        },
-        {
-          "text": "The object-side branch is inspired by surface-conforming mutual-capacitance layouts on scanned rigid objects. That paper localizes touch on four rigid geometries; it does not measure force, shear, friction or force closure and does not validate robot or deformable-object manipulation. Our proposed dataset must add independent force/pressure/shear ground truth, object pose and outcome labels, then collect the same object/task across human hand, gripper and dexterous hand. Deformable objects remain a later materials, strain-durability and re-registration study.",
-          "links": [
-            {
-              "label": "Surface-conforming capacitive sensing",
-              "url": "https://arxiv.org/abs/2607.16739"
-            }
-          ]
-        }
-      ],
-      "task_ids": [
-        "task_human_intention_sensorium_xla_proposal",
-        "task_real_robot_demos_ego2dex_lfd_baseline_20260718",
-        "task_real_robot_demos_ego2dex_baseline_reproduction_20260729",
-        "task_real_robot_demos_ego2dex_franka_wuji_sim_gate_20260729",
-        "task_real_robot_demos_ego2dex_tactile_ablation_20260729",
-        "task_real_robot_demos_ego2dex_hand_contact_benchmark_20260729",
-        "task_umi_stage2_vddm_human_ego_probe_20260627",
-        "task_hoi_pnp_calibration",
-        "task_hoi_collection_matrix",
-        "task_hoi_sensor_validation",
-        "task_hoi_object_tracking",
-        "task_hoi_schema_model_target",
-        "task_hoi_retargeting_baselines",
-        "task_hoi_contact_annotation_pack",
-        "task_hoi_isaac_retargeting_verifier_v0",
-        "task_hoi_two_modality_capture_smoke",
-        "task_real_robot_demo_do_as_i_do_franka_wuji_tactile",
-        "task_omniego_quest3s_multisensor_v0_rig_20260729",
-        "task_omniego_sensor_quality_marginal_value_screen_20260729",
-        "task_omniego_vqvae_intention_encoding_20260729",
-        "task_omniego_object_surface_tactile_force_closure_dataset_20260729"
-      ],
-      "risks_decisions": [
-        "Research decision 2026-07-29: OmniEgo is Research, not a shopping-list Survey. The first deliverable is a quality and marginal-value matrix; model training starts only after the sensor gate.",
-        "Quest 3S plus the ordered CYMPLE face/eye kit is the v0 capture backend, not an Aria Gen 2 equivalent. Do not copy Aria-specific eye tracking, 21-point hand-key contracts or hardware synchronization claims into Quest recordings without measured Quest and CYMPLE adapter contracts.",
-        "EMG, EEG, GSR and muscle-deformation signals may have large cross-person and cross-day shifts. Use subject-held-out evaluation, calibration burden and repeated-session stability as first-class metrics.",
-        "bHaptics devices are feedback actuators. They can support controlled stimulus or closed-loop studies, but they are not counted as passive intention channels.",
-        "VQ-VAE, clustering and labeled encoding are competing hypotheses, not current results. Do not publish stable intent tokens until they survive held-out people, days, tasks and missing modalities.",
-        "The surface-capacitive paper supports touch-location sensing on scanned rigid objects only. Force-closure, cross-embodiment manipulation, dense force maps and deformable-object sensing require new hardware, calibration and outcome evidence.",
-        "Human-video pretraining and reconstructed trajectories do not prove robot executability. Every transfer path needs a declared mapping/IK/retargeting interface plus simulation/read-only validation before low-speed physical execution.",
-        "Do not publish the unsupported exact numbers from the draft technical report, including claimed millimeter errors, segmentation percentages, runtime, contact-force reductions or Tesla success rates, unless each is recovered from a primary source and reproduced under the shared protocol.",
-        "Raw physiological data, camera streams, audio and face/eye signals require consent, data minimization, access controls and a stated retention policy before collection."
-      ],
-      "asset_alt": "OmniEgo project slide grouping ego devices, instrumented gloves, eye and face tracking, microphone arrays, and EMG sensors into three synchronized data lanes.",
-      "asset_caption": "OmniEgo project framing from Real-Robot Part.pptx: Ego Data + Hand Data + Omni-modal Data. Device images show the intended modular sensor set; availability and measured signal quality remain separate gates.",
-      "references": [
-        {
-          "title": "Meta Quest Passthrough Camera API",
-          "url": "https://developers.meta.com/horizon/documentation/unity/unity-pca-overview/",
-          "notes": "Official Quest 3/3S forward-camera access contract and operational constraints; use as the v0 RGB capture reference, not as evidence of Aria-equivalent sensing."
-        },
-        {
-          "title": "Project Aria Gen 2 hardware specification",
-          "url": "https://facebookresearch.github.io/projectaria_tools/gen2/technical-specs/device/hardware",
-          "notes": "Official Aria sensor inventory used to make the non-equivalence boundary explicit."
-        },
-        {
-          "title": "EgoEngine: From Egocentric Human Videos to High-Fidelity Dexterous Robot Demonstrations",
-          "url": "https://arxiv.org/abs/2606.12604",
-          "arxiv_id": "2606.12604",
-          "submitted_at": "2026",
-          "notes": "Aria-based ego reconstruction and robot-demonstration baseline; public code and checkpoint availability must be audited before claiming reproduction."
-        },
-        {
-          "title": "Do-As-I-Do: Learning Robot Actions from Human Videos",
-          "url": "https://arxiv.org/abs/2606.19333",
-          "arxiv_id": "2606.19333",
-          "submitted_at": "2026",
-          "notes": "Monocular human-video hand-object reconstruction and robot retargeting baseline."
-        },
-        {
-          "title": "VideoManip: Dexterous Manipulation Policies from RGB Human Videos",
-          "url": "https://arxiv.org/abs/2602.09013",
-          "arxiv_id": "2602.09013",
-          "submitted_at": "2026",
-          "notes": "Metric hand/object alignment, ContactOpt refinement, retargeting and demonstration-synthesis baseline."
-        },
-        {
-          "title": "EasyHOI",
-          "url": "https://arxiv.org/abs/2411.14280",
-          "arxiv_id": "2411.14280",
-          "submitted_at": "2024",
-          "notes": "Single-image hand-object reconstruction and image/geometry/contact refinement baseline."
-        },
-        {
-          "title": "ContactOpt",
-          "url": "https://arxiv.org/abs/2104.07267",
-          "arxiv_id": "2104.07267",
-          "submitted_at": "2021",
-          "notes": "Predicted surface-contact maps plus differentiable geometric pose refinement; it is not a measured contact-force field."
-        },
-        {
-          "title": "TOCH",
-          "url": "https://arxiv.org/abs/2205.07982",
-          "arxiv_id": "2205.07982",
-          "submitted_at": "2022",
-          "notes": "Object-centric correspondence field and temporal denoising reference for hand-motion refinement."
-        },
-        {
-          "title": "GeneOH Diffusion",
-          "url": "https://arxiv.org/abs/2402.14810",
-          "arxiv_id": "2402.14810",
-          "submitted_at": "2024",
-          "notes": "Three-stage interaction-trajectory denoising reference; it does not recover physical force."
-        },
-        {
-          "title": "HOLD",
-          "url": "https://arxiv.org/abs/2311.18448",
-          "arxiv_id": "2311.18448",
-          "submitted_at": "2023",
-          "notes": "Joint hand and unknown-object reconstruction from monocular video using articulated implicit models."
-        },
-        {
-          "title": "GHOST",
-          "url": "https://arxiv.org/abs/2603.18912",
-          "arxiv_id": "2603.18912",
-          "submitted_at": "2026",
-          "notes": "Monocular hand-object reconstruction comparison using geometry priors, grasp-aware alignment and hand-aware background loss."
-        },
-        {
-          "title": "Being-H0",
-          "url": "https://arxiv.org/abs/2507.15597",
-          "arxiv_id": "2507.15597",
-          "submitted_at": "2025",
-          "notes": "Human-video VLA pretraining, physical-space alignment and robot post-training reference."
-        },
-        {
-          "title": "EgoScale",
-          "url": "https://arxiv.org/abs/2602.16710",
-          "arxiv_id": "2602.16710",
-          "submitted_at": "2026",
-          "notes": "Human-data scaling and aligned human–robot mid-training reference with retargeted dexterous-hand actions."
-        },
-        {
-          "title": "VITRA",
-          "url": "https://arxiv.org/abs/2510.21571",
-          "arxiv_id": "2510.21571",
-          "submitted_at": "2025",
-          "notes": "Human wrist and MANO-style action representation plus robot adaptation reference."
-        },
-        {
-          "title": "EgoVLA",
-          "url": "https://arxiv.org/abs/2507.12440",
-          "arxiv_id": "2507.12440",
-          "submitted_at": "2025",
-          "notes": "Human wrist/MANO prediction and fingertip-to-robot mapping reference; not evidence of zero-shot physical executability."
-        },
-        {
-          "title": "METIS",
-          "url": "https://arxiv.org/abs/2511.17366",
-          "arxiv_id": "2511.17366",
-          "submitted_at": "2025",
-          "notes": "Unified wrist-pose and fingertip action representation with target-robot IK."
-        },
-        {
-          "title": "HoloAssist",
-          "url": "https://openaccess.thecvf.com/content/ICCV2023/papers/Wang_HoloAssist_an_Egocentric_Human_Interaction_Dataset_for_Interactive_AI_Assistants_ICCV_2023_paper.pdf",
-          "submitted_at": "2023",
-          "notes": "Egocentric multimodal interaction data with instruction, mistake and intervention annotations."
-        },
-        {
-          "title": "HOT3D Dataset",
-          "url": "https://facebookresearch.github.io/projectaria_tools/docs/open_datasets/hot3d",
-          "submitted_at": "2024",
-          "notes": "Synchronized multi-view headset video, hand/object pose, eye gaze and scene signals."
-        },
-        {
-          "title": "TouchAnything / EgoTouch",
-          "url": "https://arxiv.org/abs/2605.13083",
-          "arxiv_id": "2605.13083",
-          "submitted_at": "2026",
-          "notes": "Ego RGB, wrist cameras, 3D hand pose and wearable tactile-pressure reference."
-        },
-        {
-          "title": "Hoi!: force-grounded cross-view articulated manipulation",
-          "url": "https://timengelbracht.github.io/Hoi-Dataset-Website/",
-          "arxiv_id": "2512.04884",
-          "submitted_at": "2025",
-          "notes": "Cross-view human and robot manipulation with force/tactile signals and spatial alignment."
-        },
-        {
-          "title": "Multimodal Fusion of EMG and Vision for Human Grasp Intent Inference",
-          "url": "https://arxiv.org/abs/2104.03893",
-          "arxiv_id": "2104.03893",
-          "submitted_at": "2021",
-          "notes": "Direct reference for complementary EMG, eye-view video and gaze evidence in grasp-intent inference."
-        },
-        {
-          "title": "Peripheral bio-signal fusion survey",
-          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9460678/",
-          "submitted_at": "2022",
-          "notes": "Modality and fusion tradeoffs for EMG, MMG, ultrasound, NIRS, IMU and optical sensing."
-        },
-        {
-          "title": "Retrofitting Existing 3D Objects with Surface-Conforming Capacitive Sensing",
-          "url": "https://arxiv.org/abs/2607.16739",
-          "arxiv_id": "2607.16739",
-          "submitted_at": "2026",
-          "notes": "SIGGRAPH 2026 object-surface mutual-capacitance layout and touch-localization reference. It does not measure force, shear, friction or force closure."
-        },
-        {
-          "title": "Jiachen Li / Trustworthy Autonomous Systems Lab",
-          "url": "https://jiachenli94.github.io/",
-          "notes": "Potential HRI, control and embodied-learning collaboration reference only; no public commitment and no claimed authorship of the surface-capacitive paper."
-        }
-      ],
-      "asset_added_at": "2026-07-29",
+      "updated_at": "2026-08-22T08:04:21.363Z",
+      "description": "A synchronized wearable system and dataset capturing egocentric stereo and wrist vision, gaze, upper-body motion, finger state, pressure, muscle activity and spatial audio, with chest haptic feedback for active data collection and robot-aware demonstrations.",
+      "summary": "EgoSensorium 让一名操作者一次性穿戴完整数采系统：Quest 3S 头盔搭载双目相机、CYMPLE 面捕、头部 Tracker 与圆形麦克风阵列；双手使用宇蝶手套、柔性压力片、手部 Tracker 与腕部相机；双上臂使用 Tracker、肌贴与主操作臂飞马座臂环；胸部 Tracker 建立躯干根节点，胸部 Haptic 根据数据质量、模型不确定性与机器人可执行性发送低带宽提示。系统把全部信号统一到同一时钟和坐标树，并发布面向意图预判、接触预测、空间音频、机器人迁移与主动采集的 Dataset 和 Benchmark。",
+      "asset": "dashboard/assets/egosensorium-system.svg",
+      "asset_alt": "EgoSensorium wearable acquisition architecture with head stereo, two wrist cameras, gaze and face capture, hand pressure, muscle sensing, spatial audio, six Vive trackers and chest haptic feedback.",
+      "asset_caption": "One wearer, one synchronized episode: multimodal sensing is grounded in a shared coordinate tree, while data quality, robotability and uncertainty close the loop through chest haptic prompts.",
       "visual": {
         "layout": "standard"
-      },
-      "intro_table": {
-        "kind": "architecture_status_table",
-        "caption": "OmniEgo research contract",
-        "columns": [
-          {
-            "key": "lane",
-            "label": "Lane"
-          },
-          {
-            "key": "inputs_outputs",
-            "label": "Inputs -> outputs"
-          },
-          {
-            "key": "acceptance",
-            "label": "Acceptance"
-          }
-        ],
-        "rows": [
-          {
-            "lane": "Capture",
-            "inputs_outputs": "Quest 3S ego RGB + hand/controller pose + wearable/environment/object-side streams -> synchronized raw episode",
-            "acceptance": "Document camera/pose timestamps, calibration, dropped frames and privacy. Integrate the ordered CYMPLE Quest 3S face/eye kit only after fit, raw-export, timestamp and synchronization checks pass."
-          },
-          {
-            "lane": "Validate",
-            "inputs_outputs": "Repeated scripted tasks across people and days -> modality quality and marginal-value matrix",
-            "acceptance": "Measure timestamp skew, SNR/repeatability, missingness, drift, cross-subject shift, burden and downstream task gain; retain only 3–5 useful channels."
-          },
-          {
-            "lane": "Encode",
-            "inputs_outputs": "Validated multimodal windows + intent/contact/action labels -> supervised embeddings or discrete VQ-VAE tokens",
-            "acceptance": "Use subject-held-out splits, missing-modality masks and label/token stability; compare against single-modality and late-fusion baselines."
-          },
-          {
-            "lane": "Reconstruct + transfer",
-            "inputs_outputs": "Ego video and hand-object state -> metric HOI trajectory, contact refinement and target-robot action",
-            "acceptance": "Run EgoEngine / Do-As-I-Do / VideoManip / EasyHOI / HandFlow under one manifest, then gate retargeting in simulation/read-only before physical execution."
-          },
-          {
-            "lane": "Instrument objects",
-            "inputs_outputs": "Surface-conforming touch layout + independent force/pose ground truth -> cross-embodiment same-object/task episodes",
-            "acceptance": "Capacitive touch is contact-location evidence only; force-closure claims require pressure/shear or 6D force sensing, calibration and real manipulation outcomes."
-          }
-        ]
-      },
-      "timeline": {
-        "badges": [
-          {
-            "label": "Bucket",
-            "value": "Research"
-          },
-          {
-            "label": "Backbone",
-            "value": "Ego + hand + omni-modal sensors"
-          },
-          {
-            "label": "Gate",
-            "value": "quality before encoding"
-          },
-          {
-            "label": "Target",
-            "value": "3–5 useful modalities"
-          }
-        ],
-        "target_cycle": "rig integration -> synchronization/calibration -> quality screen -> robot-ready episode export -> transfer evaluation",
-        "target_note": "Every modality reports latency, dropout, calibration and marginal value; the PPT device set is a project design, not proof that every sensor has passed the gate.",
-        "sprint_start": "2026-07-29",
-        "sprint_due": null,
-        "milestones": []
       },
       "subprojects": [
         {
           "label": "A",
-          "title": "Ego Data",
-          "body": "Quest 3S, Ray-Ban Meta and Across Glasses capture complementary first-person visual context under a shared timestamp and privacy contract.",
-          "output": "Synchronized ego video, calibration metadata and hand/controller pose when available."
+          "title": "Build the Full-Rig Wearable",
+          "body": "Integrate the Quest 3S head stack, bilateral rigid hand pods, arm biosignals, six Vive trackers, chest haptic and backpack compute into a single wearable system.",
+          "output": "Stable upper-body rig with repeatable fit and quick-release mounts"
         },
         {
           "label": "B",
-          "title": "Hand Data",
-          "body": "Wuji, UDCAP and HiGVR gloves cover hand pose, articulation and tactile/contact cues across complementary capture setups.",
-          "output": "Aligned hand motion, finger state and dense tactile/contact observations."
+          "title": "Unify Time and Space",
+          "body": "Calibrate camera intrinsics, tracker-to-body transforms, wrist-camera extrinsics, pressure maps, muscle baselines and microphone-array direction under one clock and coordinate tree.",
+          "output": "Versioned calibration package with latency and confidence metadata"
         },
         {
           "label": "C",
-          "title": "Omni-modal Data",
-          "body": "Eye/face tracking, microphone arrays and EMG add gaze, facial, acoustic and muscle-intent context to the same natural interaction episode.",
-          "output": "Robot-ready multimodal demonstrations with per-modality quality and missing-data metadata."
+          "title": "Release the Sensorium Dataset",
+          "body": "Collect synchronized natural, quality-assisted and robot-aware demonstrations across precision contact, insertion, deformable, tool-use, bimanual and recovery tasks.",
+          "output": "Raw, calibrated, annotated and robot-ready episode layers"
+        },
+        {
+          "label": "D",
+          "title": "Close the Haptic Loop",
+          "body": "Trigger chest vibration from data quality, model uncertainty and robotability, then quantify how people reorient, slow down, repeat and improve demonstrations.",
+          "output": "Haptic-Guided Active Collection benchmark and human-response dataset"
         }
-      ]
+      ],
+      "details": [
+        "Wearable stack: head stereo plus two wrist cameras, CYMPLE gaze/face capture, circular microphone array, six Vive trackers, Yudie gloves, flexible pressure films, bilateral muscle patches and a dominant-arm Pegasus armband.",
+        "Spatial contract: head, chest, upper arms and hands form a shared world-frame kinematic tree; wrist cameras, pressure maps and spatial audio are transformed into the same geometry.",
+        "Temporal contract: every stream retains device timestamps, master-clock mapping, offset/drift estimates, latency, confidence and missing-modality masks.",
+        "Bidirectional protocol: chest haptic encodes observation quality, model uncertainty or robotability through a small pulse vocabulary; each command and wearer response is logged.",
+        "Dataset layers: original sensor packets, synchronized calibrated streams, semantic and physical annotations, and robot-ready relative wrist/contact representations.",
+        "Benchmarks: intent and action anticipation, contact and pressure forecasting, spatial audio grounding, multimodal Human-to-Robot Transfer and Haptic-Guided Active Collection."
+      ],
+      "references": [
+        {
+          "title": "Ego-Exo4D Dataset Documentation",
+          "url": "https://docs.ego-exo4d-data.org/",
+          "submitted_at": "2024",
+          "notes": "Large-scale synchronized ego/exo vision, gaze, audio, motion and procedural annotations."
+        },
+        {
+          "title": "HoloAssist",
+          "url": "https://holoassist.github.io/",
+          "submitted_at": "2023",
+          "notes": "Multimodal egocentric human interaction with RGB-D, gaze, hand pose, audio and IMU."
+        },
+        {
+          "title": "EgoTouch / TouchAnything",
+          "url": "https://jianyi2004.github.io/TouchAnything-Website/",
+          "submitted_at": "2025",
+          "notes": "Egocentric and wrist visual streams with bimanual pose and dense wearable touch."
+        },
+        {
+          "title": "Hoi! Dataset",
+          "url": "https://timengelbracht.github.io/Hoi-Dataset-Website/",
+          "submitted_at": "2025",
+          "notes": "Multi-view, multi-embodiment hand-object interaction with force and tactile sensing."
+        },
+        {
+          "title": "Leveraging Haptic Feedback to Improve Data Quality and Quantity for Deep Imitation Learning Models",
+          "url": "https://arxiv.org/abs/2211.03020",
+          "arxiv_id": "2211.03020",
+          "submitted_at": "2022",
+          "notes": "Evidence that real-time haptic feedback can improve demonstration collection and learned-policy outcomes."
+        }
+      ],
+      "risks_decisions": [
+        "Keep tracker and camera extrinsics rigid through shared hand pods and repeat calibration checks after every refit.",
+        "Record raw device clocks, synchronization events, drift estimates and missing-modality masks for every episode.",
+        "Log haptic commands and actuator state so vibration artifacts in audio, IMU and muscle streams remain identifiable.",
+        "Evaluate wearer burden, naturalness and cognitive load alongside data throughput and model performance.",
+        "Use consent, pseudonymous identities and access tiers for face, gaze, voice and physiological signals.",
+        "Require every released modality to connect to a benchmark, ablation and documented sensor-quality gate."
+      ],
+      "task_ids": [],
+      "timeline": {
+        "badges": [
+          {
+            "label": "Rig",
+            "value": "6 tracked bodies"
+          },
+          {
+            "label": "Perception",
+            "value": "Head stereo + 2 wrists"
+          },
+          {
+            "label": "Loop",
+            "value": "Chest haptic"
+          }
+        ],
+        "target_cycle": "Full-rig integration -> sync and calibration -> pilot tasks -> scaled dataset -> multimodal benchmarks -> real-robot transfer",
+        "target_note": "Promote the central claims only after held-out participant/session tests, sensor-dropout evaluation, matched haptic conditions and measured real-robot transfer.",
+        "sprint_start": "2026-08-22",
+        "sprint_due": null,
+        "milestones": []
+      },
+      "asset_added_at": "2026-08-22"
     },
     {
       "schema_version": "project.v1",
       "project_id": "robodojo-tac",
-      "title": "RoboDojo-Tac: Sim-and-Real Tactile Manipulation Benchmark",
+      "title": "TacPoseBench: Future In-Gripper Pose Planning for Extrinsic Dexterity",
       "bucket": "research",
       "status": "ongoing",
-      "updated_at": "2026-08-10T09:35:08.000Z",
-      "description": "A unified sim-and-real benchmark for evaluating visuotactile robot policies on contact-rich manipulation and cross-scenario generalization.",
-      "summary": "RoboDojo-Tac 围绕触觉不可替代的接触丰富任务建立统一的 simulation + real-robot 评测：在一致的任务定义、观测/动作接口、成功条件和失败标签下，对视觉—触觉策略的接触控制、鲁棒性与跨对象/跨场景泛化进行可复现实验。当前硬件基线是 AgileX COBOT Magic（PiPER X）+ Daimon tactile sensor。",
-      "asset": "dashboard/assets/real-robot-robodojo-tac-20260810.png",
-      "asset_alt": "RoboDojo-Tac project slide showing an AgileX COBOT Magic platform with Daimon tactile sensing, six contact-rich tasks, and a global evaluation concept.",
-      "asset_caption": "RoboDojo-Tac project framing from Real-Robot Part.pptx: classify, disassemble, hang, pack, sweep and cap tasks under a shared sim-and-real evaluation. The task images define benchmark scope; no aggregate score is claimed here.",
+      "updated_at": "2026-08-22T08:52:58.070Z",
+      "description": "A real-world benchmark and PosePlan-VTLA model that jointly predict future in-gripper SE(2) object trajectories and robot action chunks, using Tac2Pose-supervised tactile demonstrations and closed-loop environmental contact.",
+      "summary": "TacPoseBench 研究机器人抓住物体后如何把它调整到任务所需姿态。Tac2Pose Teacher 离线为真实触觉示范生成带置信度的 SE(2) pose sequence，并构造未来夹爪内位姿轨迹监督；PosePlan-VTLA 同时预测 Future SE(2) Pose Plan 与双臂 action chunk。策略通过桌面、桌沿、墙面、固定结构、其他物体或另一只机械手产生 extrinsic contact，在短时执行后读取新触觉并重新规划。Benchmark 统一评测 Future Pose Forecasting、Goal-Conditioned Regulation、Contact Generalization 与 Downstream Utility。",
+      "asset": "dashboard/assets/tacposebench-system.svg",
+      "asset_alt": "TacPoseBench architecture showing multimodal observations entering PosePlan-VTLA, future in-gripper SE2 pose planning, flow-matching action generation, and closed-loop extrinsic contact with the environment.",
+      "asset_caption": "PosePlan-VTLA predicts how the object should move inside the gripper and the robot actions that realize that plan; new tactile evidence closes the loop across tables, edges, walls, objects and another gripper.",
       "visual": {
         "layout": "standard"
       },
       "subprojects": [
         {
           "label": "A",
-          "title": "Unified Sim-and-Real Protocol",
-          "body": "Freeze task semantics, observation/action contracts, randomization, success criteria and failure labels so simulation and hardware results are directly comparable.",
-          "output": "Versioned benchmark specification and matched evaluation manifests"
+          "title": "Tac2Pose Teacher",
+          "body": "Convert synchronized Daimon tactile demonstrations into confidence-aware SE(2) pose sequences, then derive future pose trajectories for each training horizon.",
+          "output": "Versioned teacher cache with pose posteriors, filtered trajectories and uncertainty"
         },
         {
           "label": "B",
-          "title": "Contact-Rich Task Suite",
-          "body": "Cover object classification, LEGO disassembly, mug hanging, backpack packing, sweeping and pen capping, where contact timing, force and slip matter.",
-          "output": "Per-task episodes, tactile traces, robot state, outcomes and failure taxonomy"
+          "title": "PosePlan-VTLA",
+          "body": "Jointly generate future in-gripper SE(2) pose tokens and flow-matching action chunks from vision, touch, language and proprioception.",
+          "output": "Closed-loop model with Future Pose Planner and dual-arm Action Head"
         },
         {
           "label": "C",
-          "title": "Global Evaluation",
-          "body": "Measure held-out object, pose, scene and sim-to-real generalization together with success, contact safety, recovery, latency and intervention cost.",
-          "output": "Comparable policy scorecards and failure galleries"
+          "title": "Extrinsic Contact Generalization",
+          "body": "Evaluate environmental contact through tables, edges, walls, fixtures, nearby objects and another gripper under changed geometry and physical properties.",
+          "output": "Contact-substitution rollouts, recovery traces and behavior analysis"
+        },
+        {
+          "label": "D",
+          "title": "TacPoseBench",
+          "body": "Standardize future pose forecasting, goal-conditioned regulation, contact generalization and downstream precision tasks on Cobot Magic.",
+          "output": "Dataset, splits, evaluator, baselines, scorecards and task assets"
         }
       ],
       "details": [
-        "Hardware baseline: AgileX COBOT Magic with PiPER X arms and Daimon tactile sensing. Hardware availability, calibration and safety readiness remain tracked separately in Real-Robot Infra.",
-        "The benchmark claim is broader than a task collage: every task needs the same reset contract, randomization envelope, sensor timestamps, tactile calibration, success detector and failure annotation in simulation and reality.",
-        "Policy comparisons should separate vision-only, tactile-only where meaningful, visuotactile fusion and oracle/state baselines, and report actual/zero/wrong-action gates for action-conditioned models.",
-        "Global Eval means held-out scenario evaluation, not merely averaging six in-distribution task scores. Report cross-object, cross-layout and disturbance recovery explicitly.",
-        "Status boundary 2026-08-10: this is one of the five ongoing Real-Robot projects. The PPT establishes project scope and hardware intent; real benchmark numbers require released manifests, executable evaluators and measured runs."
+        "Hardware baseline: AgileX COBOT Magic with PiPER X arms and Daimon tactile sensing on a two-finger gripper.",
+        "Model outputs: a future object-in-gripper SE(2) trajectory X_hat[t+1:t+H] and a synchronized robot action chunk a_hat[t:t+H-1].",
+        "Teacher pipeline: Tac2Pose plus temporal filtering produces pose distributions for real tactile demonstrations; external tracking supplies calibration, continuous residual labels and benchmark ground truth.",
+        "Execution: run a short action prefix, acquire new tactile evidence, and replan in a receding-horizon loop.",
+        "Contact settings: table, edge, wall, fixture, passive object and another gripper are all valid environmental interaction conditions.",
+        "Benchmark tracks: Future Pose Forecasting, Goal-Conditioned Regulation, Contact Generalization and Downstream Utility.",
+        "Flagship tasks: keyed insertion, tool alignment, capping and contact-source substitution under randomized initial grasps."
+      ],
+      "references": [
+        {
+          "title": "TEXterity: Simultaneous Tactile Estimation and Control for Extrinsic Dexterity",
+          "url": "https://arxiv.org/abs/2403.00049",
+          "arxiv_id": "2403.00049",
+          "submitted_at": "2024",
+          "notes": "Classical reference for tactile SE(2) estimation and extrinsic in-gripper reorientation."
+        },
+        {
+          "title": "Tac2Pose: Tactile Object Pose Estimation from the First Touch",
+          "url": "https://arxiv.org/abs/2204.11701",
+          "arxiv_id": "2204.11701",
+          "submitted_at": "2022",
+          "notes": "Teacher model for object-specific tactile pose distributions from known CAD geometry."
+        },
+        {
+          "title": "Enhancing Generalizable 6D Pose Tracking of an In-Hand Object with Tactile Sensing",
+          "url": "https://arxiv.org/abs/2210.04026",
+          "arxiv_id": "2210.04026",
+          "submitted_at": "2022",
+          "notes": "Visual-tactile in-hand pose tracking and dataset reference."
+        },
+        {
+          "title": "General In-Hand Object Rotation with Vision and Touch",
+          "url": "https://arxiv.org/abs/2309.09979",
+          "arxiv_id": "2309.09979",
+          "submitted_at": "2023",
+          "notes": "Visuotactile multi-axis in-hand rotation policy reference."
+        },
+        {
+          "title": "Pose and Shear-Based Tactile Servoing",
+          "url": "https://arxiv.org/abs/2312.08411",
+          "arxiv_id": "2312.08411",
+          "submitted_at": "2023",
+          "notes": "Probabilistic tactile state estimation and servoing reference."
+        }
       ],
       "risks_decisions": [
-        "Do not let simulation success substitute for real tactile calibration or hardware success; report sim and real separately before any combined score.",
-        "Tactile sensing must change the decision problem. Tasks that are fully solved from vision alone are useful controls but cannot be the only evidence for RoboDojo-Tac.",
-        "Contact force, slip and safety claims require calibrated signals and explicit thresholds; visual plausibility is not tactile ground truth.",
-        "Shared dependency tasks attached to this card are not automatically benchmark-complete; their outputs must be imported under the frozen RoboDojo-Tac schema."
+        "Preserve the full Tac2Pose pose distribution and weight teacher supervision by confidence to represent tactile ambiguity.",
+        "Use external tracking for calibration and evaluation while keeping deployment observations robot-native.",
+        "Link every pose-forecast metric to real regulation and downstream task outcomes.",
+        "Freeze reset distributions, pose tolerances, contact layouts, action rates and safety thresholds per task.",
+        "Report held-out object, target pose, contact environment and physical-property splits separately.",
+        "Bound real-world exploration with workspace, velocity, force, drop and human-stop gates."
       ],
       "task_ids": [
-        "task_robodojo_tac_sim_real_contract_v0_20260810",
-        "task_general_tactile_stacking_pilot",
         "task_hardware_two_finger_tactile_gripper_platform"
       ],
       "timeline": {
@@ -2937,21 +2815,21 @@ export default {
             "value": "COBOT Magic / PiPER X"
           },
           {
-            "label": "Sensor",
-            "value": "Daimon tactile"
+            "label": "Model",
+            "value": "PosePlan-VTLA"
           },
           {
-            "label": "Evaluation",
-            "value": "Sim + real"
+            "label": "Benchmark",
+            "value": "Future SE(2) + Action"
           }
         ],
-        "target_cycle": "benchmark contract -> matched sim/real tasks -> baseline policies -> held-out global evaluation",
-        "target_note": "Publish scope, failures and separate sim/real evidence before any aggregate benchmark claim.",
-        "sprint_start": "2026-08-10",
+        "target_cycle": "Teacher labels -> future pose planner -> action co-training -> closed-loop regulation -> contact generalization -> downstream evaluation",
+        "target_note": "Freeze TacPoseBench v1.0 after dynamic teacher QA, real-robot regulation, held-out contact tests and downstream precision validation.",
+        "sprint_start": "2026-08-22",
         "sprint_due": null,
         "milestones": []
       },
-      "asset_added_at": "2026-08-10"
+      "asset_added_at": "2026-08-22"
     },
     {
       "schema_version": "project.v1",

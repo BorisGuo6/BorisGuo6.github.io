@@ -44,6 +44,10 @@ export function isBlobPreconditionFailedError(error) {
     || /Precondition failed: ETag mismatch/i.test(String(error?.message || ""));
 }
 
+function isPublicBlobStoreError(error) {
+  return /Cannot use private access on a public store/i.test(String(error?.message || ""));
+}
+
 function timestampValue(value) {
   const timestamp = Date.parse(value || "");
   return Number.isFinite(timestamp) ? timestamp : 0;
@@ -166,7 +170,10 @@ export async function writeVercelBlobSnapshot(snapshot, options = {}) {
   if (!token) {
     throw new Error("BLOB_READ_WRITE_TOKEN is not configured");
   }
-  const pathname = options.pathname || dashboardBlobPath(env);
+  let access = options.access || env.DASHBOARD_BLOB_ACCESS || "private";
+  let pathname = options.pathname || (access === "public"
+    ? legacyDashboardBlobPath(env)
+    : dashboardBlobPath(env));
   const blobApi = options.blobApi || await blobClient();
   let backup = null;
   let backupError = null;
@@ -178,17 +185,30 @@ export async function writeVercelBlobSnapshot(snapshot, options = {}) {
   const previousSnapshot = options.previousSnapshot || (shouldBackup
     ? (await readVercelBlobSnapshot({ env, pathname, blobApi }))?.snapshot
     : null);
-  const blob = await blobApi.put(pathname, serializeDashboardSnapshot({
+  const serializedSnapshot = serializeDashboardSnapshot({
     ...snapshot,
     source: "vercel-blob",
-  }), {
-    access: "private",
+  });
+  const putOptions = {
+    access,
     addRandomSuffix: false,
     allowOverwrite: true,
     cacheControlMaxAge: 60,
     ...(options.ifMatch ? { ifMatch: normalizeBlobEtag(options.ifMatch) } : {}),
     token,
-  });
+  };
+  let blob;
+  try {
+    blob = await blobApi.put(pathname, serializedSnapshot, putOptions);
+  } catch (error) {
+    if (access !== "private" || !isPublicBlobStoreError(error)) throw error;
+    access = "public";
+    pathname = options.publicPathname || legacyDashboardBlobPath(env);
+    blob = await blobApi.put(pathname, serializedSnapshot, {
+      ...putOptions,
+      access,
+    });
+  }
   if (shouldBackup && previousSnapshot) {
     const backupPath = options.backupPath || backupPathForBlob(pathname, options.now || new Date());
     try {
@@ -197,7 +217,7 @@ export async function writeVercelBlobSnapshot(snapshot, options = {}) {
         audit_log: [],
         source: "vercel-blob-backup",
       }), {
-        access: "private",
+        access,
         addRandomSuffix: false,
         allowOverwrite: false,
         cacheControlMaxAge: 60,
