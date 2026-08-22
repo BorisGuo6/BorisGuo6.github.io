@@ -1,47 +1,48 @@
 {
   "schema_version": "project.v1",
   "project_id": "dex-gello",
-  "title": "DexGELLO: Isomorphic Arm–Hand Teleoperation",
+  "title": "DexTTT: Test-Time Training for Dexterous Arm-Hand Policies",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-08-11T11:38:44.161Z",
-  "description": "A high-fidelity teleoperation and data-collection platform that couples an isomorphic leader arm with a dexterous hand to capture natural arm–hand manipulation demonstrations.",
-  "summary": "GELLO + MANUS provide an isomorphic arm-hand teleoperation and data-collection path for Franka + Wuji. Dexora + RL-100 is folded into this card as the candidate real-robot offline-to-online RL lane.",
+  "updated_at": "2026-08-22T22:00:00+08:00",
+  "description": "A deployment-time learning framework for 54D bimanual dexterous policies that combines factorized arm-hand credit assignment, geometry-conditioned value learning, sparse human corrections, and guarded real-robot updates.",
+  "summary": "DexTTT enables Dual Franka + Dual Wuji policies to improve during real deployment. A factorized 14D arm head and 40D hand head share visual, proprioceptive, and task context while receiving separate intervention credit. FoundationPose-derived object-to-goal geometry enters the Value/Q Model, human takeover contributes targeted DAgger supervision, and autonomous rollouts contribute global return for safe test-time policy updates.",
   "subprojects": [
     {
       "label": "A",
-      "title": "Isomorphic leader arm",
-      "body": "GELLO mirrors the Franka arm kinematics so the operator can generate natural, low-latency arm trajectories.",
-      "output": "Leader-arm joints and target arm motion"
+      "title": "Factorized 54D policy",
+      "body": "Coupled arm and hand action heads share scene context while preserving independent update masks and advantage estimates.",
+      "output": "14D arm chunks + 40D hand chunks"
     },
     {
       "label": "B",
-      "title": "MANUS hand interface",
-      "body": "The operator's MANUS-gloved hand is fixed at the GELLO endpoint, replacing the original trigger interface and capturing wrist/finger intent.",
-      "output": "Hand root, finger articulation and retargeting signal"
+      "title": "Geometry-conditioned value",
+      "body": "A Value/Q branch combines RGB, proprioception, task phase, and FoundationPose object-to-goal geometry to estimate progress, success, uncertainty, and intervention need.",
+      "output": "V, Q, A_arm, A_hand, P_success and uncertainty"
     },
     {
       "label": "C",
-      "title": "Franka + Wuji execution",
-      "body": "Franka Research 3 reproduces the arm motion while Wuji Hand follows the retargeted dexterous-hand command under calibration and safety gates.",
-      "output": "Synchronized robot-ready arm–hand demonstrations"
+      "title": "Human-in-the-loop TTT",
+      "body": "FACTR-style quick-attach takeover and synchronized intervention masks turn deployment failures into targeted DAgger and advantage-conditioned updates.",
+      "output": "Guarded real-robot improvement loop"
     }
   ],
-  "asset": "dashboard/assets/real-robot-dexgello-20260810.png",
-  "asset_alt": "DexGELLO project slide showing a GELLO leader arm with a MANUS-gloved hand and a Franka Research 3 equipped with a Wuji dexterous hand.",
-  "asset_caption": "DexGELLO project framing from Real-Robot Part.pptx: GELLO + MANUS teleoperation mapped to Franka Research 3 + Wuji Hand. The slide is design context, not completed-system performance evidence.",
+  "asset": "dashboard/assets/dexttt-system.svg",
+  "asset_alt": "DexTTT system diagram linking a factorized arm-hand actor, geometry-conditioned value model, human intervention, and guarded deployment updates.",
+  "asset_caption": "DexTTT separates arm and hand credit while keeping their actions coupled, then combines human corrections and task return in a guarded deployment-learning loop.",
   "visual": {
     "layout": "standard"
   },
   "details": [
-    "Lead / ownership: Yongxi Lai leads this project; Boris provides dashboard / research organization and real-robot integration support.",
-    "Operator side: an isomorphic GELLO arm supplies the arm trajectory, while the MANUS-gloved human hand is mechanically located at the leader endpoint so arm, wrist and finger intent are captured together without the original trigger handle.",
-    "Robot side: Franka Research 3 executes the arm motion and Wuji Hand executes retargeted finger motion. Live use still depends on calibration, joint/velocity limits, collision checks, emergency stop and a hardware-validated replay gate.",
-    "Episode contract: retain synchronized camera observations, timestamps, GELLO/Franka arm state, hand-root pose when available, MANUS articulation, Wuji state, commanded action and calibration snapshot so one demonstration can be replayed and audited.",
-    "Optional VIVE lane: VIVE remains a verifier or ablation channel for independent hand-root pose; it is not the core operator interface shown in the current project framing.",
-    "Research comparison: evaluate arm-only GELLO, GELLO + MANUS, and optional GELLO + MANUS + hand-root tracking on operator comfort, smoothness, contact timing, finger-pose quality, demonstration diversity and downstream policy performance.",
-    "Status update 2026-08-10: the Real-Robot Part deck supersedes the earlier paused-Survey classification and defines DexGELLO as one of the five ongoing real-robot projects. This status does not by itself certify a completed end-to-end hardware run.",
-    "Offline-to-online learning lane: use Dexora demonstrations as the real-robot data source and evaluate RL-100-style BC, offline RL, guarded rollout, online RL, and replay-buffer merging behind the DexGELLO safety gates."
+    "Platform: Dual Franka arms and Dual Wuji dexterous hands form a 54D action space, observed through three RGB views and synchronized robot proprioception.",
+    "Actor: Dexora transfer fine-tuning is the primary policy route, with a morphology-matched 54D Flow Matching policy as the strong baseline. Both use coupled 14D arm and 40D hand action heads.",
+    "Value Model: FoundationPose supplies confidence-aware object-to-goal relative pose only to the Value/Q branch, where it supports progress estimation, candidate-action scoring, success prediction, uncertainty, and takeover suggestions.",
+    "Hand-only correction: the human hand action is positive supervision, the robot hand action immediately before takeover is negative evidence, and the simultaneous arm action continues to receive Value-based credit.",
+    "Arm-only correction changes arm advantage and supervision. Full takeover supervises both heads. Fully autonomous episodes use global return to evaluate the complete arm-hand behavior.",
+    "Deployment loop: offline initialization, guarded autonomous rollout, low-value or high-uncertainty takeover suggestion, human correction, replay-buffer aggregation, constrained update, evaluation gate, and rollback.",
+    "Human interface: a quick-attach FACTR-style leader mechanism lets the operator connect only when taking over. Aggregate hand force estimated from Wuji FSR patches or motor current drives one continuous weak-to-strong vibration motor on each MANUS glove.",
+    "Core task suite: pencil-case handover, two consecutive 90-degree cube turns, toy-knife cutting of soft clay, and gift wrapping with tape sealing.",
+    "Primary evaluation: success rate, online sample efficiency, intervention burden, arm/hand credit quality, value calibration, force safety, recovery performance, and OOD generalization."
   ],
   "task_ids": [
     "task_dex_gello_end_to_end_replay_gate_20260810",
@@ -60,101 +61,72 @@
   ],
   "references": [
     {
-      "title": "GELLO: A General, Low-Cost, and Intuitive Teleoperation Framework for Robot Manipulators",
-      "url": "https://wuphilipp.github.io/gello_site/",
-      "arxiv_id": "2309.13037",
-      "notes": "Primary arm-teleoperation reference. GELLO uses a kinematically equivalent low-cost leader arm for intuitive joint-space control and has demonstrated Franka / UR5 / xArm systems."
+      "title": "Dexora",
+      "url": "https://github.com/ZZongzheng0918/Dexora",
+      "notes": "Primary dexterous VLA transfer backbone and quality-aware post-training reference."
     },
     {
-      "title": "GELLO software",
-      "url": "https://github.com/wuphilipp/gello_software",
-      "notes": "Implementation reference for leader-arm robot control, calibration, and data-collection hooks."
+      "title": "RECAP",
+      "url": "https://arxiv.org/abs/2511.14759",
+      "notes": "Reference for combining demonstrations, on-policy experience, expert intervention, and advantage-conditioned real-world learning."
     },
     {
-      "title": "GELLO mechanical design",
-      "url": "https://github.com/wuphilipp/gello_mechanical",
-      "notes": "Hardware reference for low-cost leader construction and maintainable arm-teleop rigs."
+      "title": "RL-100",
+      "url": "https://lei-kun.github.io/RL-100/",
+      "notes": "Real-robot reinforcement learning systems reference."
     },
     {
-      "title": "DexUMI: Using Human Hand as the Universal Manipulation Interface for Dexterous Manipulation",
-      "url": "https://dex-umi.github.io/",
-      "arxiv_id": "2505.21864",
-      "notes": "Closest dexterous-data motivation reference: human-hand interface, visual adaptation, retargeting, tactile/haptic considerations, and downstream policy learning."
+      "title": "FACTR",
+      "url": "https://github.com/RaindragonD/factr/",
+      "notes": "Real-time leader-follower teleoperation and force-feedback reference for the quick-attach intervention interface."
     },
     {
-      "title": "MANUS robotics: high precision hand tracking for dexterous manipulation",
-      "url": "https://www.manus-meta.com/robotics",
-      "notes": "MANUS reference for high-DoF finger tracking, low-latency streaming, robot-hand teleoperation, and Isaac Lab / simulation integration."
+      "title": "FoundationPose",
+      "url": "https://github.com/NVlabs/FoundationPose",
+      "notes": "Object 6D pose tracking source for the geometry-conditioned Value/Q Model."
     },
     {
-      "title": "VIVE Wrist Tracker for developers",
-      "url": "https://developer.vive.com/us/hardware/wrist-tracker/",
-      "notes": "Tracker reference for lightweight wrist/object tracking, 6DoF pose, CAD/mounting, and OpenXR / OpenVR ecosystem considerations."
-    },
-    {
-      "title": "dex-teleop: VR-based teleoperation for dexterous manipulation",
-      "url": "https://github.com/GeneralTrajectory/dex-teleop",
-      "notes": "Engineering reference for VIVE Tracker + hand tracking + synchronized HDF5 recording. Use as a comparison point, but DexGello keeps GELLO as the arm-control channel."
-    },
-    {
-      "title": "Proximity Perception-Based Grasping Intelligence",
-      "url": "https://pure.kaist.ac.kr/en/publications/proximity-perception-based-grasping-intelligence-toward-the-seaml/",
-      "doi": "10.1109/TMECH.2023.3324051",
-      "notes": "Reference for proximity-based shared-autonomy grasping. Use as a metric/design reference for pre-contact hand-object relation and stage importance; do not make additional proximity hardware mandatory for DexGello v0."
-    },
-    {
-      "label": "Dexora",
-      "url": "https://github.com/ZZongzheng0918/Dexora"
-    },
-    {
-      "label": "RL-100",
-      "url": "https://github.com/Lei-Kun/RL-100"
+      "title": "PrometheusV4",
+      "url": "https://github.com/LV-Robotics-Lab/PrometheusV4",
+      "notes": "Current collection, training, and inference framework; the Franka-Wuji implementation lives on the hardware/franka-wuji line."
     }
   ],
   "risks_decisions": [
-    "Do not collapse the project into generic VR teleoperation. The novelty is the decoupled semantic record: q_arm from GELLO, T_hand from VIVE, and q_finger from MANUS.",
-    "Calibration risk: T_hand only becomes useful if VIVE world frame, Franka base, GELLO state, camera streams, and MANUS hand root share a reproducible time-sync and extrinsic-calibration procedure.",
-    "Mounting risk: a back-of-hand tracker must be rigid enough for pose analysis while not blocking MANUS glove motion, Wuji retargeting, camera mounts, cables, or emergency operation.",
-    "Information-overlap risk: VIVE hand pose may be redundant with GELLO end-effector pose for some tabletop tasks. The project needs explicit overlap metrics rather than assuming more sensors always help.",
-    "Live-update risk 2026-06-17: pure GELLO + MANUS is now a promising single-hand baseline, but it should not be promoted to the full v0 path until joint-behavior deviations, dual-hand calibration infeasibility, and safety staffing are addressed or explicitly scoped out.",
-    "Policy risk: downstream gains may appear only after enough dexterous tasks involve wrist roll, hand approach posture, or human finger pre-shaping. Choose tasks where the extra human-hand channel has a plausible role.",
-    "Failure-data risk: failed trajectories are not automatically useful. The metric must separate high-value pre-failure phases from the actual wrong action, otherwise imitation learning may amplify bad recovery/contact behavior.",
-    "Proximity/P2GI boundary: use P2GI as a design reference for pre-contact object-relation metrics. Adding proximity sensors to Wuji is a possible v1 experiment, not a prerequisite for the current GELLO + MANUS + VIVE logger.",
-    "DexGello input boundary: do not reintroduce GELLO trigger as the hand/finger control source. Keep arm control on GELLO, wrist/intent on ACE-style ring, and hand/finger retargeting on MANUS.",
-    "Demo boundary: slime-clay cutting, Jenga extraction, broom-to-dustpan sweeping, cube-turning, plastic-bag rubbing, and Lego tool manipulation are owned by Research / Ego2Dex Human Demonstration / LfD; DexGello contributes reusable logging, calibration, planning, and evaluation dependencies only. Safety gates still apply before any live run.",
-    "cuRobo boundary: planning wrapper, collision scene, joint limits, and reusable planner integration belong in DexGello; concrete demo scenario ownership and pass/fail evidence live in Real-Robot Demos.",
-    "Mounting dependency boundary: glove/camera adapters that affect MANUS, Wuji, VIVE, Franka, or DexGello episode replay belong in DexGello; shared robot availability and safety gates remain in Real-Robot Infra.",
-    "Status decision 2026-08-10: restore the card to Research / ongoing under the five-project Real-Robot program. Previously parked TODOs remain historical until explicitly reopened; project status must not be read as proof that calibration, logging or a live policy run has passed.",
-    "Dexora + RL-100 is a candidate route, not a validated port: action schema, control rate, reward/reset design, joint limits, intervention, and E-stop behavior must be verified before online updates."
+    "Every intervention requires synchronized arm-mask, hand-mask, takeover phase, pre-takeover robot action, corrected human action, and episode outcome.",
+    "Factorized heads remain mutually conditioned so local credit assignment preserves arm-hand coordination.",
+    "FoundationPose confidence and visibility gate geometric value features; pose uncertainty contributes directly to value uncertainty.",
+    "Online updates pass replay, joint-limit, collision, force, intervention-rate, and held-out success gates before deployment.",
+    "VLM criticism runs at low frequency for phase interpretation and takeover suggestion, while the high-rate actor and safety controller retain execution authority.",
+    "Haptic force feedback is an operator interface channel: aggregate FSR/current is mapped to per-hand vibration intensity during teleoperation."
   ],
   "timeline": {
     "badges": [
       {
-        "label": "Lead",
-        "value": "Yongxi Lai"
+        "label": "Platform",
+        "value": "Dual Franka + Dual Wuji"
       },
       {
-        "label": "Robot",
-        "value": "Franka + Wuji"
+        "label": "Action",
+        "value": "54D factorized"
       },
       {
-        "label": "Arm",
-        "value": "GELLO"
+        "label": "Learning",
+        "value": "DAgger + TTT"
       },
       {
-        "label": "Operator hand",
-        "value": "MANUS @ GELLO endpoint"
+        "label": "Geometry",
+        "value": "FoundationPose -> Value"
       },
       {
-        "label": "Fingers",
-        "value": "MANUS"
+        "label": "Tasks",
+        "value": "4 real-robot tasks"
       }
     ],
-    "target_cycle": "leader-arm integration -> arm/hand calibration -> synchronized logging -> replay gate -> policy evaluation",
-    "target_note": "Ongoing project framing; live success requires hardware-validated calibration, safety and replay evidence.",
-    "sprint_start": "2026-06-11",
+    "target_cycle": "BC initialization -> guarded rollout -> factorized intervention -> value/return labeling -> constrained update -> rollback gate",
+    "target_note": "The paper claim is safe deployment-time improvement of coupled, high-DoF arm-hand policies.",
+    "sprint_start": "2026-08-22",
     "sprint_due": null,
     "milestones": []
   },
-  "asset_added_at": "2026-08-10"
+  "asset_added_at": "2026-08-22"
 }

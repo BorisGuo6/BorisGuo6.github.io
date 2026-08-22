@@ -1,0 +1,123 @@
+{
+  "schema_version": "project.v1",
+  "project_id": "tactile-icl",
+  "title": "One-Shot Tactile In-Context Learning for Robot Manipulation",
+  "bucket": "research",
+  "status": "ongoing",
+  "updated_at": "2026-08-22T12:00:00.000Z",
+  "description": "A one-shot tactile in-context learning system where a DataClaw human demonstration becomes a grounded tactile skill prompt for a mixed-trained VTLA executing closed-loop on NERO with TacClaw.",
+  "summary": "测试时，操作者用 DataClaw 完成一次新技能示范。系统把视觉、腕部轨迹、夹爪状态和触觉流整理为 Tactile Skill Prompt；由 UMI 与 NERO 遥操作数据混合训练的 VTLA 读取提示，并结合 TacClaw 实时触觉闭环执行。实验以压力轨迹擦拭做因果诊断，以柔顺插接做标准接触基准，以线缆布置、插接和拉拽验证做长时程旗舰。",
+  "asset": "dashboard/assets/one-shot-tactile-icl-20260822.png",
+  "asset_alt": "One-shot tactile in-context learning pipeline from a DataClaw demonstration through a tactile prompt and mixed-trained VTLA to closed-loop NERO and TacClaw execution, with three real-robot task levels.",
+  "asset_caption": "One DataClaw demonstration specifies the desired contact program; a prompt-conditioned VTLA executes it on NERO while live TacClaw feedback closes the loop.",
+  "visual": {
+    "layout": "standard"
+  },
+  "subprojects": [
+    {
+      "label": "A",
+      "title": "Demonstrate Once",
+      "body": "Capture one synchronized DataClaw episode with RGB, wrist motion, gripper state and tactile streams.",
+      "output": "One tactile-rich test-time skill demonstration"
+    },
+    {
+      "label": "B",
+      "title": "Compile the Tactile Skill Prompt",
+      "body": "Convert the episode into validated phases, contact targets, keyframes, normalized motion and referenced raw tactile evidence.",
+      "output": "Versioned Prompt Package and validator report"
+    },
+    {
+      "label": "C",
+      "title": "Train a Prompt-Conditioned VTLA",
+      "body": "Mix DataClaw UMI and NERO + TacClaw teleoperation support-query pairs so one policy learns to interpret demonstrations.",
+      "output": "Mixed-data checkpoints and prompt-sensitivity ablations"
+    },
+    {
+      "label": "D",
+      "title": "Execute with Live Touch",
+      "body": "Condition robot action chunks on the prompt while TacClaw supplies current contact feedback for adaptation, termination and recovery.",
+      "output": "Held-out-skill scorecards and failure videos"
+    }
+  ],
+  "details": [
+    "Scientific setting: one DataClaw demonstration specifies a skill at test time; the VTLA remains frozen and executes in context.",
+    "Prompt interface: structured phases, contact targets and transitions are grounded by visual keyframes, normalized motion and selected raw tactile clips.",
+    "Training contract: DataClaw UMI and NERO + TacClaw teleoperation trajectories are mixed through support-query pairs and a shared relative wrist action representation.",
+    "Dual-role touch: demonstration-side tactile evidence defines desired contact intent; execution-side TacClaw observations provide closed-loop feedback.",
+    "Real-robot evidence ladder: prompted pressure-profile wiping, compliant connector insertion, and cable harness assembly with insertion and pull-test verification.",
+    "Evaluation boundary: the main claim requires held-out skill compositions, correct-versus-wrong prompt counterfactuals, live-touch ablations and measured contact quality."
+  ],
+  "references": [
+    {
+      "title": "Feel the Force: Contact-Driven Learning from Humans",
+      "url": "https://arxiv.org/abs/2506.01944",
+      "arxiv_id": "2506.01944",
+      "submitted_at": "2025",
+      "notes": "Human tactile demonstrations for force-sensitive manipulation."
+    },
+    {
+      "title": "OSMO: Open-Source Tactile Glove for Human-to-Robot Skill Transfer",
+      "url": "https://arxiv.org/abs/2512.08920",
+      "arxiv_id": "2512.08920",
+      "submitted_at": "2025",
+      "notes": "Shared tactile interface and sustained-pressure wiping."
+    },
+    {
+      "title": "TactAlign: Human-to-Robot Policy Transfer via Tactile Alignment",
+      "url": "https://arxiv.org/abs/2602.13579",
+      "arxiv_id": "2602.13579",
+      "submitted_at": "2026",
+      "notes": "Human-robot tactile alignment across pivoting, insertion, lid closing and light-bulb screwing."
+    },
+    {
+      "title": "N(0)-VTLA: Scaling Vision-Tactile-Language-Action Model with Latent Tactile Tokens",
+      "url": "https://arxiv.org/abs/2607.23782",
+      "arxiv_id": "2607.23782",
+      "submitted_at": "2026",
+      "notes": "Large-scale tactile pretraining, flow action expert and real-robot contact-rich tasks."
+    },
+    {
+      "title": "Generalist GEN-1.5",
+      "url": "https://generalistai.com/blog/gen-1.5",
+      "submitted_at": "2026",
+      "notes": "Motivation for physical prompting as a robot skill interface."
+    }
+  ],
+  "risks_decisions": [
+    "Freeze and hash the Prompt Package schema and compiler version; cache API outputs and attach validators to every rollout.",
+    "Pass the Task A prompt-causality gate before scaling the flagship: correct, shuffled and opposing tactile prompts must produce measurable contact differences.",
+    "Use held-out complete phase compositions in addition to held-out objects and layouts.",
+    "Ablate demonstration-side tactile intent and execution-side live touch separately, with contact quality and safety peaks.",
+    "Keep external API reasoning outside the control loop; online inference, limits, retreat logic and emergency stop remain local."
+  ],
+  "task_ids": [
+    "task_tactile_icl_prompt_schema_compiler_20260822",
+    "task_tactile_icl_mixed_vtla_training_20260822",
+    "task_tactile_icl_pressure_insertion_suite_20260822",
+    "task_tactile_icl_cable_harness_flagship_20260822",
+    "task_real_robot_infra_nero_daimon_gripper_camera_adapters",
+    "task_hardware_two_finger_tactile_gripper_platform"
+  ],
+  "timeline": {
+    "badges": [
+      {
+        "label": "Prompt",
+        "value": "1 DataClaw demo"
+      },
+      {
+        "label": "Policy",
+        "value": "Mixed-data VTLA"
+      },
+      {
+        "label": "Deploy",
+        "value": "NERO + TacClaw"
+      }
+    ],
+    "target_cycle": "Prompt schema → pressure-profile causal gate → mixed VTLA → compliant insertion → cable-harness flagship",
+    "target_note": "Promote the paper claim after held-out composition, wrong-prompt and live-touch ablations are complete on measured real-robot trials.",
+    "sprint_start": "2026-08-22",
+    "sprint_due": null,
+    "milestones": []
+  },
+  "asset_added_at": "2026-08-22"
+}

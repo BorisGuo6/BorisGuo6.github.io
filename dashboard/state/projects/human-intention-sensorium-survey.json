@@ -1,362 +1,114 @@
 {
   "schema_version": "project.v1",
   "project_id": "human-intention-sensorium-survey",
-  "title": "OmniEgo: Human-Centered Multisensor Data Collection",
+  "title": "EgoSensorium: Bidirectional Multimodal Human-Centered Data Collection",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-08-10T09:35:08.000Z",
-  "description": "A human-centered, modular egocentric data-acquisition platform that synchronizes first-person vision, gaze and facial cues, hand motion and dense tactile sensing, audio, and EMG to transform natural human interactions into robot-ready multimodal demonstrations.",
-  "summary": "OmniEgo 将自然人类交互拆成三条同步数据通道：Quest 3S、Ray-Ban Meta 与 Across Glasses 提供第一视角视觉；Wuji、UDCAP 与 HiGVR gloves 提供手部运动与触觉；眼动/面捕、麦克风阵列和 EMG 提供注意、声学环境与肌肉意图。核心不是堆传感器，而是在统一时钟、标定、缺失模态与质量门下，把可规模化的人类行为转换为可用于机器人学习的多模态 demonstrations。",
-  "asset": "dashboard/assets/real-robot-omniego-20260810.png",
-  "details": [
-    {
-      "text": "Quest 3S replaces Project Aria only as the first deployable capture backend, not as a sensor-equivalent device. The v0 adapter may use its forward-facing RGB cameras and system hand tracking, but it must validate camera-to-hand latency, joint mapping, calibration, coordinate frames, occlusion dropouts and long-recording stability. Eye and face signals come from the separately ordered CYMPLE Quest 3S kit; its arrival, fit, HUB, raw PC export, timestamp semantics and synchronization still require verification, so Aria-specific eye tracking and hardware synchronization cannot be inherited.",
-      "links": [
-        {
-          "label": "Quest Passthrough Camera API",
-          "url": "https://developers.meta.com/horizon/documentation/unity/unity-pca-overview/"
-        },
-        {
-          "label": "Meta OpenXR SDK",
-          "url": "https://github.com/meta-quest/Meta-OpenXR-SDK"
-        },
-        {
-          "label": "Aria Gen 2 hardware",
-          "url": "https://facebookresearch.github.io/projectaria_tools/gen2/technical-specs/device/hardware"
-        }
-      ]
-    },
-    {
-      "text": "The supplied order workbook confirms shipped candidates including Hall-effect muscle deformation, dual-channel sEMG, pressure/tactile arrays, data gloves and a MEMS microphone-array kit; the dashboard procurement table separately records the CYMPLE Quest 3S 面捕眼追套装（包含 HUB） as ordered. Screenshots add GSR, EEG, flex, e-nose and haptic candidates but do not prove purchase or signal quality by themselves. bHaptics wearables are actuators for controlled feedback experiments, not passive intention sensors. Every candidate enters the same repeated-task quality screen before model work.",
-      "links": []
-    },
-    {
-      "text": "Ego2Dex becomes OmniEgo's reconstruction and transfer lane. Conservative interfaces are: EgoEngine for Aria-based ego RGB/hand keys plus depth, masks and known-mesh object pose; Do-As-I-Do for monocular segmentation/geometry/hand-object reconstruction and retargeting; VideoManip for metric hand-object alignment, contact optimization and demonstration synthesis; EasyHOI for single-image reconstruction/contact refinement; HandFlow as a temporal hand-recovery component. Shared inputs, frames, scale, metrics, runtime, interventions and failure galleries are mandatory.",
-      "links": [
-        {
-          "label": "EgoEngine",
-          "url": "https://egoengine.github.io/"
-        },
-        {
-          "label": "Do-As-I-Do",
-          "url": "https://do-as-i-do.com/"
-        },
-        {
-          "label": "VideoManip",
-          "url": "https://videomanip.github.io/"
-        },
-        {
-          "label": "EasyHOI",
-          "url": "https://lym29.github.io/EasyHOI-page/"
-        },
-        {
-          "label": "HandFlow",
-          "url": "https://arxiv.org/abs/2607.11221"
-        }
-      ]
-    },
-    {
-      "text": "Representation is a hypothesis after the quality gate. Compare supervised intention/contact/action encoders with per-modality encoders, late fusion, clustering and VQ-VAE tokens. A useful token must remain stable across people and days, tolerate missing channels, predict held-out intent/contact/action outcomes, and improve a robot-learning consumer; compact reconstruction alone is insufficient."
-    },
-    {
-      "text": "The object-side branch is inspired by surface-conforming mutual-capacitance layouts on scanned rigid objects. That paper localizes touch on four rigid geometries; it does not measure force, shear, friction or force closure and does not validate robot or deformable-object manipulation. Our proposed dataset must add independent force/pressure/shear ground truth, object pose and outcome labels, then collect the same object/task across human hand, gripper and dexterous hand. Deformable objects remain a later materials, strain-durability and re-registration study.",
-      "links": [
-        {
-          "label": "Surface-conforming capacitive sensing",
-          "url": "https://arxiv.org/abs/2607.16739"
-        }
-      ]
-    }
-  ],
-  "task_ids": [
-    "task_human_intention_sensorium_xla_proposal",
-    "task_real_robot_demos_ego2dex_lfd_baseline_20260718",
-    "task_real_robot_demos_ego2dex_baseline_reproduction_20260729",
-    "task_real_robot_demos_ego2dex_franka_wuji_sim_gate_20260729",
-    "task_real_robot_demos_ego2dex_tactile_ablation_20260729",
-    "task_real_robot_demos_ego2dex_hand_contact_benchmark_20260729",
-    "task_umi_stage2_vddm_human_ego_probe_20260627",
-    "task_hoi_pnp_calibration",
-    "task_hoi_collection_matrix",
-    "task_hoi_sensor_validation",
-    "task_hoi_object_tracking",
-    "task_hoi_schema_model_target",
-    "task_hoi_retargeting_baselines",
-    "task_hoi_contact_annotation_pack",
-    "task_hoi_isaac_retargeting_verifier_v0",
-    "task_hoi_two_modality_capture_smoke",
-    "task_real_robot_demo_do_as_i_do_franka_wuji_tactile",
-    "task_omniego_quest3s_multisensor_v0_rig_20260729",
-    "task_omniego_sensor_quality_marginal_value_screen_20260729",
-    "task_omniego_vqvae_intention_encoding_20260729",
-    "task_omniego_object_surface_tactile_force_closure_dataset_20260729"
-  ],
-  "risks_decisions": [
-    "Research decision 2026-07-29: OmniEgo is Research, not a shopping-list Survey. The first deliverable is a quality and marginal-value matrix; model training starts only after the sensor gate.",
-    "Quest 3S plus the ordered CYMPLE face/eye kit is the v0 capture backend, not an Aria Gen 2 equivalent. Do not copy Aria-specific eye tracking, 21-point hand-key contracts or hardware synchronization claims into Quest recordings without measured Quest and CYMPLE adapter contracts.",
-    "EMG, EEG, GSR and muscle-deformation signals may have large cross-person and cross-day shifts. Use subject-held-out evaluation, calibration burden and repeated-session stability as first-class metrics.",
-    "bHaptics devices are feedback actuators. They can support controlled stimulus or closed-loop studies, but they are not counted as passive intention channels.",
-    "VQ-VAE, clustering and labeled encoding are competing hypotheses, not current results. Do not publish stable intent tokens until they survive held-out people, days, tasks and missing modalities.",
-    "The surface-capacitive paper supports touch-location sensing on scanned rigid objects only. Force-closure, cross-embodiment manipulation, dense force maps and deformable-object sensing require new hardware, calibration and outcome evidence.",
-    "Human-video pretraining and reconstructed trajectories do not prove robot executability. Every transfer path needs a declared mapping/IK/retargeting interface plus simulation/read-only validation before low-speed physical execution.",
-    "Do not publish the unsupported exact numbers from the draft technical report, including claimed millimeter errors, segmentation percentages, runtime, contact-force reductions or Tesla success rates, unless each is recovered from a primary source and reproduced under the shared protocol.",
-    "Raw physiological data, camera streams, audio and face/eye signals require consent, data minimization, access controls and a stated retention policy before collection."
-  ],
-  "asset_alt": "OmniEgo project slide grouping ego devices, instrumented gloves, eye and face tracking, microphone arrays, and EMG sensors into three synchronized data lanes.",
-  "asset_caption": "OmniEgo project framing from Real-Robot Part.pptx: Ego Data + Hand Data + Omni-modal Data. Device images show the intended modular sensor set; availability and measured signal quality remain separate gates.",
-  "references": [
-    {
-      "title": "Meta Quest Passthrough Camera API",
-      "url": "https://developers.meta.com/horizon/documentation/unity/unity-pca-overview/",
-      "notes": "Official Quest 3/3S forward-camera access contract and operational constraints; use as the v0 RGB capture reference, not as evidence of Aria-equivalent sensing."
-    },
-    {
-      "title": "Project Aria Gen 2 hardware specification",
-      "url": "https://facebookresearch.github.io/projectaria_tools/gen2/technical-specs/device/hardware",
-      "notes": "Official Aria sensor inventory used to make the non-equivalence boundary explicit."
-    },
-    {
-      "title": "EgoEngine: From Egocentric Human Videos to High-Fidelity Dexterous Robot Demonstrations",
-      "url": "https://arxiv.org/abs/2606.12604",
-      "arxiv_id": "2606.12604",
-      "submitted_at": "2026",
-      "notes": "Aria-based ego reconstruction and robot-demonstration baseline; public code and checkpoint availability must be audited before claiming reproduction."
-    },
-    {
-      "title": "Do-As-I-Do: Learning Robot Actions from Human Videos",
-      "url": "https://arxiv.org/abs/2606.19333",
-      "arxiv_id": "2606.19333",
-      "submitted_at": "2026",
-      "notes": "Monocular human-video hand-object reconstruction and robot retargeting baseline."
-    },
-    {
-      "title": "VideoManip: Dexterous Manipulation Policies from RGB Human Videos",
-      "url": "https://arxiv.org/abs/2602.09013",
-      "arxiv_id": "2602.09013",
-      "submitted_at": "2026",
-      "notes": "Metric hand/object alignment, ContactOpt refinement, retargeting and demonstration-synthesis baseline."
-    },
-    {
-      "title": "EasyHOI",
-      "url": "https://arxiv.org/abs/2411.14280",
-      "arxiv_id": "2411.14280",
-      "submitted_at": "2024",
-      "notes": "Single-image hand-object reconstruction and image/geometry/contact refinement baseline."
-    },
-    {
-      "title": "ContactOpt",
-      "url": "https://arxiv.org/abs/2104.07267",
-      "arxiv_id": "2104.07267",
-      "submitted_at": "2021",
-      "notes": "Predicted surface-contact maps plus differentiable geometric pose refinement; it is not a measured contact-force field."
-    },
-    {
-      "title": "TOCH",
-      "url": "https://arxiv.org/abs/2205.07982",
-      "arxiv_id": "2205.07982",
-      "submitted_at": "2022",
-      "notes": "Object-centric correspondence field and temporal denoising reference for hand-motion refinement."
-    },
-    {
-      "title": "GeneOH Diffusion",
-      "url": "https://arxiv.org/abs/2402.14810",
-      "arxiv_id": "2402.14810",
-      "submitted_at": "2024",
-      "notes": "Three-stage interaction-trajectory denoising reference; it does not recover physical force."
-    },
-    {
-      "title": "HOLD",
-      "url": "https://arxiv.org/abs/2311.18448",
-      "arxiv_id": "2311.18448",
-      "submitted_at": "2023",
-      "notes": "Joint hand and unknown-object reconstruction from monocular video using articulated implicit models."
-    },
-    {
-      "title": "GHOST",
-      "url": "https://arxiv.org/abs/2603.18912",
-      "arxiv_id": "2603.18912",
-      "submitted_at": "2026",
-      "notes": "Monocular hand-object reconstruction comparison using geometry priors, grasp-aware alignment and hand-aware background loss."
-    },
-    {
-      "title": "Being-H0",
-      "url": "https://arxiv.org/abs/2507.15597",
-      "arxiv_id": "2507.15597",
-      "submitted_at": "2025",
-      "notes": "Human-video VLA pretraining, physical-space alignment and robot post-training reference."
-    },
-    {
-      "title": "EgoScale",
-      "url": "https://arxiv.org/abs/2602.16710",
-      "arxiv_id": "2602.16710",
-      "submitted_at": "2026",
-      "notes": "Human-data scaling and aligned human–robot mid-training reference with retargeted dexterous-hand actions."
-    },
-    {
-      "title": "VITRA",
-      "url": "https://arxiv.org/abs/2510.21571",
-      "arxiv_id": "2510.21571",
-      "submitted_at": "2025",
-      "notes": "Human wrist and MANO-style action representation plus robot adaptation reference."
-    },
-    {
-      "title": "EgoVLA",
-      "url": "https://arxiv.org/abs/2507.12440",
-      "arxiv_id": "2507.12440",
-      "submitted_at": "2025",
-      "notes": "Human wrist/MANO prediction and fingertip-to-robot mapping reference; not evidence of zero-shot physical executability."
-    },
-    {
-      "title": "METIS",
-      "url": "https://arxiv.org/abs/2511.17366",
-      "arxiv_id": "2511.17366",
-      "submitted_at": "2025",
-      "notes": "Unified wrist-pose and fingertip action representation with target-robot IK."
-    },
-    {
-      "title": "HoloAssist",
-      "url": "https://openaccess.thecvf.com/content/ICCV2023/papers/Wang_HoloAssist_an_Egocentric_Human_Interaction_Dataset_for_Interactive_AI_Assistants_ICCV_2023_paper.pdf",
-      "submitted_at": "2023",
-      "notes": "Egocentric multimodal interaction data with instruction, mistake and intervention annotations."
-    },
-    {
-      "title": "HOT3D Dataset",
-      "url": "https://facebookresearch.github.io/projectaria_tools/docs/open_datasets/hot3d",
-      "submitted_at": "2024",
-      "notes": "Synchronized multi-view headset video, hand/object pose, eye gaze and scene signals."
-    },
-    {
-      "title": "TouchAnything / EgoTouch",
-      "url": "https://arxiv.org/abs/2605.13083",
-      "arxiv_id": "2605.13083",
-      "submitted_at": "2026",
-      "notes": "Ego RGB, wrist cameras, 3D hand pose and wearable tactile-pressure reference."
-    },
-    {
-      "title": "Hoi!: force-grounded cross-view articulated manipulation",
-      "url": "https://timengelbracht.github.io/Hoi-Dataset-Website/",
-      "arxiv_id": "2512.04884",
-      "submitted_at": "2025",
-      "notes": "Cross-view human and robot manipulation with force/tactile signals and spatial alignment."
-    },
-    {
-      "title": "Multimodal Fusion of EMG and Vision for Human Grasp Intent Inference",
-      "url": "https://arxiv.org/abs/2104.03893",
-      "arxiv_id": "2104.03893",
-      "submitted_at": "2021",
-      "notes": "Direct reference for complementary EMG, eye-view video and gaze evidence in grasp-intent inference."
-    },
-    {
-      "title": "Peripheral bio-signal fusion survey",
-      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9460678/",
-      "submitted_at": "2022",
-      "notes": "Modality and fusion tradeoffs for EMG, MMG, ultrasound, NIRS, IMU and optical sensing."
-    },
-    {
-      "title": "Retrofitting Existing 3D Objects with Surface-Conforming Capacitive Sensing",
-      "url": "https://arxiv.org/abs/2607.16739",
-      "arxiv_id": "2607.16739",
-      "submitted_at": "2026",
-      "notes": "SIGGRAPH 2026 object-surface mutual-capacitance layout and touch-localization reference. It does not measure force, shear, friction or force closure."
-    },
-    {
-      "title": "Jiachen Li / Trustworthy Autonomous Systems Lab",
-      "url": "https://jiachenli94.github.io/",
-      "notes": "Potential HRI, control and embodied-learning collaboration reference only; no public commitment and no claimed authorship of the surface-capacitive paper."
-    }
-  ],
-  "asset_added_at": "2026-07-29",
+  "updated_at": "2026-08-22T08:04:21.363Z",
+  "description": "A synchronized wearable system and dataset capturing egocentric stereo and wrist vision, gaze, upper-body motion, finger state, pressure, muscle activity and spatial audio, with chest haptic feedback for active data collection and robot-aware demonstrations.",
+  "summary": "EgoSensorium 让一名操作者一次性穿戴完整数采系统：Quest 3S 头盔搭载双目相机、CYMPLE 面捕、头部 Tracker 与圆形麦克风阵列；双手使用宇蝶手套、柔性压力片、手部 Tracker 与腕部相机；双上臂使用 Tracker、肌贴与主操作臂飞马座臂环；胸部 Tracker 建立躯干根节点，胸部 Haptic 根据数据质量、模型不确定性与机器人可执行性发送低带宽提示。系统把全部信号统一到同一时钟和坐标树，并发布面向意图预判、接触预测、空间音频、机器人迁移与主动采集的 Dataset 和 Benchmark。",
+  "asset": "dashboard/assets/egosensorium-system.svg",
+  "asset_alt": "EgoSensorium wearable acquisition architecture with head stereo, two wrist cameras, gaze and face capture, hand pressure, muscle sensing, spatial audio, six Vive trackers and chest haptic feedback.",
+  "asset_caption": "One wearer, one synchronized episode: multimodal sensing is grounded in a shared coordinate tree, while data quality, robotability and uncertainty close the loop through chest haptic prompts.",
   "visual": {
     "layout": "standard"
-  },
-  "intro_table": {
-    "kind": "architecture_status_table",
-    "caption": "OmniEgo research contract",
-    "columns": [
-      {
-        "key": "lane",
-        "label": "Lane"
-      },
-      {
-        "key": "inputs_outputs",
-        "label": "Inputs -> outputs"
-      },
-      {
-        "key": "acceptance",
-        "label": "Acceptance"
-      }
-    ],
-    "rows": [
-      {
-        "lane": "Capture",
-        "inputs_outputs": "Quest 3S ego RGB + hand/controller pose + wearable/environment/object-side streams -> synchronized raw episode",
-        "acceptance": "Document camera/pose timestamps, calibration, dropped frames and privacy. Integrate the ordered CYMPLE Quest 3S face/eye kit only after fit, raw-export, timestamp and synchronization checks pass."
-      },
-      {
-        "lane": "Validate",
-        "inputs_outputs": "Repeated scripted tasks across people and days -> modality quality and marginal-value matrix",
-        "acceptance": "Measure timestamp skew, SNR/repeatability, missingness, drift, cross-subject shift, burden and downstream task gain; retain only 3–5 useful channels."
-      },
-      {
-        "lane": "Encode",
-        "inputs_outputs": "Validated multimodal windows + intent/contact/action labels -> supervised embeddings or discrete VQ-VAE tokens",
-        "acceptance": "Use subject-held-out splits, missing-modality masks and label/token stability; compare against single-modality and late-fusion baselines."
-      },
-      {
-        "lane": "Reconstruct + transfer",
-        "inputs_outputs": "Ego video and hand-object state -> metric HOI trajectory, contact refinement and target-robot action",
-        "acceptance": "Run EgoEngine / Do-As-I-Do / VideoManip / EasyHOI / HandFlow under one manifest, then gate retargeting in simulation/read-only before physical execution."
-      },
-      {
-        "lane": "Instrument objects",
-        "inputs_outputs": "Surface-conforming touch layout + independent force/pose ground truth -> cross-embodiment same-object/task episodes",
-        "acceptance": "Capacitive touch is contact-location evidence only; force-closure claims require pressure/shear or 6D force sensing, calibration and real manipulation outcomes."
-      }
-    ]
-  },
-  "timeline": {
-    "badges": [
-      {
-        "label": "Bucket",
-        "value": "Research"
-      },
-      {
-        "label": "Backbone",
-        "value": "Ego + hand + omni-modal sensors"
-      },
-      {
-        "label": "Gate",
-        "value": "quality before encoding"
-      },
-      {
-        "label": "Target",
-        "value": "3–5 useful modalities"
-      }
-    ],
-    "target_cycle": "rig integration -> synchronization/calibration -> quality screen -> robot-ready episode export -> transfer evaluation",
-    "target_note": "Every modality reports latency, dropout, calibration and marginal value; the PPT device set is a project design, not proof that every sensor has passed the gate.",
-    "sprint_start": "2026-07-29",
-    "sprint_due": null,
-    "milestones": []
   },
   "subprojects": [
     {
       "label": "A",
-      "title": "Ego Data",
-      "body": "Quest 3S, Ray-Ban Meta and Across Glasses capture complementary first-person visual context under a shared timestamp and privacy contract.",
-      "output": "Synchronized ego video, calibration metadata and hand/controller pose when available."
+      "title": "Build the Full-Rig Wearable",
+      "body": "Integrate the Quest 3S head stack, bilateral rigid hand pods, arm biosignals, six Vive trackers, chest haptic and backpack compute into a single wearable system.",
+      "output": "Stable upper-body rig with repeatable fit and quick-release mounts"
     },
     {
       "label": "B",
-      "title": "Hand Data",
-      "body": "Wuji, UDCAP and HiGVR gloves cover hand pose, articulation and tactile/contact cues across complementary capture setups.",
-      "output": "Aligned hand motion, finger state and dense tactile/contact observations."
+      "title": "Unify Time and Space",
+      "body": "Calibrate camera intrinsics, tracker-to-body transforms, wrist-camera extrinsics, pressure maps, muscle baselines and microphone-array direction under one clock and coordinate tree.",
+      "output": "Versioned calibration package with latency and confidence metadata"
     },
     {
       "label": "C",
-      "title": "Omni-modal Data",
-      "body": "Eye/face tracking, microphone arrays and EMG add gaze, facial, acoustic and muscle-intent context to the same natural interaction episode.",
-      "output": "Robot-ready multimodal demonstrations with per-modality quality and missing-data metadata."
+      "title": "Release the Sensorium Dataset",
+      "body": "Collect synchronized natural, quality-assisted and robot-aware demonstrations across precision contact, insertion, deformable, tool-use, bimanual and recovery tasks.",
+      "output": "Raw, calibrated, annotated and robot-ready episode layers"
+    },
+    {
+      "label": "D",
+      "title": "Close the Haptic Loop",
+      "body": "Trigger chest vibration from data quality, model uncertainty and robotability, then quantify how people reorient, slow down, repeat and improve demonstrations.",
+      "output": "Haptic-Guided Active Collection benchmark and human-response dataset"
     }
-  ]
+  ],
+  "details": [
+    "Wearable stack: head stereo plus two wrist cameras, CYMPLE gaze/face capture, circular microphone array, six Vive trackers, Yudie gloves, flexible pressure films, bilateral muscle patches and a dominant-arm Pegasus armband.",
+    "Spatial contract: head, chest, upper arms and hands form a shared world-frame kinematic tree; wrist cameras, pressure maps and spatial audio are transformed into the same geometry.",
+    "Temporal contract: every stream retains device timestamps, master-clock mapping, offset/drift estimates, latency, confidence and missing-modality masks.",
+    "Bidirectional protocol: chest haptic encodes observation quality, model uncertainty or robotability through a small pulse vocabulary; each command and wearer response is logged.",
+    "Dataset layers: original sensor packets, synchronized calibrated streams, semantic and physical annotations, and robot-ready relative wrist/contact representations.",
+    "Benchmarks: intent and action anticipation, contact and pressure forecasting, spatial audio grounding, multimodal Human-to-Robot Transfer and Haptic-Guided Active Collection."
+  ],
+  "references": [
+    {
+      "title": "Ego-Exo4D Dataset Documentation",
+      "url": "https://docs.ego-exo4d-data.org/",
+      "submitted_at": "2024",
+      "notes": "Large-scale synchronized ego/exo vision, gaze, audio, motion and procedural annotations."
+    },
+    {
+      "title": "HoloAssist",
+      "url": "https://holoassist.github.io/",
+      "submitted_at": "2023",
+      "notes": "Multimodal egocentric human interaction with RGB-D, gaze, hand pose, audio and IMU."
+    },
+    {
+      "title": "EgoTouch / TouchAnything",
+      "url": "https://jianyi2004.github.io/TouchAnything-Website/",
+      "submitted_at": "2025",
+      "notes": "Egocentric and wrist visual streams with bimanual pose and dense wearable touch."
+    },
+    {
+      "title": "Hoi! Dataset",
+      "url": "https://timengelbracht.github.io/Hoi-Dataset-Website/",
+      "submitted_at": "2025",
+      "notes": "Multi-view, multi-embodiment hand-object interaction with force and tactile sensing."
+    },
+    {
+      "title": "Leveraging Haptic Feedback to Improve Data Quality and Quantity for Deep Imitation Learning Models",
+      "url": "https://arxiv.org/abs/2211.03020",
+      "arxiv_id": "2211.03020",
+      "submitted_at": "2022",
+      "notes": "Evidence that real-time haptic feedback can improve demonstration collection and learned-policy outcomes."
+    }
+  ],
+  "risks_decisions": [
+    "Keep tracker and camera extrinsics rigid through shared hand pods and repeat calibration checks after every refit.",
+    "Record raw device clocks, synchronization events, drift estimates and missing-modality masks for every episode.",
+    "Log haptic commands and actuator state so vibration artifacts in audio, IMU and muscle streams remain identifiable.",
+    "Evaluate wearer burden, naturalness and cognitive load alongside data throughput and model performance.",
+    "Use consent, pseudonymous identities and access tiers for face, gaze, voice and physiological signals.",
+    "Require every released modality to connect to a benchmark, ablation and documented sensor-quality gate."
+  ],
+  "task_ids": [],
+  "timeline": {
+    "badges": [
+      {
+        "label": "Rig",
+        "value": "6 tracked bodies"
+      },
+      {
+        "label": "Perception",
+        "value": "Head stereo + 2 wrists"
+      },
+      {
+        "label": "Loop",
+        "value": "Chest haptic"
+      }
+    ],
+    "target_cycle": "Full-rig integration -> sync and calibration -> pilot tasks -> scaled dataset -> multimodal benchmarks -> real-robot transfer",
+    "target_note": "Promote the central claims only after held-out participant/session tests, sensor-dropout evaluation, matched haptic conditions and measured real-robot transfer.",
+    "sprint_start": "2026-08-22",
+    "sprint_due": null,
+    "milestones": []
+  },
+  "asset_added_at": "2026-08-22"
 }

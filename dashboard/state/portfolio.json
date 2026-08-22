@@ -4,14 +4,14 @@
   "title": "Embodied AI Project Dashboard",
   "subtitle": "World models, self-improving agents, and five ongoing real-robot research projects",
   "week": "2026-W33",
-  "date": "2026-08-10",
-  "updated_at": "2026-08-10T09:35:08.000Z",
+  "date": "2026-08-22",
+  "updated_at": "2026-08-22T08:52:58.070Z",
   "state_root": "dashboard/state",
   "summary": {
-    "focus": "Research 主线包括 UMI World Model、Self-Improving Agents，以及真机组五个 ongoing 项目：DexGELLO、OmniEgo、RoboDojo-Tac、HiFi-TacUMI、Robot4Robot。",
+    "focus": "Research 主线包括 UMI World Model、Self-Improving Agents，以及真机组五个 ongoing 项目：DexGELLO、OmniEgo、TacPoseBench、Tactile ICL、Robot4Robot。",
     "progress": "Real-Robot Part.pptx 的项目定义、硬件组合与一句话叙事已映射为五张独立 Research 卡；旧的 DexGELLO / Robot4Robot Survey 分类被当前项目规划取代。",
     "blockers": "五张卡片记录的是当前项目路线，不等于实机闭环已经完成。共同门槛仍是同步与标定、数据 schema、触觉质量、跨本体映射、guarded execution，以及可复现的 sim/real 评测。",
-    "next": "为五个项目分别冻结第一版接口与验收证据：DexGELLO episode replay、OmniEgo synchronized episode、RoboDojo-Tac matched sim/real task、HiFi-TacUMI ratio ablation、Robot4Robot ego-only transfer gate。"
+    "next": "为真机项目冻结第一版接口与验收证据；Tactile ICL 优先完成 Prompt Package v0、压力轨迹因果诊断和 mixed VTLA smoke checkpoint，再进入柔顺插接与线缆装配旗舰任务。"
   },
   "storyline": {
     "summary": "How real-robot infra, human demonstrations, video world models, simulators, and physical outputs form one loop.",
@@ -57,8 +57,8 @@
           {
             "role": "primary",
             "eyebrow": "Train + Evaluate",
-            "title": "HiFi-TacUMI + RoboDojo-Tac",
-            "body": "HiFi-TacUMI mixes scalable tactile UMI data with a small teleoperation anchor; RoboDojo-Tac measures visuotactile policies under matched sim-and-real contact-rich tasks."
+            "title": "Tactile ICL + TacPoseBench",
+            "body": "Tactile ICL turns one tactile-rich DataClaw demonstration into a skill prompt; TacPoseBench trains PosePlan-VTLA to forecast future in-gripper SE(2) motion and generate closed-loop extrinsic-contact actions."
           },
           {
             "role": "outcome",
@@ -143,19 +143,19 @@
       "fit": "landscape-contain"
     },
     {
-      "src": "dashboard/assets/real-robot-robodojo-tac-20260810.png",
-      "alt": "RoboDojo-Tac project slide with COBOT Magic, Daimon tactile sensing, contact-rich tasks, and global evaluation.",
-      "caption": "Real-Robot Project 3 — RoboDojo-Tac: unified sim-and-real visuotactile benchmark for contact-rich manipulation and cross-scenario generalization. The slide defines scope; it does not claim a benchmark score.",
-      "source": "Real-Robot Part.pptx",
-      "added_at": "2026-08-10",
+      "src": "dashboard/assets/tacposebench-system.svg",
+      "alt": "TacPoseBench architecture showing multimodal observations entering PosePlan-VTLA, future in-gripper SE2 pose planning, flow-matching action generation, and closed-loop extrinsic contact with the environment.",
+      "caption": "PosePlan-VTLA predicts how the object should move inside the gripper and the robot actions that realize that plan; new tactile evidence closes the loop across tables, edges, walls, objects and another gripper.",
+      "source": "TacPoseBench Idea Proposal",
+      "added_at": "2026-08-22",
       "fit": "landscape-contain"
     },
     {
-      "src": "dashboard/assets/real-robot-hifi-tacumi-20260810.png",
-      "alt": "HiFi-TacUMI project slide with a TacUMI-majority and teleoperation-minority training recipe for NERO and Daimon tactile grippers.",
-      "caption": "Real-Robot Project 4 — HiFi-TacUMI: current v0 recipe uses approximately 90% TacUMI and 10% teleoperation data before guarded NERO + Daimon deployment. The ratio is a hypothesis pending matched ablation.",
-      "source": "Real-Robot Part.pptx",
-      "added_at": "2026-08-10",
+      "src": "dashboard/assets/one-shot-tactile-icl-20260822.png",
+      "alt": "One-shot tactile in-context learning pipeline from a DataClaw demonstration through a tactile prompt and mixed-trained VTLA to closed-loop NERO and TacClaw execution, with three real-robot task levels.",
+      "caption": "One DataClaw demonstration specifies the desired contact program; a prompt-conditioned VTLA executes it on NERO while live TacClaw feedback closes the loop.",
+      "source": "Tactile ICL Idea Proposal",
+      "added_at": "2026-08-22",
       "fit": "landscape-contain"
     },
     {
@@ -573,31 +573,41 @@
     },
     {
       "project_id": "dex-gello",
-      "title": "DexGELLO: Isomorphic Arm–Hand Teleoperation",
+      "title": "DexTTT: Test-Time Training for Dexterous Arm-Hand Policies",
       "bucket": "research",
       "status": "ongoing",
-      "state_path": "dashboard/state/projects/dex-gello.json"
+      "state_path": "dashboard/state/projects/dex-gello.json",
+      "summary": "DexTTT combines a factorized 54D arm-hand policy, FoundationPose-conditioned Value/Q learning, targeted human intervention, and guarded test-time updates on Dual Franka + Dual Wuji."
+    },
+    {
+      "project_id": "active-dex",
+      "title": "ActiveDex: Environment-Aware Active Vision for Mobile Dexterous Manipulation",
+      "bucket": "research",
+      "status": "ongoing",
+      "state_path": "dashboard/state/projects/active-dex.json",
+      "summary": "ActiveDex jointly predicts differential-base, arm, and AmazingHand actions on XLeRobot. Environment memory and task-aware View Value turn base motion into an active sensing and manipulation capability for occluded retrieval, drawer search, and mobile handover."
     },
     {
       "project_id": "human-intention-sensorium-survey",
-      "title": "OmniEgo: Human-Centered Multisensor Data Collection",
+      "title": "EgoSensorium: Bidirectional Multimodal Human-Centered Data Collection",
       "bucket": "research",
       "status": "ongoing",
       "state_path": "dashboard/state/projects/human-intention-sensorium-survey.json"
     },
     {
       "project_id": "robodojo-tac",
-      "title": "RoboDojo-Tac: Sim-and-Real Tactile Manipulation Benchmark",
+      "title": "TacPoseBench: Future In-Gripper Pose Planning for Extrinsic Dexterity",
       "bucket": "research",
       "status": "ongoing",
-      "state_path": "dashboard/state/projects/robodojo-tac.json"
+      "state_path": "dashboard/state/projects/robodojo-tac.json",
+      "summary": "TacPoseBench 研究机器人抓住物体后如何把它调整到任务所需姿态。Tac2Pose Teacher 离线为真实触觉示范生成带置信度的 SE(2) pose sequence，并构造未来夹爪内位姿轨迹监督；PosePlan-VTLA 同时预测 Future SE(2) Pose Plan 与双臂 action chunk。策略通过桌面、桌沿、墙面、固定结构、其他物体或另一只机械手产生 extrinsic contact，在短时执行后读取新触觉并重新规划。Benchmark 统一评测 Future Pose Forecasting、Goal-Conditioned Regulation、Contact Generalization 与 Downstream Utility。"
     },
     {
-      "project_id": "hifi-tacumi",
-      "title": "HiFi-TacUMI: High-Fidelity Tactile UMI Policy Learning",
+      "project_id": "tactile-icl",
+      "title": "One-Shot Tactile In-Context Learning for Robot Manipulation",
       "bucket": "research",
       "status": "ongoing",
-      "state_path": "dashboard/state/projects/hifi-tacumi.json"
+      "state_path": "dashboard/state/projects/tactile-icl.json"
     },
     {
       "project_id": "robot4robot",

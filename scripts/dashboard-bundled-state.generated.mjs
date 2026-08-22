@@ -1,21 +1,21 @@
 export default {
   "schema_version": "dashboard-state.v1",
   "source": "bundled-json-generated",
-  "updated_at": "2026-08-11T11:39:03.668Z",
+  "updated_at": "2026-08-22T12:00:00.000Z",
   "portfolio": {
     "schema_version": "portfolio.v1",
     "portfolio_id": "embodied-ai-dashboard",
     "title": "Embodied AI Project Dashboard",
     "subtitle": "World models, self-improving agents, and five ongoing real-robot research projects",
     "week": "2026-W33",
-    "date": "2026-08-10",
-    "updated_at": "2026-08-10T09:35:08.000Z",
+    "date": "2026-08-22",
+    "updated_at": "2026-08-22T12:00:00.000Z",
     "state_root": "dashboard/state",
     "summary": {
-      "focus": "Research 主线包括 UMI World Model、Self-Improving Agents，以及真机组五个 ongoing 项目：DexGELLO、OmniEgo、RoboDojo-Tac、HiFi-TacUMI、Robot4Robot。",
+      "focus": "Research 主线包括 UMI World Model、Self-Improving Agents，以及真机组五个 ongoing 项目：DexGELLO、OmniEgo、RoboDojo-Tac、Tactile ICL、Robot4Robot。",
       "progress": "Real-Robot Part.pptx 的项目定义、硬件组合与一句话叙事已映射为五张独立 Research 卡；旧的 DexGELLO / Robot4Robot Survey 分类被当前项目规划取代。",
       "blockers": "五张卡片记录的是当前项目路线，不等于实机闭环已经完成。共同门槛仍是同步与标定、数据 schema、触觉质量、跨本体映射、guarded execution，以及可复现的 sim/real 评测。",
-      "next": "为五个项目分别冻结第一版接口与验收证据：DexGELLO episode replay、OmniEgo synchronized episode、RoboDojo-Tac matched sim/real task、HiFi-TacUMI ratio ablation、Robot4Robot ego-only transfer gate。"
+      "next": "为真机项目冻结第一版接口与验收证据；Tactile ICL 优先完成 Prompt Package v0、压力轨迹因果诊断和 mixed VTLA smoke checkpoint，再进入柔顺插接与线缆装配旗舰任务。"
     },
     "storyline": {
       "summary": "How real-robot infra, human demonstrations, video world models, simulators, and physical outputs form one loop.",
@@ -61,8 +61,8 @@ export default {
             {
               "role": "primary",
               "eyebrow": "Train + Evaluate",
-              "title": "HiFi-TacUMI + RoboDojo-Tac",
-              "body": "HiFi-TacUMI mixes scalable tactile UMI data with a small teleoperation anchor; RoboDojo-Tac measures visuotactile policies under matched sim-and-real contact-rich tasks."
+              "title": "Tactile ICL + RoboDojo-Tac",
+              "body": "Tactile ICL turns one tactile-rich DataClaw demonstration into a skill prompt for a mixed-trained VTLA; RoboDojo-Tac measures visuotactile policies under matched sim-and-real contact-rich tasks."
             },
             {
               "role": "outcome",
@@ -155,11 +155,11 @@ export default {
         "fit": "landscape-contain"
       },
       {
-        "src": "dashboard/assets/real-robot-hifi-tacumi-20260810.png",
-        "alt": "HiFi-TacUMI project slide with a TacUMI-majority and teleoperation-minority training recipe for NERO and Daimon tactile grippers.",
-        "caption": "Real-Robot Project 4 — HiFi-TacUMI: current v0 recipe uses approximately 90% TacUMI and 10% teleoperation data before guarded NERO + Daimon deployment. The ratio is a hypothesis pending matched ablation.",
-        "source": "Real-Robot Part.pptx",
-        "added_at": "2026-08-10",
+        "src": "dashboard/assets/one-shot-tactile-icl-20260822.png",
+        "alt": "One-shot tactile in-context learning pipeline from a DataClaw demonstration through a tactile prompt and mixed-trained VTLA to closed-loop NERO and TacClaw execution, with three real-robot task levels.",
+        "caption": "One DataClaw demonstration specifies the desired contact program; a prompt-conditioned VTLA executes it on NERO while live TacClaw feedback closes the loop.",
+        "source": "Tactile ICL Idea Proposal",
+        "added_at": "2026-08-22",
         "fit": "landscape-contain"
       },
       {
@@ -597,11 +597,11 @@ export default {
         "state_path": "dashboard/state/projects/robodojo-tac.json"
       },
       {
-        "project_id": "hifi-tacumi",
-        "title": "HiFi-TacUMI: High-Fidelity Tactile UMI Policy Learning",
+        "project_id": "tactile-icl",
+        "title": "One-Shot Tactile In-Context Learning for Robot Manipulation",
         "bucket": "research",
         "status": "ongoing",
-        "state_path": "dashboard/state/projects/hifi-tacumi.json"
+        "state_path": "dashboard/state/projects/tactile-icl.json"
       },
       {
         "project_id": "robot4robot",
@@ -2955,88 +2955,126 @@ export default {
     },
     {
       "schema_version": "project.v1",
-      "project_id": "hifi-tacumi",
-      "title": "HiFi-TacUMI: High-Fidelity Tactile UMI Policy Learning",
+      "project_id": "tactile-icl",
+      "title": "One-Shot Tactile In-Context Learning for Robot Manipulation",
       "bucket": "research",
       "status": "ongoing",
-      "updated_at": "2026-08-10T09:35:08.000Z",
-      "description": "A tactile adaptation of HiFi-UMI that co-trains predominantly on high-fidelity TacUMI demonstrations with a small real-robot teleoperation anchor for direct deployment on AgileX NERO with Daimon tactile grippers.",
-      "summary": "HiFi-TacUMI 借鉴 HiFi-UMI 的高保真、可直接部署数据路线，但把采集端替换为带触觉的 Daimon TacUMI v1/v2，并在当前 v0 中采用约 90% TacUMI data + 约 10% Daimon DM-DataMaster teleoperation data 混训，目标是在 AgileX NERO + Daimon tactile gripper 上获得兼顾规模、接触信息和真实机器人锚点的可部署操纵策略。",
-      "asset": "dashboard/assets/real-robot-hifi-tacumi-20260810.png",
-      "asset_alt": "HiFi-TacUMI project slide showing approximately 90 percent TacUMI v1/v2 data and 10 percent Daimon DataMaster teleoperation data used to train a policy for AgileX NERO with Daimon tactile grippers.",
-      "asset_caption": "HiFi-TacUMI project framing from Real-Robot Part.pptx: TacUMI-majority mixed training with a small teleoperation anchor, then deployment on NERO + Daimon tactile grippers. The ratio is the current project recipe, not a completed ablation result.",
+      "updated_at": "2026-08-22T12:00:00.000Z",
+      "description": "A one-shot tactile in-context learning system where a DataClaw human demonstration becomes a grounded tactile skill prompt for a mixed-trained VTLA executing closed-loop on NERO with TacClaw.",
+      "summary": "测试时，操作者用 DataClaw 完成一次新技能示范。系统把视觉、腕部轨迹、夹爪状态和触觉流整理为 Tactile Skill Prompt；由 UMI 与 NERO 遥操作数据混合训练的 VTLA 读取提示，并结合 TacClaw 实时触觉闭环执行。实验以压力轨迹擦拭做因果诊断，以柔顺插接做标准接触基准，以线缆布置、插接和拉拽验证做长时程旗舰。",
+      "asset": "dashboard/assets/one-shot-tactile-icl-20260822.png",
+      "asset_alt": "One-shot tactile in-context learning pipeline from a DataClaw demonstration through a tactile prompt and mixed-trained VTLA to closed-loop NERO and TacClaw execution, with three real-robot task levels.",
+      "asset_caption": "One DataClaw demonstration specifies the desired contact program; a prompt-conditioned VTLA executes it on NERO while live TacClaw feedback closes the loop.",
       "visual": {
         "layout": "standard"
       },
       "subprojects": [
         {
           "label": "A",
-          "title": "High-Fidelity TacUMI Data",
-          "body": "Daimon TacUMI v1 and v2 provide scalable robot-free visual, trajectory and tactile/contact demonstrations under a common reconstruction and validation contract.",
-          "output": "Approximately 90% of the current training mix"
+          "title": "Demonstrate Once",
+          "body": "Capture one synchronized DataClaw episode with RGB, wrist motion, gripper state and tactile streams.",
+          "output": "One tactile-rich test-time skill demonstration"
         },
         {
           "label": "B",
-          "title": "Real-Robot Teleoperation Anchor",
-          "body": "Daimon DM-DataMaster supplies matched real-robot episodes that anchor action, tactile and deployment distributions.",
-          "output": "Approximately 10% of the current training mix"
+          "title": "Compile the Tactile Skill Prompt",
+          "body": "Convert the episode into validated phases, contact targets, keyframes, normalized motion and referenced raw tactile evidence.",
+          "output": "Versioned Prompt Package and validator report"
         },
         {
           "label": "C",
-          "title": "Train and Deploy",
-          "body": "Co-train under one schema, then evaluate direct deployment on AgileX NERO with Daimon tactile grippers against TacUMI-only and teleoperation-only baselines.",
-          "output": "Policy checkpoints, lineage, real-robot scorecards and failure videos"
+          "title": "Train a Prompt-Conditioned VTLA",
+          "body": "Mix DataClaw UMI and NERO + TacClaw teleoperation support-query pairs so one policy learns to interpret demonstrations.",
+          "output": "Mixed-data checkpoints and prompt-sensitivity ablations"
+        },
+        {
+          "label": "D",
+          "title": "Execute with Live Touch",
+          "body": "Condition robot action chunks on the prompt while TacClaw supplies current contact feedback for adaptation, termination and recovery.",
+          "output": "Held-out-skill scorecards and failure videos"
         }
       ],
       "details": [
-        "Relationship to HiFi-UMI: arXiv:2607.25895 studies high-fidelity UMI data and reports a zero-real-robot post-training route. HiFi-TacUMI is our tactile adaptation and intentionally keeps a small teleoperation anchor in the current v0; it must not be described as the paper's exact method or result.",
-        "Data contract: TacUMI and teleoperation episodes need aligned camera, gripper pose/action, tactile/contact, robot state, timestamps, calibration and task/outcome metadata before mixing.",
-        "Training comparisons: TacUMI-only, teleoperation-only, 90/10 mixed and at least one ratio sweep should use matched compute, tasks and evaluation scenes. The 90/10 split is a design hypothesis until the ablation is complete.",
-        "Deployment target: AgileX NERO with Daimon tactile grippers. Adapter completion is a dependency, not proof that the learned policy is safe or successful on hardware.",
-        "Status boundary 2026-08-10: this is one of the five ongoing Real-Robot projects; checkpoint, finite loss and hardware success claims must come from actual artifacts and measured runs."
+        "Scientific setting: one DataClaw demonstration specifies a skill at test time; the VTLA remains frozen and executes in context.",
+        "Prompt interface: structured phases, contact targets and transitions are grounded by visual keyframes, normalized motion and selected raw tactile clips.",
+        "Training contract: DataClaw UMI and NERO + TacClaw teleoperation trajectories are mixed through support-query pairs and a shared relative wrist action representation.",
+        "Dual-role touch: demonstration-side tactile evidence defines desired contact intent; execution-side TacClaw observations provide closed-loop feedback.",
+        "Real-robot evidence ladder: prompted pressure-profile wiping, compliant connector insertion, and cable harness assembly with insertion and pull-test verification.",
+        "Evaluation boundary: the main claim requires held-out skill compositions, correct-versus-wrong prompt counterfactuals, live-touch ablations and measured contact quality."
       ],
       "references": [
         {
-          "title": "HiFi-UMI: Learning Deployable Manipulation Policies from High-Fidelity UMI Data Alone",
-          "url": "https://arxiv.org/abs/2607.25895",
-          "arxiv_id": "2607.25895",
+          "title": "Feel the Force: Contact-Driven Learning from Humans",
+          "url": "https://arxiv.org/abs/2506.01944",
+          "arxiv_id": "2506.01944",
+          "submitted_at": "2025",
+          "notes": "Human tactile demonstrations for force-sensitive manipulation."
+        },
+        {
+          "title": "OSMO: Open-Source Tactile Glove for Human-to-Robot Skill Transfer",
+          "url": "https://arxiv.org/abs/2512.08920",
+          "arxiv_id": "2512.08920",
+          "submitted_at": "2025",
+          "notes": "Shared tactile interface and sustained-pressure wiping."
+        },
+        {
+          "title": "TactAlign: Human-to-Robot Policy Transfer via Tactile Alignment",
+          "url": "https://arxiv.org/abs/2602.13579",
+          "arxiv_id": "2602.13579",
           "submitted_at": "2026",
-          "notes": "Primary inspiration for high-fidelity UMI data and direct deployment. HiFi-TacUMI adds tactile capture and currently retains a small real-robot teleoperation anchor."
+          "notes": "Human-robot tactile alignment across pivoting, insertion, lid closing and light-bulb screwing."
+        },
+        {
+          "title": "N(0)-VTLA: Scaling Vision-Tactile-Language-Action Model with Latent Tactile Tokens",
+          "url": "https://arxiv.org/abs/2607.23782",
+          "arxiv_id": "2607.23782",
+          "submitted_at": "2026",
+          "notes": "Large-scale tactile pretraining, flow action expert and real-robot contact-rich tasks."
+        },
+        {
+          "title": "Generalist GEN-1.5",
+          "url": "https://generalistai.com/blog/gen-1.5",
+          "submitted_at": "2026",
+          "notes": "Motivation for physical prompting as a robot skill interface."
         }
       ],
       "risks_decisions": [
-        "Do not call HiFi-TacUMI a reproduction of HiFi-UMI: the sensor suite, tactile objective and 90/10 mixed-training recipe are project-specific changes.",
-        "Do not infer that 90/10 is optimal from the slide. It needs a matched ratio ablation and held-out real-robot evaluation.",
-        "Prevent scene leakage between TacUMI reconstruction, teleoperation anchor and NERO evaluation; report task, object and environment splits explicitly.",
-        "A completed mechanical adapter or successful offline training run is not a hardware-validation result; real deployment retains safety, freshness and intervention gates."
+        "Freeze and hash the Prompt Package schema and compiler version; cache API outputs and attach validators to every rollout.",
+        "Pass the Task A prompt-causality gate before scaling the flagship: correct, shuffled and opposing tactile prompts must produce measurable contact differences.",
+        "Use held-out complete phase compositions in addition to held-out objects and layouts.",
+        "Ablate demonstration-side tactile intent and execution-side live touch separately, with contact quality and safety peaks.",
+        "Keep external API reasoning outside the control loop; online inference, limits, retreat logic and emergency stop remain local."
       ],
       "task_ids": [
-        "task_hifi_tacumi_mixed_ratio_ablation_spec_20260810",
+        "task_tactile_icl_prompt_schema_compiler_20260822",
+        "task_tactile_icl_mixed_vtla_training_20260822",
+        "task_tactile_icl_pressure_insertion_suite_20260822",
+        "task_tactile_icl_cable_harness_flagship_20260822",
         "task_real_robot_infra_nero_daimon_gripper_camera_adapters",
         "task_hardware_two_finger_tactile_gripper_platform"
       ],
       "timeline": {
         "badges": [
           {
-            "label": "Data",
-            "value": "~90% TacUMI"
+            "label": "Prompt",
+            "value": "1 DataClaw demo"
           },
           {
-            "label": "Anchor",
-            "value": "~10% teleop"
+            "label": "Policy",
+            "value": "Mixed-data VTLA"
           },
           {
             "label": "Deploy",
-            "value": "NERO + Daimon"
+            "value": "NERO + TacClaw"
           }
         ],
-        "target_cycle": "TacUMI validation -> schema alignment -> mixed training -> ratio ablation -> guarded NERO deployment",
-        "target_note": "The deck defines the current recipe; promote results only with checkpoint lineage, finite loss and measured real-robot evidence.",
-        "sprint_start": "2026-08-10",
+        "target_cycle": "Prompt schema → pressure-profile causal gate → mixed VTLA → compliant insertion → cable-harness flagship",
+        "target_note": "Promote the paper claim after held-out composition, wrong-prompt and live-touch ablations are complete on measured real-robot trials.",
+        "sprint_start": "2026-08-22",
         "sprint_due": null,
         "milestones": []
       },
-      "asset_added_at": "2026-08-10"
+      "asset_added_at": "2026-08-22"
     },
     {
       "schema_version": "project.v1",
@@ -7319,7 +7357,7 @@ export default {
   ],
   "taskDoc": {
     "schema_version": "tasks.v1",
-    "updated_at": "2026-08-11T11:39:03.668Z",
+    "updated_at": "2026-08-22T12:00:00.000Z",
     "owner": "dashboard",
     "tasks": [
       {
@@ -21319,16 +21357,52 @@ export default {
         "updated_at": "2026-08-10T09:35:08.000Z"
       },
       {
-        "task_id": "task_hifi_tacumi_mixed_ratio_ablation_spec_20260810",
-        "project_id": "hifi-tacumi",
-        "title": "HiFi-TacUMI：冻结 TacUMI / teleop 混训 schema 与比例消融",
-        "description": "把 Daimon TacUMI v1/v2 与 DM-DataMaster teleoperation episode 对齐到同一 camera、pose/action、tactile/contact、robot state、timestamp、calibration、task/outcome schema；在启动大训练前冻结 TacUMI-only、teleop-only、当前约 90/10 mix 与至少一个 ratio sweep。\n\n验收：每组固定任务 split、场景/对象去泄漏规则、训练 compute、seed 和 NERO + Daimon 评测协议；输出 manifest lineage、finite-loss smoke、checkpoint、离线指标和 guarded hardware plan。90/10 只有在 matched real-robot evaluation 优于主要基线后才能写成推荐比例。",
+        "task_id": "task_tactile_icl_prompt_schema_compiler_20260822",
+        "project_id": "tactile-icl",
+        "title": "冻结 Tactile Skill Prompt schema 与编译器 v0",
+        "description": "把同步 DataClaw episode 编译为 visual keyframes、normalized wrist trajectory、selected raw tactile clips、phase DSL、contact target、transition、constraints 和 evidence references。\n\n验收：JSON Schema、prompt hash、10 段真实示范 validator、阶段与原始证据可视化、编译缓存；在线控制环不依赖外部 API。",
         "status": "todo",
         "priority": "high",
         "assignee": null,
         "result": null,
         "comments": [],
-        "updated_at": "2026-08-10T09:35:08.000Z"
+        "updated_at": "2026-08-22T12:00:00.000Z"
+      },
+      {
+        "task_id": "task_tactile_icl_mixed_vtla_training_20260822",
+        "project_id": "tactile-icl",
+        "title": "构建 UMI + NERO teleop 的 prompt-conditioned VTLA",
+        "description": "以 human→robot、human→human、robot→robot 与 cross-instance support-query 配对混合 DataClaw UMI 和 NERO + TacClaw teleoperation；统一 relative wrist action、gripper、vision、touch 和 proprioception。\n\n验收：dataset lineage、finite-loss smoke checkpoint、UMI-only/robot-only/mixed/ratio sweep、prompt sensitivity offline eval 和 guarded runtime interface。",
+        "status": "todo",
+        "priority": "high",
+        "assignee": null,
+        "result": null,
+        "comments": [],
+        "updated_at": "2026-08-22T12:00:00.000Z"
+      },
+      {
+        "task_id": "task_tactile_icl_pressure_insertion_suite_20260822",
+        "project_id": "tactile-icl",
+        "title": "完成压力轨迹擦拭与柔顺连接器插接真机基准",
+        "description": "Task A 在相同场景中用一次示范指定 light、firm、ramp-up、two-stage 压力轨迹；Task B 覆盖 approach、contact、search、insert、seat、release。\n\n验收：correct/shuffled/opposite/visual-only prompt 与 no-live-touch 对照；擦除覆盖、tactile curve DTW、peak error、插接成功、seat depth、最大接触强度、搜索路径、卡死和重试次数。",
+        "status": "todo",
+        "priority": "high",
+        "assignee": null,
+        "result": null,
+        "comments": [],
+        "updated_at": "2026-08-22T12:00:00.000Z"
+      },
+      {
+        "task_id": "task_tactile_icl_cable_harness_flagship_20260822",
+        "project_id": "tactile-icl",
+        "title": "建立 Cable Harness Assembly + Verification 旗舰任务",
+        "description": "一次 DataClaw 示范指定抓取线缆、经过卡扣/立柱、进入导槽、连接器插接、锁扣压合与轻拉验证。训练保留基础原语，测试保留新的路线拓扑、布局和完整阶段组合。\n\n验收：held-out composition split；visual-prompt、raw-demo、DSL-only、demo-to-plan 与 full prompt 对照；route topology、clip engagement、connector seating、pull-test、阶段成功率、接触安全与恢复次数。",
+        "status": "todo",
+        "priority": "high",
+        "assignee": null,
+        "result": null,
+        "comments": [],
+        "updated_at": "2026-08-22T12:00:00.000Z"
       },
       {
         "task_id": "task_umi_stage2_backbone_sim_layered_v2v_20260810",

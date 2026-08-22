@@ -1,0 +1,99 @@
+{
+  "schema_version": "project.v1",
+  "project_id": "active-dex",
+  "title": "ActiveDex: Environment-Aware Active Vision for Mobile Dexterous Manipulation",
+  "bucket": "research",
+  "status": "ongoing",
+  "updated_at": "2026-08-22T22:00:00+08:00",
+  "description": "A joint mobile-manipulation policy that learns when and how to move a differential base to create better visual, reachable, and contact-ready conditions for dexterous manipulation.",
+  "summary": "ActiveDex uses XLeRobot + AmazingHand to study environment-aware active vision through a unified [v, omega, arm, hand] action chunk. A short-horizon environment memory and task-aware View Value guide base repositioning for visibility and reachability, while coupled base, arm, and hand heads execute occluded retrieval, drawer search-and-retrieve, and mobile fetch-and-handover. Cobot Magic provides an incremental embodiment-transfer experiment.",
+  "subprojects": [
+    {
+      "label": "A",
+      "title": "Joint embodied action",
+      "body": "The policy predicts differential-base velocity, arm motion, and AmazingHand commands in one mutually conditioned action chunk.",
+      "output": "[v, omega, arm, hand]"
+    },
+    {
+      "label": "B",
+      "title": "Task-aware active vision",
+      "body": "Environment memory and View Value score candidate motion by visibility, reachability, task progress, motion cost, and safety.",
+      "output": "Move-to-see and see-to-manipulate behavior"
+    },
+    {
+      "label": "C",
+      "title": "Contact-aware mobile dexterity",
+      "body": "The base remains part of manipulation during alignment, drawer opening, inspection, retrieval, transport, and handover.",
+      "output": "Closed-loop mobile dexterous skills"
+    }
+  ],
+  "asset": "dashboard/assets/active-dex-system.svg",
+  "asset_alt": "ActiveDex architecture diagram showing environment memory and view value driving coupled base, arm, and hand action heads.",
+  "asset_caption": "ActiveDex treats base motion as a task-level sensing and manipulation action, jointly coordinated with the SO101 arm stack and AmazingHand.",
+  "visual": {
+    "layout": "standard"
+  },
+  "details": [
+    "Primary platform: XLeRobot differential base, SO101 arm stack, AmazingHand, head-level scene camera, and wrist-level manipulation cameras.",
+    "Policy interface: a unified action chunk predicts linear velocity v, angular velocity omega, arm trajectory, and dexterous-hand command with cross-head conditioning.",
+    "Environment representation: a short temporal memory maintains target identity, occluders, furniture geometry, recent viewpoints, reachability, and contact phase across base motion.",
+    "View Value: candidate base motions are ranked by expected visibility gain, manipulator reachability, downstream task progress, travel cost, and collision risk.",
+    "Task A, Occluded Mobile Retrieval: reposition around clutter or shelving, reveal the target, form an AmazingHand grasp, and place the object in a carried basket or goal zone.",
+    "Task B, Mobile Drawer Search-and-Retrieve: search, align, establish handle contact, coordinate base retreat with arm motion to open the drawer, inspect the interior, retrieve the target, and deliver it.",
+    "Task C, Multi-location Fetch-and-Handover: locate and grasp an object in one region, transport it stably, then hand it to a person or place it in a remote goal region.",
+    "Training path: joint behavior cloning, view-value and environment-memory supervision, then closed-loop refinement with recovery demonstrations and autonomous rollouts.",
+    "Evaluation compares fixed-base, navigate-then-lock, joint BC, joint policy with memory, and full ActiveDex across task success, phase success, view efficiency, base-arm-hand coordination, manipulation quality, safety, and OOD layouts.",
+    "Embodiment extension: transfer the environment encoder and View Value to Cobot Magic with a newly adapted action head, reporting sample efficiency under 10, 25, and 50 demonstrations."
+  ],
+  "task_ids": [],
+  "references": [
+    {
+      "title": "AmazingHand documentation",
+      "url": "https://wiki.seeedstudio.com/hand_amazinghand",
+      "notes": "Dexterous-hand hardware and interface reference."
+    },
+    {
+      "title": "PrometheusV4",
+      "url": "https://github.com/LV-Robotics-Lab/PrometheusV4",
+      "notes": "Shared data collection, policy training, and deployment framework."
+    }
+  ],
+  "risks_decisions": [
+    "Active-view behavior is evaluated by downstream task success and action cost rather than visibility alone.",
+    "Base, arm, and hand heads are mutually conditioned to prevent contact loss during mobile manipulation.",
+    "Contact phases use lower base speed, tighter acceleration limits, dynamic collision envelopes, and high-rate replanning.",
+    "Environment memory uses confidence decay and visual relocalization to manage odometry drift.",
+    "Camera, odometry, arm, and hand streams share synchronized episode timestamps and calibration snapshots.",
+    "The Cobot Magic study measures transfer of environment representation and View Value as an additional embodiment experiment."
+  ],
+  "timeline": {
+    "badges": [
+      {
+        "label": "Platform",
+        "value": "XLeRobot + AmazingHand"
+      },
+      {
+        "label": "Action",
+        "value": "[v, omega, arm, hand]"
+      },
+      {
+        "label": "Core",
+        "value": "Active vision"
+      },
+      {
+        "label": "Flagship",
+        "value": "Drawer retrieval"
+      },
+      {
+        "label": "Transfer",
+        "value": "Cobot Magic"
+      }
+    ],
+    "target_cycle": "joint teleoperation -> memory BC -> View Value -> closed-loop recovery -> OOD evaluation",
+    "target_note": "The central claim is that task-aware base motion creates better observation and manipulation conditions.",
+    "sprint_start": "2026-08-22",
+    "sprint_due": null,
+    "milestones": []
+  },
+  "asset_added_at": "2026-08-22"
+}

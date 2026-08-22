@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-08-11T11:39:03.668Z",
+  "updated_at": "2026-08-22T12:00:00.000Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -14000,16 +14000,52 @@
       "updated_at": "2026-08-10T09:35:08.000Z"
     },
     {
-      "task_id": "task_hifi_tacumi_mixed_ratio_ablation_spec_20260810",
-      "project_id": "hifi-tacumi",
-      "title": "HiFi-TacUMI：冻结 TacUMI / teleop 混训 schema 与比例消融",
-      "description": "把 Daimon TacUMI v1/v2 与 DM-DataMaster teleoperation episode 对齐到同一 camera、pose/action、tactile/contact、robot state、timestamp、calibration、task/outcome schema；在启动大训练前冻结 TacUMI-only、teleop-only、当前约 90/10 mix 与至少一个 ratio sweep。\n\n验收：每组固定任务 split、场景/对象去泄漏规则、训练 compute、seed 和 NERO + Daimon 评测协议；输出 manifest lineage、finite-loss smoke、checkpoint、离线指标和 guarded hardware plan。90/10 只有在 matched real-robot evaluation 优于主要基线后才能写成推荐比例。",
+      "task_id": "task_tactile_icl_prompt_schema_compiler_20260822",
+      "project_id": "tactile-icl",
+      "title": "冻结 Tactile Skill Prompt schema 与编译器 v0",
+      "description": "把同步 DataClaw episode 编译为 visual keyframes、normalized wrist trajectory、selected raw tactile clips、phase DSL、contact target、transition、constraints 和 evidence references。\n\n验收：JSON Schema、prompt hash、10 段真实示范 validator、阶段与原始证据可视化、编译缓存；在线控制环不依赖外部 API。",
       "status": "todo",
       "priority": "high",
       "assignee": null,
       "result": null,
       "comments": [],
-      "updated_at": "2026-08-10T09:35:08.000Z"
+      "updated_at": "2026-08-22T12:00:00.000Z"
+    },
+    {
+      "task_id": "task_tactile_icl_mixed_vtla_training_20260822",
+      "project_id": "tactile-icl",
+      "title": "构建 UMI + NERO teleop 的 prompt-conditioned VTLA",
+      "description": "以 human→robot、human→human、robot→robot 与 cross-instance support-query 配对混合 DataClaw UMI 和 NERO + TacClaw teleoperation；统一 relative wrist action、gripper、vision、touch 和 proprioception。\n\n验收：dataset lineage、finite-loss smoke checkpoint、UMI-only/robot-only/mixed/ratio sweep、prompt sensitivity offline eval 和 guarded runtime interface。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": null,
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-08-22T12:00:00.000Z"
+    },
+    {
+      "task_id": "task_tactile_icl_pressure_insertion_suite_20260822",
+      "project_id": "tactile-icl",
+      "title": "完成压力轨迹擦拭与柔顺连接器插接真机基准",
+      "description": "Task A 在相同场景中用一次示范指定 light、firm、ramp-up、two-stage 压力轨迹；Task B 覆盖 approach、contact、search、insert、seat、release。\n\n验收：correct/shuffled/opposite/visual-only prompt 与 no-live-touch 对照；擦除覆盖、tactile curve DTW、peak error、插接成功、seat depth、最大接触强度、搜索路径、卡死和重试次数。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": null,
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-08-22T12:00:00.000Z"
+    },
+    {
+      "task_id": "task_tactile_icl_cable_harness_flagship_20260822",
+      "project_id": "tactile-icl",
+      "title": "建立 Cable Harness Assembly + Verification 旗舰任务",
+      "description": "一次 DataClaw 示范指定抓取线缆、经过卡扣/立柱、进入导槽、连接器插接、锁扣压合与轻拉验证。训练保留基础原语，测试保留新的路线拓扑、布局和完整阶段组合。\n\n验收：held-out composition split；visual-prompt、raw-demo、DSL-only、demo-to-plan 与 full prompt 对照；route topology、clip engagement、connector seating、pull-test、阶段成功率、接触安全与恢复次数。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": null,
+      "result": null,
+      "comments": [],
+      "updated_at": "2026-08-22T12:00:00.000Z"
     },
     {
       "task_id": "task_umi_stage2_backbone_sim_layered_v2v_20260810",
