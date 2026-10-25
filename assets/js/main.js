@@ -1,7 +1,7 @@
 // Main JavaScript file for BorisGuo6.github.io
 // Contains all interactive functionality for the personal website
 
-var SITE_ASSET_VERSION = 'timeline-daimon-link-20261026';
+var SITE_ASSET_VERSION = 'timeline-alchedata-wordmark-20261026';
 var _deferredThirdPartyLoaded = false;
 
 // ============================================================================
@@ -52,6 +52,13 @@ function applyMode(full) {
   if (window._cachedSections) renderSiteAwards(window._cachedSections.awards);
 }
 
+function buildTimelineLogo(d) {
+  if (d.logoWordmark) {
+    return `<div class="timeline-wordmark"><img src="${d.logo}" alt="" loading="lazy"><span>${d.logoWordmark}</span></div>`;
+  }
+  return `<img src="${d.logo}" style="width:100%; height:auto;" alt="" loading="lazy">`;
+}
+
 function buildTimelineDetailTableMinimal(d) {
   const heading = d.nameHtml
     ? d.nameHtml + (d.location ? `, ${d.location}` : '')
@@ -63,7 +70,7 @@ function buildTimelineDetailTableMinimal(d) {
   const h3Title = datesSpan ? `${heading} ${datesSpan}` : heading;
   return `<table style="width:100%; border:none; padding:0px;"><tbody><tr>
 <td style="padding:25px; width:15%; vertical-align:middle; padding-top:20px;">
-<img src="${d.logo}" style="width:100%; height:auto;" alt="" loading="lazy">
+${buildTimelineLogo(d)}
 </td>
 <td style="padding-top:20px; padding-left:20px; padding-right:20px; width:85%; vertical-align:top;">
 <h3>${h3Title}</h3>
@@ -395,7 +402,7 @@ function buildTimelineDetailTable(id, d) {
   const h3Title = datesSpan ? `${heading} ${datesSpan}` : heading;
   return `<table id="${id}" style="width:98%; margin-left:20px; border:none; padding:0px;"><tbody><tr>
 <td style="padding:25px; width:15%; vertical-align:middle; padding-top:20px;">
-<img src="${d.logo}" style="width:100%; height:auto;" alt="" loading="lazy">
+${buildTimelineLogo(d)}
 </td>
 <td style="padding-top:20px; padding-left:20px; padding-right:20px; width:85%; vertical-align:top;">
 <h3>${h3Title}</h3>
