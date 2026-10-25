@@ -1485,7 +1485,7 @@ assert.doesNotMatch(
 );
 assert.match(
   homepageSource,
-  /assets\/js\/main\.js\?v=news-awards-restored-20260810/,
+  /assets\/js\/main\.js\?v=affiliation-logos-20261026/,
   "homepage must version main.js so removed timeline items are not revived by browser cache",
 );
 assert.equal(
@@ -1515,7 +1515,7 @@ assert.doesNotMatch(
 );
 assert.match(
   mainJsSource,
-  /SITE_ASSET_VERSION = 'news-awards-restored-20260810'[\s\S]+fetch\(versionedUrl\)/,
+  /SITE_ASSET_VERSION = 'affiliation-logos-20261026'[\s\S]+fetch\(versionedUrl\)/,
   "main.js must version JSON content fetches so stale timeline data is not reused",
 );
 assert.doesNotMatch(
