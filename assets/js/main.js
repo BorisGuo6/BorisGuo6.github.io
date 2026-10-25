@@ -1,7 +1,7 @@
 // Main JavaScript file for BorisGuo6.github.io
 // Contains all interactive functionality for the personal website
 
-var SITE_ASSET_VERSION = 'news-awards-restored-20260810';
+var SITE_ASSET_VERSION = 'affiliation-logos-20261026';
 var _deferredThirdPartyLoaded = false;
 
 // ============================================================================
@@ -355,14 +355,14 @@ function buildAffiliationCard(e) {
   const links = buildBtnLinksRow(e.links);
   const imgPathEsc = String(e.image).replace(/'/g, "\\'");
   const imgClick = 'onclick="openImagePreview(\'' + imgPathEsc + '\',\'' + escapeJsForSingleQuotedAttr(e.name) + '\')" title="Click to enlarge"';
-  return '<table style="width:100%; border:none; padding:0px; margin-bottom: 20px;"><tbody><tr>' +
-    '<td style="padding:25px; width:30%; vertical-align:middle; padding-top:20px;">' +
-    '<img class="hoverZoomLink" src="' + e.image + '" style="width:100%; height:auto;" alt="" loading="lazy" ' + imgClick + '></td>' +
-    '<td style="padding-top:20px; padding-left:20px; padding-right:20px; width:70%; vertical-align:top;">' +
+  return '<div class="affiliation-card">' +
+    '<div class="affiliation-logo">' +
+    '<img class="hoverZoomLink" src="' + e.image + '" alt="' + e.name + ' logo" loading="lazy" ' + imgClick + '></div>' +
+    '<div class="affiliation-info">' +
     '<h3>' + e.name + '</h3><b>' + e.role + '</b><br>' +
     '<span class="dates" style="float: none;">' + e.dates + '</span>' +
     extras + links +
-    '</td></tr></tbody></table>';
+    '</div></div>';
 }
 
 function renderAffiliationBlock(containerId, entries) {
