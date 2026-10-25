@@ -1485,7 +1485,7 @@ assert.doesNotMatch(
 );
 assert.match(
   homepageSource,
-  /assets\/js\/main\.js\?v=timeline-xspark-20261026/,
+  /assets\/js\/main\.js\?v=timeline-alchedata-20261026/,
   "homepage must version main.js so removed timeline items are not revived by browser cache",
 );
 assert.equal(
@@ -1515,7 +1515,7 @@ assert.doesNotMatch(
 );
 assert.match(
   mainJsSource,
-  /SITE_ASSET_VERSION = 'timeline-xspark-20261026'[\s\S]+fetch\(versionedUrl\)/,
+  /SITE_ASSET_VERSION = 'timeline-alchedata-20261026'[\s\S]+fetch\(versionedUrl\)/,
   "main.js must version JSON content fetches so stale timeline data is not reused",
 );
 assert.doesNotMatch(

@@ -1,7 +1,7 @@
 // Main JavaScript file for BorisGuo6.github.io
 // Contains all interactive functionality for the personal website
 
-var SITE_ASSET_VERSION = 'timeline-xspark-20261026';
+var SITE_ASSET_VERSION = 'timeline-alchedata-20261026';
 var _deferredThirdPartyLoaded = false;
 
 // ============================================================================
