@@ -1,7 +1,7 @@
 // Main JavaScript file for BorisGuo6.github.io
 // Contains all interactive functionality for the personal website
 
-var SITE_ASSET_VERSION = 'affiliation-logos-20261026';
+var SITE_ASSET_VERSION = 'affiliation-logos-full-huazhi-20261026';
 var _deferredThirdPartyLoaded = false;
 
 // ============================================================================
