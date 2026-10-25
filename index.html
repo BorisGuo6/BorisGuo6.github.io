@@ -74,7 +74,7 @@
                       <a id="cv-link" href="latex/CV.pdf" class="btn-sm badge-button">CV</a> &nbsp;/&nbsp;  
                       <a href="https://github.com/BorisGuo6" class="btn-sm badge-button">GitHub</a> &nbsp;/&nbsp;
                       <a href="https://scholar.google.com/citations?user=JEjiaq0AAAAJ" class="btn-sm badge-button">Google Scholar</a> &nbsp;/&nbsp;
-                      <span id="more-academic-links-wrap"><button type="button" onclick="openAcademicLinks()" class="btn-sm badge-button" aria-haspopup="dialog" aria-controls="AcademicLinksModal">More Academic Links</button> &nbsp;/&nbsp;</span>
+                      <span id="more-academic-links-wrap" style="display:none;"><button type="button" onclick="openAcademicLinks()" class="btn-sm badge-button" aria-haspopup="dialog" aria-controls="AcademicLinksModal">More Academic Links</button> &nbsp;/&nbsp;</span>
                       <button type="button" onclick="openWeChatModal()" class="btn-sm badge-button" aria-haspopup="dialog" aria-controls="WeChatModal">WeChat</button>
                     </p>
 
@@ -193,7 +193,7 @@
             </div>
 
             <!-- Papers Expand Button -->
-            <table id="section-toggle-papers" style="width:100%; border:0px; border-spacing:0px; border-collapse:separate; margin-left:auto; margin-right:auto;">
+            <table id="section-toggle-papers" style="display:none; width:100%; border:0px; border-spacing:0px; border-collapse:separate; margin-left:auto; margin-right:auto;">
               <tbody>
                 <tr>
                   <td style="padding-top: 0px; padding-bottom: 0px; padding-left: 20px; padding-right: 20px; width:100%; vertical-align:middle">
@@ -215,7 +215,7 @@
                           <td style="padding-top: 0px; padding-bottom: 10px; padding-left: 20px; padding-right: 20px; width:100%; vertical-align:middle">
                             <h2>Award</h2>
                             <ul class="award-list" id="awardList"></ul>
-                            <div id="section-toggle-awards" style="text-align: center; margin-top: 10px;">
+                            <div id="section-toggle-awards" style="display:none; text-align: center; margin-top: 10px;">
                               <button id="toggleAwards" onclick="toggleAwards()" style="background-color: #cccccc; color: #666666; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 14px; position: relative;">
                                 <span id="toggleText">Show More Awards</span>
                                 <span id="toggleIcon" style="display: inline-block; margin-left: 5px; transition: transform 0.3s;">▼</span>
@@ -299,7 +299,7 @@
             </table>
 
             <!-- Talks -->
-            <table id="section-talks" style="width:100%; border:0px; border-spacing:0px; border-collapse:separate; margin-left:auto; margin-right:auto;">
+            <table id="section-talks" style="display:none; width:100%; border:0px; border-spacing:0px; border-collapse:separate; margin-left:auto; margin-right:auto;">
               <tbody>
                 <tr>
                   <td style="padding-top: 0px; padding-bottom: 10px; padding-left: 20px; padding-right: 20px; width:100%; vertical-align:middle">
@@ -311,7 +311,7 @@
             </table>
 
             <!-- Organization & Entrepreneurship -->
-            <div id="section-org-entre" class="org-entre-grid">
+            <div id="section-org-entre" class="org-entre-grid" style="display:none;">
             <!-- Organization -->
             <details id="details-organization">
               <summary style="cursor: pointer; padding: 10px 20px; font-size: 24px; font-weight: 700; font-family: 'Alegreya SC', serif; color: #333; text-decoration: underline; text-decoration-color: #77BBDD; text-decoration-thickness: 3px; list-style: none;">
