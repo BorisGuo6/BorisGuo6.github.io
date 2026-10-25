@@ -1,7 +1,7 @@
 // Main JavaScript file for BorisGuo6.github.io
 // Contains all interactive functionality for the personal website
 
-var SITE_ASSET_VERSION = 'affiliation-logos-full-huazhi-20261026';
+var SITE_ASSET_VERSION = 'timeline-xspark-20261026';
 var _deferredThirdPartyLoaded = false;
 
 // ============================================================================
@@ -443,7 +443,8 @@ function renderTimelineChart(timeline) {
   function barHTML(item, color) {
     const top = toY(item.ey, item.em);
     const bot = toY(item.sy, item.sm);
-    const h = Math.max(bot - top, 18);
+    const h = Math.max(bot - top, 14);
+    const compact = h < 24;
     let left; let right; let bg; let radius; let showLabel;
     if (item.lstrip) {
       left = '1px'; right = 'calc(60% - 1px)'; bg = color;
@@ -489,7 +490,7 @@ function renderTimelineChart(timeline) {
                   height:${h.toFixed(1)}px;
                   background:${bg};
                   border-radius:${radius};
-                  padding:3px 5px;
+                  padding:${compact ? '1px 5px' : '3px 5px'};
                   box-sizing:border-box;
                   overflow:hidden;
                   cursor:pointer;
@@ -497,7 +498,7 @@ function renderTimelineChart(timeline) {
                   box-shadow:0 1px 4px rgba(0,0,0,0.12);
                   transition:filter 0.15s;
                 " onmouseenter="this.style.filter='brightness(1.1)'" onmouseleave="this.style.filter=''" title="${item.label} · ${item.sub}" onclick="tlShowDetail('${safeId}')">
-                  ${showLabel ? `<div style="font-size:10px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3;">${item.label}</div>` : ''}
+                  ${showLabel ? `<div style="font-size:10px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:${compact ? '12px' : '1.3'};">${item.label}</div>` : ''}
                   ${showLabel && showSub ? `<div style="font-size:9px;color:rgba(255,255,255,0.85);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3;">${item.sub}</div>` : ''}
                 </div>`;
   }
