@@ -29,8 +29,8 @@
       "title": "EgoSuperMimic · Egocentric Video to Dexterous Tool Manipulation",
       "body": "ego RGB / RGB-D 与手骨架 → 带置信度的手物及工具状态参考 → 接触保持重定向 → 参考条件策略。以 REGRIND 式残差 RL 为工具操作基线，研究 SuperMimic 式学习动力学与可微策略优化，重点处理双手协作、接触阶段切换和长程连续执行。",
       "output": "物理可执行的机器人轨迹与策略；双手工具操作 benchmark；重建噪声、训练效率和真机迁移对照",
-      "asset": "dashboard/assets/egosupermimic-method.svg",
-      "asset_alt": "EgoSuperMimic proposed pipeline: ego demonstrations, interaction references, robot retargeting, reference-conditioned policy, simulator transitions and differentiable world-model training.",
+      "asset": "dashboard/assets/egosupermimic-method.png",
+      "asset_alt": "EgoSuperMimic proposed method illustrated with first-person bimanual screwdriver use, hand contact reconstruction, robot retargeting, dexterous robot tool use, and a world-model policy-training loop.",
       "asset_caption": "EgoSuperMimic：ego 交互参考与机器人仿真转移分别进入策略条件和动力学学习，面向双手工具操作的连续执行。拟议方法，尚待实验验证。",
       "asset_added_at": "2026-10-26"
     }
