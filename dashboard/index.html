@@ -2591,6 +2591,16 @@
               },
               projectDoc.title,
             );
+            (projectDoc.subprojects || []).forEach((subproject) => {
+              if (!subproject.asset) return;
+              addImageContextReference(references, seen, {
+                src: subproject.asset,
+                alt: subproject.asset_alt || subproject.title,
+                caption: subproject.asset_caption || subproject.title,
+                source: subproject.title,
+                added_at: subproject.asset_added_at,
+              }, projectDoc.title);
+            });
           });
           return sortImageContextReferences(references);
         }
@@ -3133,7 +3143,26 @@
         }
 
         function renderProjectFigure(projectElement, projectDoc) {
-          const existingFigure = projectElement.querySelector(".project-body figure");
+          const existingGallery = projectElement.querySelector(".project-body > .project-visual-gallery");
+          const existingFigure = projectElement.querySelector(".project-body > figure, .project-body > .project-visual-column > figure");
+          const illustratedSubprojects = (projectDoc.subprojects || []).filter((subproject) => subproject.asset);
+          if (illustratedSubprojects.length) {
+            const gallery = document.createElement("section");
+            gallery.className = "project-visual-gallery";
+            gallery.setAttribute("aria-label", "Subproject method diagrams");
+            illustratedSubprojects.forEach((subproject) => {
+              const figure = createProjectFigure(subproject);
+              const title = document.createElement("h3");
+              title.textContent = subproject.title;
+              figure.prepend(title);
+              gallery.append(figure);
+            });
+            if (existingGallery) existingGallery.replaceWith(gallery);
+            else if (existingFigure) existingFigure.replaceWith(gallery);
+            else projectElement.querySelector(".project-body")?.prepend(gallery);
+            return;
+          }
+          existingGallery?.remove();
           const figure = createProjectFigure(projectDoc, existingFigure);
           if (existingFigure && figure) {
             existingFigure.replaceWith(figure);
@@ -3561,7 +3590,7 @@
           renderProjectFigure(projectElement, projectDoc);
           renderProjectLayerUtility(projectElement, projectDoc);
           const hasLeadingVisual = projectBody?.querySelector(
-            ":scope > figure, :scope > .project-visual-column",
+            ":scope > figure, :scope > .project-visual-column, :scope > .project-visual-gallery",
           );
           if (projectBody && !hasLeadingVisual) {
             projectBody.classList.remove("compact");

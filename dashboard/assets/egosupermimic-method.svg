@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1040" role="img" aria-labelledby="title desc">
+<title id="title">EgoSuperMimic proposed method</title>
+<desc id="desc">Egocentric demonstrations become confidence-aware hand-object references and robot references. A reference-conditioned policy acts in robot simulation, whose state-action transitions train a world model. Differentiable imagined rollouts optimize the policy. Continuous bimanual tool manipulation is evaluated against matched model-free reinforcement learning and on robot hardware.</desc>
+<defs>
+ <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#F7F3EA"/><stop offset="1" stop-color="#E8F2F0"/></linearGradient>
+ <marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="#577084"/></marker>
+ <marker id="orange" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="#C77637"/></marker>
+ <style>
+ text{font-family:Helvetica,Arial,sans-serif;fill:#17324D}.eyebrow{font-size:17px;font-weight:700;letter-spacing:2px;fill:#557084}.title{font-size:64px;font-weight:800}.subtitle{font-size:24px;fill:#557084}.heading{font-size:25px;font-weight:700}.body{font-size:21px;fill:#435E73}.small{font-size:18px;fill:#557084}.label{font-size:18px;font-weight:700}.card{fill:white;stroke:#D5E0E5;stroke-width:2}.arrow{fill:none;stroke:#577084;stroke-width:3;marker-end:url(#arrow)}.feedback{fill:none;stroke:#C77637;stroke-width:3;marker-end:url(#orange)}
+ </style>
+</defs>
+<rect width="1600" height="1040" fill="url(#bg)"/>
+<circle cx="1540" cy="45" r="200" fill="#DCECE8" opacity=".6"/>
+<text x="60" y="50" class="eyebrow">PROPOSED METHOD / EGOCENTRIC LEARNING</text>
+<text x="60" y="124" class="title">EgoSuperMimic</text>
+<text x="63" y="165" class="subtitle">From human demonstrations to continuous bimanual tool manipulation</text>
+
+<rect x="60" y="220" width="335" height="175" rx="18" class="card"/>
+<rect x="60" y="220" width="335" height="7" rx="3" fill="#147D74"/>
+<circle cx="88" cy="255" r="15" fill="#147D74"/>
+<text x="88" y="261" text-anchor="middle" style="font-size:17px;font-weight:700;fill:white">1</text>
+<text x="114" y="263" class="heading">Ego demonstrations</text>
+<text x="82" y="303" class="body">RGB / RGB-D + hand motion</text>
+<text x="82" y="334" class="body">EgoSensorium or external video</text>
+<text x="82" y="365" class="body">Camera, scale and time alignment</text>
+<rect x="440" y="220" width="335" height="175" rx="18" class="card"/>
+<rect x="440" y="220" width="335" height="7" rx="3" fill="#147D74"/>
+<circle cx="468" cy="255" r="15" fill="#147D74"/>
+<text x="468" y="261" text-anchor="middle" style="font-size:17px;font-weight:700;fill:white">2</text>
+<text x="494" y="263" class="heading">Interaction references</text>
+<text x="462" y="303" class="body">Hands, objects and tool joints</text>
+<text x="462" y="334" class="body">Contact phases + confidence</text>
+<text x="462" y="365" class="body">Relative geometry over time</text>
+<rect x="820" y="220" width="335" height="175" rx="18" class="card"/>
+<rect x="820" y="220" width="335" height="7" rx="3" fill="#147D74"/>
+<circle cx="848" cy="255" r="15" fill="#147D74"/>
+<text x="848" y="261" text-anchor="middle" style="font-size:17px;font-weight:700;fill:white">3</text>
+<text x="874" y="263" class="heading">Robot retargeting</text>
+<text x="842" y="303" class="body">Preserve contact relationships</text>
+<text x="842" y="334" class="body">Map wrists and finger motion</text>
+<text x="842" y="365" class="body">Check arm-hand feasibility</text>
+<rect x="1200" y="220" width="340" height="175" rx="18" class="card"/>
+<rect x="1200" y="220" width="340" height="7" rx="3" fill="#147D74"/>
+<circle cx="1228" cy="255" r="15" fill="#147D74"/>
+<text x="1228" y="261" text-anchor="middle" style="font-size:17px;font-weight:700;fill:white">4</text>
+<text x="1254" y="263" class="heading">Robot references</text>
+<text x="1222" y="303" class="body">Hand-object targets</text>
+<text x="1222" y="334" class="body">Phase and timing conditions</text>
+<text x="1222" y="365" class="body">Confidence-weighted tracking</text>
+<path d="M400 308 H431" class="arrow"/>
+<path d="M780 308 H811" class="arrow"/>
+<path d="M1160 308 H1191" class="arrow"/>
+<rect x="60" y="455" width="1480" height="350" rx="24" fill="#EDF3F8" stroke="#C7D6E3" stroke-width="2"/>
+<text x="84" y="491" class="eyebrow">LEARNED-DYNAMICS POLICY TRAINING</text>
+<rect x="85" y="535" width="375" height="185" rx="18" class="card"/>
+<rect x="85" y="535" width="375" height="7" rx="3" fill="#315D9B"/>
+<circle cx="113" cy="570" r="15" fill="#315D9B"/>
+<text x="113" y="576" text-anchor="middle" style="font-size:17px;font-weight:700;fill:white">A</text>
+<text x="139" y="578" class="heading">Robot simulator</text>
+<text x="107" y="618" class="body">Robot + tool contact dynamics</text>
+<text x="107" y="649" class="body">Execute the current policy</text>
+<text x="107" y="680" class="body">Log (state, action, next state)</text>
+<rect x="605" y="535" width="390" height="185" rx="18" class="card"/>
+<rect x="605" y="535" width="390" height="7" rx="3" fill="#315D9B"/>
+<circle cx="633" cy="570" r="15" fill="#315D9B"/>
+<text x="633" y="576" text-anchor="middle" style="font-size:17px;font-weight:700;fill:white">B</text>
+<text x="659" y="578" class="heading">World model</text>
+<text x="627" y="618" class="body">Predict robot-object dynamics</text>
+<text x="627" y="649" class="body">Fit state and contact transitions</text>
+<text x="627" y="680" class="body">Short differentiable rollouts</text>
+<rect x="1135" y="535" width="380" height="185" rx="18" class="card"/>
+<rect x="1135" y="535" width="380" height="7" rx="3" fill="#C77637"/>
+<circle cx="1163" cy="570" r="15" fill="#C77637"/>
+<text x="1163" y="576" text-anchor="middle" style="font-size:17px;font-weight:700;fill:white">C</text>
+<text x="1189" y="578" class="heading">Tracking policy</text>
+<text x="1157" y="618" class="body">Robot state + reference targets</text>
+<text x="1157" y="649" class="body">Optimize imagined return</text>
+<text x="1157" y="680" class="body">Phase-aware residual control</text>
+<path d="M460 625 H593" class="arrow"/>
+<text x="477" y="582" class="label">Robot data</text>
+<path d="M995 625 H1123" class="arrow"/>
+<text x="1007" y="573" class="label">Imagined</text>
+<text x="1007" y="596" class="label">rollouts</text>
+<path d="M1370 395 V523" class="arrow"/>
+<text x="1384" y="433" class="small">Condition</text>
+<path d="M1325 720 V763 H270 V732" class="feedback"/>
+<text x="618" y="787" class="eyebrow">POLICY ACTIONS → NEW SIMULATOR EXPERIENCE</text>
+<rect x="60" y="830" width="1480" height="150" rx="20" class="card"/>
+<path d="M548 854 V955" stroke="#D5E0E5" stroke-width="2"/>
+<path d="M1038 854 V955" stroke="#D5E0E5" stroke-width="2"/>
+<text x="84" y="867" class="eyebrow">MATCHED BASELINES</text>
+<text x="84" y="906" class="body">REGRIND-style RL / PPO</text>
+<text x="84" y="939" class="small">Same references, rewards and budget</text>
+<text x="573" y="867" class="eyebrow">CONTINUOUS EXECUTION</text>
+<text x="573" y="906" class="body">Grasp → use tool → release</text>
+<text x="573" y="939" class="small">Bimanual phases; no oracle resets</text>
+<text x="1063" y="867" class="eyebrow">SIMULATION + HARDWARE</text>
+<text x="1063" y="906" class="body">Success, robustness and efficiency</text>
+<text x="1063" y="939" class="small">Distinguish replay from closed-loop control</text>
+<text x="62" y="1015" class="small">Human video supplies references. Robot transitions supervise dynamics. Research design; results to be validated.</text>
+</svg>

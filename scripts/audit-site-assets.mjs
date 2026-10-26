@@ -110,6 +110,7 @@ async function auditImageContextCoverage() {
   const covered = new Set([
     ...(portfolio.visual_references || []).map((reference) => reference?.src),
     ...projects.map((project) => project?.asset),
+    ...projects.flatMap((project) => (project.subprojects || []).map((subproject) => subproject.asset)),
   ].filter(Boolean).map((value) => cleanReference(value).replace(/^\/+/, "")));
   for (const assetGroup of imageContextAssetDirectories) {
     const assetDirectory = path.join(repoRoot, assetGroup.directory);

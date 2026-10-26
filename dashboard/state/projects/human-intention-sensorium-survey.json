@@ -4,27 +4,35 @@
   "title": "EgoSensorium / EgoSuperMimic: Human Demonstrations to Dexterous Manipulation",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-10-26T03:05:06.578Z",
+  "updated_at": "2026-10-26T03:11:35.815Z",
   "description": "Two connected subprojects: synchronized multimodal human demonstration collection (EgoSensorium), and egocentric demonstration-conditioned bimanual tool manipulation with learned dynamics and reinforcement learning (EgoSuperMimic).",
   "summary": "同一研究母项目下的两个子项目：EgoSensorium 构建同步多模态穿戴式数采系统、数据集和主动采集反馈；EgoSuperMimic 将 ego 视频中的手物交互转成机器人可执行的双手工具操作，研究 SuperMimic 式世界模型训练、接触切换与长程衔接。两者通过带时间、坐标、接触和置信度的 demonstration manifest 连接，分别验收数据质量与机器人执行效果。",
   "asset": "dashboard/assets/egosensorium-system.svg",
   "asset_alt": "EgoSensorium wearable acquisition architecture with head stereo, two wrist cameras, gaze and face capture, hand pressure, muscle sensing, spatial audio, six Vive trackers and chest haptic feedback.",
   "asset_caption": "EgoSensorium 子项目：同步穿戴式采集与胸部 haptic 反馈。其标定、手物轨迹和接触参考通过统一 manifest 接入 EgoSuperMimic 子项目。",
   "visual": {
-    "layout": "standard"
+    "layout": "single-column"
   },
   "subprojects": [
     {
       "label": "A",
       "title": "EgoSensorium · Multimodal Human Data Collection",
       "body": "头部双目、腕部视觉、眼动/面捕、手指与上肢运动、压力、肌电和空间音频组成同步穿戴系统；统一时钟、坐标与标定，保留自然示范、质量辅助和机器人可执行性辅助采集条件，并通过胸部 haptic 研究主动采集反馈。",
-      "output": "可标定的完整穿戴系统；raw / calibrated / annotated 数据层；多模态与主动采集 benchmark"
+      "output": "可标定的完整穿戴系统；raw / calibrated / annotated 数据层；多模态与主动采集 benchmark",
+      "asset": "dashboard/assets/egosensorium-system.svg",
+      "asset_alt": "EgoSensorium wearable acquisition architecture with head stereo, two wrist cameras, gaze and face capture, hand pressure, muscle sensing, spatial audio, six Vive trackers and chest haptic feedback.",
+      "asset_caption": "EgoSensorium：多模态穿戴式采集、统一时空标定与胸部 haptic 反馈。",
+      "asset_added_at": "2026-08-22"
     },
     {
       "label": "B",
       "title": "EgoSuperMimic · Egocentric Video to Dexterous Tool Manipulation",
       "body": "ego RGB / RGB-D 与手骨架 → 带置信度的手物及工具状态参考 → 接触保持重定向 → 参考条件策略。以 REGRIND 式残差 RL 为工具操作基线，研究 SuperMimic 式学习动力学与可微策略优化，重点处理双手协作、接触阶段切换和长程连续执行。",
-      "output": "物理可执行的机器人轨迹与策略；双手工具操作 benchmark；重建噪声、训练效率和真机迁移对照"
+      "output": "物理可执行的机器人轨迹与策略；双手工具操作 benchmark；重建噪声、训练效率和真机迁移对照",
+      "asset": "dashboard/assets/egosupermimic-method.svg",
+      "asset_alt": "EgoSuperMimic proposed pipeline: ego demonstrations, interaction references, robot retargeting, reference-conditioned policy, simulator transitions and differentiable world-model training.",
+      "asset_caption": "EgoSuperMimic：ego 交互参考与机器人仿真转移分别进入策略条件和动力学学习，面向双手工具操作的连续执行。拟议方法，尚待实验验证。",
+      "asset_added_at": "2026-10-26"
     }
   ],
   "details": [
