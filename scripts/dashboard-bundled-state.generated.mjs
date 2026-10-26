@@ -1,7 +1,7 @@
 export default {
   "schema_version": "dashboard-state.v1",
   "source": "bundled-json-generated",
-  "updated_at": "2026-08-22T14:00:00.000Z",
+  "updated_at": "2026-10-26T03:05:06.578Z",
   "portfolio": {
     "schema_version": "portfolio.v1",
     "portfolio_id": "embodied-ai-dashboard",
@@ -9,7 +9,7 @@ export default {
     "subtitle": "World models, self-improving agents, and five ongoing real-robot research projects",
     "week": "2026-W33",
     "date": "2026-08-22",
-    "updated_at": "2026-08-22T10:19:21.000Z",
+    "updated_at": "2026-10-26T03:05:06.578Z",
     "state_root": "dashboard/state",
     "summary": {
       "focus": "Research 主线包括 UMI World Model、Self-Improving Agents，以及真机组五个 ongoing 项目：DexGELLO、OmniEgo、TacPoseBench、Tactile ICL、Robot4Robot。",
@@ -593,10 +593,11 @@ export default {
       },
       {
         "project_id": "human-intention-sensorium-survey",
-        "title": "EgoSensorium: Bidirectional Multimodal Human-Centered Data Collection",
+        "title": "EgoSensorium / EgoSuperMimic: Human Demonstrations to Dexterous Manipulation",
         "bucket": "research",
         "status": "ongoing",
-        "state_path": "dashboard/state/projects/human-intention-sensorium-survey.json"
+        "state_path": "dashboard/state/projects/human-intention-sensorium-survey.json",
+        "summary": "同一研究母项目下的两个子项目：EgoSensorium 构建同步多模态穿戴式数采系统、数据集和主动采集反馈；EgoSuperMimic 将 ego 视频中的手物交互转成机器人可执行的双手工具操作，研究 SuperMimic 式世界模型训练、接触切换与长程衔接。两者通过带时间、坐标、接触和置信度的 demonstration manifest 连接，分别验收数据质量与机器人执行效果。"
       },
       {
         "project_id": "robodojo-tac",
@@ -2599,51 +2600,42 @@ export default {
     {
       "schema_version": "project.v1",
       "project_id": "human-intention-sensorium-survey",
-      "title": "EgoSensorium: Bidirectional Multimodal Human-Centered Data Collection",
+      "title": "EgoSensorium / EgoSuperMimic: Human Demonstrations to Dexterous Manipulation",
       "bucket": "research",
       "status": "ongoing",
-      "updated_at": "2026-08-22T08:04:21.363Z",
-      "description": "A synchronized wearable system and dataset capturing egocentric stereo and wrist vision, gaze, upper-body motion, finger state, pressure, muscle activity and spatial audio, with chest haptic feedback for active data collection and robot-aware demonstrations.",
-      "summary": "EgoSensorium 让一名操作者一次性穿戴完整数采系统：Quest 3S 头盔搭载双目相机、CYMPLE 面捕、头部 Tracker 与圆形麦克风阵列；双手使用宇蝶手套、柔性压力片、手部 Tracker 与腕部相机；双上臂使用 Tracker、肌贴与主操作臂飞马座臂环；胸部 Tracker 建立躯干根节点，胸部 Haptic 根据数据质量、模型不确定性与机器人可执行性发送低带宽提示。系统把全部信号统一到同一时钟和坐标树，并发布面向意图预判、接触预测、空间音频、机器人迁移与主动采集的 Dataset 和 Benchmark。",
+      "updated_at": "2026-10-26T03:05:06.578Z",
+      "description": "Two connected subprojects: synchronized multimodal human demonstration collection (EgoSensorium), and egocentric demonstration-conditioned bimanual tool manipulation with learned dynamics and reinforcement learning (EgoSuperMimic).",
+      "summary": "同一研究母项目下的两个子项目：EgoSensorium 构建同步多模态穿戴式数采系统、数据集和主动采集反馈；EgoSuperMimic 将 ego 视频中的手物交互转成机器人可执行的双手工具操作，研究 SuperMimic 式世界模型训练、接触切换与长程衔接。两者通过带时间、坐标、接触和置信度的 demonstration manifest 连接，分别验收数据质量与机器人执行效果。",
       "asset": "dashboard/assets/egosensorium-system.svg",
       "asset_alt": "EgoSensorium wearable acquisition architecture with head stereo, two wrist cameras, gaze and face capture, hand pressure, muscle sensing, spatial audio, six Vive trackers and chest haptic feedback.",
-      "asset_caption": "One wearer, one synchronized episode: multimodal sensing is grounded in a shared coordinate tree, while data quality, robotability and uncertainty close the loop through chest haptic prompts.",
+      "asset_caption": "EgoSensorium 子项目：同步穿戴式采集与胸部 haptic 反馈。其标定、手物轨迹和接触参考通过统一 manifest 接入 EgoSuperMimic 子项目。",
       "visual": {
         "layout": "standard"
       },
       "subprojects": [
         {
           "label": "A",
-          "title": "Build the Full-Rig Wearable",
-          "body": "Integrate the Quest 3S head stack, bilateral rigid hand pods, arm biosignals, six Vive trackers, chest haptic and backpack compute into a single wearable system.",
-          "output": "Stable upper-body rig with repeatable fit and quick-release mounts"
+          "title": "EgoSensorium · Multimodal Human Data Collection",
+          "body": "头部双目、腕部视觉、眼动/面捕、手指与上肢运动、压力、肌电和空间音频组成同步穿戴系统；统一时钟、坐标与标定，保留自然示范、质量辅助和机器人可执行性辅助采集条件，并通过胸部 haptic 研究主动采集反馈。",
+          "output": "可标定的完整穿戴系统；raw / calibrated / annotated 数据层；多模态与主动采集 benchmark"
         },
         {
           "label": "B",
-          "title": "Unify Time and Space",
-          "body": "Calibrate camera intrinsics, tracker-to-body transforms, wrist-camera extrinsics, pressure maps, muscle baselines and microphone-array direction under one clock and coordinate tree.",
-          "output": "Versioned calibration package with latency and confidence metadata"
-        },
-        {
-          "label": "C",
-          "title": "Release the Sensorium Dataset",
-          "body": "Collect synchronized natural, quality-assisted and robot-aware demonstrations across precision contact, insertion, deformable, tool-use, bimanual and recovery tasks.",
-          "output": "Raw, calibrated, annotated and robot-ready episode layers"
-        },
-        {
-          "label": "D",
-          "title": "Close the Haptic Loop",
-          "body": "Trigger chest vibration from data quality, model uncertainty and robotability, then quantify how people reorient, slow down, repeat and improve demonstrations.",
-          "output": "Haptic-Guided Active Collection benchmark and human-response dataset"
+          "title": "EgoSuperMimic · Egocentric Video to Dexterous Tool Manipulation",
+          "body": "ego RGB / RGB-D 与手骨架 → 带置信度的手物及工具状态参考 → 接触保持重定向 → 参考条件策略。以 REGRIND 式残差 RL 为工具操作基线，研究 SuperMimic 式学习动力学与可微策略优化，重点处理双手协作、接触阶段切换和长程连续执行。",
+          "output": "物理可执行的机器人轨迹与策略；双手工具操作 benchmark；重建噪声、训练效率和真机迁移对照"
         }
       ],
       "details": [
-        "Wearable stack: head stereo plus two wrist cameras, CYMPLE gaze/face capture, circular microphone array, six Vive trackers, Yudie gloves, flexible pressure films, bilateral muscle patches and a dominant-arm Pegasus armband.",
-        "Spatial contract: head, chest, upper arms and hands form a shared world-frame kinematic tree; wrist cameras, pressure maps and spatial audio are transformed into the same geometry.",
-        "Temporal contract: every stream retains device timestamps, master-clock mapping, offset/drift estimates, latency, confidence and missing-modality masks.",
-        "Bidirectional protocol: chest haptic encodes observation quality, model uncertainty or robotability through a small pulse vocabulary; each command and wearer response is logged.",
-        "Dataset layers: original sensor packets, synchronized calibrated streams, semantic and physical annotations, and robot-ready relative wrist/contact representations.",
-        "Benchmarks: intent and action anticipation, contact and pressure forecasting, spatial audio grounding, multimodal Human-to-Robot Transfer and Haptic-Guided Active Collection."
+        "EgoSensorium — Wearable stack: head stereo plus two wrist cameras, CYMPLE gaze/face capture, circular microphone array, six Vive trackers, Yudie gloves, flexible pressure films, bilateral muscle patches and a dominant-arm Pegasus armband.",
+        "EgoSensorium — Spatial contract: head, chest, upper arms and hands form a shared world-frame kinematic tree; wrist cameras, pressure maps and spatial audio are transformed into the same geometry.",
+        "EgoSensorium — Temporal contract: every stream retains device timestamps, master-clock mapping, offset/drift estimates, latency, confidence and missing-modality masks.",
+        "EgoSensorium — Bidirectional protocol: chest haptic encodes observation quality, model uncertainty or robotability through a small pulse vocabulary; each command and wearer response is logged.",
+        "EgoSensorium — Dataset layers: original sensor packets, synchronized calibrated streams, semantic and physical annotations, and robot-ready relative wrist/contact representations.",
+        "EgoSensorium — Benchmarks: intent and action anticipation, contact and pressure forecasting, spatial audio grounding, multimodal Human-to-Robot Transfer and Haptic-Guided Active Collection.",
+        "Shared interface: timestamps and clock mapping; camera/world coordinates and metric scale; left/right hand states; object/tool poses and articulated states; contact phases, confidence and missing-modality masks. EgoSuperMimic can also consume external ego demonstrations independently of the full wearable rig.",
+        "EgoSuperMimic — Human video supplies reference motion and interaction evidence. Robot dynamics supervision requires robot state-action-next-state transitions; human trajectories without robot actions are not interchangeable with simulator or robot replay.",
+        "EgoSuperMimic — Long-horizon acceptance means continuous execution across contact phases without oracle resets. Floating-hand tracking, arm-hand feasibility, trajectory replay and closed-loop hardware policy deployment are distinct validation levels."
       ],
       "references": [
         {
@@ -2676,6 +2668,46 @@ export default {
           "arxiv_id": "2211.03020",
           "submitted_at": "2022",
           "notes": "Evidence that real-time haptic feedback can improve demonstration collection and learned-policy outcomes."
+        },
+        {
+          "title": "Dex-Supermimic",
+          "url": "https://github.com/CumulusAlpha/Dex-Supermimic",
+          "notes": "EgoSuperMimic training implementation: Wuji Hand 2 in-hand cube reorientation using mjlab / MuJoCo Warp. Extending to ego references, moving wrists, bimanual tools and phase transitions requires additional implementation."
+        },
+        {
+          "title": "SuperMimic",
+          "url": "https://supermimic.github.io/",
+          "notes": "EgoSuperMimic method reference: fit dynamics from simulator transitions and optimize policies through differentiable imagined rollouts; original results concern humanoid whole-body tracking."
+        },
+        {
+          "title": "REGRIND",
+          "url": "https://www.yunhaifeng.com/REGRIND/",
+          "notes": "EgoSuperMimic tool-use baseline: interaction-preserving retargeting and object-centric residual RL, with LEAP / WUJI scissors and screwdriver hardware demonstrations. Implementation: https://github.com/yunhaif/regrind"
+        },
+        {
+          "title": "DexMimic",
+          "url": "https://zhexiluo.github.io/DexMimic/",
+          "notes": "EgoSuperMimic generalist tracking comparison: bimanual hand-object trajectories and value-guided reset state / phase allocation."
+        },
+        {
+          "title": "MorphMimic",
+          "url": "https://lzyang2000.github.io/morphmimic/",
+          "notes": "Morphology-conditioned world model and policy sharing across humanoids; a design reference rather than evidence of dexterous tool manipulation."
+        },
+        {
+          "title": "ROHIT / COP: Objects along Hand Interaction Timelines",
+          "url": "https://zhifanzhu.github.io/objects-along-hit/",
+          "notes": "EgoSuperMimic reconstruction reference: object pose constraints and propagation along static and stable-grasp segments; regrasping, sliding and handover require separate treatment."
+        },
+        {
+          "title": "Do As I Do",
+          "url": "https://do-as-i-do.com/",
+          "notes": "EgoSuperMimic video-to-robot baseline: hand-object reconstruction and sampling-based physical retargeting from everyday RGB videos."
+        },
+        {
+          "title": "EgoMatrix",
+          "url": "https://arxiv.org/abs/2610.18822",
+          "notes": "Direct related work: ego video to bimanual robot trajectories through relative/contact-focused reconstruction, retargeting and RL. Novelty must go beyond this pipeline combination."
         }
       ],
       "risks_decisions": [
@@ -2684,26 +2716,56 @@ export default {
         "Log haptic commands and actuator state so vibration artifacts in audio, IMU and muscle streams remain identifiable.",
         "Evaluate wearer burden, naturalness and cognitive load alongside data throughput and model performance.",
         "Use consent, pseudonymous identities and access tiers for face, gaze, voice and physiological signals.",
-        "Require every released modality to connect to a benchmark, ablation and documented sensor-quality gate."
+        "Require every released modality to connect to a benchmark, ablation and documented sensor-quality gate.",
+        "EgoSensorium and EgoSuperMimic are distinct subprojects under this parent: sensor/data quality and active collection belong to EgoSensorium; reconstruction-to-control, learned dynamics and manipulation performance belong to EgoSuperMimic.",
+        "Compare model-free and learned-dynamics training with matched robot assets, reference trajectories, observations, actions, rewards and compute accounting. REGRIND and Dex-Supermimic use different simulator stacks; a simulator change is a separate confound.",
+        "Treat contact-phase and uncertainty-aware tracking as research hypotheses. Judge policies in physical simulation and on matched hardware, not only by imagined return; distinguish training-reference coverage from held-out generalization.",
+        "Real human demonstration references do not by themselves identify robot dynamics. Preserve action provenance and embodiment when introducing any real transition data."
       ],
-      "task_ids": [],
+      "task_ids": [
+        "task_ego2dex_reference_control_gate_20261026",
+        "task_ego2dex_supermimic_matched_training_20261026",
+        "task_ego2dex_bimanual_contact_phases_20261026",
+        "task_ego2dex_matched_hardware_20261026",
+        "task_hoi_pnp_calibration",
+        "task_hoi_collection_matrix",
+        "task_hoi_sensor_validation",
+        "task_hoi_object_tracking",
+        "task_hoi_schema_model_target",
+        "task_hoi_retargeting_baselines",
+        "task_hoi_contact_annotation_pack",
+        "task_hoi_isaac_retargeting_verifier_v0",
+        "task_hoi_two_modality_capture_smoke",
+        "task_human_intention_sensorium_xla_proposal",
+        "task_real_robot_demo_do_as_i_do_franka_wuji_tactile",
+        "task_umi_stage2_vddm_human_ego_probe_20260627",
+        "task_real_robot_demos_ego2dex_lfd_baseline_20260718",
+        "task_real_robot_demos_ego2dex_baseline_reproduction_20260729",
+        "task_real_robot_demos_ego2dex_hand_contact_benchmark_20260729",
+        "task_real_robot_demos_ego2dex_franka_wuji_sim_gate_20260729",
+        "task_real_robot_demos_ego2dex_tactile_ablation_20260729",
+        "task_omniego_quest3s_multisensor_v0_rig_20260729",
+        "task_omniego_sensor_quality_marginal_value_screen_20260729",
+        "task_omniego_vqvae_intention_encoding_20260729",
+        "task_omniego_object_surface_tactile_force_closure_dataset_20260729"
+      ],
       "timeline": {
         "badges": [
           {
-            "label": "Rig",
-            "value": "6 tracked bodies"
+            "label": "A",
+            "value": "EgoSensorium · Collection"
           },
           {
-            "label": "Perception",
-            "value": "Head stereo + 2 wrists"
+            "label": "B",
+            "value": "EgoSuperMimic · Manipulation"
           },
           {
-            "label": "Loop",
-            "value": "Chest haptic"
+            "label": "Interface",
+            "value": "Calibrated HOI references"
           }
         ],
-        "target_cycle": "Full-rig integration -> sync and calibration -> pilot tasks -> scaled dataset -> multimodal benchmarks -> real-robot transfer",
-        "target_note": "Promote the central claims only after held-out participant/session tests, sensor-dropout evaluation, matched haptic conditions and measured real-robot transfer.",
+        "target_cycle": "Synchronized human demonstrations → calibrated hand-object references → reference-conditioned bimanual control → matched robot validation",
+        "target_note": "EgoSensorium evaluates sensor and dataset utility; EgoSuperMimic evaluates manipulation success, robustness and learning efficiency. Task-specific schedules and acceptance evidence stay on task cards.",
         "sprint_start": "2026-08-22",
         "sprint_due": null,
         "milestones": []
@@ -7235,7 +7297,7 @@ export default {
   ],
   "taskDoc": {
     "schema_version": "tasks.v1",
-    "updated_at": "2026-08-22T12:00:00.000Z",
+    "updated_at": "2026-10-26T03:05:06.578Z",
     "owner": "dashboard",
     "tasks": [
       {
@@ -20820,14 +20882,14 @@ export default {
       {
         "task_id": "task_real_robot_demos_ego2dex_lfd_baseline_20260718",
         "project_id": "human-intention-sensorium-survey",
-        "title": "[Ego2Dex baseline] 跑通 EgoEngine",
-        "description": "在项目 intro 约定的同一组 2–3 段单目 ego 手物视频上审计并跑通 EgoEngine。先核实代码、checkpoint 与 license/availability；若未开放，只记录 blocker 和接口兼容 smoke，不宣称复现完成。\n\n验收：记录 upstream SHA、checkpoint、环境、命令、runtime/VRAM 与人工干预；导出可获得的 camera/depth、hand、object、contact/penetration、robot trajectory 与可复现 manifest；提交成功样例、failure gallery 和缺失字段。输入视频、帧率、裁剪、对象与坐标约定必须与其他 Ego2Dex baseline 一致。\n\n参考：https://egoengine.github.io/",
+        "title": "[EgoSuperMimic baseline] 跑通 EgoEngine",
+        "description": "在项目 intro 约定的同一组 2–3 段单目 ego 手物视频上审计并跑通 EgoEngine。先核实代码、checkpoint 与 license/availability；若未开放，只记录 blocker 和接口兼容 smoke，不宣称复现完成。\n\n验收：记录 upstream SHA、checkpoint、环境、命令、runtime/VRAM 与人工干预；导出可获得的 camera/depth、hand、object、contact/penetration、robot trajectory 与可复现 manifest；提交成功样例、failure gallery 和缺失字段。输入视频、帧率、裁剪、对象与坐标约定必须与其他 EgoSuperMimic baseline 一致。\n\n参考：https://egoengine.github.io/",
         "status": "todo",
         "priority": "high",
         "assignee": null,
         "result": null,
         "comments": [],
-        "updated_at": "2026-07-29T08:27:52.223Z",
+        "updated_at": "2026-10-26T03:05:06.578Z",
         "due_at": "",
         "completed_at": null
       },
@@ -20956,50 +21018,50 @@ export default {
       {
         "task_id": "task_real_robot_demos_ego2dex_baseline_reproduction_20260729",
         "project_id": "human-intention-sensorium-survey",
-        "title": "[Ego2Dex baseline] 跑通 Do-As-I-Do",
+        "title": "[EgoSuperMimic baseline] 跑通 Do-As-I-Do",
         "description": "在项目 intro 约定的同一组 2–3 段单目 ego 手物视频上跑通 Do-As-I-Do，覆盖 segmentation、单目几何、hand/object reconstruction/tracking 与 robot retargeting 的实际可用链路。\n\n验收：记录 upstream SHA、checkpoint、环境、命令、runtime/VRAM 与人工干预；统一导出 camera/depth、hand MANO/keypoints/mesh、object mask/mesh/scale/6D trajectory、contact/penetration、retargeted wrist/finger trajectory 与 manifest；提交至少两段共享视频的结果和 failure gallery。未开放组件只能标 blocker 或替换模块 smoke。\n\n参考：https://do-as-i-do.com/\n代码：https://github.com/malik-group/do-as-i-do",
         "status": "todo",
         "priority": "high",
         "assignee": null,
         "result": null,
         "comments": [],
-        "updated_at": "2026-07-29T08:27:53.000Z"
+        "updated_at": "2026-10-26T03:05:06.578Z"
       },
       {
         "task_id": "task_real_robot_demos_ego2dex_hand_contact_benchmark_20260729",
         "project_id": "human-intention-sensorium-survey",
-        "title": "[Ego2Dex baseline] 跑通 HandFlow",
+        "title": "[EgoSuperMimic baseline] 跑通 HandFlow",
         "description": "在相同共享 clips 上跑通 HandFlow，作为 4D MANO / 手部时序恢复候选；它只负责 hand reconstruction，不把缺失的 object/contact/retargeting 能力写成已覆盖。\n\n验收：与 HaWoR/HaMeR 类手轨迹做同输入比较；记录 upstream SHA、checkpoint、环境、命令、runtime/VRAM 与人工干预；报告 hand reprojection/world-space error、acceleration/jitter、temporal consistency、遮挡/运动模糊失败样例，并按统一 manifest 导出 MANO/keypoints/mesh 与置信度。\n\n参考：https://arxiv.org/abs/2607.11221",
         "status": "todo",
         "priority": "high",
         "assignee": null,
         "result": null,
         "comments": [],
-        "updated_at": "2026-07-29T08:27:54.921Z"
+        "updated_at": "2026-10-26T03:05:06.578Z"
       },
       {
         "task_id": "task_real_robot_demos_ego2dex_franka_wuji_sim_gate_20260729",
         "project_id": "human-intention-sensorium-survey",
-        "title": "[Ego2Dex baseline] 跑通 VideoManip",
+        "title": "[EgoSuperMimic baseline] 跑通 VideoManip",
         "description": "在相同共享 clips 上审计并跑通 VideoManip，重点验证 monocular hand/object trajectory reconstruction、metric alignment、contact optimization、retargeting 与 demonstration synthesis 是否能按统一接口导出。\n\n验收：记录 upstream SHA、checkpoint、环境、命令、runtime/VRAM 与人工干预；导出统一 manifest；报告 hand/object trajectory、scale、contact/penetration、temporal consistency 与失败样例。论文或项目页结果不能替代本地同输入运行；代码或权重缺失时明确标 blocker。\n\n参考：https://videomanip.github.io/",
         "status": "todo",
         "priority": "high",
         "assignee": null,
         "result": null,
         "comments": [],
-        "updated_at": "2026-07-29T08:27:53.638Z"
+        "updated_at": "2026-10-26T03:05:06.578Z"
       },
       {
         "task_id": "task_real_robot_demos_ego2dex_tactile_ablation_20260729",
         "project_id": "human-intention-sensorium-survey",
-        "title": "[Ego2Dex baseline] 跑通 EasyHOI",
+        "title": "[EgoSuperMimic baseline] 跑通 EasyHOI",
         "description": "在相同共享 clips 上审计并跑通 EasyHOI，验证 segmentation、inpainting、hand/object reconstruction 以及 image/physics-guided contact optimization；若原方法以单帧为主，需要明确逐帧运行与视频时序封装的边界。\n\n验收：记录 upstream SHA、checkpoint、环境、命令、runtime/VRAM 与人工干预；统一导出 hand/object geometry、scale/6D pose、contact/penetration 与 manifest；报告 before/after image agreement、penetration、missing contact、jitter 和 failure gallery。缺少代码或权重时只记录 blocker/同接口 smoke。\n\n参考：https://lym29.github.io/EasyHOI-page/",
         "status": "todo",
         "priority": "high",
         "assignee": null,
         "result": null,
         "comments": [],
-        "updated_at": "2026-07-29T08:27:54.292Z"
+        "updated_at": "2026-10-26T03:05:06.578Z"
       },
       {
         "task_id": "task_umi_yubo_single_image_layer_decomposition_survey_probe_20260729",
@@ -21059,50 +21121,50 @@ export default {
       {
         "task_id": "task_omniego_quest3s_multisensor_v0_rig_20260729",
         "project_id": "human-intention-sensorium-survey",
-        "title": "OmniEgo v0：Quest 3S + CYMPLE 眼捕多传感器数采架",
+        "title": "[EgoSensorium] v0：Quest 3S + CYMPLE 眼捕多传感器数采架",
         "description": "把 Quest 3S 作为 ego RGB 与系统 hand/controller pose 主干，把已下单的 CYMPLE Quest 3S 面捕眼追套装（含 HUB）作为独立眼动/面部通道，再接入首批外部生理、动作、触觉和音频传感器。CYMPLE 采购状态以 General procurement row 为准：已下单；当前仍需复核到货、Quest 3S 适配、HUB、PC/raw stream 导出和 SDK。\n\n验收：1) 固定 Quest/Horizon OS、OpenXR/Camera API、CYMPLE SDK/firmware 和采集代码版本；2) 记录左右 RGB、hand joints/controller、gaze/face、外部传感器各自的原始 timestamp、host receipt time、frame id 和 confidence；3) 标定坐标系与 camera/hand/gaze mapping，测 RGB–hand–gaze 延迟、漂移、掉帧、遮挡丢手和连续 30 分钟记录稳定性；4) 输出统一 episode manifest、时钟/触发拓扑、校准文件、隐私/同意与数据保留规则；5) 明确 Quest 3S + CYMPLE 不是 Aria Gen 2 的传感器等价替代，不沿用 Aria 的眼动或硬件同步声明。",
         "status": "todo",
         "priority": "high",
         "assignee": null,
         "result": null,
         "comments": [],
-        "updated_at": "2026-07-29T08:28:04.606Z"
+        "updated_at": "2026-10-26T02:57:37.777Z"
       },
       {
         "task_id": "task_omniego_sensor_quality_marginal_value_screen_20260729",
         "project_id": "human-intention-sensorium-survey",
-        "title": "OmniEgo：筛选 3–5 个高价值意图传感器",
+        "title": "[EgoSensorium] 筛选 3–5 个高价值意图传感器",
         "description": "不要先训练一个全传感器模型。以同一组短时抓取、工具使用、犹豫/纠正和接触任务，对候选模态逐个做数据质量与边际价值审计。订单表 2026-07-14 快照已列出并标为卖家发货的候选包括飞马座霍尔肌肉形变、双通道 sEMG、ElastremeSense 数据手套、柔性压力/触觉阵列与 MEMS 麦克风阵列；General procurement 另有已下单的 CYMPLE 面捕眼追。截图中的 GSR、EEG、flex、电子鼻和 bHaptics 只作为候选证据，未核实订单状态前不写成到货。bHaptics 按反馈执行器而不是被动意图传感器评估。\n\n验收：每模态报告采样率/位宽、timestamp skew、SNR 或可重复性 proxy、缺失/饱和、跨人/跨日漂移、校准时间、佩戴负担、隐私和成本；使用 subject-held-out split 比较目标/动作阶段/接触起点/犹豫纠正/结果预测的单模态增益，并做错误对齐和随机信号负对照。最终给出 keep / conditional / reject 矩阵，只保留 3–5 个能稳定提升机器人学习标签或预测的通道。",
         "status": "todo",
         "priority": "high",
         "assignee": null,
         "result": null,
         "comments": [],
-        "updated_at": "2026-07-29T08:28:05.374Z"
+        "updated_at": "2026-10-26T02:57:37.777Z"
       },
       {
         "task_id": "task_omniego_vqvae_intention_encoding_20260729",
         "project_id": "human-intention-sensorium-survey",
-        "title": "OmniEgo：VQ-VAE、聚类与带标签意图 encoding 对照",
-        "description": "只在传感器质量 gate 完成后启动。为入选的 3–5 个模态建立独立 encoder、时间窗和 missing-modality mask，比较 supervised intent/contact/action embedding、late fusion、无监督 clustering 与 VQ-VAE 离散 token。避免把跨个体噪声聚成看似稳定的意图类别。\n\n验收：以人和日期为 held-out split，报告 reconstruction、codebook usage/collapse、token 跨 session 稳定性、cluster-label alignment、intent/action/contact/outcome prediction、missing/wrong-modality robustness，以及对一个 Ego2Dex/robot-learning consumer 的真实增益。加入 RGB/hand-only、最佳单模态、简单 early/late fusion 和随机 token 基线；输出可解释 token 样例与失败簇，无法超过简单监督基线则拒绝 VQ-VAE 路线。",
+        "title": "[EgoSensorium] VQ-VAE、聚类与带标签意图 encoding 对照",
+        "description": "只在传感器质量 gate 完成后启动。为入选的 3–5 个模态建立独立 encoder、时间窗和 missing-modality mask，比较 supervised intent/contact/action embedding、late fusion、无监督 clustering 与 VQ-VAE 离散 token。避免把跨个体噪声聚成看似稳定的意图类别。\n\n验收：以人和日期为 held-out split，报告 reconstruction、codebook usage/collapse、token 跨 session 稳定性、cluster-label alignment、intent/action/contact/outcome prediction、missing/wrong-modality robustness，以及对一个 EgoSuperMimic/robot-learning consumer 的真实增益。加入 RGB/hand-only、最佳单模态、简单 early/late fusion 和随机 token 基线；输出可解释 token 样例与失败簇，无法超过简单监督基线则拒绝 VQ-VAE 路线。",
         "status": "todo",
         "priority": "medium",
         "assignee": null,
         "result": null,
         "comments": [],
-        "updated_at": "2026-07-29T08:28:06.029Z"
+        "updated_at": "2026-10-26T03:05:06.578Z"
       },
       {
         "task_id": "task_omniego_object_surface_tactile_force_closure_dataset_20260729",
         "project_id": "human-intention-sensorium-survey",
-        "title": "OmniEgo：对象表面触点与跨本体力闭合数据集 pilot",
+        "title": "[EgoSensorium] 对象表面触点与跨本体力闭合数据集 pilot",
         "description": "以 arXiv:2607.16739 的刚性物体表面共形互电容触点布局为 seed，先在 1–2 个可复现刚性几何上建立 contact-location prototype，再额外加入压力/剪切或 6D force-torque、物体 6D pose、手/机器人状态与结果真值。论文只支持触点定位，不支持 force、friction、力闭合、跨本体数据集或可变形物体；这些都是本任务的新假设。\n\n验收：1) 同一物体/任务用人手、平行夹爪与一个灵巧手采集，冻结对象、初始状态、目标、视角、contact schema 和 outcome；2) 至少包含一个形闭合基线和一个依赖摩擦/力闭合的候选抓取，报告接触位置、法/切向力或可用 proxy、滑移、掉落、对象轨迹与成功；3) 做 surface-touch-only、+force/pressure、+pose 的消融，证明哪些标签可识别力闭合而不只是接触存在；4) 输出电极布局、控制器、校准、同步、耐久性和失败样例。可变形物体只在刚性 pilot 通过后进入，另验 strain durability、几何重登记和 shear/force calibration。",
         "status": "todo",
         "priority": "high",
         "assignee": null,
         "result": null,
         "comments": [],
-        "updated_at": "2026-07-29T08:28:06.679Z"
+        "updated_at": "2026-10-26T02:57:37.777Z"
       },
       {
         "task_id": "task_optical_multi_robot_active_vision_v0_20260731",
@@ -21329,6 +21391,75 @@ export default {
         "result": null,
         "comments": [],
         "updated_at": "2026-08-11T11:38:55.663Z"
+      },
+      {
+        "schema_version": "task.v1",
+        "task_id": "task_ego2dex_reference_control_gate_20261026",
+        "project_id": "human-intention-sensorium-survey",
+        "title": "[EgoSuperMimic] 复用现有重建并打通 REGRIND 工具操作闭环",
+        "description": "复用已有 ego RGB-D / 手骨架与重建产物，固定一个手型、一项刚性工具任务和相同输入片段；先核对当前 REGRIND 运行状态，不把群聊陈述当作已验收结果。\n\n导出统一 manifest：时间与帧率、相机/世界坐标、尺度、左右手、对象/工具关节状态、接触阶段、置信度，以及机器人腕部/手指参考。分别使用清洁参考和重建参考，区分控制失败与重建误差。无需等待完整全场景重建才启动控制比较。\n\n验收：可复现的参考回放、一次从真实初始状态开始的完整短片段执行、接触/穿透/掉落与工具效果记录、失败样例和环境/版本/命令；若目标为机械臂+灵巧手，补充腕部可达性和碰撞检查。参考：https://github.com/yunhaif/regrind",
+        "status": "todo",
+        "priority": "high",
+        "assignee": null,
+        "due_at": null,
+        "result": null,
+        "comments": [
+          {
+            "comment_id": "comment_ego2dex_direction_20261026",
+            "task_id": "task_ego2dex_reference_control_gate_20261026",
+            "author": "Codex",
+            "kind": "comment",
+            "created_at": "2026-10-26T02:57:37.777Z",
+            "body": "用户提供的 2026-10-26 团队讨论报告：重建已有结果，物理优化推进困难，RL 正在采用 REGRIND；尚未核查运行产物。用户明确 EgoSensorium 与 Ego2Dex 是同一母项目下两个子项目。保留既有 baseline TODO 与完成记录，新增控制闭环、SuperMimic 对照、双手阶段衔接和真机验收任务；这些新增任务均未标记为已执行。"
+          }
+        ],
+        "created_at": "2026-10-26T02:57:37.777Z",
+        "updated_at": "2026-10-26T03:05:06.578Z"
+      },
+      {
+        "schema_version": "task.v1",
+        "task_id": "task_ego2dex_supermimic_matched_training_20261026",
+        "project_id": "human-intention-sensorium-survey",
+        "title": "[EgoSuperMimic] 接入 SuperMimic 并完成同任务 RL 对照",
+        "description": "先验证 Dex-Supermimic 官方 Wuji 方块环境和 checkpoint，再把已验收的机器人手物参考接到同一工具操作任务。扩展移动腕部/双手/工具状态、参考条件 observation、接触预测与 tracking reward；不要将单手方块配置直接宣称为双手操作实现。\n\nREGRIND 使用 IsaacLab，Dex-Supermimic 使用 mjlab/MuJoCo Warp。选择共同环境并固定资产、物理参数、控制频率、动作、观测、参考与奖励，再比较 model-free PPO 和 learned-world-model policy optimization。\n\n验收：多 seed 的物理模拟器成功率、simulator steps、总 GPU-hours、world-model 多步误差、imagined / simulator return 差距及未见参考测试。人类 ego motion 用作 reference；只有有机器人动作的 transition 才进入机器人动力学监督。\n\n源码审计版本：5ca57628af3666a9b2878c00f461f43d6edb5b61。参考：https://github.com/CumulusAlpha/Dex-Supermimic",
+        "status": "todo",
+        "priority": "high",
+        "assignee": null,
+        "due_at": null,
+        "result": null,
+        "comments": [],
+        "created_at": "2026-10-26T02:57:37.777Z",
+        "updated_at": "2026-10-26T03:05:06.578Z"
+      },
+      {
+        "schema_version": "task.v1",
+        "task_id": "task_ego2dex_bimanual_contact_phases_20261026",
+        "project_id": "human-intention-sensorium-survey",
+        "title": "[EgoSuperMimic] 双手工具操作的接触阶段与长程衔接",
+        "description": "在短片段控制通过后，选择一个含抓取、双手配合工具使用、释放/放回的多阶段任务。保留两个手与工具的相对几何、接触角色和置信度，研究阶段完成条件、时间调整以及接触切换附近的模型误差。稳定抓持区段可借 ROHIT/COP 约束，不能把固定手物变换强加到换抓、滑移或交接段。\n\n验收：从同一初始状态连续执行全程，不在评估中按阶段重置到参考状态；报告整段、阶段和衔接成功率，接触切换次数、掉落、工具效果和扰动恢复。消融阶段建模、置信度加权与衔接机制，并与直接跟踪、matched PPO 比较。\n\n对照 DexMimic、REGRIND 与 EgoMatrix；不以片段秒数或 ego+RL 的组合单独宣称创新。参考：https://zhexiluo.github.io/DexMimic/ ; https://zhifanzhu.github.io/objects-along-hit/ ; https://arxiv.org/abs/2610.18822",
+        "status": "todo",
+        "priority": "high",
+        "assignee": null,
+        "due_at": null,
+        "result": null,
+        "comments": [],
+        "created_at": "2026-10-26T02:57:37.777Z",
+        "updated_at": "2026-10-26T03:05:06.578Z"
+      },
+      {
+        "schema_version": "task.v1",
+        "task_id": "task_ego2dex_matched_hardware_20261026",
+        "project_id": "human-intention-sensorium-survey",
+        "title": "[EgoSuperMimic] 完成匹配真机工具任务与迁移验收",
+        "description": "将已验收的仿真工具任务接到匹配机械臂/灵巧手平台，明确机器人状态、对象/工具位姿及接触输入在真机上的测量来源，检查执行时延、系统辨识和观测噪声。\n\n验收：区分机器人轨迹回放与闭环策略部署；记录多次完整任务成功、阶段失败、工具实际效果和相同任务的 sim-to-real 差距。若用真实机器人 transition 校正世界模型，保留动作与标定日志并设 held-out 测试。实验排程和硬件就绪依赖在任务评论更新，不以仿真浮动手成功替代整臂实机结果。",
+        "status": "todo",
+        "priority": "high",
+        "assignee": null,
+        "due_at": null,
+        "result": null,
+        "comments": [],
+        "created_at": "2026-10-26T02:57:37.777Z",
+        "updated_at": "2026-10-26T03:05:06.578Z"
       }
     ]
   },

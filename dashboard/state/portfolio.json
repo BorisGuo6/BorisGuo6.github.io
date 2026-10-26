@@ -5,7 +5,7 @@
   "subtitle": "World models, self-improving agents, and five ongoing real-robot research projects",
   "week": "2026-W33",
   "date": "2026-08-22",
-  "updated_at": "2026-08-22T10:19:21.000Z",
+  "updated_at": "2026-10-26T03:05:06.578Z",
   "state_root": "dashboard/state",
   "summary": {
     "focus": "Research 主线包括 UMI World Model、Self-Improving Agents，以及真机组五个 ongoing 项目：DexGELLO、OmniEgo、TacPoseBench、Tactile ICL、Robot4Robot。",
@@ -589,10 +589,11 @@
     },
     {
       "project_id": "human-intention-sensorium-survey",
-      "title": "EgoSensorium: Bidirectional Multimodal Human-Centered Data Collection",
+      "title": "EgoSensorium / EgoSuperMimic: Human Demonstrations to Dexterous Manipulation",
       "bucket": "research",
       "status": "ongoing",
-      "state_path": "dashboard/state/projects/human-intention-sensorium-survey.json"
+      "state_path": "dashboard/state/projects/human-intention-sensorium-survey.json",
+      "summary": "同一研究母项目下的两个子项目：EgoSensorium 构建同步多模态穿戴式数采系统、数据集和主动采集反馈；EgoSuperMimic 将 ego 视频中的手物交互转成机器人可执行的双手工具操作，研究 SuperMimic 式世界模型训练、接触切换与长程衔接。两者通过带时间、坐标、接触和置信度的 demonstration manifest 连接，分别验收数据质量与机器人执行效果。"
     },
     {
       "project_id": "robodojo-tac",
