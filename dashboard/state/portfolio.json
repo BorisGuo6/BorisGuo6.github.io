@@ -5,7 +5,7 @@
   "subtitle": "World models, self-improving agents, and five ongoing real-robot research projects",
   "week": "2026-W33",
   "date": "2026-08-22",
-  "updated_at": "2026-10-26T03:05:06.578Z",
+  "updated_at": "2026-10-26T15:51:50.935Z",
   "state_root": "dashboard/state",
   "summary": {
     "focus": "Research 主线包括 UMI World Model、Self-Improving Agents，以及真机组五个 ongoing 项目：DexGELLO、OmniEgo、TacPoseBench、Tactile ICL、Robot4Robot。",
@@ -573,11 +573,11 @@
     },
     {
       "project_id": "dex-gello",
-      "title": "DexTTT: Test-Time Training for Dexterous Arm-Hand Policies",
+      "title": "DexGello / DexFacTR: Adaptive Teleoperation and DexTTT",
       "bucket": "research",
       "status": "ongoing",
       "state_path": "dashboard/state/projects/dex-gello.json",
-      "summary": "DexTTT combines a factorized 54D arm-hand policy, FoundationPose-conditioned Value/Q learning, targeted human intervention, and guarded test-time updates on Dual Franka + Dual Wuji."
+      "summary": "DexGello / DexFacTR 将任务、语言指令、摄像头画面与机器人状态接到变刚度/阻尼调度，结合主端近碰撞约束、扫描环境避碰和底层滤波减抖。将 DexFacTR 自适应控制与不同遥操作 interface 的 Allocation 并列为 Teleoperation 的两个基础方向，分别作为独立文章；DexTTT 保留为下游 54D 臂手策略、人工纠正与部署时学习方向。变刚度避碰和滤波效果需通过延迟、稳定性与任务实验验证。"
     },
     {
       "project_id": "active-dex",

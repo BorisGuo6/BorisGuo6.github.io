@@ -1,12 +1,12 @@
 {
   "schema_version": "project.v1",
   "project_id": "dex-gello",
-  "title": "DexTTT: Test-Time Training for Dexterous Arm-Hand Policies",
+  "title": "DexGello / DexFacTR: Adaptive Teleoperation and DexTTT",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-08-22T22:00:00+08:00",
-  "description": "A deployment-time learning framework for 54D bimanual dexterous policies that combines factorized arm-hand credit assignment, geometry-conditioned value learning, sparse human corrections, and guarded real-robot updates.",
-  "summary": "DexTTT enables Dual Franka + Dual Wuji policies to improve during real deployment. A factorized 14D arm head and 40D hand head share visual, proprioceptive, and task context while receiving separate intervention credit. FoundationPose-derived object-to-goal geometry enters the Value/Q Model, human takeover contributes targeted DAgger supervision, and autonomous rollouts contribute global return for safe test-time policy updates.",
+  "updated_at": "2026-10-26T15:51:50.935Z",
+  "description": "Research on the existing DexGello / FACTR-based DexFacTR platform explores adaptive impedance, collision-aware guidance and low-level filtering. Allocation of different teleoperation interfaces is a separate paper and complementary foundation; DexTTT is the downstream policy-learning direction.",
+  "summary": "DexGello / DexFacTR 将任务、语言指令、摄像头画面与机器人状态接到变刚度/阻尼调度，结合主端近碰撞约束、扫描环境避碰和底层滤波减抖。将 DexFacTR 自适应控制与不同遥操作 interface 的 Allocation 并列为 Teleoperation 的两个基础方向，分别作为独立文章；DexTTT 保留为下游 54D 臂手策略、人工纠正与部署时学习方向。变刚度避碰和滤波效果需通过延迟、稳定性与任务实验验证。",
   "subprojects": [
     {
       "label": "A",
@@ -23,15 +23,27 @@
     {
       "label": "C",
       "title": "Human-in-the-loop TTT",
-      "body": "FACTR-style quick-attach takeover and synchronized intervention masks turn deployment failures into targeted DAgger and advantage-conditioned updates.",
+      "body": "DexGello / DexFacTR takeover and synchronized intervention masks turn deployment failures into targeted DAgger and advantage-conditioned updates. Teleoperation assistance and online policy updates remain separately evaluated.",
       "output": "Guarded real-robot improvement loop"
+    },
+    {
+      "label": "D",
+      "title": "Teleoperation foundation I · DexFacTR",
+      "body": "在 FACTR-based 同构主从平台上研究任务/语言/视觉条件的刚度与阻尼调节、方向性碰撞约束和底层因果滤波。主端自身几何与从端扫描环境分别建模，运动意图、力反馈和刚度切换共同进入执行层。",
+      "output": "任务自适应阻抗 + 主端/环境避碰 + 滤波减抖"
+    },
+    {
+      "label": "E",
+      "title": "Teleoperation foundation II · Allocation",
+      "body": "研究不同遥操作 interface 的 allocation，作为独立文章与 DexFacTR 自适应控制并列。两项基础工作通过统一指令、约束和日志接口衔接，分别评价各自贡献与组合收益。",
+      "output": "不同遥操作 interface 的分配；保留独立论文边界"
     }
   ],
   "asset": "dashboard/assets/dexttt-system.svg",
   "asset_alt": "DexTTT system diagram linking a factorized arm-hand actor, geometry-conditioned value model, human intervention, and guarded deployment updates.",
-  "asset_caption": "DexTTT separates arm and hand credit while keeping their actions coupled, then combines human corrections and task return in a guarded deployment-learning loop.",
+  "asset_caption": "DexTTT 下游学习分支示意：factorized arm-hand actor、geometry-conditioned value 与人工纠正。DexFacTR 变刚度/滤波及 Allocation 是其上游 Teleoperation 基础，尚未绘入本图。",
   "visual": {
-    "layout": "standard"
+    "layout": "single-column"
   },
   "details": [
     "Platform: Dual Franka arms and Dual Wuji dexterous hands form a 54D action space, observed through three RGB views and synchronized robot proprioception.",
@@ -40,11 +52,25 @@
     "Hand-only correction: the human hand action is positive supervision, the robot hand action immediately before takeover is negative evidence, and the simultaneous arm action continues to receive Value-based credit.",
     "Arm-only correction changes arm advantage and supervision. Full takeover supervises both heads. Fully autonomous episodes use global return to evaluate the complete arm-hand behavior.",
     "Deployment loop: offline initialization, guarded autonomous rollout, low-value or high-uncertainty takeover suggestion, human correction, replay-buffer aggregation, constrained update, evaluation gate, and rollback.",
-    "Human interface: a quick-attach FACTR-style leader mechanism lets the operator connect only when taking over. Aggregate hand force estimated from Wuji FSR patches or motor current drives one continuous weak-to-strong vibration motor on each MANUS glove.",
+    "Human interface: DexGello and the FACTR-based DexFacTR provide leader-follower takeover interfaces. FACTR-style arm force feedback and per-hand vibration from Wuji FSR/current are distinct channels; vibration does not itself realize leader impedance or a mechanical collision barrier.",
     "Core task suite: pencil-case handover, two consecutive 90-degree cube turns, toy-knife cutting of soft clay, and gift wrapping with tape sealing.",
-    "Primary evaluation: success rate, online sample efficiency, intervention burden, arm/hand credit quality, value calibration, force safety, recovery performance, and OOD generalization."
+    "Primary evaluation: success rate, online sample efficiency, intervention burden, arm/hand credit quality, value calibration, force safety, recovery performance, and OOD generalization.",
+    "Teleoperation foundations: DexFacTR 自适应阻抗、避碰与底层滤波是一项基础工作；不同遥操作 interface 的 Allocation 是另一篇独立文章。接口分配结果接到统一执行层，与 DexFacTR 组合评价，二者保持各自研究问题与实验边界。",
+    "Context-to-impedance: 任务目标、语言指令、摄像头画面、机器人本体/力信号与任务阶段共同产生有界的刚度 K、阻尼 D 和参考姿态建议。语义模型低频调度，高频控制器负责增益变化率、执行器约束与稳定执行；模型不直接输出无约束力矩。",
+    "Master-side collision avoidance: 同构主从映射支持将关节限位、自碰撞和主端附近障碍的接近趋势转成方向性阻力或虚拟墙。沿危险方向约束运动，保留允许方向的操作自由；约束参考必须位于可行侧，不能朝碰撞内部提高跟踪刚度。",
+    "Scene-aware collision avoidance: 标定扫描点云/碰撞代理到从端基座，覆盖双臂、灵巧手、所持工具与环境，依据距离和接近趋势限制命令并向主端映射触觉约束。主从的结构同构不意味着尺寸、基座、工具与两侧环境一致。",
+    "Low-level filtering: 在实时执行层对运动参考、反馈信号和增益调度分别采用因果滤波/平滑与变化率限制，记录原始和处理后信号。减小抖动的同时保留接触事件和人工意图；滤波状态在接管、复位和模式切换时显式管理。",
+    "Control composition: 任务/不同遥操作 interface 的 Allocation 输出 → 有界阻抗与参考调度 → 因果滤波/限速 → 最终碰撞与执行器约束 → 伺服执行。急停、碰撞停止和 watchdog 不经过普通平滑延迟；滤波后重新检查约束，触觉反馈回路另行评价时延与稳定性。",
+    "Joint evaluation: 区分自由空间、预接触、接触操作、狭窄通道与扰动恢复；分别报告任务成功、操作者负担、抖动、时延、最小距离、碰撞/接触力及干预频率，并比较 Allocation 与 DexFacTR 的独立和组合效果。"
   ],
   "task_ids": [
+    "task_dexfactr_interface_20261026",
+    "task_dexfactr_filter_20261026",
+    "task_dexfactr_adaptive_impedance_20261026",
+    "task_dexfactr_master_collision_20261026",
+    "task_dexfactr_scene_collision_20261026",
+    "task_dexfactr_allocation_interface_20261026",
+    "task_dexfactr_evaluation_20261026",
     "task_dex_gello_end_to_end_replay_gate_20260810",
     "task_dex_gello_system_design",
     "task_real_robot_infra_manus_vive_tracker",
@@ -89,6 +115,16 @@
       "title": "PrometheusV4",
       "url": "https://github.com/LV-Robotics-Lab/PrometheusV4",
       "notes": "Current collection, training, and inference framework; the Franka-Wuji implementation lives on the hardware/franka-wuji line."
+    },
+    {
+      "title": "FACTR · Official project page",
+      "url": "https://jasonjzliu.com/factr/",
+      "notes": "双向力反馈遥操作、可配置冗余姿态与重力补偿参考。语言/视觉调度刚度、扫描环境虚拟约束和低层滤波是 DexFacTR 拟研究的扩展，不作为原论文已完成结果。"
+    },
+    {
+      "title": "FACTR Teleop · Official implementation",
+      "url": "https://github.com/JasonJZLiu/FACTR_Teleop",
+      "notes": "主端力反馈与 ROS 2 数据采集/部署接口参考；本地 DexFacTR 硬件和控制能力按实际接口核对。"
     }
   ],
   "risks_decisions": [
@@ -97,10 +133,23 @@
     "FoundationPose confidence and visibility gate geometric value features; pose uncertainty contributes directly to value uncertainty.",
     "Online updates pass replay, joint-limit, collision, force, intervention-rate, and held-out success gates before deployment.",
     "VLM criticism runs at low frequency for phase interpretation and takeover suggestion, while the high-rate actor and safety controller retain execution authority.",
-    "Haptic force feedback is an operator interface channel: aggregate FSR/current is mapped to per-hand vibration intensity during teleoperation."
+    "Haptic force feedback is an operator interface channel: aggregate FSR/current is mapped to per-hand vibration intensity during teleoperation.",
+    "Variable stiffness is a proposed means of task adaptation and directional guidance, not a standalone collision guarantee. High stiffness toward an infeasible reference can increase contact forces; use feasible references, damping, command constraints and stopping logic.",
+    "Leader self/environment collision and follower scene collision are separate constraints. Homomorphic kinematics require calibrated joint mapping and full-link geometry; environment distance alone does not account for stopping delay or moving obstacles.",
+    "Filter design must account for phase lag and bilateral-loop stability. Preserve independent raw protection signals, bounded gain slew and actuator limits; measure contact transients and stability under delay rather than declaring filtering inherently stabilizing.",
+    "Scene scans carry calibration, timestamp, coverage and uncertainty. Intentional contact is permitted only for the relevant task phase and contact pair; language or model outputs cannot disable unrelated collision constraints.",
+    "The existing 54D motion policy does not automatically include impedance parameters. Log K/D, reference frame, units, realized commands, mode switches and constraint overrides separately from arm/hand action and intervention credit."
   ],
   "timeline": {
     "badges": [
+      {
+        "label": "Teleop I",
+        "value": "DexFacTR · Impedance + filtering"
+      },
+      {
+        "label": "Teleop II",
+        "value": "Teleoperation interface allocation"
+      },
       {
         "label": "Platform",
         "value": "Dual Franka + Dual Wuji"
@@ -122,11 +171,61 @@
         "value": "4 real-robot tasks"
       }
     ],
-    "target_cycle": "BC initialization -> guarded rollout -> factorized intervention -> value/return labeling -> constrained update -> rollback gate",
-    "target_note": "The paper claim is safe deployment-time improvement of coupled, high-DoF arm-hand policies.",
+    "target_cycle": "Task / language / vision + interface allocation → bounded impedance and references → filtering → collision-constrained servo → teleoperation data → DexTTT",
+    "target_note": "Two complementary teleoperation papers: DexFacTR adaptive control and allocation of different teleoperation interfaces. Evaluate their independent and combined effects separately from downstream DexTTT learning.",
     "sprint_start": "2026-08-22",
     "sprint_due": null,
     "milestones": []
   },
-  "asset_added_at": "2026-08-22"
+  "asset_added_at": "2026-08-22",
+  "intro_table": {
+    "kind": "module_reuse_table",
+    "caption": "Teleoperation 基础工作 · DexFacTR 自适应控制 × Allocation",
+    "columns": [
+      {
+        "key": "module",
+        "label": "模块 / 方向"
+      },
+      {
+        "key": "input",
+        "label": "输入与作用"
+      },
+      {
+        "key": "boundary",
+        "label": "接口与研究边界"
+      }
+    ],
+    "rows": [
+      {
+        "module": "基础 I · DexFacTR",
+        "input": "任务 / 语言 / 视觉 / 本体与力 → 刚度、阻尼和参考调度",
+        "boundary": "基于已有 FACTR-based 平台；变刚度、避碰和滤波为新增研究方向，效果分别验证"
+      },
+      {
+        "module": "主端近碰撞约束",
+        "input": "主端关节、全链路几何、局部障碍与接近趋势",
+        "boundary": "危险方向阻力 / 虚拟墙，必要时限速停止；同构映射仍需标定，整体高刚度不等于避碰保证"
+      },
+      {
+        "module": "扫描环境避碰",
+        "input": "从端场景扫描、双臂双手和所持工具碰撞模型",
+        "boundary": "碰撞距离约束反馈到主端；区分任务允许接触与禁止碰撞，处理遮挡、地图过期与动态障碍"
+      },
+      {
+        "module": "底层滤波减抖",
+        "input": "运动参考、力反馈与 K/D 调度分别处理",
+        "boundary": "因果滤波 + 变化率限制；评价减抖—延迟权衡，最终约束与紧急停止保留执行优先权"
+      },
+      {
+        "module": "基础 II · Allocation",
+        "input": "不同遥操作 interface 的分配；分配结果接入公共执行与日志接口",
+        "boundary": "另一篇独立文章，与 DexFacTR 并列；具体分配策略沿用该文章，组合实验不合并论文贡献"
+      },
+      {
+        "module": "下游 · DexTTT",
+        "input": "54D 臂手策略、人工纠正与 Value/Q 学习",
+        "boundary": "复用遥操作基础产生的轨迹与干预日志；自适应控制增益与 TTT 学习增益分开消融"
+      }
+    ]
+  }
 }

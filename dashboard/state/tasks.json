@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-10-26T06:06:15.694Z",
+  "updated_at": "2026-10-26T15:51:50.935Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -14238,6 +14238,120 @@
       "title": "[EgoSuperMimic 06] 改造双手世界模型、Replay 与预测诊断",
       "description": "前置：03 仿真状态/执行动作 + 04 观测奖励；05 的成功与失败 rollout 可扩充训练覆盖。\n\n工作：复用 buffer、episode mask、归一化和网络骨架，扩展 state.py / observations.py / networks.py 的维度、对象及工具关节；重定义左/右手—工具、手—目标物、工具—目标物与自碰撞标签。Replay 保存真实执行动作、参考进度、控制器历史、终止前状态和必要环境参数；不得跨 reset 拟合动力学。按执行链路输入处理后指令；若使用残差，必须带参考目标。重新训练状态增量、接触和失败预测，不直接使用单手方块权重。\n\n验收：held-out 多步预测误差，接触建立/滑脱/切换和失败附近分层诊断；检查奖励与动作梯度的数值稳定性、命令记忆递推和归一化。人类参考不直接当作机器人 transition；跟踪失败但物理有效的数据仍保留。记录版本与标签定义。",
       "updated_at": "2026-10-26T06:06:15.694Z"
+    },
+    {
+      "schema_version": "task.v1",
+      "task_id": "task_dexfactr_interface_20261026",
+      "project_id": "dex-gello",
+      "title": "[DexFacTR 01] 核对 DexFacTR 主从控制能力与记录接口",
+      "description": "前置：已有 DexGello / FACTR-based DexFacTR 平台；关联既有 end-to-end replay、logger 和 cuRobo 工作，不将旧任务重新标为未完成。\n\n工作：记录主从关节映射、尺寸/坐标、限位、力矩/电流接口、力反馈来源、重力补偿与可调阻抗能力；确认刚度调节作用于主端、从端或两者。定义 K/D、平衡位置/姿态、坐标系、单位、更新频率、限幅和变化率。54D 运动动作与阻抗参数分别记录；扩展日志覆盖原始输入、处理后命令、反馈、接管、约束触发和时戳。\n\n验收：接口与标定清单、只读/回放检查和受控低速控制记录；明确实际支持的控制模式及不支持部分。将团队已有 DexFacTR 平台与本次新增算法能力分开记录。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": null,
+      "due_at": null,
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_dexfactr_scope_20261026",
+          "task_id": "task_dexfactr_interface_20261026",
+          "author": "Codex",
+          "kind": "comment",
+          "created_at": "2026-10-26T15:47:40.557Z",
+          "body": "用户说明团队已基于 FACTR 做出 DexFacTR；本次新增任务覆盖任务/语言/摄像头条件调刚度、主端与扫描环境避碰、底层滤波，以及与 Allocation 作为两项 Teleoperation 基础工作组合。未据此宣称新增控制算法或实验已完成。FACTR 官方参考：https://jasonjzliu.com/factr/"
+        }
+      ],
+      "created_at": "2026-10-26T15:47:40.557Z",
+      "updated_at": "2026-10-26T15:47:40.557Z"
+    },
+    {
+      "schema_version": "task.v1",
+      "task_id": "task_dexfactr_filter_20261026",
+      "project_id": "dex-gello",
+      "title": "[DexFacTR 02] 实现底层因果滤波与切换平滑",
+      "description": "前置：01 主从信号与控制时序明确。\n\n工作：分别处理运动参考、反馈信号与刚度/阻尼调度；比较无滤波、固定低通及按信号/运动状态调节的候选滤波，加入合理变化率限制。姿态使用一致的旋转表示与插值，处理非均匀采样；接管/复位/模式切换时初始化滤波状态，避免跳变。滤波输出后仍做最终碰撞与执行器约束，急停和 watchdog 保持独立快速路径，不平滑掉危险事件。\n\n验收：记录抖动频谱/幅度、速度与 jerk、跟踪误差、阶跃/接管响应、端到端时延和峰值接触力；比较自由运动与接触任务，验证双向反馈下时延和高刚度组合的稳定性。以减抖—延迟权衡选参数，不只展示平滑轨迹。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": null,
+      "due_at": null,
+      "result": null,
+      "comments": [],
+      "created_at": "2026-10-26T15:47:40.557Z",
+      "updated_at": "2026-10-26T15:47:40.557Z"
+    },
+    {
+      "schema_version": "task.v1",
+      "task_id": "task_dexfactr_adaptive_impedance_20261026",
+      "project_id": "dex-gello",
+      "title": "[DexFacTR 03] 接入任务／语言／视觉条件的阻抗调度",
+      "description": "前置：01 控制能力 + 02 底层滤波与切换机制。\n\n工作：任务目标、语言指令、摄像头画面、本体与可用力信号产生任务阶段、可信度和有界 K/D/参考建议。先做可解释阶段规则基线，再与模型调度比较；明确主端操作阻力与从端接触柔顺的不同目标。模型低频建议，高频控制器检查增益范围、变化率、参考可行性与执行器约束；信息过期/低置信度使用经验证的回退模式。\n\n验收：在固定任务与操作者条件下比较恒定阻抗、阶段规则和模型调度，报告成功、接触力、操作负担、切换次数与时延。任务/语言/视觉输入分别消融，确认模型没有靠频繁锁死或放弃动作获得表面收益。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": null,
+      "due_at": null,
+      "result": null,
+      "comments": [],
+      "created_at": "2026-10-26T15:47:40.557Z",
+      "updated_at": "2026-10-26T15:47:40.557Z"
+    },
+    {
+      "schema_version": "task.v1",
+      "task_id": "task_dexfactr_master_collision_20261026",
+      "project_id": "dex-gello",
+      "title": "[DexFacTR 04] 实现主端近碰撞的方向性阻力与虚拟墙",
+      "description": "前置：01 映射与全链路几何 + 02 执行层；可与 03 并行。\n\n工作：检测主端关节限位、自碰撞、双臂碰撞与局部障碍，结合接近速度/延迟提前激活约束。利用同构映射建立方向性阻力或虚拟墙，让危险方向变硬、允许方向仍可操作；参考保持在可行侧，避免高刚度把机构推向障碍。必要时执行命令限速/停止，并核对反馈力与控制方向。\n\n验收：先仿真/回放再受控硬件测试，覆盖末端与肘部等全链路；报告最小距离、越界/碰撞、操作者峰值作用力、约束响应时间、误阻挡和稳定性。对比无触觉约束、固定刚度与方向性约束；不将主端避碰自动等同从端避碰。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": null,
+      "due_at": null,
+      "result": null,
+      "comments": [],
+      "created_at": "2026-10-26T15:47:40.557Z",
+      "updated_at": "2026-10-26T15:47:40.557Z"
+    },
+    {
+      "schema_version": "task.v1",
+      "task_id": "task_dexfactr_scene_collision_20261026",
+      "project_id": "dex-gello",
+      "title": "[DexFacTR 05] 接入环境扫描与从端碰撞约束反馈",
+      "description": "前置：01 标定/资产 + 02 实时执行层；复用已完成 cuRobo 规划工作的可用接口，结合 04 的主端约束机制。\n\n工作：将扫描点云或碰撞代理标定到从端基座，覆盖双臂、双手、所持工具与障碍；维护时间、覆盖、误差和地图更新。计算距离/接近趋势约束，将从端危险方向映射为主端触觉引导，并限制从端命令。区分任务允许接触和禁止碰撞，不能把所有接触一概阻挡；动态/遮挡/过期场景使用保守回退。\n\n验收：空载与持工具、静态与移动障碍、扫描误差和通信延迟场景；报告碰撞/近失事件、最小距离、响应与停止距离、误阻挡及任务成功。验证主从两侧环境不一致时的映射，安全检查位于滤波之后。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": null,
+      "due_at": null,
+      "result": null,
+      "comments": [],
+      "created_at": "2026-10-26T15:47:40.557Z",
+      "updated_at": "2026-10-26T15:47:40.557Z"
+    },
+    {
+      "schema_version": "task.v1",
+      "task_id": "task_dexfactr_allocation_interface_20261026",
+      "project_id": "dex-gello",
+      "title": "[DexFacTR 06] 对齐遥操作 interface Allocation 与 DexFacTR 接口",
+      "description": "前置：01 执行与日志接口；对齐另一篇 Allocation 文章的接口定义。\n\n工作：Allocation 研究不同遥操作 interface 的分配，与 DexFacTR 变阻抗/避碰/滤波是两篇独立的 Teleoperation 基础工作。沿用该文章的分配策略与研究边界，定义 interface 标识、分配结果及其命令如何进入公共执行层；处理接口变化时的参考连续性、滤波状态重置与命令冲突，碰撞约束与急停保留最高执行优先级。\n\n验收：接口 schema、信号时序、接口变化的组合回放与日志可追溯；分别标明两篇文章的独立实验与组合实验，不能把 interface allocation 混写为 DexTTT 的臂手 credit assignment。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": null,
+      "due_at": null,
+      "result": null,
+      "comments": [],
+      "created_at": "2026-10-26T15:47:40.557Z",
+      "updated_at": "2026-10-26T15:51:50.935Z"
+    },
+    {
+      "schema_version": "task.v1",
+      "task_id": "task_dexfactr_evaluation_20261026",
+      "project_id": "dex-gello",
+      "title": "[DexFacTR 07] 完成两项 Teleoperation 基础工作的组合消融",
+      "description": "前置：02 滤波、03 阻抗调度、04/05 避碰与 06 Allocation 接口。\n\n工作：在共享任务/操作者/硬件协议下比较基线、滤波、规则/模型变阻抗、主端/环境约束；以固定 interface 基线/该文章的 interface Allocation 方法 × DexFacTR 自适应辅助开/关检验组合收益（固定 interface 基线沿用该文章的评测协议），并在可控条件下单独消融滤波。先选自由空间、预接触、接触和狭窄通道任务，再接现有 DexTTT 任务集。\n\n验收：成功率、完成时间、工作负担、干预次数、抖动/jerk、跟踪误差、时延、峰值接触力、最小距离及误阻挡，包含不同操作者和异常场景。记录原始/滤波信号与实际增益；区分遥操作辅助改善、数据质量改善和下游策略学习收益。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": null,
+      "due_at": null,
+      "result": null,
+      "comments": [],
+      "created_at": "2026-10-26T15:47:40.557Z",
+      "updated_at": "2026-10-26T15:51:50.935Z"
     }
   ]
 }
