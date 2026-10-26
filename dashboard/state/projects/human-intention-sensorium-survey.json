@@ -4,7 +4,7 @@
   "title": "EgoSensorium / EgoSuperMimic: Human Demonstrations to Dexterous Manipulation",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-10-26T03:11:35.815Z",
+  "updated_at": "2026-10-26T06:06:15.694Z",
   "description": "Two connected subprojects: synchronized multimodal human demonstration collection (EgoSensorium), and egocentric demonstration-conditioned bimanual tool manipulation with learned dynamics and reinforcement learning (EgoSuperMimic).",
   "summary": "同一研究母项目下的两个子项目：EgoSensorium 构建同步多模态穿戴式数采系统、数据集和主动采集反馈；EgoSuperMimic 将 ego 视频中的手物交互转成机器人可执行的双手工具操作，研究 SuperMimic 式世界模型训练、接触切换与长程衔接。两者通过带时间、坐标、接触和置信度的 demonstration manifest 连接，分别验收数据质量与机器人执行效果。",
   "asset": "dashboard/assets/egosensorium-system.svg",
@@ -27,7 +27,7 @@
     {
       "label": "B",
       "title": "EgoSuperMimic · Egocentric Video to Dexterous Tool Manipulation",
-      "body": "ego RGB / RGB-D 与手骨架 → 带置信度的手物及工具状态参考 → 接触保持重定向 → 参考条件策略。以 REGRIND 式残差 RL 为工具操作基线，研究 SuperMimic 式学习动力学与可微策略优化，重点处理双手协作、接触阶段切换和长程连续执行。",
+      "body": "ego 重建 → 统一交互参考 → 接触保持重定向 → ReferenceManager → 参考条件双手工具策略。参考同时进入目标输入与跟踪/任务奖励；机器人仿真转移训练可微世界模型，短时想象 rollout 与 critic 更新策略。研究接触切换、重建不确定性和连续多阶段执行。",
       "output": "物理可执行的机器人轨迹与策略；双手工具操作 benchmark；重建噪声、训练效率和真机迁移对照",
       "asset": "dashboard/assets/egosupermimic-method.png",
       "asset_alt": "EgoSuperMimic proposed method illustrated with first-person bimanual screwdriver use, hand contact reconstruction, robot retargeting, dexterous robot tool use, and a world-model policy-training loop.",
@@ -44,7 +44,13 @@
     "EgoSensorium — Benchmarks: intent and action anticipation, contact and pressure forecasting, spatial audio grounding, multimodal Human-to-Robot Transfer and Haptic-Guided Active Collection.",
     "Shared interface: timestamps and clock mapping; camera/world coordinates and metric scale; left/right hand states; object/tool poses and articulated states; contact phases, confidence and missing-modality masks. EgoSuperMimic can also consume external ego demonstrations independently of the full wearable rig.",
     "EgoSuperMimic — Human video supplies reference motion and interaction evidence. Robot dynamics supervision requires robot state-action-next-state transitions; human trajectories without robot actions are not interchangeable with simulator or robot replay.",
-    "EgoSuperMimic — Long-horizon acceptance means continuous execution across contact phases without oracle resets. Floating-hand tracking, arm-hand feasibility, trajectory replay and closed-loop hardware policy deployment are distinct validation levels."
+    "EgoSuperMimic — Long-horizon acceptance means continuous execution across contact phases without oracle resets. Floating-hand tracking, arm-hand feasibility, trajectory replay and closed-loop hardware policy deployment are distinct validation levels.",
+    "EgoSuperMimic — Reference contract: 每段演示保留时间戳、米制尺度、camera-to-world、左右腕与手关键点、工具及被操作物的位姿/速度/关节状态、接触关系、置信度与缺失掩码。接触标签是证据估计，不从指尖距离直接推断接触力。",
+    "EgoSuperMimic — Retargeting: 优先保留工具/物体坐标中的指尖、掌腕和工具工作端关系；同时约束机器人限位、双臂可达性、自碰撞与时间平滑。运动学回放与动力学可执行性分别评价。",
+    "EgoSuperMimic — Policy interface: ReferenceManager(demo_id, phase, lookahead) 提供当前及未来目标窗口。策略以当前观测和相对目标误差为条件；候选动作是 q_cmd = q_ref + α·Δq，并与真实控制器的限幅、滤波、频率和延迟一致。",
+    "EgoSuperMimic — Dynamics contract: 物理状态包含机器人关节与速度、工具/目标物位姿与速度及关节状态；控制器历史单独保持。动力学使用统一基座/世界坐标，策略可使用物体相对坐标。模型输入保留执行动作来源；残差动作须配套参考目标。",
+    "EgoSuperMimic — Reward contract: 交互几何跟踪、阶段接触与工具实际效果共同定义目标，辅以碰撞、限位和动作约束。想象奖励从预测状态可微计算；硬成功标准在物理仿真与真机上评估，不能只凭工具空转或 imagined return 判定完成。",
+    "EgoSuperMimic — Supervision boundary: 重建置信度调节参考跟踪目标；物理仿真中的失败转移仍可监督动力学。想象展开只能递推预测物理状态，不能用未来演示位姿或真实仿真状态逐步替换预测。未来参考是目标，不是未来实际观测。"
   ],
   "references": [
     {
@@ -117,6 +123,11 @@
       "title": "EgoMatrix",
       "url": "https://arxiv.org/abs/2610.18822",
       "notes": "Direct related work: ego video to bimanual robot trajectories through relative/contact-focused reconstruction, retargeting and RL. Novelty must go beyond this pipeline combination."
+    },
+    {
+      "title": "EgoSuperMimic module mapping · Dex-Supermimic source",
+      "url": "https://github.com/CumulusAlpha/Dex-Supermimic/tree/5ca57628af3666a9b2878c00f461f43d6edb5b61/src/dex_supermimic/rl/dex_supermimic",
+      "notes": "接口依据：state.py / sim.py 定义单手单物体状态与执行动作；mdp.py / observations.py 定义方块任务；networks.py 包含 20 维动作；runner.py / buffer.py 提供交替训练与 replay 骨架。源码接口可复用不等于已完成双手集成或复现。"
     }
   ],
   "risks_decisions": [
@@ -132,7 +143,12 @@
     "Real human demonstration references do not by themselves identify robot dynamics. Preserve action provenance and embodiment when introducing any real transition data."
   ],
   "task_ids": [
+    "task_egosupermimic_reference_manifest_20261026",
+    "task_egosupermimic_contact_retargeting_20261026",
+    "task_egosupermimic_bimanual_environment_20261026",
+    "task_egosupermimic_reference_manager_rewards_20261026",
     "task_ego2dex_reference_control_gate_20261026",
+    "task_egosupermimic_dynamics_adapter_20261026",
     "task_ego2dex_supermimic_matched_training_20261026",
     "task_ego2dex_bimanual_contact_phases_20261026",
     "task_ego2dex_matched_hardware_20261026",
@@ -179,5 +195,70 @@
     "sprint_due": null,
     "milestones": []
   },
-  "asset_added_at": "2026-08-22"
+  "asset_added_at": "2026-08-22",
+  "intro_table": {
+    "kind": "module_reuse_table",
+    "caption": "EgoSuperMimic · 模块复用与开发边界（拟议架构）",
+    "columns": [
+      {
+        "key": "module",
+        "label": "模块"
+      },
+      {
+        "key": "reuse",
+        "label": "可复用部分"
+      },
+      {
+        "key": "adaptation",
+        "label": "我们需开发 / 改造"
+      }
+    ],
+    "rows": [
+      {
+        "module": "ego 交互参考",
+        "reuse": "团队已有 RGB-D / 双手与工具重建产物",
+        "adaptation": "统一时间、米制坐标、工具/目标物关节状态、接触阶段、置信度与缺失掩码"
+      },
+      {
+        "module": "接触保持重定向",
+        "reuse": "REGRIND 的相对几何与交互保持思路",
+        "adaptation": "双手角色、工具工作端约束、双臂可达性、碰撞与平滑；输出机器人参考"
+      },
+      {
+        "module": "ReferenceManager",
+        "reuse": "目标条件控制接口思路",
+        "adaptation": "新增演示加载、未来目标窗口、进度与阶段管理，替换随机方块朝向命令"
+      },
+      {
+        "module": "仿真状态与动作",
+        "reuse": "mjlab / MuJoCo Warp 环境与控制器接入方式",
+        "adaptation": "双臂双手、工具与目标物资产；状态打包、坐标、执行动作和控制器记忆"
+      },
+      {
+        "module": "观测、奖励与终止",
+        "reuse": "解析奖励、软化判据与可微计算方式",
+        "adaptation": "参考误差、工具效果、接触角色与硬成功判据；隔离真机不可得的特权输入"
+      },
+      {
+        "module": "Replay 与训练基础设施",
+        "reuse": "buffer、episode mask、归一化、优化器、日志和 checkpoint 骨架",
+        "adaptation": "新增参考进度和任务字段，核对采样边界、控制时序与分层采样"
+      },
+      {
+        "module": "Actor / Critic / 世界模型",
+        "reuse": "网络构造、状态增量预测、接触与失败预测设计",
+        "adaptation": "消除 20 关节 / 单物体硬编码，重定义输入输出与标签并重新训练；不直接迁移方块权重"
+      },
+      {
+        "module": "想象 rollout 与策略优化",
+        "reuse": "短时可微展开、价值 bootstrap 与交替训练算法",
+        "adaptation": "替换任务记忆、扰动与参考递推；预测状态闭环推进，禁止用演示状态纠正 rollout"
+      },
+      {
+        "module": "长程执行与真机验证",
+        "reuse": "现有平台、标定和基线资产可按接口接入",
+        "adaptation": "阶段衔接、观测闭环、系统辨识、匹配对照与连续整段评估"
+      }
+    ]
+  }
 }
