@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-10-28T04:40:00.000Z",
+  "updated_at": "2026-10-28T12:05:00.000Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -14420,21 +14420,29 @@
       "project_id": "tacharness",
       "title": "[TacHarness 04] 取得首条合格的纯在线 OFF 示范（bingsheng）",
       "description": "按 10-27 采集计划 P0：复用同事 RoboLab 路线，冻结输入/时序/材料版本，先忠实复现再最小因素对照；取得一条新鲜模型成功并同配置复验。预算由代理按持续授权声明。验收：原生成功、抬升随动、双指接触或替代判据、完整收据。",
-      "status": "active",
+      "status": "done",
       "priority": "urgent",
       "assignee": "bingsheng",
       "due_at": null,
-      "result": null,
+      "result": "3 qualified online demonstrations (RoboLab, 2026-10-28)",
       "comments": [
         {
           "comment_id": "comment_task_tacharness_online_teacher_off_demo_1",
           "author": "Jingxiang",
           "body": "10-28 凌晨 bingsheng 分支仍在提交（colleague RoboLab teacher collection 及三次修复）。在此批关闭前不另起代理消耗模型请求预算。",
           "created_at": "2026-10-28"
+        },
+        {
+          "comment_id": "comment_result_task_tacharness_online_teacher_off_demo",
+          "author": "Result",
+          "body": "bingsheng 10-28 02:54：六次新鲜 RoboLab 在线模型运行，两条即时原生成功，三条资格成功（完整输入 / 去物体坐标 / 原材料，分别 548 / 1193 / 552 帧；去坐标 79.60 s 为扩展时限成功，原材料 36.87 s 在原 50 s 内）。四本账关闭：6 启动 / 377 HTTP / 9044.61 s。发布器重算资格并回读 LeRobot / DataEngine，v2 六条 3738 帧通过、三条 2293 帧合格。",
+          "created_at": "2026-10-28",
+          "kind": "result"
         }
       ],
       "created_at": "2026-10-28T04:40:00.000Z",
-      "updated_at": "2026-10-28T04:40:00.000Z"
+      "updated_at": "2026-10-28T12:05:00.000Z",
+      "completed_at": "2026-10-28"
     },
     {
       "schema_version": "task.v1",
@@ -14524,6 +14532,21 @@
       "comments": [],
       "created_at": "2026-10-28T04:40:00.000Z",
       "updated_at": "2026-10-28T04:40:00.000Z"
+    },
+    {
+      "schema_version": "task.v1",
+      "task_id": "task_tacharness_next_stage_feedback_contract",
+      "project_id": "tacharness",
+      "title": "[TacHarness 10] 下一阶段：补缺失组合、执行结果反馈、统一教师与 TacJev 合同",
+      "description": "按 bingsheng 10-28 的建议顺序：(1) 验证“无物体 XYZ + 原材料 2/1.5”的缺失组合，其余不变，分别报告原 50 s 与扩展 200 s；(2) 单独测试元动作执行结果反馈——给教师最近动作的实际 TCP 位移、控制步数、到容差/到时、夹爪命令与实测开口（与 PR #10 对中层抽屉的归因一致）；(3) 把 2 cm 反馈追踪、到位/到时边界、抓放保持、方向与词表收敛为教师与 TacJev 共用的同版本解释器，明确三图拼图/四图、四元数/旋转向量、开闭/米制。之后才接 smooth 对照与多开局学生小闭环。验收：三项各有独立收据，共享解释器下 OFF 仍成功。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "bingsheng",
+      "due_at": null,
+      "result": null,
+      "comments": [],
+      "created_at": "2026-10-28T12:05:00.000Z",
+      "updated_at": "2026-10-28T12:05:00.000Z"
     }
   ]
 }

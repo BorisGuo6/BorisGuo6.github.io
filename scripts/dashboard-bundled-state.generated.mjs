@@ -1,7 +1,7 @@
 export default {
   "schema_version": "dashboard-state.v1",
   "source": "bundled-json-generated",
-  "updated_at": "2026-10-28T04:40:00.000Z",
+  "updated_at": "2026-10-28T12:05:00.000Z",
   "portfolio": {
     "schema_version": "portfolio.v1",
     "portfolio_id": "embodied-ai-dashboard",
@@ -9,7 +9,7 @@ export default {
     "subtitle": "World models, self-improving agents, and five ongoing real-robot research projects",
     "week": "2026-W33",
     "date": "2026-08-22",
-    "updated_at": "2026-10-28T04:40:00.000Z",
+    "updated_at": "2026-10-28T12:05:00.000Z",
     "state_root": "dashboard/state",
     "summary": {
       "focus": "Research 主线包括 UMI World Model、Self-Improving Agents，以及真机组五个 ongoing 项目：DexGELLO、OmniEgo、TacPoseBench、Tactile ICL、Robot4Robot。",
@@ -581,7 +581,7 @@ export default {
         "bucket": "research",
         "status": "ongoing",
         "state_path": "dashboard/state/projects/tacharness.json",
-        "summary": "TacHarness 是实验室的 VTLA 策略统一服务与评测框架：ModelServer 用 tacharness.vtla/1 契约把策略接到八个触觉仿真来源或真机（末端统一为 TacClaw DM25PD04），DataEngine 把原生 episode 和执行收据变成可审计的目录、谱系和同步回放。2026-10-27 三位成员的工作树统一进 main（PR #8）。当前三条研究线：bingsheng 的元动作在线教师（Arena smooth 原生成功、纯在线合格示范仍为 0）、gujie 的 GPT-6 × TacClaw 采集路线（x4 批 5/7）、TacJev 蒸馏（固定 UniVTAC lift_can 离线流水线跑通，三种子 top-1 0.73–0.96）；Tactile-ETA 已取得一次在线复现成功。待决：outputs/ 证据版本化策略、右触觉垫零接触定位。"
+        "summary": "TacHarness 是实验室的 VTLA 策略统一服务与评测框架：ModelServer 用 tacharness.vtla/1 契约把策略接到八个触觉仿真来源或真机（末端统一为 TacClaw DM25PD04），DataEngine 把原生 episode 和执行收据变成可审计的目录、谱系和同步回放。2026-10-27 三位成员的工作树统一进 main（PR #8）。当前三条研究线：bingsheng 的元动作在线教师（Arena smooth 原生成功；10-28 同事式 RoboLab 在线采集六次运行取得三条合格示范）、gujie 的 GPT-6 × TacClaw 采集路线（x4 批 5/7）、TacJev 蒸馏（固定 UniVTAC lift_can 离线流水线跑通，三种子 top-1 0.73–0.96）；Tactile-ETA 已取得一次在线复现成功。待决：outputs/ 证据版本化策略、右触觉垫零接触定位。"
       },
       {
         "project_id": "dex-gello",
@@ -2380,9 +2380,9 @@ export default {
       "title": "TacHarness: VTLA Serving & Evidence Harness",
       "bucket": "research",
       "status": "ongoing",
-      "updated_at": "2026-10-28T04:40:00.000Z",
+      "updated_at": "2026-10-28T12:05:00.000Z",
       "description": "Lab-wide serving and conformance harness for Vision-Tactile-Language-Action policies: ModelServer serves any VTLA policy to any tactile simulator or robot through one real-time contract; DataEngine turns native episodes and execution receipts into catalog, lineage, evidence and synchronized replay. Three research lines run on it: meta-action online teacher collection, TacJev distillation, and Tactile-ETA reproduction.",
-      "summary": "TacHarness 是实验室的 VTLA 策略统一服务与评测框架：ModelServer 用 tacharness.vtla/1 契约把策略接到八个触觉仿真来源或真机（末端统一为 TacClaw DM25PD04），DataEngine 把原生 episode 和执行收据变成可审计的目录、谱系和同步回放。2026-10-27 三位成员的工作树统一进 main（PR #8）。当前三条研究线：bingsheng 的元动作在线教师（Arena smooth 原生成功、纯在线合格示范仍为 0）、gujie 的 GPT-6 × TacClaw 采集路线（x4 批 5/7）、TacJev 蒸馏（固定 UniVTAC lift_can 离线流水线跑通，三种子 top-1 0.73–0.96）；Tactile-ETA 已取得一次在线复现成功。待决：outputs/ 证据版本化策略、右触觉垫零接触定位。",
+      "summary": "TacHarness 是实验室的 VTLA 策略统一服务与评测框架：ModelServer 用 tacharness.vtla/1 契约把策略接到八个触觉仿真来源或真机（末端统一为 TacClaw DM25PD04），DataEngine 把原生 episode 和执行收据变成可审计的目录、谱系和同步回放。2026-10-27 三位成员的工作树统一进 main（PR #8）。当前三条研究线：bingsheng 的元动作在线教师（Arena smooth 原生成功；10-28 同事式 RoboLab 在线采集六次运行取得三条合格示范）、gujie 的 GPT-6 × TacClaw 采集路线（x4 批 5/7）、TacJev 蒸馏（固定 UniVTAC lift_can 离线流水线跑通，三种子 top-1 0.73–0.96）；Tactile-ETA 已取得一次在线复现成功。待决：outputs/ 证据版本化策略、右触觉垫零接触定位。",
       "asset": "dashboard/assets/tacharness-two-planes-20261028.svg",
       "asset_alt": "TacHarness architecture: ModelServer and DataEngine planes on one evidence spine, with the meta-action online teacher, TacJev distillation and Tactile-ETA reproduction lines on top.",
       "asset_caption": "两个产品平面共用一条证据主干：ModelServer 负责实时服务，DataEngine 负责可追溯回放；三条研究线都通过原生门禁和哈希收据留档。",
@@ -2399,8 +2399,8 @@ export default {
         {
           "label": "B",
           "title": "Meta-action online teacher (bingsheng, gujie)",
-          "body": "Show-Harness discrete meta actions driven by a VLM teacher. Arena: full-movement smooth ON native successes and re-validation (10-20); pure online OFF qualified demonstration still 0 after the 10-26 bounded batch. Colleague RoboLab/Tabero route reached 5/7 tasks with grasp/release history and pad friction 5/4; middle-drawer and two-object tasks remain open.",
-          "output": "Collection plan P0 frozen 10-27 · 7 queued tasks · right-pad zero-contact under investigation"
+          "body": "Show-Harness discrete meta actions driven by a VLM teacher. Arena: full-movement smooth ON native successes and re-validation (10-20); the pure online Arena batch of 10-26 stayed at 0. On 10-28 the colleague-style RoboLab route produced six fresh online runs with two immediate native successes and three qualified demonstrations (full input, no object coordinates, original material), budgets closed and DataEngine readback verified. Next stage: the missing no-coordinates + original-material combination, explicit execution-result feedback to the teacher, and one shared interpreter contract with TacJev.",
+          "output": "3 qualified online demos (10-28) · next-stage order frozen · right-pad zero-contact under investigation"
         },
         {
           "label": "C",
@@ -2419,6 +2419,7 @@ export default {
         "[FRAME] Two product planes, one evidence spine: ModelServer owns real time (handshake/describe/reset/predict/close, deadlines, tactile freshness, action units); DataEngine owns traceability (source identity, episodes, streams, calibration, checkpoints, receipts, synchronized replay) and never actuates a robot.",
         "[KNOWN] [CONFIDENCE: HIGH] Evidence ladder is explicit: declared → importable → component-tested → end-to-end. A directory or a fixture test passing never counts as a real checkpoint, simulator or robot having run.",
         "[KNOWN] [CONFIDENCE: HIGH] 2026-10-27 unification: bingsheng (198 commits), the codex/tacjev branch, and the gujie and huyuxin rollout layers (as git subtrees under contrib/) merged into main via PR #8; full CPU suite 3,648 passed, 22 skipped, 3 pre-existing failures, 1 collection error.",
+        "[KNOWN] [CONFIDENCE: HIGH] 2026-10-28 colleague-style online collection: 6 fresh RoboLab runs, 2 immediate native successes, 3 qualified demonstrations (548 / 1193 / 552 frames); 6 launches / 377 HTTP / 9044.61 s wall clock, all four ledgers closed; 3,738 frames rebuilt the native predicate with zero difference, 12 videos decoded, publication readback v2 passes. Single-factor successes do not imply the combined no-coordinates + original-material case.",
         "[KNOWN] [CONFIDENCE: HIGH] Colleague GPT-6 x4 batch is 5/7 (JEMM batch was 0/7). Failure attribution: middle drawer gets no handle coordinate and thrashes 2 cm above the handle with no blocked-move feedback; two-object task loses the can on the post-transport lift and never places it.",
         "[KNOWN] [CONFIDENCE: MEDIUM] Right tactile pad reports zero contact through entire grasps in three Tabero episodes but 532 frames in another; candidate causes are the per-side tactile camera retreat defaults (−2.5 mm left vs −1.0 mm right), the filtered PhysX contact sensor bound only to the right finger, and tactile simulation tracking only declared targets. Localisation experiment needs no model requests.",
         "[FRAME] Evidence policy: outputs/ now holds 46,858 tracked files / 7.85 GB against the layout contract and the GitHub repo grew from 120 MB to 6.5 GB; proposal (PR #11) recommends NAS archive with per-file sha256 manifests in git, no history rewrite."
@@ -2476,7 +2477,8 @@ export default {
         "task_tacharness_drawer_handle_prompt",
         "task_tacharness_evidence_policy_decision",
         "task_tacharness_nas_evidence_migration",
-        "task_tacharness_tactile_rsi_proposal"
+        "task_tacharness_tactile_rsi_proposal",
+        "task_tacharness_next_stage_feedback_contract"
       ],
       "timeline": {
         "badges": [
@@ -2509,7 +2511,7 @@ export default {
             "value": "jingxiang-b850m-c · RTX 5090"
           }
         ],
-        "target_cycle": "Next gate: one qualified pure-online OFF demonstration on the colleague RoboLab route, TacJev online UniVTAC evaluation, and a decision on the outputs/ evidence policy."
+        "target_cycle": "Next gate: verify the no-coordinates + original-material combination, add execution-result feedback to the teacher, converge teacher and TacJev on one interpreter contract, then a small multi-start student closed loop; outputs/ evidence policy still needs a decision."
       },
       "asset_added_at": "2026-10-28"
     },
@@ -7632,7 +7634,7 @@ export default {
   ],
   "taskDoc": {
     "schema_version": "tasks.v1",
-    "updated_at": "2026-10-28T04:40:00.000Z",
+    "updated_at": "2026-10-28T12:05:00.000Z",
     "owner": "dashboard",
     "tasks": [
       {
@@ -22052,21 +22054,29 @@ export default {
         "project_id": "tacharness",
         "title": "[TacHarness 04] 取得首条合格的纯在线 OFF 示范（bingsheng）",
         "description": "按 10-27 采集计划 P0：复用同事 RoboLab 路线，冻结输入/时序/材料版本，先忠实复现再最小因素对照；取得一条新鲜模型成功并同配置复验。预算由代理按持续授权声明。验收：原生成功、抬升随动、双指接触或替代判据、完整收据。",
-        "status": "active",
+        "status": "done",
         "priority": "urgent",
         "assignee": "bingsheng",
         "due_at": null,
-        "result": null,
+        "result": "3 qualified online demonstrations (RoboLab, 2026-10-28)",
         "comments": [
           {
             "comment_id": "comment_task_tacharness_online_teacher_off_demo_1",
             "author": "Jingxiang",
             "body": "10-28 凌晨 bingsheng 分支仍在提交（colleague RoboLab teacher collection 及三次修复）。在此批关闭前不另起代理消耗模型请求预算。",
             "created_at": "2026-10-28"
+          },
+          {
+            "comment_id": "comment_result_task_tacharness_online_teacher_off_demo",
+            "author": "Result",
+            "body": "bingsheng 10-28 02:54：六次新鲜 RoboLab 在线模型运行，两条即时原生成功，三条资格成功（完整输入 / 去物体坐标 / 原材料，分别 548 / 1193 / 552 帧；去坐标 79.60 s 为扩展时限成功，原材料 36.87 s 在原 50 s 内）。四本账关闭：6 启动 / 377 HTTP / 9044.61 s。发布器重算资格并回读 LeRobot / DataEngine，v2 六条 3738 帧通过、三条 2293 帧合格。",
+            "created_at": "2026-10-28",
+            "kind": "result"
           }
         ],
         "created_at": "2026-10-28T04:40:00.000Z",
-        "updated_at": "2026-10-28T04:40:00.000Z"
+        "updated_at": "2026-10-28T12:05:00.000Z",
+        "completed_at": "2026-10-28"
       },
       {
         "schema_version": "task.v1",
@@ -22156,6 +22166,21 @@ export default {
         "comments": [],
         "created_at": "2026-10-28T04:40:00.000Z",
         "updated_at": "2026-10-28T04:40:00.000Z"
+      },
+      {
+        "schema_version": "task.v1",
+        "task_id": "task_tacharness_next_stage_feedback_contract",
+        "project_id": "tacharness",
+        "title": "[TacHarness 10] 下一阶段：补缺失组合、执行结果反馈、统一教师与 TacJev 合同",
+        "description": "按 bingsheng 10-28 的建议顺序：(1) 验证“无物体 XYZ + 原材料 2/1.5”的缺失组合，其余不变，分别报告原 50 s 与扩展 200 s；(2) 单独测试元动作执行结果反馈——给教师最近动作的实际 TCP 位移、控制步数、到容差/到时、夹爪命令与实测开口（与 PR #10 对中层抽屉的归因一致）；(3) 把 2 cm 反馈追踪、到位/到时边界、抓放保持、方向与词表收敛为教师与 TacJev 共用的同版本解释器，明确三图拼图/四图、四元数/旋转向量、开闭/米制。之后才接 smooth 对照与多开局学生小闭环。验收：三项各有独立收据，共享解释器下 OFF 仍成功。",
+        "status": "todo",
+        "priority": "high",
+        "assignee": "bingsheng",
+        "due_at": null,
+        "result": null,
+        "comments": [],
+        "created_at": "2026-10-28T12:05:00.000Z",
+        "updated_at": "2026-10-28T12:05:00.000Z"
       }
     ]
   },
