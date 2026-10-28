@@ -1,7 +1,7 @@
 export default {
   "schema_version": "dashboard-state.v1",
   "source": "bundled-json-generated",
-  "updated_at": "2026-10-28T12:55:00.000Z",
+  "updated_at": "2026-10-28T13:20:00.000Z",
   "portfolio": {
     "schema_version": "portfolio.v1",
     "portfolio_id": "embodied-ai-dashboard",
@@ -9,7 +9,7 @@ export default {
     "subtitle": "World models, self-improving agents, and five ongoing real-robot research projects",
     "week": "2026-W33",
     "date": "2026-08-22",
-    "updated_at": "2026-10-28T12:55:00.000Z",
+    "updated_at": "2026-10-28T13:20:00.000Z",
     "state_root": "dashboard/state",
     "summary": {
       "focus": "Research 主线包括 UMI World Model、Self-Improving Agents，以及真机组五个 ongoing 项目：DexGELLO、OmniEgo、TacPoseBench、Tactile ICL、Robot4Robot。",
@@ -2380,7 +2380,7 @@ export default {
       "title": "TacHarness: VTLA Serving & Evidence Harness",
       "bucket": "research",
       "status": "ongoing",
-      "updated_at": "2026-10-28T12:55:00.000Z",
+      "updated_at": "2026-10-28T13:20:00.000Z",
       "description": "Lab-wide serving and conformance harness for Vision-Tactile-Language-Action policies: ModelServer serves any VTLA policy to any tactile simulator or robot through one real-time contract; DataEngine turns native episodes and execution receipts into catalog, lineage, evidence and synchronized replay. Three research lines run on it: meta-action online teacher collection, TacJev distillation, and Tactile-ETA reproduction.",
       "summary": "TacHarness 是实验室的 VTLA 策略统一服务与评测框架：ModelServer 用 tacharness.vtla/1 契约把策略接到八个触觉仿真来源或真机（末端统一为 TacClaw DM25PD04），DataEngine 把原生 episode 和执行收据变成可审计的目录、谱系和同步回放。2026-10-27 三位成员的工作树统一进 main（PR #8）。当前三条研究线：bingsheng 的元动作在线教师（Arena smooth 原生成功；10-28 同事式 RoboLab 在线采集六次运行取得三条合格示范）、gujie 的 GPT-6 × TacClaw 采集路线（x4 批 5/7）、TacJev 蒸馏（固定 UniVTAC lift_can 离线流水线跑通，三种子 top-1 0.73–0.96）；Tactile-ETA 已取得一次在线复现成功。待决：outputs/ 证据版本化策略、右触觉垫零接触定位。",
       "asset": "dashboard/assets/tacharness-two-planes-20261028.svg",
@@ -2488,7 +2488,7 @@ export default {
           },
           {
             "label": "Main",
-            "value": "054e567d (2026-10-27)"
+            "value": "06ec28bc (2026-10-28)"
           },
           {
             "label": "End effector",
@@ -2504,7 +2504,7 @@ export default {
           },
           {
             "label": "Open PRs",
-            "value": "#9 #10 #11"
+            "value": "#11 (decision needed)"
           },
           {
             "label": "GPU box",
@@ -7634,7 +7634,7 @@ export default {
   ],
   "taskDoc": {
     "schema_version": "tasks.v1",
-    "updated_at": "2026-10-28T12:55:00.000Z",
+    "updated_at": "2026-10-28T13:20:00.000Z",
     "owner": "dashboard",
     "tasks": [
       {
@@ -22017,21 +22017,29 @@ export default {
         "project_id": "tacharness",
         "title": "[TacHarness 02] TacJev 在固定 UniVTAC lift_can 上跑通离线流水线",
         "description": "按 tools/tacjev/README.md 配方：下载审计 30 条示教、18/6/6 划分、300 SFT + 100 calibrated 步训练（含 --stop-after/--resume 验证）、温度校准、测试集重载评测。验收：收据与日志入库，多种子报告均值与范围。",
-        "status": "review",
+        "status": "done",
         "priority": "high",
         "assignee": "Jingxiang",
         "due_at": null,
-        "result": null,
+        "result": "PR #9 merged into main (7192f0a5)",
         "comments": [
           {
             "comment_id": "comment_task_tacharness_tacjev_offline_run_20261028_1",
             "author": "Jingxiang",
             "body": "PR #9：三个划分种子测试 top-1 0.729 / 0.789 / 0.958（均值 0.825），校准后 ECE 0.198 / 0.116 / 0.019；纯训练约 6 分钟（RTX 5090）。只是离线下一步专家动作指标，6 条测试示教使数字由划分主导。checkpoint 留在 worktree，未入库。",
             "created_at": "2026-10-28"
+          },
+          {
+            "comment_id": "comment_result_task_tacharness_tacjev_offline_run_20261028",
+            "author": "Result",
+            "body": "PR #9 与 PR #10 已于 10-28 合入 main（main@06ec28bc）；PR #11 证据策略方案等待决定后再合。",
+            "created_at": "2026-10-28",
+            "kind": "result"
           }
         ],
         "created_at": "2026-10-28T04:40:00.000Z",
-        "updated_at": "2026-10-28T04:40:00.000Z"
+        "updated_at": "2026-10-28T13:20:00.000Z",
+        "completed_at": "2026-10-28"
       },
       {
         "schema_version": "task.v1",
