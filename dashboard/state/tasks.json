@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-10-26T15:51:50.935Z",
+  "updated_at": "2026-10-28T04:40:00.000Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -14352,6 +14352,178 @@
       "comments": [],
       "created_at": "2026-10-26T15:47:40.557Z",
       "updated_at": "2026-10-26T15:51:50.935Z"
+    },
+    {
+      "schema_version": "task.v1",
+      "task_id": "task_tacharness_unify_trees_20261027",
+      "project_id": "tacharness",
+      "title": "[TacHarness 01] 三方工作树统一进 main",
+      "description": "把 bingsheng 分支、codex/tacjev 分支、gujie 与 huyuxin 的独立 rollout 仓库合成一条 main。验收：PR 合入、完整 CPU 测试与基线一致、各人工作树干净。",
+      "status": "done",
+      "priority": "high",
+      "assignee": "Jingxiang",
+      "due_at": null,
+      "result": "PR #8 merged",
+      "comments": [
+        {
+          "comment_id": "comment_result_task_tacharness_unify_trees_20261027",
+          "author": "Jingxiang",
+          "body": "PR #8 已合入 main@054e567d：bingsheng 198 提交 + tacjev 5 提交 + contrib/gujie、contrib/huyuxin subtree。完整 CPU 测试 3,648 通过、3 个既有失败、1 个既有收集错误。推送受 GitHub 2 GB 单次上限约束，证据提交逐个推送。",
+          "created_at": "2026-10-28",
+          "kind": "result"
+        }
+      ],
+      "created_at": "2026-10-28T04:40:00.000Z",
+      "updated_at": "2026-10-28T04:40:00.000Z",
+      "completed_at": "2026-10-27"
+    },
+    {
+      "schema_version": "task.v1",
+      "task_id": "task_tacharness_tacjev_offline_run_20261028",
+      "project_id": "tacharness",
+      "title": "[TacHarness 02] TacJev 在固定 UniVTAC lift_can 上跑通离线流水线",
+      "description": "按 tools/tacjev/README.md 配方：下载审计 30 条示教、18/6/6 划分、300 SFT + 100 calibrated 步训练（含 --stop-after/--resume 验证）、温度校准、测试集重载评测。验收：收据与日志入库，多种子报告均值与范围。",
+      "status": "review",
+      "priority": "high",
+      "assignee": "Jingxiang",
+      "due_at": null,
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_task_tacharness_tacjev_offline_run_20261028_1",
+          "author": "Jingxiang",
+          "body": "PR #9：三个划分种子测试 top-1 0.729 / 0.789 / 0.958（均值 0.825），校准后 ECE 0.198 / 0.116 / 0.019；纯训练约 6 分钟（RTX 5090）。只是离线下一步专家动作指标，6 条测试示教使数字由划分主导。checkpoint 留在 worktree，未入库。",
+          "created_at": "2026-10-28"
+        }
+      ],
+      "created_at": "2026-10-28T04:40:00.000Z",
+      "updated_at": "2026-10-28T04:40:00.000Z"
+    },
+    {
+      "schema_version": "task.v1",
+      "task_id": "task_tacharness_tacjev_online_eval",
+      "project_id": "tacharness",
+      "title": "[TacHarness 03] TacJev 在 UniVTAC Isaac Sim 5.1 上做在线评测",
+      "description": "在装有 UniVTAC provider 栈的环境里用 campaign evaluate --simulator univtac 跑 lift_can/clean，得到任务成功率而不是离线准确率。验收：固定 seed 集、留存轨迹与视频哈希、agentic_result.json。前置：PR #9 合入。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": null,
+      "due_at": null,
+      "result": null,
+      "comments": [],
+      "created_at": "2026-10-28T04:40:00.000Z",
+      "updated_at": "2026-10-28T04:40:00.000Z"
+    },
+    {
+      "schema_version": "task.v1",
+      "task_id": "task_tacharness_online_teacher_off_demo",
+      "project_id": "tacharness",
+      "title": "[TacHarness 04] 取得首条合格的纯在线 OFF 示范（bingsheng）",
+      "description": "按 10-27 采集计划 P0：复用同事 RoboLab 路线，冻结输入/时序/材料版本，先忠实复现再最小因素对照；取得一条新鲜模型成功并同配置复验。预算由代理按持续授权声明。验收：原生成功、抬升随动、双指接触或替代判据、完整收据。",
+      "status": "active",
+      "priority": "urgent",
+      "assignee": "bingsheng",
+      "due_at": null,
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_task_tacharness_online_teacher_off_demo_1",
+          "author": "Jingxiang",
+          "body": "10-28 凌晨 bingsheng 分支仍在提交（colleague RoboLab teacher collection 及三次修复）。在此批关闭前不另起代理消耗模型请求预算。",
+          "created_at": "2026-10-28"
+        }
+      ],
+      "created_at": "2026-10-28T04:40:00.000Z",
+      "updated_at": "2026-10-28T04:40:00.000Z"
+    },
+    {
+      "schema_version": "task.v1",
+      "task_id": "task_tacharness_right_pad_zero_contact",
+      "project_id": "tacharness",
+      "title": "[TacHarness 05] 定位 Tabero 右触觉垫整段抓持零接触",
+      "description": "三条 x4 回合右垫 0 接触帧而 libero_10 有 532 帧。用脚本抓取在同一开局复现，只改 TACUMI_CAMERA_RETREAT_RIGHT_M 到 −0.0025 对照，导出裁剪前压痕，并分别绑定 Link4/Link5 的物理接触传感器核对 has_contact 两个条件。0 模型请求。验收：定性到相机退避、过滤传感器绑定或目标门控中的一项。",
+      "status": "todo",
+      "priority": "high",
+      "assignee": null,
+      "due_at": null,
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_task_tacharness_right_pad_zero_contact_1",
+          "author": "Jingxiang",
+          "body": "分析与实验设计见 PR #10 的研究笔记。影响 TacJev 训练数据的右路触觉和合格示范的双垫门禁。",
+          "created_at": "2026-10-28"
+        }
+      ],
+      "created_at": "2026-10-28T04:40:00.000Z",
+      "updated_at": "2026-10-28T04:40:00.000Z"
+    },
+    {
+      "schema_version": "task.v1",
+      "task_id": "task_tacharness_drawer_handle_prompt",
+      "project_id": "tacharness",
+      "title": "[TacHarness 06] 采集 profile：把 tactile_targets 位姿和被挡住反馈加进模型输入",
+      "description": "中层抽屉失败根因：提示只给柜体根坐标，不给把手 prim 位姿；移动被挡住（travelled_m≈0）没有反馈，模型在同一高度重复抓放。在独立 profile 版本里加入目标 prim 位姿与上一动作实际位移，先用脚本做 ±1 cm 抓取高度扫描确定可拉动窗口。验收：中层抽屉一次原生成功或明确的新失败机制。",
+      "status": "todo",
+      "priority": "medium",
+      "assignee": null,
+      "due_at": null,
+      "result": null,
+      "comments": [],
+      "created_at": "2026-10-28T04:40:00.000Z",
+      "updated_at": "2026-10-28T04:40:00.000Z"
+    },
+    {
+      "schema_version": "task.v1",
+      "task_id": "task_tacharness_evidence_policy_decision",
+      "project_id": "tacharness",
+      "title": "[TacHarness 07] 决定 outputs/ 证据版本化策略",
+      "description": "outputs/ 已跟踪 46,858 文件 / 7.85 GB，GitHub 仓库 6.5 GB，与布局契约冲突。PR #11 列出四个方案并推荐 NAS 归档 + git 清单。需要决定：方案、NAS 访问路径（接网线）、清单格式、已有 7.85 GB 的处理。",
+      "status": "needs_user",
+      "priority": "high",
+      "assignee": "Jingxiang",
+      "due_at": null,
+      "result": null,
+      "comments": [],
+      "created_at": "2026-10-28T04:40:00.000Z",
+      "updated_at": "2026-10-28T04:40:00.000Z"
+    },
+    {
+      "schema_version": "task.v1",
+      "task_id": "task_tacharness_nas_evidence_migration",
+      "project_id": "tacharness",
+      "title": "[TacHarness 08] 把 hyx 47 GB rollout 运行数据迁到 NAS 并校验删除本地",
+      "description": "经 yuhang-b850m-c 的 WiFi + SMB 2.0 挂载迁移。整文件流式与整文件 rsync 都因链路丢写而校验失败，改为 1 GiB 分块、逐块 NAS 直读 sha256、失败块重传。验收：全部子目录校验通过、本地删除、NAS 上有 parts 清单与 README。",
+      "status": "active",
+      "priority": "medium",
+      "assignee": "Jingxiang",
+      "due_at": null,
+      "result": null,
+      "comments": [
+        {
+          "comment_id": "comment_task_tacharness_nas_evidence_migration_1",
+          "author": "Jingxiang",
+          "body": "10-28 10:00：8 个子目录中 7 个已校验入库（含 p5_full 15 GB，其中 part-012 曾校验失败后重传成功）；v2_full 18 块传输中，预计 12:45 完成后剩 v2_single。此前冗余的 27 GB hyx external/TacHarness 克隆已删。",
+          "created_at": "2026-10-28"
+        }
+      ],
+      "created_at": "2026-10-28T04:40:00.000Z",
+      "updated_at": "2026-10-28T04:40:00.000Z"
+    },
+    {
+      "schema_version": "task.v1",
+      "task_id": "task_tacharness_tactile_rsi_proposal",
+      "project_id": "tacharness",
+      "title": "[TacHarness 09] 写触觉 RSI 与接触区局部 3D 超分方案",
+      "description": "用 agentic real2sim 复现真实触觉 episode：先对齐接触时序，再逐帧比较压痕/形变/剪切，agent 对照显式触觉参数表（胶面模量、摩擦、左右相机退避、深度映射）诊断 gap 并留收据；接触区自适应网格细分作为局部 3D 超分的第一档。验收：docs/research 方案文档、首批真实 episode 选定、可识别性实验设计（法向压入 / 滑移 / 不同抓取高度）。",
+      "status": "todo",
+      "priority": "medium",
+      "assignee": "Jingxiang",
+      "due_at": null,
+      "result": null,
+      "comments": [],
+      "created_at": "2026-10-28T04:40:00.000Z",
+      "updated_at": "2026-10-28T04:40:00.000Z"
     }
   ]
 }

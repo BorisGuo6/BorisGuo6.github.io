@@ -1,7 +1,7 @@
 export default {
   "schema_version": "dashboard-state.v1",
   "source": "bundled-json-generated",
-  "updated_at": "2026-10-26T15:51:50.935Z",
+  "updated_at": "2026-10-28T04:40:00.000Z",
   "portfolio": {
     "schema_version": "portfolio.v1",
     "portfolio_id": "embodied-ai-dashboard",
@@ -9,7 +9,7 @@ export default {
     "subtitle": "World models, self-improving agents, and five ongoing real-robot research projects",
     "week": "2026-W33",
     "date": "2026-08-22",
-    "updated_at": "2026-10-26T15:51:50.935Z",
+    "updated_at": "2026-10-28T04:40:00.000Z",
     "state_root": "dashboard/state",
     "summary": {
       "focus": "Research 主线包括 UMI World Model、Self-Improving Agents，以及真机组五个 ongoing 项目：DexGELLO、OmniEgo、TacPoseBench、Tactile ICL、Robot4Robot。",
@@ -574,6 +574,14 @@ export default {
         "bucket": "research",
         "status": "ongoing",
         "state_path": "dashboard/state/projects/self-improving-agents.json"
+      },
+      {
+        "project_id": "tacharness",
+        "title": "TacHarness: VTLA Serving & Evidence Harness",
+        "bucket": "research",
+        "status": "ongoing",
+        "state_path": "dashboard/state/projects/tacharness.json",
+        "summary": "TacHarness 是实验室的 VTLA 策略统一服务与评测框架：ModelServer 用 tacharness.vtla/1 契约把策略接到八个触觉仿真来源或真机（末端统一为 TacClaw DM25PD04），DataEngine 把原生 episode 和执行收据变成可审计的目录、谱系和同步回放。2026-10-27 三位成员的工作树统一进 main（PR #8）。当前三条研究线：bingsheng 的元动作在线教师（Arena smooth 原生成功、纯在线合格示范仍为 0）、gujie 的 GPT-6 × TacClaw 采集路线（x4 批 5/7）、TacJev 蒸馏（固定 UniVTAC lift_can 离线流水线跑通，三种子 top-1 0.73–0.96）；Tactile-ETA 已取得一次在线复现成功。待决：outputs/ 证据版本化策略、右触觉垫零接触定位。"
       },
       {
         "project_id": "dex-gello",
@@ -2365,6 +2373,145 @@ export default {
           "summary": "[COMPUTED] [CONFIDENCE: HIGH] The bounded V1 rigid, articulated and camera-sensitive L0-L3 gate passes. [KNOWN] [CONFIDENCE: HIGH] Reusable Skill/MCP packaging and L4 controller or policy equivalence remain outside that completion."
         }
       ]
+    },
+    {
+      "schema_version": "project.v1",
+      "project_id": "tacharness",
+      "title": "TacHarness: VTLA Serving & Evidence Harness",
+      "bucket": "research",
+      "status": "ongoing",
+      "updated_at": "2026-10-28T04:40:00.000Z",
+      "description": "Lab-wide serving and conformance harness for Vision-Tactile-Language-Action policies: ModelServer serves any VTLA policy to any tactile simulator or robot through one real-time contract; DataEngine turns native episodes and execution receipts into catalog, lineage, evidence and synchronized replay. Three research lines run on it: meta-action online teacher collection, TacJev distillation, and Tactile-ETA reproduction.",
+      "summary": "TacHarness 是实验室的 VTLA 策略统一服务与评测框架：ModelServer 用 tacharness.vtla/1 契约把策略接到八个触觉仿真来源或真机（末端统一为 TacClaw DM25PD04），DataEngine 把原生 episode 和执行收据变成可审计的目录、谱系和同步回放。2026-10-27 三位成员的工作树统一进 main（PR #8）。当前三条研究线：bingsheng 的元动作在线教师（Arena smooth 原生成功、纯在线合格示范仍为 0）、gujie 的 GPT-6 × TacClaw 采集路线（x4 批 5/7）、TacJev 蒸馏（固定 UniVTAC lift_can 离线流水线跑通，三种子 top-1 0.73–0.96）；Tactile-ETA 已取得一次在线复现成功。待决：outputs/ 证据版本化策略、右触觉垫零接触定位。",
+      "asset": "dashboard/assets/tacharness-two-planes-20261028.svg",
+      "asset_alt": "TacHarness architecture: ModelServer and DataEngine planes on one evidence spine, with the meta-action online teacher, TacJev distillation and Tactile-ETA reproduction lines on top.",
+      "asset_caption": "两个产品平面共用一条证据主干：ModelServer 负责实时服务，DataEngine 负责可追溯回放；三条研究线都通过原生门禁和哈希收据留档。",
+      "visual": {
+        "layout": "standard"
+      },
+      "subprojects": [
+        {
+          "label": "A",
+          "title": "Harness core: ModelServer + DataEngine",
+          "body": "Typed VTLA contracts, bounded sessions, content-bound receipts, LeRobot v3 views and replay. Core is component-tested; three-source tactile collection P0 accepted 2026-10-05; PI0.5 three-step online wiring smoke passed 2026-10-08. Physical-robot end-to-end on the same protocol is still pending.",
+          "output": "main@054e567d · 3,648 CPU tests passing · 3 pre-existing failures"
+        },
+        {
+          "label": "B",
+          "title": "Meta-action online teacher (bingsheng, gujie)",
+          "body": "Show-Harness discrete meta actions driven by a VLM teacher. Arena: full-movement smooth ON native successes and re-validation (10-20); pure online OFF qualified demonstration still 0 after the 10-26 bounded batch. Colleague RoboLab/Tabero route reached 5/7 tasks with grasp/release history and pad friction 5/4; middle-drawer and two-object tasks remain open.",
+          "output": "Collection plan P0 frozen 10-27 · 7 queued tasks · right-pad zero-contact under investigation"
+        },
+        {
+          "label": "C",
+          "title": "TacJev distillation (Jingxiang)",
+          "body": "Qwen3.5-2B LoRA scores a nine-token meta-action vocabulary from two RGB views, two tactile images, instruction and end-effector state. First complete offline run on the pinned 30-episode UniVTAC lift_can set with stop/resume verification and temperature calibration.",
+          "output": "Test top-1 0.729 / 0.789 / 0.958 across split seeds, calibrated ECE 0.198 / 0.116 / 0.019 · PR #9 · online UniVTAC eval next"
+        },
+        {
+          "label": "D",
+          "title": "Tactile-ETA reproduction → tactile RSI",
+          "body": "Real Codex 0.164 plus the author stdio MCP drove a native Insert Tube loop: one success (v35), one early termination (v34), budget closed. Proposed next: agentic real2sim tactile RSI (align contact timing, compare indentation/deformation/shear, agent tunes an explicit tactile parameter table with receipts) and contact-patch local 3D super-resolution.",
+          "output": "Reproduction report + paper companion published · RSI proposal pending"
+        }
+      ],
+      "details": [
+        "[FRAME] Two product planes, one evidence spine: ModelServer owns real time (handshake/describe/reset/predict/close, deadlines, tactile freshness, action units); DataEngine owns traceability (source identity, episodes, streams, calibration, checkpoints, receipts, synchronized replay) and never actuates a robot.",
+        "[KNOWN] [CONFIDENCE: HIGH] Evidence ladder is explicit: declared → importable → component-tested → end-to-end. A directory or a fixture test passing never counts as a real checkpoint, simulator or robot having run.",
+        "[KNOWN] [CONFIDENCE: HIGH] 2026-10-27 unification: bingsheng (198 commits), the codex/tacjev branch, and the gujie and huyuxin rollout layers (as git subtrees under contrib/) merged into main via PR #8; full CPU suite 3,648 passed, 22 skipped, 3 pre-existing failures, 1 collection error.",
+        "[KNOWN] [CONFIDENCE: HIGH] Colleague GPT-6 x4 batch is 5/7 (JEMM batch was 0/7). Failure attribution: middle drawer gets no handle coordinate and thrashes 2 cm above the handle with no blocked-move feedback; two-object task loses the can on the post-transport lift and never places it.",
+        "[KNOWN] [CONFIDENCE: MEDIUM] Right tactile pad reports zero contact through entire grasps in three Tabero episodes but 532 frames in another; candidate causes are the per-side tactile camera retreat defaults (−2.5 mm left vs −1.0 mm right), the filtered PhysX contact sensor bound only to the right finger, and tactile simulation tracking only declared targets. Localisation experiment needs no model requests.",
+        "[FRAME] Evidence policy: outputs/ now holds 46,858 tracked files / 7.85 GB against the layout contract and the GitHub repo grew from 120 MB to 6.5 GB; proposal (PR #11) recommends NAS archive with per-file sha256 manifests in git, no history rewrite."
+      ],
+      "references": [
+        {
+          "title": "LV-Robotics-Lab/TacHarness",
+          "url": "https://github.com/LV-Robotics-Lab/TacHarness",
+          "submitted_at": "2026-10-28",
+          "notes": "Lab repository. main@054e567d after the 2026-10-27 unification; repo-docs/ holds the Chinese reader guide and change-log."
+        },
+        {
+          "title": "PR #8 · Unify bingsheng, tacjev, gujie and huyuxin trees into main",
+          "url": "https://github.com/LV-Robotics-Lab/TacHarness/pull/8",
+          "submitted_at": "2026-10-27",
+          "notes": "Merged. Subtree imports keep contrib/gujie and contrib/huyuxin history; layout test and ownership table updated."
+        },
+        {
+          "title": "PR #9 · First TacJev offline run on pinned UniVTAC lift_can",
+          "url": "https://github.com/LV-Robotics-Lab/TacHarness/pull/9",
+          "submitted_at": "2026-10-28",
+          "notes": "Receipts, stage logs and the research note with three split seeds; checkpoints stay on the lab box."
+        },
+        {
+          "title": "PR #10 · x4 GPT-6 rollout failure attribution and right-pad zero-contact",
+          "url": "https://github.com/LV-Robotics-Lab/TacHarness/pull/10",
+          "submitted_at": "2026-10-28",
+          "notes": "Read-only analysis of 393 decisions; lists the sensor-side asymmetries and a zero-request localisation experiment."
+        },
+        {
+          "title": "PR #11 · outputs/ evidence versioning policy proposal",
+          "url": "https://github.com/LV-Robotics-Lab/TacHarness/pull/11",
+          "submitted_at": "2026-10-28",
+          "notes": "Decision needed: keep in git, LFS, NAS archive + manifests (recommended), or hybrid."
+        },
+        {
+          "title": "TacHarness project page (artifact)",
+          "url": "https://claude.ai/artifact/LQnkbkVhz5VqXf2QsG3abw",
+          "submitted_at": "2026-10-28",
+          "notes": "Bilingual architecture/status page with the October 2026 research log; private link."
+        }
+      ],
+      "risks_decisions": [
+        "[KNOWN] [CONFIDENCE: HIGH] 2026-10-27 decision: keep bingsheng's evidence commits unrewritten (49 evidence files and two notes reference their hashes); push them one commit at a time under the 2 GB GitHub push limit. Policy for new campaigns is PR #11.",
+        "[KNOWN] [CONFIDENCE: HIGH] Online teacher line stays with bingsheng's running batch; no second agent spends model-request budget on issues 05/06 until his batch closes.",
+        "[INFERRED] [CONFIDENCE: MEDIUM] Right-pad zero contact affects TacJev training data and the dual-pad acceptance gate; until localised, treat 'left pad contact + object lift' as the acceptance signal instead of dual-pad contact.",
+        "[FRAME] NAS access from the lab box runs over a WiFi + SMB 2.0 hop at ~4 MB/s with occasional lost writes; large evidence uploads must be chunked and verified by direct read on the NAS side (done for the 47 GB hyx migration)."
+      ],
+      "task_ids": [
+        "task_tacharness_unify_trees_20261027",
+        "task_tacharness_tacjev_offline_run_20261028",
+        "task_tacharness_tacjev_online_eval",
+        "task_tacharness_online_teacher_off_demo",
+        "task_tacharness_right_pad_zero_contact",
+        "task_tacharness_drawer_handle_prompt",
+        "task_tacharness_evidence_policy_decision",
+        "task_tacharness_nas_evidence_migration",
+        "task_tacharness_tactile_rsi_proposal"
+      ],
+      "timeline": {
+        "badges": [
+          {
+            "label": "Repo",
+            "value": "LV-Robotics-Lab/TacHarness"
+          },
+          {
+            "label": "Main",
+            "value": "054e567d (2026-10-27)"
+          },
+          {
+            "label": "End effector",
+            "value": "TacClaw DM25PD04"
+          },
+          {
+            "label": "Sources",
+            "value": "8 governed"
+          },
+          {
+            "label": "Members",
+            "value": "bingsheng / gujie / huyuxin / Jingxiang"
+          },
+          {
+            "label": "Open PRs",
+            "value": "#9 #10 #11"
+          },
+          {
+            "label": "GPU box",
+            "value": "jingxiang-b850m-c · RTX 5090"
+          }
+        ],
+        "target_cycle": "Next gate: one qualified pure-online OFF demonstration on the colleague RoboLab route, TacJev online UniVTAC evaluation, and a decision on the outputs/ evidence policy."
+      },
+      "asset_added_at": "2026-10-28"
     },
     {
       "schema_version": "project.v1",
@@ -7485,7 +7632,7 @@ export default {
   ],
   "taskDoc": {
     "schema_version": "tasks.v1",
-    "updated_at": "2026-10-26T15:51:50.935Z",
+    "updated_at": "2026-10-28T04:40:00.000Z",
     "owner": "dashboard",
     "tasks": [
       {
@@ -21837,6 +21984,178 @@ export default {
         "comments": [],
         "created_at": "2026-10-26T15:47:40.557Z",
         "updated_at": "2026-10-26T15:51:50.935Z"
+      },
+      {
+        "schema_version": "task.v1",
+        "task_id": "task_tacharness_unify_trees_20261027",
+        "project_id": "tacharness",
+        "title": "[TacHarness 01] 三方工作树统一进 main",
+        "description": "把 bingsheng 分支、codex/tacjev 分支、gujie 与 huyuxin 的独立 rollout 仓库合成一条 main。验收：PR 合入、完整 CPU 测试与基线一致、各人工作树干净。",
+        "status": "done",
+        "priority": "high",
+        "assignee": "Jingxiang",
+        "due_at": null,
+        "result": "PR #8 merged",
+        "comments": [
+          {
+            "comment_id": "comment_result_task_tacharness_unify_trees_20261027",
+            "author": "Jingxiang",
+            "body": "PR #8 已合入 main@054e567d：bingsheng 198 提交 + tacjev 5 提交 + contrib/gujie、contrib/huyuxin subtree。完整 CPU 测试 3,648 通过、3 个既有失败、1 个既有收集错误。推送受 GitHub 2 GB 单次上限约束，证据提交逐个推送。",
+            "created_at": "2026-10-28",
+            "kind": "result"
+          }
+        ],
+        "created_at": "2026-10-28T04:40:00.000Z",
+        "updated_at": "2026-10-28T04:40:00.000Z",
+        "completed_at": "2026-10-27"
+      },
+      {
+        "schema_version": "task.v1",
+        "task_id": "task_tacharness_tacjev_offline_run_20261028",
+        "project_id": "tacharness",
+        "title": "[TacHarness 02] TacJev 在固定 UniVTAC lift_can 上跑通离线流水线",
+        "description": "按 tools/tacjev/README.md 配方：下载审计 30 条示教、18/6/6 划分、300 SFT + 100 calibrated 步训练（含 --stop-after/--resume 验证）、温度校准、测试集重载评测。验收：收据与日志入库，多种子报告均值与范围。",
+        "status": "review",
+        "priority": "high",
+        "assignee": "Jingxiang",
+        "due_at": null,
+        "result": null,
+        "comments": [
+          {
+            "comment_id": "comment_task_tacharness_tacjev_offline_run_20261028_1",
+            "author": "Jingxiang",
+            "body": "PR #9：三个划分种子测试 top-1 0.729 / 0.789 / 0.958（均值 0.825），校准后 ECE 0.198 / 0.116 / 0.019；纯训练约 6 分钟（RTX 5090）。只是离线下一步专家动作指标，6 条测试示教使数字由划分主导。checkpoint 留在 worktree，未入库。",
+            "created_at": "2026-10-28"
+          }
+        ],
+        "created_at": "2026-10-28T04:40:00.000Z",
+        "updated_at": "2026-10-28T04:40:00.000Z"
+      },
+      {
+        "schema_version": "task.v1",
+        "task_id": "task_tacharness_tacjev_online_eval",
+        "project_id": "tacharness",
+        "title": "[TacHarness 03] TacJev 在 UniVTAC Isaac Sim 5.1 上做在线评测",
+        "description": "在装有 UniVTAC provider 栈的环境里用 campaign evaluate --simulator univtac 跑 lift_can/clean，得到任务成功率而不是离线准确率。验收：固定 seed 集、留存轨迹与视频哈希、agentic_result.json。前置：PR #9 合入。",
+        "status": "todo",
+        "priority": "high",
+        "assignee": null,
+        "due_at": null,
+        "result": null,
+        "comments": [],
+        "created_at": "2026-10-28T04:40:00.000Z",
+        "updated_at": "2026-10-28T04:40:00.000Z"
+      },
+      {
+        "schema_version": "task.v1",
+        "task_id": "task_tacharness_online_teacher_off_demo",
+        "project_id": "tacharness",
+        "title": "[TacHarness 04] 取得首条合格的纯在线 OFF 示范（bingsheng）",
+        "description": "按 10-27 采集计划 P0：复用同事 RoboLab 路线，冻结输入/时序/材料版本，先忠实复现再最小因素对照；取得一条新鲜模型成功并同配置复验。预算由代理按持续授权声明。验收：原生成功、抬升随动、双指接触或替代判据、完整收据。",
+        "status": "active",
+        "priority": "urgent",
+        "assignee": "bingsheng",
+        "due_at": null,
+        "result": null,
+        "comments": [
+          {
+            "comment_id": "comment_task_tacharness_online_teacher_off_demo_1",
+            "author": "Jingxiang",
+            "body": "10-28 凌晨 bingsheng 分支仍在提交（colleague RoboLab teacher collection 及三次修复）。在此批关闭前不另起代理消耗模型请求预算。",
+            "created_at": "2026-10-28"
+          }
+        ],
+        "created_at": "2026-10-28T04:40:00.000Z",
+        "updated_at": "2026-10-28T04:40:00.000Z"
+      },
+      {
+        "schema_version": "task.v1",
+        "task_id": "task_tacharness_right_pad_zero_contact",
+        "project_id": "tacharness",
+        "title": "[TacHarness 05] 定位 Tabero 右触觉垫整段抓持零接触",
+        "description": "三条 x4 回合右垫 0 接触帧而 libero_10 有 532 帧。用脚本抓取在同一开局复现，只改 TACUMI_CAMERA_RETREAT_RIGHT_M 到 −0.0025 对照，导出裁剪前压痕，并分别绑定 Link4/Link5 的物理接触传感器核对 has_contact 两个条件。0 模型请求。验收：定性到相机退避、过滤传感器绑定或目标门控中的一项。",
+        "status": "todo",
+        "priority": "high",
+        "assignee": null,
+        "due_at": null,
+        "result": null,
+        "comments": [
+          {
+            "comment_id": "comment_task_tacharness_right_pad_zero_contact_1",
+            "author": "Jingxiang",
+            "body": "分析与实验设计见 PR #10 的研究笔记。影响 TacJev 训练数据的右路触觉和合格示范的双垫门禁。",
+            "created_at": "2026-10-28"
+          }
+        ],
+        "created_at": "2026-10-28T04:40:00.000Z",
+        "updated_at": "2026-10-28T04:40:00.000Z"
+      },
+      {
+        "schema_version": "task.v1",
+        "task_id": "task_tacharness_drawer_handle_prompt",
+        "project_id": "tacharness",
+        "title": "[TacHarness 06] 采集 profile：把 tactile_targets 位姿和被挡住反馈加进模型输入",
+        "description": "中层抽屉失败根因：提示只给柜体根坐标，不给把手 prim 位姿；移动被挡住（travelled_m≈0）没有反馈，模型在同一高度重复抓放。在独立 profile 版本里加入目标 prim 位姿与上一动作实际位移，先用脚本做 ±1 cm 抓取高度扫描确定可拉动窗口。验收：中层抽屉一次原生成功或明确的新失败机制。",
+        "status": "todo",
+        "priority": "medium",
+        "assignee": null,
+        "due_at": null,
+        "result": null,
+        "comments": [],
+        "created_at": "2026-10-28T04:40:00.000Z",
+        "updated_at": "2026-10-28T04:40:00.000Z"
+      },
+      {
+        "schema_version": "task.v1",
+        "task_id": "task_tacharness_evidence_policy_decision",
+        "project_id": "tacharness",
+        "title": "[TacHarness 07] 决定 outputs/ 证据版本化策略",
+        "description": "outputs/ 已跟踪 46,858 文件 / 7.85 GB，GitHub 仓库 6.5 GB，与布局契约冲突。PR #11 列出四个方案并推荐 NAS 归档 + git 清单。需要决定：方案、NAS 访问路径（接网线）、清单格式、已有 7.85 GB 的处理。",
+        "status": "needs_user",
+        "priority": "high",
+        "assignee": "Jingxiang",
+        "due_at": null,
+        "result": null,
+        "comments": [],
+        "created_at": "2026-10-28T04:40:00.000Z",
+        "updated_at": "2026-10-28T04:40:00.000Z"
+      },
+      {
+        "schema_version": "task.v1",
+        "task_id": "task_tacharness_nas_evidence_migration",
+        "project_id": "tacharness",
+        "title": "[TacHarness 08] 把 hyx 47 GB rollout 运行数据迁到 NAS 并校验删除本地",
+        "description": "经 yuhang-b850m-c 的 WiFi + SMB 2.0 挂载迁移。整文件流式与整文件 rsync 都因链路丢写而校验失败，改为 1 GiB 分块、逐块 NAS 直读 sha256、失败块重传。验收：全部子目录校验通过、本地删除、NAS 上有 parts 清单与 README。",
+        "status": "active",
+        "priority": "medium",
+        "assignee": "Jingxiang",
+        "due_at": null,
+        "result": null,
+        "comments": [
+          {
+            "comment_id": "comment_task_tacharness_nas_evidence_migration_1",
+            "author": "Jingxiang",
+            "body": "10-28 10:00：8 个子目录中 7 个已校验入库（含 p5_full 15 GB，其中 part-012 曾校验失败后重传成功）；v2_full 18 块传输中，预计 12:45 完成后剩 v2_single。此前冗余的 27 GB hyx external/TacHarness 克隆已删。",
+            "created_at": "2026-10-28"
+          }
+        ],
+        "created_at": "2026-10-28T04:40:00.000Z",
+        "updated_at": "2026-10-28T04:40:00.000Z"
+      },
+      {
+        "schema_version": "task.v1",
+        "task_id": "task_tacharness_tactile_rsi_proposal",
+        "project_id": "tacharness",
+        "title": "[TacHarness 09] 写触觉 RSI 与接触区局部 3D 超分方案",
+        "description": "用 agentic real2sim 复现真实触觉 episode：先对齐接触时序，再逐帧比较压痕/形变/剪切，agent 对照显式触觉参数表（胶面模量、摩擦、左右相机退避、深度映射）诊断 gap 并留收据；接触区自适应网格细分作为局部 3D 超分的第一档。验收：docs/research 方案文档、首批真实 episode 选定、可识别性实验设计（法向压入 / 滑移 / 不同抓取高度）。",
+        "status": "todo",
+        "priority": "medium",
+        "assignee": "Jingxiang",
+        "due_at": null,
+        "result": null,
+        "comments": [],
+        "created_at": "2026-10-28T04:40:00.000Z",
+        "updated_at": "2026-10-28T04:40:00.000Z"
       }
     ]
   },
