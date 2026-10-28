@@ -1,7 +1,7 @@
 export default {
   "schema_version": "dashboard-state.v1",
   "source": "bundled-json-generated",
-  "updated_at": "2026-10-28T12:05:00.000Z",
+  "updated_at": "2026-10-28T12:55:00.000Z",
   "portfolio": {
     "schema_version": "portfolio.v1",
     "portfolio_id": "embodied-ai-dashboard",
@@ -9,7 +9,7 @@ export default {
     "subtitle": "World models, self-improving agents, and five ongoing real-robot research projects",
     "week": "2026-W33",
     "date": "2026-08-22",
-    "updated_at": "2026-10-28T12:05:00.000Z",
+    "updated_at": "2026-10-28T12:55:00.000Z",
     "state_root": "dashboard/state",
     "summary": {
       "focus": "Research 主线包括 UMI World Model、Self-Improving Agents，以及真机组五个 ongoing 项目：DexGELLO、OmniEgo、TacPoseBench、Tactile ICL、Robot4Robot。",
@@ -2380,7 +2380,7 @@ export default {
       "title": "TacHarness: VTLA Serving & Evidence Harness",
       "bucket": "research",
       "status": "ongoing",
-      "updated_at": "2026-10-28T12:05:00.000Z",
+      "updated_at": "2026-10-28T12:55:00.000Z",
       "description": "Lab-wide serving and conformance harness for Vision-Tactile-Language-Action policies: ModelServer serves any VTLA policy to any tactile simulator or robot through one real-time contract; DataEngine turns native episodes and execution receipts into catalog, lineage, evidence and synchronized replay. Three research lines run on it: meta-action online teacher collection, TacJev distillation, and Tactile-ETA reproduction.",
       "summary": "TacHarness 是实验室的 VTLA 策略统一服务与评测框架：ModelServer 用 tacharness.vtla/1 契约把策略接到八个触觉仿真来源或真机（末端统一为 TacClaw DM25PD04），DataEngine 把原生 episode 和执行收据变成可审计的目录、谱系和同步回放。2026-10-27 三位成员的工作树统一进 main（PR #8）。当前三条研究线：bingsheng 的元动作在线教师（Arena smooth 原生成功；10-28 同事式 RoboLab 在线采集六次运行取得三条合格示范）、gujie 的 GPT-6 × TacClaw 采集路线（x4 批 5/7）、TacJev 蒸馏（固定 UniVTAC lift_can 离线流水线跑通，三种子 top-1 0.73–0.96）；Tactile-ETA 已取得一次在线复现成功。待决：outputs/ 证据版本化策略、右触觉垫零接触定位。",
       "asset": "dashboard/assets/tacharness-two-planes-20261028.svg",
@@ -2466,7 +2466,7 @@ export default {
         "[KNOWN] [CONFIDENCE: HIGH] 2026-10-27 decision: keep bingsheng's evidence commits unrewritten (49 evidence files and two notes reference their hashes); push them one commit at a time under the 2 GB GitHub push limit. Policy for new campaigns is PR #11.",
         "[KNOWN] [CONFIDENCE: HIGH] Online teacher line stays with bingsheng's running batch; no second agent spends model-request budget on issues 05/06 until his batch closes.",
         "[INFERRED] [CONFIDENCE: MEDIUM] Right-pad zero contact affects TacJev training data and the dual-pad acceptance gate; until localised, treat 'left pad contact + object lift' as the acceptance signal instead of dual-pad contact.",
-        "[FRAME] NAS access from the lab box runs over a WiFi + SMB 2.0 hop at ~4 MB/s with occasional lost writes; large evidence uploads must be chunked and verified by direct read on the NAS side (done for the 47 GB hyx migration)."
+        "[KNOWN] [CONFIDENCE: HIGH] NAS access from the lab box runs over a WiFi + SMB 2.0 hop at ~3–4 MB/s and occasionally loses writes silently: whole-file uploads of 15 GB failed verification twice, while 1 GiB parts verified by direct read on the NAS side completed the 47 GB hyx migration with a single part re-sent. Evidence sealing scripts should reuse that chunked, read-back-verified flow."
       ],
       "task_ids": [
         "task_tacharness_unify_trees_20261027",
@@ -7634,7 +7634,7 @@ export default {
   ],
   "taskDoc": {
     "schema_version": "tasks.v1",
-    "updated_at": "2026-10-28T12:05:00.000Z",
+    "updated_at": "2026-10-28T12:55:00.000Z",
     "owner": "dashboard",
     "tasks": [
       {
@@ -22136,21 +22136,29 @@ export default {
         "project_id": "tacharness",
         "title": "[TacHarness 08] 把 hyx 47 GB rollout 运行数据迁到 NAS 并校验删除本地",
         "description": "经 yuhang-b850m-c 的 WiFi + SMB 2.0 挂载迁移。整文件流式与整文件 rsync 都因链路丢写而校验失败，改为 1 GiB 分块、逐块 NAS 直读 sha256、失败块重传。验收：全部子目录校验通过、本地删除、NAS 上有 parts 清单与 README。",
-        "status": "active",
+        "status": "done",
         "priority": "medium",
         "assignee": "Jingxiang",
         "due_at": null,
-        "result": null,
+        "result": "47 GB on NAS, verified per tar/part, local copy removed",
         "comments": [
           {
             "comment_id": "comment_task_tacharness_nas_evidence_migration_1",
             "author": "Jingxiang",
             "body": "10-28 10:00：8 个子目录中 7 个已校验入库（含 p5_full 15 GB，其中 part-012 曾校验失败后重传成功）；v2_full 18 块传输中，预计 12:45 完成后剩 v2_single。此前冗余的 27 GB hyx external/TacHarness 克隆已删。",
             "created_at": "2026-10-28"
+          },
+          {
+            "comment_id": "comment_result_task_tacharness_nas_evidence_migration",
+            "author": "Result",
+            "body": "12:46 完成：8 个子目录全部入 NAS（DISK_9.1T/gmlab/tacharness/hyx-rollout-runs-20261027，47 GB），小目录为单 tar、大目录为 1 GiB 分块，每个 tar/分块都经 NAS 侧直读 sha256 校验后才删本地；整文件方案曾两次校验失败（链路丢写），分块方案只重传了 p5_full 的 1 个分块。NAS 上有逐文件 manifest、分块清单与 README。jingxiang 根分区可用空间从 174 GB 升到 293 GB（含删除 hyx 冗余克隆 27 GB 与缓存清理）。脚本：~/bingsheng/archive/unify-20261027/nas-migrate-parts-v4.sh。",
+            "created_at": "2026-10-28",
+            "kind": "result"
           }
         ],
         "created_at": "2026-10-28T04:40:00.000Z",
-        "updated_at": "2026-10-28T04:40:00.000Z"
+        "updated_at": "2026-10-28T12:55:00.000Z",
+        "completed_at": "2026-10-28"
       },
       {
         "schema_version": "task.v1",

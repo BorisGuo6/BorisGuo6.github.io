@@ -1,6 +1,6 @@
 {
   "schema_version": "tasks.v1",
-  "updated_at": "2026-10-28T12:05:00.000Z",
+  "updated_at": "2026-10-28T12:55:00.000Z",
   "owner": "dashboard",
   "tasks": [
     {
@@ -14502,21 +14502,29 @@
       "project_id": "tacharness",
       "title": "[TacHarness 08] 把 hyx 47 GB rollout 运行数据迁到 NAS 并校验删除本地",
       "description": "经 yuhang-b850m-c 的 WiFi + SMB 2.0 挂载迁移。整文件流式与整文件 rsync 都因链路丢写而校验失败，改为 1 GiB 分块、逐块 NAS 直读 sha256、失败块重传。验收：全部子目录校验通过、本地删除、NAS 上有 parts 清单与 README。",
-      "status": "active",
+      "status": "done",
       "priority": "medium",
       "assignee": "Jingxiang",
       "due_at": null,
-      "result": null,
+      "result": "47 GB on NAS, verified per tar/part, local copy removed",
       "comments": [
         {
           "comment_id": "comment_task_tacharness_nas_evidence_migration_1",
           "author": "Jingxiang",
           "body": "10-28 10:00：8 个子目录中 7 个已校验入库（含 p5_full 15 GB，其中 part-012 曾校验失败后重传成功）；v2_full 18 块传输中，预计 12:45 完成后剩 v2_single。此前冗余的 27 GB hyx external/TacHarness 克隆已删。",
           "created_at": "2026-10-28"
+        },
+        {
+          "comment_id": "comment_result_task_tacharness_nas_evidence_migration",
+          "author": "Result",
+          "body": "12:46 完成：8 个子目录全部入 NAS（DISK_9.1T/gmlab/tacharness/hyx-rollout-runs-20261027，47 GB），小目录为单 tar、大目录为 1 GiB 分块，每个 tar/分块都经 NAS 侧直读 sha256 校验后才删本地；整文件方案曾两次校验失败（链路丢写），分块方案只重传了 p5_full 的 1 个分块。NAS 上有逐文件 manifest、分块清单与 README。jingxiang 根分区可用空间从 174 GB 升到 293 GB（含删除 hyx 冗余克隆 27 GB 与缓存清理）。脚本：~/bingsheng/archive/unify-20261027/nas-migrate-parts-v4.sh。",
+          "created_at": "2026-10-28",
+          "kind": "result"
         }
       ],
       "created_at": "2026-10-28T04:40:00.000Z",
-      "updated_at": "2026-10-28T04:40:00.000Z"
+      "updated_at": "2026-10-28T12:55:00.000Z",
+      "completed_at": "2026-10-28"
     },
     {
       "schema_version": "task.v1",

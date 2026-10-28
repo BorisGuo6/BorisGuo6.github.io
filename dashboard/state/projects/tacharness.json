@@ -4,7 +4,7 @@
   "title": "TacHarness: VTLA Serving & Evidence Harness",
   "bucket": "research",
   "status": "ongoing",
-  "updated_at": "2026-10-28T12:05:00.000Z",
+  "updated_at": "2026-10-28T12:55:00.000Z",
   "description": "Lab-wide serving and conformance harness for Vision-Tactile-Language-Action policies: ModelServer serves any VTLA policy to any tactile simulator or robot through one real-time contract; DataEngine turns native episodes and execution receipts into catalog, lineage, evidence and synchronized replay. Three research lines run on it: meta-action online teacher collection, TacJev distillation, and Tactile-ETA reproduction.",
   "summary": "TacHarness 是实验室的 VTLA 策略统一服务与评测框架：ModelServer 用 tacharness.vtla/1 契约把策略接到八个触觉仿真来源或真机（末端统一为 TacClaw DM25PD04），DataEngine 把原生 episode 和执行收据变成可审计的目录、谱系和同步回放。2026-10-27 三位成员的工作树统一进 main（PR #8）。当前三条研究线：bingsheng 的元动作在线教师（Arena smooth 原生成功；10-28 同事式 RoboLab 在线采集六次运行取得三条合格示范）、gujie 的 GPT-6 × TacClaw 采集路线（x4 批 5/7）、TacJev 蒸馏（固定 UniVTAC lift_can 离线流水线跑通，三种子 top-1 0.73–0.96）；Tactile-ETA 已取得一次在线复现成功。待决：outputs/ 证据版本化策略、右触觉垫零接触定位。",
   "asset": "dashboard/assets/tacharness-two-planes-20261028.svg",
@@ -90,7 +90,7 @@
     "[KNOWN] [CONFIDENCE: HIGH] 2026-10-27 decision: keep bingsheng's evidence commits unrewritten (49 evidence files and two notes reference their hashes); push them one commit at a time under the 2 GB GitHub push limit. Policy for new campaigns is PR #11.",
     "[KNOWN] [CONFIDENCE: HIGH] Online teacher line stays with bingsheng's running batch; no second agent spends model-request budget on issues 05/06 until his batch closes.",
     "[INFERRED] [CONFIDENCE: MEDIUM] Right-pad zero contact affects TacJev training data and the dual-pad acceptance gate; until localised, treat 'left pad contact + object lift' as the acceptance signal instead of dual-pad contact.",
-    "[FRAME] NAS access from the lab box runs over a WiFi + SMB 2.0 hop at ~4 MB/s with occasional lost writes; large evidence uploads must be chunked and verified by direct read on the NAS side (done for the 47 GB hyx migration)."
+    "[KNOWN] [CONFIDENCE: HIGH] NAS access from the lab box runs over a WiFi + SMB 2.0 hop at ~3–4 MB/s and occasionally loses writes silently: whole-file uploads of 15 GB failed verification twice, while 1 GiB parts verified by direct read on the NAS side completed the 47 GB hyx migration with a single part re-sent. Evidence sealing scripts should reuse that chunked, read-back-verified flow."
   ],
   "task_ids": [
     "task_tacharness_unify_trees_20261027",
