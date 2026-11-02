@@ -430,7 +430,9 @@
         const manualControls = Boolean(slot.manualControls);
 
         const player = document.createElement("video");
-        player.dataset.src = videoSource(video);
+        // Reveal consumes data-src when preloading nearby slides. Keep our
+        // source separate so unloading a video never loses its replay URL.
+        player.dataset.videoSrc = videoSource(video);
         player.controls = manualControls;
         player.autoplay = !manualControls;
         player.muted = !manualControls;
@@ -637,8 +639,8 @@
       }
 
       function activateVideo(video) {
-        if (!video.getAttribute("src") && video.dataset.src) {
-          video.src = video.dataset.src;
+        if (!video.getAttribute("src") && video.dataset.videoSrc) {
+          video.src = video.dataset.videoSrc;
           video.load();
         }
       }

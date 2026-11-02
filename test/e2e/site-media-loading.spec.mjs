@@ -143,6 +143,51 @@ test("presentation attaches video sources only for the active slide", async ({ p
   expect(await page.locator('section[data-output-slide]:not(.present) video[src]').count()).toBe(0);
 });
 
+for (const { hash, slide, count } of [
+  { hash: "1/6", slide: 9, count: 1 },
+  { hash: "1/18", slide: 21, count: 5 },
+  { hash: "1/22", slide: 25, count: 1 },
+  { hash: "2/15", slide: 42, count: 1 },
+  { hash: "2/16", slide: 43, count: 10 },
+  { hash: "2/17", slide: 44, count: 4 },
+  { hash: "2/18", slide: 45, count: 25 },
+  { hash: "3/19", slide: 65, count: 1 },
+  { hash: "3/20", slide: 66, count: 1 },
+  { hash: "3/21", slide: 67, count: 1 },
+  { hash: "3/22", slide: 68, count: 1 },
+  { hash: "4/6", slide: 75, count: 2 },
+  { hash: "5/10", slide: 87, count: 1 },
+  { hash: "6/6", slide: 118, count: 1 },
+  { hash: "7/3", slide: 124, count: 1 },
+  { hash: "7/7", slide: 128, count: 1 },
+  { hash: "7/9", slide: 130, count: 1 },
+]) {
+  test(`presentation slide ${slide} plays again after leaving and returning`, async ({ page }) => {
+    test.setTimeout(60_000);
+    await page.goto(`/present/#/${hash}`);
+    await expect(page.locator(".reveal.ready")).toBeVisible();
+    const videos = page.locator(`section[data-output-slide="${slide}"].present video`);
+
+    for (let visit = 0; visit < 3; visit += 1) {
+      await expect(videos).toHaveCount(count);
+      await expect.poll(() => videos.evaluateAll((players) => players.every((player) =>
+        player.readyState >= 2 && !player.paused && !player.error && player.currentTime > 0
+      )), { timeout: 20_000 }).toBe(true);
+      expect(await page.locator('section[data-output-slide]:not(.present) video[src]').count()).toBe(0);
+      const times = await videos.evaluateAll((players) => players.map((player) => player.currentTime));
+      await expect.poll(() => videos.evaluateAll((players, previous) =>
+        players.every((player, index) => player.currentTime !== previous[index]), times
+      )).toBe(true);
+
+      if (visit < 2) {
+        await page.locator("body").press("ArrowUp");
+        await expect(videos).toHaveCount(0);
+        await page.locator("body").press("ArrowDown");
+      }
+    }
+  });
+}
+
 test("weekly brief keeps its mobile navigation compact and tables locally scrollable", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/weekly-briefs/");
